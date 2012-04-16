@@ -3,11 +3,12 @@ package org.kuali.hr.time.overtime.weekly.rule;
 import java.math.BigDecimal;
 import java.util.Calendar;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -24,9 +25,9 @@ public class WeeklyOvertimeRuleMaintenanceTest extends TkTestCase {
 	public void testWeeklyOvertimeRuleMaint() throws Exception {
 		HtmlPage weeklyOvertimeRuleLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.WEEKLY_OVERTIME_RULE_MAINT_URL);
 		weeklyOvertimeRuleLookUp = HtmlUnitUtil.clickInputContainingText(weeklyOvertimeRuleLookUp, "search");
-		assertTrue("Page contains test WeeklyOvertimeRule", weeklyOvertimeRuleLookUp.asText().contains(TEST_CODE.toString()));		
+		Assert.assertTrue("Page contains test WeeklyOvertimeRule", weeklyOvertimeRuleLookUp.asText().contains(TEST_CODE.toString()));		
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(weeklyOvertimeRuleLookUp, "edit",weeklyOvertimeRuleId.toString());		
-		assertTrue("Maintenance Page contains test WeeklyOvertimeRule",maintPage.asText().contains(TEST_CODE.toString()));	
+		Assert.assertTrue("Maintenance Page contains test WeeklyOvertimeRule",maintPage.asText().contains(TEST_CODE.toString()));	
 		
 		// test Convert from EarnGroup has overtime earn codes error		
 		HtmlPage newMaintPage = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.WEEKLY_OVERTIME_RULE_MAINT_NEW_URL);
@@ -40,7 +41,7 @@ public class WeeklyOvertimeRuleMaintenanceTest extends TkTestCase {
 //		HtmlPage finalPage = HtmlUnitUtil.clickInputContainingText(newMaintPage, "add");
 		HtmlElement element = newMaintPage.getElementById("methodToCall.addLine.lstWeeklyOvertimeRules.(!!org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule!!)");
         HtmlPage finalPage = element.click();
-		assertTrue("Maintenance Page should contains EarnGroup has overtime earn code error",
+        Assert.assertTrue("Maintenance Page should contains EarnGroup has overtime earn code error",
 				finalPage.asText().contains("Earn Group 'OVT' has overtime earn codes."));
 	}
 
@@ -57,15 +58,15 @@ public class WeeklyOvertimeRuleMaintenanceTest extends TkTestCase {
 		weeklyOvertimeRule.setStep(TEST_NO);
 		weeklyOvertimeRule.setTimestamp(TEST_TIME_STAMP);
 		weeklyOvertimeRule.setUserPrincipalId(TEST_CODE);	
-		KNSServiceLocator.getBusinessObjectService().save(weeklyOvertimeRule);		
+		KRADServiceLocator.getBusinessObjectService().save(weeklyOvertimeRule);		
 		weeklyOvertimeRuleId=weeklyOvertimeRule.getTkWeeklyOvertimeRuleId();		
 	}
 
 	@Override
 	public void tearDown() throws Exception {	
 		//clean up
-		WeeklyOvertimeRule weeklyOvertimeRuleObj= KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(WeeklyOvertimeRule.class, weeklyOvertimeRuleId);			
-		KNSServiceLocator.getBusinessObjectService().delete(weeklyOvertimeRuleObj);				
+		WeeklyOvertimeRule weeklyOvertimeRuleObj= KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(WeeklyOvertimeRule.class, weeklyOvertimeRuleId);			
+		KRADServiceLocator.getBusinessObjectService().delete(weeklyOvertimeRuleObj);				
 		super.tearDown();
 	}
 

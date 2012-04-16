@@ -11,6 +11,7 @@ import org.joda.time.DateTimeZone;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -42,21 +43,21 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
         Date asOfDate = new Date((new DateTime(2011, 3, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
 
         CalendarEntries pcd = TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(USER_PRINCIPAL_ID, asOfDate);
-        assertNotNull("No PayCalendarDates", pcd);
+        Assert.assertNotNull("No PayCalendarDates", pcd);
 
         TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(USER_PRINCIPAL_ID, pcd);
         String tdocId = tdoc.getDocumentId();
         HtmlPage page = loginAndGetTimeDetailsHtmlPage("admin", tdocId,true);
-        assertNotNull(page);
+        Assert.assertNotNull(page);
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
-        assertNotNull(form);
+        Assert.assertNotNull(form);
 
         // 1. Obtain User Data
         List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getPrincipalId(), JAN_AS_OF_DATE);
         Assignment assignment = assignments.get(0);
         List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(assignment, JAN_AS_OF_DATE);
         EarnCode earnCode = earnCodes.get(0);
-        assertEquals("There should be no existing time blocks.", 0, tdoc.getTimeBlocks().size());
+        Assert.assertEquals("There should be no existing time blocks.", 0, tdoc.getTimeBlocks().size());
 
         // 2. Set Timeblock Start and End time
         // 3/02/2011 - 8:00a to 6:00pm
@@ -69,10 +70,10 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
         TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(tdoc, assignment, earnCode, start, end, null, true, null);
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
         // Check for errors
-        assertEquals("There should be no errors in this time detail submission", 0, errors.size());
+        Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
 
         page = TimeDetailTestUtils.submitTimeDetails(getTimesheetDocumentUrl(tdocId), tdaf);
-        assertNotNull(page);
+        Assert.assertNotNull(page);
         //HtmlUnitUtil.createTempFile(page, "TimeBlockPresent");
 
         // Verify block present on rendered page.
@@ -86,7 +87,7 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
         String dataText = page.getElementById("timeBlockString").getFirstChild().getNodeValue();
         JSONArray jsonData = (JSONArray) JSONValue.parse(dataText);
         final JSONObject jsonDataObject = (JSONObject) jsonData.get(0);
-        assertTrue("TimeBlock #1 Data Missing.", checkJSONValues(new JSONObject() {{ put("outer", jsonDataObject); }},
+        Assert.assertTrue("TimeBlock #1 Data Missing.", checkJSONValues(new JSONObject() {{ put("outer", jsonDataObject); }},
                 new ArrayList<Map<String, Object>>() {{
                     add(new HashMap<String, Object>() {{
                         put("earnCode", "RGN");
@@ -106,7 +107,7 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
                 }}
         ));
         final JSONObject jsonDataObject2 = (JSONObject) jsonData.get(1);
-        assertTrue("TimeBlock #2 Data Missing.", checkJSONValues(new JSONObject() {{ put("outer", jsonDataObject2); }},
+        Assert.assertTrue("TimeBlock #2 Data Missing.", checkJSONValues(new JSONObject() {{ put("outer", jsonDataObject2); }},
                 new ArrayList<Map<String, Object>>() {{
                     add(new HashMap<String, Object>() {{
                         put("earnCode", "RGN");
@@ -129,9 +130,9 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
 
         // Check the Display Rendered Text for Time Block, Quick Check
         // Not as accurate as teh checkJSONValues tests above.
-        assertTrue("TimeBlock not Present.", pageAsText.contains("08:00 AM - 06:00 PM"));
-        assertTrue("TimeBlock not Present.", pageAsText.contains("RGN - 8.00 hours"));
-        assertTrue("TimeBlock not Present.", pageAsText.contains("OVT - 2.00 hours"));
+        Assert.assertTrue("TimeBlock not Present.", pageAsText.contains("08:00 AM - 06:00 PM"));
+        Assert.assertTrue("TimeBlock not Present.", pageAsText.contains("RGN - 8.00 hours"));
+        Assert.assertTrue("TimeBlock not Present.", pageAsText.contains("OVT - 2.00 hours"));
     }
 
 }

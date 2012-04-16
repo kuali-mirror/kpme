@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earngroup.EarnGroup;
@@ -12,7 +13,7 @@ import org.kuali.hr.time.earngroup.EarnGroupDefinition;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -42,7 +43,7 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
         earnGroup.setShowSummary(true);
         earnGroup.setActive(true);
         earnGroup.setEarnGroups(earnGroups);
-        KNSServiceLocator.getBusinessObjectService().save(earnGroup);
+        KRADServiceLocator.getBusinessObjectService().save(earnGroup);
         hrEarnGroupId = earnGroup.getHrEarnGroupId();
 
         // Set up earn code RGG in tk-earn_code_t
@@ -55,7 +56,7 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
         earnCode.setOvtEarnCode(false);
         earnCode.setInflateMinHours(BigDecimal.ZERO);
         earnCode.setInflateFactor(BigDecimal.ZERO);
-        KNSServiceLocator.getBusinessObjectService().save(earnCode);
+        KRADServiceLocator.getBusinessObjectService().save(earnCode);
         hrEarnCodeId = earnCode.getHrEarnCodeId();
 
         // Set up earn group RGG in tk-earn_group_t
@@ -65,20 +66,20 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
         earnGroupRGG.setEffectiveDate(TEST_DATE);
         earnGroupRGG.setShowSummary(true);
         earnGroupRGG.setActive(true);
-        KNSServiceLocator.getBusinessObjectService().save(earnGroupRGG);
+        KRADServiceLocator.getBusinessObjectService().save(earnGroupRGG);
         hrEarnGroupIdRGG = earnGroupRGG.getHrEarnGroupId();
     }
 
     @Override
     public void tearDown() throws Exception {
-        EarnGroup earnGroupObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnGroup.class, hrEarnGroupId);
-        KNSServiceLocator.getBusinessObjectService().delete(earnGroupObj);
+        EarnGroup earnGroupObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnGroup.class, hrEarnGroupId);
+        KRADServiceLocator.getBusinessObjectService().delete(earnGroupObj);
 
-        EarnGroup earnGroupObjRGG = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnGroup.class, hrEarnGroupIdRGG);
-        KNSServiceLocator.getBusinessObjectService().delete(earnGroupObjRGG);
+        EarnGroup earnGroupObjRGG = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnGroup.class, hrEarnGroupIdRGG);
+        KRADServiceLocator.getBusinessObjectService().delete(earnGroupObjRGG);
 
-        EarnCode earnCodeObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnCode.class, hrEarnCodeId);
-        KNSServiceLocator.getBusinessObjectService().delete(earnCodeObj);
+        EarnCode earnCodeObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnCode.class, hrEarnCodeId);
+        KRADServiceLocator.getBusinessObjectService().delete(earnCodeObj);
 
         super.tearDown();
     }
@@ -87,18 +88,18 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
     public void testEditExistingEarnGroup() throws Exception {
         HtmlPage earnGroupLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.EARN_GROUP_MAINT_URL);
         earnGroupLookUp = HtmlUnitUtil.clickInputContainingText(earnGroupLookUp, "search");
-        assertTrue("Page contains test Earn Group", earnGroupLookUp.asText().contains("test"));
+        Assert.assertTrue("Page contains test Earn Group", earnGroupLookUp.asText().contains("test"));
         HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(earnGroupLookUp, "edit", hrEarnGroupId.toString());
-        assertTrue("Maintenance Page contains test ClockLog", maintPage.asText().contains("test"));
+        Assert.assertTrue("Maintenance Page contains test ClockLog", maintPage.asText().contains("test"));
         HtmlTextInput text = (HtmlTextInput) maintPage.getHtmlElementById("document.documentHeader.documentDescription");
         text.setValueAttribute("test1");
 
         // pull out earn group RGG to edit.
         earnGroupLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.EARN_GROUP_MAINT_URL);
         earnGroupLookUp = HtmlUnitUtil.clickInputContainingText(earnGroupLookUp, "search");
-        assertTrue("Page contains test Earn Group", earnGroupLookUp.asText().contains("test RGG"));
+        Assert.assertTrue("Page contains test Earn Group", earnGroupLookUp.asText().contains("test RGG"));
         HtmlPage testEditRGGPage = HtmlUnitUtil.clickAnchorContainingText(earnGroupLookUp, "edit", hrEarnGroupIdRGG.toString());
-        assertTrue("Maintenance Page contains test ClockLog", testEditRGGPage.asText().contains("test RGG"));
+        Assert.assertTrue("Maintenance Page contains test ClockLog", testEditRGGPage.asText().contains("test RGG"));
         text = (HtmlTextInput) testEditRGGPage.getHtmlElementById("document.documentHeader.documentDescription");
         text.setValueAttribute("testEditRGG");
 
@@ -108,7 +109,7 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
         HtmlElement element = HtmlUnitUtil.getInputContainingText(testEditRGGPage, "methodToCall.addLine.earnGroups");
         HtmlPage newCodeAddedPage = element.click();
 //        HtmlUnitUtil.createTempFile(newCodeAddedPage);
-        assertFalse("Page contains Error", newCodeAddedPage.asText().contains("error"));
+        Assert.assertFalse("Page contains Error", newCodeAddedPage.asText().contains("error"));
 
         // Delete this Earn Code Group Definition
 //        element = HtmlUnitUtil.getInputContainingText(newCodeAddedPage,"methodToCall.deleteLine.earnGroups");
@@ -120,7 +121,7 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
         HtmlPage finalPage = element.click();
 
         HtmlUnitUtil.createTempFile(finalPage);
-        assertTrue("Maintenance page is submitted successfully", finalPage.asText().contains("Document was successfully submitted."));
+        Assert.assertTrue("Maintenance page is submitted successfully", finalPage.asText().contains("Document was successfully submitted."));
 
     }
 
@@ -130,7 +131,7 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
     public void testSubmitEarnGroupMaint() throws Exception {
         String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.earngroup.EarnGroup&methodToCall=start";
         HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
-        assertNotNull(page);
+        Assert.assertNotNull(page);
 
         HtmlTextInput text = (HtmlTextInput) page.getHtmlElementById("document.documentHeader.documentDescription");
         text.setValueAttribute("test");
@@ -153,51 +154,51 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
         HtmlElement element = HtmlUnitUtil.getInputContainingText(page, "methodToCall.addLine.earnGroups");
         HtmlPage page1 = element.click();
         //error for earn code not being effective by the effectiveDate of the earn group
-        assertTrue("Maintenance Page contains error messages", page1.asText().contains("The specified Earncode '" + EARN_CODE + "' does not exist."));
+        Assert.assertTrue("Maintenance Page contains error messages", page1.asText().contains("The specified Earncode '" + EARN_CODE + "' does not exist."));
 
         // set the effective date to one that works for the earn code
         text = (HtmlTextInput) page1.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "effectiveDate");
         text.setValueAttribute("5/01/2011");
         element = HtmlUnitUtil.getInputContainingText(page1, "methodToCall.addLine.earnGroups");
         HtmlPage page2 = element.click();
-        assertFalse("Page contains Error", page2.asText().contains("error"));
+        Assert.assertFalse("Page contains Error", page2.asText().contains("error"));
 
         // add the same earn code again to get the duplicate error
         text = (HtmlTextInput) page2.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "add.earnGroups.earnCode");
         text.setValueAttribute(EARN_CODE);
         element = HtmlUnitUtil.getInputContainingText(page2, "methodToCall.addLine.earnGroups");
         page1 = element.click();
-        assertTrue("Maintenance Page contains error messages", page1.asText().contains(EARN_CODE + " is already a part of this earngroup."));
+        Assert.assertTrue("Maintenance Page contains error messages", page1.asText().contains(EARN_CODE + " is already a part of this earngroup."));
 
 
         element = page1.getElementByName("methodToCall.route");
         HtmlPage finalPage = element.click();
         // error for earn code that is being used by another earn group
-        assertTrue("Maintenance Page contains error messages", finalPage.asText().contains(EARN_CODE + " is used by another earn group - 'test'."));
+        Assert.assertTrue("Maintenance Page contains error messages", finalPage.asText().contains(EARN_CODE + " is used by another earn group - 'test'."));
 
         //delete this earn code
         element = HtmlUnitUtil.getInputContainingText(finalPage, "methodToCall.deleteLine.earnGroups");
         HtmlPage page3 = element.click();
-        assertFalse("Page contains Error", page3.asText().contains("error"));
+        Assert.assertFalse("Page contains Error", page3.asText().contains("error"));
 
         //add an earn code that is not being used, submit, should get success message
         text = (HtmlTextInput) page3.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "add.earnGroups.earnCode");
         text.setValueAttribute("SDR");
         element = HtmlUnitUtil.getInputContainingText(page3, "methodToCall.addLine.earnGroups");
         page1 = element.click();
-        assertFalse("Page contains Error", page1.asText().contains("error"));
+        Assert.assertFalse("Page contains Error", page1.asText().contains("error"));
         element = page1.getElementByName("methodToCall.route");
         finalPage = element.click();
         HtmlUnitUtil.createTempFile(finalPage);
-        assertTrue("Maintenance page is submitted successfully", finalPage.asText().contains("Document was successfully submitted."));
-        assertTrue("Maintenance page is submitted successfully", finalPage.asText().contains("Status: 	 FINAL"));
+        Assert.assertTrue("Maintenance page is submitted successfully", finalPage.asText().contains("Document was successfully submitted."));
+        Assert.assertTrue("Maintenance page is submitted successfully", finalPage.asText().contains("Status: 	 FINAL"));
     }
 
     @Test
     public void testSubmitEarnGroupWithNewerVersionMaint() throws Exception {
         String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.earngroup.EarnGroup&methodToCall=start";
         HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
-        assertNotNull(page);
+        Assert.assertNotNull(page);
 
         //save a Earn code
         populateEarnGroup(page, "01/01/2011");
@@ -206,11 +207,11 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
         HtmlElement element = HtmlUnitUtil.getInputContainingText(page, "methodToCall.addLine.earnGroups");
         HtmlPage newCodeAddedPage = element.click();
         HtmlUnitUtil.createTempFile(newCodeAddedPage);
-        assertFalse("Page contains Error", newCodeAddedPage.asText().contains("error"));
+        Assert.assertFalse("Page contains Error", newCodeAddedPage.asText().contains("error"));
         element = newCodeAddedPage.getElementByName("methodToCall.route");
         HtmlPage finalPage = element.click();
 
-        assertTrue("Maintenance page is submitted successfully", finalPage.asText().contains("Document was successfully submitted."));
+        Assert.assertTrue("Maintenance page is submitted successfully", finalPage.asText().contains("Document was successfully submitted."));
 
         //try to save the same Earn code with older effective date
         page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
@@ -219,11 +220,11 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
         text.setValueAttribute("RGH");
         element = HtmlUnitUtil.getInputContainingText(page, "methodToCall.addLine.earnGroups");
         newCodeAddedPage = element.click();
-        assertFalse("Page contains Error", newCodeAddedPage.asText().contains("error"));
+        Assert.assertFalse("Page contains Error", newCodeAddedPage.asText().contains("error"));
         element = newCodeAddedPage.getElementByName("methodToCall.route");
         finalPage = element.click();
 
-        assertTrue("Maintenance Page contains error messages", finalPage.asText().contains("There is a newer version of this Earn Group."));
+        Assert.assertTrue("Maintenance Page contains error messages", finalPage.asText().contains("There is a newer version of this Earn Group."));
 
     }
 

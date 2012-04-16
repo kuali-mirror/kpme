@@ -12,12 +12,12 @@ import org.kuali.hr.time.util.LoadDatabaseDataLifeCycle;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.web.TKRequestProcessor;
 import org.kuali.hr.time.web.TkLoginFilter;
-import org.kuali.rice.core.config.Config;
-import org.kuali.rice.core.config.ConfigContext;
-import org.kuali.rice.core.config.spring.ConfigFactoryBean;
-import org.kuali.rice.core.lifecycle.Lifecycle;
-import org.kuali.rice.kns.util.ErrorMap;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.config.property.Config;
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.lifecycle.Lifecycle;
+import org.kuali.rice.core.impl.config.property.ConfigFactoryBean;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.test.lifecycles.JettyServerLifecycle;
 import org.springframework.mock.web.MockHttpServletRequest;
 
@@ -44,7 +44,7 @@ public class TkTestCase extends KNSTestCase{
 
 		ConfigFactoryBean.CONFIG_OVERRIDE_LOCATION = "classpath:META-INF/tk-test-config.xml";
 		TkLoginFilter.TEST_ID = "admin";
-		GlobalVariables.setErrorMap(new ErrorMap());
+		GlobalVariables.setMessageMap(new MessageMap());
 		TKContext.setHttpServletRequest(new MockHttpServletRequest());
 		super.setUp();
 		new TKRequestProcessor().setUserOnContext(TKContext.getHttpServletRequest());
@@ -77,7 +77,6 @@ public class TkTestCase extends KNSTestCase{
 				setBaseDirSystemProperty(getModuleName());
 				Config config = getTestHarnessConfig();
 				ConfigContext.init(config);
-
 				this.started = true;
 			}
 
@@ -118,7 +117,8 @@ public class TkTestCase extends KNSTestCase{
 
    protected final void setFieldValue(HtmlPage page, String fieldId, String fieldValue) {
         HtmlElement element = page.getHtmlElementById(fieldId);
-        assertTrue("element " + fieldId + " is null, page: " + page.asText(), element != null);
+        
+        junit.framework.Assert.assertTrue("element " + fieldId + " is null, page: " + page.asText(), element != null);
 
         if (element instanceof HtmlTextInput) {
             HtmlTextInput textField = (HtmlTextInput) element;
@@ -143,7 +143,7 @@ public class TkTestCase extends KNSTestCase{
             } else if (fieldValue.equals("off")) {
                 checkboxField.setChecked(false);
             } else {
-                assertTrue("Invalid checkbox value", false);
+            	junit.framework.Assert.assertTrue("Invalid checkbox value", false);
             }
         } else if (element instanceof HtmlFileInput) {
             HtmlFileInput fileInputField = (HtmlFileInput) element;
@@ -156,22 +156,22 @@ public class TkTestCase extends KNSTestCase{
         		radioButton.setChecked(false);
         	}
         } else {
-            fail("Unknown control field: " + fieldId);
+        	junit.framework.Assert.fail("Unknown control field: " + fieldId);
         }
     }
    
    public void futureEffectiveDateValidation(String baseUrl) throws Exception {
 	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
-	  	assertNotNull(page);
+	  	junit.framework.Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");
-	  	assertNotNull("Search form was missing from page.", form);
+	  	junit.framework.Assert.assertNotNull("Search form was missing from page.", form);
 	  	// use past dates
 	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", "04/01/2011");
 	    HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
-	  	assertNotNull("Could not locate submit button", input);
+	    junit.framework.Assert.assertNotNull("Could not locate submit button", input);
 	  	page = page.getElementByName("methodToCall.route").click();
-	  	assertTrue("page text does not contain:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
+	  	junit.framework.Assert.assertTrue("page text does not contain:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
 	  	Calendar futureDate = Calendar.getInstance();
 	  	futureDate.add(java.util.Calendar.YEAR, 2);// 2 years in the future
 	  	String futureDateString = "01/01/" + Integer.toString(futureDate.get(Calendar.YEAR));
@@ -179,14 +179,14 @@ public class TkTestCase extends KNSTestCase{
 	  	// use dates 2 years in the future
 	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", futureDateString);
 	  	page = page.getElementByName("methodToCall.route").click();
-	  	assertTrue("page text does not contain:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
+	  	junit.framework.Assert.assertTrue("page text does not contain:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
 		Calendar validDate = Calendar.getInstance();
 	  	validDate.add(java.util.Calendar.MONTH, 5); // 5 month in the future
 	  	String validDateString = Integer.toString(validDate.get(Calendar.MONTH)) + '/' + Integer.toString(validDate.get(Calendar.DAY_OF_MONTH)) 
 	  		+ '/' + Integer.toString(validDate.get(Calendar.YEAR));
 	  	setFieldValue(page, "document.newMaintainableObject.effectiveDate", validDateString);
 	  	page = page.getElementByName("methodToCall.route").click();
-	  	assertFalse("page text contains:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
+	  	junit.framework.Assert.assertFalse("page text contains:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
 	}
 
 

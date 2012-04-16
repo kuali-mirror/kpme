@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule;
@@ -17,7 +18,7 @@ import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 /**
  * 
@@ -83,7 +84,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		// ID 16 in the test data is the end of march
 		CalendarEntries endOfMarch = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntries("16");
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfMarch);
-		assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
+		Assert.assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
 		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "RGN", start, 3, BigDecimal.TEN, BigDecimal.ZERO);
 		TkServiceLocator.getTimeBlockService().saveTimeBlocks(new ArrayList<TimeBlock>(), timeBlocks);
 		tdoc.setTimeBlocks(timeBlocks);
@@ -131,7 +132,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		// ID 22 is end of June
 		CalendarEntries endOfJune = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntries("22");
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfJune);
-		assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
+		Assert.assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
 		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "RGN", start, 4, new BigDecimal(11), BigDecimal.ZERO);
 		
 		tdoc.setTimeBlocks(timeBlocks);
@@ -210,7 +211,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 		// ID 22 is end of June
 		CalendarEntries endOfJune = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntries("22");
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfJune);
-		assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
+		Assert.assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
 		
 		
 		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "ABC", start, 1, new BigDecimal(11), BigDecimal.ZERO));
@@ -266,7 +267,7 @@ public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
 
 	@Override
 	public void tearDown() throws Exception {
-		KNSServiceLocator.getBusinessObjectService().deleteMatching(WeeklyOvertimeRule.class, new HashMap());
+		KRADServiceLocator.getBusinessObjectService().deleteMatching(WeeklyOvertimeRule.class, new HashMap());
 		super.tearDown();
 	}
 		

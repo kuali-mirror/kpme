@@ -1,5 +1,6 @@
 package org.kuali.hr.time.principalhr;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
@@ -18,9 +19,9 @@ public class PrincipalHRAttributeTest extends TkTestCase {
     	HtmlUnitUtil.createTempFile(page);
     	page = HtmlUnitUtil.clickAnchorContainingText(page, "edit","principalId=fred");
     	HtmlUnitUtil.createTempFile(page);
-    	assertTrue("Test that maintenance screen rendered", page.asText().contains("fred"));
-    	assertTrue("Test that maintenance screen rendered", page.asText().contains("Record Time"));//KPME1268
-    	assertTrue("Test that maintenance screen rendered", page.asText().contains("Record Leave"));//KPME1268
+    	Assert.assertTrue("Test that maintenance screen rendered", page.asText().contains("fred"));
+    	Assert.assertTrue("Test that maintenance screen rendered", page.asText().contains("Record Time"));//KPME1268
+    	Assert.assertTrue("Test that maintenance screen rendered", page.asText().contains("Record Leave"));//KPME1268
 	}
 	
 	// KPME-1442 Kagata

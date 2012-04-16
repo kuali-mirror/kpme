@@ -1,16 +1,19 @@
 package org.kuali.hr.time.accural;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Calendar;
+
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.Calendar;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class AccrualCategoryMaintTest extends TkTestCase {
 
@@ -22,11 +25,11 @@ public class AccrualCategoryMaintTest extends TkTestCase {
 	@Test
 	public void testAccrualCategoryMaint() throws Exception {
 		HtmlPage accuralCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
-		assertEquals("Active is not default to Yes", accuralCategoryLookup.getElementById("activeYes").asText(), "checked");
+		Assert.assertEquals("Active is not default to Yes", accuralCategoryLookup.getElementById("activeYes").asText(), "checked");
 		accuralCategoryLookup = HtmlUnitUtil.clickInputContainingText(accuralCategoryLookup, "search");
-		assertTrue("Page contains test AccuralCategory", accuralCategoryLookup.asText().contains(TEST_CODE.toString()));
+		Assert.assertTrue("Page contains test AccuralCategory", accuralCategoryLookup.asText().contains(TEST_CODE.toString()));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(accuralCategoryLookup, "edit", accrualCategoryId.toString());
-		assertTrue("Maintenance Page contains test AccuralCategory", maintPage.asText().contains(TEST_CODE));
+		Assert.assertTrue("Maintenance Page contains test AccuralCategory", maintPage.asText().contains(TEST_CODE));
 	}
 
 	@Override
@@ -41,16 +44,16 @@ public class AccrualCategoryMaintTest extends TkTestCase {
         accrualCategory.setLeavePlan("");
         accrualCategory.setAccrualEarnInterval("");
         accrualCategory.setUnitOfTime("");
-		KNSServiceLocator.getBusinessObjectService().save(accrualCategory);
+		KRADServiceLocator.getBusinessObjectService().save(accrualCategory);
 		accrualCategoryId = accrualCategory.getLmAccrualCategoryId();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		AccrualCategory accrualCategory = KNSServiceLocator
+		AccrualCategory accrualCategory = KRADServiceLocator
 				.getBusinessObjectService().findBySinglePrimaryKey(
 						AccrualCategory.class, accrualCategoryId);
-		KNSServiceLocator.getBusinessObjectService().delete(accrualCategory);
+		KRADServiceLocator.getBusinessObjectService().delete(accrualCategory);
 		super.tearDown();
 	}
 

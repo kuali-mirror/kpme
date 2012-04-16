@@ -2,13 +2,14 @@ package org.kuali.hr.time.workarea;
 
 import java.sql.Date;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -21,7 +22,7 @@ public class WorkAreaMaintenanceTest extends TkTestCase {
     	setFieldValue(page,"workArea","30");
     	page = HtmlUnitUtil.clickInputContainingText(page, "search");
     	page = HtmlUnitUtil.clickAnchorContainingText(page, "edit");
-    	assertTrue("Test that maintenance screen rendered", page.asText().contains("30"));
+    	Assert.assertTrue("Test that maintenance screen rendered", page.asText().contains("30"));
 	}
 
 	@Override
@@ -33,20 +34,20 @@ public class WorkAreaMaintenanceTest extends TkTestCase {
 		workArea.setWorkArea(4444L);
 		workArea.setOvertimeEditRole(TkConstants.ROLE_TK_EMPLOYEE);
 		workArea.setEffectiveDate(new Date(System.currentTimeMillis()));
-		KNSServiceLocator.getBusinessObjectService().save(workArea);
+		KRADServiceLocator.getBusinessObjectService().save(workArea);
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		WorkArea workArea = (WorkArea)KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(WorkArea.class, 1111);
-		KNSServiceLocator.getBusinessObjectService().delete(workArea);
+		WorkArea workArea = (WorkArea)KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(WorkArea.class, 1111);
+		KRADServiceLocator.getBusinessObjectService().delete(workArea);
 		super.tearDown();
 	}
 	
 	@Test
 	public void testWorkAreaFetch() throws Exception{
 		WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(1234L, TKUtils.getCurrentDate());
-		assertTrue("Work area is not null and valid", workArea != null && workArea.getWorkArea().longValue() == 1234L);
+		Assert.assertTrue("Work area is not null and valid", workArea != null && workArea.getWorkArea().longValue() == 1234L);
 	}
 	
 	

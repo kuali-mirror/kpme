@@ -5,13 +5,14 @@ import java.sql.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -36,14 +37,14 @@ public class EarnCodeMaintenaceTest extends TkTestCase {
 		earnCode.setInflateMinHours(BigDecimal.ZERO);
 		earnCode.setInflateFactor(BigDecimal.ZERO);		
 
-		KNSServiceLocator.getBusinessObjectService().save(earnCode);	
+		KRADServiceLocator.getBusinessObjectService().save(earnCode);	
 		hrEarnCodeId = earnCode.getHrEarnCodeId();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		EarnCode earnCodeObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnCode.class, hrEarnCodeId);
-		KNSServiceLocator.getBusinessObjectService().delete(earnCodeObj);				
+		EarnCode earnCodeObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnCode.class, hrEarnCodeId);
+		KRADServiceLocator.getBusinessObjectService().delete(earnCodeObj);				
 		super.tearDown();
 	}
 	
@@ -60,15 +61,15 @@ public class EarnCodeMaintenaceTest extends TkTestCase {
 			}
 		}
 		earnCodeLookUp = HtmlUnitUtil.clickInputContainingText(earnCodeLookUp, "search");
-		assertTrue("Page contains test Earn Code", earnCodeLookUp.asText().contains("RGN Test"));		
+		Assert.assertTrue("Page contains test Earn Code", earnCodeLookUp.asText().contains("RGN Test"));		
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(earnCodeLookUp, "edit", hrEarnCodeId.toString());
-		assertTrue("Maintenance Page contains Test ",maintPage.asText().contains("RGN Test"));
+		Assert.assertTrue("Maintenance Page contains Test ",maintPage.asText().contains("RGN Test"));
 		HtmlTextInput text  = (HtmlTextInput) maintPage.getHtmlElementById("document.documentHeader.documentDescription");
 		text.setValueAttribute("test");
 		HtmlElement element = maintPage.getElementByName("methodToCall.route");
         HtmlPage finalPage = element.click();
         
-        assertTrue("Maintenance Page contains error messages", finalPage.asText().contains("There is a newer version of this Earn Code."));	
+        Assert.assertTrue("Maintenance Page contains error messages", finalPage.asText().contains("There is a newer version of this Earn Code."));	
 	}
 	
 }

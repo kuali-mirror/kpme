@@ -1,6 +1,7 @@
 package org.kuali.hr.time.assignment;
 
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
@@ -29,68 +30,68 @@ public class AssignmentMaintTest extends org.kuali.hr.time.test.TkTestCase {
 		HtmlPage assignmentLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ASSIGNMENT_MAINT_URL);
 		setFieldValue(assignmentLookUp, "workArea", "30");
 		assignmentLookUp = HtmlUnitUtil.clickInputContainingText(assignmentLookUp, "search");
-		assertTrue("Page contains test assignment", assignmentLookUp.asText().contains(TEST_CODE.toString()));
+		Assert.assertTrue("Page contains test assignment", assignmentLookUp.asText().contains(TEST_CODE.toString()));
 		HtmlUnitUtil.createTempFile(assignmentLookUp);
 		
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(assignmentLookUp, "edit");
 		HtmlUnitUtil.createTempFile(maintPage);
-		assertTrue("Maintenance Page contains test assignment",maintPage.asText().contains(TEST_CODE.toString()));	
+		Assert.assertTrue("Maintenance Page contains test assignment",maintPage.asText().contains(TEST_CODE.toString()));	
 	}
 	
 	@Test
 	public void testAssignmentCreateNew() throws Exception {
 		
     	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ASSIGNMENT_MAINT_NEW_URL);
-    	assertNotNull(page);
+    	Assert.assertNotNull(page);
     	HtmlForm form = page.getFormByName("KualiForm");
-    	assertNotNull("Search form was missing from page.", form);
+    	Assert.assertNotNull("Search form was missing from page.", form);
     	HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
-    	assertNotNull("Could not locate submit button", input);
+    	Assert.assertNotNull("Could not locate submit button", input);
     	
     	setFieldValue(page, "document.documentHeader.documentDescription", "Assignment - test");
     	HtmlElement element = page.getElementByName("methodToCall.route");
         HtmlPage nextPage = element.click();
-        assertTrue("pagedoes not contain: " + ERROR_EFF_DATE, nextPage.asText().contains(ERROR_EFF_DATE));
-        assertTrue("page does not contain: " + ERROR_PRINCIPAL_ID, nextPage.asText().contains(ERROR_PRINCIPAL_ID));
-        assertTrue("page does not contain: " + ERROR_JOB_NUMBER, nextPage.asText().contains(ERROR_JOB_NUMBER));
-        assertTrue("page does not contain: " + ERROR_JOB_NUMBER_NULL, nextPage.asText().contains(ERROR_JOB_NUMBER_NULL));
-        assertTrue("page does not contain: " + ERROR_WORK_AREA, nextPage.asText().contains(ERROR_WORK_AREA));
+        Assert.assertTrue("pagedoes not contain: " + ERROR_EFF_DATE, nextPage.asText().contains(ERROR_EFF_DATE));
+        Assert.assertTrue("page does not contain: " + ERROR_PRINCIPAL_ID, nextPage.asText().contains(ERROR_PRINCIPAL_ID));
+        Assert.assertTrue("page does not contain: " + ERROR_JOB_NUMBER, nextPage.asText().contains(ERROR_JOB_NUMBER));
+        Assert.assertTrue("page does not contain: " + ERROR_JOB_NUMBER_NULL, nextPage.asText().contains(ERROR_JOB_NUMBER_NULL));
+        Assert.assertTrue("page does not contain: " + ERROR_WORK_AREA, nextPage.asText().contains(ERROR_WORK_AREA));
         // Task field is not required
-        assertFalse("page contains: " + ERROR_TASK, nextPage.asText().contains(ERROR_TASK));
+        Assert.assertFalse("page contains: " + ERROR_TASK, nextPage.asText().contains(ERROR_TASK));
         // validating of task has been removed from AssignmentRule
-        assertFalse("page contains: " + ERROR_TASK_NULL, nextPage.asText().contains(ERROR_TASK_NULL));
+        Assert.assertFalse("page contains: " + ERROR_TASK_NULL, nextPage.asText().contains(ERROR_TASK_NULL));
 	}
 	
 	@Test
 	public void testAssignmentCreateNewJobValidation() throws Exception {
 		
 		HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ASSIGNMENT_MAINT_NEW_URL);
-		assertNotNull(page);
+		Assert.assertNotNull(page);
 		HtmlForm form = page.getFormByName("KualiForm");
-		assertNotNull("Search form was missing from page.", form);
+		Assert.assertNotNull("Search form was missing from page.", form);
 		HtmlInput  descriptionText  = HtmlUnitUtil.getInputContainingText(form, "document.documentHeader.documentDescription");
-		assertNotNull("Could not locate submit button", descriptionText);
+		Assert.assertNotNull("Could not locate submit button", descriptionText);
 		descriptionText.setValueAttribute("Creating new assignment");
 		HtmlInput  effDateText  = HtmlUnitUtil.getInputContainingText(form, "document.newMaintainableObject.effectiveDate");
-		assertNotNull("Could not locate submit button", effDateText);
+		Assert.assertNotNull("Could not locate submit button", effDateText);
 		effDateText.setValueAttribute("06/27/2011");		
 		HtmlInput  principalText  = HtmlUnitUtil.getInputContainingText(form, "document.newMaintainableObject.principalId");
-		assertNotNull("Could not locate submit button", principalText);
+		Assert.assertNotNull("Could not locate submit button", principalText);
 		principalText.setValueAttribute("10008");		
 		HtmlInput  jobNumberText  = HtmlUnitUtil.getInputContainingText(form, "document.newMaintainableObject.jobNumber");
-		assertNotNull("Could not locate submit button", jobNumberText);
+		Assert.assertNotNull("Could not locate submit button", jobNumberText);
 		jobNumberText.setValueAttribute("1");		
 		HtmlInput  workAreaText  = HtmlUnitUtil.getInputContainingText(form, "document.newMaintainableObject.workArea");
-		assertNotNull("Could not locate submit button", workAreaText);
+		Assert.assertNotNull("Could not locate submit button", workAreaText);
 		workAreaText.setValueAttribute("1016");		
 		HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
-		assertNotNull("Could not locate submit button", input);
+		Assert.assertNotNull("Could not locate submit button", input);
 		HtmlUnitUtil.createTempFile(page);
 		setFieldValue(page, "document.documentHeader.documentDescription", "Assignment - test");
 		HtmlElement element = page.getElementByName("methodToCall.route");
 		HtmlPage nextPage = element.click();
 		HtmlUnitUtil.createTempFile(nextPage);
-		assertTrue("pagedoes not contain: " + ERROR_JOB_NUMBER_INVALID, nextPage.asText().contains(ERROR_JOB_NUMBER_INVALID));
+		Assert.assertTrue("pagedoes not contain: " + ERROR_JOB_NUMBER_INVALID, nextPage.asText().contains(ERROR_JOB_NUMBER_INVALID));
 		
 	}
 

@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.time.assignment.Assignment;
@@ -29,12 +30,12 @@ public class AssignmentServiceImplTest extends TkTestCase {
 	@Test
 	public void testGetAssignments() throws Exception {
 		List<Assignment> assignments = assignmentService.getAssignments("admin", new Date((new DateTime(2010,8,5,1,0,0,0,DateTimeZone.forID("EST"))).getMillis()));
-		assertNotNull("Null assignment list", assignments);
-		assertTrue("No assignments found", assignments.size() > 0);
+		Assert.assertNotNull("Null assignment list", assignments);
+		Assert.assertTrue("No assignments found", assignments.size() > 0);
 		
 		for(Assignment assign : assignments){
-			assertNotNull("Null job found", assign.getJob());
-			assertTrue("Job number is same", assign.getJob().getJobNumber().compareTo(assign.getJobNumber())==0);
+			Assert.assertNotNull("Null job found", assign.getJob());
+			Assert.assertTrue("Job number is same", assign.getJob().getJobNumber().compareTo(assign.getJobNumber())==0);
 		}
 		
 	}

@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.Map;
 
 import org.joda.time.DateTime;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.time.detail.web.ActionFormUtils;
@@ -23,9 +24,9 @@ public class TimeBlockServiceTest extends TkTestCase {
 		Date aDate = new Date((new DateTime(2011, 7, 7, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
 		TimesheetDocument doc = TkTestUtils.populateTimesheetDocument(aDate);
 		Map<String, String> aMap = ActionFormUtils.buildAssignmentStyleClassMap(doc.getTimeBlocks());
-		assertEquals("Wrong number of classes in style class map", 8, aMap.size());
-		assertEquals("Wrong key for class assignment0", "assignment0", aMap.get("1_1234_1"));
-		assertEquals("Wrong key for class assignment7", "assignment7", aMap.get("6_1100_5"));
+		Assert.assertEquals("Wrong number of classes in style class map", 8, aMap.size());
+		Assert.assertEquals("Wrong key for class assignment0", "assignment0", aMap.get("1_1234_1"));
+		Assert.assertEquals("Wrong key for class assignment7", "assignment7", aMap.get("6_1100_5"));
 	}
 
 	@Test
@@ -40,12 +41,12 @@ public class TimeBlockServiceTest extends TkTestCase {
 		tb.setUserPrincipalId("admin");
 		
 		Boolean editable = TkServiceLocator.getTimeBlockService().isTimeBlockEditable(tb);
-		assertEquals("TimeBlock created by admin should be editable by admin", true, editable);
+		Assert.assertEquals("TimeBlock created by admin should be editable by admin", true, editable);
 
 		// creator and user are different, but user is a system admin
 		tb.setUserPrincipalId("fran");
 		editable = TkServiceLocator.getTimeBlockService().isTimeBlockEditable(tb);
-		assertEquals("TimeBlock created by fran should be editable by admin", true, editable);
+		Assert.assertEquals("TimeBlock created by fran should be editable by admin", true, editable);
 
 		// login as fran
 //		user = TkServiceLocator.getUserService().buildTkUser("fran", TKUtils.getCurrentDate());
@@ -58,7 +59,7 @@ public class TimeBlockServiceTest extends TkTestCase {
 		tb.setUserPrincipalId("fran");
 		tb.setClockLogCreated(true);
 		editable = TkServiceLocator.getTimeBlockService().isTimeBlockEditable(tb);
-		assertEquals("TimeBlock created by Clock in/out should NOT be editable by fran", false, editable);
+		Assert.assertEquals("TimeBlock created by Clock in/out should NOT be editable by fran", false, editable);
 		
 	}
 

@@ -9,14 +9,15 @@ import org.joda.time.DateTime;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.web.TkLoginFilter;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -53,19 +54,19 @@ public class TimesheetWebTestBase extends TkTestCase {
     public static HtmlPage loginAndGetTimeDetailsHtmlPage(String principalId, String tdocId, boolean assertValid) throws Exception {
         TkLoginFilter.TEST_ID = principalId;
 
-        Person person = KIMServiceLocator.getPersonService().getPerson(principalId);
-        assertNotNull(person);
-        assertEquals(person.getPrincipalId(), principalId);
+        Person person = KimApiServiceLocator.getPersonService().getPerson(principalId);
+        Assert.assertNotNull(person);
+        Assert.assertEquals(person.getPrincipalId(), principalId);
 
         HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getTimesheetDocumentUrl(tdocId));
-        assertNotNull(page);
+        Assert.assertNotNull(page);
         //HtmlUnitUtil.createTempFile(page, "Login-"+principalId);
 
         String pageAsText = page.asText();
         if (assertValid) {
-            assertTrue("Login info not present.", pageAsText.contains("Employee Id:"));
-            assertTrue("Login info not present.", pageAsText.contains(person.getName()));
-            assertTrue("Wrong Document Loaded.", pageAsText.contains(tdocId));
+        	Assert.assertTrue("Login info not present.", pageAsText.contains("Employee Id:"));
+        	Assert.assertTrue("Login info not present.", pageAsText.contains(person.getName()));
+        	Assert.assertTrue("Wrong Document Loaded.", pageAsText.contains(tdocId));
         }
 
         return page;

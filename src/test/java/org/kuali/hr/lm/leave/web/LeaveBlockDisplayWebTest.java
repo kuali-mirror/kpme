@@ -1,5 +1,7 @@
 package org.kuali.hr.lm.leave.web;
 
+import junit.framework.Assert;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,8 +12,6 @@ import org.kuali.hr.time.test.TkTestConstants;
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlButton;
-import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class LeaveBlockDisplayWebTest extends TkTestCase {
@@ -38,24 +38,24 @@ public class LeaveBlockDisplayWebTest extends TkTestCase {
 		// get the page and Login
 		HtmlPage leaveBlockDisplayPage = HtmlUnitUtil
 				.gotoPageAndLogin(TkTestConstants.Urls.LEAVE_BLOCK_DISPLAY_URL);
-		assertNotNull("Leave Request page not found" + leaveBlockDisplayPage);
+		Assert.assertNotNull("Leave Request page not found" + leaveBlockDisplayPage);
 
 		this.setWebClient(leaveBlockDisplayPage.getWebClient());
 
 		// check page contains the current year
-		assertTrue("Page does not contain planned leave ",
+		Assert.assertTrue("Page does not contain planned leave ",
 				leaveBlockDisplayPage.asText().contains("2012"));
 
 		// Check Main section
-		assertTrue("Page does not contain planned leave ",
+		Assert.assertTrue("Page does not contain planned leave ",
 				leaveBlockDisplayPage.asText().contains("Send for Approval"));
 
 		// check Days Removed in correction section
-		assertTrue("Page does not contain approved leaves ",
+		Assert.assertTrue("Page does not contain approved leaves ",
 				leaveBlockDisplayPage.asText().contains("Updated by others"));
 		
 		// check Inactive Leave entries
-		assertTrue("Page does not contain approved leaves ",
+		Assert.assertTrue("Page does not contain approved leaves ",
 				leaveBlockDisplayPage.asText().contains("Updated by self"));
 
 		// Check for next year
@@ -64,7 +64,7 @@ public class LeaveBlockDisplayWebTest extends TkTestCase {
 		leaveBlockDisplayPage = nextButton.click();
 
 		// check page contains the next year
-		assertTrue("Page does not contain planned leave ",
+		Assert.assertTrue("Page does not contain planned leave ",
 				leaveBlockDisplayPage.asText().contains("2013"));
 
 	}

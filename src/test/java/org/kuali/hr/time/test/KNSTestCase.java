@@ -2,17 +2,16 @@ package org.kuali.hr.time.test;
 
 import java.util.List;
 
-import org.kuali.rice.core.lifecycle.BaseLifecycle;
-import org.kuali.rice.core.lifecycle.Lifecycle;
-import org.kuali.rice.kew.batch.KEWXmlDataLoaderLifecycle;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.MessageMap;
+import org.kuali.rice.core.api.lifecycle.BaseLifecycle;
+import org.kuali.rice.core.api.lifecycle.Lifecycle;
+import org.kuali.rice.krad.service.KRADServiceLocatorInternal;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.test.RiceInternalSuiteDataTestCase;
 import org.kuali.rice.test.TransactionalLifecycle;
 import org.kuali.rice.test.lifecycles.JettyServerLifecycle;
+import org.kuali.rice.test.lifecycles.KEWXmlDataLoaderLifecycle;
 import org.kuali.rice.test.lifecycles.SQLDataLoaderLifecycle;
-import org.kuali.rice.test.web.HtmlUnitUtil;
 
 
 /**
@@ -60,7 +59,7 @@ public abstract class KNSTestCase extends RiceInternalSuiteDataTestCase {
 		GlobalVariables.setMessageMap(new MessageMap());
 		if (needsSpring) {
 			transactionalLifecycle = new TransactionalLifecycle();
-			transactionalLifecycle.setTransactionManager(KNSServiceLocator.getTransactionManager());
+			transactionalLifecycle.setTransactionManager(KRADServiceLocatorInternal.getTransactionManager());
 			transactionalLifecycle.start();
 		}
 	}

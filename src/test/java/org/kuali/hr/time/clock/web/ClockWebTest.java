@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.time.clocklog.ClockLog;
@@ -23,6 +24,7 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -47,7 +49,7 @@ public class ClockWebTest extends TkTestCase {
     }
 
     public Long maxDocumentId() {
-        Collection aCol = KNSServiceLocator.getBusinessObjectService().findAll(TimesheetDocumentHeader.class);
+        Collection aCol = KRADServiceLocator.getBusinessObjectService().findAll(TimesheetDocumentHeader.class);
         Long maxId = new Long(-1);
         Iterator<TimesheetDocumentHeader> itr = aCol.iterator();
         while (itr.hasNext()) {
@@ -61,7 +63,7 @@ public class ClockWebTest extends TkTestCase {
     }
 
     public Long maxTimeBlockId() {
-        Collection aCol = KNSServiceLocator.getBusinessObjectService().findAll(TimeBlock.class);
+        Collection aCol = KRADServiceLocator.getBusinessObjectService().findAll(TimeBlock.class);
         Long maxId = new Long(-1);
         Iterator<TimeBlock> itr = aCol.iterator();
         while (itr.hasNext()) {
@@ -106,12 +108,12 @@ public class ClockWebTest extends TkTestCase {
     public void testDistributeTB() throws Exception {
         String baseUrl = TkTestConstants.Urls.CLOCK_URL;
         HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
-        assertNotNull(page);
-        assertTrue("Clock Page contains Distribute Button", page.asText().contains("Distribute Time Blocks"));
+        Assert.assertNotNull(page);
+        Assert.assertTrue("Clock Page contains Distribute Button", page.asText().contains("Distribute Time Blocks"));
         this.createTB();
         this.setWebClient(page.getWebClient());
         HtmlElement element = page.getElementByName("distributeTime");
-        assertNotNull(element);
+        Assert.assertNotNull(element);
 //	  	HtmlPage testPage1 = element.click();
 //	  	assertTrue("Distribute Page contains Close button", testPage1.asText().contains("Close"));
 //        assertTrue("Distribute Page contains Close button", testPage1.asText().contains("Edit"));
@@ -119,12 +121,12 @@ public class ClockWebTest extends TkTestCase {
         // timeDistribute.jsp
         String distributeUrl = baseUrl + "?methodToCall=distributeTimeBlocks";
         HtmlPage page1 = HtmlUnitUtil.gotoPageAndLogin(distributeUrl);
-        assertTrue("Distribute Page contains Close button", page1.asText().contains("Close"));
-        assertTrue("Distribute Page contains Close button", page1.asText().contains("Edit"));
+        Assert.assertTrue("Distribute Page contains Close button", page1.asText().contains("Close"));
+        Assert.assertTrue("Distribute Page contains Close button", page1.asText().contains("Edit"));
 
         element = page1.getElementByName("editTimeBlock");
-        assertNotNull(element);
-        assertTrue("Onclick attribute of Edit button contains", element.getAttribute("onclick").contains("Clock.do?methodToCall=editTimeBlock&editTimeBlockId="));
+        Assert.assertNotNull(element);
+        Assert.assertTrue("Onclick attribute of Edit button contains", element.getAttribute("onclick").contains("Clock.do?methodToCall=editTimeBlock&editTimeBlockId="));
 
         if (tbId == null) {
             tbId = this.maxTimeBlockId().toString();
@@ -135,13 +137,13 @@ public class ClockWebTest extends TkTestCase {
         HtmlPage page3 = HtmlUnitUtil.gotoPageAndLogin(editUrl);
 
         // editTimeBlock.jsp
-        assertTrue("Edit Time Blocks Page contains Cancel button", page3.asText().contains("Add"));
-        assertTrue("Edit Time Blocks Page contains Save button", page3.asText().contains("Save"));
-        assertTrue("Edit Time Blocks Page contains Cancel button", page3.asText().contains("Cancel"));
+        Assert.assertTrue("Edit Time Blocks Page contains Cancel button", page3.asText().contains("Add"));
+        Assert.assertTrue("Edit Time Blocks Page contains Save button", page3.asText().contains("Save"));
+        Assert.assertTrue("Edit Time Blocks Page contains Cancel button", page3.asText().contains("Cancel"));
 
         element = page3.getElementByName("addTimeBlock");
-        assertNotNull(element);
-        assertTrue("Onclick attribute of Add button contains", element.getAttribute("onclick").contains("javascript: addTimeBlockRow(this.form);"));
+        Assert.assertNotNull(element);
+        Assert.assertTrue("Onclick attribute of Add button contains", element.getAttribute("onclick").contains("javascript: addTimeBlockRow(this.form);"));
 
         this.setWebClient(page3.getWebClient());
 
@@ -170,7 +172,7 @@ public class ClockWebTest extends TkTestCase {
         GracePeriodRule gpr = TkServiceLocator.getGracePeriodService().getGracePeriodRule(TKUtils.getCurrentDate());
         if (gpr != null && gpr.isActive()) {
             gpr.setActive(false);
-            KNSServiceLocator.getBusinessObjectService().save(gpr);
+            KRADServiceLocator.getBusinessObjectService().save(gpr);
         }
 
         // Clock in
@@ -178,15 +180,15 @@ public class ClockWebTest extends TkTestCase {
         // Make sure clock out button is rendered
         ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog("admin");
         // Make sure both timestamps preserve seconds
-        assertTrue("The seconds on clock timestamp should be preserved", new DateTime(lastClockLog.getClockTimestamp().getTime()).getSecondOfMinute() != 0);
-        assertTrue("The seconds on timestamp should be preserved", new DateTime(lastClockLog.getTimestamp().getTime()).getSecondOfMinute() != 0);
+        Assert.assertTrue("The seconds on clock timestamp should be preserved", new DateTime(lastClockLog.getClockTimestamp().getTime()).getSecondOfMinute() != 0);
+        Assert.assertTrue("The seconds on timestamp should be preserved", new DateTime(lastClockLog.getTimestamp().getTime()).getSecondOfMinute() != 0);
 
         // Clock out
         clockOut();
         // Make sure both timestamps preserve seconds
         lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog("admin");
-        assertTrue("The seconds on clock timestamp should be preserved", new DateTime(lastClockLog.getClockTimestamp().getTime()).getSecondOfMinute() != 0);
-        assertTrue("The seconds on timestamp should be preserved", new DateTime(lastClockLog.getTimestamp().getTime()).getSecondOfMinute() != 0);
+        Assert.assertTrue("The seconds on clock timestamp should be preserved", new DateTime(lastClockLog.getClockTimestamp().getTime()).getSecondOfMinute() != 0);
+        Assert.assertTrue("The seconds on timestamp should be preserved", new DateTime(lastClockLog.getTimestamp().getTime()).getSecondOfMinute() != 0);
     }
 
     @Test
@@ -198,22 +200,22 @@ public class ClockWebTest extends TkTestCase {
         gpr.setTimestamp(new Timestamp(System.currentTimeMillis()));
         
         gpr.setActive(true);
-        KNSServiceLocator.getBusinessObjectService().save(gpr);
+        KRADServiceLocator.getBusinessObjectService().save(gpr);
 
         // Clock in
         clockIn();
         // Make sure clock out button is rendered
         ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog("admin");
         // Make sure both timestamps preserve seconds
-        assertTrue("The seconds on clock timestamp should NOT be preserved", new DateTime(lastClockLog.getClockTimestamp().getTime()).getSecondOfMinute() == 0);
-        assertTrue("The seconds on timestamp should be preserved", new DateTime(lastClockLog.getTimestamp().getTime()).getSecondOfMinute() != 0);
+        Assert.assertTrue("The seconds on clock timestamp should NOT be preserved", new DateTime(lastClockLog.getClockTimestamp().getTime()).getSecondOfMinute() == 0);
+        Assert.assertTrue("The seconds on timestamp should be preserved", new DateTime(lastClockLog.getTimestamp().getTime()).getSecondOfMinute() != 0);
 
         // Clock out
         clockOut();
         // Make sure both timestamps preserve seconds
         lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog("admin");
-        assertTrue("The seconds on clock timestamp should NOT be preserved", new DateTime(lastClockLog.getClockTimestamp().getTime()).getSecondOfMinute() == 0);
-        assertTrue("The seconds on timestamp should be preserved", new DateTime(lastClockLog.getTimestamp().getTime()).getSecondOfMinute() != 0);
+        Assert.assertTrue("The seconds on clock timestamp should NOT be preserved", new DateTime(lastClockLog.getClockTimestamp().getTime()).getSecondOfMinute() == 0);
+        Assert.assertTrue("The seconds on timestamp should be preserved", new DateTime(lastClockLog.getTimestamp().getTime()).getSecondOfMinute() != 0);
     }
 
     private HtmlPage clockIn() throws Exception {
@@ -223,8 +225,8 @@ public class ClockWebTest extends TkTestCase {
 
         // Make sure clock in button is rendered
         HtmlUnitUtil.createTempFile(page);
-        assertTrue("The clock out button should have displayed", page.asText().contains("Clock Out"));
-        assertTrue("The clock out button should have displayed", page.asText().contains("Take Lunch"));
+        Assert.assertTrue("The clock out button should have displayed", page.asText().contains("Clock Out"));
+        Assert.assertTrue("The clock out button should have displayed", page.asText().contains("Take Lunch"));
 
         return page;
     }
@@ -235,7 +237,7 @@ public class ClockWebTest extends TkTestCase {
 
         // Make sure clock in button is rendered
         HtmlUnitUtil.createTempFile(page);
-        assertTrue("The clock out button should have displayed", page.asText().contains("Clock In"));
+        Assert.assertTrue("The clock out button should have displayed", page.asText().contains("Clock In"));
 
         return page;
     }
@@ -252,7 +254,7 @@ public class ClockWebTest extends TkTestCase {
         String baseUrl = TkTestConstants.Urls.CLOCK_URL;
         String actionUrl = baseUrl + "?methodToCall=clockAction&selectedAssignment=30_30_30&currentClockAction=" + clockAction;
         HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(actionUrl);
-        assertNotNull("The login page shouldn't be null", page);
+        Assert.assertNotNull("The login page shouldn't be null", page);
         Thread.sleep(3000);
         return page;
     }

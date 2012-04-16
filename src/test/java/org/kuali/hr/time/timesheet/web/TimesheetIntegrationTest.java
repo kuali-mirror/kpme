@@ -11,7 +11,7 @@ import org.joda.time.DateTimeZone;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
-import org.junit.Ignore;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -19,19 +19,12 @@ import org.kuali.hr.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.time.test.TkTestUtils;
-import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.time.util.TkConstants;
 
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
 //@Ignore
 public class TimesheetIntegrationTest extends TimesheetWebTestBase {
@@ -54,7 +47,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 
 		payCal = TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(
 				USER_PRINCIPAL_ID, TIME_SHEET_DATE);
-		assertNotNull("Pay calendar entries not found for admin", payCal);
+		Assert.assertNotNull("Pay calendar entries not found for admin", payCal);
 
 		// retrieving time sheet for according to the pay calendar
 		timeDoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(
@@ -64,18 +57,18 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		// login
 		HtmlPage page = loginAndGetTimeDetailsHtmlPage(USER_PRINCIPAL_ID,
 				tdocId, true);
-		assertNotNull(page);
+		Assert.assertNotNull(page);
 
 		assignmentsOfUser = TkServiceLocator.getAssignmentService()
 				.getAssignments(USER_PRINCIPAL_ID, TIME_SHEET_DATE);
-		assertNotNull("No Assignments found for the user ", assignmentsOfUser);
+		Assert.assertNotNull("No Assignments found for the user ", assignmentsOfUser);
 
 		// check if page contains calendar for February 2012
-		assertTrue("Page could not find calendar for Feb 2012", page.asText()
+		Assert.assertTrue("Page could not find calendar for Feb 2012", page.asText()
 				.contains("February 2012"));
 
 		HtmlForm form = page.getFormByName("TimeDetailActionForm");
-		assertNotNull(form);
+		Assert.assertNotNull(form);
 	}
 
 	public void tearDown() throws Exception {
@@ -90,7 +83,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 				tdocId, true);
 
 		HtmlForm form = page.getFormByName("TimeDetailActionForm");
-		assertNotNull(form);
+		Assert.assertNotNull(form);
 
 		// Assignment of user
 		Assignment assToBeSelected = assignmentsOfUser.get(4);
@@ -115,14 +108,14 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 				addTB);
 
 		// Check for errors
-		assertEquals(
+		Assert.assertEquals(
 				"There should be no errors in this time detail submission", 0,
 				errors.size());
 
 		// submit the details of Timeblock to be added.
 		page = TimeDetailTestUtils.submitTimeDetails(
 				TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), addTB);
-		assertNotNull(page);
+		Assert.assertNotNull(page);
 
 		// get Timeblocks objects from Timeblock string
 		String dataText = page.getElementById("timeBlockString")
@@ -132,7 +125,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		JSONArray jsonData = (JSONArray) JSONValue.parse(dataText);
 		final JSONObject jsonDataObject = (JSONObject) jsonData.get(0);
 		final String assignmentKey = assToBeSelected.getAssignmentKey();
-		assertTrue("TimeBlock Data Missing.", checkJSONValues(new JSONObject() {
+		Assert.assertTrue("TimeBlock Data Missing.", checkJSONValues(new JSONObject() {
 			{
 				put("outer", jsonDataObject);
 			}
@@ -157,9 +150,9 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 
 
 		// check value ....
-		assertTrue("TimeBlock did not created successfully.", page.asText()
+		Assert.assertTrue("TimeBlock did not created successfully.", page.asText()
 				.contains("09:00 AM - 11:00 AM"));
-		assertTrue("TimeBlock did not created successfully.", page.asText()
+		Assert.assertTrue("TimeBlock did not created successfully.", page.asText()
 				.contains("RGN - 2.00 hours"));
 
 	}
@@ -188,7 +181,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 				TkConstants.SYSTEM_DATE_TIME_ZONE);
 
 		HtmlForm form = page.getFormByName("TimeDetailActionForm");
-		assertNotNull(form);
+		Assert.assertNotNull(form);
 
 		// Setup TimeDetailActionForm for adding time block
 		TimeDetailActionFormBase addTB = TimeDetailTestUtils
@@ -198,18 +191,18 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 				addTB);
 
 		// Check for errors
-		assertEquals(
+		Assert.assertEquals(
 				"There should be no errors in this time detail submission", 0,
 				errors.size());
 
 		page = TimeDetailTestUtils.submitTimeDetails(
 				TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), addTB);
-		assertNotNull(page);
+		Assert.assertNotNull(page);
 
 		// chk if the page contains the created time block.
-		assertTrue("TimeBlock not Present.",
+		Assert.assertTrue("TimeBlock not Present.",
 				page.asText().contains("09:00 AM - 11:00 AM"));
-		assertTrue("TimeBlock not Present.",
+		Assert.assertTrue("TimeBlock not Present.",
 				page.asText().contains("RGN - 2.00 hours"));
 
 		// now updating the time block
@@ -243,19 +236,19 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 
 		// validation of time block
 		errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, updateTB);
-		assertEquals(
+		Assert.assertEquals(
 				"There should be no errors in this time detail submission", 0,
 				errors.size());
 
 		// update it
 		page = TimeDetailTestUtils.submitTimeDetails(
 				TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), updateTB);
-		assertNotNull(page);
+		Assert.assertNotNull(page);
 
 		// chk the timesheet contains the changes done with the time block
-		assertTrue("TimeBlock did not updated properly.", page.asText()
+		Assert.assertTrue("TimeBlock did not updated properly.", page.asText()
 				.contains("02:00 PM - 05:00 PM"));
-		assertTrue("TimeBlock did not updated properly.", page.asText()
+		Assert.assertTrue("TimeBlock did not updated properly.", page.asText()
 				.contains("RGN - 3.00 hours"));
 
 	}
@@ -285,7 +278,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 				TkConstants.SYSTEM_DATE_TIME_ZONE);
 
 		HtmlForm form = page.getFormByName("TimeDetailActionForm");
-		assertNotNull(form);
+		Assert.assertNotNull(form);
 
 		// Setup TimeDetailActionForm
 		TimeDetailActionFormBase addTB = TimeDetailTestUtils
@@ -295,18 +288,18 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 				addTB);
 
 		// Check for errors
-		assertEquals(
+		Assert.assertEquals(
 				"There should be no errors in this time detail submission", 0,
 				errors.size());
 
 		page = TimeDetailTestUtils.submitTimeDetails(
 				TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), addTB);
-		assertNotNull(page);
+		Assert.assertNotNull(page);
 
 		// chk the page must contain the created time block
-		assertTrue("TimeBlock did not created successfully.", page.asText()
+		Assert.assertTrue("TimeBlock did not created successfully.", page.asText()
 				.contains("09:00 AM - 11:00 AM"));
-		assertTrue("TimeBlock did not created successfully.", page.asText()
+		Assert.assertTrue("TimeBlock did not created successfully.", page.asText()
 				.contains("RGN - 2.00 hours"));
 
 		timeDoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(
@@ -316,7 +309,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		String createTBId = timeDoc.getTimeBlocks().get(0).getTkTimeBlockId();
 		HtmlUnitUtil.createTempFile(page);
 		form = page.getFormByName("TimeDetailActionForm");
-		assertNotNull(form);
+		Assert.assertNotNull(form);
 
 		// set detail for deleting time block
 		TimeDetailActionFormBase deleteTB = TimeDetailTestUtils
@@ -327,12 +320,12 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		// submitting the page
 		page = TimeDetailTestUtils.submitTimeDetails(
 				TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), deleteTB);
-		assertNotNull(page);
+		Assert.assertNotNull(page);
 
 		// chk the timesheet does not contain the time block
-		assertTrue("TimeBlock did not deleted successfully.", !page.asText()
+		Assert.assertTrue("TimeBlock did not deleted successfully.", !page.asText()
 				.contains("09:00 AM - 11:00 AM"));
-		assertTrue("TimeBlock did not deleted successfully.", !page.asText()
+		Assert.assertTrue("TimeBlock did not deleted successfully.", !page.asText()
 				.contains("RGN - 2.00 hours"));
 
 	}

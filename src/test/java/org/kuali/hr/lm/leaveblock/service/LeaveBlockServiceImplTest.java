@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import junit.framework.Assert;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +40,7 @@ public class LeaveBlockServiceImplTest extends TkTestCase {
 	@Test
 	public void testGetLeaveBlock() {
 		LeaveBlock leaveBlock = leaveBlockService.getLeaveBlock(1000L);
-		assertNotNull("Leave Block not found ", leaveBlock);
+		Assert.assertNotNull("Leave Block not found ", leaveBlock);
 	}
 	
 	@Test
@@ -52,13 +54,13 @@ public class LeaveBlockServiceImplTest extends TkTestCase {
 		cal.add(Calendar.DATE, 1);
 		Date endDate = cal.getTime();
 		List<LeaveBlock> leaveBlocks = leaveBlockService.getLeaveBlocks(TEST_USER, beginDate, endDate);
-		assertNotNull("Leave blocks not found for user ", leaveBlocks);
+		Assert.assertNotNull("Leave blocks not found for user ", leaveBlocks);
 	}
 	
 	@Test
 	public void testGetLeaveBlocksForDocumentId() {
 		List<LeaveBlock> leaveBlocks = leaveBlockService.getLeaveBlocksForDocumentId("12546");
-		assertNotNull("Leave Blocks not foudn for document", leaveBlocks);
+		Assert.assertNotNull("Leave Blocks not foudn for document", leaveBlocks);
 	}
 	
 	@Test
@@ -66,7 +68,7 @@ public class LeaveBlockServiceImplTest extends TkTestCase {
 		String requestStatus = LMConstants.REQUEST_STATUS.PLANNED;
 		Date currentDate = TKUtils.getTimelessDate(new Date());
 		List<LeaveBlock> leaveBlocks = leaveBlockService.getLeaveBlocks(TEST_USER, requestStatus, currentDate);
-		assertNotNull("Leave Blocks not found of Request status", leaveBlocks);
+		Assert.assertNotNull("Leave Blocks not found of Request status", leaveBlocks);
 	}
 
 }

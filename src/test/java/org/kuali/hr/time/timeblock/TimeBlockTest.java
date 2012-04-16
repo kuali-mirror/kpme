@@ -9,6 +9,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -46,7 +47,7 @@ public class TimeBlockTest extends TkTestCase {
 		timeHourDetail2.setHours(new BigDecimal(2.0));
 		timeBlock2.getTimeHourDetails().add(timeHourDetail);
 		
-		assertTrue("Timeblock has been equal", timeBlock.equals(timeBlock2));
+		Assert.assertTrue("Timeblock has been equal", timeBlock.equals(timeBlock2));
 	}
 	
 	@Test
@@ -90,7 +91,7 @@ public class TimeBlockTest extends TkTestCase {
 				}
 			}
 		}
-		assertTrue("Two timeblocks created", lstTimeBlocks.size() == 2);
+		Assert.assertTrue("Two timeblocks created", lstTimeBlocks.size() == 2);
 		
 		lstTimeBlocks.clear();
 		
@@ -125,7 +126,7 @@ public class TimeBlockTest extends TkTestCase {
 				}
 			}
 		}
-		assertTrue("One time block creation", lstTimeBlocks.size() == 1);
+		Assert.assertTrue("One time block creation", lstTimeBlocks.size() == 1);
 	}
 	
 	@Test
@@ -143,8 +144,8 @@ public class TimeBlockTest extends TkTestCase {
 		
 		List<TimeBlock> lstTimeBlocks = setupTimeBlocks(beginTime, endTime, payCalendarEntry);
 		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(lstTimeBlocks, payCalendarEntry, payCalendar);
-		assertTrue("Aggregate built correctly ", tkTimeBlockAggregate!= null && tkTimeBlockAggregate.getWeekTimeBlocks(0).size() == 7);
-		assertTrue("Total number of days is correct",tkTimeBlockAggregate.getDayTimeBlockList().size()==15);
+		Assert.assertTrue("Aggregate built correctly ", tkTimeBlockAggregate!= null && tkTimeBlockAggregate.getWeekTimeBlocks(0).size() == 7);
+		Assert.assertTrue("Total number of days is correct",tkTimeBlockAggregate.getDayTimeBlockList().size()==15);
 	}
 	
 	@Test
@@ -161,12 +162,12 @@ public class TimeBlockTest extends TkTestCase {
 		tb2.setEndTimestamp(new Timestamp((new DateTime(2009, 1, 2, 14, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
 		tbList.add(tb2);
 		
-		assertTrue(tbList.get(0) == tb1);
-		assertTrue(tbList.get(1) == tb2);
+		Assert.assertTrue(tbList.get(0) == tb1);
+		Assert.assertTrue(tbList.get(1) == tb2);
 		// after sort
 		Collections.sort(tbList);
-		assertTrue(tbList.get(0) == tb2);
-		assertTrue(tbList.get(1) == tb1);
+		Assert.assertTrue(tbList.get(0) == tb2);
+		Assert.assertTrue(tbList.get(1) == tb1);
 	}
 	private List<TimeBlock> setupTimeBlocks(DateTime startTime, DateTime endTime, CalendarEntries payCalendarEntry){
 		List<Interval> dayInterval = TKUtils.getDaySpanForCalendarEntry(payCalendarEntry);
@@ -202,7 +203,7 @@ public class TimeBlockTest extends TkTestCase {
 				}
 			}
 		}
-		assertTrue("Two timeblocks created", lstTimeBlocks.size() == 2);
+		Assert.assertTrue("Two timeblocks created", lstTimeBlocks.size() == 2);
 		
 		lstTimeBlocks.clear();
 		

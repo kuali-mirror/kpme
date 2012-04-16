@@ -3,6 +3,7 @@ package org.kuali.hr.time.department.earncode;
 import java.sql.Date;
 
 import org.joda.time.DateTime;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.test.HtmlUnitUtil;
@@ -10,6 +11,7 @@ import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -26,9 +28,9 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 	public void testDepartmentEarnCodeMaint() throws Exception {
 		HtmlPage deptEarnCodeLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.DEPARTMENT_EARN_CODE_MAINT_URL);
 		deptEarnCodeLookup = HtmlUnitUtil.clickInputContainingText(deptEarnCodeLookup, "search");
-		assertTrue("Page contains test DepartmentEarnCode", deptEarnCodeLookup.asText().contains(DEPT));
+		Assert.assertTrue("Page contains test DepartmentEarnCode", deptEarnCodeLookup.asText().contains(DEPT));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit", "hrDeptEarnCodeId=19");
-		assertTrue("Maintenance Page contains test DepartmentEarnCode",maintPage.asText().contains(DEPT));
+		Assert.assertTrue("Maintenance Page contains test DepartmentEarnCode",maintPage.asText().contains(DEPT));
 	}
 	
 	@Test
@@ -41,7 +43,7 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 
 		HtmlPage deptEarnCodeLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.DEPARTMENT_EARN_CODE_MAINT_URL);
 		deptEarnCodeLookup = HtmlUnitUtil.clickInputContainingText(deptEarnCodeLookup, "search");
-		assertTrue("Page contains test DepartmentEarnCode", deptEarnCodeLookup.asText().contains(DEPT));
+		Assert.assertTrue("Page contains test DepartmentEarnCode", deptEarnCodeLookup.asText().contains(DEPT));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit", "hrDeptEarnCodeId");
 		
 		HtmlInput inputForDescription = HtmlUnitUtil.getInputContainingText(
@@ -62,19 +64,19 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 
 
         HtmlUnitUtil.createTempFile(resultantPageAfterEdit);
-		assertTrue("Maintenance Page contains test deptErrormessage",
+        Assert.assertTrue("Maintenance Page contains test deptErrormessage",
 				resultantPageAfterEdit.asText().contains(
 						"The specified department '"
 								+ testDept
 								+ "' does not exist."));
 		
-		assertTrue("Maintenance Page contains test SalGroupErrormessage",
+        Assert.assertTrue("Maintenance Page contains test SalGroupErrormessage",
 				resultantPageAfterEdit.asText().contains(
 						"The specified Salgroup '"
 								+ testSalGroup
 								+ "' does not exist."));	
 		
-		assertTrue("Maintenance Page contains test Earncode",
+        Assert.assertTrue("Maintenance Page contains test Earncode",
 				resultantPageAfterEdit.asText().contains(
 						"The specified Earncode '"
 								+ testEarnCode
@@ -87,10 +89,10 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 	public void testEditingDepartmentEarnCodeMaint() throws Exception {
 		HtmlPage deptEarnCodeLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.DEPARTMENT_EARN_CODE_MAINT_URL);
 		deptEarnCodeLookup = HtmlUnitUtil.clickInputContainingText(deptEarnCodeLookup, "search");
-		assertTrue("Page contains TEST-DEPT", deptEarnCodeLookup.asText().contains(DEPT));
+		Assert.assertTrue("Page contains TEST-DEPT", deptEarnCodeLookup.asText().contains(DEPT));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit", "hrDeptEarnCodeId=23");
-		assertFalse("Maintenance Page contains Warnings",maintPage.asText().contains("Warnings for this Section:"));
-		assertFalse("Maintenance Page contains Warning message",maintPage.asText().contains("There is a newer version of this Department Earn Code."));
+		Assert.assertFalse("Maintenance Page contains Warnings",maintPage.asText().contains("Warnings for this Section:"));
+		Assert.assertFalse("Maintenance Page contains Warning message",maintPage.asText().contains("There is a newer version of this Department Earn Code."));
 		
 		this.createDuplicateDeptEarnCode();
 		deptEarnCodeLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.DEPARTMENT_EARN_CODE_MAINT_URL);
@@ -100,8 +102,8 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 		
 		deptEarnCodeLookup = HtmlUnitUtil.clickInputContainingText(deptEarnCodeLookup, "search");
 		maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit", "hrDeptEarnCodeId=1");
-		assertTrue("Maintenance Page contains Warnings",maintPage.asText().contains("Warnings for this Section:"));
-		assertTrue("Maintenance Page contains Warning message",maintPage.asText().contains("There is a newer version of this Department Earn Code."));
+		Assert.assertTrue("Maintenance Page contains Warnings",maintPage.asText().contains("Warnings for this Section:"));
+		Assert.assertTrue("Maintenance Page contains Warning message",maintPage.asText().contains("There is a newer version of this Department Earn Code."));
 	}
 	
 	public void createNewDeptEarnCode() {
@@ -115,7 +117,7 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 		deptEarnCode.setEffectiveDate(TEST_DATE);
 		deptEarnCode.setLocation("test");
 		
-		KNSServiceLocator.getBusinessObjectService().save(deptEarnCode);	
+		KRADServiceLocator.getBusinessObjectService().save(deptEarnCode);	
 		hrDeptEarnCodeId = deptEarnCode.getHrDeptEarnCodeId();
 	}
 	
@@ -130,16 +132,16 @@ public class DepartmentEarnCodeMaintenanceTest extends TkTestCase{
 		deptEarnCode.setEffectiveDate(TEST_DATE);
 		deptEarnCode.setLocation("test");
 		
-		KNSServiceLocator.getBusinessObjectService().save(deptEarnCode);	
+		KRADServiceLocator.getBusinessObjectService().save(deptEarnCode);	
 		dupTkDeptEarnCodeId = deptEarnCode.getHrDeptEarnCodeId();
 	}
 	
 	@Override
 	public void tearDown() throws Exception {
-		DepartmentEarnCode deptEarnCodeObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(DepartmentEarnCode.class, hrDeptEarnCodeId);
-		KNSServiceLocator.getBusinessObjectService().delete(deptEarnCodeObj);
-		deptEarnCodeObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(DepartmentEarnCode.class, dupTkDeptEarnCodeId);			
-		KNSServiceLocator.getBusinessObjectService().delete(deptEarnCodeObj);
+		DepartmentEarnCode deptEarnCodeObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(DepartmentEarnCode.class, hrDeptEarnCodeId);
+		KRADServiceLocator.getBusinessObjectService().delete(deptEarnCodeObj);
+		deptEarnCodeObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(DepartmentEarnCode.class, dupTkDeptEarnCodeId);			
+		KRADServiceLocator.getBusinessObjectService().delete(deptEarnCodeObj);
 		super.tearDown();
 	}
 	

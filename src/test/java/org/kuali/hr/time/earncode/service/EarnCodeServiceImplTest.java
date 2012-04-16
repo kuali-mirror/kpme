@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.time.assignment.Assignment;
@@ -43,8 +44,8 @@ public class EarnCodeServiceImplTest extends TkTestCase {
 	public void getEarnCodes() throws Exception {
         Date asOfDate = TKUtils.getTimelessDate(null);
 		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TEST_USER, asOfDate);
-		assertNotNull(assignments);
-		assertTrue("Emtpy assignment list", !assignments.isEmpty());
+		Assert.assertNotNull(assignments);
+		Assert.assertTrue("Emtpy assignment list", !assignments.isEmpty());
 
 		Assignment assignment1 = null;
 		Assignment assignment2 = null;
@@ -63,22 +64,22 @@ public class EarnCodeServiceImplTest extends TkTestCase {
 		}
 
 		// one for each test scenario involving wildcards at least...
-		assertNotNull("Test assignment not found.", assignment1);
-		assertNotNull("Test assignment not found.", assignment2);
-		assertNotNull("Test assignment not found.", assignment3);
-		assertNotNull("Test assignment not found.", assignment4);
+		Assert.assertNotNull("Test assignment not found.", assignment1);
+		Assert.assertNotNull("Test assignment not found.", assignment2);
+		Assert.assertNotNull("Test assignment not found.", assignment3);
+		Assert.assertNotNull("Test assignment not found.", assignment4);
 
 		// Testing standard lookup.
 		List<EarnCode> earnCodes = earnCodeService.getEarnCodes(assignment1,asOfDate);
-		assertEquals("Wrong number of earn codes returned.", 8, earnCodes.size());
+		Assert.assertEquals("Wrong number of earn codes returned.", 8, earnCodes.size());
 
 		// Wildcard on SalGroup
 		earnCodes = earnCodeService.getEarnCodes(assignment2,asOfDate);
-		assertEquals("Wrong number of earn codes returned.", 3, earnCodes.size());
+		Assert.assertEquals("Wrong number of earn codes returned.", 3, earnCodes.size());
 
 		// Dual Wildcards
 		earnCodes = earnCodeService.getEarnCodes(assignment3,asOfDate);
-		assertEquals("Wrong number of earn codes returned.",2, earnCodes.size());
+		Assert.assertEquals("Wrong number of earn codes returned.",2, earnCodes.size());
 	}
 
 	@Test
@@ -86,7 +87,7 @@ public class EarnCodeServiceImplTest extends TkTestCase {
 
 		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.EARN_CODE_MAINT_URL);
 		earnCodeLookUp = HtmlUnitUtil.clickInputContainingText(earnCodeLookUp, "search");
-		assertTrue("Page contains SDR entry", earnCodeLookUp.asText().contains("SDR"));
+		Assert.assertTrue("Page contains SDR entry", earnCodeLookUp.asText().contains("SDR"));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(earnCodeLookUp, "edit","1");
 
 		//Sai - confirm that the error is throw by not selecting a record type
@@ -103,7 +104,7 @@ public class EarnCodeServiceImplTest extends TkTestCase {
 		HtmlPage resultantPageAfterEdit = HtmlUnitUtil
 				.clickInputContainingText(maintPage, "submit");
 		System.out.println(resultantPageAfterEdit.asText());
-		assertTrue("Error message for not selecting any record type",
+		Assert.assertTrue("Error message for not selecting any record type",
 				resultantPageAfterEdit.asText().contains("For this earn code you must specify Record Hours or Record Time or Record Amount"));
 
 		//Sai - confirm that the error is thrown if more than one record type is selected
@@ -118,7 +119,7 @@ public class EarnCodeServiceImplTest extends TkTestCase {
 		resultantPageAfterEdit = HtmlUnitUtil
 				.clickInputContainingText(maintPage, "submit");
 		System.out.println(resultantPageAfterEdit.asText());
-		assertTrue("Error message for selecting more than one record type",
+		Assert.assertTrue("Error message for selecting more than one record type",
 				resultantPageAfterEdit.asText().contains("For this earn code you can only specify one of the Record types"));
 	}
 }

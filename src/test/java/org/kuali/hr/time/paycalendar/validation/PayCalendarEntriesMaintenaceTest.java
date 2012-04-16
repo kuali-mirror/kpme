@@ -1,5 +1,6 @@
 package org.kuali.hr.time.paycalendar.validation;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
@@ -26,7 +27,7 @@ public class PayCalendarEntriesMaintenaceTest extends TkTestCase {
     	//String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.paycalendar.PayCalendarEntries&methodToCall=start";
 		String baseUrl = TkTestConstants.Urls.PAY_CALENDAR_ENTRIES_MAINT_NEW_URL;
     	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
-    	assertNotNull(page);
+    	Assert.assertNotNull(page);
 
 		HtmlTextInput text  = (HtmlTextInput) page.getHtmlElementById("document.documentHeader.documentDescription");
 		text.setValueAttribute("test");
@@ -62,14 +63,14 @@ public class PayCalendarEntriesMaintenaceTest extends TkTestCase {
         HtmlPage page1 = element.click();
         HtmlUnitUtil.createTempFile(page1);
 		// error for invalid pay calendar
-        assertTrue("Maintenance Page contains error messages", page1.asText().contains("You must specify a valid Calendar."));
+        Assert.assertTrue("Maintenance Page contains error messages", page1.asText().contains("You must specify a valid Calendar."));
 
 		text  = (HtmlTextInput) page1.getHtmlElementById(TkTestConstants.DOC_NEW_ELEMENT_ID_PREFIX + "calendarName");
 		text.setValueAttribute("BW-CAL");	// set a valid pay calendar	
         
 		element = page1.getElementByName("methodToCall.route");
         HtmlPage page2 = element.click();
-        assertTrue("Maintenance page is submitted successfully", page2.asText().contains("Document was successfully submitted."));
-		assertTrue("Maintenance page is submitted successfully", page2.asText().contains("Status: 	 FINAL"));
+        Assert.assertTrue("Maintenance page is submitted successfully", page2.asText().contains("Document was successfully submitted."));
+        Assert.assertTrue("Maintenance page is submitted successfully", page2.asText().contains("Status: 	 FINAL"));
 	}
 }

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule;
@@ -110,7 +111,7 @@ public class DailyOvertimeRuleServiceTest extends TkTestCase {
 		createDailyOvertimeRule("REG", "OVT", "SD1", "BW", "TEST-DEPT", workArea,
 				task, new BigDecimal(8), new BigDecimal("0.25"), null);
 		DailyOvertimeRule rule = TkServiceLocator.getDailyOvertimeRuleService().getDailyOvertimeRule("SD1", "BW", "TEST-DEPT", workArea, JAN_AS_OF_DATE);
-		assertNotNull("Rule not created.", rule);
+		Assert.assertNotNull("Rule not created.", rule);
 	}
 
 }

@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalTime;
+import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -20,9 +21,6 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
-import org.kuali.hr.time.workschedule.WorkSchedule;
-import org.kuali.hr.time.workschedule.WorkScheduleAssignment;
-import org.kuali.hr.time.workschedule.WorkScheduleEntry;
 
 /**
  *
@@ -137,7 +135,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 		DateTime start = new DateTime(2010, 8, 31, 21, 45, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfAugust);
-		assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
+		Assert.assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
 		blocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "RGN", start, 1, new BigDecimal(2), BigDecimal.ZERO));
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, endOfAugust);
 		tdoc.setTimeBlocks(blocks);
@@ -215,7 +213,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 		DateTime start = new DateTime(2010, 8, 31, 22, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfAugust);
-		assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
+		Assert.assertTrue("No Assignments Found.", tdoc.getAssignments().size() > 0);
 		blocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, tdoc.getAssignments().get(0), "RGN", start, 1, new BigDecimal(2), BigDecimal.ZERO));
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, endOfAugust);
 
@@ -347,7 +345,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 	 * dayBooleans[] is a 7 element array of booleans, [0, 6] is [sun, sat]
 	 */
 	private void createShiftDifferentialRule(String pyCalendarGroup, String fromEarnGroup, String premiumEarnCode, String location, String payGrade, String hrSalGroup, DateTime startTime, DateTime endTime, BigDecimal minHours, BigDecimal maxGap, boolean dayBooleans[]) {
-		assertTrue("Wrong number of day booleans", dayBooleans.length == 7);
+		Assert.assertTrue("Wrong number of day booleans", dayBooleans.length == 7);
 
 		ShiftDifferentialRuleService service = TkServiceLocator.getShiftDifferentialRuleService();
 		ShiftDifferentialRule sdr = new ShiftDifferentialRule();
@@ -402,8 +400,8 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 		LocalTime stored_start = new LocalTime(sdrBack.getBeginTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
 		LocalTime stored_end = new LocalTime(sdrBack.getEndTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
 
-		assertTrue("Start times not equal.", orig_start.equals(stored_start));
-		assertTrue("End times not equal.", orig_end.equals(stored_end));
+		Assert.assertTrue("Start times not equal.", orig_start.equals(stored_start));
+		Assert.assertTrue("End times not equal.", orig_end.equals(stored_end));
 	}
 
 
@@ -461,50 +459,6 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 
     }
 
-    /**
-     * Creates a new Work Schedule and Assignment work schedule setup for the
-     * 'admin' user.
-     *
-     *  8a - 5p work schedule
-     *
-     * @param workSch
-     */
-    public void createWorkSchedule(Long workSch) {
-        // Create a Work Schedule Assignment
-        //
-        WorkScheduleAssignment workScheduleAssignment = new WorkScheduleAssignment();
-        workScheduleAssignment.setHrWorkSchedule(workSch);
-        workScheduleAssignment.setDept("%");
-        workScheduleAssignment.setWorkArea(-1L);
-        workScheduleAssignment.setPrincipalId("admin");
-        workScheduleAssignment.setEffectiveDate(JAN_AS_OF_DATE);
-        workScheduleAssignment.setActive(true);
-        workScheduleAssignment.setUserPrincipalId("admin");
 
-        // Create a Work Schedule
-        //
-        WorkSchedule workSchedule = new WorkSchedule();
-        workSchedule.setHrWorkSchedule(workSch); // we can set this to whatever, it's not a row ID.
-        workSchedule.setActive(true);
-        workSchedule.setEarnGroup("WS1"); // Test data should have an earn group for WS1
-        workSchedule.setWorkScheduleDesc("desc");
-        workSchedule.setEffectiveDate(JAN_AS_OF_DATE);
-        workSchedule.setUserPrincipalId("admin");
-
-        // Create the actual schedule entries.
-        //
-        List<WorkScheduleEntry> workScheduleEntries = new ArrayList<WorkScheduleEntry>();
-
-        WorkScheduleEntry workScheduleEntry = new WorkScheduleEntry();
-        workScheduleEntry.setBeginTime(new Time((new DateTime(2010, 3, 1, 8, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis()));
-        workScheduleEntry.setEndTime(new Time((new DateTime(2010, 3, 1, 17, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis()));
-        workScheduleEntry.setIndexOfDay(0L);
-        workScheduleEntries.add(workScheduleEntry);
-        workSchedule.setWorkScheduleEntries(workScheduleEntries);
-
-        // Save Work Schedule, Work Schedule Assignment
-        TkServiceLocator.getWorkScheduleService().saveOrUpdate(workSchedule);
-        TkServiceLocator.getWorkScheduleAssignmentService().saveOrUpdate(workScheduleAssignment);
-    }
 
 }
