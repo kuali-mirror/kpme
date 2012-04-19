@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.joda.time.DateTime;
@@ -136,6 +137,18 @@ public class CalendarEntriesDaoSpringOjbImpl extends PersistenceBrokerDaoSupport
         pce.addAll(c);
 
 		return pce;
+	}
+	
+	public List<CalendarEntries> getFutureCalendarEntries(String hrCalendarId, Date currentDate, int numberOfEntries) {
+		Criteria root = new Criteria();
+        root.addEqualTo("hrCalendarId", hrCalendarId);
+		root.addGreaterOrEqualThan("beginPeriodDateTime", currentDate);
+		QueryByCriteria q = QueryFactory.newReportQuery(CalendarEntries.class, root);
+		q.addOrderByAscending("beginPeriodDateTime");
+		q.setStartAtIndex(1);
+		q.setEndAtIndex(numberOfEntries);
+		List<CalendarEntries> calendarEntries = new ArrayList<CalendarEntries>(this.getPersistenceBrokerTemplate().getCollectionByQuery(q));
+		return calendarEntries;
 	}
 
 }

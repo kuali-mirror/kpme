@@ -32,8 +32,35 @@ public class LeaveCalendarForm extends TkForm {
     private String leaveBlockId;
     private String prevDocumentId;
     private String nextDocumentId;
+    private String prevCalEntryId;
+    private String nextCalEntryId;
+    private String calEntryId;
 
-    @Override
+    public String getPrevCalEntryId() {
+		return prevCalEntryId;
+	}
+
+	public void setPrevCalEntryId(String prevCalEntryId) {
+		this.prevCalEntryId = prevCalEntryId;
+	}
+
+	public String getNextCalEntryId() {
+		return nextCalEntryId;
+	}
+
+	public void setNextCalEntryId(String nextCalEntryId) {
+		this.nextCalEntryId = nextCalEntryId;
+	}
+
+	public String getCalEntryId() {
+		return calEntryId;
+	}
+
+	public void setCalEntryId(String calEntryId) {
+		this.calEntryId = calEntryId;
+	}
+
+	@Override
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
     }

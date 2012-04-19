@@ -144,6 +144,10 @@ $(document).ready(function() {
     });
     
  // create navigation buttons for leave calendar
+    var calId = $('#calEntryId').val();
+    var prevCalId = $('#prevCalEntryId').val();
+    var nextCalId = $('#nextCalEntryId').val();
+    
     $('#nav_prev_lc').button({
         icons: {
             primary: "ui-icon-circle-triangle-w"
@@ -152,7 +156,7 @@ $(document).ready(function() {
     });
 
     $('#nav_prev_lc').click(function() {
-        window.location = 'LeaveCalendar.do?documentId=' + prevDocId;
+        window.location = 'LeaveCalendar.do?documentId=' + prevDocId+'&calEntryId='+prevCalId;
     });
 
     $('#nav_next_lc').button({
@@ -163,7 +167,7 @@ $(document).ready(function() {
     });
 
     $('#nav_next_lc').click(function() {
-        window.location = 'LeaveCalendar.do?documentId=' + nextDocId;
+        window.location = 'LeaveCalendar.do?documentId=' + nextDocId+'&calEntryId='+nextCalId;
     });
     
     // create navigation buttons for leave block display

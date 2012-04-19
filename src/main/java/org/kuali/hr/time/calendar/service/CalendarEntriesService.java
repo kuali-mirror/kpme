@@ -38,4 +38,6 @@ public interface CalendarEntriesService {
 	public List<CalendarEntries> getCurrentCalendarEntryNeedsScheduled(int thresholdDays, Date asOfDate);
 	
 	public void createNextCalendarEntry(CalendarEntries calendarEntries);
+	
+	public List<CalendarEntries> getFutureCalendarEntries(String hrCalendarId, Date currentDate, int numberOfEntries);
 }

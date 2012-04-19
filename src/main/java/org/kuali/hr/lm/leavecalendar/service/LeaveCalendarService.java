@@ -7,5 +7,5 @@ import org.kuali.rice.kew.exception.WorkflowException;
 public interface LeaveCalendarService {
     public LeaveCalendarDocument openLeaveCalendarDocument(String principalId, CalendarEntries calEntry) throws WorkflowException;
     public LeaveCalendarDocument getLeaveCalendarDocument(String documentId);
-
+    public LeaveCalendarDocument getLeaveCalendarDocument(CalendarEntries calendarEntries);
 }

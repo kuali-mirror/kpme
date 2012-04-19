@@ -44,6 +44,7 @@ public class LeaveCalendarWebTest extends TkTestCase {
 
 		this.setWebClient(leaveCalendarPage.getWebClient());
 
+		
 		assertTrue("Page does not have Current calendar ", leaveCalendarPage
 				.asText().contains("April 2012"));
 
@@ -54,9 +55,12 @@ public class LeaveCalendarWebTest extends TkTestCase {
 	
 		
 		// Check for next document
-//		HtmlButton nextButton = (HtmlButton) leaveCalendarPage
-//				.getElementById("nav_next_lc");
-//		assertNotNull(nextButton);
+		HtmlButton nextButton = (HtmlButton) leaveCalendarPage
+				.getElementById("nav_next_lc");
+		assertNotNull(nextButton);
+		HtmlPage page = nextButton.click();
+		
+		assertNotNull(page);
 
 	}
 

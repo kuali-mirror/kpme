@@ -62,4 +62,9 @@ public class CalendarEntriesServiceImpl implements CalendarEntriesService {
 		calendarEntriesDao.saveOrUpdate(calendarEntries);
     }
 
+    public List<CalendarEntries> getFutureCalendarEntries(String hrCalendarId, Date currentDate, int numberOfEntries){
+    	List<CalendarEntries> calendarEntries = null;
+    	calendarEntries = calendarEntriesDao.getFutureCalendarEntries(hrCalendarId, currentDate, numberOfEntries);
+    	return calendarEntries;
+    }
 }

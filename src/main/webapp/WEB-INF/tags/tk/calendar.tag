@@ -11,7 +11,7 @@
         <tr>
             <td>
             
-                <c:if test="${Form.prevDocumentId ne null}">
+                <c:if test="${Form.prevDocumentId ne null || (calType eq 'leaveCalendar' && Form.prevCalEntryId ne null)}">
                     <button id="${calType == 'payCalendar' ? 'nav_prev' : 'nav_prev_lc' }" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                             role="button" title="Previous">
                         <span class="ui-button-icon-primary ui-icon ui-icon-circle-triangle-w"></span>
@@ -19,7 +19,7 @@
                     </button>
                 </c:if>
                 <span class="header-title">${cal.calendarTitle}</span>
-                <c:if test="${Form.nextDocumentId ne null}">
+                <c:if test="${Form.nextDocumentId ne null || (calType eq 'leaveCalendar' && Form.nextCalEntryId ne null)}">
                     <button id="${calType == 'payCalendar' ? 'nav_next' : 'nav_next_lc' }" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                             role="button" title="Next">
                         <span class="ui-button-icon-primary ui-icon ui-icon-circle-triangle-e"></span>

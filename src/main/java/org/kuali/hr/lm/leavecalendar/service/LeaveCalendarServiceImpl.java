@@ -97,4 +97,15 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     public void setLeaveCalendarDao(LeaveCalendarDao leaveCalendarDao) {
         this.leaveCalendarDao = leaveCalendarDao;
     }
+
+	@Override
+	public LeaveCalendarDocument getLeaveCalendarDocument(
+			CalendarEntries calendarEntry) {
+		LeaveCalendarDocument leaveCalendarDocument = new LeaveCalendarDocument(calendarEntry);
+		LeaveCalendarDocumentHeader lcdh = new LeaveCalendarDocumentHeader();
+		lcdh.setBeginDate(calendarEntry.getBeginPeriodDateTime());
+		lcdh.setEndDate(calendarEntry.getEndPeriodDateTime());
+		leaveCalendarDocument.setLeaveCalendarDocumentHeader(lcdh);
+		return leaveCalendarDocument;
+	}
 }
