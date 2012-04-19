@@ -321,11 +321,41 @@
 							<bean parent="FieldDefinition" p:attributeName="unitOfTime" />
 							<bean parent="FieldDefinition" p:attributeName="proration" />
 							<bean parent="FieldDefinition" p:attributeName="donation" />
-							<bean parent="FieldDefinition" p:attributeName="showOnGrid" />				
+							<bean parent="FieldDefinition" p:attributeName="showOnGrid" />	
+							<bean parent="FieldDefinition" p:attributeName="leaveCode" />			
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
 					<property name="title" value="AccrualCategory" />
+				</bean>
+				<bean parent="InquirySectionDefinition" p:title="Rules">
+					<property name="inquiryFields">
+						<list>
+							<bean parent="InquiryCollectionDefinition" p:attributeName="accrualCategoryRules"
+								p:businessObjectClass="org.kuali.hr.lm.accrual.AccrualCategoryRule">
+								<property name="inquiryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="serviceUnitOfTime"/>
+										<bean parent="FieldDefinition" p:attributeName="start"/>
+										<bean parent="FieldDefinition" p:attributeName="end"/>
+										<bean parent="FieldDefinition" p:attributeName="accrualRate"/>
+										<bean parent="FieldDefinition" p:attributeName="maxBalance"/>
+										<bean parent="FieldDefinition" p:attributeName="maxBalFlag"/>
+										<bean parent="FieldDefinition" p:attributeName="maxBalanceActionFrequency"/>
+										<bean parent="FieldDefinition" p:attributeName="actionAtMaxBalance"/>
+										<bean parent="FieldDefinition" p:attributeName="maxBalanceTransferToAccrualCategory"/>
+										<bean parent="FieldDefinition" p:attributeName="maxBalanceTransferConversionFactor"/>							
+										<bean parent="FieldDefinition" p:attributeName="maxTransferAmount"/>							
+										<bean parent="FieldDefinition" p:attributeName="maxPayoutAmount"/>							
+										<bean parent="FieldDefinition" p:attributeName="maxPayoutLeaveCode"/>							
+										<bean parent="FieldDefinition" p:attributeName="maxUsage"/>							
+										<bean parent="FieldDefinition" p:attributeName="maxCarryOver"/>							
+										<bean parent="FieldDefinition" p:attributeName="active"/>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
 				</bean>
 			</list>
 		</property>
