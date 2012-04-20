@@ -87,5 +87,5 @@ public interface JobService {
                       String dept, String positionNbr, String payType,
                       java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory);
     
-    public int getJobCount(String principalId, Long jobNumber);
+    public int getJobCount(String principalId, Long jobNumber, String dept);
 }

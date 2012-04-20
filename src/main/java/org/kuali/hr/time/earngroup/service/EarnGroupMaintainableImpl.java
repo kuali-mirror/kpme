@@ -48,7 +48,8 @@ public class EarnGroupMaintainableImpl extends HrBusinessObjectMaintainableImpl{
 	@Override
     public void processAfterEdit( MaintenanceDocument document, Map<String,String[]> parameters ) {
 		EarnGroup earnGroup = (EarnGroup)this.getBusinessObject();
-		if(ValidationUtils.newerVersionExists(EarnGroup.class, "earnGroup", earnGroup.getEarnGroup(), earnGroup.getEffectiveDate())) {
+		int count = TkServiceLocator.getEarnGroupService().getNewerEarnGroupCount(earnGroup.getEarnGroup(), earnGroup.getEffectiveDate());
+		if(count > 0) {
 			GlobalVariables.getMessageMap().putWarningWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + "effectiveDate", 
 					"earngroup.effectiveDate.newr.exists");
 		}

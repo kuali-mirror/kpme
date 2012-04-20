@@ -21,7 +21,8 @@ public class DepartmentEarnCodeMaintainableImpl extends HrBusinessObjectMaintain
 	@Override
     public void processAfterEdit( MaintenanceDocument document, Map<String,String[]> parameters ) {
 		DepartmentEarnCode departmentEarnCode = (DepartmentEarnCode) this.getBusinessObject();
-		if(ValidationUtils.newerVersionExists(DepartmentEarnCode.class, "earnCode", departmentEarnCode.getEarnCode(), departmentEarnCode.getEffectiveDate())) {
+		int count = TkServiceLocator.getDepartmentEarnCodeService().getNewerDeptEarnCodeCount(departmentEarnCode.getEarnCode(), departmentEarnCode.getEffectiveDate());
+		if(count > 0) {
 			GlobalVariables.getMessageMap().putWarningWithoutFullErrorPath(
 					KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + "effectiveDate", 
 					"deptEarncode.effectiveDate.newer.exists");

@@ -84,5 +84,5 @@ public interface JobDao {
      * @param jobNumber
      * @return the count of the jobs with the given principalId and jobNumber
      */
-    public int getJobCount(String principalId, Long jobNumber);
+    public int getJobCount(String principalId, Long jobNumber, String dept);
 }

@@ -123,5 +123,10 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 	public int getEarnCodeCount(String earnCode) {
 		return earnCodeDao.getEarnCodeCount(earnCode);
 	}
+	
+	@Override
+	public int getNewerEarnCodeCount(String earnCode, Date effdt) {
+		return earnCodeDao.getNewerEarnCodeCount(earnCode, effdt);
+	}
 
 }

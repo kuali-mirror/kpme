@@ -6,7 +6,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.hr.job.Job;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.util.TKUtils;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
@@ -320,5 +319,13 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
       Query query = QueryFactory.newQuery(DepartmentEarnCode.class, crit);
       return this.getPersistenceBrokerTemplate().getCount(query);
 	}
-	
+	@Override
+	public int getNewerDeptEarnCodeCount(String earnCode, Date effdt) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("earnCode", earnCode);
+		crit.addEqualTo("active", "Y");
+		crit.addGreaterThan("effectiveDate", effdt);
+		Query query = QueryFactory.newQuery(DepartmentEarnCode.class, crit);
+       	return this.getPersistenceBrokerTemplate().getCount(query);
+	}
 }

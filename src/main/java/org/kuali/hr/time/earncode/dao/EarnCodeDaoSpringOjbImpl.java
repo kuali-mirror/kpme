@@ -118,4 +118,14 @@ public class EarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
 		Query query = QueryFactory.newQuery(EarnCode.class, crit);
 		return this.getPersistenceBrokerTemplate().getCount(query);
 	}
+	
+	@Override
+	public int getNewerEarnCodeCount(String earnCode, Date effdt) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("earnCode", earnCode);
+		crit.addEqualTo("active", "Y");
+		crit.addGreaterThan("effectiveDate", effdt);
+		Query query = QueryFactory.newQuery(EarnCode.class, crit);
+       	return this.getPersistenceBrokerTemplate().getCount(query);
+	}
 }

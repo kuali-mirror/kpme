@@ -79,4 +79,8 @@ public class EarnGroupServiceImpl implements EarnGroupService {
     public int getEarnGroupCount(String earnGroup) {
     	return earnGroupDao.getEarnGroupCount(earnGroup);
     }
+    @Override
+    public int getNewerEarnGroupCount(String earnGroup, Date effdt) {
+    	return earnGroupDao.getNewerEarnGroupCount(earnGroup, effdt);
+    }
 }

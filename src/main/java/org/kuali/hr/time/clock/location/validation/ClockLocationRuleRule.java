@@ -95,7 +95,7 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 		if (clr.getJobNumber() == null) {
 			valid = false;
 		} else if (!clr.getJobNumber().equals(TkConstants.WILDCARD_LONG)) {
-			int count = TkServiceLocator.getJobSerivce().getJobCount(clr.getPrincipalId(), clr.getJobNumber());
+			int count = TkServiceLocator.getJobSerivce().getJobCount(clr.getPrincipalId(), clr.getJobNumber(),null);
 			valid = (count > 0);
 			if (!valid) {
 				this.putFieldError("jobNumber", "principalid.job.invalid.sync",

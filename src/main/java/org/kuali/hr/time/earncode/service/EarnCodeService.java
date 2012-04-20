@@ -52,4 +52,11 @@ public interface EarnCodeService {
 	 * @return int
 	 */
     public int getEarnCodeCount(String earnCode);
+    /**
+	 * get count of newer version of earn code with give earnCode and date
+	 * @param earnCode
+	 * @param effdt
+	 * @return int
+	 */
+    public int getNewerEarnCodeCount(String earnCode, Date effdt);
 }

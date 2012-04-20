@@ -20,4 +20,6 @@ public interface DepartmentEarnCodeDao {
 	
 	public int getDepartmentEarnCodeCount(String dept, String salGroup, String earnCode, String employee, String approver, String location,
 			String active, java.sql.Date effdt,String hrDeptEarnCodeId);
+	
+	public int getNewerDeptEarnCodeCount(String earnCode, Date effdt);
 }

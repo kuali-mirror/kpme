@@ -71,12 +71,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	protected boolean validateDepartment(Assignment assignment) {
 		boolean valid = true;
 		if (assignment.getDept() != null) {
-				Criteria crit = new Criteria();
-				crit.addEqualTo("dept", assignment.getDept());
-				crit.addEqualTo("jobNumber", assignment.getJobNumber());
-				Query query = QueryFactory.newQuery(Job.class, crit);
-				int count = PersistenceBrokerFactory.defaultPersistenceBroker()
-						.getCount(query);
+				int count = TkServiceLocator.getJobSerivce().getJobCount(null, assignment.getJobNumber(), assignment.getDept());
 				valid = (count > 0);
 				if (!valid) {
 					this.putFieldError("dept", "dept.jobnumber.invalid.sync");

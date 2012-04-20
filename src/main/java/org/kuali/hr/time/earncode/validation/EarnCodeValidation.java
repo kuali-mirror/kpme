@@ -10,7 +10,6 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
@@ -63,7 +62,8 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 		}
 		
 		// check if there's a newer version of the Earn Code
-		if(ValidationUtils.newerVersionExists(EarnCode.class, "earnCode", earnCode.getEarnCode(), earnCode.getEffectiveDate())) {
+		int count = TkServiceLocator.getEarnCodeService().getNewerEarnCodeCount(earnCode.getEarnCode(), earnCode.getEffectiveDate());
+		if(count > 0) {
 			this.putFieldError("effectiveDate", "earncode.effectiveDate.newer.exists");
 			return false;
 		}

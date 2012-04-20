@@ -49,5 +49,11 @@ public interface EarnGroupService {
      * @return int
      */
     public int getEarnGroupCount(String earnGroup);
-	
+    /**
+     * get the count of newer version of earn groups by given earnGroup and date
+     * @param earnGroup
+     * @param effdt
+     * @return int
+     */
+    public int getNewerEarnGroupCount(String earnGroup, Date effdt);
 }

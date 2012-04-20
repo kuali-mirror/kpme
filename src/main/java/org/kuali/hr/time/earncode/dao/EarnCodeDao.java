@@ -16,4 +16,6 @@ public interface EarnCodeDao {
 	public List<EarnCode> getOvertimeEarnCodes(Date asOfDate);
 
 	public int getEarnCodeCount(String earnCode);
+	
+	public int getNewerEarnCodeCount(String earnCode, Date effdt);
 }

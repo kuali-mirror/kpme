@@ -138,4 +138,13 @@ public class EarnGroupDaoServiceImpl extends PersistenceBrokerDaoSupport impleme
 	    Query query = QueryFactory.newQuery(EarnGroup.class, crit);
 	    return this.getPersistenceBrokerTemplate().getCount(query);
 	}
+	@Override
+	public int getNewerEarnGroupCount(String earnGroup, Date effdt) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("earnGroup", earnGroup);
+		crit.addEqualTo("active", "Y");
+		crit.addGreaterThan("effectiveDate", effdt);
+		Query query = QueryFactory.newQuery(EarnGroup.class, crit);
+       	return this.getPersistenceBrokerTemplate().getCount(query);
+	}
 }

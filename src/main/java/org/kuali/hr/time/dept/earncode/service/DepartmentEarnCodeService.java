@@ -29,4 +29,12 @@ public interface DepartmentEarnCodeService {
      */
 	public int getDepartmentEarnCodeCount(String dept, String salGroup, String earnCode, String employee, String approver, String location,
 			String active, java.sql.Date effdt,String hrDeptEarnCodeId);
+	
+    /**
+     * get the count of newer versions of the given earnCode
+     * @param earnCode
+     * @param effdt
+     * @return int
+     */
+	public int getNewerDeptEarnCodeCount(String earnCode, Date effdt);
 }
