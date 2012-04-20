@@ -377,4 +377,12 @@ public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements 
         return results;
     }
 
+    @Override
+    public int getJobCount(String principalId, Long jobNumber) {
+    	Criteria crit = new Criteria();
+		crit.addEqualTo("principalId", principalId);
+		crit.addEqualTo("jobNumber", jobNumber);
+		Query query = QueryFactory.newQuery(Job.class, crit);
+		return this.getPersistenceBrokerTemplate().getCount(query);
+    }
 }

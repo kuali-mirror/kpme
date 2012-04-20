@@ -302,4 +302,23 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 		
 	}
 	
+	@Override
+	public int getDepartmentEarnCodeCount(String dept, String salGroup, String earnCode, String employee, String approver, String location,
+			String active, java.sql.Date effdt,String hrDeptEarnCodeId) {
+		Criteria crit = new Criteria();
+      crit.addEqualTo("dept", dept);
+      crit.addEqualTo("hrSalGroup", salGroup);
+      crit.addEqualTo("earnCode", earnCode);
+      crit.addEqualTo("employee", employee);
+      crit.addEqualTo("approver", approver);
+      crit.addEqualTo("location", location);
+      crit.addEqualTo("active", active);
+      crit.addEqualTo("effectiveDate", effdt);
+      if(hrDeptEarnCodeId != null) {
+    	  crit.addEqualTo("hr_dept_earn_code_id", hrDeptEarnCodeId);
+      }
+      Query query = QueryFactory.newQuery(DepartmentEarnCode.class, crit);
+      return this.getPersistenceBrokerTemplate().getCount(query);
+	}
+	
 }

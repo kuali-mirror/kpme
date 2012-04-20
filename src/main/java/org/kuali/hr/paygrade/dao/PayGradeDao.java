@@ -18,4 +18,6 @@ public interface PayGradeDao {
 	 * @return
 	 */
 	public PayGrade getPayGrade(String hrPayGradeId);
+	
+	public int getPayGradeCount(String payGrade);
 }

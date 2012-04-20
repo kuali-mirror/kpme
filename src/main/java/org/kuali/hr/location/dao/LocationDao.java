@@ -18,4 +18,6 @@ public interface LocationDao {
 	 * @return
 	 */
 	public Location getLocation(String hrLocationId);
+	
+	public int getLocationCount(String location);
 }

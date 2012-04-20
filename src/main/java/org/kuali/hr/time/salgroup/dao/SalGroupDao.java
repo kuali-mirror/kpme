@@ -8,5 +8,5 @@ public interface SalGroupDao {
 	public void saveOrUpdate(SalGroup salGroup);
 	public SalGroup getSalGroup(String salGroup, Date asOfDate);
 	public SalGroup getSalGroup(String hrSalGroupId);
-
+	public int getSalGroupCount(String salGroup);
 }

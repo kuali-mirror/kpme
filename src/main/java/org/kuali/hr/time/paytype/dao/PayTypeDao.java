@@ -14,5 +14,7 @@ public interface PayTypeDao {
 	public PayType getPayType(String payType, Date effectiveDate);
 	
 	public PayType getPayType(String hrPayTypeId);
+	
+	public int getPayTypeCount(String payType);
 
 }

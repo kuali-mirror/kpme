@@ -37,5 +37,10 @@ public class PayTypeServiceImpl implements PayTypeService {
 	public PayType getPayType(String hrPayTypeId) {
 		return payTypeDao.getPayType(hrPayTypeId);
 	}
+	
+	@Override
+	public int getPayTypeCount(String payType) {
+		return payTypeDao.getPayTypeCount(payType);
+	}
 
 }

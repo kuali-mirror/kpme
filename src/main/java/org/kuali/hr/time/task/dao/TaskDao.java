@@ -14,4 +14,5 @@ public interface TaskDao {
     public Task getMaxTask();
 
     List<Task> getTasks(Long task, String description, Long workArea, String workAreaDesc, Date fromEffdt, Date toEffdt);
+    public int getTaskCount(Long task);
 }

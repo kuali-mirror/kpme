@@ -18,4 +18,10 @@ public interface PayGradeService {
 	 * @return
 	 */
 	public PayGrade getPayGrade(String hrPayGradeId);
+	/**
+	 * get count of pay grade with given payGrade
+	 * @param payGrade
+	 * @return int
+	 */
+	public int getPayGradeCount(String payGrade);
 }

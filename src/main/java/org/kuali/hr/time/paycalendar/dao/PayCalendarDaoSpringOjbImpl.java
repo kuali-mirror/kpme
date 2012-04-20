@@ -90,6 +90,13 @@ public class PayCalendarDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imp
         return payCalendars;
 
     }
+    
+    public int getPyCalendarGroupCount(String pyCalendarGroup) {
+    	Criteria crit = new Criteria();
+    	crit.addEqualTo("pyCalendarGroup", pyCalendarGroup);
+    	Query query = QueryFactory.newQuery(PayCalendar.class, crit);
+      	return this.getPersistenceBrokerTemplate().getCount(query);
+    }
 
 
 }

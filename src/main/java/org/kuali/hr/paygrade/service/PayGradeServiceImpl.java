@@ -25,5 +25,8 @@ public class PayGradeServiceImpl implements PayGradeService{
 	public PayGrade getPayGrade(String hrPayGradeId) {
 		return payGradeDao.getPayGrade(hrPayGradeId);
 	}
-	
+	@Override
+	public int getPayGradeCount(String payGrade) {
+		return payGradeDao.getPayGradeCount(payGrade);
+	}
 }

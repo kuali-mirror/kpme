@@ -25,4 +25,11 @@ public interface PayTypeService {
 	public PayType getPayType(String payType, Date effectiveDate);
 	
 	public PayType getPayType(String hrPayTypeId);
+	
+	/**
+	 * get count of pay type with give payType
+	 * @param payType
+	 * @return int
+	 */
+	public int getPayTypeCount(String payType);
 }

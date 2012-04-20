@@ -53,5 +53,12 @@ public class PayGradeDaoSpringObjImpl  extends PersistenceBrokerDaoSupport imple
 		
 		return (PayGrade)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
+	
+	public int getPayGradeCount(String payGrade) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("payGrade", payGrade);
+		Query query = QueryFactory.newQuery(PayGrade.class, crit);
+		return this.getPersistenceBrokerTemplate().getCount(query);
+	}
 
 }

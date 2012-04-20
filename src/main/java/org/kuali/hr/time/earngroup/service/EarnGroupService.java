@@ -43,4 +43,11 @@ public interface EarnGroupService {
 	 * @return
 	 */
 	public List<String> warningTextFromEarnGroupsOfDocument(TimesheetDocument timesheetDocument);
+    /**
+     * get the count of earn groups by given earnGroup
+     * @param earnGroup
+     * @return int
+     */
+    public int getEarnGroupCount(String earnGroup);
+	
 }

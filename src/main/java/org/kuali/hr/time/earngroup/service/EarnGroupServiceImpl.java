@@ -75,4 +75,8 @@ public class EarnGroupServiceImpl implements EarnGroupService {
 	    warningMessages.addAll(aSet);
 		return warningMessages;
     }
+    @Override
+    public int getEarnGroupCount(String earnGroup) {
+    	return earnGroupDao.getEarnGroupCount(earnGroup);
+    }
 }

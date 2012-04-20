@@ -35,5 +35,10 @@ public class DepartmentEarnCodeServiceImpl implements DepartmentEarnCodeService 
 		return deptEarnCodeDao.searchDepartmentEarnCodes(dept, salGroup, earnCode, location, fromEffdt,
 								toEffdt, active, showHistory);
 	}
-	
+	@Override
+	public int getDepartmentEarnCodeCount(String dept, String salGroup, String earnCode, String employee, String approver, String location,
+			String active, java.sql.Date effdt,String hrDeptEarnCodeId) {
+		return deptEarnCodeDao.getDepartmentEarnCodeCount(dept, salGroup, earnCode, employee, approver, location,
+				active, effdt, hrDeptEarnCodeId);
+	}
 }

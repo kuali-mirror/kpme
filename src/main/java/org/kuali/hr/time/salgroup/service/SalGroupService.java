@@ -14,4 +14,6 @@ public interface SalGroupService {
 	public SalGroup getSalGroup(String salGroup, Date asOfDate);
 	
 	public SalGroup getSalGroup(String hrSalGroupId);
+	
+	public int getSalGroupCount(String salGroup);
 }

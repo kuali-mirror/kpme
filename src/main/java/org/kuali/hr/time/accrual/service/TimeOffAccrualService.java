@@ -44,4 +44,13 @@ public interface TimeOffAccrualService {
 	
 	public List<TimeOffAccrual> getTimeOffAccruals(String principalId, Date asOfDate);
 
+    /**
+     * get the count of TimeOffAccrual by given parameters\
+     * @param accrualCategory
+     * @param effectiveDate
+     * @param principalId
+     * @param lmAccrualId
+     * @return int
+     */
+	public int getTimeOffAccrualCount(String accrualCategory, Date effectiveDate, String principalId, String lmAccrualId);
 }

@@ -92,5 +92,17 @@ public class TimeOffAccrualkDaoSpringOjbImpl extends PersistenceBrokerDaoSupport
 			
 			return timeOffAccruals;
 		}
-
+	
+	@Override
+	public int getTimeOffAccrualCount(String accrualCategory, Date effectiveDate, String principalId, String lmAccrualId) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("accrualCategory", accrualCategory);
+		crit.addEqualTo("effectiveDate", effectiveDate);
+		crit.addEqualTo("principalId", principalId);
+		if(lmAccrualId != null) {
+			crit.addEqualTo("lmAccrualId", lmAccrualId);
+		}
+		Query query = QueryFactory.newQuery(TimeOffAccrual.class, crit);
+		return this.getPersistenceBrokerTemplate().getCount(query);
+	}
 }

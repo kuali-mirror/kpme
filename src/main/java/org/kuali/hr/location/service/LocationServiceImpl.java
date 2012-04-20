@@ -29,5 +29,10 @@ public class LocationServiceImpl implements LocationService {
 	public Location getLocation(String hrLocationId) {
 		return locationDao.getLocation(hrLocationId);
 	}
+	
+	@Override
+	public int getLocationCount(String location) {
+		return locationDao.getLocationCount(location);
+	}
 
 }

@@ -119,6 +119,9 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 		return ovtEarnCodeStrs;
 	}
 	
-	
+	@Override
+	public int getEarnCodeCount(String earnCode) {
+		return earnCodeDao.getEarnCodeCount(earnCode);
+	}
 
 }

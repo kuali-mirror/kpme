@@ -26,5 +26,10 @@ public class SalGroupServiceImpl implements SalGroupService {
 	public SalGroup getSalGroup(String hrSalGroupId) {
 		return salGroupDao.getSalGroup(hrSalGroupId);
 	}
+	
+	@Override
+	public int getSalGroupCount(String salGroup) {
+		return salGroupDao.getSalGroupCount(salGroup);
+	}
 
 }

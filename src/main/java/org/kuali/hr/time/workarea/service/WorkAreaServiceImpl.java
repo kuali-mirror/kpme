@@ -92,4 +92,9 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 			String showHistory) {
 		return workAreaDao.getWorkAreas(dept, workArea, workAreaDescr, fromEffdt, toEffdt, active, showHistory);
 	}
+	
+	@Override
+    public int getWorkAreaCount(String dept, Long workArea) {
+		return workAreaDao.getWorkAreaCount(dept, workArea);
+    }
 }

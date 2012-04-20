@@ -46,4 +46,12 @@ public interface WorkAreaService {
     
     public List<WorkArea> getWorkAreas(String dept, String workArea, String workAreaDescr, Date fromEffdt, Date toEffdt,
 			String active, String showHistory);
+    
+    /**
+     * Fetch the count of the work areas with the given department and workarea
+     * @param dept
+     * @param workArea
+     * @return count count of the work areas with the given department and workarea
+     */
+    public int getWorkAreaCount(String dept, Long workArea);
 }

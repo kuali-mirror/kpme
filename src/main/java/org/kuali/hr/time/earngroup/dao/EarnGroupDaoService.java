@@ -9,4 +9,5 @@ public interface EarnGroupDaoService {
 	public EarnGroup getEarnGroupForEarnCode(String earnCode, Date asOfDate);
 	public EarnGroup getEarnGroupSummaryForEarnCode(String earnCode, Date asOfDate);
 	public EarnGroup getEarnGroup(String hrEarnGroupId);
+	public int getEarnGroupCount(String earnGroup);
 }

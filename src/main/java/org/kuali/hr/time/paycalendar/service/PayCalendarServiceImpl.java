@@ -110,6 +110,11 @@ public class PayCalendarServiceImpl implements PayCalendarService {
 
         return payCalendarDao.getPayCalendars(pyCalendarGroup, flsaBeginDay, flsaBeginTimeObj, active);
     }
+    
+    @Override
+    public int getPyCalendarGroupCount(String pyCalendarGroup) {
+    	return payCalendarDao.getPyCalendarGroupCount(pyCalendarGroup);
+    }
 
 
 }

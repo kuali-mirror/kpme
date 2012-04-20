@@ -26,5 +26,7 @@ public interface TimeOffAccrualDao {
 	 * @return
 	 */
 	public List<TimeOffAccrual> getActiveTimeOffAccruals (String principalId, Date asOfDate) ;
+	
+	public int getTimeOffAccrualCount(String accrualCategory, Date effectiveDate, String principalId, String lmAccrualId);
 
 }

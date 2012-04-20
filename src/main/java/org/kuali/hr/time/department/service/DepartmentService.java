@@ -46,4 +46,10 @@ public interface DepartmentService {
      * @return
      */
     public List<Department> getDepartmentByLocation(String location);
+    /**
+	 * get count of department with given department
+	 * @param department
+	 * @return int
+	 */
+	public int getDepartmentCount(String department);
 }

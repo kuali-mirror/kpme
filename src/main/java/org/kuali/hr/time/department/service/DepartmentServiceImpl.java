@@ -75,4 +75,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 	public List<Department> getDepartmentByLocation(String location) {
 		return departmentDao.getDepartmentByLocation(location);
 	}
+	
+	@Override
+	public int getDepartmentCount(String department) {
+		return departmentDao.getDepartmentCount(department);
+	}
 }

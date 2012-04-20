@@ -52,4 +52,11 @@ public interface PayCalendarService {
 	public PayCalendarEntries getPreviousPayCalendarEntry(String tkPayCalendarId, Date beginDateCurrentPayCalendar);
 
     List<PayCalendar> getPayCalendars(String pyCalendarGroup, String flsaBeginDay, String flsaBeginTime, String active);
+    
+    /**
+     * get the count of pay calendars by given pyCalendarGroup
+     * @param earnGroup
+     * @return int
+     */
+    public int getPyCalendarGroupCount(String pyCalendarGroup);
 }

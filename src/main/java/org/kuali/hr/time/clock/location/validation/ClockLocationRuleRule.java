@@ -4,19 +4,14 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.ojb.broker.PersistenceBrokerFactory;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.hr.job.Job;
 import org.kuali.hr.time.authorization.AuthorizationValidationUtils;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
 import org.kuali.hr.time.clock.location.ClockLocationRuleIpAddress;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
-import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -69,12 +64,7 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 			valid = false;
 		} else if (clr.getWorkArea() != null
 				&& !clr.getWorkArea().equals(TkConstants.WILDCARD_LONG)) {
-			Criteria crit = new Criteria();
-			crit.addEqualTo("dept", clr.getDept());
-			crit.addEqualTo("workArea", clr.getWorkArea());
-			Query query = QueryFactory.newQuery(WorkArea.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker()
-					.getCount(query);
+			int count = TkServiceLocator.getWorkAreaService().getWorkAreaCount(clr.getDept(), clr.getWorkArea());
 			valid = (count > 0);
 			if (!valid) {
 				this.putFieldError("workArea", "dept.workarea.invalid.sync",
@@ -105,12 +95,7 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 		if (clr.getJobNumber() == null) {
 			valid = false;
 		} else if (!clr.getJobNumber().equals(TkConstants.WILDCARD_LONG)) {
-			Criteria crit = new Criteria();
-			crit.addEqualTo("principalId", clr.getPrincipalId());
-			crit.addEqualTo("jobNumber", clr.getJobNumber());
-			Query query = QueryFactory.newQuery(Job.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker()
-					.getCount(query);
+			int count = TkServiceLocator.getJobSerivce().getJobCount(clr.getPrincipalId(), clr.getJobNumber());
 			valid = (count > 0);
 			if (!valid) {
 				this.putFieldError("jobNumber", "principalid.job.invalid.sync",
@@ -154,7 +139,7 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
             valid = false;
         }
 
-        if (clr!= null && clr.getWorkArea().equals(TkConstants.WILDCARD_LONG) &&
+        if (clr!= null && clr.getWorkArea() != null && clr.getWorkArea().equals(TkConstants.WILDCARD_LONG) &&
                 !AuthorizationValidationUtils.canWildcardWorkArea(clr)) {
             this.putFieldError("dept", "error.wc.wa.perm", "department '" + clr.getDept() + "'");
             valid = false;

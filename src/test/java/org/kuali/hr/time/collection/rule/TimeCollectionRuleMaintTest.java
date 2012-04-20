@@ -130,11 +130,7 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 		Random randomObj = new Random();
 		for (;;) {
 			long deptIdIndex = randomObj.nextInt();
-			Criteria crit = new Criteria();
-			crit.addEqualTo("dept", deptIdIndex);
-			Query query = QueryFactory.newQuery(Department.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-
+			int count = TkServiceLocator.getDepartmentService().getDepartmentCount(Long.toString(deptIdIndex));
 
 			if (count == 0) {
 				TEST_CODE_INVALID_DEPT_ID = Long.toString(deptIdIndex);
@@ -157,11 +153,7 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 		// setting workAreaId for which Workarea doesn't exist .
 		for (;;) {
 			long workAreaIndex = randomObj.nextInt();
-			Criteria crit = new Criteria();
-			crit.addEqualTo("workArea", workAreaIndex);
-			Query query = QueryFactory.newQuery(WorkArea.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-
+			int count = TkServiceLocator.getWorkAreaService().getWorkAreaCount(null, workAreaIndex);
 
 			if (count == 0) {
 				TEST_CODE_INVALID_WORKAREA = new Long(workAreaIndex);

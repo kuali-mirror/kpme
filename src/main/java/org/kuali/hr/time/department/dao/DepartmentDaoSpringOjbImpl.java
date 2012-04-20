@@ -106,4 +106,12 @@ public class DepartmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 
 		return d;		
 	}
+	
+	@Override
+	public int getDepartmentCount(String department) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("dept", department);
+		Query query = QueryFactory.newQuery(Department.class, crit);
+		return this.getPersistenceBrokerTemplate().getCount(query);
+	}
 }

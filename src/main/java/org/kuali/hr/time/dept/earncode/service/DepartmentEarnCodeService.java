@@ -21,4 +21,12 @@ public interface DepartmentEarnCodeService {
 	
 	public List<DepartmentEarnCode> searchDepartmentEarnCodes(String dept, String salGroup, String earnCode, String location,
 			java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory);
+	
+    /**
+     * get the count of Department Earn Code by given parameters
+     * @param earnGroup
+     * @return int
+     */
+	public int getDepartmentEarnCodeCount(String dept, String salGroup, String earnCode, String employee, String approver, String location,
+			String active, java.sql.Date effdt,String hrDeptEarnCodeId);
 }

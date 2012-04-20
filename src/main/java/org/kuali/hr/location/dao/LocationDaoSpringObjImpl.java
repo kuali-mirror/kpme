@@ -7,7 +7,6 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.location.Location;
-import org.kuali.hr.time.department.Department;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class LocationDaoSpringObjImpl extends PersistenceBrokerDaoSupport implements LocationDao {
@@ -57,6 +56,14 @@ public class LocationDaoSpringObjImpl extends PersistenceBrokerDaoSupport implem
 		
 		Query query = QueryFactory.newQuery(Location.class, crit);
 		return (Location)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
+	
+	@Override
+	public int getLocationCount(String location) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("location", location);
+		Query query = QueryFactory.newQuery(Location.class, crit);
+		return this.getPersistenceBrokerTemplate().getCount(query);
 	}
 
 }

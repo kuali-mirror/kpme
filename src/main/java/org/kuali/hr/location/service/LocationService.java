@@ -18,4 +18,10 @@ public interface LocationService {
 	 * @return
 	 */
 	public Location getLocation(String hrLocationId);
+	/**
+	 * Get location count by location
+	 * @param location
+	 * @return
+	 */
+	public int getLocationCount(String location);
 }

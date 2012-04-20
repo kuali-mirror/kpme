@@ -20,4 +20,6 @@ public interface PayCalendarDao {
 	public PayCalendarEntries getPreviousPayCalendarEntry(String tkPayCalendarId, Date beginDateCurrentPayCalendar);
 
     List<PayCalendar> getPayCalendars(String pyCalendarGroup, String flsaBeginDay, Time flsaBeginTime, String active);
+    
+    public int getPyCalendarGroupCount(String pyCalendarGroup);
 }

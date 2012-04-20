@@ -24,7 +24,6 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.ValidationUtils;
-import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
@@ -44,12 +43,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 						+ assignment.getWorkArea() + "'");
 				valid = false;
 			} else {
-				Criteria crit = new Criteria();
-				crit.addEqualTo("dept", assignment.getDept());
-				crit.addEqualTo("workArea", assignment.getWorkArea());
-				Query query = QueryFactory.newQuery(WorkArea.class, crit);
-				int count = PersistenceBrokerFactory.defaultPersistenceBroker()
-						.getCount(query);
+				int count = TkServiceLocator.getWorkAreaService().getWorkAreaCount(assignment.getDept(), assignment.getWorkArea());
 				valid = (count > 0);
 				if (!valid) {
 					this.putFieldError("workArea", "dept.workarea.invalid.sync");

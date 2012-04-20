@@ -2,15 +2,10 @@ package org.kuali.hr.time.dept.lunch.validation;
 
 import java.math.BigDecimal;
 
-import org.apache.ojb.broker.PersistenceBrokerFactory;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.kuali.hr.job.Job;
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
-import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -28,12 +23,7 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 			valid = false;
 		} else if (ruleObj.getWorkArea() != null
 				&& !ruleObj.getWorkArea().equals(TkConstants.WILDCARD_LONG)) {
-			Criteria crit = new Criteria();
-			crit.addEqualTo("dept", ruleObj.getDept());
-			crit.addEqualTo("workArea", ruleObj.getWorkArea());
-			Query query = QueryFactory.newQuery(WorkArea.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker()
-					.getCount(query);
+			int count = TkServiceLocator.getWorkAreaService().getWorkAreaCount(ruleObj.getDept(), ruleObj.getWorkArea());
 			valid = (count > 0);
 			if (!valid) {
 				this.putFieldError("workArea", "dept.workarea.invalid.sync",
@@ -57,11 +47,7 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 		if (ruleObj.getJobNumber() == null) {
 			valid = false;
 		} else if (!ruleObj.getJobNumber().equals(TkConstants.WILDCARD_LONG)) {
-			Criteria crit = new Criteria();
-			crit.addEqualTo("principalId", ruleObj.getPrincipalId());
-			crit.addEqualTo("jobNumber", ruleObj.getJobNumber());
-			Query query = QueryFactory.newQuery(Job.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+			int count = TkServiceLocator.getJobSerivce().getJobCount(ruleObj.getPrincipalId(), ruleObj.getJobNumber());
 			valid = (count > 0);
 			if (!valid) {
 				this.putFieldError("jobNumber", "principalid.job.invalid.sync",

@@ -110,4 +110,12 @@ public class EarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
 		List<EarnCode> ovtEarnCodes = (List<EarnCode>)this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 		return ovtEarnCodes;
 	}
+	
+	@Override
+	public int getEarnCodeCount(String earnCode) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("earnCode", earnCode);
+		Query query = QueryFactory.newQuery(EarnCode.class, crit);
+		return this.getPersistenceBrokerTemplate().getCount(query);
+	}
 }

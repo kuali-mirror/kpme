@@ -46,4 +46,10 @@ public interface EarnCodeService {
     public List<EarnCode> getOvertimeEarnCodes(Date asOfDate);
     
     public List<String> getOvertimeEarnCodesStrs(Date asOfDate);
+    /**
+	 * get count of earn code with give earnCode
+	 * @param earnCode
+	 * @return int
+	 */
+    public int getEarnCodeCount(String earnCode);
 }
