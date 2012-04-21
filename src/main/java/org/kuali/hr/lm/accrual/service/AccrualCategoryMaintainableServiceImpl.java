@@ -38,6 +38,7 @@ public class AccrualCategoryMaintainableServiceImpl extends HrBusinessObjectMain
 				accCatRule.setLmAccrualCategoryId(null);
 			}
 			accCatRule.setLmAccrualCategoryId(leaveAccrualCategory.getLmAccrualCategoryId());
+			accCatRule.setLmAccrualCategoryRuleId(null);
 		}
 	}
 
