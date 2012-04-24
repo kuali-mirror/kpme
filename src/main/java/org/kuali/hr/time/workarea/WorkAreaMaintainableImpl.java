@@ -8,11 +8,13 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
+import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.Section;
@@ -152,4 +154,33 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 			}
 			super.processAfterNew(document, parameters);
 	}
+
+	@Override
+	public void saveBusinessObject() {
+		HrBusinessObject hrObj = (HrBusinessObject) this.getBusinessObject();
+		customSaveLogic(hrObj);
+		if(hrObj.getId()!=null){
+			HrBusinessObject oldHrObj = this.getObjectById(hrObj.getId());
+			if(oldHrObj!= null){
+				//if the effective dates are the same do not create a new row just inactivate the old one
+				if(hrObj.getEffectiveDate().equals(oldHrObj.getEffectiveDate())){
+					oldHrObj.setActive(false);
+					oldHrObj.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(TKUtils.getCurrentDate().getTime()))); 
+				} else{
+					//if effective dates not the same add a new row that inactivates the old entry based on the new effective date
+					oldHrObj.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(TKUtils.getCurrentDate().getTime())));
+					oldHrObj.setEffectiveDate(hrObj.getEffectiveDate());
+					oldHrObj.setActive(false);
+					oldHrObj.setId(null);
+				}
+				KNSServiceLocator.getBusinessObjectService().save(oldHrObj);
+			}
+		}
+		hrObj.setTimestamp(new Timestamp(System.currentTimeMillis()));
+		hrObj.setId(null);
+		
+		KNSServiceLocator.getBusinessObjectService().save(hrObj);
+	}
+	
+	
 }
