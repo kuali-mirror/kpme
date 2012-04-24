@@ -348,8 +348,8 @@ public class TkConstants {
         public static final Map<String, String> MAX_BAL_FLAG = new LinkedHashMap<String, String>(2);
 
         static {
-        	MAX_BAL_FLAG.put("Y", "Required");
-        	MAX_BAL_FLAG.put("N", "Not Required");
+        	MAX_BAL_FLAG.put("Y", "Yes");
+        	MAX_BAL_FLAG.put("N", "No");
         }
         
         public static final Map<String, String> MAX_BALANCE_ACTION_FREQUENCY = new LinkedHashMap<String, String>(3);
