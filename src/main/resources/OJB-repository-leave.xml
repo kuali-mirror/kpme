@@ -87,7 +87,7 @@
 	<!-- Leave Code -->
 	<class-descriptor class="org.kuali.hr.lm.leavecode.LeaveCode" table="lm_leave_code_t">
 		<field-descriptor name="lmLeaveCodeId"		column="LM_LEAVE_CODE_ID" jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="lm_leave_code_s"/>
-		<field-descriptor name="leavePlan" 			column="LEAVE_PLAN" jdbc-type="VARCHAR" length="15" nullable="false" />
+		<field-descriptor name="leavePlan" 			column="LEAVE_PLAN" jdbc-type="VARCHAR" length="15" />
 		<field-descriptor name="eligibleForAccrual" column="ELIGIBLE_FOR_ACC" jdbc-type="VARCHAR" length="5" nullable="false" />
 		<field-descriptor name="accrualCategory" 	column="ACCRUAL_CAT" jdbc-type="VARCHAR" length="15" />
 		<field-descriptor name="earnCode" 			column="EARN_CODE" jdbc-type="VARCHAR" length="15" />
