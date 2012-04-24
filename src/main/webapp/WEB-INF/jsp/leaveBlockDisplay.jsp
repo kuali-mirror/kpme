@@ -39,12 +39,12 @@
 			</h3>
 			<div>
 				<display:table name="${Form.leaveEntries}" class="datatable-100"
-					cellspacing="0" uid="leaveEntry" >
-					<display:column title="Date of Leave" >
-					<fmt:formatDate type="date" value="${leaveEntry.leaveDate}"
+					cellspacing="0" uid="leaveEntry" sort="external" defaultsort="1" >
+					<display:column title="Date of Leave" sortable="true" sortProperty="leaveDate" >
+						<fmt:formatDate type="date" value="${leaveEntry.leaveDate}"
 							pattern="MMM-dd-yyyy" />
 					</display:column>
-					<display:column property="leaveCode" title="Leave Code" />
+					<display:column property="leaveCode" title="Leave Code"/>
 					<display:column property="description" title="Description" />
 					<display:column property="requestStatus" title="Leave Entry Status" />
 					<display:column property="leaveAmount" title="Amount of Leave" />
