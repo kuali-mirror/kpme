@@ -102,7 +102,7 @@ public class LeaveCalendarAction extends TkAction {
 		DateTime endDate = new DateTime(
 				TKUtils.convertDateStringToTimestamp(lcf.getEndDate()));
 		String selectedLeaveCode = lcf.getSelectedLeaveCode();
-		BigDecimal hours = lcf.getHours();
+		BigDecimal hours = lcf.getLeaveAmount();
 		String desc = lcf.getDescription();
 
 		TkServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate,

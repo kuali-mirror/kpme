@@ -43,9 +43,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><label for="hours">* Hours:</label></td>
+                            <td><label for="leave-amount">* Leave Amount:</label></td>
                             <td>
-                                <html:text property="hours"/>
+                                <html:text property="leaveAmount"/>
                             </td>
                         </tr>
                         <tr>
