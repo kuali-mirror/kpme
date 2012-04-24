@@ -79,10 +79,10 @@ public class LeaveCodeValidation extends MaintenanceDocumentRuleBase {
 			LeaveCode leaveCode = (LeaveCode) pbo;
 			if (leaveCode != null) {
 				valid = true;
-				valid &= this.validateEffectiveDate(leaveCode.getEffectiveDate());
+				//valid &= this.validateEffectiveDate(leaveCode.getEffectiveDate());
 				valid &= this.validateLeaveCodeRole(leaveCode);
-				valid &= this.validateLeavePlan(leaveCode.getLeavePlan(), leaveCode.getEffectiveDate());
-				valid &= this.validateAccrualCategory(leaveCode.getAccrualCategory(), leaveCode.getEffectiveDate());
+				//valid &= this.validateLeavePlan(leaveCode.getLeavePlan(), leaveCode.getEffectiveDate());
+				//valid &= this.validateAccrualCategory(leaveCode.getAccrualCategory(), leaveCode.getEffectiveDate());
 				valid &= this.validateEarnCode(leaveCode.getEarnCode(), leaveCode.getEffectiveDate());
 				valid &= this.validateDefaultAmountOfTime(leaveCode.getDefaultAmountofTime());
 			}
