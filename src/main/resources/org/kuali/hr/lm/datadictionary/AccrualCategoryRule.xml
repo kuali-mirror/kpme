@@ -310,8 +310,8 @@
 				<bean parent="FieldDefinition" p:attributeName="start" />
 				<bean parent="FieldDefinition" p:attributeName="end" />
 				<bean parent="FieldDefinition" p:attributeName="accrualRate" />
-				<bean parent="FieldDefinition" p:attributeName="maxBalance" />
 				<bean parent="FieldDefinition" p:attributeName="maxBalFlag" />
+				<bean parent="FieldDefinition" p:attributeName="maxBalance" />				
 			</list>
 		</property>
 		<property name="resultFields">
@@ -320,8 +320,8 @@
 				<bean parent="FieldDefinition" p:attributeName="start" />
 				<bean parent="FieldDefinition" p:attributeName="end" />
 				<bean parent="FieldDefinition" p:attributeName="accrualRate" />
-				<bean parent="FieldDefinition" p:attributeName="maxBalance" />
 				<bean parent="FieldDefinition" p:attributeName="maxBalFlag" />
+				<bean parent="FieldDefinition" p:attributeName="maxBalance" />
 			</list>
 		</property>
 		<property name="title" value="AccrualCategoryRule Lookup" />

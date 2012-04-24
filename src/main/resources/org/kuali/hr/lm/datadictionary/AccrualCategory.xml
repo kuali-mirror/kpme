@@ -373,9 +373,9 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
-				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 				<bean parent="FieldDefinition" p:attributeName="descr" />
+				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
 				<bean parent="FieldDefinition" p:attributeName="accrualEarnInterval"/>
 				<bean parent="FieldDefinition" p:attributeName="unitOfTime" />
 				<bean parent="FieldDefinition" p:attributeName="minPercentWorked" />

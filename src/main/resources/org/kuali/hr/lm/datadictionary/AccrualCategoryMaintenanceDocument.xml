@@ -41,11 +41,11 @@
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"
 					p:required="true" p:noLookup="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="leavePlan"
-					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="accrualCategory"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="descr" />
+				<bean parent="MaintainableFieldDefinition" p:name="leavePlan"
+					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="accrualEarnInterval"
 					p:required="true" p:defaultValue="M"/>
 				<bean parent="MaintainableFieldDefinition" p:name="proration"
@@ -90,8 +90,8 @@
 							<bean parent="MaintainableFieldDefinition" p:name="start" p:required="true"/>
 							<bean parent="MaintainableFieldDefinition" p:name="end" p:required="true"/>
 							<bean parent="MaintainableFieldDefinition" p:name="accrualRate" p:required="true"/>
-							<bean parent="MaintainableFieldDefinition" p:name="maxBalance" p:required="false" />
 							<bean parent="MaintainableFieldDefinition" p:name="maxBalFlag" p:required="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="maxBalance" p:required="false" />
 							<bean parent="MaintainableFieldDefinition" p:name="maxBalanceActionFrequency" p:required="false"/>
 							<bean parent="MaintainableFieldDefinition" p:name="actionAtMaxBalance" p:required="false"/>
 							<bean parent="MaintainableFieldDefinition" p:name="maxBalanceTransferToAccrualCategory"/>
