@@ -22,6 +22,7 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
 		PrincipalHRAttributes pc =  this.principalHRAttributesDao.getPrincipalCalendar(principalId, asOfDate);
 		if(pc != null) {
 			pc.setCalendar(TkServiceLocator.getCalendarSerivce().getCalendarByGroup(pc.getPayCalendar()));
+			pc.setLeaveCalObj(TkServiceLocator.getCalendarSerivce().getCalendarByGroup(pc.getLeaveCalendar()));
 		}
 		return pc;
 	}

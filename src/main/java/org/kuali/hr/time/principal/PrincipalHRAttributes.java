@@ -30,6 +30,7 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 	private String recordLeave;
 	
 	private Calendar calendar;
+	private Calendar leaveCalObj;
 	private Person person;
 	private LeavePlan leavePlanObj;
 
@@ -199,5 +200,13 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 
 	public void setRecordLeave(String recordLeave) {
 		this.recordLeave = recordLeave;
+	}
+
+	public Calendar getLeaveCalObj() {
+		return leaveCalObj;
+	}
+
+	public void setLeaveCalObj(Calendar leaveCalObj) {
+		this.leaveCalObj = leaveCalObj;
 	}
 }

@@ -82,8 +82,13 @@ public class CalendarServiceImpl implements CalendarService {
                 throw new RuntimeException("Null principal calendar for principalid "+principalId);
             }
             pcal = principalCalendar.getCalendar();
-            if (pcal == null)
-                throw new RuntimeException("Null pay calendar on principal calendar in getPayEndDate");
+            if (pcal == null){
+            	pcal = principalCalendar.getLeaveCalObj();
+            	if(pcal == null){
+            		throw new RuntimeException("Null principal calendar for principalId " + principalId);
+            	}
+            }
+                
 
         }
 
