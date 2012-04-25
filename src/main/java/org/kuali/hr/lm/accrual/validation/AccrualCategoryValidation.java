@@ -124,21 +124,21 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 	// KPME-1257. Start and end values for a given unit of time should not allow overlapping/gaping 
 	boolean validateStartEndUnits(List<AccrualCategoryRule> accrualCategoryRules, AccrualCategoryRule newAccrualCategoryRule) {
 		List<AccrualCategoryRule> tempAccrualCategoryRules = new ArrayList<AccrualCategoryRule>(accrualCategoryRules);
-		tempAccrualCategoryRules.add(newAccrualCategoryRule);
+		//tempAccrualCategoryRules.add(newAccrualCategoryRule);
 		boolean valid = true;
 		
 		if (accrualCategoryRules != null && accrualCategoryRules.size() > 0) {
 			// the rules list has to be sorted by start field
 			List<AccrualCategoryRule> sortedAccrualCategoryRules = new ArrayList<AccrualCategoryRule>(tempAccrualCategoryRules);
 			Collections.sort(sortedAccrualCategoryRules, SENIORITY_ORDER);
-			
-			Long previousEndUnit = accrualCategoryRules.get(0).getEnd();
-			for (AccrualCategoryRule accrualCategoryRule :  sortedAccrualCategoryRules) {							
-				Long nextStartUnit = accrualCategoryRule.getStart();
-				if ( previousEndUnit + 1 != nextStartUnit ){
+
+			Long previousEndUnit = sortedAccrualCategoryRules.get(sortedAccrualCategoryRules.size()-1).getEnd();
+
+			long decrementedNewRule = newAccrualCategoryRule.getStart() - 1;
+			if (!(previousEndUnit.compareTo(decrementedNewRule)==0)) {
+
 					this.putFieldError("add.accrualCategoryRules.start", "error.accrualCategoryRule.startEnd");
 					valid = false;
-				}	
 			}
 		} 
 		
@@ -238,7 +238,12 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 				if ( pbo instanceof AccrualCategoryRule ) {
 					AccrualCategory accrualCategory = (AccrualCategory) pboAccrualCategory;
 					
-					if (leaveAccrualCategoryRule != null && accrualCategory.getAccrualCategoryRules() != null) {						
+					if (leaveAccrualCategoryRule != null && accrualCategory.getAccrualCategoryRules() != null) {
+						//KPME 1483 avoid NPEs since page required field validations are not present when add button is clicked
+						if (leaveAccrualCategoryRule.getStart() == null || leaveAccrualCategoryRule.getEnd() == null) {
+							this.putFieldError("error.accrualCategoryRule.startEndBlank", "error.required");
+							return valid = false; //break out before NPE
+						}
 						valid = this.validateStartEndUnits(accrualCategory.getAccrualCategoryRules(), leaveAccrualCategoryRule);
 					}
 					
