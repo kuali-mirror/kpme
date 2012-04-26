@@ -1,4 +1,4 @@
 delete from hr_principal_attributes_t where principal_id in ('testuser1','testuser2','testuser3','testuser4','testuser5','testuser6','fran','frank','edna','fred');
-insert into hr_job_t values ('2000', 'edna', '1', '2010-01-01', 'TEST-DEPT', 'SD1', 'SD1', now(), uuid(), '1', '0.000000', 'SD1', '40.00', 'Y', 'BW', 'Y', 'N', NULL, 'Y');
+insert into hr_job_t values ('2000', 'edna', '1', '2010-01-01', 'TEST-DEPT', 'SD1', 'SD1', now(), uuid(), '1', '0.000000', 'SD1', '40.00', 'Y', 'BW', 'Y', 'N', 'Y');
 insert into tk_assignment_t values('2000', 'edna', '1', '2010-01-01', '1234', '30', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'Y', '2010-07-27 10:25:13');
 insert into hr_principal_attributes_t values('edna', 'BWS-CAL', NULL,'2010-01-01', 'Y','Y',null, '2010-01-01',now(), uuid(), '1', 'Y', null, 'Y', 'LM');
