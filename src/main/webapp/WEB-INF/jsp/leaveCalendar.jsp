@@ -32,6 +32,12 @@
                                 -
                                 <input name="endDate" title="Date End" type="text" id="endDate" size="10"/></td>
                         </tr>
+                         <tr>
+                            <td><label for="selectedAssignment">Assignment:</label></td>
+                            <td>
+                                <tk:assignment assignments="${Form.assignmentDescriptions}"/>
+                            </td>
+                        </tr>
                         <tr>
                             <td><label for="leave-code">* Leave Code:</label></td>
                             <td>

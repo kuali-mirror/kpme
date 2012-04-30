@@ -9,6 +9,7 @@ import org.joda.time.DateTime;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
+import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.LeaveCalendar;
@@ -61,7 +62,7 @@ public class LeaveCalendarAction extends TkAction {
 			calendarEntry = TkServiceLocator.getCalendarEntriesSerivce()
 					.getCalendarEntries(calendarEntryId);
 			lcd = TkServiceLocator.getLeaveCalendarService()
-					.getLeaveCalendarDocument(calendarEntry);
+					.getLeaveCalendarDocument(viewPrincipal, calendarEntry);
 		} else {
 			// Default to whatever is active for "today".
 			Date currentDate = TKUtils.getTimelessDate(null);
@@ -70,6 +71,8 @@ public class LeaveCalendarAction extends TkAction {
 			lcd = TkServiceLocator.getLeaveCalendarService()
 					.openLeaveCalendarDocument(viewPrincipal, calendarEntry);
 		}
+		
+		lcf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
 
 		if (lcd != null) {
 			setupDocumentOnFormContext(lcf, lcd);
@@ -105,8 +108,10 @@ public class LeaveCalendarAction extends TkAction {
 		BigDecimal hours = lcf.getLeaveAmount();
 		String desc = lcf.getDescription();
 
+		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(lcd, lcf.getSelectedAssignment());
+		
 		TkServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate,
-				endDate, lcd, selectedLeaveCode, hours, desc);
+				endDate, lcd, selectedLeaveCode, hours, desc, assignment);
 
 		return mapping.findForward("basic");
 	}

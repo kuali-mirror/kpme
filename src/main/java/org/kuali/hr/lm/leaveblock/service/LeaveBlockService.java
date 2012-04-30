@@ -7,6 +7,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
+import org.kuali.hr.time.assignment.Assignment;
 
 public interface LeaveBlockService {
     public LeaveBlock getLeaveBlock(Long leaveBlockId);
@@ -23,7 +24,7 @@ public interface LeaveBlockService {
      */
     public void deleteLeaveBlock(long leaveBlockId);
 
-    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, LeaveCalendarDocument lcd, String selectedLeaveCode, BigDecimal hours, String description);
+    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, LeaveCalendarDocument lcd, String selectedLeaveCode, BigDecimal hours, String description, Assignment selectedAssignment);
     
     /**
      * 

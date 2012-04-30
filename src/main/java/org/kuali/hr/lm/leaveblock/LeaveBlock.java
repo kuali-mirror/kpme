@@ -59,6 +59,11 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
     @Transient
     private Timestamp dateAndTime;
     
+    private Long workArea;
+    private Long jobNumber;
+    private Long task;
+    
+    
 
     public static class Builder {
 
@@ -81,6 +86,9 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
         private String accrualCategoryId;
         private String tkAssignmentId;
         private String requestStatus;
+        private Long workArea;
+        private Long jobNumber;
+        private Long task;
 
 
         public Builder(DateTime leaveBlockDate, String documentId, String principalId, String leaveCode, BigDecimal leaveAmount) {
@@ -144,11 +152,26 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
         	return this;
         }
         
+        public Builder workArea(Long val){
+        	this.workArea = val;
+        	return this;
+        }
+        
+        public Builder jobNumber(Long val){
+        	this.jobNumber = val;
+        	return this;
+        }
+        
+        public Builder task(Long val){
+        	this.task = val;
+        	return this;
+        }
+
         public Builder requestStatus(String val){
         	this.requestStatus = val;
         	return this;
         }
-        
+
         public LeaveBlock build() {
             return new LeaveBlock(this);
         }
@@ -172,6 +195,9 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
         accrualCategoryId = builder.accrualCategoryId;
         tkAssignmentId = builder.tkAssignmentId;
         requestStatus = builder.requestStatus;
+        workArea = builder.workArea;
+        jobNumber = builder.jobNumber;
+        task = builder.task;
         // TODO: need to hook up leaveCodeObj, systemScheduledTimeOffObj, accrualCategoryObj, and ids for individual obj
     }
 
@@ -416,5 +442,30 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	}
 
 
+	public Long getWorkArea() {
+		return workArea;
+	}
+
+
+	public void setWorkArea(Long workArea) {
+		this.workArea = workArea;
+	}
+
+
+	public Long getJobNumber() {
+		return jobNumber;
+	}
+
+	public void setJobNumber(Long jobNumber) {
+		this.jobNumber = jobNumber;
+	}
+
+	public Long getTask() {
+		return task;
+	}
+
+	public void setTask(Long task) {
+		this.task = task;
+	}
 
 }

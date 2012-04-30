@@ -35,8 +35,27 @@ public class LeaveCalendarForm extends TkForm {
     private String prevCalEntryId;
     private String nextCalEntryId;
     private String calEntryId;
+	/** String (concat(job number, work_area, task)) -> Formatted Assignment Descriptions */
+	private Map<String,String>  assignmentDescriptions;
+	private String selectedAssignment;
+	
+    public String getSelectedAssignment() {
+		return selectedAssignment;
+	}
 
-    public String getPrevCalEntryId() {
+	public void setSelectedAssignment(String selectedAssignment) {
+		this.selectedAssignment = selectedAssignment;
+	}
+
+	public Map<String, String> getAssignmentDescriptions() {
+		return assignmentDescriptions;
+	}
+
+	public void setAssignmentDescriptions(Map<String, String> assignmentDescriptions) {
+		this.assignmentDescriptions = assignmentDescriptions;
+	}
+
+	public String getPrevCalEntryId() {
 		return prevCalEntryId;
 	}
 

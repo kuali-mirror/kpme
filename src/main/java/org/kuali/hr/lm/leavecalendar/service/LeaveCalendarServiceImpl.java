@@ -8,6 +8,7 @@ import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecalendar.dao.LeaveCalendarDao;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
+import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kew.exception.WorkflowException;
@@ -33,6 +34,10 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(documentId);
         lcd.setLeaveBlocks(leaveBlocks);
 
+        // Fetching assignments
+        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByPayEntry(lcdh.getPrincipalId(), lcd.getCalendarEntry());
+        lcd.setAssignments(assignments);
+        
         return lcd;
     }
 
@@ -88,6 +93,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     protected void loadLeaveCalendarDocumentData(LeaveCalendarDocument ldoc, String principalId, CalendarEntries calEntry) {
         List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(ldoc.getDocumentId());
         ldoc.setLeaveBlocks(leaveBlocks);
+        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, calEntry);
+        ldoc.setAssignments(assignments);
     }
 
     public LeaveCalendarDao getLeaveCalendarDao() {
@@ -100,12 +107,15 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 
 	@Override
 	public LeaveCalendarDocument getLeaveCalendarDocument(
-			CalendarEntries calendarEntry) {
+			String principalId, CalendarEntries calendarEntry) {
 		LeaveCalendarDocument leaveCalendarDocument = new LeaveCalendarDocument(calendarEntry);
 		LeaveCalendarDocumentHeader lcdh = new LeaveCalendarDocumentHeader();
 		lcdh.setBeginDate(calendarEntry.getBeginPeriodDateTime());
 		lcdh.setEndDate(calendarEntry.getEndPeriodDateTime());
 		leaveCalendarDocument.setLeaveCalendarDocumentHeader(lcdh);
+		// Fetching assignments
+        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, calendarEntry);
+        leaveCalendarDocument.setAssignments(assignments);
 		return leaveCalendarDocument;
 	}
 }

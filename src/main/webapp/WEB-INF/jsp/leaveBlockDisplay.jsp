@@ -6,8 +6,19 @@
 	<html:form action="/LeaveBlockDisplay.do" method="POST">
 		<html:hidden property="navString" styleId="navString" />
 		<html:hidden property="year" styleId="year" value="${Form.year}" />
+		<div class="person-info">
+		<table>
+		 <tbody>
+			<tr>
+				<td>Target Name : </td>
+				<td>${Form.targetName} </td>
+			</tr>
+		 </tbody>
+		</table>
+		</div>
 		<table align="center">
 			<tbody>
+			
 				<tr>
 					<td>
 						<button id="nav_lb_prev"
@@ -32,7 +43,9 @@
 		</table>
 
 	</html:form>
+	
 	<div class="leave-block-display">
+	
 		<div id="leave-block-display-accordion">
 			<h3>
 				<a href="#">Leave Blocks for ${Form.year}</a>
@@ -52,6 +65,9 @@
 						<fmt:formatDate type="both" value="${leaveEntry.timestamp}"
 							pattern="MM/dd/yyyy hh:mm a" />
 					</display:column>
+					<display:column property="jobNumber" title="Job Number" />
+					<display:column property="workArea" title="Workarea" />
+					<display:column property="task" title="Task" />
 				</display:table>
 			</div>
 
@@ -75,6 +91,9 @@
 							pattern="MM/dd/yyyy hh:mm a" />
 					</display:column>
 					<display:column property="leaveAmount" title="Amount of Leave" />
+					<display:column property="jobNumber" title="Job Number" />
+					<display:column property="workArea" title="Workarea" />
+					<display:column property="task" title="Task" />
 				</display:table>
 			</div>
 
@@ -99,6 +118,9 @@
 					</display:column>
 					<display:column property="principalIdModified"
 						title="User Deleted/Modified" />
+					<display:column property="jobNumber" title="Job Number" />
+					<display:column property="workArea" title="Workarea" />
+					<display:column property="task" title="Task" />
 				</display:table>
 			</div>
 		</div>

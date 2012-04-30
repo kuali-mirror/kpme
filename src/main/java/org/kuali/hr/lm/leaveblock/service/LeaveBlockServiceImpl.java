@@ -17,6 +17,7 @@ import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
 import org.kuali.hr.lm.leaveblock.dao.LeaveBlockDao;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecode.LeaveCode;
+import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
@@ -104,7 +105,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     }
 
     @Override
-    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, LeaveCalendarDocument lcd, String selectedLeaveCode, BigDecimal hours, String description) {
+    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, LeaveCalendarDocument lcd, String selectedLeaveCode, BigDecimal hours, String description, Assignment selectedAssignment) {
         String docId = lcd.getDocumentId();
         String princpalId = TKContext.getTargetPrincipalId();
         DateTimeZone zone = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
@@ -133,7 +134,10 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
                         .timestamp(TKUtils.getCurrentTimestamp())
                         .leaveCodeId(leaveCodeObj.getLmLeaveCodeId())
                         .scheduleTimeOffId("0")
-                        .accrualCategoryId(accrualCategory.getLmAccrualCategoryId())
+                        .accrualCategoryId(accrualCategory.getAccrualCategory())
+                        .workArea(selectedAssignment.getWorkArea())
+                        .jobNumber(selectedAssignment.getJobNumber())
+                        .task(selectedAssignment.getTask())
                         .build();
                 currentLeaveBlocks.add(leaveBlock);
 

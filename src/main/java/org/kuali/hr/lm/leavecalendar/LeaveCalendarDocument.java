@@ -1,10 +1,12 @@
 package org.kuali.hr.lm.leavecalendar;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
+import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
 
 public class LeaveCalendarDocument {
@@ -14,6 +16,7 @@ public class LeaveCalendarDocument {
 
 	LeaveCalendarDocumentHeader leaveCalendarDocumentHeader;
 	List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
+	private List<Assignment> assignments = new LinkedList<Assignment>();
 	private CalendarEntries CalendarEntry;
 
 	public LeaveCalendarDocument(CalendarEntries calendarEntry) {
@@ -61,4 +64,14 @@ public class LeaveCalendarDocument {
 			return null;
 		}
 	}
+
+	public List<Assignment> getAssignments() {
+		return assignments;
+	}
+
+	public void setAssignments(List<Assignment> assignments) {
+		this.assignments = assignments;
+	}
+	
+	
 }

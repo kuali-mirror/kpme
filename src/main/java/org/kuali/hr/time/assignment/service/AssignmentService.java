@@ -1,5 +1,6 @@
 package org.kuali.hr.time.assignment.service;
 
+import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -104,4 +105,15 @@ public interface AssignmentService {
 
     List<Assignment> searchAssignments(Date fromEffdt, Date toEffdt, String principalId, String jobNumber,
                                     String dept, String workArea, String active, String showHistory);
+    
+    
+    /**
+     * Get all assignment descriptions for a document
+     * @param td
+     * @param clockOnlyAssignments
+     * @return
+     */
+    public Map<String,String> getAssignmentDescriptions(LeaveCalendarDocument lcd);
+    
+    public Assignment getAssignment(LeaveCalendarDocument leaveCalendarDocument, String assignmentKey);
 }
