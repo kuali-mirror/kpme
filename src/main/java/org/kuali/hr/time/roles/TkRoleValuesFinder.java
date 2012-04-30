@@ -58,6 +58,10 @@ public class TkRoleValuesFinder extends KeyValuesBase {
 				filteredLabels.add(new KeyLabelPair(TkConstants.ROLE_TK_APPROVER, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_APPROVER)));
 				filteredLabels.add(new KeyLabelPair(TkConstants.ROLE_TK_APPROVER_DELEGATE, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_APPROVER_DELEGATE)));
 				filteredLabels.add(new KeyLabelPair(TkConstants.ROLE_TK_REVIEWER, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_REVIEWER)));
+				// KPME-1410 Kagata
+				filteredLabels.add(new KeyLabelPair(TkConstants.ROLE_LV_APPROVER, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_LV_APPROVER)));
+				filteredLabels.add(new KeyLabelPair(TkConstants.ROLE_LV_APPROVER_DELEGATE, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_LV_APPROVER_DELEGATE)));
+				filteredLabels.add(new KeyLabelPair(TkConstants.ROLE_LV_REVIEWER, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_LV_REVIEWER)));
 			}
 		}
 		

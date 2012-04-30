@@ -13,10 +13,14 @@ import org.kuali.hr.job.Job;
 import org.kuali.hr.time.position.Position;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
+import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class TkRoleServiceTest  extends TkTestCase {
 
@@ -163,4 +167,21 @@ public class TkRoleServiceTest  extends TkTestCase {
 		KNSServiceLocator.getBusinessObjectService().delete(tkRole);
 		super.tearDown();
 	}
+
+	// KPME-1410 Kagata
+	@Test
+	public void testSaveRoleName() throws Exception {
+		TkRoleService trs = TkServiceLocator.getTkRoleService();
+	
+		TkRole tkrole = trs.getRole("9999");
+		assertTrue(tkrole.getRoleName().equals(TkConstants.ROLE_TK_APPROVER));
+		
+		tkrole.setRoleName(TkConstants.ROLE_LV_REVIEWER);
+		trs.saveOrUpdate(tkrole);
+		
+		TkRole newtkRole = trs.getRole("9999");
+		assertTrue(newtkRole.getRoleName().equals(TkConstants.ROLE_LV_REVIEWER));	
+	}	
+	
 }
+
