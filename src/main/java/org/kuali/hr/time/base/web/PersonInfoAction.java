@@ -5,6 +5,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -42,6 +43,15 @@ public class PersonInfoAction extends TkAction {
 		// set name
 		personForm.setName(person.getName());
 		personForm.setJobs(TkServiceLocator.getJobSerivce().getJobs(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate()));
+		
+		//KPME-1441
+		PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes(personForm.getPrincipalId());
+		if ( principalHRAttributes != null && principalHRAttributes.getServiceDate() != null ){
+			personForm.setServiceDate(principalHRAttributes.getServiceDate().toString());
+		} else {
+			personForm.setServiceDate("");
+		}
+		// KPME-1441
 		
 		setupRolesOnForm(personForm);
 

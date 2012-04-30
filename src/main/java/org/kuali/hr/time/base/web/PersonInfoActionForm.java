@@ -10,8 +10,6 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.rice.kim.bo.Person;
 
-
-
 public class PersonInfoActionForm extends TkForm {
 
     private static final long serialVersionUID = 2258434545502362548L;
@@ -19,6 +17,12 @@ public class PersonInfoActionForm extends TkForm {
     private String principalId;
     private String principalName;
     private String name;
+    //KPME-1441
+    private String serviceDate;
+    private String totalFTE;
+    
+       
+    //KPME-1441
     private List<Job> jobs = new ArrayList<Job>();
     private Map<Long,List<Assignment>> jobNumberToListAssignments = new HashMap<Long,List<Assignment>>();
 	
@@ -42,6 +46,14 @@ public class PersonInfoActionForm extends TkForm {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getServiceDate() {
+		return serviceDate;
+	}
+
+	public void setServiceDate(String serviceDate) {
+		this.serviceDate = serviceDate;
 	}
 
 	public Map<Long, List<Assignment>> getJobNumberToListAssignments() {
@@ -172,4 +184,12 @@ public class PersonInfoActionForm extends TkForm {
     public void setDeptToDeptAdminPerson(Map<String, List<Person>> deptToDeptAdminPerson) {
         this.deptToDeptAdminPerson = deptToDeptAdminPerson;
     }
+
+	public String getTotalFTE() {
+		return totalFTE;
+	}
+
+	public void setTotalFTE(String totalFTE) {
+		this.totalFTE = totalFTE;
+	} 
 }

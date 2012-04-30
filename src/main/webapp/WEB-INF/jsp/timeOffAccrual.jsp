@@ -13,6 +13,7 @@
 			<table>
 				<tr class="header">
 					<td>Accrual Category</td>
+					<td>Accrual Rate</td>
 					<td>Yearly Carryover</td>
 					<td>Hours Accrued</td>
 					<td>Hours Taken</td>

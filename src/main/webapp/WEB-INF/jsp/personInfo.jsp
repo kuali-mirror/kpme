@@ -12,14 +12,17 @@
                         <th>Principal Id</th>
                         <th>Principal Name</th>
                         <th>Name</th>
+                        <th>Service Date</th>  
                     </tr>
                     <tr>
                         <td>${Form.principalId}</td>
                         <td>${Form.principalName}</td>
                         <td>${Form.name}</td>
+                        <td>${Form.serviceDate}</td>
                     </tr>
                 </table>
             </div>
+            
             <h3><a href="#">Your Jobs:</a></h3>
 
             <div>
@@ -35,6 +38,8 @@
                             <th>Location</th>
                             <th>Compensation Rate</th>
                             <th>Effective Date</th>
+                            <th>Leave Eligible</th>
+                            <th>FTE</th>
                         </tr>
                         <tr>
                             <td>${job.jobNumber}</td>
@@ -46,6 +51,14 @@
                             <td>${job.location }</td>
                             <td><fmt:formatNumber value="${job.compRate }" type="currency"/></td>
                             <td>${job.effectiveDate }</td>
+                            
+                            <c:if test="${job.eligibleForLeave == false}"> 
+                            	<td>No</td>
+                            </c:if>
+                            <c:if test="${job.eligibleForLeave == true}"> 
+                            	<td>Yes</td>
+                            </c:if>
+                            <td>${job.fte }</td>
                         </tr>
                         <c:if test="${fn:length(Form.jobNumberToListAssignments) > 0}">
                             <tr>
