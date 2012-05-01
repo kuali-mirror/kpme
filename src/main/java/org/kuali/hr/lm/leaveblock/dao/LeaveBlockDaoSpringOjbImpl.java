@@ -85,5 +85,19 @@ public class LeaveBlockDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 	    }
 		return leaveBlocks;
 	}
+	
+	@Override
+	public List<LeaveBlock> getLeaveBlocksForDate(String principalId, Date leaveDate) {
+	    List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
+	    Criteria root = new Criteria();
+	    root.addEqualTo("principalId", principalId);
+	    root.addEqualTo("leaveDate", leaveDate);
+	    Query query = QueryFactory.newQuery(LeaveBlock.class, root);
+	    Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+	    if(c!= null) {
+	    	leaveBlocks.addAll(c);
+	    }
+		return leaveBlocks;
+	}
 
 }

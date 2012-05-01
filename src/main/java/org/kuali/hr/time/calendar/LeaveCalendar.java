@@ -17,8 +17,8 @@ import java.util.Map;
 public class LeaveCalendar extends CalendarParent {
 
     private Map<String, String> leaveCodeList;
-
-    public LeaveCalendar(CalendarEntries calendarEntry, String documentId) {
+    
+    public LeaveCalendar(String principalId, CalendarEntries calendarEntry) {
         super(calendarEntry);
 
         DateTime currDateTime = getBeginDateTime();
@@ -51,10 +51,10 @@ public class LeaveCalendar extends CalendarParent {
 //                leaveCalendarDay.setDayNumberDelta(currDateTime.toString(TkConstants.DT_BASIC_DATE_FORMAT));
 //                leaveCalendarDay.setDayNumberDelta(currDateTime.getDayOfMonth());
                 leaveCalendarDay.setDayNumberDelta(dayNumber);
-                Multimap<Date, LeaveBlock> leaveBlocksForDay = leaveBlockAggregator(documentId);
-                // convert DateTime to sql date, since the leave_date on the leaveBlock is a timeless date
-                java.sql.Date leaveDate = TKUtils.getTimelessDate(currDateTime.toDate());
-                leaveCalendarDay.setLeaveBlocks(new ArrayList<LeaveBlock>(leaveBlocksForDay.get(leaveDate)));
+    
+               java.util.Date leaveDate = TKUtils.getTimelessDate(currDateTime.toDate());
+               List<LeaveBlock> lbs = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principalId, leaveDate);
+               leaveCalendarDay.setLeaveBlocks(lbs); 
             }
             leaveCalendarDay.setDayNumberString(currDateTime.dayOfMonth().getAsShortText());
             leaveCalendarDay.setDateString(currDateTime.toString(TkConstants.DT_BASIC_DATE_FORMAT));
@@ -76,8 +76,8 @@ public class LeaveCalendar extends CalendarParent {
 
         Map<String, String> leaveCodes = TkServiceLocator.getLeaveCodeService().getLeaveCodesForDisplay(TKContext.getTargetPrincipalId());
         setLeaveCodeList(leaveCodes);
-    }
-
+    } 
+    
     private Multimap<Date, LeaveBlock> leaveBlockAggregator(String documentId) {
         List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(documentId);
         Multimap<Date, LeaveBlock> leaveBlockAggregrate = HashMultimap.create();

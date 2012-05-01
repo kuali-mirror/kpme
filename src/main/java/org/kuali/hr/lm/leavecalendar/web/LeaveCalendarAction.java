@@ -44,7 +44,7 @@ public class LeaveCalendarAction extends TkAction {
 		// Here - viewPrincipal will be the principal of the user we intend to
 		// view, be it target user, backdoor or otherwise.
 		String viewPrincipal = user.getTargetPrincipalId();
-		CalendarEntries calendarEntry;
+		CalendarEntries calendarEntry = null;
 
 		LeaveCalendarDocument lcd = null;
 		LeaveCalendarDocumentHeader lcdh = null;
@@ -72,6 +72,7 @@ public class LeaveCalendarAction extends TkAction {
 					.openLeaveCalendarDocument(viewPrincipal, calendarEntry);
 		}
 		
+		lcf.setCalendarEntry(calendarEntry);
 		lcf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
 
 		if (lcd != null) {
@@ -88,8 +89,8 @@ public class LeaveCalendarAction extends TkAction {
 		if (forward.getRedirect()) {
 			return forward;
 		}
-		LeaveCalendar calendar = new LeaveCalendar(calendarEntry,
-				lcd.getDocumentId());
+
+		LeaveCalendar calendar = new LeaveCalendar(viewPrincipal, calendarEntry);
 		lcf.setLeaveCalendar(calendar);
 
 		return forward;
@@ -100,6 +101,7 @@ public class LeaveCalendarAction extends TkAction {
 			throws Exception {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
 		LeaveCalendarDocument lcd = lcf.getLeaveCalendarDocument();
+
 		DateTime beginDate = new DateTime(
 				TKUtils.convertDateStringToTimestamp(lcf.getStartDate()));
 		DateTime endDate = new DateTime(
@@ -109,9 +111,9 @@ public class LeaveCalendarAction extends TkAction {
 		String desc = lcf.getDescription();
 
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(lcd, lcf.getSelectedAssignment());
-		
+
 		TkServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate,
-				endDate, lcd, selectedLeaveCode, hours, desc, assignment);
+				endDate, lcf.getCalendarEntry(), selectedLeaveCode, hours, desc, assignment);
 
 		return mapping.findForward("basic");
 	}

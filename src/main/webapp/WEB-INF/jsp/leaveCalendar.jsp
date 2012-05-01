@@ -13,7 +13,6 @@
  	<html:hidden property="documentId" value="${Form.documentId}" styleId="documentId"/>
     <html:hidden property="prevDocumentId" value="${Form.prevDocumentId}" styleId="prevDocumentId"/>
     <html:hidden property="nextDocumentId" value="${Form.nextDocumentId}" styleId="nextDocumentId"/>
-    <html:hidden property="calEntryId" value="${Form.calEntryId}" styleId="calEntryId"/>
     <html:hidden property="prevCalEntryId" value="${Form.prevCalEntryId}" styleId="prevCalEntryId"/>
     <html:hidden property="nextCalEntryId" value="${Form.nextCalEntryId}" styleId="nextCalEntryId"/>
     <html:hidden  value="${Form.leaveCalendar.beginDateTime}" styleId="beginPeriodDate"/>
@@ -23,6 +22,7 @@
                 <html:hidden property="methodToCall" value="" styleId="methodToCall"/>
                 <html:hidden property="beginPeriodDateTime" value="${Form.beginPeriodDateTime}" styleId="beginPeriodDateTime"/>
                 <html:hidden property="endPeriodDateTime" value="${Form.endPeriodDateTime}" styleId="endPeriodDateTime"/>
+                <html:hidden property="calEntryId" value="${Form.calEntryId}" styleId="calEntryId"/>
 
                 <div class="ui-widget timesheet-panel" id="timesheet-panel">
                     <table>

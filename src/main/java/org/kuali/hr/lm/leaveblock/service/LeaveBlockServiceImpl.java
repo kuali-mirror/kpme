@@ -15,9 +15,10 @@ import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
 import org.kuali.hr.lm.leaveblock.dao.LeaveBlockDao;
-import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecode.LeaveCode;
+import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
@@ -105,15 +106,16 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     }
 
     @Override
-    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, LeaveCalendarDocument lcd, String selectedLeaveCode, BigDecimal hours, String description, Assignment selectedAssignment) {
-        String docId = lcd.getDocumentId();
+    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntries ce, String selectedLeaveCode, BigDecimal hours, String description, Assignment selectedAssignment) {
         String princpalId = TKContext.getTargetPrincipalId();
         DateTimeZone zone = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
-
-        DateTime calBeginDateTime = lcd.getCalendarEntry().getBeginLocalDateTime().toDateTime(zone);
-        DateTime calEndDateTime = lcd.getCalendarEntry().getEndLocalDateTime().toDateTime(zone);
+        DateTime calBeginDateTime = beginDate;
+    	DateTime calEndDateTime = endDate;
+        if(ce != null) {
+        	calBeginDateTime = ce.getBeginLocalDateTime().toDateTime(zone);
+        	calEndDateTime = ce.getEndLocalDateTime().toDateTime(zone);
+        }
         Interval calendarInterval = new Interval(calBeginDateTime, calEndDateTime);
-
         // Currently, we store the accrual category value in the leave code table, but store accrual category id in the leaveBlock.
         // That's why there is a two step server call to get the id. This might be changed in the future.
         LeaveCode leaveCodeObj = TkServiceLocator.getLeaveCodeService().getLeaveCode(selectedLeaveCode);
@@ -122,9 +124,14 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         // To create the correct interval by the given begin and end dates,
         // we need to plus one day on the end date to include that date
         List<Interval> leaveBlockIntervals = TKUtils.createDaySpan(beginDate, endDate.plusDays(1), zone);
-
-        List<LeaveBlock> currentLeaveBlocks = lcd.getLeaveBlocks();
-
+        // need to use beginDate and endDate of the calendar to find all leaveBlocks since LeaveCalendarDocument Id is not always available
+        List<LeaveBlock> currentLeaveBlocks =TkServiceLocator.getLeaveBlockService().getLeaveBlocks(princpalId, calBeginDateTime.toDate(), calEndDateTime.toDate());
+    
+        // use the current calendar's begin and end date to figure out if this pay period has a leaveDocument
+        LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService()
+        		.getDocumentHeader(princpalId, ce.getBeginLocalDateTime().toDateTime().toDate(), ce.getEndLocalDateTime().toDateTime().toDate());
+        String docId = lcdh == null ? null : lcdh.getDocumentId();
+        
         // TODO: need to integrate with the scheduled timeoff.
         for (Interval leaveBlockInt : leaveBlockIntervals) {
             if (calendarInterval.contains(leaveBlockInt)) {
@@ -134,7 +141,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
                         .timestamp(TKUtils.getCurrentTimestamp())
                         .leaveCodeId(leaveCodeObj.getLmLeaveCodeId())
                         .scheduleTimeOffId("0")
-                        .accrualCategoryId(accrualCategory.getAccrualCategory())
+                        .accrualCategoryId(accrualCategory.getLmAccrualCategoryId())
                         .workArea(selectedAssignment.getWorkArea())
                         .jobNumber(selectedAssignment.getJobNumber())
                         .task(selectedAssignment.getTask())
@@ -167,5 +174,9 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 	public List<LeaveBlock> getLeaveBlocks(String principalId, String requestStatus, Date currentDate) {
 		return leaveBlockDao.getLeaveBlocks(principalId, requestStatus, currentDate);
 	}
-
+	
+	@Override
+	public List<LeaveBlock> getLeaveBlocksForDate(String principalId, Date leaveDate) {
+		return leaveBlockDao.getLeaveBlocksForDate(principalId, leaveDate);
+	}
 }
