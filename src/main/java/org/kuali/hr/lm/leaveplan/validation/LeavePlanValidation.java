@@ -52,6 +52,15 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 	
+	boolean validateEffectiveDate(Date effectiveDate) {
+		boolean valid = true;
+		valid = ValidationUtils.validateOneYearFutureEffectiveDate(effectiveDate);
+		if(!valid) {
+			this.putFieldError("effectiveDate", "error.date.exceed.year", "Effective Date");
+		}
+		return valid;
+	}
+	
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
@@ -64,6 +73,7 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 				valid = true;
 				valid &= this.validateInactivation(leavePlan);
 				valid &= this.validatePlanningMonths(leavePlan.getPlanningMonths());
+				valid &= this.validateEffectiveDate(leavePlan.getEffectiveDate());
 			}
 		}
 		return valid;
