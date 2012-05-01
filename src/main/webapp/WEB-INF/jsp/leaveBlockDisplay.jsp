@@ -6,19 +6,11 @@
 	<html:form action="/LeaveBlockDisplay.do" method="POST">
 		<html:hidden property="navString" styleId="navString" />
 		<html:hidden property="year" styleId="year" value="${Form.year}" />
-		<div class="person-info">
-		<table>
-		 <tbody>
-			<tr>
-				<td>Target Name : </td>
-				<td>${Form.targetName} </td>
-			</tr>
-		 </tbody>
-		</table>
-		</div>
 		<table align="center">
 			<tbody>
-			
+			<tr>
+				<td align="center">${Form.targetName}</td>
+			</tr>
 				<tr>
 					<td>
 						<button id="nav_lb_prev"
