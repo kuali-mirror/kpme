@@ -597,14 +597,12 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 	@Override
 	public List<String> getUniquePayGroups() {
-
-		String sql = "SELECT DISTINCT P.py_calendar_group FROM hr_principal_calendar_t P WHERE P.active = 'Y'";
+		String sql = "SELECT DISTINCT P.pay_calendar FROM hr_principal_attributes_t P WHERE P.active = 'Y'";
 		SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql);
 		List<String> pyGroups = new LinkedList<String>();
 		while (rs.next()) {
-			pyGroups.add(rs.getString("py_calendar_group"));
+			pyGroups.add(rs.getString("pay_calendar"));
 		}
-
 		return pyGroups;
 	}
 
