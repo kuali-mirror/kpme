@@ -38,6 +38,7 @@
 		<bean parent="MaintainableFieldDefinition" p:name="leavePlan" p:required="false" p:noLookup="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="earnCode" />
 		<bean parent="MaintainableFieldDefinition" p:name="eligibleForAccrual" p:defaultValue="Y" p:required="true"/>
+		<bean parent="MaintainableFieldDefinition" p:name="affectPay" p:defaultValue="N" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="unitOfTime" p:defaultValue="H" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="fractionalTimeAllowed" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="allowNegativeAccrualBalance" p:defaultValue="N" p:required="true"/>

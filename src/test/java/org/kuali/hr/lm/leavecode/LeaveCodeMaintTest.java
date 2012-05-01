@@ -23,10 +23,11 @@ public class LeaveCodeMaintTest extends TkTestCase{
 		assertTrue("Maintenance Page contains test Leave Code",maintPage.asText().contains("testLC"));	 
 	}
 	
-	@Test
+	/*@Test
+	 * do not need this test, KPME1466
 	public void testFutureEffectiveDate() throws Exception {
 		this.futureEffectiveDateValidation(TkTestConstants.Urls.LEAVE_CODE_MAINT_NEW_URL);
-	}
+	}*/
 
 	@Test
 	public void testGetLeavePlanBasedOnAccrualCategory() throws Exception {
@@ -54,5 +55,6 @@ public class LeaveCodeMaintTest extends TkTestCase{
 	  	HtmlUnitUtil.createTempFile(page);
 	  	assertTrue("page text contains:\n" + "should be between 0 and 24", page.asText().contains("should be between 0 and 24"));
 	  	assertTrue("page text contains:\n" + "IU-SM", page.asText().contains("IU-SM"));
+	  	assertTrue("page text contains:\n" + "IU-SM", page.asText().contains("Affect Pay"));
 	}
 }

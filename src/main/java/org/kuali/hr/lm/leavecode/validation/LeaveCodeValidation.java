@@ -80,7 +80,7 @@ public class LeaveCodeValidation extends MaintenanceDocumentRuleBase {
 			if (leaveCode != null) {
 				valid = true;
 				//valid &= this.validateEffectiveDate(leaveCode.getEffectiveDate());
-				valid &= this.validateLeaveCodeRole(leaveCode);
+				//valid &= this.validateLeaveCodeRole(leaveCode); // xichen. remove this validation, these fields are not on the page. KPME1477
 				//valid &= this.validateLeavePlan(leaveCode.getLeavePlan(), leaveCode.getEffectiveDate());
 				//valid &= this.validateAccrualCategory(leaveCode.getAccrualCategory(), leaveCode.getEffectiveDate());
 				valid &= this.validateEarnCode(leaveCode.getEarnCode(), leaveCode.getEffectiveDate());

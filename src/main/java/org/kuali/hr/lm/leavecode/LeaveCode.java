@@ -18,6 +18,7 @@ public class LeaveCode extends HrBusinessObject {
 	private String lmLeaveCodeId;
 	private String leavePlan;
 	private String eligibleForAccrual;
+	private String affectPay; // kpme1464, chen
 	private String accrualCategory;
 	private String earnCode;
 	private String leaveCode;
@@ -38,6 +39,14 @@ public class LeaveCode extends HrBusinessObject {
 	private LeavePlan leavePlanObj;
 	private EarnCode earnCodeObj;
 	private AccrualCategory accrualCategoryObj;
+	
+	public String getAffectPay() {
+		return affectPay;
+	}
+
+	public void setAffectPay(String affectPay) {
+		this.affectPay = affectPay;
+	}
 
 	public EarnCode getEarnCodeObj() {
 		return earnCodeObj;
