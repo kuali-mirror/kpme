@@ -15,7 +15,11 @@ import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlockHistory;
+import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
@@ -63,8 +67,9 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
     private Long jobNumber;
     private Long task;
     
+    @Transient 
+    private String assignmentTitle;
     
-
     public static class Builder {
 
         // required parameters for the constructor
@@ -468,4 +473,30 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		this.task = task;
 	}
 
+
+	public String getAssignmentTitle() {
+		StringBuilder b = new StringBuilder();
+
+		if(this.workArea != null) {
+			WorkArea wa = TkServiceLocator.getWorkAreaService().getWorkArea(this.workArea, TKUtils.getCurrentDate());
+			if(wa != null) {
+				b.append(wa.getDescription());
+			}
+			Task task = TkServiceLocator.getTaskService().getTask(this.getTask(), this.getLeaveDate());
+			if(task != null) {
+				// do not display task description if the task is the default one
+				// default task is created in getTask() of TaskService
+				if(!task.getDescription().equals(TkConstants.TASK_DEFAULT_DESP)) {
+					b.append("-" + task.getDescription());
+				}
+			}
+		}
+        return b.toString();
+	}
+
+
+	public void setAssignmentTitle(String assignmentTitle) {
+		this.assignmentTitle = assignmentTitle;
+	}
+	
 }

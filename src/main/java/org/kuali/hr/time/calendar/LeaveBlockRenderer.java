@@ -10,6 +10,7 @@ public class LeaveBlockRenderer {
     private BigDecimal hours;
     private long leaveBlockId;
     private String documentId;
+    private String assignmentTitle;
 
     public  LeaveBlockRenderer(LeaveBlock leaveBlock) {
         this.leaveBlock = leaveBlock;
@@ -34,5 +35,9 @@ public class LeaveBlockRenderer {
     public String getDocumentId() {
         return leaveBlock.getDocumentId();
     }
-  
+
+	public String getAssignmentTitle() {
+		return leaveBlock.getAssignmentTitle();
+	}
+
 }

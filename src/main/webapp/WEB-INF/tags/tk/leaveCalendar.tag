@@ -5,6 +5,6 @@
 <c:forEach var="leaveBlock" items="${day.leaveBlockRenderers}" varStatus="status">
     <div class="leaveBlock">
         <img id="leaveBlockDelete_${leaveBlock.leaveBlockId}" src='images/delete.png' class="leaveBlock-delete"/>
-        ${leaveBlock.leaveCode} (${leaveBlock.hours})
+         ${leaveBlock.assignmentTitle} ${leaveBlock.leaveCode} (${leaveBlock.hours})
     </div>
 </c:forEach>
