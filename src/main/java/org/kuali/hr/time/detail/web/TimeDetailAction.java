@@ -16,6 +16,7 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeBlockHistory;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
+import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 import org.kuali.hr.time.timesummary.AssignmentRow;
 import org.kuali.hr.time.timesummary.EarnCodeSection;
 import org.kuali.hr.time.timesummary.EarnGroupSection;
@@ -26,6 +27,8 @@ import org.kuali.rice.kns.exception.AuthorizationException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -314,4 +317,14 @@ public class TimeDetailAction extends TimesheetAction {
 
         return mapping.findForward("basic");
     }
+ 
+  public ActionForward gotoCurrentPayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	  String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
+	  Date currentDate = TKUtils.getTimelessDate(null);
+      PayCalendarEntries pce = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(viewPrincipal,  currentDate);
+      TimesheetDocument td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, pce);
+      super.setupDocumentOnFormContext((TimesheetActionForm)form, td);
+	  return mapping.findForward("basic");
+  }
+
 }

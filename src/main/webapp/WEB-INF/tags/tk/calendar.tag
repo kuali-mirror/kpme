@@ -27,6 +27,12 @@
             </td>
         </tr>
         <tr>
+        	<td align="center">
+        		<a href="${KualiForm.backLocation}?methodToCall=gotoCurrentPayPeriod"
+                  	 target="_self" id="cppLink">Go to Current Pay Period</a>
+        	</td>
+        </tr>
+       
         <tr>
             <td align="right">
                 <a href="${KualiForm.backLocation}?methodToCall=actualTimeInquiry&documentId=${Form.documentId}"
@@ -34,7 +40,7 @@
             </td>
 
         </tr>
-        </tr>
+        
         </tbody>
     </table>
 
