@@ -74,6 +74,13 @@ public class LeaveCodeServiceImpl implements LeaveCodeService {
 	public Map<String, String> getLeaveCodesForDisplay(String principalId) {
 		List<LeaveCode> leaveCodes = getLeaveCodes(principalId,
 				TKUtils.getCurrentDate());
+		
+		// KPME1449, chen, only display leaveCodes which are 'allow_scheduled_leave flag = Y'
+		for (LeaveCode leaveCode : leaveCodes) {
+			if ( !leaveCode.getAllowScheduledLeave().equalsIgnoreCase("Y")) {
+				leaveCodes.remove(leaveCode);
+			}
+		} // kpme1449
 
 		Comparator<LeaveCode> leaveCodeComparator = new Comparator<LeaveCode>() {
 			@Override
