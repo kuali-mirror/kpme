@@ -440,11 +440,10 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-				<!-- bean parent="FieldDefinition" p:attributeName="leavePlan" /-->
+				<bean parent="FieldDefinition" p:attributeName="leaveCode" />
 				<bean parent="FieldDefinition" p:attributeName="eligibleForAccrual" />
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
-				<bean parent="FieldDefinition" p:attributeName="leaveCode" />
 				<bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
 				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
 
@@ -453,12 +452,12 @@
 		<property name="resultFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="leaveCode" />
 				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
 				<bean parent="FieldDefinition" p:attributeName="eligibleForAccrual" />
 				<bean parent="FieldDefinition" p:attributeName="affectPay" />
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
-				<bean parent="FieldDefinition" p:attributeName="leaveCode" />
 				<bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>
