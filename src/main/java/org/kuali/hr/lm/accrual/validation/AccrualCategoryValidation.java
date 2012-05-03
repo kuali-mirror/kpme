@@ -234,7 +234,8 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 		AccrualCategoryRule leaveAccrualCategoryRule = (AccrualCategoryRule) pbo;
 		
 		if(pboAccrualCategory instanceof AccrualCategory){
-			if (((AccrualCategory) pboAccrualCategory).getHasRules().equalsIgnoreCase("Y")){
+			
+			if (StringUtils.isNotBlank(((AccrualCategory) pboAccrualCategory).getHasRules()) && ((AccrualCategory) pboAccrualCategory).getHasRules().equalsIgnoreCase("Y")){
 				if ( pbo instanceof AccrualCategoryRule ) {
 					AccrualCategory accrualCategory = (AccrualCategory) pboAccrualCategory;
 					
