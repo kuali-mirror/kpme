@@ -115,6 +115,10 @@
                     </c:if>
                 </div>
             </td>
+            <td align="left">
+        		<a href="${KualiForm.backLocation}?methodToCall=gotoCurrentPayPeriod"
+                  	 target="_self" id="cppLink">Go to Current Pay Period</a>
+        	</td>
             <td></td>
         </tr>
     </c:if>
