@@ -140,9 +140,9 @@ public class TkUserRoles implements UserRoles {
      */
     public void setRoles(List<TkRole> roles) {
         for (TkRole role : roles) {
-            if (role.getRoleName().equals(TkConstants.ROLE_TK_APPROVER) || role.getRoleName().equals(TkConstants.ROLE_LV_APPROVER)) {  // KPME-1410
+            if (role.getRoleName().equals(TkConstants.ROLE_TK_APPROVER)) {
                 approverRoles.put(role.getWorkArea(), role);
-            } else if (role.getRoleName().equals(TkConstants.ROLE_TK_APPROVER_DELEGATE) || role.getRoleName().equals(TkConstants.ROLE_LV_APPROVER_DELEGATE)) { // KPME-1410
+            } else if (role.getRoleName().equals(TkConstants.ROLE_TK_APPROVER_DELEGATE)) {
                 approverDelegateRoles.put(role.getWorkArea(), role);
             } else if (role.getRoleName().equals(TkConstants.ROLE_TK_LOCATION_ADMIN) ||
             			role.getRoleName().equals(TkConstants.ROLE_LV_DEPT_ADMIN)) {
@@ -169,7 +169,7 @@ public class TkUserRoles implements UserRoles {
                 orgAdminRolesDept.put(role.getDepartment(), role);
             } else if (role.getRoleName().equals(TkConstants.ROLE_TK_GLOBAL_VO)) {
                 globalViewOnly = role;
-            } else if (role.getRoleName().equals(TkConstants.ROLE_TK_REVIEWER) || role.getRoleName().equals(TkConstants.ROLE_LV_REVIEWER)) { // KPME-1410
+            } else if (role.getRoleName().equals(TkConstants.ROLE_TK_REVIEWER)) {
                 reviewerRoles.put(role.getWorkArea(), role);
             } else {
                 throw new RuntimeException("Invalid Role."); // TODO: Maybe we want to just ignore this exception.
