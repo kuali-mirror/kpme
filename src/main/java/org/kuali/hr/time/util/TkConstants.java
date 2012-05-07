@@ -90,9 +90,6 @@ public class TkConstants {
     public static final String ROLE_TK_REVIEWER = "TK_REVIEWER";
     public static final String ROLE_TK_APPROVER = "TK_APPROVER";
     public static final String ROLE_TK_APPROVER_DELEGATE = "TK_APPROVER_DELEGATE";
-    public static final String ROLE_LV_REVIEWER = "LV_REVIEWER"; // KPME-1410
-    public static final String ROLE_LV_APPROVER = "LV_APPROVER"; // KPME-1410
-    public static final String ROLE_LV_APPROVER_DELEGATE = "LV_APPROVER_DELEGATE"; // KPME-1410
     public static final String ROLE_TK_EMPLOYEE = "TK_EMPLOYEE";
     public static final String ROLE_TK_LOCATION_ADMIN = "TK_ORG_ADMIN";
     public static final String ROLE_TK_DEPT_ADMIN = "TK_DEPT_ADMIN";
@@ -121,18 +118,15 @@ public class TkConstants {
         ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_APPROVER_DELEGATE);
         ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_DEPT_ADMIN);
 
-        ALL_ROLES_MAP.put(TkConstants.ROLE_TK_REVIEWER, "Time Reviewer"); // attach at 'work area' level, like approvers without departmental rules  // KPME-1410
-        ALL_ROLES_MAP.put(TkConstants.ROLE_LV_REVIEWER, "Leave Reviewer"); // KPME-1410
+        ALL_ROLES_MAP.put(TkConstants.ROLE_TK_REVIEWER, "Reviewer"); // attach at 'work area' level, like approvers without departmental rules
         ALL_ROLES_MAP.put(TkConstants.ROLE_TK_GLOBAL_VO, "Global View Only"); // can see everything in the system, but not modify
         ALL_ROLES_MAP.put(TkConstants.ROLE_TK_DEPT_VO, "Time Department View Only"); // can only see objects belonging to a department
         ALL_ROLES_MAP.put(TkConstants.ROLE_LV_DEPT_VO, "Leave Department View Only"); // kpme1411
         
         ALL_ROLES_MAP.put(TkConstants.ROLE_TK_LOCATION_VO, "Location View Only");
-        ALL_ROLES_MAP.put(TkConstants.ROLE_TK_APPROVER, "Time Approver");  // attach at 'work area', view only departmental rules // KPME-1410
-        ALL_ROLES_MAP.put(TkConstants.ROLE_LV_APPROVER, "Leave Approver"); // KPME-1410
-        ALL_ROLES_MAP.put(TkConstants.ROLE_TK_APPROVER_DELEGATE, "Time Approver Delegate");  // attach at 'work area'             // KPME-1410
-        ALL_ROLES_MAP.put(TkConstants.ROLE_LV_APPROVER_DELEGATE, "Leave Approver Delegate"); // KPME-1410
-        ALL_ROLES_MAP.put(TkConstants.ROLE_TK_EMPLOYEE, "Employee"); // only people with active assignments have this role. 
+        ALL_ROLES_MAP.put(TkConstants.ROLE_TK_APPROVER, "Approver"); // attach at 'work area', view only departmental rules
+        ALL_ROLES_MAP.put(TkConstants.ROLE_TK_APPROVER_DELEGATE, "Approver Delegate"); // attach at 'work area'
+        ALL_ROLES_MAP.put(TkConstants.ROLE_TK_EMPLOYEE, "Employee"); // only people with active assignments have this role.
         ALL_ROLES_MAP.put(TkConstants.ROLE_TK_LOCATION_ADMIN, "Location Admin"); // location admin rename
         ALL_ROLES_MAP.put(TkConstants.ROLE_TK_DEPT_ADMIN, "Time Department Admin");
         ALL_ROLES_MAP.put(TkConstants.ROLE_LV_DEPT_ADMIN, "Leave Department Admin"); // kpme1411
@@ -354,8 +348,8 @@ public class TkConstants {
         public static final Map<String, String> MAX_BAL_FLAG = new LinkedHashMap<String, String>(2);
 
         static {
-        	MAX_BAL_FLAG.put("Y", "Required");
-        	MAX_BAL_FLAG.put("N", "Not Required");
+        	MAX_BAL_FLAG.put("Y", "Yes");
+        	MAX_BAL_FLAG.put("N", "No");
         }
         
         public static final Map<String, String> MAX_BALANCE_ACTION_FREQUENCY = new LinkedHashMap<String, String>(3);

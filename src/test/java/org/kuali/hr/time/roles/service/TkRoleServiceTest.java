@@ -169,21 +169,5 @@ public class TkRoleServiceTest  extends TkTestCase {
 		KNSServiceLocator.getBusinessObjectService().delete(tkRole);
 		super.tearDown();
 	}
-
-	// KPME-1410 Kagata
-	@Test
-	public void testSaveRoleName() throws Exception {
-		TkRoleService trs = TkServiceLocator.getTkRoleService();
-	
-		TkRole tkrole = trs.getRole("9999");
-		assertTrue(tkrole.getRoleName().equals(TkConstants.ROLE_TK_APPROVER));
-		
-		tkrole.setRoleName(TkConstants.ROLE_LV_REVIEWER);
-		trs.saveOrUpdate(tkrole);
-		
-		TkRole newtkRole = trs.getRole("9999");
-		assertTrue(newtkRole.getRoleName().equals(TkConstants.ROLE_LV_REVIEWER));	
-	}	
-	
 }
 
