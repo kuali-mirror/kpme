@@ -245,6 +245,7 @@
 		<field-descriptor name="description" 			column="DESCRIPTION" 				jdbc-type="VARCHAR" length="50" nullable="true" />
 		<field-descriptor name="active"          		column="active"	    				jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="timestamp"     			column="timestamp" 					jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
+		<field-descriptor name="effectiveDate" 			column="EFFDT" 						jdbc-type="DATE" 	nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
 		<field-descriptor name="objectId"      			column="obj_id" 					jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" 			column="ver_nbr" 					jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
@@ -258,6 +259,7 @@
 		<field-descriptor name="adjustmentAmount" 		column="ADJUSTMENT_AMOUNT" 			jdbc-type="DECIMAL" nullable="false" />
 		<field-descriptor name="description" 			column="DESCRIPTION" 				jdbc-type="VARCHAR" length="50" nullable="true" />
 		<field-descriptor name="timestamp"     			column="timestamp" 					jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
+		<field-descriptor name="effectiveDate" 			column="EFFDT" 						jdbc-type="DATE" 	nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
 		<field-descriptor name="objectId"      			column="obj_id" 					jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" 			column="ver_nbr" 					jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
