@@ -49,6 +49,7 @@ import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.kuali.hr.job.Job;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
