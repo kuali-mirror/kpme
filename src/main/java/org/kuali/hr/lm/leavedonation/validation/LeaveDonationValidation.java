@@ -2,7 +2,10 @@ package org.kuali.hr.lm.leavedonation.validation;
 
 import java.sql.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.leavedonation.LeaveDonation;
+import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -59,6 +62,17 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 		}
 		return valid;
 	}
+	boolean validateLeaveCode(String accCatName, String ldLeaveCode, String forPerson, Date asOfDate) {
+		boolean valid = true;
+		AccrualCategory accCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accCatName, asOfDate);
+		String acLeaveCode = accCat.getLeaveCode();
+		if (!StringUtils.equalsIgnoreCase(acLeaveCode, ldLeaveCode)) {
+			this.putFieldError(forPerson.equals(LeaveDonationValidation.DONOR) ? "donatedLeaveCode"
+					: "recipientsLeaveCode", "error.codeCategory.mismatch", forPerson);
+			valid = false;
+		}
+		return valid;
+	}
 
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
@@ -92,6 +106,18 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 						valid &= this.validatePrincipal(
 						leaveDonation.getRecipientsPrincipalID(),
 						LeaveDonationValidation.RECEPIENT);
+				}
+				if(StringUtils.isNotBlank(leaveDonation.getDonatedAccrualCategory())) {
+						valid &= this.validateLeaveCode(
+						leaveDonation.getDonatedAccrualCategory(),
+						leaveDonation.getDonatedLeaveCode(),
+						LeaveDonationValidation.DONOR, leaveDonation.getEffectiveDate());
+				}
+				if(StringUtils.isNotBlank(leaveDonation.getRecipientsAccrualCategory())) {
+						valid &= this.validateLeaveCode(
+						leaveDonation.getRecipientsAccrualCategory(),
+						leaveDonation.getRecipientsLeaveCode(),
+						LeaveDonationValidation.RECEPIENT, leaveDonation.getEffectiveDate());
 				}
 			}
 		}

@@ -20,6 +20,8 @@
 			<list>
 				<ref bean="LeaveDonation-donatedAccrualCategory" />
 				<ref bean="LeaveDonation-recipientsAccrualCategory" />
+				<ref bean="LeaveDonation-donatedLeaveCode" />
+				<ref bean="LeaveDonation-recipientsLeaveCode" />
 				<ref bean="LeaveDonation-amountDonated" />
 				<ref bean="LeaveDonation-amountReceived" />
 				<ref bean="LeaveDonation-donorsPrincipalID" />
@@ -66,6 +68,24 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="recipientsAccrualCategory"
 								p:targetName="accrualCategory" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="leaveCodeObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="donatedLeaveCode"
+								p:targetName="leaveCode" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="leaveCodeObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="recipientsLeaveCode"
+								p:targetName="leaveCode" />
 						</list>
 					</property>
 				</bean>
@@ -125,6 +145,42 @@
 		</property>
 		<property name="name" value="recipientsAccrualCategory" />
 		<property name="label" value="Recipients Accrual Category" />
+	</bean>
+	
+		<!-- donatedLeaveCode	 -->
+	<bean id="LeaveDonation-donatedLeaveCode" parent="LeaveDonation-donatedLeaveCode-parentBean" />
+	<bean id="LeaveDonation-donatedLeaveCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Donated Leave Code" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="donatedLeaveCode" />
+		<property name="label" value="Donated Leave Code" />
+	</bean>
+	
+	<!-- recipientsLeaveCode -->
+	<bean id="LeaveDonation-recipientsLeaveCode" parent="LeaveDonation-recipientsLeaveCode-parentBean" />
+	<bean id="LeaveDonation-recipientsLeaveCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Recipients Leave Code" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="recipientsLeaveCode" />
+		<property name="label" value="Recipients Leave Code" />
 	</bean>
 	
 	<!-- amountDonated -->

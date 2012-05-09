@@ -222,7 +222,9 @@
      <class-descriptor class="org.kuali.hr.lm.leavedonation.LeaveDonation" table="lm_leave_donation_t">
 		<field-descriptor name="lmLeaveDonationId"         	column="LM_LEAVE_DONATION_ID"	jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="lm_leave_donation_s"/>
         <field-descriptor name="donatedAccrualCategory"    	column="DONATED_ACC_CAT"		jdbc-type="VARCHAR" length="15" nullable="false" />
+        <field-descriptor name="donatedLeaveCode" 			column="DONATED_LV_CODE" 		jdbc-type="VARCHAR" length="15" nullable="false" />
         <field-descriptor name="recipientsAccrualCategory" 	column="RECIPIENTS_ACC_CAT"	    jdbc-type="VARCHAR" length="15" nullable="false" />
+        <field-descriptor name="recipientsLeaveCode" 		column="RECIPIENTS_LV_CODE" 	jdbc-type="VARCHAR" length="15" nullable="false" />
         <field-descriptor name="amountDonated"             	column="AMOUNT_DONATED"	        jdbc-type="DECIMAL"  length="20" nullable="false" />
         <field-descriptor name="amountReceived"             column="AMOUNT_RECEIVED"	    jdbc-type="DECIMAL"  length="20" nullable="false" />
         <field-descriptor name="donorsPrincipalID"         	column="DONOR"    				jdbc-type="VARCHAR"  length="20" nullable="false"/>

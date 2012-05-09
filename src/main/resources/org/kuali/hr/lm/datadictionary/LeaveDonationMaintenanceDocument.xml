@@ -34,9 +34,11 @@
         <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="donorsPrincipalID" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="donatedAccrualCategory" p:required="true"/>
+		<bean parent="MaintainableFieldDefinition" p:name="donatedLeaveCode" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="amountDonated" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="recipientsPrincipalID" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="recipientsAccrualCategory" p:required="true"/>
+		<bean parent="MaintainableFieldDefinition" p:name="recipientsLeaveCode" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="amountReceived" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />

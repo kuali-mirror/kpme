@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.rice.kim.bo.Person;
 
@@ -25,7 +26,38 @@ public class LeaveDonation extends HrBusinessObject {
 	private Boolean history;
 	
 	private AccrualCategory accrualCategoryObj;
+	
 	private Person personObj;
+
+	
+	private LeaveCode leaveCodeObj;
+	public LeaveCode getLeaveCodeObj() {
+		return leaveCodeObj;
+	}
+
+	public void setLeaveCodeObj(LeaveCode leaveCodeObj) {
+		this.leaveCodeObj = leaveCodeObj;
+	}
+
+	private String donatedLeaveCode;
+	private String recipientsLeaveCode;
+
+	
+	public String getDonatedLeaveCode() {
+		return donatedLeaveCode;
+	}
+
+	public void setDonatedLeaveCode(String donatedLeaveCode) {
+		this.donatedLeaveCode = donatedLeaveCode;
+	}
+
+	public String getRecipientsLeaveCode() {
+		return recipientsLeaveCode;
+	}
+
+	public void setRecipientsLeaveCode(String recipientsLeaveCode) {
+		this.recipientsLeaveCode = recipientsLeaveCode;
+	}
 
 	
 	public String getLmLeaveDonationId() {
