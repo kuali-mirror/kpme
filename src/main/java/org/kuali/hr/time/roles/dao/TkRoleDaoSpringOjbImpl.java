@@ -120,17 +120,8 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
         // Optional ROOT criteria added :
         if (workArea != null)
             root.addEqualTo("workArea", workArea);
-        if (StringUtils.isNotEmpty(department)) {
-            departmentCriteria.addEqualTo("department", department);
-            Collection<WorkArea> collectionWorkAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(department, asOfDate);
-            List<Long> longWorkAreas = new ArrayList<Long>();
-            for(WorkArea cwa : collectionWorkAreas){
-                longWorkAreas.add(cwa.getWorkArea());
-            }
-            workAreaCriteria.addIn("workArea", longWorkAreas);
-            departmentCriteria.addOrCriteria(workAreaCriteria);
-            root.addAndCriteria(departmentCriteria);
-        }
+        if (StringUtils.isNotEmpty(department))
+            root.addEqualTo("department", department);
         if (chart != null)
             root.addEqualTo("chart", chart);
         if (roleName != null)
@@ -244,8 +235,17 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
         // Optional ROOT criteria added :
         if (workArea != null)
             root.addEqualTo("workArea", workArea);
-        if (StringUtils.isNotEmpty(department))
-            root.addEqualTo("department", department);
+        if (StringUtils.isNotEmpty(department)) {
+            departmentCriteria.addEqualTo("department", department);
+            Collection<WorkArea> collectionWorkAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(department, asOfDate);
+            List<Long> longWorkAreas = new ArrayList<Long>();
+            for(WorkArea cwa : collectionWorkAreas){
+                longWorkAreas.add(cwa.getWorkArea());
+            }
+            workAreaCriteria.addIn("workArea", longWorkAreas);
+            departmentCriteria.addOrCriteria(workAreaCriteria);
+            root.addAndCriteria(departmentCriteria);
+        }
         if (StringUtils.isNotEmpty(chart))
             root.addEqualTo("chart", chart);
         if (StringUtils.isNotEmpty(roleName))
