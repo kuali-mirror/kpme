@@ -85,7 +85,7 @@
 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="LookupReadonlyControlDefinition" p:size="10" />
+			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
 		<property name="name" value="leavePlan" />
 		<property name="label" value="Leave Plan" />
@@ -441,6 +441,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="leaveCode" />
+				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
 				<bean parent="FieldDefinition" p:attributeName="eligibleForAccrual" />
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
