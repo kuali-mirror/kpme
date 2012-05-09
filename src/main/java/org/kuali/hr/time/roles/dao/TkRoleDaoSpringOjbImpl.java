@@ -10,6 +10,7 @@ import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
@@ -32,6 +33,10 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
         Criteria root = new Criteria();
         Criteria effdt = new Criteria();
         Criteria timestamp = new Criteria();
+
+        Criteria departmentCriteria = new Criteria();
+        Criteria workAreaCriteria = new Criteria();
+
         ReportQueryByCriteria effdtSubQuery;
         ReportQueryByCriteria timestampSubQuery;
 
@@ -115,8 +120,17 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
         // Optional ROOT criteria added :
         if (workArea != null)
             root.addEqualTo("workArea", workArea);
-        if (department != null)
-            root.addEqualTo("department", department);
+        if (StringUtils.isNotEmpty(department)) {
+            departmentCriteria.addEqualTo("department", department);
+            Collection<WorkArea> collectionWorkAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(department, asOfDate);
+            List<Long> longWorkAreas = new ArrayList<Long>();
+            for(WorkArea cwa : collectionWorkAreas){
+                longWorkAreas.add(cwa.getWorkArea());
+            }
+            workAreaCriteria.addIn("workArea", longWorkAreas);
+            departmentCriteria.addOrCriteria(workAreaCriteria);
+            root.addAndCriteria(departmentCriteria);
+        }
         if (chart != null)
             root.addEqualTo("chart", chart);
         if (roleName != null)
