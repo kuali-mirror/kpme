@@ -33,10 +33,6 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
         Criteria root = new Criteria();
         Criteria effdt = new Criteria();
         Criteria timestamp = new Criteria();
-
-        Criteria departmentCriteria = new Criteria();
-        Criteria workAreaCriteria = new Criteria();
-
         ReportQueryByCriteria effdtSubQuery;
         ReportQueryByCriteria timestampSubQuery;
 
@@ -152,6 +148,8 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
         Criteria root = new Criteria();
         Criteria effdt = new Criteria();
         Criteria timestamp = new Criteria();
+        Criteria departmentCriteria = new Criteria();
+        Criteria workAreaCriteria = new Criteria();
         ReportQueryByCriteria effdtSubQuery;
         ReportQueryByCriteria timestampSubQuery;
 
