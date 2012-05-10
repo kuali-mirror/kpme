@@ -179,4 +179,17 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 	public List<LeaveBlock> getLeaveBlocksForDate(String principalId, Date leaveDate) {
 		return leaveBlockDao.getLeaveBlocksForDate(principalId, leaveDate);
 	}
+	
+	@Override
+	public Double calculateAccrualbalance(Date leaveDate, String accrualCategoryId, String principalId){
+		Double totalAccrualBal = 0.0;
+		List<LeaveBlock> leaveBlocks = leaveBlockDao.getLeaveBlocks(leaveDate, accrualCategoryId, principalId);
+		if(leaveBlocks != null && !leaveBlocks.isEmpty()) {
+			for(LeaveBlock lb : leaveBlocks) {
+				totalAccrualBal += lb.getLeaveAmount().doubleValue();
+			}
+		}
+		return totalAccrualBal;
+				
+	}
 }

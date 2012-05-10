@@ -60,6 +60,7 @@
 					<display:column property="jobNumber" title="Job Number" />
 					<display:column property="workArea" title="Workarea" />
 					<display:column property="task" title="Task" />
+					<display:column property="accrualBalance" title="Accrual balances" />
 				</display:table>
 			</div>
 

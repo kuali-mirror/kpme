@@ -23,11 +23,6 @@ public class LeaveBlockServiceImplTest extends TkTestCase {
 	public void setUp() throws Exception{
 		super.setUp();
 		leaveBlockService = TkServiceLocator.getLeaveBlockService();
-//		CalendarEntries calendarEntry;
-//		Date currentDate = TKUtils.getTimelessDate(null);
-//        calendarEntry = TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(TEST_USER, currentDate);
-//        LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(TEST_USER, calendarEntry);
-//        documentId = lcd.getDocumentId();
 	}
 
 	@After
@@ -73,6 +68,15 @@ public class LeaveBlockServiceImplTest extends TkTestCase {
 		Date leaveDate = TKUtils.getTimelessDate(new Date());
 		List<LeaveBlock> leaveBlocks = leaveBlockService.getLeaveBlocksForDate(TEST_USER, leaveDate);
 		assertNotNull("Leave Blocks not found of Request status", leaveBlocks);
+	}
+	
+	@Test
+	public void testCalculateAccrualBalance() {
+		Calendar leaveDate = Calendar.getInstance();
+		leaveDate.setTime(TKUtils.getTimelessDate(null));
+		leaveDate.set(Calendar.MONTH, 2);
+		leaveDate.set(Calendar.DATE, 2);
+		Double sum = leaveBlockService.calculateAccrualbalance(leaveDate.getTime(), "3000", "admin");
 	}
 	
 

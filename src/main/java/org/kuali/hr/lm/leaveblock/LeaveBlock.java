@@ -69,6 +69,8 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
     
     @Transient 
     private String assignmentTitle;
+    @Transient
+    private Double accrualBalance;
     
     public static class Builder {
 
@@ -498,5 +500,16 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	public void setAssignmentTitle(String assignmentTitle) {
 		this.assignmentTitle = assignmentTitle;
 	}
-	
+
+
+	public Double getAccrualBalance() {
+		accrualBalance = TkServiceLocator.getLeaveBlockService().calculateAccrualbalance(this.leaveDate, this.accrualCategoryId, this.principalId); 
+		return accrualBalance;
+	}
+
+
+	public void setAccrualBalance(Double accrualBalance) {
+		this.accrualBalance = accrualBalance;
+	}
+
 }

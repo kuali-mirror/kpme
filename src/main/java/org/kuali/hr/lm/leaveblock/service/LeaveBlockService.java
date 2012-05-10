@@ -41,4 +41,13 @@ public interface LeaveBlockService {
      * @return List of LeaveBlocks
      */
     public List<LeaveBlock> getLeaveBlocksForDate(String principalId, Date leaveDate);
+    
+    /**
+     * Calculate the accrual balance (sum of the leave blocks at that time.)
+     * @param leaveDate
+     * @param accrualCategoryId
+     * @param principalId
+     * @return sum of leave amount of leave blocks
+     */
+    public Double calculateAccrualbalance(Date leaveDate, String accrualCategoryId, String principalId);
 }

@@ -10,6 +10,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class LeaveBlockDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements LeaveBlockDao {
@@ -97,6 +98,17 @@ public class LeaveBlockDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 	    if(c!= null) {
 	    	leaveBlocks.addAll(c);
 	    }
+		return leaveBlocks;
+	}
+
+	@Override
+	public List<LeaveBlock> getLeaveBlocks(Date leaveDate, String accrualCategoryId, String principalId) {
+		Criteria root = new Criteria();
+		root.addLessOrEqualThan("leaveDate", leaveDate);
+		root.addEqualTo("accrualCategoryId", accrualCategoryId);
+		root.addEqualTo("principalId", principalId);
+		Query query = QueryFactory.newQuery(LeaveBlock.class, root);
+        List<LeaveBlock> leaveBlocks = (List<LeaveBlock>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 		return leaveBlocks;
 	}
 
