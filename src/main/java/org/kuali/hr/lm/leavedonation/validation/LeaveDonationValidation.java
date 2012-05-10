@@ -5,6 +5,7 @@ import java.sql.Date;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.leavedonation.LeaveDonation;
 import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -62,11 +63,17 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 		}
 		return valid;
 	}
-	boolean validateLeaveCode(String accCatName, String ldLeaveCode, String forPerson, Date asOfDate) {
+
+	boolean validateLeaveCode(String principalAC, String formLeaveCode, String forPerson, Date asOfDate) {
 		boolean valid = true;
-		AccrualCategory accCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accCatName, asOfDate);
-		String acLeaveCode = accCat.getLeaveCode();
-		if (!StringUtils.equalsIgnoreCase(acLeaveCode, ldLeaveCode)) {
+
+		LeaveCode testLeaveCode = TkServiceLocator.getLeaveCodeService().getLeaveCode(formLeaveCode, asOfDate);
+		String formLeaveCodeAC = "NullAccrualCategoryPlaceholder";
+		if (testLeaveCode != null && testLeaveCode.getAccrualCategory() != null) {
+			formLeaveCodeAC = testLeaveCode.getAccrualCategory();
+		}
+
+		if (!StringUtils.equalsIgnoreCase(principalAC, formLeaveCodeAC)) {
 			this.putFieldError(forPerson.equals(LeaveDonationValidation.DONOR) ? "donatedLeaveCode"
 					: "recipientsLeaveCode", "error.codeCategory.mismatch", forPerson);
 			valid = false;
@@ -107,13 +114,13 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 						leaveDonation.getRecipientsPrincipalID(),
 						LeaveDonationValidation.RECEPIENT);
 				}
-				if(StringUtils.isNotBlank(leaveDonation.getDonatedAccrualCategory())) {
+				if(leaveDonation.getDonatedAccrualCategory() != null) {
 						valid &= this.validateLeaveCode(
 						leaveDonation.getDonatedAccrualCategory(),
 						leaveDonation.getDonatedLeaveCode(),
 						LeaveDonationValidation.DONOR, leaveDonation.getEffectiveDate());
 				}
-				if(StringUtils.isNotBlank(leaveDonation.getRecipientsAccrualCategory())) {
+				if(leaveDonation.getRecipientsAccrualCategory() != null) {
 						valid &= this.validateLeaveCode(
 						leaveDonation.getRecipientsAccrualCategory(),
 						leaveDonation.getRecipientsLeaveCode(),
