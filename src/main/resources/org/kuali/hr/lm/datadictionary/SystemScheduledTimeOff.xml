@@ -417,6 +417,8 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
+				<bean parent="FieldDefinition" p:attributeName="leavePlan" p:noInquiry="true" p:noLookup="true" p:hidden="true" />
+				<bean parent="FieldDefinition" p:attributeName="accrualCategory" p:noInquiry="true" p:noLookup="true" p:hidden="true" />
 				<!-- bean parent="FieldDefinition" p:attributeName="leavePlan" /-->
 				<!-- bean parent="FieldDefinition" p:attributeName="accrualCategory" /-->
 				<bean parent="FieldDefinition" p:attributeName="leaveCode" />
