@@ -26,7 +26,7 @@ $(function () {
           	var selectedPP = $("#selectedPayPeriod option:selected").val();
         	var newLoc = window.location.pathname + '?methodToCall=changePayPeriod&selectedPP=' + selectedPP ;
             window.location = newLoc ;
-         },
+         }
     
     });
     
