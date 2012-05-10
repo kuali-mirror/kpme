@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.hr.time.base.web.TkForm;
+import org.kuali.hr.time.base.web.TkCommonCalendarForm;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 
-public class TimeApprovalActionForm extends TkForm {
+public class TimeApprovalActionForm extends TkCommonCalendarForm {
 
     public static final String ORDER_BY_PRINCIPAL = "principalName";
     public static final String ORDER_BY_DOCID = "documentId";

@@ -117,5 +117,14 @@ public class PayCalendarEntriesDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 
 		return pce;
 	}
+		
+	 public PayCalendarEntries getCalendarEntriesByBeginAndEndDate(Date beginPeriodDate, Date endPeriodDate) {
+		 Criteria root = new Criteria();
+		 root.addEqualTo("beginPeriodDateTime", beginPeriodDate);
+		 root.addEqualTo("endPeriodDateTime", endPeriodDate);
+		 Query query = QueryFactory.newQuery(PayCalendarEntries.class, root);
+
+		 return (PayCalendarEntries)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	 }
 
 }

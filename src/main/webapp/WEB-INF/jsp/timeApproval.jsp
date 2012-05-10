@@ -18,6 +18,7 @@
 <script src="js/underscore-1.3.1.min.js"></script>
 <script src="js/underscore.string-2.0.0.js"></script>
 <script src="js/backbone-0.9.1.min.js"></script>
+<script src="js/tk.common.calendar.backbone.js"></script>
 <script src="js/tk.approval.backbone.js"></script>
 
 <div class="approvals">
@@ -115,11 +116,17 @@
                     </c:if>
                 </div>
             </td>
-            <td align="left">
+            <td>
+            	<tk:payCalendarSelect />
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+        	<td></td>
+        	<td align="center">
         		<a href="${KualiForm.backLocation}?methodToCall=gotoCurrentPayPeriod"
                   	 target="_self" id="cppLink">Go to Current Pay Period</a>
         	</td>
-            <td></td>
         </tr>
     </c:if>
 </table>

@@ -36,4 +36,6 @@ public interface PayCalendarEntriesService {
      * @return A list of PayCalendarEntries.
      */
 	public List<PayCalendarEntries> getCurrentPayCalendarEntryNeedsScheduled(int thresholdDays, Date asOfDate);
+    
+    public PayCalendarEntries getCalendarEntriesByBeginAndEndDate(Date beginPeriodDate, Date endPeriodDate);
 }

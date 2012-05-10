@@ -16,4 +16,6 @@ public interface PayCalendarEntriesDao {
 
 
 	public List<PayCalendarEntries> getCurrentPayCalendarEntryNeedsScheduled(int thresholdDays, Date asOfDate);
+	
+	 public PayCalendarEntries getCalendarEntriesByBeginAndEndDate(Date beginPeriodDate, Date endPeriodDate);
 }

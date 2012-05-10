@@ -1,6 +1,7 @@
 package org.kuali.hr.time.detail.web;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -34,6 +35,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.text.SimpleDateFormat;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class TimeDetailAction extends TimesheetAction {
 
@@ -93,6 +99,8 @@ public class TimeDetailAction extends TimesheetAction {
         TkCalendar cal = TkCalendar.getCalendar(aggregate);
         cal.assignAssignmentStyle(aMap);
         tdaf.setTkCalendar(cal);
+     
+        this.populateCalendarAndPayPeriodLists(request, tdaf);
 
         tdaf.setTimeBlockString(ActionFormUtils.getTimeBlocksJson(aggregate.getFlattenedTimeBlockList()));
 
@@ -130,6 +138,46 @@ public class TimeDetailAction extends TimesheetAction {
 
         return forward;
     }
+
+	private void populateCalendarAndPayPeriodLists(HttpServletRequest request, TimeDetailActionForm tdaf) {
+		List<TimesheetDocumentHeader> documentHeaders = (List<TimesheetDocumentHeader>) TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeadersForPrincipalId(TKContext.getUser().getPrincipalId());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        if(tdaf.getCalendarYears().isEmpty()) {
+        	// get calendar year drop down list contents
+	        Set<String> yearSet = new HashSet<String>();
+	        
+	        for(TimesheetDocumentHeader tdh : documentHeaders) {
+	        	yearSet.add(sdf.format(tdh.getPayBeginDate()));
+	        }
+	        List<String> yearList = new ArrayList<String>(yearSet);
+	        Collections.sort(yearList);
+	        tdaf.setCalendarYears(yearList);
+        }
+        // if selected calendar year is passed in
+        if(request.getParameter("selectedCY")!= null) {
+        	tdaf.setSelectedCalendarYear(request.getParameter("selectedCY").toString());
+        }
+        // if there is no selected calendr year, use the year of current pay calendar entry
+        if(StringUtils.isEmpty(tdaf.getSelectedCalendarYear())) {
+        	tdaf.setSelectedCalendarYear(sdf.format(tdaf.getPayCalendarDates().getBeginPeriodDate()));
+        }
+        if(tdaf.getPayPeriodsMap().isEmpty()) {
+	        List<PayCalendarEntries> payPeriodList = new ArrayList<PayCalendarEntries>();
+	        for(TimesheetDocumentHeader tdh : documentHeaders) {
+	        	if(sdf.format(tdh.getPayBeginDate()).equals(tdaf.getSelectedCalendarYear())) {
+	        		PayCalendarEntries pe = TkServiceLocator.getPayCalendarEntriesSerivce().getCalendarEntriesByBeginAndEndDate(tdh.getPayBeginDate(), tdh.getPayEndDate());
+	        		payPeriodList.add(pe);
+	        	}
+	        }
+	        tdaf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(payPeriodList));
+        }
+        if(request.getParameter("selectedPP")!= null) {
+        	tdaf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
+        }
+        if(StringUtils.isEmpty(tdaf.getSelectedPayPeriod())) {
+        	tdaf.setSelectedPayPeriod(tdaf.getPayCalendarDates().getHrPyCalendarEntriesId());
+        }
+	}
 
 
     /**
@@ -317,13 +365,39 @@ public class TimeDetailAction extends TimesheetAction {
 
         return mapping.findForward("basic");
     }
- 
+      
   public ActionForward gotoCurrentPayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 	  String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
 	  Date currentDate = TKUtils.getTimelessDate(null);
       PayCalendarEntries pce = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(viewPrincipal,  currentDate);
       TimesheetDocument td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, pce);
-      super.setupDocumentOnFormContext((TimesheetActionForm)form, td);
+      setupDocumentOnFormContext((TimesheetActionForm)form, td);
+	  return mapping.findForward("basic");
+  }
+  
+  //Triggered by changes of pay period drop down list, reload the whole page based on the selected pay period
+  public ActionForward changeCalendarYear(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	  
+	  TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
+	  if(request.getParameter("selectedCY") != null) {
+		  tdaf.setSelectedCalendarYear(request.getParameter("selectedCY").toString());
+	  }
+	  return mapping.findForward("basic");
+  }
+  
+  //Triggered by changes of pay period drop down list, reload the whole page based on the selected pay period
+  public ActionForward changePayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	  TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
+	  if(request.getParameter("selectedPP") != null) {
+		  tdaf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
+		  PayCalendarEntries pce = TkServiceLocator.getPayCalendarEntriesSerivce()
+		  	.getPayCalendarEntries(request.getParameter("selectedPP").toString());
+		  if(pce != null) {
+			  String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
+			  TimesheetDocument td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, pce);
+			  setupDocumentOnFormContext((TimesheetActionForm)form, td);
+		  }
+	  }
 	  return mapping.findForward("basic");
   }
 

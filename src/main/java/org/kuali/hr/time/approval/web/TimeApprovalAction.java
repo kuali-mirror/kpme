@@ -1,9 +1,12 @@
 package org.kuali.hr.time.approval.web;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +19,7 @@ import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.base.web.TkAction;
+import org.kuali.hr.time.detail.web.ActionFormUtils;
 import org.kuali.hr.time.paycalendar.PayCalendar;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.person.TKPerson;
@@ -123,7 +127,8 @@ public class TimeApprovalAction extends TkAction{
 	        taaf.setApprovalRows(getApprovalRows(taaf, getSubListPrincipalIds(request, persons)));
 	        taaf.setResultSize(persons.size());
     	}
-
+    	
+    	this.populateCalendarAndPayPeriodLists(request, taaf);
 		return mapping.findForward("basic");
 	}
 	
@@ -166,8 +171,6 @@ public class TimeApprovalAction extends TkAction{
         if(StringUtils.isBlank(taaf.getSelectedDept())){
         	resetState(form, request);
         }
-        
-        
         // Set calendar groups
         List<String> calGroups = TkServiceLocator.getTimeApproveService().getUniquePayGroups();
         taaf.setPayCalendarGroups(calGroups);
@@ -187,8 +190,48 @@ public class TimeApprovalAction extends TkAction{
         }
         taaf.setPayCalendarEntries(payCalendarEntries);
         
+        
+        if(taaf.getPayCalendarEntries() != null) {
+	        populateCalendarAndPayPeriodLists(request, taaf);
+        }
         setupDocumentOnFormContext(request,taaf,payCalendarEntries, page);
         return fwd;
+	}
+
+	private void populateCalendarAndPayPeriodLists(HttpServletRequest request, TimeApprovalActionForm taaf) {
+		// set calendar year list
+		Set<String> yearSet = new HashSet<String>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+		// if selected calendar year is passed in
+		if(!StringUtils.isEmpty(request.getParameter("selectedCY"))) {
+			taaf.setSelectedCalendarYear(request.getParameter("selectedCY").toString());
+		} else {
+			taaf.setSelectedCalendarYear(sdf.format(taaf.getPayCalendarEntries().getBeginPeriodDate()));
+		}
+		
+		List<PayCalendarEntries> pcListForYear = new ArrayList<PayCalendarEntries>();
+		List<PayCalendarEntries> pceList = TkServiceLocator.getTimeApproveService()
+			.getAllPayCalendarEntriesForApprover(TKContext.getPrincipalId(), TKUtils.getTimelessDate(null));
+	    for(PayCalendarEntries pce : pceList) {
+	    	yearSet.add(sdf.format(pce.getBeginPeriodDate()));
+	    	if(sdf.format(pce.getBeginPeriodDate()).equals(taaf.getSelectedCalendarYear())) {
+	    		pcListForYear.add(pce);
+	    	}
+	    }
+	    List<String> yearList = new ArrayList<String>(yearSet);
+	    Collections.sort(yearList);
+	    taaf.setCalendarYears(yearList);
+		
+		// set pay period list contents
+		if(!StringUtils.isEmpty(request.getParameter("selectedPP"))) {
+			taaf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
+		} else {
+			taaf.setSelectedPayPeriod(taaf.getPayCalendarEntries().getHrPyCalendarEntriesId());
+			taaf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(pcListForYear));
+		}
+		if(taaf.getPayPeriodsMap().isEmpty()) {
+		    taaf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(pcListForYear));
+		}
 	}
 
 	private void setupDocumentOnFormContext(HttpServletRequest request,TimeApprovalActionForm taaf,PayCalendarEntries payCalendarEntries, String page) {
@@ -330,7 +373,37 @@ public class TimeApprovalAction extends TkAction{
         PayCalendar currentPayCalendar = TkServiceLocator.getPayCalendarSerivce().getPayCalendarByGroup(taaf.getSelectedPayCalendarGroup());
         PayCalendarEntries payCalendarEntries = TkServiceLocator.getPayCalendarEntriesSerivce().getCurrentPayCalendarEntriesByPayCalendarId(currentPayCalendar.getHrPyCalendarId(), currentDate);
         taaf.setPayCalendarEntries(payCalendarEntries);
+        taaf.setSelectedCalendarYear(new SimpleDateFormat("yyyy").format(payCalendarEntries.getBeginPeriodDate()));
+        taaf.setSelectedPayPeriod(payCalendarEntries.getHrPyCalendarEntriesId());
+        populateCalendarAndPayPeriodLists(request, taaf);
         setupDocumentOnFormContext(request, taaf, payCalendarEntries, page);
         return mapping.findForward("basic");
     }
+    
+    // Triggered by changes of calendar year drop down list, reloads the pay period list
+    public ActionForward changeCalendarYear(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
+    	if(!StringUtils.isEmpty(request.getParameter("selectedCY"))) {
+    		taaf.setSelectedCalendarYear(request.getParameter("selectedCY").toString());
+    		populateCalendarAndPayPeriodLists(request, taaf);
+    	}
+    	return mapping.findForward("basic");
+    }
+    
+    // Triggered by changes of pay period drop down list, reloads the whole page based on the selected pay period
+    public ActionForward changePayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+      String page = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
+      TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
+  	  if(!StringUtils.isEmpty(request.getParameter("selectedPP"))) {
+  		  taaf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
+  		  PayCalendarEntries pce = TkServiceLocator.getPayCalendarEntriesSerivce()
+  		  	.getPayCalendarEntries(request.getParameter("selectedPP").toString());
+  		  if(pce != null) {
+  			  taaf.setPayCalendarEntries(pce);
+  			  setupDocumentOnFormContext(request, taaf, pce, page);
+  		  }
+  	  }
+  	  return mapping.findForward("basic");
+    }
+    
 }

@@ -825,4 +825,40 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		return KEWServiceLocator.getRouteHeaderService().getRouteHeader(
 				Long.parseLong(documentId));
 	}
+	
+	@Override
+	public List<PayCalendarEntries> getAllPayCalendarEntriesForApprover(String principalId, Date currentDate) {
+		TKUser tkUser = TKContext.getUser();
+		Set<String> principals = new HashSet<String>();
+		DateTime minDt = new DateTime(currentDate,
+				TkConstants.SYSTEM_DATE_TIME_ZONE);
+		minDt = minDt.minusDays(DAYS_WINDOW_DELTA);
+		Set<Long> approverWorkAreas = tkUser.getCurrentRoles().getApproverWorkAreas();
+
+		// Get all of the principals within our window of time.
+		for (Long waNum : approverWorkAreas) {
+			List<Assignment> assignments = TkServiceLocator
+					.getAssignmentService().getActiveAssignmentsForWorkArea(waNum, TKUtils.getTimelessDate(currentDate));
+
+			if (assignments != null) {
+				for (Assignment assignment : assignments) {
+					principals.add(assignment.getPrincipalId());
+				}
+			}
+		}
+		List<TimesheetDocumentHeader> documentHeaders = new ArrayList<TimesheetDocumentHeader>();
+		for(String pid : principals) {
+			documentHeaders.addAll(TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeadersForPrincipalId(pid));
+		}
+		Set<PayCalendarEntries> payPeriodSet = new HashSet<PayCalendarEntries>();
+		for(TimesheetDocumentHeader tdh : documentHeaders) {
+    		PayCalendarEntries pe = TkServiceLocator.getPayCalendarEntriesSerivce().getCalendarEntriesByBeginAndEndDate(tdh.getPayBeginDate(), tdh.getPayEndDate());
+    		if(pe != null) {
+    			payPeriodSet.add(pe);
+    		}
+        }
+		List<PayCalendarEntries> ppList = new ArrayList<PayCalendarEntries>(payPeriodSet);
+        
+		return ppList;
+	}
 }

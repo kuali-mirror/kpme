@@ -60,4 +60,14 @@ public class TimesheetDocumentHeaderServiceImpl implements TimesheetDocumentHead
 		documentHeaderDao.deleteTimesheetHeader(documentId);
 
 	}
+	
+	@Override
+	public List<TimesheetDocumentHeader> getDocumentHeadersForPrincipalId(String principalId) {
+		return documentHeaderDao.getDocumentHeadersForPrincipalId(principalId);
+	}
+	
+	 public List<TimesheetDocumentHeader> getDocumentHeadersForYear(String principalId, String year) {
+		 return documentHeaderDao.getDocumentHeadersForYear(principalId, year);
+	 }
+
 }

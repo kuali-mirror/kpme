@@ -71,6 +71,9 @@ public interface TimeApproveService {
      * @return A CalendarGroup Name to PayCalendarEntries mapping.
      */
     public Map<String,PayCalendarEntries> getPayCalendarEntriesForApprover(String principalId, Date currentDate, String dept);
+    
+    public List<PayCalendarEntries> getAllPayCalendarEntriesForApprover(String principalId, Date currentDate);
+    
     public boolean doesApproverHavePrincipalsForCalendarGroup(Date asOfDate, String calGroup);
     public Map<String,PayCalendarEntries> getPayCalendarEntriesForDept(String dept, Date currentDate);
 

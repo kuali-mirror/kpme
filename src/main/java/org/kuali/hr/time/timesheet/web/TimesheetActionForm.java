@@ -1,14 +1,14 @@
 package org.kuali.hr.time.timesheet.web;
 
 import org.apache.struts.action.ActionMapping;
-import org.kuali.hr.time.base.web.TkForm;
+import org.kuali.hr.time.base.web.TkCommonCalendarForm;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
-public class TimesheetActionForm extends TkForm {
+public class TimesheetActionForm extends TkCommonCalendarForm {
 
 	/**
 	 *

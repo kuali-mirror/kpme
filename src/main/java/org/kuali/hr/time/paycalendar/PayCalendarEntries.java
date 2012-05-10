@@ -6,6 +6,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 import javax.persistence.Transient;
+
 import java.sql.Date;
 import java.sql.Time;
 import java.util.LinkedHashMap;
@@ -31,7 +32,7 @@ import java.util.LinkedHashMap;
  * java.util.Date : getBeginPeriodDateTime()
  *
  */
-public class PayCalendarEntries extends PersistableBusinessObjectBase {
+public class PayCalendarEntries extends PersistableBusinessObjectBase implements Comparable<PayCalendarEntries> {
 
     /**
      *
@@ -264,5 +265,8 @@ public class PayCalendarEntries extends PersistableBusinessObjectBase {
 
     public void setPayCalendarObj(PayCalendar payCalendarObj) {
         this.payCalendarObj = payCalendarObj;
+    }
+    public int compareTo(PayCalendarEntries pce) {
+        return this.getBeginPeriodDate().compareTo(pce.getBeginPeriodDate());
     }
 }
