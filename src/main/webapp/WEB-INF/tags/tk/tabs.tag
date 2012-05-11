@@ -15,7 +15,7 @@
                 href="TimeApproval.do?methodToCall=loadApprovalTab">Approvals</a></li>
     </c:if>
     <c:if test="${Form.leaveEnabled}">
-        <li id="leaveBlockDisplay" class="ui-state-default ui-corner-top"><a href="LeaveBlockDisplay.do">Leave Block Display</a></li>
+        <li id="leaveBlockDisplay" class="ui-state-default ui-corner-top"><a href="LeaveBlockDisplay.do">Leave Ledger</a></li>
         <li id="leaveRequest" class="ui-state-default ui-corner-top"><a href="LeaveRequest.do">Leave Request</a></li>
     </c:if>
     

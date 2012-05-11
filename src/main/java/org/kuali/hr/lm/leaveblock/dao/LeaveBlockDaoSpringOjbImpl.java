@@ -104,7 +104,7 @@ public class LeaveBlockDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impl
 	@Override
 	public List<LeaveBlock> getLeaveBlocks(Date leaveDate, String accrualCategoryId, String principalId) {
 		Criteria root = new Criteria();
-		root.addLessOrEqualThan("leaveDate", leaveDate);
+		root.addLessOrEqualThan("timestamp", leaveDate);
 		root.addEqualTo("accrualCategoryId", accrualCategoryId);
 		root.addEqualTo("principalId", principalId);
 		Query query = QueryFactory.newQuery(LeaveBlock.class, root);

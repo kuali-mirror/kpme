@@ -51,15 +51,13 @@
 					</display:column>
 					<display:column property="leaveCode" title="Leave Code"/>
 					<display:column property="description" title="Description" />
-					<display:column property="requestStatus" title="Leave Entry Status" />
-					<display:column property="leaveAmount" title="Amount of Leave" />
+					<display:column property="requestStatus" title="Status" />
+					<display:column property="leaveAmount" title="Amount" />
 					<display:column title="Timestamp">
 						<fmt:formatDate type="both" value="${leaveEntry.timestamp}"
 							pattern="MM/dd/yyyy hh:mm a" />
 					</display:column>
-					<display:column property="jobNumber" title="Job Number" />
-					<display:column property="workArea" title="Workarea" />
-					<display:column property="task" title="Task" />
+					<display:column property="assignmentTitle" title="Assignment"/>
 					<display:column property="accrualBalance" title="Accrual balances" />
 				</display:table>
 			</div>
@@ -83,10 +81,8 @@
 						<fmt:formatDate type="both" value="${correctedEntries.timestamp}"
 							pattern="MM/dd/yyyy hh:mm a" />
 					</display:column>
-					<display:column property="leaveAmount" title="Amount of Leave" />
-					<display:column property="jobNumber" title="Job Number" />
-					<display:column property="workArea" title="Workarea" />
-					<display:column property="task" title="Task" />
+					<display:column property="leaveAmount" title="Amount" />
+					<display:column property="assignmentTitle" title="Assignment"/>
 				</display:table>
 			</div>
 
@@ -102,18 +98,16 @@
 							pattern="MMM-dd-yyyy" />
 					</display:column>
 					<display:column property="leaveCode" title="Leave Code" />
-					<display:column property="requestStatus" title="Leave Entry Status" />
+					<display:column property="requestStatus" title="Status" />
 					<display:column property="description" title="Description" />
-					<display:column property="leaveAmount" title="Amount of Leave" />
+					<display:column property="leaveAmount" title="Amount" />
 					<display:column title="Timestamp Deleted/Modified">
 						<fmt:formatDate type="both" value="${inActiveEntries.timestamp}"
 							pattern="MM/dd/yyyy hh:mm a" />
 					</display:column>
 					<display:column property="principalIdModified"
 						title="User Deleted/Modified" />
-					<display:column property="jobNumber" title="Job Number" />
-					<display:column property="workArea" title="Workarea" />
-					<display:column property="task" title="Task" />
+				    <display:column property="assignmentTitle" title="Assignment"/>
 				</display:table>
 			</div>
 		</div>
