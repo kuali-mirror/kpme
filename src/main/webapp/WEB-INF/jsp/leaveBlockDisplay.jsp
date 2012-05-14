@@ -45,9 +45,12 @@
 			<div>
 				<display:table name="${Form.leaveEntries}" class="datatable-100"
 					cellspacing="0" uid="leaveEntry" sort="external" defaultsort="1" >
+					
 					<display:column title="Date of Leave" sortable="true" sortProperty="leaveDate" >
-						<fmt:formatDate type="date" value="${leaveEntry.leaveDate}"
+						<a href="LeaveCalendar.do?documentId=${leaveEntry.documentId}&calEntryId=${leaveEntry.calendarId}">
+							<fmt:formatDate type="date" value="${leaveEntry.leaveDate}"
 							pattern="MMM-dd-yyyy" />
+						</a>
 					</display:column>
 					<display:column property="leaveCode" title="Leave Code"/>
 					<display:column property="description" title="Description" />
@@ -70,8 +73,10 @@
 					class="datatable-100" cellspacing="0" requestURIcontext="false"
 					uid="correctedEntries">
 					<display:column title="Date of Leave" >
-					<fmt:formatDate type="date" value="${leaveEntry.leaveDate}"
+						<a href="LeaveCalendar.do?documentId=${correctedEntries.documentId}&calEntryId=${correctedEntries.calendarId}">
+							<fmt:formatDate type="date" value="${correctedEntries.leaveDate}"
 							pattern="MMM-dd-yyyy" />
+						</a>
 					</display:column>
 					<display:column property="leaveCode" title="Leave Code" />
 					<display:column property="description" title="Description" />
@@ -94,8 +99,10 @@
 					class="datatable-100" cellspacing="0" requestURIcontext="false"
 					uid="inActiveEntries">
 					<display:column title="Date of Leave" >
-					<fmt:formatDate type="date" value="${leaveEntry.leaveDate}"
+						<a href="LeaveCalendar.do?documentId=${inActiveEntries.documentId}&calEntryId=${inActiveEntries.calendarId}">
+							<fmt:formatDate type="date" value="${inActiveEntries.leaveDate}"
 							pattern="MMM-dd-yyyy" />
+						</a>
 					</display:column>
 					<display:column property="leaveCode" title="Leave Code" />
 					<display:column property="requestStatus" title="Status" />

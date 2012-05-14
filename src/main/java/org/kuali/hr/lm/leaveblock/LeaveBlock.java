@@ -14,6 +14,9 @@ import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.calendar.Calendar;
+import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlockHistory;
@@ -72,6 +75,8 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	private String assignmentTitle;
 	@Transient
 	private Double accrualBalance;
+	@Transient
+	private String calendarId;
 
 	public static class Builder {
 
@@ -505,5 +510,26 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	public void setAccrualBalance(Double accrualBalance) {
 		this.accrualBalance = accrualBalance;
 	}
+
+	public String getCalendarId() {
+		PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(this.principalId, TKUtils.getCurrentDate());
+		Calendar pcal= null;
+		if(principalHRAttributes != null) {
+			pcal = principalHRAttributes.getCalendar() != null ? principalHRAttributes.getCalendar() : principalHRAttributes.getLeaveCalObj() ;
+			if(pcal!= null) {
+				CalendarEntries calEntries = TkServiceLocator.getCalendarEntriesSerivce().getCurrentCalendarEntriesByCalendarId(pcal.getHrCalendarId(), this.leaveDate);
+				if(calEntries != null) {
+					this.calendarId = calEntries.getHrCalendarEntriesId();
+				}
+			}
+		}
+		return calendarId;
+	}
+
+	public void setCalendarId(String calendarId) {
+		this.calendarId = calendarId;
+	}
+	
+	
 
 }
