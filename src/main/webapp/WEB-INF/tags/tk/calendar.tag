@@ -30,14 +30,13 @@
                 </c:if>
             </td>
         </tr>
-        <c:if test="${calType eq 'payCalendar'}">
         <tr>
             <td align="center">
                 <a href="${KualiForm.backLocation}?methodToCall=gotoCurrentPayPeriod"
                    target="_self" id="cppLink">Go to Current Pay Period</a>
             </td>
         </tr>
-
+        <c:if test="${calType eq 'payCalendar'}">
         <tr>
             <td align="right">
                 <a href="${KualiForm.backLocation}?methodToCall=actualTimeInquiry&documentId=${Form.documentId}"

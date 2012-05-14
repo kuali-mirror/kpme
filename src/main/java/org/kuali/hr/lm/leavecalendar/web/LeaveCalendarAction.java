@@ -228,4 +228,19 @@ public class LeaveCalendarAction extends TkAction {
 		leaveForm.setCalendarEntry(lcd.getCalendarEntry());
 
 	}
+	
+	public ActionForward gotoCurrentPayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
+		String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
+		Date currentDate = TKUtils.getTimelessDate(null);
+		CalendarEntries calendarEntry = TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(viewPrincipal, currentDate);
+		LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, calendarEntry);
+		lcf.setCalendarEntry(calendarEntry);
+		lcf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
+		if (lcd != null) {
+			setupDocumentOnFormContext(lcf, lcd);
+		}
+		return mapping.findForward("basic");
+	  }
 }
