@@ -1,13 +1,13 @@
 package org.kuali.hr.paygrade.dao;
 
-import java.sql.Date;
-
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.paygrade.PayGrade;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+
+import java.sql.Date;
 
 public class PayGradeDaoSpringObjImpl  extends PersistenceBrokerDaoSupport implements PayGradeDao {
 
@@ -52,6 +52,13 @@ public class PayGradeDaoSpringObjImpl  extends PersistenceBrokerDaoSupport imple
 		Query query = QueryFactory.newQuery(PayGrade.class, crit);
 		
 		return (PayGrade)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
+	
+	public int getPayGradeCount(String payGrade) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("payGrade", payGrade);
+		Query query = QueryFactory.newQuery(PayGrade.class, crit);
+		return this.getPersistenceBrokerTemplate().getCount(query);
 	}
 
 }

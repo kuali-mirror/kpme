@@ -70,6 +70,9 @@ public class TaskServiceImpl implements TaskService {
 
         return results;
     }
-	
-	
+    
+    @Override
+    public int getTaskCount(Long task) {
+    	return taskDao.getTaskCount(task);
+    }
 }

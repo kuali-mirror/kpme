@@ -1,14 +1,14 @@
 package org.kuali.hr.time.department.service;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.department.dao.DepartmentDao;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
+
+import java.sql.Date;
+import java.util.List;
 
 public class DepartmentServiceImpl implements DepartmentService {
 
@@ -95,5 +95,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<Department> getDepartmentByLocation(String location) {
 		return departmentDao.getDepartmentByLocation(location);
+	}
+	
+	@Override
+	public int getDepartmentCount(String department) {
+		return departmentDao.getDepartmentCount(department);
 	}
 }

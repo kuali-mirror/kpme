@@ -1,9 +1,9 @@
 package org.kuali.hr.time.department.service;
 
+import org.kuali.hr.time.department.Department;
+
 import java.sql.Date;
 import java.util.List;
-
-import org.kuali.hr.time.department.Department;
 
 public interface DepartmentService {
 	/**
@@ -46,4 +46,10 @@ public interface DepartmentService {
      * @return
      */
     public List<Department> getDepartmentByLocation(String location);
+    /**
+	 * get count of department with given department
+	 * @param department
+	 * @return int
+	 */
+	public int getDepartmentCount(String department);
 }

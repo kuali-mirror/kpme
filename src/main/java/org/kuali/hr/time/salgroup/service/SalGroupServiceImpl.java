@@ -1,11 +1,11 @@
 package org.kuali.hr.time.salgroup.service;
 
-import java.sql.Date;
-
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.hr.time.salgroup.dao.SalGroupDao;
 import org.kuali.hr.time.util.TkConstants;
+
+import java.sql.Date;
 
 public class SalGroupServiceImpl implements SalGroupService {
 	
@@ -25,6 +25,11 @@ public class SalGroupServiceImpl implements SalGroupService {
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public SalGroup getSalGroup(String hrSalGroupId) {
 		return salGroupDao.getSalGroup(hrSalGroupId);
+	}
+	
+	@Override
+	public int getSalGroupCount(String salGroup) {
+		return salGroupDao.getSalGroupCount(salGroup);
 	}
 
 }

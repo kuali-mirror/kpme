@@ -1,15 +1,14 @@
 package org.kuali.hr.time.calendar;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.util.LinkedHashMap;
-
-import javax.persistence.Transient;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+
+import javax.persistence.Transient;
+import java.sql.Date;
+import java.sql.Time;
+import java.util.LinkedHashMap;
 
 /**
  * This class uses java.sql.Time and java.sql.Date because for each respective component
@@ -32,7 +31,7 @@ import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
  * java.util.Date : getBeginPeriodDateTime()
  *
  */
-public class CalendarEntries extends PersistableBusinessObjectBase {
+public class CalendarEntries extends PersistableBusinessObjectBase implements Comparable<CalendarEntries>{
 
     /**
      *
@@ -265,5 +264,9 @@ public class CalendarEntries extends PersistableBusinessObjectBase {
 	public void setCalendarObj(Calendar calendarObj) {
 		this.calendarObj = calendarObj;
 	}
+
+    public int compareTo(CalendarEntries pce) {
+        return this.getBeginPeriodDate().compareTo(pce.getBeginPeriodDate());
+    }
 
 }

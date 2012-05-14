@@ -1,9 +1,9 @@
 package org.kuali.hr.job.dao;
 
+import org.kuali.hr.job.Job;
+
 import java.util.Date;
 import java.util.List;
-
-import org.kuali.hr.job.Job;
 
 public interface JobDao {
 
@@ -77,4 +77,12 @@ public interface JobDao {
     List<Job> getJobs(String principalId, String jobNumber,
                       String dept, String positionNbr, String payType,
                       java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory);
+    
+    /**
+     * Fetch the count of the jobs with the given principalId and jobNumber
+     * @param principalId
+     * @param jobNumber
+     * @return the count of the jobs with the given principalId and jobNumber
+     */
+    public int getJobCount(String principalId, Long jobNumber, String dept);
 }

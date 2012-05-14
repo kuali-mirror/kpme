@@ -1,11 +1,11 @@
 package org.kuali.hr.time.earngroup.service;
 
+import org.kuali.hr.time.earngroup.EarnGroup;
+import org.kuali.hr.time.timesheet.TimesheetDocument;
+
 import java.sql.Date;
 import java.util.List;
 import java.util.Set;
-
-import org.kuali.hr.time.earngroup.EarnGroup;
-import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 public interface EarnGroupService {
 	/**
@@ -43,4 +43,17 @@ public interface EarnGroupService {
 	 * @return
 	 */
 	public List<String> warningTextFromEarnGroupsOfDocument(TimesheetDocument timesheetDocument);
+    /**
+     * get the count of earn groups by given earnGroup
+     * @param earnGroup
+     * @return int
+     */
+    public int getEarnGroupCount(String earnGroup);
+    /**
+     * get the count of newer version of earn groups by given earnGroup and date
+     * @param earnGroup
+     * @param effdt
+     * @return int
+     */
+    public int getNewerEarnGroupCount(String earnGroup, Date effdt);
 }

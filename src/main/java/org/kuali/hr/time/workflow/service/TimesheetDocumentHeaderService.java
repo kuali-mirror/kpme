@@ -1,9 +1,9 @@
 package org.kuali.hr.time.workflow.service;
 
+import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+
 import java.util.Date;
 import java.util.List;
-
-import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 public interface TimesheetDocumentHeaderService {
 	/**
@@ -43,4 +43,21 @@ public interface TimesheetDocumentHeaderService {
     public List<TimesheetDocumentHeader> getDocumentHeaders(Date payBeginDate);
 
     public void deleteTimesheetHeader(String documentId);
+    
+    /**
+     * Fetch list of Document Headers by given principal id
+     * @param principalId
+     * @return List<TimesheetDocumentHeader>
+     */
+    public List<TimesheetDocumentHeader> getDocumentHeadersForPrincipalId(String principalId);
+    
+    /**
+     * Fetch list of Document Headers by given principal id and year
+     * @param principalId
+     * @param year
+     * @return List<TimesheetDocumentHeader>
+     */
+    public List<TimesheetDocumentHeader> getDocumentHeadersForYear(String principalId, String year);
+    
+
 }

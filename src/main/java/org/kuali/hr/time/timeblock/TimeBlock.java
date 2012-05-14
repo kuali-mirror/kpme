@@ -8,6 +8,7 @@ import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
 import javax.persistence.Transient;
@@ -79,7 +80,8 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     private Boolean pushBackward = false;
 
     private TimesheetDocumentHeader timesheetDocumentHeader;
-
+    private Person user;
+    
     private List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
     private List<TimeBlockHistory> timeBlockHistories = new ArrayList<TimeBlockHistory>();
 
@@ -650,4 +652,12 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     public void setLunchDeleted(boolean lunchDeleted) {
         this.lunchDeleted = lunchDeleted;
     }
+
+	public Person getUser() {
+		return user;
+	}
+
+	public void setUser(Person user) {
+		this.user = user;
+	}
 }

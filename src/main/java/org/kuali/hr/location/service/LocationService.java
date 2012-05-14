@@ -1,8 +1,8 @@
 package org.kuali.hr.location.service;
 
-import java.sql.Date;
-
 import org.kuali.hr.location.Location;
+
+import java.sql.Date;
 
 public interface LocationService {
 	/**
@@ -18,4 +18,10 @@ public interface LocationService {
 	 * @return
 	 */
 	public Location getLocation(String hrLocationId);
+	/**
+	 * Get location count by location
+	 * @param location
+	 * @return
+	 */
+	public int getLocationCount(String location);
 }

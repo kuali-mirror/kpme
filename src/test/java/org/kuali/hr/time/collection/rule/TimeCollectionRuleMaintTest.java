@@ -1,13 +1,7 @@
 package org.kuali.hr.time.collection.rule;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Random;
-
-import org.apache.ojb.broker.PersistenceBrokerFactory;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.junit.Test;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -15,11 +9,11 @@ import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Random;
 
 public class TimeCollectionRuleMaintTest extends TkTestCase {
 
@@ -134,11 +128,7 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 		Random randomObj = new Random();
 		for (;;) {
 			long deptIdIndex = randomObj.nextInt();
-			Criteria crit = new Criteria();
-			crit.addEqualTo("dept", deptIdIndex);
-			Query query = QueryFactory.newQuery(Department.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-
+			int count = TkServiceLocator.getDepartmentService().getDepartmentCount(Long.toString(deptIdIndex));
 
 			if (count == 0) {
 				TEST_CODE_INVALID_DEPT_ID = Long.toString(deptIdIndex);
@@ -161,11 +151,7 @@ public class TimeCollectionRuleMaintTest extends TkTestCase {
 		// setting workAreaId for which Workarea doesn't exist .
 		for (;;) {
 			long workAreaIndex = randomObj.nextInt();
-			Criteria crit = new Criteria();
-			crit.addEqualTo("workArea", workAreaIndex);
-			Query query = QueryFactory.newQuery(WorkArea.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-
+			int count = TkServiceLocator.getWorkAreaService().getWorkAreaCount(null, workAreaIndex);
 
 			if (count == 0) {
 				TEST_CODE_INVALID_WORKAREA = new Long(workAreaIndex);

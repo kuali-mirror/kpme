@@ -1,8 +1,8 @@
 package org.kuali.hr.location.dao;
 
-import java.sql.Date;
-
 import org.kuali.hr.location.Location;
+
+import java.sql.Date;
 
 public interface LocationDao {
 	/**
@@ -18,4 +18,6 @@ public interface LocationDao {
 	 * @return
 	 */
 	public Location getLocation(String hrLocationId);
+	
+	public int getLocationCount(String location);
 }

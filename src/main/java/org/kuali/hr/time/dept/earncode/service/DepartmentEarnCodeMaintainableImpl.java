@@ -1,7 +1,5 @@
 package org.kuali.hr.time.dept.earncode.service;
 
-import java.util.Map;
-
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -10,6 +8,8 @@ import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+
+import java.util.Map;
 
 public class DepartmentEarnCodeMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 	/**
@@ -21,7 +21,8 @@ public class DepartmentEarnCodeMaintainableImpl extends HrBusinessObjectMaintain
 	@Override
     public void processAfterEdit( MaintenanceDocument document, Map<String,String[]> parameters ) {
 		DepartmentEarnCode departmentEarnCode = (DepartmentEarnCode) this.getBusinessObject();
-		if(ValidationUtils.newerVersionExists(DepartmentEarnCode.class, "earnCode", departmentEarnCode.getEarnCode(), departmentEarnCode.getEffectiveDate())) {
+		int count = TkServiceLocator.getDepartmentEarnCodeService().getNewerDeptEarnCodeCount(departmentEarnCode.getEarnCode(), departmentEarnCode.getEffectiveDate());
+		if(count > 0) {
 			GlobalVariables.getMessageMap().putWarningWithoutFullErrorPath(
 					KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + "effectiveDate", 
 					"deptEarncode.effectiveDate.newer.exists");

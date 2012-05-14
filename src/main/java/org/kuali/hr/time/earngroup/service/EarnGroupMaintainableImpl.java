@@ -1,9 +1,5 @@
 package org.kuali.hr.time.earngroup.service;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.earngroup.EarnGroupDefinition;
@@ -13,6 +9,10 @@ import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.util.GlobalVariables;
 import org.kuali.rice.kns.util.KNSConstants;
+
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class EarnGroupMaintainableImpl extends HrBusinessObjectMaintainableImpl{
 	/**
@@ -48,7 +48,8 @@ public class EarnGroupMaintainableImpl extends HrBusinessObjectMaintainableImpl{
 	@Override
     public void processAfterEdit( MaintenanceDocument document, Map<String,String[]> parameters ) {
 		EarnGroup earnGroup = (EarnGroup)this.getBusinessObject();
-		if(ValidationUtils.newerVersionExists(EarnGroup.class, "earnGroup", earnGroup.getEarnGroup(), earnGroup.getEffectiveDate())) {
+		int count = TkServiceLocator.getEarnGroupService().getNewerEarnGroupCount(earnGroup.getEarnGroup(), earnGroup.getEffectiveDate());
+		if(count > 0) {
 			GlobalVariables.getMessageMap().putWarningWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + "effectiveDate", 
 					"earngroup.effectiveDate.newr.exists");
 		}

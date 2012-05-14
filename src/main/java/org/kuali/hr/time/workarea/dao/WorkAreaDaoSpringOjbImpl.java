@@ -227,8 +227,16 @@ public class WorkAreaDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implem
 			
 		}
 		return results;
-		
-		
 	}
 
+	@Override
+	public int getWorkAreaCount(String dept, Long workArea) {
+		Criteria crit = new Criteria();
+		if(dept != null) {
+			crit.addEqualTo("dept", dept);
+		}
+		crit.addEqualTo("workArea", workArea);
+		Query query = QueryFactory.newQuery(WorkArea.class, crit);
+		return this.getPersistenceBrokerTemplate().getCount(query); 
+	}
 }

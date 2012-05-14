@@ -127,4 +127,8 @@ public class JobServiceImpl implements JobService {
 
         return jobDao.getJobs(principalId, jobNumber, dept, positionNbr, payType, fromEffdt, toEffdt, active, showHistory);
     }
+    
+    public int getJobCount(String principalId, Long jobNumber, String dept) {
+    	return jobDao.getJobCount(principalId, jobNumber, dept);
+    }
 }

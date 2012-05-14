@@ -5,6 +5,7 @@ import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.json.simple.JSONValue;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
@@ -13,6 +14,7 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class ActionFormUtils {
@@ -180,5 +182,24 @@ public class ActionFormUtils {
 //        }
         return JSONValue.toJSONString(timeBlockList);
     }
-
+    
+    public static Map<String, String> getPayPeriodsMap(List<CalendarEntries> payPeriods) {
+    	// use linked map to keep the order of the pay periods
+    	Map<String, String> pMap = Collections.synchronizedMap(new LinkedHashMap<String, String>());
+    	if (payPeriods == null || payPeriods.isEmpty()) {
+            return pMap;
+        }
+    	payPeriods.removeAll(Collections.singletonList(null));
+    	Collections.sort(payPeriods);  // sort the pay period list by getBeginPeriodDate
+    	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+        for (CalendarEntries pce : payPeriods) {
+        	if(pce != null && pce.getHrCalendarEntriesId()!= null && pce.getBeginPeriodDate() != null && pce.getEndPeriodDate() != null) {
+        		pMap.put(pce.getHrCalendarEntriesId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format(pce.getEndPeriodDate()));
+        	}
+        }
+        
+    	return pMap;
+    }
+        
 }
+

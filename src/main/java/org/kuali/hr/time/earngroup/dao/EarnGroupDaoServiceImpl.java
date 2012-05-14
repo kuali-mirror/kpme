@@ -1,7 +1,5 @@
 package org.kuali.hr.time.earngroup.dao;
 
-import java.sql.Date;
-
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -9,6 +7,8 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.earngroup.EarnGroupDefinition;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+
+import java.sql.Date;
 
 public class EarnGroupDaoServiceImpl extends PersistenceBrokerDaoSupport implements EarnGroupDaoService {
 
@@ -130,5 +130,21 @@ public class EarnGroupDaoServiceImpl extends PersistenceBrokerDaoSupport impleme
 		Query query = QueryFactory.newQuery(EarnGroup.class, crit);
 		return (EarnGroup)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
-
+	
+	@Override
+	public int getEarnGroupCount(String earnGroup) {
+		Criteria crit = new Criteria();
+	    crit.addEqualTo("earnGroup", earnGroup);
+	    Query query = QueryFactory.newQuery(EarnGroup.class, crit);
+	    return this.getPersistenceBrokerTemplate().getCount(query);
+	}
+	@Override
+	public int getNewerEarnGroupCount(String earnGroup, Date effdt) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("earnGroup", earnGroup);
+		crit.addEqualTo("active", "Y");
+		crit.addGreaterThan("effectiveDate", effdt);
+		Query query = QueryFactory.newQuery(EarnGroup.class, crit);
+       	return this.getPersistenceBrokerTemplate().getCount(query);
+	}
 }

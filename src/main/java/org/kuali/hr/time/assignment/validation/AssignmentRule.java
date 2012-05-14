@@ -1,20 +1,6 @@
 package org.kuali.hr.time.assignment.validation;
 
-import java.sql.Date;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.PersistenceBrokerFactory;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentAccount;
@@ -24,7 +10,6 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.ValidationUtils;
-import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
@@ -32,6 +17,9 @@ import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.kns.service.KNSServiceLocator;
+
+import java.sql.Date;
+import java.util.*;
 
 public class AssignmentRule extends MaintenanceDocumentRuleBase {
 
@@ -44,12 +32,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 						+ assignment.getWorkArea() + "'");
 				valid = false;
 			} else {
-				Criteria crit = new Criteria();
-				crit.addEqualTo("dept", assignment.getDept());
-				crit.addEqualTo("workArea", assignment.getWorkArea());
-				Query query = QueryFactory.newQuery(WorkArea.class, crit);
-				int count = PersistenceBrokerFactory.defaultPersistenceBroker()
-						.getCount(query);
+				int count = TkServiceLocator.getWorkAreaService().getWorkAreaCount(assignment.getDept(), assignment.getWorkArea());
 				valid = (count > 0);
 				if (!valid) {
 					this.putFieldError("workArea", "dept.workarea.invalid.sync");
@@ -77,12 +60,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	protected boolean validateDepartment(Assignment assignment) {
 		boolean valid = true;
 		if (assignment.getDept() != null) {
-				Criteria crit = new Criteria();
-				crit.addEqualTo("dept", assignment.getDept());
-				crit.addEqualTo("jobNumber", assignment.getJobNumber());
-				Query query = QueryFactory.newQuery(Job.class, crit);
-				int count = PersistenceBrokerFactory.defaultPersistenceBroker()
-						.getCount(query);
+				int count = TkServiceLocator.getJobSerivce().getJobCount(null, assignment.getJobNumber(), assignment.getDept());
 				valid = (count > 0);
 				if (!valid) {
 					this.putFieldError("dept", "dept.jobnumber.invalid.sync");

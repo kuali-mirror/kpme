@@ -1,10 +1,5 @@
 package org.kuali.hr.time.roles.dao;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -15,8 +10,14 @@ import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements TkRoleDao {
 
@@ -115,7 +116,7 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
         // Optional ROOT criteria added :
         if (workArea != null)
             root.addEqualTo("workArea", workArea);
-        if (department != null)
+        if (StringUtils.isNotEmpty(department))
             root.addEqualTo("department", department);
         if (chart != null)
             root.addEqualTo("chart", chart);
@@ -147,6 +148,8 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
         Criteria root = new Criteria();
         Criteria effdt = new Criteria();
         Criteria timestamp = new Criteria();
+        Criteria departmentCriteria = new Criteria();
+        Criteria workAreaCriteria = new Criteria();
         ReportQueryByCriteria effdtSubQuery;
         ReportQueryByCriteria timestampSubQuery;
 
@@ -230,8 +233,17 @@ public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implemen
         // Optional ROOT criteria added :
         if (workArea != null)
             root.addEqualTo("workArea", workArea);
-        if (StringUtils.isNotEmpty(department))
-            root.addEqualTo("department", department);
+        if (StringUtils.isNotEmpty(department)) {
+            departmentCriteria.addEqualTo("department", department);
+            Collection<WorkArea> collectionWorkAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(department, asOfDate);
+            List<Long> longWorkAreas = new ArrayList<Long>();
+            for(WorkArea cwa : collectionWorkAreas){
+                longWorkAreas.add(cwa.getWorkArea());
+            }
+            workAreaCriteria.addIn("workArea", longWorkAreas);
+            departmentCriteria.addOrCriteria(workAreaCriteria);
+            root.addAndCriteria(departmentCriteria);
+        }
         if (StringUtils.isNotEmpty(chart))
             root.addEqualTo("chart", chart);
         if (StringUtils.isNotEmpty(roleName))

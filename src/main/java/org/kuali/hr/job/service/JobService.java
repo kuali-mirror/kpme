@@ -1,9 +1,9 @@
 package org.kuali.hr.job.service;
 
+import org.kuali.hr.job.Job;
+
 import java.util.Date;
 import java.util.List;
-
-import org.kuali.hr.job.Job;
 
 public interface JobService {
 
@@ -86,4 +86,6 @@ public interface JobService {
     List<Job> getJobs(String principalId, String firstName, String lastName, String jobNumber,
                       String dept, String positionNbr, String payType,
                       java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory);
+    
+    public int getJobCount(String principalId, Long jobNumber, String dept);
 }

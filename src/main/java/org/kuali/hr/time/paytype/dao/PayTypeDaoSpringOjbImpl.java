@@ -1,8 +1,5 @@
 package org.kuali.hr.time.paytype.dao;
 
-import java.util.Date;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -10,6 +7,9 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.paytype.PayType;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+
+import java.util.Date;
+import java.util.List;
 
 public class PayTypeDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements PayTypeDao {
 
@@ -62,5 +62,13 @@ public class PayTypeDaoSpringOjbImpl extends PersistenceBrokerDaoSupport impleme
 		
 		Query query = QueryFactory.newQuery(PayType.class, crit);
 		return (PayType)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
+	
+	@Override
+	public int getPayTypeCount(String payType) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("payType", payType);
+		Query query = QueryFactory.newQuery(PayType.class, crit);
+		return this.getPersistenceBrokerTemplate().getCount(query);
 	}
 }
