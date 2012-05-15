@@ -161,7 +161,10 @@ public class LeaveCalendarAction extends TkAction {
 
 		TkServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate,
 				endDate, lcf.getCalendarEntry(), selectedLeaveCode, hours, desc, assignment);
-
+		// after adding the leave block, set the fields of this form to null for future new leave blocks
+		lcf.setLeaveAmount(null);
+		lcf.setDescription(null);
+		
 		return mapping.findForward("basic");
 	}
 
