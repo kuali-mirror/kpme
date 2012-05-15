@@ -384,22 +384,16 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
+							<bean parent="FieldDefinition" p:attributeName="descr" />
+							<bean parent="FieldDefinition" p:attributeName="accruedDate" />
 							<bean parent="FieldDefinition" p:attributeName="leavePlan" />
 							<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 							<bean parent="FieldDefinition" p:attributeName="leaveCode" />
-							<bean parent="FieldDefinition" p:attributeName="accruedDate" />
 							<bean parent="FieldDefinition" p:attributeName="scheduledTimeOffDate" />
 							<bean parent="FieldDefinition" p:attributeName="location" />
-							<bean parent="FieldDefinition" p:attributeName="descr" />
-							<bean parent="FieldDefinition" p:attributeName="amountofTime" />
-							<bean parent="FieldDefinition" p:attributeName="unusedTime" />
-							<bean parent="FieldDefinition" p:attributeName="transferConversionFactor" />
-							<bean parent="FieldDefinition" p:attributeName="transfertoLeaveCode" />
-							<bean parent="FieldDefinition" p:attributeName="expirationDate" />
-							<bean parent="FieldDefinition" p:attributeName="premiumHoliday" />
-							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
-						</list>
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+						 </list>
 					</property>
 					<property name="title" value="SystemScheduledTimeOff" />
 				</bean>

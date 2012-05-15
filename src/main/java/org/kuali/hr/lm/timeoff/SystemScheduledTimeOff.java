@@ -49,7 +49,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 				(!StringUtils.isEmpty(this.leaveCode) && this.effectiveDate != null)) {		
 			leaveCodeObj =  TkServiceLocator.getLeaveCodeService().getLeaveCode(leaveCode, this.effectiveDate);
 		}
-		
+		leavePlan = (leaveCodeObj != null) ? leaveCodeObj.getLeavePlan() : "";
 		return (leaveCodeObj != null) ? leaveCodeObj.getLeavePlan() : "";
 	}
 
@@ -62,7 +62,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 				(!StringUtils.isEmpty(this.leaveCode) && this.effectiveDate != null)) {		
 			leaveCodeObj =  TkServiceLocator.getLeaveCodeService().getLeaveCode(leaveCode, this.effectiveDate);
 		}
-		
+		accrualCategory = (leaveCodeObj != null) ? leaveCodeObj.getAccrualCategory() : "";
 		return (leaveCodeObj != null) ? leaveCodeObj.getAccrualCategory() : "";
 	}
 
