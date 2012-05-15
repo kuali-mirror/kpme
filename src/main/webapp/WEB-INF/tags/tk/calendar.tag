@@ -5,6 +5,9 @@
 <%@ attribute name="calType" required="true" type="java.lang.String" %>
 
 <div id="tkCal" class="ui-widget cal ${calType}" style="margin: 20px auto 20px auto; width:95%;">
+
+	<tk:payCalendarSelect />
+
     <%-- Add Paging Controls for moving between Calendars --%>
     <table class="cal-header">
         <tbody>

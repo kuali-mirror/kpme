@@ -73,4 +73,12 @@ public class CalendarEntriesServiceImpl implements CalendarEntriesService {
     public CalendarEntries getCalendarEntriesByBeginAndEndDate(Date beginPeriodDate, Date endPeriodDate) {
         return calendarEntriesDao.getCalendarEntriesByBeginAndEndDate(beginPeriodDate, endPeriodDate);
     }
+    
+    public List<CalendarEntries> getAllCalendarEntriesForCalendarId(String hrCalendarId) {
+    	return calendarEntriesDao.getAllCalendarEntriesForCalendarId(hrCalendarId);
+    }
+    
+    public List<CalendarEntries> getAllCalendarEntriesForCalendarIdAndYear(String hrCalendarId, String year) {
+    	return calendarEntriesDao.getAllCalendarEntriesForCalendarIdAndYear(hrCalendarId, year);
+    }
 }

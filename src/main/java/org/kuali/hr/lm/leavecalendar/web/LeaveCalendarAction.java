@@ -13,6 +13,7 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.LeaveCalendar;
+import org.kuali.hr.time.detail.web.ActionFormUtils;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
@@ -24,7 +25,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class LeaveCalendarAction extends TkAction {
 
@@ -39,8 +45,9 @@ public class LeaveCalendarAction extends TkAction {
 
 		TKUser user = TKContext.getUser();
 		String documentId = lcf.getDocumentId();
-		String calendarEntryId = lcf.getCalEntryId();
-
+		// if the reload was trigger by changing of the selectedPayPeriod, use the passed in parameter as the calendar entry id
+		String calendarEntryId = StringUtils.isNotBlank(request.getParameter("selectedPP")) ? request.getParameter("selectedPP") : lcf.getCalEntryId();
+		
 		// Here - viewPrincipal will be the principal of the user we intend to
 		// view, be it target user, backdoor or otherwise.
 		String viewPrincipal = user.getTargetPrincipalId();
@@ -92,9 +99,49 @@ public class LeaveCalendarAction extends TkAction {
 
 		LeaveCalendar calendar = new LeaveCalendar(viewPrincipal, calendarEntry);
 		lcf.setLeaveCalendar(calendar);
+		
+		this.populateCalendarAndPayPeriodLists(request, lcf);
+		
 
 		return forward;
 	}
+	
+	private void populateCalendarAndPayPeriodLists(HttpServletRequest request, LeaveCalendarForm lcf) {
+		
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        List<CalendarEntries> ceList = TkServiceLocator.getCalendarEntriesSerivce().getAllCalendarEntriesForCalendarId(lcf.getCalendarEntry().getHrCalendarId());
+        
+        if(lcf.getCalendarYears().isEmpty()) {
+        	// get calendar year drop down list contents
+	        Set<String> yearSet = new HashSet<String>();
+	        for(CalendarEntries ce : ceList) {
+	        	yearSet.add(sdf.format(ce.getBeginPeriodDate()));
+	        }
+	        List<String> yearList = new ArrayList<String>(yearSet);
+	        Collections.sort(yearList);
+	        lcf.setCalendarYears(yearList);
+        }
+        // if selected calendar year is passed in
+        if(request.getParameter("selectedCY")!= null) {
+        	lcf.setSelectedCalendarYear(request.getParameter("selectedCY").toString());
+        }
+        // if there is no selected calendr year, use the year of current pay calendar entry
+        if(StringUtils.isEmpty(lcf.getSelectedCalendarYear())) {
+        	lcf.setSelectedCalendarYear(sdf.format(lcf.getCalendarEntry().getBeginPeriodDate()));
+        }
+        if(lcf.getPayPeriodsMap().isEmpty()) {
+        	List<CalendarEntries> yearCEList = TkServiceLocator.getCalendarEntriesSerivce()
+        			.getAllCalendarEntriesForCalendarIdAndYear(lcf.getCalendarEntry().getHrCalendarId(), lcf.getSelectedCalendarYear());
+	        lcf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(yearCEList));
+        }
+        if(request.getParameter("selectedPP")!= null) {
+        	lcf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
+        }
+        if(StringUtils.isEmpty(lcf.getSelectedPayPeriod())) {
+        	lcf.setSelectedPayPeriod(lcf.getCalendarEntry().getHrCalendarEntriesId());
+        }
+	}
+	
 
 	public ActionForward addLeaveBlock(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
@@ -243,4 +290,32 @@ public class LeaveCalendarAction extends TkAction {
 		}
 		return mapping.findForward("basic");
 	  }
+	
+	//Triggered by changes of pay period drop down list, reload the whole page based on the selected pay period
+	public ActionForward changeCalendarYear(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		  
+		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
+		if(request.getParameter("selectedCY") != null) {
+			lcf.setSelectedCalendarYear(request.getParameter("selectedCY").toString());
+		}
+		return mapping.findForward("basic");
+	}
+	  
+	//Triggered by changes of pay period drop down list, reload the whole page based on the selected pay period
+	public ActionForward changePayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
+		if(request.getParameter("selectedPP") != null) {
+			lcf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
+	        CalendarEntries ce = TkServiceLocator.getCalendarEntriesSerivce()
+				.getCalendarEntries(request.getParameter("selectedPP").toString());
+			if(ce != null) {
+				String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
+				LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, ce);
+				lcf.setCalEntryId(ce.getHrCalendarEntriesId());
+				setupDocumentOnFormContext(lcf, lcd);
+			}
+		}
+		return mapping.findForward("basic");
+	}
+	
 }

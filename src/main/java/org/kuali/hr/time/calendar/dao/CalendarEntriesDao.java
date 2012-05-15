@@ -20,4 +20,8 @@ public interface CalendarEntriesDao {
 	public List<CalendarEntries> getFutureCalendarEntries(String hrCalendarId, Date currentDate, int numberOfEntries);
 
     public CalendarEntries getCalendarEntriesByBeginAndEndDate(Date beginPeriodDate, Date endPeriodDate);
+    
+    public List<CalendarEntries> getAllCalendarEntriesForCalendarId(String hrCalendarId);
+    
+    public List<CalendarEntries> getAllCalendarEntriesForCalendarIdAndYear(String hrCalendarId, String year);
 }

@@ -6,6 +6,7 @@
     <%--<script src="js/underscore.string-2.0.0.js"></script>--%>
     <script src="js/backbone-0.9.1.min.js"></script>
     <script src="js/tk.ui.js"></script>
+    <script src="js/common.calendar.backbone.js"></script>
     <script src="js/tk.leaveCalendar.backbone.js"></script>
     <tk:calendar cal="${Form.leaveCalendar}" docId="${Form.documentId}" calType="leaveCalendar"/>
 

@@ -5,6 +5,9 @@ import org.joda.time.DateTime;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -154,6 +157,37 @@ public class CalendarEntriesDaoSpringOjbImpl extends PersistenceBrokerDaoSupport
         Query query = QueryFactory.newQuery(CalendarEntries.class, root);
 
         return (CalendarEntries) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+    }
+    
+    public List<CalendarEntries> getAllCalendarEntriesForCalendarId(String hrCalendarId) {
+    	Criteria root = new Criteria();
+        root.addEqualTo("hrCalendarId", hrCalendarId);
+        Query query = QueryFactory.newQuery(CalendarEntries.class, root);
+        List<CalendarEntries> ceList = new ArrayList<CalendarEntries> (this.getPersistenceBrokerTemplate().getCollectionByQuery(query));
+        return ceList;
+    }
+    
+    public List<CalendarEntries> getAllCalendarEntriesForCalendarIdAndYear(String hrCalendarId, String year) {        
+        Criteria crit = new Criteria();
+        List<CalendarEntries> ceList = new ArrayList<CalendarEntries>();
+        try {
+	    	 crit.addEqualTo("hrCalendarId", hrCalendarId);
+	    	 DateFormat df = new SimpleDateFormat("yyyy");
+	    	 java.util.Date cYear = df.parse(year);
+	    	 String nextYear = Integer.toString((Integer.parseInt(year) + 1));
+	    	 java.util.Date nYear = df.parse(nextYear);
+	    	 
+	    	 crit.addGreaterOrEqualThan("beginPeriodDateTime", cYear);
+	    	 crit.addLessThan("beginPeriodDateTime", nYear );
+	    	 QueryByCriteria query = new QueryByCriteria(CalendarEntries.class, crit);
+	    	 Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+	    	 if (c != null) {
+		    	ceList.addAll(c);
+	    	 }
+		  } catch (ParseException e) {
+				e.printStackTrace();
+		  }
+		  return ceList;
     }
 
 
