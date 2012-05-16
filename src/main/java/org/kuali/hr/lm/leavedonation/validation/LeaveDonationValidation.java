@@ -44,7 +44,7 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 		if (!ValidationUtils.validateAccCategory(accrualCategory, asOfDate)) {
 			this.putFieldError(
 					forPerson.equals(LeaveDonationValidation.DONOR) ? "donatedAccrualCategory"
-							: "recipientsAccrualCategory", "error.existence",
+							: "recipientsAccrualCategory", "error.leavePlan.mismatch",
 					"accrualCategory '" + accrualCategory + "'");
 			valid = false;
 		}
@@ -55,11 +55,13 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 			String forPerson, String principalId) {
 		boolean valid = true;
 		if (!ValidationUtils.validateAccCategory(accrualCategory, principalId, asOfDate)) {
+			String[] myErrorsArgs={"accrualCategory '" + accrualCategory + "'", forPerson};
 			this.putFieldError(
 					forPerson.equals(LeaveDonationValidation.DONOR) ? "donatedAccrualCategory"
-							: "recipientsAccrualCategory", "error.existence",
-					"accrualCategory '" + accrualCategory + "'");
+							: "recipientsAccrualCategory", "error.leavePlan.mismatch",
+							myErrorsArgs);
 			valid = false;
+			
 		}
 		return valid;
 	}
