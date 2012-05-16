@@ -168,6 +168,35 @@ public class ValidationUtils {
 		return valid;
 	}
 	
+	public static boolean validateLeaveCodeOfAccrualCategory(String leaveCode, String accrualCategory, String principalId, Date asOfDate) {
+		boolean valid = false;
+		
+		if (asOfDate != null) {
+			if(validateAccCategory(accrualCategory, principalId, asOfDate)){
+				List<LeaveCode> leaveCodes = TkServiceLocator.getLeaveCodeService().getLeaveCodes(principalId, asOfDate);
+				if(leaveCodes != null && !leaveCodes.isEmpty()) {
+					for(LeaveCode leaveCodeObj : leaveCodes) {
+						if(leaveCodeObj.getLeaveCode() != null) {
+							if(StringUtils.equals(leaveCodeObj.getLeaveCode().trim(), leaveCode.trim()) && StringUtils.equals(leaveCodeObj.getAccrualCategory(), accrualCategory)){
+								valid = true;
+								break;
+							}
+						}
+					}
+				}
+			}
+//			valid = (leaveCodes != null);
+		} else {
+			Criteria crit = new Criteria();
+			crit.addEqualTo("leaveCode", leaveCode);
+			Query query = QueryFactory.newQuery(LeaveCode.class, crit);
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+			valid = (count > 0);
+		}
+		
+		return valid;
+	}
+	
 	public static boolean validateAccCategory(String accrualCategory, Date asOfDate) {
 		boolean valid = false;
 		

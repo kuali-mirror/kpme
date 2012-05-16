@@ -28,9 +28,9 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 		return valid;
 	}
 	
-	boolean validateLeaveCode(String leaveCode, String principalId, Date asOfDate) {
+	boolean validateLeaveCode(String leaveCode, String accrualCategory, String principalId, Date asOfDate) {
 		boolean valid = true;
-		if (!ValidationUtils.validateLeaveCode(leaveCode, principalId, asOfDate)) {
+		if (!ValidationUtils.validateLeaveCodeOfAccrualCategory(leaveCode, accrualCategory, principalId, asOfDate)) {
 			this.putFieldError("leaveCode", "error.existence", "leaveCode '"
 					+ leaveCode + "'");
 			valid = false;
@@ -80,7 +80,7 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 					valid &= this.validateLeavePlan(leaveAdjustment.getLeavePlan(), leaveAdjustment.getEffectiveDate());
 				}
 				if(leaveAdjustment.getLeaveCode() != null) {
-					valid &= this.validateLeaveCode(leaveAdjustment.getLeaveCode(), leaveAdjustment.getPrincipalId(), leaveAdjustment.getEffectiveDate());
+					valid &= this.validateLeaveCode(leaveAdjustment.getLeaveCode(), leaveAdjustment.getAccrualCategory(), leaveAdjustment.getPrincipalId(), leaveAdjustment.getEffectiveDate());
 				}
 			}
 		}
