@@ -13,6 +13,7 @@ public class TkCommonCalendarForm extends TkForm {
     
     private String selectedCalendarYear;
     private String selectedPayPeriod;
+    private boolean onCurrentPeriod;
     
 	public List<String> getCalendarYears() {
 		return calendarYears;
@@ -38,5 +39,11 @@ public class TkCommonCalendarForm extends TkForm {
 	}
 	public void setPayPeriodsMap(Map<String, String> payPeriodsMap) {
 		this.payPeriodsMap = payPeriodsMap;
+	}
+	public boolean isOnCurrentPeriod() {
+		return onCurrentPeriod;
+	}
+	public void setOnCurrentPeriod(boolean onCurrentPeriod) {
+		this.onCurrentPeriod = onCurrentPeriod;
 	}
 }

@@ -6,6 +6,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.time.base.web.TkAction;
+import org.kuali.hr.time.detail.web.ActionFormUtils;
 import org.kuali.hr.time.paycalendar.PayCalendarEntries;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -93,6 +94,7 @@ public class TimesheetAction extends TkAction {
             taForm.setNextDocumentId(nextTdh.getDocumentId());
         }
         taForm.setPayCalendarDates(td.getPayCalendarEntry());
+        taForm.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(taForm.getPayCalendarDates()));        
     }
 
 }

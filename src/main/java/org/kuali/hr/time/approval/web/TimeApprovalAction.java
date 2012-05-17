@@ -292,6 +292,8 @@ public class TimeApprovalAction extends TkAction{
 		    taaf.setApprovalRows(getApprovalRows(taaf, getSubListPrincipalIds(request, persons)));
 		    taaf.setResultSize(persons.size());
 		}
+		
+		taaf.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(taaf.getPayCalendarEntries()));
 	}
 	
 	public ActionForward selectNewPayCalendar(ActionMapping mapping, ActionForm form,

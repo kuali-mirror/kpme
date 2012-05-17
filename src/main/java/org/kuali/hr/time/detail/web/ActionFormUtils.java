@@ -14,6 +14,7 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -200,6 +201,17 @@ public class ActionFormUtils {
         
     	return pMap;
     }
-        
+    
+    // detect if the passed-in calendar entry is the current one
+    public static boolean getOnCurrentPeriodFlag(PayCalendarEntries pce) {
+    	Date currentDate = TKUtils.getTimelessDate(null);
+    	String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
+        PayCalendarEntries calendarEntry = TkServiceLocator.getPayCalendarSerivce().getCurrentPayCalendarDates(viewPrincipal,  currentDate);
+
+        if(pce != null && calendarEntry != null && calendarEntry.equals(pce)) {
+    		return true;
+    	}
+    	return false;
+    }
 }
 
