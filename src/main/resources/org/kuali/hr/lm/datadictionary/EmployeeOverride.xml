@@ -206,7 +206,7 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true" />
-				<bean parent="FieldDefinition" p:attributeName="leavePlan" p:noInquiry="true" p:noLookup="true" p:hidden="true" />
+				<bean parent="FieldDefinition" p:attributeName="leavePlan" p:noInquiry="true" p:noLookup="true"/>
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 				<bean parent="FieldDefinition" p:attributeName="overrideType" />
