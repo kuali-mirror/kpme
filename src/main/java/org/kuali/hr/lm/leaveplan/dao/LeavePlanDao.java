@@ -15,4 +15,6 @@ public interface LeavePlanDao {
 	public LeavePlan getLeavePlan(String lmLeavePlanId);
 	
 	public LeavePlan getLeavePlan(String leavePlan, Date asOfDate);
+	
+	public int getNumberLeavePlan(String leavePlan);
 }

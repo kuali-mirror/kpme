@@ -4,6 +4,7 @@ package org.kuali.hr.lm.leaveplan.dao;
 import java.sql.Date;
 
 import org.apache.log4j.Logger;
+import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -62,5 +63,11 @@ public class LeavePlanDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imple
 		return lp;
 	}
 
-
+	@Override
+	public int getNumberLeavePlan(String leavePlan) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("leavePlan", leavePlan);
+		Query query = QueryFactory.newQuery(LeavePlan.class, crit);
+		return PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+	}
 }

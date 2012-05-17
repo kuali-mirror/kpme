@@ -131,11 +131,8 @@ public class ValidationUtils {
 			LeavePlan lp = TkServiceLocator.getLeavePlanService().getLeavePlan(leavePlan, asOfDate);
 			valid = (lp != null);
 		} else {
-			Criteria crit = new Criteria();
-			crit.addEqualTo("leavePlan", leavePlan);
-			Query query = QueryFactory.newQuery(LeavePlan.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-			valid = (count > 0);
+			// chen, moved the code that access db to service and dao
+			valid = TkServiceLocator.getLeavePlanService().isValidLeavePlan(leavePlan);
 		}
 		
 		return valid;
