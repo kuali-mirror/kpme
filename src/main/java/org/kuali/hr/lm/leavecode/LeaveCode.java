@@ -239,7 +239,7 @@ public class LeaveCode extends HrBusinessObject {
 	}
     
     public String getLeaveCodeKeyForDisplay() {
-        return lmLeaveCodeId;
+        return lmLeaveCodeId + ":" +unitOfTime ;
     }
     
     public String getLeaveCodeValueForDisplay() {

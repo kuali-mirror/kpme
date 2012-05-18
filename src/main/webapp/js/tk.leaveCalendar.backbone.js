@@ -44,7 +44,9 @@ $(function () {
         // Check out this page for more information about the jQuery selectors : http://api.jquery.com/category/selectors/
         events : {
             "click .create" : "showLeaveBlockEntryDialog",
-            "click img[id^=leaveBlockDelete]" : "deleteLeaveBlock"
+            "click img[id^=leaveBlockDelete]" : "deleteLeaveBlock",
+            "change #leaveCode" : "changeLeaveCode",
+            "keypress #leaveCode" : "changeLeaveCode"
         },
 
         initialize : function () {
@@ -113,6 +115,7 @@ $(function () {
                         // If this is triggered directly by backbone, i.e. user clicked on the white area to create a new timeblock,
                         // Set the date by grabbing the div id.
                         $("#startDate, #endDate").val(startDate.target.id);
+                       
                         // Check if there is only one assignment
                         // Placing this code block here will prevent fetching earn codes twice
                         // when showTimeEntryDialog() is called by showTimeBlock()
@@ -122,6 +125,7 @@ $(function () {
 //                                        .done(self.showFieldByEarnCodeType());
 //                            }
                     }
+                    self.showFieldByLeaveCode();
 
                 },
                 close : function () {
@@ -153,13 +157,14 @@ $(function () {
                                 $('#endDate').val(endDateTime.add(1).days().toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT));
                             }
                         }
-
+                        var isValid = true;
                         $('#acrossDays').val($('#acrossDays').is(':checked') ? 'y' : 'n');
-
+                        isValid = self.validateLeaveBlock();
                         $('#methodToCall').val(CONSTANTS.ACTIONS.ADD_LEAVE_BLOCK);
-                        $('#leaveBlock-form').submit();
-                        $(this).dialog("close");
-
+                        if (isValid) {
+                            $('#leaveBlock-form').submit();
+                            $(this).dialog("close");
+                        }
                     },
                     Cancel : function () {
                     	$('.cal-table td').removeClass('ui-selected');
@@ -171,6 +176,9 @@ $(function () {
 //            }
         },
 
+
+       
+        
         deleteLeaveBlock : function (e) {
             var key = _(e).parseEventKey();
             console.log(key);
@@ -209,7 +217,114 @@ $(function () {
 
             // show date pickers
             $(".ui-datepicker-trigger").show();
+        },
+        
+        validateLeaveCode : function () {
+            var isValid = true;
+            isValid = isValid && this.checkEmptyField($("#leaveCode"), "Leave Code");
+
+            // couldn't find an easier way to get the earn code json, so we validate by the field id
+            // The method below will get a list of not hidden fields' ids
+            var ids = $("#dialog-form input").not(":hidden").map(
+                    function () {
+                        return this.id;
+                    }).get();
+             if (_.contains(ids, "leaveAmount")) {
+                var hours = $('#leaveAmount');
+                isValid = isValid && (this.checkEmptyField(hours, "Leave amount")  && this.checkRegexp(hours, '/0/', 'Leave amount cannot be zero'));
+                if(isValid) {
+                	var key = $("#leaveCode option:selected").val();
+                	var type = key.split(":")[1];
+                	if (type == 'D') {
+                		isValid = isValid && (this.checkRangeValue(hours, 1, "Leave amount Days"));
+                	} else if (type == 'H') {
+                		isValid = isValid && (this.checkRangeValue(hours, 24, "Leave amount Hours"));
+                	}
+                }
+            }
+             
+           
+//            else {
+//                var amount = $('#amount');
+//                isValid = isValid && (this.checkEmptyField(amount, "Amount") && this.checkMinLength(amount, "Amount", 1) && this.checkRegexp(amount, '/0/', 'Amount cannot be zero'));
+//            }
+            return isValid;
+        },
+        
+        changeLeaveCode : function() {
+        	this.showFieldByLeaveCode();
+        },
+        
+        showFieldByLeaveCode : function() {
+        	var key = $("#leaveCode option:selected").val();
+        	var type = key.split(":")[1];
+        	if (type == 'D') {
+        		$('#unitOfTime').text('Days');
+        	} else if (type == 'H') {
+        		$('#unitOfTime').text('Hours');
+        	}
+        },
+
+        validateLeaveBlock : function () {
+            var self = this;
+            var isValid = true;
+//            isValid = isValid && this.checkEmptyField($("#selectedAssignment"), "Assignment");
+            isValid = isValid && this.validateLeaveCode();
+            return isValid;
+        },
+        
+        checkLength : function (o, n, min, max) {
+            if (o.val().length > max || o.val().length < min) {
+                this.displayErrorMessages(n + " field cannot be empty");
+                return false;
+            }
+            return true;
+        },
+
+        checkEmptyField : function (o, field) {
+            var val = o.val();
+            if (val == '') {
+                this.displayErrorMessages(field + " field cannot be empty", o);
+                return false;
+            }
+            return true;
+        },
+
+        checkRegexp : function (o, regexp, n) {
+            if (( o.val().match(regexp) )) {
+                this.displayErrorMessages(n);
+                return false;
+            }
+            return true;
+        },
+
+        checkSpecificValue : function (o, value, n) {
+            if (o.val() != value) {
+                this.displayErrorMessages(n);
+                return false;
+            }
+            return true;
+        },
+        
+        checkRangeValue : function (o, value1, field) {
+            if (o.val() > value1) {
+            	this.displayErrorMessages(field + " field should not exceed " + value1, o);
+            	return false;
+            }
+            return true;
+        },
+
+        displayErrorMessages : function (t, object) {
+            // add the error class ane messages
+            $('#validation').html(t)
+                    .addClass('error-messages');
+
+            // highlight the field
+            if (!_.isUndefined(object)) {
+                object.addClass('ui-state-error');
+            }
         }
+
     });
 
     // Initialize the view. This is the kick-off point.

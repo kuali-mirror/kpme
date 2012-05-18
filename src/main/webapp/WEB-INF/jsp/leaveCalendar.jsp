@@ -20,6 +20,8 @@
            <div id="dialog-form" class="dialog-form" title="Add Ledgers:">
             <html:form action="/LeaveCalendar.do" styleId="leaveBlock-form">
 
+				<p id="validation" class="validation" title="Validation">All form fields are .</p>
+				
                 <html:hidden property="methodToCall" value="" styleId="methodToCall"/>
                 <html:hidden property="beginPeriodDateTime" value="${Form.beginPeriodDateTime}" styleId="beginPeriodDateTime"/>
                 <html:hidden property="endPeriodDateTime" value="${Form.endPeriodDateTime}" styleId="endPeriodDateTime"/>
@@ -42,7 +44,7 @@
                         <tr>
                             <td><label for="leave-code">* Leave Code:</label></td>
                             <td>
-                                <html:select property="selectedLeaveCode">
+                                <html:select property="selectedLeaveCode" styleId="leaveCode">
                                     <c:forEach var="leaveCode" items="${Form.leaveCalendar.leaveCodeList}">
                                         <option value="${leaveCode.key}">${leaveCode.value}</option>
                                     </c:forEach>
@@ -50,9 +52,9 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><label for="leave-amount">* Leave Amount:</label></td>
+                            <td><label for="leave-amount">* Leave Amount</label> <label id="unitOfTime"></label> : </label></td>
                             <td>
-                                <html:text property="leaveAmount"/>
+                                <html:text property="leaveAmount" styleId="leaveAmount"/>
                             </td>
                         </tr>
                         <tr>
