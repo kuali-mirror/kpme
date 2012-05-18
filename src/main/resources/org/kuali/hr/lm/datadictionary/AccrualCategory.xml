@@ -306,7 +306,7 @@
 	<bean id="AccrualCategory-inquiryDefinition" parent="AccrualCategory-inquiryDefinition-parentBean" />
 
 	<bean id="AccrualCategory-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition">
+		parent="InquiryDefinition" p:inquirableClass="org.kuali.hr.lm.accrual.AccrualCategoryInquirableImpl">
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">

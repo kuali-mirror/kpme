@@ -166,7 +166,7 @@
   	<bean id="LeavePlan-inquiryDefinition" parent="LeavePlan-inquiryDefinition-parentBean" />
 
 	<bean id="LeavePlan-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition">
+		parent="InquiryDefinition"  p:inquirableClass="org.kuali.hr.lm.leaveplan.LeavePlanInquirableImpl">
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">

@@ -17,11 +17,11 @@
 	<!-- Leave Plan -->
 	<class-descriptor class="org.kuali.hr.lm.leaveplan.LeavePlan" table="lm_leave_plan_t">
 		<field-descriptor name="lmLeavePlanId" 	column="LM_LEAVE_PLAN_ID" jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="lm_leave_plan_s"/>
-		<field-descriptor name="leavePlan" 		column="LEAVE_PLAN" jdbc-type="VARCHAR" length="15" nullable="false" />
+		<field-descriptor name="leavePlan" 		column="LEAVE_PLAN" jdbc-type="VARCHAR" length="15" nullable="false" primarykey="true"/>
 		<field-descriptor name="calendarYearStart" column="CAL_YEAR_START" jdbc-type="VARCHAR" length="5" nullable="false" />
 		<field-descriptor name="descr"     		column="DESCR" jdbc-type="VARCHAR" length="30" nullable="false" />
 	    <field-descriptor name="planningMonths" column="PLANNING_MONTHS" jdbc-type="VARCHAR" length="3" nullable="false" />
-		<field-descriptor name="effectiveDate" 	column="EFFDT" jdbc-type="DATE" nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
+		<field-descriptor name="effectiveDate" 	column="EFFDT" jdbc-type="DATE" nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" primarykey="true"/>
 		<field-descriptor name="timestamp"     	column="timestamp" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<field-descriptor name="active"        	column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="objectId"      	column="obj_id" jdbc-type="VARCHAR" index="true" />
