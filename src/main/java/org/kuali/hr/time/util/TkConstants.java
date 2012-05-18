@@ -3,6 +3,7 @@ package org.kuali.hr.time.util;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.rice.kew.util.KEWConstants;
 
 import java.math.BigDecimal;
@@ -388,4 +389,15 @@ public class TkConstants {
         }
 
     public static final String DAILY_OVT_CODE = "DOT";
+    
+    public static final Map<String, Set<String>> CLASS_INQUIRY_KEY_MAP = new HashMap<String, Set<String>>(4);
+
+    static {
+        Set<String> keys = new HashSet<String>();
+        keys.add("leavePlan");
+        keys.add("effectiveDate");
+
+        CLASS_INQUIRY_KEY_MAP.put(LeavePlan.class.getName(), keys);
+    }
+
 }
