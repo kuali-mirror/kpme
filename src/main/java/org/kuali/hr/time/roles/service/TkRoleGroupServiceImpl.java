@@ -96,18 +96,34 @@ public class TkRoleGroupServiceImpl implements TkRoleGroupService {
 
         Long workAreaToQuery = StringUtils.isEmpty(workArea) ? null : Long.parseLong(workArea);
         List<TkRole> tkRoles  = TkServiceLocator.getTkRoleService().getRoles(principalIdToQuery, TKUtils.getCurrentDate(), roleName, workAreaToQuery, dept);
-        for (TkRole tkRole : tkRoles) {
-            TkRoleGroup tkRoleGroup = new TkRoleGroup();
-            if (isAuthorizedToEditUserRole(tkRole.getPrincipalId())) {
-                tkRoleGroup.setPerson(tkRole.getPerson());
-                tkRoleGroup.setPrincipalId(tkRole.getPrincipalId());
-                tkRoleGroups.add(tkRoleGroup);
 
-                // If we are searching for a specific person, we only need one row of the final result.
-                if (StringUtils.isNotEmpty(principalIdToQuery)) {
-                    break;
-                }
-            }
+        for (TkRole tkRole : tkRoles) {
+        	if (StringUtils.isEmpty(tkRole.getPositionNumber())) {
+        		TkRoleGroup tkRoleGroup = new TkRoleGroup();
+            	if (isAuthorizedToEditUserRole(tkRole.getPrincipalId())) {
+            		tkRoleGroup.setPerson(tkRole.getPerson());
+                	tkRoleGroup.setPrincipalId(tkRole.getPrincipalId());
+                	tkRoleGroups.add(tkRoleGroup);
+            	}
+            	if (StringUtils.isNotEmpty(principalIdToQuery)) {
+            		break;
+            	}
+        	} else {
+        		List<Job> listRolePositionActiveJobs = TkServiceLocator.getJobSerivce().getActiveJobsForPosition(tkRole.getPositionNumber(), TKUtils.getCurrentDate());
+        		for (Job rolePositionJob : listRolePositionActiveJobs) {
+        			String rolePositionJobPrincipalId = rolePositionJob.getPrincipalId();
+        			TkRoleGroup tkRoleGroup = new TkRoleGroup();
+        			if (isAuthorizedToEditUserRole(rolePositionJobPrincipalId)) {
+        				if (((StringUtils.isNotEmpty(dept) && StringUtils.equals(tkRole.getDepartment(), dept)) || StringUtils.isEmpty(dept)) &&
+            				((StringUtils.isNotEmpty(roleName) && StringUtils.equals(tkRole.getRoleName(), roleName)) || StringUtils.isEmpty(roleName)) &&
+            				((StringUtils.isNotEmpty(workArea) && StringUtils.equals(tkRole.getWorkArea().toString(), workArea)) || StringUtils.isEmpty(workArea)) ) {
+        						tkRoleGroup.setPerson(KIMServiceLocator.getPersonService().getPerson(rolePositionJobPrincipalId));
+        						tkRoleGroup.setPrincipalId(rolePositionJobPrincipalId);
+        						tkRoleGroups.add(tkRoleGroup);
+        				}
+        			}
+        		}
+        	}
         }
 
         return tkRoleGroups;
