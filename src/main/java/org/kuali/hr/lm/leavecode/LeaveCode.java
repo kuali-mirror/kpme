@@ -8,6 +8,7 @@ import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 
 public class LeaveCode extends HrBusinessObject {
 
@@ -239,7 +240,13 @@ public class LeaveCode extends HrBusinessObject {
 	}
     
     public String getLeaveCodeKeyForDisplay() {
-        return lmLeaveCodeId + ":" +unitOfTime ;
+    	String unitTime = null;
+    	AccrualCategory acObj = null;
+    	if(this.accrualCategory != null) {
+    		acObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, TKUtils.getCurrentDate());
+    	}
+    	unitTime = (acObj!= null ? acObj.getUnitOfTime() : unitOfTime) ;
+        return lmLeaveCodeId + ":" +unitTime;
     }
     
     public String getLeaveCodeValueForDisplay() {
