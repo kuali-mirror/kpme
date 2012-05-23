@@ -276,6 +276,7 @@ public class LeaveCalendarAction extends TkAction {
 			}
 		}
 		leaveForm.setCalendarEntry(lcd.getCalendarEntry());
+		leaveForm.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(lcd.getCalendarEntry()));
 
 	}
 	
@@ -288,6 +289,7 @@ public class LeaveCalendarAction extends TkAction {
 		LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, calendarEntry);
 		lcf.setCalendarEntry(calendarEntry);
 		lcf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
+		lcf.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(calendarEntry));
 		if (lcd != null) {
 			setupDocumentOnFormContext(lcf, lcd);
 		}
