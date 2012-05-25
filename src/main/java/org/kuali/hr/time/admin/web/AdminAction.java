@@ -1,5 +1,9 @@
 package org.kuali.hr.time.admin.web;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
@@ -151,8 +155,52 @@ public class AdminAction extends TkAction {
     	AdminActionForm adminForm = (AdminActionForm) form;
     	String documentId = adminForm.getDeleteDocumentId();
     	if(StringUtils.isNotBlank(documentId)){
+    		System.out.println("Deleting timesheet: "+documentId);
     		TkServiceLocator.getTimesheetService().deleteTimesheet(documentId);
 }
+    	return mapping.findForward("basic");
+    }
+    
+    public ActionForward runAccruals(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	
+    	AdminActionForm adminForm = (AdminActionForm) form;
+    	
+    	DateFormat formater = new SimpleDateFormat("MM/dd/yyyy");
+    	if (StringUtils.isNotBlank(adminForm.getAccrualPrincipalId())) {
+    		String accrualPrincipalId = adminForm.getAccrualPrincipalId();
+    		if (StringUtils.isNotBlank(adminForm.getFormStartDate()) && StringUtils.isNotBlank(adminForm.getFormEndDate())) {
+    			java.util.Date parsedStartDate = formater.parse(adminForm.getFormStartDate());
+    			java.sql.Date startDate= new java.sql.Date(parsedStartDate.getTime());
+
+    			java.util.Date parsedEndDate = formater.parse(adminForm.getFormEndDate());
+    			java.sql.Date endDate= new java.sql.Date(parsedEndDate.getTime());
+    	
+    			System.out.println("AccrualServiceImpl.runAccrual() called with Principal: "+accrualPrincipalId+" Start: "+startDate.toString()+" End: "+endDate.toString());
+    			TkServiceLocator.getLeaveAccrualService().runAccrual(accrualPrincipalId, startDate, endDate);
+    	}else {
+    		System.out.println("AccrualServiceImpl.runAccrual() called with Principal: "+accrualPrincipalId);
+    		TkServiceLocator.getLeaveAccrualService().runAccrual(accrualPrincipalId);
+    		}
+    	}
+    	return mapping.findForward("basic");
+    }
+    public ActionForward clearAccruals(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	
+    	AdminActionForm adminForm = (AdminActionForm) form;
+    	
+    	if(StringUtils.isNotBlank(adminForm.getAccrualPrincipalId())) {
+    		System.out.println("AccrualServiceImpl.clearAccrual() called with Principal: "+adminForm.getAccrualPrincipalId());
+    		adminForm.setAccrualPrincipalId("");
+    	} 
+    	if(StringUtils.isNotBlank(adminForm.getFormStartDate())) {
+    		System.out.println("AccrualServiceImpl.clearAccrual() called with Start Date: "+adminForm.getFormStartDate());
+    		adminForm.setFormStartDate("");
+    	} 
+    	if(StringUtils.isNotBlank(adminForm.getFormEndDate())) {
+    		System.out.println("AccrualServiceImpl.clearAccrual() called with End Date: "+adminForm.getFormEndDate());
+    		adminForm.setFormEndDate("");
+    	} 
+    	
     	return mapping.findForward("basic");
     }
 }

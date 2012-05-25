@@ -205,7 +205,10 @@ $(document).ready(function() {
         minDate : new Date($('#beginPeriodDate').val()),
         maxDate : new Date($('#endPeriodDate').val())
     });
-
+    
+    //KPME-1542
+    $("#startdatepicker, #enddatepicker").datepicker();
+    
     // hide the date picker by default
     // https://jira.kuali.org/browse/KPME-395
     $('#ui-datepicker-div').css('display', 'none');

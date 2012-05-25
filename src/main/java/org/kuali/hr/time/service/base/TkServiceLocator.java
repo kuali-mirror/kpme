@@ -1,6 +1,7 @@
 package org.kuali.hr.time.service.base;
 
 import org.kuali.hr.job.service.JobService;
+import org.kuali.hr.lm.accrual.service.AccrualService;
 import org.kuali.hr.lm.accrual.service.AccrualCategoryService;
 import org.kuali.hr.lm.employeeoverride.service.EmployeeOverrideService;
 import org.kuali.hr.lm.leaveadjustment.service.LeaveAdjustmentService;
@@ -128,6 +129,7 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String TK_WARNINGS_SERVICE = "tkWarningService";
     public static final String HR_POSITION_SERVICE = "positionService";
     public static final String TK_SEARCH_ATTR_SERVICE = "tkSearchableAttributeService";
+    public static final String LM_ACCRUAL_SERVICE = "accrualService";
     public static final String LM_ACCRUAL_CATEGORY_SERVICE = "leaveAccrualCategoryService";
     public static final String LM_LEAVE_CODE_SERVICE = "leaveCodeService";
     public static final String LM_LEAVE_PLAN_SERVICE = "leavePlanService";
@@ -365,6 +367,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 		return new TransactionTemplate(getPlatformTransactionManager());
 	}
 	
+	public static AccrualService getLeaveAccrualService(){
+		return (AccrualService) CONTEXT.getBean(LM_ACCRUAL_SERVICE);
+	}
+	
 	public static AccrualCategoryService getLeaveAccrualCategoryService(){
 		return (AccrualCategoryService)CONTEXT.getBean(LM_ACCRUAL_CATEGORY_SERVICE);
 	}
@@ -428,10 +434,12 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static CalendarEntriesService getCalendarEntriesSerivce() {
 		return (CalendarEntriesService)CONTEXT.getBean(TK_PAY_CALENDAR_ENTRIES_SERVICE);
 	}
+	
 	@Override
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
 	    CONTEXT = arg0;
 	}
+	
 
     /**
      * This is for the approval only

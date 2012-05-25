@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 
 public class AccrualServiceImpl implements AccrualService {
@@ -15,6 +16,8 @@ public class AccrualServiceImpl implements AccrualService {
 	public void runAccrual(String principalId) {
 		Date startDate = getStartAccrualDate(principalId);
 		Date endDate = getEndAccrualDate(principalId);
+
+		System.out.println("AccrualServiceImpl.runAccrual() STARTED with Principal: "+principalId);
 		
 		runAccrual(principalId,startDate,endDate);
 		
@@ -24,7 +27,9 @@ public class AccrualServiceImpl implements AccrualService {
 	public void runAccrual(String principalId, Date startDate, Date endDate) {
 		List<LeaveBlock> accrualLeaveBlocks = new ArrayList<LeaveBlock>();
 		Map<String, BigDecimal> accumulatedAccrualCatToAccrualAmounts = new HashMap<String,BigDecimal>();
-		
+		if (startDate != null && endDate != null) {
+			System.out.println("AccrualServiceImpl.runAccrual() STARTED with Principal: "+principalId+" Start: "+startDate.toString()+" End: "+endDate.toString());
+		}
 		//Inactivate all previous accrual entries for this span of time
 		//Fetch Leave Plan for user from hr principal attributes
 		//Fetch List of AccrualCategories for leave plan

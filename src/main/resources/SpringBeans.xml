@@ -677,7 +677,8 @@
     <bean id="accrualCategoryService" class="org.kuali.hr.lm.accrual.service.AccrualCategoryServiceImpl">
         <property name="accrualCategoryDao" ref="accrualCategoryDao"/>
     </bean>
-
+    <bean id="accrualService" class="org.kuali.hr.lm.accrual.service.AccrualServiceImpl">
+    </bean>
     <bean id="leaveCodeService" class="org.kuali.hr.lm.leavecode.service.LeaveCodeServiceImpl">
         <property name="leaveCodeDao" ref="leaveCodeDao"/>
     </bean>

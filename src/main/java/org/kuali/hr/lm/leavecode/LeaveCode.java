@@ -80,13 +80,20 @@ public class LeaveCode extends HrBusinessObject {
 	public void setLmLeaveCodeId(String lmLeaveCodeId) {
 		this.lmLeaveCodeId = lmLeaveCodeId;
 	}
-	
+
+	//KPME 1453 and 1541 moved pre-existing logic for getLeavePlan to else clause below and removed side effect of setting AccrualCategoryObj on BO
 	public String getLeavePlan() {
-		if (this.accrualCategoryObj == null && 
-				(!StringUtils.isEmpty(this.accrualCategory) && this.effectiveDate != null)) {		
-			accrualCategoryObj =  TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, this.effectiveDate);
+		if (StringUtils.isNotEmpty(this.leavePlan)) {
+			return leavePlan;
+		}else{ 
+			AccrualCategory myAccrualCategoryObj =  new AccrualCategory();
+			if (!StringUtils.isEmpty(this.accrualCategory) && this.effectiveDate != null) {	
+				
+				myAccrualCategoryObj =  TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, this.effectiveDate);
+				
+			}
+			return (myAccrualCategoryObj != null) ? myAccrualCategoryObj.getLeavePlan() : "";
 		}
-		return (accrualCategoryObj != null) ? accrualCategoryObj.getLeavePlan() : "";
 	}
 
 	public void setLeavePlan(String leavePlan) {
