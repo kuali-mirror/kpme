@@ -247,13 +247,14 @@ public class LeaveCode extends HrBusinessObject {
 	}
     
     public String getLeaveCodeKeyForDisplay() {
-    	String unitTime = null;
-    	AccrualCategory acObj = null;
-    	if(this.accrualCategory != null) {
-    		acObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, TKUtils.getCurrentDate());
-    	}
-    	unitTime = (acObj!= null ? acObj.getUnitOfTime() : unitOfTime) ;
-        return lmLeaveCodeId + ":" +unitTime;
+//    	String unitTime = null;
+//    	AccrualCategory acObj = null;
+//    	if(this.accrualCategory != null) {
+//    		acObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, TKUtils.getCurrentDate());
+//    	}
+//    	unitTime = (acObj!= null ? acObj.getUnitOfTime() : unitOfTime) ;
+//        return lmLeaveCodeId + ":" +unitTime;
+        return lmLeaveCodeId;
     }
     
     public String getLeaveCodeValueForDisplay() {

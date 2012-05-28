@@ -28,6 +28,12 @@ $(function () {
         model : LeaveBlock
     });
 
+    LeaveCode = Backbone.Model.extend({
+    	 url : "LeaveCalendarWS.do?methodToCall=getLeaveCodeInfo"
+    });
+  
+    var leaveCodeObj = new LeaveCode;
+
     /**
      * ====================
      * Views
@@ -125,7 +131,7 @@ $(function () {
 //                                        .done(self.showFieldByEarnCodeType());
 //                            }
                     }
-                    self.showFieldByLeaveCode();
+                    self.changeLeaveCode();
 
                 },
                 close : function () {
@@ -233,8 +239,7 @@ $(function () {
                 var hours = $('#leaveAmount');
                 isValid = isValid && (this.checkEmptyField(hours, "Leave amount")  && this.checkRegexp(hours, '/0/', 'Leave amount cannot be zero'));
                 if(isValid) {
-                	var key = $("#leaveCode option:selected").val();
-                	var type = key.split(":")[1];
+                	var type = this.getLeaveCodeUnit(leaveCodeObj.toJSON());
                 	if (type == 'D') {
                 		isValid = isValid && (this.checkRangeValue(hours, 1, "Leave amount Days"));
                 	} else if (type == 'H') {
@@ -251,8 +256,16 @@ $(function () {
             return isValid;
         },
         
-        changeLeaveCode : function() {
-        	this.showFieldByLeaveCode();
+        changeLeaveCode : function(e) {
+        	var leavecodeString = _.isString(e) ? e : this.$("#leaveCode option:selected").val();
+        	leaveCodeObj.fetch({
+                // Make the ajax call not async to be able to mark the leave code selected
+                async : false,
+                data : {
+                	selectedLeaveCode : leavecodeString,
+                }  
+            });
+        	this.showFieldByLeaveCodeType();
         },
         
         showFieldByLeaveCode : function() {
@@ -263,6 +276,31 @@ $(function () {
         	} else if (type == 'H') {
         		$('#unitOfTime').text('Hours');
         	}
+        },
+        
+        
+        showFieldByLeaveCodeType : function () {
+            var leaveCodeType = this.getLeaveCodeUnit(leaveCodeObj.toJSON());
+            if (leaveCodeType == 'D') {
+        		$('#unitOfTime').text('Days');
+        	} else if (leaveCodeType == 'H') {
+        		$('#unitOfTime').text('Hours');
+        	}
+            var unitOfTime = this.getLeaveCodeDefaultTime(leaveCodeObj.toJSON());
+            $('#leaveAmount').val(unitOfTime);
+            
+        },
+        
+        getLeaveCodeUnit : function (leaveCodeJson) {
+           return leaveCodeJson.unitOfTime;
+        },
+        
+        getLeaveCodeDefaultTime : function (leaveCodeJson) {
+           return leaveCodeJson.defaultAmountofTime;
+        },
+        
+        getLeaveCodeFractionalAllowedTime : function (leaveCodeJson) {
+           return leaveCodeJson.fractionalTimeAllowed;
         },
 
         validateLeaveBlock : function () {
