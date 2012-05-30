@@ -245,14 +245,31 @@ $(function () {
                 	} else if (type == 'H') {
                 		isValid = isValid && (this.checkRangeValue(hours, 24, "Leave amount Hours"));
                 	}
+                	var fieldLength = 0;
+                	var fracLength = 0;
+                	// check fraction digit
+                	if(isValid) {
+                		var fraction = this.getLeaveCodeFractionalAllowedTime(leaveCodeObj.toJSON());
+                		if(fraction != '') {
+//                			alert(fraction);
+                			var fractionAr = fraction.split(".");
+                			var hoursAr = hours.val().split(".");
+                			if(hoursAr.length > 1) {
+                				fieldLength = hoursAr[1].length;
+                			}
+                			if(fractionAr.length > 1) {
+                				fracLength = fractionAr[1].length;
+                			}
+//                			alert('field length' +fieldLength);
+//                			alert('field length' +fracLength);
+                			if(fieldLength > fracLength) {
+                				isValid = false;
+                				this.displayErrorMessages("Leave Amount field should be in the format of "+fraction);
+                			}
+                		}
+                	}
                 }
             }
-             
-           
-//            else {
-//                var amount = $('#amount');
-//                isValid = isValid && (this.checkEmptyField(amount, "Amount") && this.checkMinLength(amount, "Amount", 1) && this.checkRegexp(amount, '/0/', 'Amount cannot be zero'));
-//            }
             return isValid;
         },
         
