@@ -85,4 +85,6 @@ public interface JobDao {
      * @return the count of the jobs with the given principalId and jobNumber
      */
     public int getJobCount(String principalId, Long jobNumber, String dept);
+    
+    public List<Job> getActiveLeaveJobs(String principalId, Date asOfDate);
 }

@@ -2,6 +2,7 @@ package org.kuali.hr.job.service;
 
 import org.kuali.hr.job.Job;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -88,4 +89,21 @@ public interface JobService {
                       java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory);
     
     public int getJobCount(String principalId, Long jobNumber, String dept);
+    
+	/**
+	 * Get list of active jobs eligible for leave for given principal and date
+	 * @param principalId
+	 * @param asOfDate
+	 * @return
+	 */
+    public List<Job> getActiveLeaveJobs(String principalId, Date asOfDate);
+    
+    /**
+	 * Get sum of standard hours of given jobs
+	 * @param jobs
+	 * @return
+	 */
+    public BigDecimal getFteSumForJobs(List<Job> jobs);
+    
+    
 }

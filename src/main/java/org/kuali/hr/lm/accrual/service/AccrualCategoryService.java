@@ -33,5 +33,13 @@ public interface AccrualCategoryService {
      * @return
      */
     public List <AccrualCategory> getActiveAccrualCategories(Date asOfDate);
+    
+    /**
+     * Fetch list of active accrual categories with given leavePlan and date
+     * @param leavePlan
+     * @param asOfDate
+     * @return List <AccrualCategory>
+     */
+    public List <AccrualCategory> getActiveAccrualCategoriesForLeavePlan(String leavePlan, Date asOfDate);
 
 }

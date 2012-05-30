@@ -1,7 +1,10 @@
 package org.kuali.hr.time.service.base;
 
 import org.kuali.hr.job.service.JobService;
+import org.kuali.hr.lm.accrual.service.AccrualCategoryRuleService;
+
 import org.kuali.hr.lm.accrual.service.AccrualService;
+
 import org.kuali.hr.lm.accrual.service.AccrualCategoryService;
 import org.kuali.hr.lm.employeeoverride.service.EmployeeOverrideService;
 import org.kuali.hr.lm.leaveadjustment.service.LeaveAdjustmentService;
@@ -117,6 +120,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_TIME_OFF_ACCRUAL_SERVICE = "timeOffAccrualService";
 	public static final String hr_sal_group_SERVICE = "salGroupService";
 	public static final String TK_ACCRUAL_CATEGORY_SERVICE = "accrualCategoryService";
+	public static final String TK_ACCRUAL_CATEGORY_RULE_SERVICE = "accrualCategoryRuleService";
     public static final String TK_TASK_SERVICE = "taskService";
     public static final String TK_LOCATION_SERVICE = "locationService";
     public static final String TK_PAY_GRADE_SERVICE = "payGradeService";
@@ -319,7 +323,11 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static AccrualCategoryService getAccrualCategoryService() {
 	    return (AccrualCategoryService)CONTEXT.getBean(TK_ACCRUAL_CATEGORY_SERVICE);
 	}
-
+	
+	public static AccrualCategoryRuleService getAccrualCategoryRuleService() {
+	    return (AccrualCategoryRuleService)CONTEXT.getBean(TK_ACCRUAL_CATEGORY_RULE_SERVICE);
+	}
+	
 	public static LocationService getLocationService() {
 	    return (LocationService)CONTEXT.getBean(TK_LOCATION_SERVICE);
 	}

@@ -386,4 +386,31 @@ public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements 
 		Query query = QueryFactory.newQuery(Job.class, crit);
 		return this.getPersistenceBrokerTemplate().getCount(query);
     }
+    
+    @SuppressWarnings("unchecked")
+	public List<Job> getActiveLeaveJobs(String principalId, Date asOfDate) {
+    	Criteria root = new Criteria();
+        Criteria effdt = new Criteria();
+        Criteria timestamp = new Criteria();
+
+        effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+        effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+        effdt.addLessOrEqualThan("effectiveDate", asOfDate);
+        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Job.class, effdt);
+        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+        
+        timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+        effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+        timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Job.class, timestamp);
+        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+
+        root.addEqualTo("principalId", principalId);
+        root.addEqualTo("eligibleForLeave", true);
+        root.addEqualTo("active", true);
+        root.addEqualTo("effectiveDate", effdtSubQuery);
+        root.addEqualTo("timestamp", timestampSubQuery);
+        Query query = QueryFactory.newQuery(Job.class, root);
+        return (List<Job>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }
 }

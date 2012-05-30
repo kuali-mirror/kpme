@@ -435,7 +435,10 @@
     <bean id="batchJobEntryDao" class="org.kuali.hr.time.batch.dao.BatchJobEntryDaoSpringOjbImpl">
         <property name="jcdAlias" value="tkDataSource"/>
     </bean>
-  <bean id="accrualCategoryDao" class="org.kuali.hr.lm.accrual.dao.AccrualCategoryDaoSpringOjbImpl">
+  	<bean id="accrualCategoryDao" class="org.kuali.hr.lm.accrual.dao.AccrualCategoryDaoSpringOjbImpl">
+        <property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+    <bean id="accrualCategoryRuleDao" class="org.kuali.hr.lm.accrual.dao.AccrualCategoryRuleDaoSpringOjbImpl">
         <property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
@@ -676,6 +679,9 @@
     </bean>
     <bean id="accrualCategoryService" class="org.kuali.hr.lm.accrual.service.AccrualCategoryServiceImpl">
         <property name="accrualCategoryDao" ref="accrualCategoryDao"/>
+    </bean>
+    <bean id="accrualCategoryRuleService" class="org.kuali.hr.lm.accrual.service.AccrualCategoryRuleServiceImpl">
+        <property name="accrualCategoryRuleDao" ref="accrualCategoryRuleDao"/>
     </bean>
     <bean id="accrualService" class="org.kuali.hr.lm.accrual.service.AccrualServiceImpl">
     </bean>

@@ -10,6 +10,7 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.bo.Person;
 import org.kuali.rice.kim.service.KIMServiceLocator;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -130,5 +131,20 @@ public class JobServiceImpl implements JobService {
     
     public int getJobCount(String principalId, Long jobNumber, String dept) {
     	return jobDao.getJobCount(principalId, jobNumber, dept);
+    }
+    
+    @Override
+    public List<Job> getActiveLeaveJobs(String principalId, Date asOfDate) {
+    	return jobDao.getActiveLeaveJobs(principalId, asOfDate);
+    }
+    
+    @Override
+    public BigDecimal getFteSumForJobs(List<Job> jobs) {
+    	BigDecimal fteSum = new BigDecimal(0);
+    	for(Job aJob : jobs) {
+    		fteSum = fteSum.add(aJob.getFte());
+    	}
+    	return fteSum;
+    	
     }
 }
