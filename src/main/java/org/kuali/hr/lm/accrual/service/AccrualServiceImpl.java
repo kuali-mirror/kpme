@@ -84,12 +84,18 @@ public class AccrualServiceImpl implements AccrualService {
 		aCal.setTime(startDate);
 		while (!aCal.getTime().after(endDate)) {
 			java.util.Date currentDate = aCal.getTime();
+// if the currentDate is before the start service date of this employee, do nothing
 			if(currentDate.before(phra.getServiceDate())) {
 				aCal.add(Calendar.DATE, 1);
 				continue;
 			}
 			//Fetch the accural rate based on rate range for today(Rate range is the accumulated list of jobs and accrual rate for today)
 			List<Job> jobList = rrAggregate.getRate(currentDate).getJobs();
+// if no job found for the employee on the currentDate, do nothing
+			if(jobList.isEmpty()) {
+				aCal.add(Calendar.DATE, 1);
+				continue;
+			}
 			BigDecimal ftePercentage = TkServiceLocator.getJobSerivce().getFteSumForJobs(jobList);
 			
 			for(AccrualCategory ac : accrCatList) {
@@ -113,47 +119,57 @@ public class AccrualServiceImpl implements AccrualService {
 					String earnIntervalKey = ac.getAccrualEarnInterval(); 
 					if(this.isDateAtEarnInterval(currentDate, earnIntervalKey) && !accumulatedAccrualCatToAccrualAmounts.isEmpty()) {
 						Iterator it = accumulatedAccrualCatToAccrualAmounts.entrySet().iterator();
-						LeaveCode lc = TkServiceLocator.getLeaveCodeService().getLeaveCode(ac.getLeaveCode(), ac.getEffectiveDate());
-						if(lc == null) {
-							throw new RuntimeException("Cannot find Leave Code for Accrual category " + ac.getAccrualCategory());
-						}
-						
 						while(it.hasNext()) {
 							Map.Entry anEntry = (Map.Entry) it.next();
-							LeaveBlock aLeaveBlock = new LeaveBlock();
-							aLeaveBlock.setAccrualCategoryId(anEntry.getKey().toString());
-							aLeaveBlock.setLeaveDate(new java.sql.Date(currentDate.getTime()));
-							aLeaveBlock.setPrincipalId(principalId);
-							aLeaveBlock.setLeaveCode(ac.getLeaveCode());
-							aLeaveBlock.setLeaveCodeId(lc.getLmLeaveCodeId());
-							BigDecimal hours = new BigDecimal(anEntry.getValue().toString());
-							BigDecimal roundedHours = hours.setScale(0, BigDecimal.ROUND_HALF_EVEN).abs();
-							aLeaveBlock.setLeaveAmount(roundedHours);
-							aLeaveBlock.setDateAndTime(new Timestamp(currentDate.getTime()));
-							aLeaveBlock.setAccrualGenerated(true);
-							aLeaveBlock.setBlockId(0L);
-							accrualLeaveBlocks.add(aLeaveBlock);
+							AccrualCategory anAC = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(anEntry.getKey().toString());
+							if(anAC == null) {
+								throw new RuntimeException("Cannot find Accrual Category with Accrual category id: " + anEntry.getKey().toString());
+							}
+							BigDecimal hrs = new BigDecimal(anEntry.getValue().toString());
+							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, hrs, anAC, null);
 						}
 						accumulatedAccrualCatToAccrualAmounts = new HashMap<String,BigDecimal>();	// reset the Map					
 					}
-					
-				
 				}
 			}
 			//Determine if today is a system scheduled time off and accrue holiday if so.
 			SystemScheduledTimeOff ssto = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffByDate(leavePlanString, currentDate);
 			if(ssto != null) {
-				AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(ssto.getAccrualCategory(), ssto.getEffectiveDate());
-				if(ac == null) {
+				AccrualCategory anAC = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(ssto.getAccrualCategory(), ssto.getEffectiveDate());
+				if(anAC == null) {
 					throw new RuntimeException("Cannot find Accrual Category for system scheduled time off " + ssto.getLmSystemScheduledTimeOffId());
 				}
-				this.calculateHours(ac.getLmAccrualCategoryId(), ftePercentage, new BigDecimal(ssto.getAmountofTime()), accumulatedAccrualCatToAccrualAmounts);				
+				createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, new BigDecimal(ssto.getAmountofTime()), anAC, ssto.getLmSystemScheduledTimeOffId());
 			}
 			aCal.add(Calendar.DATE, 1);
 		}
 		
 		//Save accrual leave blocks at the very end
 		TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(accrualLeaveBlocks);
+		
+	}
+
+	private void createLeaveBlock(String principalId, List<LeaveBlock> accrualLeaveBlocks, 
+			java.util.Date currentDate, BigDecimal hrs, AccrualCategory anAC, String sysSchTimeOffId) {
+
+		LeaveCode lc = TkServiceLocator.getLeaveCodeService().getLeaveCode(anAC.getLeaveCode(), anAC.getEffectiveDate());
+		if(lc == null) {
+			throw new RuntimeException("Cannot find Leave Code for Accrual category " + anAC.getAccrualCategory());
+		}
+		LeaveBlock aLeaveBlock = new LeaveBlock();
+		aLeaveBlock.setAccrualCategoryId(anAC.getLmAccrualCategoryId());
+		aLeaveBlock.setLeaveDate(new java.sql.Date(currentDate.getTime()));
+		aLeaveBlock.setPrincipalId(principalId);
+		aLeaveBlock.setLeaveCode(anAC.getLeaveCode());
+		aLeaveBlock.setLeaveCodeId(lc.getLmLeaveCodeId());
+		BigDecimal roundedHours = hrs.setScale(0, BigDecimal.ROUND_HALF_EVEN).abs();
+		aLeaveBlock.setLeaveAmount(roundedHours);
+		aLeaveBlock.setDateAndTime(new Timestamp(currentDate.getTime()));
+		aLeaveBlock.setAccrualGenerated(true);
+		aLeaveBlock.setBlockId(0L);
+		aLeaveBlock.setScheduleTimeOffId(sysSchTimeOffId);
+				
+		accrualLeaveBlocks.add(aLeaveBlock);
 		
 	}
 	
