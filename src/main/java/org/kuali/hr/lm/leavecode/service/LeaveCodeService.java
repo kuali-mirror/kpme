@@ -1,5 +1,6 @@
 package org.kuali.hr.lm.leavecode.service;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 import java.util.Map;
@@ -20,4 +21,10 @@ public interface LeaveCodeService {
     Map<String, String> getLeaveCodesForDisplay(String principalId);
     
     public LeaveCode getLeaveCode(String leaveCode, Date effectiveDate);
+    /**
+	 * use rounding option and fract time allowed of the given Leave Code to round the given hours
+	 * @param hours
+	 * @param leaveCode
+	 */
+    public BigDecimal roundHrsWithLeaveCode(BigDecimal hours, LeaveCode leaveCode);
 }

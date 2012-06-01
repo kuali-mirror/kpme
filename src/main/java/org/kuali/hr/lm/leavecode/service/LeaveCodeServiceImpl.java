@@ -1,5 +1,6 @@
 package org.kuali.hr.lm.leavecode.service;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -9,6 +10,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.lm.leavecode.dao.LeaveCodeDao;
 import org.kuali.hr.time.cache.CacheResult;
@@ -105,5 +107,21 @@ public class LeaveCodeServiceImpl implements LeaveCodeService {
 	@CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
 	public LeaveCode getLeaveCode(String leaveCode, Date effectiveDate) {
 		return leaveCodeDao.getLeaveCode(leaveCode, effectiveDate);
+	}
+	
+	@Override
+	public BigDecimal roundHrsWithLeaveCode(BigDecimal hours, LeaveCode leaveCode) {
+		String roundOption = LMConstants.ROUND_OPTION_MAP.get(leaveCode.getRoundingOption());
+		BigDecimal fractScale = new BigDecimal(leaveCode.getFractionalTimeAllowed());
+		if(roundOption == null) {
+			throw new RuntimeException("Rounding option of Leave Code " + leaveCode.getLeaveCode() + " is not recognized.");
+		}
+		BigDecimal roundedHours = hours;
+		if(roundOption.equals("Traditional")) {
+			roundedHours = hours.setScale(fractScale.scale(), BigDecimal.ROUND_HALF_EVEN);
+		} else if(roundOption.equals("Truncate")) {
+			roundedHours = hours.setScale(fractScale.scale(), BigDecimal.ROUND_DOWN);
+		}
+		return roundedHours;
 	}
 }

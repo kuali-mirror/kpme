@@ -60,5 +60,11 @@ public class LMConstants {
 	    	REQUEST_STATUS_STRINGS.put(REQUEST_STATUS.DISAPPROVED, "Disapproved");
 	    	REQUEST_STATUS_STRINGS.put(REQUEST_STATUS.DEFERRED, "Deferred"); 
 	    }
+	    
+	 public static final Map<String, String> ROUND_OPTION_MAP = new HashMap<String, String>(2);
+	 static {
+		 ROUND_OPTION_MAP.put("T", "Traditional");
+		 ROUND_OPTION_MAP.put("R", "Truncate");
+	 }
 	
 }

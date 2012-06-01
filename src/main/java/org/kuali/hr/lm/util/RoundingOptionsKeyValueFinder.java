@@ -2,17 +2,21 @@ package org.kuali.hr.lm.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.hr.lm.LMConstants;
 import org.kuali.rice.core.util.KeyLabelPair;
 import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 
 public class RoundingOptionsKeyValueFinder extends KeyValuesBase {
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List getKeyValues() {
 		List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("T", "Traditional"));
-        keyValues.add(new KeyLabelPair("R", "Truncate"));
+		for (Map.Entry entry : LMConstants.ROUND_OPTION_MAP.entrySet()) {
+			keyValues.add(new KeyLabelPair(entry.getKey(), (String)entry.getValue()));
+        } 
         return keyValues;
 	}
 

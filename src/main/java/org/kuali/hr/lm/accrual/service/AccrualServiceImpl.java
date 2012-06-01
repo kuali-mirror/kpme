@@ -111,7 +111,7 @@ public class AccrualServiceImpl implements AccrualService {
 					//Add to total accumulatedAccrualCatToAccrualAmounts
 //use rule and ftePercentage to calculate the hours
 					BigDecimal numberOfDays = new BigDecimal(aCal.getActualMaximum(Calendar.DAY_OF_MONTH));
-					BigDecimal dayRate = acRule.getAccrualRate().divide(numberOfDays, 2, BigDecimal.ROUND_HALF_UP);
+					BigDecimal dayRate = acRule.getAccrualRate().divide(numberOfDays, 6, BigDecimal.ROUND_HALF_UP);
 					this.calculateHours(ac.getLmAccrualCategoryId(), ftePercentage, dayRate, accumulatedAccrualCatToAccrualAmounts);
 										
 					//Determine if we are at the accrual earn interval in the span, if so add leave block for accumulated accrual amount to list
@@ -162,17 +162,18 @@ public class AccrualServiceImpl implements AccrualService {
 		aLeaveBlock.setPrincipalId(principalId);
 		aLeaveBlock.setLeaveCode(anAC.getLeaveCode());
 		aLeaveBlock.setLeaveCodeId(lc.getLmLeaveCodeId());
-		BigDecimal roundedHours = hrs.setScale(0, BigDecimal.ROUND_HALF_EVEN).abs();
-		aLeaveBlock.setLeaveAmount(roundedHours);
 		aLeaveBlock.setDateAndTime(new Timestamp(currentDate.getTime()));
 		aLeaveBlock.setAccrualGenerated(true);
 		aLeaveBlock.setBlockId(0L);
 		aLeaveBlock.setScheduleTimeOffId(sysSchTimeOffId);
-				
+		// use rounding option and fract time allowed of Leave Code to round the leave block hours
+		BigDecimal roundedHours = TkServiceLocator.getLeaveCodeService().roundHrsWithLeaveCode(hrs, lc);
+		aLeaveBlock.setLeaveAmount(roundedHours);
+		
 		accrualLeaveBlocks.add(aLeaveBlock);
 		
 	}
-	
+
 	public void calculateHours(String accrualCategoryId, BigDecimal fte, BigDecimal rate, Map<String, BigDecimal> accumulatedAccrualCatToAccrualAmounts ) {
 		BigDecimal hours = rate.multiply(fte);
 		BigDecimal oldHours = accumulatedAccrualCatToAccrualAmounts.get(accrualCategoryId);
