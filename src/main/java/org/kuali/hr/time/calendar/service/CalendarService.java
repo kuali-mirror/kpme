@@ -49,4 +49,12 @@ public interface CalendarService {
 	 * @return
 	 */
 	public CalendarEntries getPreviousCalendarEntry(String tkCalendarId, Date beginDateCurrentCalendar);
+	
+	/**
+	 * Fetch a pay calendar with the given principalId and date, returns null if none found
+	 * @param principalId
+	 * @param asOfDate
+	 * @return
+	 */
+	public Calendar getCalendarByPrincipalIdAndDate(String principalId, Date asOfDate);
 }

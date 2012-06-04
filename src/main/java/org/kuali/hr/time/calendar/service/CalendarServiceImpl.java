@@ -49,9 +49,13 @@ public class CalendarServiceImpl implements CalendarService {
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public CalendarEntries getCurrentCalendarDates(String principalId, Date currentDate) {
 		CalendarEntries pcd = null;
-        Calendar calendar = getCalendar(principalId, currentDate);
-	    pcd = TkServiceLocator.getCalendarEntriesSerivce().getCurrentCalendarEntriesByCalendarId(calendar.getHrCalendarId(), currentDate);
-        pcd.setCalendarObj(calendar);
+        Calendar calendar = getCalendarByPrincipalIdAndDate(principalId, currentDate);
+        if(calendar != null) {
+		    pcd = TkServiceLocator.getCalendarEntriesSerivce().getCurrentCalendarEntriesByCalendarId(calendar.getHrCalendarId(), currentDate);
+		    if(pcd != null) {
+		    	pcd.setCalendarObj(calendar);
+		    }
+        }
 		return pcd;
 	}
 
@@ -99,5 +103,34 @@ public class CalendarServiceImpl implements CalendarService {
 		return calendarDao.getPreviousCalendarEntry(tkCalendarId, beginDateCurrentCalendar);
 	}
 
+	@Override
+	public Calendar getCalendarByPrincipalIdAndDate(String principalId, Date asOfDate) {
+		Calendar pcal = null;
+        List<Job> currentJobs = TkServiceLocator.getJobSerivce().getJobs(principalId, asOfDate);
+        if(currentJobs.size() < 1){
+           return pcal;
+        }
+        Job job = currentJobs.get(0);
+        if (principalId == null || job == null) {
+            return pcal;
+        } else {
+            PayType payType = job.getPayTypeObj();
+            if (payType == null)
+                return pcal;
+            PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
+            if(principalCalendar == null){
+                return pcal;
+            }
+            pcal = principalCalendar.getCalendar();
+            if (pcal == null){
+            	pcal = principalCalendar.getLeaveCalObj();
+            	if(pcal == null){
+            		return pcal;
+            	}
+            }
+        }
+
+        return pcal;
+	}
 
 }
