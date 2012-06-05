@@ -144,7 +144,7 @@
         <field-descriptor name="leaveCode" 			    column="LEAVE_CODE" jdbc-type="VARCHAR" length="15" nullable="false" />
         <field-descriptor name="leaveCodeId"            column="lm_leave_code_id" jdbc-type="VARCHAR" nullable="false" />
         <field-descriptor name="scheduleTimeOffId"      column="lm_sys_schd_timeoff_id" jdbc-type="VARCHAR" length="60" nullable="true" />
-        <field-descriptor name="accrualCategoryId"      column="lm_accrual_category_id" jdbc-type="VARCHAR" length="60" nullable="false" />
+        <field-descriptor name="accrualCategoryId"      column="lm_accrual_category_id" jdbc-type="VARCHAR" length="60" nullable="true" />
         <field-descriptor name="leaveAmount"            column="leave_amount" jdbc-type="NUMERIC" nullable="false"/>
         <field-descriptor name="applyToYtdUsed"         column="apply_to_ytd_used" jdbc-type="VARCHAR"/>
         <field-descriptor name="documentId"             column="document_id" jdbc-type="VARCHAR" length="40" nullable="true" />
@@ -181,7 +181,7 @@
         <field-descriptor name="leaveCode" 			    column="LEAVE_CODE" jdbc-type="VARCHAR" length="15" nullable="false" />
         <field-descriptor name="leaveCodeId"            column="lm_leave_code_id" jdbc-type="VARCHAR" length="60" nullable="false" />
         <field-descriptor name="scheduleTimeOffId"      column="lm_sys_schd_timeoff_id" jdbc-type="VARCHAR" length="60" nullable="true" />
-        <field-descriptor name="accrualCategoryId"      column="lm_accrual_category_id" jdbc-type="VARCHAR" length="60" nullable="false" />
+        <field-descriptor name="accrualCategoryId"      column="lm_accrual_category_id" jdbc-type="VARCHAR" length="60" nullable="true" />
         <field-descriptor name="leaveAmount"            column="leave_amount" jdbc-type="NUMERIC" nullable="false"/>
         <field-descriptor name="applyToYtdUsed"         column="apply_to_ytd_used" jdbc-type="VARCHAR"/>
         <field-descriptor name="documentId"             column="document_id" jdbc-type="VARCHAR" length="40" nullable="true" />

@@ -82,6 +82,7 @@ public class AccrualServiceImpl implements AccrualService {
 		//Iterate over every day in span 
 		Calendar aCal = Calendar.getInstance();
 		aCal.setTime(startDate);
+		BigDecimal previousFte = null;
 		while (!aCal.getTime().after(endDate)) {
 			java.util.Date currentDate = aCal.getTime();
 // if the currentDate is before the start service date of this employee, do nothing
@@ -90,13 +91,21 @@ public class AccrualServiceImpl implements AccrualService {
 				continue;
 			}
 			//Fetch the accural rate based on rate range for today(Rate range is the accumulated list of jobs and accrual rate for today)
-			List<Job> jobList = rrAggregate.getRate(currentDate).getJobs();
-// if no job found for the employee on the currentDate, do nothing
-			if(jobList.isEmpty()) {
+			RateRange currentRange = rrAggregate.getRateOnDate(currentDate);
+			// if no job found for the employee on the currentDate, do nothing
+			if(currentRange == null || currentRange.getJobs().isEmpty()) {
 				aCal.add(Calendar.DATE, 1);
 				continue;
 			}
-			BigDecimal ftePercentage = TkServiceLocator.getJobSerivce().getFteSumForJobs(jobList);
+			
+			BigDecimal ftePercentage = TkServiceLocator.getJobSerivce().getFteSumForJobs(currentRange.getJobs());
+			if(previousFte != null) {
+				if(!previousFte.equals(ftePercentage)) {
+					// create empty leave block for employee status change
+					this.createEmptyLeaveBlockForStatusChange(principalId, accrualLeaveBlocks, currentDate);
+				}
+			}
+			previousFte = ftePercentage;
 			
 			for(AccrualCategory ac : accrCatList) {
 				if(currentDate.after(ac.getEffectiveDate())) {
@@ -139,7 +148,8 @@ public class AccrualServiceImpl implements AccrualService {
 				if(anAC == null) {
 					throw new RuntimeException("Cannot find Accrual Category for system scheduled time off " + ssto.getLmSystemScheduledTimeOffId());
 				}
-				createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, new BigDecimal(ssto.getAmountofTime()), anAC, ssto.getLmSystemScheduledTimeOffId());
+				BigDecimal hrs = new BigDecimal(ssto.getAmountofTime()).multiply(ftePercentage);
+				createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, hrs, anAC, ssto.getLmSystemScheduledTimeOffId());
 			}
 			aCal.add(Calendar.DATE, 1);
 		}
@@ -169,6 +179,23 @@ public class AccrualServiceImpl implements AccrualService {
 		// use rounding option and fract time allowed of Leave Code to round the leave block hours
 		BigDecimal roundedHours = TkServiceLocator.getLeaveCodeService().roundHrsWithLeaveCode(hrs, lc);
 		aLeaveBlock.setLeaveAmount(roundedHours);
+		
+		accrualLeaveBlocks.add(aLeaveBlock);
+		
+	}
+	
+	private void createEmptyLeaveBlockForStatusChange(String principalId, List<LeaveBlock> accrualLeaveBlocks, java.util.Date currentDate) {
+		LeaveBlock aLeaveBlock = new LeaveBlock();
+		aLeaveBlock.setAccrualCategoryId(null);
+		aLeaveBlock.setLeaveDate(new java.sql.Date(currentDate.getTime()));
+		aLeaveBlock.setPrincipalId(principalId);
+		aLeaveBlock.setLeaveCode("MSG");	// fake leave code
+		aLeaveBlock.setLeaveCodeId("000");	// fake leave code id
+		aLeaveBlock.setDateAndTime(new Timestamp(currentDate.getTime()));
+		aLeaveBlock.setAccrualGenerated(true);
+		aLeaveBlock.setBlockId(0L);
+		aLeaveBlock.setScheduleTimeOffId(null);
+		aLeaveBlock.setLeaveAmount(BigDecimal.ZERO);
 		
 		accrualLeaveBlocks.add(aLeaveBlock);
 		
@@ -241,24 +268,20 @@ public class AccrualServiceImpl implements AccrualService {
 		List<RateRange> rateRangeList = new ArrayList<RateRange>();	
 		Calendar gc = new GregorianCalendar();
 		gc.setTime(startDate);
-		
-		Date today = TKUtils.getTimelessDate(null);
-		
-// !!!assuming each rate range covers one day, not sure if the assumpsion is right!!!!
+
 	    while (!gc.getTime().after(endDate)) {
 	    	RateRange rateRange = new RateRange();
 			List<Job> jobs = TkServiceLocator.getJobSerivce().getActiveLeaveJobs(principalId, gc.getTime());
 			rateRange.setJobs(jobs);
-			Interval range = new Interval(new DateTime(startDate), new DateTime(endDate));
+			DateTime beginInterval = new DateTime(gc.getTime());
+			gc.add(Calendar.DATE, 1);
+			DateTime endInterval = new DateTime(gc.getTime());
+			Interval range = new Interval(beginInterval, endInterval);
 			rateRange.setRange(range);
-			rateRangeList.add(rateRange);
-			if(gc.getTime().equals(today)) {
-				rrAggregate.setCurrentRate(rateRange);
-			}
-	    	
-	        gc.add(Calendar.DATE, 1);
+			rateRangeList.add(rateRange);	       
 	    }
 		rrAggregate.setRateRanges(rateRangeList);
+		rrAggregate.setCurrentRate(null);
 		return rrAggregate;
 	}
 	
