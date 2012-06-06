@@ -16,6 +16,7 @@
     <html:hidden property="nextDocumentId" value="${Form.nextDocumentId}" styleId="nextDocumentId"/>
     <html:hidden property="prevCalEntryId" value="${Form.prevCalEntryId}" styleId="prevCalEntryId"/>
     <html:hidden property="nextCalEntryId" value="${Form.nextCalEntryId}" styleId="nextCalEntryId"/>
+    <html:hidden property="docEditable" value="${Form.docEditable}" styleId="docEditable"/>
     <html:hidden  value="${Form.leaveCalendar.beginDateTime}" styleId="beginPeriodDate"/>
            <div id="dialog-form" class="dialog-form" title="Add Ledgers:">
             <html:form action="/LeaveCalendar.do" styleId="leaveBlock-form">

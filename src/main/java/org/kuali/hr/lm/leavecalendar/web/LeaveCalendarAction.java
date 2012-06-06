@@ -275,13 +275,19 @@ public class LeaveCalendarAction extends TkAction {
 				}
 			}
 		}
+		if(leaveForm.getViewLeaveTabsWithNEStatus()) {
+			if(!isFutureDate) {
+				leaveForm.setDocEditable(true);
+			}
+		} else {
+			leaveForm.setDocEditable(true);
+		}
 		leaveForm.setCalendarEntry(lcd.getCalendarEntry());
 		leaveForm.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(lcd.getCalendarEntry()));
 
 	}
 	
 	public ActionForward gotoCurrentPayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
 		String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
 		Date currentDate = TKUtils.getTimelessDate(null);
@@ -322,5 +328,7 @@ public class LeaveCalendarAction extends TkAction {
 		}
 		return mapping.findForward("basic");
 	}
+	
+	
 	
 }

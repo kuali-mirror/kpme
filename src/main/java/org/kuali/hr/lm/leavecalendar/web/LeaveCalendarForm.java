@@ -39,8 +39,17 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
 	/** String (concat(job number, work_area, task)) -> Formatted Assignment Descriptions */
 	private Map<String,String>  assignmentDescriptions;
 	private String selectedAssignment;
+	private boolean isDocEditable;
 	
-    public String getSelectedAssignment() {
+    public boolean isDocEditable() {
+		return isDocEditable;
+	}
+
+	public void setDocEditable(boolean isDocEditable) {
+		this.isDocEditable = isDocEditable;
+	}
+
+	public String getSelectedAssignment() {
 		return selectedAssignment;
 	}
 
