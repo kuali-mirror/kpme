@@ -400,4 +400,6 @@ public class TkConstants {
         CLASS_INQUIRY_KEY_MAP.put(LeavePlan.class.getName(), keys);
     }
 
+    public static final String FLSA_STATUS_NON_EXEMPT ="NE";
+    public static final String FLSA_STATUS_EXEMPT ="E";
 }

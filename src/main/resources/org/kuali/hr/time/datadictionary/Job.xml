@@ -37,77 +37,83 @@
 				<ref bean="Job-history" />
 				<ref bean="Job-eligibleForLeave" />
 				<ref bean="Job-active" />
-				<ref bean="Job-positionNbr"/>
-				<ref bean="Job-hrDeptId"/>
-				<ref bean="Job-hrPayTypeId"/>
+				<ref bean="Job-positionNbr" />
+				<ref bean="Job-hrDeptId" />
+				<ref bean="Job-hrPayTypeId" />
+				<ref bean="Job-flsaStatus"/>
 			</list>
 		</property>
 		<property name="relationships">
-  		<list>
-            <bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="principal"/>
-              <property name="primitiveAttributes">
-                <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId" p:targetName="principalId"/>
-                </list>
-              </property>
-            </bean>
-            <bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="deptObj"/>
-              <property name="primitiveAttributes">
-                <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="dept" p:targetName="dept"/>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrDeptId" p:targetName="hrDeptId"/>
-                </list>
-              </property>
-            </bean>
-            <bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="payTypeObj"/>
-              <property name="primitiveAttributes">
-                <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrPayType" p:targetName="payType"/>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="hrPayTypeId" p:targetName="hrPayTypeId"/>
-                </list>
-              </property>
-            </bean>
-            <bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="locationObj" />
-				<property name="primitiveAttributes">
-					<list>
-						<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
-							p:targetName="location" />
-					</list>
-				</property>
-			</bean>
-			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="payGradeObj" />
-				<property name="primitiveAttributes">
-					<list>
-						<bean parent="PrimitiveAttributeDefinition" p:sourceName="payGrade"
-							p:targetName="payGrade" />
-					</list>
-				</property>
-			</bean>
-			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="salGroupObj" />
-				<property name="primitiveAttributes">
-					<list>
-						<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrSalGroup"
-							p:targetName="hrSalGroup" />
-					</list>
-				</property>
-			</bean>   
-			<bean parent="RelationshipDefinition">
-				<property name="objectAttributeName" value="positionObj" />
-				<property name="primitiveAttributes">
-					<list>
-						<bean parent="PrimitiveAttributeDefinition" p:sourceName="positionNumber"
-							p:targetName="positionNumber" />
-					</list>
-				</property>
-			</bean>     			         
-         </list>
-         </property>
+			<list>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="principal" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId"
+								p:targetName="principalId" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="deptObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
+								p:targetName="dept" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrDeptId"
+								p:targetName="hrDeptId" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="payTypeObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrPayType"
+								p:targetName="payType" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrPayTypeId"
+								p:targetName="hrPayTypeId" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="locationObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
+								p:targetName="location" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="payGradeObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="payGrade"
+								p:targetName="payGrade" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="salGroupObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrSalGroup"
+								p:targetName="hrSalGroup" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="positionObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="positionNumber"
+								p:targetName="positionNumber" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
 		<property name="objectLabel" value="job" />
 	</bean>
 
@@ -182,9 +188,10 @@
 		<property name="name" value="location" />
 		<property name="label" value="Job Location" />
 	</bean>
-	
+
 	<bean id="Job-positionNbr" parent="Job-positionNbr-parentBean" />
-	<bean id="Job-positionNbr-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="Job-positionNbr-parentBean" abstract="true"
+		parent="AttributeDefinition">
 		<property name="shortLabel" value="Location" />
 		<property name="maxLength" value="27" />
 		<property name="validationPattern">
@@ -216,29 +223,27 @@
 		<property name="name" value="standardHours" />
 		<property name="label" value="Standard Hours" />
 	</bean>
-	
+
 	<bean id="Job-fte" parent="Job-fte-parentBean" />
-	<bean id="Job-fte-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="Job-fte-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="FTE" />
 		<property name="maxLength" value="5" />
 		<property name="control">
-      		<bean parent="LookupReadonlyControlDefinition" p:size="6" />
-    	</property>
+			<bean parent="LookupReadonlyControlDefinition" p:size="6" />
+		</property>
 		<property name="name" value="fte" />
 		<property name="label" value="FTE" />
 	</bean>
-	
+
 	<bean id="Job-compRate" parent="Job-compRate-parentBean" />
-	<bean id="Job-compRate-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="Job-compRate-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Compensation Rate" />
 		<property name="maxLength" value="7" />
 		<property name="validationPattern">
 			<bean parent="RegexValidationPattern">
- 		   		<property name="pattern" value="((\+|-)?([0-9]{1,3}(\.[0-9]{1,2})?))()"></property>
- 		   		<property name="validationErrorMessageKey" value="error.bigDecimal"></property>
- 			</bean>
+				<property name="pattern" value="((\+|-)?([0-9]{1,3}(\.[0-9]{1,2})?))()"></property>
+				<property name="validationErrorMessageKey" value="error.bigDecimal"></property>
+			</bean>
 		</property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="7" />
@@ -263,10 +268,9 @@
 		<property name="name" value="principalId" />
 		<property name="label" value="Principal Id" />
 	</bean>
-	
+
 	<bean id="Job-firstName" parent="Job-firstName-parentBean" />
-	<bean id="Job-firstName-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="Job-firstName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="First Name" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
@@ -280,10 +284,9 @@
 		<property name="name" value="firstName" />
 		<property name="label" value="First Name" />
 	</bean>
-	
+
 	<bean id="Job-lastName" parent="Job-lastName-parentBean" />
-	<bean id="Job-lastName-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="Job-lastName-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Last Name" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
@@ -297,29 +300,30 @@
 		<property name="name" value="lastName" />
 		<property name="label" value="Last Name" />
 	</bean>
-	
-	<bean id="Job-principalName" parent="Job-principalName-parentBean" />
-	<bean id="Job-principalName-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Name" />
-        <property name="maxLength" value="30" />
-        <property name="control">
-            <bean parent="LookupReadonlyControlDefinition" p:size="30" />
-        </property>
-        <property name="name" value="principalName" />
-		<property name="label" value="Principal Name" />
-    </bean>
 
-	<bean id="Job-name" parent="Job-name-parentBean"/>
-  	<bean id="Job-name-parentBean" abstract="true" parent="AttributeDefinition">
-    	<property name="shortLabel" value="Name"/>
-    	<property name="maxLength" value="30"/>
-	    <property name="control">
-      		<bean parent="LookupReadonlyControlDefinition" p:size="30" />
-    	</property>
-    	<property name="name" value="name"/>
-    	<property name="label" value="Name"/>
-  	</bean>
-  
+	<bean id="Job-principalName" parent="Job-principalName-parentBean" />
+	<bean id="Job-principalName-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Name" />
+		<property name="maxLength" value="30" />
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="30" />
+		</property>
+		<property name="name" value="principalName" />
+		<property name="label" value="Principal Name" />
+	</bean>
+
+	<bean id="Job-name" parent="Job-name-parentBean" />
+	<bean id="Job-name-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Name" />
+		<property name="maxLength" value="30" />
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="30" />
+		</property>
+		<property name="name" value="name" />
+		<property name="label" value="Name" />
+	</bean>
+
 	<bean id="Job-jobNumber" parent="Job-jobNumber-parentBean" />
 	<bean id="Job-jobNumber-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Job Number" />
@@ -364,35 +368,27 @@
 		<property name="label" value="Department Name" />
 		<property name="description" value="dept" />
 	</bean>
-	
-  	<bean id="Job-primaryIndicator" parent="Job-primaryIndicator-parentBean"/>
-  	<bean id="Job-primaryIndicator-parentBean" abstract="true" parent="AttributeDefinition">
-    	<property name="shortLabel" value="Primary Indicator"/>
-    	<property name="control">
-      		<bean parent="CheckboxControlDefinition"/>
-    	</property>
-    	<property name="name" value="primaryIndicator"/>
-    	<property name="label" value="Primary Indicator"/>
-    	<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
-  	</bean>	
 
-    <!--
-	<bean id="Job-hrPyCalendarId" parent="Job-hrPyCalendarId-parentBean" />
-
-	<bean id="Job-hrPyCalendarId-parentBean" abstract="true"
+	<bean id="Job-primaryIndicator" parent="Job-primaryIndicator-parentBean" />
+	<bean id="Job-primaryIndicator-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Job Id" />
-		<property name="maxLength" value="7" />
-		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
-		</property>
+		<property name="shortLabel" value="Primary Indicator" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="7" />
+			<bean parent="CheckboxControlDefinition" />
 		</property>
-		<property name="name" value="hrPyCalendarId" />
-		<property name="label" value="Pay Calendar Id" />
+		<property name="name" value="primaryIndicator" />
+		<property name="label" value="Primary Indicator" />
+		<property name="formatterClass"
+			value="org.kuali.rice.kns.web.format.BooleanFormatter" />
 	</bean>
-    -->
+
+	<!-- <bean id="Job-hrPyCalendarId" parent="Job-hrPyCalendarId-parentBean" 
+		/> <bean id="Job-hrPyCalendarId-parentBean" abstract="true" parent="AttributeDefinition"> 
+		<property name="shortLabel" value="Job Id" /> <property name="maxLength" 
+		value="7" /> <property name="validationPattern"> <bean parent="NumericValidationPattern" 
+		/> </property> <property name="control"> <bean parent="TextControlDefinition" 
+		p:size="7" /> </property> <property name="name" value="hrPyCalendarId" /> 
+		<property name="label" value="Pay Calendar Id" /> </bean> -->
 
 	<bean id="Job-hrSalGroup" parent="Job-hrSalGroup-parentBean" />
 
@@ -420,9 +416,10 @@
 		</property>
 		<property name="name" value="eligibleForLeave" />
 		<property name="label" value="Eligible For Leave" />
-		<property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+		<property name="formatterClass"
+			value="org.kuali.rice.kns.web.format.BooleanFormatter" />
 	</bean>
-	
+
 	<bean id="Job-timestamp" parent="Job-timestamp-parentBean" />
 
 	<bean id="Job-timestamp-parentBean" abstract="true" parent="AttributeDefinition">
@@ -432,18 +429,14 @@
 		<property name="control">
 			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
 		</property>
-		<!--
-			<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.TimeStampAMPMFormatter"/>
-		-->
+		<!-- <property name="formatterClass" value="org.kuali.rice.kns.web.format.TimeStampAMPMFormatter"/> -->
 		<property name="name" value="timestamp" />
 		<property name="label" value="Time Stamp" />
 	</bean>
-	
-<!-- history -->
+
+	<!-- history -->
 	<bean id="Job-history" parent="Job-history-parentBean" />
-	<bean id="Job-history-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="Job-history-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Show History" />
 		<property name="control">
 			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
@@ -452,23 +445,23 @@
 		<property name="name" value="history" />
 		<property name="label" value="Show History" />
 	</bean>
-	
-	<bean id="Job-active-parentBean" abstract="true" parent="GenericAttributes-activeIndicator">
-	    <property name="name" value="active"/>
-	    <property name="label" value="Active"/>
+
+	<bean id="Job-active-parentBean" abstract="true"
+		parent="GenericAttributes-activeIndicator">
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
 	</bean>
 
-  	<bean id="Job-active" parent="Job-active-parentBean"/>
-	
+	<bean id="Job-active" parent="Job-active-parentBean" />
+
 	<bean id="Job-hrDeptId" parent="Job-hrDeptId-parentBean" />
-	<bean id="Job-hrDeptId-parentBean" abstract="true"
-		parent="AttributeDefinition">
+	<bean id="Job-hrDeptId-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="name" value="hrDeptId" />
 		<property name="control">
 			<bean parent="HiddenControlDefinition" />
 		</property>
 	</bean>
-	
+
 	<bean id="Job-hrPayTypeId" parent="Job-hrPayTypeId-parentBean" />
 	<bean id="Job-hrPayTypeId-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -477,6 +470,21 @@
 			<bean parent="HiddenControlDefinition" />
 		</property>
 	</bean>
+
+	<!-- FLSA Status -->
+	<bean id="Job-flsaStatus" parent="Job-flsaStatus-parentBean" />
+	<bean id="Job-flsaStatus-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="FLSA Status" />
+		<property name="control">
+			<bean parent="RadioControlDefinition"
+				p:valuesFinderClass="org.kuali.hr.time.util.TkFlsaStatusKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="flsaStatus" />
+		<property name="label" value="FLSA Status" />
+	</bean>
+	
 	<!-- Business Object Inquiry Definition -->
 
 
@@ -496,15 +504,15 @@
 							<bean parent="FieldDefinition" p:attributeName="jobNumber" />
 							<bean parent="FieldDefinition" p:attributeName="dept" />
 							<bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
-			                <bean parent="FieldDefinition" p:attributeName="location" />
-			                <bean parent="FieldDefinition" p:attributeName="positionNumber" />
+							<bean parent="FieldDefinition" p:attributeName="location" />
+							<bean parent="FieldDefinition" p:attributeName="positionNumber" />
 							<bean parent="FieldDefinition" p:attributeName="hrPayType" />
 							<bean parent="FieldDefinition" p:attributeName="payGrade" />
-			        	   	<bean parent="FieldDefinition" p:attributeName="compRate" />
-			        	    <bean parent="FieldDefinition" p:attributeName="standardHours" />
-			        	    <bean parent="FieldDefinition" p:attributeName="fte" />
-			        	    <bean parent="FieldDefinition" p:attributeName="primaryIndicator" />   
-							<bean parent="FieldDefinition" p:attributeName="eligibleForLeave" />   
+							<bean parent="FieldDefinition" p:attributeName="compRate" />
+							<bean parent="FieldDefinition" p:attributeName="standardHours" />
+							<bean parent="FieldDefinition" p:attributeName="fte" />
+							<bean parent="FieldDefinition" p:attributeName="primaryIndicator" />
+							<bean parent="FieldDefinition" p:attributeName="eligibleForLeave" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
@@ -512,7 +520,7 @@
 				</bean>
 			</list>
 		</property>
-		<property name="translateCodes" value="false"/>
+		<property name="translateCodes" value="false" />
 		<property name="title" value="Job Inquiry" />
 	</bean>
 
@@ -537,9 +545,10 @@
 				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="positionNumber" />
 				<bean parent="FieldDefinition" p:attributeName="hrPayType" />
-			    <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
-				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
+				<bean parent="FieldDefinition" p:attributeName="history"
+					p:defaultValue="N" />
 				<bean parent="FieldDefinition" p:attributeName="hrDeptId" />
 				<bean parent="FieldDefinition" p:attributeName="hrPayTypeId" />
 			</list>
@@ -558,7 +567,7 @@
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 				<bean parent="FieldDefinition" p:attributeName="primaryIndicator" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
-				
+
 			</list>
 		</property>
 		<property name="title" value="Job Lookup" />

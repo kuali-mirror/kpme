@@ -300,6 +300,7 @@
 		<field-descriptor name="eligibleForLeave"       column="eligible_for_leave"	jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="primaryIndicator"       column="primary_indicator"	jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
+		<field-descriptor name="flsaStatus"			column="flsa_status"       jdbc-type="VARCHAR" nullable="true" length="15"/>
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.workflow.TimesheetDocumentHeader" table="tk_document_header_t">
