@@ -41,7 +41,15 @@ public class AccrualCategoryRuleServiceImpl implements AccrualCategoryRuleServic
     			endCal.add(Calendar.YEAR, endTime);
     		}
     		
-    		if(currentDate.after(startCal.getTime()) && currentDate.before(endCal.getTime())) {
+    		// max days in months differ, if the date is bigger than the max day, set it to the max day of the month
+			if(startCal.getActualMaximum(Calendar.DAY_OF_MONTH) < startCal.get(Calendar.DATE)) {
+				startCal.set(Calendar.DATE, startCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+			}
+			if(endCal.getActualMaximum(Calendar.DAY_OF_MONTH) < endCal.get(Calendar.DATE)) {
+				endCal.set(Calendar.DATE, endCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+			}
+    		
+    		if(currentDate.compareTo(startCal.getTime()) >= 0 && currentDate.compareTo(endCal.getTime()) <=0 ) {
     			return acr;
     		}
     	}
