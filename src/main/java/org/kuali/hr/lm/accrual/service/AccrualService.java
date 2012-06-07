@@ -27,4 +27,20 @@ public interface AccrualService {
 	 * @return boolean
 	 */
 	public RateRangeAggregate buildRateRangeAggregate(String principalId, Date startDate, Date endDate);
+	
+	/**
+	 * determine if the employee's future status is changed during the range of given Calendar Entry
+	 * @param principalId
+	 * @param startDate
+	 * @param endDate
+	 * @return boolean
+	 */
+	public boolean isEmpoyeementFutureStatusChanged(String principalId, Date startDate, Date endDate);
+	
+	/**
+	 * calculate future accrual for given principal id
+	 * @param principalId
+	 * @return
+	 */
+	public void calculateFutureAccrualUsingPlanningMonth(String principalId);
 }
