@@ -81,7 +81,12 @@ public class LeaveCalendarAction extends TkAction {
 		
 		lcf.setCalendarEntry(calendarEntry);
 		lcf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
-
+		// run accrual for future dates only, use planning month of leave plan for accrual period
+		// only run the accrual if the calendar entry contains future dates
+		if(calendarEntry != null && calendarEntry.getEndPeriodDate().after(TKUtils.getCurrentDate())) {
+			TkServiceLocator.getLeaveAccrualService().calculateFutureAccrualUsingPlanningMonth(viewPrincipal);
+		}
+		
 		if (lcd != null) {
 			setupDocumentOnFormContext(lcf, lcd);
 		} else {
@@ -328,7 +333,5 @@ public class LeaveCalendarAction extends TkAction {
 		}
 		return mapping.findForward("basic");
 	}
-	
-	
 	
 }
