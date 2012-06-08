@@ -20,15 +20,15 @@ insert into hr_job_t values('2000', 'fred', '30', '2010-01-01', 'TEST-DEPT', 'S1
 
 # We seem to need the other employees to have jobs as well
 #insert into tk_assignment_t values('2000', 'fred', '30', '2010-01-01', '30', '30', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'Y', '2010-07-27 10:25:13');
-insert into hr_job_t values('2001', 'testuser6', '30', '2010-01-01', 'TEST-DEPT', 'S12', 'S12', now(), uuid(), '1', '0.000000', 'BL', '40.00', 'BW','Y',  'Y', 'N','Y');
-insert into hr_job_t values('2002', 'fran', '30', '2010-01-01', 'TEST-DEPT', 'S12', 'S12', now(), uuid(), '1', '0.000000', 'BL', '40.00', 'BW','Y',  'Y', 'N', 'Y');
-insert into hr_job_t values('2003', 'frank', '30', '2010-01-01', 'TEST-DEPT', 'S12', 'S12', now(), uuid(), '1', '0.000000', 'BL', '40.00', 'BW','Y',  'Y', 'N', 'Y');
-insert into hr_job_t values('2004', 'edna', '30', '2010-01-01', 'TEST-DEPT', 'S12', 'S12', now(), uuid(), '1', '0.000000', 'BL', '40.00', 'BW','Y',  'Y', 'N', 'Y');
+insert into hr_job_t values('2001', 'testuser6', '30', '2010-01-01', 'TEST-DEPT', 'S12', 'S12', now(), uuid(), '1', '0.000000', 'BL', '40.00', 'BW','Y',  'Y', 'N','Y', 'E');
+insert into hr_job_t values('2002', 'fran', '30', '2010-01-01', 'TEST-DEPT', 'S12', 'S12', now(), uuid(), '1', '0.000000', 'BL', '40.00', 'BW','Y',  'Y', 'N', 'Y', 'E');
+insert into hr_job_t values('2003', 'frank', '30', '2010-01-01', 'TEST-DEPT', 'S12', 'S12', now(), uuid(), '1', '0.000000', 'BL', '40.00', 'BW','Y',  'Y', 'N', 'Y', 'E');
+insert into hr_job_t values('2004', 'edna', '30', '2010-01-01', 'TEST-DEPT', 'S12', 'S12', now(), uuid(), '1', '0.000000', 'BL', '40.00', 'BW','Y',  'Y', 'N', 'Y', 'E');
 
-insert into hr_job_t values('2005', 'testuser1', '30', '2010-01-01', 'TEST-DEPT', 'S12', 'S12', now(), uuid(), '1', '0.000000', 'BL', '40.00', 'BW','Y',  'Y', 'N', 'Y');
-insert into hr_job_t values('2006', 'testuser2', '30', '2010-01-01', 'TEST-DEPT', 'S12', 'S12', now(), uuid(), '1', '0.000000', 'BL', '40.00', 'BW','Y',  'Y', 'N', 'Y');
-insert into hr_job_t values('2007', 'testuser3', '30', '2010-01-01', 'TEST-DEPT', 'S12', 'S12', now(), uuid(), '1', '0.000000', 'BL', '40.00', 'BW','Y',  'Y', 'N', 'Y');
-insert into hr_job_t values('2008', 'testuser4', '30', '2010-01-01', 'TEST-DEPT', 'S12', 'S12', now(), uuid(), '1', '0.000000', 'BL', '40.00', 'BW','Y',  'Y', 'N', 'Y');
+insert into hr_job_t values('2005', 'testuser1', '30', '2010-01-01', 'TEST-DEPT', 'S12', 'S12', now(), uuid(), '1', '0.000000', 'BL', '40.00', 'BW','Y',  'Y', 'N', 'Y', 'E');
+insert into hr_job_t values('2006', 'testuser2', '30', '2010-01-01', 'TEST-DEPT', 'S12', 'S12', now(), uuid(), '1', '0.000000', 'BL', '40.00', 'BW','Y',  'Y', 'N', 'Y', 'E');
+insert into hr_job_t values('2007', 'testuser3', '30', '2010-01-01', 'TEST-DEPT', 'S12', 'S12', now(), uuid(), '1', '0.000000', 'BL', '40.00', 'BW','Y',  'Y', 'N', 'Y', 'E');
+insert into hr_job_t values('2008', 'testuser4', '30', '2010-01-01', 'TEST-DEPT', 'S12', 'S12', now(), uuid(), '1', '0.000000', 'BL', '40.00', 'BW','Y',  'Y', 'N', 'Y', 'E');
 
 
 # Set up principal Calendars
