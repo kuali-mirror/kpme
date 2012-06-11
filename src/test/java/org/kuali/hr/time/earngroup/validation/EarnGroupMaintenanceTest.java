@@ -50,7 +50,7 @@ public class EarnGroupMaintenanceTest extends TkTestCase {
         earnCode.setActive(true);
         earnCode.setEarnCode("RGG");
         earnCode.setEffectiveDate(TEST_DATE);
-        earnCode.setRecordTime(true);
+        earnCode.setRecordMethod("T");
         earnCode.setDescription("RGG");
         earnCode.setOvtEarnCode(false);
         earnCode.setInflateMinHours(BigDecimal.ZERO);
