@@ -94,7 +94,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 								earnCodeSection.setEarnCode(thd.getEarnCode());
 								EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(thd.getEarnCode(), TKUtils.getTimelessDate(asOfDate));
 								earnCodeSection.setDescription(earnCodeObj.getDescription());
-								earnCodeSection.setIsAmountEarnCode(earnCodeObj.getRecordAmount());
+								earnCodeSection.setIsAmountEarnCode((earnCodeObj.getRecordMethod()!= null && earnCodeObj.getRecordMethod().equalsIgnoreCase(TkConstants.EARN_CODE_AMOUNT)) ? true : false);
 								for(int i = 0;i<(numEntries-1);i++){
 									earnCodeSection.getTotals().add(BigDecimal.ZERO);
 								}

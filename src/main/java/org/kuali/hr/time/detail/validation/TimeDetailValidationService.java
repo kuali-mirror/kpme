@@ -62,7 +62,7 @@ public class TimeDetailValidationService {
         EarnCode earnCode = new EarnCode();
         if (StringUtils.isNotBlank(selectedEarnCode)) {
             earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, asOfDate);
-            if (earnCode != null && earnCode.getRecordTime()) {
+            if (earnCode != null && earnCode.getRecordMethod()!= null && earnCode.getRecordMethod().equalsIgnoreCase(TkConstants.EARN_CODE_TIME)) {
                 if (startTimeS == null) errors.add("The start time is blank.");
                 if (endTimeS == null) errors.add("The end time is blank.");
                 if (startTime - endTime == 0) errors.add("Start time and end time cannot be equivalent");
@@ -213,7 +213,7 @@ public class TimeDetailValidationService {
         }
 
         for (TimeBlock timeBlock : timesheetDocument.getTimeBlocks()) {
-            if (errors.size() == 0 && StringUtils.equals(timeBlock.getEarnCodeType(), "TIME")) {
+            if (errors.size() == 0 && StringUtils.equals(timeBlock.getEarnCodeType(), TkConstants.EARN_CODE_TIME)) {
                 Interval timeBlockInterval = new Interval(timeBlock.getBeginTimestamp().getTime(), timeBlock.getEndTimestamp().getTime());
                 for (Interval intv : dayInt) {
                     if (timeBlockInterval.overlaps(intv) && (timeblockId == null || timeblockId.compareTo(timeBlock.getTkTimeBlockId()) != 0)) {

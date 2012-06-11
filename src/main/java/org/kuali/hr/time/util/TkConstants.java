@@ -40,12 +40,13 @@ public class TkConstants {
     public static final String MODIFIED = "MODIFIED";
 
     // earn code type
-    public static final String EARN_CODE_HOUR = "HOUR";
-    public static final String EARN_CODE_TIME = "TIME";
-    public static final String EARN_CODE_AMOUNT = "AMOUNT";
+    public static final String EARN_CODE_HOUR = "H";
+    public static final String EARN_CODE_TIME = "T";
+    public static final String EARN_CODE_AMOUNT = "A";
     public static final String EARN_CODE_OVT = "OVT";
     public static final String EARN_CODE_CPE = "CPE";
-
+    public static final String EARN_CODE_DAY = "D";
+    
     public static final String GMT_TIME_ZONE_ID = "Etc/GMT";
     public static final TimeZone GMT_TIME_ZONE = TimeZone.getTimeZone(GMT_TIME_ZONE_ID);
     public static final String SYSTEM_TIME_ZONE = "America/Indianapolis";

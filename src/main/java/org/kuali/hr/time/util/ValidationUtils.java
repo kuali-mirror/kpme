@@ -563,4 +563,13 @@ public class ValidationUtils {
 		valid = (count > 0);
 		return valid;
 	}
+	
+	public static boolean validateRecordMethod(String recordMethod, String accrualCategory, Date asOfDate) {
+		boolean valid = false;
+		if (asOfDate != null) {
+			AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
+			valid = ac!=null & ac.getUnitOfTime()!=null & StringUtils.equalsIgnoreCase(ac.getUnitOfTime(), recordMethod);
+		}
+		return valid;
+	}
 }

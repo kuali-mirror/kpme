@@ -56,9 +56,9 @@ var CONSTANTS = {
         OVERTIME : "OVT"
     },
     EARNCODE_TYPE : {
-        HOUR: "HOUR",
-        TIME: "TIME",
-        AMOUNT: "AMOUNT"
+        HOUR: "H",
+        TIME: "T",
+        AMOUNT: "A"
     },
     ACTIONS : {
         UPDATE_TIME_BLOCK : "updateTimeBlock",

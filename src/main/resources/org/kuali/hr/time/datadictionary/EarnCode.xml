@@ -20,10 +20,12 @@
         <ref bean="EarnCode-hrEarnCodeId" />
         <ref bean="EarnCode-earnCode" />
         <ref bean="EarnCode-ovtEarnCode" />
-        <ref bean="EarnCode-recordTime" />
+<!--    
+	    <ref bean="EarnCode-recordTime" />
         <ref bean="EarnCode-recordHours" />
         <ref bean="EarnCode-recordAmount" />
-        <ref bean="EarnCode-accrualCategory" />
+ -->    
+ 		<ref bean="EarnCode-accrualCategory" />
         <ref bean="EarnCode-history" />
         <ref bean="EarnCode-active" />
         <ref bean="EarnCode-description" />
@@ -31,7 +33,24 @@
         <ref bean="EarnCode-timestamp" />
         <ref bean="EarnCode-inflateMinHours"/>
         <ref bean="EarnCode-inflateFactor"/>
+        
+        <!--  KPME 1624 -->
+        <ref bean="EarnCode-leavePlan"/>
+        <ref bean="EarnCode-accrualBalanceAction"/>
+        <ref bean="EarnCode-fractionalTimeAllowed"/>
+        <ref bean="EarnCode-roundingOption"/>
+        <ref bean="EarnCode-eligibleForAccrual"/>
+        <ref bean="EarnCode-affectPay"/>
+        <ref bean="EarnCode-allowScheduledLeave"/>
+        <ref bean="EarnCode-fmla"/>
+        <ref bean="EarnCode-workmansComp"/>
+        <ref bean="EarnCode-defaultAmountofTime"/>
+        <ref bean="EarnCode-allowNegativeAccrualBalance"/>
+        <ref bean="EarnCode-rollupToEarnCode"/>
+        <ref bean="EarnCode-recordMethod"/>
        </list>
+       
+       
     </property>
 
  	<property name="relationships">
@@ -42,6 +61,16 @@
 				<list>
 					<bean parent="PrimitiveAttributeDefinition" p:sourceName="accrualCategory"
 								p:targetName="accrualCategory" />
+					<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan" p:targetName="leavePlan" />
+				</list>
+				</property>
+			</bean>
+			<bean parent="RelationshipDefinition">
+				<property name="objectAttributeName" value="rollupToEarnCodeObj" />
+				<property name="primitiveAttributes">
+				<list>
+					<bean parent="PrimitiveAttributeDefinition" p:sourceName="rollupToEarnCode"
+								p:targetName="earnCode" />
 				</list>
 				</property>
 			</bean>
@@ -66,9 +95,6 @@
     <property name="name" value="hrEarnCodeId"/>
     <property name="label" value="Earn Code Id"/>
   </bean>
-
-
-
 
   <bean id="EarnCode-earnCode" parent="EarnCode-earnCode-parentBean" />
   <bean id="EarnCode-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
@@ -115,7 +141,7 @@
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
   </bean>
 
-  <bean id="EarnCode-recordTime" parent="EarnCode-recordTime-parentBean"/>
+ <!--  <bean id="EarnCode-recordTime" parent="EarnCode-recordTime-parentBean"/>
   <bean id="EarnCode-recordTime-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Record Time"/>
     <property name="control">
@@ -146,19 +172,19 @@
     <property name="name" value="recordAmount"/>
     <property name="label" value="Record Amount"/>
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
-  </bean>
+  </bean> -->
 
   <bean id="EarnCode-accrualCategory" parent="EarnCode-accrualCategory-parentBean"/>
   <bean id="EarnCode-accrualCategory-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Accrual Category"/>
-    <property name="maxLength" value="3"/>
+    <property name="maxLength" value="15"/>
 	<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
 				<property name="allowWhitespace" value="false" />
 			</bean>
 	</property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="3"/>
+      <bean parent="TextControlDefinition" p:size="15"/>
     </property>
     <property name="name" value="accrualCategory"/>
     <property name="label" value="Accrual Category"/>
@@ -240,6 +266,178 @@
 		<property name="label" value="Time Stamp" />
 	</bean>
 
+
+<!--  New Fields as per KPME-1624 -->
+
+	<!-- leavePlan -->
+	<bean id="EarnCode-leavePlan" parent="EarnCode-leavePlan-parentBean" />
+	<bean id="EarnCode-leavePlan-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Leave Plan" />
+		<property name="maxLength" value="15" />
+		<property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
+		</property>
+		<property name="name" value="leavePlan" />
+		<property name="label" value="Leave Plan" />
+	</bean>
+	
+	<!-- Accrual Balance Action -->
+	<bean id="EarnCode-accrualBalanceAction" parent="EarnCode-accrualBalanceAction-parentBean" />
+	<bean id="EarnCode-accrualBalanceAction-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Accrual Balance Action" />
+				<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.lm.util.AccrualBalanceActionKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="accrualBalanceAction" />
+		<property name="label" value="Accrual Balance Action" />
+	</bean>
+	
+<!-- Fractional time allowed -->
+	<bean id="EarnCode-fractionalTimeAllowed" parent="EarnCode-fractionalTimeAllowed-parentBean" />
+	<bean id="EarnCode-fractionalTimeAllowed-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Fractional time allowed" />
+				<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.lm.util.FractionOptionsKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="fractionalTimeAllowed" />
+		<property name="label" value="Fractional time allowed" />
+	</bean>
+	
+	<!-- Rounding Option -->
+	<bean id="EarnCode-roundingOption" parent="EarnCode-roundingOption-parentBean" />
+	<bean id="EarnCode-roundingOption-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Rounding Option" />
+				<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.lm.util.RoundingOptionsKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="roundingOption" />
+		<property name="label" value="Rounding Option" />
+	</bean>
+
+<!-- Eligible for Accrual -->
+	<bean id="EarnCode-eligibleForAccrual" parent="EarnCode-eligibleForAccrual-parentBean" />
+	<bean id="EarnCode-eligibleForAccrual-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Eligible for Accrual" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="eligibleForAccrual" />
+		<property name="label" value="Eligible for Accrual" />
+	</bean>
+	
+	<!--  Affect Pay -->
+	<bean id="EarnCode-affectPay" parent="EarnCode-affectPay-parentBean" />
+	<bean id="EarnCode-affectPay-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Affect Pay" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="affectPay" />
+		<property name="label" value="Affect Pay" />
+	</bean>
+	
+		<!-- 	Allow Scheduled Leave -->
+	<bean id="EarnCode-allowScheduledLeave" parent="EarnCode-allowScheduledLeave-parentBean" />
+	<bean id="EarnCode-allowScheduledLeave-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Allow Scheduled Leave" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.lm.util.SwitchKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="allowScheduledLeave" />
+		<property name="label" value="Allow Scheduled Leave" />
+	</bean>
+	
+	<!-- 	FMLA -->
+	<bean id="EarnCode-fmla" parent="EarnCode-fmla-parentBean" />
+	<bean id="EarnCode-fmla-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="FMLA" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.lm.util.SwitchKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="fmla" />
+		<property name="label" value="FMLA" />
+	</bean>
+	
+	<!-- 	Workman’s Comp -->
+	<bean id="EarnCode-workmansComp" parent="EarnCode-workmansComp-parentBean" />
+	<bean id="EarnCode-workmansComp-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Workman's Comp" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.lm.util.SwitchKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="workmansComp" />
+		<property name="label" value="Workman's Comp" />
+	</bean>
+	
+	<!-- Default Amount of Time -->
+    <bean id="EarnCode-defaultAmountofTime" parent="EarnCode-defaultAmountofTime-parentBean"/>
+  	<bean id="EarnCode-defaultAmountofTime-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Default Amount of Time" />
+		<property name="maxLength" value="10" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="defaultAmountofTime" />
+		<property name="label" value="Default Amount of Time" />
+	</bean>
+	
+	<!--  Allow Negative Accrual Balance -->
+	<bean id="EarnCode-allowNegativeAccrualBalance" parent="EarnCode-allowNegativeAccrualBalance-parentBean" />
+	<bean id="EarnCode-allowNegativeAccrualBalance-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Allow Negative Accrual Balance" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.lm.util.SwitchKeyValueFinder"/>
+		</property>
+		<property name="name" value="allowNegativeAccrualBalance" />
+		<property name="label" value="Allow Negative Accrual Balance" />
+	</bean>
+
+<bean id="EarnCode-rollupToEarnCode" parent="EarnCode-rollupToEarnCode-parentBean"/>
+  <bean id="EarnCode-rollupToEarnCode-parentBean" abstract="true" parent="AttributeDefinition">
+    <property name="shortLabel" value="Accrual Category"/>
+    <property name="maxLength" value="3"/>
+	<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+	</property>
+    <property name="control">
+      <bean parent="TextControlDefinition" p:size="3"/>
+    </property>
+    <property name="name" value="rollupToEarnCode"/>
+    <property name="label" value="Roll up to Earncode"/>
+  </bean>
+	
+	
+	<!--  Record Method  -->
+	<bean id="EarnCode-recordMethod" parent="EarnCode-recordMethod-parentBean" />
+	<bean id="EarnCode-recordMethod-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Allow Negative Accrual Balance" />
+		<property name="control">
+			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.lm.util.RecordMethodKeyValueFinder"/>
+		</property>
+		<property name="name" value="recordMethod" />
+		<property name="label" value="Record Method" />
+	</bean>
 <!-- Business Object Inquiry Definition -->
 
 
@@ -256,9 +454,11 @@
               <bean parent="FieldDefinition" p:attributeName="earnCode" />
               <bean parent="FieldDefinition" p:attributeName="description" />
 		      <bean parent="FieldDefinition" p:attributeName="ovtEarnCode" />
+		     <!--  Commented for KPME-1624  
 		      <bean parent="FieldDefinition" p:attributeName="recordTime" />
 		      <bean parent="FieldDefinition" p:attributeName="recordHours" />
-		      <bean parent="FieldDefinition" p:attributeName="recordAmount" />
+		      <bean parent="FieldDefinition" p:attributeName="recordAmount" /> 
+		      -->
 		      <bean parent="FieldDefinition" p:attributeName="active" />
 		      <bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 		      <bean parent="FieldDefinition" p:attributeName="inflateMinHours" />
