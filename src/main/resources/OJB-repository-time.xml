@@ -619,7 +619,8 @@
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.principal.PrincipalHRAttributes" table="hr_principal_attributes_t">
-		<field-descriptor name="principalId"     column="principal_id"		jdbc-type="VARCHAR" length="40" nullable="false" primarykey="true" />
+		<field-descriptor name="hrPrincipalAttributeId" column="hr_principal_attribute_id" jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="hr_principal_attribute_s"/>/>
+		<field-descriptor name="principalId"     column="principal_id"		jdbc-type="VARCHAR" length="40" nullable="false" primarykey="false" />
 		<field-descriptor name="leaveCalendar"   column="leave_calendar" jdbc-type="VARCHAR" length="15"/>
 		<field-descriptor name="payCalendar"   column="pay_calendar" jdbc-type="VARCHAR" length="15"/>
 		<field-descriptor name="leavePlan"   column="leave_plan" jdbc-type="VARCHAR" length="15" nullable="false"/>

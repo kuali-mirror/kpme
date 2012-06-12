@@ -16,6 +16,7 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private String hrPrincipalAttributeId;
 	private String principalId;
 	private String leaveCalendar;
 	private String payCalendar;
@@ -208,5 +209,13 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 
 	public void setLeaveCalObj(Calendar leaveCalObj) {
 		this.leaveCalObj = leaveCalObj;
+	}
+
+	public String getHrPrincipalAttributeId() {
+		return hrPrincipalAttributeId;
+	}
+
+	public void setHrPrincipalAttributeId(String hrPrincipalAttributeId) {
+		this.hrPrincipalAttributeId = hrPrincipalAttributeId;
 	}
 }

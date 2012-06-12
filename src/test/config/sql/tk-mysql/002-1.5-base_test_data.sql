@@ -346,9 +346,12 @@ INSERT INTO `tk_time_block_s` VALUES ('1000');
 DELETE FROM `tk_hour_detail_s`;
 INSERT INTO `tk_hour_detail_s` VALUES ('1000');
 
+DELETE FROM `hr_principal_attribute_s`;
+INSERT INTO `hr_principal_attribute_s` VALUES ('1000');
+
 delete from hr_principal_attributes_t;
-insert into hr_principal_attributes_t values('admin', 'BWS-CAL', NULL, '2010-01-01', 'Y', 'Y', 'America/Chicago', '2010-01-01', now(), uuid(), 1, 'Y', NULL, 'Y', 'LM');
-insert into hr_principal_attributes_t values('eric', 'BW-CAL1', NULL, '2010-01-01', 'Y', 'Y',  'America/Chicago', '2010-01-01', now(), uuid(), 1, 'Y', NULL, 'Y', 'LM');
+insert into hr_principal_attributes_t values('1', 'admin', 'BWS-CAL', NULL, '2010-01-01', 'Y', 'Y', 'America/Chicago', '2010-01-01', now(), uuid(), 1, 'Y', NULL, 'Y', 'LM');
+insert into hr_principal_attributes_t values('2', 'eric', 'BW-CAL1', NULL, '2010-01-01', 'Y', 'Y',  'America/Chicago', '2010-01-01', now(), uuid(), 1, 'Y', NULL, 'Y', 'LM');
 
 delete from tk_system_lunch_rl_t;
 insert into tk_system_lunch_rl_t (`TK_SYSTEM_LUNCH_RL_ID`,`EFFDT`,`ACTIVE`,`USER_PRINCIPAL_ID`,`SHOW_LUNCH_BUTTON`) values
