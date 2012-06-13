@@ -186,7 +186,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 				if (tdh != null) {
 					String pyCalendarGroup = TkServiceLocator
 							.getPrincipalHRAttributeService()
-							.getPrincipalHRAttributes(principalId)
+							.getPrincipalCalendar(principalId, tdh.getPayBeginDate())
 							.getCalendar().getCalendarName();
 					pcg.add(pyCalendarGroup);
 				}

@@ -21,6 +21,14 @@ public interface PrincipalHRAttributesService {
 	 * @return
 	 */
     public List<PrincipalHRAttributes> getActiveEmployeesForLeavePlan(String leavePlan, Date asOfDate);
+    
+	/**
+	 * Fetch inactive PrincipalHRAttributes object at a particular date
+	 * @param principalId
+	 * @param asOfDate
+	 * @return
+	 */
+    public PrincipalHRAttributes getInactivePrincipalHRAttributes(String principalId, Date asOfDate);
 
-    public PrincipalHRAttributes getPrincipalHRAttributes(String principalId);
+//    public PrincipalHRAttributes getPrincipalHRAttributes(String principalId);
 }

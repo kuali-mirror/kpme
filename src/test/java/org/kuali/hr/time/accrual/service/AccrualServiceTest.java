@@ -20,6 +20,7 @@ public class AccrualServiceTest extends TkTestCase {
 	 String PRINCIPAL_ID = "testUser";
 	 String PRINCIPAL_ID_2 = "testUser2";
 	 String PRINCIPAL_ID_3 = "testUser3";
+	 String PRINCIPAL_ID_4 = "testUser4";
 	
 	  
 	@Test
@@ -84,12 +85,12 @@ public class AccrualServiceTest extends TkTestCase {
 	@Test
 	/* testUser's leavePlan "testLP" has planning month of 12
 	 * after calculateFutureAccrualUsingPlanningMonth, try to get leaveBlock for 18 months in the future
-	 * should still only get 12 leave blocks
+	 * should still get 12 leave blocks
 	 */
 	public void testCalculateFutureAccrualUsingPlanningMonth() {
 		// the planning month of this leave plan is set to 12
-		TkServiceLocator.getLeaveAccrualService().calculateFutureAccrualUsingPlanningMonth(PRINCIPAL_ID);
 		Date currentDate = TKUtils.getCurrentDate();
+		TkServiceLocator.getLeaveAccrualService().calculateFutureAccrualUsingPlanningMonth(PRINCIPAL_ID, currentDate);
 		Calendar aCal = Calendar.getInstance();
 		aCal.setTime(currentDate);
 		aCal.add(Calendar.MONTH, 18);
@@ -172,10 +173,10 @@ public class AccrualServiceTest extends TkTestCase {
 		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(PRINCIPAL_ID_3, monthlyDate);
 		 assertTrue("There should be 2 leave block for date " + monthlyDate.toString() + " for emplyee " + PRINCIPAL_ID_3, leaveBlockList.size()==2);
 		 for(LeaveBlock aLeaveBlock : leaveBlockList) {
-			 if(aLeaveBlock.getAccrualCategoryId().endsWith("5003")) {
+			 if(aLeaveBlock.getAccrualCategoryId().equals("5003")) {
 				 assertTrue("Leave code of the leave block with accrualCategoryId 5003 on date " + monthlyDate.toString() + " should be testLC1, not " + aLeaveBlock.getLeaveCode()
 						 , aLeaveBlock.getLeaveCode().equals("testLC1")); 
-			 } else if(aLeaveBlock.getAccrualCategoryId().endsWith("5004")) {
+			 } else if(aLeaveBlock.getAccrualCategoryId().equals("5004")) {
 				 assertTrue("Leave code of the leave block with accrualCategoryId 5003 on date " + monthlyDate.toString() + " should be testLC2, not " + aLeaveBlock.getLeaveCode()
 						 , aLeaveBlock.getLeaveCode().equals("testLC2")); 
 			 } else {
@@ -185,8 +186,47 @@ public class AccrualServiceTest extends TkTestCase {
 	}
 	
 	@Test
-	public void testRunAccrualForLeavePlanChanges() {
+	/* testUser4 has PrincipalHRAttributes that's associated with 2 accrual categories, one is testAC5, the other is testAC6
+	 * testAC5 has minimum accrual of 0.5
+	 * testAC6 has minimum accrual of 0
+	 * testUser4 has records of principalHRAttributes, the employment is from 03/18/2012 to 08/08/2012
+	 * There should not be accrual for testAC5 in March and August of 2012
+	 */
+	public void testRunAccrualForMinimumPercentage() {
+		 Date end = new Date((new DateTime(2012, 9, 25, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
+		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(PRINCIPAL_ID_4, START_DATE, end);
+		 assertTrue("There are leave blocks before runAccrual for princiapl id " + PRINCIPAL_ID_4, leaveBlockList.isEmpty());
+		 
+		 TkServiceLocator.getLeaveAccrualService().runAccrual(PRINCIPAL_ID_4, START_DATE, end);
+		 leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(PRINCIPAL_ID_4, START_DATE, end);
+		 assertTrue("There should be 10 leave blocks for emplyee " + PRINCIPAL_ID_4 + ", not " + leaveBlockList.size(), leaveBlockList.size()== 10);
+		 
+		 Date monthlyDate = new Date((new DateTime(2012, 3, 31, 5, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
+		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(PRINCIPAL_ID_4, monthlyDate);
+		 assertTrue("There should be 1 leave block for date " + monthlyDate.toString() + " for emplyee " + PRINCIPAL_ID_4, leaveBlockList.size()==1);
+		 LeaveBlock lb = leaveBlockList.get(0);
+		 assertTrue("Leave block on date " + monthlyDate.toString() + " should have lm_accrual_category_id 5006, not " + lb.getAccrualCategoryId()
+				 , lb.getAccrualCategoryId().equals("5006"));
+		 assertTrue("Leave block on date " + monthlyDate.toString() + " should have 7 hours, not " + lb.getLeaveAmount()
+				 , lb.getLeaveAmount().equals(new BigDecimal(7)));
 		
+		 monthlyDate = new Date((new DateTime(2012, 4, 30, 5, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
+		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(PRINCIPAL_ID_4, monthlyDate);
+		 assertTrue("There should be 2 leave block for date " + monthlyDate.toString() + " for emplyee " + PRINCIPAL_ID_4, leaveBlockList.size()==2);
+		 
+// should the accrual of the last days show up on the end day or the interval day of the last pay period?????
+		 monthlyDate = new Date((new DateTime(2012, 8, 8, 5, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
+		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(PRINCIPAL_ID_4, monthlyDate);
+		 assertTrue("There should be 1 leave block for date " + monthlyDate.toString() + " for emplyee " + PRINCIPAL_ID_4, leaveBlockList.size()==1);
+		 lb = leaveBlockList.get(0);
+		 assertTrue("Leave block on date " + monthlyDate.toString() + " should have lm_accrual_category_id 5006, not " + lb.getAccrualCategoryId()
+				 , lb.getAccrualCategoryId().equals("5006"));
+		 assertTrue("Leave block on date " + monthlyDate.toString() + " should have 4 hours, not " + lb.getLeaveAmount()
+				 , lb.getLeaveAmount().equals(new BigDecimal(4)));
+		 
+		 monthlyDate = new Date((new DateTime(2012, 8, 31, 5, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
+		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(PRINCIPAL_ID_4, monthlyDate);
+		 assertTrue("There should be any leave blocks for date " + monthlyDate.toString() + " for emplyee " + PRINCIPAL_ID_4, leaveBlockList.size()==0);
 	}
 	
 }

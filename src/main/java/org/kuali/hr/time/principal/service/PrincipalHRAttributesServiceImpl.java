@@ -39,9 +39,14 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
         return principals;
     }
     
+//    @Override
+//	public PrincipalHRAttributes getPrincipalHRAttributes(String principalId) {
+//		return this.principalHRAttributesDao.getPrincipalHRAttributes(principalId);
+//	}
+    
     @Override
-	public PrincipalHRAttributes getPrincipalHRAttributes(String principalId) {
-		return this.principalHRAttributesDao.getPrincipalHRAttributes(principalId);
-	}
+    public PrincipalHRAttributes getInactivePrincipalHRAttributes(String principalId, Date asOfDate) {
+    	return this.principalHRAttributesDao.getInactivePrincipalHRAttributes(principalId, asOfDate);
+    }
 
 }

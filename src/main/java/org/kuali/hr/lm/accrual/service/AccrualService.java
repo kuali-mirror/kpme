@@ -1,5 +1,6 @@
 package org.kuali.hr.lm.accrual.service;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
@@ -40,7 +41,19 @@ public interface AccrualService {
 	/**
 	 * calculate future accrual for given principal id
 	 * @param principalId
+	 * @param asOfDate
 	 * @return
 	 */
-	public void calculateFutureAccrualUsingPlanningMonth(String principalId);
+	public void calculateFutureAccrualUsingPlanningMonth(String principalId, Date asOfDate);
+	
+	/**
+	 * determine if minimumPercentage has been reached with given parameters
+	 * @param min
+	 * @param earnInterval
+	 * @param jobDate
+	 * @param intervalDate
+	 * @return boolean, 
+	 * true then no accrual will be accrual for the given interval which could be the first or the last accrual interval of an employment
+	 */
+	public boolean minimumPercentageReachedForPayPeriod(BigDecimal min, String earnInterval, Date jobDate, java.util.Date intervalDate);
 }

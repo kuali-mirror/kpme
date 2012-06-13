@@ -21,6 +21,11 @@ public interface PrincipalHRAttributesDao {
 	 * @return
 	 */
 	public List<PrincipalHRAttributes> getActiveEmployeesForLeavePlan(String leavePlan, Date asOfDate);
-
-	public PrincipalHRAttributes getPrincipalHRAttributes(String principalId);
+	
+// this method is not needed anymore since we changed the primary key of
+//	PrincipalHRAttributes table from principalId to hrPrincipalAttributeId
+//	use getPrincipalCalendar(String principalId, Date asOfDate) instead
+//	public PrincipalHRAttributes getPrincipalHRAttributes(String principalId);
+	
+	public PrincipalHRAttributes getInactivePrincipalHRAttributes(String principalId, Date asOfDate);
 }

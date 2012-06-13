@@ -84,7 +84,7 @@ public class LeaveCalendarAction extends TkAction {
 		// run accrual for future dates only, use planning month of leave plan for accrual period
 		// only run the accrual if the calendar entry contains future dates
 		if(calendarEntry != null && calendarEntry.getEndPeriodDate().after(TKUtils.getCurrentDate())) {
-			TkServiceLocator.getLeaveAccrualService().calculateFutureAccrualUsingPlanningMonth(viewPrincipal);
+			TkServiceLocator.getLeaveAccrualService().calculateFutureAccrualUsingPlanningMonth(viewPrincipal, calendarEntry.getBeginPeriodDate());
 		}
 		
 		if (lcd != null) {

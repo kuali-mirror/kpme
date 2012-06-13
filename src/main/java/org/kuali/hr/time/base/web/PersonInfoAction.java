@@ -45,7 +45,7 @@ public class PersonInfoAction extends TkAction {
 		personForm.setJobs(TkServiceLocator.getJobSerivce().getJobs(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate()));
 		
 		//KPME-1441
-		PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes(personForm.getPrincipalId());
+		PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(personForm.getPrincipalId(), TKUtils.getCurrentDate());
 		if ( principalHRAttributes != null && principalHRAttributes.getServiceDate() != null ){
 			personForm.setServiceDate(principalHRAttributes.getServiceDate().toString());
 		} else {

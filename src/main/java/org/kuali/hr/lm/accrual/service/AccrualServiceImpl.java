@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +39,7 @@ public class AccrualServiceImpl implements AccrualService {
 		runAccrual(principalId,startDate,endDate);
 		
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void runAccrual(String principalId, Date startDate, Date endDate) {
@@ -58,37 +57,53 @@ public class AccrualServiceImpl implements AccrualService {
 			TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(new Long(lb.getLmLeaveBlockId()));
 		}
 		
-		PrincipalHRAttributes phra = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes(principalId);
-		if(phra == null) {
-			throw new RuntimeException("Cannot find principal hr attributes for " + principalId);
-		}
-// if the date range is before the service date of this employee, do not calculate accrual
-		if(startDate.before(phra.getServiceDate()) && endDate.before(phra.getServiceDate())) {
-			return;
-		}
-		
-		//Fetch Leave Plan for user from hr principal attributes
-		LeavePlan lp = TkServiceLocator.getLeavePlanService().getLeavePlan(phra.getLeavePlan(), phra.getEffectiveDate());
-		if(lp == null) {
-			throw new RuntimeException("Cannot find Leave Plan for principalId " + principalId);
-		}
-		
-		//Fetch List of AccrualCategories for leave plan
-		List<AccrualCategory> accrCatList = TkServiceLocator.getAccrualCategoryService()
-					.getActiveAccrualCategoriesForLeavePlan(lp.getLeavePlan(), lp.getEffectiveDate());
 		//Build a rate range aggregate with appropriate information for this period of time detailing Rate Ranges for job
 		//entries for this range of time
 		RateRangeAggregate rrAggregate = this.buildRateRangeAggregate(principalId, startDate, endDate);	
+		PrincipalHRAttributes phra = null;
+		PrincipalHRAttributes endPhra = null;
+		LeavePlan lp = null;
+		List<AccrualCategory> accrCatList = null;
 		
 		//Iterate over every day in span 
 		Calendar aCal = Calendar.getInstance();
 		aCal.setTime(startDate);
 		while (!aCal.getTime().after(endDate)) {
 			java.util.Date currentDate = aCal.getTime();
-// if the currentDate is before the start service date of this employee, do nothing
-			if(currentDate.before(phra.getServiceDate())) {
+			if(phra == null) {
+				phra = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, currentDate);
+			}
+			if(phra == null || TKUtils.removeTime(currentDate).before(TKUtils.removeTime(phra.getServiceDate()))) {
 				aCal.add(Calendar.DATE, 1);
 				continue;
+			}			
+			
+	// use the effectiveDate of this principalHRAttribute to search for inactive entries for this principalId
+	// If there's an inactive entry, it means the job is going to end on the effectiveDate of the inactive entry
+	// used for minimumPercentage and proration
+			endPhra = TkServiceLocator.getPrincipalHRAttributeService().getInactivePrincipalHRAttributes(principalId, phra.getEffectiveDate());
+			
+			if(endPhra != null && TKUtils.removeTime(currentDate).after(TKUtils.removeTime(endPhra.getEffectiveDate()))) {
+				aCal.add(Calendar.DATE, 1);
+				continue;
+			}
+			
+	// if the date range is before the service date of this employee, do not calculate accrual
+			if(endDate.before(phra.getServiceDate())) {
+				return;
+			}
+			//Fetch Leave Plan for user from hr principal attributes
+			if(lp == null) {
+				lp = TkServiceLocator.getLeavePlanService().getLeavePlan(phra.getLeavePlan(), phra.getEffectiveDate());
+			}
+			if(lp == null) {
+				throw new RuntimeException("Cannot find Leave Plan for principalId " + principalId);
+			}
+			
+			//Fetch List of AccrualCategories for leave plan
+			if(accrCatList == null) {
+				accrCatList = TkServiceLocator.getAccrualCategoryService()
+							.getActiveAccrualCategoriesForLeavePlan(lp.getLeavePlan(), lp.getEffectiveDate());
 			}
 			//Fetch the accural rate based on rate range for today(Rate range is the accumulated list of jobs and accrual rate for today)
 			RateRange currentRange = rrAggregate.getRateOnDate(currentDate);
@@ -109,7 +124,33 @@ public class AccrualServiceImpl implements AccrualService {
 			BigDecimal ftePercentage = currentRange.getAccrualRatePercentageModifier();
 			
 			for(AccrualCategory ac : accrCatList) {
-				if(currentDate.after(ac.getEffectiveDate())) {
+				if(!currentDate.before(phra.getEffectiveDate()) && !ac.getAccrualEarnInterval().equals("N")) {   	// "N" means no accrual
+// check if the accrual category has minimum percentage, if it does, use the percentage to calculate accrual for the first and last accrual interval of this employee
+					// first accrual interval
+					java.util.Date firstIntervalDate = getNextAccrualIntervalDate(ac.getAccrualEarnInterval(),  phra.getEffectiveDate());
+					if(!TKUtils.removeTime(currentDate).before(TKUtils.removeTime(phra.getEffectiveDate())) 
+							&& !TKUtils.removeTime(currentDate).after(TKUtils.removeTime(firstIntervalDate))) {
+						if(!minimumPercentageReachedForPayPeriod(ac.getMinPercentWorked(), ac.getAccrualEarnInterval(), phra.getEffectiveDate(), firstIntervalDate)) {
+							continue;
+						}
+					}
+					// last accrual interval
+					if(endPhra != null) {	// the employment is going to end on the effectiveDate of enPhra
+						java.util.Date lastIntervalDate = getPreviousAccrualIntervalDate(ac.getAccrualEarnInterval(), endPhra.getEffectiveDate());
+						if(!TKUtils.removeTime(currentDate).after(TKUtils.removeTime(endPhra.getEffectiveDate())) 
+								&& TKUtils.removeTime(currentDate).after(TKUtils.removeTime(lastIntervalDate))) {
+							if(!minimumPercentageReachedForPayPeriod(ac.getMinPercentWorked(), ac.getAccrualEarnInterval(), endPhra.getEffectiveDate(), lastIntervalDate)) {
+								continue;
+							}
+						}
+					}
+					
+// check if the accrual category has proration, if it does, only calculate accrual from the next pay intereval
+					if(shouldProrationApply(ac, phra, currentDate)) {
+						continue;
+					}
+					
+					
 					//Determine which accrual rules apply for today and iterate over those
 // get the accrual rule 
 					AccrualCategoryRule acRule = TkServiceLocator.getAccrualCategoryRuleService()
@@ -132,6 +173,13 @@ public class AccrualServiceImpl implements AccrualService {
 						createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, acHours, ac, null);
 						accumulatedAccrualCatToAccrualAmounts.remove(ac.getLmAccrualCategoryId());	// reset the Map
 					}
+					// create leave block on the last day of the employment
+					if(endPhra != null && TKUtils.removeTime(currentDate).equals(TKUtils.removeTime(endPhra.getEffectiveDate()))){
+						if(acHours != null) {
+							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, acHours, ac, null);
+							accumulatedAccrualCatToAccrualAmounts.remove(ac.getLmAccrualCategoryId());	// reset the Map
+						}
+					}
 				}
 			}
 			//Determine if today is a system scheduled time off and accrue holiday if so.
@@ -150,7 +198,10 @@ public class AccrualServiceImpl implements AccrualService {
 		//Save accrual leave blocks at the very end
 		TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(accrualLeaveBlocks);
 		
+		
+		
 	}
+	
 
 	private void createLeaveBlock(String principalId, List<LeaveBlock> accrualLeaveBlocks, 
 			java.util.Date currentDate, BigDecimal hrs, AccrualCategory anAC, String sysSchTimeOffId) {
@@ -302,9 +353,9 @@ public class AccrualServiceImpl implements AccrualService {
 	}
 	
 	@Override
-	public void calculateFutureAccrualUsingPlanningMonth(String principalId) {
+	public void calculateFutureAccrualUsingPlanningMonth(String principalId, Date asOfDate) {
 		Date currentDate = TKUtils.getCurrentDate();
-		PrincipalHRAttributes phra = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes(principalId);
+		PrincipalHRAttributes phra = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
 		if(phra != null) {
 			LeavePlan lp = TkServiceLocator.getLeavePlanService().getLeavePlan(phra.getLeavePlan(), phra.getEffectiveDate());
 			if(lp != null && StringUtils.isNotEmpty(lp.getPlanningMonths())) {
@@ -319,5 +370,162 @@ public class AccrualServiceImpl implements AccrualService {
 				TkServiceLocator.getLeaveAccrualService().runAccrual(principalId, currentDate, endDate);
 			}
 		}
+	}
+	
+	@Override
+	public boolean minimumPercentageReachedForPayPeriod(BigDecimal min, String earnInterval, Date jobDate, java.util.Date intervalDate) {
+		if(min == null || min.compareTo(BigDecimal.ZERO) == 0) {
+			return true;
+		}
+		int daysInFirstInterval = getDaysInAccrualInterval(earnInterval, jobDate);
+		if(daysInFirstInterval == 0) {
+			return true;
+		}
+		Calendar cal1 = Calendar.getInstance();
+		cal1.setTime(jobDate);
+		Calendar cal2 = Calendar.getInstance();
+		cal2.setTime(intervalDate);
+		Long daysDiff = 1L; // for the same dates, the diff should be 1. same logic for all days
+		if(cal1.getTime().before(cal2.getTime())) {
+			daysDiff += TKUtils.getDaysBetween(cal1, cal2);
+		} else {
+			daysDiff += TKUtils.getDaysBetween(cal2, cal1);
+		}		
+		BigDecimal actualPercentage =  new BigDecimal(daysDiff).divide(new BigDecimal(daysInFirstInterval), 2, BigDecimal.ROUND_HALF_EVEN);
+		if(actualPercentage.compareTo(min) >= 0) {
+			return true;
+		}
+		
+		return false;	
+	}
+	
+	
+/*	public boolean minimumPercentageApplyToFirstWeek(BigDecimal min, String earnInterval, Date jobStartDate) {
+		if(min == null || min.equals(BigDecimal.ZERO)) {
+			return false;
+		}
+		java.util.Date firstIntervalDate = getNextAccrualIntervalDate(earnInterval, jobStartDate);
+		int daysInFirstInterval = getDaysInAccrualInterval(earnInterval, jobStartDate);
+		
+		if(daysInFirstInterval != 0) {
+			Calendar cal1 = Calendar.getInstance();
+			cal1.setTime(jobStartDate);
+			Calendar cal2 = Calendar.getInstance();
+			cal2.setTime(firstIntervalDate);
+			Long daysDiff = TKUtils.getDaysBetween(cal1, cal2) + 1;   // for the same days, the diff should be 1. same logic for all days
+			
+			BigDecimal actualPercentage = new BigDecimal (daysDiff / daysInFirstInterval);
+			if(actualPercentage.compareTo(min) >= 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean minimumPercentageApplyToLastWeek(BigDecimal min, String earnInterval, Date jobEndDate) {
+		if(min == null || min.equals(BigDecimal.ZERO)) {
+			return false;
+		}
+		java.util.Date previousIntervalDate = getPreviousAccrualIntervalDate(earnInterval, jobEndDate);
+		int daysInLastInterval = getDaysInAccrualInterval(earnInterval, jobEndDate);
+		if(daysInLastInterval != 0) {
+			
+			Calendar cal1 = Calendar.getInstance();
+			cal1.setTime(previousIntervalDate);
+			Calendar cal2 = Calendar.getInstance();
+			cal2.setTime(jobEndDate);
+			Long daysDiff = TKUtils.getDaysBetween(cal1, cal2);
+			
+			BigDecimal actualPercentage = new BigDecimal (daysDiff / daysInLastInterval);
+			if(actualPercentage.equals(BigDecimal.ZERO)) {
+				return false;
+			}
+			if(actualPercentage.compareTo(min) >= 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+*/	
+	public java.util.Date getPreviousAccrualIntervalDate(String earnInterval, Date aDate) {
+		Calendar aCal = Calendar.getInstance();
+		aCal.setTime(aDate);
+		String intervalValue = TkConstants.ACCRUAL_EARN_INTERVAL.get(earnInterval);
+		
+		if(intervalValue == "Daily") {
+			// no change to calendar
+		} else if(intervalValue == "Weekly") {
+			aCal.add(Calendar.WEEK_OF_YEAR, -1);
+			aCal.set(Calendar.DAY_OF_WEEK, 7);	// set to the Saturday of previous week
+		} else if (intervalValue == "Semi-Monthly") {
+			aCal.add(Calendar.DAY_OF_YEAR, -15);
+			if(aCal.get(Calendar.DAY_OF_MONTH) <=15) {
+				aCal.set(Calendar.DAY_OF_MONTH, 15);
+			} else {
+				aCal.set(Calendar.DAY_OF_MONTH, aCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+			}
+		} else if (intervalValue == "Monthly") {
+			aCal.add(Calendar.MONTH, -1);
+			aCal.set(Calendar.DAY_OF_MONTH, aCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+		} else if (intervalValue == "Yearly") {
+			aCal.add(Calendar.YEAR, -1);
+			aCal.set(Calendar.DAY_OF_YEAR, aCal.getActualMaximum(Calendar.DAY_OF_YEAR));
+		}else if (intervalValue == "No Accrual") {
+			// no change to calendar
+		}
+		return aCal.getTime();
+	}
+	
+	public java.util.Date getNextAccrualIntervalDate(String earnInterval, Date aDate) {
+		Calendar aCal = Calendar.getInstance();
+		aCal.setTime(aDate);
+		String intervalValue = TkConstants.ACCRUAL_EARN_INTERVAL.get(earnInterval);
+		
+		if(intervalValue == "Daily") {
+			// no change to calendar
+		} else if(intervalValue == "Weekly") {
+			aCal.set(Calendar.DAY_OF_WEEK, 7);
+		} else if (intervalValue == "Semi-Monthly") {
+			if(aCal.get(Calendar.DAY_OF_MONTH) <=15) {
+				aCal.set(Calendar.DAY_OF_MONTH, 15);
+			} else {
+				aCal.set(Calendar.DAY_OF_MONTH, aCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+			}
+		} else if (intervalValue == "Monthly") {
+			aCal.set(Calendar.DAY_OF_MONTH, aCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+		} else if (intervalValue == "Yearly") {
+			aCal.set(Calendar.DAY_OF_YEAR, aCal.getActualMaximum(Calendar.DAY_OF_YEAR));
+		}else if (intervalValue == "No Accrual") {
+			// no change to calendar
+		}
+		return aCal.getTime();
+	}
+	
+	public int getDaysInAccrualInterval(String earnInterval, Date aDate) {
+		Calendar aCal = Calendar.getInstance();
+		aCal.setTime(aDate);
+		String intervalValue = TkConstants.ACCRUAL_EARN_INTERVAL.get(earnInterval);
+		
+		if(intervalValue == "Daily") {
+			return 1;
+		} else if(intervalValue == "Weekly") {
+			return 7;	// saturday
+		} else if (intervalValue == "Semi-Monthly") {
+			return 15;		// 15th of the month
+		} else if (intervalValue == "Monthly") {
+			return aCal.getActualMaximum(Calendar.DAY_OF_MONTH);
+		} else if (intervalValue == "Yearly") {
+			return aCal.getActualMaximum(Calendar.DAY_OF_YEAR);
+		}else if (intervalValue == "No Accrual") {
+			return 0;
+		}
+		return 0;
+	}
+	
+
+	public boolean shouldProrationApply(AccrualCategory ac, PrincipalHRAttributes phra, java.util.Date currentDate) {
+		boolean applyFlag = false;
+		
+		return applyFlag;
 	}
 }
