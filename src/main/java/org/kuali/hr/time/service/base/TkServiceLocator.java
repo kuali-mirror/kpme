@@ -6,6 +6,7 @@ import org.kuali.hr.lm.accrual.service.AccrualCategoryRuleService;
 import org.kuali.hr.lm.accrual.service.AccrualService;
 
 import org.kuali.hr.lm.accrual.service.AccrualCategoryService;
+import org.kuali.hr.lm.earncodesec.service.EarnCodeSecurityService;
 import org.kuali.hr.lm.employeeoverride.service.EmployeeOverrideService;
 import org.kuali.hr.lm.leaveadjustment.service.LeaveAdjustmentService;
 import org.kuali.hr.lm.leaveblock.service.LeaveBlockHistoryService;
@@ -31,7 +32,6 @@ import org.kuali.hr.time.calendar.service.CalendarService;
 import org.kuali.hr.time.clock.location.service.ClockLocationRuleService;
 import org.kuali.hr.time.clocklog.service.ClockLogService;
 import org.kuali.hr.time.department.service.DepartmentService;
-import org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeService;
 import org.kuali.hr.time.dept.lunch.service.DepartmentLunchRuleService;
 import org.kuali.hr.time.docsearch.TkSearchableAttributeService;
 import org.kuali.hr.time.earncode.service.EarnCodeService;
@@ -96,7 +96,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_TIMESHEET_SERVICE = "timesheetService";
 	public static final String TK_TIMESHEET_DOCUMENT_HEADER_SERVICE = "timesheetDocumentHeaderService";
 	public static final String TK_DEPARTMENT_SERVICE = "departmentService";
-	public static final String TK_DEPARTMENT_EARN_CODE = "deptEarnCodeService";
+	public static final String TK_EARN_CODE_SECURITY = "earnCodeSecurityService";
 	public static final String TK_EARN_CODE = "earnCodeService";
 	public static final String TK_TIME_COLLECTION_RULE_SERVICE = "timeCollectionRuleService";
 	public static final String TK_ROLE_SERVICE = "tkRoleService";
@@ -264,8 +264,8 @@ public class TkServiceLocator implements ApplicationContextAware {
 		return (CacheManagementService) CONTEXT.getBean(TK_CACHE_MANAGER_SERVICE);
 	}
 
-	public static DepartmentEarnCodeService getDepartmentEarnCodeService() {
-		return (DepartmentEarnCodeService) CONTEXT.getBean(TK_DEPARTMENT_EARN_CODE);
+	public static EarnCodeSecurityService getEarnCodeSecurityService() {
+		return (EarnCodeSecurityService) CONTEXT.getBean(TK_EARN_CODE_SECURITY);
 	}
 
 	public static EarnCodeService getEarnCodeService() {

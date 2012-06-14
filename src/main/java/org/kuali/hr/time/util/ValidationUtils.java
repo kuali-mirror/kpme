@@ -6,6 +6,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.location.Location;
@@ -14,7 +15,6 @@ import org.kuali.hr.time.accrual.TimeOffAccrual;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.department.Department;
-import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earngroup.EarnGroup;
 import org.kuali.hr.time.earngroup.EarnGroupDefinition;
@@ -464,16 +464,16 @@ public class ValidationUtils {
         return valid;
 	}
 
-   public static boolean duplicateDeptEarnCodeExists(DepartmentEarnCode deptEarnCode) {
+   public static boolean duplicateDeptEarnCodeExists(EarnCodeSecurity deptEarnCode) {
 	   boolean valid = false;
-	   int count = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodeCount
+	   int count = TkServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityCount
                (deptEarnCode.getDept(), deptEarnCode.getHrSalGroup(), deptEarnCode.getEarnCode(), deptEarnCode.isEmployee() ? "1" : "0",
                        deptEarnCode.isApprover() ? "1" : "0", deptEarnCode.getLocation(), deptEarnCode.getActive() ? "Y" : "N", deptEarnCode.getEffectiveDate(), null);
        if(count == 1) {
     	   valid = true;
-    	   count = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodeCount
+    	   count = TkServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityCount
                    (deptEarnCode.getDept(), deptEarnCode.getHrSalGroup(), deptEarnCode.getEarnCode(), deptEarnCode.isEmployee() ? "1" : "0",
-                           deptEarnCode.isApprover() ? "1" : "0", deptEarnCode.getLocation(), deptEarnCode.getActive() ? "Y" : "N", deptEarnCode.getEffectiveDate(), deptEarnCode.getHrDeptEarnCodeId());
+                           deptEarnCode.isApprover() ? "1" : "0", deptEarnCode.getLocation(), deptEarnCode.getActive() ? "Y" : "N", deptEarnCode.getEffectiveDate(), deptEarnCode.getHrEarnCodeSecurityId());
     	   if(count == 1) {
     		   valid = false;
     	   }

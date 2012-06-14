@@ -2,9 +2,9 @@ package org.kuali.hr.time.earncode.service;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.cache.CacheResult;
-import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncode.dao.EarnCodeDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -51,8 +51,8 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 		if (regularEc == null)
 			throw new RuntimeException("No regular earn code defined.");
 		earnCodes.add(regularEc);
-		List<DepartmentEarnCode> decs = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodes(job.getDept(), job.getHrSalGroup(), job.getLocation(), asOfDate);
-		for (DepartmentEarnCode dec : decs) {
+		List<EarnCodeSecurity> decs = TkServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), asOfDate);
+		for (EarnCodeSecurity dec : decs) {
             boolean addEc = false;
 
             // Check employee flag

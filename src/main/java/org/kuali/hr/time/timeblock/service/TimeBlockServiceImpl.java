@@ -6,8 +6,8 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.roles.UserRoles;
@@ -325,8 +325,8 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 					return true;
 				}
 
-				List<DepartmentEarnCode> deptEarnCodes = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodes(job.getDept(), job.getHrSalGroup(), job.getLocation(), tb.getEndDate());
-				for(DepartmentEarnCode dec : deptEarnCodes){
+				List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), tb.getEndDate());
+				for(EarnCodeSecurity dec : deptEarnCodes){
 					if(dec.isApprover() && StringUtils.equals(dec.getEarnCode(), tb.getEarnCode())){
 						return true;
 					}
@@ -340,8 +340,8 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 					return true;
 				}
 
-				List<DepartmentEarnCode> deptEarnCodes = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodes(job.getDept(), job.getHrSalGroup(), job.getLocation(), tb.getEndDate());
-				for(DepartmentEarnCode dec : deptEarnCodes){
+				List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), tb.getEndDate());
+				for(EarnCodeSecurity dec : deptEarnCodes){
 					if(dec.isEmployee() && StringUtils.equals(dec.getEarnCode(), tb.getEarnCode())){
 						return true;
 					}

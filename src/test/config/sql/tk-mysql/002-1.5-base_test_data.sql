@@ -85,11 +85,11 @@ INSERT INTO `tk_assignment_t` (`TK_ASSIGNMENT_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`E
 
 #
 # dept earn code
-DELETE FROM `hr_dept_earn_code_s`;
-INSERT INTO `hr_dept_earn_code_s` VALUES('1000');
-DELETE FROM `hr_dept_earn_code_t`;
-INSERT INTO `hr_dept_EARN_CODE_T`
-    (`hr_dept_EARN_CODE_ID` , `DEPT`       , `hr_sal_group` , `EARN_CODE` , `EMPLOYEE` , `APPROVER` , `ORG_ADMIN` , `EFFDT`      , `TIMESTAMP`           , `ACTIVE`) VALUES
+DELETE FROM `hr_earn_code_security_s`;
+INSERT INTO `hr_earn_code_security_s` VALUES('1000');
+DELETE FROM `hr_earn_code_security_t`;
+INSERT INTO `hr_earn_code_security_t`
+    (`hr_EARN_CODE_SECURITY_ID` , `DEPT`       , `hr_sal_group` , `EARN_CODE` , `EMPLOYEE` , `APPROVER` , `ORG_ADMIN` , `EFFDT`      , `TIMESTAMP`           , `ACTIVE`) VALUES
     ('1'                    , 'TEST-DEPT'  , 'SD1'          , 'RGH'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')               ,
     ('2'                    , 'TEST-DEPT'  , 'SD1'          , 'RGN'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')               ,
     ('3'                    , 'INVALID'  	 , 'INVALID'      , 'INV'       , 0          , 1          , 0           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')       		,

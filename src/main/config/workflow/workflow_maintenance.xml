@@ -143,10 +143,10 @@
 			<label>WeeklyOvertimeRuleDocument</label>
 	</documentType>
 	<documentType>
-			<name>DepartmentEarnCodeDocumentType</name>
+			<name>EarnCodeSecurityDocumentType</name>
 			<parent>RiceDocument</parent>
 			<docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
-			<label>DepartmentEarnCodeDocument</label>
+			<label>EarnCodeSecurityMaintenanceDocument</label>
 	</documentType>
 	<documentType>
 			<name>EarnCodeMaintenanceDocumentType</name>

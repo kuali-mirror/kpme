@@ -7,37 +7,38 @@
                            http://rice.kuali.org/dd
                            http://rice.kuali.org/dd/dd.xsd">
 
-	<bean id="DepartmentEarnCodeMaintenanceDocument" parent="DepartmentEarnCodeMaintenanceDocument-parentBean" />
+	<bean id="EarnCodeSecurityMaintenanceDocument" parent="EarnCodeSecurityMaintenanceDocument-parentBean" />
 
-	<bean id="DepartmentEarnCodeMaintenanceDocument-parentBean" abstract="true"
-		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.dept.earncode.DepartmentEarnCode"
-		p:businessRulesClass="org.kuali.hr.time.dept.earncode.validation.DepartmentEarnCodeRule"
-		p:maintainableClass="org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeMaintainableImpl"
+	<bean id="EarnCodeSecurityMaintenanceDocument-parentBean" abstract="true"
+		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.lm.earncodesec.EarnCodeSecurity"
+		p:businessRulesClass="org.kuali.hr.lm.earncodesec.validation.EarnCodeSecurityRule"
+		p:maintainableClass="org.kuali.hr.lm.earncodesec.service.EarnCodeSecurityMaintainableImpl"
 		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
 		<property name="maintainableSections">
 			<list>
-				<ref bean="DepartmentEarnCodeMaintenanceDocument-DepartmentEarnCodeMaintenance" />
+				<ref bean="EarnCodeSecurityMaintenanceDocument-EarnCodeSecurityMaintenance" />
 			</list>
 		</property>
 		<property name="lockingKeys">
 			<list>
-				<value>hrDeptEarnCodeId</value>
+				<value>hrEarnCodeSecurityId</value>
 			</list>
 		</property>
-		<property name="documentTypeName" value="DepartmentEarnCodeDocumentType" />
+		<property name="documentTypeName" value="EarnCodeSecurityDocumentType" />
 	</bean>
 
 	<!-- Maintenance Section Definitions -->
-	<bean id="DepartmentEarnCodeMaintenanceDocument-DepartmentEarnCodeMaintenance" parent="DepartmentEarnCodeMaintenanceDocument-DepartmentEarnCodeMaintenance-parentBean" />
-	<bean id="DepartmentEarnCodeMaintenanceDocument-DepartmentEarnCodeMaintenance-parentBean"
+	<bean id="EarnCodeSecurityMaintenanceDocument-EarnCodeSecurityMaintenance" parent="EarnCodeSecurityMaintenanceDocument-EarnCodeSecurityMaintenance-parentBean" />
+	<bean id="EarnCodeSecurityMaintenanceDocument-EarnCodeSecurityMaintenance-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="title" value="Department Earn Code Maintenance" />
+		<property name="title" value="Earn Code Security Maintenance" />
 		<property name="maintainableItems">
 			<list>
 			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="dept" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="hrSalGroup" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="earnCode" p:required="true"/>
+				<bean parent="MaintainableFieldDefinition" p:name="earnCodeType" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="location" p:required="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="employee" />
 				<bean parent="MaintainableFieldDefinition" p:name="approver" />

@@ -3,36 +3,37 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean name="DepartmentEarnCode" parent="DepartmentEarnCode-parentBean" />
+	<bean name="EarnCodeSecurity" parent="EarnCodeSecurity-parentBean" />
 
-	<bean id="DepartmentEarnCode-parentBean" abstract="true"
+	<bean id="EarnCodeSecurity-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
 		<property name="businessObjectClass"
-			value="org.kuali.hr.time.dept.earncode.DepartmentEarnCode" />
-		<property name="titleAttribute" value="hrDeptEarnCodeId" />
-		<property name="objectLabel" value="Department Earn Code" />
+			value="org.kuali.hr.lm.earncodesec.EarnCodeSecurity" />
+		<property name="titleAttribute" value="hrEarnCodeSecurityId" />
+		<property name="objectLabel" value="Earn -Code Security" />
 		<property name="inquiryDefinition">
-			<ref bean="DepartmentEarnCode-inquiryDefinition" />
+			<ref bean="EarnCodeSecurity-inquiryDefinition" />
 		</property>
 		<property name="lookupDefinition">
-			<ref bean="DepartmentEarnCode-lookupDefinition" />
+			<ref bean="EarnCodeSecurity-lookupDefinition" />
 		</property>
 		<property name="attributes">
 			<list>
-				<ref bean="DepartmentEarnCode-dept" />
-				<ref bean="DepartmentEarnCode-hrSalGroup" />
-				<ref bean="DepartmentEarnCode-earnCode" />
-				<ref bean="DepartmentEarnCode-location" />
-				<ref bean="DepartmentEarnCode-effectiveDate" />
-				<ref bean="DepartmentEarnCode-timestamp" />
-				<ref bean="DepartmentEarnCode-employee" />
-				<ref bean="DepartmentEarnCode-approver" />
-				<ref bean="DepartmentEarnCode-history" />
-				<ref bean="DepartmentEarnCode-active" />
-				<ref bean="DepartmentEarnCode-hrDeptId" />
-				<ref bean="DepartmentEarnCode-hrSalGroupId" />
-				<ref bean="DepartmentEarnCode-hrEarnCodeId" />
-				<ref bean="DepartmentEarnCode-hrLocationId" />
+				<ref bean="EarnCodeSecurity-dept" />
+				<ref bean="EarnCodeSecurity-hrSalGroup" />
+				<ref bean="EarnCodeSecurity-earnCode" />
+				<ref bean="EarnCodeSecurity-location" />
+				<ref bean="EarnCodeSecurity-effectiveDate" />
+				<ref bean="EarnCodeSecurity-timestamp" />
+				<ref bean="EarnCodeSecurity-employee" />
+				<ref bean="EarnCodeSecurity-approver" />
+				<ref bean="EarnCodeSecurity-history" />
+				<ref bean="EarnCodeSecurity-active" />
+				<ref bean="EarnCodeSecurity-hrDeptId" />
+				<ref bean="EarnCodeSecurity-hrSalGroupId" />
+				<ref bean="EarnCodeSecurity-hrEarnCodeId" />
+				<ref bean="EarnCodeSecurity-hrLocationId" />
+				<ref bean="EarnCodeSecurity-earnCodeType" />
 			</list>
 		</property>
 		  
@@ -93,8 +94,8 @@
 	<!-- Attributes  -->
 
 	<!-- deptId -->
-	<bean id="DepartmentEarnCode-dept" parent="DepartmentEarnCode-dept-parentBean" />
-	<bean id="DepartmentEarnCode-dept-parentBean" abstract="true"
+	<bean id="EarnCodeSecurity-dept" parent="EarnCodeSecurity-dept-parentBean" />
+	<bean id="EarnCodeSecurity-dept-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Department" />
 		<property name="maxLength" value="21" />
@@ -111,8 +112,8 @@
 	</bean>
 
 	<!-- salGroup -->
-	<bean id="DepartmentEarnCode-hrSalGroup" parent="DepartmentEarnCode-hrSalGroup-parentBean" />
-	<bean id="DepartmentEarnCode-hrSalGroup-parentBean" abstract="true"
+	<bean id="EarnCodeSecurity-hrSalGroup" parent="EarnCodeSecurity-hrSalGroup-parentBean" />
+	<bean id="EarnCodeSecurity-hrSalGroup-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Sal. Group" />
 		<property name="maxLength" value="10" />
@@ -128,8 +129,8 @@
 		<property name="label" value="Sal. Group" />
 	</bean>
 	<!-- earnCode -->
-	<bean id="DepartmentEarnCode-earnCode" parent="DepartmentEarnCode-earnCode-parentBean" />
-	<bean id="DepartmentEarnCode-earnCode-parentBean" abstract="true"
+	<bean id="EarnCodeSecurity-earnCode" parent="EarnCodeSecurity-earnCode-parentBean" />
+	<bean id="EarnCodeSecurity-earnCode-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Earn Code" />
 		<property name="maxLength" value="3" />
@@ -145,8 +146,8 @@
 		<property name="label" value="Earn Code" />
 	</bean>
 
-    <bean id="DepartmentEarnCode-location" parent="DepartmentEarnCode-location-parentBean" />
-	<bean id="DepartmentEarnCode-location-parentBean" abstract="true"
+    <bean id="EarnCodeSecurity-location" parent="EarnCodeSecurity-location-parentBean" />
+	<bean id="EarnCodeSecurity-location-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Location" />
 		<property name="maxLength" value="10" />
@@ -162,8 +163,8 @@
 		<property name="label" value="Location" />
 	</bean>
 
-  <bean id="DepartmentEarnCode-effectiveDate" parent="DepartmentEarnCode-effectiveDate-parentBean"/>
-  <bean id="DepartmentEarnCode-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="EarnCodeSecurity-effectiveDate" parent="EarnCodeSecurity-effectiveDate-parentBean"/>
+  <bean id="EarnCodeSecurity-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Effective Date"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
@@ -178,8 +179,8 @@
   </bean>
   	
 	<!-- Employee -->
-	<bean id="DepartmentEarnCode-employee" parent="DepartmentEarnCode-employee-parentBean" />
-	<bean id="DepartmentEarnCode-employee-parentBean" abstract="true"
+	<bean id="EarnCodeSecurity-employee" parent="EarnCodeSecurity-employee-parentBean" />
+	<bean id="EarnCodeSecurity-employee-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Employee" />
 		<property name="control">
@@ -190,8 +191,8 @@
 	</bean>
 
 	<!-- Approver -->
-	<bean id="DepartmentEarnCode-approver" parent="DepartmentEarnCode-approver-parentBean" />
-	<bean id="DepartmentEarnCode-approver-parentBean" abstract="true"
+	<bean id="EarnCodeSecurity-approver" parent="EarnCodeSecurity-approver-parentBean" />
+	<bean id="EarnCodeSecurity-approver-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Approver" />
 		<property name="control">
@@ -202,8 +203,8 @@
 	</bean>
 
 	<!-- timeStamp -->
-	<bean id="DepartmentEarnCode-timestamp" parent="DepartmentEarnCode-timestamp-parentBean" />
-	<bean id="DepartmentEarnCode-timestamp-parentBean" abstract="true"
+	<bean id="EarnCodeSecurity-timestamp" parent="EarnCodeSecurity-timestamp-parentBean" />
+	<bean id="EarnCodeSecurity-timestamp-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Timestamp" />
 		<property name="maxLength" value="15" />
@@ -216,8 +217,8 @@
 		<property name="label" value="Time Stamp" />
 	</bean>
 	<!-- history -->
-	<bean id="DepartmentEarnCode-history" parent="DepartmentEarnCode-history-parentBean" />
-	<bean id="DepartmentEarnCode-history-parentBean" abstract="true"
+	<bean id="EarnCodeSecurity-history" parent="EarnCodeSecurity-history-parentBean" />
+	<bean id="EarnCodeSecurity-history-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Show History" />
 		<property name="control">
@@ -228,8 +229,8 @@
 		<property name="label" value="Show History" />
 	</bean>
 	
-	<bean id="DepartmentEarnCode-active" parent="DepartmentEarnCode-active-parentBean"/>
-    <bean id="DepartmentEarnCode-active-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="EarnCodeSecurity-active" parent="EarnCodeSecurity-active-parentBean"/>
+    <bean id="EarnCodeSecurity-active-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Active"/>
     <property name="control">
       <bean parent="CheckboxControlDefinition"/>
@@ -239,8 +240,8 @@
     <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
   </bean>
 
-	<bean id="DepartmentEarnCode-hrDeptId" parent="DepartmentEarnCode-hrDeptId-parentBean" />
-	<bean id="DepartmentEarnCode-hrDeptId-parentBean" abstract="true"
+	<bean id="EarnCodeSecurity-hrDeptId" parent="EarnCodeSecurity-hrDeptId-parentBean" />
+	<bean id="EarnCodeSecurity-hrDeptId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="hrDeptId" />
 		<property name="control">
@@ -248,8 +249,8 @@
 		</property>
 	</bean>
 	
-	<bean id="DepartmentEarnCode-hrSalGroupId" parent="DepartmentEarnCode-hrSalGroupId-parentBean" />
-	<bean id="DepartmentEarnCode-hrSalGroupId-parentBean" abstract="true"
+	<bean id="EarnCodeSecurity-hrSalGroupId" parent="EarnCodeSecurity-hrSalGroupId-parentBean" />
+	<bean id="EarnCodeSecurity-hrSalGroupId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="hrSalGroupId" />
 		<property name="control">
@@ -257,8 +258,8 @@
 		</property>
 	</bean>
 	
-	<bean id="DepartmentEarnCode-hrEarnCodeId" parent="DepartmentEarnCode-hrEarnCodeId-parentBean" />
-	<bean id="DepartmentEarnCode-hrEarnCodeId-parentBean" abstract="true"
+	<bean id="EarnCodeSecurity-hrEarnCodeId" parent="EarnCodeSecurity-hrEarnCodeId-parentBean" />
+	<bean id="EarnCodeSecurity-hrEarnCodeId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="hrEarnCodeId" />
 		<property name="control">
@@ -266,19 +267,32 @@
 		</property>
 	</bean>
 	
-	<bean id="DepartmentEarnCode-hrLocationId" parent="DepartmentEarnCode-hrLocationId-parentBean" />
-	<bean id="DepartmentEarnCode-hrLocationId-parentBean" abstract="true"
+	<bean id="EarnCodeSecurity-hrLocationId" parent="EarnCodeSecurity-hrLocationId-parentBean" />
+	<bean id="EarnCodeSecurity-hrLocationId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="hrLocationId" />
 		<property name="control">
 			<bean parent="HiddenControlDefinition" />
 		</property>
 	</bean>
+	
+	<!--  KPME-1633 -->
+	<bean id="EarnCodeSecurity-earnCodeType" parent="EarnCodeSecurity-earnCodeType-parentBean" />
+	<bean id="EarnCodeSecurity-earnCodeType-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Earn Code Type" />
+				<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.lm.util.EarnCodeTypeKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="earnCodeType" />
+		<property name="label" value="Earn Code Type" />
+	</bean>
+	
  	<!--  Inquiry Definitions  -->
   
-  	<bean id="DepartmentEarnCode-inquiryDefinition" parent="DepartmentEarnCode-inquiryDefinition-parentBean" />
+  	<bean id="EarnCodeSecurity-inquiryDefinition" parent="EarnCodeSecurity-inquiryDefinition-parentBean" />
 
-	<bean id="DepartmentEarnCode-inquiryDefinition-parentBean" abstract="true"
+	<bean id="EarnCodeSecurity-inquiryDefinition-parentBean" abstract="true"
 		parent="InquiryDefinition">
 		<property name="inquirySections">
 			<list>
@@ -296,20 +310,20 @@
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
-					<property name="title" value="DepartmentEarnCode" />
+					<property name="title" value="EarnCodeSecurity" />
 				</bean>
 			</list>
 		</property>
 		<property name="translateCodes" value="false"/>
-		<property name="title" value="DepartmentEarnCode Inquiry" />
+		<property name="title" value="EarnCodeSecurity Inquiry" />
 	</bean>
 
 	<!-- Look up Definitions  -->
 
-	<bean id="DepartmentEarnCode-lookupDefinition" parent="DepartmentEarnCode-lookupDefinition-parentBean" />
-	<bean id="DepartmentEarnCode-lookupDefinition-parentBean"
+	<bean id="EarnCodeSecurity-lookupDefinition" parent="EarnCodeSecurity-lookupDefinition-parentBean" />
+	<bean id="EarnCodeSecurity-lookupDefinition-parentBean"
 		abstract="true" parent="LookupDefinition">
-		<property name="lookupableID" value="departmentEarnCodeLookupable"></property>
+		<property name="lookupableID" value="EarnCodeSecurityLookupable"></property>
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="dept" />
@@ -338,6 +352,6 @@
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
-		<property name="title" value="Department Earn Code Lookup" />
+		<property name="title" value="Earn Code Security Lookup" />
 	</bean>
 </beans>

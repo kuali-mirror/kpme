@@ -3,12 +3,12 @@ package org.kuali.hr.time.permissions;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
-import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -84,11 +84,11 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
                     return true;
                 }
 
-                List<DepartmentEarnCode> deptEarnCodes = TkServiceLocator
-                        .getDepartmentEarnCodeService().getDepartmentEarnCodes(
+                List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator
+                        .getEarnCodeSecurityService().getEarnCodeSecurities(
                                 job.getDept(), job.getHrSalGroup(),
                                 job.getLocation(), tb.getEndDate());
-                for (DepartmentEarnCode dec : deptEarnCodes) {
+                for (EarnCodeSecurity dec : deptEarnCodes) {
                     if (dec.isApprover()
                             && StringUtils.equals(dec.getEarnCode(),
                             tb.getEarnCode())) {
@@ -104,11 +104,11 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
                     return true;
                 }
 
-                List<DepartmentEarnCode> deptEarnCodes = TkServiceLocator
-                        .getDepartmentEarnCodeService().getDepartmentEarnCodes(
+                List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator
+                        .getEarnCodeSecurityService().getEarnCodeSecurities(
                                 job.getDept(), job.getHrSalGroup(),
                                 job.getLocation(), tb.getEndDate());
-                for (DepartmentEarnCode dec : deptEarnCodes) {
+                for (EarnCodeSecurity dec : deptEarnCodes) {
                     if (dec.isEmployee()
                             && StringUtils.equals(dec.getEarnCode(),
                             tb.getEarnCode())) {
@@ -150,11 +150,11 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
                     return true;
                 }
 
-                List<DepartmentEarnCode> deptEarnCodes = TkServiceLocator
-                        .getDepartmentEarnCodeService().getDepartmentEarnCodes(
+                List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator
+                        .getEarnCodeSecurityService().getEarnCodeSecurities(
                                 job.getDept(), job.getHrSalGroup(),
                                 job.getLocation(), tb.getEndDate());
-                for (DepartmentEarnCode dec : deptEarnCodes) {
+                for (EarnCodeSecurity dec : deptEarnCodes) {
                     if (dec.isApprover()
                             && StringUtils.equals(dec.getEarnCode(),
                             tb.getEarnCode())) {
@@ -170,11 +170,11 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
                     return true;
                 }
 
-                List<DepartmentEarnCode> deptEarnCodes = TkServiceLocator
-                        .getDepartmentEarnCodeService().getDepartmentEarnCodes(
+                List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator
+                        .getEarnCodeSecurityService().getEarnCodeSecurities(
                                 job.getDept(), job.getHrSalGroup(),
                                 job.getLocation(), tb.getEndDate());
-                for (DepartmentEarnCode dec : deptEarnCodes) {
+                for (EarnCodeSecurity dec : deptEarnCodes) {
                     if (dec.isEmployee()
                             && StringUtils.equals(dec.getEarnCode(),
                             tb.getEarnCode())) {
@@ -215,11 +215,11 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
                     return true;
                 }
 
-                List<DepartmentEarnCode> deptEarnCodes = TkServiceLocator
-                        .getDepartmentEarnCodeService().getDepartmentEarnCodes(
+                List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator
+                        .getEarnCodeSecurityService().getEarnCodeSecurities(
                                 job.getDept(), job.getHrSalGroup(),
                                 job.getLocation(), tb.getEndDate());
-                for (DepartmentEarnCode dec : deptEarnCodes) {
+                for (EarnCodeSecurity dec : deptEarnCodes) {
                     if (dec.isApprover()
                             && StringUtils.equals(dec.getEarnCode(),
                             tb.getEarnCode())) {
@@ -243,11 +243,11 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
                     return true;
                 }
 
-                List<DepartmentEarnCode> deptEarnCodes = TkServiceLocator
-                        .getDepartmentEarnCodeService().getDepartmentEarnCodes(
+                List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator
+                        .getEarnCodeSecurityService().getEarnCodeSecurities(
                                 job.getDept(), job.getHrSalGroup(),
                                 job.getLocation(), tb.getEndDate());
-                for (DepartmentEarnCode dec : deptEarnCodes) {
+                for (EarnCodeSecurity dec : deptEarnCodes) {
                     if (dec.isEmployee()
                             && StringUtils.equals(dec.getEarnCode(),
                             tb.getEarnCode())

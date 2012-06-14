@@ -547,12 +547,13 @@
 		<field-descriptor name="tkWeeklyOvertimeRuleGroupId" column="TK_WEEKLY_OVT_GROUP_ID" jdbc-type="BIGINT" />
 	</class-descriptor>
 
-	<!-- Department Earn Code -->
-	<class-descriptor class="org.kuali.hr.time.dept.earncode.DepartmentEarnCode" table="hr_dept_earn_code_t">
-		<field-descriptor name="hrDeptEarnCodeId" column="hr_dept_earn_code_id" jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="hr_dept_earn_code_s"  />
+	<!-- Earn Code Security -->
+	<class-descriptor class="org.kuali.hr.lm.earncodesec.EarnCodeSecurity" table="hr_earn_code_security_t">
+		<field-descriptor name="hrEarnCodeSecurityId" column="hr_earn_code_security_id" jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="hr_earn_code_security_s"  />
 		<field-descriptor name="dept" column="dept" jdbc-type="VARCHAR" length="21"/>
 		<field-descriptor name="hrSalGroup" column="hr_sal_group" jdbc-type="VARCHAR" length="10" />
 		<field-descriptor name="earnCode" column="earn_code" jdbc-type="VARCHAR" length="3" />
+		<field-descriptor name="earnCodeType" column="earn_code_type" jdbc-type="VARCHAR" length="1" nullable="false" />
 		<field-descriptor name="employee" column="employee" jdbc-type="VARCHAR" length="1" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
 		<field-descriptor name="approver" column="approver"  jdbc-type="VARCHAR" length="1" conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion"/>
         <field-descriptor name="location" 				column="location" 			jdbc-type="VARCHAR" nullable="false" length="30"  />

@@ -1,10 +1,10 @@
-package org.kuali.hr.time.dept.earncode.validation;
+package org.kuali.hr.lm.earncodesec.validation;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
+import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.TkConstants;
@@ -14,9 +14,9 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
 
-public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
+public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 
-	boolean validateSalGroup(DepartmentEarnCode departmentEarnCode ) {
+	boolean validateSalGroup(EarnCodeSecurity departmentEarnCode ) {
 		if (!ValidationUtils.validateSalGroup(departmentEarnCode.getHrSalGroup(), departmentEarnCode.getEffectiveDate())) {
 			this.putFieldError("hrSalGroup", "error.existence", "Salgroup '" + departmentEarnCode.getHrSalGroup()+ "'");
 			return false;
@@ -25,7 +25,7 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 
-	boolean validateDept(DepartmentEarnCode clr) {
+	boolean validateDept(EarnCodeSecurity clr) {
 		if (!ValidationUtils.validateDepartment(clr.getDept(), clr.getEffectiveDate()) && !StringUtils.equals(clr.getDept(), TkConstants.WILDCARD_CHARACTER)) {
 			this.putFieldError("dept", "error.existence", "department '" + clr.getDept() + "'");
 			return false;
@@ -34,7 +34,7 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 
-	boolean validateEarnCode(DepartmentEarnCode departmentEarnCode ) {
+	boolean validateEarnCode(EarnCodeSecurity departmentEarnCode ) {
 		if (!ValidationUtils.validateEarnCode(departmentEarnCode.getEarnCode(), departmentEarnCode.getEffectiveDate())) {
 			this.putFieldError("earnCode", "error.existence", "Earncode '" + departmentEarnCode.getEarnCode()+ "'");
 			return false;
@@ -43,7 +43,7 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 
-	boolean validateDuplication(DepartmentEarnCode departmentEarnCode) {
+	boolean validateDuplication(EarnCodeSecurity departmentEarnCode) {
 		if(ValidationUtils.duplicateDeptEarnCodeExists(departmentEarnCode)) {
 			this.putFieldError("effectiveDate", "deptEarncode.duplicate.exists");
 			return false;
@@ -52,7 +52,7 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 
-	boolean validateLocation(DepartmentEarnCode departmentEarnCode) {
+	boolean validateLocation(EarnCodeSecurity departmentEarnCode) {
 		if (departmentEarnCode.getLocation() != null
 				&& !ValidationUtils.validateLocation(departmentEarnCode.getLocation(), null) && 
 				!StringUtils.equals(departmentEarnCode.getLocation(), TkConstants.WILDCARD_CHARACTER)) {
@@ -64,7 +64,7 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 	
-	boolean isEarnCodeUsedByActiveTimeBlocks(DepartmentEarnCode departmentEarnCode){
+	boolean isEarnCodeUsedByActiveTimeBlocks(EarnCodeSecurity departmentEarnCode){
 		// KPME-1106 can not inactivation of a department earn code if it used in active time blocks
 		boolean valid = true;
 		List<TimeBlock> latestEndTimestampTimeBlocks =  TkServiceLocator.getTimeBlockService().getLatestEndTimestamp();
@@ -93,10 +93,10 @@ public class DepartmentEarnCodeRule extends MaintenanceDocumentRuleBase {
 			MaintenanceDocument document) {
 		boolean valid = false;
 
-		LOG.debug("entering custom validation for DepartmentEarnCode");
+		LOG.debug("entering custom validation for EarnCodeSecurity");
 		PersistableBusinessObject pbo = this.getNewBo();
-		if (pbo instanceof DepartmentEarnCode) {
-			DepartmentEarnCode departmentEarnCode = (DepartmentEarnCode) pbo;
+		if (pbo instanceof EarnCodeSecurity) {
+			EarnCodeSecurity departmentEarnCode = (EarnCodeSecurity) pbo;
 
 			if (departmentEarnCode != null) {
 				valid = true;

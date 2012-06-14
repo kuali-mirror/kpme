@@ -1,8 +1,8 @@
-package org.kuali.hr.time.dept.earncode.service;
+package org.kuali.hr.lm.earncodesec.service;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
-import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
@@ -12,7 +12,7 @@ import org.kuali.rice.kns.lookup.HtmlData;
 import java.util.List;
 import java.util.Map;
 
-public class DepartmentEarnCodeLookupableHelper extends
+public class EarnCodeSecurityLookupableHelper extends
 		HrEffectiveDateActiveLookupableHelper {
 	/**
 	 * 
@@ -25,10 +25,10 @@ public class DepartmentEarnCodeLookupableHelper extends
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
 		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
-			DepartmentEarnCode departmentEarnCode = (DepartmentEarnCode) businessObject;
+			EarnCodeSecurity departmentEarnCode = (EarnCodeSecurity) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String hrDeptEarnCodeId = departmentEarnCode
-					.getHrDeptEarnCodeId();
+					.getHrEarnCodeSecurityId();
 			HtmlData htmlData = new HtmlData() {
 
 				@Override
@@ -57,7 +57,10 @@ public class DepartmentEarnCodeLookupableHelper extends
         String toEffdt = StringUtils.isNotBlank(fieldValues.get("effectiveDate")) ? fieldValues.get("effectiveDate").replace("<=", "") : "";
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
-		return TkServiceLocator.getDepartmentEarnCodeService().searchDepartmentEarnCodes(dept, salGroup, earnCode, location, 
+        System.out.println("field value map is >>> "+fieldValues);
+        System.out.println("actual list is  "+TkServiceLocator.getEarnCodeSecurityService().searchEarnCodeSecurities(dept, salGroup, earnCode, location, 
+				TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist));
+		return TkServiceLocator.getEarnCodeSecurityService().searchEarnCodeSecurities(dept, salGroup, earnCode, location, 
 								TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist);
 	}
 

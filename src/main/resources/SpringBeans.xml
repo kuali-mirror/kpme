@@ -344,7 +344,7 @@
         <property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
-    <bean id="deptEarnCodeDao" class="org.kuali.hr.time.dept.earncode.dao.DepartmentEarnCodeDaoSpringOjbImpl">
+    <bean id="earnCodeSecurityDao" class="org.kuali.hr.lm.earncodesec.dao.EarnCodeSecurityDaoSpringOjbImpl">
         <property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
@@ -621,8 +621,8 @@
     <bean id="timesheetService" class="org.kuali.hr.time.timesheet.service.TimesheetServiceImpl">
     </bean>
 
-    <bean id="deptEarnCodeService" class="org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeServiceImpl">
-        <property name="deptEarnCodeDao" ref="deptEarnCodeDao"/>
+    <bean id="earnCodeSecurityService" class="org.kuali.hr.lm.earncodesec.service.EarnCodeSecurityServiceImpl">
+        <property name="earnCodeSecurityDao" ref="earnCodeSecurityDao"/>
     </bean>
 
     <bean id="departmentService" class="org.kuali.hr.time.department.service.DepartmentServiceImpl">
@@ -789,9 +789,9 @@
         </property>
     </bean>
 
-    <bean id="departmentEarnCodeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+    <bean id="EarnCodeSecurityLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeLookupableHelper"/>
+            <bean class="org.kuali.hr.lm.earncodesec.service.EarnCodeSecurityLookupableHelper"/>
         </property>
     </bean>
     <bean id="earnCodeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">

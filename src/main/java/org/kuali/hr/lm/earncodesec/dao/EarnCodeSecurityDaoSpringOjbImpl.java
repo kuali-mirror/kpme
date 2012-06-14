@@ -1,4 +1,4 @@
-package org.kuali.hr.time.dept.earncode.dao;
+package org.kuali.hr.lm.earncodesec.dao;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -6,33 +6,33 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
+import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.time.util.TKUtils;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 import java.util.*;
 
-public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements DepartmentEarnCodeDao {
+public class EarnCodeSecurityDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements EarnCodeSecurityDao {
 
 	@SuppressWarnings("unused")
-	private static final Logger LOG = Logger.getLogger(DepartmentEarnCodeDaoSpringOjbImpl.class);
+	private static final Logger LOG = Logger.getLogger(EarnCodeSecurityDaoSpringOjbImpl.class);
 
-	public void saveOrUpdate(DepartmentEarnCode deptErncd) {
-		this.getPersistenceBrokerTemplate().store(deptErncd);
+	public void saveOrUpdate(EarnCodeSecurity earnCodeSec) {
+		this.getPersistenceBrokerTemplate().store(earnCodeSec);
 	}
 
-	public void saveOrUpdate(List<DepartmentEarnCode> deptErncdList) {
-		if (deptErncdList != null) {
-			for (DepartmentEarnCode deptErncd : deptErncdList) {
-				this.getPersistenceBrokerTemplate().store(deptErncd);
+	public void saveOrUpdate(List<EarnCodeSecurity> ernCdSecList) {
+		if (ernCdSecList != null) {
+			for (EarnCodeSecurity ernCdSec : ernCdSecList) {
+				this.getPersistenceBrokerTemplate().store(ernCdSec);
 			}
 		}
 	}
 
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
-	public List<DepartmentEarnCode> getDepartmentEarnCodes(String department, String hrSalGroup, String location, Date asOfDate) {
-		List<DepartmentEarnCode> decs = new LinkedList<DepartmentEarnCode>();
+	public List<EarnCodeSecurity> getEarnCodeSecurities(String department, String hrSalGroup, String location, Date asOfDate) {
+		List<EarnCodeSecurity> decs = new LinkedList<EarnCodeSecurity>();
 
 		Criteria root = new Criteria();
 		Criteria effdt = new Criteria();
@@ -80,7 +80,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 		
 		// KPME-856, commented out the following line, when geting max(effdt) for each earnCode, do not need to limit to active entries.
 		//effdt.addEqualTo("active", true);
-		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, effdt);
+		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(EarnCodeSecurity.class, effdt);
 		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
 
 		// OJB's awesome sub query setup part 2
@@ -92,7 +92,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 		}
 		timestamp.addEqualTo("active", true);
 		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, timestamp);
+		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EarnCodeSecurity.class, timestamp);
 		timestampSubQuery.setAttributes(new String[]{ "max(timestamp)" });
 		
 		root.addEqualTo("effectiveDate", effdtSubQuery);
@@ -103,7 +103,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 		root.addOrderBy("hrSalGroup",false);
 		
 		
-		Query query = QueryFactory.newQuery(DepartmentEarnCode.class, root);
+		Query query = QueryFactory.newQuery(EarnCodeSecurity.class, root);
 		
 		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 		
@@ -113,8 +113,8 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 		
 		//Now we can have duplicates so remove any that match more than once
 		Set<String> aSet = new HashSet<String>();
-		List<DepartmentEarnCode> aList = new ArrayList<DepartmentEarnCode>();
-		for(DepartmentEarnCode dec : decs){
+		List<EarnCodeSecurity> aList = new ArrayList<EarnCodeSecurity>();
+		for(EarnCodeSecurity dec : decs){
 			if(!aSet.contains(dec.getEarnCode())){
 				aList.add(dec);
 				aSet.add(dec.getEarnCode());
@@ -124,17 +124,17 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 	}
 
 	@Override
-	public DepartmentEarnCode getDepartmentEarnCode(String hrDeptEarnCodeId) {
+	public EarnCodeSecurity getEarnCodeSecurity(String hrEarnCodeSecId) {
 		Criteria crit = new Criteria();
-		crit.addEqualTo("hrDeptEarnCodeId", hrDeptEarnCodeId);
+		crit.addEqualTo("hrEarnCodeSecurityId", hrEarnCodeSecId);
 		
-		Query query = QueryFactory.newQuery(DepartmentEarnCode.class, crit);
-		return (DepartmentEarnCode)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+		Query query = QueryFactory.newQuery(EarnCodeSecurity.class, crit);
+		return (EarnCodeSecurity)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 	
-	public List<DepartmentEarnCode> searchDepartmentEarnCodes(String dept, String salGroup, String earnCode, String location,
+	public List<EarnCodeSecurity> searchEarnCodeSecurities(String dept, String salGroup, String earnCode, String location,
 						java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory) {
-		List<DepartmentEarnCode> results = new ArrayList<DepartmentEarnCode>();
+		List<EarnCodeSecurity> results = new ArrayList<EarnCodeSecurity>();
 
         Criteria crit = new Criteria();
         Criteria effdtCrit = new Criteria();
@@ -171,20 +171,20 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
             effdtCrit.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
             effdtCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
             effdtCrit.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, effdtCrit);
+            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(EarnCodeSecurity.class, effdtCrit);
             effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
             timestampCrit.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
             timestampCrit.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
             timestampCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
             timestampCrit.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
            
-            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, timestampCrit);
+            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EarnCodeSecurity.class, timestampCrit);
             timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 
             crit.addEqualTo("effectiveDate", effdtSubQuery);
             crit.addEqualTo("timestamp", timestampSubQuery);
 
-            Query query = QueryFactory.newQuery(DepartmentEarnCode.class, crit);
+            Query query = QueryFactory.newQuery(EarnCodeSecurity.class, crit);
             Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
             results.addAll(c);
         } else if (StringUtils.isEmpty(active) && StringUtils.equals(showHistory, "N")) {
@@ -192,7 +192,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
             effdtCrit.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
             effdtCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
             effdtCrit.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, effdtCrit);
+            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(EarnCodeSecurity.class, effdtCrit);
             effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
 
             timestampCrit.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
@@ -200,13 +200,13 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
             timestampCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
             timestampCrit.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
            
-            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, timestampCrit);
+            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EarnCodeSecurity.class, timestampCrit);
             timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 
             crit.addEqualTo("effectiveDate", effdtSubQuery);
             crit.addEqualTo("timestamp", timestampSubQuery);
 
-            Query query = QueryFactory.newQuery(DepartmentEarnCode.class, crit);
+            Query query = QueryFactory.newQuery(EarnCodeSecurity.class, crit);
             Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
             results.addAll(c);
         } else if (StringUtils.equals(active, "Y") && StringUtils.equals("N", showHistory)) {
@@ -214,7 +214,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
             effdtCrit.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
             effdtCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
             effdtCrit.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, effdtCrit);
+            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(EarnCodeSecurity.class, effdtCrit);
             effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
 
             timestampCrit.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
@@ -222,7 +222,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
             timestampCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
             timestampCrit.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
            
-            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, timestampCrit);
+            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EarnCodeSecurity.class, timestampCrit);
             timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 
             crit.addEqualTo("effectiveDate", effdtSubQuery);
@@ -232,7 +232,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
             activeFilter.addEqualTo("active", true);
             crit.addAndCriteria(activeFilter);
 
-            Query query = QueryFactory.newQuery(DepartmentEarnCode.class, crit);
+            Query query = QueryFactory.newQuery(EarnCodeSecurity.class, crit);
             Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
             results.addAll(c);
         } //return all active records from the database
@@ -240,7 +240,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
             Criteria activeFilter = new Criteria(); // Inner Join For Activity
             activeFilter.addEqualTo("active", true);
             crit.addAndCriteria(activeFilter);
-            Query query = QueryFactory.newQuery(DepartmentEarnCode.class, crit);
+            Query query = QueryFactory.newQuery(EarnCodeSecurity.class, crit);
             Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
             results.addAll(c);
         }
@@ -250,7 +250,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
             effdtCrit.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
             effdtCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
             effdtCrit.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, effdtCrit);
+            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(EarnCodeSecurity.class, effdtCrit);
             effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
 
             timestampCrit.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
@@ -258,7 +258,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
             timestampCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
             timestampCrit.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
            
-            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, timestampCrit);
+            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EarnCodeSecurity.class, timestampCrit);
             timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 
             crit.addEqualTo("effectiveDate", effdtSubQuery);
@@ -267,7 +267,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
             Criteria activeFilter = new Criteria(); // Inner Join For Activity
             activeFilter.addEqualTo("active", false);
             crit.addAndCriteria(activeFilter);
-            Query query = QueryFactory.newQuery(DepartmentEarnCode.class, crit);
+            Query query = QueryFactory.newQuery(EarnCodeSecurity.class, crit);
             Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
             results.addAll(c);
         }
@@ -278,7 +278,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
             effdtCrit.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
             effdtCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
             effdtCrit.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, effdtCrit);
+            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(EarnCodeSecurity.class, effdtCrit);
             effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
 
             timestampCrit.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
@@ -286,13 +286,13 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
             timestampCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
             timestampCrit.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
            
-            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(DepartmentEarnCode.class, timestampCrit);
+            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EarnCodeSecurity.class, timestampCrit);
             timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 
             Criteria activeFilter = new Criteria(); // Inner Join For Activity
             activeFilter.addEqualTo("active", false);
             crit.addAndCriteria(activeFilter);
-            Query query = QueryFactory.newQuery(DepartmentEarnCode.class, crit);
+            Query query = QueryFactory.newQuery(EarnCodeSecurity.class, crit);
             Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
             results.addAll(c);
         }
@@ -302,7 +302,7 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
 	}
 	
 	@Override
-	public int getDepartmentEarnCodeCount(String dept, String salGroup, String earnCode, String employee, String approver, String location,
+	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String location,
 			String active, java.sql.Date effdt,String hrDeptEarnCodeId) {
 		Criteria crit = new Criteria();
       crit.addEqualTo("dept", dept);
@@ -314,18 +314,18 @@ public class DepartmentEarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupp
       crit.addEqualTo("active", active);
       crit.addEqualTo("effectiveDate", effdt);
       if(hrDeptEarnCodeId != null) {
-    	  crit.addEqualTo("hr_dept_earn_code_id", hrDeptEarnCodeId);
+    	  crit.addEqualTo("hrEarnCodeSecurityId", hrDeptEarnCodeId);
       }
-      Query query = QueryFactory.newQuery(DepartmentEarnCode.class, crit);
+      Query query = QueryFactory.newQuery(EarnCodeSecurity.class, crit);
       return this.getPersistenceBrokerTemplate().getCount(query);
 	}
 	@Override
-	public int getNewerDeptEarnCodeCount(String earnCode, Date effdt) {
+	public int getNewerEarnCodeSecurityCount(String earnCode, Date effdt) {
 		Criteria crit = new Criteria();
 		crit.addEqualTo("earnCode", earnCode);
 		crit.addEqualTo("active", "Y");
 		crit.addGreaterThan("effectiveDate", effdt);
-		Query query = QueryFactory.newQuery(DepartmentEarnCode.class, crit);
+		Query query = QueryFactory.newQuery(EarnCodeSecurity.class, crit);
        	return this.getPersistenceBrokerTemplate().getCount(query);
 	}
 }

@@ -1,4 +1,4 @@
-package org.kuali.hr.time.dept.earncode;
+package org.kuali.hr.lm.earncodesec;
 
 import org.kuali.hr.job.Job;
 import org.kuali.hr.location.Location;
@@ -11,19 +11,20 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-public class DepartmentEarnCode extends HrBusinessObject {
+public class EarnCodeSecurity extends HrBusinessObject {
 
 	/**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;
-	private String hrDeptEarnCodeId;
+	private String hrEarnCodeSecurityId;
 	private String dept;
 	private String hrSalGroup;
 	private String earnCode;
 	private boolean employee;
 	private boolean approver;
 	private String location;
+	private String earnCodeType;
 	
 	private String hrDeptId;
 	private String hrSalGroupId;
@@ -37,12 +38,28 @@ public class DepartmentEarnCode extends HrBusinessObject {
     private Location locationObj;
     private String history;
 
+	public String getHrEarnCodeSecurityId() {
+		return hrEarnCodeSecurityId;
+	}
+
+	public void setHrEarnCodeSecurityId(String hrEarnCodeSecurityId) {
+		this.hrEarnCodeSecurityId = hrEarnCodeSecurityId;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	protected LinkedHashMap toStringMapper() {
 		return null;
 	}
+	
+	public String getEarnCodeType() {
+		return earnCodeType;
+	}
+
+	public void setEarnCodeType(String earnCodeType) {
+		this.earnCodeType = earnCodeType;
+	}
+
 	public SalGroup getSalGroupObj() {
 		return salGroupObj;
 	}
@@ -90,12 +107,7 @@ public class DepartmentEarnCode extends HrBusinessObject {
 	public void setEarnCodeObj(EarnCode earnCodeObj) {
 		this.earnCodeObj = earnCodeObj;
 	}
-	public String getHrDeptEarnCodeId() {
-		return hrDeptEarnCodeId;
-	}
-	public void setHrDeptEarnCodeId(String hrDeptEarnCodeId) {
-		this.hrDeptEarnCodeId = hrDeptEarnCodeId;
-	}
+	
 	public String getDept() {
 		return dept;
 	}
@@ -185,13 +197,14 @@ public class DepartmentEarnCode extends HrBusinessObject {
 	public void setHistory(String history) {
 		this.history = history;
 	}
+	
 	@Override
 	public String getId() {
-		return getHrDeptEarnCodeId();
+		return getHrEarnCodeSecurityId();
 	}
 	@Override
 	public void setId(String id) {
-		setHrDeptEarnCodeId(id);
+		setHrEarnCodeSecurityId(id);
 	}
 
 
