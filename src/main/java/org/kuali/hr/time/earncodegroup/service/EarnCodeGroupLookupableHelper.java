@@ -1,16 +1,16 @@
-package org.kuali.hr.time.earngroup.service;
+package org.kuali.hr.time.earncodegroup.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
-import org.kuali.hr.time.earngroup.EarnGroup;
+import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 
-public class EarnGroupLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
+public class EarnCodeGroupLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
 	/**
 	 * 
 	 */
@@ -28,10 +28,10 @@ public class EarnGroupLookupableHelper extends HrEffectiveDateActiveLookupableHe
 			}
 		}
 		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
-			EarnGroup earnGroupObj = (EarnGroup) businessObject;
+			EarnCodeGroup earnGroupObj = (EarnCodeGroup) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
-			final String earnGroup = earnGroupObj.getEarnGroup();
-			final String hrEarnGroupId = earnGroupObj.getHrEarnGroupId();
+			final String earnGroup = earnGroupObj.getEarnCodeGroup();
+			final String hrEarnGroupId = earnGroupObj.getHrEarnCodeGroupId();
 			HtmlData htmlData = new HtmlData() {
 
 				/**

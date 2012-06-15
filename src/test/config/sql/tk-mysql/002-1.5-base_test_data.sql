@@ -157,10 +157,10 @@ INSERT INTO `hr_paytype_t` (`HR_PAYTYPE_ID`,`PAYTYPE`,`DESCR`,`REG_ERN_CODE`,`EF
 	('2', 'BW', 'description', 'RGN', '2010-01-01', '2010-01-01 16:01:07', '47326FEA-46E7-7D89-0B13-85DFA45EA8C1', '1','Y');
 
 
-DELETE FROM `hr_earn_group_s`;
-INSERT INTO `hr_earn_group_s` VALUES ('1000');
-DELETE FROM `hr_earn_group_t`;
-INSERT INTO `hr_earn_group_t` (`hr_earn_group_id`,`earn_group`,`descr`,`effdt`,`active`,`OBJ_ID`,`VER_NBR`,`timestamp`) VALUES
+DELETE FROM `hr_earn_code_group_s`;
+INSERT INTO `hr_earn_code_group_s` VALUES ('1000');
+DELETE FROM `hr_earn_code_group_t`;
+INSERT INTO `hr_earn_code_group_t` (`hr_earn_code_group_id`,`earn_code_group`,`descr`,`effdt`,`active`,`OBJ_ID`,`VER_NBR`,`timestamp`) VALUES
   ('1','SD1','Test SD1', '2010-01-01', 'Y', '', 1, '2010-01-01 01:01:01'),
   ('2','SD2','Test SD2', '2010-01-01', 'Y', '', 1, '2010-01-01 01:01:01'),
   ('3','SD3','Test SD3', '2010-01-01', 'Y', '', 1, '2010-01-01 01:01:01'),
@@ -170,10 +170,10 @@ INSERT INTO `hr_earn_group_t` (`hr_earn_group_id`,`earn_group`,`descr`,`effdt`,`
 	('103','TC2','Regular', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97','20','2010-07-27 10:25:13' ),
 	('104','TC3','Regular', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97','20','2010-07-27 10:25:13' );
 
-DELETE FROM `hr_earn_group_def_s`;
-INSERT INTO `hr_earn_group_def_s` VALUES ('1000');
-DELETE FROM `hr_earn_group_def_t`;
-INSERT INTO `hr_earn_group_def_t` (`hr_earn_group_def_id`, `hr_earn_group_id`,`earn_code`,`OBJ_ID`,`VER_NBR`) VALUES
+DELETE FROM `hr_earn_code_group_def_s`;
+INSERT INTO `hr_earn_code_group_def_s` VALUES ('1000');
+DELETE FROM `hr_earn_code_group_def_t`;
+INSERT INTO `hr_earn_code_group_def_t` (`hr_earn_code_group_def_id`, `hr_earn_code_group_id`,`earn_code`,`OBJ_ID`,`VER_NBR`) VALUES
   (  '1',  '1','REG','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1),
   (  '2',  '1','RGN','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1),
   (  '3',  '2','ABC', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1),

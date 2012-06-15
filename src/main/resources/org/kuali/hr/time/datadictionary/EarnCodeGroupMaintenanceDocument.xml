@@ -7,40 +7,40 @@
                            http://rice.kuali.org/dd
                            http://rice.kuali.org/dd/dd.xsd">
 
-	<bean id="EarnGroupMaintenanceDocument" parent="EarnGroupMaintenanceDocument-parentBean" />
+	<bean id="EarnCodeGroupMaintenanceDocument" parent="EarnCodeGroupMaintenanceDocument-parentBean" />
 
-	<bean id="EarnGroupMaintenanceDocument-parentBean" abstract="true"
+	<bean id="EarnCodeGroupMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" 
-		p:businessObjectClass="org.kuali.hr.time.earngroup.EarnGroup"
-		p:businessRulesClass="org.kuali.hr.time.earngroup.validation.EarnGroupValidation"
-		p:maintainableClass="org.kuali.hr.time.earngroup.service.EarnGroupMaintainableImpl"
+		p:businessObjectClass="org.kuali.hr.time.earncodegroup.EarnCodeGroup"
+		p:businessRulesClass="org.kuali.hr.time.earncodegroup.validation.EarnCodeGroupValidation"
+		p:maintainableClass="org.kuali.hr.time.earncodegroup.service.EarnCodeGroupMaintainableImpl"
 		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
 		<property name="maintainableSections">
 			<list>
-				<ref bean="EarnGroupMaintenanceDocument-EarnGroupMaintenance" />
-				<ref bean="EarnGroupMaintenanceDocument-EarnGroupDefMaintenance" />
+				<ref bean="EarnCodeGroupMaintenanceDocument-EarnCodeGroupMaintenance" />
+				<ref bean="EarnCodeGroupMaintenanceDocument-EarnCodeGroupDefMaintenance" />
 			</list>
 		</property>
 		<property name="lockingKeys">
 			<list>
-				<value>hrEarnGroupId</value>
+				<value>hrEarnCodeGroupId</value>
 			</list>
 		</property>
-		<property name="documentTypeName" value="EarnGroupDocumentType" />
+		<property name="documentTypeName" value="EarnCodeGroupDocumentType" />
 	</bean>
 
 	<!-- Maintenance Section Definitions -->
 
-	<bean id="EarnGroupMaintenanceDocument-EarnGroupMaintenance"
-		parent="EarnGroupMaintenanceDocument-EarnGroupMaintenance-parentBean" />
-	<bean id="EarnGroupMaintenanceDocument-EarnGroupMaintenance-parentBean"
+	<bean id="EarnCodeGroupMaintenanceDocument-EarnCodeGroupMaintenance"
+		parent="EarnCodeGroupMaintenanceDocument-EarnCodeGroupMaintenance-parentBean" />
+	<bean id="EarnCodeGroupMaintenanceDocument-EarnCodeGroupMaintenance-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="title" value="Earn Group Maintenance" />
+		<property name="title" value="Earn Code Group Maintenance" />
 		<property name="maintainableItems">
 			<list>
 			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate"
 					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="earnGroup"
+				<bean parent="MaintainableFieldDefinition" p:name="earnCodeGroup"
 					p:required="true" p:readOnlyAfterAdd="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="descr"
 					p:required="true" />
@@ -56,20 +56,20 @@
 
 	<!-- Earn Group Def maintenance section -->
 
-	<bean id="EarnGroupMaintenanceDocument-EarnGroupDefMaintenance"
-		parent="EarnGroupMaintenanceDocument-EarnGroupDefMaintenance-parentBean" />
+	<bean id="EarnCodeGroupMaintenanceDocument-EarnCodeGroupDefMaintenance"
+		parent="EarnCodeGroupMaintenanceDocument-EarnCodeGroupDefMaintenance-parentBean" />
 	<bean
-		id="EarnGroupMaintenanceDocument-EarnGroupDefMaintenance-parentBean"
+		id="EarnCodeGroupMaintenanceDocument-EarnCodeGroupDefMaintenance-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="id" value="earnGroups" />
-		<property name="title" value="Earn Group Defintions" />
+		<property name="id" value="earnCodeGroups" />
+		<property name="title" value="Earn Code Group Defintions" />
 		<property name="defaultOpen" value="true" />
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableCollectionDefinition">
-					<property name="name" value="earnGroups" />
+					<property name="name" value="earnCodeGroups" />
 					<property name="businessObjectClass"
-						value="org.kuali.hr.time.earngroup.EarnGroupDefinition" />
+						value="org.kuali.hr.time.earncodegroup.EarnCodeGroupDefinition" />
 					<property name="alwaysAllowCollectionDeletion" value="true" />
 					<property name="maintainableFields">
 						<list>

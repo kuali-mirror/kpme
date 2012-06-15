@@ -53,10 +53,10 @@ public class DailyOvertimeRuleMaintenanceTest extends TkTestCase{
 								+ TEST_CODE_INVALID_DEPT_ID
 								+ "' does not exist."));
 		
-		// test Convert from EarnGroup has overtime earn codes error
+		// test Convert from EarnCodeGroup has overtime earn codes error
 		setFieldValue(resultantPageAfterEdit, "document.newMaintainableObject.fromEarnGroup", "OVT");
 		HtmlPage finalPage = HtmlUnitUtil.clickInputContainingText(resultantPageAfterEdit, "submit");
-		assertTrue("Maintenance Page should contains EarnGroup has overtime earn code error",
+		assertTrue("Maintenance Page should contains EarnCodeGroup has overtime earn code error",
 				finalPage.asText().contains("Earn Group 'OVT' has overtime earn codes."));
 		
 	}

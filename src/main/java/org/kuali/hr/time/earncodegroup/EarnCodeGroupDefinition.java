@@ -1,4 +1,4 @@
-package org.kuali.hr.time.earngroup;
+package org.kuali.hr.time.earncodegroup;
 
 import java.util.LinkedHashMap;
 
@@ -7,18 +7,18 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
 
-public class EarnGroupDefinition extends PersistableBusinessObjectBase {
+public class EarnCodeGroupDefinition extends PersistableBusinessObjectBase {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -8463674251885306591L;
 
-	private String hrEarnGroupDefId;
+	private String hrEarnCodeGroupDefId;
 
 	private String earnCode;
 
-	private String hrEarnGroupId;
+	private String hrEarnCodeGroupId;
 
     private EarnCode earnCodeObj;
 
@@ -38,20 +38,25 @@ public class EarnGroupDefinition extends PersistableBusinessObjectBase {
 		return null;
 	}
 
-	public String getHrEarnGroupDefId() {
-		return hrEarnGroupDefId;
+	
+	public String getHrEarnCodeGroupDefId() {
+		return hrEarnCodeGroupDefId;
 	}
 
-	public void setHrEarnGroupDefId(String hrEarnGroupDefId) {
-		this.hrEarnGroupDefId = hrEarnGroupDefId;
+	public void setHrEarnCodeGroupDefId(String hrEarnCodeGroupDefId) {
+		this.hrEarnCodeGroupDefId = hrEarnCodeGroupDefId;
 	}
 
-	public String getHrEarnGroupId() {
-		return hrEarnGroupId;
+	public String getHrEarnCodeGroupId() {
+		return hrEarnCodeGroupId;
 	}
 
-	public void setHrEarnGroupId(String hrEarnGroupId) {
-		this.hrEarnGroupId = hrEarnGroupId;
+	public void setHrEarnCodeGroupId(String hrEarnCodeGroupId) {
+		this.hrEarnCodeGroupId = hrEarnCodeGroupId;
+	}
+
+	public void setEarnCodeDesc(String earnCodeDesc) {
+		this.earnCodeDesc = earnCodeDesc;
 	}
 
 	public EarnCode getEarnCodeObj() {

@@ -350,9 +350,9 @@
 		
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.hr.time.earngroup.EarnGroup" table="hr_earn_group_t">
-		<field-descriptor name="hrEarnGroupId" 	column="hr_earn_group_id" 	jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="hr_earn_group_s"/>
-		<field-descriptor name="earnGroup"      column="earn_group"		jdbc-type="VARCHAR" length="10" nullable="false" primarykey="false" />
+	<class-descriptor class="org.kuali.hr.time.earncodegroup.EarnCodeGroup" table="hr_earn_code_group_t">
+		<field-descriptor name="hrEarnCodeGroupId" 	column="hr_earn_code_group_id" 	jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="hr_earn_code_group_s"/>
+		<field-descriptor name="earnCodeGroup"      column="earn_code_group"		jdbc-type="VARCHAR" length="10" nullable="false" primarykey="false" />
 		<field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.kns.util.OjbCharBooleanConversion" />
 		<field-descriptor name="descr"		    column="descr"			jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
 		<field-descriptor name="effectiveDate"  column="effdt"			jdbc-type="DATE" nullable="false" primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
@@ -360,21 +360,21 @@
 		<field-descriptor name="warningText"    column="warning_text"	jdbc-type="VARCHAR" length="100" nullable="true" primarykey="false" />
 		<field-descriptor name="timestamp"      column="TIMESTAMP"      jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
 		<collection-descriptor
-			name="earnGroups"
-			element-class-ref="org.kuali.hr.time.earngroup.EarnGroupDefinition"
+			name="earnCodeGroups"
+			element-class-ref="org.kuali.hr.time.earncodegroup.EarnCodeGroupDefinition"
 			collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList"
 			auto-retrieve="true"
 			auto-delete="object"
 			auto-update="object"
 			proxy="false">
-			<inverse-foreignkey field-ref="hrEarnGroupId"/>
+			<inverse-foreignkey field-ref="hrEarnCodeGroupId"/>
 		</collection-descriptor>
 	</class-descriptor>
 
-	<class-descriptor class="org.kuali.hr.time.earngroup.EarnGroupDefinition" table="hr_earn_group_def_t">
-		<field-descriptor name="hrEarnGroupDefId" 	column="hr_earn_group_def_id" 	jdbc-type="VARCHAR" length="60" 	primarykey="true" autoincrement="true" sequence-name="hr_earn_group_def_s"/>
+	<class-descriptor class="org.kuali.hr.time.earncodegroup.EarnCodeGroupDefinition" table="hr_earn_code_group_def_t">
+		<field-descriptor name="hrEarnCodeGroupDefId" 	column="hr_earn_code_group_def_id" 	jdbc-type="VARCHAR" length="60" 	primarykey="true" autoincrement="true" sequence-name="hr_earn_code_group_def_s"/>
 		<field-descriptor name="earnCode"       	column="earn_code"			jdbc-type="VARCHAR" length="3" nullable="false" primarykey="false" />
-		<field-descriptor name="hrEarnGroupId"       	column="hr_earn_group_id"		jdbc-type="VARCHAR" length="60" nullable="false" primarykey="false" />
+		<field-descriptor name="hrEarnCodeGroupId"       	column="hr_earn_code_group_id"		jdbc-type="VARCHAR" length="60" nullable="false" primarykey="false" />
 	</class-descriptor>
 
 	<class-descriptor class="org.kuali.hr.time.task.Task" table="tk_task_t">

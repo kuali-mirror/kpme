@@ -35,7 +35,7 @@ import org.kuali.hr.time.department.service.DepartmentService;
 import org.kuali.hr.time.dept.lunch.service.DepartmentLunchRuleService;
 import org.kuali.hr.time.docsearch.TkSearchableAttributeService;
 import org.kuali.hr.time.earncode.service.EarnCodeService;
-import org.kuali.hr.time.earngroup.service.EarnGroupService;
+import org.kuali.hr.time.earncodegroup.service.EarnCodeGroupService;
 import org.kuali.hr.time.graceperiod.service.GracePeriodService;
 import org.kuali.hr.time.holidaycalendar.service.HolidayCalendarService;
 import org.kuali.hr.time.missedpunch.service.MissedPunchService;
@@ -102,7 +102,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_ROLE_SERVICE = "tkRoleService";
 	public static final String TK_ROLE_GROUP_SERVICE = "tkRoleGroupService";
 	public static final String TK_TIME_SUMMARY_SERVICE = "timeSummaryService";
-	public static final String TK_TIME_EARN_GROUP_SERVICE = "earnGroupService";
+	public static final String TK_TIME_EARN_CODE_GROUP_SERVICE = "earnCodeGroupService";
 	public static final String TK_TIME_HOUR_DETAIL_SERVICE= "timeHourDetailService";
 	public static final String TK_DAILY_OVERTIME_RULE_SERVICE = "dailyOvertimeRuleService";
 	public static final String TK_WEEKLY_OVERTIME_RULE_SERVICE = "weeklyOvertimeRuleService";
@@ -280,8 +280,8 @@ public class TkServiceLocator implements ApplicationContextAware {
 		return (TimeSummaryService) CONTEXT.getBean(TK_TIME_SUMMARY_SERVICE);
 	}
 
-	public static EarnGroupService getEarnGroupService(){
-		return (EarnGroupService) CONTEXT.getBean(TK_TIME_EARN_GROUP_SERVICE);
+	public static EarnCodeGroupService getEarnCodeGroupService(){
+		return (EarnCodeGroupService) CONTEXT.getBean(TK_TIME_EARN_CODE_GROUP_SERVICE);
 	}
 
 	public static TimeHourDetailService getTimeHourDetailService(){

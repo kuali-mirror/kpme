@@ -1,59 +1,59 @@
-package org.kuali.hr.time.earngroup.service;
+package org.kuali.hr.time.earncodegroup.service;
 
-import org.kuali.hr.time.earngroup.EarnGroup;
+import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 
-public interface EarnGroupService {
+public interface EarnCodeGroupService {
 	/**
 	 * Fetch earn group for a particular date
-	 * @param earnGroup
+	 * @param earnCodeGroup
 	 * @param asOfDate
 	 * @return
 	 */
-	public EarnGroup getEarnGroup(String earnGroup, Date asOfDate);
+	public EarnCodeGroup getEarnCodeGroup(String earnCodeGroup, Date asOfDate);
 	/**
 	 * Fetch earn group for an earn code as of a particular date
 	 * @param earnCode
 	 * @param asOfDate
 	 * @return
 	 */
-	public EarnGroup getEarnGroupForEarnCode(String earnCode, Date asOfDate);
+	public EarnCodeGroup getEarnCodeGroupForEarnCode(String earnCode, Date asOfDate);
 	/**
 	 * Fetch Set of earn codes for earn group
 	 * @param earnGroup
 	 * @param asOfDate
 	 * @return
 	 */
-	public Set<String> getEarnCodeListForEarnGroup(String earnGroup, Date asOfDate);
+	public Set<String> getEarnCodeListForEarnCodeGroup(String earnCodeGroup, Date asOfDate);
 	/**
 	 * Used to get earn group that this earn code belongs on in context to the summary
 	 * CAUTION this is used only for the timesheet summary
 	 */
-	public EarnGroup getEarnGroupSummaryForEarnCode(String earnCode, Date asOfDate);
+	public EarnCodeGroup getEarnCodeGroupSummaryForEarnCode(String earnCode, Date asOfDate);
 	
-	public EarnGroup getEarnGroup(String hrEarnGroupId);
+	public EarnCodeGroup getEarnCodeGroup(String hrEarnCodeGroupId);
 	
 	/**
 	 * Returns list of warning text from earn group that is used by time blocks of the timesheetDocument
 	 * @param timesheetDocument
 	 * @return
 	 */
-	public List<String> warningTextFromEarnGroupsOfDocument(TimesheetDocument timesheetDocument);
+	public List<String> warningTextFromEarnCodeGroupsOfDocument(TimesheetDocument timesheetDocument);
     /**
      * get the count of earn groups by given earnGroup
      * @param earnGroup
      * @return int
      */
-    public int getEarnGroupCount(String earnGroup);
+    public int getEarnCodeGroupCount(String earnGroup);
     /**
      * get the count of newer version of earn groups by given earnGroup and date
      * @param earnGroup
      * @param effdt
      * @return int
      */
-    public int getNewerEarnGroupCount(String earnGroup, Date effdt);
+    public int getNewerEarnCodeGroupCount(String earnGroup, Date effdt);
 }

@@ -356,7 +356,7 @@
         <property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
-    <bean id="earnGroupDao" class="org.kuali.hr.time.earngroup.dao.EarnGroupDaoServiceImpl">
+    <bean id="earnCodeGroupDao" class="org.kuali.hr.time.earncodegroup.dao.EarnCodeGroupDaoServiceImpl">
         <property name="jcdAlias" value="tkDataSource"/>
     </bean>
 
@@ -633,8 +633,8 @@
         <property name="earnCodeDao" ref="earnCodeDao"/>
     </bean>
 
-    <bean id="earnGroupService" class="org.kuali.hr.time.earngroup.service.EarnGroupServiceImpl">
-        <property name="earnGroupDao" ref="earnGroupDao"/>
+    <bean id="earnCodeGroupService" class="org.kuali.hr.time.earncodegroup.service.EarnCodeGroupServiceImpl">
+        <property name="earnCodeGroupDao" ref="earnCodeGroupDao"/>
     </bean>
 
     <bean id="salGroupService" class="org.kuali.hr.time.salgroup.service.SalGroupServiceImpl">
@@ -799,9 +799,9 @@
             <bean class="org.kuali.hr.time.earncode.service.EarnCodeLookupableHelper"/>
         </property>
     </bean>
-    <bean id="earnGroupLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+    <bean id="earnCodeGroupLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.time.earngroup.service.EarnGroupLookupableHelper"/>
+            <bean class="org.kuali.hr.time.earncodegroup.service.EarnCodeGroupLookupableHelper"/>
         </property>
     </bean>
     <bean id="payTypeLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">

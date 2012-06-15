@@ -69,7 +69,7 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 						.getFromEarnGroup(), dailyOvertimeRule
 						.getEffectiveDate())) {
 			this.putFieldError("fromEarnGroup", "error.existence",
-					"from EarnGroup '" + dailyOvertimeRule.getFromEarnGroup()
+					"from EarnCodeGroup '" + dailyOvertimeRule.getFromEarnGroup()
 							+ "'");
 			return false;
 		}

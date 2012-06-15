@@ -3,20 +3,20 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="EarnGroupDefinition" parent="EarnGroupDefinition-parentBean" />
+	<bean id="EarnCodeGroupDefinition" parent="EarnCodeGroupDefinition-parentBean" />
 
-	<bean id="EarnGroupDefinition-parentBean" abstract="true"
+	<bean id="EarnCodeGroupDefinition-parentBean" abstract="true"
 		parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.time.earngroup.EarnGroupDefinition" />
+		<property name="businessObjectClass" value="org.kuali.hr.time.earncodegroup.EarnCodeGroupDefinition" />
 		<property name="titleAttribute" value="id" />
 		<property name="objectLabel" value="Earn Code Group Definition" />
 		<property name="lookupDefinition">
-			<ref bean="EarnGroupDefinition-lookupDefinition" />
+			<ref bean="EarnCodeGroupDefinition-lookupDefinition" />
 		</property>
 		<property name="attributes">
 			<list>
-				<ref bean="EarnGroupDefinition-earnCode"/>
-				<ref bean="EarnGroupDefinition-earnCodeDesc"/>
+				<ref bean="EarnCodeGroupDefinition-earnCode"/>
+				<ref bean="EarnCodeGroupDefinition-earnCodeDesc"/>
 			</list>
 		</property>
             <property name="relationships">
@@ -34,8 +34,8 @@
 	</bean>
 
 	<!-- Attribute Definitions -->
-  <bean id="EarnGroupDefinition-earnCode" parent="EarnGroupDefinition-earnCode-parentBean"/>
-  <bean id="EarnGroupDefinition-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="EarnCodeGroupDefinition-earnCode" parent="EarnCodeGroupDefinition-earnCode-parentBean"/>
+  <bean id="EarnCodeGroupDefinition-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Earn Code"/>
     <property name="forceUppercase" value="true" />
     <property name="maxLength" value="3"/>
@@ -51,8 +51,8 @@
     <property name="label" value="Earn Code"/>
   </bean>
 
-  <bean id="EarnGroupDefinition-earnCodeDesc" parent="EarnGroupDefinition-earnCodeDesc-parentBean"/>
-  <bean id="EarnGroupDefinition-earnCodeDesc-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="EarnCodeGroupDefinition-earnCodeDesc" parent="EarnCodeGroupDefinition-earnCodeDesc-parentBean"/>
+  <bean id="EarnCodeGroupDefinition-earnCodeDesc-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Description"/>
     <property name="maxLength" value="30"/>
 		<property name="validationPattern">
@@ -68,8 +68,8 @@
   </bean>
 
 	<!--  Inquiry Definitions  -->
-	<bean id="EarnGroupDefinition-lookupDefinition" parent="EarnGroupDefinition-lookupDefinition-parentBean" />
-	<bean id="EarnGroupDefinition-lookupDefinition-parentBean" abstract="true"
+	<bean id="EarnCodeGroupDefinition-lookupDefinition" parent="EarnCodeGroupDefinition-lookupDefinition-parentBean" />
+	<bean id="EarnCodeGroupDefinition-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
 		<property name="lookupFields">
 			<list>
@@ -83,7 +83,7 @@
 				<bean parent="FieldDefinition" p:attributeName="earnCodeDesc"/>
 			</list>
 		</property>
-		<property name="title" value="EarnGroupDefinition Lookup" />
+		<property name="title" value="EarnCodeGroupDefinition Lookup" />
 	</bean>
 
 </beans>

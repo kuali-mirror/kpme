@@ -26,7 +26,7 @@ public class ActionFormUtils {
     }
 
     public static void addWarningTextFromEarnGroup(TimeDetailActionFormBase tdaf) throws Exception {
-        List<String> warningMessages = TkServiceLocator.getEarnGroupService().warningTextFromEarnGroupsOfDocument(tdaf.getTimesheetDocument());
+        List<String> warningMessages = TkServiceLocator.getEarnCodeGroupService().warningTextFromEarnCodeGroupsOfDocument(tdaf.getTimesheetDocument());
         addUniqueWarningsToForm(tdaf, warningMessages);
     }
 

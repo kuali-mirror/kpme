@@ -76,7 +76,7 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="fromEarnGroup"
-								p:targetName="earnGroup" />
+								p:targetName="earnCodeGroup" />
 						</list>
 					</property>
 				</bean>

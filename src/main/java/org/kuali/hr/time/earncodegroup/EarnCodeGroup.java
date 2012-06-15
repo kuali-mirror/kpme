@@ -1,4 +1,4 @@
-package org.kuali.hr.time.earngroup;
+package org.kuali.hr.time.earncodegroup;
 
 import org.kuali.hr.time.HrBusinessObject;
 
@@ -6,16 +6,16 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class EarnGroup extends HrBusinessObject {
+public class EarnCodeGroup extends HrBusinessObject {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3034933572755800531L;
 
-	private String hrEarnGroupId;
+	private String hrEarnCodeGroupId;
 
-	private String earnGroup;
+	private String earnCodeGroup;
 
 	private String descr;
 
@@ -23,18 +23,11 @@ public class EarnGroup extends HrBusinessObject {
 	
 	private Boolean showSummary;
 
-	private List<EarnGroupDefinition> earnGroups = new ArrayList<EarnGroupDefinition>();
+	private List<EarnCodeGroupDefinition> earnCodeGroups = new ArrayList<EarnCodeGroupDefinition>();
 	
 	private String warningText;
 
-	public String getEarnGroup() {
-		return earnGroup;
-	}
-
-	public void setEarnGroup(String earnGroup) {
-		this.earnGroup = earnGroup;
-	}
-
+	
 
 	public Boolean getHistory() {
 		return history;
@@ -51,12 +44,12 @@ public class EarnGroup extends HrBusinessObject {
 		return null;
 	}
 
-	public void setEarnGroups(List<EarnGroupDefinition> earnGroups) {
-		this.earnGroups = earnGroups;
+	public List<EarnCodeGroupDefinition> getEarnCodeGroups() {
+		return earnCodeGroups;
 	}
 
-	public List<EarnGroupDefinition> getEarnGroups() {
-		return earnGroups;
+	public void setEarnCodeGroups(List<EarnCodeGroupDefinition> earnCodeGroups) {
+		this.earnCodeGroups = earnCodeGroups;
 	}
 
 	public void setDescr(String descr) {
@@ -67,13 +60,6 @@ public class EarnGroup extends HrBusinessObject {
 		return descr;
 	}
 
-	public String getHrEarnGroupId() {
-		return hrEarnGroupId;
-	}
-
-	public void setHrEarnGroupId(String hrEarnGroupId) {
-		this.hrEarnGroupId = hrEarnGroupId;
-	}
 	
 	public Boolean getShowSummary() {
 		return showSummary;
@@ -85,17 +71,17 @@ public class EarnGroup extends HrBusinessObject {
 
 	@Override
 	public String getUniqueKey() {
-		return earnGroup;
+		return earnCodeGroup;
 	}
 
 	@Override
 	public String getId() {
-		return getHrEarnGroupId();
+		return getHrEarnCodeGroupId();
 	}
 
 	@Override
 	public void setId(String id) {
-		setHrEarnGroupId(id);
+		setHrEarnCodeGroupId(id);
 	}
 
 	public String getWarningText() {
@@ -104,6 +90,22 @@ public class EarnGroup extends HrBusinessObject {
 
 	public void setWarningText(String warningText) {
 		this.warningText = warningText;
+	}
+
+	public String getHrEarnCodeGroupId() {
+		return hrEarnCodeGroupId;
+	}
+
+	public void setHrEarnCodeGroupId(String hrEarnCodeGroupId) {
+		this.hrEarnCodeGroupId = hrEarnCodeGroupId;
+	}
+
+	public String getEarnCodeGroup() {
+		return earnCodeGroup;
+	}
+
+	public void setEarnCodeGroup(String earnCodeGroup) {
+		this.earnCodeGroup = earnCodeGroup;
 	}
 
 }

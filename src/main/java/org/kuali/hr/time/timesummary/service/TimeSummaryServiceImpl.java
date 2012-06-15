@@ -8,7 +8,7 @@ import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.earncode.EarnCode;
-import org.kuali.hr.time.earngroup.EarnGroup;
+import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -146,7 +146,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 		//now create all teh earn group sections and aggregate accordingly
 		for(EarnCodeSection earnCodeSection : earnCodeToEarnCodeSection.values()){
 			String earnCode = earnCodeSection.getEarnCode();
-			EarnGroup earnGroupObj = TkServiceLocator.getEarnGroupService().getEarnGroupSummaryForEarnCode(earnCode, TKUtils.getTimelessDate(asOfDate));
+			EarnCodeGroup earnGroupObj = TkServiceLocator.getEarnCodeGroupService().getEarnCodeGroupSummaryForEarnCode(earnCode, TKUtils.getTimelessDate(asOfDate));
 			String earnGroup = null;
 			if(earnGroupObj == null){
 				earnGroup = OTHER_EARN_GROUP;

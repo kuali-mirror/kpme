@@ -4,43 +4,43 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 
-	<bean id="EarnGroup" parent="EarnGroup-parentBean" />
-	<bean id="EarnGroup-parentBean" abstract="true" parent="BusinessObjectEntry">
-		<property name="businessObjectClass" value="org.kuali.hr.time.earngroup.EarnGroup" />
-		<property name="titleAttribute" value="hrEarnGroupId" />
-		<property name="objectLabel" value="earnGroup" />
+	<bean id="EarnCodeGroup" parent="EarnCodeGroup-parentBean" />
+	<bean id="EarnCodeGroup-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.hr.time.earncodegroup.EarnCodeGroup" />
+		<property name="titleAttribute" value="hrEarnCodeGroupId" />
+		<property name="objectLabel" value="earnCodeGroup" />
 		<property name="inquiryDefinition">
-			<ref bean="EarnGroup-inquiryDefinition" />
+			<ref bean="EarnCodeGroup-inquiryDefinition" />
 		</property>
 		<property name="lookupDefinition">
-			<ref bean="EarnGroup-lookupDefinition" />
+			<ref bean="EarnCodeGroup-lookupDefinition" />
 		</property>
 		<property name="attributes">
 			<list>
-				<ref bean="EarnGroup-hrEarnGroupId" />
-				<ref bean="EarnGroup-earnGroup" />
-				<ref bean="EarnGroup-descr" />
-				<ref bean="EarnGroup-effectiveDate" />
-				<ref bean="EarnGroup-timestamp" />
-				<ref bean="EarnGroup-showSummary" />
-				<ref bean="EarnGroup-history" />
-				<ref bean="EarnGroup-warningText" />
-				<ref bean="EarnGroup-active" />
+				<ref bean="EarnCodeGroup-hrEarnCodeGroupId" />
+				<ref bean="EarnCodeGroup-earnCodeGroup" />
+				<ref bean="EarnCodeGroup-descr" />
+				<ref bean="EarnCodeGroup-effectiveDate" />
+				<ref bean="EarnCodeGroup-timestamp" />
+				<ref bean="EarnCodeGroup-showSummary" />
+				<ref bean="EarnCodeGroup-history" />
+				<ref bean="EarnCodeGroup-warningText" />
+				<ref bean="EarnCodeGroup-active" />
 			</list>
 		</property>
 		<property name="collections">
 			<list>
-				<bean parent="CollectionDefinition" p:name="earnGroups"
-					p:label="Earn Group Definitions" p:shortLabel="Earn Group Definitions"
-					p:summary="Earn Group Definitions" p:description="Earn Group Definitions" />
+				<bean parent="CollectionDefinition" p:name="earnCodeGroups"
+					p:label="Earn Code Group Definitions" p:shortLabel="Earn Code Group Definitions"
+					p:summary="Earn Code Group Definitions" p:description="Earn Code Group Definitions" />
 			</list>
 		</property>
 	</bean>
 
 	<!-- Attribute Definitions -->
 
-	<bean id="EarnGroup-hrEarnGroupId" parent="EarnGroup-hrEarnGroupId-parentBean" />
-	<bean id="EarnGroup-hrEarnGroupId-parentBean" abstract="true"
+	<bean id="EarnCodeGroup-hrEarnCodeGroupId" parent="EarnCodeGroup-hrEarnCodeGroupId-parentBean" />
+	<bean id="EarnCodeGroup-hrEarnCodeGroupId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Id" />
 		<property name="maxLength" value="60" />
@@ -52,14 +52,14 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="60" />
 		</property>
-		<property name="name" value="hrEarnGroupId" />
-		<property name="label" value="Earn Group Id" />
+		<property name="name" value="hrEarnCodeGroupId" />
+		<property name="label" value="Earn Code Group Id" />
 	</bean>
 
-	<bean id="EarnGroup-earnGroup" parent="EarnGroup-earnGroup-parentBean" />
-	<bean id="EarnGroup-earnGroup-parentBean" abstract="true"
+	<bean id="EarnCodeGroup-earnCodeGroup" parent="EarnCodeGroup-earnCodeGroup-parentBean" />
+	<bean id="EarnCodeGroup-earnCodeGroup-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Earn Group" />
+		<property name="shortLabel" value="Earn Code Group" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
 			<bean parent="AlphaNumericValidationPattern" />
@@ -67,12 +67,12 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-		<property name="name" value="earnGroup" />
-		<property name="label" value="Earn Group" />
+		<property name="name" value="earnCodeGroup" />
+		<property name="label" value="Earn Code Group" />
 	</bean>
 	
-	<bean id="EarnGroup-showSummary" parent="EarnGroup-showSummary-parentBean"/>
-  	<bean id="EarnGroup-showSummary-parentBean" abstract="true" parent="AttributeDefinition">
+	<bean id="EarnCodeGroup-showSummary" parent="EarnCodeGroup-showSummary-parentBean"/>
+  	<bean id="EarnCodeGroup-showSummary-parentBean" abstract="true" parent="AttributeDefinition">
 	    <property name="shortLabel" value="Show On Summary"/>
 	    <property name="control">
 	      <bean parent="CheckboxControlDefinition"/>
@@ -83,8 +83,8 @@
   	</bean>
 	
 
-	<bean id="EarnGroup-descr" parent="EarnGroup-descr-parentBean" />
-	<bean id="EarnGroup-descr-parentBean" abstract="true"
+	<bean id="EarnCodeGroup-descr" parent="EarnCodeGroup-descr-parentBean" />
+	<bean id="EarnCodeGroup-descr-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Description" />
 		<property name="maxLength" value="30" />
@@ -100,8 +100,8 @@
 		<property name="label" value="Description" />
 	</bean>
 
-	<bean id="EarnGroup-effectiveDate" parent="EarnGroup-effectiveDate-parentBean" />
-	<bean id="EarnGroup-effectiveDate-parentBean" abstract="true"
+	<bean id="EarnCodeGroup-effectiveDate" parent="EarnCodeGroup-effectiveDate-parentBean" />
+	<bean id="EarnCodeGroup-effectiveDate-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Effective Date" />
 		<property name="maxLength" value="12" />
@@ -116,8 +116,8 @@
 		<property name="label" value="Effective Date" />
 	</bean>
 	<!-- timeStamp -->
-	<bean id="EarnGroup-timestamp" parent="EarnGroup-timestamp-parentBean" />
-	<bean id="EarnGroup-timestamp-parentBean" abstract="true"
+	<bean id="EarnCodeGroup-timestamp" parent="EarnCodeGroup-timestamp-parentBean" />
+	<bean id="EarnCodeGroup-timestamp-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Timestamp" />
 		<property name="maxLength" value="15" />
@@ -130,8 +130,8 @@
 		<property name="label" value="Time Stamp" />
 	</bean>
 <!-- history -->
-	<bean id="EarnGroup-history" parent="EarnGroup-history-parentBean" />
-	<bean id="EarnGroup-history-parentBean" abstract="true"
+	<bean id="EarnCodeGroup-history" parent="EarnCodeGroup-history-parentBean" />
+	<bean id="EarnCodeGroup-history-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Show History" />
 		<property name="control">
@@ -142,8 +142,8 @@
 		<property name="label" value="Show History" />
 	</bean>
 	
-	<bean id="EarnGroup-warningText" parent="EarnGroup-warningText-parentBean" />
-	<bean id="EarnGroup-warningText-parentBean" abstract="true"
+	<bean id="EarnCodeGroup-warningText" parent="EarnCodeGroup-warningText-parentBean" />
+	<bean id="EarnCodeGroup-warningText-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Warning" />
 		<property name="maxLength" value="100" />
@@ -154,8 +154,8 @@
 		<property name="label" value="Warning Text" />
 	</bean>
 	
-	<bean id="EarnGroup-active" parent="EarnGroup-active-parentBean" />
-	<bean id="EarnGroup-active-parentBean" abstract="true"
+	<bean id="EarnCodeGroup-active" parent="EarnCodeGroup-active-parentBean" />
+	<bean id="EarnCodeGroup-active-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Active" />
 		<property name="control">
@@ -167,9 +167,9 @@
 	
 	<!--  Inquiry Definitions  -->
   
-  	<bean id="EarnGroup-inquiryDefinition" parent="EarnGroup-inquiryDefinition-parentBean" />
+  	<bean id="EarnCodeGroup-inquiryDefinition" parent="EarnCodeGroup-inquiryDefinition-parentBean" />
 
-	<bean id="EarnGroup-inquiryDefinition-parentBean" abstract="true"
+	<bean id="EarnCodeGroup-inquiryDefinition-parentBean" abstract="true"
 		parent="InquiryDefinition">
 		<property name="inquirySections">
 			<list>
@@ -178,20 +178,20 @@
 					<property name="inquiryFields">
 						<list>
 							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-							<bean parent="FieldDefinition" p:attributeName="earnGroup" />
+							<bean parent="FieldDefinition" p:attributeName="earnCodeGroup" />
 							<bean parent="FieldDefinition" p:attributeName="descr" />
 							<bean parent="FieldDefinition" p:attributeName="showSummary" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 							<bean parent="FieldDefinition" p:attributeName="warningText" />
 						</list>
 					</property>
-					<property name="title" value="EarnGroup" />
+					<property name="title" value="EarnCodeGroup" />
 				</bean>
 				<bean parent="InquirySectionDefinition" p:title="Earn Group Defintions">
 					<property name="inquiryFields">
 						<list>
-							<bean parent="InquiryCollectionDefinition" p:attributeName="earnGroups"
-								p:businessObjectClass="org.kuali.hr.time.earngroup.EarnGroupDefinition">
+							<bean parent="InquiryCollectionDefinition" p:attributeName="earnCodeGroups"
+								p:businessObjectClass="org.kuali.hr.time.earncodegroup.EarnCodeGroupDefinition">
 								<property name="inquiryFields">
 									<list>
 										<bean parent="FieldDefinition" p:attributeName="earnCode" />
@@ -205,19 +205,19 @@
 			</list>
 		</property>
 		<property name="translateCodes" value="false"/>
-		<property name="title" value="EarnGroup Inquiry" />
+		<property name="title" value="EarnCodeGroup Inquiry" />
 	</bean>
 
 	<!-- Look up Definitions  -->
 	
 
-	<bean id="EarnGroup-lookupDefinition" parent="EarnGroup-lookupDefinition-parentBean" />
-	<bean id="EarnGroup-lookupDefinition-parentBean" abstract="true"
+	<bean id="EarnCodeGroup-lookupDefinition" parent="EarnCodeGroup-lookupDefinition-parentBean" />
+	<bean id="EarnCodeGroup-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">
-		<property name="lookupableID" value="earnGroupLookupable"></property>
+		<property name="lookupableID" value="earnCodeGroupLookupable"></property>
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="earnGroup" />
+				<bean parent="FieldDefinition" p:attributeName="earnCodeGroup" />
                 <bean parent="FieldDefinition" p:attributeName="descr" />
                 <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
                 <bean parent="FieldDefinition" p:attributeName="active" />
@@ -226,7 +226,7 @@
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="earnGroup" />
+				<bean parent="FieldDefinition" p:attributeName="earnCodeGroup" />
 				<bean parent="FieldDefinition" p:attributeName="descr" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />
@@ -234,7 +234,7 @@
 				<bean parent="FieldDefinition" p:attributeName="warningText" />
 			</list>
 		</property>
-		<property name="title" value="Earn Group Lookup" />
+		<property name="title" value="Earn Code Group Lookup" />
 	</bean>
 
 </beans>

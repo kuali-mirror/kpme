@@ -39,7 +39,7 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="maxHoursEarnGroup"
-								p:targetName="earnGroup" />
+								p:targetName="earnCodeGroup" />
 						</list>
 					</property>
 				</bean>
@@ -49,7 +49,7 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="convertFromEarnGroup"
-								p:targetName="earnGroup" />
+								p:targetName="earnCodeGroup" />
 						</list>
 					</property>
 					

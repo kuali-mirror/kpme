@@ -1,8 +1,8 @@
-package org.kuali.hr.time.earngroup.validation;
+package org.kuali.hr.time.earncodegroup.validation;
 
 import org.codehaus.plexus.util.StringUtils;
-import org.kuali.hr.time.earngroup.EarnGroup;
-import org.kuali.hr.time.earngroup.EarnGroupDefinition;
+import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
+import org.kuali.hr.time.earncodegroup.EarnCodeGroupDefinition;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -12,32 +12,32 @@ import org.kuali.rice.kns.service.KNSServiceLocator;
 
 import java.util.*;
 
-public class EarnGroupValidation  extends MaintenanceDocumentRuleBase{
+public class EarnCodeGroupValidation  extends MaintenanceDocumentRuleBase{
 
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-		EarnGroup earnGroup = (EarnGroup)this.getNewBo();
+		EarnCodeGroup earnGroup = (EarnCodeGroup)this.getNewBo();
 		Set<String> earnCodes = new HashSet<String>();
 		int index = 0;
-		if(earnGroup.getEarnGroups().size() < 1){
+		if(earnGroup.getEarnCodeGroups().size() < 1){
 			this.putGlobalError("earncode.required");
 			return false;
 		}
-		for(EarnGroupDefinition earnGroupDef : earnGroup.getEarnGroups()){
+		for(EarnCodeGroupDefinition earnGroupDef : earnGroup.getEarnCodeGroups()){
 			if(earnCodes.contains(earnGroupDef.getEarnCode())){
-				this.putFieldError("earnGroups["+index+"].earnCode", "earngroup.duplicate.earncode",earnGroupDef.getEarnCode());
+				this.putFieldError("earnCodeGroups["+index+"].earnCode", "earngroup.duplicate.earncode",earnGroupDef.getEarnCode());
 
 			}
 			if(earnGroup.getShowSummary()) {
 				validateEarnCode(earnGroupDef.getEarnCode().toUpperCase(), index, earnGroup);
 			}
 			if (!ValidationUtils.validateEarnCode(earnGroupDef.getEarnCode(), earnGroup.getEffectiveDate())) {
-				this.putFieldError("earnGroups["+index+"].earnCode", "error.existence", "Earncode '" + earnGroupDef.getEarnCode()+ "'");
+				this.putFieldError("earnCodeGroups["+index+"].earnCode", "error.existence", "Earncode '" + earnGroupDef.getEarnCode()+ "'");
 			}
 			earnCodes.add(earnGroupDef.getEarnCode());
 			index++;
 		}
-		int count = TkServiceLocator.getEarnGroupService().getNewerEarnGroupCount(earnGroup.getEarnGroup(), earnGroup.getEffectiveDate());
+		int count = TkServiceLocator.getEarnCodeGroupService().getNewerEarnCodeGroupCount(earnGroup.getEarnCodeGroup(), earnGroup.getEffectiveDate());
 		if(count > 0) {
 			this.putFieldError("effectiveDate", "earngroup.effectiveDate.newr.exists");
 			return false;
@@ -45,28 +45,28 @@ public class EarnGroupValidation  extends MaintenanceDocumentRuleBase{
 		return true;
 	}
 
-    protected void validateEarnCode(String earnCode, int index, EarnGroup editedEarnGroup) {
+    protected void validateEarnCode(String earnCode, int index, EarnCodeGroup editedEarnGroup) {
     	BusinessObjectService businessObjectService = KNSServiceLocator.getBusinessObjectService();
     	Map<String,Object> criteria = new HashMap<String,Object>();
 		criteria.put("showSummary", "Y");
 		criteria.put("active", "Y");
-    	Collection aCol = businessObjectService.findMatching(EarnGroup.class, criteria);
-		Iterator<EarnGroup> itr = aCol.iterator();
+    	Collection aCol = businessObjectService.findMatching(EarnCodeGroup.class, criteria);
+		Iterator<EarnCodeGroup> itr = aCol.iterator();
 		while (itr.hasNext()) {
-			EarnGroup earnGroup = itr.next();
-			if(!earnGroup.getHrEarnGroupId().equals(editedEarnGroup.getHrEarnGroupId())) {
+			EarnCodeGroup earnGroup = itr.next();
+			if(!earnGroup.getHrEarnCodeGroupId().equals(editedEarnGroup.getHrEarnCodeGroupId())) {
 				criteria = new HashMap<String,Object>();
-				criteria.put("hrEarnGroupId", earnGroup.getHrEarnGroupId());
+				criteria.put("hrEarnCodeGroupId", earnGroup.getHrEarnCodeGroupId());
 
-				Collection earnGroupDefs = businessObjectService.findMatching(EarnGroupDefinition.class, criteria);
-				Iterator<EarnGroupDefinition> iterator = earnGroupDefs.iterator();
+				Collection earnGroupDefs = businessObjectService.findMatching(EarnCodeGroupDefinition.class, criteria);
+				Iterator<EarnCodeGroupDefinition> iterator = earnGroupDefs.iterator();
 				while (iterator.hasNext()) {
-					EarnGroupDefinition def = iterator.next();
+					EarnCodeGroupDefinition def = iterator.next();
 					if(StringUtils.equals(earnCode, def.getEarnCode().toUpperCase())) {
 						String[] parameters = new String[2];
 						parameters[0] = earnCode;
 						parameters[1] = earnGroup.getDescr();
-						this.putFieldError("earnGroups["+index+"].earnCode", "earngroup.earncode.already.used", parameters);
+						this.putFieldError("earnCodeGroups["+index+"].earnCode", "earngroup.earncode.already.used", parameters);
 					}
 				}
 			}

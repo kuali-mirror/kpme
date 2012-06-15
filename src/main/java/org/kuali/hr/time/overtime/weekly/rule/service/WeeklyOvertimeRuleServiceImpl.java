@@ -63,8 +63,8 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 		// Iterate over each Weekly Overtime Rule (We have to grab them all to see if they apply)
 		for (WeeklyOvertimeRule wor : weeklyOvertimeRules) {
 			// Grab all the earn codes for the convert from max hours group
-			Set<String> maxHoursEarnCodes = TkServiceLocator.getEarnGroupService().getEarnCodeListForEarnGroup(wor.getMaxHoursEarnGroup(), asOfDate);
-			Set<String> convertFromEarnCodes = TkServiceLocator.getEarnGroupService().getEarnCodeListForEarnGroup(wor.getConvertFromEarnGroup(), asOfDate);
+			Set<String> maxHoursEarnCodes = TkServiceLocator.getEarnCodeGroupService().getEarnCodeListForEarnCodeGroup(wor.getMaxHoursEarnGroup(), asOfDate);
+			Set<String> convertFromEarnCodes = TkServiceLocator.getEarnCodeGroupService().getEarnCodeListForEarnCodeGroup(wor.getConvertFromEarnGroup(), asOfDate);
 
 			// Iterate over the weeks for this Pay Period (FLSA)
 			//

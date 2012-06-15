@@ -1,7 +1,7 @@
 package org.kuali.hr.time.overtime.weekly.rule;
 
 import org.kuali.hr.time.earncode.EarnCode;
-import org.kuali.hr.time.earngroup.EarnGroup;
+import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.rule.TkRule;
 
 import java.math.BigDecimal;
@@ -25,8 +25,8 @@ public class WeeklyOvertimeRule extends TkRule {
 	
 	private Long tkWeeklyOvertimeRuleGroupId = 1L;
 	
-	private EarnGroup maxHoursEarnGroupObj;
-	private EarnGroup convertFromEarnGroupObj;
+	private EarnCodeGroup maxHoursEarnGroupObj;
+	private EarnCodeGroup convertFromEarnGroupObj;
 	private EarnCode convertToEarnCodeObj;
 	
 
@@ -112,19 +112,19 @@ public class WeeklyOvertimeRule extends TkRule {
 		this.ovtEarnCode = ovtEarnCode;
 	}
 
-	public EarnGroup getMaxHoursEarnGroupObj() {
+	public EarnCodeGroup getMaxHoursEarnGroupObj() {
 		return maxHoursEarnGroupObj;
 	}
 
-	public void setMaxHoursEarnGroupObj(EarnGroup maxHoursEarnGroupObj) {
+	public void setMaxHoursEarnGroupObj(EarnCodeGroup maxHoursEarnGroupObj) {
 		this.maxHoursEarnGroupObj = maxHoursEarnGroupObj;
 	}
 
-	public EarnGroup getConvertFromEarnGroupObj() {
+	public EarnCodeGroup getConvertFromEarnGroupObj() {
 		return convertFromEarnGroupObj;
 	}
 
-	public void setConvertFromEarnGroupObj(EarnGroup convertFromEarnGroupObj) {
+	public void setConvertFromEarnGroupObj(EarnCodeGroup convertFromEarnGroupObj) {
 		this.convertFromEarnGroupObj = convertFromEarnGroupObj;
 	}
 
