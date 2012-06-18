@@ -56,4 +56,30 @@ public interface AccrualService {
 	 * true then no accrual will be accrual for the given interval which could be the first or the last accrual interval of an employment
 	 */
 	public boolean minimumPercentageReachedForPayPeriod(BigDecimal min, String earnInterval, Date jobDate, java.util.Date intervalDate);
+	
+	/**
+	 * get the accrual interval date of the previous accrual period with given parameters
+	 * @param earnInterval
+	 * @param aDate
+	 * @return
+	 */
+	public java.util.Date getPreviousAccrualIntervalDate(String earnInterval, Date aDate);
+	
+	/**
+	 * get the accrual interval date of the next accrual period with given parameters
+	 * @param earnInterval
+	 * @param aDate
+	 * @return
+	 */
+	public java.util.Date getNextAccrualIntervalDate(String earnInterval, Date aDate);
+	
+	/**
+	 * calculate # of days in an accrual period
+	 * @param earnInterval
+	 * @param aDate
+	 * @return	int
+	 */
+	public int getDaysInAccrualInterval(String earnInterval, Date aDate);
+	
+	
 }
