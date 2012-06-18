@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.kuali.hr.lm.LMConstants;
@@ -106,7 +108,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     }
 
     @Override
-    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntries ce, String selectedLeaveCode, BigDecimal hours, String description, Assignment selectedAssignment) {
+    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntries ce, String selectedLeaveCode, BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks) {
         String princpalId = TKContext.getTargetPrincipalId();
         DateTimeZone zone = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
         DateTime calBeginDateTime = beginDate;
@@ -135,24 +137,46 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         // TODO: need to integrate with the scheduled timeoff.
         for (Interval leaveBlockInt : leaveBlockIntervals) {
             if (calendarInterval.contains(leaveBlockInt)) {
-                LeaveBlock leaveBlock = new LeaveBlock.Builder(new DateTime(leaveBlockInt.getStartMillis()), docId, princpalId, leaveCodeObj.getLeaveCode(), hours)
-                        .description(description)
-                        .principalIdModified(princpalId)
-                        .timestamp(TKUtils.getCurrentTimestamp())
-                        .leaveCodeId(leaveCodeObj.getLmLeaveCodeId())
-                        .scheduleTimeOffId("0")
-                        .accrualCategoryId(accrualCategory.getLmAccrualCategoryId())
-                        .workArea(selectedAssignment.getWorkArea())
-                        .jobNumber(selectedAssignment.getJobNumber())
-                        .task(selectedAssignment.getTask())
-                        .build();
-                currentLeaveBlocks.add(leaveBlock);
-
+            	// KPME-1446 if "Include weekends" check box is checked, don't add Sat and Sun to the leaveblock list
+            	if (StringUtils.isEmpty(spanningWeeks) && 
+                	(leaveBlockInt.getStart().getDayOfWeek() == DateTimeConstants.SATURDAY ||leaveBlockInt.getStart().getDayOfWeek() == DateTimeConstants.SUNDAY)) {
+            		
+            		// do nothing
+            	} else {
+	                LeaveBlock leaveBlock = new LeaveBlock.Builder(new DateTime(leaveBlockInt.getStartMillis()), docId, princpalId, leaveCodeObj.getLeaveCode(), hours)
+	                        .description(description)
+	                        .principalIdModified(princpalId)
+	                        .timestamp(TKUtils.getCurrentTimestamp())
+	                        .leaveCodeId(leaveCodeObj.getLmLeaveCodeId())
+	                        .scheduleTimeOffId("0")
+	                        .accrualCategoryId(accrualCategory.getLmAccrualCategoryId())
+	                        .workArea(selectedAssignment.getWorkArea())
+	                        .jobNumber(selectedAssignment.getJobNumber())
+	                        .task(selectedAssignment.getTask())
+	                        .build();
+	                currentLeaveBlocks.add(leaveBlock);
+            	}
             }
         }
 
         TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(currentLeaveBlocks);
     }
+    
+    // KPME-1447
+    @Override
+    public void updateLeaveBlock(LeaveBlock leaveBlock) {
+    	
+        // Make entry into LeaveBlockHistory table
+        LeaveBlockHistory leaveBlockHistory = new LeaveBlockHistory(leaveBlock);
+        leaveBlockHistory.setPrincipalIdDeleted(TKContext.getPrincipalId());
+        leaveBlockHistory.setTimestampDeleted(new Timestamp(System.currentTimeMillis()));
+        leaveBlockHistory.setAction(LMConstants.ACTION.MODIFIED);
+
+        leaveBlockDao.saveOrUpdate(leaveBlock);
+        
+        // creating history
+        KNSServiceLocator.getBusinessObjectService().save(leaveBlockHistory); 
+    }    
 
     public static List<Interval> createDaySpan(DateTime beginDateTime, DateTime endDateTime, DateTimeZone zone) {
         beginDateTime = beginDateTime.toDateTime(zone);

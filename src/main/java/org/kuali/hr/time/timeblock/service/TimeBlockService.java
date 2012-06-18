@@ -80,11 +80,12 @@ public interface TimeBlockService {
      * @param amount
 	 * @param isClockLogCreated
      * @param isLunchDeleted
+     * @param spanningWeeks
 	 * @return
 	 */
 	public List<TimeBlock> buildTimeBlocksSpanDates(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument,
 												Timestamp beginTimestamp, Timestamp endTimestamp, BigDecimal hours, BigDecimal amount,
-                                                Boolean isClockLogCreated, Boolean isLunchDeleted);
+                                                Boolean isClockLogCreated, Boolean isLunchDeleted, String spanningWeeks);
 	/**
 	 * Create a TimeBlock for the given criteria
 	 * @param timesheetDocument

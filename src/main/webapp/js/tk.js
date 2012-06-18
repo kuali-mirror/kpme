@@ -63,7 +63,8 @@ var CONSTANTS = {
     ACTIONS : {
         UPDATE_TIME_BLOCK : "updateTimeBlock",
         ADD_TIME_BLOCK: "addTimeBlock",
-        ADD_LEAVE_BLOCK: "addLeaveBlock"
+        ADD_LEAVE_BLOCK: "addLeaveBlock",
+        UPDATE_LEAVE_BLOCK: "updateLeaveBlock"
     },
     TIME_FORMAT : {
         DATE_FOR_OUTPUT : 'M/d/yyyy',

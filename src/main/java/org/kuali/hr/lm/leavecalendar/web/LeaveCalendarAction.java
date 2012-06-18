@@ -6,14 +6,18 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
+import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
+import org.kuali.hr.lm.util.LeaveBlockAggregate;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.LeaveCalendar;
 import org.kuali.hr.time.detail.web.ActionFormUtils;
+import org.kuali.hr.lm.leavecalendar.web.LeaveActionFormUtils;
+import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
@@ -107,7 +111,12 @@ public class LeaveCalendarAction extends TkAction {
 		
 		this.populateCalendarAndPayPeriodLists(request, lcf);
 		
-
+		// KPME-1447
+		List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(lcd.getDocumentId());
+        LeaveCalendar leaveCalender = new LeaveCalendar(viewPrincipal, calendarEntry);
+        LeaveBlockAggregate aggregate = new LeaveBlockAggregate(leaveBlocks, calendarEntry, leaveCalender);
+        lcf.setLeaveBlockString(LeaveActionFormUtils.getLeaveBlocksJson(aggregate.getFlattenedLeaveBlockList()));
+		
 		return forward;
 	}
 	
@@ -153,7 +162,6 @@ public class LeaveCalendarAction extends TkAction {
 			throws Exception {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
 		LeaveCalendarDocument lcd = lcf.getLeaveCalendarDocument();
-
 		DateTime beginDate = new DateTime(
 				TKUtils.convertDateStringToTimestamp(lcf.getStartDate()));
 		DateTime endDate = new DateTime(
@@ -161,11 +169,11 @@ public class LeaveCalendarAction extends TkAction {
 		String selectedLeaveCode = lcf.getSelectedLeaveCode();
 		BigDecimal hours = lcf.getLeaveAmount();
 		String desc = lcf.getDescription();
-
+		String spanningWeeks = lcf.getSpanningWeeks();  // KPME-1446
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(lcd, lcf.getSelectedAssignment());
 
 		TkServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate,
-				endDate, lcf.getCalendarEntry(), selectedLeaveCode, hours, desc, assignment);
+				endDate, lcf.getCalendarEntry(), selectedLeaveCode, hours, desc, assignment, spanningWeeks); // KPME-1446
 		// after adding the leave block, set the fields of this form to null for future new leave blocks
 		lcf.setLeaveAmount(null);
 		lcf.setDescription(null);
@@ -185,6 +193,34 @@ public class LeaveCalendarAction extends TkAction {
 
 		return mapping.findForward("basic");
 	}
+	
+	// KPME-1447
+	public ActionForward updateLeaveBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
+		String selectedLeaveCode = lcf.getSelectedLeaveCode();
+		String leaveBlockId = lcf.getLeaveBlockId();
+		
+		LeaveBlock updatedLeaveBlock = null;
+		updatedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(new Long(leaveBlockId));
+		if (StringUtils.isNotBlank(lcf.getDescription())) {
+			updatedLeaveBlock.setDescription(lcf.getDescription().trim());	
+    	}
+    	if (!updatedLeaveBlock.getLeaveAmount().equals(lcf.getLeaveAmount())) {
+    		updatedLeaveBlock.setLeaveAmount(lcf.getLeaveAmount());
+    	}
+    	LeaveCode leaveCode =  TkServiceLocator.getLeaveCodeService().getLeaveCode(selectedLeaveCode); // selectedLeaveCode = lmLeaveCodeId
+		if (!updatedLeaveBlock.getLeaveCode().equals(leaveCode.getLeaveCode())) {
+    		updatedLeaveBlock.setLeaveCode(leaveCode.getLeaveCode());
+    		// update lm_leave_code_id as well
+    		updatedLeaveBlock.setLeaveCodeId(selectedLeaveCode);
+    	}
+		TkServiceLocator.getLeaveBlockService().updateLeaveBlock(updatedLeaveBlock);
+		lcf.setLeaveAmount(null);
+		lcf.setDescription(null);
+		lcf.setSelectedLeaveCode(null);
+		
+        return mapping.findForward("basic");
+    }
 
 	protected void setupDocumentOnFormContext(LeaveCalendarForm leaveForm,
 			LeaveCalendarDocument lcd) {

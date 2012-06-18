@@ -39,8 +39,10 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
 	/** String (concat(job number, work_area, task)) -> Formatted Assignment Descriptions */
 	private Map<String,String>  assignmentDescriptions;
 	private String selectedAssignment;
+	private String spanningWeeks; // KPME-1446
+	private String leaveBlockString;  // KPME-1447
 	private boolean isDocEditable;
-	
+
     public boolean isDocEditable() {
 		return isDocEditable;
 	}
@@ -49,7 +51,23 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
 		this.isDocEditable = isDocEditable;
 	}
 
-	public String getSelectedAssignment() {
+	public String getLeaveBlockString() {
+		return leaveBlockString;
+	}
+
+	public void setLeaveBlockString(String leaveBlockString) {
+		this.leaveBlockString = leaveBlockString;
+	}
+
+	public String getSpanningWeeks() {
+		return spanningWeeks;
+	}
+
+	public void setSpanningWeeks(String spanningWeeks) {
+		this.spanningWeeks = spanningWeeks;
+	}
+		
+    public String getSelectedAssignment() {
 		return selectedAssignment;
 	}
 

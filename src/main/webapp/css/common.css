@@ -513,6 +513,10 @@ label.error {
     display: none;
 }
 
+#leaveBlockString {
+    display: none;
+}
+
 #docEditable {
     display: none;
 }

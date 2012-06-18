@@ -223,7 +223,7 @@ public class TimeDetailAction extends TimesheetAction {
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
         Timestamp overtimeBeginTimestamp = null;
         Timestamp overtimeEndTimestamp = null;
-
+        
         // This is for updating a timeblock or changing
         // If tkTimeBlockId is not null and the new timeblock is valid, delete the existing timeblock and a new one will be created after submitting the form.
         if (tdaf.getTkTimeBlockId() != null) {
@@ -266,12 +266,13 @@ public class TimeDetailAction extends TimesheetAction {
         List<TimeBlock> newTimeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
         DateTime startTemp = new DateTime(startTime);
         DateTime endTemp = new DateTime(endTime);
+        // KPME-1446 add spanningweeks to the calls below 
         if (StringUtils.equals(tdaf.getAcrossDays(), "y")
                 && !(endTemp.getDayOfYear() - startTemp.getDayOfYear() <= 1
                 && endTemp.getHourOfDay() == 0)) {
             newTimeBlocks.addAll(TkServiceLocator.getTimeBlockService().buildTimeBlocksSpanDates(assignment,
                     tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(), startTime,
-                    endTime, tdaf.getHours(), tdaf.getAmount(), false, Boolean.parseBoolean(tdaf.getLunchDeleted())));
+                    endTime, tdaf.getHours(), tdaf.getAmount(), false, Boolean.parseBoolean(tdaf.getLunchDeleted()), tdaf.getSpanningWeeks()));
         } else {
             newTimeBlocks.addAll(TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment,
                     tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(), startTime,

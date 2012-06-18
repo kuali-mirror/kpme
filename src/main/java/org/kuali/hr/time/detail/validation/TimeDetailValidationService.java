@@ -34,11 +34,11 @@ public class TimeDetailValidationService {
                 tdaf.getHours(), tdaf.getAmount(), tdaf.getStartTime(), tdaf.getEndTime(),
                 tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getTimesheetDocument(),
                 tdaf.getSelectedEarnCode(), tdaf.getSelectedAssignment(),
-                tdaf.getAcrossDays().equalsIgnoreCase("y"), tdaf.getTkTimeBlockId(), tdaf.getOvertimePref()
+                tdaf.getAcrossDays().equalsIgnoreCase("y"), tdaf.getTkTimeBlockId(), tdaf.getOvertimePref(), tdaf.getSpanningWeeks().equalsIgnoreCase("y")
         );
     }
 
-    public static List<String> validateTimeEntryDetails(BigDecimal hours, BigDecimal amount, String startTimeS, String endTimeS, String startDateS, String endDateS, TimesheetDocument timesheetDocument, String selectedEarnCode, String selectedAssignment, boolean acrossDays, String timeblockId, String overtimePref) {
+    public static List<String> validateTimeEntryDetails(BigDecimal hours, BigDecimal amount, String startTimeS, String endTimeS, String startDateS, String endDateS, TimesheetDocument timesheetDocument, String selectedEarnCode, String selectedAssignment, boolean acrossDays, String timeblockId, String overtimePref, boolean spanningWeeks) {
         List<String> errors = new ArrayList<String>();
 
         if (timesheetDocument == null) {
@@ -100,6 +100,13 @@ public class TimeDetailValidationService {
         if ((startTime.compareTo(endTime) > 0 || endTime.compareTo(startTime) < 0)) {
             errors.add("The time or date is not valid.");
         }
+        if (errors.size() > 0) return errors;
+        
+        // KPME-1446 
+        // -------------------------------
+        // check if there is a weekend day when the include weekends flag is checked
+        //--------------------------------
+        errors.addAll(validateSpanningWeeks(spanningWeeks, startTemp, endTemp));
         if (errors.size() > 0) return errors;
 
         //------------------------
@@ -256,5 +263,22 @@ public class TimeDetailValidationService {
             errors.add("The end date/time is outside the pay period");
         }
         return errors;
+    }
+    
+    // KPME-1446
+    public static List<String> validateSpanningWeeks(boolean spanningWeeks, DateTime startTemp, DateTime endTemp) {
+    	List<String> errors = new ArrayList<String>();
+    	boolean valid = true;
+        while ((startTemp.isBefore(endTemp) || startTemp.isEqual(endTemp)) && valid) {
+        	if (!spanningWeeks && 
+        		(startTemp.getDayOfWeek() == DateTimeConstants.SATURDAY || startTemp.getDayOfWeek() == DateTimeConstants.SUNDAY)) {
+        		valid = false;
+        	}
+        	startTemp = startTemp.plusDays(1);
+        }
+        if (!valid) {
+        	errors.add("Weekend day is selected, but include weekends checkbox is not checked");
+        }
+    	return errors;
     }
 }

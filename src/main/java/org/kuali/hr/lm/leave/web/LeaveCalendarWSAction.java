@@ -4,8 +4,11 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationService;
+import org.kuali.hr.lm.leavecalendar.web.LeaveCalendarForm;
 import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -14,6 +17,7 @@ import org.kuali.hr.time.util.TKUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class LeaveCalendarWSAction extends TkAction {
@@ -27,7 +31,7 @@ public class LeaveCalendarWSAction extends TkAction {
 
         
     public ActionForward getLeaveCodeInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	System.out.println("Leave code info called >>>>>>>>>>>>>>>");
+    	//System.out.println("Leave code info called >>>>>>>>>>>>>>>");
     	LeaveCalendarWSForm lcf = (LeaveCalendarWSForm) form;
         LOG.info(lcf.toString());
         LeaveCode leaveCode = TkServiceLocator.getLeaveCodeService().getLeaveCode(lcf.getSelectedLeaveCode());
@@ -42,6 +46,30 @@ public class LeaveCalendarWSAction extends TkAction {
         leaveCodeMap.put("defaultAmountofTime", leaveCode.getDefaultAmountofTime());
         leaveCodeMap.put("fractionalTimeAllowed", leaveCode.getFractionalTimeAllowed());
         lcf.setOutputString(JSONValue.toJSONString(leaveCodeMap));
+        return mapping.findForward("ws");
+    }
+    
+    /**
+     * This is an ajax call triggered after a user submits the leave entry form.
+     * If there is any error, it will return error messages as a json object.
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return jsonObj
+     * @throws Exception
+     */
+    @SuppressWarnings("unchecked")
+    public ActionForward validateLeaveEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    	LeaveCalendarWSForm lcf = (LeaveCalendarWSForm) form;
+        JSONArray errorMsgList = new JSONArray();
+
+        List<String> errors = LeaveCalendarValidationService.validateLaveEntryDetails(lcf);
+        errorMsgList.addAll(errors);
+
+        lcf.setOutputString(JSONValue.toJSONString(errorMsgList));
+        
         return mapping.findForward("ws");
     }
 

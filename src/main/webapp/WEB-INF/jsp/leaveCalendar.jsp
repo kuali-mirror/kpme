@@ -9,6 +9,11 @@
     <script src="js/common.calendar.backbone.js"></script>
     <script src="js/tk.leaveCalendar.backbone.js"></script>
     <tk:calendar cal="${Form.leaveCalendar}" docId="${Form.documentId}" calType="leaveCalendar"/>
+    
+    
+    <%-- this is used by the javascript to fetch the leave block json --%>
+    <html:textarea property="leaveBlockString" styleId="leaveBlockString" value="${Form.leaveBlockString}"/>
+        
 
     <div id="cal">
  	<html:hidden property="documentId" value="${Form.documentId}" styleId="documentId"/>
@@ -27,6 +32,7 @@
                 <html:hidden property="beginPeriodDateTime" value="${Form.beginPeriodDateTime}" styleId="beginPeriodDateTime"/>
                 <html:hidden property="endPeriodDateTime" value="${Form.endPeriodDateTime}" styleId="endPeriodDateTime"/>
                 <html:hidden property="calEntryId" value="${Form.calEntryId}" styleId="calEntryId"/>
+                <html:hidden property="leaveBlockId" value="" styleId="leaveBlockId"/>
 
                 <div class="ui-widget timesheet-panel" id="timesheet-panel">
                     <table>
@@ -61,7 +67,15 @@
                         <tr>
                             <td><label for="description">Description:</label></td>
                             <td>
-                                <html:textarea property="description" cols="21"/>
+                                <html:textarea property="description" styleId="description" cols="21"/>
+                            </td>
+                        </tr>
+                        <!--  KPME-1446  -->
+                        <tr>
+                            <td></td>
+                            <td>
+                                <input type="checkbox" name="spanningWeeks" id="spanningWeeks" value="n" title="Check if you want to span weeks over weekend"/>
+                                <label for="spanningWeeks">Include weekends</label>
                             </td>
                         </tr>
                     </table>
