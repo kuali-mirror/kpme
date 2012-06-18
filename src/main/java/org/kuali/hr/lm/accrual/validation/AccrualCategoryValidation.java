@@ -276,7 +276,7 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 								valid &= validateMaxBalTransferAmount(leaveAccrualCategoryRule.getMaxTransferAmount(),ADD_LINE_LOCATION);
 							} else if (StringUtils.equals("P",leaveAccrualCategoryRule.getActionAtMaxBalance())) {
 								valid &= validateMaxPayoutAmount(leaveAccrualCategoryRule.getMaxPayoutAmount(),ADD_LINE_LOCATION);
-								valid &= validateMaxPayoutLeaveCode(leaveAccrualCategoryRule.getMaxPayoutLeaveCode(),ADD_LINE_LOCATION);
+								valid &= validateMaxPayoutLeaveCode(leaveAccrualCategoryRule.getMaxPayoutEarnCode(),ADD_LINE_LOCATION);
 							}
 						}
 	

@@ -2,7 +2,9 @@ package org.kuali.hr.time.earncode.service;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
+import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -13,6 +15,7 @@ import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -131,4 +134,19 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 		return earnCodeDao.getNewerEarnCodeCount(earnCode, effdt);
 	}
 
+	@Override
+	public BigDecimal roundHrsWithEarnCode(BigDecimal hours, EarnCode earnCode) {
+		String roundOption = LMConstants.ROUND_OPTION_MAP.get(earnCode.getRoundingOption());
+		BigDecimal fractScale = new BigDecimal(earnCode.getFractionalTimeAllowed());
+		if(roundOption == null) {
+			throw new RuntimeException("Rounding option of Earn Code " + earnCode.getEarnCode() + " is not recognized.");
+		}
+		BigDecimal roundedHours = hours;
+		if(roundOption.equals("Traditional")) {
+			roundedHours = hours.setScale(fractScale.scale(), BigDecimal.ROUND_HALF_EVEN);
+		} else if(roundOption.equals("Truncate")) {
+			roundedHours = hours.setScale(fractScale.scale(), BigDecimal.ROUND_DOWN);
+		}
+		return roundedHours;
+	}
 }

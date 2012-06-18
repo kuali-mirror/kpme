@@ -42,7 +42,7 @@
 		<bean parent="MaintainableFieldDefinition" p:name="maxBalanceTransferConversionFactor"/>							
 		<bean parent="MaintainableFieldDefinition" p:name="maxTransferAmount"/>							
 		<bean parent="MaintainableFieldDefinition" p:name="maxPayoutAmount"/>							
-		<bean parent="MaintainableFieldDefinition" p:name="maxPayoutLeaveCode"/>							
+		<bean parent="MaintainableFieldDefinition" p:name="maxPayoutEarnCode"/>							
 		<bean parent="MaintainableFieldDefinition" p:name="maxUsage"/>							
 		<bean parent="MaintainableFieldDefinition" p:name="maxCarryOver"/>							
 		<bean parent="MaintainableFieldDefinition" p:name="active"/>

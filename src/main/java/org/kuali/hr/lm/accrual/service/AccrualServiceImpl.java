@@ -22,6 +22,7 @@ import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
@@ -206,24 +207,26 @@ public class AccrualServiceImpl implements AccrualService {
 	private void createLeaveBlock(String principalId, List<LeaveBlock> accrualLeaveBlocks, 
 			java.util.Date currentDate, BigDecimal hrs, AccrualCategory anAC, String sysSchTimeOffId) {
 
-		LeaveCode lc = TkServiceLocator.getLeaveCodeService().getLeaveCode(anAC.getLeaveCode(), anAC.getEffectiveDate());
-		if(lc == null) {
-			throw new RuntimeException("Cannot find Leave Code for Accrual category " + anAC.getAccrualCategory());
+//		LeaveCode lc = TkServiceLocator.getLeaveCodeService().getLeaveCode(anAC.getLeaveCode(), anAC.getEffectiveDate());
+		// Replacing Leave Code to earn code - KPME 1634
+		EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(anAC.getEarnCode(), anAC.getEffectiveDate());
+		if(ec == null) {
+			throw new RuntimeException("Cannot find Earn Code for Accrual category " + anAC.getAccrualCategory());
 		}
 		LeaveBlock aLeaveBlock = new LeaveBlock();
 		aLeaveBlock.setAccrualCategoryId(anAC.getLmAccrualCategoryId());
 		aLeaveBlock.setLeaveDate(new java.sql.Date(currentDate.getTime()));
 		aLeaveBlock.setPrincipalId(principalId);
-		aLeaveBlock.setLeaveCode(anAC.getLeaveCode());
-		aLeaveBlock.setLeaveCodeId(lc.getLmLeaveCodeId());
+		// TODO : Change it it Earn code
+		aLeaveBlock.setLeaveCode(anAC.getEarnCode());
+		aLeaveBlock.setLeaveCodeId(ec.getHrEarnCodeId());
 		aLeaveBlock.setDateAndTime(new Timestamp(currentDate.getTime()));
 		aLeaveBlock.setAccrualGenerated(true);
 		aLeaveBlock.setBlockId(0L);
 		aLeaveBlock.setScheduleTimeOffId(sysSchTimeOffId);
 		// use rounding option and fract time allowed of Leave Code to round the leave block hours
-		BigDecimal roundedHours = TkServiceLocator.getLeaveCodeService().roundHrsWithLeaveCode(hrs, lc);
+		BigDecimal roundedHours = TkServiceLocator.getEarnCodeService().roundHrsWithEarnCode(hrs, ec);
 		aLeaveBlock.setLeaveAmount(roundedHours);
-		
 		accrualLeaveBlocks.add(aLeaveBlock);
 		
 	}

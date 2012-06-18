@@ -4,7 +4,8 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.HrBusinessObject;
-import org.kuali.hr.lm.leavecode.LeaveCode;
+import org.kuali.hr.time.earncode.EarnCode;
+
 
 public class AccrualCategoryRule extends HrBusinessObject {
 
@@ -26,25 +27,20 @@ public class AccrualCategoryRule extends HrBusinessObject {
 	private BigDecimal maxBalanceTransferConversionFactor;
 	private Long maxTransferAmount;
 	private Long maxPayoutAmount;
-	private String maxPayoutLeaveCode;
+	private String maxPayoutEarnCode;
 	private Long maxUsage;
 	private Long maxCarryOver;
 	private String lmAccrualCategoryId;
-
 	
-	private LeaveCode leaveCodeObj;
+	private EarnCode earnCodeObj;
 
-	public LeaveCode getLeaveCodeObj() {
-		return leaveCodeObj;
+	public EarnCode getEarnCodeObj() {
+		return earnCodeObj;
 	}
 
-	public void setLeaveCodeObj(LeaveCode leaveCodeObj) {
-		this.leaveCodeObj = leaveCodeObj;
+	public void setEarnCodeObj(EarnCode earnCodeObj) {
+		this.earnCodeObj = earnCodeObj;
 	}
-
-
-	
-
 	
 	private AccrualCategory accrualCategoryObj;
 	
@@ -162,12 +158,12 @@ public class AccrualCategoryRule extends HrBusinessObject {
 		this.maxPayoutAmount = maxPayoutAmount;
 	}
 
-	public String getMaxPayoutLeaveCode() {
-		return maxPayoutLeaveCode;
+	public String getMaxPayoutEarnCode() {
+		return maxPayoutEarnCode;
 	}
 
-	public void setMaxPayoutLeaveCode(String maxPayoutLeaveCode) {
-		this.maxPayoutLeaveCode = maxPayoutLeaveCode;
+	public void setMaxPayoutEarnCode(String maxPayoutEarnCode) {
+		this.maxPayoutEarnCode = maxPayoutEarnCode;
 	}
 
 	public Long getMaxUsage() {

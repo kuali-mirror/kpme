@@ -44,7 +44,7 @@
 		<field-descriptor name="showOnGrid" 		column="SHOW_ON_GRID"	    jdbc-type="VARCHAR" length="1" nullable="false" />
 		<field-descriptor name="minPercentWorked" 	column="MIN_PERCENT_WORKED"	    jdbc-type="DECIMAL" nullable="false" />
 		<!-- KPME-1347 Kagata -->
-		<field-descriptor name="leaveCode" 	column="LEAVE_CODE" jdbc-type="VARCHAR" length="15" nullable="false" />	
+		<field-descriptor name="earnCode" 	column="EARN_CODE" jdbc-type="VARCHAR" length="15" nullable="false" />	
 		<field-descriptor name="hasRules" 			column="HAS_RULES"	    jdbc-type="VARCHAR" length="1" nullable="false" />	
 		<field-descriptor name="objectId" 			column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" 		column="ver_nbr" jdbc-type="BIGINT" locking="true" />
@@ -74,7 +74,7 @@
 		<field-descriptor name="maxBalanceTransferConversionFactor" column="MAX_BAL_TRANS_CONV_FACTOR" jdbc-type="DECIMAL" length="12" nullable="false" />
 		<field-descriptor name="maxTransferAmount" 			column="MAX_TRANS_AMOUNT" jdbc-type="BIGINT" length="20" nullable="false" />
 		<field-descriptor name="maxPayoutAmount" 			column="MAX_PAYOUT_AMOUNT" jdbc-type="BIGINT" length="20" nullable="false" />
-		<field-descriptor name="maxPayoutLeaveCode" 		column="MAX_PAYOUT_LEAVE_CODE" jdbc-type="VARCHAR" length="15" nullable="false" />
+		<field-descriptor name="maxPayoutEarnCode" 		column="MAX_PAYOUT_EARN_CODE" jdbc-type="VARCHAR" length="15" nullable="false" />
 		<field-descriptor name="maxUsage" 					column="MAX_USAGE" jdbc-type="BIGINT" length="20" nullable="false" />
 		<field-descriptor name="maxCarryOver" 				column="MAX_CARRY_OVER" jdbc-type="BIGINT" length="20" nullable="false" />
 		<field-descriptor name="lmAccrualCategoryId"		column="LM_ACCRUAL_CATEGORY_ID" jdbc-type="VARCHAR" length="60" nullable="false" />
