@@ -8,6 +8,7 @@ import java.util.List;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.accrual.dao.AccrualCategoryRuleDao;
+import org.kuali.hr.time.util.TKUtils;
 
 public class AccrualCategoryRuleServiceImpl implements AccrualCategoryRuleService{
 	
@@ -36,9 +37,11 @@ public class AccrualCategoryRuleServiceImpl implements AccrualCategoryRuleServic
     		if(uot.equals("M")) {		// monthly
     			startCal.add(Calendar.MONTH, startTime);
     			endCal.add(Calendar.MONTH, endTime);
+    			endCal.add(Calendar.DATE, -1);
     		} else if(uot.endsWith("Y")) { // yearly
     			startCal.add(Calendar.YEAR, startTime);
     			endCal.add(Calendar.YEAR, endTime);
+    			endCal.add(Calendar.DATE, -1);
     		}
     		
     		// max days in months differ, if the date is bigger than the max day, set it to the max day of the month
@@ -49,7 +52,8 @@ public class AccrualCategoryRuleServiceImpl implements AccrualCategoryRuleServic
 				endCal.set(Calendar.DATE, endCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 			}
     		
-    		if(currentDate.compareTo(startCal.getTime()) >= 0 && currentDate.compareTo(endCal.getTime()) <=0 ) {
+    		if(TKUtils.removeTime(currentDate).compareTo(TKUtils.removeTime(startCal.getTime())) >= 0 
+    				&& TKUtils.removeTime(currentDate).compareTo(TKUtils.removeTime(endCal.getTime())) <=0 ) {
     			return acr;
     		}
     	}
