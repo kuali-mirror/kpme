@@ -17,7 +17,7 @@ public class SystemScheduledTimeOffMaintTest extends TkTestCase{
 	private static final String EFFECTIVE_DATE_REQUIRED = "Effective Date (Effective Date) is a required field.";
 	private static final String LEAVE_PLAN_REQUIRED = "Leave Plan (Leave Plan) is a required field.";
 	private static final String ACCRUAL_CATEGORY_REQUIRED = "Accrual Category (Accrual Category) is a required field.";
-	private static final String LEAVE_CODE_REQUIRED = "Leave Code (Leave Code) is a required field.";
+	private static final String EARN_CODE_REQUIRED = "Earn Code (Earn Code) is a required field.";
 	private static final String ACCRUED_DATE_REQUIRED = "Accrued Date (Accrued Date) is a required field.";
 	private static final String LOCATION_REQUIRED = "Location (Location) is a required field.";
 	private static final String DESCRIPTION_REQUIRED = "Description (Desc) is a required field.";
@@ -48,7 +48,7 @@ public class SystemScheduledTimeOffMaintTest extends TkTestCase{
 	  	assertTrue("page text does not contain:\n" + EFFECTIVE_DATE_REQUIRED, page.asText().contains(EFFECTIVE_DATE_REQUIRED));
 	    assertTrue("page text does not contain:\n" + LEAVE_PLAN_REQUIRED, page.asText().contains(LEAVE_PLAN_REQUIRED));
 	    assertTrue("page text does not contain:\n" + ACCRUAL_CATEGORY_REQUIRED, page.asText().contains(ACCRUAL_CATEGORY_REQUIRED));
-	    assertTrue("page text does not contain:\n" + LEAVE_CODE_REQUIRED, page.asText().contains(LEAVE_CODE_REQUIRED));
+	    assertTrue("page text does not contain:\n" + EARN_CODE_REQUIRED, page.asText().contains(EARN_CODE_REQUIRED));
 	    
 	    assertTrue("page text does not contain:\n" + ACCRUED_DATE_REQUIRED, page.asText().contains(ACCRUED_DATE_REQUIRED));
 	    assertTrue("page text does not contain:\n" + LOCATION_REQUIRED, page.asText().contains(LOCATION_REQUIRED));
@@ -97,7 +97,7 @@ public class SystemScheduledTimeOffMaintTest extends TkTestCase{
 	
 	@Test
 	// test for jiar1363
-	public void testGetLeavePlanAccrualCategoryFromSelectedLeaveCode() throws Exception {
+	public void testGetLeavePlanAccrualCategoryFromSelectedEarnCode() throws Exception {
 	  	String baseUrl = TkTestConstants.Urls.TIME_OFF_MAINT_NEW_URL;
 	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
 	  	assertNotNull(page);
@@ -112,7 +112,7 @@ public class SystemScheduledTimeOffMaintTest extends TkTestCase{
 	  	String validDateString = new SimpleDateFormat("MM/dd/yyyy").format(validDate.getTime());
 	  	
 	  	setFieldValue(page, "document.newMaintainableObject.effectiveDate", validDateString);
-	    setFieldValue(page, "document.newMaintainableObject.leaveCode", "testLC"); 
+	    setFieldValue(page, "document.newMaintainableObject.earnCode", "testLC"); 
 	    
 	    page = page.getElementByName("methodToCall.route").click();
 	    HtmlUnitUtil.createTempFile(page);
@@ -137,7 +137,7 @@ public class SystemScheduledTimeOffMaintTest extends TkTestCase{
 	  	String validDateString = new SimpleDateFormat("MM/dd/yyyy").format(validDate.getTime());
 	  	
 	  	setFieldValue(page, "document.newMaintainableObject.effectiveDate", validDateString);
-	  	setFieldValue(page, "document.newMaintainableObject.leaveCode", "testLCL"); 
+	  	setFieldValue(page, "document.newMaintainableObject.earnCode", "testLCL"); 
 	    
 	    page = page.getElementByName("methodToCall.route").click();
 	    HtmlUnitUtil.createTempFile(page);

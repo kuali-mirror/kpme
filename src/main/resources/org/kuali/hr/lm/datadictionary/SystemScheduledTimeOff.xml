@@ -19,7 +19,7 @@
 			<list>
 				<ref bean="SystemScheduledTimeOff-leavePlan" />
 				<ref bean="SystemScheduledTimeOff-accrualCategory" />
-				<ref bean="SystemScheduledTimeOff-leaveCode" />
+				<ref bean="SystemScheduledTimeOff-earnCode" />
 				<ref bean="SystemScheduledTimeOff-accruedDate" />
 				<ref bean="SystemScheduledTimeOff-scheduledTimeOffDate" />
 				<ref bean="SystemScheduledTimeOff-location" />
@@ -27,7 +27,7 @@
 				<ref bean="SystemScheduledTimeOff-amountofTime" />
 				<ref bean="SystemScheduledTimeOff-unusedTime" />
 				<ref bean="SystemScheduledTimeOff-transferConversionFactor" />
-				<ref bean="SystemScheduledTimeOff-transfertoLeaveCode" />
+				<ref bean="SystemScheduledTimeOff-transfertoEarnCode" />
 				<ref bean="SystemScheduledTimeOff-expirationDate" />
 				<ref bean="SystemScheduledTimeOff-premiumHoliday" />
 				<ref bean="SystemScheduledTimeOff-effectiveDate" />
@@ -57,21 +57,21 @@
 					</property>
 				</bean>
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="leaveCodeObj" />
+					<property name="objectAttributeName" value="earnCodeObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leaveCode" p:targetName="leaveCode" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="earnCode" p:targetName="earnCode" />
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan" p:targetName="leavePlan" />
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="accrualCategory" p:targetName="accrualCategory" />
 						</list>
 					</property>
 				</bean>
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="leaveCodeObj" />
+					<property name="objectAttributeName" value="earnCodeObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="transfertoLeaveCode"
-								p:targetName="leaveCode" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="transfertoEarnCode"
+								p:targetName="earnCode" />
 						</list>
 					</property>
 				</bean>
@@ -127,10 +127,10 @@
 	</bean>
 
 <!-- Leave code -->
-	<bean id="SystemScheduledTimeOff-leaveCode" parent="SystemScheduledTimeOff-leaveCode-parentBean" />
-	<bean id="SystemScheduledTimeOff-leaveCode-parentBean" abstract="true"
+	<bean id="SystemScheduledTimeOff-earnCode" parent="SystemScheduledTimeOff-earnCode-parentBean" />
+	<bean id="SystemScheduledTimeOff-earnCode-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Leave Code" />
+		<property name="shortLabel" value="Earn Code" />
 		<property name="maxLength" value="15" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
@@ -140,8 +140,8 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-		<property name="name" value="leaveCode" />
-		<property name="label" value="Leave Code" />
+		<property name="name" value="earnCode" />
+		<property name="label" value="Earn Code" />
 	</bean>
 
 <!-- Accrued Date -->
@@ -264,10 +264,10 @@
 	</bean>
 
 <!-- Transfer to Leave Code -->
-	<bean id="SystemScheduledTimeOff-transfertoLeaveCode" parent="SystemScheduledTimeOff-transfertoLeaveCode-parentBean" />
-	<bean id="SystemScheduledTimeOff-transfertoLeaveCode-parentBean" abstract="true"
+	<bean id="SystemScheduledTimeOff-transfertoEarnCode" parent="SystemScheduledTimeOff-transfertoEarnCode-parentBean" />
+	<bean id="SystemScheduledTimeOff-transfertoEarnCode-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Transfer to Leave Code" />
+		<property name="shortLabel" value="Transfer to Earn Code" />
 		<property name="maxLength" value="15" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
@@ -277,8 +277,8 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-		<property name="name" value="transfertoLeaveCode" />
-		<property name="label" value="Transfer to Leave Code" />
+		<property name="name" value="transfertoEarnCode" />
+		<property name="label" value="Transfer to Earn Code" />
 	</bean>
 
 <!-- ExpirationDate -->
@@ -388,7 +388,7 @@
 							<bean parent="FieldDefinition" p:attributeName="accruedDate" />
 							<bean parent="FieldDefinition" p:attributeName="leavePlan" />
 							<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
-							<bean parent="FieldDefinition" p:attributeName="leaveCode" />
+							<bean parent="FieldDefinition" p:attributeName="earnCode" />
 							<bean parent="FieldDefinition" p:attributeName="scheduledTimeOffDate" />
 							<bean parent="FieldDefinition" p:attributeName="location" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
@@ -415,7 +415,7 @@
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" p:noInquiry="true" p:noLookup="true" p:hidden="true" />
 				<!-- bean parent="FieldDefinition" p:attributeName="leavePlan" /-->
 				<!-- bean parent="FieldDefinition" p:attributeName="accrualCategory" /-->
-				<bean parent="FieldDefinition" p:attributeName="leaveCode" />
+				<bean parent="FieldDefinition" p:attributeName="earnCode" />
 				<bean parent="FieldDefinition" p:attributeName="accruedDate" />
 				<bean parent="FieldDefinition" p:attributeName="scheduledTimeOffDate" />
 				<bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
@@ -427,7 +427,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
-				<bean parent="FieldDefinition" p:attributeName="leaveCode" />
+				<bean parent="FieldDefinition" p:attributeName="earnCode" />
 				<bean parent="FieldDefinition" p:attributeName="accruedDate" />
 				<bean parent="FieldDefinition" p:attributeName="scheduledTimeOffDate" />
 				<bean parent="FieldDefinition" p:attributeName="location" />

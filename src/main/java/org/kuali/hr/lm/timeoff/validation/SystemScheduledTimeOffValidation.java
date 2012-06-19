@@ -61,10 +61,10 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 		return valid;
 	}
 	
-	boolean validateTransfertoLeaveCode(String transfertoLeaveCode) {
+	boolean validateTransfertoEarnCode(String transfertoEarnCode) {
 		boolean valid = true;
-		if (StringUtils.isEmpty(transfertoLeaveCode)) {
-			this.putFieldError("transfertoLeaveCode", "error.required", "Transfer to Leave Code");
+		if (StringUtils.isEmpty(transfertoEarnCode)) {
+			this.putFieldError("transfertoEarnCode", "error.required", "Transfer to Earn Code");
 			valid = false;
 		}
 		return valid;
@@ -79,11 +79,11 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 		return valid;
 	}
 	
-	boolean validateLeaveCode(String leaveCode, Date asOfDate) {
+	boolean validateEarnCode(String earnCode, Date asOfDate) {
 		boolean valid = true;
-		if (!ValidationUtils.validateLeaveCode(leaveCode, asOfDate)) {
-			this.putFieldError("leaveCode", "error.existence", "leaveCode '"
-					+ leaveCode + "'");
+		if (!ValidationUtils.validateEarnCode(earnCode, asOfDate)) {
+			this.putFieldError("earnCode", "error.existence", "earnCode '"
+					+ earnCode + "'");
 			valid = false;
 		}
 		return valid;
@@ -104,11 +104,11 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 				valid &= this.validateAccruedDate(sysSchTimeOff.getAccruedDate());
 				valid &= this.validateScheduledTimeOffDate(sysSchTimeOff.getScheduledTimeOffDate());
 				if(StringUtils.equals("T", sysSchTimeOff.getUnusedTime())){
-					valid &= this.validateTransfertoLeaveCode(sysSchTimeOff.getTransfertoLeaveCode());
+					valid &= this.validateTransfertoEarnCode(sysSchTimeOff.getTransfertoEarnCode());
 					valid &= this.validateTransferConversionFactor(sysSchTimeOff.getTransferConversionFactor());
 				}
 				valid &= this.validateLocation(sysSchTimeOff.getLocation());
-				valid &= this.validateLeaveCode(sysSchTimeOff.getLeaveCode(), sysSchTimeOff.getEffectiveDate());
+				valid &= this.validateEarnCode(sysSchTimeOff.getEarnCode(), sysSchTimeOff.getEffectiveDate());
 			}
 		}
 		
