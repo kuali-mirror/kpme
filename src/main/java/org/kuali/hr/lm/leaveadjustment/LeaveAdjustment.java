@@ -5,8 +5,8 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.accrual.AccrualCategory;
-import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kim.bo.Person;
@@ -18,21 +18,26 @@ public class LeaveAdjustment extends HrBusinessObject {
 	private String principalId;
 	private String leavePlan;
 	private String accrualCategory;
-	private String leaveCode;
+	private String earnCode;
 	private String description;
 	private BigDecimal adjustmentAmount = new BigDecimal("0.0");
 	private Person principal;
 	private AccrualCategory accrualCategoryObj;
-	private LeaveCode leaveCodeObj;
+	private EarnCode earnCodeObj;
 	private PrincipalHRAttributes principalHRAttrObj;
 	
-	public LeaveCode getLeaveCodeObj() {
-		return leaveCodeObj;
+	public String getEarnCode() {
+		return earnCode;
 	}
-	public void setLeaveCodeObj(LeaveCode leaveCodeObj) {
-		this.leaveCodeObj = leaveCodeObj;
+	public void setEarnCode(String earnCode) {
+		this.earnCode = earnCode;
 	}
-	
+	public EarnCode getEarnCodeObj() {
+		return earnCodeObj;
+	}
+	public void setEarnCodeObj(EarnCode earnCodeObj) {
+		this.earnCodeObj = earnCodeObj;
+	}
 	public String getPrincipalId() {
 		return principalId;
 	}
@@ -61,12 +66,6 @@ public class LeaveAdjustment extends HrBusinessObject {
 	}
 	public void setAccrualCategory(String accrualCategory) {
 		this.accrualCategory = accrualCategory;
-	}
-	public String getLeaveCode() {
-		return leaveCode;
-	}
-	public void setLeaveCode(String leaveCode) {
-		this.leaveCode = leaveCode;
 	}
 	
 	public String getDescription() {

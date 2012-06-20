@@ -1,6 +1,5 @@
 package org.kuali.hr.time.earncode.service;
 
-import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.earncode.EarnCode;
 
@@ -69,4 +68,12 @@ public interface EarnCodeService {
      * @return
      */
     public BigDecimal roundHrsWithEarnCode(BigDecimal hours, EarnCode earnCode);
+    
+    /**
+     * 
+     * @param principalId
+     * @param asOfDate
+     * @return
+     */
+    public List<EarnCode> getEarnCodes(String principalId, Date asOfDate);
 }

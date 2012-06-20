@@ -222,9 +222,9 @@
      <class-descriptor class="org.kuali.hr.lm.leavedonation.LeaveDonation" table="lm_leave_donation_t">
 		<field-descriptor name="lmLeaveDonationId"         	column="LM_LEAVE_DONATION_ID"	jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="lm_leave_donation_s"/>
         <field-descriptor name="donatedAccrualCategory"    	column="DONATED_ACC_CAT"		jdbc-type="VARCHAR" length="15" nullable="false" />
-        <field-descriptor name="donatedLeaveCode" 			column="DONATED_LV_CODE" 		jdbc-type="VARCHAR" length="15" nullable="false" />
+        <field-descriptor name="donatedEarnCode" 			column="DONATED_ER_CODE" 		jdbc-type="VARCHAR" length="15" nullable="false" />
         <field-descriptor name="recipientsAccrualCategory" 	column="RECIPIENTS_ACC_CAT"	    jdbc-type="VARCHAR" length="15" nullable="false" />
-        <field-descriptor name="recipientsLeaveCode" 		column="RECIPIENTS_LV_CODE" 	jdbc-type="VARCHAR" length="15" nullable="false" />
+        <field-descriptor name="recipientsEarnCode" 		column="RECIPIENTS_ER_CODE" 	jdbc-type="VARCHAR" length="15" nullable="false" />
         <field-descriptor name="amountDonated"             	column="AMOUNT_DONATED"	        jdbc-type="DECIMAL"  length="20" nullable="false" />
         <field-descriptor name="amountReceived"             column="AMOUNT_RECEIVED"	    jdbc-type="DECIMAL"  length="20" nullable="false" />
         <field-descriptor name="donorsPrincipalID"         	column="DONOR"    				jdbc-type="VARCHAR"  length="20" nullable="false"/>
@@ -257,7 +257,7 @@
 		<field-descriptor name="principalId"        	column="PRINCIPAL_ID"				jdbc-type="VARCHAR" length="40" nullable="false" />
 		<field-descriptor name="accrualCategory"		column="ACCRUAL_CAT" 				jdbc-type="VARCHAR" length="15" nullable="false" />
 		<field-descriptor name="leavePlan" 				column="LEAVE_PLAN"					jdbc-type="VARCHAR" length="15"	nullable="false"/>
-		<field-descriptor name="leaveCode" 				column="LEAVE_CODE" 				jdbc-type="VARCHAR" length="15" nullable="false" />
+		<field-descriptor name="earnCode" 				column="EARN_CODE" 				jdbc-type="VARCHAR" length="15" nullable="false" />
 		<field-descriptor name="adjustmentAmount" 		column="ADJUSTMENT_AMOUNT" 			jdbc-type="DECIMAL" nullable="false" />
 		<field-descriptor name="description" 			column="DESCRIPTION" 				jdbc-type="VARCHAR" length="50" nullable="true" />
 		<field-descriptor name="timestamp"     			column="timestamp" 					jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>

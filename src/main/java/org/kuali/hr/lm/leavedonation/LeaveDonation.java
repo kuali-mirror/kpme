@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.hr.lm.accrual.AccrualCategory;
-import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.rice.kim.bo.Person;
 
 public class LeaveDonation extends HrBusinessObject {
@@ -29,37 +29,35 @@ public class LeaveDonation extends HrBusinessObject {
 	
 	private Person personObj;
 
+	private EarnCode earnCodeObj;
 	
-	private LeaveCode leaveCodeObj;
-	public LeaveCode getLeaveCodeObj() {
-		return leaveCodeObj;
+	private String donatedEarnCode;
+	private String recipientsEarnCode;
+
+	public EarnCode getEarnCodeObj() {
+		return earnCodeObj;
 	}
 
-	public void setLeaveCodeObj(LeaveCode leaveCodeObj) {
-		this.leaveCodeObj = leaveCodeObj;
+	public void setEarnCodeObj(EarnCode earnCodeObj) {
+		this.earnCodeObj = earnCodeObj;
 	}
 
-	private String donatedLeaveCode;
-	private String recipientsLeaveCode;
-
-	
-	public String getDonatedLeaveCode() {
-		return donatedLeaveCode;
+	public String getDonatedEarnCode() {
+		return donatedEarnCode;
 	}
 
-	public void setDonatedLeaveCode(String donatedLeaveCode) {
-		this.donatedLeaveCode = donatedLeaveCode;
+	public void setDonatedEarnCode(String donatedEarnCode) {
+		this.donatedEarnCode = donatedEarnCode;
 	}
 
-	public String getRecipientsLeaveCode() {
-		return recipientsLeaveCode;
+	public String getRecipientsEarnCode() {
+		return recipientsEarnCode;
 	}
 
-	public void setRecipientsLeaveCode(String recipientsLeaveCode) {
-		this.recipientsLeaveCode = recipientsLeaveCode;
+	public void setRecipientsEarnCode(String recipientsEarnCode) {
+		this.recipientsEarnCode = recipientsEarnCode;
 	}
 
-	
 	public String getLmLeaveDonationId() {
 		return lmLeaveDonationId;
 	}

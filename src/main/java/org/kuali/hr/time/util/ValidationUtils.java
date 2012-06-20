@@ -165,16 +165,16 @@ public class ValidationUtils {
 		return valid;
 	}
 	
-	public static boolean validateLeaveCodeOfAccrualCategory(String leaveCode, String accrualCategory, String principalId, Date asOfDate) {
+	public static boolean validateEarnCodeOfAccrualCategory(String earnCode, String accrualCategory, String principalId, Date asOfDate) {
 		boolean valid = false;
 		
 		if (asOfDate != null) {
 			if(validateAccCategory(accrualCategory, principalId, asOfDate)){
-				List<LeaveCode> leaveCodes = TkServiceLocator.getLeaveCodeService().getLeaveCodes(principalId, asOfDate);
-				if(leaveCodes != null && !leaveCodes.isEmpty()) {
-					for(LeaveCode leaveCodeObj : leaveCodes) {
-						if(leaveCodeObj.getLeaveCode() != null) {
-							if(StringUtils.equals(leaveCodeObj.getLeaveCode().trim(), leaveCode.trim()) && StringUtils.equals(leaveCodeObj.getAccrualCategory(), accrualCategory)){
+				List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(principalId, asOfDate);
+				if(earnCodes != null && !earnCodes.isEmpty()) {
+					for(EarnCode earnCodeObj : earnCodes) {
+						if(earnCodeObj.getEarnCode() != null) {
+							if(StringUtils.equals(earnCodeObj.getEarnCode().trim(), earnCode.trim()) && StringUtils.equals(earnCodeObj.getAccrualCategory(), accrualCategory)){
 								valid = true;
 								break;
 							}
@@ -185,8 +185,8 @@ public class ValidationUtils {
 //			valid = (leaveCodes != null);
 		} else {
 			Criteria crit = new Criteria();
-			crit.addEqualTo("leaveCode", leaveCode);
-			Query query = QueryFactory.newQuery(LeaveCode.class, crit);
+			crit.addEqualTo("earnCode", earnCode);
+			Query query = QueryFactory.newQuery(EarnCode.class, crit);
 			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
 			valid = (count > 0);
 		}

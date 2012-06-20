@@ -4,8 +4,7 @@ import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.leavedonation.LeaveDonation;
-import org.kuali.hr.lm.accrual.AccrualCategory;
-import org.kuali.hr.lm.leavecode.LeaveCode;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
@@ -66,18 +65,19 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
-	boolean validateLeaveCode(String principalAC, String formLeaveCode, String forPerson, Date asOfDate) {
+	boolean validateEarnCode(String principalAC, String formEarnCode, String forPerson, Date asOfDate) {
 		boolean valid = true;
 
-		LeaveCode testLeaveCode = TkServiceLocator.getLeaveCodeService().getLeaveCode(formLeaveCode, asOfDate);
-		String formLeaveCodeAC = "NullAccrualCategoryPlaceholder";
-		if (testLeaveCode != null && testLeaveCode.getAccrualCategory() != null) {
-			formLeaveCodeAC = testLeaveCode.getAccrualCategory();
+		EarnCode testEarnCode = TkServiceLocator.getEarnCodeService().getEarnCode(formEarnCode, asOfDate);
+//		LeaveCode testLeaveCode = TkServiceLocator.getLeaveCodeService().getLeaveCode(formEarnCode, asOfDate);
+		String formEarnCodeAC = "NullAccrualCategoryPlaceholder";
+		if (testEarnCode != null && testEarnCode.getAccrualCategory() != null) {
+			formEarnCodeAC = testEarnCode.getAccrualCategory();
 		}
 
-		if (!StringUtils.equalsIgnoreCase(principalAC, formLeaveCodeAC)) {
-			this.putFieldError(forPerson.equals(LeaveDonationValidation.DONOR) ? "donatedLeaveCode"
-					: "recipientsLeaveCode", "error.codeCategory.mismatch", forPerson);
+		if (!StringUtils.equalsIgnoreCase(principalAC, formEarnCodeAC)) {
+			this.putFieldError(forPerson.equals(LeaveDonationValidation.DONOR) ? "donatedEarnCode"
+					: "recipientsEarnCode", "error.codeCategory.mismatch", forPerson);
 			valid = false;
 		}
 		return valid;
@@ -117,15 +117,15 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 						LeaveDonationValidation.RECEPIENT);
 				}
 				if(leaveDonation.getDonatedAccrualCategory() != null) {
-						valid &= this.validateLeaveCode(
+						valid &= this.validateEarnCode(
 						leaveDonation.getDonatedAccrualCategory(),
-						leaveDonation.getDonatedLeaveCode(),
+						leaveDonation.getDonatedEarnCode(),
 						LeaveDonationValidation.DONOR, leaveDonation.getEffectiveDate());
 				}
 				if(leaveDonation.getRecipientsAccrualCategory() != null) {
-						valid &= this.validateLeaveCode(
+						valid &= this.validateEarnCode(
 						leaveDonation.getRecipientsAccrualCategory(),
-						leaveDonation.getRecipientsLeaveCode(),
+						leaveDonation.getRecipientsEarnCode(),
 						LeaveDonationValidation.RECEPIENT, leaveDonation.getEffectiveDate());
 				}
 			}

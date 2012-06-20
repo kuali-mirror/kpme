@@ -9,6 +9,7 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncode.dao.EarnCodeDao;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
@@ -149,4 +150,33 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 		}
 		return roundedHours;
 	}
+	
+	@Override
+    public List<EarnCode> getEarnCodes(String principalId, Date asOfDate) {
+    	String leavePlan = null;
+        List<EarnCode> earnCodes = new ArrayList<EarnCode>();
+        PrincipalHRAttributes hrAttribute = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
+        if(hrAttribute != null) {
+        	leavePlan = hrAttribute.getLeavePlan();
+        	if (StringUtils.isBlank(leavePlan)) {
+        		throw new RuntimeException("No leave plan defined for " + principalId + " in principal hr attributes");
+        	}
+        	
+            List<EarnCode> unfilteredEarnCodes = earnCodeDao.getEarnCodes(leavePlan, asOfDate);
+            TKUser user = TKContext.getUser();
+
+            for (EarnCode earnCode : unfilteredEarnCodes) {
+                //if employee add this leave code
+                //TODO how do we know this is an approver for them
+//                if ((earnCode.getEmployee() && user.getCurrentRoles().isActiveEmployee()) ||
+//                        (earnCode.getApprover() && user.isApprover())) {
+            	if ((user.getCurrentRoles().isActiveEmployee()) || (user.isApprover())) {
+                	earnCodes.add(earnCode);
+                }
+            }
+
+        }
+        return earnCodes;
+    }
+
 }

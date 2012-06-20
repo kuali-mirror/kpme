@@ -81,10 +81,10 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 	
-	boolean validateMaxPayoutLeaveCode(String maxPayoutLeaveCode, String fieldPrefix) {
+	boolean validateMaxPayoutEarnCode(String maxPayoutEarnCode, String fieldPrefix) {
 		boolean valid = true;
-		if (maxPayoutLeaveCode==null) {
-			this.putFieldError(fieldPrefix + "maxPayoutLeaveCode", "error.required", "Max Payout LeaveCode");
+		if (maxPayoutEarnCode==null) {
+			this.putFieldError(fieldPrefix + "maxPayoutEarnCode", "error.required", "Max Payout EarnCode");
 			valid = false;
 		}
 		return valid;
@@ -276,10 +276,10 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 								valid &= validateMaxBalTransferAmount(leaveAccrualCategoryRule.getMaxTransferAmount(),ADD_LINE_LOCATION);
 							} else if (StringUtils.equals("P",leaveAccrualCategoryRule.getActionAtMaxBalance())) {
 								valid &= validateMaxPayoutAmount(leaveAccrualCategoryRule.getMaxPayoutAmount(),ADD_LINE_LOCATION);
-								valid &= validateMaxPayoutLeaveCode(leaveAccrualCategoryRule.getMaxPayoutEarnCode(),ADD_LINE_LOCATION);
+								valid &= validateMaxPayoutEarnCode(leaveAccrualCategoryRule.getMaxPayoutEarnCode(),ADD_LINE_LOCATION);
 							}
 						}
-	
+						
 						if (leaveAccrualCategoryRule != null&& leaveAccrualCategoryRule.getMaxBalFlag().equals("N")) {
 							BigDecimal noMaxBal = new BigDecimal(0);
 							leaveAccrualCategoryRule.setMaxBalance(noMaxBal);

@@ -20,8 +20,8 @@
 			<list>
 				<ref bean="LeaveDonation-donatedAccrualCategory" />
 				<ref bean="LeaveDonation-recipientsAccrualCategory" />
-				<ref bean="LeaveDonation-donatedLeaveCode" />
-				<ref bean="LeaveDonation-recipientsLeaveCode" />
+				<ref bean="LeaveDonation-donatedEarnCode" />
+				<ref bean="LeaveDonation-recipientsEarnCode" />
 				<ref bean="LeaveDonation-amountDonated" />
 				<ref bean="LeaveDonation-amountReceived" />
 				<ref bean="LeaveDonation-donorsPrincipalID" />
@@ -72,20 +72,20 @@
 					</property>
 				</bean>
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="leaveCodeObj" />
+					<property name="objectAttributeName" value="earnCodeObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="donatedLeaveCode"
-								p:targetName="leaveCode" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="donatedEarnCode"
+								p:targetName="earnCode" />
 						</list>
 					</property>
 				</bean>
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="leaveCodeObj" />
+					<property name="objectAttributeName" value="earnCodeObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="recipientsLeaveCode"
-								p:targetName="leaveCode" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="recipientsEarnCode"
+								p:targetName="earnCode" />
 						</list>
 					</property>
 				</bean>
@@ -147,11 +147,11 @@
 		<property name="label" value="Recipients Accrual Category" />
 	</bean>
 	
-		<!-- donatedLeaveCode	 -->
-	<bean id="LeaveDonation-donatedLeaveCode" parent="LeaveDonation-donatedLeaveCode-parentBean" />
-	<bean id="LeaveDonation-donatedLeaveCode-parentBean" abstract="true"
+		<!-- donatedEarnCode	 -->
+	<bean id="LeaveDonation-donatedEarnCode" parent="LeaveDonation-donatedEarnCode-parentBean" />
+	<bean id="LeaveDonation-donatedEarnCode-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Donated Leave Code" />
+		<property name="shortLabel" value="Donated Earn Code" />
 		<property name="maxLength" value="15" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
@@ -161,15 +161,15 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-		<property name="name" value="donatedLeaveCode" />
-		<property name="label" value="Donated Leave Code" />
+		<property name="name" value="donatedEarnCode" />
+		<property name="label" value="Donated Earn Code" />
 	</bean>
 	
-	<!-- recipientsLeaveCode -->
-	<bean id="LeaveDonation-recipientsLeaveCode" parent="LeaveDonation-recipientsLeaveCode-parentBean" />
-	<bean id="LeaveDonation-recipientsLeaveCode-parentBean" abstract="true"
+	<!-- recipientsEarnCode -->
+	<bean id="LeaveDonation-recipientsEarnCode" parent="LeaveDonation-recipientsEarnCode-parentBean" />
+	<bean id="LeaveDonation-recipientsEarnCode-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Recipients Leave Code" />
+		<property name="shortLabel" value="Recipients Earn Code" />
 		<property name="maxLength" value="15" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
@@ -179,8 +179,8 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-		<property name="name" value="recipientsLeaveCode" />
-		<property name="label" value="Recipients Leave Code" />
+		<property name="name" value="recipientsEarnCode" />
+		<property name="label" value="Recipients Earn Code" />
 	</bean>
 	
 	<!-- amountDonated -->

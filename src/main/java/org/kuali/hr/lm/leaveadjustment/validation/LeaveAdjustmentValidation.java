@@ -28,11 +28,11 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 		return valid;
 	}
 	
-	boolean validateLeaveCode(String leaveCode, String accrualCategory, String principalId, Date asOfDate) {
+	boolean validateEarnCode(String earnCode, String accrualCategory, String principalId, Date asOfDate) {
 		boolean valid = true;
-		if (!ValidationUtils.validateLeaveCodeOfAccrualCategory(leaveCode, accrualCategory, principalId, asOfDate)) {
-			this.putFieldError("leaveCode", "error.existence", "leaveCode '"
-					+ leaveCode + "'");
+		if (!ValidationUtils.validateEarnCodeOfAccrualCategory(earnCode, accrualCategory, principalId, asOfDate)) {
+			this.putFieldError("earnCode", "error.existence", "earnCode '"
+					+ earnCode + "'");
 			valid = false;
 		}
 		return valid;
@@ -79,8 +79,8 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 				if(leaveAdjustment.getLeavePlan() != null) {
 					valid &= this.validateLeavePlan(leaveAdjustment.getLeavePlan(), leaveAdjustment.getEffectiveDate());
 				}
-				if(leaveAdjustment.getLeaveCode() != null) {
-					valid &= this.validateLeaveCode(leaveAdjustment.getLeaveCode(), leaveAdjustment.getAccrualCategory(), leaveAdjustment.getPrincipalId(), leaveAdjustment.getEffectiveDate());
+				if(leaveAdjustment.getEarnCode() != null) {
+					valid &= this.validateEarnCode(leaveAdjustment.getEarnCode(), leaveAdjustment.getAccrualCategory(), leaveAdjustment.getPrincipalId(), leaveAdjustment.getEffectiveDate());
 				}
 			}
 		}

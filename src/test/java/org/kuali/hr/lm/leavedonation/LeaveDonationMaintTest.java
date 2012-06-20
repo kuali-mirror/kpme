@@ -16,7 +16,7 @@ public class LeaveDonationMaintTest extends TkTestCase{
 		assertTrue("Page contains test Donated Account Category", lcLookup.asText().contains("dAC"));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(lcLookup, "edit");
 		assertTrue("Maintenance Page contains test Donated Account Category",maintPage.asText().contains("dAC"));
-		assertTrue("Maintenance Page contains test Leave Codes",maintPage.asText().contains("LC-TEST2"));
+		assertTrue("Maintenance Page contains test Earn Codes",maintPage.asText().contains("LC-TEST2"));
 	}
 	
 	// commented out this test, KPME-1207, effectiveDate can be past, current or future
