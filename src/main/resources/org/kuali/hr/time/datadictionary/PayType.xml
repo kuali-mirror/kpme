@@ -98,14 +98,14 @@
 	<bean id="PayType-regEarnCode-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Earn Code" />
-		<property name="maxLength" value="3" />
+		<property name="maxLength" value="15" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
 				<property name="allowWhitespace" value="false" />
 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="3" />
+			<bean parent="TextControlDefinition" p:size="15" />
 		</property>
 		<property name="name" value="regEarnCode" />
 		<property name="label" value="Regular Earn Code" />

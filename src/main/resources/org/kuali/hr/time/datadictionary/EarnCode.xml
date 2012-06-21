@@ -98,10 +98,10 @@
 
   <bean id="EarnCode-earnCode" parent="EarnCode-earnCode-parentBean" />
   <bean id="EarnCode-earnCode-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="maxLength" value="3" />
+    <property name="maxLength" value="15" />
     <property name="forceUppercase" value="true" />
     <property name="control" >
-      <bean parent="TextControlDefinition" p:size="3" />
+      <bean parent="TextControlDefinition" p:size="15" />
     </property>
 
     <property name="name" value="earnCode" />
@@ -413,14 +413,14 @@
 <bean id="EarnCode-rollupToEarnCode" parent="EarnCode-rollupToEarnCode-parentBean"/>
   <bean id="EarnCode-rollupToEarnCode-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Accrual Category"/>
-    <property name="maxLength" value="3"/>
+    <property name="maxLength" value="15"/>
 	<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
 				<property name="allowWhitespace" value="false" />
 			</bean>
 	</property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="3"/>
+      <bean parent="TextControlDefinition" p:size="15"/>
     </property>
     <property name="name" value="rollupToEarnCode"/>
     <property name="label" value="Roll up to Earncode"/>
