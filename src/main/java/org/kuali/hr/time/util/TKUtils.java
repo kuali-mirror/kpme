@@ -500,7 +500,7 @@ public class TKUtils {
     	return dayCounts;
     }
     
-    public static boolean isWeenend(java.util.Date aDate) {
+    public static boolean isWeekend(java.util.Date aDate) {
     	Calendar cal = Calendar.getInstance();
 		cal.setTime(aDate);
     	if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY 

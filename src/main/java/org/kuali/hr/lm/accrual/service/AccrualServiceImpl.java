@@ -236,25 +236,27 @@ public class AccrualServiceImpl implements AccrualService {
 						continue;
 					}
 					
-					//get not eligible for accrual hours based on leave block on this day
-					BigDecimal noAccrualHours = getNotEligibleForAccrualHours(principalId, new java.sql.Date(currentDate.getTime()));
-					BigDecimal accrualRate = currentAcRule.getAccrualRate();
-					if(noAccrualHours.compareTo(BigDecimal.ZERO) != 0) { 
-						if(noAccrualHours.compareTo(totalOfStandardHours) >= 0) {
-							continue;	// no accrual will be accumulated today if not-eligible-for_accrual hours exceeds standard hours
-						} else {
-							accrualRate = (totalOfStandardHours.add(noAccrualHours.negate())).divide(totalOfStandardHours);
-						}
-					}
-					//Fetch the accural rate based on rate range for today(Rate range is the accumulated list of jobs and accrual rate for today)
-					//Add to total accumulatedAccrualCatToAccrualAmounts
-					//use rule and ftePercentage to calculate the hours
-//					int numberOfDays = getDaysInAccrualInterval(ac.getAccrualEarnInterval(), new java.sql.Date(currentDate.getTime()));
-					
 					// only accrual on work days
-					if(!TKUtils.isWeenend(currentDate)) {
+					if(!TKUtils.isWeekend(currentDate)) {
+						BigDecimal accrualRate = currentAcRule.getAccrualRate();
 						int numberOfWorkDays = getWorkDaysInAccrualInterval(ac.getAccrualEarnInterval(), new java.sql.Date(currentDate.getTime()));
 						BigDecimal dayRate = accrualRate.divide(new BigDecimal(numberOfWorkDays), 6, BigDecimal.ROUND_HALF_UP);
+						
+						//get not eligible for accrual hours based on leave block on this day
+						BigDecimal noAccrualHours = getNotEligibleForAccrualHours(principalId, new java.sql.Date(currentDate.getTime()));
+						
+						if(noAccrualHours.compareTo(BigDecimal.ZERO) != 0) { 
+							if(totalOfStandardHours.compareTo(BigDecimal.ZERO) != 0) {
+								BigDecimal dayHours = totalOfStandardHours.divide(new BigDecimal(5), 6, BigDecimal.ROUND_HALF_UP);
+								if(noAccrualHours.compareTo(dayHours) > 0) {
+									noAccrualHours = dayHours;	// if the no accrual hours is bigger than the day hours, use day hours as no accurl hours
+								}
+								dayRate = dayRate.multiply((dayHours.add(noAccrualHours.negate())).divide(dayHours));
+							}
+						}
+						//Fetch the accural rate based on rate range for today(Rate range is the accumulated list of jobs and accrual rate for today)
+						//Add to total accumulatedAccrualCatToAccrualAmounts
+						//use rule and ftePercentage to calculate the hours						
 						this.calculateHours(ac.getLmAccrualCategoryId(), ftePercentage, dayRate, accumulatedAccrualCatToAccrualAmounts);
 					}					
 					//Determine if we are at the accrual earn interval in the span, if so add leave block for accumulated accrual amount to list
@@ -321,19 +323,13 @@ public class AccrualServiceImpl implements AccrualService {
 			if(ec == null) {
 				throw new RuntimeException("Cannot find Earn Code for Leave block " + lb.getLmLeaveBlockId());
 			}
-			if(ec.getEligibleForAccrual()=="N" && lb.getLeaveAmount().compareTo(BigDecimal.ZERO) != 0) {
+			if(ec.getEligibleForAccrual().equals("N") && lb.getLeaveAmount().compareTo(BigDecimal.ZERO) != 0) {
 				hours = hours.add(lb.getLeaveAmount());
 			}		
 		}
 		return hours;
 	}
 	
-//	private List<LeaveBlock> getLeaveBlocksForEarnInteral(String principalId, Date intervalEndDate, String earnIntervalKey) {
-//		java.util.Date intervalStartDate = this.getAccrualIntervalStartDate(earnIntervalKey, intervalEndDate);
-//		List<LeaveBlock> lbList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, intervalStartDate, intervalEndDate);
-//		return lbList;
-//	}
-
 	private void createLeaveBlock(String principalId, List<LeaveBlock> accrualLeaveBlocks, 
 			java.util.Date currentDate, BigDecimal hrs, AccrualCategory anAC, String sysSchTimeOffId) {
 		// Replacing Leave Code to earn code - KPME 1634

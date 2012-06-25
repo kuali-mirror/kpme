@@ -3,12 +3,12 @@ delete from lm_accrual_category_t where lm_accrual_category_id >= '5000';
 delete from lm_accrual_category_rules_t where lm_accrual_category_rules_id >= '5000';
 delete from lm_leave_code_t where lm_leave_code_id >= '5000';
 delete from hr_earn_code_t where hr_earn_code_id >= '5000';
-delete from hr_principal_attributes_t where hr_principal_attribute_id >= 5000;
-delete from hr_principal_attributes_t where principal_id in('testUser', 'testUser1', 'testUser2', 'testUser3', 'testUser4', 'testUser5', 'testUser6');
+delete from hr_principal_attributes_t where hr_principal_attribute_id >= '5000';
+delete from hr_principal_attributes_t where principal_id in('testUser', 'testUser1', 'testUser2', 'testUser3', 'testUser4', 'testUser5', 'testUser6', 'testUser7');
 delete from hr_job_t where hr_job_id >= '5000';
 delete from lm_sys_schd_timeoff_t where lm_sys_schd_timeoff_id = '5000';
-delete from lm_leave_block_t where principal_id in ('testUser', 'testUser1', 'testUser2', 'testUser3', 'testUser4', 'testUser5', 'testUser6');
-delete from lm_leave_block_hist_t where principal_id in ('testUser', 'testUser1', 'testUser2', 'testUser3', 'testUser4', 'testUser5', 'testUser6');
+delete from lm_leave_block_t where principal_id in ('testUser', 'testUser1', 'testUser2', 'testUser3', 'testUser4', 'testUser5', 'testUser6', 'testUser7');
+delete from lm_leave_block_hist_t where principal_id in ('testUser', 'testUser1', 'testUser2', 'testUser3', 'testUser4', 'testUser5', 'testUser6', 'testUser7');
 
 insert into lm_leave_plan_t values ('8000', 'testLP', 'Test Leave Plan', '02/01', '2012-02-01', '', '1', 'Y', '2012-02-06 11:59:46', '12');
 insert into hr_principal_attributes_t values('5001', 'testUser', 'BWS-CAL', 'testLP', '2012-03-01', 'Y', 'Y', null, '2012-03-01', now(), uuid(), '1', 'Y', 'LM', 'Y', 'Y');
@@ -98,5 +98,22 @@ insert into lm_accrual_category_rules_t values ('5009', 'M', 0, 6, 16, 100.00, '
 insert into lm_accrual_category_rules_t values ('5010', 'M', 6, 900, 24, 500.00, 'NA', 'NA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '5008', 'DEDC243D-4E51-CCDE-1326-E1700B2631E1', '1', 'Y', '2012-02-03 12:10:23', 'N');
 insert into hr_job_t values ('5009', 'testUser6', '9', '2012-03-01', 'TEST-DEPT', 'SD1', 'SD1', now(), uuid(), '1', '0.000000', 'SD1', '40.00', 'BW', 'Y',  'Y', 'N', 'Y', null);
 
+# for testNotEligibleForAccrualAdjustment
+# user testUser7
+insert into lm_leave_plan_t values ('8006', 'testLP7', 'Test Leave Plan', '02/01', '2012-02-01', '', '1', 'Y', '2012-02-06 11:59:46', '80');
+insert into hr_principal_attributes_t values('5008', 'testUser7', 'BWS-CAL', 'testLP7', '2012-03-10', 'Y', 'Y', null, '2012-03-10', now(), uuid(), '1', 'Y', 'LM', 'Y', 'Y');
 
+insert into lm_accrual_category_t values('5009', 'testAC9', 'testLP7', 'test', 'M', '40', '2012-02-01', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'Y', null, 'Y', 'Y',now(), '0', 'EC', 'Y');
+insert into lm_accrual_category_rules_t values ('5011', 'M', 0, 300, 32, 100.00, 'NA', 'NA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '5009', 'DEDC243D-4E51-CCDE-1326-E1700B2631E1', '1', 'Y', '2012-02-03 12:10:23', 'N');
+insert into hr_job_t values ('5010', 'testUser7', '10', '2012-03-01', 'TEST-DEPT', 'SD1', 'SD1', now(), uuid(), '1', '0.000000', 'SD1', '30.00', 'BW', 'Y',  'Y', 'N', 'Y', null);
+insert into hr_job_t values ('5011', 'testUser7', '11', '2012-03-01', 'TEST-DEPT', 'SD1', 'SD1', now(), uuid(), '1', '0.000000', 'SD1', '10.00', 'BW', 'Y',  'Y', 'N', 'Y', null);
+
+# earn code EC6 is NOT eligible for accrual
+insert into hr_earn_code_t values('5006', 'EC6', 'test', '2012-02-01', 'Y', 'Y', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1', now(), 'testAC9', '1.5', '1.5', 'testLP', 'None', '99', 'T', 'N', 'N', 'N', 'Y', 'Y', 'test', null, 'N', 'Hours');
+# 3 manually entered leave blocks that are NOT eligible for accrual
+insert into lm_leave_block_t (`lm_leave_block_id`, `leave_date`,`description`,  `principal_id` , `earn_code` ,`hr_earn_code_id` ,`lm_sys_schd_timeoff_id` ,`lm_accrual_category_id` ,`leave_amount`, `apply_to_ytd_used`, `document_id`, `accrual_generated`, `block_id`,`ver_nbr`, `obj_id`, `timestamp`,`principal_id_modified`, `tk_assignment_id`, `request_status` ) values('5000', '2012-04-26', 'Send for Approval', 'testUser7', 'EC6', '5006', NULL, '5009', '2', null, null, 'N', '0','1','B2991ADA-E866-F28C-7E95-A897AC377D0C', now(), 'admin',  null, 'P');
+insert into lm_leave_block_t (`lm_leave_block_id`, `leave_date`,`description`,  `principal_id` , `earn_code` ,`hr_earn_code_id` ,`lm_sys_schd_timeoff_id` ,`lm_accrual_category_id` ,`leave_amount`, `apply_to_ytd_used`, `document_id`, `accrual_generated`, `block_id`,`ver_nbr`, `obj_id`, `timestamp`,`principal_id_modified`, `tk_assignment_id`, `request_status` ) values('5001', '2012-05-08', 'Send for Approval', 'testUser7', 'EC6', '5006', NULL, '5009', '5', null, null, 'N', '0','1','B2991ADA-E866-F28C-7E95-A897AC377D0C', now(), 'admin',  null, 'P');
+insert into lm_leave_block_t (`lm_leave_block_id`, `leave_date`,`description`,  `principal_id` , `earn_code` ,`hr_earn_code_id` ,`lm_sys_schd_timeoff_id` ,`lm_accrual_category_id` ,`leave_amount`, `apply_to_ytd_used`, `document_id`, `accrual_generated`, `block_id`,`ver_nbr`, `obj_id`, `timestamp`,`principal_id_modified`, `tk_assignment_id`, `request_status` ) values('5002', '2012-06-12', 'Send for Approval', 'testUser7', 'EC6', '5006', NULL, '5009', '10', null, null, 'N', '0','1','B2991ADA-E866-F28C-7E95-A897AC377D0C', now(), 'admin',  null, 'P');
+# one manually entered leave block that is eligible for accrual
+insert into lm_leave_block_t (`lm_leave_block_id`, `leave_date`,`description`,  `principal_id` , `earn_code` ,`hr_earn_code_id` ,`lm_sys_schd_timeoff_id` ,`lm_accrual_category_id` ,`leave_amount`, `apply_to_ytd_used`, `document_id`, `accrual_generated`, `block_id`,`ver_nbr`, `obj_id`, `timestamp`,`principal_id_modified`, `tk_assignment_id`, `request_status` ) values('5003', '2012-05-22', 'Send for Approval', 'testUser7', 'EC', '5000', NULL, '5009', '8', null, null, 'N', '0','1','B2991ADA-E866-F28C-7E95-A897AC377D0C', now(), 'admin',  null, 'P');
 
