@@ -112,20 +112,21 @@ public class TkForm extends KualiForm {
     
     
     private boolean isActiveAssignmentFoundOnJobFlsaStatus(String principalId, String flsaStatus, boolean chkForLeaveEligible) {
-    	boolean isActiveAssFound = true;
+    	boolean isActiveAssFound = false;
     	Date asOfDate = TKUtils.getTimelessDate(null);
      	List<Assignment> activeAssignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
      	if(activeAssignments != null && !activeAssignments.isEmpty()) {
      		for(Assignment assignment : activeAssignments) {
-     			if(!(assignment != null && assignment.getJob() != null && assignment.getJob().getFlsaStatus() != null && assignment.getJob().getFlsaStatus().equalsIgnoreCase(flsaStatus))) {
-     				isActiveAssFound = false;
+     			if(assignment != null && assignment.getJob() != null && assignment.getJob().getFlsaStatus() != null && assignment.getJob().getFlsaStatus().equalsIgnoreCase(flsaStatus)) {
+     				if(chkForLeaveEligible) {
+     					isActiveAssFound = assignment.getJob().isEligibleForLeave();
+     					if(!isActiveAssFound){
+     						continue;
+     					}
+     				}
+     				isActiveAssFound = true;
      				break;
-     			}  else if(chkForLeaveEligible) {
- 					isActiveAssFound = assignment.getJob().isEligibleForLeave();
- 					if(!isActiveAssFound) {
- 						break;
- 					}
- 				}
+     			}  
      		}
      	}
     	return isActiveAssFound;
