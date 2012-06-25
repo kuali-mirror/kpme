@@ -16,15 +16,14 @@ import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
-import org.kuali.hr.time.timeblock.TimeBlockHistory;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.apache.commons.lang.StringUtils;  
 
 public class LeaveBlock extends PersistableBusinessObjectBase {
@@ -38,8 +37,8 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	private Date leaveDate;
 	private String description;
 	private String principalId;
-	private String leaveCode;
-	private String leaveCodeId;
+	private String earnCode;
+	private String earnCodeId;
 	private String scheduleTimeOffId;
 	private String accrualCategoryId;
 	// private Boolean active;
@@ -54,12 +53,12 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	private String requestStatus;
 
 	private List<LeaveBlockHistory> leaveBlockHistories = new ArrayList<LeaveBlockHistory>();
-	private LeaveCode leaveCodeObj;
+	private EarnCode earnCodeObj;
 	private SystemScheduledTimeOff systemScheduledTimeOffObj;
 	private AccrualCategory accrualCategoryObj;
 
 	@Transient
-	private String leaveCodeString;
+	private String earnCodeString;
 	@Transient
 	private boolean submit;
 	@Transient
@@ -84,7 +83,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		private final Date leaveDate;
 		private final String principalId;
 		private final String documentId;
-		private final String leaveCode;
+		private final String earnCode;
 		private final BigDecimal leaveAmount;
 
 		private String description = null;
@@ -93,7 +92,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		private Timestamp timestamp = null;
 		private Boolean accrualGenerated = Boolean.FALSE;
 		private Long blockId = 0L;
-		private String leaveCodeId;
+		private String earnCodeId;
 		private String scheduleTimeOffId;
 		private String accrualCategoryId;
 		private String tkAssignmentId;
@@ -103,12 +102,12 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		private Long task;
 
 		public Builder(DateTime leaveBlockDate, String documentId,
-				String principalId, String leaveCode, BigDecimal leaveAmount) {
+				String principalId, String earnCode, BigDecimal leaveAmount) {
 			this.leaveDate = new java.sql.Date(leaveBlockDate.toDate()
 					.getTime());
 			this.documentId = documentId;
 			this.principalId = principalId;
-			this.leaveCode = leaveCode;
+			this.earnCode = earnCode;
 			this.leaveAmount = leaveAmount;
 		}
 
@@ -144,8 +143,8 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 			return this;
 		}
 
-		public Builder leaveCodeId(String val) {
-			this.leaveCodeId = val;
+		public Builder earnCodeId(String val) {
+			this.earnCodeId = val;
 			return this;
 		}
 
@@ -195,7 +194,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		leaveDate = builder.leaveDate;
 		description = builder.description;
 		principalId = builder.principalId;
-		leaveCode = builder.leaveCode;
+		earnCode = builder.earnCode;
 		leaveAmount = builder.leaveAmount;
 		applyToYtdUsed = builder.applyToYtdUsed;
 		documentId = builder.documentId;
@@ -203,7 +202,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		timestamp = builder.timestamp;
 		accrualGenerated = builder.accrualGenerated;
 		blockId = builder.blockId;
-		leaveCodeId = builder.leaveCodeId;
+		earnCodeId = builder.earnCodeId;
 		scheduleTimeOffId = builder.scheduleTimeOffId;
 		accrualCategoryId = builder.accrualCategoryId;
 		tkAssignmentId = builder.tkAssignmentId;
@@ -298,22 +297,6 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		this.leaveAmount = leaveAmount;
 	}
 
-	public String getLeaveCode() {
-		return leaveCode;
-	}
-
-	public void setLeaveCode(String leaveCode) {
-		this.leaveCode = leaveCode;
-	}
-
-	public String getLeaveCodeId() {
-		return leaveCodeId;
-	}
-
-	public void setLeaveCodeId(String leaveCodeId) {
-		this.leaveCodeId = leaveCodeId;
-	}
-
 	public Date getLeaveDate() {
 		return leaveDate;
 	}
@@ -370,14 +353,6 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		this.accrualCategoryObj = accrualCategoryObj;
 	}
 
-	public LeaveCode getLeaveCodeObj() {
-		return leaveCodeObj;
-	}
-
-	public void setLeaveCodeObj(LeaveCode leaveCodeObj) {
-		this.leaveCodeObj = leaveCodeObj;
-	}
-
 	public SystemScheduledTimeOff getSystemScheduledTimeOffObj() {
 		return systemScheduledTimeOffObj;
 	}
@@ -412,21 +387,21 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		this.leaveBlockHistories = leaveBlockHistories;
 	}
 
-	public String getLeaveCodeString() {
+	public String getEarnCodeString() {
 		try {
 			System.out.println("Fetching code >>");
-			LeaveCode leaveCode = TkServiceLocator.getLeaveCodeService()
-					.getLeaveCode(this.leaveCodeId);
-			leaveCodeString = leaveCode.getDisplayName();
+			EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCodeById(this.earnCode);
+					
+			earnCodeString = earnCode.getDescription();
 		} catch (Exception ex) {
 			System.out
 					.println("error came while fetching leave code String >>>>>>");
 		}
-		return leaveCodeString;
+		return earnCodeString;
 	}
 
-	public void setLeaveCodeString(String leaveCodeString) {
-		this.leaveCodeString = leaveCodeString;
+	public void setEarnCodeString(String earnCodeString) {
+		this.earnCodeString = earnCodeString;
 	}
 
 	public String getReason() {
@@ -528,6 +503,30 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 
 	public void setCalendarId(String calendarId) {
 		this.calendarId = calendarId;
+	}
+
+	public String getEarnCode() {
+		return earnCode;
+	}
+
+	public void setEarnCode(String earnCode) {
+		this.earnCode = earnCode;
+	}
+
+	public String getEarnCodeId() {
+		return earnCodeId;
+	}
+
+	public void setEarnCodeId(String earnCodeId) {
+		this.earnCodeId = earnCodeId;
+	}
+
+	public EarnCode getEarnCodeObj() {
+		return earnCodeObj;
+	}
+
+	public void setEarnCodeObj(EarnCode earnCodeObj) {
+		this.earnCodeObj = earnCodeObj;
 	}
 	
 	

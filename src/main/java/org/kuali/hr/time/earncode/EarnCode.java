@@ -314,4 +314,19 @@ public class EarnCode extends HrBusinessObject {
 	public void setId(String id) {
 		setHrEarnCodeId(id);
 	}
+	
+    public String getEarnCodeKeyForDisplay() {
+//    	String unitTime = null;
+//    	AccrualCategory acObj = null;
+//    	if(this.accrualCategory != null) {
+//    		acObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, this.effectiveDate);
+//    	}
+//    	unitTime = (acObj!= null ? acObj.getUnitOfTime() : this.recordMethod) ;
+//        return hrEarnCodeId + ":" + unitTime;
+    	return hrEarnCodeId;
+    }
+    
+    public String getEarnCodeValueForDisplay() {
+        return earnCode + " : " + description;
+    }
 }

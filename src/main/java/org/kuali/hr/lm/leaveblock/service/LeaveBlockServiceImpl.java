@@ -21,6 +21,7 @@ import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
@@ -108,7 +109,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     }
 
     @Override
-    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntries ce, String selectedLeaveCode, BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks) {
+    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntries ce, String selectedEarnCode, BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks) {
         String princpalId = TKContext.getTargetPrincipalId();
         DateTimeZone zone = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
         DateTime calBeginDateTime = beginDate;
@@ -118,11 +119,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         	calEndDateTime = ce.getEndLocalDateTime().toDateTime(zone);
         }
         Interval calendarInterval = new Interval(calBeginDateTime, calEndDateTime);
-        // Currently, we store the accrual category value in the leave code table, but store accrual category id in the leaveBlock.
-        // That's why there is a two step server call to get the id. This might be changed in the future.
-        LeaveCode leaveCodeObj = TkServiceLocator.getLeaveCodeService().getLeaveCode(selectedLeaveCode);
-        AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(leaveCodeObj.getAccrualCategory(), TKUtils.getCurrentDate());
-
+       
         // To create the correct interval by the given begin and end dates,
         // we need to plus one day on the end date to include that date
         List<Interval> leaveBlockIntervals = TKUtils.createDaySpan(beginDate, endDate.plusDays(1), zone);
@@ -143,13 +140,19 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
             		
             		// do nothing
             	} else {
-	                LeaveBlock leaveBlock = new LeaveBlock.Builder(new DateTime(leaveBlockInt.getStartMillis()), docId, princpalId, leaveCodeObj.getLeaveCode(), hours)
+            		 // Currently, we store the accrual category value in the leave code table, but store accrual category id in the leaveBlock.
+                    // That's why there is a two step server call to get the id. This might be changed in the future.
+             
+                    EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCodeById(selectedEarnCode);
+                    AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), TKUtils.getCurrentDate());
+                    String acId = accrualCategory == null ? null : accrualCategory.getLmAccrualCategoryId();
+	                LeaveBlock leaveBlock = new LeaveBlock.Builder(new DateTime(leaveBlockInt.getStartMillis()), docId, princpalId, earnCodeObj.getEarnCode(), hours)
 	                        .description(description)
 	                        .principalIdModified(princpalId)
 	                        .timestamp(TKUtils.getCurrentTimestamp())
-	                        .leaveCodeId(leaveCodeObj.getLmLeaveCodeId())
+	                        .earnCodeId(earnCodeObj.getHrEarnCodeId())
 	                        .scheduleTimeOffId("0")
-	                        .accrualCategoryId(accrualCategory.getLmAccrualCategoryId())
+	                        .accrualCategoryId(acId)
 	                        .workArea(selectedAssignment.getWorkArea())
 	                        .jobNumber(selectedAssignment.getJobNumber())
 	                        .task(selectedAssignment.getTask())
@@ -215,5 +218,9 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 		}
 		return totalAccrualBal;
 				
+	}
+	@Override
+	public List<LeaveBlock> getNotAccrualGeneratedLeaveBlocksForDate(String principalId, Date leaveDate) {
+		return leaveBlockDao.getNotAccrualGeneratedLeaveBlocksForDate(principalId, leaveDate);
 	}
 }

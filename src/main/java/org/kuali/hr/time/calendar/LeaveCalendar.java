@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class LeaveCalendar extends CalendarParent {
 
-    private Map<String, String> leaveCodeList;
+    private Map<String, String> earnCodeList;
     
     public LeaveCalendar(String principalId, CalendarEntries calendarEntry) {
         super(calendarEntry);
@@ -74,8 +74,8 @@ public class LeaveCalendar extends CalendarParent {
             getWeeks().add(leaveCalendarWeek);
         }
 
-        Map<String, String> leaveCodes = TkServiceLocator.getLeaveCodeService().getLeaveCodesForDisplay(TKContext.getTargetPrincipalId());
-        setLeaveCodeList(leaveCodes);
+        Map<String, String> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForDisplay(TKContext.getTargetPrincipalId());
+        setEarnCodeList(earnCodes);
     } 
     
     private Multimap<Date, LeaveBlock> leaveBlockAggregator(String documentId) {
@@ -88,11 +88,11 @@ public class LeaveCalendar extends CalendarParent {
         return leaveBlockAggregrate;
     }
 
-    public Map<String, String> getLeaveCodeList() {
-        return leaveCodeList;
-    }
+   	public Map<String, String> getEarnCodeList() {
+		return earnCodeList;
+	}
 
-    public void setLeaveCodeList(Map<String, String> leaveCodeList) {
-        this.leaveCodeList = leaveCodeList;
-    }
+	public void setEarnCodeList(Map<String, String> earnCodeList) {
+		this.earnCodeList = earnCodeList;
+	}
 }

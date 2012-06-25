@@ -147,4 +147,13 @@ public class JobServiceImpl implements JobService {
     	return fteSum;
     	
     }
+    
+    @Override
+    public BigDecimal getStandardHoursSumForJobs(List<Job> jobs) {
+    	BigDecimal hoursSum = new BigDecimal(0);
+    	for(Job aJob : jobs) {
+    		hoursSum = hoursSum.add(aJob.getStandardHours());
+    	}
+    	return hoursSum;
+    }
 }

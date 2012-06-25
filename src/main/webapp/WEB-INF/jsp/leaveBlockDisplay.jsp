@@ -52,7 +52,7 @@
 							pattern="MMM-dd-yyyy" />
 						</a>
 					</display:column>
-					<display:column property="leaveCode" title="Leave Code"/>
+					<display:column property="earnCode" title="Earn Code"/>
 					<display:column property="description" title="Description" />
 					<display:column property="requestStatus" title="Status" />
 					<display:column property="leaveAmount" title="Amount" />
@@ -78,7 +78,7 @@
 							pattern="MMM-dd-yyyy" />
 						</a>
 					</display:column>
-					<display:column property="leaveCode" title="Leave Code" />
+					<display:column property="earnCode" title="Earn Code" />
 					<display:column property="description" title="Description" />
 					<display:column property="principalIdModified"
 						title="User Deleted/Modified" />
@@ -104,7 +104,7 @@
 							pattern="MMM-dd-yyyy" />
 						</a>
 					</display:column>
-					<display:column property="leaveCode" title="Leave Code" />
+					<display:column property="earnCode" title="Earn Code" />
 					<display:column property="requestStatus" title="Status" />
 					<display:column property="description" title="Description" />
 					<display:column property="leaveAmount" title="Amount" />

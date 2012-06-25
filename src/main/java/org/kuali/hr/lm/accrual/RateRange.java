@@ -11,6 +11,7 @@ public class RateRange {
 	private Interval range;
 	private List<Job> jobs = new ArrayList<Job>();
 	private BigDecimal accrualRatePercentageModifier = new BigDecimal("1.0");
+	private BigDecimal standardHours;
 	
 	private boolean statusChanged;
 	
@@ -38,5 +39,11 @@ public class RateRange {
 	}
 	public void setStatusChanged(boolean statusChanged) {
 		this.statusChanged = statusChanged;
+	}
+	public BigDecimal getStandardHours() {
+		return standardHours;
+	}
+	public void setStandardHours(BigDecimal standardHours) {
+		this.standardHours = standardHours;
 	}
 }

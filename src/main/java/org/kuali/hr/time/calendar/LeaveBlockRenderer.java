@@ -6,7 +6,8 @@ import org.kuali.hr.lm.leaveblock.LeaveBlock;
 
 public class LeaveBlockRenderer {
     private LeaveBlock leaveBlock;
-    private String leaveCode;
+//    private String leaveCode;
+    private String earnCode;
     private BigDecimal hours;
     private long leaveBlockId;
     private String documentId;
@@ -24,8 +25,8 @@ public class LeaveBlockRenderer {
         return leaveBlock.getLeaveAmount();
     }
 
-    public String getLeaveCode() {
-        return leaveBlock.getLeaveCode();
+    public String getEarnCode() {
+        return leaveBlock.getEarnCode();
     }
 
     public String getLeaveBlockId() {

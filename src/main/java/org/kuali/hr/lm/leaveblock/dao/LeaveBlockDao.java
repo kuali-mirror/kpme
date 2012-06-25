@@ -13,5 +13,6 @@ public interface LeaveBlockDao {
     public List<LeaveBlock> getLeaveBlocks(String principalId, String requestStatus, Date currentDate);
     public List<LeaveBlock> getLeaveBlocksForDate(String principalId, Date leaveDate);
     public List<LeaveBlock> getLeaveBlocks(Date leaveDate, String accrualCategoryId, String principalId);
+    public List<LeaveBlock> getNotAccrualGeneratedLeaveBlocksForDate(String principalId, Date leaveDate);
 }
 

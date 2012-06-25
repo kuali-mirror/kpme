@@ -8,9 +8,8 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationService;
-import org.kuali.hr.lm.leavecalendar.web.LeaveCalendarForm;
-import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.time.base.web.TkAction;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 
@@ -30,22 +29,21 @@ public class LeaveCalendarWSAction extends TkAction {
     }
 
         
-    public ActionForward getLeaveCodeInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward getEarnCodeInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	//System.out.println("Leave code info called >>>>>>>>>>>>>>>");
     	LeaveCalendarWSForm lcf = (LeaveCalendarWSForm) form;
         LOG.info(lcf.toString());
-        LeaveCode leaveCode = TkServiceLocator.getLeaveCodeService().getLeaveCode(lcf.getSelectedLeaveCode());
-        String unitOfTime = leaveCode.getUnitOfTime();
+        EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCodeById(lcf.getSelectedEarnCode());
         AccrualCategory acObj = null;
-    	if(leaveCode.getAccrualCategory() != null) {
-    		acObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(leaveCode.getAccrualCategory(), TKUtils.getCurrentDate());
+    	if(earnCode.getAccrualCategory() != null) {
+    		acObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCode.getAccrualCategory(), TKUtils.getCurrentDate());
     	}
-    	String unitTime = (acObj!= null ? acObj.getUnitOfTime() : unitOfTime) ;
-        Map<String, Object> leaveCodeMap = new HashMap<String, Object>();
-        leaveCodeMap.put("unitOfTime", unitTime);
-        leaveCodeMap.put("defaultAmountofTime", leaveCode.getDefaultAmountofTime());
-        leaveCodeMap.put("fractionalTimeAllowed", leaveCode.getFractionalTimeAllowed());
-        lcf.setOutputString(JSONValue.toJSONString(leaveCodeMap));
+    	String unitTime = (acObj!= null ? acObj.getUnitOfTime() : earnCode.getRecordMethod()) ;
+        Map<String, Object> earnCodeMap = new HashMap<String, Object>();
+        earnCodeMap.put("unitOfTime", unitTime);
+        earnCodeMap.put("defaultAmountofTime", earnCode.getDefaultAmountofTime());
+        earnCodeMap.put("fractionalTimeAllowed", earnCode.getFractionalTimeAllowed());
+        lcf.setOutputString(JSONValue.toJSONString(earnCode));
         return mapping.findForward("ws");
     }
     

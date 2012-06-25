@@ -49,11 +49,11 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><label for="leave-code">* Leave Code:</label></td>
+                            <td><label for="leave-code">* Earn Code:</label></td>
                             <td>
-                                <html:select property="selectedLeaveCode" styleId="leaveCode">
-                                    <c:forEach var="leaveCode" items="${Form.leaveCalendar.leaveCodeList}">
-                                        <option value="${leaveCode.key}">${leaveCode.value}</option>
+                                <html:select property="selectedEarnCode" styleId="earnCode">
+                                    <c:forEach var="earnCode" items="${Form.leaveCalendar.earnCodeList}">
+                                        <option value="${earnCode.key}">${earnCode.value}</option>
                                     </c:forEach>
                                 </html:select>
                             </td>

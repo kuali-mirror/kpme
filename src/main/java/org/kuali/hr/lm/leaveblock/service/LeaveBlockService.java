@@ -24,7 +24,7 @@ public interface LeaveBlockService {
      */
     public void deleteLeaveBlock(long leaveBlockId);
 
-    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntries ce, String selectedLeaveCode, BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks);
+    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntries ce, String selectedEarnCode, BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks);
     public void updateLeaveBlock(LeaveBlock leaveBlock);  // KPME-1447
     /**
      * 
@@ -41,6 +41,13 @@ public interface LeaveBlockService {
      * @return List of LeaveBlocks
      */
     public List<LeaveBlock> getLeaveBlocksForDate(String principalId, Date leaveDate);
+    /**
+     * Get the list of not-accrual-generated leave blocks from the given leaveDate for the principalId
+     * @param principalId
+     * @param leaveDate
+     * @return List of LeaveBlocks
+     */
+    public List<LeaveBlock> getNotAccrualGeneratedLeaveBlocksForDate(String principalId, Date leaveDate);
     
     /**
      * Calculate the accrual balance (sum of the leave blocks at that time.)

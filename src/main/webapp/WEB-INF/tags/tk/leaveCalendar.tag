@@ -13,6 +13,6 @@
 	        <div id="show_${leaveBlock.leaveBlockId}">${leaveBlock.assignmentTitle}</div>
 	       
 	    </div>
-        ${leaveBlock.leaveCode} (${leaveBlock.hours})	
+        ${leaveBlock.earnCode} (${leaveBlock.hours})	
     </div>
 </c:forEach>

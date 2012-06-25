@@ -6,6 +6,7 @@ import org.kuali.hr.time.earncode.EarnCode;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface EarnCodeService {
 	/**
@@ -76,4 +77,6 @@ public interface EarnCodeService {
      * @return
      */
     public List<EarnCode> getEarnCodes(String principalId, Date asOfDate);
+    
+    public Map<String, String> getEarnCodesForDisplay(String principalId);
 }

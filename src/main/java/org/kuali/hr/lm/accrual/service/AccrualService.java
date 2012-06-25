@@ -74,12 +74,25 @@ public interface AccrualService {
 	public java.util.Date getNextAccrualIntervalDate(String earnInterval, Date aDate);
 	
 	/**
-	 * calculate # of days in an accrual period
+	 * calculate # of calendar days in an accrual period
 	 * @param earnInterval
 	 * @param aDate
 	 * @return	int
 	 */
 	public int getDaysInAccrualInterval(String earnInterval, Date aDate);
+	/**
+	 * get the start date of an accrual period
+	 * @param earnInterval
+	 * @param aDate
+	 * @return	int
+	 */
+	public java.util.Date getAccrualIntervalStartDate(String earnInterval, Date aDate);
 	
-	
+	/**
+	 * calculate # of work days in an accrual period
+	 * @param earnInterval
+	 * @param aDate
+	 * @return	int
+	 */
+	public int getWorkDaysInAccrualInterval(String earnInterval, Date aDate);
 }

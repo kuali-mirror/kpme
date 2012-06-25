@@ -13,14 +13,20 @@ import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
+
+import com.google.common.collect.Ordering;
 
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class EarnCodeServiceImpl implements EarnCodeService {
@@ -178,5 +184,31 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         }
         return earnCodes;
     }
+	
+	@Override
+	@CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
+	public Map<String, String> getEarnCodesForDisplay(String principalId) {
+		List<EarnCode> earnCodes = this.getEarnCodes(principalId, TKUtils.getCurrentDate());
+		
+		for (EarnCode earnCode : earnCodes) {
+			if ( !earnCode.getAllowScheduledLeave().equalsIgnoreCase("Y")) {
+				earnCodes.remove(earnCode);
+			}
+		} 
+		Comparator<EarnCode> earnCodeComparator = new Comparator<EarnCode>() {
+			@Override
+			public int compare(EarnCode ec1, EarnCode ec2) {
+				return ec1.getEarnCode().compareToIgnoreCase(ec2.getEarnCode());
+			}
+		};
+		// Order by leaveCode ascending
+		Ordering<EarnCode> ordering = Ordering.from(earnCodeComparator);
+
+		Map<String, String> earnCodesForDisplay = new LinkedHashMap<String, String>();
+		for (EarnCode earnCode : ordering.sortedCopy(earnCodes)) {
+			earnCodesForDisplay.put(earnCode.getEarnCodeKeyForDisplay(), earnCode.getEarnCodeValueForDisplay());
+		}
+		return earnCodesForDisplay;
+	}
 
 }

@@ -99,11 +99,16 @@ public interface JobService {
     public List<Job> getActiveLeaveJobs(String principalId, Date asOfDate);
     
     /**
-	 * Get sum of standard hours of given jobs
+	 * Get sum of fte of given jobs
 	 * @param jobs
 	 * @return
 	 */
     public BigDecimal getFteSumForJobs(List<Job> jobs);
-    
+    /**
+	 * Get sum of standard hours of given jobs
+	 * @param jobs
+	 * @return
+	 */
+    public BigDecimal getStandardHoursSumForJobs(List<Job> jobs);
     
 }

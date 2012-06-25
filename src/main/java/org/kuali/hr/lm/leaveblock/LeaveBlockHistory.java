@@ -33,8 +33,8 @@ public class LeaveBlockHistory extends LeaveBlock {
 		this.setApplyToYtdUsed(lb.getApplyToYtdUsed());
 		this.setDescription(lb.getDescription());
 		this.setLeaveAmount(lb.getLeaveAmount());
-		this.setLeaveCodeId(lb.getLeaveCodeId());
-		this.setLeaveCode(lb.getLeaveCode());
+		this.setEarnCodeId(lb.getEarnCodeId());
+		this.setEarnCode(lb.getEarnCode());
 		this.setLeaveDate(lb.getLeaveDate());
 		this.setPrincipalId(lb.getPrincipalId());
 //		this.setPrincipalIdModified(lb.getPrincipalIdModified());

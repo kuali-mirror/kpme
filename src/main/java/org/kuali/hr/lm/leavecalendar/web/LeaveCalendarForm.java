@@ -26,7 +26,7 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
     CalendarEntries calendarEntry;
     private String startDate;
     private String endDate;
-    private String selectedLeaveCode;
+    private String selectedEarnCode;
     private Map<String, String> leaveCodeList = new LinkedHashMap<String, String>();
     private BigDecimal leaveAmount;
     private String description;
@@ -168,14 +168,6 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
         this.endDate = endDate;
     }
 
-    public String getSelectedLeaveCode() {
-        return selectedLeaveCode;
-    }
-
-    public void setSelectedLeaveCode(String selectedLeaveCode) {
-        this.selectedLeaveCode = selectedLeaveCode;
-    }
-
 	public BigDecimal getLeaveAmount() {
 		return leaveAmount;
 	}
@@ -231,4 +223,12 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
     public String getEndPeriodDateTime() {
         return leaveCalendar.getEndDateTime().toString(SDF_NO_TZ);
     }
+
+	public String getSelectedEarnCode() {
+		return selectedEarnCode;
+	}
+
+	public void setSelectedEarnCode(String selectedEarnCode) {
+		this.selectedEarnCode = selectedEarnCode;
+	}
 }

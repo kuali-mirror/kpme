@@ -23,7 +23,7 @@ public class AccrualServiceTest extends TkTestCase {
 	 String PRINCIPAL_ID_4 = "testUser4";
 	 String PRINCIPAL_ID_5 = "testUser5";
 	 String PRINCIPAL_ID_6 = "testUser6";
-	
+	 String PRINCIPAL_ID_7 = "testUser7";
 	  
 	@Test
 	/*the employee has job A starts from 03/01/2012, ends on 04/01/2012 with standard hours of 40, so fte is 1.0
@@ -64,7 +64,7 @@ public class AccrualServiceTest extends TkTestCase {
 		assertTrue("There should be 1 leave block for date 04/01/2012.", leaveBlockList.size()==1);
 		lb = leaveBlockList.get(0);
 		assertTrue("Hours of the leave block for date 04/01/2012 should be 0, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(BigDecimal.ZERO));
-		assertTrue("Leave Code of the leave block for date 04/01/2012 should be 'MSG', not " + lb.getLeaveCode(), lb.getLeaveCode().equals("MSG"));
+		assertTrue("Leave Code of the leave block for date 04/01/2012 should be 'MSG', not " + lb.getEarnCode(), lb.getEarnCode().equals("MSG"));
 		assertNull("lm_accrual_category_id should be null for empty status change leave block", lb.getAccrualCategoryId()); 
 		
 		// there should be a holiday leave block of 4 hours on 04/10/2012
@@ -168,7 +168,7 @@ public class AccrualServiceTest extends TkTestCase {
 		 assertTrue("There should be 1 leave block for date " + semiMonthlyDate.toString() + " for emplyee " + PRINCIPAL_ID_3, leaveBlockList.size()==1);
 		 LeaveBlock lb = leaveBlockList.get(0);
 		 assertTrue("Hours of the leave block on date " + semiMonthlyDate.toString() + " should be 8, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(new BigDecimal(8)));
-		 assertTrue("Leave code of the leave block on date " + semiMonthlyDate.toString() + " should be EC1, not " + lb.getLeaveCode(), lb.getLeaveCode().equals("EC1"));
+		 assertTrue("Leave code of the leave block on date " + semiMonthlyDate.toString() + " should be EC1, not " + lb.getEarnCode(), lb.getEarnCode().equals("EC1"));
 		 assertTrue("lm_accrual_category of the leave block on date " + semiMonthlyDate.toString() + " should be 5003, not " + lb.getAccrualCategoryId(), lb.getAccrualCategoryId().equals("5003"));
 		
 		
@@ -176,13 +176,13 @@ public class AccrualServiceTest extends TkTestCase {
 		 assertTrue("There should be 2 leave block for date " + monthlyDate.toString() + " for emplyee " + PRINCIPAL_ID_3, leaveBlockList.size()==2);
 		 for(LeaveBlock aLeaveBlock : leaveBlockList) {
 			 if(aLeaveBlock.getAccrualCategoryId().equals("5003")) {
-				 assertTrue("Leave code of the leave block with accrualCategoryId 5003 on date " + monthlyDate.toString() + " should be EC1, not " + aLeaveBlock.getLeaveCode()
-						 , aLeaveBlock.getLeaveCode().equals("EC1")); 
+				 assertTrue("Leave code of the leave block with accrualCategoryId 5003 on date " + monthlyDate.toString() + " should be EC1, not " + aLeaveBlock.getEarnCode()
+						 , aLeaveBlock.getEarnCode().equals("EC1")); 
 				 assertTrue("Hours of the leave block with accrualCategoryId 5003 on date " + monthlyDate.toString() + " should be 8, not " + aLeaveBlock.getLeaveAmount().toString()
 						 , aLeaveBlock.getLeaveAmount().equals(new BigDecimal(8)));
 			 } else if(aLeaveBlock.getAccrualCategoryId().equals("5004")) {
-				 assertTrue("Leave code of the leave block with accrualCategoryId 5004 on date " + monthlyDate.toString() + " should be EC2, not " + aLeaveBlock.getLeaveCode()
-						 , aLeaveBlock.getLeaveCode().equals("EC2")); 
+				 assertTrue("Leave code of the leave block with accrualCategoryId 5004 on date " + monthlyDate.toString() + " should be EC2, not " + aLeaveBlock.getEarnCode()
+						 , aLeaveBlock.getEarnCode().equals("EC2")); 
 				 assertTrue("Hours of the leave block with accrualCategoryId 5004 on date " + monthlyDate.toString() + " should be 24, not " + aLeaveBlock.getLeaveAmount().toString()
 						 , aLeaveBlock.getLeaveAmount().equals(new BigDecimal(24)));
 			 } else {
@@ -339,8 +339,50 @@ public class AccrualServiceTest extends TkTestCase {
 		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(PRINCIPAL_ID_6, intervalDate);
 		 assertTrue("There should be 1 leave block for employee " + PRINCIPAL_ID_6 + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		 lb = leaveBlockList.get(0);
-		 assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 16, not " + lb.getLeaveAmount().toString()
+		 assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 24, not " + lb.getLeaveAmount().toString()
 				 , lb.getLeaveAmount().equals(new BigDecimal(24)));
+	}
+	
+//	@Test
+	/* testUser7's service date is 2012-03-10
+	 * testUser7 has two leave blocks scheduled on 04/28/2012 for 2 hours and 05/05/2012 for 8 hours
+	 * testUser7 has one accrual category rule of 16 hours, one job of 40 standard hours
+	 * run accrual for testUser7 for 10 months
+	 */
+	public void testNotEligibleForAccrualAdjustment() {
+		Calendar aCal = Calendar.getInstance();
+		 aCal.setTime(START_DATE);	// 02/10/2012	
+		 aCal.add(Calendar.MONTH, 10);	// 12/10/2012
+		 Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		 
+		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(PRINCIPAL_ID_7, START_DATE, endDate);
+		 assertTrue("There should be 2 leave blocks before runAccrual for princiapl id " + PRINCIPAL_ID_7, leaveBlockList.size() == 2);
+		
+		 TkServiceLocator.getLeaveAccrualService().runAccrual(PRINCIPAL_ID_7, START_DATE, endDate);
+		 
+		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(PRINCIPAL_ID_7, START_DATE, endDate);
+		 assertTrue("There should be 12 leave blocks for emplyee " + PRINCIPAL_ID_7 + ", not " + leaveBlockList.size(), leaveBlockList.size()== 12);
+		 
+		 // 03/31/2012, 
+		 Date intervalDate = new Date((new DateTime(2012, 3, 31, 5, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
+		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(PRINCIPAL_ID_7, intervalDate);
+		 assertTrue("There should be 1 leave block for date " + intervalDate.toString(), leaveBlockList.size() == 1);
+		 
+		 // 04/30/2012, 
+		 intervalDate = new Date((new DateTime(2012, 4, 30, 5, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
+		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(PRINCIPAL_ID_7, intervalDate);
+		 assertTrue("There should be 1 leave block for date " + intervalDate.toString(), leaveBlockList.size() == 1);
+		 LeaveBlock lb = leaveBlockList.get(0);
+		 assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 16, not " + lb.getLeaveAmount().toString()
+				 , lb.getLeaveAmount().equals(new BigDecimal(16)));
+		 
+		 //05/31/2012
+		 intervalDate = new Date((new DateTime(2012, 5, 31, 5, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
+		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(PRINCIPAL_ID_7, intervalDate);
+		 assertTrue("There should be 1 leave block for date " + intervalDate.toString(), leaveBlockList.size() == 1);
+		lb = leaveBlockList.get(0);
+		 assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 16, not " + lb.getLeaveAmount().toString()
+				 , lb.getLeaveAmount().equals(new BigDecimal(16)));
 	}
 	
 }

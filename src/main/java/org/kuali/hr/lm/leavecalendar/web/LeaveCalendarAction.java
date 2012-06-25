@@ -16,8 +16,8 @@ import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.LeaveCalendar;
 import org.kuali.hr.time.detail.web.ActionFormUtils;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.lm.leavecalendar.web.LeaveActionFormUtils;
-import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
@@ -166,14 +166,14 @@ public class LeaveCalendarAction extends TkAction {
 				TKUtils.convertDateStringToTimestamp(lcf.getStartDate()));
 		DateTime endDate = new DateTime(
 				TKUtils.convertDateStringToTimestamp(lcf.getEndDate()));
-		String selectedLeaveCode = lcf.getSelectedLeaveCode();
+		String selectedEarnCode = lcf.getSelectedEarnCode();
 		BigDecimal hours = lcf.getLeaveAmount();
 		String desc = lcf.getDescription();
 		String spanningWeeks = lcf.getSpanningWeeks();  // KPME-1446
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(lcd, lcf.getSelectedAssignment());
 
 		TkServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate,
-				endDate, lcf.getCalendarEntry(), selectedLeaveCode, hours, desc, assignment, spanningWeeks); // KPME-1446
+				endDate, lcf.getCalendarEntry(), selectedEarnCode, hours, desc, assignment, spanningWeeks); // KPME-1446
 		// after adding the leave block, set the fields of this form to null for future new leave blocks
 		lcf.setLeaveAmount(null);
 		lcf.setDescription(null);
@@ -197,7 +197,7 @@ public class LeaveCalendarAction extends TkAction {
 	// KPME-1447
 	public ActionForward updateLeaveBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
-		String selectedLeaveCode = lcf.getSelectedLeaveCode();
+		String selectedEarnCode = lcf.getSelectedEarnCode();
 		String leaveBlockId = lcf.getLeaveBlockId();
 		
 		LeaveBlock updatedLeaveBlock = null;
@@ -208,16 +208,16 @@ public class LeaveCalendarAction extends TkAction {
     	if (!updatedLeaveBlock.getLeaveAmount().equals(lcf.getLeaveAmount())) {
     		updatedLeaveBlock.setLeaveAmount(lcf.getLeaveAmount());
     	}
-    	LeaveCode leaveCode =  TkServiceLocator.getLeaveCodeService().getLeaveCode(selectedLeaveCode); // selectedLeaveCode = lmLeaveCodeId
-		if (!updatedLeaveBlock.getLeaveCode().equals(leaveCode.getLeaveCode())) {
-    		updatedLeaveBlock.setLeaveCode(leaveCode.getLeaveCode());
-    		// update lm_leave_code_id as well
-    		updatedLeaveBlock.setLeaveCodeId(selectedLeaveCode);
+    	EarnCode earnCode =  TkServiceLocator.getEarnCodeService().getEarnCodeById(selectedEarnCode); // selectedEarnCode = hrEarnCodeId
+		if (!updatedLeaveBlock.getEarnCode().equals(earnCode.getEarnCode())) {
+    		updatedLeaveBlock.setEarnCode(earnCode.getEarnCode());
+    		// update hr_earn_code_id as well
+    		updatedLeaveBlock.setEarnCodeId(selectedEarnCode);
     	}
 		TkServiceLocator.getLeaveBlockService().updateLeaveBlock(updatedLeaveBlock);
 		lcf.setLeaveAmount(null);
 		lcf.setDescription(null);
-		lcf.setSelectedLeaveCode(null);
+		lcf.setSelectedEarnCode(null);
 		
         return mapping.findForward("basic");
     }

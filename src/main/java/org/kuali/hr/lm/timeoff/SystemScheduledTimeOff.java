@@ -59,12 +59,13 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 	}
 
 	public String getAccrualCategory() {
-		if (this.earnCodeObj == null && 
-				(!StringUtils.isEmpty(this.earnCode) && this.effectiveDate != null)) {		
-			earnCodeObj =  TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, this.effectiveDate);
-		}
-		accrualCategory = (earnCodeObj != null) ? earnCodeObj.getAccrualCategory() : "";
-		return (earnCodeObj != null) ? earnCodeObj.getAccrualCategory() : "";
+//		if (this.earnCodeObj == null && 
+//				(!StringUtils.isEmpty(this.earnCode) && this.effectiveDate != null)) {		
+//			earnCodeObj =  TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, this.effectiveDate);
+//		}
+//		accrualCategory = (earnCodeObj != null) ? earnCodeObj.getAccrualCategory() : "";
+//		return (earnCodeObj != null) ? earnCodeObj.getAccrualCategory() : "";
+		return accrualCategory;
 	}
 
 	public void setAccrualCategory(String accrualCategory) {

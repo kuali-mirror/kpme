@@ -32,11 +32,17 @@ $(function () {
     var leaveBlockJson = jQuery.parseJSON($("#leaveBlockString").val());
     var leaveBlockCollection = new LeaveBlockCollection(leaveBlockJson);
 
-    LeaveCode = Backbone.Model.extend({
-    	 url : "LeaveCalendarWS.do?methodToCall=getLeaveCodeInfo"
+//    LeaveCode = Backbone.Model.extend({
+//    	 url : "LeaveCalendarWS.do?methodToCall=getLeaveCodeInfo"
+//    });
+//  
+//    var leaveCodeObj = new LeaveCode;
+    
+    EarnCode = Backbone.Model.extend({
+   	 url : "LeaveCalendarWS.do?methodToCall=getEarnCodeInfo"
     });
-  
-    var leaveCodeObj = new LeaveCode;
+    
+    var earnCodeObj = new EarnCode;
 
     /**
      * ====================
@@ -56,8 +62,8 @@ $(function () {
         	"click div[id*=show]" : "showTimeBlock", // KPME-1447
             "click .create" : "showLeaveBlockEntryDialog",
             "click img[id^=leaveBlockDelete]" : "deleteLeaveBlock",
-            "change #leaveCode" : "changeLeaveCode",
-            "keypress #leaveCode" : "changeLeaveCode"
+            "change #earnCode" : "changeEarnCode",
+            "keypress #earnCode" : "changeEarnCode"
         },
 
         initialize : function () {
@@ -136,13 +142,13 @@ $(function () {
 //                                        .done(self.showFieldByEarnCodeType());
 //                            }
                     }
-                    self.changeLeaveCode();
+                    self.changeEarnCode();
 
                 },
                 close : function () {
                 	$('.cal-table td').removeClass('ui-selected');
                     //reset values on the form
-                	self.changeLeaveCode();
+                	self.changeEarnCode();
                     self.resetLeaveBlockDialog($("#timesheet-panel"));
                     self.resetState($("#dialog-form"));
                 },
@@ -151,7 +157,6 @@ $(function () {
                         /**
                          * In case we have more needs to auto-adjust user's input, we should consider moving them to a separate method.
                          */
-
                         if (!_.isEmpty($("#endTime").val())) {
                             // If the end time is 12:00 am, change the end date to the next day
                             var midnight = Date.parse($('#endDate').val()).set({
@@ -211,13 +216,12 @@ $(function () {
             // Here we want to fire the ajax call first to grab the earn codes.
             // After that is done, we fill out the form and make the entry field show / hide based on the earn code type.
             var dfd = $.Deferred();
-            dfd.done($("#leaveCode option[value='" + leaveBlock.get("leaveCodeId") + "']").attr("selected", "selected"))
+            dfd.done($("#earnCode option[value='" + leaveBlock.get("earnCodeId") + "']").attr("selected", "selected"))
             .done(_(leaveBlock).fillInForm());
         },
         
         deleteLeaveBlock : function (e) {
             var key = _(e).parseEventKey();
-            console.log(key);
 //            var timeBlock = timeBlockCollection.get(key.id);
 
 //            if (this.checkPermissions()) {
@@ -233,7 +237,7 @@ $(function () {
          */
         resetLeaveBlockDialog : function (timeBlockDiv) {
         	 $("#leaveAmount").val("");
-        	 $("#leaveCode").val("");
+        	 $("#earnCode").val("");
         	 $("#description").val("");
         	 $("#leaveBlockId").val("");
         },
@@ -267,9 +271,9 @@ $(function () {
             $(".ui-datepicker-trigger").show();
         },
         
-        validateLeaveCode : function () {
+        validateEarnCode : function () {
             var isValid = true;
-            isValid = isValid && this.checkEmptyField($("#leaveCode"), "Leave Code");
+            isValid = isValid && this.checkEmptyField($("#earnCode"), "Earn Code");
 
             // couldn't find an easier way to get the earn code json, so we validate by the field id
             // The method below will get a list of not hidden fields' ids
@@ -281,7 +285,7 @@ $(function () {
                 var hours = $('#leaveAmount');
                 isValid = isValid && (this.checkEmptyField(hours, "Leave amount")  && this.checkRegexp(hours, '/0/', 'Leave amount cannot be zero'));
                 if(isValid) {
-                	var type = this.getLeaveCodeUnit(leaveCodeObj.toJSON());
+                	var type = this.getEarnCodeUnit(earnCodeObj.toJSON());
                 	if (type == 'D') {
                 		isValid = isValid && (this.checkRangeValue(hours, 1, "Leave amount Days"));
                 	} else if (type == 'H') {
@@ -291,9 +295,8 @@ $(function () {
                 	var fracLength = 0;
                 	// check fraction digit
                 	if(isValid) {
-                		var fraction = this.getLeaveCodeFractionalAllowedTime(leaveCodeObj.toJSON());
-                		if(fraction != '') {
-//                			alert(fraction);
+                		var fraction = this.getEarnCodeFractionalAllowedTime(earnCodeObj.toJSON());
+                		if(typeof fraction != 'undefined' && fraction != '') {
                 			var fractionAr = fraction.split(".");
                 			var hoursAr = hours.val().split(".");
                 			if(hoursAr.length > 1) {
@@ -315,20 +318,20 @@ $(function () {
             return isValid;
         },
         
-        changeLeaveCode : function(e) {
-        	var leavecodeString = _.isString(e) ? e : this.$("#leaveCode option:selected").val();
-        	leaveCodeObj.fetch({
-                // Make the ajax call not async to be able to mark the leave code selected
+        changeEarnCode : function(e) {
+        	var earnCodeString = _.isString(e) ? e : this.$("#earnCode option:selected").val();
+        	earnCodeObj.fetch({
+                // Make the ajax call not async to be able to mark the earn code selected
                 async : false,
                 data : {
-                	selectedLeaveCode : leavecodeString,
+                	selectedEarnCode : earnCodeString
                 }  
             });
-        	this.showFieldByLeaveCodeType();
+        	this.showFieldByEarnCodeType();
         },
         
-        showFieldByLeaveCode : function() {
-        	var key = $("#leaveCode option:selected").val();
+        showFieldByEarnCode : function() {
+        	var key = $("#earnCode option:selected").val();
         	var type = key.split(":")[1];
         	if (type == 'D') {
         		$('#unitOfTime').text('Days');
@@ -338,35 +341,35 @@ $(function () {
         },
         
         
-        showFieldByLeaveCodeType : function () {
-            var leaveCodeType = this.getLeaveCodeUnit(leaveCodeObj.toJSON());
-            if (leaveCodeType == 'D') {
+        showFieldByEarnCodeType : function () {
+            var earnCodeType = this.getEarnCodeUnit(earnCodeObj.toJSON());
+            if (earnCodeType == 'D') {
         		$('#unitOfTime').text('Days');
-        	} else if (leaveCodeType == 'H') {
+        	} else if (earnCodeType == 'H') {
         		$('#unitOfTime').text('Hours');
         	}
-            var unitOfTime = this.getLeaveCodeDefaultTime(leaveCodeObj.toJSON());
+            var unitOfTime = this.getEarnCodeDefaultTime(earnCodeObj.toJSON());
             $('#leaveAmount').val(unitOfTime);
             
         },
         
-        getLeaveCodeUnit : function (leaveCodeJson) {
-           return leaveCodeJson.unitOfTime;
+        getEarnCodeUnit : function (earnCodeJson) {
+           return earnCodeJson.unitOfTime;
         },
         
-        getLeaveCodeDefaultTime : function (leaveCodeJson) {
-           return leaveCodeJson.defaultAmountofTime;
+        getEarnCodeDefaultTime : function (earnCodeJson) {
+           return earnCodeJson.defaultAmountofTime;
         },
         
-        getLeaveCodeFractionalAllowedTime : function (leaveCodeJson) {
-           return leaveCodeJson.fractionalTimeAllowed;
+        getEarnCodeFractionalAllowedTime : function (earnCodeJson) {
+           return earnCodeJson.fractionalTimeAllowed;
         },
 
         validateLeaveBlock : function () {
             var self = this;
             var isValid = true;
 //            isValid = isValid && this.checkEmptyField($("#selectedAssignment"), "Assignment");
-            isValid = isValid && this.validateLeaveCode();
+            isValid = isValid && this.validateEarnCode();
             
             if (isValid) {
            
@@ -375,7 +378,7 @@ $(function () {
                 params['startDate'] = $('#startDate').val();
                 params['endDate'] = $('#endDate').val();
                 params['leaveAmount'] = $('#leaveAmount').val();
-                params['selectedLeaveCode'] = $('#selectedLeaveCode option:selected').val();
+                params['selectedEarnCode'] = $('#selectedEarnCode option:selected').val();
                 params['spanningWeeks'] = $('#spanningWeeks').is(':checked') ? 'y' : 'n'; // KPME-1446
                 params['leaveBlockId'] = $('#leaveBlockId').val();
 
