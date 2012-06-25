@@ -513,6 +513,7 @@
 							<bean parent="FieldDefinition" p:attributeName="fte" />
 							<bean parent="FieldDefinition" p:attributeName="primaryIndicator" />
 							<bean parent="FieldDefinition" p:attributeName="eligibleForLeave" />
+							<bean parent="FieldDefinition" p:attributeName="flsaStatus" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
