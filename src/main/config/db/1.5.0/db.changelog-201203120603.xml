@@ -13,6 +13,10 @@
 		<modifySql dbms="mysql">
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
+	</changeSet>
+	
+	<changeSet id="2" author="jkakkad" context="bootstrap">
+        <comment>KPME-1392 KPME 1393 KPME 1394 SQLs added for required changes</comment>
         <createTable tableName="lm_leave_block_hist_t">
             <column name="lm_leave_block_hist_id" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />
@@ -69,7 +73,7 @@
 		</modifySql>
     </changeSet>
     
-    <changeSet id="2" author="jkakkad" context="bootstrap">
+    <changeSet id="3" author="jkakkad" context="bootstrap">
         <comment>KPME-1392 KPME 1393 KPME 1394 SQLs added for required changes</comment>
         <createTable tableName="lm_leave_status_hist_s">
             <column autoIncrement="true" name="id" type="BIGINT(19)">
@@ -79,6 +83,10 @@
 		<modifySql dbms="mysql">
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
+	</changeSet>
+	
+	<changeSet id="4" author="jkakkad" context="bootstrap">
+        <comment>KPME-1392 KPME 1393 KPME 1394 SQLs added for required changes</comment>
         <createTable tableName="lm_leave_status_hist_t">
             <column name="lm_leave_status_hist_id" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />
@@ -102,7 +110,7 @@
 		</modifySql>
     </changeSet>
     
-    <changeSet id="3" author="jkakkad" context="bootstrap">
+    <changeSet id="5" author="jkakkad" context="bootstrap">
         <comment>KPME-1392 KPME 1393 KPME 1394 SQLs added for required changes</comment>
         <renameTable oldTableName="lm_ledger_s" newTableName="lm_leave_block_s" />
 		

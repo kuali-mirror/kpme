@@ -43,6 +43,10 @@
 		<modifySql dbms="mysql">
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
+	</changeSet>
+	
+	<changeSet id="4" author="lee55" context="bootstrap">
+        <comment>reorganized the sql files</comment>
         <createTable tableName="lm_employee_override_t">
             <column name="LM_EMPLOYEE_OVERRIDE_ID" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />
@@ -75,7 +79,7 @@
 		</modifySql>
     </changeSet>
     
-    <changeSet id="4" author="lee55" context="bootstrap">
+    <changeSet id="5" author="lee55" context="bootstrap">
         <comment>reorganized the sql files</comment>
         <createTable tableName="lm_leave_adjustment_s">
             <column autoIncrement="true" name="id" type="BIGINT(19)">
@@ -85,6 +89,10 @@
 		<modifySql dbms="mysql">
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
+	</changeSet>
+	
+	<changeSet id="6" author="lee55" context="bootstrap">
+        <comment>reorganized the sql files</comment>
         <createTable tableName="lm_leave_adjustment_t">
             <column name="LM_LEAVE_ADJUSTMENT_ID" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />
@@ -116,13 +124,13 @@
 		</modifySql>
     </changeSet>
     
-    <changeSet id="5" author="lee55" context="bootstrap">
+    <changeSet id="7" author="lee55" context="bootstrap">
         <comment>reorganized the sql files</comment>
         <modifyDataType tableName="tk_batch_job_t" columnName="hr_py_calendar_entry_id" newDataType="VARCHAR(60) NOT NULL" />
         <modifyDataType tableName="tk_batch_job_entry_t" columnName="hr_py_calendar_entry_id" newDataType="VARCHAR(60) NOT NULL" />
     </changeSet>
     
-    <changeSet id="6" author="lee55" context="bootstrap">
+    <changeSet id="8" author="lee55" context="bootstrap">
         <comment>reorganized the sql files</comment>
         <addColumn tableName="lm_accrual_category_t">
             <column name="MIN_PERCENT_WORKED" type="DECIMAL(5,2)" defaultValueNumeric="0.00" />

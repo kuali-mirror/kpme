@@ -43,6 +43,10 @@
 		<modifySql dbms="mysql">
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
+	</changeSet>
+	
+    <changeSet id="4" author="lee55" context="bootstrap">
+        <comment>another sql file merge</comment>
         <createTable tableName="lm_leave_plan_t">
             <column name="lm_leave_plan_id" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />
@@ -65,7 +69,10 @@
 		<modifySql dbms="mysql">
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
-
+    </changeSet>
+    
+    <changeSet id="5" author="lee55" context="bootstrap">
+        <comment>another sql file merge</comment>
         <renameTable oldTableName="lm_accrual_categories_s" newTableName="lm_accrual_category_s" />
         <renameTable oldTableName="lm_accrual_categories_t" newTableName="lm_accrual_category_t" />
         <modifyDataType tableName="lm_accrual_category_t" columnName="ACCRUAL_CATEGORY" newDataType="VARCHAR(15) NOT NULL" />
@@ -98,7 +105,10 @@
                 <constraints nullable="false" />
             </column>
         </addColumn>
-        
+    </changeSet>
+    
+    <changeSet id="6" author="lee55" context="bootstrap">
+        <comment>another sql file merge</comment>
         <createTable tableName="lm_accrual_category_rules_s">
             <column autoIncrement="true" name="id" type="BIGINT(19)">
                 <constraints nullable="false" primaryKey="true" />
@@ -107,6 +117,10 @@
 		<modifySql dbms="mysql">
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
+	</changeSet>
+	
+	<changeSet id="7" author="lee55" context="bootstrap">
+        <comment>another sql file merge</comment>
         <createTable tableName="lm_accrual_category_rules_t">
             <column name="lm_accrual_category_rules_id" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />
@@ -152,7 +166,10 @@
 		<modifySql dbms="mysql">
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
-        
+    </changeSet>
+    
+    <changeSet id="8" author="lee55" context="bootstrap">
+        <comment>another sql file merge</comment>
         <createTable tableName="lm_leave_code_s">
             <column autoIncrement="true" name="id" type="BIGINT(19)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -161,6 +178,10 @@
 		<modifySql dbms="mysql">
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
+	</changeSet>
+	
+	<changeSet id="9" author="lee55" context="bootstrap">
+        <comment>another sql file merge</comment>
         <createTable tableName="lm_leave_code_t">
             <column name="lm_leave_code_id" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />
@@ -212,7 +233,10 @@
 		<modifySql dbms="mysql">
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
-        
+    </changeSet>
+    
+    <changeSet id="10" author="lee55" context="bootstrap">
+        <comment>another sql file merge</comment>
         <createTable tableName="lm_leave_document_header_t">
             <column name="document_id" type="VARCHAR(14)">
                 <constraints nullable="false" />
@@ -241,20 +265,20 @@
 		</modifySql>
     </changeSet>
     
-    <changeSet id="4" author="lee55" context="bootstrap">
+    <changeSet id="11" author="lee55" context="bootstrap">
         <comment>another sql file merge</comment>
         <addColumn tableName="hr_job_t">
             <column name="eligible_for_leave" type="VARCHAR(1)" defaultValue="N" />
         </addColumn>
     </changeSet>
     
-    <changeSet id="5" author="lee55" context="bootstrap">
+    <changeSet id="12" author="lee55" context="bootstrap">
         <comment>another sql file merge</comment>
         <modifyDataType tableName="hr_calendar_t" columnName="hr_calendar_id" newDataType="VARCHAR(60) NOT NULL" />
         <modifyDataType tableName="hr_calendar_entries_t" columnName="hr_calendar_entry_id" newDataType="VARCHAR(60) NOT NULL" />
     </changeSet>
     
-    <changeSet id="6" author="lee55" context="bootstrap">
+    <changeSet id="13" author="lee55" context="bootstrap">
         <comment>another sql file merge</comment>
         <createTable tableName="lm_sys_schd_timeoff_s">
             <column autoIncrement="true" name="id" type="BIGINT(19)">
@@ -264,6 +288,10 @@
 		<modifySql dbms="mysql">
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
+	</changeSet>
+	
+	<changeSet id="14" author="lee55" context="bootstrap">
+        <comment>another sql file merge</comment>
         <createTable tableName="lm_sys_schd_timeoff_t">
             <column name="lm_sys_schd_timeoff_id" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />

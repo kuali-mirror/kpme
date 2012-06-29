@@ -13,6 +13,10 @@
 		<modifySql dbms="mysql">
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
+	</changeSet>
+	
+	<changeSet id="2" author="lee55" context="bootstrap">
+        <comment>merge sql file changes</comment>
         <createTable tableName="lm_ledger_t">
             <column name="lm_ledger_id" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />
@@ -74,6 +78,10 @@
 		<modifySql dbms="mysql">
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
+    </changeSet>
+    
+    <changeSet id="3" author="lee55" context="bootstrap">
+        <comment>merge sql file changes</comment>
         <createTable tableName="lm_ledger_block_s">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -84,7 +92,7 @@
 		</modifySql>
     </changeSet>
     
-    <changeSet id="2" author="lee55" context="bootstrap">
+    <changeSet id="4" author="lee55" context="bootstrap">
         <comment>merge sql file changes</comment>
         <addColumn tableName="hr_pay_grade_t">
             <column name="sal_group" type="VARCHAR(20)">
