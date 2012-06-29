@@ -652,6 +652,9 @@
             <column name="EXCPN_TO_STR" type="VARCHAR(2000)"/>
             <column name="EXCPN_MSG" type="LONGTEXT"/>
         </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE INNODB"/>
+        </modifySql>
     </changeSet>
     <changeSet id="40" author="djunk" context="bootstrap">
         <createTable tableName="krsb_msg_pyld_t">
