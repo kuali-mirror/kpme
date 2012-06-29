@@ -120,7 +120,7 @@ INSERT INTO `hr_earn_code_T` (`hr_earn_code_ID`, `EARN_CODE`, `DESCR`, `RECORD_M
     ('1'  , 'SDR' , 'SHIFT DIFF'        , 'H', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
     ('2'  , 'LUN' , 'LUNCH'             , 'H', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
 	('3'  , 'OVT' , 'OVERTIME'          , 'H', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'Y',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
-	('9'  , 'RGN' , 'REGULAR'           , 'H', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
+	('4'  , 'RGN' , 'REGULAR'           , 'H', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
 	('10' , 'RGH' , 'REGULAR HOURLY'    , 'H', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
 	('11' , 'SCK' , 'SICK'              , 'H', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
 	('12' , 'VAC' , 'VACATION'          , 'H', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
@@ -140,13 +140,13 @@ INSERT INTO `hr_earn_code_T` (`hr_earn_code_ID`, `EARN_CODE`, `DESCR`, `RECORD_M
 DELETE FROM `hr_sal_group_s`;
 INSERT INTO `hr_sal_group_S` (`ID`) VALUES ('1000');
 DELETE FROM `hr_sal_group_t`;
-INSERT INTO `hr_sal_group_t` (`hr_sal_group_ID`, `hr_sal_group`, `EFFDT`, `TIMESTAMP`, `ACTIVE`) VALUES
-    ('1',  'SD1', '2010-01-01', '2010-01-01 01:01:01' , 'Y'),
-    ('10', 'A10', '2010-01-01', '2010-01-01 08:08:08' , 'Y'),
-    ('11', 'S10', '2010-01-01', '2010-01-01 08:08:08' , 'Y'),
-    ('12', 'A12', '2010-01-01', '2010-01-01 08:08:08' , 'Y'),
-    ('13', 'S12', '2010-01-01', '2010-01-01 08:08:08' , 'Y'),
-    ('14', 'NOP', '2010-01-01', '2010-01-01 08:08:08' , 'Y');
+INSERT INTO `hr_sal_group_t` (`hr_sal_group_ID`, `hr_sal_group`, `EFFDT`, `TIMESTAMP`, `ACTIVE`, `OBJ_ID`) VALUES
+    ('1',  'SD1', '2010-01-01', '2010-01-01 01:01:01' , 'Y', UUID()),
+    ('10', 'A10', '2010-01-01', '2010-01-01 08:08:08' , 'Y', UUID()),
+    ('11', 'S10', '2010-01-01', '2010-01-01 08:08:08' , 'Y', UUID()),
+    ('12', 'A12', '2010-01-01', '2010-01-01 08:08:08' , 'Y', UUID()),
+    ('13', 'S12', '2010-01-01', '2010-01-01 08:08:08' , 'Y', UUID()),
+    ('14', 'NOP', '2010-01-01', '2010-01-01 08:08:08' , 'Y', UUID());
 
 # HR Pay Types
 DELETE FROM `hr_paytype_s`;
@@ -190,7 +190,6 @@ DELETE FROM `hr_roles_s`;
 INSERT INTO `hr_roles_s` VALUES ('1000');
 DELETE FROM `hr_roles_t`;
 INSERT INTO `hr_roles_t` (`hr_roles_ID`, `PRINCIPAL_ID`, `ROLE_NAME`, `USER_PRINCIPAL_ID`, `WORK_AREA`, `DEPT`, `EFFDT`, `TIMESTAMP`, `ACTIVE`) VALUES
-    ('1', 'admin', 'TK_APPROVER', 'admin', '999', NULL, '2010-08-01', '2010-08-01 15:10:57', 'Y'),
     ('2', 'admin', 'TK_APPROVER', 'admin', '999', NULL, '2010-08-10', '2010-08-10 15:10:57', 'Y'),
     ('3', 'admin', 'TK_APPROVER', 'admin', '999', NULL, '2010-08-20', '2010-08-20 15:10:57', 'Y'),
     ('4', 'admin', 'TK_APPROVER', 'admin', '999', NULL, '2010-08-20', '2010-08-20 15:11:57', 'Y'),
@@ -296,16 +295,6 @@ DELETE FROM `HR_WORK_SCHEDULE_S`;
 INSERT INTO `HR_WORK_SCHEDULE_S` (`ID`) VALUES (1000);
 
 
-DELETE FROM `HR_WORK_SCHEDULE_T`;
-#insert into hr_work_schedule_t values('1','test-schedule','2010-01-01','TEST-DEPT','1234','admin','Y',uuid(),1,now());
-#insert into hr_work_schedule_t values('2','test-schedule','2010-01-01','TEST-DEPT','-1','admin','Y',uuid(),1,now());
-#insert into hr_work_schedule_t values('3','test-schedule','2010-01-01','%','-1','admin','Y',uuid(),1,now());
-#insert into hr_work_schedule_t values('4','test-schedule','2010-01-01','TEST-DEPT','1234','%','Y',uuid(),1,now());
-#insert into hr_work_schedule_t values('5','test-schedule','2010-01-01','%','-1','%','Y',uuid(),1,now());
-#insert into hr_work_schedule_t values('11','test-schedule','2010-01-01','INVALID','1234','%','Y',uuid(),1,now());
-#insert into hr_work_schedule_t values('12','test-schedule','2010-01-01','TEST-DEPT','-1','%','Y',uuid(),1,now());
-
-
 DELETE FROM `tk_time_collection_rl_s`;
 INSERT INTO `tk_time_collection_rl_s` VALUES('1000');
 DELETE FROM `tk_time_collection_rl_t`;
@@ -327,9 +316,8 @@ INSERT INTO `tk_dept_lunch_rl_t` (`tk_dept_LUNCH_RL_ID`,`DEPT`,`WORK_AREA`, `PRI
   ('2','TEST-DEPT','1234','admin','20','2010-01-01','TST', '30', 'admin', '2010-01-01 08:08:08', 'Y', '2', '30','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97') ,
   ('3','TEST-DEPT','9999','admin','20','2010-01-01','TST', '30', 'admin', '2010-01-01 08:08:08', 'Y', '2', '30','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97') ;
 
-DELETE FROM `hr_holiday_calendar_t`;
-INSERT INTO `hr_holiday_calendar_T` (`HR_HOLIDAY_CALENDAR_ID`,`HOLIDAY_CALENDAR_GROUP`,`DESCR`) VALUES
-  (1,'REG', "Regular");
+DELETE FROM `lm_accrual_category_s`;
+INSERT INTO `lm_accrual_category_s` VALUES ('1000');
 
 DELETE FROM `lm_accrual_category_t`;
 INSERT INTO `lm_accrual_category_t` (`LM_ACCRUAL_CATEGORY_ID`,`ACCRUAL_CATEGORY`,`LEAVE_PLAN`,`DESCR`,`ACCRUAL_INTERVAL_EARN`,`UNIT_OF_TIME`,
@@ -350,8 +338,10 @@ DELETE FROM `hr_principal_attribute_s`;
 INSERT INTO `hr_principal_attribute_s` VALUES ('1000');
 
 delete from hr_principal_attributes_t;
-insert into hr_principal_attributes_t values('1', 'admin', 'BWS-CAL', NULL, '2010-01-01', 'Y', 'Y', 'America/Chicago', '2010-01-01', now(), uuid(), 1, 'Y', NULL, 'Y', 'LM');
-insert into hr_principal_attributes_t values('2', 'eric', 'BW-CAL1', NULL, '2010-01-01', 'Y', 'Y',  'America/Chicago', '2010-01-01', now(), uuid(), 1, 'Y', NULL, 'Y', 'LM');
+insert into hr_principal_attributes_t (`hr_principal_attribute_id`, `principal_id`, `pay_calendar`, `leave_plan`, `service_date`, `fmla_eligible`, `worksman_eligible`, `timezone`, `EFFDT`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`, `active`, `leave_calendar`, `record_time`, `record_leave`) VALUES
+    ('1', 'admin', 'BWS-CAL', NULL, '2010-01-01', 'Y', 'Y', 'America/Chicago', '2010-01-01', now(), uuid(), 1, 'Y', NULL, 'Y', 'LM');
+insert into hr_principal_attributes_t (`hr_principal_attribute_id`, `principal_id`, `pay_calendar`, `leave_plan`, `service_date`, `fmla_eligible`, `worksman_eligible`, `timezone`, `EFFDT`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`, `active`, `leave_calendar`, `record_time`, `record_leave`) VALUES
+    ('2', 'eric', 'BW-CAL1', NULL, '2010-01-01', 'Y', 'Y',  'America/Chicago', '2010-01-01', now(), uuid(), 1, 'Y', NULL, 'Y', 'LM');
 
 delete from tk_system_lunch_rl_t;
 insert into tk_system_lunch_rl_t (`TK_SYSTEM_LUNCH_RL_ID`,`EFFDT`,`ACTIVE`,`USER_PRINCIPAL_ID`,`SHOW_LUNCH_BUTTON`) values

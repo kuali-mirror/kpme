@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="lfox" context="bootstrap">
+        <comment>modified for testing</comment>
+        <modifyDataType tableName="lm_leave_block_t" columnName="LM_ACCRUAL_CATEGORY_ID" newDataType="VARCHAR(60) NOT NULL" />
+        <dropNotNullConstraint tableName="lm_leave_block_t" columnName="LM_ACCRUAL_CATEGORY_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    
+</databaseChangeLog>

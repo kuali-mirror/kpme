@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+	
+    <changeSet id="1" author="xichen" context="bootstrap">
+        <comment>KPME-921.</comment>
+		<dropNotNullConstraint tableName="tk_work_area_t" columnDataType="VARCHAR(3)" columnName="default_overtime_earncode" />
+	</changeSet>
+
+</databaseChangeLog>

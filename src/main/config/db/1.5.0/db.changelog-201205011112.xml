@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="yingzhou" context="bootstrap">
+        <comment>kpme-1484: changed logic in leave calendar to display/add leave blocks with date, not document id</comment>
+        <dropNotNullConstraint tableName="lm_leave_block_t" columnName="document_id" columnDataType="VARCHAR(14)" />
+        <dropNotNullConstraint tableName="lm_leave_block_hist_t" columnName="document_id" columnDataType="VARCHAR(14)" />
+    </changeSet>
+    
+</databaseChangeLog>

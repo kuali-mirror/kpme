@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="jkakkad" context="bootstrap">
+        <comment>KPME-1633 Dept earn code chanted to earn code security</comment>        
+        <addColumn tableName="hr_dept_earn_code_t">
+            <column name="EARN_CODE_TYPE" type="VARCHAR(1)" defaultValue="T">
+                <constraints nullable="false" />
+            </column>
+        </addColumn>
+        
+        <renameTable oldTableName="hr_dept_earn_code_t" newTableName="hr_earn_code_security_t" />
+        <renameTable oldTableName="hr_dept_earn_code_s" newTableName="hr_earn_code_security_s" />
+		
+		<renameColumn tableName="hr_earn_code_security_t" oldColumnName="hr_dept_earn_code_id" newColumnName="hr_earn_code_security_id" columnDataType="VARCHAR(60) NOT NULL" />
+    </changeSet>
+    
+</databaseChangeLog>

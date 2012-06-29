@@ -2,7 +2,7 @@ delete from lm_leave_plan_t where LM_LEAVE_PLAN_ID >= '1000';
 
 update hr_principal_attributes_t set leave_plan = 'testLP' where principal_id = 'admin';
 
-insert into lm_leave_plan_t values ('5555', 'testLP', 'Testing Leave Plan Months', '02/01', '2012-02-01', '', '1', 'Y', '2012-02-06 11:59:46', "1");
+insert into lm_leave_plan_t (`lm_leave_plan_id`, `LEAVE_PLAN`, `DESCR`, `CAL_YEAR_START`, `EFFDT`, `OBJ_ID`, `VER_NBR`, `ACTIVE`, `TIMESTAMP`, `PLANNING_MONTHS`) values ('5555', 'testLP', 'Testing Leave Plan Months', '02/01', '2012-02-01', '', '1', 'Y', '2012-02-06 11:59:46', "1");
 
 
 insert into hr_calendar_entries_t values ('59', '2', 'BWS-CAL', '2012-04-01 00:00:00', '2012-04-15 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);

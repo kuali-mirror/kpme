@@ -35,187 +35,12 @@
 	</licenses>
 
     <properties>
-        <!-- This can be overridden, as can the values contained in the file by the command line -->
-        <!-- Example: -->
-        <!-- mvn -Dliquibase.dbname=tk-foo -->
-        <!--                                                   -->
-        <!-- mvn -Dtna.properties.file=/tmp/tna-dev.properties -->
-        <tna.properties.file>liquibase_defaults.properties</tna.properties.file>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     	<surefire.plugin.version>2.9</surefire.plugin.version>
         <maven.compiler.version>2.3.2</maven.compiler.version>
     </properties>
 
-    <profiles>
-        <!-- -->
-        <!-- Profile: kuali-test -->
-        <!-- -->
-        <profile>
-            <id>kuali-test</id>
-            <build>
-                <plugins>
-                    <!-- -->
-                    <!-- Start of sql-maven-plugin configuration -->
-                    <!-- -->
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>sql-maven-plugin</artifactId>
-                        <version>1.4</version>
-
-                        <dependencies>
-                            <dependency>
-                                <groupId>mysql</groupId>
-                                <artifactId>mysql-connector-java</artifactId>
-                                <version>5.1.5</version>
-                            </dependency>
-                        </dependencies>
-
-                        <configuration>
-                            <driver>${liquibase.dbdriver}</driver>
-                            <url>${liquibase.jdbcstring}${liquibase.dbname}</url>
-                            <username>${liquibase.dbuser}</username>
-                            <password>${liquibase.dbpass}</password>
-                            <skip>${maven.test.skip}</skip>
-                        </configuration>
-
-                        <executions>
-                            <execution>
-                                <id>drop-db-before-test-if-any</id>
-                                <phase>process-test-resources</phase>
-                                <goals>
-                                    <goal>execute</goal>
-                                </goals>
-                                <configuration>
-                                    <!-- need another database to drop the targeted one -->
-                                    <url>${liquibase.jdbcstring}</url>
-                                    <autocommit>true</autocommit>
-                                    <sqlCommand>drop database `${liquibase.dbname}`</sqlCommand>
-                                    <!-- ignore error when database is not avaiable -->
-                                    <onError>continue</onError>
-                                </configuration>
-                            </execution>
-
-                            <execution>
-                                <id>create-db</id>
-                                <phase>process-test-resources</phase>
-                                <goals>
-                                    <goal>execute</goal>
-                                </goals>
-                                <configuration>
-                                    <url>${liquibase.jdbcstring}</url>
-                                    <!-- no transaction -->
-                                    <autocommit>true</autocommit>
-                                    <sqlCommand>create database `${liquibase.dbname}`</sqlCommand>
-                                </configuration>
-                            </execution>
-
-                              <execution>
-                                <id>create-schema</id>
-                                <phase>process-test-resources</phase>
-                                <goals>
-                                  <goal>execute</goal>
-                                </goals>
-                                <configuration>
-                                  <orderFile>ascending</orderFile>
-                                  <fileset>
-                                    <basedir>${basedir}</basedir>
-                                    <includes>
-                                      <include>src/main/config/sql/tk/tk-1.5-mysql/*.sql</include>
-                                    </includes>
-                                  </fileset>
-                                </configuration>
-                              </execution>
-
-                              <execution>
-                                <id>create-test-data</id>
-                                <phase>process-test-resources</phase>
-                                <goals>
-                                  <goal>execute</goal>
-                                </goals>
-                                <configuration>
-                                  <orderFile>ascending</orderFile>
-                                  <fileset>
-                                    <basedir>${basedir}</basedir>
-                                    <includes>
-                                      <include>src/test/config/sql/tk-mysql/*.sql</include>
-                                    </includes>
-                                  </fileset>
-                                </configuration>
-                              </execution>
-
-                        </executions>
-                    </plugin>
-                    <!-- -->
-                    <!-- End of sql-maven-plugin configuration -->
-                    <!-- -->
-                    <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>selenium-maven-plugin</artifactId>
-                    <version>1.1</version>
-                    <executions>
-                        <execution>
-                            <id>xvfb</id>
-                            <phase>process-test-resources</phase>
-                            <goals>
-                                <goal>xvfb</goal>
-                            </goals>
-                            <configuration>
-                                <display>:99</display>
-                            </configuration>
-                        </execution>
-                        <!--
-                        <execution>
-                            <id>start-selenium</id>
-
-                            <phase>test-compile</phase>
-                            <goals>
-                                <goal>start-server</goal>
-                            </goals>
-                            <configuration>
-                                <background>true</background>
-                                <port>${selenium.server.port}</port>
-                                <logOutput>true</logOutput>
-                            </configuration>
-                        </execution>
-                        -->
-                        <execution>
-                            <id>stop-selenium</id>
-                            <phase>post-integration-test</phase>
-                            <goals>
-                                <goal>stop-server</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>Dev-Environment</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
-        <profile>
-            <id>Test-Environment</id>
-            <activation>
-                <property>
-                    <name>environment</name>
-                    <value>test</value>
-                </property>
-            </activation>
-        </profile>
-    </profiles>
-
-    <!-- ************ -->
-    <!-- Dependencies -->
-    <!-- ************ -->
-
     <dependencies>
-        <dependency>
-            <groupId>org.liquibase</groupId>
-            <artifactId>liquibase-maven-plugin</artifactId>
-            <version>2.0.1</version>
-        </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
@@ -336,16 +161,7 @@
     </dependencies>
 
     <build>
-
-        <!-- Filters for processing the liquibase properties -->
-        <!--
-        <filters>
-            <filter>${liquibase.filter.properties}</filter>
-        </filters>
-        -->
-
         <resources>
-            <!-- Explicitly Define liquibase.properties as a filtering resource -->
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
@@ -353,42 +169,12 @@
                     <include>liquibase.properties</include>
                 </includes>
             </resource>
-
-            <!-- Now exclude the above filtered resources from the normal filtering. -->
             <resource>
                 <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-                <excludes>
-                    <exclude>liquibase.properties</exclude>
-                </excludes>
             </resource>
         </resources>
 
-
         <plugins>
-            <!-- properties-maven-plugin -->
-            <!-- Used to allow exteral files to be specified and processed -->
-            <!-- as sources for variable substitution in the configuration -->
-            <!-- and filtering process -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>properties-maven-plugin</artifactId>
-                <version>1.0-alpha-2</version>
-                <executions>
-                    <execution>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>read-project-properties</goal>
-                        </goals>
-                        <configuration>
-                            <files>
-                                <file>${tna.properties.file}</file>
-                            </files>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven.compiler.version}</version>
@@ -396,6 +182,27 @@
                     <source>1.6</source>
                     <target>1.6</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>2.0.5</version>
+                <configuration>
+                    <changeLogFile>src/main/resources/db.changelog.xml</changeLogFile>
+                    <propertyFile>target/classes/liquibase.properties</propertyFile>
+                </configuration>
+                <executions>
+	                <execution>
+	                    <phase>process-resources</phase>
+	                    <configuration>
+	                        <dropFirst>${liquibase.dropFirst}</dropFirst>
+	                        <context>${liquibase.context}</context>
+	                    </configuration>
+	                    <goals>
+	                        <goal>update</goal>
+	                    </goals>
+	                </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -443,8 +250,37 @@
         </plugins>
     </build>
 
-    <distributionManagement>
-    </distributionManagement>
+    <profiles>
+        <profile>
+            <id>kpme-main</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>   
+		        <dataSource.driver>com.mysql.jdbc.Driver</dataSource.driver>
+		        <dataSource.jdbcUrl>jdbc:mysql://localhost:3306/</dataSource.jdbcUrl>
+		        <dataSource.database>tk</dataSource.database>
+		        <dataSource.username>tk</dataSource.username>
+		        <dataSource.password>tk_tk_tk</dataSource.password>
+		        
+		        <liquibase.dropFirst>false</liquibase.dropFirst>
+		        <liquibase.context>bootstrap</liquibase.context>
+            </properties>
+        </profile>
+        <profile>
+            <id>kpme-test</id>
+            <properties>
+                <dataSource.driver>com.mysql.jdbc.Driver</dataSource.driver>
+                <dataSource.jdbcUrl>jdbc:mysql://localhost:3306/</dataSource.jdbcUrl>
+                <dataSource.database>tk-test</dataSource.database>
+                <dataSource.username>tk</dataSource.username>
+                <dataSource.password>tk_tk_tk</dataSource.password>
+                
+                <liquibase.dropFirst>true</liquibase.dropFirst>
+                <liquibase.context>bootstrap,test</liquibase.context>
+            </properties>
+        </profile>
+    </profiles>
 
     <repositories>
         <repository>

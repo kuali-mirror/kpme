@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="lfox" context="bootstrap">
+        <comment>cleaned up project and fixed migration issue</comment>
+        <modifyDataType tableName="tk_time_block_hist_detail_t" columnName="VER_NBR" newDataType="BIGINT(20) NOT NULL DEFAULT '1'" />
+    </changeSet>
+
+    <changeSet id="2" author="lfox" context="bootstrap">
+        <comment>cleaned up project and fixed migration issue</comment>
+        <dropTable tableName="tk_work_area_document_t" />
+        <dropTable tableName="hr_work_schedule_t" />
+        <dropTable tableName="hr_work_schedule_entry_t" />
+        <dropTable tableName="hr_work_schedule_assign_t" />
+        <dropTable tableName="tk_wa_maint_doc_t" />
+    </changeSet>
+    
+    <changeSet id="3" author="lfox" context="bootstrap">
+        <comment>cleaned up project and fixed migration issue</comment>
+        <addNotNullConstraint tableName="tk_assign_acct_t" columnName="active" columnDataType="VARCHAR(1) NOT NULL" defaultNullValue="Y" />
+    </changeSet>
+    
+    <changeSet id="4" author="lfox" context="bootstrap">
+        <comment>cleaned up project and fixed migration issue</comment>
+        <modifyDataType tableName="tk_batch_job_entry_t" columnName="clock_log_id" newDataType="VARCHAR(20)" />
+    </changeSet>
+    
+</databaseChangeLog>

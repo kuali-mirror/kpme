@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="lee55" context="bootstrap">
+        <comment>make the leave calendar work again</comment>
+        <dropNotNullConstraint tableName="lm_leave_block_t" columnName="description" columnDataType="VARCHAR(255)" />
+        <dropNotNullConstraint tableName="lm_leave_block_t" columnName="apply_to_ytd_used" columnDataType="VARCHAR(255)" />
+        <dropNotNullConstraint tableName="lm_leave_block_hist_t" columnName="description" columnDataType="VARCHAR(255)" />
+        <dropNotNullConstraint tableName="lm_leave_block_hist_t" columnName="apply_to_ytd_used" columnDataType="VARCHAR(255)" />
+    </changeSet>
+    
+</databaseChangeLog>

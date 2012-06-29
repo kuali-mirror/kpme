@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="yingzhou" context="bootstrap">
+        <comment>kpme-564: added validation for max value of Shift Hours, changed db schema, added new test to DepartmentLunchRuleMaintTest</comment>
+        <modifyDataType tableName="tk_dept_lunch_rl_t" columnName="SHIFT_HOURS" newDataType="DECIMAL(3,1)" />
+    </changeSet>
+    
+</databaseChangeLog>

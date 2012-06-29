@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="jkakkad" context="bootstrap">
+        <comment>KPME-1634 Acc cat maint leave code reference changed to earn code</comment>
+        <renameColumn tableName="lm_accrual_category_t" oldColumnName="LEAVE_CODE" newColumnName="EARN_CODE" columnDataType="VARCHAR(15)" />
+        <addNotNullConstraint tableName="lm_accrual_category_t" columnName="EARN_CODE" columnDataType="VARCHAR(15) NOT NULL" />
+        <renameColumn tableName="lm_accrual_category_rules_t" oldColumnName="MAX_PAYOUT_LEAVE_CODE" newColumnName="MAX_PAYOUT_EARN_CODE" columnDataType="VARCHAR(15)" />
+    </changeSet>
+
+</databaseChangeLog>

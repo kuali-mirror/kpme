@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="jkakkad" context="bootstrap">
+        <comment>Earn Code length changed from 3 to 15</comment>
+        <modifyDataType tableName="hr_earn_code_t" columnName="earn_code" newDataType="VARCHAR(15) NOT NULL" />
+        <dropNotNullConstraint tableName="hr_earn_code_t" columnName="earn_code" columnDataType="VARCHAR(15)" />
+        <modifyDataType tableName="hr_earn_code_t" columnName="ROLLUP_TO_EARNCODE" newDataType="VARCHAR(15)" />
+        
+        <modifyDataType tableName="tk_time_block_t" columnName="EARN_CODE" newDataType="VARCHAR(15)" />
+        <modifyDataType tableName="tk_time_block_hist_t" columnName="EARN_CODE" newDataType="VARCHAR(15)" />
+        <modifyDataType tableName="tk_time_block_hist_detail_t" columnName="EARN_CODE" newDataType="VARCHAR(15) NOT NULL" />
+        <dropNotNullConstraint tableName="tk_time_block_hist_detail_t" columnName="EARN_CODE" columnDataType="VARCHAR(15)" />
+        
+        <modifyDataType tableName="tk_work_area_t" columnName="default_overtime_earncode" newDataType="VARCHAR(15)" />
+        
+        <modifyDataType tableName="hr_earn_code_group_def_t" columnName="earn_code" newDataType="VARCHAR(15)" />
+        
+        <modifyDataType tableName="hr_paytype_t" columnName="reg_ern_code" newDataType="VARCHAR(15) NOT NULL" />
+        <dropNotNullConstraint tableName="hr_paytype_t" columnName="reg_ern_code" columnDataType="VARCHAR(15)" />
+        
+        <modifyDataType tableName="tk_assign_acct_t" columnName="earn_code" newDataType="VARCHAR(15)" />
+        
+        <modifyDataType tableName="tk_shift_differential_rl_t" columnName="earn_code" newDataType="VARCHAR(15)" />
+        
+        <modifyDataType tableName="tk_weekly_overtime_rl_t" columnName="CONVERT_TO_ERNCD" newDataType="VARCHAR(15) NOT NULL" />
+        <dropNotNullConstraint tableName="tk_weekly_overtime_rl_t" columnName="CONVERT_TO_ERNCD" columnDataType="VARCHAR(15)" />
+        
+        <modifyDataType tableName="hr_earn_code_security_t" columnName="earn_code" newDataType="VARCHAR(15) NOT NULL" />
+        <dropNotNullConstraint tableName="hr_earn_code_security_t" columnName="earn_code" columnDataType="VARCHAR(15)" />
+        
+        <modifyDataType tableName="tk_daily_overtime_rl_t" columnName="earn_code" newDataType="VARCHAR(15)" />
+        
+        <modifyDataType tableName="tk_hour_detail_t" columnName="earn_code" newDataType="VARCHAR(15)" />
+        
+        <modifyDataType tableName="lm_accruals_t" columnName="accrual_category" newDataType="VARCHAR(15) NOT NULL" />
+    </changeSet>
+
+</databaseChangeLog>

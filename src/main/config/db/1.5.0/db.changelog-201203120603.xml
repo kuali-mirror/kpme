@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="jkakkad" context="bootstrap">
+        <comment>KPME-1392 KPME 1393 KPME 1394 SQLs added for required changes</comment>
+        <createTable tableName="lm_leave_block_hist_s">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+        </createTable>
+        <createTable tableName="lm_leave_block_hist_t">
+            <column name="lm_leave_block_hist_id" type="VARCHAR(60)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="lm_leave_block_id" type="VARCHAR(60)">
+                <constraints nullable="false" />
+            </column>
+            <column name="leave_date" type="DATE">
+                <constraints nullable="false" />
+            </column>
+            <column name="description" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="principal_id" type="VARCHAR(40)">
+                <constraints nullable="false" />
+            </column>
+            <column name="LEAVE_CODE" type="VARCHAR(15)">
+                <constraints nullable="false" />
+            </column>
+            <column name="LM_LEAVE_CODE_ID" type="VARCHAR(60)">
+                <constraints nullable="false" />
+            </column>
+            <column name="lm_sys_schd_timeoff_id" type="VARCHAR(60)">
+                <constraints nullable="false" />
+            </column>
+            <column name="lm_accrual_category_id" type="VARCHAR(60)">
+                <constraints nullable="false" />
+            </column>
+            <column name="tk_assignment_id" type="VARCHAR(60)"/>
+            <column name="hours" type="INT(11)">
+                <constraints nullable="false" />
+            </column>
+            <column name="apply_to_ytd_used" type="VARCHAR(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="document_id" type="VARCHAR(14)">
+                <constraints nullable="false" />
+            </column>
+            <column name="principal_id_modified" type="VARCHAR(40)" />
+            <column name="TIMESTAMP" type="TIME" />
+            <column name="principal_id_deleted" type="VARCHAR(40)" />
+            <column name="TIMESTAMP_DELETED" type="TIME" />
+            <column name="block_id" type="BIGINT(20)" />
+            <column name="accrual_generated" type="VARCHAR(1)">
+                <constraints nullable="false" />
+            </column>
+            <column name="request_status" type="VARCHAR(1)" />
+            <column name="action" type="VARCHAR(1)" />
+            <column name="ver_nbr" type="BIGINT(20)" defaultValueNumeric="1" />
+            <column name="obj_id" type="VARCHAR(36)" />
+        </createTable>
+    </changeSet>
+    
+    <changeSet id="2" author="jkakkad" context="bootstrap">
+        <comment>KPME-1392 KPME 1393 KPME 1394 SQLs added for required changes</comment>
+        <createTable tableName="lm_leave_status_hist_s">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+        </createTable>
+        <createTable tableName="lm_leave_status_hist_t">
+            <column name="lm_leave_status_hist_id" type="VARCHAR(60)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="lm_leave_block_id" type="VARCHAR(60)">
+                <constraints nullable="false" />
+            </column>
+            <column name="request_status" type="VARCHAR(1)"/>
+            <column name="TIMESTAMP" type="TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+            <column name="principal_id_modified" type="VARCHAR(40)" />
+            <column name="reason" type="VARCHAR(255)" />
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+    
+    <changeSet id="3" author="jkakkad" context="bootstrap">
+        <comment>KPME-1392 KPME 1393 KPME 1394 SQLs added for required changes</comment>
+        <renameTable oldTableName="lm_ledger_s" newTableName="lm_leave_block_s" />
+		
+		<renameTable oldTableName="lm_ledger_t" newTableName="lm_leave_block_t" />
+		
+		<dropColumn tableName="lm_leave_block_t" columnName="active" />
+		
+		<dropColumn tableName="lm_leave_block_t" columnName="principal_activated" />
+		<dropColumn tableName="lm_leave_block_t" columnName="principal_inactivated" />
+		
+		<dropColumn tableName="lm_leave_block_t" columnName="timestamp_activated" />
+        <dropColumn tableName="lm_leave_block_t" columnName="timestamp_inactivated" />
+		
+        <addColumn tableName="lm_leave_block_t">
+            <column name="TIMESTAMP" type="TIME">
+                <constraints nullable="false" />
+            </column>
+		</addColumn>
+		<addColumn tableName="lm_leave_block_t">
+            <column name="PRINCIPAL_ID_MODIFIED" type="VARCHAR(40)" />
+        </addColumn>
+        
+        <addColumn tableName="lm_leave_block_t">
+            <column name="TK_ASSIGNMENT_ID" type="VARCHAR(60)" />
+        </addColumn>
+        
+        <renameColumn tableName="lm_leave_block_t" oldColumnName="LM_LEDGER_ID" newColumnName="LM_LEAVE_BLOCK_ID" columnDataType="VARCHAR(60) NOT NULL" />
+        <renameColumn tableName="lm_leave_block_t" oldColumnName="LEDGER_DATE" newColumnName="LEAVE_DATE" columnDataType="DATE NOT NULL" />
+
+		<addColumn tableName="lm_leave_block_t">
+            <column name="REQUEST_STATUS" type="VARCHAR(1)" />
+        </addColumn>
+    </changeSet>
+    
+</databaseChangeLog>

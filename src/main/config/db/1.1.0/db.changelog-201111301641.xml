@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    
+    <changeSet id="1" author="yingzhou" context="bootstrap">
+        <comment>kpme-1168: added Time Block History Detail to capture hour detail histories</comment>
+        <createTable tableName="tk_time_block_hist_detail_s">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="yingzhou" context="bootstrap">
+        <comment>kpme-1168: added Time Block History Detail to capture hour detail histories</comment>
+        <createTable tableName="tk_time_block_hist_detail_t">
+        	<column name="TK_TIME_BLOCK_HIST_DETAIL_ID" type="VARCHAR(60)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="TK_TIME_BLOCK_HIST_ID" type="VARCHAR(60)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="EARN_CODE" type="VARCHAR(3)">
+           	 	<constraints nullable="false"/>
+            </column>
+             <column name="HOURS" type="DECIMAL(5,2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="AMOUNT" type="DECIMAL(6,2)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="OBJ_ID" type="VARCHAR(36)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VER_NBR" defaultValueNumeric="1" type="DECIMAL(8,0)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+   </changeSet>
+   
+</databaseChangeLog>
