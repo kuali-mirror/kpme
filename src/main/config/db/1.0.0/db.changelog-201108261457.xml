@@ -77,6 +77,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     
     <changeSet id="13" author="lee55" context="bootstrap">

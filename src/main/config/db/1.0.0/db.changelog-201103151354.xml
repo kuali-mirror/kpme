@@ -9,6 +9,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="2" author="djunk" context="bootstrap">
         <createTable tableName="tk_time_sheet_init_t">
@@ -25,6 +28,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="3" author="djunk" context="bootstrap">
         <modifyDataType columnName="active" newDataType="CHAR(1)" tableName="hr_location_t"/>

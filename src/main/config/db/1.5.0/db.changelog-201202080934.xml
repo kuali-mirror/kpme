@@ -40,6 +40,9 @@
                 <constraints nullable="false" primaryKey="true" />
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
         <createTable tableName="lm_employee_override_t">
             <column name="LM_EMPLOYEE_OVERRIDE_ID" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />
@@ -67,6 +70,9 @@
                 <constraints nullable="false" />
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     
     <changeSet id="4" author="lee55" context="bootstrap">
@@ -76,6 +82,9 @@
                 <constraints nullable="false" primaryKey="true" />
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
         <createTable tableName="lm_leave_adjustment_t">
             <column name="LM_LEAVE_ADJUSTMENT_ID" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />
@@ -102,6 +111,9 @@
                 <constraints nullable="false" />
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     
     <changeSet id="5" author="lee55" context="bootstrap">

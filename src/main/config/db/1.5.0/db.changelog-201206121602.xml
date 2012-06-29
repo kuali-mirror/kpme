@@ -10,6 +10,9 @@
                 <constraints nullable="false" primaryKey="true" />
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
         <dropPrimaryKey tableName="hr_principal_attributes_t" />
         <addColumn tableName="hr_principal_attributes_t">
             <column name="hr_principal_attribute_id" type="VARCHAR(60)" defaultValue="">

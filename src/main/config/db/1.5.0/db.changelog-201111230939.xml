@@ -40,6 +40,9 @@
                 <constraints nullable="false" primaryKey="true" />
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
         <createTable tableName="lm_leave_plan_t">
             <column name="lm_leave_plan_id" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />
@@ -59,6 +62,9 @@
             <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
             <column name="TIMESTAMP" type="TIMESTAMP" />
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
 
         <renameTable oldTableName="lm_accrual_categories_s" newTableName="lm_accrual_category_s" />
         <renameTable oldTableName="lm_accrual_categories_t" newTableName="lm_accrual_category_t" />
@@ -98,6 +104,9 @@
                 <constraints nullable="false" primaryKey="true" />
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
         <createTable tableName="lm_accrual_category_rules_t">
             <column name="lm_accrual_category_rules_id" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />
@@ -140,12 +149,18 @@
             <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
             <column name="TIMESTAMP" type="TIMESTAMP" />
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
         
         <createTable tableName="lm_leave_code_s">
             <column autoIncrement="true" name="id" type="BIGINT(19)">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
         <createTable tableName="lm_leave_code_t">
             <column name="lm_leave_code_id" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />
@@ -194,6 +209,9 @@
             <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
             <column name="TIMESTAMP" type="TIMESTAMP" />
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
         
         <createTable tableName="lm_leave_document_header_t">
             <column name="document_id" type="VARCHAR(14)">
@@ -218,6 +236,9 @@
                 <constraints nullable="false" />
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     
     <changeSet id="4" author="lee55" context="bootstrap">
@@ -240,6 +261,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
         <createTable tableName="lm_sys_schd_timeoff_t">
             <column name="lm_sys_schd_timeoff_id" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />
@@ -283,6 +307,9 @@
             <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
             <column name="TIMESTAMP" type="TIMESTAMP" />
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     
 </databaseChangeLog>

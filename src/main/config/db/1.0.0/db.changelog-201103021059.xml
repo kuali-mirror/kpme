@@ -24,6 +24,9 @@
             <column name="ACCT_EXPIRATION_DT" type="DATETIME"/>
             <column name="ACCT_CLOSED_IND" type="VARCHAR(1)"/>
         </createTable>
+        <modifySql dbms="mysql">
+            <append value=" ENGINE INNODB"/>
+        </modifySql>
     </changeSet>
     <changeSet id="2" author="djunk" context="bootstrap">
         <createTable tableName="ca_chart_t">
@@ -39,6 +42,9 @@
             <column name="FIN_COA_DESC" type="VARCHAR(40)"/>
             <column name="FIN_COA_ACTIVE_CD" type="VARCHAR(1)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="3" author="djunk" context="bootstrap">
         <createTable tableName="ca_object_code_t">
@@ -61,6 +67,9 @@
             <column name="FIN_OBJ_CD_SHRT_NM" type="VARCHAR(12)"/>
             <column name="FIN_OBJ_ACTIVE_CD" type="VARCHAR(1)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="4" author="djunk" context="bootstrap">
         <createTable tableName="ca_org_t">
@@ -79,6 +88,9 @@
             <column name="ORG_NM" type="VARCHAR(40)"/>
             <column name="ORG_ACTIVE_CD" type="VARCHAR(1)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="5" author="djunk" context="bootstrap">
         <createTable tableName="ca_project_t">
@@ -97,6 +109,9 @@
             <column name="PROJ_ACTIVE_CD" type="VARCHAR(1)"/>
             <column name="PROJECT_DESC" type="VARCHAR(400)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="6" author="djunk" context="bootstrap">
         <createTable tableName="ca_sub_acct_t">
@@ -118,6 +133,9 @@
             <column name="SUB_ACCT_NM" type="VARCHAR(40)"/>
             <column name="SUB_ACCT_ACTV_CD" type="VARCHAR(1)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="7" author="djunk" context="bootstrap">
         <createTable tableName="ca_sub_object_cd_t">
@@ -146,6 +164,9 @@
             <column name="FIN_SUBOBJ_SHRT_NM" type="VARCHAR(12)"/>
             <column name="FIN_SUBOBJ_ACTV_CD" type="VARCHAR(1)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="8" author="djunk" context="bootstrap">
         <createTable tableName="hr_job_s">
@@ -153,6 +174,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="9" author="djunk" context="bootstrap">
         <createTable tableName="hr_job_t">
@@ -184,6 +208,9 @@
             <column defaultValue="N" name="active" type="VARCHAR(1)"/>
             <column defaultValue="N" name="primary_indicator" type="VARCHAR(1)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="10" author="djunk" context="bootstrap">
         <createTable tableName="hr_location_s">
@@ -191,6 +218,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="11" author="djunk" context="bootstrap">
         <createTable tableName="hr_location_t">
@@ -215,6 +245,9 @@
             <column name="active" type="BIT"/>
             <column name="user_principal_id" type="VARCHAR(40)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="12" author="djunk" context="bootstrap">
         <createTable tableName="hr_pay_grade_s">
@@ -222,6 +255,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="13" author="djunk" context="bootstrap">
         <createTable tableName="hr_pay_grade_t">
@@ -243,6 +279,9 @@
             <column name="active" type="BIT"/>
             <column name="user_principal_id" type="VARCHAR(40)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="14" author="djunk" context="bootstrap">
         <createTable tableName="hr_paytype_s">
@@ -250,6 +289,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="15" author="djunk" context="bootstrap">
         <createTable tableName="hr_paytype_t">
@@ -275,6 +317,9 @@
             </column>
             <column defaultValue="N" name="ACTIVE" type="VARCHAR(1)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="16" author="djunk" context="bootstrap">
         <createTable tableName="hr_work_schedule_entry_s">
@@ -282,6 +327,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="17" author="djunk" context="bootstrap">
         <createTable tableName="hr_work_schedule_entry_t">
@@ -305,6 +353,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="18" author="djunk" context="bootstrap">
         <createTable tableName="hr_work_schedule_s">
@@ -312,6 +363,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="19" author="djunk" context="bootstrap">
         <createTable tableName="hr_work_schedule_t">
@@ -336,6 +390,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="20" author="djunk" context="bootstrap">
         <createTable tableName="krns_adhoc_rte_actn_recip_t">
@@ -358,6 +415,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="21" author="djunk" context="bootstrap">
         <createTable tableName="krns_att_t">
@@ -376,6 +436,9 @@
             <column name="FILE_SZ" type="DECIMAL(14,0)"/>
             <column name="ATT_TYP_CD" type="VARCHAR(40)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="22" author="djunk" context="bootstrap">
         <createTable tableName="krns_doc_hdr_t">
@@ -393,6 +456,9 @@
             <column name="TMPL_DOC_HDR_ID" type="VARCHAR(14)"/>
             <column name="EXPLANATION" type="VARCHAR(400)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="23" author="djunk" context="bootstrap">
         <createTable tableName="krns_lock_s">
@@ -400,6 +466,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="24" author="djunk" context="bootstrap">
         <createTable tableName="krns_lookup_rslt_s">
@@ -407,6 +476,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="25" author="djunk" context="bootstrap">
         <createTable tableName="krns_lookup_rslt_t">
@@ -427,6 +499,9 @@
             </column>
             <column name="SERIALZD_RSLTS" type="LONGTEXT"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="26" author="djunk" context="bootstrap">
         <createTable tableName="krns_lookup_sel_t">
@@ -447,6 +522,9 @@
             </column>
             <column name="SEL_OBJ_IDS" type="LONGTEXT"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="27" author="djunk" context="bootstrap">
         <createTable tableName="krns_maint_doc_att_t">
@@ -465,6 +543,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="28" author="djunk" context="bootstrap">
         <createTable tableName="krns_maint_doc_t">
@@ -479,6 +560,9 @@
             </column>
             <column name="DOC_CNTNT" type="LONGTEXT"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="29" author="djunk" context="bootstrap">
         <createTable tableName="krns_maint_lock_s">
@@ -486,6 +570,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="30" author="djunk" context="bootstrap">
         <createTable tableName="krns_maint_lock_t">
@@ -503,6 +590,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="31" author="djunk" context="bootstrap">
         <createTable tableName="krns_nte_s">
@@ -510,6 +600,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="32" author="djunk" context="bootstrap">
         <createTable tableName="krns_nte_t">
@@ -538,6 +631,9 @@
             <column name="PRG_CD" type="VARCHAR(1)"/>
             <column name="TPC_TXT" type="VARCHAR(40)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="33" author="djunk" context="bootstrap">
         <createTable tableName="krns_nte_typ_t">
@@ -553,6 +649,9 @@
             <column name="TYP_DESC_TXT" type="VARCHAR(100)"/>
             <column name="ACTV_IND" type="VARCHAR(1)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="34" author="djunk" context="bootstrap">
         <createTable tableName="krns_pessimistic_lock_t">
@@ -576,6 +675,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="35" author="djunk" context="bootstrap">
         <createTable tableName="krns_sesn_doc_t">
@@ -595,6 +697,9 @@
             <column name="LAST_UPDT_DT" type="DATETIME"/>
             <column defaultValue="N" name="CONTENT_ENCRYPTED_IND" type="CHAR(1)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="36" author="djunk" context="bootstrap">
         <createTable tableName="krsb_bam_parm_s">
@@ -602,6 +707,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="37" author="djunk" context="bootstrap">
         <createTable tableName="krsb_bam_parm_t">
@@ -615,6 +723,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="38" author="djunk" context="bootstrap">
         <createTable tableName="krsb_bam_s">
@@ -622,6 +733,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="39" author="djunk" context="bootstrap">
         <createTable tableName="krsb_bam_t">
@@ -652,9 +766,9 @@
             <column name="EXCPN_TO_STR" type="VARCHAR(2000)"/>
             <column name="EXCPN_MSG" type="LONGTEXT"/>
         </createTable>
-        <modifySql dbms="mysql">
-            <append value=" ENGINE INNODB"/>
-        </modifySql>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="40" author="djunk" context="bootstrap">
         <createTable tableName="krsb_msg_pyld_t">
@@ -665,6 +779,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="41" author="djunk" context="bootstrap">
         <createTable tableName="krsb_msg_que_s">
@@ -672,6 +789,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="42" author="djunk" context="bootstrap">
         <createTable tableName="krsb_msg_que_t">
@@ -703,6 +823,9 @@
             <column name="APP_VAL_TWO" type="VARCHAR(2000)"/>
             <column defaultValueNumeric="0" name="VER_NBR" type="DECIMAL(8,0)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="43" author="djunk" context="bootstrap">
         <createTable tableName="krsb_svc_def_s">
@@ -710,6 +833,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="44" author="djunk" context="bootstrap">
         <createTable tableName="krsb_svc_def_t">
@@ -739,6 +865,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="45" author="djunk" context="bootstrap">
         <createTable tableName="la_accrual_categories_s">
@@ -746,6 +875,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="46" author="djunk" context="bootstrap">
         <createTable tableName="la_accrual_categories_t">
@@ -770,6 +902,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="47" author="djunk" context="bootstrap">
         <createTable tableName="la_accruals_s">
@@ -777,6 +912,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="48" author="djunk" context="bootstrap">
         <createTable tableName="la_accruals_t">
@@ -806,6 +944,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="49" author="djunk" context="bootstrap">
         <createTable tableName="qrtz_blob_triggers">
@@ -817,6 +958,9 @@
             </column>
             <column name="BLOB_DATA" type="LONGBLOB"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="50" author="djunk" context="bootstrap">
         <createTable tableName="qrtz_calendars">
@@ -827,6 +971,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="51" author="djunk" context="bootstrap">
         <createTable tableName="qrtz_cron_triggers">
@@ -841,6 +988,9 @@
             </column>
             <column name="TIME_ZONE_ID" type="VARCHAR(80)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="52" author="djunk" context="bootstrap">
         <createTable tableName="qrtz_fired_triggers">
@@ -873,6 +1023,9 @@
             <column name="IS_STATEFUL" type="VARCHAR(1)"/>
             <column name="REQUESTS_RECOVERY" type="VARCHAR(1)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="53" author="djunk" context="bootstrap">
         <createTable tableName="qrtz_job_details">
@@ -900,6 +1053,9 @@
             </column>
             <column name="JOB_DATA" type="LONGBLOB"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="54" author="djunk" context="bootstrap">
         <createTable tableName="qrtz_job_listeners">
@@ -913,6 +1069,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="55" author="djunk" context="bootstrap">
         <createTable tableName="qrtz_locks">
@@ -920,6 +1079,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="56" author="djunk" context="bootstrap">
         <createTable tableName="qrtz_paused_trigger_grps">
@@ -927,6 +1089,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="57" author="djunk" context="bootstrap">
         <createTable tableName="qrtz_scheduler_state">
@@ -940,6 +1105,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="58" author="djunk" context="bootstrap">
         <createTable tableName="qrtz_simple_triggers">
@@ -959,6 +1127,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="59" author="djunk" context="bootstrap">
         <createTable tableName="qrtz_trigger_listeners">
@@ -972,6 +1143,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="60" author="djunk" context="bootstrap">
         <createTable tableName="qrtz_triggers">
@@ -1008,6 +1182,9 @@
             <column name="MISFIRE_INSTR" type="DECIMAL(2,0)"/>
             <column name="JOB_DATA" type="LONGBLOB"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="61" author="djunk" context="bootstrap">
         <createTable tableName="tk_assign_acct_s">
@@ -1015,6 +1192,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="62" author="djunk" context="bootstrap">
         <createTable tableName="tk_assign_acct_t">
@@ -1038,6 +1218,9 @@
             </column>
             <column name="EARN_CODE" type="VARCHAR(3)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="63" author="djunk" context="bootstrap">
         <createTable tableName="tk_assignment_s">
@@ -1045,6 +1228,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="64" author="djunk" context="bootstrap">
         <createTable tableName="tk_assignment_t">
@@ -1067,6 +1253,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="65" author="djunk" context="bootstrap">
         <createTable tableName="tk_clock_location_rl_s">
@@ -1074,6 +1263,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="66" author="djunk" context="bootstrap">
         <createTable tableName="tk_clock_location_rl_t">
@@ -1098,6 +1290,9 @@
             </column>
             <column name="dept" type="VARCHAR(21)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="67" author="djunk" context="bootstrap">
         <createTable tableName="tk_clock_log_s">
@@ -1105,6 +1300,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="68" author="djunk" context="bootstrap">
         <createTable tableName="tk_clock_log_t">
@@ -1135,6 +1333,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="69" author="djunk" context="bootstrap">
         <createTable tableName="tk_daily_overtime_rl_s">
@@ -1142,6 +1343,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="70" author="djunk" context="bootstrap">
         <createTable tableName="tk_daily_overtime_rl_t">
@@ -1163,6 +1367,9 @@
             <column name="FROM_EARN_GROUP" type="VARCHAR(10)"/>
             <column name="EARN_CODE" type="VARCHAR(10)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="71" author="djunk" context="bootstrap">
         <createTable tableName="tk_dept_earn_code_s">
@@ -1170,6 +1377,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="72" author="djunk" context="bootstrap">
         <createTable tableName="tk_dept_earn_code_t">
@@ -1197,6 +1407,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="73" author="djunk" context="bootstrap">
         <createTable tableName="tk_dept_lunch_rl_s">
@@ -1204,6 +1417,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="74" author="djunk" context="bootstrap">
         <createTable tableName="tk_dept_lunch_rl_t">
@@ -1235,6 +1451,9 @@
             <column name="SHIFT_HOURS" type="DECIMAL(2,1)"/>
             <column name="DEDUCTION_MINS" type="DECIMAL(3,0)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="75" author="djunk" context="bootstrap">
         <createTable tableName="tk_dept_s">
@@ -1242,6 +1461,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="76" author="djunk" context="bootstrap">
         <createTable tableName="tk_dept_t">
@@ -1261,6 +1483,9 @@
             </column>
             <column defaultValue="N" name="active" type="VARCHAR(1)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="77" author="djunk" context="bootstrap">
         <createTable tableName="tk_document_header_t">
@@ -1274,6 +1499,9 @@
             <column name="OBJ_ID" type="VARCHAR(36)"/>
             <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="78" author="djunk" context="bootstrap">
         <createTable tableName="tk_earn_code_s">
@@ -1281,6 +1509,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="79" author="djunk" context="bootstrap">
         <createTable tableName="tk_earn_code_t">
@@ -1312,6 +1543,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="80" author="djunk" context="bootstrap">
         <createTable tableName="tk_earn_group_def_s">
@@ -1319,6 +1553,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="81" author="djunk" context="bootstrap">
         <createTable tableName="tk_earn_group_def_t">
@@ -1330,6 +1567,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="82" author="djunk" context="bootstrap">
         <createTable tableName="tk_earn_group_s">
@@ -1337,6 +1577,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="83" author="djunk" context="bootstrap">
         <createTable tableName="tk_earn_group_t">
@@ -1354,6 +1597,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="84" author="djunk" context="bootstrap">
         <createTable tableName="tk_grace_period_rl_s">
@@ -1361,6 +1607,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="85" author="djunk" context="bootstrap">
         <createTable tableName="tk_grace_period_rl_t">
@@ -1380,6 +1629,9 @@
             </column>
             <column name="ACTIVE" type="VARCHAR(1)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="86" author="djunk" context="bootstrap">
         <createTable tableName="tk_holiday_calendar_dates_s">
@@ -1387,6 +1639,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="87" author="djunk" context="bootstrap">
         <createTable tableName="tk_holiday_calendar_dates_t">
@@ -1410,6 +1665,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="88" author="djunk" context="bootstrap">
         <createTable tableName="tk_holiday_calendar_s">
@@ -1417,6 +1675,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="89" author="djunk" context="bootstrap">
         <createTable tableName="tk_holiday_calendar_t">
@@ -1436,6 +1697,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="90" author="djunk" context="bootstrap">
         <createTable tableName="tk_hour_detail_hist_s">
@@ -1443,6 +1707,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="91" author="djunk" context="bootstrap">
         <createTable tableName="tk_hour_detail_hist_t">
@@ -1465,6 +1732,9 @@
             <column name="MODIFIED_BY_PRINCIPAL_ID" type="VARCHAR(40)"/>
             <column defaultValue="0000-00-00 00:00:00" name="TIMESTAMP_MODIFIED" type="TIMESTAMP"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="92" author="djunk" context="bootstrap">
         <createTable tableName="tk_hour_detail_s">
@@ -1472,6 +1742,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="93" author="djunk" context="bootstrap">
         <createTable tableName="tk_hour_detail_t">
@@ -1491,6 +1764,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="94" author="djunk" context="bootstrap">
         <createTable tableName="tk_missed_punch_doc_t">
@@ -1527,6 +1803,9 @@
                 <constraints nullable="false"/>
             </column>          
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="95" author="djunk" context="bootstrap">
         <createTable tableName="tk_principal_calendar_t">
@@ -1554,6 +1833,9 @@
             </column>
             <column defaultValue="Y" name="active" type="VARCHAR(1)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="96" author="djunk" context="bootstrap">
         <createTable tableName="tk_py_calendar_entries_s">
@@ -1561,6 +1843,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="97" author="djunk" context="bootstrap">
         <createTable tableName="tk_py_calendar_entries_t">
@@ -1586,6 +1871,9 @@
             <column name="supervisor_approval_date" type="DATE"/>
             <column name="supervisor_approval_time" type="TIME"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="98" author="djunk" context="bootstrap">
         <createTable tableName="tk_py_calendar_s">
@@ -1593,6 +1881,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="99" author="djunk" context="bootstrap">
         <createTable tableName="tk_py_calendar_t">
@@ -1612,6 +1903,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="100" author="djunk" context="bootstrap">
         <createTable tableName="tk_roles_group_t">
@@ -1619,6 +1913,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="101" author="djunk" context="bootstrap">
         <createTable tableName="tk_roles_s">
@@ -1626,6 +1923,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="102" author="djunk" context="bootstrap">
         <createTable tableName="tk_roles_t">
@@ -1651,6 +1951,9 @@
             <column name="tk_dept_id" type="BIGINT"/>
             <column name="tk_work_area_id" type="BIGINT"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="103" author="djunk" context="bootstrap">
         <createTable tableName="tk_sal_group_s">
@@ -1658,6 +1961,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="104" author="djunk" context="bootstrap">
         <createTable tableName="tk_sal_group_t">
@@ -1680,6 +1986,9 @@
             </column>
             <column name="descr" type="VARCHAR(30)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="105" author="djunk" context="bootstrap">
         <createTable tableName="tk_shift_differential_rl_s">
@@ -1687,6 +1996,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="106" author="djunk" context="bootstrap">
         <createTable tableName="tk_shift_differential_rl_t">
@@ -1733,6 +2045,9 @@
             </column>
             <column name="from_earn_group" type="VARCHAR(10)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="107" author="djunk" context="bootstrap">
         <createTable tableName="tk_system_lunch_rl_s">
@@ -1740,6 +2055,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="108" author="djunk" context="bootstrap">
         <createTable tableName="tk_system_lunch_rl_t">
@@ -1760,6 +2078,9 @@
             <column name="USER_PRINCIPAL_ID" type="VARCHAR(10)"/>
             <column defaultValue="0" name="SHOW_LUNCH_BUTTON" type="VARCHAR(1)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="109" author="djunk" context="bootstrap">
         <createTable tableName="tk_task_s">
@@ -1767,6 +2088,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="110" author="djunk" context="bootstrap">
         <createTable tableName="tk_task_t">
@@ -1793,6 +2117,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="111" author="djunk" context="bootstrap">
         <createTable tableName="tk_time_block_hist_s">
@@ -1800,6 +2127,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="112" author="djunk" context="bootstrap">
         <createTable tableName="tk_time_block_hist_t">
@@ -1841,6 +2171,9 @@
             <column defaultValueNumeric="0.00" name="amount" type="DECIMAL(6,2)"/>
             <column name="HR_JOB_ID" type="BIGINT"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="113" author="djunk" context="bootstrap">
         <createTable tableName="tk_time_block_s">
@@ -1848,6 +2181,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="114" author="djunk" context="bootstrap">
         <createTable tableName="tk_time_block_t">
@@ -1884,6 +2220,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="115" author="djunk" context="bootstrap">
         <createTable tableName="tk_time_collection_rl_s">
@@ -1891,6 +2230,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="116" author="djunk" context="bootstrap">
         <createTable tableName="tk_time_collection_rl_t">
@@ -1910,6 +2252,9 @@
             <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT"/>
             <column defaultValue="N" name="ACTIVE" type="VARCHAR(1)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="117" author="djunk" context="bootstrap">
         <createTable tableName="tk_user_pref_t">
@@ -1918,6 +2263,9 @@
             </column>
             <column name="TIME_ZONE" type="VARCHAR(30)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="118" author="djunk" context="bootstrap">
         <createTable tableName="tk_wa_maint_doc_t">
@@ -1928,6 +2276,9 @@
             <column name="obj_id" type="VARCHAR(50)"/>
             <column name="doc_cntnt" type="LONGTEXT"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="119" author="djunk" context="bootstrap">
         <createTable tableName="tk_weekly_overtime_rl_s">
@@ -1935,6 +2286,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="120" author="djunk" context="bootstrap">
         <createTable tableName="tk_weekly_overtime_rl_t">
@@ -1958,6 +2312,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="121" author="djunk" context="bootstrap">
         <createTable tableName="tk_weekly_ovt_group_t">
@@ -1965,6 +2322,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="122" author="djunk" context="bootstrap">
         <createTable tableName="tk_work_area_document_t">
@@ -1974,6 +2334,9 @@
             <column name="ver_nbr" type="BIGINT"/>
             <column name="obj_id" type="VARCHAR(50)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="123" author="djunk" context="bootstrap">
         <createTable tableName="tk_work_area_s">
@@ -1981,6 +2344,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="124" author="djunk" context="bootstrap">
         <createTable tableName="tk_work_area_t">
@@ -2008,6 +2374,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="125" author="djunk" context="bootstrap">
         <addPrimaryKey columnNames="FIN_COA_CD, ACCOUNT_NBR" tableName="ca_account_t"/>
@@ -2353,6 +2722,9 @@
         <createTable tableName="kr_unittest_t">
             <column name="foo" type="VARCHAR(1)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
 
 </databaseChangeLog>

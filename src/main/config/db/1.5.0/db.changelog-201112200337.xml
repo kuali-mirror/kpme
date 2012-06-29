@@ -10,6 +10,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
         <createTable tableName="lm_leave_donation_t">
             <column name="lm_leave_donation_id" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />
@@ -45,6 +48,9 @@
             <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
             <column name="TIMESTAMP" type="TIMESTAMP" />
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     
 </databaseChangeLog>

@@ -10,6 +10,9 @@
                 <constraints nullable="false" primaryKey="true" />
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
         <createTable tableName="lm_leave_block_hist_t">
             <column name="lm_leave_block_hist_id" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />
@@ -61,6 +64,9 @@
             <column name="ver_nbr" type="BIGINT(20)" defaultValueNumeric="1" />
             <column name="obj_id" type="VARCHAR(36)" />
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     
     <changeSet id="2" author="jkakkad" context="bootstrap">
@@ -70,6 +76,9 @@
                 <constraints nullable="false" primaryKey="true" />
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
         <createTable tableName="lm_leave_status_hist_t">
             <column name="lm_leave_status_hist_id" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />
@@ -88,6 +97,9 @@
                 <constraints nullable="false" />
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     
     <changeSet id="3" author="jkakkad" context="bootstrap">

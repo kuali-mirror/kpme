@@ -6,6 +6,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="2" author="djunk" context="bootstrap">
         <createTable tableName="hr_work_schedule_assign_t">
@@ -35,6 +38,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="3" author="djunk" context="bootstrap">
         <createTable tableName="tk_missed_punch_s">
@@ -42,6 +48,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="4" author="djunk" context="bootstrap">
         <createTable tableName="tk_missed_punch_t">
@@ -70,6 +79,9 @@
                 <constraints nullable="false"/>
             </column>     
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="5" author="djunk" context="bootstrap">
         <addColumn tableName="hr_work_schedule_entry_t">

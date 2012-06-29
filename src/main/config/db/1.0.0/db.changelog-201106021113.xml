@@ -9,6 +9,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="2" author="lee55" context="bootstrap">
         <createTable tableName="hr_position_s">
@@ -16,6 +19,9 @@
                 <constraints nullable="false" primaryKey="true"/>
             </column>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
     </changeSet>
     <changeSet id="3" author="lee55" context="bootstrap">
         <createTable tableName="hr_position_t">
@@ -40,6 +46,9 @@
             </column>
             <column defaultValue="Y" name="active" type="VARCHAR(1)"/>
         </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
     </changeSet>
     <changeSet id="4" author="lee55" context="bootstrap">
         <addColumn tableName="hr_job_t">

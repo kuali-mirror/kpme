@@ -5,23 +5,17 @@
 
     <changeSet id="1" author="yingzhou" context="bootstrap">
         <comment>KPME-183: changed PK of work area, WorkAreaMaintenanceDocumentTest</comment>
-		<createTable tableName="tk_work_area_key_s">
-		<column autoIncrement="true" name="ID" type="BIGINT">
-		<constraints nullable="false" primaryKey="true"/>
-		</column>
+        <createTable tableName="tk_work_area_key_s">
+            <column autoIncrement="true" name="ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
 		</createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
 	</changeSet>
 	
     <changeSet id="2" author="yingzhou" context="bootstrap">
-        <comment>KPME-183: changed PK of work area, WorkAreaMaintenanceDocumentTest</comment>
-		<sql>
-			INSERT INTO `tk_work_area_key_s` (`ID`) (
-			select max(`work_area`) from `tk_work_area_t`
-			);
-		</sql>
-	</changeSet>
-	
-    <changeSet id="3" author="yingzhou" context="bootstrap">
         <comment>KPME-183: changed PK of work area, WorkAreaMaintenanceDocumentTest</comment>
         <modifyDataType tableName="tk_work_area_t" columnName="work_area" newDataType="BIGINT"/>
 		<dropPrimaryKey tableName="tk_work_area_t"/>
