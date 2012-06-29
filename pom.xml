@@ -194,10 +194,6 @@
                 <executions>
 	                <execution>
 	                    <phase>process-resources</phase>
-	                    <configuration>
-	                        <dropFirst>${liquibase.dropFirst}</dropFirst>
-	                        <context>${liquibase.context}</context>
-	                    </configuration>
 	                    <goals>
 	                        <goal>update</goal>
 	                    </goals>
@@ -263,8 +259,9 @@
 		        <dataSource.username>tk</dataSource.username>
 		        <dataSource.password>tk_tk_tk</dataSource.password>
 		        
+		        <liquibase.verbose>true</liquibase.verbose>
 		        <liquibase.dropFirst>false</liquibase.dropFirst>
-		        <liquibase.context>bootstrap</liquibase.context>
+		        <liquibase.contexts>bootstrap,staging</liquibase.contexts>
             </properties>
         </profile>
         <profile>
@@ -276,8 +273,9 @@
                 <dataSource.username>tk</dataSource.username>
                 <dataSource.password>tk_tk_tk</dataSource.password>
                 
+                <liquibase.verbose>true</liquibase.verbose>
                 <liquibase.dropFirst>true</liquibase.dropFirst>
-                <liquibase.context>bootstrap,test</liquibase.context>
+                <liquibase.contexts>bootstrap,test</liquibase.contexts>
             </properties>
         </profile>
     </profiles>
