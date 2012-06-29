@@ -53,20 +53,19 @@ public class TkRoleServiceTest  extends TkTestCase {
 		assertNotNull(roles);
 		assertEquals("Incorrect number of roles.", 2, roles.size());
 		for (TkRole role : roles) {
-			assertTrue("Incorrect values.", role.getHrRolesId().equals("21") || role.getHrRolesId().equals("5"));
+			assertTrue("Incorrect values.", role.getHrRolesId().equals("22") || role.getHrRolesId().equals("6"));
 		}
 		
 		// Finds any roles
 		roles=trs.getWorkAreaRoles(workArea, asOfDate);
 		assertNotNull(roles);
-		assertEquals("Incorrect number of roles.", 5, roles.size());
+		assertEquals("Incorrect number of roles.", 4, roles.size());
 		for (TkRole role : roles) {
 			assertTrue("Incorrect values.", 
-					role.getHrRolesId().equals("23") ||
-					role.getHrRolesId().equals("5")  ||
-					role.getHrRolesId().equals("15") ||
-					role.getHrRolesId().equals("20") ||
-					role.getHrRolesId().equals("21"));
+					role.getHrRolesId().equals("6")  ||
+					role.getHrRolesId().equals("16") ||
+					role.getHrRolesId().equals("21") ||
+					role.getHrRolesId().equals("22"));
 		}		
 	}
 	
@@ -82,8 +81,8 @@ public class TkRoleServiceTest  extends TkTestCase {
 		assertEquals("Incorrect number of roles.", 2, roles.size());
 		for (TkRole role: roles) {
 			assertTrue("Incorrect values.", 
-					role.getHrRolesId().equals("6") ||
-					role.getHrRolesId().equals("16"));
+					role.getHrRolesId().equals("7") ||
+					role.getHrRolesId().equals("17"));
 		}
 		
 		// All Role Names, One User with Specific asOfDate with multiple timestamps
@@ -93,8 +92,8 @@ public class TkRoleServiceTest  extends TkTestCase {
 		assertEquals("Incorrect number of roles.", 2, roles.size());
 		for (TkRole role: roles) {
 			assertTrue("Incorrect values.", 
-					role.getHrRolesId().equals("20") ||
-					role.getHrRolesId().equals("21"));
+					role.getHrRolesId().equals("21") ||
+					role.getHrRolesId().equals("22"));
 		}
 		
 		// Specific Role Name, Specific User
@@ -104,7 +103,7 @@ public class TkRoleServiceTest  extends TkTestCase {
 		assertEquals("Incorrect number of roles.", 1, roles.size());
 		for (TkRole role: roles) {
 			assertTrue("Incorrect values.", 
-					role.getHrRolesId().equals("21"));
+					role.getHrRolesId().equals("22"));
 		}
 		
 	}
