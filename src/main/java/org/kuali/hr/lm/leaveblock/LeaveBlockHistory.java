@@ -3,6 +3,14 @@ package org.kuali.hr.lm.leaveblock;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
+import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.task.Task;
+import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.workarea.WorkArea;
+
 public class LeaveBlockHistory extends LeaveBlock {
 
 	/**
@@ -25,8 +33,8 @@ public class LeaveBlockHistory extends LeaveBlock {
 		this.setApplyToYtdUsed(lb.getApplyToYtdUsed());
 		this.setDescription(lb.getDescription());
 		this.setLeaveAmount(lb.getLeaveAmount());
-		this.setLeaveCodeId(lb.getLeaveCodeId());
-		this.setLeaveCode(lb.getLeaveCode());
+		this.setEarnCodeId(lb.getEarnCodeId());
+		this.setEarnCode(lb.getEarnCode());
 		this.setLeaveDate(lb.getLeaveDate());
 		this.setPrincipalId(lb.getPrincipalId());
 //		this.setPrincipalIdModified(lb.getPrincipalIdModified());
@@ -75,5 +83,31 @@ public class LeaveBlockHistory extends LeaveBlock {
 //		// TODO Auto-generated method stub
 //		return null;
 //	}
+	
+	public String getAssignmentTitle() {
+		StringBuilder b = new StringBuilder();
+		LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(Long.parseLong(super.getLmLeaveBlockId()));
+		if(lb != null){
+			if (lb.getWorkArea() != null) {
+				WorkArea wa = TkServiceLocator.getWorkAreaService().getWorkArea(
+					lb.getWorkArea(), TKUtils.getCurrentDate());
+				if (wa != null) {
+					b.append(wa.getDescription());
+				}
+				Task task = TkServiceLocator.getTaskService().getTask(
+						this.getTask(), this.getLeaveDate());
+				if (task != null) {
+					// do not display task description if the task is the default
+					// one
+					// default task is created in getTask() of TaskService
+					if (!task.getDescription()
+						.equals(TkConstants.TASK_DEFAULT_DESP)) {
+						b.append("-" + task.getDescription());
+					}
+				}
+			}
+		}
+		return b.toString();
+	}
 
 }

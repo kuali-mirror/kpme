@@ -1,9 +1,9 @@
 package org.kuali.hr.time.calendar.service;
 
+import org.kuali.hr.time.calendar.CalendarEntries;
+
 import java.util.Date;
 import java.util.List;
-
-import org.kuali.hr.time.calendar.CalendarEntries;
 
 public interface CalendarEntriesService {
 
@@ -38,4 +38,12 @@ public interface CalendarEntriesService {
 	public List<CalendarEntries> getCurrentCalendarEntryNeedsScheduled(int thresholdDays, Date asOfDate);
 	
 	public void createNextCalendarEntry(CalendarEntries calendarEntries);
+	
+	public List<CalendarEntries> getFutureCalendarEntries(String hrCalendarId, Date currentDate, int numberOfEntries);
+
+    public CalendarEntries getCalendarEntriesByBeginAndEndDate(Date beginPeriodDate, Date endPeriodDate);
+    
+    public List<CalendarEntries> getAllCalendarEntriesForCalendarId(String hrCalendarId);
+    
+    public List<CalendarEntries> getAllCalendarEntriesForCalendarIdAndYear(String hrCalendarId, String year);
 }

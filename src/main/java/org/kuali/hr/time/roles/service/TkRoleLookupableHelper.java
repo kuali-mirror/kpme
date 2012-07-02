@@ -1,5 +1,7 @@
 package org.kuali.hr.time.roles.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -69,6 +71,15 @@ public class TkRoleLookupableHelper extends HrEffectiveDateActiveLookupableHelpe
         	}
         }
         
+        /* We have the full set of roles, but since we are displaying only Principal IDs in the result list, we should return a distinct list */
+        Map<String,TkRoleGroup> mapDistinctPrincipalIdsToRoleGroups = new HashMap<String, TkRoleGroup>();
+        for(TkRoleGroup roleGroup : roleGroupList){
+            mapDistinctPrincipalIdsToRoleGroups.put(roleGroup.getPrincipalId(), roleGroup);
+        }
+        List<TkRoleGroup> distinctRoleGroupPrincipalIds = new ArrayList<TkRoleGroup>();
+        for(String distinctPrincipalId : mapDistinctPrincipalIdsToRoleGroups.keySet()){
+        	distinctRoleGroupPrincipalIds.add(mapDistinctPrincipalIdsToRoleGroups.get(distinctPrincipalId));
+        }
         
 //		if(principalId!=""){
 //			Person person = KIMServiceLocator.getPersonService().getPerson(principalId);
@@ -130,6 +141,6 @@ public class TkRoleLookupableHelper extends HrEffectiveDateActiveLookupableHelpe
 //				itr.remove();
 //			}
 //		}
-        return roleGroupList;
+        return distinctRoleGroupPrincipalIds;
     }
 }

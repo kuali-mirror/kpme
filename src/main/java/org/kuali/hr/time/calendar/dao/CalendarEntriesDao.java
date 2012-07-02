@@ -1,9 +1,9 @@
 package org.kuali.hr.time.calendar.dao;
 
+import org.kuali.hr.time.calendar.CalendarEntries;
+
 import java.util.Date;
 import java.util.List;
-
-import org.kuali.hr.time.calendar.CalendarEntries;
 
 public interface CalendarEntriesDao {
 
@@ -17,4 +17,11 @@ public interface CalendarEntriesDao {
 
 
 	public List<CalendarEntries> getCurrentCalendarEntryNeedsScheduled(int thresholdDays, Date asOfDate);
+	public List<CalendarEntries> getFutureCalendarEntries(String hrCalendarId, Date currentDate, int numberOfEntries);
+
+    public CalendarEntries getCalendarEntriesByBeginAndEndDate(Date beginPeriodDate, Date endPeriodDate);
+    
+    public List<CalendarEntries> getAllCalendarEntriesForCalendarId(String hrCalendarId);
+    
+    public List<CalendarEntries> getAllCalendarEntriesForCalendarIdAndYear(String hrCalendarId, String year);
 }

@@ -1,9 +1,9 @@
 package org.kuali.hr.time.paytype.service;
 
+import org.kuali.hr.time.paytype.PayType;
+
 import java.util.Date;
 import java.util.List;
-
-import org.kuali.hr.time.paytype.PayType;
 
 public interface PayTypeService {
 	/**
@@ -25,4 +25,11 @@ public interface PayTypeService {
 	public PayType getPayType(String payType, Date effectiveDate);
 	
 	public PayType getPayType(String hrPayTypeId);
+	
+	/**
+	 * get count of pay type with give payType
+	 * @param payType
+	 * @return int
+	 */
+	public int getPayTypeCount(String payType);
 }

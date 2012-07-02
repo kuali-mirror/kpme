@@ -5,7 +5,6 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.persistence.Transient;
@@ -18,6 +17,7 @@ import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class TimeBlock extends PersistableBusinessObjectBase implements Comparable {
@@ -70,6 +70,9 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     
     @Transient
     private Boolean overtimeEditable;
+    
+    @Transient
+    private Boolean regEarnCodeEditable;
 
 
     // the two variables below are used to determine if a time block needs to be visually pushed forward / backward
@@ -77,7 +80,8 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     private Boolean pushBackward = false;
 
     private TimesheetDocumentHeader timesheetDocumentHeader;
-
+    private Person user;
+    
     private List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
     private List<TimeBlockHistory> timeBlockHistories = new ArrayList<TimeBlockHistory>();
 
@@ -620,6 +624,10 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 	public Boolean getOvertimeEditable() {
 		return TkServiceLocator.getPermissionsService().canEditOvertimeEarnCode(this);
 	}
+	
+	public Boolean getRegEarnCodeEditable() {
+		return TkServiceLocator.getPermissionsService().canEditRegEarnCode(this);
+	}
 
     public boolean isLunchDeleted() {
         return lunchDeleted;
@@ -628,4 +636,12 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     public void setLunchDeleted(boolean lunchDeleted) {
         this.lunchDeleted = lunchDeleted;
     }
+
+	public Person getUser() {
+		return user;
+	}
+
+	public void setUser(Person user) {
+		this.user = user;
+	}
 }

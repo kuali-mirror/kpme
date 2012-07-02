@@ -6,7 +6,8 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
-import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
+import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.calendar.CalendarEntries;
 
 public interface LeaveBlockService {
     public LeaveBlock getLeaveBlock(Long leaveBlockId);
@@ -23,8 +24,8 @@ public interface LeaveBlockService {
      */
     public void deleteLeaveBlock(long leaveBlockId);
 
-    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, LeaveCalendarDocument lcd, String selectedLeaveCode, BigDecimal hours, String description);
-    
+    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntries ce, String selectedEarnCode, BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks);
+    public void updateLeaveBlock(LeaveBlock leaveBlock);  // KPME-1447
     /**
      * 
      * @param principalId
@@ -33,4 +34,27 @@ public interface LeaveBlockService {
      * @return List of LeaveBlocks
      */
     public List<LeaveBlock> getLeaveBlocks(String principalId, String requestStatus, Date currentDate);
+    /**
+     * Get the list of leave blocks from the given leaveDate for the principalId
+     * @param principalId
+     * @param leaveDate
+     * @return List of LeaveBlocks
+     */
+    public List<LeaveBlock> getLeaveBlocksForDate(String principalId, Date leaveDate);
+    /**
+     * Get the list of not-accrual-generated leave blocks from the given leaveDate for the principalId
+     * @param principalId
+     * @param leaveDate
+     * @return List of LeaveBlocks
+     */
+    public List<LeaveBlock> getNotAccrualGeneratedLeaveBlocksForDate(String principalId, Date leaveDate);
+    
+    /**
+     * Calculate the accrual balance (sum of the leave blocks at that time.)
+     * @param leaveDate
+     * @param accrualCategoryId
+     * @param principalId
+     * @return sum of leave amount of leave blocks
+     */
+    public Double calculateAccrualbalance(Date leaveDate, String accrualCategoryId, String principalId);
 }

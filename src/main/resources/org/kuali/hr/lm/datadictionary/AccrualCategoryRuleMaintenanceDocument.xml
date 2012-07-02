@@ -34,15 +34,15 @@
 		<bean parent="MaintainableFieldDefinition" p:name="start" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="end" p:required="true"/>
 		<bean parent="MaintainableFieldDefinition" p:name="accrualRate" p:required="true"/>
-		<bean parent="MaintainableFieldDefinition" p:name="maxBalance" p:required="false" />
 		<bean parent="MaintainableFieldDefinition" p:name="maxBalFlag" p:required="true" />
+		<bean parent="MaintainableFieldDefinition" p:name="maxBalance" p:required="false" />
 		<bean parent="MaintainableFieldDefinition" p:name="maxBalanceActionFrequency" p:required="false"/>
 		<bean parent="MaintainableFieldDefinition" p:name="actionAtMaxBalance" p:required="false"/>
 		<bean parent="MaintainableFieldDefinition" p:name="maxBalanceTransferToAccrualCategory"/>
 		<bean parent="MaintainableFieldDefinition" p:name="maxBalanceTransferConversionFactor"/>							
 		<bean parent="MaintainableFieldDefinition" p:name="maxTransferAmount"/>							
 		<bean parent="MaintainableFieldDefinition" p:name="maxPayoutAmount"/>							
-		<bean parent="MaintainableFieldDefinition" p:name="maxPayoutLeaveCode"/>							
+		<bean parent="MaintainableFieldDefinition" p:name="maxPayoutEarnCode"/>							
 		<bean parent="MaintainableFieldDefinition" p:name="maxUsage"/>							
 		<bean parent="MaintainableFieldDefinition" p:name="maxCarryOver"/>							
 		<bean parent="MaintainableFieldDefinition" p:name="active"/>

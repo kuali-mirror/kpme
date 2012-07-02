@@ -1,6 +1,7 @@
 package org.kuali.hr.lm;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 
@@ -60,5 +61,32 @@ public class LMConstants {
 	    	REQUEST_STATUS_STRINGS.put(REQUEST_STATUS.DISAPPROVED, "Disapproved");
 	    	REQUEST_STATUS_STRINGS.put(REQUEST_STATUS.DEFERRED, "Deferred"); 
 	    }
+	    
+	 public static final Map<String, String> ROUND_OPTION_MAP = new HashMap<String, String>(2);
+	 static {
+		 ROUND_OPTION_MAP.put("T", "Traditional");
+		 ROUND_OPTION_MAP.put("R", "Truncate");
+	 }
+	 
+	 public static final class RECORD_METHOD {
+		 public static final String TIME = "T";
+		 public static final String HOUR = "H";
+		 public static final String AMOUNT = "A";
+		 public static final String DAY = "D";
+	 }
+	 
+	 public static final Map<String, String> RECORD_METHOD_MAP = new HashMap<String, String>(2);
+	 static {
+		 RECORD_METHOD_MAP.put(RECORD_METHOD.TIME, "Time");
+		 RECORD_METHOD_MAP.put(RECORD_METHOD.HOUR, "Hours");
+		 RECORD_METHOD_MAP.put(RECORD_METHOD.AMOUNT, "Amount");
+		 RECORD_METHOD_MAP.put(RECORD_METHOD.DAY, "Days");
+	 }
 	
+	 public static final Map<String, String> ACCRUAL_BALANCE_ACTION_MAP = new LinkedHashMap<String, String>(2);
+	 static {
+		 ACCRUAL_BALANCE_ACTION_MAP.put("N", "None");
+		 ACCRUAL_BALANCE_ACTION_MAP.put("U", "Usage");
+		 ACCRUAL_BALANCE_ACTION_MAP.put("A", "Adjustment");
+	 }
 }

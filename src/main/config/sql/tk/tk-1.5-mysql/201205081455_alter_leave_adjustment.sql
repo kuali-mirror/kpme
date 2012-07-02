@@ -1,0 +1,1 @@
+ALTER TABLE `lm_employee_override_t` add column `effdt` date DEFAULT NULL;

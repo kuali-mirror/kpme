@@ -22,19 +22,20 @@ public class DepartmentRule extends MaintenanceDocumentRuleBase {
 	
 	boolean validateDepartment(Department department) {
 		boolean valid = true;
+		Department existingDept = TkServiceLocator.getDepartmentService().getDepartment(department.getDept(), department.getEffectiveDate());
 		
-		if (department.getEffectiveDate() != null) {
-			Department existingDept = TkServiceLocator.getDepartmentService().getDepartment(department.getDept(), department.getEffectiveDate());
-		    
-			if (existingDept != null){
-				if ( existingDept.getDept().equalsIgnoreCase(department.getDept()) && 
-					 existingDept.getLocation().equalsIgnoreCase(department.getLocation()) ){
-					// error.department.duplicate.exists=There is an exact duplicate version of this Department.					
-					this.putFieldError("dept", "error.department.duplicate.exists", department.getDept());
-					valid = false;
+		if ( department.getHrDeptId() == null ){ //KPME-1456. xichen. Only go through this validation when create a new dept. 
+			if (department.getEffectiveDate() != null) {	    
+				if (existingDept != null){
+					if ( existingDept.getDept().equalsIgnoreCase(department.getDept()) && 
+						 existingDept.getLocation().equalsIgnoreCase(department.getLocation()) ){
+						// error.department.duplicate.exists=There is an exact duplicate version of this Department.					
+						this.putFieldError("dept", "error.department.duplicate.exists", department.getDept());
+						valid = false;
+					}
 				}
 			}
-		}
+		} 
 		
 		return valid;
 	}

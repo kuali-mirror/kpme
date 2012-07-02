@@ -6,6 +6,7 @@
     <script src="js/underscore-1.3.1.min.js"></script>
     <%--<script src="js/underscore.string-2.0.0.js"></script>--%>
     <script src="js/backbone-0.9.1.min.js"></script>
+    <script src="js/common.calendar.backbone.js"></script>
     <script src="js/tk.calendar.backbone.js"></script>
     <script src="js/tk.ui.js"></script>
 
@@ -140,6 +141,14 @@
                             <td>
                                 <input type="checkbox" name="acrossDays" id="acrossDays" value="n" title="Check time if you want to cross days" checked="checked"/>
                                 <label for="acrossDays">Apply time to each day</label>
+                            </td>
+                        </tr>
+                        <!--  KPME-1446  -->
+                        <tr>
+                            <td></td>
+                            <td>
+                                <input type="checkbox" name="spanningWeeks" id="spanningWeeks" value="n" title="Check if you want to span weeks over weekend"/>
+                                <label for="spanningWeeks">Include weekends</label>
                             </td>
                         </tr>
                     </table>

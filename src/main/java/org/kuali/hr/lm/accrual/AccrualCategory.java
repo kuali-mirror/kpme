@@ -5,9 +5,9 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.earncode.EarnCode;
 
 public class AccrualCategory extends HrBusinessObject {
 
@@ -33,8 +33,8 @@ public class AccrualCategory extends HrBusinessObject {
 	private BigDecimal minPercentWorked;
 	
 	// KPME-1347 Kagata
-	private String leaveCode;
-	private LeaveCode leaveCodeObj;
+	private String earnCode;
+	private EarnCode earnCodeObj;
 	
 
 	public String getHasRules() {
@@ -161,20 +161,20 @@ public class AccrualCategory extends HrBusinessObject {
 		this.history = history;
 	}
 
-	public String getLeaveCode() {
-		return leaveCode;
+	public String getEarnCode() {
+		return earnCode;
 	}
 
-	public void setLeaveCode(String leaveCode) {
-		this.leaveCode = leaveCode;
+	public void setEarnCode(String earnCode) {
+		this.earnCode = earnCode;
 	}
 
-	public LeaveCode getLeaveCodeObj() {
-		return leaveCodeObj;
+	public EarnCode getEarnCodeObj() {
+		return earnCodeObj;
 	}
 
-	public void setLeaveCodeObj(LeaveCode leaveCodeObj) {
-		this.leaveCodeObj = leaveCodeObj;
+	public void setEarnCodeObj(EarnCode earnCodeObj) {
+		this.earnCodeObj = earnCodeObj;
 	}
 
 	@Override

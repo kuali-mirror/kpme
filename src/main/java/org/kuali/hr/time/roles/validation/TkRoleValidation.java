@@ -1,7 +1,7 @@
 package org.kuali.hr.time.roles.validation;
 
 
-import org.codehaus.plexus.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.roles.TkRoleGroup;
 import org.kuali.hr.time.util.TkConstants;

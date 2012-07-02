@@ -20,6 +20,8 @@
 			<list>
 				<ref bean="LeaveDonation-donatedAccrualCategory" />
 				<ref bean="LeaveDonation-recipientsAccrualCategory" />
+				<ref bean="LeaveDonation-donatedEarnCode" />
+				<ref bean="LeaveDonation-recipientsEarnCode" />
 				<ref bean="LeaveDonation-amountDonated" />
 				<ref bean="LeaveDonation-amountReceived" />
 				<ref bean="LeaveDonation-donorsPrincipalID" />
@@ -66,6 +68,24 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="recipientsAccrualCategory"
 								p:targetName="accrualCategory" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="earnCodeObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="donatedEarnCode"
+								p:targetName="earnCode" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="earnCodeObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="recipientsEarnCode"
+								p:targetName="earnCode" />
 						</list>
 					</property>
 				</bean>
@@ -125,6 +145,42 @@
 		</property>
 		<property name="name" value="recipientsAccrualCategory" />
 		<property name="label" value="Recipients Accrual Category" />
+	</bean>
+	
+		<!-- donatedEarnCode	 -->
+	<bean id="LeaveDonation-donatedEarnCode" parent="LeaveDonation-donatedEarnCode-parentBean" />
+	<bean id="LeaveDonation-donatedEarnCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Donated Earn Code" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="donatedEarnCode" />
+		<property name="label" value="Donated Earn Code" />
+	</bean>
+	
+	<!-- recipientsEarnCode -->
+	<bean id="LeaveDonation-recipientsEarnCode" parent="LeaveDonation-recipientsEarnCode-parentBean" />
+	<bean id="LeaveDonation-recipientsEarnCode-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Recipients Earn Code" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="recipientsEarnCode" />
+		<property name="label" value="Recipients Earn Code" />
 	</bean>
 	
 	<!-- amountDonated -->

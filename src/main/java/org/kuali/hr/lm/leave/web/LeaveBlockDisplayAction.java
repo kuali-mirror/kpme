@@ -27,6 +27,9 @@ public class LeaveBlockDisplayAction extends TkAction {
 		LeaveBlockDisplayForm lbdf = (LeaveBlockDisplayForm) form;	
 		
 		String principalId = TKContext.getUser().getPrincipalId();
+		if(TKContext.getUser().getCurrentTargetPerson() != null) {
+			lbdf.setTargetName(TKContext.getUser().getCurrentTargetPerson().getName());
+		}
 		
 		if(lbdf.getNavString() == null) {
 			lbdf.setYear(Calendar.getInstance().get(Calendar.YEAR));

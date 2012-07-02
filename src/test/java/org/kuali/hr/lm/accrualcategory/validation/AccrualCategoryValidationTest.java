@@ -56,7 +56,7 @@ public class AccrualCategoryValidationTest extends TkTestCase{
 		Assert.assertTrue("Page contains test AccrualCategory", accrualCategoryLookup.asText().contains(ACCRUAL_CATEGORY));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(accrualCategoryLookup, "edit", "lmAccrualCategoryId=3000");
 		//HtmlUnitUtil.createTempFile(maintPage);
-		Assert.assertTrue("Maintenance Page contains test AccrualCategory",maintPage.asText().contains("Default Leave Code"));
+		Assert.assertTrue("Maintenance Page contains test AccrualCategory",maintPage.asText().contains("Default Earn Code"));
 	}
 	
 	@Test

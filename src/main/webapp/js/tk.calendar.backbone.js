@@ -228,6 +228,7 @@ $(function () {
                             }
 
                             $('#acrossDays').val($('#acrossDays').is(':checked') ? 'y' : 'n');
+                            $('#spanningWeeks').val($('#spanningWeeks').is(':checked') ? 'y' : 'n');  // KPME-1446
 
                             var isValid = true;
                             // If the user can only update the assignment, there is no need to do the validations.
@@ -512,6 +513,7 @@ $(function () {
                     params['overtimePref'] = $("#overtimePref").val();
                 }
                 params['acrossDays'] = $('#acrossDays').is(':checked') ? 'y' : 'n';
+                params['spanningWeeks'] = $('#spanningWeeks').is(':checked') ? 'y' : 'n'; // KPME-1446
                 params['tkTimeBlockId'] = $('#tkTimeBlockId').val();
 
                 // validate timeblocks

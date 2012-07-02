@@ -66,6 +66,9 @@ public interface TimeApproveService {
      * @return A CalendarGroup Name to PayCalendarEntries mapping.
      */
     public Map<String,CalendarEntries> getPayCalendarEntriesForApprover(String principalId, Date currentDate, String dept);
+    
+    public List<CalendarEntries> getAllPayCalendarEntriesForApprover(String principalId, Date currentDate);
+    
     public boolean doesApproverHavePrincipalsForCalendarGroup(Date asOfDate, String calGroup);
     public Map<String,CalendarEntries> getPayCalendarEntriesForDept(String dept, Date currentDate);
 
@@ -78,13 +81,14 @@ public interface TimeApproveService {
     /**
      * Method to get a list of principal ids based on the department work areas.
      *
+     * @param roleName
      * @param department
      * @param workArea
      * @param payEndDate
      * @param calGroup
      * @return A list of the PrincipalIds
      */
-    List<String> getPrincipalIdsByDeptWorkAreaRolename(String roleName, String department, String WorkArea, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup);
+    List<String> getPrincipalIdsByDeptWorkAreaRolename(String roleName, String department, String workArea, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup);
     
     /**
      * Method to create a map that contains the principal's id and corresponding timesheet document header.

@@ -39,7 +39,7 @@ public class TimeDetailTestUtils {
      *
      * @return A populated TimeDetailActionFormBase object.
      */
-    public static TimeDetailActionFormBase buildDetailActionForm(TimesheetDocument timeshetDocument, Assignment assignment, EarnCode earnCode, DateTime start, DateTime end, BigDecimal amount, boolean acrossDays, String timeblockId) {
+    public static TimeDetailActionFormBase buildDetailActionForm(TimesheetDocument timeshetDocument, Assignment assignment, EarnCode earnCode, DateTime start, DateTime end, BigDecimal amount, boolean acrossDays, String timeblockId, boolean spanningWeeks) {
         TimeDetailActionFormBase tdaf = new TimeDetailActionFormBase();
 
         BigDecimal hours = null;
@@ -70,6 +70,7 @@ public class TimeDetailTestUtils {
         selectedEarnCode = earnCode.getEarnCode();
 
         tdaf.setAcrossDays(acrossDays ? "y" : "n");
+        tdaf.setSpanningWeeks(spanningWeeks ? "y" : "n"); // KPME-1446
         tdaf.setAmount(amount);
         tdaf.setHours(hours);
         tdaf.setStartTime(startTimeS);

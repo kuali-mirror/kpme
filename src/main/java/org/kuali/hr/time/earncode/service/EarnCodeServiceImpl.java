@@ -1,21 +1,32 @@
 package org.kuali.hr.time.earncode.service;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.lm.LMConstants;
+import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
+import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.cache.CacheResult;
-import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncode.dao.EarnCodeDao;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 
+import com.google.common.collect.Ordering;
+
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class EarnCodeServiceImpl implements EarnCodeService {
@@ -50,12 +61,13 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 		if (regularEc == null)
 			throw new RuntimeException("No regular earn code defined.");
 		earnCodes.add(regularEc);
-		List<DepartmentEarnCode> decs = TkServiceLocator.getDepartmentEarnCodeService().getDepartmentEarnCodes(job.getDept(), job.getHrSalGroup(), job.getLocation(), asOfDate);
-		for (DepartmentEarnCode dec : decs) {
+		List<EarnCodeSecurity> decs = TkServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), asOfDate);
+		for (EarnCodeSecurity dec : decs) {
             boolean addEc = false;
 
             // Check employee flag
-            if (dec.isEmployee() && user.getCurrentRoles().isActiveEmployee()) {
+            if (dec.isEmployee() && 
+               	(StringUtils.equals(user.getCurrentTargetPerson().getEmployeeId(), user.getCurrentPerson().getEmployeeId()))) {
                 addEc = true;
             }
 
@@ -119,6 +131,84 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 		return ovtEarnCodeStrs;
 	}
 	
+	@Override
+	public int getEarnCodeCount(String earnCode) {
+		return earnCodeDao.getEarnCodeCount(earnCode);
+	}
 	
+	@Override
+	public int getNewerEarnCodeCount(String earnCode, Date effdt) {
+		return earnCodeDao.getNewerEarnCodeCount(earnCode, effdt);
+	}
+
+	@Override
+	public BigDecimal roundHrsWithEarnCode(BigDecimal hours, EarnCode earnCode) {
+		String roundOption = LMConstants.ROUND_OPTION_MAP.get(earnCode.getRoundingOption());
+		BigDecimal fractScale = new BigDecimal(earnCode.getFractionalTimeAllowed());
+		if(roundOption == null) {
+			throw new RuntimeException("Rounding option of Earn Code " + earnCode.getEarnCode() + " is not recognized.");
+		}
+		BigDecimal roundedHours = hours;
+		if(roundOption.equals("Traditional")) {
+			roundedHours = hours.setScale(fractScale.scale(), BigDecimal.ROUND_HALF_EVEN);
+		} else if(roundOption.equals("Truncate")) {
+			roundedHours = hours.setScale(fractScale.scale(), BigDecimal.ROUND_DOWN);
+		}
+		return roundedHours;
+	}
+	
+	@Override
+    public List<EarnCode> getEarnCodes(String principalId, Date asOfDate) {
+    	String leavePlan = null;
+        List<EarnCode> earnCodes = new ArrayList<EarnCode>();
+        PrincipalHRAttributes hrAttribute = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
+        if(hrAttribute != null) {
+        	leavePlan = hrAttribute.getLeavePlan();
+        	if (StringUtils.isBlank(leavePlan)) {
+        		throw new RuntimeException("No leave plan defined for " + principalId + " in principal hr attributes");
+        	}
+        	
+            List<EarnCode> unfilteredEarnCodes = earnCodeDao.getEarnCodes(leavePlan, asOfDate);
+            TKUser user = TKContext.getUser();
+
+            for (EarnCode earnCode : unfilteredEarnCodes) {
+                //if employee add this leave code
+                //TODO how do we know this is an approver for them
+//                if ((earnCode.getEmployee() && user.getCurrentRoles().isActiveEmployee()) ||
+//                        (earnCode.getApprover() && user.isApprover())) {
+            	if ((user.getCurrentRoles().isActiveEmployee()) || (user.isApprover())) {
+                	earnCodes.add(earnCode);
+                }
+            }
+
+        }
+        return earnCodes;
+    }
+	
+	@Override
+	@CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
+	public Map<String, String> getEarnCodesForDisplay(String principalId) {
+		List<EarnCode> earnCodes = this.getEarnCodes(principalId, TKUtils.getCurrentDate());
+		
+		for (EarnCode earnCode : earnCodes) {
+			if ( !earnCode.getAllowScheduledLeave().equalsIgnoreCase("Y")) {
+				earnCodes.remove(earnCode);
+			}
+		} 
+		Comparator<EarnCode> earnCodeComparator = new Comparator<EarnCode>() {
+			@Override
+			public int compare(EarnCode ec1, EarnCode ec2) {
+				return ec1.getEarnCode().compareToIgnoreCase(ec2.getEarnCode());
+			}
+		};
+		// Order by leaveCode ascending
+		Ordering<EarnCode> ordering = Ordering.from(earnCodeComparator);
+
+		Map<String, String> earnCodesForDisplay = new LinkedHashMap<String, String>();
+		for (EarnCode earnCode : ordering.sortedCopy(earnCodes)) {
+			earnCodesForDisplay.put(earnCode.getEarnCodeKeyForDisplay(), earnCode.getEarnCodeValueForDisplay());
+		}
+		return earnCodesForDisplay;
+	}
 
 }

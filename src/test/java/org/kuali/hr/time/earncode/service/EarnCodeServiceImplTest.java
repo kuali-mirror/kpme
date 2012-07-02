@@ -17,7 +17,10 @@ import org.kuali.hr.time.util.TKUtils;
 
 import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlOption;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
+import com.gargoylesoftware.htmlunit.html.HtmlSelect;
 
 public class EarnCodeServiceImplTest extends TkTestCase {
 
@@ -91,35 +94,37 @@ public class EarnCodeServiceImplTest extends TkTestCase {
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(earnCodeLookUp, "edit","1");
 
 		//Sai - confirm that the error is throw by not selecting a record type
-		HtmlCheckBoxInput checkBox  = maintPage.getHtmlElementById("document.newMaintainableObject.recordTime");
-		checkBox.setChecked(false);
-		checkBox  = maintPage.getHtmlElementById("document.newMaintainableObject.recordHours");
-		checkBox.setChecked(false);
-		checkBox  = maintPage.getHtmlElementById("document.newMaintainableObject.recordAmount");
-		checkBox.setChecked(false);
+		HtmlSelect inputText= maintPage.getHtmlElementById("document.newMaintainableObject.recordMethod");
+		inputText.setDefaultValue("H");
 
 		HtmlInput inputForDescription = HtmlUnitUtil.getInputContainingText(
 				maintPage, "* Document Description");
 		inputForDescription.setValueAttribute("Description");
+//		setFieldValue(maintPage, "document.newMaintainableObject.fractionalTimeAllowed", "99");
+//		setFieldValue(maintPage, "document.newMaintainableObject.roundingOption", "T");
+		
+		HtmlRadioButtonInput hb = maintPage.getHtmlElementById("document.newMaintainableObject.fractionalTimeAllowed99");
+		hb.setChecked(true);
+		
 		HtmlPage resultantPageAfterEdit = HtmlUnitUtil
 				.clickInputContainingText(maintPage, "submit");
 		System.out.println(resultantPageAfterEdit.asText());
-		Assert.assertTrue("Error message for not selecting any record type",
-				resultantPageAfterEdit.asText().contains("For this earn code you must specify Record Hours or Record Time or Record Amount"));
+
+//		assertTrue("Error message for not selecting any record type",
+//				resultantPageAfterEdit.asText().contains("For this earn code you must specify Record Hours or Record Time or Record Amount"));
 
 		//Sai - confirm that the error is thrown if more than one record type is selected
-		checkBox  = maintPage.getHtmlElementById("document.newMaintainableObject.recordTime");
-		checkBox.setChecked(true);
-		checkBox  = maintPage.getHtmlElementById("document.newMaintainableObject.recordHours");
-		checkBox.setChecked(true);
+//		checkBox  = maintPage.getHtmlElementById("document.newMaintainableObject.recordTime");
+//		checkBox.setChecked(true);
+//		checkBox  = maintPage.getHtmlElementById("document.newMaintainableObject.recordHours");
+//		checkBox.setChecked(true);
 
 		inputForDescription = HtmlUnitUtil.getInputContainingText(
 				maintPage, "* Document Description");
 		inputForDescription.setValueAttribute("Description");
 		resultantPageAfterEdit = HtmlUnitUtil
 				.clickInputContainingText(maintPage, "submit");
-		System.out.println(resultantPageAfterEdit.asText());
-		Assert.assertTrue("Error message for selecting more than one record type",
-				resultantPageAfterEdit.asText().contains("For this earn code you can only specify one of the Record types"));
+//		assertTrue("Error message for selecting more than one record type",
+//				resultantPageAfterEdit.asText().contains("For this earn code you can only specify one of the Record types"));
 	}
 }

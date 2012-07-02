@@ -1,9 +1,9 @@
 package org.kuali.hr.time.assignment.dao;
 
+import org.kuali.hr.time.assignment.Assignment;
+
 import java.sql.Date;
 import java.util.List;
-
-import org.kuali.hr.time.assignment.Assignment;
 
 public interface AssignmentDao {
 
@@ -61,6 +61,6 @@ public interface AssignmentDao {
 
     List<Assignment> findAssignmentsWithinPeriod(String principalId, Date startDate, Date endDate);
 
-    List<Assignment> getAssignments(Date fromEffdt, Date toEffdt, String principalId, String jobNumber,
+    List<Assignment> searchAssignments(Date fromEffdt, Date toEffdt, String principalId, String jobNumber,
                                     String dept, String workArea, String active, String showHistory);
 }

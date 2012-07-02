@@ -4,7 +4,7 @@ import org.apache.struts.action.ActionMapping;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
-import org.kuali.hr.time.base.web.TkForm;
+import org.kuali.hr.time.base.web.TkCommonCalendarForm;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.LeaveCalendar;
 
@@ -14,7 +14,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LeaveCalendarForm extends TkForm {
+@SuppressWarnings("serial")
+public class LeaveCalendarForm extends TkCommonCalendarForm {
 
     private static final DateTimeFormatter SDF_NO_TZ = DateTimeFormat.forPattern("EEE MMM d HH:mm:ss yyyy");
 
@@ -25,15 +26,88 @@ public class LeaveCalendarForm extends TkForm {
     CalendarEntries calendarEntry;
     private String startDate;
     private String endDate;
-    private String selectedLeaveCode;
+    private String selectedEarnCode;
     private Map<String, String> leaveCodeList = new LinkedHashMap<String, String>();
-    private BigDecimal hours;
+    private BigDecimal leaveAmount;
     private String description;
     private String leaveBlockId;
     private String prevDocumentId;
     private String nextDocumentId;
+    private String prevCalEntryId;
+    private String nextCalEntryId;
+    private String calEntryId;
+	/** String (concat(job number, work_area, task)) -> Formatted Assignment Descriptions */
+	private Map<String,String>  assignmentDescriptions;
+	private String selectedAssignment;
+	private String spanningWeeks; // KPME-1446
+	private String leaveBlockString;  // KPME-1447
+	private boolean isDocEditable;
 
-    @Override
+    public boolean isDocEditable() {
+		return isDocEditable;
+	}
+
+	public void setDocEditable(boolean isDocEditable) {
+		this.isDocEditable = isDocEditable;
+	}
+
+	public String getLeaveBlockString() {
+		return leaveBlockString;
+	}
+
+	public void setLeaveBlockString(String leaveBlockString) {
+		this.leaveBlockString = leaveBlockString;
+	}
+
+	public String getSpanningWeeks() {
+		return spanningWeeks;
+	}
+
+	public void setSpanningWeeks(String spanningWeeks) {
+		this.spanningWeeks = spanningWeeks;
+	}
+		
+    public String getSelectedAssignment() {
+		return selectedAssignment;
+	}
+
+	public void setSelectedAssignment(String selectedAssignment) {
+		this.selectedAssignment = selectedAssignment;
+	}
+
+	public Map<String, String> getAssignmentDescriptions() {
+		return assignmentDescriptions;
+	}
+
+	public void setAssignmentDescriptions(Map<String, String> assignmentDescriptions) {
+		this.assignmentDescriptions = assignmentDescriptions;
+	}
+
+	public String getPrevCalEntryId() {
+		return prevCalEntryId;
+	}
+
+	public void setPrevCalEntryId(String prevCalEntryId) {
+		this.prevCalEntryId = prevCalEntryId;
+	}
+
+	public String getNextCalEntryId() {
+		return nextCalEntryId;
+	}
+
+	public void setNextCalEntryId(String nextCalEntryId) {
+		this.nextCalEntryId = nextCalEntryId;
+	}
+
+	public String getCalEntryId() {
+		return calEntryId;
+	}
+
+	public void setCalEntryId(String calEntryId) {
+		this.calEntryId = calEntryId;
+	}
+
+	@Override
     public void reset(ActionMapping mapping, HttpServletRequest request) {
         super.reset(mapping, request);
     }
@@ -94,23 +168,15 @@ public class LeaveCalendarForm extends TkForm {
         this.endDate = endDate;
     }
 
-    public String getSelectedLeaveCode() {
-        return selectedLeaveCode;
-    }
+	public BigDecimal getLeaveAmount() {
+		return leaveAmount;
+	}
 
-    public void setSelectedLeaveCode(String selectedLeaveCode) {
-        this.selectedLeaveCode = selectedLeaveCode;
-    }
+	public void setLeaveAmount(BigDecimal leaveAmount) {
+		this.leaveAmount = leaveAmount;
+	}
 
-    public BigDecimal getHours() {
-        return hours;
-    }
-
-    public void setHours(BigDecimal hours) {
-        this.hours = hours;
-    }
-
-    public String getDescription() {
+	public String getDescription() {
         return description;
     }
 
@@ -157,4 +223,12 @@ public class LeaveCalendarForm extends TkForm {
     public String getEndPeriodDateTime() {
         return leaveCalendar.getEndDateTime().toString(SDF_NO_TZ);
     }
+
+	public String getSelectedEarnCode() {
+		return selectedEarnCode;
+	}
+
+	public void setSelectedEarnCode(String selectedEarnCode) {
+		this.selectedEarnCode = selectedEarnCode;
+	}
 }

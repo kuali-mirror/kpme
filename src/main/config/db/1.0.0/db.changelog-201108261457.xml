@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    
+    <changeSet id="1" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <modifyDataType tableName="tk_weekly_overtime_rl_t" columnName="max_hrs_ern_group" newDataType="VARCHAR(10) NOT NULL" />
+        <modifyDataType tableName="tk_weekly_overtime_rl_t" columnName="convert_from_ern_group" newDataType="VARCHAR(10) NOT NULL" />
+        <modifyDataType tableName="tk_weekly_overtime_rl_t" columnName="convert_to_erncd" newDataType="VARCHAR(9) NOT NULL" />
+    </changeSet>
+    
+    <changeSet id="2" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameColumn tableName="tk_dept_T" oldColumnName="tk_dept_id" newColumnName="HR_DEPT_ID" columnDataType="BIGINT(20) NOT NULL" />
+        <renameTable oldTableName="tk_dept_T" newTableName="hr_dept_t" />
+        <renameTable oldTableName="tk_dept_s" newTableName="hr_dept_s" />
+    </changeSet>
+    
+    <changeSet id="3" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameColumn tableName="tk_sal_group_t" oldColumnName="TK_SAL_GROUP_ID" newColumnName="HR_SAL_GROUP_ID" columnDataType="BIGINT(20) NOT NULL" />
+        <renameColumn tableName="tk_sal_group_t" oldColumnName="TK_SAL_GROUP" newColumnName="HR_SAL_GROUP" columnDataType="VARCHAR(10) NOT NULL" />
+        <renameTable oldTableName="tk_sal_group_t" newTableName="hr_sal_group_t" />
+        <renameTable oldTableName="tk_sal_group_s" newTableName="hr_sal_group_s" />
+    </changeSet>
+    
+    <changeSet id="4" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameColumn tableName="hr_job_t" oldColumnName="TK_SAL_GROUP" newColumnName="HR_SAL_GROUP" columnDataType="VARCHAR(10)" />
+    </changeSet>
+    
+    <changeSet id="5" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameColumn tableName="tk_dept_earn_code_t" oldColumnName="tk_sal_group" newColumnName="hr_sal_group" columnDataType="VARCHAR(10) NOT NULL" />
+    </changeSet>
+    
+    <changeSet id="6" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameColumn tableName="tk_earn_code_t" oldColumnName="tk_earn_code_id" newColumnName="hr_earn_code_id" columnDataType="INT(11) NOT NULL" />
+        <renameTable oldTableName="tk_earn_code_t" newTableName="hr_earn_code_t" />
+        <renameTable oldTableName="tk_earn_code_s" newTableName="hr_earn_code_s" />
+    </changeSet>
+    
+    <changeSet id="7" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameColumn tableName="tk_earn_group_t" oldColumnName="tk_earn_group_id" newColumnName="hr_earn_group_id" columnDataType="BIGINT(20) NOT NULL" />
+        <renameTable oldTableName="tk_earn_group_t" newTableName="hr_earn_group_t" />
+        <renameTable oldTableName="tk_earn_group_s" newTableName="hr_earn_group_s" />
+    </changeSet>
+    
+    <changeSet id="8" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameColumn tableName="tk_earn_group_def_t" oldColumnName="tk_earn_group_id" newColumnName="hr_earn_group_id" columnDataType="BIGINT(20)" />
+        <addNotNullConstraint tableName="tk_earn_group_def_t" columnName="hr_earn_group_id" columnDataType="BIGINT(20)" />
+        <renameColumn tableName="tk_earn_group_def_t" oldColumnName="tk_earn_group_def_id" newColumnName="hr_earn_group_def_id" columnDataType="BIGINT(20) NOT NULL" />
+        <renameTable oldTableName="tk_earn_group_def_t" newTableName="hr_earn_group_def_t" />
+        <renameTable oldTableName="tk_earn_group_def_s" newTableName="hr_earn_group_def_s" />
+    </changeSet>
+    
+    <changeSet id="9" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameColumn tableName="tk_dept_earn_code_t" oldColumnName="tk_dept_earn_code_id" newColumnName="hr_dept_earn_code_id" columnDataType="BIGINT(20) NOT NULL" />
+        <renameTable oldTableName="tk_dept_earn_code_t" newTableName="hr_dept_earn_code_t" />
+        <renameTable oldTableName="tk_dept_earn_code_s" newTableName="hr_dept_earn_code_s" />
+    </changeSet>
+    
+    <changeSet id="10" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameColumn tableName="tk_principal_calendar_t" oldColumnName="calendar_group" newColumnName="py_calendar_group" columnDataType="VARCHAR(45) NOT NULL DEFAULT ''" />
+        <renameTable oldTableName="tk_principal_calendar_t" newTableName="hr_principal_calendar_t" />
+    </changeSet>
+    
+    <changeSet id="11" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameColumn tableName="tk_holiday_calendar_t" oldColumnName="HOLIDAY_CALENDAR_ID" newColumnName="HR_HOLIDAY_CALENDAR_ID" columnDataType="BIGINT(20) NOT NULL" />
+        <renameTable oldTableName="tk_holiday_calendar_t" newTableName="hr_holiday_calendar_t" />
+        <renameTable oldTableName="tk_holiday_calendar_s" newTableName="hr_holiday_calendar_s" />
+    </changeSet>
+    
+    <changeSet id="12" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameColumn tableName="tk_holiday_calendar_dates_t" oldColumnName="HOLIDAY_CALENDAR_DATES_ID" newColumnName="HR_HOLIDAY_CALENDAR_DATES_ID" columnDataType="BIGINT(20) NOT NULL" />
+        <renameColumn tableName="tk_holiday_calendar_dates_t" oldColumnName="HOLIDAY_CALENDAR_ID" newColumnName="HR_HOLIDAY_CALENDAR_ID" columnDataType="INT(11) NOT NULL" />
+        <renameTable oldTableName="tk_holiday_calendar_dates_t" newTableName="hr_holiday_calendar_dates_t" />
+        <renameTable oldTableName="tk_holiday_calendar_dates_s" newTableName="hr_holiday_calendar_dates_s" />
+    </changeSet>
+    
+    <changeSet id="13" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <createTable tableName="tk_holiday_calendar_dates_s">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
+    </changeSet>
+    
+    <changeSet id="14" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameColumn tableName="tk_py_calendar_t" oldColumnName="tk_py_calendar_id" newColumnName="hr_py_calendar_id" columnDataType="BIGINT(20) NOT NULL" />
+        <renameColumn tableName="tk_py_calendar_t" oldColumnName="calendar_group" newColumnName="py_calendar_group" columnDataType="VARCHAR(45) NOT NULL" />
+        <renameTable oldTableName="tk_py_calendar_t" newTableName="hr_py_calendar_t" />
+        <renameTable oldTableName="tk_py_calendar_s" newTableName="hr_py_calendar_s" />
+    </changeSet>
+    
+    <changeSet id="15" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameColumn tableName="tk_py_calendar_entries_t" oldColumnName="tk_py_calendar_entry_id" newColumnName="hr_py_calendar_entry_id" columnDataType="BIGINT(20) NOT NULL" />
+        <renameColumn tableName="tk_py_calendar_entries_t" oldColumnName="tk_py_calendar_id" newColumnName="hr_py_calendar_id" columnDataType="BIGINT(20)" />
+        <renameColumn tableName="tk_py_calendar_entries_t" oldColumnName="calendar_group" newColumnName="py_calendar_group" columnDataType="VARCHAR(45) NOT NULL" />
+        <renameTable oldTableName="tk_py_calendar_entries_t" newTableName="hr_py_calendar_entries_t" />
+        <renameTable oldTableName="tk_py_calendar_entries_s" newTableName="hr_py_calendar_entries_s" />
+    </changeSet>
+    
+    <changeSet id="16" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameColumn tableName="tk_batch_job_t" oldColumnName="TK_PAY_CALENDAR_ENTRY_ID" newColumnName="HR_PY_CALENDAR_ENTRY_ID" columnDataType="BIGINT(20) NOT NULL" />
+        <renameColumn tableName="tk_batch_job_entry_t" oldColumnName="TK_PY_CALENDAR_ENTRY_ID" newColumnName="HR_PY_CALENDAR_ENTRY_ID" columnDataType="BIGINT(20) NOT NULL" />
+    </changeSet>
+    
+    <changeSet id="17" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameColumn tableName="tk_roles_t" oldColumnName="tk_roles_id" newColumnName="hr_roles_id" columnDataType="BIGINT(19) NOT NULL" />
+        <renameTable oldTableName="tk_roles_t" newTableName="hr_roles_t" />
+        <renameTable oldTableName="tk_roles_s" newTableName="hr_roles_s" />
+    </changeSet>
+    
+    <changeSet id="18" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameTable oldTableName="tk_roles_group_t" newTableName="hr_roles_group_t" />
+    </changeSet>
+    
+    <changeSet id="19" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameColumn tableName="la_accruals_t" oldColumnName="LA_ACCRUALS_ID" newColumnName="LM_ACCRUALS_ID" columnDataType="BIGINT(20) NOT NULL" />
+        <renameTable oldTableName="la_accruals_t" newTableName="lm_accruals_t" />
+        <renameTable oldTableName="la_accruals_s" newTableName="lm_accruals_s" />
+    </changeSet>
+    
+    <changeSet id="20" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameColumn tableName="la_accrual_categories_t" oldColumnName="LA_ACCRUAL_CATEGORY_ID" newColumnName="LM_ACCRUAL_CATEGORY_ID" columnDataType="BIGINT(20) NOT NULL" />
+        <renameTable oldTableName="la_accrual_categories_t" newTableName="lm_accrual_categories_t" />
+        <renameTable oldTableName="la_accrual_categories_s" newTableName="lm_accrual_categories_s" />
+    </changeSet>
+    
+    <changeSet id="21" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <addColumn tableName="tk_time_block_t">
+            <column name="principal_id" type="VARCHAR(40)" />
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="22" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameColumn tableName="tk_shift_differential_rl_t" oldColumnName="TK_SAL_GROUP" newColumnName="HR_SAL_GROUP" columnDataType="VARCHAR(10)" />
+        <renameColumn tableName="tk_shift_differential_rl_t" oldColumnName="CALENDAR_GROUP" newColumnName="PY_CALENDAR_GROUP" columnDataType="VARCHAR(30) NOT NULL" />
+    </changeSet>
+    
+    <changeSet id="23" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <addDefaultValue tableName="hr_earn_group_def_t" columnName="OBJ_ID" defaultValue="1" />
+    </changeSet>
+    
+    <changeSet id="24" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <modifyDataType tableName="hr_earn_group_t" columnName="hr_earn_group_id" newDataType="BIGINT(38) NOT NULL" />
+        <addDefaultValue tableName="hr_earn_group_t" columnName="OBJ_ID" defaultValue="1" />
+        <modifyDataType tableName="hr_earn_group_t" columnName="VER_NBR" newDataType="BIGINT(38)" />
+    </changeSet>
+    
+    <changeSet id="25" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <modifyDataType tableName="hr_sal_group_t" columnName="HR_SAL_GROUP_ID" newDataType="BIGINT(38) NOT NULL" />
+        <addNotNullConstraint tableName="hr_sal_group_t" columnName="ACTIVE" columnDataType="VARCHAR(1)" />
+        <modifyDataType tableName="hr_sal_group_t" columnName="OBJ_ID" newDataType="VARCHAR(38)" />
+        <addNotNullConstraint tableName="hr_sal_group_t" columnName="OBJ_ID" columnDataType="VARCHAR(38)" defaultNullValue="1" />
+        <modifyDataType tableName="hr_sal_group_t" columnName="VER_NBR" newDataType="BIGINT(38) NOT NULL DEFAULT '1'" />
+    </changeSet>
+    
+    <changeSet id="26" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <modifyDataType tableName="hr_job_t" columnName="dept" newDataType="VARCHAR(90) NOT NULL" />
+        <modifyDataType tableName="hr_job_t" columnName="comp_rate" newDataType="DECIMAL(18,6)" />
+        <modifyDataType tableName="hr_job_t" columnName="location" newDataType="VARCHAR(20)" />
+        <modifyDataType tableName="hr_job_t" columnName="position_nbr" newDataType="VARCHAR(20)" />
+    </changeSet>
+    
+    <changeSet id="27" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <modifyDataType tableName="hr_paytype_t" columnName="DESCR" newDataType="VARCHAR(90)" />
+    </changeSet>
+    
+    <changeSet id="28" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <modifyDataType tableName="hr_location_t" columnName="description" newDataType="VARCHAR(60) NOT NULL" />
+    </changeSet>
+    
+    <changeSet id="29" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <modifyDataType tableName="hr_position_t" columnName="POSITION_NBR" newDataType="VARCHAR(20) NOT NULL" />
+    </changeSet>
+    
+    <changeSet id="30" author="lee55" context="bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <modifyDataType tableName="hr_roles_t" columnName="position_nbr" newDataType="VARCHAR(20)" />
+    </changeSet>
+    
+</databaseChangeLog>

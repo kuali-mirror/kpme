@@ -4,6 +4,8 @@ import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.leavecode.LeaveCode;
+import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -18,7 +20,7 @@ public class LeaveCodeValidation extends MaintenanceDocumentRuleBase {
 		}
 		return valid;
 	}
-	
+/*	KPME-1477
 	boolean validateLeaveCodeRole(LeaveCode leaveCode) {
 		boolean valid = true;
 		if (!leaveCode.getEmployee() && !leaveCode.getDepartmentAdmin() && !leaveCode.getApprover()) {
@@ -27,17 +29,36 @@ public class LeaveCodeValidation extends MaintenanceDocumentRuleBase {
 		}
 		return valid;
 	}
-	
-	boolean validateLeavePlan(String leavePlan, Date asOfDate) {
+*/	
+	//KPME-1541 we need to set the leave plan but not silently override if the user uses the Leave Plan field
+	boolean validateLeavePlan(LeaveCode leaveCode) {
+		
 		boolean valid = true;
-		if (!ValidationUtils.validateLeavePlan(leavePlan, asOfDate)) {
-			this.putFieldError("leavePlan", "error.existence", "leavePlan '"
-					+ leavePlan + "'");
-			valid = false;
+		
+		
+		if (StringUtils.isNotBlank(leaveCode.getLeavePlan())) {
+
+			if (!ValidationUtils.validateLeavePlan(leaveCode.getLeavePlan(), leaveCode.getEffectiveDate())) {
+				this.putFieldError("leavePlan", "error.existence", "leavePlan '"
+						+ leaveCode.getLeavePlan() + "'");
+				valid = false;
+				return valid;
+			}
+			
+			if (leaveCode.getEffectiveDate() != null && StringUtils.isNotBlank(leaveCode.getAccrualCategory())) {
+				AccrualCategory myTestAccrualCategoryObj =  TkServiceLocator.getAccrualCategoryService().getAccrualCategory(leaveCode.getAccrualCategory(), leaveCode.getEffectiveDate());
+				if (!myTestAccrualCategoryObj.getLeavePlan().equals(leaveCode.getLeavePlan())) {
+					this.putFieldError("leavePlan", "error.leaveCode.leavePlanMismatch", myTestAccrualCategoryObj.getLeavePlan());
+					valid = false;
+					return valid;
+				}
+				leaveCode.setLeavePlan(myTestAccrualCategoryObj.getLeavePlan());
+			}
 		}
 		return valid;
 	}
 	
+	//KPME-1541 must have an accrual category for leave plan lookup
 	boolean validateAccrualCategory(String accrualCategory, Date asOfDate) {
 		boolean valid = true;
 		if (!ValidationUtils.validateAccCategory(accrualCategory, asOfDate)) {
@@ -80,12 +101,12 @@ public class LeaveCodeValidation extends MaintenanceDocumentRuleBase {
 			LeaveCode leaveCode = (LeaveCode) pbo;
 			if (leaveCode != null) {
 				valid = true;
-				valid &= this.validateEffectiveDate(leaveCode.getEffectiveDate());
-				valid &= this.validateLeaveCodeRole(leaveCode);
-				valid &= this.validateLeavePlan(leaveCode.getLeavePlan(), leaveCode.getEffectiveDate());
+				//valid &= this.validateEffectiveDate(leaveCode.getEffectiveDate());
+				//valid &= this.validateLeaveCodeRole(leaveCode); // xichen. remove this validation, this field is not on the page. KPME1477
 				valid &= this.validateAccrualCategory(leaveCode.getAccrualCategory(), leaveCode.getEffectiveDate());
 				valid &= this.validateEarnCode(leaveCode.getEarnCode(), leaveCode.getEffectiveDate());
 				valid &= this.validateDefaultAmountOfTime(leaveCode.getDefaultAmountofTime());
+				valid &= this.validateLeavePlan(leaveCode); //validate accrual category and effdt before calling this
 			}
 		}
 		return valid;

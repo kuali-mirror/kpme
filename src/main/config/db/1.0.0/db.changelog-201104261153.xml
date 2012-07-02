@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="yingzhou" context="bootstrap">
+        <comment>Batch Job table creation</comment>
+		<createTable tableName="tk_batch_job_s">
+			<column autoIncrement="true" name="id" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+		</createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
+	</changeSet>
+	
+    <changeSet id="2" author="yingzhou" context="bootstrap">
+        <comment>Batch Job table creation</comment>
+		<createTable tableName="tk_batch_job_t">
+			<column autoIncrement="true" name="TK_BATCH_JOB_ID" type="BIGINT">
+				<constraints nullable="false" primaryKey="true" />
+			</column>
+			<column name="batch_job_name" type="VARCHAR(40)">
+				<constraints nullable="false" />
+			</column>
+			<column name="batch_job_status" type="VARCHAR(1)">
+				<constraints nullable="false" />
+			</column>
+			<column name="tk_pay_calendar_entry_id" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="time_elapsed" type="BIGINT">
+				<constraints nullable="false" />
+			</column>
+			<column name="timestamp" type="TIMESTAMP"/>
+		</createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
+	</changeSet>
+
+    <changeSet id="3" author="yingzhou" context="bootstrap">
+        <comment>Batch Job table creation</comment>
+        <dropNotNullConstraint columnDataType="TIMESTAMP" columnName="timestamp" tableName="tk_batch_job_t"/>
+    </changeSet>
+
+</databaseChangeLog>

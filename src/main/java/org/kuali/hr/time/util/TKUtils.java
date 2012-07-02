@@ -479,5 +479,44 @@ public class TKUtils {
 
         return dayIntervals;
     }
-
+    
+    public static java.util.Date removeTime(java.util.Date date) {    
+        Calendar cal = Calendar.getInstance();  
+        cal.setTime(date);  
+        cal.set(Calendar.HOUR_OF_DAY, 0);  
+        cal.set(Calendar.MINUTE, 0);  
+        cal.set(Calendar.SECOND, 0);  
+        cal.set(Calendar.MILLISECOND, 0);  
+        return cal.getTime(); 
+    }
+    
+    public static int getWorkDays(java.util.Date startDate, java.util.Date endDate) {
+    	int dayCounts = 0;
+    	if(startDate.after(endDate)) {
+    		return 0;
+    	}
+    	Calendar cal1 = Calendar.getInstance();
+		cal1.setTime(startDate);
+		Calendar cal2 = Calendar.getInstance();
+		cal2.setTime(endDate);
+		
+		while(!cal1.after(cal2)) {
+			if(cal1.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY 
+					&& cal1.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
+				dayCounts ++;		
+			}
+			cal1.add(Calendar.DATE, 1);
+		}
+    	return dayCounts;
+    }
+    
+    public static boolean isWeekend(java.util.Date aDate) {
+    	Calendar cal = Calendar.getInstance();
+		cal.setTime(aDate);
+    	if(cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY 
+				|| cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+			return true;		
+		}
+    	return false;
+    }
 }

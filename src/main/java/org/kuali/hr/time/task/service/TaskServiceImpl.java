@@ -1,16 +1,16 @@
 package org.kuali.hr.time.task.service;
 
-import org.codehaus.plexus.util.StringUtils;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.task.dao.TaskDao;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
-
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TaskServiceImpl implements TaskService {
 
@@ -70,6 +70,9 @@ public class TaskServiceImpl implements TaskService {
 
         return results;
     }
-	
-	
+    
+    @Override
+    public int getTaskCount(Long task) {
+    	return taskDao.getTaskCount(task);
+    }
 }

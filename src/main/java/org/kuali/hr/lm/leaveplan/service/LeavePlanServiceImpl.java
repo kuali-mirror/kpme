@@ -36,5 +36,11 @@ public class LeavePlanServiceImpl implements LeavePlanService {
 		return getLeavePlanDao().getLeavePlan(leavePlan, asOfDate);
 	}
    
-
+	@Override
+	public boolean isValidLeavePlan(String leavePlan){
+		boolean valid = false;
+		int count = getLeavePlanDao().getNumberLeavePlan(leavePlan);
+		valid = (count > 0);
+		return valid;
+	}
 }

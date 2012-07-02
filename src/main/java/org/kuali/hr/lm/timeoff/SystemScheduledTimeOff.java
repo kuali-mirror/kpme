@@ -10,6 +10,7 @@ import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 
 public class SystemScheduledTimeOff extends HrBusinessObject {
@@ -18,7 +19,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 	private String lmSystemScheduledTimeOffId;
 	private String leavePlan;
 	private String accrualCategory;
-	private String leaveCode;
+	private String earnCode;
 	private Date accruedDate;
 	private Date scheduledTimeOffDate;
 	private String location;
@@ -26,14 +27,14 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 	private Long amountofTime;
 	private String unusedTime;
 	private BigDecimal transferConversionFactor;
-	private String transfertoLeaveCode;
+	private String transfertoEarnCode;
 	private Date expirationDate;
 	private String premiumHoliday;
 	private Boolean history;
 
 	private LeavePlan leavePlanObj;
 	private AccrualCategory accrualCategoryObj;
-	private LeaveCode leaveCodeObj;
+	private EarnCode earnCodeObj;
 	private Location locationObj;
 	
 	public String getLmSystemScheduledTimeOffId() {
@@ -45,12 +46,12 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 	}
 
 	public String getLeavePlan() {
-		if (this.leaveCodeObj == null && 
-				(!StringUtils.isEmpty(this.leaveCode) && this.effectiveDate != null)) {		
-			leaveCodeObj =  TkServiceLocator.getLeaveCodeService().getLeaveCode(leaveCode, this.effectiveDate);
+		if (this.earnCodeObj == null && 
+				(!StringUtils.isEmpty(this.earnCode) && this.effectiveDate != null)) {		
+			earnCodeObj =  TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, this.effectiveDate);
 		}
-		
-		return (leaveCodeObj != null) ? leaveCodeObj.getLeavePlan() : "";
+		leavePlan = (earnCodeObj != null) ? earnCodeObj.getLeavePlan() : "";
+		return (earnCodeObj != null) ? earnCodeObj.getLeavePlan() : "";
 	}
 
 	public void setLeavePlan(String leavePlan) {
@@ -58,24 +59,17 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 	}
 
 	public String getAccrualCategory() {
-		if (this.leaveCodeObj == null && 
-				(!StringUtils.isEmpty(this.leaveCode) && this.effectiveDate != null)) {		
-			leaveCodeObj =  TkServiceLocator.getLeaveCodeService().getLeaveCode(leaveCode, this.effectiveDate);
-		}
-		
-		return (leaveCodeObj != null) ? leaveCodeObj.getAccrualCategory() : "";
+//		if (this.earnCodeObj == null && 
+//				(!StringUtils.isEmpty(this.earnCode) && this.effectiveDate != null)) {		
+//			earnCodeObj =  TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, this.effectiveDate);
+//		}
+//		accrualCategory = (earnCodeObj != null) ? earnCodeObj.getAccrualCategory() : "";
+//		return (earnCodeObj != null) ? earnCodeObj.getAccrualCategory() : "";
+		return accrualCategory;
 	}
 
 	public void setAccrualCategory(String accrualCategory) {
 		this.accrualCategory = accrualCategory;
-	}
-
-	public String getLeaveCode() {
-		return leaveCode;
-	}
-
-	public void setLeaveCode(String leaveCode) {
-		this.leaveCode = leaveCode;
 	}
 
 	public Date getAccruedDate() {
@@ -134,14 +128,6 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 		this.transferConversionFactor = transferConversionFactor;
 	}
 
-	public String getTransfertoLeaveCode() {
-		return transfertoLeaveCode;
-	}
-
-	public void setTransfertoLeaveCode(String transfertoLeaveCode) {
-		this.transfertoLeaveCode = transfertoLeaveCode;
-	}
-
 	public Date getExpirationDate() {
 		return expirationDate;
 	}
@@ -174,12 +160,28 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 		this.accrualCategoryObj = accrualCategoryObj;
 	}
 
-	public LeaveCode getLeaveCodeObj() {
-		return leaveCodeObj;
+	public String getEarnCode() {
+		return earnCode;
 	}
 
-	public void setLeaveCodeObj(LeaveCode leaveCodeObj) {
-		this.leaveCodeObj = leaveCodeObj;
+	public void setEarnCode(String earnCode) {
+		this.earnCode = earnCode;
+	}
+
+	public String getTransfertoEarnCode() {
+		return transfertoEarnCode;
+	}
+
+	public void setTransfertoEarnCode(String transfertoEarnCode) {
+		this.transfertoEarnCode = transfertoEarnCode;
+	}
+
+	public EarnCode getEarnCodeObj() {
+		return earnCodeObj;
+	}
+
+	public void setEarnCodeObj(EarnCode earnCodeObj) {
+		this.earnCodeObj = earnCodeObj;
 	}
 
 	public Location getLocationObj() {
@@ -192,7 +194,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 
 	@Override
 	protected String getUniqueKey() {
-		String lmSystemScheduledTimeOffKey = getLeaveCode() +"_"+ getLeavePlan() +"_"+ getAccrualCategory();
+		String lmSystemScheduledTimeOffKey = getEarnCode() +"_"+ getLeavePlan() +"_"+ getAccrualCategory();
 		return lmSystemScheduledTimeOffKey;
 	}
 

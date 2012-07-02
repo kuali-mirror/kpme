@@ -8,6 +8,9 @@
 		<html:hidden property="year" styleId="year" value="${Form.year}" />
 		<table align="center">
 			<tbody>
+			<tr>
+				<td align="center">${Form.targetName}</td>
+			</tr>
 				<tr>
 					<td>
 						<button id="nav_lb_prev"
@@ -32,26 +35,33 @@
 		</table>
 
 	</html:form>
+	
 	<div class="leave-block-display">
+	
 		<div id="leave-block-display-accordion">
 			<h3>
 				<a href="#">Leave Blocks for ${Form.year}</a>
 			</h3>
 			<div>
 				<display:table name="${Form.leaveEntries}" class="datatable-100"
-					cellspacing="0" uid="leaveEntry" >
-					<display:column title="Date of Leave" >
-					<fmt:formatDate type="date" value="${leaveEntry.leaveDate}"
+					cellspacing="0" uid="leaveEntry" sort="external" defaultsort="1" >
+					
+					<display:column title="Date of Leave" sortable="true" sortProperty="leaveDate" >
+						<a href="LeaveCalendar.do?documentId=${leaveEntry.documentId}&calEntryId=${leaveEntry.calendarId}">
+							<fmt:formatDate type="date" value="${leaveEntry.leaveDate}"
 							pattern="MMM-dd-yyyy" />
+						</a>
 					</display:column>
-					<display:column property="leaveCode" title="Leave Code" />
+					<display:column property="earnCode" title="Earn Code"/>
 					<display:column property="description" title="Description" />
-					<display:column property="requestStatus" title="Leave Entry Status" />
-					<display:column property="leaveAmount" title="Amount of Leave" />
+					<display:column property="requestStatus" title="Status" />
+					<display:column property="leaveAmount" title="Amount" />
 					<display:column title="Timestamp">
 						<fmt:formatDate type="both" value="${leaveEntry.timestamp}"
 							pattern="MM/dd/yyyy hh:mm a" />
 					</display:column>
+					<display:column property="assignmentTitle" title="Assignment"/>
+					<display:column property="accrualBalance" title="Accrual balances" />
 				</display:table>
 			</div>
 
@@ -63,10 +73,12 @@
 					class="datatable-100" cellspacing="0" requestURIcontext="false"
 					uid="correctedEntries">
 					<display:column title="Date of Leave" >
-					<fmt:formatDate type="date" value="${leaveEntry.leaveDate}"
+						<a href="LeaveCalendar.do?documentId=${correctedEntries.documentId}&calEntryId=${correctedEntries.calendarId}">
+							<fmt:formatDate type="date" value="${correctedEntries.leaveDate}"
 							pattern="MMM-dd-yyyy" />
+						</a>
 					</display:column>
-					<display:column property="leaveCode" title="Leave Code" />
+					<display:column property="earnCode" title="Earn Code" />
 					<display:column property="description" title="Description" />
 					<display:column property="principalIdModified"
 						title="User Deleted/Modified" />
@@ -74,7 +86,8 @@
 						<fmt:formatDate type="both" value="${correctedEntries.timestamp}"
 							pattern="MM/dd/yyyy hh:mm a" />
 					</display:column>
-					<display:column property="leaveAmount" title="Amount of Leave" />
+					<display:column property="leaveAmount" title="Amount" />
+					<display:column property="assignmentTitle" title="Assignment"/>
 				</display:table>
 			</div>
 
@@ -86,19 +99,22 @@
 					class="datatable-100" cellspacing="0" requestURIcontext="false"
 					uid="inActiveEntries">
 					<display:column title="Date of Leave" >
-					<fmt:formatDate type="date" value="${leaveEntry.leaveDate}"
+						<a href="LeaveCalendar.do?documentId=${inActiveEntries.documentId}&calEntryId=${inActiveEntries.calendarId}">
+							<fmt:formatDate type="date" value="${inActiveEntries.leaveDate}"
 							pattern="MMM-dd-yyyy" />
+						</a>
 					</display:column>
-					<display:column property="leaveCode" title="Leave Code" />
-					<display:column property="requestStatus" title="Leave Entry Status" />
+					<display:column property="earnCode" title="Earn Code" />
+					<display:column property="requestStatus" title="Status" />
 					<display:column property="description" title="Description" />
-					<display:column property="leaveAmount" title="Amount of Leave" />
+					<display:column property="leaveAmount" title="Amount" />
 					<display:column title="Timestamp Deleted/Modified">
 						<fmt:formatDate type="both" value="${inActiveEntries.timestamp}"
 							pattern="MM/dd/yyyy hh:mm a" />
 					</display:column>
 					<display:column property="principalIdModified"
 						title="User Deleted/Modified" />
+				    <display:column property="assignmentTitle" title="Assignment"/>
 				</display:table>
 			</div>
 		</div>

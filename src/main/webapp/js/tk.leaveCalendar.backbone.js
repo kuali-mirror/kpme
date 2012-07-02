@@ -27,6 +27,22 @@ $(function () {
     LeaveBlockCollection = Backbone.Collection.extend({
         model : LeaveBlock
     });
+    
+    // Convert the leave block json string to a json object
+    var leaveBlockJson = jQuery.parseJSON($("#leaveBlockString").val());
+    var leaveBlockCollection = new LeaveBlockCollection(leaveBlockJson);
+
+//    LeaveCode = Backbone.Model.extend({
+//    	 url : "LeaveCalendarWS.do?methodToCall=getLeaveCodeInfo"
+//    });
+//  
+//    var leaveCodeObj = new LeaveCode;
+    
+    EarnCode = Backbone.Model.extend({
+   	 url : "LeaveCalendarWS.do?methodToCall=getEarnCodeInfo"
+    });
+    
+    var earnCodeObj = new EarnCode;
 
     /**
      * ====================
@@ -43,8 +59,11 @@ $(function () {
         // The first part is an event and the second part is a jQuery selector.
         // Check out this page for more information about the jQuery selectors : http://api.jquery.com/category/selectors/
         events : {
+        	"click div[id*=show]" : "showTimeBlock", // KPME-1447
             "click .create" : "showLeaveBlockEntryDialog",
-            "click img[id^=leaveBlockDelete]" : "deleteLeaveBlock"
+            "click img[id^=leaveBlockDelete]" : "deleteLeaveBlock",
+            "change #earnCode" : "changeEarnCode",
+            "keypress #earnCode" : "changeEarnCode"
         },
 
         initialize : function () {
@@ -113,6 +132,7 @@ $(function () {
                         // If this is triggered directly by backbone, i.e. user clicked on the white area to create a new timeblock,
                         // Set the date by grabbing the div id.
                         $("#startDate, #endDate").val(startDate.target.id);
+                       
                         // Check if there is only one assignment
                         // Placing this code block here will prevent fetching earn codes twice
                         // when showTimeEntryDialog() is called by showTimeBlock()
@@ -122,12 +142,14 @@ $(function () {
 //                                        .done(self.showFieldByEarnCodeType());
 //                            }
                     }
+                    self.changeEarnCode();
 
                 },
                 close : function () {
                 	$('.cal-table td').removeClass('ui-selected');
-                    // reset values on the form
-//                        self.resetTimeBlockDialog($("#timesheet-panel"));
+                    //reset values on the form
+                	self.changeEarnCode();
+                    self.resetLeaveBlockDialog($("#timesheet-panel"));
                     self.resetState($("#dialog-form"));
                 },
                 buttons : {
@@ -135,7 +157,6 @@ $(function () {
                         /**
                          * In case we have more needs to auto-adjust user's input, we should consider moving them to a separate method.
                          */
-
                         if (!_.isEmpty($("#endTime").val())) {
                             // If the end time is 12:00 am, change the end date to the next day
                             var midnight = Date.parse($('#endDate').val()).set({
@@ -153,13 +174,20 @@ $(function () {
                                 $('#endDate').val(endDateTime.add(1).days().toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT));
                             }
                         }
-
+                        var isValid = true;
                         $('#acrossDays').val($('#acrossDays').is(':checked') ? 'y' : 'n');
-
-                        $('#methodToCall').val(CONSTANTS.ACTIONS.ADD_LEAVE_BLOCK);
-                        $('#leaveBlock-form').submit();
-                        $(this).dialog("close");
-
+                        $('#spanningWeeks').val($('#spanningWeeks').is(':checked') ? 'y' : 'n');  // KPME-1446
+                        isValid = self.validateLeaveBlock();
+                        if (!_.isEmpty($("#leaveBlockId").val())) {
+                        	$('#methodToCall').val(CONSTANTS.ACTIONS.UPDATE_LEAVE_BLOCK);	
+                        } else {
+                        	$("#methodToCall").val(CONSTANTS.ACTIONS.ADD_LEAVE_BLOCK);
+                        }
+                        
+                        if (isValid) {
+                            $('#leaveBlock-form').submit();
+                            $(this).dialog("close");
+                        }
                     },
                     Cancel : function () {
                     	$('.cal-table td').removeClass('ui-selected');
@@ -171,9 +199,29 @@ $(function () {
 //            }
         },
 
+
+        showTimeBlock : function (e) {
+            var key = _(e).parseEventKey();
+            
+            // Retrieve the selected leaveblock
+            var leaveBlock = leaveBlockCollection.get(key.id);
+            
+            // We only have one date in leave block
+            //this.showTimeEntryDialog(leaveBlock.get("startDate"), leaveBlock.get("endDate"));
+            this.showLeaveBlockEntryDialog(leaveBlock.get("leaveDate"), leaveBlock.get("leaveDate"));
+            _.replaceDialogButtonText("Add", "Update");
+            
+            // Deferred is a jQuery method which makes sure things happen in the order you want.
+            // For more informaiton : http://api.jquery.com/category/deferred-object/
+            // Here we want to fire the ajax call first to grab the earn codes.
+            // After that is done, we fill out the form and make the entry field show / hide based on the earn code type.
+            var dfd = $.Deferred();
+            dfd.done($("#earnCode option[value='" + leaveBlock.get("earnCodeId") + "']").attr("selected", "selected"))
+            .done(_(leaveBlock).fillInForm());
+        },
+        
         deleteLeaveBlock : function (e) {
             var key = _(e).parseEventKey();
-            console.log(key);
 //            var timeBlock = timeBlockCollection.get(key.id);
 
 //            if (this.checkPermissions()) {
@@ -182,6 +230,18 @@ $(function () {
             }
 //            }
         },
+        
+        /**
+         * Reset the values on the leaveblock entry form.
+         * @param fields
+         */
+        resetLeaveBlockDialog : function (timeBlockDiv) {
+        	 $("#leaveAmount").val("");
+        	 $("#earnCode").val("");
+        	 $("#description").val("");
+        	 $("#leaveBlockId").val("");
+        },
+        
         /**
          * Remove the error class from the given fields.
          * @param fields
@@ -209,7 +269,207 @@ $(function () {
 
             // show date pickers
             $(".ui-datepicker-trigger").show();
+        },
+        
+        validateEarnCode : function () {
+            var isValid = true;
+            isValid = isValid && this.checkEmptyField($("#earnCode"), "Earn Code");
+
+            // couldn't find an easier way to get the earn code json, so we validate by the field id
+            // The method below will get a list of not hidden fields' ids
+            var ids = $("#dialog-form input").not(":hidden").map(
+                    function () {
+                        return this.id;
+                    }).get();
+             if (_.contains(ids, "leaveAmount")) {
+                var hours = $('#leaveAmount');
+                isValid = isValid && (this.checkEmptyField(hours, "Leave amount")  && this.checkRegexp(hours, '/0/', 'Leave amount cannot be zero'));
+                if(isValid) {
+                	var type = this.getEarnCodeUnit(earnCodeObj.toJSON());
+                	if (type == 'D') {
+                		isValid = isValid && (this.checkRangeValue(hours, 1, "Leave amount Days"));
+                	} else if (type == 'H') {
+                		isValid = isValid && (this.checkRangeValue(hours, 24, "Leave amount Hours"));
+                	}
+                	var fieldLength = 0;
+                	var fracLength = 0;
+                	// check fraction digit
+                	if(isValid) {
+                		var fraction = this.getEarnCodeFractionalAllowedTime(earnCodeObj.toJSON());
+                		if(typeof fraction != 'undefined' && fraction != '') {
+                			var fractionAr = fraction.split(".");
+                			var hoursAr = hours.val().split(".");
+                			if(hoursAr.length > 1) {
+                				fieldLength = hoursAr[1].length;
+                			}
+                			if(fractionAr.length > 1) {
+                				fracLength = fractionAr[1].length;
+                			}
+//                			alert('field length' +fieldLength);
+//                			alert('field length' +fracLength);
+                			if(fieldLength > fracLength) {
+                				isValid = false;
+                				this.displayErrorMessages("Leave Amount field should be in the format of "+fraction);
+                			}
+                		}
+                	}
+                }
+            }
+            return isValid;
+        },
+        
+        changeEarnCode : function(e) {
+        	var earnCodeString = _.isString(e) ? e : this.$("#earnCode option:selected").val();
+        	earnCodeObj.fetch({
+                // Make the ajax call not async to be able to mark the earn code selected
+                async : false,
+                data : {
+                	selectedEarnCode : earnCodeString
+                }  
+            });
+        	this.showFieldByEarnCodeType();
+        },
+        
+        showFieldByEarnCode : function() {
+        	var key = $("#earnCode option:selected").val();
+        	var type = key.split(":")[1];
+        	if (type == 'D') {
+        		$('#unitOfTime').text('Days');
+        	} else if (type == 'H') {
+        		$('#unitOfTime').text('Hours');
+        	}
+        },
+        
+        
+        showFieldByEarnCodeType : function () {
+            var earnCodeType = this.getEarnCodeUnit(earnCodeObj.toJSON());
+            if (earnCodeType == 'D') {
+        		$('#unitOfTime').text('Days');
+        	} else if (earnCodeType == 'H') {
+        		$('#unitOfTime').text('Hours');
+        	}
+            var unitOfTime = this.getEarnCodeDefaultTime(earnCodeObj.toJSON());
+            $('#leaveAmount').val(unitOfTime);
+            
+        },
+        
+        getEarnCodeUnit : function (earnCodeJson) {
+           return earnCodeJson.unitOfTime;
+        },
+        
+        getEarnCodeDefaultTime : function (earnCodeJson) {
+           return earnCodeJson.defaultAmountofTime;
+        },
+        
+        getEarnCodeFractionalAllowedTime : function (earnCodeJson) {
+           return earnCodeJson.fractionalTimeAllowed;
+        },
+
+        validateLeaveBlock : function () {
+            var self = this;
+            var isValid = true;
+//            isValid = isValid && this.checkEmptyField($("#selectedAssignment"), "Assignment");
+            isValid = isValid && this.validateEarnCode();
+            
+            if (isValid) {
+           
+                var docId = $('#documentId').val();
+                var params = {};
+                params['startDate'] = $('#startDate').val();
+                params['endDate'] = $('#endDate').val();
+                params['leaveAmount'] = $('#leaveAmount').val();
+                params['selectedEarnCode'] = $('#selectedEarnCode option:selected').val();
+                params['spanningWeeks'] = $('#spanningWeeks').is(':checked') ? 'y' : 'n'; // KPME-1446
+                params['leaveBlockId'] = $('#leaveBlockId').val();
+
+                // validate leaveblocks
+                $.ajax({
+                    async : false,
+                    url : "LeaveCalendarWS.do?methodToCall=validateLeaveEntry&documentId=" + docId,
+                    data : params,
+                    cache : false,
+                    type : "post",
+                    success : function (data) {
+                        //var match = data.match(/\w{1,}|/g);
+                        var json = jQuery.parseJSON(data);
+                        // if there is no error message, submit the form to add the time block
+                        if (json.length == 0) {
+                            return true;
+                        }
+                        else {
+                            // if there is any error, grab error messages (json) and display them
+                            var json = jQuery.parseJSON(data);
+                            var errorMsgs = '';
+                            $.each(json, function (index) {
+                                errorMsgs += "Error : " + json[index] + "<br/>";
+                            });
+
+                            self.displayErrorMessages(errorMsgs);
+                            isValid = false;
+                        }
+                    },
+                    error : function () {
+                        self.displayErrorMessages("Error: Can't save data.");
+                        isValid = false;
+                    }
+                });
+            }
+            
+            return isValid;
+        },
+        
+        checkLength : function (o, n, min, max) {
+            if (o.val().length > max || o.val().length < min) {
+                this.displayErrorMessages(n + " field cannot be empty");
+                return false;
+            }
+            return true;
+        },
+
+        checkEmptyField : function (o, field) {
+            var val = o.val();
+            if (val == '') {
+                this.displayErrorMessages(field + " field cannot be empty", o);
+                return false;
+            }
+            return true;
+        },
+
+        checkRegexp : function (o, regexp, n) {
+            if (( o.val().match(regexp) )) {
+                this.displayErrorMessages(n);
+                return false;
+            }
+            return true;
+        },
+
+        checkSpecificValue : function (o, value, n) {
+            if (o.val() != value) {
+                this.displayErrorMessages(n);
+                return false;
+            }
+            return true;
+        },
+        
+        checkRangeValue : function (o, value1, field) {
+            if (o.val() > value1) {
+            	this.displayErrorMessages(field + " field should not exceed " + value1, o);
+            	return false;
+            }
+            return true;
+        },
+
+        displayErrorMessages : function (t, object) {
+            // add the error class ane messages
+            $('#validation').html(t)
+                    .addClass('error-messages');
+
+            // highlight the field
+            if (!_.isUndefined(object)) {
+                object.addClass('ui-state-error');
+            }
         }
+
     });
 
     // Initialize the view. This is the kick-off point.
@@ -235,35 +495,24 @@ $(function () {
             };
         },
         /**
-         * Fill in the time entry form by the timeblock
-         * @param timeBlock
+         * Fill in the leave entry form by the leaveblock
+         * @param leaveBlock
          */
-        fillInForm : function (timeBlock) {
-            $('#startDate').val(timeBlock.get("startDate"));
-            $('#startTime').val(timeBlock.get("startTime"));
-            $('#startTimeHourMinute').val(timeBlock.get("startTimeHourMinute"));
-            $('#endDate').val(timeBlock.get("endDate"));
-            $('#endTime').val(timeBlock.get("endTime"));
-            $('#endTimeHourMinute').val(timeBlock.get("endTimeHourMinute"));
-            $("#selectedAssignment option[value='" + timeBlock.get("assignment") + "']").attr("selected", "selected");
-            $('#tkTimeBlockId').val(timeBlock.get("tkTimeBlockId"));
-            $('#hours').val(timeBlock.get("hours"));
-            $('#amount').val(timeBlock.get("amount"));
-            $('#lunchDeleted').val(timeBlock.get("lunchDeleted"));
-
-            if ($('#isVirtualWorkDay').val() == 'true') {
-                var endDateTime = Date.parse($('#endDate').val() + " " + $('#endTime').val());
-                $('#endDate').val(endDateTime.add(-1).days().toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT));
-            }
-        }
+        fillInForm : function (leaveBlock) {
+            $('#startDate').val(leaveBlock.get("leaveDate"));
+            $('#endDate').val(leaveBlock.get("leaveDate"));
+            $('#leaveAmount').val(leaveBlock.get("leaveAmount"));
+            $('#leaveBlockId').val(leaveBlock.get("lmLeaveBlockId"));
+            $('#description').val(leaveBlock.get("description"));
+        },
         /**
          * Provides a helper method to change the button name on the time entry dialog.
          * @param oriText
          * @param newText
          */
-//        replaceDialogButtonText : function (oriText, newText) {
-//            $(".ui-button-text:contains('" + oriText + "')").text(newText);
-//        }
+        replaceDialogButtonText : function (oriText, newText) {
+            $(".ui-button-text:contains('" + oriText + "')").text(newText);
+        }
     });
 
     /**
@@ -314,12 +563,12 @@ $(function () {
 //            if ($("#selectedAssignment").is("input")) {
 //                app.fetchEarnCodeAndLoadFields();
 //            }
-
+            
             selectedDays = [];
         }
     });
-//
-//    if ($('#docEditable').val() == 'false') {
-//        $(".cal-table").selectable("destroy");
-//    }
+
+	if ($('#docEditable').val() == 'false') {
+		$(".cal-table").selectable("destroy");
+	}
 });

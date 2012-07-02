@@ -5,9 +5,9 @@
 	<documentTypes xmlns="ns:workflow/DocumentType"
 		xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
-			<name>EarnGroupDocumentType</name>
+			<name>EarnCodeGroupDocumentType</name>
 			<parent>RiceDocument</parent>
-			<label>EarnGroupDocument</label>
+			<label>EarnCodeGroupDocument</label>
 			<docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
 		</documentType>
 		<documentType>
@@ -143,10 +143,10 @@
 			<label>WeeklyOvertimeRuleDocument</label>
 	</documentType>
 	<documentType>
-			<name>DepartmentEarnCodeDocumentType</name>
+			<name>EarnCodeSecurityDocumentType</name>
 			<parent>RiceDocument</parent>
 			<docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
-			<label>DepartmentEarnCodeDocument</label>
+			<label>EarnCodeSecurityMaintenanceDocument</label>
 	</documentType>
 	<documentType>
 			<name>EarnCodeMaintenanceDocumentType</name>

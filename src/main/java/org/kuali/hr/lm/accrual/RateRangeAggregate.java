@@ -45,5 +45,16 @@ public class RateRangeAggregate {
 	public void setRateRangeChanged(boolean rateRangeChanged) {
 		this.rateRangeChanged = rateRangeChanged;
 	}
+	
+	// return the rateRange on the given day
+	public RateRange getRateOnDate(Date date) {
+		for (RateRange rateRange : rateRanges) {
+			if (rateRange.getRange().contains(date.getTime())) {
+				return rateRange;
+			}
+		}
+		return null;
+	}
+	
 
 }

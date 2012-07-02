@@ -1,21 +1,16 @@
 package org.kuali.hr.time.clocklog.validation;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.apache.log4j.Logger;
-import org.apache.ojb.broker.PersistenceBrokerFactory;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.clock.location.validation.ClockLocationRuleRule;
 import org.kuali.hr.time.clocklog.ClockLog;
-import org.kuali.hr.time.task.Task;
-import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ClockLogRule  extends MaintenanceDocumentRuleBase {
 
@@ -46,11 +41,7 @@ public class ClockLogRule  extends MaintenanceDocumentRuleBase {
 	protected boolean validateWorkArea(ClockLog clockLog ) {
 		boolean valid = false;
 		LOG.debug("Validating workarea: " + clockLog.getWorkArea());
-		Criteria crit = new Criteria();
-		crit.addEqualTo("workArea", clockLog.getWorkArea());
-		Query query = QueryFactory.newQuery(WorkArea.class, crit);
-		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-
+		int count = TkServiceLocator.getWorkAreaService().getWorkAreaCount(null, clockLog.getWorkArea());
 		if (count >0 ) {
 			valid = true;
 			LOG.debug("found workarea.");
@@ -64,11 +55,7 @@ public class ClockLogRule  extends MaintenanceDocumentRuleBase {
 	protected boolean validateTask(ClockLog clockLog ) {
 		boolean valid = false;
 		LOG.debug("Validating task: " + clockLog.getTask());
-		Criteria crit = new Criteria();
-		crit.addEqualTo("task", clockLog.getTask());
-		Query query = QueryFactory.newQuery(Task.class, crit);
-		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-
+		int count = TkServiceLocator.getTaskService().getTaskCount(clockLog.getTask());
 		if (count >0 ) {
 			valid = true;
 			LOG.debug("found task.");

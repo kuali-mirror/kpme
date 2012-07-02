@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="xichen" context="bootstrap">
+        <comment>KPME-1465. Added FET on Job Maint. page. FTE is derived from standardHour/40.</comment>
+        <dropColumn tableName="hr_job_t" columnName="fte" />
+    </changeSet>
+    
+</databaseChangeLog>

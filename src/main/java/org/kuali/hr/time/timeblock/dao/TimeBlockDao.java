@@ -3,6 +3,7 @@ package org.kuali.hr.time.timeblock.dao;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.timeblock.TimeBlock;
 
+import java.sql.Date;
 import java.util.List;
 
 public interface TimeBlockDao {
@@ -38,4 +39,6 @@ public interface TimeBlockDao {
 	public List<TimeBlock> getLatestEndTimestamp();
 
     List<TimeBlock> getOvernightTimeBlocks(String clockLogEndId);
+    
+    public List<TimeBlock> getTimeBlocksWithEarnCode(String earnCode, Date effDate);
 }

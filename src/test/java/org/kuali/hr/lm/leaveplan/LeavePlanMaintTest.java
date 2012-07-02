@@ -75,5 +75,30 @@ public class LeavePlanMaintTest extends TkTestCase {
 		
 	}
 	
+	// KPME-1489 Kagata
+	@Test
+	public void testRequiredFields() throws Exception {
+		
+		//get the page with planning months
+		HtmlPage leavePlan = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.LEAVE_PLAN_MAINT_URL);
+		HtmlPage resultPage = HtmlUnitUtil.clickInputContainingText(leavePlan, "search");
+		HtmlUnitUtil.createTempFile(resultPage);
+		Assert.assertTrue("Maintenance page contains:\n" + "Testing Leave Plan Months", resultPage.asText().contains("Testing Leave Plan Months"));
+		
+		HtmlPage leavePlanMaintPage = HtmlUnitUtil.clickAnchorContainingText(resultPage, "edit", "5555");
+		//submit a leave plan with planning months changed
+		setFieldValue(leavePlanMaintPage, "document.documentHeader.documentDescription", "Testing required fields");
+		HtmlInput planningMonthsText = HtmlUnitUtil.getInputContainingText(leavePlanMaintPage, "document.newMaintainableObject.planningMonths");
+		HtmlInput calendarYearStartText = HtmlUnitUtil.getInputContainingText(leavePlanMaintPage, "document.newMaintainableObject.calendarYearStart");
+		
+		planningMonthsText.setValueAttribute("");
+		calendarYearStartText.setValueAttribute("");
+		HtmlPage outputPage = HtmlUnitUtil.clickInputContainingText(leavePlanMaintPage, "submit");
+		HtmlUnitUtil.createTempFile(outputPage);
+		Assert.assertTrue("Maintenance page text contains:\n" + "Planning Months (Planning Months) is a required field", outputPage.asText().contains("Planning Months (Planning Months) is a required field"));
+		Assert.assertTrue("Maintenance page text contains:\n" + "Calendar Year Start (MM/DD) (Calendar Year Start (MM/DD)) is a required field", outputPage.asText().contains("Calendar Year Start (MM/DD) (Calendar Year Start (MM/DD)) is a required field"));
+		
+	}
+	
 	
 }

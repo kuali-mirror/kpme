@@ -1,9 +1,15 @@
 package org.kuali.hr.time.detail.web;
 
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +30,7 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeBlockHistory;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
+import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 import org.kuali.hr.time.timesummary.AssignmentRow;
 import org.kuali.hr.time.timesummary.EarnCodeSection;
 import org.kuali.hr.time.timesummary.EarnGroupSection;
@@ -33,6 +40,8 @@ import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
+import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.krad.exception.AuthorizationException;
 
 public class TimeDetailAction extends TimesheetAction {
@@ -93,27 +102,85 @@ public class TimeDetailAction extends TimesheetAction {
         TkCalendar cal = TkCalendar.getCalendar(aggregate);
         cal.assignAssignmentStyle(aMap);
         tdaf.setTkCalendar(cal);
+     
+        this.populateCalendarAndPayPeriodLists(request, tdaf);
 
         tdaf.setTimeBlockString(ActionFormUtils.getTimeBlocksJson(aggregate.getFlattenedTimeBlockList()));
 
         tdaf.setOvertimeEarnCodes(TkServiceLocator.getEarnCodeService().getOvertimeEarnCodesStrs(TKContext.getCurrentTimesheetDoucment().getAsOfDate()));
 
+        if (StringUtils.equals(TKContext.getCurrentTimesheetDoucment().getPrincipalId(), TKContext.getUser().getPrincipalId())) {
+        	tdaf.setWorkingOnItsOwn("true");
+        }
+        
         tdaf.setDocEditable("false");
-
         if (TKContext.getUser().isSystemAdmin()) {
             tdaf.setDocEditable("true");
         } else {
             boolean docFinal = TKContext.getCurrentTimesheetDoucment().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL);
             if (!docFinal) {
-                if (StringUtils.equals(TKContext.getCurrentTimesheetDoucment().getPrincipalId(), TKContext.getUser().getPrincipalId()) || TKContext.getUser().isSystemAdmin() || TKContext.getUser().isLocationAdmin() || TKContext.getUser().isDepartmentAdmin() ||
-                        TKContext.getUser().isReviewer() || TKContext.getUser().isApprover()) {
+            	if(StringUtils.equals(TKContext.getCurrentTimesheetDoucment().getPrincipalId(), TKContext.getUser().getPrincipalId())
+	            		|| TKContext.getUser().isSystemAdmin() 
+	            		|| TKContext.getUser().isLocationAdmin() 
+	            		|| TKContext.getUser().isDepartmentAdmin() 
+	            		|| TKContext.getUser().isReviewer() 
+	            		|| TKContext.getUser().isApprover()) {
                     tdaf.setDocEditable("true");
                 }
+            	
+	            //if the timesheet has been approved by at least one of the approvers, the employee should not be able to edit it
+	            if (StringUtils.equals(TKContext.getCurrentTimesheetDoucment().getPrincipalId(), TKContext.getUser().getPrincipalId())
+	            		&& TKContext.getCurrentTimesheetDoucment().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.ENROUTE)) {
+		        	Collection actions = KEWServiceLocator.getActionTakenService().findByDocIdAndAction(TKContext.getCurrentTimesheetDoucment().getDocumentHeader().getDocumentId(), TkConstants.TIMESHEET_ACTIONS.APPROVE);
+	        		if(!actions.isEmpty()) {
+	        			tdaf.setDocEditable("false");  
+	        		}
+		        }
             }
         }
 
         return forward;
     }
+
+	private void populateCalendarAndPayPeriodLists(HttpServletRequest request, TimeDetailActionForm tdaf) {
+		List<TimesheetDocumentHeader> documentHeaders = (List<TimesheetDocumentHeader>) TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeadersForPrincipalId(TKContext.getUser().getPrincipalId());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+        if(tdaf.getCalendarYears().isEmpty()) {
+        	// get calendar year drop down list contents
+	        Set<String> yearSet = new HashSet<String>();
+	        
+	        for(TimesheetDocumentHeader tdh : documentHeaders) {
+	        	yearSet.add(sdf.format(tdh.getPayBeginDate()));
+	        }
+	        List<String> yearList = new ArrayList<String>(yearSet);
+	        Collections.sort(yearList);
+	        tdaf.setCalendarYears(yearList);
+        }
+        // if selected calendar year is passed in
+        if(request.getParameter("selectedCY")!= null) {
+        	tdaf.setSelectedCalendarYear(request.getParameter("selectedCY").toString());
+        }
+        // if there is no selected calendr year, use the year of current pay calendar entry
+        if(StringUtils.isEmpty(tdaf.getSelectedCalendarYear())) {
+        	tdaf.setSelectedCalendarYear(sdf.format(tdaf.getPayCalendarDates().getBeginPeriodDate()));
+        }
+        if(tdaf.getPayPeriodsMap().isEmpty()) {
+	        List<CalendarEntries> payPeriodList = new ArrayList<CalendarEntries>();
+	        for(TimesheetDocumentHeader tdh : documentHeaders) {
+	        	if(sdf.format(tdh.getPayBeginDate()).equals(tdaf.getSelectedCalendarYear())) {
+                    CalendarEntries pe = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntriesByBeginAndEndDate(tdh.getPayBeginDate(), tdh.getPayEndDate());
+	        		payPeriodList.add(pe);
+	        	}
+	        }
+	        tdaf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(payPeriodList));
+        }
+        if(request.getParameter("selectedPP")!= null) {
+        	tdaf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
+        }
+        if(StringUtils.isEmpty(tdaf.getSelectedPayPeriod())) {
+        	tdaf.setSelectedPayPeriod(tdaf.getPayCalendarDates().getHrCalendarEntriesId());
+        }
+	}
 
 
     /**
@@ -167,7 +234,7 @@ public class TimeDetailAction extends TimesheetAction {
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
         Timestamp overtimeBeginTimestamp = null;
         Timestamp overtimeEndTimestamp = null;
-
+        
         // This is for updating a timeblock or changing
         // If tkTimeBlockId is not null and the new timeblock is valid, delete the existing timeblock and a new one will be created after submitting the form.
         if (tdaf.getTkTimeBlockId() != null) {
@@ -210,12 +277,13 @@ public class TimeDetailAction extends TimesheetAction {
         List<TimeBlock> newTimeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
         DateTime startTemp = new DateTime(startTime);
         DateTime endTemp = new DateTime(endTime);
+        // KPME-1446 add spanningweeks to the calls below 
         if (StringUtils.equals(tdaf.getAcrossDays(), "y")
                 && !(endTemp.getDayOfYear() - startTemp.getDayOfYear() <= 1
                 && endTemp.getHourOfDay() == 0)) {
             newTimeBlocks.addAll(TkServiceLocator.getTimeBlockService().buildTimeBlocksSpanDates(assignment,
                     tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(), startTime,
-                    endTime, tdaf.getHours(), tdaf.getAmount(), false, Boolean.parseBoolean(tdaf.getLunchDeleted())));
+                    endTime, tdaf.getHours(), tdaf.getAmount(), false, Boolean.parseBoolean(tdaf.getLunchDeleted()), tdaf.getSpanningWeeks()));
         } else {
             newTimeBlocks.addAll(TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment,
                     tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(), startTime,
@@ -297,4 +365,40 @@ public class TimeDetailAction extends TimesheetAction {
 
         return mapping.findForward("basic");
     }
+      
+  public ActionForward gotoCurrentPayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	  String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
+	  Date currentDate = TKUtils.getTimelessDate(null);
+      CalendarEntries pce = TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(viewPrincipal, currentDate);
+      TimesheetDocument td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, pce);
+      setupDocumentOnFormContext((TimesheetActionForm)form, td);
+	  return mapping.findForward("basic");
+  }
+  
+  //Triggered by changes of pay period drop down list, reload the whole page based on the selected pay period
+  public ActionForward changeCalendarYear(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	  
+	  TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
+	  if(request.getParameter("selectedCY") != null) {
+		  tdaf.setSelectedCalendarYear(request.getParameter("selectedCY").toString());
+	  }
+	  return mapping.findForward("basic");
+  }
+  
+  //Triggered by changes of pay period drop down list, reload the whole page based on the selected pay period
+  public ActionForward changePayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	  TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
+	  if(request.getParameter("selectedPP") != null) {
+		  tdaf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
+          CalendarEntries pce = TkServiceLocator.getCalendarEntriesSerivce()
+		  	.getCalendarEntries(request.getParameter("selectedPP").toString());
+		  if(pce != null) {
+			  String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
+			  TimesheetDocument td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, pce);
+			  setupDocumentOnFormContext((TimesheetActionForm)form, td);
+		  }
+	  }
+	  return mapping.findForward("basic");
+  }
+
 }

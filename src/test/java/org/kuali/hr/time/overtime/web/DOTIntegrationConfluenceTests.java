@@ -146,7 +146,7 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
         // OVT - 0 Hrs Expected
         DateTime start = new DateTime(2011, 3, 2, 8, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
         DateTime end = new DateTime(2011, 3, 2, 13, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
-        TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(tdoc, assignment, earnCode, start, end, null, false, null);
+        TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(tdoc, assignment, earnCode, start, end, null, false, null, true);
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
         Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
         page = TimeDetailTestUtils.submitTimeDetails(getTimesheetDocumentUrl(tdocId), tdaf);
@@ -154,7 +154,7 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
 
         start = new DateTime(2011, 3, 2, 13, 10, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
         end = new DateTime(2011, 3, 2, 18, 10, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
-        tdaf = TimeDetailTestUtils.buildDetailActionForm(tdoc, assignment, earnCode, start, end, null, false, null);
+        tdaf = TimeDetailTestUtils.buildDetailActionForm(tdoc, assignment, earnCode, start, end, null, false, null, true);
         errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
         Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
         page = TimeDetailTestUtils.submitTimeDetails(getTimesheetDocumentUrl(tdocId), tdaf);

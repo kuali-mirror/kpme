@@ -1,5 +1,6 @@
 package org.kuali.hr.lm.leavecode;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import junit.framework.Assert;
@@ -26,10 +27,11 @@ public class LeaveCodeMaintTest extends TkTestCase{
 		Assert.assertTrue("Maintenance Page contains test Leave Code",maintPage.asText().contains("testLC"));	 
 	}
 	
-	@Test
+	/*@Test
+	 * do not need this test, KPME1466
 	public void testFutureEffectiveDate() throws Exception {
 		this.futureEffectiveDateValidation(TkTestConstants.Urls.LEAVE_CODE_MAINT_NEW_URL);
-	}
+	}*/
 
 	@Test
 	public void testGetLeavePlanBasedOnAccrualCategory() throws Exception {
@@ -43,9 +45,10 @@ public class LeaveCodeMaintTest extends TkTestCase{
 	  	Assert.assertTrue("page text contains:\n" + "Allow Scheduled Leave", page.asText().contains("Allow Scheduled Leave"));
 	  	
 	  	Calendar validDate = Calendar.getInstance();
-	  	validDate.add(java.util.Calendar.MONTH, 5); // 5 month in the future
-	  	String validDateString = Integer.toString(validDate.get(Calendar.MONTH)) + "/" + Integer.toString(validDate.get(Calendar.DAY_OF_MONTH)) 
-	  		+ "/" + Integer.toString(validDate.get(Calendar.YEAR)); 
+	  	// add 150 days in the future, need to add dates instead of month 
+	  	// because if we happen to be running the test on the 31 of a month, some future months do not have 31st 
+	  	validDate.add(Calendar.DATE, 150);   	
+	  	String validDateString = new SimpleDateFormat("MM/dd/yyyy").format(validDate.getTime());
 	  	
 	  	setFieldValue(page, "document.documentHeader.documentDescription", "Leave Code - test");
 	    setFieldValue(page, "document.newMaintainableObject.defaultAmountofTime", "25"); // a wrong default amount of time
@@ -57,5 +60,6 @@ public class LeaveCodeMaintTest extends TkTestCase{
 	  	HtmlUnitUtil.createTempFile(page);
 	  	Assert.assertTrue("page text contains:\n" + "should be between 0 and 24", page.asText().contains("should be between 0 and 24"));
 	  	Assert.assertTrue("page text contains:\n" + "IU-SM", page.asText().contains("IU-SM"));
+	  	Assert.assertTrue("page text contains:\n" + "IU-SM", page.asText().contains("Affect Pay"));
 	}
 }

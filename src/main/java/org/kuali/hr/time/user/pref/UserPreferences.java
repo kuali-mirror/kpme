@@ -1,8 +1,6 @@
 package org.kuali.hr.time.user.pref;
 
-import java.util.LinkedHashMap;
-
-import org.codehaus.plexus.util.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 

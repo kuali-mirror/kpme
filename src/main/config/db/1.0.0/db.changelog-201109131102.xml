@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="lee55" context="bootstrap">
+        <comment>KPME-744. Timesheet - Allow users to change overtime earncode to new value (exmp. CPE)</comment>
+        <addColumn tableName="tk_time_block_t">
+            <column name="ovt_pref" type="VARCHAR(5)" />
+        </addColumn>
+    </changeSet>
+    <changeSet id="2" author="lee55" context="bootstrap">
+        <comment>more sql changes</comment>
+		<modifyDataType tableName="tk_time_block_t" columnName="CLOCK_LOG_CREATED" newDataType="VARCHAR(1)"/>
+        <modifyDataType tableName="tk_time_block_hist_t" columnName="CLOCK_LOG_CREATED" newDataType="VARCHAR(1)"/>
+	</changeSet>
+
+</databaseChangeLog>

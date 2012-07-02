@@ -110,7 +110,7 @@ public class EmployeeOverride extends HrBusinessObject {
 
 	public String getLeavePlan() {
 		if (this.principalHRAttrObj == null && !StringUtils.isEmpty(this.principalId)) {
-			principalHRAttrObj = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes(principalId);
+			principalHRAttrObj = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, this.getEffectiveDate());
 		}
 		return (principalHRAttrObj != null) ? principalHRAttrObj.getLeavePlan() : "";
 	}

@@ -20,6 +20,7 @@
 			<list>
 				<ref bean="LeaveCode-leavePlan" />
 				<ref bean="LeaveCode-eligibleForAccrual" />
+				<ref bean="LeaveCode-affectPay" />
 				<ref bean="LeaveCode-accrualCategory" />
 				<ref bean="LeaveCode-earnCode" />
 				<ref bean="LeaveCode-leaveCode" />
@@ -84,7 +85,7 @@
 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="LookupReadonlyControlDefinition" p:size="10" />
+			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
 		<property name="name" value="leavePlan" />
 		<property name="label" value="Leave Plan" />
@@ -266,6 +267,18 @@
 		<property name="label" value="Eligible for Accrual" />
 	</bean>
 	
+	<bean id="LeaveCode-affectPay" parent="LeaveCode-affectPay-parentBean" />
+	<bean id="LeaveCode-affectPay-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Affect Pay" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="affectPay" />
+		<property name="label" value="Affect Pay" />
+	</bean>
+	
 	<!-- Employee -->
 	<bean id="LeaveCode-employee" parent="LeaveCode-employee-parentBean" />
 	<bean id="LeaveCode-employee-parentBean" abstract="true"
@@ -391,6 +404,7 @@
 							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 							<bean parent="FieldDefinition" p:attributeName="leavePlan" />
 							<bean parent="FieldDefinition" p:attributeName="eligibleForAccrual" />
+							<bean parent="FieldDefinition" p:attributeName="affectPay" />
 							<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 							<bean parent="FieldDefinition" p:attributeName="earnCode" />
 							<bean parent="FieldDefinition" p:attributeName="leaveCode" />
@@ -426,11 +440,11 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-				<!-- bean parent="FieldDefinition" p:attributeName="leavePlan" /-->
+				<bean parent="FieldDefinition" p:attributeName="leaveCode" />
+				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
 				<bean parent="FieldDefinition" p:attributeName="eligibleForAccrual" />
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
-				<bean parent="FieldDefinition" p:attributeName="leaveCode" />
 				<bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y"/>
 				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
 
@@ -439,11 +453,12 @@
 		<property name="resultFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="leaveCode" />
 				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
 				<bean parent="FieldDefinition" p:attributeName="eligibleForAccrual" />
+				<bean parent="FieldDefinition" p:attributeName="affectPay" />
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
-				<bean parent="FieldDefinition" p:attributeName="leaveCode" />
 				<bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>

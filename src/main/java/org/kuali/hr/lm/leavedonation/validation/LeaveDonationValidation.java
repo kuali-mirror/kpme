@@ -2,7 +2,10 @@ package org.kuali.hr.lm.leavedonation.validation;
 
 import java.sql.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.leavedonation.LeaveDonation;
+import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -40,7 +43,7 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 		if (!ValidationUtils.validateAccCategory(accrualCategory, asOfDate)) {
 			this.putFieldError(
 					forPerson.equals(LeaveDonationValidation.DONOR) ? "donatedAccrualCategory"
-							: "recipientsAccrualCategory", "error.existence",
+							: "recipientsAccrualCategory", "error.leavePlan.mismatch",
 					"accrualCategory '" + accrualCategory + "'");
 			valid = false;
 		}
@@ -51,10 +54,30 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 			String forPerson, String principalId) {
 		boolean valid = true;
 		if (!ValidationUtils.validateAccCategory(accrualCategory, principalId, asOfDate)) {
+			String[] myErrorsArgs={"accrualCategory '" + accrualCategory + "'", forPerson};
 			this.putFieldError(
 					forPerson.equals(LeaveDonationValidation.DONOR) ? "donatedAccrualCategory"
-							: "recipientsAccrualCategory", "error.existence",
-					"accrualCategory '" + accrualCategory + "'");
+							: "recipientsAccrualCategory", "error.leavePlan.mismatch",
+							myErrorsArgs);
+			valid = false;
+			
+		}
+		return valid;
+	}
+
+	boolean validateEarnCode(String principalAC, String formEarnCode, String forPerson, Date asOfDate) {
+		boolean valid = true;
+
+		EarnCode testEarnCode = TkServiceLocator.getEarnCodeService().getEarnCode(formEarnCode, asOfDate);
+//		LeaveCode testLeaveCode = TkServiceLocator.getLeaveCodeService().getLeaveCode(formEarnCode, asOfDate);
+		String formEarnCodeAC = "NullAccrualCategoryPlaceholder";
+		if (testEarnCode != null && testEarnCode.getAccrualCategory() != null) {
+			formEarnCodeAC = testEarnCode.getAccrualCategory();
+		}
+
+		if (!StringUtils.equalsIgnoreCase(principalAC, formEarnCodeAC)) {
+			this.putFieldError(forPerson.equals(LeaveDonationValidation.DONOR) ? "donatedEarnCode"
+					: "recipientsEarnCode", "error.codeCategory.mismatch", forPerson);
 			valid = false;
 		}
 		return valid;
@@ -92,6 +115,18 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 						valid &= this.validatePrincipal(
 						leaveDonation.getRecipientsPrincipalID(),
 						LeaveDonationValidation.RECEPIENT);
+				}
+				if(leaveDonation.getDonatedAccrualCategory() != null) {
+						valid &= this.validateEarnCode(
+						leaveDonation.getDonatedAccrualCategory(),
+						leaveDonation.getDonatedEarnCode(),
+						LeaveDonationValidation.DONOR, leaveDonation.getEffectiveDate());
+				}
+				if(leaveDonation.getRecipientsAccrualCategory() != null) {
+						valid &= this.validateEarnCode(
+						leaveDonation.getRecipientsAccrualCategory(),
+						leaveDonation.getRecipientsEarnCode(),
+						LeaveDonationValidation.RECEPIENT, leaveDonation.getEffectiveDate());
 				}
 			}
 		}

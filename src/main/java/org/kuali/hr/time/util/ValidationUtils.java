@@ -1,14 +1,12 @@
 package org.kuali.hr.time.util;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.location.Location;
@@ -17,10 +15,9 @@ import org.kuali.hr.time.accrual.TimeOffAccrual;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.department.Department;
-import org.kuali.hr.time.dept.earncode.DepartmentEarnCode;
 import org.kuali.hr.time.earncode.EarnCode;
-import org.kuali.hr.time.earngroup.EarnGroup;
-import org.kuali.hr.time.earngroup.EarnGroupDefinition;
+import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
+import org.kuali.hr.time.earncodegroup.EarnCodeGroupDefinition;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.salgroup.SalGroup;
@@ -32,6 +29,9 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+
+import java.sql.Date;
+import java.util.List;
 
 /**
  * A few methods to assist with various validation tasks.
@@ -87,10 +87,7 @@ public class ValidationUtils {
 			SalGroup sg = TkServiceLocator.getSalGroupService().getSalGroup(salGroup, asOfDate);
 			valid = (sg != null);
 		} else {
-			Criteria crit = new Criteria();
-			crit.addEqualTo("dept", salGroup);
-			Query query = QueryFactory.newQuery(SalGroup.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+			int count = TkServiceLocator.getSalGroupService().getSalGroupCount(salGroup);
 			valid = (count > 0);
 		}
 
@@ -104,10 +101,7 @@ public class ValidationUtils {
 			EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
 			valid = (ec != null);
 		} else {
-			Criteria crit = new Criteria();
-			crit.addEqualTo("earnCode", earnCode);
-			Query query = QueryFactory.newQuery(EarnCode.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+			int count = TkServiceLocator.getEarnCodeService().getEarnCodeCount(earnCode);
 			valid = (count > 0);
 		}
 
@@ -138,11 +132,8 @@ public class ValidationUtils {
 			LeavePlan lp = TkServiceLocator.getLeavePlanService().getLeavePlan(leavePlan, asOfDate);
 			valid = (lp != null);
 		} else {
-			Criteria crit = new Criteria();
-			crit.addEqualTo("leavePlan", leavePlan);
-			Query query = QueryFactory.newQuery(LeavePlan.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-			valid = (count > 0);
+			// chen, moved the code that access db to service and dao
+			valid = TkServiceLocator.getLeavePlanService().isValidLeavePlan(leavePlan);
 		}
 		
 		return valid;
@@ -168,6 +159,35 @@ public class ValidationUtils {
 			Criteria crit = new Criteria();
 			crit.addEqualTo("leaveCode", leaveCode);
 			Query query = QueryFactory.newQuery(LeaveCode.class, crit);
+			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+			valid = (count > 0);
+		}
+		
+		return valid;
+	}
+	
+	public static boolean validateEarnCodeOfAccrualCategory(String earnCode, String accrualCategory, String principalId, Date asOfDate) {
+		boolean valid = false;
+		
+		if (asOfDate != null) {
+			if(validateAccCategory(accrualCategory, principalId, asOfDate)){
+				List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(principalId, asOfDate);
+				if(earnCodes != null && !earnCodes.isEmpty()) {
+					for(EarnCode earnCodeObj : earnCodes) {
+						if(earnCodeObj.getEarnCode() != null) {
+							if(StringUtils.equals(earnCodeObj.getEarnCode().trim(), earnCode.trim()) && StringUtils.equals(earnCodeObj.getAccrualCategory(), accrualCategory)){
+								valid = true;
+								break;
+							}
+						}
+					}
+				}
+			}
+//			valid = (leaveCodes != null);
+		} else {
+			Criteria crit = new Criteria();
+			crit.addEqualTo("earnCode", earnCode);
+			Query query = QueryFactory.newQuery(EarnCode.class, crit);
 			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
 			valid = (count > 0);
 		}
@@ -225,10 +245,7 @@ public class ValidationUtils {
 			Location l = TkServiceLocator.getLocationService().getLocation(location, asOfDate);
 			valid = (l != null);
 		} else {
-			Criteria crit = new Criteria();
-			crit.addEqualTo("location", location);
-			Query query = QueryFactory.newQuery(Location.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+			int count = TkServiceLocator.getLocationService().getLocationCount(location);
 			valid = (count > 0);
 		}
 
@@ -242,10 +259,7 @@ public class ValidationUtils {
 			PayType pt = TkServiceLocator.getPayTypeSerivce().getPayType(payType, asOfDate);
 			valid = (pt != null);
 		} else {
-			Criteria crit = new Criteria();
-			crit.addEqualTo("payType", payType);
-			Query query = QueryFactory.newQuery(PayType.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+			int count = TkServiceLocator.getPayTypeSerivce().getPayTypeCount(payType);
 			valid = (count > 0);
 		}
 
@@ -260,10 +274,7 @@ public class ValidationUtils {
 			PayGrade pg = TkServiceLocator.getPayGradeService().getPayGrade(payGrade, asOfDate);
 			valid = (pg != null);
 		} else {
-			Criteria crit = new Criteria();
-			crit.addEqualTo("payGrade", payGrade);
-			Query query = QueryFactory.newQuery(PayGrade.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+			int count = TkServiceLocator.getPayGradeService().getPayGradeCount(payGrade);
 			valid = (count > 0);
 		}
 
@@ -301,10 +312,7 @@ public class ValidationUtils {
 			Department d = TkServiceLocator.getDepartmentService().getDepartment(department, asOfDate);
 		    valid = (d != null);
 		} else {
-			Criteria crit = new Criteria();
-			crit.addEqualTo("dept", department);
-			Query query = QueryFactory.newQuery(Department.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+			int count = TkServiceLocator.getDepartmentService().getDepartmentCount(department);
 			valid = (count > 0);
 		}
 
@@ -393,10 +401,7 @@ public class ValidationUtils {
             Task t = TkServiceLocator.getTaskService().getTask(task, asOfDate);
             valid = (t != null);
         } else if (task != null) {
-            Criteria crit = new Criteria();
-            crit.addEqualTo("task", task);
-            Query query = QueryFactory.newQuery(Task.class, crit);
-            int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+        	int count = TkServiceLocator.getTaskService().getTaskCount(task);
             valid = (count > 0);
         }
 
@@ -405,21 +410,18 @@ public class ValidationUtils {
 
     /**
      * No wildcarding is accounted for in this method.
-     * @param earnGroup EarnGroup
+     * @param earnGroup EarnCodeGroup
      * @param asOfDate Can be null, if we just want to look for the general case.
-     * @return True if the EarnGroup is present / valid.
+     * @return True if the EarnCodeGroup is present / valid.
      */
     public static boolean validateEarnGroup(String earnGroup, Date asOfDate) {
         boolean valid = false;
 
         if (earnGroup != null && asOfDate != null) {
-            EarnGroup eg = TkServiceLocator.getEarnGroupService().getEarnGroup(earnGroup, asOfDate);
+            EarnCodeGroup eg = TkServiceLocator.getEarnCodeGroupService().getEarnCodeGroup(earnGroup, asOfDate);
             valid = (eg != null);
         } else if (earnGroup != null) {
-            Criteria crit = new Criteria();
-            crit.addEqualTo("earnGroup", earnGroup);
-            Query query = QueryFactory.newQuery(EarnGroup.class, crit);
-            int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+        	int count = TkServiceLocator.getEarnCodeGroupService().getEarnCodeGroupCount(earnGroup);
             valid = (count > 0);
         }
 
@@ -427,15 +429,15 @@ public class ValidationUtils {
     }
     
     /**
-     * @param earnGroup EarnGroup
+     * @param earnGroup EarnCodeGroup
      * @param asOfDate
-     * @return True if the EarnGroup has overtime earn codes
+     * @return True if the EarnCodeGroup has overtime earn codes
      */
     public static boolean earnGroupHasOvertimeEarnCodes(String earnGroup, Date asOfDate) {
          if (earnGroup != null && asOfDate != null) {
-             EarnGroup eg = TkServiceLocator.getEarnGroupService().getEarnGroup(earnGroup, asOfDate);
+             EarnCodeGroup eg = TkServiceLocator.getEarnCodeGroupService().getEarnCodeGroup(earnGroup, asOfDate);
              if(eg != null) {
-            	for(EarnGroupDefinition egd : eg.getEarnGroups()) {
+            	for(EarnCodeGroupDefinition egd : eg.getEarnCodeGroups()) {
             		if(egd.getEarnCode() != null) {
             			EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(egd.getEarnCode(), asOfDate);
             			if(ec != null && ec.getOvtEarnCode()) {
@@ -463,39 +465,16 @@ public class ValidationUtils {
         return valid;
 	}
 
-   /**
-    * Checks for existence of newer versions of a class object based on fieldValue
-    * class must have active and effectiveDate fields
-    */
-   public static boolean newerVersionExists(Class<? extends Object> clazz, String fieldName, String fieldValue, Date asOfDate) {
+   public static boolean duplicateDeptEarnCodeExists(EarnCodeSecurity deptEarnCode) {
 	   boolean valid = false;
-	   Criteria crit = new Criteria();
-       crit.addEqualTo(fieldName, fieldValue);
-       crit.addEqualTo("active", "Y");
-       crit.addGreaterThan("effectiveDate", asOfDate);
-       Query query = QueryFactory.newQuery(clazz, crit);
-       int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-       valid = (count > 0);
-       return valid;
-   }
-
-   public static boolean duplicateDeptEarnCodeExists(DepartmentEarnCode deptEarnCode) {
-	   boolean valid = false;
-	   Criteria crit = new Criteria();
-       crit.addEqualTo("dept", deptEarnCode.getDept());
-       crit.addEqualTo("hrSalGroup", deptEarnCode.getHrSalGroup());
-       crit.addEqualTo("earnCode", deptEarnCode.getEarnCode());
-       crit.addEqualTo("employee", deptEarnCode.isEmployee() ? "1" : "0");
-       crit.addEqualTo("approver", deptEarnCode.isApprover()? "1" : "0");
-       crit.addEqualTo("location", deptEarnCode.getLocation());
-       crit.addEqualTo("active", deptEarnCode.getActive() ? "Y" : "N");
-       crit.addEqualTo("effectiveDate", deptEarnCode.getEffectiveDate());
-       Query query = QueryFactory.newQuery(DepartmentEarnCode.class, crit);
-       int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+	   int count = TkServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityCount
+               (deptEarnCode.getDept(), deptEarnCode.getHrSalGroup(), deptEarnCode.getEarnCode(), deptEarnCode.isEmployee() ? "1" : "0",
+                       deptEarnCode.isApprover() ? "1" : "0", deptEarnCode.getLocation(), deptEarnCode.getActive() ? "Y" : "N", deptEarnCode.getEffectiveDate(), null);
        if(count == 1) {
     	   valid = true;
-    	   crit.addEqualTo("hr_dept_earn_code_id", deptEarnCode.getHrDeptEarnCodeId());
-    	   count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+    	   count = TkServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityCount
+                   (deptEarnCode.getDept(), deptEarnCode.getHrSalGroup(), deptEarnCode.getEarnCode(), deptEarnCode.isEmployee() ? "1" : "0",
+                           deptEarnCode.isApprover() ? "1" : "0", deptEarnCode.getLocation(), deptEarnCode.getActive() ? "Y" : "N", deptEarnCode.getEffectiveDate(), deptEarnCode.getHrEarnCodeSecurityId());
     	   if(count == 1) {
     		   valid = false;
     	   }
@@ -508,16 +487,12 @@ public class ValidationUtils {
    
    public static boolean duplicateTimeOffAccrual (TimeOffAccrual timeOffAccrual) {
 	   boolean valid = false;
-	   Criteria crit = new Criteria();
-	   crit.addEqualTo("accrualCategory", timeOffAccrual.getAccrualCategory());
-	   crit.addEqualTo("effectiveDate", timeOffAccrual.getEffectiveDate());
-	   crit.addEqualTo("principalId", timeOffAccrual.getPrincipalId());
-	   Query query = QueryFactory.newQuery(TimeOffAccrual.class, crit);
-	   int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+	   int count = TkServiceLocator.getTimeOffAccrualService().getTimeOffAccrualCount
+               (timeOffAccrual.getAccrualCategory(), timeOffAccrual.getEffectiveDate(), timeOffAccrual.getPrincipalId(), null);
 	   if(count == 1) {
     	   valid = true;
-    	   crit.addEqualTo("lmAccrualId", timeOffAccrual.getLmAccrualId());
-    	   count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+    	   count = TkServiceLocator.getTimeOffAccrualService().getTimeOffAccrualCount
+                   (timeOffAccrual.getAccrualCategory(), timeOffAccrual.getEffectiveDate(), timeOffAccrual.getPrincipalId(), timeOffAccrual.getLmAccrualId());
     	   if(count == 1) {
     		   valid = false;
     	   }
@@ -541,6 +516,21 @@ public class ValidationUtils {
 	   java.util.Calendar endDate = java.util.Calendar.getInstance();
 	   endDate.add(java.util.Calendar.YEAR, 1); // One year after the current date
 	   return date.compareTo(startDate.getTime()) * date.compareTo(endDate.getTime()) <= 0;
+   }
+   
+   /**
+    * Checks for date not more than one year in the future and does not consider past date
+    * 
+    */
+
+   public static boolean validateOneYearFutureEffectiveDate(Date date){
+	   java.util.Calendar startDate = java.util.Calendar.getInstance();
+	   startDate.set(java.util.Calendar.MILLISECOND, 0);
+	   startDate.set(java.util.Calendar.SECOND, 0);
+	   startDate.set(java.util.Calendar.MINUTE, 0);
+	   startDate.set(java.util.Calendar.HOUR_OF_DAY, 0);
+	   startDate.add(java.util.Calendar.YEAR, 1); // One year after the current date
+	   return date.compareTo(startDate.getTime()) <= 0;
    }
    
    /**
@@ -572,6 +562,15 @@ public class ValidationUtils {
 		Query query = QueryFactory.newQuery(Calendar.class, crit);
 		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
 		valid = (count > 0);
+		return valid;
+	}
+	
+	public static boolean validateRecordMethod(String recordMethod, String accrualCategory, Date asOfDate) {
+		boolean valid = false;
+		if (asOfDate != null) {
+			AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
+			valid = ac!=null & ac.getUnitOfTime()!=null & StringUtils.equalsIgnoreCase(ac.getUnitOfTime(), recordMethod);
+		}
 		return valid;
 	}
 }

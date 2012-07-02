@@ -29,7 +29,7 @@ public class WeeklyOvertimeRuleMaintenanceTest extends TkTestCase {
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(weeklyOvertimeRuleLookUp, "edit",weeklyOvertimeRuleId.toString());		
 		Assert.assertTrue("Maintenance Page contains test WeeklyOvertimeRule",maintPage.asText().contains(TEST_CODE.toString()));	
 		
-		// test Convert from EarnGroup has overtime earn codes error		
+		// test Convert from EarnCodeGroup has overtime earn codes error		
 		HtmlPage newMaintPage = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.WEEKLY_OVERTIME_RULE_MAINT_NEW_URL);
 		setFieldValue(newMaintPage, "document.documentHeader.documentDescription", "Test");
 		setFieldValue(newMaintPage, "document.newMaintainableObject.add.lstWeeklyOvertimeRules.effectiveDate", "01/01/2010");
@@ -41,7 +41,7 @@ public class WeeklyOvertimeRuleMaintenanceTest extends TkTestCase {
 //		HtmlPage finalPage = HtmlUnitUtil.clickInputContainingText(newMaintPage, "add");
 		HtmlElement element = newMaintPage.getElementById("methodToCall.addLine.lstWeeklyOvertimeRules.(!!org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule!!)");
         HtmlPage finalPage = element.click();
-        Assert.assertTrue("Maintenance Page should contains EarnGroup has overtime earn code error",
+		Assert.assertTrue("Maintenance Page should contains EarnCodeGroup has overtime earn code error",
 				finalPage.asText().contains("Earn Group 'OVT' has overtime earn codes."));
 	}
 

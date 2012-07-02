@@ -44,6 +44,7 @@ public class AccrualCategoryMaintTest extends TkTestCase {
         accrualCategory.setLeavePlan("");
         accrualCategory.setAccrualEarnInterval("");
         accrualCategory.setUnitOfTime("");
+        accrualCategory.setEarnCode("OC1");
 		KRADServiceLocator.getBusinessObjectService().save(accrualCategory);
 		accrualCategoryId = accrualCategory.getLmAccrualCategoryId();
 	}

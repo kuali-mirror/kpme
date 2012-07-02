@@ -2,6 +2,7 @@ package org.kuali.hr.time.assignment.service;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
@@ -62,9 +63,9 @@ public class AssignmentServiceImpl implements AssignmentService {
 
 
     @Override
-    public List<Assignment> getAssignments(Date fromEffdt, Date toEffdt, String principalId, String jobNumber,
+    public List<Assignment> searchAssignments(Date fromEffdt, Date toEffdt, String principalId, String jobNumber,
                                            String dept, String workArea, String active, String showHistory) {
-        return assignmentDao.getAssignments(fromEffdt, toEffdt, principalId, jobNumber, dept, workArea, active, showHistory);
+        return assignmentDao.searchAssignments(fromEffdt, toEffdt, principalId, jobNumber, dept, workArea, active, showHistory);
     }
 
 
@@ -235,5 +236,43 @@ public class AssignmentServiceImpl implements AssignmentService {
 
         return assignments;
     }
+    
+    @Override
+    public Map<String, String> getAssignmentDescriptions(LeaveCalendarDocument lcd) {
+        if (lcd == null) {
+            throw new RuntimeException("leave document is null.");
+        }
+        List<Assignment> assignments = lcd.getAssignments();
+        Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
+        for (Assignment assignment : assignments) {
+            if (assignment.isSynchronous()) {
+                assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
+            }
+        }
+        return assignmentDescriptions;
+    }
 
+
+    @Override
+    public Assignment getAssignment(LeaveCalendarDocument leaveCalendarDocument, String assignmentKey) {
+        List<Assignment> assignments = leaveCalendarDocument.getAssignments();
+        AssignmentDescriptionKey desc = getAssignmentDescriptionKey(assignmentKey);
+
+        for (Assignment assignment : assignments) {
+            if (assignment.getJobNumber().compareTo(desc.getJobNumber()) == 0 &&
+                    assignment.getWorkArea().compareTo(desc.getWorkArea()) == 0 &&
+                    assignment.getTask().compareTo(desc.getTask()) == 0) {
+                return assignment;
+            }
+        }
+
+        //No assignment found so fetch the inactive ones for this payBeginDate
+        Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(desc, leaveCalendarDocument.getCalendarEntry().getBeginPeriodDate());
+        if (assign != null) {
+            return assign;
+        }
+
+        LOG.warn("no matched assignment found");
+        return new Assignment();
+    }
 }

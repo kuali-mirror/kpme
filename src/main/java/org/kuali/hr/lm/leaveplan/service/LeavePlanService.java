@@ -14,4 +14,6 @@ public interface LeavePlanService {
     public LeavePlan getLeavePlan(String lmLeavePlanId);
     
     public LeavePlan getLeavePlan(String leavePlan, Date asOfDate);
+    
+    public boolean isValidLeavePlan(String leavePlan);
 }

@@ -1,13 +1,14 @@
 package org.kuali.hr.time.assignment.service;
 
-import java.sql.Date;
-import java.util.List;
-import java.util.Map;
-
+import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+
+import java.sql.Date;
+import java.util.List;
+import java.util.Map;
 
 public interface AssignmentService {
 	/**
@@ -102,6 +103,17 @@ public interface AssignmentService {
 	 */
     public List<Assignment> getActiveAssignmentsForJob(String principalId, Long jobNumber, Date asOfDate);
 
-    List<Assignment> getAssignments(Date fromEffdt, Date toEffdt, String principalId, String jobNumber,
+    List<Assignment> searchAssignments(Date fromEffdt, Date toEffdt, String principalId, String jobNumber,
                                     String dept, String workArea, String active, String showHistory);
+    
+    
+    /**
+     * Get all assignment descriptions for a document
+     * @param td
+     * @param clockOnlyAssignments
+     * @return
+     */
+    public Map<String,String> getAssignmentDescriptions(LeaveCalendarDocument lcd);
+    
+    public Assignment getAssignment(LeaveCalendarDocument leaveCalendarDocument, String assignmentKey);
 }

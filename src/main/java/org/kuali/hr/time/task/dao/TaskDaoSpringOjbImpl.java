@@ -125,4 +125,12 @@ public class TaskDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements
 
         return results;
     }
+   
+    @Override
+    public int getTaskCount(Long task) {
+    	Criteria crit = new Criteria();
+		crit.addEqualTo("task",task);
+		Query query = QueryFactory.newQuery(Task.class, crit);
+		return this.getPersistenceBrokerTemplate().getCount(query);
+    }
 }

@@ -4,20 +4,20 @@
 DELETE FROM `hr_job_s`;
 INSERT INTO `hr_job_s` (`ID`)	VALUES	(1000);
 DELETE FROM `hr_job_t`;
-INSERT INTO `hr_job_t` (`HR_JOB_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`EFFDT`,`active`,`dept`,`hr_SAL_GROUP`,`PAY_GRADE`,`TIMESTAMP`,`OBJ_ID`,`VER_NBR`,`location`,`std_hours`,`fte`,`hr_paytype`) VALUES
-  ('1',  'admin', 30, '2010-01-01', 'Y', 'TEST-DEPT', 'SD1', 'SD1', '2010-08-1 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', 'SD1', '40.00', NULL, 'BW'),
-	('12', 'admin', 1, '2010-08-01', 'Y', 'TEST-DEPT', 'A10', NULL, '2010-08-1 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', '', '40.00', NULL, 'BW'),
-	('13', 'admin', 2, '2010-08-01', 'Y', 'TEST-DEPT', 'A12', NULL, '2010-08-10 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', '', '40.00', NULL, 'BW'),
-	('14', 'admin', 2, '2010-08-11', 'Y', 'TEST-DEPT', 'A12', NULL, '2010-08-11 16:00:14', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', '', '40.00', NULL, 'BW'),
- ('16', 'admin', 2, '2010-08-12', 'Y', 'TEST-DEPT', 'A12', NULL, '2010-08-12 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', '', '40.00', NULL, 'BW'),
-	('17', 'eric', 1, '2010-08-12', 'Y', 'TEST-DEPT', '10', NULL, '2010-08-12 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', '', '40.00', NULL, 'BW'),
-	('18', 'eric', 1, '2010-08-12', 'Y', 'TEST-DEPT', '10', NULL, '2010-08-12 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', '', '40.00', NULL, 'BW'),
-	('19', 'eric', 2, '2010-08-10', 'Y', 'TEST-DEPT', '10', NULL, '2010-08-10 16:22:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', '', '40.00', NULL, 'BW'),
-	('20', 'eric', 2, '2010-08-13', 'Y', 'TEST-DEPT', '11', NULL, '2010-08-13 16:22:22', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', '', '40.00', NULL, 'BW'),
-	('21', 'admin', 3, '2010-08-15', 'Y', 'NODEP', 'NOP', NULL, '2010-08-12 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', '', '40.00', NULL, 'BW'),
-	('22', 'admin', 4, '2010-08-15', 'Y', 'NODEP', 'A10', NULL, '2010-08-12 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', '', '40.00', NULL, 'BW'),
-	('23', 'admin', 5, '2010-08-15', 'Y', 'LORA-DEPT', 'A10', NULL, '2010-08-12 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', '', '40.00', NULL, 'BW'),
-	('24', 'admin', 6, '2010-01-01', 'Y', 'SHFT-DEPT', 'A10', NULL, '2010-08-12 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', '', '40.00', NULL, 'BW');
+INSERT INTO `hr_job_t` (`HR_JOB_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`EFFDT`,`active`,`dept`,`hr_SAL_GROUP`,`PAY_GRADE`,`TIMESTAMP`,`OBJ_ID`,`VER_NBR`,`location`,`std_hours`,`hr_paytype`) VALUES
+  ('1',  'admin', 30, '2010-01-01', 'Y', 'TEST-DEPT', 'SD1', 'SD1', '2010-08-1 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', 'SD1', '40.00', 'BW'),
+	('12', 'admin', 1, '2010-08-01', 'Y', 'TEST-DEPT', 'A10', NULL, '2010-08-1 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', '', '40.00', 'BW'),
+	('13', 'admin', 2, '2010-08-01', 'Y', 'TEST-DEPT', 'A12', NULL, '2010-08-10 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', '', '40.00', 'BW'),
+	('14', 'admin', 2, '2010-08-11', 'Y', 'TEST-DEPT', 'A12', NULL, '2010-08-11 16:00:14', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', '', '40.00', 'BW'),
+ ('16', 'admin', 2, '2010-08-12', 'Y', 'TEST-DEPT', 'A12', NULL, '2010-08-12 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', '', '40.00', 'BW'),
+	('17', 'eric', 1, '2010-08-12', 'Y', 'TEST-DEPT', '10', NULL, '2010-08-12 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', '', '40.00', 'BW'),
+	('18', 'eric', 1, '2010-08-12', 'Y', 'TEST-DEPT', '10', NULL, '2010-08-12 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', '', '40.00', 'BW'),
+	('19', 'eric', 2, '2010-08-10', 'Y', 'TEST-DEPT', '10', NULL, '2010-08-10 16:22:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', '', '40.00', 'BW'),
+	('20', 'eric', 2, '2010-08-13', 'Y', 'TEST-DEPT', '11', NULL, '2010-08-13 16:22:22', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', '', '40.00', 'BW'),
+	('21', 'admin', 3, '2010-08-15', 'Y', 'NODEP', 'NOP', NULL, '2010-08-12 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', '', '40.00', 'BW'),
+	('22', 'admin', 4, '2010-08-15', 'Y', 'NODEP', 'A10', NULL, '2010-08-12 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', '', '40.00', 'BW'),
+	('23', 'admin', 5, '2010-08-15', 'Y', 'LORA-DEPT', 'A10', NULL, '2010-08-12 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', '', '40.00', 'BW'),
+	('24', 'admin', 6, '2010-01-01', 'Y', 'SHFT-DEPT', 'A10', NULL, '2010-08-12 16:00:13', 'A9225D4A-4871-4277-5638-4C7880A57621', '1', '', '40.00', 'BW');
 
 #
 # Departments
@@ -85,11 +85,11 @@ INSERT INTO `tk_assignment_t` (`TK_ASSIGNMENT_ID`,`PRINCIPAL_ID`,`JOB_NUMBER`,`E
 
 #
 # dept earn code
-DELETE FROM `hr_dept_earn_code_s`;
-INSERT INTO `hr_dept_earn_code_s` VALUES('1000');
-DELETE FROM `hr_dept_earn_code_t`;
-INSERT INTO `hr_dept_EARN_CODE_T`
-    (`hr_dept_EARN_CODE_ID` , `DEPT`       , `hr_sal_group` , `EARN_CODE` , `EMPLOYEE` , `APPROVER` , `ORG_ADMIN` , `EFFDT`      , `TIMESTAMP`           , `ACTIVE`) VALUES
+DELETE FROM `hr_earn_code_security_s`;
+INSERT INTO `hr_earn_code_security_s` VALUES('1000');
+DELETE FROM `hr_earn_code_security_t`;
+INSERT INTO `hr_earn_code_security_t`
+    (`hr_EARN_CODE_SECURITY_ID` , `DEPT`       , `hr_sal_group` , `EARN_CODE` , `EMPLOYEE` , `APPROVER` , `ORG_ADMIN` , `EFFDT`      , `TIMESTAMP`           , `ACTIVE`) VALUES
     ('1'                    , 'TEST-DEPT'  , 'SD1'          , 'RGH'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')               ,
     ('2'                    , 'TEST-DEPT'  , 'SD1'          , 'RGN'       , 1          , 1          , 1           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')               ,
     ('3'                    , 'INVALID'  	 , 'INVALID'      , 'INV'       , 0          , 1          , 0           , '2010-08-01' , '2010-01-01 08:08:08' , 'Y')       		,
@@ -114,37 +114,39 @@ INSERT INTO `hr_dept_EARN_CODE_T`
 DELETE FROM `hr_earn_code_s`;
 INSERT INTO `hr_earn_code_s` VALUES('1000');
 DELETE FROM `hr_earn_code_T`;
-INSERT INTO `hr_earn_code_T` (`hr_earn_code_ID`, `EARN_CODE`, `DESCR`, `RECORD_TIME`,`RECORD_HOURS`,`RECORD_AMOUNT`,`EFFDT`, `TIMESTAMP`, `ACTIVE`,`OVT_EARN_CODE`,`ACCRUAL_CATEGORY`) VALUES
-    ('1'  , 'SDR' , 'SHIFT DIFF'        , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
-    ('2'  , 'LUN' , 'LUNCH'             , '0','1','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
-	('3'  , 'OVT' , 'OVERTIME'          , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'Y',NULL) ,
-	('9'  , 'RGN' , 'REGULAR'           , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
-	('10' , 'RGH' , 'REGULAR HOURLY'    , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
-	('11' , 'SCK' , 'SICK'              , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
-	('12' , 'VAC' , 'VACATION'          , '0','1','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
-	('13' , 'WEP' , 'EMERGENCY'         , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
-	('14' , 'HAZ' , 'HAZARD DAY'        , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' ,'Y', 'N',NULL) ,
-	('15' , 'HIP' , 'HOLIDAY INCENTIVE' , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
-	('16' , 'OC1' , 'ON CALL - 1.50'    , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
-	('17' , 'OC2' , 'ON CALL - 2.00'    , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' ,'Y', 'N',NULL) ,
-	('18' , 'PRM' , 'PREMIUM'           , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
-	('19' , 'XYZ' , 'XYZ'               , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
-	('20' , 'XYY' , 'XYY'               , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
-	('21' , 'XZZ' , 'XZZ'               , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL) ,
-	('22' , 'TEX' , 'TEX'               , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N','TEX'),
-	('23' , 'ABC' , 'ABC'               , '1','0','0', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL);
+INSERT INTO `hr_earn_code_T` (`hr_earn_code_ID`, `EARN_CODE`, `DESCR`, `RECORD_METHOD`,`EFFDT`, `TIMESTAMP`, `ACTIVE`,`OVT_EARN_CODE`,`ACCRUAL_CATEGORY`,
+`FRACT_TIME_ALLOWD`, `ROUND_OPT`, `ELIGIBLE_FOR_ACC`, `AFFECT_PAY`, `ALLOW_SCHD_LEAVE`, `FMLA`, `WORKMANS_COMP`, `ALLOW_NEGATIVE_ACC_BALANCE`
+) VALUES
+    ('1'  , 'SDR' , 'SHIFT DIFF'        , 'H', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
+    ('2'  , 'LUN' , 'LUNCH'             , 'H', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
+	('3'  , 'OVT' , 'OVERTIME'          , 'H', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'Y',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
+	('4'  , 'RGN' , 'REGULAR'           , 'H', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
+	('10' , 'RGH' , 'REGULAR HOURLY'    , 'H', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
+	('11' , 'SCK' , 'SICK'              , 'H', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
+	('12' , 'VAC' , 'VACATION'          , 'H', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
+	('13' , 'WEP' , 'EMERGENCY'         , 'H', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
+	('14' , 'HAZ' , 'HAZARD DAY'        , 'H', '2010-01-01' , '2010-01-01 08:08:08' ,'Y', 'N',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
+	('15' , 'HIP' , 'HOLIDAY INCENTIVE' , 'H', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
+	('16' , 'OC1' , 'ON CALL - 1.50'    , 'H', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
+	('17' , 'OC2' , 'ON CALL - 2.00'    , 'H', '2010-01-01' , '2010-01-01 08:08:08' ,'Y', 'N',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
+	('18' , 'PRM' , 'PREMIUM'           , 'H', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
+	('19' , 'XYZ' , 'XYZ'               , 'H', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
+	('20' , 'XYY' , 'XYY'               , 'H', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
+	('21' , 'XZZ' , 'XZZ'               , 'H', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
+	('22' , 'TEX' , 'TEX'               , 'H', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N','TEX', '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y') ,
+	('23' , 'ABC' , 'ABC'               , 'H', '2010-01-01' , '2010-01-01 08:08:08' , 'Y', 'N',NULL, '99','T', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y');
 
 # Sal Group
 DELETE FROM `hr_sal_group_s`;
 INSERT INTO `hr_sal_group_S` (`ID`) VALUES ('1000');
 DELETE FROM `hr_sal_group_t`;
-INSERT INTO `hr_sal_group_t` (`hr_sal_group_ID`, `hr_sal_group`, `EFFDT`, `TIMESTAMP`, `ACTIVE`) VALUES
-    ('1',  'SD1', '2010-01-01', '2010-01-01 01:01:01' , 'Y'),
-    ('10', 'A10', '2010-01-01', '2010-01-01 08:08:08' , 'Y'),
-    ('11', 'S10', '2010-01-01', '2010-01-01 08:08:08' , 'Y'),
-    ('12', 'A12', '2010-01-01', '2010-01-01 08:08:08' , 'Y'),
-    ('13', 'S12', '2010-01-01', '2010-01-01 08:08:08' , 'Y'),
-    ('14', 'NOP', '2010-01-01', '2010-01-01 08:08:08' , 'Y');
+INSERT INTO `hr_sal_group_t` (`hr_sal_group_ID`, `hr_sal_group`, `EFFDT`, `TIMESTAMP`, `ACTIVE`, `OBJ_ID`) VALUES
+    ('1',  'SD1', '2010-01-01', '2010-01-01 01:01:01' , 'Y', UUID()),
+    ('10', 'A10', '2010-01-01', '2010-01-01 08:08:08' , 'Y', UUID()),
+    ('11', 'S10', '2010-01-01', '2010-01-01 08:08:08' , 'Y', UUID()),
+    ('12', 'A12', '2010-01-01', '2010-01-01 08:08:08' , 'Y', UUID()),
+    ('13', 'S12', '2010-01-01', '2010-01-01 08:08:08' , 'Y', UUID()),
+    ('14', 'NOP', '2010-01-01', '2010-01-01 08:08:08' , 'Y', UUID());
 
 # HR Pay Types
 DELETE FROM `hr_paytype_s`;
@@ -155,10 +157,10 @@ INSERT INTO `hr_paytype_t` (`HR_PAYTYPE_ID`,`PAYTYPE`,`DESCR`,`REG_ERN_CODE`,`EF
 	('2', 'BW', 'description', 'RGN', '2010-01-01', '2010-01-01 16:01:07', '47326FEA-46E7-7D89-0B13-85DFA45EA8C1', '1','Y');
 
 
-DELETE FROM `hr_earn_group_s`;
-INSERT INTO `hr_earn_group_s` VALUES ('1000');
-DELETE FROM `hr_earn_group_t`;
-INSERT INTO `hr_earn_group_t` (`hr_earn_group_id`,`earn_group`,`descr`,`effdt`,`active`,`OBJ_ID`,`VER_NBR`,`timestamp`) VALUES
+DELETE FROM `hr_earn_code_group_s`;
+INSERT INTO `hr_earn_code_group_s` VALUES ('1000');
+DELETE FROM `hr_earn_code_group_t`;
+INSERT INTO `hr_earn_code_group_t` (`hr_earn_code_group_id`,`earn_code_group`,`descr`,`effdt`,`active`,`OBJ_ID`,`VER_NBR`,`timestamp`) VALUES
   ('1','SD1','Test SD1', '2010-01-01', 'Y', '', 1, '2010-01-01 01:01:01'),
   ('2','SD2','Test SD2', '2010-01-01', 'Y', '', 1, '2010-01-01 01:01:01'),
   ('3','SD3','Test SD3', '2010-01-01', 'Y', '', 1, '2010-01-01 01:01:01'),
@@ -168,10 +170,10 @@ INSERT INTO `hr_earn_group_t` (`hr_earn_group_id`,`earn_group`,`descr`,`effdt`,`
 	('103','TC2','Regular', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97','20','2010-07-27 10:25:13' ),
 	('104','TC3','Regular', '2010-01-01','Y','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97','20','2010-07-27 10:25:13' );
 
-DELETE FROM `hr_earn_group_def_s`;
-INSERT INTO `hr_earn_group_def_s` VALUES ('1000');
-DELETE FROM `hr_earn_group_def_t`;
-INSERT INTO `hr_earn_group_def_t` (`hr_earn_group_def_id`, `hr_earn_group_id`,`earn_code`,`OBJ_ID`,`VER_NBR`) VALUES
+DELETE FROM `hr_earn_code_group_def_s`;
+INSERT INTO `hr_earn_code_group_def_s` VALUES ('1000');
+DELETE FROM `hr_earn_code_group_def_t`;
+INSERT INTO `hr_earn_code_group_def_t` (`hr_earn_code_group_def_id`, `hr_earn_code_group_id`,`earn_code`,`OBJ_ID`,`VER_NBR`) VALUES
   (  '1',  '1','REG','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1),
   (  '2',  '1','RGN','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1),
   (  '3',  '2','ABC', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97',1),
@@ -188,7 +190,6 @@ DELETE FROM `hr_roles_s`;
 INSERT INTO `hr_roles_s` VALUES ('1000');
 DELETE FROM `hr_roles_t`;
 INSERT INTO `hr_roles_t` (`hr_roles_ID`, `PRINCIPAL_ID`, `ROLE_NAME`, `USER_PRINCIPAL_ID`, `WORK_AREA`, `DEPT`, `EFFDT`, `TIMESTAMP`, `ACTIVE`) VALUES
-    ('1', 'admin', 'TK_APPROVER', 'admin', '999', NULL, '2010-08-01', '2010-08-01 15:10:57', 'Y'),
     ('2', 'admin', 'TK_APPROVER', 'admin', '999', NULL, '2010-08-10', '2010-08-10 15:10:57', 'Y'),
     ('3', 'admin', 'TK_APPROVER', 'admin', '999', NULL, '2010-08-20', '2010-08-20 15:10:57', 'Y'),
     ('4', 'admin', 'TK_APPROVER', 'admin', '999', NULL, '2010-08-20', '2010-08-20 15:11:57', 'Y'),
@@ -294,16 +295,6 @@ DELETE FROM `HR_WORK_SCHEDULE_S`;
 INSERT INTO `HR_WORK_SCHEDULE_S` (`ID`) VALUES (1000);
 
 
-DELETE FROM `HR_WORK_SCHEDULE_T`;
-#insert into hr_work_schedule_t values('1','test-schedule','2010-01-01','TEST-DEPT','1234','admin','Y',uuid(),1,now());
-#insert into hr_work_schedule_t values('2','test-schedule','2010-01-01','TEST-DEPT','-1','admin','Y',uuid(),1,now());
-#insert into hr_work_schedule_t values('3','test-schedule','2010-01-01','%','-1','admin','Y',uuid(),1,now());
-#insert into hr_work_schedule_t values('4','test-schedule','2010-01-01','TEST-DEPT','1234','%','Y',uuid(),1,now());
-#insert into hr_work_schedule_t values('5','test-schedule','2010-01-01','%','-1','%','Y',uuid(),1,now());
-#insert into hr_work_schedule_t values('11','test-schedule','2010-01-01','INVALID','1234','%','Y',uuid(),1,now());
-#insert into hr_work_schedule_t values('12','test-schedule','2010-01-01','TEST-DEPT','-1','%','Y',uuid(),1,now());
-
-
 DELETE FROM `tk_time_collection_rl_s`;
 INSERT INTO `tk_time_collection_rl_s` VALUES('1000');
 DELETE FROM `tk_time_collection_rl_t`;
@@ -325,13 +316,12 @@ INSERT INTO `tk_dept_lunch_rl_t` (`tk_dept_LUNCH_RL_ID`,`DEPT`,`WORK_AREA`, `PRI
   ('2','TEST-DEPT','1234','admin','20','2010-01-01','TST', '30', 'admin', '2010-01-01 08:08:08', 'Y', '2', '30','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97') ,
   ('3','TEST-DEPT','9999','admin','20','2010-01-01','TST', '30', 'admin', '2010-01-01 08:08:08', 'Y', '2', '30','7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97') ;
 
-DELETE FROM `hr_holiday_calendar_t`;
-INSERT INTO `hr_holiday_calendar_T` (`HR_HOLIDAY_CALENDAR_ID`,`HOLIDAY_CALENDAR_GROUP`,`DESCR`) VALUES
-  (1,'REG', "Regular");
+DELETE FROM `lm_accrual_category_s`;
+INSERT INTO `lm_accrual_category_s` VALUES ('1000');
 
 DELETE FROM `lm_accrual_category_t`;
 INSERT INTO `lm_accrual_category_t` (`LM_ACCRUAL_CATEGORY_ID`,`ACCRUAL_CATEGORY`,`LEAVE_PLAN`,`DESCR`,`ACCRUAL_INTERVAL_EARN`,`UNIT_OF_TIME`,
-									 `EFFDT`,`OBJ_ID`,`VER_NBR`,`PRORATION`,`DONATION`,`SHOW_ON_GRID`,`ACTIVE`,`TIMESTAMP`,`MIN_PERCENT_WORKED`,`LEAVE_CODE`,`HAS_RULES`)
+									 `EFFDT`,`OBJ_ID`,`VER_NBR`,`PRORATION`,`DONATION`,`SHOW_ON_GRID`,`ACTIVE`,`TIMESTAMP`,`MIN_PERCENT_WORKED`,`EARN_CODE`,`HAS_RULES`)
 VALUES (1,'TEX','TST','Tex accrual cat','D','days','2010-01-01',uuid(),1,'Y','N','N','Y',now(),0,'LC-DEFAULT','Y');
 
 DELETE FROM `lm_accruals_t`;
@@ -344,9 +334,14 @@ INSERT INTO `tk_time_block_s` VALUES ('1000');
 DELETE FROM `tk_hour_detail_s`;
 INSERT INTO `tk_hour_detail_s` VALUES ('1000');
 
+DELETE FROM `hr_principal_attribute_s`;
+INSERT INTO `hr_principal_attribute_s` VALUES ('1000');
+
 delete from hr_principal_attributes_t;
-insert into hr_principal_attributes_t values('admin', 'BWS-CAL', NULL, '2010-01-01', 'Y', 'Y', 'America/Chicago', '2010-01-01', now(), uuid(), 1, 'Y', NULL, 'Y', 'LM');
-insert into hr_principal_attributes_t values('eric', 'BW-CAL1', NULL, '2010-01-01', 'Y', 'Y',  'America/Chicago', '2010-01-01', now(), uuid(), 1, 'Y', NULL, 'Y', 'LM');
+insert into hr_principal_attributes_t (`hr_principal_attribute_id`, `principal_id`, `pay_calendar`, `leave_plan`, `service_date`, `fmla_eligible`, `worksman_eligible`, `timezone`, `EFFDT`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`, `active`, `leave_calendar`, `record_time`, `record_leave`) VALUES
+    ('1', 'admin', 'BWS-CAL', NULL, '2010-01-01', 'Y', 'Y', 'America/Chicago', '2010-01-01', now(), uuid(), 1, 'Y', NULL, 'Y', 'LM');
+insert into hr_principal_attributes_t (`hr_principal_attribute_id`, `principal_id`, `pay_calendar`, `leave_plan`, `service_date`, `fmla_eligible`, `worksman_eligible`, `timezone`, `EFFDT`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`, `active`, `leave_calendar`, `record_time`, `record_leave`) VALUES
+    ('2', 'eric', 'BW-CAL1', NULL, '2010-01-01', 'Y', 'Y',  'America/Chicago', '2010-01-01', now(), uuid(), 1, 'Y', NULL, 'Y', 'LM');
 
 delete from tk_system_lunch_rl_t;
 insert into tk_system_lunch_rl_t (`TK_SYSTEM_LUNCH_RL_ID`,`EFFDT`,`ACTIVE`,`USER_PRINCIPAL_ID`,`SHOW_LUNCH_BUTTON`) values

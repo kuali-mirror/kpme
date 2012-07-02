@@ -115,4 +115,8 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 		
 		return null;
 	}
+	
+    public List <AccrualCategory> getActiveAccrualCategoriesForLeavePlan(String leavePlan, Date asOfDate) {
+    	return accrualCategoryDao.getActiveAccrualCategories(leavePlan, asOfDate);
+    }
 }

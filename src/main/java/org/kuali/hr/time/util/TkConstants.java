@@ -15,6 +15,7 @@ import java.util.TimeZone;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.rice.kew.api.KewApiConstants;
 
 public class TkConstants {
@@ -46,12 +47,13 @@ public class TkConstants {
     public static final String MODIFIED = "MODIFIED";
 
     // earn code type
-    public static final String EARN_CODE_HOUR = "HOUR";
-    public static final String EARN_CODE_TIME = "TIME";
-    public static final String EARN_CODE_AMOUNT = "AMOUNT";
+    public static final String EARN_CODE_HOUR = "H";
+    public static final String EARN_CODE_TIME = "T";
+    public static final String EARN_CODE_AMOUNT = "A";
     public static final String EARN_CODE_OVT = "OVT";
     public static final String EARN_CODE_CPE = "CPE";
-
+    public static final String EARN_CODE_DAY = "D";
+    
     public static final String GMT_TIME_ZONE_ID = "Etc/GMT";
     public static final TimeZone GMT_TIME_ZONE = TimeZone.getTimeZone(GMT_TIME_ZONE_ID);
     public static final String SYSTEM_TIME_ZONE = "America/Indianapolis";
@@ -355,8 +357,8 @@ public class TkConstants {
         public static final Map<String, String> MAX_BAL_FLAG = new LinkedHashMap<String, String>(2);
 
         static {
-        	MAX_BAL_FLAG.put("Y", "Required");
-        	MAX_BAL_FLAG.put("N", "Not Required");
+        	MAX_BAL_FLAG.put("Y", "Yes");
+        	MAX_BAL_FLAG.put("N", "No");
         }
         
         public static final Map<String, String> MAX_BALANCE_ACTION_FREQUENCY = new LinkedHashMap<String, String>(3);
@@ -395,4 +397,17 @@ public class TkConstants {
         }
 
     public static final String DAILY_OVT_CODE = "DOT";
+    
+    public static final Map<String, Set<String>> CLASS_INQUIRY_KEY_MAP = new HashMap<String, Set<String>>(4);
+
+    static {
+        Set<String> keys = new HashSet<String>();
+        keys.add("leavePlan");
+        keys.add("effectiveDate");
+
+        CLASS_INQUIRY_KEY_MAP.put(LeavePlan.class.getName(), keys);
+    }
+
+    public static final String FLSA_STATUS_NON_EXEMPT ="NE";
+    public static final String FLSA_STATUS_EXEMPT ="E";
 }

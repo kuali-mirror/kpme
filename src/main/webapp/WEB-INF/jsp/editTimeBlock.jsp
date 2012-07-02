@@ -92,7 +92,7 @@
 							<td>
 								<input name="etRow1" id="etRow1" size="10" >
 								<input type="button" style="width: 20px; height: 23px;" id="endTimeHelp1" value="?"
-									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530">
+									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 15:30, 2:30">
 									
 							</td>
 							<td>
@@ -125,7 +125,7 @@
 							<td>
 								<input name="btRow2" id="btRow2" size="10">
 								<input type="button" style="width: 20px; height: 23px;" id="beginTimeHelp1" value="?"
-									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530">
+									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 15:30, 2:30">
 							</td>
 							<td>
 								<input type="text" name="edRow2" id="edRow2" size="10" value="${Form.currentTimeBlock.endTimeDisplayDateOnlyString }" />
@@ -133,7 +133,7 @@
 							<td>
 								<input name="etRow2" id="etRow2" size="10" value="${Form.currentTimeBlock.endTimeDisplayTimeOnlyString}" />
 								<input type="button" style="width: 20px; height: 23px;" id="endTimeHelp1" value="?"
-									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 0900, 15:30, 1530">
+									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 15:30, 2:30">
 							</td>
 							<td>
 								<input name="hrRow2" id="hrRow2" size="5" readonly="" >

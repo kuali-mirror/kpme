@@ -52,9 +52,12 @@ public class LeaveCalendarWebTest extends TkTestCase {
 	
 		
 		// Check for next document
-//		HtmlButton nextButton = (HtmlButton) leaveCalendarPage
-//				.getElementById("nav_next_lc");
-//		assertNotNull(nextButton);
+		HtmlButton nextButton = (HtmlButton) leaveCalendarPage
+				.getElementById("nav_next_lc");
+		Assert.assertNotNull(nextButton);
+		HtmlPage page = nextButton.click();
+		
+		Assert.assertNotNull(page);
 
 	}
 

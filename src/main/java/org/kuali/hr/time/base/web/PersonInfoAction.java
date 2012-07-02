@@ -1,18 +1,11 @@
 package org.kuali.hr.time.base.web;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -21,6 +14,13 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class PersonInfoAction extends TkAction {
 
@@ -43,6 +43,15 @@ public class PersonInfoAction extends TkAction {
 		// set name
 		personForm.setName(person.getName());
 		personForm.setJobs(TkServiceLocator.getJobSerivce().getJobs(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate()));
+		
+		//KPME-1441
+		PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(personForm.getPrincipalId(), TKUtils.getCurrentDate());
+		if ( principalHRAttributes != null && principalHRAttributes.getServiceDate() != null ){
+			personForm.setServiceDate(principalHRAttributes.getServiceDate().toString());
+		} else {
+			personForm.setServiceDate("");
+		}
+		// KPME-1441
 		
 		setupRolesOnForm(personForm);
 
@@ -75,7 +84,7 @@ public class PersonInfoAction extends TkAction {
 	}
 	
 	private void setupRolesOnForm(PersonInfoActionForm paForm){
-		UserRoles roles = TKContext.getUser().getCurrentRoles();
+		UserRoles roles = TKContext.getUser().getCurrentTargetRoles();
 		for(Long waApprover : roles.getApproverWorkAreas()){
 			paForm.getApproverWorkAreas().add(waApprover);
 		}

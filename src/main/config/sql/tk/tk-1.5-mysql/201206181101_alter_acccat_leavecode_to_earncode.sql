@@ -1,0 +1,3 @@
+ALTER TABLE lm_accrual_category_t CHANGE LEAVE_CODE EARN_CODE varchar(15) NOT NULL;
+ALTER TABLE lm_accrual_category_rules_t CHANGE MAX_PAYOUT_LEAVE_CODE MAX_PAYOUT_EARN_CODE varchar(15) DEFAULT NULL;
+

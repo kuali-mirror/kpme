@@ -1,5 +1,6 @@
 package org.kuali.hr.time.admin.web;
 
+import java.sql.Date;
 import org.kuali.hr.time.base.web.TkForm;
 import org.kuali.hr.time.util.TKUser;
 
@@ -14,8 +15,36 @@ public class AdminActionForm extends TkForm {
     private String documentId;
     private String targetUrl;
     private String returnUrl;
+    private String accrualPrincipalId;
 
-    public String getReturnUrl() {
+    private String formStartDate;
+	private String formEndDate;
+	
+    public String getFormStartDate() {
+		return formStartDate;
+	}
+
+	public void setFormStartDate(String formStartDate) {
+		this.formStartDate = formStartDate;
+	}
+
+	public String getFormEndDate() {
+		return formEndDate;
+	}
+
+	public void setFormEndDate(String formEndDate) {
+		this.formEndDate = formEndDate;
+	}
+
+    public String getAccrualPrincipalId() {
+		return accrualPrincipalId;
+	}
+
+	public void setAccrualPrincipalId(String accrualPrincipalId) {
+		this.accrualPrincipalId = accrualPrincipalId;
+	}
+
+	public String getReturnUrl() {
         return returnUrl;
     }
 

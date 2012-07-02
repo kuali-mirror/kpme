@@ -13,7 +13,16 @@ public class LeaveBlockDisplayForm extends TkForm {
 	private List<LeaveBlock> leaveEntries;
 	private List<LeaveBlockHistory> correctedLeaveEntries;
 	private List<LeaveBlockHistory> inActiveLeaveEntries;
+	private String targetName;
 	
+	public String getTargetName() {
+		return targetName;
+	}
+
+	public void setTargetName(String targetName) {
+		this.targetName = targetName;
+	}
+
 	public List<LeaveBlockHistory> getInActiveLeaveEntries() {
 		return inActiveLeaveEntries;
 	}

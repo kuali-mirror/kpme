@@ -1,5 +1,6 @@
 package org.kuali.hr.lm.accrual;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,10 @@ import org.kuali.hr.job.Job;
 public class RateRange {
 	private Interval range;
 	private List<Job> jobs = new ArrayList<Job>();
-	private double accrualRatePercentageModifier = 1.0;
+	private BigDecimal accrualRatePercentageModifier = new BigDecimal("1.0");
+	private BigDecimal standardHours;
+	
+	private boolean statusChanged;
 	
 	public Interval getRange() {
 		return range;
@@ -23,11 +27,23 @@ public class RateRange {
 	public void setJobs(List<Job> jobs) {
 		this.jobs = jobs;
 	}
-	public double getAccrualRatePercentageModifier() {
+	public BigDecimal getAccrualRatePercentageModifier() {
 		return accrualRatePercentageModifier;
 	}
 	public void setAccrualRatePercentageModifier(
-			double accrualRatePercentageModifier) {
+			BigDecimal accrualRatePercentageModifier) {
 		this.accrualRatePercentageModifier = accrualRatePercentageModifier;
+	}
+	public boolean isStatusChanged() {
+		return statusChanged;
+	}
+	public void setStatusChanged(boolean statusChanged) {
+		this.statusChanged = statusChanged;
+	}
+	public BigDecimal getStandardHours() {
+		return standardHours;
+	}
+	public void setStandardHours(BigDecimal standardHours) {
+		this.standardHours = standardHours;
 	}
 }

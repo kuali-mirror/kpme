@@ -34,8 +34,8 @@
         <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="leavePlan" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="descr" />
-      	<bean parent="MaintainableFieldDefinition" p:name="planningMonths" />
-      	<bean parent="MaintainableFieldDefinition" p:name="calendarYearStart" />
+      	<bean parent="MaintainableFieldDefinition" p:name="planningMonths" p:required="true"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="calendarYearStart" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />
       </list>
     </property>

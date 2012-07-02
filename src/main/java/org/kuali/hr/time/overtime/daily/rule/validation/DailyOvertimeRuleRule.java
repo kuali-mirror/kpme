@@ -1,14 +1,10 @@
 package org.kuali.hr.time.overtime.daily.rule.validation;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.PersistenceBrokerFactory;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
-import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -24,12 +20,7 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 					+ ruleObj.getWorkArea() + "'");
 			valid = false;
 		} else if (!ruleObj.getWorkArea().equals(TkConstants.WILDCARD_LONG)) {
-			Criteria crit = new Criteria();
-			crit.addEqualTo("dept", ruleObj.getDept());
-			crit.addEqualTo("workArea", ruleObj.getWorkArea());
-			Query query = QueryFactory.newQuery(WorkArea.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker()
-					.getCount(query);
+			int count= TkServiceLocator.getWorkAreaService().getWorkAreaCount(ruleObj.getDept(), ruleObj.getWorkArea());
 			valid = (count > 0);
 			if (!valid) {
 				this.putFieldError("workArea", "dept.workarea.invalid.sync",
@@ -78,7 +69,7 @@ public class DailyOvertimeRuleRule extends MaintenanceDocumentRuleBase {
 						.getFromEarnGroup(), dailyOvertimeRule
 						.getEffectiveDate())) {
 			this.putFieldError("fromEarnGroup", "error.existence",
-					"from EarnGroup '" + dailyOvertimeRule.getFromEarnGroup()
+					"from EarnCodeGroup '" + dailyOvertimeRule.getFromEarnGroup()
 							+ "'");
 			return false;
 		}

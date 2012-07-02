@@ -9,6 +9,7 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -136,6 +137,15 @@ public class TimeBlockDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imple
         }
 
         return timeBlocks;
+    }
+    
+    @SuppressWarnings("unchecked")
+	@Override
+    public List<TimeBlock> getTimeBlocksWithEarnCode(String earnCode, Date effDate) {
+    	 Criteria root = new Criteria();
+         root.addEqualTo("earnCode", earnCode);
+         root.addGreaterOrEqualThan("beginTimestamp", effDate);
+         return (List<TimeBlock>) this.getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(TimeBlock.class, root));
     }
 
 }

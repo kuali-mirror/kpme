@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.rice.kim.api.identity.Person;
 
 public class LeaveDonation extends HrBusinessObject {
@@ -25,9 +26,38 @@ public class LeaveDonation extends HrBusinessObject {
 	private Boolean history;
 	
 	private AccrualCategory accrualCategoryObj;
+	
 	private Person personObj;
 
+	private EarnCode earnCodeObj;
 	
+	private String donatedEarnCode;
+	private String recipientsEarnCode;
+
+	public EarnCode getEarnCodeObj() {
+		return earnCodeObj;
+	}
+
+	public void setEarnCodeObj(EarnCode earnCodeObj) {
+		this.earnCodeObj = earnCodeObj;
+	}
+
+	public String getDonatedEarnCode() {
+		return donatedEarnCode;
+	}
+
+	public void setDonatedEarnCode(String donatedEarnCode) {
+		this.donatedEarnCode = donatedEarnCode;
+	}
+
+	public String getRecipientsEarnCode() {
+		return recipientsEarnCode;
+	}
+
+	public void setRecipientsEarnCode(String recipientsEarnCode) {
+		this.recipientsEarnCode = recipientsEarnCode;
+	}
+
 	public String getLmLeaveDonationId() {
 		return lmLeaveDonationId;
 	}

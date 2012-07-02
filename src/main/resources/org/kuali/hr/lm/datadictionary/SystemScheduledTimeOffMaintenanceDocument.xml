@@ -44,7 +44,7 @@
 					p:required="true" p:noLookup="true"/>
 				<bean parent="MaintainableFieldDefinition" p:name="accrualCategory"
 					p:required="true" p:noLookup="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="leaveCode"
+				<bean parent="MaintainableFieldDefinition" p:name="earnCode"
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="accruedDate"
 					p:required="true" />
@@ -57,7 +57,7 @@
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="unusedTime"/>
 				<bean parent="MaintainableFieldDefinition" p:name="transferConversionFactor" />
-				<bean parent="MaintainableFieldDefinition" p:name="transfertoLeaveCode" />
+				<bean parent="MaintainableFieldDefinition" p:name="transfertoEarnCode" />
 				<bean parent="MaintainableFieldDefinition" p:name="expirationDate" />
 				<bean parent="MaintainableFieldDefinition" p:name="premiumHoliday"
 					p:required="true" p:defaultValue="N" />

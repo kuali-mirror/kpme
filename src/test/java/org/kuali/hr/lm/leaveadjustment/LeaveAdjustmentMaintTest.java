@@ -19,7 +19,7 @@ public class LeaveAdjustmentMaintTest extends TkTestCase{
 	private static final String EFFECTIVE_DATE_REQUIRED = "Effective Date (Effective Date) is a required field.";
 	private static final String PRINCIPAL_ID_REQUIRED = "Principal Id (Principal Id) is a required field.";
 	private static final String LEAVE_PLAN_REQUIRED = "Leave Plan (Leave Plan) is a required field.";
-	private static final String LEAVE_CODE_REQUIRED = "Leave Code (Leave Code) is a required field.";
+	private static final String EARN_CODE_REQUIRED = "Earn Code (Earn Code) is a required field.";
 	private static final String ACCRUAL_CATEGORY_REQUIRED = "Accrual Category (Accrual Category) is a required field.";
 	private static final String DES_REQUIRED = "Description (Description) is a required field.";
 	private static final String ADJUSTMENT_AMOUNT_REQUIRED = "Adjustment Amount (Adjustment Amount) is a required field.";
@@ -42,7 +42,7 @@ public class LeaveAdjustmentMaintTest extends TkTestCase{
 	  	Assert.assertTrue("page text does not contain:\n" + PRINCIPAL_ID_REQUIRED, page.asText().contains(PRINCIPAL_ID_REQUIRED));
 	  	Assert.assertTrue("page text does not contain:\n" + LEAVE_PLAN_REQUIRED, page.asText().contains(LEAVE_PLAN_REQUIRED));
 	  	Assert.assertTrue("page text does not contain:\n" + ACCRUAL_CATEGORY_REQUIRED, page.asText().contains(ACCRUAL_CATEGORY_REQUIRED));
-	  	Assert.assertTrue("page text does not contain:\n" + LEAVE_CODE_REQUIRED, page.asText().contains(LEAVE_CODE_REQUIRED));
+	  	Assert.assertTrue("page text does not contain:\n" + EARN_CODE_REQUIRED, page.asText().contains(EARN_CODE_REQUIRED));
 	  	Assert.assertTrue("page text does not contain:\n" + DES_REQUIRED, page.asText().contains(DES_REQUIRED));
 	    setFieldValue(page, "document.newMaintainableObject.adjustmentAmount", "");
 	    element = page.getElementByName("methodToCall.route");
@@ -73,7 +73,7 @@ public class LeaveAdjustmentMaintTest extends TkTestCase{
 	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", "04/01/2012");
 	    setFieldValue(page, "document.newMaintainableObject.principalId", "admin");
 	    setFieldValue(page, "document.newMaintainableObject.accrualCategory", "myAC");	//nonexist accrual catetory
-	    setFieldValue(page, "document.newMaintainableObject.leaveCode", "myLC");	//nonexist leave Code
+	    setFieldValue(page, "document.newMaintainableObject.earnCode", "myLC");	//nonexist leave Code
 	  	
 	  	HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
 	  	Assert.assertNotNull("Could not locate submit button", input);
@@ -83,7 +83,7 @@ public class LeaveAdjustmentMaintTest extends TkTestCase{
 	  	Assert.assertTrue("page text contains:\n" + "'myAC' does not exist", page.asText().contains("'myAC' does not exist"));
 	  	  	
 	  	setFieldValue(page, "document.newMaintainableObject.accrualCategory", "AC1"); // existing accrual category
-	  	setFieldValue(page, "document.newMaintainableObject.leaveCode", "testLC");
+	  	setFieldValue(page, "document.newMaintainableObject.earnCode", "testLC");
 	  	element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
 	  	Assert.assertFalse("page text contains:\n" + "'AC1' does not exist", page.asText().contains("'AC1' does not exist"));

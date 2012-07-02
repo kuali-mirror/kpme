@@ -63,8 +63,8 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 		// Iterate over each Weekly Overtime Rule (We have to grab them all to see if they apply)
 		for (WeeklyOvertimeRule wor : weeklyOvertimeRules) {
 			// Grab all the earn codes for the convert from max hours group
-			Set<String> maxHoursEarnCodes = TkServiceLocator.getEarnGroupService().getEarnCodeListForEarnGroup(wor.getMaxHoursEarnGroup(), asOfDate);
-			Set<String> convertFromEarnCodes = TkServiceLocator.getEarnGroupService().getEarnCodeListForEarnGroup(wor.getConvertFromEarnGroup(), asOfDate);
+			Set<String> maxHoursEarnCodes = TkServiceLocator.getEarnCodeGroupService().getEarnCodeListForEarnCodeGroup(wor.getMaxHoursEarnGroup(), asOfDate);
+			Set<String> convertFromEarnCodes = TkServiceLocator.getEarnCodeGroupService().getEarnCodeListForEarnCodeGroup(wor.getConvertFromEarnGroup(), asOfDate);
 
 			// Iterate over the weeks for this Pay Period (FLSA)
 			//
@@ -197,13 +197,13 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 
 
 				EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(otEarnCode, block.getEndDate());
-				BigDecimal hrs = earnCodeObj.getInflateFactor().multiply(applied, TkConstants.MATH_CONTEXT).setScale(TkConstants.BIG_DECIMAL_SCALE);
+				BigDecimal hrs = earnCodeObj.getInflateFactor().multiply(applied, TkConstants.MATH_CONTEXT).setScale(TkConstants.BIG_DECIMAL_SCALE,BigDecimal.ROUND_HALF_UP);
 				timeHourDetail.setEarnCode(otEarnCode);
 				timeHourDetail.setHours(hrs);
 				timeHourDetail.setTkTimeBlockId(block.getTkTimeBlockId());
 
 				// Decrement existing matched FROM earn code.
-				detail.setHours(detail.getHours().subtract(applied, TkConstants.MATH_CONTEXT).setScale(TkConstants.BIG_DECIMAL_SCALE));
+				detail.setHours(detail.getHours().subtract(applied, TkConstants.MATH_CONTEXT).setScale(TkConstants.BIG_DECIMAL_SCALE,BigDecimal.ROUND_HALF_UP));
 				addDetails.add(timeHourDetail);
 			}
 		}

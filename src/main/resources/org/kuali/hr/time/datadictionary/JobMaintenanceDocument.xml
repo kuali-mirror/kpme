@@ -43,8 +43,10 @@
         <bean parent="MaintainableFieldDefinition" p:name="payGrade" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="compRate" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="standardHours" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="fte" p:unconditionallyReadOnly="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="eligibleForLeave" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="primaryIndicator" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="flsaStatus" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true"/>
       </list>
     </property>

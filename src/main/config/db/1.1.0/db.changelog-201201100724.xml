@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    
+    <changeSet id="1" author="lee55" context="bootstrap">
+        <delete tableName="hr_roles_s" />
+    </changeSet>
+    <changeSet id="2" author="lee55" context="bootstrap">
+        <delete tableName="hr_roles_t" />
+    </changeSet>
+    <changeSet id="3" author="lee55" context="bootstrap">
+        <delete tableName="qrtz_locks" />
+    </changeSet>
+    <changeSet id="4" author="lee55" context="test,staging,demo">
+        <insert tableName="hr_roles_s">
+            <column name="id" valueNumeric="1"/>
+        </insert>
+    </changeSet>
+    <changeSet id="5" author="lee55" context="test,staging,demo">
+        <insert tableName="hr_roles_t">
+            <column name="hr_roles_id" valueNumeric="1"/>
+            <column name="principal_id" value="admin"/>
+            <column name="role_name" value="TK_SYS_ADMIN"/>
+            <column name="user_principal_id" value="admin"/>
+            <column name="effdt" valueDate="2010-01-01"/>
+            <column name="timestamp" valueDate="2011-07-07T07:29:46.0"/>
+            <column name="active" value="Y"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

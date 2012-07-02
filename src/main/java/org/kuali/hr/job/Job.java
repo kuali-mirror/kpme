@@ -56,9 +56,35 @@ public class Job extends HrBusinessObject {
     private PayGrade payGradeObj;
     private SalGroup salGroupObj;
     private Position positionObj;
+    
+    private BigDecimal fte = new BigDecimal(0); //kpme1465, chen
+    private String flsaStatus;
+    
+	public String getFlsaStatus() {
+		return flsaStatus;
+	}
 
-    
-    
+	public void setFlsaStatus(String flsaStatus) {
+		this.flsaStatus = flsaStatus;
+	}
+
+	public BigDecimal getFte() {
+		if ( this.standardHours != null ) {
+			return this.standardHours.divide(new BigDecimal(40)).setScale(2);
+		} else {
+			return fte;
+		}
+	}
+
+	public void setFte() {
+		if ( this.standardHours != null ) {
+			this.fte = this.standardHours.divide(new BigDecimal(40)).setScale(2);
+		} else {
+			this.fte = new BigDecimal(0).setScale(2);
+		}
+	}
+
+
 //	@SuppressWarnings({ "rawtypes" })
 //	@Override
 //	protected LinkedHashMap toStringMapper() {

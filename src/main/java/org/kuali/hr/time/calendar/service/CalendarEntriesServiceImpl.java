@@ -1,39 +1,40 @@
 package org.kuali.hr.time.calendar.service;
 
-import java.util.Date;
-import java.util.List;
-
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.dao.CalendarEntriesDao;
 import org.kuali.hr.time.util.TkConstants;
 
+import java.util.Date;
+import java.util.List;
+
 public class CalendarEntriesServiceImpl implements CalendarEntriesService {
 
-	private CalendarEntriesDao calendarEntriesDao;
+    private CalendarEntriesDao calendarEntriesDao;
 
-	public void setCalendarEntriesDao(CalendarEntriesDao calendarEntriesDao) {
-		this.calendarEntriesDao = calendarEntriesDao;
-	}
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public CalendarEntries getCalendarEntries(String hrCalendarEntriesId) {
+    public void setCalendarEntriesDao(CalendarEntriesDao calendarEntriesDao) {
+        this.calendarEntriesDao = calendarEntriesDao;
+    }
 
-		return calendarEntriesDao.getCalendarEntries(hrCalendarEntriesId);
-	}
+    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
+    public CalendarEntries getCalendarEntries(String hrCalendarEntriesId) {
+
+        return calendarEntriesDao.getCalendarEntries(hrCalendarEntriesId);
+    }
 
     @Override
-    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
+    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public CalendarEntries getCalendarEntriesByIdAndPeriodEndDate(String hrCalendarId, Date endPeriodDate) {
         return calendarEntriesDao.getCalendarEntriesByIdAndPeriodEndDate(hrCalendarId, endPeriodDate);
     }
 
-	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public CalendarEntries getCurrentCalendarEntriesByCalendarId(
-			String hrCalendarId, Date currentDate) {
-		return calendarEntriesDao.getCurrentCalendarEntriesByCalendarId(hrCalendarId, currentDate);
-	}
+    @Override
+    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
+    public CalendarEntries getCurrentCalendarEntriesByCalendarId(
+            String hrCalendarId, Date currentDate) {
+        return calendarEntriesDao.getCurrentCalendarEntriesByCalendarId(hrCalendarId, currentDate);
+    }
 
     @Override
     public CalendarEntries getPreviousCalendarEntriesByCalendarId(String hrCalendarId, CalendarEntries pce) {
@@ -44,22 +45,40 @@ public class CalendarEntriesServiceImpl implements CalendarEntriesService {
     public CalendarEntries getNextCalendarEntriesByCalendarId(String hrCalendarId, CalendarEntries pce) {
         return calendarEntriesDao.getNextCalendarEntriesByCalendarId(hrCalendarId, pce);
     }
-    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-    public List<CalendarEntries> getCurrentCalendarEntryNeedsScheduled(int thresholdDays, Date asOfDate){
-		return calendarEntriesDao.getCurrentCalendarEntryNeedsScheduled(thresholdDays, asOfDate);
-	}
-    
-    @Override
-    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-    public void createNextCalendarEntry(CalendarEntries calendarEntries){
-		calendarEntries.setHrCalendarEntriesId(null);
-		calendarEntries.setBeginPeriodDateTime(DateUtils.addDays(calendarEntries.getBeginPeriodDateTime(), 14));
-		calendarEntries.setEndPeriodDateTime(DateUtils.addDays(calendarEntries.getEndPeriodDateTime(), 14));
-		calendarEntries.setBatchInitiateDate(new java.sql.Date(DateUtils.addDays(calendarEntries.getBatchInitiateDate(), 14).getTime()));
-		calendarEntries.setBatchEndPayPeriodDate(new java.sql.Date(DateUtils.addDays(calendarEntries.getBatchEndPayPeriodDate(), 14).getTime()));
-		calendarEntries.setBatchEmployeeApprovalDate(new java.sql.Date(DateUtils.addDays(calendarEntries.getBatchEmployeeApprovalDate(), 14).getTime()));
-		calendarEntries.setBatchSupervisorApprovalDate(new java.sql.Date(DateUtils.addDays(calendarEntries.getBatchSupervisorApprovalDate(), 14).getTime()));
-		calendarEntriesDao.saveOrUpdate(calendarEntries);
+
+    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
+    public List<CalendarEntries> getCurrentCalendarEntryNeedsScheduled(int thresholdDays, Date asOfDate) {
+        return calendarEntriesDao.getCurrentCalendarEntryNeedsScheduled(thresholdDays, asOfDate);
     }
 
+    @Override
+    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
+    public void createNextCalendarEntry(CalendarEntries calendarEntries) {
+        calendarEntries.setHrCalendarEntriesId(null);
+        calendarEntries.setBeginPeriodDateTime(DateUtils.addDays(calendarEntries.getBeginPeriodDateTime(), 14));
+        calendarEntries.setEndPeriodDateTime(DateUtils.addDays(calendarEntries.getEndPeriodDateTime(), 14));
+        calendarEntries.setBatchInitiateDate(new java.sql.Date(DateUtils.addDays(calendarEntries.getBatchInitiateDate(), 14).getTime()));
+        calendarEntries.setBatchEndPayPeriodDate(new java.sql.Date(DateUtils.addDays(calendarEntries.getBatchEndPayPeriodDate(), 14).getTime()));
+        calendarEntries.setBatchEmployeeApprovalDate(new java.sql.Date(DateUtils.addDays(calendarEntries.getBatchEmployeeApprovalDate(), 14).getTime()));
+        calendarEntries.setBatchSupervisorApprovalDate(new java.sql.Date(DateUtils.addDays(calendarEntries.getBatchSupervisorApprovalDate(), 14).getTime()));
+        calendarEntriesDao.saveOrUpdate(calendarEntries);
+    }
+
+    public List<CalendarEntries> getFutureCalendarEntries(String hrCalendarId, Date currentDate, int numberOfEntries) {
+        List<CalendarEntries> calendarEntries = null;
+        calendarEntries = calendarEntriesDao.getFutureCalendarEntries(hrCalendarId, currentDate, numberOfEntries);
+        return calendarEntries;
+    }
+
+    public CalendarEntries getCalendarEntriesByBeginAndEndDate(Date beginPeriodDate, Date endPeriodDate) {
+        return calendarEntriesDao.getCalendarEntriesByBeginAndEndDate(beginPeriodDate, endPeriodDate);
+    }
+    
+    public List<CalendarEntries> getAllCalendarEntriesForCalendarId(String hrCalendarId) {
+    	return calendarEntriesDao.getAllCalendarEntriesForCalendarId(hrCalendarId);
+    }
+    
+    public List<CalendarEntries> getAllCalendarEntriesForCalendarIdAndYear(String hrCalendarId, String year) {
+    	return calendarEntriesDao.getAllCalendarEntriesForCalendarIdAndYear(hrCalendarId, year);
+    }
 }

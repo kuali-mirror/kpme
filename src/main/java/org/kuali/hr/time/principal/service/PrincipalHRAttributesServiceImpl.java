@@ -22,6 +22,7 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
 		PrincipalHRAttributes pc =  this.principalHRAttributesDao.getPrincipalCalendar(principalId, asOfDate);
 		if(pc != null) {
 			pc.setCalendar(TkServiceLocator.getCalendarSerivce().getCalendarByGroup(pc.getPayCalendar()));
+			pc.setLeaveCalObj(TkServiceLocator.getCalendarSerivce().getCalendarByGroup(pc.getLeaveCalendar()));
 		}
 		return pc;
 	}
@@ -38,9 +39,14 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
         return principals;
     }
     
+//    @Override
+//	public PrincipalHRAttributes getPrincipalHRAttributes(String principalId) {
+//		return this.principalHRAttributesDao.getPrincipalHRAttributes(principalId);
+//	}
+    
     @Override
-	public PrincipalHRAttributes getPrincipalHRAttributes(String principalId) {
-		return this.principalHRAttributesDao.getPrincipalHRAttributes(principalId);
-	}
+    public PrincipalHRAttributes getInactivePrincipalHRAttributes(String principalId, Date asOfDate) {
+    	return this.principalHRAttributesDao.getInactivePrincipalHRAttributes(principalId, asOfDate);
+    }
 
 }

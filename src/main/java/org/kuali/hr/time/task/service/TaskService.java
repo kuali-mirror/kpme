@@ -28,4 +28,11 @@ public interface TaskService {
 	public Task getMaxTask();
 
     List<Task> getTasks(String task, String description, String workArea, String workAreaDesc, Date fromEffdt, Date toEffdt);
+    
+    /**
+     * get the count of Tasks by given task
+     * @param task
+     * @return int
+     */
+    public int getTaskCount(Long task);
 }

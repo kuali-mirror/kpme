@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    
+    <changeSet id="1" author="djunk" context="bootstrap">
+        <addColumn tableName="tk_roles_t">
+            <column name="chart" type="VARCHAR(10)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="2" author="djunk" context="bootstrap">
+        <addNotNullConstraint columnDataType="VARCHAR(1)" columnName="active" defaultNullValue="'Y'" tableName="tk_roles_t"/>
+    </changeSet>
+    <changeSet id="3" author="djunk" context="bootstrap">
+        <dropColumn columnName="tk_dept_id" tableName="tk_roles_t"/>
+    </changeSet>
+    <changeSet id="4" author="djunk" context="bootstrap">
+        <dropColumn columnName="tk_work_area_id" tableName="tk_roles_t"/>
+    </changeSet>
+    
+</databaseChangeLog>

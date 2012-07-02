@@ -23,8 +23,17 @@ public class TimeDetailActionFormBase extends TimesheetActionForm {
     private BigDecimal hours;
     private BigDecimal amount;
     private String overtimePref;
+    private String spanningWeeks; // KPME-1446
 
-    public String getTkTimeBlockId() {
+    public String getSpanningWeeks() {
+		return spanningWeeks;
+	}
+
+	public void setSpanningWeeks(String spanningWeeks) {
+		this.spanningWeeks = spanningWeeks;
+	}
+
+	public String getTkTimeBlockId() {
         return tkTimeBlockId;
     }
 

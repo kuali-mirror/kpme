@@ -1,7 +1,12 @@
 package org.kuali.hr.time.service.base;
 
 import org.kuali.hr.job.service.JobService;
+import org.kuali.hr.lm.accrual.service.AccrualCategoryRuleService;
+
+import org.kuali.hr.lm.accrual.service.AccrualService;
+
 import org.kuali.hr.lm.accrual.service.AccrualCategoryService;
+import org.kuali.hr.lm.earncodesec.service.EarnCodeSecurityService;
 import org.kuali.hr.lm.employeeoverride.service.EmployeeOverrideService;
 import org.kuali.hr.lm.leaveadjustment.service.LeaveAdjustmentService;
 import org.kuali.hr.lm.leaveblock.service.LeaveBlockHistoryService;
@@ -27,11 +32,10 @@ import org.kuali.hr.time.calendar.service.CalendarService;
 import org.kuali.hr.time.clock.location.service.ClockLocationRuleService;
 import org.kuali.hr.time.clocklog.service.ClockLogService;
 import org.kuali.hr.time.department.service.DepartmentService;
-import org.kuali.hr.time.dept.earncode.service.DepartmentEarnCodeService;
 import org.kuali.hr.time.dept.lunch.service.DepartmentLunchRuleService;
 import org.kuali.hr.time.docsearch.TkSearchableAttributeService;
 import org.kuali.hr.time.earncode.service.EarnCodeService;
-import org.kuali.hr.time.earngroup.service.EarnGroupService;
+import org.kuali.hr.time.earncodegroup.service.EarnCodeGroupService;
 import org.kuali.hr.time.graceperiod.service.GracePeriodService;
 import org.kuali.hr.time.holidaycalendar.service.HolidayCalendarService;
 import org.kuali.hr.time.missedpunch.service.MissedPunchService;
@@ -90,13 +94,13 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_TIMESHEET_SERVICE = "timesheetService";
 	public static final String TK_TIMESHEET_DOCUMENT_HEADER_SERVICE = "timesheetDocumentHeaderService";
 	public static final String TK_DEPARTMENT_SERVICE = "departmentService";
-	public static final String TK_DEPARTMENT_EARN_CODE = "deptEarnCodeService";
+	public static final String TK_EARN_CODE_SECURITY = "earnCodeSecurityService";
 	public static final String TK_EARN_CODE = "earnCodeService";
 	public static final String TK_TIME_COLLECTION_RULE_SERVICE = "timeCollectionRuleService";
 	public static final String TK_ROLE_SERVICE = "tkRoleService";
 	public static final String TK_ROLE_GROUP_SERVICE = "tkRoleGroupService";
 	public static final String TK_TIME_SUMMARY_SERVICE = "timeSummaryService";
-	public static final String TK_TIME_EARN_GROUP_SERVICE = "earnGroupService";
+	public static final String TK_TIME_EARN_CODE_GROUP_SERVICE = "earnCodeGroupService";
 	public static final String TK_TIME_HOUR_DETAIL_SERVICE= "timeHourDetailService";
 	public static final String TK_DAILY_OVERTIME_RULE_SERVICE = "dailyOvertimeRuleService";
 	public static final String TK_WEEKLY_OVERTIME_RULE_SERVICE = "weeklyOvertimeRuleService";
@@ -114,6 +118,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_TIME_OFF_ACCRUAL_SERVICE = "timeOffAccrualService";
 	public static final String hr_sal_group_SERVICE = "salGroupService";
 	public static final String TK_ACCRUAL_CATEGORY_SERVICE = "accrualCategoryService";
+	public static final String TK_ACCRUAL_CATEGORY_RULE_SERVICE = "accrualCategoryRuleService";
     public static final String TK_TASK_SERVICE = "taskService";
     public static final String TK_LOCATION_SERVICE = "locationService";
     public static final String TK_PAY_GRADE_SERVICE = "payGradeService";
@@ -126,6 +131,7 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String TK_WARNINGS_SERVICE = "tkWarningService";
     public static final String HR_POSITION_SERVICE = "positionService";
     public static final String TK_SEARCH_ATTR_SERVICE = "tkSearchableAttributeService";
+    public static final String LM_ACCRUAL_SERVICE = "accrualService";
     public static final String LM_ACCRUAL_CATEGORY_SERVICE = "leaveAccrualCategoryService";
     public static final String LM_LEAVE_CODE_SERVICE = "leaveCodeService";
     public static final String LM_LEAVE_PLAN_SERVICE = "leavePlanService";
@@ -248,8 +254,8 @@ public class TkServiceLocator implements ApplicationContextAware {
 		return (CacheManagementService) CONTEXT.getBean(TK_CACHE_MANAGER_SERVICE);
 	}
 
-	public static DepartmentEarnCodeService getDepartmentEarnCodeService() {
-		return (DepartmentEarnCodeService) CONTEXT.getBean(TK_DEPARTMENT_EARN_CODE);
+	public static EarnCodeSecurityService getEarnCodeSecurityService() {
+		return (EarnCodeSecurityService) CONTEXT.getBean(TK_EARN_CODE_SECURITY);
 	}
 
 	public static EarnCodeService getEarnCodeService() {
@@ -264,8 +270,8 @@ public class TkServiceLocator implements ApplicationContextAware {
 		return (TimeSummaryService) CONTEXT.getBean(TK_TIME_SUMMARY_SERVICE);
 	}
 
-	public static EarnGroupService getEarnGroupService(){
-		return (EarnGroupService) CONTEXT.getBean(TK_TIME_EARN_GROUP_SERVICE);
+	public static EarnCodeGroupService getEarnCodeGroupService(){
+		return (EarnCodeGroupService) CONTEXT.getBean(TK_TIME_EARN_CODE_GROUP_SERVICE);
 	}
 
 	public static TimeHourDetailService getTimeHourDetailService(){
@@ -307,7 +313,11 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static AccrualCategoryService getAccrualCategoryService() {
 	    return (AccrualCategoryService)CONTEXT.getBean(TK_ACCRUAL_CATEGORY_SERVICE);
 	}
-
+	
+	public static AccrualCategoryRuleService getAccrualCategoryRuleService() {
+	    return (AccrualCategoryRuleService)CONTEXT.getBean(TK_ACCRUAL_CATEGORY_RULE_SERVICE);
+	}
+	
 	public static LocationService getLocationService() {
 	    return (LocationService)CONTEXT.getBean(TK_LOCATION_SERVICE);
 	}
@@ -353,6 +363,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static TransactionTemplate getTransactionTemplate() {
 		return new TransactionTemplate(getPlatformTransactionManager());
+	}
+	
+	public static AccrualService getLeaveAccrualService(){
+		return (AccrualService) CONTEXT.getBean(LM_ACCRUAL_SERVICE);
 	}
 	
 	public static AccrualCategoryService getLeaveAccrualCategoryService(){
@@ -418,10 +432,12 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static CalendarEntriesService getCalendarEntriesSerivce() {
 		return (CalendarEntriesService)CONTEXT.getBean(TK_PAY_CALENDAR_ENTRIES_SERVICE);
 	}
+	
 	@Override
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
 	    CONTEXT = arg0;
 	}
+	
 
     /**
      * This is for the approval only

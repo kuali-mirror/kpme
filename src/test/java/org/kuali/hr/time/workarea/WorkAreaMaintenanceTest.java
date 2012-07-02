@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
+import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -49,6 +50,5 @@ public class WorkAreaMaintenanceTest extends TkTestCase {
 		WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(1234L, TKUtils.getCurrentDate());
 		Assert.assertTrue("Work area is not null and valid", workArea != null && workArea.getWorkArea().longValue() == 1234L);
 	}
-	
 	
 }

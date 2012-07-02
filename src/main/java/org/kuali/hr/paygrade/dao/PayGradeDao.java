@@ -1,8 +1,8 @@
 package org.kuali.hr.paygrade.dao;
 
-import java.sql.Date;
-
 import org.kuali.hr.paygrade.PayGrade;
+
+import java.sql.Date;
 
 public interface PayGradeDao {
 	/**
@@ -18,4 +18,6 @@ public interface PayGradeDao {
 	 * @return
 	 */
 	public PayGrade getPayGrade(String hrPayGradeId);
+	
+	public int getPayGradeCount(String payGrade);
 }

@@ -67,7 +67,7 @@ public class AssignmentLookupableHelper extends
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
 
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), principalId,
+        List<Assignment> assignments = TkServiceLocator.getAssignmentService().searchAssignments(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), principalId,
                 jobNumber, dept, workArea, active, showHist);
 
 //		String deptName = "";

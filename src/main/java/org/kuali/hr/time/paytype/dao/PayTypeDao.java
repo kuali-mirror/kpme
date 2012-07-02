@@ -1,9 +1,9 @@
 package org.kuali.hr.time.paytype.dao;
 
+import org.kuali.hr.time.paytype.PayType;
+
 import java.util.Date;
 import java.util.List;
-
-import org.kuali.hr.time.paytype.PayType;
 
 public interface PayTypeDao {
 
@@ -14,5 +14,7 @@ public interface PayTypeDao {
 	public PayType getPayType(String payType, Date effectiveDate);
 	
 	public PayType getPayType(String hrPayTypeId);
+	
+	public int getPayTypeCount(String payType);
 
 }

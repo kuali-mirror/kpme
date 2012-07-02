@@ -31,7 +31,7 @@
 				<ref bean="AccrualCategory-active" />
 				<ref bean="AccrualCategory-history" />
 				<ref bean="AccrualCategory-minPercentWorked" />
-				<ref bean="AccrualCategory-leaveCode" />
+				<ref bean="AccrualCategory-earnCode" />
 				<ref bean="AccrualCategory-hasRules" />
 				
 			</list>
@@ -49,10 +49,10 @@
 				</bean>
 				<!-- KPME-1347 Kagata -->
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="leaveCodeObj" />
+					<property name="objectAttributeName" value="earnCodeObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leaveCode" p:targetName="leaveCode" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="earnCode" p:targetName="earnCode" />
 						</list>
 					</property>
 				</bean>		
@@ -283,11 +283,11 @@
 	</bean>
 	
 	<!-- KPME-1347 Kagata -->
-	<!-- leave code -->
-	<bean id="AccrualCategory-leaveCode" parent="AccrualCategory-leaveCode-parentBean" />
-	<bean id="AccrualCategory-leaveCode-parentBean" abstract="true"
+	<!-- earn code -->
+	<bean id="AccrualCategory-earnCode" parent="AccrualCategory-earnCode-parentBean" />
+	<bean id="AccrualCategory-earnCode-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Default Leave Code" />
+		<property name="shortLabel" value="Default Earn Code" />
 		<property name="maxLength" value="15" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
@@ -297,8 +297,8 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
-		<property name="name" value="leaveCode" />
-		<property name="label" value="Default Leave Code" />
+		<property name="name" value="earnCode" />
+		<property name="label" value="Default Earn Code" />
 	</bean>
 	
 	<!--  Inquiry Definitions  -->
@@ -306,7 +306,7 @@
 	<bean id="AccrualCategory-inquiryDefinition" parent="AccrualCategory-inquiryDefinition-parentBean" />
 
 	<bean id="AccrualCategory-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition">
+		parent="InquiryDefinition" p:inquirableClass="org.kuali.hr.lm.accrual.AccrualCategoryInquirableImpl">
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
@@ -321,11 +321,41 @@
 							<bean parent="FieldDefinition" p:attributeName="unitOfTime" />
 							<bean parent="FieldDefinition" p:attributeName="proration" />
 							<bean parent="FieldDefinition" p:attributeName="donation" />
-							<bean parent="FieldDefinition" p:attributeName="showOnGrid" />				
+							<bean parent="FieldDefinition" p:attributeName="showOnGrid" />	
+							<bean parent="FieldDefinition" p:attributeName="earnCode" />			
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
 					<property name="title" value="AccrualCategory" />
+				</bean>
+				<bean parent="InquirySectionDefinition" p:title="Rules">
+					<property name="inquiryFields">
+						<list>
+							<bean parent="InquiryCollectionDefinition" p:attributeName="accrualCategoryRules"
+								p:businessObjectClass="org.kuali.hr.lm.accrual.AccrualCategoryRule">
+								<property name="inquiryFields">
+									<list>
+										<bean parent="FieldDefinition" p:attributeName="serviceUnitOfTime"/>
+										<bean parent="FieldDefinition" p:attributeName="start"/>
+										<bean parent="FieldDefinition" p:attributeName="end"/>
+										<bean parent="FieldDefinition" p:attributeName="accrualRate"/>
+										<bean parent="FieldDefinition" p:attributeName="maxBalance"/>
+										<bean parent="FieldDefinition" p:attributeName="maxBalFlag"/>
+										<bean parent="FieldDefinition" p:attributeName="maxBalanceActionFrequency"/>
+										<bean parent="FieldDefinition" p:attributeName="actionAtMaxBalance"/>
+										<bean parent="FieldDefinition" p:attributeName="maxBalanceTransferToAccrualCategory"/>
+										<bean parent="FieldDefinition" p:attributeName="maxBalanceTransferConversionFactor"/>							
+										<bean parent="FieldDefinition" p:attributeName="maxTransferAmount"/>							
+										<bean parent="FieldDefinition" p:attributeName="maxPayoutAmount"/>							
+										<bean parent="FieldDefinition" p:attributeName="maxPayoutEarnCode"/>							
+										<bean parent="FieldDefinition" p:attributeName="maxUsage"/>							
+										<bean parent="FieldDefinition" p:attributeName="maxCarryOver"/>							
+										<bean parent="FieldDefinition" p:attributeName="active"/>
+									</list>
+								</property>
+							</bean>
+						</list>
+					</property>
 				</bean>
 			</list>
 		</property>
@@ -343,9 +373,9 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
-				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 				<bean parent="FieldDefinition" p:attributeName="descr" />
+				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
 				<bean parent="FieldDefinition" p:attributeName="accrualEarnInterval"/>
 				<bean parent="FieldDefinition" p:attributeName="unitOfTime" />
 				<bean parent="FieldDefinition" p:attributeName="minPercentWorked" />

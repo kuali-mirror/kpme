@@ -1,10 +1,12 @@
 package org.kuali.hr.time.earncode.service;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.earncode.EarnCode;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.List;
+import java.util.Map;
 
 public interface EarnCodeService {
 	/**
@@ -46,4 +48,35 @@ public interface EarnCodeService {
     public List<EarnCode> getOvertimeEarnCodes(Date asOfDate);
     
     public List<String> getOvertimeEarnCodesStrs(Date asOfDate);
+    /**
+	 * get count of earn code with give earnCode
+	 * @param earnCode
+	 * @return int
+	 */
+    public int getEarnCodeCount(String earnCode);
+    /**
+	 * get count of newer version of earn code with give earnCode and date
+	 * @param earnCode
+	 * @param effdt
+	 * @return int
+	 */
+    public int getNewerEarnCodeCount(String earnCode, Date effdt);
+    
+    /**
+     * roundHrsWithLEarnCode
+     * @param hours
+     * @param earnCode
+     * @return
+     */
+    public BigDecimal roundHrsWithEarnCode(BigDecimal hours, EarnCode earnCode);
+    
+    /**
+     * 
+     * @param principalId
+     * @param asOfDate
+     * @return
+     */
+    public List<EarnCode> getEarnCodes(String principalId, Date asOfDate);
+    
+    public Map<String, String> getEarnCodesForDisplay(String principalId);
 }

@@ -57,7 +57,7 @@
           <property name="objectAttributeName" value="fromEarnGroupObj" />
           <property name="primitiveAttributes">
             <list>
-              <bean parent="PrimitiveAttributeDefinition" p:sourceName="fromEarnGroup" p:targetName="earnGroup" />
+              <bean parent="PrimitiveAttributeDefinition" p:sourceName="fromEarnGroup" p:targetName="earnCodeGroup" />
             </list>
           </property>
         </bean>
@@ -310,7 +310,7 @@
       </bean>
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="3" />
+      <bean parent="TextControlDefinition" p:size="10" />
     </property>
     <property name="name" value="fromEarnGroup" />
     <property name="label" value="Convert from EarnGroup" />
@@ -320,14 +320,14 @@
   <bean id="DailyOvertimeRule-earnCode-parentBean"
     abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Convert to Earncode" />
-    <property name="maxLength" value="3" />
+    <property name="maxLength" value="15" />
     <property name="validationPattern">
       <bean parent="AnyCharacterValidationPattern">
         <property name="allowWhitespace" value="false" />
       </bean>
     </property>
     <property name="control">
-      <bean parent="TextControlDefinition" p:size="3" />
+      <bean parent="TextControlDefinition" p:size="15" />
     </property>
     <property name="name" value="earnCode" />
     <property name="label" value="Convert to Earncode" />

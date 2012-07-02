@@ -8,6 +8,7 @@ import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 
 public class LeaveCode extends HrBusinessObject {
 
@@ -18,6 +19,7 @@ public class LeaveCode extends HrBusinessObject {
 	private String lmLeaveCodeId;
 	private String leavePlan;
 	private String eligibleForAccrual;
+	private String affectPay; // kpme1464, chen
 	private String accrualCategory;
 	private String earnCode;
 	private String leaveCode;
@@ -38,6 +40,14 @@ public class LeaveCode extends HrBusinessObject {
 	private LeavePlan leavePlanObj;
 	private EarnCode earnCodeObj;
 	private AccrualCategory accrualCategoryObj;
+	
+	public String getAffectPay() {
+		return affectPay;
+	}
+
+	public void setAffectPay(String affectPay) {
+		this.affectPay = affectPay;
+	}
 
 	public EarnCode getEarnCodeObj() {
 		return earnCodeObj;
@@ -70,13 +80,20 @@ public class LeaveCode extends HrBusinessObject {
 	public void setLmLeaveCodeId(String lmLeaveCodeId) {
 		this.lmLeaveCodeId = lmLeaveCodeId;
 	}
-	
+
+	//KPME 1453 and 1541 moved pre-existing logic for getLeavePlan to else clause below and removed side effect of setting AccrualCategoryObj on BO
 	public String getLeavePlan() {
-		if (this.accrualCategoryObj == null && 
-				(!StringUtils.isEmpty(this.accrualCategory) && this.effectiveDate != null)) {		
-			accrualCategoryObj =  TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, this.effectiveDate);
+		if (StringUtils.isNotEmpty(this.leavePlan)) {
+			return leavePlan;
+		}else{ 
+			AccrualCategory myAccrualCategoryObj =  new AccrualCategory();
+			if (!StringUtils.isEmpty(this.accrualCategory) && this.effectiveDate != null) {	
+				
+				myAccrualCategoryObj =  TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, this.effectiveDate);
+				
+			}
+			return (myAccrualCategoryObj != null) ? myAccrualCategoryObj.getLeavePlan() : "";
 		}
-		return (accrualCategoryObj != null) ? accrualCategoryObj.getLeavePlan() : "";
 	}
 
 	public void setLeavePlan(String leavePlan) {
@@ -230,6 +247,13 @@ public class LeaveCode extends HrBusinessObject {
 //	}
     
     public String getLeaveCodeKeyForDisplay() {
+//    	String unitTime = null;
+//    	AccrualCategory acObj = null;
+//    	if(this.accrualCategory != null) {
+//    		acObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, TKUtils.getCurrentDate());
+//    	}
+//    	unitTime = (acObj!= null ? acObj.getUnitOfTime() : unitOfTime) ;
+//        return lmLeaveCodeId + ":" +unitTime;
         return lmLeaveCodeId;
     }
     

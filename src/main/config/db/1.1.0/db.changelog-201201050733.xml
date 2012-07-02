@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+   
+    <changeSet id="1" author="lfox" context="bootstrap">
+        <comment>cleaned up project and fixed migration issue</comment>
+        <modifyDataType columnName="tk_clock_log_id" newDataType="VARCHAR(60)" tableName="tk_missed_punch_doc_t"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="lee55" context="bootstrap">
+        <comment>reorganized the sql files</comment>
+        <modifyDataType tableName="tk_assign_acct_t" columnName="tk_assignment_id" newDataType="VARCHAR(60) NOT NULL" />
+        
+        <modifyDataType tableName="tk_clock_log_t" columnName="hr_job_id" newDataType="VARCHAR(60) NOT NULL" />
+        <modifyDataType tableName="tk_clock_log_t" columnName="JOB_NUMBER" newDataType="BIGINT(20)" />
+        <modifyDataType tableName="tk_clock_log_t" columnName="TK_WORK_AREA_ID" newDataType="VARCHAR(60) NOT NULL" />
+        
+        <modifyDataType tableName="tk_grace_period_rl_t" columnName="TK_GRACE_PERIOD_RULE_ID" newDataType="VARCHAR(60) NOT NULL" />
+        
+        <modifyDataType tableName="tk_hour_detail_hist_t" columnName="TIMESTAMP_MODIFIED" newDataType="TIMESTAMP NULL DEFAULT '0000-00-00 00:00:00'" />
+        
+        <modifyDataType tableName="tk_time_block_hist_t" columnName="hr_job_id" newDataType="VARCHAR(60) NOT NULL" />
+        <modifyDataType tableName="tk_time_block_hist_t" columnName="tk_time_block_id" newDataType="VARCHAR(60) NOT NULL" />
+        
+        <modifyDataType tableName="tk_time_block_t" columnName="TK_WORK_AREA_ID" newDataType="VARCHAR(60) NOT NULL" />
+        <modifyDataType tableName="tk_time_block_t" columnName="hr_job_id" newDataType="VARCHAR(60) NOT NULL" />
+        
+        <modifyDataType tableName="tk_time_sheet_init_t" columnName="py_calendar_entries_id" newDataType="VARCHAR(60) NOT NULL" />
+        
+        <dropTable tableName="kr_unittest_t" />
+    </changeSet>
+    
+    <changeSet id="2" author="lee55" context="bootstrap">
+        <comment>reorganized the sql files</comment>
+        <modifyDataType tableName="lm_accrual_category_t" columnName="ACCRUAL_INTERVAL_EARN" newDataType="VARCHAR(1) NOT NULL" />
+        
+        <dropColumn tableName="lm_accrual_category_t" columnName="PLANNING_MONTHS" />
+    </changeSet>
+    
+    <changeSet id="3" author="lee55" context="bootstrap">
+        <comment>reorganized the sql files</comment>
+        <createTable tableName="lm_employee_override_s">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+        </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
+	</changeSet>
+	
+	<changeSet id="4" author="lee55" context="bootstrap">
+        <comment>reorganized the sql files</comment>
+        <createTable tableName="lm_employee_override_t">
+            <column name="LM_EMPLOYEE_OVERRIDE_ID" type="VARCHAR(60)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="PRINCIPAL_ID" type="VARCHAR(40)">
+                <constraints nullable="false" />
+            </column>
+            <column name="ACCRUAL_CAT" type="VARCHAR(60)">
+                <constraints nullable="false" />
+            </column>
+            <column name="LEAVE_PLAN" type="VARCHAR(60)">
+                <constraints nullable="false" />
+            </column>
+            <column name="OVERRIDE_TYPE" type="VARCHAR(30)">
+                <constraints nullable="false" />
+            </column>
+            <column name="OVERRIDE_VALUE" type="BIGINT(20)" />
+            <column name="DESCRIPTION" type="VARCHAR(50)" />
+            <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N">
+                <constraints nullable="false" />
+            </column>
+            <column name="TIMESTAMP" type="TIMESTAMP" />
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
+    </changeSet>
+    
+    <changeSet id="5" author="lee55" context="bootstrap">
+        <comment>reorganized the sql files</comment>
+        <createTable tableName="lm_leave_adjustment_s">
+            <column autoIncrement="true" name="id" type="BIGINT(19)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+        </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE MYISAM"/>
+		</modifySql>
+	</changeSet>
+	
+	<changeSet id="6" author="lee55" context="bootstrap">
+        <comment>reorganized the sql files</comment>
+        <createTable tableName="lm_leave_adjustment_t">
+            <column name="LM_LEAVE_ADJUSTMENT_ID" type="VARCHAR(60)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="PRINCIPAL_ID" type="VARCHAR(40)">
+                <constraints nullable="false" />
+            </column>
+            <column name="ACCRUAL_CAT" type="VARCHAR(15)">
+                <constraints nullable="false" />
+            </column>
+            <column name="LEAVE_PLAN" type="VARCHAR(15)">
+                <constraints nullable="false" />
+            </column>
+            <column name="LEAVE_CODE" type="VARCHAR(15)">
+                <constraints nullable="false" />
+            </column>
+            <column name="ADJUSTMENT_AMOUNT" type="DECIMAL(20)">
+                <constraints nullable="false" />
+            </column>
+            <column name="DESCRIPTION" type="VARCHAR(50)" />
+            <column name="TIMESTAMP" type="TIMESTAMP" />
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB"/>
+		</modifySql>
+    </changeSet>
+    
+    <changeSet id="7" author="lee55" context="bootstrap">
+        <comment>reorganized the sql files</comment>
+        <modifyDataType tableName="tk_batch_job_t" columnName="hr_py_calendar_entry_id" newDataType="VARCHAR(60) NOT NULL" />
+        <modifyDataType tableName="tk_batch_job_entry_t" columnName="hr_py_calendar_entry_id" newDataType="VARCHAR(60) NOT NULL" />
+    </changeSet>
+    
+    <changeSet id="8" author="lee55" context="bootstrap">
+        <comment>reorganized the sql files</comment>
+        <addColumn tableName="lm_accrual_category_t">
+            <column name="MIN_PERCENT_WORKED" type="DECIMAL(5,2)" defaultValueNumeric="0.00" />
+        </addColumn>
+    </changeSet>
+    
+</databaseChangeLog>

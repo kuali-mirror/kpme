@@ -30,6 +30,7 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
     private String timeBlockString;
     private TkCalendar calendar;
     private String docEditable;
+    private String workingOnItsOwn;	// true if the user is working on its own timesheet
     private List<String> overtimeEarnCodes = new ArrayList<String>();
     private String tkTimeHourDetailId;
     private String isLunchDeleted;
@@ -158,4 +159,15 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
     public boolean isCanAddTimeblock() {
         return TkServiceLocator.getPermissionsService().canAddTimeBlock();
     }
+
+	public String getWorkingOnItsOwn() {
+		if(StringUtils.isEmpty(workingOnItsOwn)) {
+			workingOnItsOwn="false";
+		}
+		return workingOnItsOwn;
+	}
+
+	public void setWorkingOnItsOwn(String workingOnItsOwn) {
+		this.workingOnItsOwn = workingOnItsOwn;
+	}
 }

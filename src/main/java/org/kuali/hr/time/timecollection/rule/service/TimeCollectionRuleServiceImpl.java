@@ -1,13 +1,13 @@
 package org.kuali.hr.time.timecollection.rule.service;
 
-import org.codehaus.plexus.util.StringUtils;
+import java.sql.Date;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.timecollection.rule.dao.TimeCollectionRuleDaoService;
 import org.kuali.hr.time.util.TkConstants;
-
-import java.sql.Date;
-import java.util.List;
 
 public class TimeCollectionRuleServiceImpl implements TimeCollectionRuleService{
 	private TimeCollectionRuleDaoService timeCollectRuleDao;

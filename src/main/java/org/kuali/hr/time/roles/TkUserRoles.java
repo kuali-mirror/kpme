@@ -144,7 +144,8 @@ public class TkUserRoles implements UserRoles {
                 approverRoles.put(role.getWorkArea(), role);
             } else if (role.getRoleName().equals(TkConstants.ROLE_TK_APPROVER_DELEGATE)) {
                 approverDelegateRoles.put(role.getWorkArea(), role);
-            } else if (role.getRoleName().equals(TkConstants.ROLE_TK_LOCATION_ADMIN)) {
+            } else if (role.getRoleName().equals(TkConstants.ROLE_TK_LOCATION_ADMIN) ||
+            			role.getRoleName().equals(TkConstants.ROLE_LV_DEPT_ADMIN)) {
                 if (!StringUtils.isEmpty(role.getChart())) {
                     orgAdminRolesChart.put(role.getChart(), role);
                     List<Department> ds = TkServiceLocator.getDepartmentService().getDepartments(role.getChart(), TKUtils.getCurrentDate());
