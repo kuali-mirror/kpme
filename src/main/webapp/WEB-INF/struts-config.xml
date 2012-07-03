@@ -27,7 +27,7 @@
 
     <global-exceptions>
         <exception type="java.lang.Throwable"
-                   handler="org.kuali.rice.kns.web.struts.pojo.StrutsExceptionIncidentHandler"
+                   handler="org.kuali.rice.kns.web.struts.form.pojo.StrutsExceptionIncidentHandler"
                    key="meaningless"/>
     </global-exceptions>
 

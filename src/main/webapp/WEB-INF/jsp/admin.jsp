@@ -235,9 +235,9 @@
                 <tr>
                     <td><html:text property="changeTargetPrincipalName" size="20"/>
                         <kul:lookup
-                            boClassName="org.kuali.rice.kim.bo.impl.PersonImpl"
+                            boClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
                             fieldConversions="principalName:changeTargetPrincipalName"
-                            lookupParameters="" baseLookupUrl="./kr/" />
+                            lookupParameters="" />
 
                         <input type="button" class="button" value="Submit" name="changeEmployee" onclick="this.form.methodToCall.value='changeEmployee'; this.form.submit();" />
                         <input type="button" class="button" value="Clear" name="clearChangeEmployee" onclick="this.form.methodToCall.value='clearChangeEmployee'; this.form.submit();" />
@@ -249,9 +249,9 @@
                     </tr>
                     <tr>
                         <td><html:text property="backdoorPrincipalName" size="20"/>
-                            <kul:lookup boClassName="org.kuali.rice.kim.bo.impl.PersonImpl"
+                            <kul:lookup boClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
                                         fieldConversions="principalName:backdoorPrincipalName"
-                                        lookupParameters="" baseLookupUrl="./kr/" />
+                                        lookupParameters="" />
                             <input type="button" class="button" value="Submit" name="backdoor" onclick="this.form.methodToCall.value='backdoor'; this.form.submit();"/>
                             <input type="button" class="button" value="Clear" name="clearBackdoor" onclick="this.form.methodToCall.value='clearBackdoor'; this.form.submit();"/>
                         </td>
@@ -272,9 +272,9 @@
                             Principal Id:
                                 <html:text property="accrualPrincipalId" size="20"/>
                             <kul:lookup
-                                    boClassName="org.kuali.rice.kim.bo.impl.PersonImpl"
+                                    boClassName="org.kuali.rice.kim.impl.identity.PersonImpl"
                                     fieldConversions="principalName:accrualPrincipalId"
-                                    lookupParameters="" baseLookupUrl="./kr/" />
+                                    lookupParameters="" />
                             <br/>
                             <script>
 //                                $(function () {
