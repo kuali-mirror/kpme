@@ -109,7 +109,7 @@ public class TkRoleGroupServiceImpl implements TkRoleGroupService {
             		break;
             	}
         	} else {
-        		List<Job> listRolePositionActiveJobs = TkServiceLocator.getJobSerivce().getActiveJobsForPosition(tkRole.getPositionNumber(), TKUtils.getCurrentDate());
+        		List<Job> listRolePositionActiveJobs = TkServiceLocator.getJobService().getActiveJobsForPosition(tkRole.getPositionNumber(), TKUtils.getCurrentDate());
         		for (Job rolePositionJob : listRolePositionActiveJobs) {
         			String rolePositionJobPrincipalId = rolePositionJob.getPrincipalId();
         			TkRoleGroup tkRoleGroup = new TkRoleGroup();
@@ -137,7 +137,7 @@ public class TkRoleGroupServiceImpl implements TkRoleGroupService {
             return true;
         }
 
-        List<Job> lstJobs = TkServiceLocator.getJobSerivce().getJobs(principalId, TKUtils.getCurrentDate());
+        List<Job> lstJobs = TkServiceLocator.getJobService().getJobs(principalId, TKUtils.getCurrentDate());
         Set<String> locationAdminAreas = TKContext.getUser().getLocationAdminAreas();
         //Confirm if any job matches this users location admin roles
         for (String location : locationAdminAreas) {

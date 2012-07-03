@@ -20,7 +20,7 @@ public class TkRoleGroupInquirableImpl extends KualiInquirableImpl {
 	public BusinessObject getBusinessObject(Map fieldValues) {
 		TkRoleGroup tkRoleGroup = (TkRoleGroup) super.getBusinessObject(fieldValues);
 		
-		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(tkRoleGroup.getPrincipalId(), TKUtils.getCurrentDate());
+		List<Job> jobs = TkServiceLocator.getJobService().getJobs(tkRoleGroup.getPrincipalId(), TKUtils.getCurrentDate());
 		List<TkRole> positionRoles = new ArrayList<TkRole>();
 		List<TkRole> inactivePositionRoles = new ArrayList<TkRole>();
 		Set<String> positionNumbers = new HashSet<String>(); 

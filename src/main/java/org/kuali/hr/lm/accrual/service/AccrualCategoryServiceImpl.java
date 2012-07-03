@@ -94,8 +94,8 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 	}	
 	
 	private RateRangeAggregate getRateRangeAggregate(String principalId, Date asOfDate, String calendar){
-		Calendar leaveCal = TkServiceLocator.getCalendarSerivce().getCalendarByGroup(calendar);
-		CalendarEntries leaveCalEntry = TkServiceLocator.getCalendarEntriesSerivce().getCurrentCalendarEntriesByCalendarId(leaveCal.getHrCalendarId(),asOfDate);
+		Calendar leaveCal = TkServiceLocator.getCalendarService().getCalendarByGroup(calendar);
+		CalendarEntries leaveCalEntry = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(leaveCal.getHrCalendarId(),asOfDate);
 		
 		
 		return null;

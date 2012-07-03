@@ -11,7 +11,6 @@ import org.joda.time.DateTimeZone;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -19,19 +18,12 @@ import org.kuali.hr.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.time.test.TkTestUtils;
-import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.time.util.TkConstants;
 
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
 //@Ignore
 public class TimesheetIntegrationTest extends TimesheetWebTestBase {
@@ -52,7 +44,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 
 		super.setUp();
 
-		payCal = TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(
+		payCal = TkServiceLocator.getCalendarService().getCurrentCalendarDates(
 				USER_PRINCIPAL_ID, TIME_SHEET_DATE);
 		assertNotNull("Pay calendar entries not found for admin", payCal);
 

@@ -24,7 +24,7 @@ public class TimezoneServiceImpl implements TimezoneService {
         if(principalCalendar != null && principalCalendar.getTimezone() != null){
             return principalCalendar.getTimezone();
         }
-        List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(TKContext.getPrincipalId(), TKUtils.getCurrentDate());
+        List<Job> jobs = TkServiceLocator.getJobService().getJobs(TKContext.getPrincipalId(), TKUtils.getCurrentDate());
         if (jobs.size() > 0) {
             // Grab the location off the first job in the list
             Location location = TkServiceLocator.getLocationService().getLocation(jobs.get(0).getLocation(), TKUtils.getCurrentDate());

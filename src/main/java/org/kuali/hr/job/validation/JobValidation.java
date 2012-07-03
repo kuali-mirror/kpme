@@ -26,7 +26,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 
 	private boolean validateJobNumber(Job job) {
 		if (job.getJobNumber() != null) {
-			Job jobObj = TkServiceLocator.getJobSerivce().getJob(
+			Job jobObj = TkServiceLocator.getJobService().getJob(
 					job.getPrincipalId(), job.getJobNumber(),
 					job.getEffectiveDate(), false);
 			if (jobObj != null) {
@@ -106,7 +106,7 @@ public class JobValidation extends MaintenanceDocumentRuleBase {
 			if(oldJob!=null && oldJob.getPrimaryIndicator()!=null && oldJob.getPrimaryIndicator()){
 				return valid;
 			}
-			Job existingJob = TkServiceLocator.getJobSerivce().getPrimaryJob(job.getPrincipalId(), TKUtils.getCurrentDate());
+			Job existingJob = TkServiceLocator.getJobService().getPrimaryJob(job.getPrincipalId(), TKUtils.getCurrentDate());
 			if (existingJob != null && existingJob.getPrimaryIndicator()) {
 				this.putFieldError("primaryIndicator", "error.primary.job.already.exist", job.getPrincipalId());
 				valid = false;

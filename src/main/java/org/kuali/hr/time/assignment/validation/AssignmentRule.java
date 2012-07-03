@@ -60,7 +60,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	protected boolean validateDepartment(Assignment assignment) {
 		boolean valid = true;
 		if (assignment.getDept() != null) {
-				int count = TkServiceLocator.getJobSerivce().getJobCount(null, assignment.getJobNumber(), assignment.getDept());
+				int count = TkServiceLocator.getJobService().getJobCount(null, assignment.getJobNumber(), assignment.getDept());
 				valid = (count > 0);
 				if (!valid) {
 					this.putFieldError("dept", "dept.jobnumber.invalid.sync");
@@ -73,7 +73,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 	protected boolean validateJob(Assignment assignment) {
 		boolean valid = false;
 		LOG.debug("Validating job: " + assignment.getPrincipalId() +" Job number: "+assignment.getJobNumber());
-		Job job = TkServiceLocator.getJobSerivce().getJob(
+		Job job = TkServiceLocator.getJobService().getJob(
 				assignment.getPrincipalId(), assignment.getJobNumber(),
 				assignment.getEffectiveDate(), false);
 		// Job job =
@@ -156,9 +156,9 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		LOG.debug("Validating Regular pay EarnCodes: " + assignment.getAssignmentAccounts().size());
 		for(AssignmentAccount assignmentAccount : assignment.getAssignmentAccounts()){
 			if(assignment.getJobNumber()!=null && assignment.getPrincipalId()!=null){
-				Job job = TkServiceLocator.getJobSerivce().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveDate(), false);
+				Job job = TkServiceLocator.getJobService().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveDate(), false);
 				if(job !=null){
-					PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(job.getHrPayType(), assignment.getEffectiveDate());
+					PayType payType = TkServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), assignment.getEffectiveDate());
 					if(StringUtils.equals(assignmentAccount.getEarnCode(), payType.getRegEarnCode())){
 						valid = true;
 						break;

@@ -21,7 +21,7 @@ public class JobServiceImplTest extends TkTestCase {
 	@Before
 	public void setUp() throws Exception {
 		super.setUp();
-		jobService=TkServiceLocator.getJobSerivce();
+		jobService=TkServiceLocator.getJobService();
 	}
 	
 	@Test

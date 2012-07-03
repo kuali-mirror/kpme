@@ -71,7 +71,7 @@ public class JobLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
 
-        List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(principalId, firstName, lastName, jobNumber,
+        List<Job> jobs = TkServiceLocator.getJobService().getJobs(principalId, firstName, lastName, jobNumber,
                 dept, positionNumber, hrPayType,
                 TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt),
                 active,  showHist);

@@ -43,7 +43,7 @@ public class JobTest extends TkTestCase {
 		payCalendar.setFlsaBeginTime(Time.valueOf("0:00:00"));
         payCalendar.setCalendarDescriptions("Test Description");
 		KNSServiceLocator.getBusinessObjectService().save(payCalendar);
-		assertTrue(TkServiceLocator.getCalendarSerivce().getCalendar(payCalendar.getHrCalendarId()) != null);
+		assertTrue(TkServiceLocator.getCalendarService().getCalendar(payCalendar.getHrCalendarId()) != null);
 
 	}
 
@@ -64,7 +64,7 @@ public class JobTest extends TkTestCase {
 		payCalendarDates.setEndPeriodDateTime(new java.sql.Date(cal.getTime().getTime()));
 
 		KNSServiceLocator.getBusinessObjectService().save(payCalendarDates);
-		assertTrue(TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntries(payCalendarDates.getHrCalendarEntriesId()) != null);
+		assertTrue(TkServiceLocator.getCalendarEntriesService().getCalendarEntries(payCalendarDates.getHrCalendarEntriesId()) != null);
 
 	}
 
@@ -81,7 +81,7 @@ public class JobTest extends TkTestCase {
 		payType.setTimestamp(new Timestamp(currentTimestamp));
 
 		KNSServiceLocator.getBusinessObjectService().save(payType);
-		assertTrue(TkServiceLocator.getPayTypeSerivce().getPayType(payType.getPayType(), payType.getEffectiveDate()) != null);
+		assertTrue(TkServiceLocator.getPayTypeService().getPayType(payType.getPayType(), payType.getEffectiveDate()) != null);
 	}
 
 	@Test
@@ -99,7 +99,7 @@ public class JobTest extends TkTestCase {
 	@Test
 	public void testGetJobs() {
 		Date payPeriodEndDate = new Date((new DateTime(2010,7,30,1,0,0,0,DateTimeZone.forID("EST"))).getMillis());
-		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(TEST_USER, payPeriodEndDate);
+		List<Job> jobs = TkServiceLocator.getJobService().getJobs(TEST_USER, payPeriodEndDate);
 		assertNotNull("Jobs was null", jobs);
 		assertEquals("Incorrect number of jobs", 2, jobs.size());
 	}

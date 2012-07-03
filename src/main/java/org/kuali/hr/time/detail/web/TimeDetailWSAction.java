@@ -65,7 +65,7 @@ public class TimeDetailWSAction extends TimesheetAction {
         String principalId = (String) request.getAttribute("principalId");
         Long jobNumber = (Long) request.getAttribute("jobNumber");
 
-        Job job = TkServiceLocator.getJobSerivce().getJob(principalId, jobNumber, TKUtils.getCurrentDate());
+        Job job = TkServiceLocator.getJobService().getJob(principalId, jobNumber, TKUtils.getCurrentDate());
         kualiForm.setAnnotation(job.getDept());
 
         return mapping.findForward("ws");

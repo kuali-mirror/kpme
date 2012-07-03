@@ -47,7 +47,7 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 		if (ruleObj.getJobNumber() == null) {
 			valid = false;
 		} else if (!ruleObj.getJobNumber().equals(TkConstants.WILDCARD_LONG)) {
-			int count = TkServiceLocator.getJobSerivce().getJobCount(ruleObj.getPrincipalId(), ruleObj.getJobNumber(), null);
+			int count = TkServiceLocator.getJobService().getJobCount(ruleObj.getPrincipalId(), ruleObj.getJobNumber(), null);
 			valid = (count > 0);
 			if (!valid) {
 				this.putFieldError("jobNumber", "principalid.job.invalid.sync",

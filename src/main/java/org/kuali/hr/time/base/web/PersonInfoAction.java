@@ -42,7 +42,7 @@ public class PersonInfoAction extends TkAction {
 		personForm.setPrincipalName(person.getPrincipalName());
 		// set name
 		personForm.setName(person.getName());
-		personForm.setJobs(TkServiceLocator.getJobSerivce().getJobs(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate()));
+		personForm.setJobs(TkServiceLocator.getJobService().getJobs(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate()));
 		
 		//KPME-1441
 		PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(personForm.getPrincipalId(), TKUtils.getCurrentDate());
@@ -116,7 +116,7 @@ public class PersonInfoAction extends TkAction {
 
         for(TkRole role : deptAdminRoles) {
         	if(role.getPositionNumber() != null){
-				List<Job> lstJobs = TkServiceLocator.getJobSerivce().getActiveJobsForPosition(role.getPositionNumber(), TKUtils.getCurrentDate());
+				List<Job> lstJobs = TkServiceLocator.getJobService().getActiveJobsForPosition(role.getPositionNumber(), TKUtils.getCurrentDate());
 				for(Job j : lstJobs){
 					Person person = KIMServiceLocator.getPersonService().getPerson(j.getPrincipalId());
 					if(person !=null){
@@ -141,7 +141,7 @@ public class PersonInfoAction extends TkAction {
 		workAreaToApprover.put(workArea, lstApproverRoles);
 		for(TkRole role : lstApproverRoles){
 			if(role.getPositionNumber() != null){
-				List<Job> lstJobs = TkServiceLocator.getJobSerivce().getActiveJobsForPosition(role.getPositionNumber(), TKUtils.getCurrentDate());
+				List<Job> lstJobs = TkServiceLocator.getJobService().getActiveJobsForPosition(role.getPositionNumber(), TKUtils.getCurrentDate());
 				for(Job j : lstJobs){
 					Person approver = KIMServiceLocator.getPersonService().getPerson(j.getPrincipalId());
 					if(approver!=null){

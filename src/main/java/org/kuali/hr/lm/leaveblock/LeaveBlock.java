@@ -11,9 +11,7 @@ import javax.persistence.Transient;
 
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.accrual.AccrualCategory;
-import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
-import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -492,7 +490,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		if(principalHRAttributes != null) {
 			pcal = principalHRAttributes.getCalendar() != null ? principalHRAttributes.getCalendar() : principalHRAttributes.getLeaveCalObj() ;
 			if(pcal!= null) {
-				CalendarEntries calEntries = TkServiceLocator.getCalendarEntriesSerivce().getCurrentCalendarEntriesByCalendarId(pcal.getHrCalendarId(), this.leaveDate);
+				CalendarEntries calEntries = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(pcal.getHrCalendarId(), this.leaveDate);
 				if(calEntries != null) {
 					this.calendarId = calEntries.getHrCalendarEntriesId();
 				}

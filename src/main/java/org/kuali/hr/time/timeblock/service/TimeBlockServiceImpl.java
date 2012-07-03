@@ -332,8 +332,8 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 			}
 
 			if(ur.isTimesheetApprover() && ur.getApproverWorkAreas().contains(tb.getWorkArea()) || ur.isTimesheetReviewer() && ur.getReviewerWorkAreas().contains(tb.getWorkArea())) {
-				Job job = TkServiceLocator.getJobSerivce().getJob(TKContext.getTargetPrincipalId(),tb.getJobNumber(), tb.getEndDate());
-				PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(job.getHrPayType(), tb.getEndDate());
+				Job job = TkServiceLocator.getJobService().getJob(TKContext.getTargetPrincipalId(),tb.getJobNumber(), tb.getEndDate());
+				PayType payType = TkServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), tb.getEndDate());
 				if(StringUtils.equals(payType.getRegEarnCode(), tb.getEarnCode())){
 					return true;
 				}
@@ -347,8 +347,8 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 			}
 
 			if(userId.equals(TKContext.getTargetPrincipalId())) {
-				Job job = TkServiceLocator.getJobSerivce().getJob(TKContext.getTargetPrincipalId(),tb.getJobNumber(), tb.getEndDate());
-				PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(job.getHrPayType(), tb.getEndDate());
+				Job job = TkServiceLocator.getJobService().getJob(TKContext.getTargetPrincipalId(),tb.getJobNumber(), tb.getEndDate());
+				PayType payType = TkServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), tb.getEndDate());
 				if(StringUtils.equals(payType.getRegEarnCode(), tb.getEarnCode())){
 					return true;
 				}

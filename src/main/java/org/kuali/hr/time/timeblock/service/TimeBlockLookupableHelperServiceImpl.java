@@ -53,7 +53,7 @@ public class TimeBlockLookupableHelperServiceImpl extends KualiLookupableHelperS
 			while(itr.hasNext()){
 				TimeBlock tb = (TimeBlock)itr.next();
 				List<TkRole> tkRoles = TkServiceLocator.getTkRoleService().getRoles(TKContext.getPrincipalId(), TKUtils.getCurrentDate());
-				Job job = TkServiceLocator.getJobSerivce().getJob(tb.getUserPrincipalId(), tb.getJobNumber(), TKUtils.getCurrentDate(), false);
+				Job job = TkServiceLocator.getJobService().getJob(tb.getUserPrincipalId(), tb.getJobNumber(), TKUtils.getCurrentDate(), false);
 				boolean valid = false;
 				for (TkRole tkRole : tkRoles) {
 					if (StringUtils.equals(tkRole.getRoleName(),

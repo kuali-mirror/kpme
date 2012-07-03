@@ -322,7 +322,7 @@ public class TKUser {
     }
 
     public List<Job> getJobs() {
-        return TkServiceLocator.getJobSerivce().getJobs(getCurrentPerson().getPrincipalId(),TKUtils.getCurrentDate());
+        return TkServiceLocator.getJobService().getJobs(getCurrentPerson().getPrincipalId(),TKUtils.getCurrentDate());
     }
 
     public Set<String> getDepartments() {

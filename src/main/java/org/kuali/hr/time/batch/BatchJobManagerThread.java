@@ -36,7 +36,7 @@ public class BatchJobManagerThread extends Thread {
 
         while (true) {
             Date asOfDate = TKUtils.getCurrentDate();
-            List<CalendarEntries> payCalendarEntries = TkServiceLocator.getCalendarEntriesSerivce().getCurrentCalendarEntryNeedsScheduled(numOfDaysToPoll, asOfDate);
+            List<CalendarEntries> payCalendarEntries = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntryNeedsScheduled(numOfDaysToPoll, asOfDate);
 
             LOG.info("Scanning for batch jobs to run: ("+asOfDate.toString()+")");
 

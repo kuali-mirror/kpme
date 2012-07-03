@@ -3,7 +3,6 @@ package org.kuali.hr.time.principal.service;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.principal.dao.PrincipalHRAttributesDao;
@@ -21,8 +20,8 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
 	public PrincipalHRAttributes getPrincipalCalendar(String principalId, Date asOfDate){
 		PrincipalHRAttributes pc =  this.principalHRAttributesDao.getPrincipalCalendar(principalId, asOfDate);
 		if(pc != null) {
-			pc.setCalendar(TkServiceLocator.getCalendarSerivce().getCalendarByGroup(pc.getPayCalendar()));
-			pc.setLeaveCalObj(TkServiceLocator.getCalendarSerivce().getCalendarByGroup(pc.getLeaveCalendar()));
+			pc.setCalendar(TkServiceLocator.getCalendarService().getCalendarByGroup(pc.getPayCalendar()));
+			pc.setLeaveCalObj(TkServiceLocator.getCalendarService().getCalendarByGroup(pc.getLeaveCalendar()));
 		}
 		return pc;
 	}

@@ -35,7 +35,7 @@ public class TkTestUtils {
 	public static TimesheetDocument populateBlankTimesheetDocument(Date calDate) {
 		try {
 			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getTargetPrincipalId(),
-							TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(TKContext.getUser().getTargetPrincipalId(),
+							TkServiceLocator.getCalendarService().getCurrentCalendarDates(TKContext.getUser().getTargetPrincipalId(),
                                     calDate));
 			for(TimeBlock timeBlock : timesheet.getTimeBlocks()){
 				TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlock);
@@ -50,7 +50,7 @@ public class TkTestUtils {
 	public static TimesheetDocument populateTimesheetDocument(Date calDate) {
 		try {
 			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getTargetPrincipalId(),
-							TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(TKContext.getUser().getTargetPrincipalId(),
+							TkServiceLocator.getCalendarService().getCurrentCalendarDates(TKContext.getUser().getTargetPrincipalId(),
                                     calDate));
 			for(TimeBlock timeBlock : timesheet.getTimeBlocks()){
 				TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlock);
@@ -58,7 +58,7 @@ public class TkTestUtils {
 
 			//refetch clean document
 			timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getTargetPrincipalId(),
-					TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(TKContext.getUser().getTargetPrincipalId(),
+					TkServiceLocator.getCalendarService().getCurrentCalendarDates(TKContext.getUser().getTargetPrincipalId(),
                             calDate));
 			List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
 			for(int i = 0;i<5;i++){
@@ -167,7 +167,7 @@ public class TkTestUtils {
 	}
 
 	public static List<Job> getJobs(Date calDate){
-		return TkServiceLocator.getJobSerivce().getJobs(TKContext.getPrincipalId(), calDate);
+		return TkServiceLocator.getJobService().getJobs(TKContext.getPrincipalId(), calDate);
 	}
 	/**
 	 *

@@ -442,13 +442,13 @@ public class AccrualServiceImpl implements AccrualService {
 		BigDecimal previousFte = null;
 	    while (!gc.getTime().after(endDate)) {
 	    	RateRange rateRange = new RateRange();
-			List<Job> jobs = TkServiceLocator.getJobSerivce().getActiveLeaveJobs(principalId, gc.getTime());
+			List<Job> jobs = TkServiceLocator.getJobService().getActiveLeaveJobs(principalId, gc.getTime());
 			rateRange.setJobs(jobs);
 			// detect if there's a status change
 			if(!jobs.isEmpty()) {
-				BigDecimal fteSum = TkServiceLocator.getJobSerivce().getFteSumForJobs(jobs);
+				BigDecimal fteSum = TkServiceLocator.getJobService().getFteSumForJobs(jobs);
 				rateRange.setAccrualRatePercentageModifier(fteSum);
-				BigDecimal standardHours = TkServiceLocator.getJobSerivce().getStandardHoursSumForJobs(jobs);
+				BigDecimal standardHours = TkServiceLocator.getJobService().getStandardHoursSumForJobs(jobs);
 				rateRange.setStandardHours(standardHours);
 				
 				if(previousFte != null && !previousFte.equals(fteSum)) {

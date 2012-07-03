@@ -83,7 +83,7 @@ public class AssignmentLookupableHelper extends
 //		for(int i = 0; i< aList.size(); i++) {
 //			Assignment anAssign = (Assignment) aList.get(i);
 //			if(anAssign.getPrincipalId() != null && anAssign.getEffectiveDate() != null) {
-//				List<Job> jobList = TkServiceLocator.getJobSerivce().getJobs(anAssign.getPrincipalId(), anAssign.getEffectiveDate());
+//				List<Job> jobList = TkServiceLocator.getJobService().getJobs(anAssign.getPrincipalId(), anAssign.getEffectiveDate());
 //				for(Job aJob : jobList) {
 //					if(!aJob.getJobNumber().equals(anAssign.getJobNumber())){
 //						continue;

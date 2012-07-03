@@ -26,7 +26,6 @@ import org.kuali.hr.time.util.TkConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import org.springframework.web.util.HtmlUtils;
 
 /**
  * See: https://wiki.kuali.org/display/KPME/Role+Security+Grid
@@ -56,7 +55,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         super.setUp();
 
         String userId = "fred";
-        CalendarEntries pcd = TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(userId, asOfDate);
+        CalendarEntries pcd = TkServiceLocator.getCalendarService().getCurrentCalendarDates(userId, asOfDate);
         assertNotNull("No PayCalendarDates", pcd);
         fredsDocument = TkServiceLocator.getTimesheetService().openTimesheetDocument(userId, pcd);
         String tdocId = fredsDocument.getDocumentId();

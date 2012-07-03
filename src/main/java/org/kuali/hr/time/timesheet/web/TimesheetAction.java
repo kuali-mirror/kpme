@@ -63,7 +63,7 @@ public class TimesheetAction extends TkAction {
         } else {
             // Default to whatever is active for "today".
             Date currentDate = TKUtils.getTimelessDate(null);
-            payCalendarEntries = TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(viewPrincipal,  currentDate);
+            payCalendarEntries = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal,  currentDate);
             td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, payCalendarEntries);
         }
 

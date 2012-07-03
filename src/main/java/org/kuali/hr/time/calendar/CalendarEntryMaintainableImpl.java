@@ -27,7 +27,7 @@ public class CalendarEntryMaintainableImpl extends KualiMaintainableImpl {
 	@Override
 	public void saveBusinessObject() {
 		CalendarEntries payEntry = (CalendarEntries)super.getBusinessObject();
-		Calendar calendar = TkServiceLocator.getCalendarSerivce().getCalendarByGroup(payEntry.getCalendarName());
+		Calendar calendar = TkServiceLocator.getCalendarService().getCalendarByGroup(payEntry.getCalendarName());
 		payEntry.setHrCalendarId(calendar.getHrCalendarId());
 		
 		java.sql.Date beginDate = payEntry.getBeginPeriodDate();

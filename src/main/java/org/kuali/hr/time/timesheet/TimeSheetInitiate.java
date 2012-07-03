@@ -60,7 +60,7 @@ public class TimeSheetInitiate extends PersistableBusinessObjectBase {
 	
 	public CalendarEntries getPayCalendarEntriesObj() {
 		if(hrPyCalendarEntriesId != null) {
-			setPayCalendarEntriesObj(TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntries(hrPyCalendarEntriesId));
+			setPayCalendarEntriesObj(TkServiceLocator.getCalendarEntriesService().getCalendarEntries(hrPyCalendarEntriesId));
 		}
 		return payCalendarEntriesObj;
 	}
@@ -104,7 +104,7 @@ public class TimeSheetInitiate extends PersistableBusinessObjectBase {
 
 	public String getBeginAndEndDateTime() {
 		if (payCalendarEntriesObj == null && this.getHrPyCalendarEntriesId() != null) {
-			payCalendarEntriesObj = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntries(this.getHrPyCalendarEntriesId());
+			payCalendarEntriesObj = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(this.getHrPyCalendarEntriesId());
 	    }
 	    return (payCalendarEntriesObj != null) ? 
 	    		payCalendarEntriesObj.getBeginPeriodDateTime().toString() + " - "+ payCalendarEntriesObj.getEndPeriodDateTime().toString() : "";

@@ -59,7 +59,7 @@ public class TkMobileServiceImpl implements TkMobileService {
 
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(new AssignmentDescriptionKey(assignmentKey), TKUtils.getCurrentDate());
         Date currentDate = TKUtils.getCurrentDate();
-        CalendarEntries calendarEntries = TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(principalId,  currentDate);
+        CalendarEntries calendarEntries = TkServiceLocator.getCalendarService().getCurrentCalendarDates(principalId,  currentDate);
         TimesheetDocument td;
 		try {
 			td = TkServiceLocator.getTimesheetService().openTimesheetDocument(principalId, calendarEntries);

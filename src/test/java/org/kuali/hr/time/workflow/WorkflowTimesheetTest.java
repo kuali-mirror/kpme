@@ -34,10 +34,10 @@ public class WorkflowTimesheetTest extends TkTestCase {
 		Date asOfDate = new Date((new DateTime(2010, 8, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
 
 		
-		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(user.getPrincipalId(), asOfDate);
+		List<Job> jobs = TkServiceLocator.getJobService().getJobs(user.getPrincipalId(), asOfDate);
 		assertNotNull("No jobs", jobs);
 		assertTrue("Should only be two Jobs.", jobs.size() == 2);
-		CalendarEntries pcd = TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(user.getPrincipalId(), asOfDate);
+		CalendarEntries pcd = TkServiceLocator.getCalendarService().getCurrentCalendarDates(user.getPrincipalId(), asOfDate);
 		assertNotNull("No PayCalendarDates", pcd);
 		
 		TimesheetDocument tdoc = timesheetService.openTimesheetDocument(user.getPrincipalId(), pcd);
