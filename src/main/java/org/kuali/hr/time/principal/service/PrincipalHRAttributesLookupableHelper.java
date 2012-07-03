@@ -24,15 +24,15 @@ public class PrincipalHRAttributesLookupableHelper extends
 		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
 			PrincipalHRAttributes principalHRAttr = (PrincipalHRAttributes) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
-			final String principalId = principalHRAttr.getPrincipalId();
+			final String hrPrincipalAttributeId = principalHRAttr.getHrPrincipalAttributeId();
 			HtmlData htmlData = new HtmlData() {
 
 				@Override
 				public String constructCompleteHtmlTag() {
 					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
 							+ className
-							+ "&methodToCall=start&principalId="
-							+ principalId + "\">view</a>";
+							+ "&methodToCall=start&hrPrincipalAttributeId="
+							+ hrPrincipalAttributeId + "\">view</a>";
 				}
 			};
 			customActionUrls.add(htmlData);
