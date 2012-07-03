@@ -59,6 +59,11 @@ public class TkRole extends HrBusinessObject {
 
     public void setDepartmentObj(Department departmentObj) {
         this.departmentObj = departmentObj;
+        if (departmentObj != null) {
+            this.department = departmentObj.getDept();
+            this.workAreaObj= null;
+            this.workArea = null;
+        }
     }
 
     public WorkArea getWorkAreaObj() {
@@ -67,6 +72,11 @@ public class TkRole extends HrBusinessObject {
 
     public void setWorkAreaObj(WorkArea workAreaObj) {
         this.workAreaObj = workAreaObj;
+        if (workAreaObj != null) {
+            this.workArea = workAreaObj.getWorkArea();
+            this.departmentObj = TkServiceLocator.getDepartmentService().getDepartment(workAreaObj.getDept(), TKUtils.getCurrentDate());
+            this.department = workAreaObj.getDept();
+        }
     }
 
     public String getHrRolesId() {
@@ -99,18 +109,12 @@ public class TkRole extends HrBusinessObject {
 	}
 	public void setWorkArea(Long workArea) {
 		this.workArea = workArea;
-		this.workAreaObj= TkServiceLocator.getWorkAreaService().getWorkArea(workArea, TKUtils.getCurrentDate());
-		this.departmentObj = TkServiceLocator.getDepartmentService().getDepartment(workAreaObj.getDept(), TKUtils.getCurrentDate());
-		this.department = this.workAreaObj.getDept();
 	}
 	public String getDepartment() {
 		return department;
 	}
 	public void setDepartment(String department) {
 		this.department = department;
-		this.departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, TKUtils.getCurrentDate());
-		this.workAreaObj= null;
-		this.workArea = null;
 	}
 	
 	public Date getEffectiveDate() {

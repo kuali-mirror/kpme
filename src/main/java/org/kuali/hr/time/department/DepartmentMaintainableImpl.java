@@ -100,7 +100,7 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
 
 		dept.setRoles(roles);
 		for (TkRole role : roles) {
-			role.setDepartment(dept.getDept());
+			role.setDepartmentObj(dept);
 			role.setUserPrincipalId(TKContext.getPrincipalId());
 		}
 		TkServiceLocator.getTkRoleService().saveOrUpdate(roles);

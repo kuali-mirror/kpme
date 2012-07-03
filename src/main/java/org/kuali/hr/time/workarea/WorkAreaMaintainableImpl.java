@@ -142,7 +142,8 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         workArea.setTasks(tasks);
 
         for (TkRole role : roles) {
-            role.setWorkArea(workAreaNumber);
+            role.setWorkAreaObj(workArea);
+            //role.setWorkAreaId(workAreaNumber);
             role.setUserPrincipalId(TKContext.getPrincipalId());
         }
         workArea.setRoles(roles);
