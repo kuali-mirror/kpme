@@ -53,7 +53,7 @@
 //import org.springmodules.orm.ojb.PersistenceBrokerCallback;
 //import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 //
-//public class _DocumentRouteHeaderDAOOjbImpl extends PersistenceBrokerDaoSupport implements DocumentRouteHeaderDAO {
+//public class _DocumentRouteHeaderDAOOjbImpl extends PlatformAwareDaoBaseOjb implements DocumentRouteHeaderDAO {
 //
 //    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(_DocumentRouteHeaderDAOOjbImpl.class);
 //

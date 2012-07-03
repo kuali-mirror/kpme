@@ -1,16 +1,16 @@
 package org.kuali.hr.time.earncodegroup.dao;
 
+import java.sql.Date;
+
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroupDefinition;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-import java.sql.Date;
-
-public class EarnCodeGroupDaoServiceImpl extends PersistenceBrokerDaoSupport implements EarnCodeGroupDaoService {
+public class EarnCodeGroupDaoServiceImpl extends PlatformAwareDaoBaseOjb implements EarnCodeGroupDaoService {
 
 	@Override
 	public EarnCodeGroup getEarnCodeGroup(String earnGroup, Date asOfDate) {

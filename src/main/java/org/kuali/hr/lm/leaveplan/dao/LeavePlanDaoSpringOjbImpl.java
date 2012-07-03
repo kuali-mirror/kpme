@@ -10,9 +10,9 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class LeavePlanDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements LeavePlanDao {
+public class LeavePlanDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements LeavePlanDao {
 
 	private static final Logger LOG = Logger.getLogger(LeavePlanDaoSpringOjbImpl.class);
 

@@ -171,7 +171,7 @@
 			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
 		</property>
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
+			value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
 		<property name="name" value="timestamp" />
 		<property name="label" value="Time Stamp" />
 	</bean>
@@ -199,7 +199,7 @@
     </property>
     <property name="name" value="active"/>
     <property name="label" value="Active"/>
-    <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+    <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
   </bean>
 
 

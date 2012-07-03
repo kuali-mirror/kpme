@@ -302,6 +302,10 @@ public class SystemAdminAuthorizer implements MaintenanceDocumentAuthorizer {
 		return false;
 	}
 
-
+	@Override
+	public boolean canRecall(Document arg0, Person arg1) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

@@ -1,5 +1,10 @@
 package org.kuali.hr.time.roles.dao;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -11,15 +16,10 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
-public class TkRoleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements TkRoleDao {
+public class TkRoleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements TkRoleDao {
 
     public List<TkRole> findAllRoles(String principalId, Date asOfDate) {
         return findRoles(principalId, asOfDate, null, null, null, null);

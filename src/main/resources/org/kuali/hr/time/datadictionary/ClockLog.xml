@@ -155,7 +155,7 @@
 		<property name="validationPattern">
 			<bean parent="TimestampValidationPattern" />
 		</property>
-		<property name="formatterClass" value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter"/>		
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>		
 		<property name="name" value="clockTimestamp" />
 		<property name="label" value="Clock Timestamp (MM/DD/YYYY&#160;HH:MM AM)" />
 	</bean>
@@ -243,7 +243,7 @@
 		<property name="validationPattern">
 			<bean parent="TimestampValidationPattern" />
 		</property>
-		 <property name="formatterClass" value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter"/>    
+		 <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>    
 		<property name="name" value="timestamp" />
 		<property name="label" value="Timestamp" />
 	</bean>

@@ -7,9 +7,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class LeaveCalendarDocumentHeaderDaoImpl extends PersistenceBrokerDaoSupport implements LeaveCalendarDocumentHeaderDao {
+public class LeaveCalendarDocumentHeaderDaoImpl extends PlatformAwareDaoBaseOjb implements LeaveCalendarDocumentHeaderDao {
     private static final Logger LOG = Logger.getLogger(LeaveCalendarDocumentHeaderDaoImpl.class);
 
     @Override

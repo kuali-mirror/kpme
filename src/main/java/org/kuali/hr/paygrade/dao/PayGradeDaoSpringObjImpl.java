@@ -1,15 +1,15 @@
 package org.kuali.hr.paygrade.dao;
 
+import java.sql.Date;
+
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.paygrade.PayGrade;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-import java.sql.Date;
-
-public class PayGradeDaoSpringObjImpl  extends PersistenceBrokerDaoSupport implements PayGradeDao {
+public class PayGradeDaoSpringObjImpl  extends PlatformAwareDaoBaseOjb implements PayGradeDao {
 
 	@Override
 	public PayGrade getPayGrade(String payGrade, Date asOfDate) {

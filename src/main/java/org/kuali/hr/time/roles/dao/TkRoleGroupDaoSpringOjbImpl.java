@@ -5,9 +5,9 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.roles.TkRoleGroup;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class TkRoleGroupDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements TkRoleGroupDao {
+public class TkRoleGroupDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements TkRoleGroupDao {
  
 	@Override
 	public void saveOrUpdateRoleGroup(TkRoleGroup roleGroup) {

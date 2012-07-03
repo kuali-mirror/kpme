@@ -11,11 +11,10 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leavecode.LeaveCode;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class LeaveCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements LeaveCodeDao {
+public class LeaveCodeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements LeaveCodeDao {
 
 	private static final Logger LOG = Logger.getLogger(LeaveCodeDaoSpringOjbImpl.class);
 

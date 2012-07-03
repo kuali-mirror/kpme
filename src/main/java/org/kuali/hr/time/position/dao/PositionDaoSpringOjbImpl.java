@@ -6,9 +6,9 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.position.Position;
 import org.kuali.hr.time.position.PositionNumber;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class PositionDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements PositionDao {
+public class PositionDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements PositionDao {
 
     @Override
     public Position getPosition(String hrPositionId) {

@@ -1,33 +1,66 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+<web-app version="2.5" 
+         xmlns="http://java.sun.com/xml/ns/j2ee" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_5.xsd">
+
     <context-param>
-        <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:SpringBeans.xml</param-value>
-    </context-param>
-    <context-param>
-        <param-name>kew.bootstrap.spring.file</param-name>
-        <param-value>SpringBeans.xml</param-value>
-    </context-param>
-   	<context-param>
-      <param-name>OverrideConfigLocation</param-name>
-      <param-value>classpath:OverrideSpringBeans.xml</param-value>
+        <param-name>web.bootstrap.spring.file</param-name>
+        <param-value>classpath:kpme-bootstrap-springbeans.xml</param-value>
     </context-param>
     
+    <filter>
+        <filter-name>BootstrapFilter</filter-name>
+        <filter-class>org.kuali.rice.kew.web.BootstrapFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>UserLoginFilter</filter-name>
+        <filter-class>org.kuali.rice.kew.web.UserLoginFilter</filter-class>
+    </filter> 
+  
+    <filter>
+        <filter-name>TkLoginFilter</filter-name>
+        <filter-class>org.kuali.hr.time.web.TkLoginFilter</filter-class>
+    </filter>
     
-	<!-- -->
-	<listener>
-		<listener-class>org.kuali.hr.time.ApplicationInitializeListener</listener-class>
-	</listener>
-	
-	<listener>
-        <listener-class>org.kuali.rice.kns.web.listener.JstlConstantsInitListener</listener-class>
+    <filter-mapping>
+      <filter-name>BootstrapFilter</filter-name>
+      <servlet-name>action</servlet-name>
+    </filter-mapping>
+    
+    <filter-mapping>
+        <filter-name>UserLoginFilter</filter-name>
+        <servlet-name>action</servlet-name>
+    </filter-mapping>
+  
+    <filter-mapping>
+        <filter-name>TkLoginFilter</filter-name>
+        <servlet-name>action</servlet-name>
+    </filter-mapping>
+    
+    <listener>
+        <listener-class>org.kuali.hr.time.ApplicationInitializeListener</listener-class>
     </listener>
-    
     
     <listener>
         <listener-class>org.kuali.hr.time.SessionListener</listener-class>
     </listener>
+    
+    <listener>
+        <listener-class>org.kuali.rice.core.framework.config.module.WebModuleLoaderListener</listener-class>
+    </listener>
+    
+    <servlet>
+        <servlet-name>export</servlet-name>
+        <servlet-class>org.kuali.rice.core.web.impex.ExportServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>remoting</servlet-name>
+        <servlet-class>org.kuali.rice.ksb.messaging.servlet.KSBDispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
 	
 	<servlet>
 		<servlet-name>action</servlet-name>
@@ -36,12 +69,6 @@
 			<param-name>config</param-name>
 			<param-value>/WEB-INF/struts-config.xml</param-value>
 		</init-param>
-		<!--
-        <init-param>
-            <param-name>config/en</param-name>
-            <param-value>/en/WEB-INF/struts-config.xml</param-value>
-        </init-param>
-        -->
         <init-param>
             <param-name>config/kr</param-name>
             <param-value>/kr/WEB-INF/struts-config.xml</param-value>
@@ -52,26 +79,12 @@
         </init-param>  		
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-	<!-- @jspc@ -->
-	<servlet-mapping>
-		<servlet-name>action</servlet-name>
-		<url-pattern>*.do</url-pattern>
-	</servlet-mapping>
 	
-	<!-- rice -->
-
-    <servlet>
+    <servlet-mapping>
         <servlet-name>export</servlet-name>
-        <servlet-class>org.kuali.rice.kew.export.web.ExportServlet</servlet-class>
-    </servlet>
+        <url-pattern>/export/*</url-pattern>
+    </servlet-mapping>
 
-    <servlet>
-        <servlet-name>remoting</servlet-name>
-        <servlet-class>org.kuali.rice.ksb.messaging.servlet.KSBDispatcherServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-   
-		 
     <servlet-mapping>
         <servlet-name>remoting</servlet-name>
         <url-pattern>/remoting/*</url-pattern>
@@ -82,45 +95,4 @@
         <url-pattern>*.do</url-pattern>
     </servlet-mapping>
 
-
-    <servlet-mapping>
-        <servlet-name>export</servlet-name>
-        <url-pattern>/export/*</url-pattern>
-    </servlet-mapping>
-    
- <filter>
-    <filter-name>BootstrapFilter</filter-name>
-    <filter-class>org.kuali.rice.kew.web.BootstrapFilter</filter-class>
-  </filter>
-  
-    <filter>
-        <filter-name>UserLoginFilter</filter-name>
-        <filter-class>org.kuali.rice.kew.web.UserLoginFilter</filter-class>
-    </filter>  
-  
-	<filter>
-		<filter-name>TkLoginFilter</filter-name>
-		<filter-class>org.kuali.hr.time.web.TkLoginFilter</filter-class>
-	</filter>
-
-
-   	<filter-mapping>
-      <filter-name>BootstrapFilter</filter-name>
-      <servlet-name>action</servlet-name>
-    </filter-mapping>
-  
-  
-  	<filter-mapping>
-		<filter-name>TkLoginFilter</filter-name>
-		<servlet-name>action</servlet-name>
-	</filter-mapping>
-    
-
-    <filter-mapping>
-        <filter-name>UserLoginFilter</filter-name>
-        <servlet-name>action</servlet-name>
-    </filter-mapping>  
- 
-
-   
 </web-app>

@@ -10,9 +10,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.batch.BatchJobEntry;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class BatchJobEntryDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements BatchJobEntryDao {
+public class BatchJobEntryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements BatchJobEntryDao {
 
     @Override
     public void saveOrUpdate(BatchJobEntry batchJobEntry) {

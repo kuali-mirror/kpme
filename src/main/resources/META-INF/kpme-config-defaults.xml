@@ -1,0 +1,203 @@
+<!--
+ Copyright 2005-2010 The Kuali Foundation
+ 
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl2.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<!-- This config should not reference other config locations.  It should only contain properties that are specific to KPME or are different from the Rice defaults. -->
+<config>
+	
+	<!-- Defaults for the environment and version.  Setting override to false because these properties might have been set by the build process -->
+	<param name="build.environment" override="false">dev</param>
+	<param name="build.version" override="false">NO VERSION</param>
+
+	<!-- Rice run modes.  When changing runmodes to embedded/remote make sure to update rice server DB & turn dev.mode to false -->
+	<param name="kim.mode">LOCAL</param>
+	<param name="kcb.mode">LOCAL</param>
+	<param name="kew.mode">LOCAL</param>
+	<param name="ken.mode">LOCAL</param>
+	<param name="ksb.mode">LOCAL</param>
+	<param name="kns.mode">LOCAL</param>
+	<param name="krad.mode">LOCAL</param>
+	<param name="krms.mode">LOCAL</param>
+	<param name="coreservice.mode">LOCAL</param>
+	<param name="location.mode">LOCAL</param>
+	<param name="dev.mode">true</param>
+	
+	<param name="rice.krad.componentPublishing.enabled">false</param>
+<!-- 	<param name="service.namespace">KC</param> -->
+<!-- 	<param name="app.namespace">${service.namespace}</param> -->
+
+	<param name="module.name">kpme</param>
+	<param name="app.code">${module.name}</param>
+    <param name="application.id">KPME</param>
+<!-- 	<param name="application.host">127.0.0.1</param> -->
+	
+	<!-- for local (bundled mode) this defaults to the kc client url -->
+<!-- 	<param name="rice.server.url">${application.url}</param> -->
+
+	<param name="externalizable.help.url">/${app.context.name}/static/help/</param>
+	<param name="externalizable.images.url">/${app.context.name}/kr/static/images/</param>
+	<param name="kr.externalizable.images.url">/${app.context.name}/kr/static/images/</param>
+	<param name="kew.externalizable.images.url">/${app.context.name}/kew/images/</param>
+
+    <param name="kns.javascript.files">krad/plugins/jquery/jquery-1.6.3.js,krad/plugins/postmsg/jquery.ba-postmessage.js,krad/plugins/cookie/jquery.cookie.js,kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,dwr/interface/PersonService.js,kr/scripts/objectInfo.js</param>
+	<param name="kns.css.files">kr/css/kuali.css,kr/scripts/jscalendar-1.0/calendar-win2k-1.css</param>
+
+    <param name="javascript.files">krad/scripts/jquery/jquery-1.6.3.js,krad/scripts/jquery/jquery-ui-1.8.9.js,krad/scripts/jquery/jquery.cookie.js,krad/scripts/jquery/jquery.ba-postmessage.js,krad/scripts/jquery/jquery.jgrowl.js,krad/scripts/jquery/jquery.blockUI.js,krad/scripts/jquery/jquery.watermark.js,krad/scripts/jquery/jquery.validate.js,krad/scripts/jquery/smartspinner.js,krad/scripts/jquery/krad.navigationMenu.js,krad/scripts/jquery/krad.textareaPopout.js,krad/scripts/jquery/jquery.dirtyform.js,krad/scripts/jquery/jquery.scrollTo-1.4.2-min.js,krad/scripts/jquery/krad.tabMenu.js,krad/scripts/jquery/jquery.dataTables.js,krad/scripts/jquery/ZeroClipboard.js,krad/scripts/jquery/TableTools.js,krad/scripts/jquery/jquery.jstree.js,krad/scripts/jquery/additional_validations.js,krad/scripts/jquery/jquery.form.js,krad/scripts/jquery/jquery.fancybox-1.3.4.pack.js,krad/scripts/jquery/jquery.easydrag.js,krad/scripts/jquery/jquery.easing-1.3.pack.js,krad/scripts/jquery/jquery.json-2.2.js,krad/scripts/jquery/infusion-1.4.js,krad/scripts/jquery/infusion.reorderer.js,krad/scripts/krad.initialize.js,krad/scripts/krad.ajax.js,krad/scripts/krad.message.js,krad/scripts/krad.utility.js,krad/scripts/krad.validate.js,krad/scripts/krad.widget.js</param>
+    <param name="css.files">krad/css/global/fss-reset.css,krad/css/global/fss-layout.css,krad/css/global/fss-text.css,krad/css/global/base.css,krad/css/global/jquery/jquery-ui-1.8.11.css,krad/css/global/jquery/jquery.jgrowl.css,krad/css/global/jquery/demo_table.css,krad/css/global/jquery/TableTools.css,krad/css/global/jquery/jquery.fancybox-1.3.4.csskrad/css/global/popoutTextarea.css,krad/css/global/jquery/jquery.autocomplete.css,krad/css/global/tabs.css</param>
+
+	<param name="kr.url">kr</param>
+    <!--  <param name="kr.url">/${app.context.name}/kr</param>-->
+	<param name="ken.url">${rice.server.url}/ken</param>
+	<param name="kew.url">${rice.server.url}/kew</param>
+	<param name="kim.url">${rice.server.url}/kim</param>
+	<param name="ksb.url">${rice.server.url}/ksb</param>
+	<param name="krad.url">${rice.server.url}/kr-krad</param>
+	<param name="rice.url">${rice.server.url}/kr</param>
+	<param name="workflow.url">${kew.url}</param>
+	<param name="kuali.docHandler.url.prefix">${application.url}</param>
+	<param name="application.lookup.url">${application.url}/kr/lookup.do</param>
+	
+	<!--messages -->
+<!--     <param name="core.rice.struts.message.resources">org.kuali.rice.krad.ApplicationResources,org.kuali.rice.krad.KRAD-ApplicationResources,org.kuali.rice.kew.ApplicationResources,org.kuali.rice.ksb.ApplicationResources,org.kuali.rice.kim.ApplicationResources,org.kuali.rice.krms.ApplicationResources,org.kuali.rice.core.web.cache.CacheApplicationResources</param> -->
+<!-- 	<param name="kc.struts.message.resources">ApplicationResources</param> -->
+<!-- 	<param name="rice.struts.message.resources">${core.rice.struts.message.resources}, ${kc.struts.message.resources}</param> -->
+
+	<!-- Default DB Parameters -->
+    <param name="datasource.ojb.platform">MySQL</param>
+    <param name="datasource.platform">org.kuali.rice.core.framework.persistence.platform.MySQLDatabasePlatform</param>
+	<param name="datasource.driver.name">com.mysql.jdbc.Driver</param>
+    <param name="datasource.url">jdbc:mysql://localhost:3306/kpmedev</param>
+    <param name="datasource.username">kpmedev</param>
+    <param name="datasource.password">secret</param>
+	<param name="datasource.pool.validationQuery">select 1</param>
+	<param name="datasource.pool.maxWait">30000</param>
+    <param name="datasource.pool.minSize">10</param>
+    <param name="datasource.pool.maxSize">150</param>
+	
+	<!-- KPME Client DB -->
+    <param name="kpme.datasource.ojb.platform">${datasource.ojb.platform}</param>
+    <param name="kpme.datasource.platform">${datasource.platform}</param>
+    <param name="kpme.datasource.driver.name">${datasource.driver.name}</param>
+    <param name="kpme.datasource.url">${datasource.url}</param>
+    <param name="kpme.datasource.username">${datasource.username}</param>
+    <param name="kpme.datasource.password">${datasource.password}</param>
+    <param name="kpme.datasource.pool.validationQuery">${datasource.pool.validationQuery}</param>
+    <param name="kpme.datasource.pool.maxWait">${datasource.pool.maxWait}</param>
+    <param name="kpme.datasource.pool.minSize">${datasource.pool.minSize}</param>
+    <param name="kpme.datasource.pool.maxSize">${datasource.pool.maxSize}</param>
+	
+	<!-- Rice Server DB -->
+    <param name="kr.datasource.ojb.platform">${datasource.ojb.platform}</param>
+    <param name="kr.datasource.platform">${datasource.platform}</param>
+    <param name="kr.datasource.driver.name">${datasource.driver.name}</param>
+    <param name="kr.datasource.url">${datasource.url}</param>
+    <param name="kr.datasource.username">${datasource.username}</param>
+    <param name="kr.datasource.password">${datasource.password}</param>
+    <param name="kr.datasource.pool.validationQuery">${datasource.pool.validationQuery}</param>
+    <param name="kr.datasource.pool.maxWait">${datasource.pool.maxWait}</param>
+    <param name="kr.datasource.pool.minSize">${datasource.pool.minSize}</param>
+    <param name="kr.datasource.pool.maxSize">100</param>
+
+	<param name="keystore.alias">rice</param>
+	<param name="keystore.file">kul</param>
+	<param name="keystore.password">r1c3pw</param>
+	<param name="encryption.key">7IC64w6kAAAA</param>
+
+	<!-- XML ingester directories -->
+	<param name="data.xml.root.location">/opt/ears/${environment}/en/xml</param>
+	<param name="attachment.dir.location">/opt/ears/</param>
+
+	<!-- Configuration for Exception Incident handling and reporting -->
+	<param name="KualiExceptionHandlerAction.EXCEPTION_INCIDENT_REPORT_SERVICE">knsExceptionIncidentService</param>
+	<param name="MailMessage.from">admin@kuali.org</param>
+	<param name="KualiExceptionIncidentServiceImpl.additionalExceptionNameList"></param>
+    <param name="KualiExceptionIncidentServiceImpl.REPORT_MAIL_LIST">tk@test.edu</param>
+    <param name="RouteQueue.maxRetryAttempts">1</param>
+    <param name="RouteQueue.timeIncrement">1000</param>
+	<!-- End of Exception Incident handling and reporting -->
+
+	<!-- Quartz KEW Options -->
+	<param name="useQuartzDatabase">false</param>
+	
+	<!-- Filter Override -->
+    <param name="filter.login.class">org.kuali.hr.time.web.TkLoginFilter</param>
+    <param name="filtermapping.login.1">/*</param>
+	
+	<!-- Rice Webapp Parameters -->
+    <param name="rice.kew.enableKENNotification">false</param>
+    <param name="production.environment.code">prd</param>
+    <param name="security.directory">/usr/local/rice/</param>
+    <param name="settings.directory">/usr/local/rice/</param>
+    <param name="transaction.timeout">3600</param>
+    <param name="memory.monitor.threshold">.85</param>
+    <param name="production.environment.code">prd</param>
+    <param name="maintain.users.locally">true</param>
+    <param name="log4j.reload.minutes">5</param>
+    <param name="mail.relay.server">mail.relay.server</param>
+    <param name="mailing.list.batch">mailing.list.batch</param>
+
+	<param name="rice.logging.configure">true</param>
+	<param name="kim.show.blank.qualifiers">false</param>
+	<param name="shared.rice">false</param>
+	<param name="local.workflow">true</param>
+	
+    <!-- performance logging params -->
+    <param name="log.performance">true</param>
+    <param name="log.performance.time.ignore">100</param>
+    <param name="log.performance.services">true</param>
+    <!-- end performance logging params -->
+    
+    <param name="restricted.env.list">prd</param>
+
+    <!-- ksb messaging params -->
+    <param name="message.persistence">true</param>
+    <param name="message.delivery">synchronous</param>
+    <!-- end ksb messaging params -->
+	
+	<!-- temporary entries -->
+	<!-- Valid Date Formats -->
+    <param name="STRING_TO_DATE_FORMATS" override="false">MM/dd/yyyy hh:mm a;MM/dd/yy;MM/dd/yyyy;MM-dd-yy;MMddyy;MMMM dd;yyyy;MM/dd/yy HH:mm:ss;MM/dd/yyyy HH:mm:ss;MM-dd-yy HH:mm:ss;MMddyy HH:mm:ss;MMMM dd HH:mm:ss;yyyy HH:mm:ss</param>
+    <param name="STRING_TO_TIMESTAMP_FORMATS" override="false">MM/dd/yyyy hh:mm a;MM/dd/yy;MM/dd/yyyy;MM-dd-yy;MMddyy;MMMM dd;yyyy;MM/dd/yy HH:mm:ss;MM/dd/yyyy HH:mm:ss;MM-dd-yy HH:mm:ss;MMddyy HH:mm:ss;MMMM dd HH:mm:ss;yyyy HH:mm:ss</param>
+    <param name="DATE_TO_STRING_FORMAT_FOR_USER_INTERFACE" override="false">MM/dd/yyyy</param>
+    <param name="TIMESTAMP_TO_STRING_FORMAT_FOR_USER_INTERFACE" override="false">MM/dd/yyyy hh:mm a</param>
+    <param name="DATE_TO_STRING_FORMAT_FOR_FILE_NAME" override="false">yyyyMMdd</param>
+    <param name="TIMESTAMP_TO_STRING_FORMAT_FOR_FILE_NAME" override="false">yyyyMMdd-HH-mm-ss-S</param>
+    <!-- replicated from core-config-defaults.xml -->
+    
+	<param name="kim.ehcache.config.location" override="false">classpath:org/kuali/rice/kim/impl/config/kim.ehcache.xml</param>
+	<param name="kew.ehcache.config.location" override="false">classpath:org/kuali/rice/kew/impl/config/kew.ehcache.xml</param>
+	<param name="core.ehcache.config.location" override="false">classpath:org/kuali/rice/core/config/core.ehcache.xml</param>
+	<param name="location.ehcache.config.location" override="false">classpath:org/kuali/rice/location/config/location.ehcache.xml</param>
+	 <!-- XAPool is still the default in common-config-defaults. But that might change -->
+	<param name="connection.pool.impl">XAPool</param>
+	 
+	<param name="rice.portal.allowed.regex" override="false">^(${application.url}|${rice.server.url})(/.*|)</param>
+
+    <!-- cluster.ips : A comma separated list of TK servers that will be utilized during batch job running. Machines are assigned round-robin. -->
+    <param name="cluster.ips">override-in-local-settings</param>
+    <!-- Only one machine should be listed as the master ip -->
+    <param name="tk.batch.master.ip">override-in-local-settings</param>
+    <!-- Worker max threads size -->
+    <param name="tk.batch.threadpool.size">5</param>
+    <!-- Worker poll thread sleep time (seconds) -->
+    <param name="tk.batch.poller.seconds.sleep">30</param>
+    <!-- Master job poll thread sleep time (seconds) -->
+    <param name="tk.batch.job.poller.seconds.sleep">30</param>
+    <!-- +/- days to look at when invesigating calendar entries -->
+    <param name="tk.batch.job.days.polling.window">30</param>
+    <!-- Startup sleep, wait this long before starting ANY threads on any nodes -->
+    <param name="tk.batch.thread.startup.sleep">30</param>
+
+</config>

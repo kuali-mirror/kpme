@@ -9,9 +9,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class SystemScheduledTimeOffDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements SystemScheduledTimeOffDao {
+public class SystemScheduledTimeOffDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements SystemScheduledTimeOffDao {
 
 	private static final Logger LOG = Logger.getLogger(SystemScheduledTimeOffDaoSpringOjbImpl.class);
 

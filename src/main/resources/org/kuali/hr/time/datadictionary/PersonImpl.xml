@@ -17,7 +17,7 @@
 
   <bean id="PersonImpl" parent="PersonImpl-parentBean"/>
 
-  <bean id="PersonImpl-parentBean" abstract="true" parent="BusinessObjectEntry" p:businessObjectClass="org.kuali.rice.kim.bo.impl.PersonImpl" p:titleAttribute="principalId" p:objectLabel="Person" p:inquiryDefinition-ref="PersonImpl-inquiryDefinition" p:lookupDefinition-ref="PersonImpl-lookupDefinition">
+  <bean id="PersonImpl-parentBean" abstract="true" parent="BusinessObjectEntry" p:businessObjectClass="org.kuali.rice.kim.impl.identity.PersonImpl" p:titleAttribute="principalId" p:objectLabel="Person" p:inquiryDefinition-ref="PersonImpl-inquiryDefinition" p:lookupDefinition-ref="PersonImpl-lookupDefinition">
     <property name="attributes">
       <list>
         <ref bean="PersonImpl-campusCode"/>
@@ -42,14 +42,6 @@
     <property name="relationships">
         <list>
             <bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="campus"/>
-              <property name="primitiveAttributes">
-                <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="campusCode" p:targetName="campusCode"/>
-                </list>
-              </property>
-            </bean>
-            <bean parent="RelationshipDefinition">
               <property name="objectAttributeName" value="employeeStatus"/>
               <property name="primitiveAttributes">
                 <list>
@@ -71,7 +63,7 @@
 
   <!-- TODO: use campus parent bean once imported into Rice -->
   <bean id="PersonImpl-campusCode" parent="PersonImpl-campusCode-parentBean"/>
-  <bean id="PersonImpl-campusCode-parentBean" parent="Campus-campusCode" abstract="true" p:name="campusCode" p:required="false">
+  <bean id="PersonImpl-campusCode-parentBean" parent="Campus-code" abstract="true" p:name="campusCode" p:required="false">
   </bean>
 
   <bean id="PersonImpl-emailAddress" parent="PersonImpl-emailAddress-parentBean"/>

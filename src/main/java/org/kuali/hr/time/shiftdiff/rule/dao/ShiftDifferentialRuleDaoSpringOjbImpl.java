@@ -10,9 +10,9 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class ShiftDifferentialRuleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements ShiftDifferentialRuleDao {
+public class ShiftDifferentialRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements ShiftDifferentialRuleDao {
 	
 	@Override
 	public ShiftDifferentialRule findShiftDifferentialRule(String id) {

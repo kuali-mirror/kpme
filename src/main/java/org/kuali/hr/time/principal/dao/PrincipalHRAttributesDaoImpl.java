@@ -10,9 +10,9 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class PrincipalHRAttributesDaoImpl extends PersistenceBrokerDaoSupport implements PrincipalHRAttributesDao {
+public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implements PrincipalHRAttributesDao {
 
 	@Override
 	public PrincipalHRAttributes getPrincipalCalendar(String principalId,

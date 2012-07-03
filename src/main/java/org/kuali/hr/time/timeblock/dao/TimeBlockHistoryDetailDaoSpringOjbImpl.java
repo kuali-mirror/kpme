@@ -7,9 +7,9 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.timeblock.TimeBlockHistoryDetail;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class TimeBlockHistoryDetailDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements TimeBlockHistoryDetailDao {
+public class TimeBlockHistoryDetailDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements TimeBlockHistoryDetailDao {
 
 	@Override
 	public void saveOrUpdate(TimeBlockHistoryDetail timeBlockHistoryDetail) {

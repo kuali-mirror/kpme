@@ -5,11 +5,11 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.person.TKPerson;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-public class PersonDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements PersonDao {
+public class PersonDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements PersonDao {
 
     private static final Logger LOG = Logger.getLogger(PersonDaoSpringOjbImpl.class);
 

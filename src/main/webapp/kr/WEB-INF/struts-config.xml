@@ -107,6 +107,6 @@
     </action-mappings>
 
     <controller processorClass="org.kuali.hr.time.web.TKRequestProcessor" />
-    <plug-in className="org.kuali.rice.kns.web.struts.pojo.PojoPlugin" />
+    <plug-in className="org.kuali.rice.kns.web.struts.form.pojo.PojoPlugin" />
 </struts-config>
 

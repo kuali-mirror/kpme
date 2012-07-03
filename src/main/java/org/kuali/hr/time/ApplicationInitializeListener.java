@@ -1,7 +1,6 @@
 package org.kuali.hr.time;
 
 import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -9,9 +8,9 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.core.web.format.Formatter;
-import org.springframework.web.context.ContextLoaderListener;
+import org.kuali.rice.core.web.listener.KualiInitializeListener;
 
-public class ApplicationInitializeListener extends ContextLoaderListener implements ServletContextListener {
+public class ApplicationInitializeListener extends KualiInitializeListener {
 	
     private static Logger LOG = Logger.getLogger(ApplicationInitializeListener.class);
     //private RiceConfigurer rice;

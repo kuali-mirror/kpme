@@ -1,14 +1,15 @@
 package org.kuali.hr.lm.leaveblock.dao;
 
 import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.lm.leaveblock.LeaveStatusHistory;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class LeaveStatusHistoryDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements LeaveStatusHistoryDao{
+public class LeaveStatusHistoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements LeaveStatusHistoryDao{
 
 	@SuppressWarnings("unused")
     private static final Logger LOG = Logger.getLogger(LeaveStatusHistoryDaoSpringOjbImpl.class);
