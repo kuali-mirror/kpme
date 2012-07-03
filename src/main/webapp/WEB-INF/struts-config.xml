@@ -20,7 +20,7 @@
         <form-bean name="SessionInvalidateForm" type="org.kuali.hr.time.web.SessionInvalidateForm"/>
  		<form-bean name="CalendarEntryActionForm" type="org.kuali.hr.time.calendar.web.CalendarEntryActionForm"/>
 		<form-bean name="LeaveCalendarForm" type="org.kuali.hr.lm.leavecalendar.web.LeaveCalendarForm"/>
-		<form-bean name="LeaveCalendarForm" type="org.kuali.hr.lm.leavecalendar.web.LeaveCalendarForm"/>
+		<form-bean name="LeaveBlockDisplayForm" type="org.kuali.hr.lm.leave.web.LeaveBlockDisplayForm"/>
 		<form-bean name="LeaveRequestForm" type="org.kuali.hr.lm.leave.web.LeaveRequestForm"/>
 		<form-bean name="LeaveCalendarWSForm" type="org.kuali.hr.lm.leave.web.LeaveCalendarWSForm"/>
     </form-beans>
