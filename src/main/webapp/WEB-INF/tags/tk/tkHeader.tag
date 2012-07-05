@@ -55,7 +55,7 @@
                         <c:if test="${form.user.backdoorPerson ne null}">
                             <a href="?methodToCall=clearBackdoor" style="font-size: .8em;">Remove backdoor</a> |
                         </c:if>
-                        <a href="<%=request.getContextPath() %>/Logout.do" style="font-size: .8em;">Logout</a>
+                        <a href="<%=request.getContextPath() %>/logout.do" style="font-size: .8em;">Logout</a>
                     </td>
                     <td></td>
                 </tr>

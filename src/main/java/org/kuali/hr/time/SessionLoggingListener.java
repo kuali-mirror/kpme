@@ -9,9 +9,9 @@ import javax.servlet.http.HttpSessionListener;
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.util.TKUtils;
 
-public class SessionListener implements HttpSessionListener {
+public class SessionLoggingListener implements HttpSessionListener {
 
-    private static final Logger LOG = Logger.getLogger(SessionListener.class);
+    private static final Logger LOG = Logger.getLogger(SessionLoggingListener.class);
     private static int sessionCount;
 
     @Override
@@ -36,8 +36,9 @@ public class SessionListener implements HttpSessionListener {
     @Override
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
         HttpSession session = httpSessionEvent.getSession();
-		session.invalidate();
+
         String id = session.getId();
+        
         synchronized (this) {
             sessionCount--;
         }
@@ -45,4 +46,5 @@ public class SessionListener implements HttpSessionListener {
         String message = "Session destroyed" + "\nValue of destroyed session ID is " + id + "\nThere are now " + sessionCount + " live sessions in the application.";
         LOG.info(message);
     }
+    
 }
