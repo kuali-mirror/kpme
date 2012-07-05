@@ -56,7 +56,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         super.setUp();
 
         String userId = "fred";
-        CalendarEntries pcd = TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(userId, asOfDate);
+        CalendarEntries pcd = TkServiceLocator.getCalendarService().getCurrentCalendarDates(userId, asOfDate);
         Assert.assertNotNull("No PayCalendarDates", pcd);
         fredsDocument = TkServiceLocator.getTimesheetService().openTimesheetDocument(userId, pcd);
         String tdocId = fredsDocument.getDocumentId();

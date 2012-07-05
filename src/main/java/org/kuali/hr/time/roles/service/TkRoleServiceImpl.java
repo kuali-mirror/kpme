@@ -136,7 +136,7 @@ public class TkRoleServiceImpl implements TkRoleService {
         	if(StringUtils.isNotBlank(role.getPrincipalId())){
         		users.add(role.getPrincipalId());
         	} else if(StringUtils.isNotBlank(role.getPositionNumber())){
-        		List<Job> lstJobs = TkServiceLocator.getJobSerivce().getActiveJobsForPosition(role.getPositionNumber(), asOfDate);
+        		List<Job> lstJobs = TkServiceLocator.getJobService().getActiveJobsForPosition(role.getPositionNumber(), asOfDate);
         		for(Job job : lstJobs){
         			users.add(job.getPrincipalId());
         		}

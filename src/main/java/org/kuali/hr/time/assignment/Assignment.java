@@ -99,7 +99,7 @@ public class Assignment extends HrBusinessObject {
 
 	public Job getJob() {
 		if(job == null && this.getJobNumber() != null) {
-			this.setJob(TkServiceLocator.getJobSerivce().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveDate()));
+			this.setJob(TkServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveDate()));
 		}
 		return job;
 	}
@@ -180,9 +180,9 @@ public class Assignment extends HrBusinessObject {
 		if(this.getJobNumber()!= null) {
 			if(this.getJob() == null || !this.getJobNumber().equals(this.getJob().getJobNumber())) {
 				if(this.getEffectiveDate()!=null){
-					this.setJob(TkServiceLocator.getJobSerivce().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveDate(), false));
+					this.setJob(TkServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), this.getEffectiveDate(), false));
 				}else{
-					this.setJob(TkServiceLocator.getJobSerivce().getJob(this.getPrincipalId(), this.getJobNumber(), TKUtils.getCurrentDate(), false));
+					this.setJob(TkServiceLocator.getJobService().getJob(this.getPrincipalId(), this.getJobNumber(), TKUtils.getCurrentDate(), false));
 				}
 			}
 			setDept((this.getJob() != null) ? this.getJob().getDept() : "");

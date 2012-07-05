@@ -88,7 +88,7 @@ public class TkRoleGroupMaintainableImpl extends HrBusinessObjectMaintainableImp
 			Map<String, String[]> parameters) {
 		TkRoleGroup tkRoleGroup = (TkRoleGroup)document.getNewMaintainableObject().getBusinessObject();
 		TkRoleGroup tkRoleGroupOld = (TkRoleGroup)document.getOldMaintainableObject().getBusinessObject();
-		List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(tkRoleGroup.getPrincipalId(), TKUtils.getCurrentDate());
+		List<Job> jobs = TkServiceLocator.getJobService().getJobs(tkRoleGroup.getPrincipalId(), TKUtils.getCurrentDate());
 		List<TkRole> positionRoles = new ArrayList<TkRole>();
 		List<TkRole> inactivePositionRoles = new ArrayList<TkRole>();
 		Set<String> positionNumbers = new HashSet<String>(); 

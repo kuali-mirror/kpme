@@ -115,7 +115,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		// Grab the pay calendar entries + groups
 		for (Calendar pc : payCals) {
 			CalendarEntries pce = TkServiceLocator
-					.getCalendarEntriesSerivce()
+					.getCalendarEntriesService()
 					.getCurrentCalendarEntriesByCalendarId(
                             pc.getHrCalendarId(), currentDate);
 			pceMap.put(pc.getCalendarName(), pce);
@@ -171,7 +171,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		// Grab the pay calendar entries + groups
 		for (Calendar pc : payCals) {
 			CalendarEntries pce = TkServiceLocator
-					.getCalendarEntriesSerivce()
+					.getCalendarEntriesService()
 					.getCurrentCalendarEntriesByCalendarId(
                             pc.getHrCalendarId(), currentDate);
 			pceMap.put(pc.getCalendarName(), pce);
@@ -224,7 +224,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		Map<String, TimesheetDocumentHeader> principalDocumentHeader = getPrincipalDocumehtHeader(
 				persons, payBeginDate, payEndDate);
 
-		Calendar payCalendar = TkServiceLocator.getCalendarSerivce()
+		Calendar payCalendar = TkServiceLocator.getCalendarService()
 				.getCalendar(payCalendarEntries.getHrCalendarId());
 		DateTimeZone dateTimeZone = TkServiceLocator.getTimezoneService()
 				.getUserTimezoneWithFallback();
@@ -641,7 +641,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		      java.sql.Date beginDate, java.sql.Date endDate) {
 	    String sql = null;
 
-        List<Job> jobs = TkServiceLocator.getJobSerivce().getJobs(TKContext.getUser().getTargetPrincipalId(), effdt);
+        List<Job> jobs = TkServiceLocator.getJobService().getJobs(TKContext.getUser().getTargetPrincipalId(), effdt);
         String jobPositionNumbersList = "'";
         for (Job job : jobs) {
                         jobPositionNumbersList += job.getPositionNumber() + "','";
@@ -848,7 +848,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		}
 		Set<CalendarEntries> payPeriodSet = new HashSet<CalendarEntries>();
 		for(TimesheetDocumentHeader tdh : documentHeaders) {
-    		CalendarEntries pe = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntriesByBeginAndEndDate(tdh.getPayBeginDate(), tdh.getPayEndDate());
+    		CalendarEntries pe = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(tdh.getPayBeginDate(), tdh.getPayEndDate());
     		if(pe != null) {
     			payPeriodSet.add(pe);
     		}

@@ -96,7 +96,7 @@ public class TimeDetailAction extends TimesheetAction {
 
         // Set calendar
         CalendarEntries payCalendarEntry = tdaf.getPayCalendarDates();
-        Calendar payCalendar = TkServiceLocator.getCalendarSerivce().getCalendar(payCalendarEntry.getHrCalendarId());
+        Calendar payCalendar = TkServiceLocator.getCalendarService().getCalendar(payCalendarEntry.getHrCalendarId());
         TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry, payCalendar, true,
                 TKUtils.getFullWeekDaySpanForCalendarEntry(payCalendarEntry));
         TkCalendar cal = TkCalendar.getCalendar(aggregate);
@@ -168,7 +168,7 @@ public class TimeDetailAction extends TimesheetAction {
 	        List<CalendarEntries> payPeriodList = new ArrayList<CalendarEntries>();
 	        for(TimesheetDocumentHeader tdh : documentHeaders) {
 	        	if(sdf.format(tdh.getPayBeginDate()).equals(tdaf.getSelectedCalendarYear())) {
-                    CalendarEntries pe = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntriesByBeginAndEndDate(tdh.getPayBeginDate(), tdh.getPayEndDate());
+                    CalendarEntries pe = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(tdh.getPayBeginDate(), tdh.getPayEndDate());
 	        		payPeriodList.add(pe);
 	        	}
 	        }
@@ -369,7 +369,7 @@ public class TimeDetailAction extends TimesheetAction {
   public ActionForward gotoCurrentPayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 	  String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
 	  Date currentDate = TKUtils.getTimelessDate(null);
-      CalendarEntries pce = TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(viewPrincipal, currentDate);
+      CalendarEntries pce = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal, currentDate);
       TimesheetDocument td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, pce);
       setupDocumentOnFormContext((TimesheetActionForm)form, td);
 	  return mapping.findForward("basic");
@@ -390,7 +390,7 @@ public class TimeDetailAction extends TimesheetAction {
 	  TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
 	  if(request.getParameter("selectedPP") != null) {
 		  tdaf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
-          CalendarEntries pce = TkServiceLocator.getCalendarEntriesSerivce()
+          CalendarEntries pce = TkServiceLocator.getCalendarEntriesService()
 		  	.getCalendarEntries(request.getParameter("selectedPP").toString());
 		  if(pce != null) {
 			  String viewPrincipal = TKContext.getUser().getTargetPrincipalId();

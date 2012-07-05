@@ -51,7 +51,7 @@ public class MissedPunchDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb impleme
 	    List<MissedPunchDocument> aList = (List<MissedPunchDocument>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 	    
 	    String pcdId = batchJobEntry.getHrPyCalendarEntryId();
-	    CalendarEntries pcd = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntries(pcdId.toString());
+	    CalendarEntries pcd = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(pcdId.toString());
 	    if(pcd != null) {
 		    for(MissedPunchDocument aDoc : aList) {
 		    	String tscId = aDoc.getTimesheetDocumentId();

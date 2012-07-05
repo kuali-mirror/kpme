@@ -30,7 +30,7 @@ public class TkTimeBlockAggregate {
      * @param payCalendarEntry
      */
 	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntries payCalendarEntry){
-		this(timeBlocks, payCalendarEntry, TkServiceLocator.getCalendarSerivce().getCalendar(payCalendarEntry.getHrCalendarId()));
+		this(timeBlocks, payCalendarEntry, TkServiceLocator.getCalendarService().getCalendar(payCalendarEntry.getHrCalendarId()));
 	}
 
     /**

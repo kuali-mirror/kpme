@@ -46,7 +46,7 @@ public class JobServiceImpl implements JobService {
         List<Job> jobs = jobDao.getJobs(principalId, asOfDate);
 
         for (Job job : jobs) {
-            PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(
+            PayType payType = TkServiceLocator.getPayTypeService().getPayType(
                     job.getHrPayType(), asOfDate);
             job.setPayTypeObj(payType);
         }
@@ -79,7 +79,7 @@ public class JobServiceImpl implements JobService {
             if (StringUtils.isBlank(hrPayType)) {
                 throw new RuntimeException("No pay type for this job!");
             }
-            PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(
+            PayType payType = TkServiceLocator.getPayTypeService().getPayType(
                     hrPayType, asOfDate);
             if (payType == null)
                 throw new RuntimeException("No paytypes defined for this job!");

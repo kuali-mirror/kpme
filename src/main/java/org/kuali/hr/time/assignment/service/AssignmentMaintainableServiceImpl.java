@@ -80,9 +80,9 @@ public class AssignmentMaintainableServiceImpl extends HrBusinessObjectMaintaina
 				&& assignment.getPrincipalId() != null 
 				&& assignment.getJobNumber() != null 
 				&& assignment.getEffectiveDate() != null) {
-			  Job job = TkServiceLocator.getJobSerivce().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveDate(), false);
+			  Job job = TkServiceLocator.getJobService().getJob(assignment.getPrincipalId(), assignment.getJobNumber(), assignment.getEffectiveDate(), false);
 			  if(job != null) {
-					PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(job.getHrPayType(), assignment.getEffectiveDate());					
+					PayType payType = TkServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), assignment.getEffectiveDate());
 					fieldValues.put("assignmentAccounts.earnCode", (payType != null) ? payType.getRegEarnCode() : "");
 				}
 			}

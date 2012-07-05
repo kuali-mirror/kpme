@@ -206,7 +206,7 @@ public class ActionFormUtils {
     public static boolean getOnCurrentPeriodFlag(CalendarEntries pce) {
     	Date currentDate = TKUtils.getTimelessDate(null);
     	String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
-        CalendarEntries calendarEntry = TkServiceLocator.getCalendarSerivce().getCurrentCalendarDates(viewPrincipal,  currentDate);
+        CalendarEntries calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal,  currentDate);
 
         if(pce != null && calendarEntry != null && calendarEntry.equals(pce)) {
     		return true;

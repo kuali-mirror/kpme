@@ -93,7 +93,7 @@ public class CalendarEntries extends PersistableBusinessObjectBase implements Co
     }
 
     public String getHrCalendarId() {
-        calendarObj = TkServiceLocator.getCalendarSerivce().getCalendarByGroup(this.getCalendarName());
+        calendarObj = TkServiceLocator.getCalendarService().getCalendarByGroup(this.getCalendarName());
         if (calendarObj != null) {
             this.setHrCalendarId(calendarObj.getHrCalendarId());
         }

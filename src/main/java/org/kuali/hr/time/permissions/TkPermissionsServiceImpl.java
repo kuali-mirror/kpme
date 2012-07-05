@@ -69,10 +69,10 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
                 return true;
             }
 
-            Job job = TkServiceLocator.getJobSerivce().getJob(
+            Job job = TkServiceLocator.getJobService().getJob(
                     TKContext.getTargetPrincipalId(), tb.getJobNumber(),
                     tb.getEndDate());
-            PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(
+            PayType payType = TkServiceLocator.getPayTypeService().getPayType(
                     job.getHrPayType(), tb.getEndDate());
 
             if (ur.isTimesheetApprover()
@@ -135,10 +135,10 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
                 return true;
             }
 
-            Job job = TkServiceLocator.getJobSerivce().getJob(
+            Job job = TkServiceLocator.getJobService().getJob(
                     TKContext.getTargetPrincipalId(), tb.getJobNumber(),
                     tb.getEndDate());
-            PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(
+            PayType payType = TkServiceLocator.getPayTypeService().getPayType(
                     job.getHrPayType(), tb.getEndDate());
 
             if (ur.isTimesheetApprover()
@@ -200,10 +200,10 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
                 return true;
             }
 
-            Job job = TkServiceLocator.getJobSerivce().getJob(
+            Job job = TkServiceLocator.getJobService().getJob(
                     TKContext.getTargetPrincipalId(), tb.getJobNumber(),
                     tb.getEndDate());
-            PayType payType = TkServiceLocator.getPayTypeSerivce().getPayType(
+            PayType payType = TkServiceLocator.getPayTypeService().getPayType(
                     job.getHrPayType(), tb.getEndDate());
 
             if (ur.isTimesheetApprover()
@@ -606,7 +606,7 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
         	if(tcr != null && tcr.isClockUserFl()) {
         		// use assignment to get the payType object, then check if the regEarnCode of the paytyep matches the earn code of the timeblock
         		// if they do match, then return false
-        		PayType pt = TkServiceLocator.getPayTypeSerivce().getPayType(anAssignment.getJob().getHrPayType(), anAssignment.getJob().getEffectiveDate());
+        		PayType pt = TkServiceLocator.getPayTypeService().getPayType(anAssignment.getJob().getHrPayType(), anAssignment.getJob().getEffectiveDate());
         		if(pt != null && pt.getRegEarnCode().equals(tb.getEarnCode())) {
         			return false;
         		}

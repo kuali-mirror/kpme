@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -231,25 +232,32 @@ public class TkRoleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements T
         root.addEqualTo("timestamp", timestampSubQuery);
 
         // Optional ROOT criteria added :
-        if (workArea != null)
+        if (workArea != null) {
             root.addEqualTo("workArea", workArea);
+        }
+
         if (StringUtils.isNotEmpty(department)) {
             departmentCriteria.addEqualTo("department", department);
             Collection<WorkArea> collectionWorkAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(department, asOfDate);
-            List<Long> longWorkAreas = new ArrayList<Long>();
-            for(WorkArea cwa : collectionWorkAreas){
-                longWorkAreas.add(cwa.getWorkArea());
+            if (CollectionUtils.isNotEmpty(collectionWorkAreas)) {
+                List<Long> longWorkAreas = new ArrayList<Long>();
+                for(WorkArea cwa : collectionWorkAreas){
+                    longWorkAreas.add(cwa.getWorkArea());
+                }
+                workAreaCriteria.addIn("workArea", longWorkAreas);
+                departmentCriteria.addOrCriteria(workAreaCriteria);
             }
-            workAreaCriteria.addIn("workArea", longWorkAreas);
-            departmentCriteria.addOrCriteria(workAreaCriteria);
             root.addAndCriteria(departmentCriteria);
         }
-        if (StringUtils.isNotEmpty(chart))
+        if (StringUtils.isNotEmpty(chart)) {
             root.addEqualTo("chart", chart);
-        if (StringUtils.isNotEmpty(roleName))
+        }
+        if (StringUtils.isNotEmpty(roleName)) {
             root.addEqualTo("roleName", roleName);
-        if (StringUtils.isNotEmpty(principalId))
+        }
+        if (StringUtils.isNotEmpty(principalId)) {
             root.addEqualTo("principalId", principalId);
+        }
 
         // Filter for ACTIVE = 'Y'
         Criteria activeFilter = new Criteria();
@@ -258,6 +266,7 @@ public class TkRoleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements T
 
         Query query = QueryFactory.newQuery(TkRole.class, root);
         // limit the number of the resultset
+        // TODO: hard coding the limits?  probably not the most user friendly of ways to do this
         query.setStartAtIndex(0);
         query.setEndAtIndex(299);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -268,7 +277,7 @@ public class TkRoleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements T
 
         if (StringUtils.isNotBlank(principalId)) {
             //Fetch all the jobs and grab any position roles for this persons jobs
-            List<Job> lstActiveJobs = TkServiceLocator.getJobSerivce().getJobs(principalId, asOfDate);
+            List<Job> lstActiveJobs = TkServiceLocator.getJobService().getJobs(principalId, asOfDate);
             for (Job job : lstActiveJobs) {
                 if (job.getPositionNumber() != null) {
                     List<TkRole> lstRoles = findPositionRoles(job.getPositionNumber(),

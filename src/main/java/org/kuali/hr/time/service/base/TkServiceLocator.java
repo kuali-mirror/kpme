@@ -234,11 +234,11 @@ public class TkServiceLocator implements ApplicationContextAware {
 	    return (AssignmentDao)CONTEXT.getBean(TK_ASSIGNMENT_DAO);
 	}
 
-	public static JobService getJobSerivce() {
+	public static JobService getJobService() {
 		return (JobService)CONTEXT.getBean(TK_JOB_SERVICE);
 	}
 
-	public static PayTypeService getPayTypeSerivce() {
+	public static PayTypeService getPayTypeService() {
 		return (PayTypeService)CONTEXT.getBean(TK_PAY_TYPE_SERVICE);
 	}
 
@@ -425,11 +425,11 @@ public class TkServiceLocator implements ApplicationContextAware {
     	return (PrincipalHRAttributesService)CONTEXT.getBean(TK_PRINCIPAL_HR_ATTRIBUTES_SERVICE);
     }
     
-	public static CalendarService getCalendarSerivce() {
+	public static CalendarService getCalendarService() {
 		return (CalendarService)CONTEXT.getBean(TK_PAY_CALENDAR_SERVICE);
 	}
 	
-	public static CalendarEntriesService getCalendarEntriesSerivce() {
+	public static CalendarEntriesService getCalendarEntriesService() {
 		return (CalendarEntriesService)CONTEXT.getBean(TK_PAY_CALENDAR_ENTRIES_SERVICE);
 	}
 	

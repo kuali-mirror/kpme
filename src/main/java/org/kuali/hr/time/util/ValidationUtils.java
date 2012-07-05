@@ -256,10 +256,10 @@ public class ValidationUtils {
 		boolean valid = false;
 
 		if (asOfDate != null) {
-			PayType pt = TkServiceLocator.getPayTypeSerivce().getPayType(payType, asOfDate);
+			PayType pt = TkServiceLocator.getPayTypeService().getPayType(payType, asOfDate);
 			valid = (pt != null);
 		} else {
-			int count = TkServiceLocator.getPayTypeSerivce().getPayTypeCount(payType);
+			int count = TkServiceLocator.getPayTypeService().getPayTypeCount(payType);
 			valid = (count > 0);
 		}
 

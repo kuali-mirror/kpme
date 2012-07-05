@@ -39,7 +39,7 @@ public class CalendarServiceImpl implements CalendarService {
         CalendarEntries pcd = null;
 
         Calendar calendar = getCalendar(principalId, payEndDate);
-        pcd = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntriesByIdAndPeriodEndDate(calendar.getHrCalendarId(), payEndDate);
+        pcd = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByIdAndPeriodEndDate(calendar.getHrCalendarId(), payEndDate);
         pcd.setCalendarObj(calendar);
 
         return pcd;
@@ -51,7 +51,7 @@ public class CalendarServiceImpl implements CalendarService {
 		CalendarEntries pcd = null;
         Calendar calendar = getCalendarByPrincipalIdAndDate(principalId, currentDate);
         if(calendar != null) {
-		    pcd = TkServiceLocator.getCalendarEntriesSerivce().getCurrentCalendarEntriesByCalendarId(calendar.getHrCalendarId(), currentDate);
+		    pcd = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(calendar.getHrCalendarId(), currentDate);
 		    if(pcd != null) {
 		    	pcd.setCalendarObj(calendar);
 		    }
@@ -69,7 +69,7 @@ public class CalendarServiceImpl implements CalendarService {
     private Calendar getCalendar(String principalId, Date date) {
         Calendar pcal = null;
 
-        List<Job> currentJobs = TkServiceLocator.getJobSerivce().getJobs(principalId, date);
+        List<Job> currentJobs = TkServiceLocator.getJobService().getJobs(principalId, date);
         if(currentJobs.size() < 1){
             throw new RuntimeException("No jobs found for principal id "+principalId);
         }
@@ -106,7 +106,7 @@ public class CalendarServiceImpl implements CalendarService {
 	@Override
 	public Calendar getCalendarByPrincipalIdAndDate(String principalId, Date asOfDate) {
 		Calendar pcal = null;
-        List<Job> currentJobs = TkServiceLocator.getJobSerivce().getJobs(principalId, asOfDate);
+        List<Job> currentJobs = TkServiceLocator.getJobService().getJobs(principalId, asOfDate);
         if(currentJobs.size() < 1){
            return pcal;
         }

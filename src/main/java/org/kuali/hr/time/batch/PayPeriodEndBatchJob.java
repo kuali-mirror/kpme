@@ -21,7 +21,7 @@ public class PayPeriodEndBatchJob extends BatchJob {
 
     @Override
     public void doWork() {
-    	CalendarEntries payCalendarEntry = TkServiceLocator.getCalendarEntriesSerivce().getCalendarEntries(getPayCalendarEntryId());
+    	CalendarEntries payCalendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(getPayCalendarEntryId());
     	List<ClockLog> lstOpenClockLogs = TkServiceLocator.getClockLogService().getOpenClockLogs(payCalendarEntry);
     	for(ClockLog cl : lstOpenClockLogs){
     		populateBatchJobEntry(cl);

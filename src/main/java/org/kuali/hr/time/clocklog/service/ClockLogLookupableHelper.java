@@ -78,7 +78,7 @@ public class ClockLogLookupableHelper extends KualiLookupableHelperServiceImpl {
 				List<TkRole> tkRoles = TkServiceLocator.getTkRoleService()
 						.getRoles(TKContext.getPrincipalId(),
 								TKUtils.getCurrentDate());
-				Job job = TkServiceLocator.getJobSerivce().getJob(
+				Job job = TkServiceLocator.getJobService().getJob(
 						cl.getUserPrincipalId(), cl.getJobNumber(),
 						TKUtils.getCurrentDate(), false);
 				boolean valid = false;

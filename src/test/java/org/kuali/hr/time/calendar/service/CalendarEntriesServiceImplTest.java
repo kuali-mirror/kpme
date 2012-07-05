@@ -15,7 +15,7 @@ public class CalendarEntriesServiceImplTest extends TkTestCase {
 	@Before
 	public void setUp() throws Exception{
 		super.setUp();
-		ceService = TkServiceLocator.getCalendarEntriesSerivce();
+		ceService = TkServiceLocator.getCalendarEntriesService();
 	}
 
 	@After

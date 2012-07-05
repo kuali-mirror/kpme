@@ -31,7 +31,7 @@ public class BatchJobEntryTest extends TkTestCase {
 		bje.setPrincipalId("admin");
 		bje.setDocumentId("testDoc");
 		
-		Calendar pc = TkServiceLocator.getCalendarSerivce().getCalendarByGroup("BW-CAL");		
+		Calendar pc = TkServiceLocator.getCalendarService().getCalendarByGroup("BW-CAL");
 		bje.setHrPyCalendarEntryId(pc.getHrCalendarId());
 		List<BatchJob> batchJobs = TkServiceLocator.getBatchJobService().getBatchJobs(pc.getHrCalendarId());
 		Long batchJobId = new Long(0);

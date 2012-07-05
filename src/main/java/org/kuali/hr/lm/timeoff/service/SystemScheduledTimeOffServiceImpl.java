@@ -47,7 +47,7 @@ public class SystemScheduledTimeOffServiceImpl implements SystemScheduledTimeOff
 	}	
 	@Override
 	public Assignment getAssignmentToApplyHolidays(TimesheetDocument timesheetDocument, java.sql.Date payEndDate) {
-		Job primaryJob = TkServiceLocator.getJobSerivce().getPrimaryJob(timesheetDocument.getPrincipalId(), payEndDate);
+		Job primaryJob = TkServiceLocator.getJobService().getPrimaryJob(timesheetDocument.getPrincipalId(), payEndDate);
 		for(Assignment assign : timesheetDocument.getAssignments()){
 			if(assign.getJobNumber().equals(primaryJob.getJobNumber())){
 				return assign;

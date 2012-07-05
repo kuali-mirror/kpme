@@ -9,6 +9,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class CalendarEntryAction extends TkAction {
@@ -28,7 +29,7 @@ public class CalendarEntryAction extends TkAction {
 			return mapping.findForward("basic");
 		}
 		CalendarEntries calendarEntries = TkServiceLocator
-				.getCalendarEntriesSerivce().getCalendarEntries(
+				.getCalendarEntriesService().getCalendarEntries(
 						ceaf.getHrPyCalendarEntryId().toString());
 		if (calendarEntries == null) {
 			GlobalVariables.getMessageMap().putError(
@@ -37,11 +38,11 @@ public class CalendarEntryAction extends TkAction {
 		} else {
 				for (int i = 0; i < ceaf.getNoOfPeriods(); i++) {
 					CalendarEntries nextCalendarEntries = TkServiceLocator
-							.getCalendarEntriesSerivce()
+							.getCalendarEntriesService()
 							.getNextCalendarEntriesByCalendarId(
 									calendarEntries.getHrCalendarId(), calendarEntries);
 					if (nextCalendarEntries == null) {
-						TkServiceLocator.getCalendarEntriesSerivce()
+						TkServiceLocator.getCalendarEntriesService()
 						.createNextCalendarEntry(calendarEntries);
 					}
 				}

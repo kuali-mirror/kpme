@@ -40,7 +40,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         List<Boolean> dayArrangements = new ArrayList<Boolean>();
 
 		timeSummary.setSummaryHeader(getHeaderForSummary(timesheetDocument.getPayCalendarEntry(), dayArrangements));
-		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timesheetDocument.getTimeBlocks(), timesheetDocument.getPayCalendarEntry(), TkServiceLocator.getCalendarSerivce().getCalendar(timesheetDocument.getPayCalendarEntry().getHrCalendarId()), true);
+		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timesheetDocument.getTimeBlocks(), timesheetDocument.getPayCalendarEntry(), TkServiceLocator.getCalendarService().getCalendar(timesheetDocument.getPayCalendarEntry().getHrCalendarId()), true);
 		timeSummary.setWorkedHours(getWorkedHours(tkTimeBlockAggregate));
 
         List<EarnGroupSection> earnGroupSections = getEarnGroupSections(tkTimeBlockAggregate, timeSummary.getSummaryHeader().size()+1, dayArrangements, timesheetDocument.getAsOfDate());
@@ -111,7 +111,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 								//TODO push this up to the assignment fetch/fully populated instead of like this
 								if(assignment != null){
 									if(assignment.getJob() == null){
-										assignment.setJob(TkServiceLocator.getJobSerivce().getJob(assignment.getPrincipalId(),assignment.getJobNumber(),TKUtils.getTimelessDate(asOfDate)));
+										assignment.setJob(TkServiceLocator.getJobService().getJob(assignment.getPrincipalId(),assignment.getJobNumber(),TKUtils.getTimelessDate(asOfDate)));
 									}
 									if(assignment.getWorkAreaObj() == null){
 										assignment.setWorkAreaObj(TkServiceLocator.getWorkAreaService().getWorkArea(assignment.getWorkArea(), TKUtils.getTimelessDate(asOfDate)));
@@ -327,7 +327,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         Calendar cal = null;
 
         if (calEntry != null) {
-            cal = TkServiceLocator.getCalendarSerivce().getCalendar(calEntry.getHrCalendarId());
+            cal = TkServiceLocator.getCalendarService().getCalendar(calEntry.getHrCalendarId());
         }
 
         return cal;
