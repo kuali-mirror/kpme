@@ -2,6 +2,7 @@ package org.kuali.hr.time.earncode.service;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.junit.Before;
@@ -14,9 +15,7 @@ import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TKUtils;
 
-import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlOption;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
 import com.gargoylesoftware.htmlunit.html.HtmlSelect;
@@ -124,5 +123,15 @@ public class EarnCodeServiceImplTest extends TkTestCase {
 				.clickInputContainingText(maintPage, "submit");
 //		assertTrue("Error message for selecting more than one record type",
 //				resultantPageAfterEdit.asText().contains("For this earn code you can only specify one of the Record types"));
+	}
+	
+	@Test
+	public void testGetEarnCodesForDisplay() throws Exception{
+		Map<String, String> earnCodesDisplay = earnCodeService.getEarnCodesForDisplay("testUser");
+		assertNotNull("earnCodesDisplay should not be null", earnCodesDisplay);
+		assertTrue("There should be 1 earnCode found for principal_id 'testUser', not " + earnCodesDisplay.size(), earnCodesDisplay.size()== 1);
+		assertTrue("earnCodesDisplay should contain Key '5000'", earnCodesDisplay.containsKey("5000"));
+		assertTrue("earnCodesDisplay should contain Value 'EC1 : test1'", earnCodesDisplay.containsValue("EC1 : test1"));
+		
 	}
 }
