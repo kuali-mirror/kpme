@@ -1,7 +1,5 @@
 package org.kuali.hr.time.collection.rule;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;

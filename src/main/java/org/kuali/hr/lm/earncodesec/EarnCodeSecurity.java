@@ -1,15 +1,14 @@
 package org.kuali.hr.lm.earncodesec;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 import org.kuali.hr.job.Job;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.salgroup.SalGroup;
-
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
 public class EarnCodeSecurity extends HrBusinessObject {
 

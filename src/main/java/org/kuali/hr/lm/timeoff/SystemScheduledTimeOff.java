@@ -2,11 +2,9 @@ package org.kuali.hr.lm.timeoff;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.accrual.AccrualCategory;
-import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.time.HrBusinessObject;
@@ -202,12 +200,6 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 	public String getId() {
 		return getLmSystemScheduledTimeOffId();
 	}
-
-//	@Override
-//	protected LinkedHashMap toStringMapper() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 
 	public Boolean getHistory() {
 		return history;

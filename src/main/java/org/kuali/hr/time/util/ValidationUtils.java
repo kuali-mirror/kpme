@@ -1,5 +1,8 @@
 package org.kuali.hr.time.util;
 
+import java.sql.Date;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
@@ -27,11 +30,7 @@ import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-
-import java.sql.Date;
-import java.util.List;
 
 /**
  * A few methods to assist with various validation tasks.

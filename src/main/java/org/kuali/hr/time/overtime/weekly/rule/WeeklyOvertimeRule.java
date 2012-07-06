@@ -2,7 +2,6 @@ package org.kuali.hr.time.overtime.weekly.rule;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;

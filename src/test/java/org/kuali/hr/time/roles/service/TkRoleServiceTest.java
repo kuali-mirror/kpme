@@ -14,15 +14,10 @@ import org.kuali.hr.job.Job;
 import org.kuali.hr.time.position.Position;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
-import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class TkRoleServiceTest  extends TkTestCase {
 

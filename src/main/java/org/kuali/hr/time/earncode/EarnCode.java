@@ -1,11 +1,5 @@
 package org.kuali.hr.time.earncode;
 
-import org.kuali.hr.lm.accrual.AccrualCategory;
-import org.kuali.hr.time.HrBusinessObject;
-import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.krad.service.KRADServiceLocator;
-
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -15,7 +9,8 @@ import java.util.Map;
 
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.HrBusinessObject;
-import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class EarnCode extends HrBusinessObject {
 

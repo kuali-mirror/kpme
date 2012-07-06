@@ -1,5 +1,8 @@
 package org.kuali.hr.time.clocklog.validation;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.clock.location.validation.ClockLocationRuleRule;
 import org.kuali.hr.time.clocklog.ClockLog;
@@ -8,9 +11,6 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ClockLogRule  extends MaintenanceDocumentRuleBase {
 

@@ -1,11 +1,10 @@
-package org.kuali.hr.time.calandar;
+package org.kuali.hr.time.calendar;
 
 
 import org.junit.Assert;
 import org.junit.Test;
-
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
+import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;

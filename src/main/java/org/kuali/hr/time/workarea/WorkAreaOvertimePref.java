@@ -14,7 +14,6 @@ public class WorkAreaOvertimePref extends PersistableBusinessObjectBase {
 	private String payType;
 	private String overtimePreference;
 
-
 	public Long getTkWorkAreaId() {
 		return tkWorkAreaId;
 	}

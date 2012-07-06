@@ -1,7 +1,6 @@
 package org.kuali.hr.lm.accrual;
 
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -146,12 +145,6 @@ public class AccrualCategory extends HrBusinessObject {
 	protected String getUniqueKey() {
 		return accrualCategory;
 	}
-
-	//@Override
-//	protected LinkedHashMap toStringMapper() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 
 	public Boolean getHistory() {
 		return history;

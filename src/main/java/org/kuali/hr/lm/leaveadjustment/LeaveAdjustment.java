@@ -111,11 +111,6 @@ public class LeaveAdjustment extends HrBusinessObject {
 		setLmLeaveAdjustmentId(id);
 	}
 
-//	@Override
-//	protected LinkedHashMap toStringMapper() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 	public PrincipalHRAttributes getPrincipalHRAttrObj() {
 		return principalHRAttrObj;
 	}

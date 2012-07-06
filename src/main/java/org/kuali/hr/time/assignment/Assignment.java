@@ -2,7 +2,6 @@ package org.kuali.hr.time.assignment;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -67,19 +66,6 @@ public class Assignment extends HrBusinessObject {
 		this.workArea = workAreaId;
 		this.task = taskId;
 	}
-
-//	@SuppressWarnings({ "rawtypes" })
-//	@Override
-//	protected LinkedHashMap toStringMapper() {
-//		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
-//		toStringMap.put("tkAssignmentId", tkAssignmentId);
-//		toStringMap.put("principalId", principalId);
-//		toStringMap.put("jobNumber", jobNumber);
-//		toStringMap.put("workArea", workArea);
-//		toStringMap.put("task", task);
-//
-//		return toStringMap;
-//	}
 
 	public String getPrincipalId() {
 		return principalId;

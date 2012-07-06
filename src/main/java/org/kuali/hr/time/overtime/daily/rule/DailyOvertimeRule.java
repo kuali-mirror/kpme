@@ -2,7 +2,6 @@ package org.kuali.hr.time.overtime.daily.rule;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.kuali.hr.location.Location;
 import org.kuali.hr.time.department.Department;

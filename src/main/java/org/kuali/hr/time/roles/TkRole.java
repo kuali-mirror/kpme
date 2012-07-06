@@ -2,7 +2,6 @@ package org.kuali.hr.time.roles;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
 import org.kuali.hr.location.Location;
 import org.kuali.hr.time.HrBusinessObject;
@@ -141,7 +140,6 @@ public class TkRole extends HrBusinessObject {
 	public void setPerson(Person person) {
 		this.person = person;
 	}
-
 	public Long getHrDeptId() {
 		return hrDeptId;
 	}

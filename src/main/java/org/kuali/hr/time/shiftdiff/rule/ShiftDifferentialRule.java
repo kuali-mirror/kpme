@@ -3,7 +3,6 @@ package org.kuali.hr.time.shiftdiff.rule;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Time;
-import java.util.LinkedHashMap;
 
 import org.kuali.hr.location.Location;
 import org.kuali.hr.paygrade.PayGrade;

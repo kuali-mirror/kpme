@@ -1,5 +1,6 @@
 package org.kuali.hr.job.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,9 +16,6 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-
-import java.math.BigDecimal;
-import java.util.*;
 
 /**
  * Represents an implementation of {@link JobService}.

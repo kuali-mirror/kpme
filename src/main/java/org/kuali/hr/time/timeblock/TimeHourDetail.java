@@ -1,7 +1,6 @@
 package org.kuali.hr.time.timeblock;
 
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -20,7 +19,6 @@ public class TimeHourDetail extends PersistableBusinessObjectBase{
 
     public TimeHourDetail() {
     }
-
 
 	public String getEarnCode() {
 		return earnCode;

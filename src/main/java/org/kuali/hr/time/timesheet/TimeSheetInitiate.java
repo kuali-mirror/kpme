@@ -1,7 +1,5 @@
 package org.kuali.hr.time.timesheet;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -76,7 +74,6 @@ public class TimeSheetInitiate extends PersistableBusinessObjectBase {
     public void setPyCalendarGroup(String pyCalendarGroup) {
         this.pyCalendarGroup = pyCalendarGroup;
     }
-
 
 	public String getDocumentId() {
 		return documentId;

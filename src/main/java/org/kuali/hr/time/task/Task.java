@@ -1,13 +1,12 @@
 package org.kuali.hr.time.task;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.workarea.WorkArea;
-
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
 public class Task extends HrBusinessObject {
 

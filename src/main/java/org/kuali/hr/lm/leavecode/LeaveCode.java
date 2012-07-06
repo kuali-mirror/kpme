@@ -239,13 +239,6 @@ public class LeaveCode extends HrBusinessObject {
 		return getLmLeaveCodeId();
 	}
 
-
-//	@Override
-//	protected LinkedHashMap toStringMapper() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-    
     public String getLeaveCodeKeyForDisplay() {
 //    	String unitTime = null;
 //    	AccrualCategory acObj = null;

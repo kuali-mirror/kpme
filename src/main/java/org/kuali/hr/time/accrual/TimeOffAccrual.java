@@ -2,7 +2,6 @@ package org.kuali.hr.time.accrual;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.LinkedHashMap;
 
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.HrBusinessObject;
@@ -29,13 +28,6 @@ public class TimeOffAccrual extends HrBusinessObject {
 	private AccrualCategory accrualCategoryObj;
 
 	protected PersonImpl principal;
-
-//	@SuppressWarnings("unchecked")
-//	@Override
-//	protected LinkedHashMap toStringMapper() {
-//		return null;
-//	}
-
 
 	public String getPrincipalId() {
 		return principalId;

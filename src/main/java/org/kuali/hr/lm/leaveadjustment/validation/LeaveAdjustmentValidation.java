@@ -2,13 +2,7 @@ package org.kuali.hr.lm.leaveadjustment.validation;
 
 import java.sql.Date;
 
-import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.lm.leaveadjustment.LeaveAdjustment;
-
-import org.kuali.hr.lm.leavedonation.validation.LeaveDonationValidation;
-import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.timeblock.TimeBlock;
-import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;

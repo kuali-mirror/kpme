@@ -1,4 +1,4 @@
-package org.kuali.hr.time.accural;
+package org.kuali.hr.time.accrual;
 
 import org.junit.Assert;
 import org.junit.Test;

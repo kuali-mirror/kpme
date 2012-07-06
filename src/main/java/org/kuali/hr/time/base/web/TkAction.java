@@ -11,7 +11,6 @@ import org.apache.struts.action.ActionRedirect;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kew.web.UserLoginFilter;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.exception.AuthorizationException;

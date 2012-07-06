@@ -1,7 +1,6 @@
 package org.kuali.hr.time.overtime.weekly.rule;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.persistence.Transient;

@@ -1,7 +1,6 @@
 package org.kuali.hr.lm.leavedonation;
 
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
 
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.HrBusinessObject;
@@ -156,12 +155,6 @@ public class LeaveDonation extends HrBusinessObject {
 	public String getId() {
 		return getLmLeaveDonationId();
 	}
-
-//	@Override
-//	protected LinkedHashMap toStringMapper() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 
 	@Override
 	public void setId(String id) {

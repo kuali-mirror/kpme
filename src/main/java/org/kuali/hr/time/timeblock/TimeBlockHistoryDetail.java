@@ -1,7 +1,5 @@
 package org.kuali.hr.time.timeblock;
 
-import java.util.LinkedHashMap;
-
 import org.kuali.rice.kim.api.identity.Person;
 
 public class TimeBlockHistoryDetail extends TimeHourDetail{
@@ -14,7 +12,6 @@ public class TimeBlockHistoryDetail extends TimeHourDetail{
 	
 	private Person principal;
 	private Person userPrincipal;
-
 
 	public String getTkTimeBlockHistoryDetailId() {
 		return tkTimeBlockHistoryDetailId;

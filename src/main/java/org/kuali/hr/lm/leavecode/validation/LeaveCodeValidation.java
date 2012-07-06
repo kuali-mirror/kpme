@@ -3,8 +3,8 @@ package org.kuali.hr.lm.leavecode.validation;
 import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;

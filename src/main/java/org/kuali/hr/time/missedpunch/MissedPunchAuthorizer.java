@@ -26,12 +26,12 @@ public class MissedPunchAuthorizer extends TransactionalDocumentAuthorizerBase {
 		Set<String> author =  super.getDocumentActions(document, user, documentActions);
 		MissedPunchDocument mpDoc = (MissedPunchDocument)document;
 		if(StringUtils.equals(mpDoc.getDocumentStatus(),"R") ){
-				if(KewApiServiceLocator.getWorkflowDocumentActionsService().isFinalApprover(mpDoc.getDocumentNumber(), TKContext.getPrincipalId())){
-					author.add(KRADConstants.KUALI_ACTION_CAN_EDIT);
-					author.add(KRADConstants.KUALI_ACTION_CAN_APPROVE);
-					
-					author.remove(KRADConstants.KUALI_ACTION_CAN_DISAPPROVE);
-				}
+			if(KewApiServiceLocator.getWorkflowDocumentActionsService().isFinalApprover(mpDoc.getDocumentNumber(), TKContext.getPrincipalId())){
+				author.add(KRADConstants.KUALI_ACTION_CAN_EDIT);
+				author.add(KRADConstants.KUALI_ACTION_CAN_APPROVE);
+				
+				author.remove(KRADConstants.KUALI_ACTION_CAN_DISAPPROVE);
+			}
 		} else if(!StringUtils.equals(mpDoc.getDocumentStatus(), "A")){
 			author.add(KRADConstants.KUALI_ACTION_CAN_EDIT);
 			author.add(KRADConstants.KUALI_ACTION_CAN_ROUTE);

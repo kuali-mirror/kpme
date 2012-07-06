@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.hr.time.exceptions.UnauthorizedException;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
@@ -18,7 +17,6 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.kns.web.struts.action.KualiRequestProcessor;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -91,7 +89,7 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 				request.setAttribute("principalName", TkLoginFilter.TEST_ID);
 				person = KimApiServiceLocator.getPersonService().getPerson(TkLoginFilter.TEST_ID);
 				backdoorPerson = null;
-			} 
+			}
 
             // Current date is sufficient for loading of current roles and permissions.
 			TKUser tkUser = TkServiceLocator.getUserService().buildTkUser(person, backdoorPerson, targetPerson, TKUtils.getCurrentDate());

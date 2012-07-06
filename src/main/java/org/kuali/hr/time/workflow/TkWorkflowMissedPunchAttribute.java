@@ -45,10 +45,10 @@ public class TkWorkflowMissedPunchAttribute implements RoleAttribute {
 		return roles;
 	}
 
-	@Override
 	/**
 	 * Role name is passed in in the routing rule.
 	 */
+	@Override
 	public ResolvedQualifiedRole resolveQualifiedRole(RouteContext routeContext, String roleName, String qualifiedRole) {
 		ResolvedQualifiedRole rqr = new ResolvedQualifiedRole();
 		List<Id> principals = new ArrayList<Id>();

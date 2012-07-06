@@ -1,17 +1,16 @@
 package org.kuali.hr.time.workarea;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.task.Task;
-
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
 
 public class WorkArea extends HrBusinessObject implements DepartmentalRule {
 
@@ -39,7 +38,6 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
     private Department department;
     private Task taskObj;
     private EarnCode defaultOvertimeEarnCodeObj;
-
 
     public Date getEffectiveDate() {
         return effectiveDate;

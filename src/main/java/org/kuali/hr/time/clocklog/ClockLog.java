@@ -1,7 +1,6 @@
 package org.kuali.hr.time.clocklog;
 
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.task.Task;

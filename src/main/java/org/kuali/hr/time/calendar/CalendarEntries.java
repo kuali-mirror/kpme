@@ -1,14 +1,14 @@
 package org.kuali.hr.time.calendar;
 
+import java.sql.Date;
+import java.sql.Time;
+
+import javax.persistence.Transient;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-
-import javax.persistence.Transient;
-import java.sql.Date;
-import java.sql.Time;
-import java.util.LinkedHashMap;
 
 /**
  * This class uses java.sql.Time and java.sql.Date because for each respective component

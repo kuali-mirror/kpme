@@ -1,5 +1,7 @@
 package org.kuali.hr.time.dept.lunch.validation;
 
+import java.math.BigDecimal;
+
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
@@ -8,8 +10,6 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-import java.math.BigDecimal;
 
 public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 

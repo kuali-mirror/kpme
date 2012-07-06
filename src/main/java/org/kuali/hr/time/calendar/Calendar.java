@@ -2,7 +2,6 @@ package org.kuali.hr.time.calendar;
 
 import java.sql.Time;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -90,12 +89,6 @@ public class Calendar extends PersistableBusinessObjectBase {
 	public void setCalendarDescriptions(String calendarDescriptions) {
 		this.calendarDescriptions = calendarDescriptions;
 	}
-
-//	@SuppressWarnings("unchecked")
-//	@Override
-//	protected LinkedHashMap toStringMapper() {
-//		return null;
-//	}
 
 	public String getFlsaBeginDay() {
 		return flsaBeginDay;

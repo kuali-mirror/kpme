@@ -66,7 +66,8 @@ public class AssignmentMaintainableServiceImpl extends HrBusinessObjectMaintaina
 			Map<String, String> fields = new HashMap<String, String>();
 			fields.put("accountNumber", fieldValues
 					.get("assignmentAccounts.accountNbr"));
-			Collection account = KRADServiceLocator.getBusinessObjectService().findMatching(Account.class, fields);
+			Collection account = KRADServiceLocator.getBusinessObjectService()
+					.findMatching(Account.class, fields);
 			if (account.size() > 0) {
 				Account acc = (Account) account.iterator().next();
 				fieldValues.put("assignmentAccounts.finCoaCd", acc

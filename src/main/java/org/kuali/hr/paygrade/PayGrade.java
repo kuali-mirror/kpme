@@ -1,10 +1,9 @@
 package org.kuali.hr.paygrade;
 
-import org.kuali.hr.time.HrBusinessObject;
-
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
+
+import org.kuali.hr.time.HrBusinessObject;
 
 public class PayGrade extends HrBusinessObject {
 
@@ -17,13 +16,6 @@ public class PayGrade extends HrBusinessObject {
 	private String description;
 	private String userPrincipalId;
 	private String salGroup;
-
-//	@SuppressWarnings("rawtypes")
-//	@Override
-//	protected LinkedHashMap toStringMapper() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 
 	public String getHrPayGradeId() {
 		return hrPayGradeId;

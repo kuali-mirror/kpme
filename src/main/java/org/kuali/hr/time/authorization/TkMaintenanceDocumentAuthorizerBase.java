@@ -9,11 +9,10 @@ import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 
 /**
  * Base class for the implementation of Authorization in KPME Time and Attendance.
@@ -39,7 +38,11 @@ public abstract class TkMaintenanceDocumentAuthorizerBase implements Maintenance
     public boolean isAuthorized(BusinessObject businessObject, String namespaceCode, String permissionName, String principalId, Map<String, String> additionalPermissionDetails, Map<String, String> additionalRoleQualifiers) {
         return true;
     }
-
+    
+    @Override
+    public boolean isAuthorizedByTemplate(Object dataObject, String namespaceCode, String permissionTemplateName, String principalId, Map<String, String> additionalPermissionDetails, Map<String, String> additionalRoleQualifiers) {
+    	return true;
+    }
 
     @Override
     public Map<String, String> getCollectionItemRoleQualifications(BusinessObject collectionItemBusinessObject) {
@@ -62,17 +65,17 @@ public abstract class TkMaintenanceDocumentAuthorizerBase implements Maintenance
     /**
      * In lookup, called for each Business object if the user can edit or not.
      */
-    public boolean canMaintain(Object businessObject, Person user) {
-        return this.rolesIndicateWriteAccess((BusinessObject)businessObject);
+    public boolean canMaintain(Object dataObject, Person user) {
+        return this.rolesIndicateWriteAccess((BusinessObject) dataObject);
     }
-//TODO - Rice Upgrade still need this somewhere?
-//    @Override
-//    /**
-//     * Called when submit is clicked from maintenance doc
-//     */
-//    public boolean canCreateOrMaintain(MaintenanceDocument maintenanceDocument, Person user){
-//        return this.rolesIndicateWriteAccess(maintenanceDocument.getNewMaintainableObject().getBusinessObject());
-//    }
+
+    @Override
+    /**
+     * Called when submit is clicked from maintenance doc
+     */
+    public boolean canCreateOrMaintain(MaintenanceDocument maintenanceDocument, Person user){
+        return this.rolesIndicateWriteAccess((BusinessObject) maintenanceDocument.getNewMaintainableObject().getDataObject());
+    }
 
     @Override
     public Set<String> getSecurePotentiallyReadOnlySectionIds() {
@@ -80,12 +83,6 @@ public abstract class TkMaintenanceDocumentAuthorizerBase implements Maintenance
     }
 
     // Methods from DocumentAuthorizer
-//TODO - Rice upgrade still need this somewhere?
-//    @Override
-//    public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
-//        DocumentAuthorizerBase dab = new DocumentAuthorizerBase();
-//        return dab.getDocumentActions(document, user, documentActions);
-//    }
 
     @Override
     /**
@@ -103,6 +100,86 @@ public abstract class TkMaintenanceDocumentAuthorizerBase implements Maintenance
     public boolean canOpen(Document document, Person user) {
     	return this.rolesIndicateGeneralReadAccess();
     }
+    
+    @Override
+    public boolean canEdit(Document document, Person user) {
+    	return this.rolesIndicateGeneralWriteAccess();
+    }
+    
+    @Override
+    public boolean canAnnotate(Document document, Person user) {
+    	return true;
+    }
+
+    @Override
+    public boolean canReload(Document document, Person user) {
+    	return true;
+    }
+
+    @Override
+    public boolean canClose(Document document, Person user) {
+    	return true;
+    }
+
+    @Override
+    public boolean canSave(Document document, Person user) {
+    	return this.rolesIndicateGeneralWriteAccess();
+    }
+
+    @Override
+    public boolean canRoute(Document document, Person user) {
+    	return true;
+    }
+
+    @Override
+    public boolean canCancel(Document document, Person user) {
+    	return true;
+    }
+
+    @Override
+    public boolean canCopy(Document document, Person user) {
+    	return this.rolesIndicateGeneralWriteAccess();
+    }
+
+    @Override
+    public boolean canPerformRouteReport(Document document, Person user) {
+    	return true;
+    }
+
+    @Override
+    public boolean canBlanketApprove(Document document, Person user) {
+    	return true;
+    }
+
+    @Override
+    public boolean canApprove(Document document, Person user) {
+    	return true;
+    }
+
+    @Override
+    public boolean canDisapprove(Document document, Person user) {
+    	return true;
+    }
+
+    @Override
+    public boolean canSendNoteFyi(Document document, Person user) {
+    	return true;
+    }
+
+    @Override
+    public boolean canEditDocumentOverview(Document document, Person user) {
+    	return true;
+    }
+
+    @Override
+    public boolean canFyi(Document document, Person user) {
+    	return true;
+    }
+
+    @Override
+    public boolean canAcknowledge(Document document, Person user) {
+    	return true;
+    }
 
     @Override
     public boolean canReceiveAdHoc(Document document, Person user, String actionRequestCode) {
@@ -119,15 +196,49 @@ public abstract class TkMaintenanceDocumentAuthorizerBase implements Maintenance
         return true;
     }
 
-//    @Override
-//    public boolean canViewNoteAttachment(Document document, String attachmentTypeCode, Person user) {
-//        return true;
-//    }
+    @Override
+    public boolean canViewNoteAttachment(Document document, String attachmentTypeCode, String authorUniversalIdentifier, Person user) {
+        return true;
+    }
 
     @Override
     public boolean canSendAdHocRequests(Document document, String actionRequestCd, Person user) {
         return true;
     }
+    
+    @Override
+    public boolean canSendAnyTypeAdHocRequests(Document document, Person user) {
+    	return true;
+    }
+
+    @Override
+    public boolean canTakeRequestedAction(Document document, String actionRequestCode, Person user) {
+    	return true;
+    }
+    
+    @Override
+    public boolean canRecall(Document document, Person user) {
+    	return true;
+    }
+    
+    // Methods from DataObjectAuthorizer
+    
+    @Override
+    public boolean isAuthorized(Object dataObject, String namespaceCode, String permissionName, String principalId) {
+    	return true;
+    }
+
+    @Override
+    public boolean isAuthorizedByTemplate(Object dataObject, String namespaceCode, String permissionTemplateName, String principalId) {
+    	return true;
+    }
+
+    @Override
+    public boolean isAuthorized(Object dataObject, String namespaceCode, String permissionName, String principalId,
+            Map<String, String> additionalPermissionDetails, Map<String, String> additionalRoleQualifiers) {
+    	return true;
+    }
+
 
     // Methods from InquiryOrMaintenanceDocumentAuthorizer
 

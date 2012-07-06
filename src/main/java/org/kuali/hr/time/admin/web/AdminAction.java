@@ -1,11 +1,10 @@
 package org.kuali.hr.time.admin.web;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -20,7 +19,6 @@ import org.kuali.hr.time.user.service.UserServiceImpl;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kew.web.UserLoginFilter;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.UserSession;
@@ -71,16 +69,16 @@ public class AdminAction extends TkAction {
 
                 if (backdoorPerson != null && tkUser != null) {
                     UserSession userSession = GlobalVariables.getUserSession();
+
                     GlobalVariables.getUserSession().setBackdoorUser(backdoorPerson.getPrincipalId());
+
                     tkUser.setBackdoorPerson(backdoorPerson);
 
-                        UserServiceImpl.loadRoles(tkUser);
-                        TKContext.setUser(tkUser);
-                        LOG.debug("\n\n" + TKContext.getUser().getActualPerson().getPrincipalName() + " backdoors as : " + backdoorPerson.getPrincipalName() + "\n\n");
-                    } else {
-                        LOG.warn("UserSession COULD NOT establish BackDoor for " + TKContext.getUser().getActualPerson().getPrincipalName() + " backdoors as : " + adminForm.getBackdoorPrincipalName());
-                    }
+                    UserServiceImpl.loadRoles(tkUser);
+                    TKContext.setUser(tkUser);
+                    LOG.debug("\n\n" + TKContext.getUser().getActualPerson().getPrincipalName() + " backdoors as : " + backdoorPerson.getPrincipalName() + "\n\n");
                 }
+            }
         } else {
             LOG.warn("Non-Admin user attempting to backdoor.");
             return mapping.findForward("unauthorized");

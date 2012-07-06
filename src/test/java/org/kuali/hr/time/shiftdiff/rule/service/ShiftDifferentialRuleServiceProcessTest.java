@@ -21,6 +21,9 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
+import org.kuali.hr.time.workschedule.WorkSchedule;
+import org.kuali.hr.time.workschedule.WorkScheduleAssignment;
+import org.kuali.hr.time.workschedule.WorkScheduleEntry;
 
 /**
  *
@@ -459,6 +462,50 @@ public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
 
     }
 
+    /**
+     * Creates a new Work Schedule and Assignment work schedule setup for the
+     * 'admin' user.
+     *
+     *  8a - 5p work schedule
+     *
+     * @param workSch
+     */
+    public void createWorkSchedule(Long workSch) {
+        // Create a Work Schedule Assignment
+        //
+        WorkScheduleAssignment workScheduleAssignment = new WorkScheduleAssignment();
+        workScheduleAssignment.setHrWorkSchedule(workSch);
+        workScheduleAssignment.setDept("%");
+        workScheduleAssignment.setWorkArea(-1L);
+        workScheduleAssignment.setPrincipalId("admin");
+        workScheduleAssignment.setEffectiveDate(JAN_AS_OF_DATE);
+        workScheduleAssignment.setActive(true);
+        workScheduleAssignment.setUserPrincipalId("admin");
 
+        // Create a Work Schedule
+        //
+        WorkSchedule workSchedule = new WorkSchedule();
+        workSchedule.setHrWorkSchedule(workSch); // we can set this to whatever, it's not a row ID.
+        workSchedule.setActive(true);
+        workSchedule.setEarnGroup("WS1"); // Test data should have an earn group for WS1
+        workSchedule.setWorkScheduleDesc("desc");
+        workSchedule.setEffectiveDate(JAN_AS_OF_DATE);
+        workSchedule.setUserPrincipalId("admin");
+
+        // Create the actual schedule entries.
+        //
+        List<WorkScheduleEntry> workScheduleEntries = new ArrayList<WorkScheduleEntry>();
+
+        WorkScheduleEntry workScheduleEntry = new WorkScheduleEntry();
+        workScheduleEntry.setBeginTime(new Time((new DateTime(2010, 3, 1, 8, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis()));
+        workScheduleEntry.setEndTime(new Time((new DateTime(2010, 3, 1, 17, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis()));
+        workScheduleEntry.setIndexOfDay(0L);
+        workScheduleEntries.add(workScheduleEntry);
+        workSchedule.setWorkScheduleEntries(workScheduleEntries);
+
+        // Save Work Schedule, Work Schedule Assignment
+        TkServiceLocator.getWorkScheduleService().saveOrUpdate(workSchedule);
+        TkServiceLocator.getWorkScheduleAssignmentService().saveOrUpdate(workScheduleAssignment);
+    }
 
 }

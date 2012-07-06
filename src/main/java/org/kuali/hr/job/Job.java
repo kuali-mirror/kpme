@@ -3,7 +3,6 @@ package org.kuali.hr.job;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
 import org.kuali.hr.location.Location;
 import org.kuali.hr.paygrade.PayGrade;
@@ -15,7 +14,6 @@ import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.kim.service.KIMServiceLocatorInternal;
 /**
  * 
  * Job representation
@@ -83,21 +81,7 @@ public class Job extends HrBusinessObject {
 			this.fte = new BigDecimal(0).setScale(2);
 		}
 	}
-
-
-//	@SuppressWarnings({ "rawtypes" })
-//	@Override
-//	protected LinkedHashMap toStringMapper() {
-//		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
-//		toStringMap.put("jobId", hrJobId);
-//		toStringMap.put("principalId", principalId);
-//		toStringMap.put("hrSalGroup", hrSalGroup);
-//
-//		return toStringMap;
-//	}
 	
-	
-
 	public String getPayGrade() {
 		return payGrade;
 	}

@@ -6,7 +6,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 public class MissedPunchForm extends KualiTransactionalDocumentFormBase {
 

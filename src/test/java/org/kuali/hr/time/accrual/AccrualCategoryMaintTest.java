@@ -1,4 +1,4 @@
-package org.kuali.hr.time.accural;
+package org.kuali.hr.time.accrual;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -10,7 +10,6 @@ import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;

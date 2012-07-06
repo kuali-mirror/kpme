@@ -1,11 +1,10 @@
 package org.kuali.hr.time.util;
 
+import java.sql.Timestamp;
+
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-
-import java.sql.Timestamp;
 
 public abstract class HrBusinessObjectMaintainableImpl extends KualiMaintainableImpl {
 

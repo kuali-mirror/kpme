@@ -6,8 +6,6 @@ import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.core.web.format.FormatException;
 import org.kuali.rice.core.web.format.Formatter;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class SqlDateFormatter extends Formatter {
 

@@ -117,8 +117,7 @@ public class TkTestCase extends KNSTestCase{
 
    protected final void setFieldValue(HtmlPage page, String fieldId, String fieldValue) {
         HtmlElement element = page.getHtmlElementById(fieldId);
-        
-        junit.framework.Assert.assertTrue("element " + fieldId + " is null, page: " + page.asText(), element != null);
+        Assert.assertTrue("element " + fieldId + " is null, page: " + page.asText(), element != null);
 
         if (element instanceof HtmlTextInput) {
             HtmlTextInput textField = (HtmlTextInput) element;
@@ -143,7 +142,7 @@ public class TkTestCase extends KNSTestCase{
             } else if (fieldValue.equals("off")) {
                 checkboxField.setChecked(false);
             } else {
-            	junit.framework.Assert.assertTrue("Invalid checkbox value", false);
+            	Assert.assertTrue("Invalid checkbox value", false);
             }
         } else if (element instanceof HtmlFileInput) {
             HtmlFileInput fileInputField = (HtmlFileInput) element;
@@ -156,22 +155,22 @@ public class TkTestCase extends KNSTestCase{
         		radioButton.setChecked(false);
         	}
         } else {
-        	junit.framework.Assert.fail("Unknown control field: " + fieldId);
+        	Assert.fail("Unknown control field: " + fieldId);
         }
     }
    
    public void futureEffectiveDateValidation(String baseUrl) throws Exception {
 	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
-	  	junit.framework.Assert.assertNotNull(page);
+	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");
-	  	junit.framework.Assert.assertNotNull("Search form was missing from page.", form);
+	  	Assert.assertNotNull("Search form was missing from page.", form);
 	  	// use past dates
 	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", "04/01/2011");
 	    HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
-	    junit.framework.Assert.assertNotNull("Could not locate submit button", input);
+	    Assert.assertNotNull("Could not locate submit button", input);
 	  	page = page.getElementByName("methodToCall.route").click();
-	  	junit.framework.Assert.assertTrue("page text does not contain:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
+	  	Assert.assertTrue("page text does not contain:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
 	  	Calendar futureDate = Calendar.getInstance();
 	  	futureDate.add(java.util.Calendar.YEAR, 2);// 2 years in the future
 	  	String futureDateString = "01/01/" + Integer.toString(futureDate.get(Calendar.YEAR));
@@ -179,14 +178,14 @@ public class TkTestCase extends KNSTestCase{
 	  	// use dates 2 years in the future
 	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", futureDateString);
 	  	page = page.getElementByName("methodToCall.route").click();
-	  	junit.framework.Assert.assertTrue("page text does not contain:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
+	  	Assert.assertTrue("page text does not contain:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
 		Calendar validDate = Calendar.getInstance();
 	  	validDate.add(java.util.Calendar.MONTH, 5); // 5 month in the future
 	  	String validDateString = Integer.toString(validDate.get(Calendar.MONTH)) + '/' + Integer.toString(validDate.get(Calendar.DAY_OF_MONTH)) 
 	  		+ '/' + Integer.toString(validDate.get(Calendar.YEAR));
 	  	setFieldValue(page, "document.newMaintainableObject.effectiveDate", validDateString);
 	  	page = page.getElementByName("methodToCall.route").click();
-	  	junit.framework.Assert.assertFalse("page text contains:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
+	  	Assert.assertFalse("page text contains:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
 	}
 
 

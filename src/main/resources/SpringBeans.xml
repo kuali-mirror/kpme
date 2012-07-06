@@ -225,6 +225,10 @@
 
     <bean id="timeHourDetailDao" class="org.kuali.hr.time.timehourdetail.dao.TimeHourDetailDaoSpringOjbImpl" parent="platformAwareDao" />
 
+    <bean id="workScheduleDao" class="org.kuali.hr.time.workschedule.dao.WorkScheduleDaoSpringOjbImpl" parent="platformAwareDao" />
+
+    <bean id="workScheduleAssignmentDao" class="org.kuali.hr.time.workschedule.dao.WorkScheduleAssignmentDaoSpringOjbImpl" parent="platformAwareDao" />
+
     <bean id="weeklyOvertimeRuleDao" class="org.kuali.hr.time.overtime.weekly.rule.dao.WeeklyOvertimeRuleDaoSpringOjbImpl" parent="platformAwareDao" />
 
     <bean id="shiftDifferentialRuleDao" class="org.kuali.hr.time.shiftdiff.rule.dao.ShiftDifferentialRuleDaoSpringOjbImpl" parent="platformAwareDao" />
@@ -313,6 +317,15 @@
 
     <bean id="clockLocationService" class="org.kuali.hr.time.clock.location.service.ClockLocationRuleServiceImpl">
         <property name="clockLocationDao" ref="clockLocationDao"/>
+    </bean>
+
+    <bean id="workScheduleService" class="org.kuali.hr.time.workschedule.service.WorkScheduleServiceImpl">
+        <property name="workScheduleDao" ref="workScheduleDao"/>
+    </bean>
+
+    <bean id="workScheduleAssignmentService"
+          class="org.kuali.hr.time.workschedule.service.WorkScheduleAssignmentServiceImpl">
+        <property name="workScheduleAssignmentDao" ref="workScheduleAssignmentDao"/>
     </bean>
 
     <bean id="weeklyOvertimeRuleService"
@@ -692,6 +705,11 @@
     <bean id="timeOffAccrualLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.hr.time.accrual.service.TimeOffAccrualLookupableHelper"/>
+        </property>
+    </bean>
+    <bean id="workScheduleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.time.workschedule.service.WorkScheduleLookupableHelper"/>
         </property>
     </bean>
     <bean id="tkRoleLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">

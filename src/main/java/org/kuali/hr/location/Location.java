@@ -1,10 +1,9 @@
 package org.kuali.hr.location;
 
-import org.kuali.hr.time.HrBusinessObject;
-
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
+
+import org.kuali.hr.time.HrBusinessObject;
 /**
  * Represents a Location object
  * 
@@ -22,13 +21,6 @@ public class Location extends HrBusinessObject {
 	private String description;
 	private String userPrincipalId;
 	private String history;
-	
-//	@SuppressWarnings({ "rawtypes" })
-//	@Override
-//	protected LinkedHashMap toStringMapper() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 
 	public String getHrLocationId() {
 		return hrLocationId;

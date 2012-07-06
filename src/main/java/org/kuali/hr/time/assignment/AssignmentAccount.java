@@ -1,7 +1,6 @@
 package org.kuali.hr.time.assignment;
 
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -153,22 +152,6 @@ public class AssignmentAccount extends HrBusinessObject {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-
-//	@SuppressWarnings("unchecked")
-//	@Override
-//	protected LinkedHashMap toStringMapper() {
-//		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
-//		toStringMap.put("finCoaCd", finCoaCd);
-//		toStringMap.put("accountNbr", accountNbr);
-//		toStringMap.put("subAcctNbr", subAcctNbr);
-//		toStringMap.put("finObjectCd", finObjectCd);
-//		toStringMap.put("finSubObjCd", finSubObjCd);
-//		toStringMap.put("projectCd", projectCd);
-//		toStringMap.put("orgRefId", orgRefId);	
-//		toStringMap.put("projectCd", projectCd);	
-//		toStringMap.put("percent", percent);	
-//		return toStringMap;
-//	}
 
 
 

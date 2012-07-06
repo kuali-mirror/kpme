@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.impl.KewImplConstants;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.KRADConstants;
 

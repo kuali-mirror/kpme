@@ -4,7 +4,6 @@ import java.sql.Date;
 import java.util.List;
 
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.permissions.TkPermissionsServiceImpl;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;

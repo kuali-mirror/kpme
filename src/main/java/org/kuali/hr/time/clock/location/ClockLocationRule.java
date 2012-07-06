@@ -37,15 +37,6 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 	private Job job;
 	private Person principal;
 
-//	@Override
-//	protected LinkedHashMap<String,Object> toStringMapper() {
-//		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String,Object>();
-//
-//		toStringMap.put("principalId", principalId);
-//
-//		return toStringMap;
-//	}
-
 	public Long getWorkArea() {
 		return workArea;
 	}

@@ -604,10 +604,11 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 	@SuppressWarnings("rawtypes")
 	public List getNotesForDocument(String documentNumber) {
-		List<Note> notes = KEWServiceLocator.getNoteService().getNotesByDocumentId(documentNumber);
-				
+		List notes = KEWServiceLocator.getNoteService()
+				.getNotesByDocumentId(documentNumber);
 		// add the user name in the note object
-		for (Note note : notes) {
+		for (Object obj : notes) {
+			Note note = (Note) obj;
 			note.setNoteAuthorFullName(KimApiServiceLocator.getPersonService()
 					.getPerson(note.getNoteAuthorWorkflowId()).getName());
 		}

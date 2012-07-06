@@ -1,12 +1,9 @@
 package org.kuali.hr.lm.leaveblock;
 
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
-import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
-import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -78,12 +75,6 @@ public class LeaveBlockHistory extends LeaveBlock {
 		this.timestampDeleted = timestampDeleted;
 	}
 
-//	@Override
-//	protected LinkedHashMap toStringMapper() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
-	
 	public String getAssignmentTitle() {
 		StringBuilder b = new StringBuilder();
 		LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(Long.parseLong(super.getLmLeaveBlockId()));

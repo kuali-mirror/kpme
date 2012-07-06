@@ -1,7 +1,9 @@
 package org.kuali.hr.time.collection.rule;
 
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Random;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.time.department.Department;
@@ -12,9 +14,8 @@ import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Random;
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class TimeCollectionRuleMaintTest extends TkTestCase {
 

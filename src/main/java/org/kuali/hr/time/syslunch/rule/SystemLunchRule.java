@@ -2,8 +2,6 @@ package org.kuali.hr.time.syslunch.rule;
 
 import org.kuali.hr.time.rule.TkRule;
 
-import java.util.LinkedHashMap;
-
 public class SystemLunchRule extends TkRule {
 
 	/**

@@ -6,7 +6,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TkDocumentForm extends KualiDocumentFormBase {
 
@@ -48,6 +47,8 @@ public class TkDocumentForm extends KualiDocumentFormBase {
 	@Override
 	public void populate(HttpServletRequest request) {
         super.populate(request);
+		((ActionFormUtilMap) getActionFormUtilMap()).setCacheValueFinderResults(false);
+        
 		if (this.getMethodToCall() == null || StringUtils.isEmpty(this.getMethodToCall())) {
 			setMethodToCall(WebUtils.parseMethodToCall(this, request));
 		}

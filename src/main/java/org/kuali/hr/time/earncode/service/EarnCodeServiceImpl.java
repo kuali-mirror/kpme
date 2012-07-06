@@ -190,7 +190,9 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 	public Map<String, String> getEarnCodesForDisplay(String principalId) {
 		List<EarnCode> earnCodes = this.getEarnCodes(principalId, TKUtils.getCurrentDate());
 		
-		for (EarnCode earnCode : earnCodes) {
+		List<EarnCode> copyList = new ArrayList<EarnCode>();
+		copyList.addAll(earnCodes);
+		for (EarnCode earnCode : copyList) {
 			if ( !earnCode.getAllowScheduledLeave().equalsIgnoreCase("Y")) {
 				earnCodes.remove(earnCode);
 			}

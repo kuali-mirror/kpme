@@ -24,11 +24,6 @@ public class LeaveCalendarDocumentHeader extends PersistableBusinessObjectBase {
 		this.endDate = endDate;
 		this.documentStatus = documentStatus;
 	}
-//
-//    @Override
-//    protected LinkedHashMap toStringMapper() {
-//        return null;
-//    }
 
     public String getDocumentId() {
         return documentId;

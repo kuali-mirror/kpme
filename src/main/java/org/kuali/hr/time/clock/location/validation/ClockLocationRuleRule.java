@@ -1,5 +1,7 @@
 package org.kuali.hr.time.clock.location.validation;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.authorization.AuthorizationValidationUtils;
@@ -13,8 +15,6 @@ import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-
-import java.util.List;
 
 public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
 
