@@ -72,7 +72,7 @@
             <tbody>
             <%-- Generate Each Week --%>
             <c:forEach var="week" items="${cal.weeks}" varStatus="rowS">
-                <tr style="height:120px;">
+                <tr style="height:100px;">
                         <%-- Generate Each Day --%>
                     <c:forEach var="day" items="${week.days}" varStatus="dayS">
 
@@ -84,7 +84,7 @@
                         </c:if>
 
 
-                        <td id="${day.dateString}" <%--id="${dayId}"--%> class="create ui-state-default" style="${dayStyle}">
+                        <td id="${dayId}" class="create ui-state-default" style="${dayStyle}">
                                 <%-- Day Number --%>
                             <div class="day-number">${day.dayNumberString}</div>
                                 <%-- Render the Time Blocks --%>
@@ -100,7 +100,7 @@
                                     <c:otherwise>
                                     </c:otherwise>
                                 </c:choose>
-                                <%--<div class="create" id="${day.dateString}" ></div>--%>
+                                <%--<div class="create" id="${day.dateString}" style="background-color:#cccccc; height:100%; padding-bottom:20px;"></div>--%>
                             </div>
                         </td>
                     </c:forEach>

@@ -110,6 +110,7 @@ $(function () {
             // .create is the div that fills up the white sapce and .day-number is the div with the day number on it.
             // <div class="create"></div> is in calendar.tag.
             // We want to trigger the show event on any white space areas.
+            "click .event" : "doNothing",
             "click .create" : "showTimeEntryDialog",
             "click span[id*=overtime]" : "showOverTimeDialog",
             "blur #startTimeHourMinute, #endTimeHourMinute" : "formatTime",
@@ -138,6 +139,10 @@ $(function () {
             // If there is anything you want to render when the view is initiated, place them here.
             // A good convention is to return this at the end of render to enable chained calls.
             return this;
+        },
+
+        doNothing : function (e) {
+            e.stopPropagation();
         },
 
         formatTime : function (e) {
@@ -186,7 +191,9 @@ $(function () {
                         } else {
                             // If this is triggered directly by backbone, i.e. user clicked on the white area to create a new timeblock,
                             // Set the date by grabbing the div id.
-                            $("#startDate, #endDate").val(startDate.target.id);
+                            var currentDay = new Date(beginPeriodDateTimeObj);
+                            var targetDay = currentDay.addDays(parseInt((startDate.target.id).split("_")[1]));
+                            $("#startDate, #endDate").val(Date.parse(targetDay).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT));
                             // Check if there is only one assignment
                             // Placing this code block here will prevent fetching earn codes twice
                             // when showTimeEntryDialog() is called by showTimeBlock()
