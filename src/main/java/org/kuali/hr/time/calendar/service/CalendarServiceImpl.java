@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.hr.job.Job;
+import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -35,10 +36,13 @@ public class CalendarServiceImpl implements CalendarService {
 
     @Override
     @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-    public CalendarEntries getCalendarDatesByPayEndDate(String principalId, Date payEndDate) {
+    public CalendarEntries getCalendarDatesByPayEndDate(String principalId, Date payEndDate, String calendarType) {
         CalendarEntries pcd = null;
-
-        Calendar calendar = getCalendar(principalId, payEndDate);
+        boolean findLeaveCal = false;
+        if(calendarType != null && calendarType.equalsIgnoreCase(LMConstants.LEAVE_CALENDAR_TYPE)) {
+        	findLeaveCal = true;
+        }
+        Calendar calendar = getCalendar(principalId, payEndDate, findLeaveCal);
         pcd = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByIdAndPeriodEndDate(calendar.getHrCalendarId(), payEndDate);
         pcd.setCalendarObj(calendar);
 
@@ -49,7 +53,7 @@ public class CalendarServiceImpl implements CalendarService {
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public CalendarEntries getCurrentCalendarDates(String principalId, Date currentDate) {
 		CalendarEntries pcd = null;
-        Calendar calendar = getCalendarByPrincipalIdAndDate(principalId, currentDate);
+        Calendar calendar = getCalendarByPrincipalIdAndDate(principalId, currentDate, false);
         if(calendar != null) {
 		    pcd = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(calendar.getHrCalendarId(), currentDate);
 		    if(pcd != null) {
@@ -66,7 +70,7 @@ public class CalendarServiceImpl implements CalendarService {
      * @return A Calendar
      */
 	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-    private Calendar getCalendar(String principalId, Date date) {
+    private Calendar getCalendar(String principalId, Date date, boolean findLeaveCal) {
         Calendar pcal = null;
 
         List<Job> currentJobs = TkServiceLocator.getJobService().getJobs(principalId, date);
@@ -85,15 +89,20 @@ public class CalendarServiceImpl implements CalendarService {
             if(principalCalendar == null){
                 throw new RuntimeException("Null principal calendar for principalid "+principalId);
             }
-            pcal = principalCalendar.getCalendar();
-            if (pcal == null){
-            	pcal = principalCalendar.getLeaveCalObj();
-            	if(pcal == null){
-            		throw new RuntimeException("Null principal calendar for principalId " + principalId);
+            if(!findLeaveCal) {
+            	pcal = principalCalendar.getCalendar();
+            	if (pcal == null){
+            		pcal = principalCalendar.getLeaveCalObj();
+            		if(pcal == null){
+            			throw new RuntimeException("Null principal calendar for principalId " + principalId);
+            		}
             	}
+            } else {
+        		pcal = principalCalendar.getLeaveCalObj();
+        		if(pcal == null){
+        			throw new RuntimeException("Null principal calendar for principalId " + principalId);
+        		}
             }
-                
-
         }
 
         return pcal;
@@ -104,7 +113,7 @@ public class CalendarServiceImpl implements CalendarService {
 	}
 
 	@Override
-	public Calendar getCalendarByPrincipalIdAndDate(String principalId, Date asOfDate) {
+	public Calendar getCalendarByPrincipalIdAndDate(String principalId, Date asOfDate, boolean findLeaveCal) {
 		Calendar pcal = null;
         List<Job> currentJobs = TkServiceLocator.getJobService().getJobs(principalId, asOfDate);
         if(currentJobs.size() < 1){
@@ -121,16 +130,38 @@ public class CalendarServiceImpl implements CalendarService {
             if(principalCalendar == null){
                 return pcal;
             }
-            pcal = principalCalendar.getCalendar();
-            if (pcal == null){
-            	pcal = principalCalendar.getLeaveCalObj();
-            	if(pcal == null){
-            		return pcal;
+            if(!findLeaveCal) {
+            	pcal = principalCalendar.getCalendar();
+            	if (pcal == null){
+            		pcal = principalCalendar.getLeaveCalObj();
+            		if(pcal == null){
+            			return pcal;
+            		}
             	}
+            } else {
+        		pcal = principalCalendar.getLeaveCalObj();
+        		if(pcal == null){
+        			return pcal;
+        		}
             }
         }
 
         return pcal;
+	}
+
+	@Override
+	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
+	public CalendarEntries getCurrentCalendarDatesForLeaveCalendar(
+			String principalId, Date currentDate) {
+		CalendarEntries pcd = null;
+        Calendar calendar = getCalendarByPrincipalIdAndDate(principalId, currentDate, true);
+        if(calendar != null) {
+		    pcd = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(calendar.getHrCalendarId(), currentDate);
+		    if(pcd != null) {
+		    	pcd.setCalendarObj(calendar);
+		    }
+        }
+		return pcd;
 	}
 
 }

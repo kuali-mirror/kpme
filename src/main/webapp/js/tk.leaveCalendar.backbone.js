@@ -112,10 +112,10 @@ $(function () {
 
         showLeaveBlockEntryDialog : function (startDate, endDate) {
             // check user permmissions before opening the dialog.
-            // var isValid = this.checkPermissions();
+            var isValid = this.checkPermissions();
             var self = this;
-//            if (isValid) {
-            $("#dialog-form").dialog({
+            if (isValid) {
+              $("#dialog-form").dialog({
                 title : "Add Leave Blocks : ",
                 closeOnEscape : true,
                 autoOpen : true,
@@ -195,8 +195,8 @@ $(function () {
 
                     }
                 }
-            });
-//            }
+             });
+            }
         },
 
 
@@ -224,11 +224,11 @@ $(function () {
             var key = _(e).parseEventKey();
 //            var timeBlock = timeBlockCollection.get(key.id);
 
-//            if (this.checkPermissions()) {
-            if (confirm('You are about to delete a leave block. Click OK to confirm the delete.')) {
-                window.location = "LeaveCalendar.do?methodToCall=deleteLeaveBlock&leaveBlockId=" + key.id;
+            if (this.checkPermissions()) {
+            	if (confirm('You are about to delete a leave block. Click OK to confirm the delete.')) {
+            		window.location = "LeaveCalendar.do?methodToCall=deleteLeaveBlock&leaveBlockId=" + key.id;
+            	}
             }
-//            }
         },
         
         /**
@@ -468,7 +468,19 @@ $(function () {
             if (!_.isUndefined(object)) {
                 object.addClass('ui-state-error');
             }
-        }
+        },
+        
+        checkPermissions : function() {
+			var isValid = true;
+
+			// Can't add a new timeblock is the doc is not editable.
+			if ($('#docEditable').val() == "false") {
+				isValid = false;
+			}
+
+			return isValid;
+		},
+
 
     });
 
@@ -571,4 +583,5 @@ $(function () {
 	if ($('#docEditable').val() == 'false') {
 		$(".cal-table").selectable("destroy");
 	}
+	
 });

@@ -4,6 +4,7 @@ package org.kuali.hr.lm.leavecalendar.service;
 import java.util.Date;
 import java.util.List;
 
+import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecalendar.dao.LeaveCalendarDao;
@@ -25,7 +26,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 
         if (lcdh != null) {
             lcd = new LeaveCalendarDocument(lcdh);
-            CalendarEntries pce = TkServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(lcdh.getPrincipalId(), lcdh.getEndDate());
+            CalendarEntries pce = TkServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(lcdh.getPrincipalId(), lcdh.getEndDate(), LMConstants.LEAVE_CALENDAR_TYPE);
             lcd.setCalendarEntry(pce);
         } else {
             throw new RuntimeException("Could not find LeaveCalendarDocumentHeader for DocumentID: " + documentId);

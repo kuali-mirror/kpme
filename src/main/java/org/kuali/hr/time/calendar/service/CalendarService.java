@@ -40,7 +40,7 @@ public interface CalendarService {
      * @param payEndDate
      * @return
      */
-    public CalendarEntries getCalendarDatesByPayEndDate(String principalId, Date payEndDate);
+    public CalendarEntries getCalendarDatesByPayEndDate(String principalId, Date payEndDate, String calendarType);
 
 	/**
 	 * Returns the Pay CalendarEntry for previous pay calendar
@@ -56,5 +56,14 @@ public interface CalendarService {
 	 * @param asOfDate
 	 * @return
 	 */
-	public Calendar getCalendarByPrincipalIdAndDate(String principalId, Date asOfDate);
+	public Calendar getCalendarByPrincipalIdAndDate(String principalId, Date asOfDate, boolean findLeaveCal);
+
+	/**
+	 * 
+	 * @param principalId
+	 * @param currentDate
+	 * @return
+	 */
+	public CalendarEntries getCurrentCalendarDatesForLeaveCalendar(String principalId, Date currentDate);
+
 }

@@ -77,7 +77,7 @@ public class LeaveCalendarAction extends TkAction {
 			// Default to whatever is active for "today".
 			Date currentDate = TKUtils.getTimelessDate(null);
 			calendarEntry = TkServiceLocator.getCalendarService()
-					.getCurrentCalendarDates(viewPrincipal, currentDate);
+					.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, currentDate);
 			lcd = TkServiceLocator.getLeaveCalendarService()
 					.openLeaveCalendarDocument(viewPrincipal, calendarEntry);
 		}
@@ -331,7 +331,7 @@ public class LeaveCalendarAction extends TkAction {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
 		String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
 		Date currentDate = TKUtils.getTimelessDate(null);
-		CalendarEntries calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal, currentDate);
+		CalendarEntries calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, currentDate);
 		LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, calendarEntry);
 		lcf.setCalendarEntry(calendarEntry);
 		lcf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
