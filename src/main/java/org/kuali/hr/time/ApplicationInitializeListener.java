@@ -17,7 +17,6 @@ public class ApplicationInitializeListener extends KualiInitializeListener {
     public static String ALTERNATE_LOG4J_FILE = null;
     
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-	TkConfiguration.baseApplicationSetup();
     	servletContextEvent.getServletContext().setAttribute("TkConstants", new TkConstants());
         LOG.info("Started contextInitialized(ServletContextEvent servletContextEvent) Method");
         try{

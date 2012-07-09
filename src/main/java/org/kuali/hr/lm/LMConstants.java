@@ -89,4 +89,7 @@ public class LMConstants {
 		 ACCRUAL_BALANCE_ACTION_MAP.put("U", "Usage");
 		 ACCRUAL_BALANCE_ACTION_MAP.put("A", "Adjustment");
 	 }
+	 
+	 
+	 public static final String LEAVE_CALENDAR_TYPE = "leaveCalendar";
 }

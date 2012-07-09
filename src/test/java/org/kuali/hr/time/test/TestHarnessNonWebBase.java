@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
-import org.kuali.hr.time.TkConfiguration;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 @Ignore
 public class TestHarnessNonWebBase extends TestHarnessBase {
@@ -22,7 +21,6 @@ public class TestHarnessNonWebBase extends TestHarnessBase {
 		LOG.error("Failed to start TK app lifecycle", e);
 		throw new RuntimeException("Failed to start TK app lifecycle", e);
         }
-        TkConfiguration.baseApplicationSetup();
         super.setUp();
     }
     
