@@ -149,7 +149,7 @@ public class ActionFormUtils {
             // start / endTime are the actual fields used by the adding / editing timeblocks
             timeBlockMap.put("startTime", start.toString(TkConstants.DT_MILITARY_TIME_FORMAT));
             timeBlockMap.put("endTime", end.toString(TkConstants.DT_MILITARY_TIME_FORMAT));
-            timeBlockMap.put("id", timeBlock.getTkTimeBlockId().toString());
+            timeBlockMap.put("id", timeBlock.getTkTimeBlockId() == null ? null : timeBlock.getTkTimeBlockId().toString());
             timeBlockMap.put("hours", timeBlock.getHours());
             timeBlockMap.put("amount", timeBlock.getAmount());
             timeBlockMap.put("timezone", timezone);

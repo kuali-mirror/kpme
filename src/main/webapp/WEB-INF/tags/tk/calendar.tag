@@ -72,11 +72,11 @@
             <tbody>
             <%-- Generate Each Week --%>
             <c:forEach var="week" items="${cal.weeks}" varStatus="rowS">
-                <tr>
+                <tr style="height:120px;">
                         <%-- Generate Each Day --%>
                     <c:forEach var="day" items="${week.days}" varStatus="dayS">
 
-                        <c:set var="dayStyle" value="width:14%;"/>
+                        <c:set var="dayStyle" value="width:14%;padding-bottom:20px;"/>
                         <c:set var="dayId" value="day_${day.dayNumberDelta}"/>
                         <c:if test="${day.gray}">
                             <c:set var="dayStyle" value="width:14%; background: rgb(224, 235, 225);"/>
@@ -84,10 +84,11 @@
                         </c:if>
 
 
-                        <td id="${dayId}" class="ui-state-default" style="${dayStyle}">
+                        <td id="${day.dateString}" <%--id="${dayId}"--%> class="create ui-state-default" style="${dayStyle}">
                                 <%-- Day Number --%>
                             <div class="day-number">${day.dayNumberString}</div>
                                 <%-- Render the Time Blocks --%>
+
                             <div>
                                 <c:choose>
                                     <c:when test="${calType eq 'payCalendar'}">
@@ -99,8 +100,7 @@
                                     <c:otherwise>
                                     </c:otherwise>
                                 </c:choose>
-                                <div class="create" id="${day.dateString}"></div>
-
+                                <%--<div class="create" id="${day.dateString}" ></div>--%>
                             </div>
                         </td>
                     </c:forEach>

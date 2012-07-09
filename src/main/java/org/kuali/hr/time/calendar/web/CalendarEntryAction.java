@@ -5,6 +5,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.service.CalendarEntriesService;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
 
@@ -27,8 +28,8 @@ public class CalendarEntryAction extends TkAction {
 					"error.calendar.not.available");
 			return mapping.findForward("basic");
 		}
-		CalendarEntries calendarEntries = TkServiceLocator
-				.getCalendarEntriesService().getCalendarEntries(
+        CalendarEntriesService calendarEntriesService = TkServiceLocator.getCalendarEntriesService();
+		CalendarEntries calendarEntries = calendarEntriesService.getCalendarEntries(
 						ceaf.getHrPyCalendarEntryId().toString());
 		if (calendarEntries == null) {
 			GlobalVariables.getMessageMap().putError(
@@ -36,13 +37,10 @@ public class CalendarEntryAction extends TkAction {
 					"error.calendar.not.available");
 		} else {
 				for (int i = 0; i < ceaf.getNoOfPeriods(); i++) {
-					CalendarEntries nextCalendarEntries = TkServiceLocator
-							.getCalendarEntriesService()
-							.getNextCalendarEntriesByCalendarId(
+					CalendarEntries nextCalendarEntries = calendarEntriesService.getNextCalendarEntriesByCalendarId(
 									calendarEntries.getHrCalendarId(), calendarEntries);
 					if (nextCalendarEntries == null) {
-						TkServiceLocator.getCalendarEntriesService()
-						.createNextCalendarEntry(calendarEntries);
+                        calendarEntriesService.createNextCalendarEntry(calendarEntries);
 					}
 				}
 				ceaf.setMessage("Calendar entry sucessfully created.");

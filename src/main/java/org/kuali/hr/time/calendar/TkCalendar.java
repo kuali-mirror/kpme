@@ -177,8 +177,9 @@ public class TkCalendar extends CalendarParent {
             }
         } else {
             // Day Split Strings
-            StringBuilder builder = new StringBuilder();
+
             for (int i = firstDay; i < lastDay; i++) {
+                StringBuilder builder = new StringBuilder("");
                 DateTime currStart = getBeginDateTime().plusDays(i);
                 DateTime currEnd = getBeginDateTime().plusDays(i);
 
@@ -211,11 +212,9 @@ public class TkCalendar extends CalendarParent {
             DateTime currStart = getBeginDateTime().plusDays(dayDelta);
             DateTime currEnd = getBeginDateTime().plusDays(dayDelta);
 
-            b.append(currStart.toString("d"));
-            b.append(currStart.toString("HH:mm"));
+            b.append(currStart.toString("d HH:mm"));
             b.append(" - ");
-            b.append(currEnd.toString("d"));
-            b.append(currStart.toString("HH:mm"));
+            b.append(currStart.toString("d HH:mm"));
         }
 
         return b.toString();
