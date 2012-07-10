@@ -96,8 +96,8 @@ public abstract class CalendarParent {
             }
         } else {
             // Day Split Strings
-            StringBuilder builder = new StringBuilder();
             for (int i = firstDay; i < lastDay; i++) {
+                StringBuilder builder = new StringBuilder("");
                 DateTime currStart = getBeginDateTime().plusDays(i);
                 DateTime currEnd = getBeginDateTime().plusDays(i);
 

@@ -131,7 +131,9 @@ $(function () {
                     } else {
                         // If this is triggered directly by backbone, i.e. user clicked on the white area to create a new timeblock,
                         // Set the date by grabbing the div id.
-                        $("#startDate, #endDate").val(startDate.target.id);
+                        var currentDay = new Date(beginPeriodDateTimeObj);
+                        var targetDay = currentDay.addDays(parseInt((startDate.target.id).split("_")[1]));
+                        $("#startDate, #endDate").val(Date.parse(targetDay).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT));
                        
                         // Check if there is only one assignment
                         // Placing this code block here will prevent fetching earn codes twice
