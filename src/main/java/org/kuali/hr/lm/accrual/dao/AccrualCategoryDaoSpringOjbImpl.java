@@ -21,9 +21,27 @@ public class AccrualCategoryDaoSpringOjbImpl extends PersistenceBrokerDaoSupport
     public AccrualCategory getAccrualCategory(String accrualCategory, Date asOfDate) {
     	AccrualCategory accrlCategory = null;
 		Criteria root = new Criteria();
+		
+		Criteria effdt = new Criteria();
+		effdt.addEqualToField("accrualCategory", Criteria.PARENT_QUERY_PREFIX + "accrualCategory");
+		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
+		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(AccrualCategory.class, effdt);
+		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
+		
+		Criteria timestampSubCrit = new Criteria();
+		timestampSubCrit.addEqualToField("accrualCategory", Criteria.PARENT_QUERY_PREFIX + "accrualCategory");
+		timestampSubCrit.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(AccrualCategory.class, timestampSubCrit);
+		timestampSubQuery.setAttributes(new String[]{ "max(timestamp)" });
+		
 		root.addEqualTo("accrualCategory", accrualCategory);
-		root.addLessOrEqualThan("effectiveDate", asOfDate);
-		root.addEqualTo("active",true);
+		root.addEqualTo("effectiveDate", effdtSubQuery);
+		root.addEqualTo("timestamp", timestampSubQuery);
+//		root.addEqualTo("active",true);
+		
+		Criteria activeFilter = new Criteria(); // Inner Join For Activity
+		activeFilter.addEqualTo("active", true);
+		root.addAndCriteria(activeFilter);
 		
 		Query query = QueryFactory.newQuery(AccrualCategory.class, root);
 		Object obj = this.getPersistenceBrokerTemplate().getObjectByQuery(query);

@@ -121,7 +121,9 @@ public class AccrualServiceImpl implements AccrualService {
 			BigDecimal ftePercentage = currentRange.getAccrualRatePercentageModifier();
 			BigDecimal totalOfStandardHours = currentRange.getStandardHours();
 			
-			for(AccrualCategory ac : accrCatList) {
+			for(AccrualCategory anAC : accrCatList) {
+				// get the version of accrual category based on currentDate
+				AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(anAC.getAccrualCategory(), new java.sql.Date(currentDate.getTime()));
 				if(!currentDate.before(phra.getEffectiveDate()) && !ac.getAccrualEarnInterval().equals("N")) {   	// "N" means no accrual
 					boolean prorationFlag = this.getProrationFlag(ac.getProration());
 					// get the accrual rule 
