@@ -42,7 +42,9 @@ public class TkInquiryAction extends KualiInquiryAction {
     	if(TkConstants.CLASS_INQUIRY_KEY_MAP.containsKey(inquiryForm.getBusinessObjectClassName())) {
     		Map<String, String> keyMap = inquiryForm.retrieveInquiryDecryptedPrimaryKeys();
     		for(String aKey : TkConstants.CLASS_INQUIRY_KEY_MAP.get(inquiryForm.getBusinessObjectClassName())) {
-    			keyMap.put(aKey, request.getParameter(aKey).toString());
+    			if(request.getParameter(aKey) != null) {
+    				keyMap.put(aKey, request.getParameter(aKey).toString());
+    			}
     		}
     		bo = retrieveBOUsingKeyMap(keyMap, inquiryForm.getInquirable());
     	} else {

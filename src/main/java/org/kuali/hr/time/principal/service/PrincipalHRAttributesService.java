@@ -29,6 +29,10 @@ public interface PrincipalHRAttributesService {
 	 * @return
 	 */
     public PrincipalHRAttributes getInactivePrincipalHRAttributes(String principalId, Date asOfDate);
-
-//    public PrincipalHRAttributes getPrincipalHRAttributes(String principalId);
+	/**
+	 * Fetch PrincipalHRAttributes object with given id
+	 * @param hrPrincipalAttributeId
+	 * @return
+	 */
+    public PrincipalHRAttributes getPrincipalHRAttributes(String hrPrincipalAttributeId);
 }

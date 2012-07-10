@@ -28,8 +28,8 @@ public class LeavePlanInquirableImpl extends KualiInquirableImpl {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			Date acEffdt = new java.sql.Date(uDate.getTime());
-			lp = TkServiceLocator.getLeavePlanService().getLeavePlan((String)fieldValues.get("leavePlan"), acEffdt);
+			Date effdt = new java.sql.Date(uDate.getTime());
+			lp = TkServiceLocator.getLeavePlanService().getLeavePlan((String)fieldValues.get("leavePlan"), effdt);
 			
 		} else {
 			lp = (LeavePlan) super.getBusinessObject(fieldValues);

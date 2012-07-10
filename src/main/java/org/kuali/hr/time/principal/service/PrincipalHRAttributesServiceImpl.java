@@ -47,5 +47,10 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
     public PrincipalHRAttributes getInactivePrincipalHRAttributes(String principalId, Date asOfDate) {
     	return this.principalHRAttributesDao.getInactivePrincipalHRAttributes(principalId, asOfDate);
     }
+    
+    @Override
+    public PrincipalHRAttributes getPrincipalHRAttributes(String hrPrincipalAttributeId) {
+    	return this.principalHRAttributesDao.getPrincipalHRAttributes(hrPrincipalAttributeId);
+    }
 
 }

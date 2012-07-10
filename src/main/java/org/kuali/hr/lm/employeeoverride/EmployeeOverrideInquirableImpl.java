@@ -1,9 +1,6 @@
-package org.kuali.hr.lm.accrual;
-
+package org.kuali.hr.lm.employeeoverride;
 
 import java.security.GeneralSecurityException;
-import java.sql.Date;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +14,6 @@ import org.apache.commons.collections.BidiMap;
 import org.apache.commons.collections.bidimap.DualHashBidiMap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.bo.BusinessObjectRelationship;
 import org.kuali.rice.kns.bo.DocumentHeader;
@@ -34,10 +30,9 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.format.Formatter;
 
-public class AccrualCategoryInquirableImpl extends KualiInquirableImpl {
+public class EmployeeOverrideInquirableImpl extends KualiInquirableImpl {
 	
-	private static final Logger LOG = Logger.getLogger(AccrualCategoryInquirableImpl.class);
-	
+	private static final Logger LOG = Logger.getLogger(EmployeeOverrideInquirableImpl.class);
 	@Override
 	// copied the getInquiryUrl() from KualiInquirableImpl and added effectiveDate to parameters for leavePlan
 	// at the bottom of the method so we can do inquiry on leavePlan from Accrual Category search results
@@ -226,39 +221,11 @@ public class AccrualCategoryInquirableImpl extends KualiInquirableImpl {
             parameters.put(keyName, keyValue);
             fieldList.put(keyName, keyValue.toString());
         }
-        
-        // pass in effective date of AccrualCategory for LeavePlan inquiry
-        if(StringUtils.equals(attributeName, "leavePlan")) {
-        	AccrualCategory ac = (AccrualCategory) businessObject;
-        	if(ac.getEffectiveDate() != null) {
-        		parameters.put("effectiveDate", new SimpleDateFormat("MM/dd/yyyy").format(ac.getEffectiveDate()));
-        	}
-		}
+
+    	EmployeeOverride eo = (EmployeeOverride) businessObject;
+    	if(eo.getEffectiveDate() != null) {
+    		parameters.put("effectiveDate", new SimpleDateFormat("MM/dd/yyyy").format(eo.getEffectiveDate()));
+    	}
         return getHyperLink(inquiryBusinessObjectClass, fieldList, UrlFactory.parameterizeUrl(KNSConstants.INQUIRY_ACTION, parameters));
     }
-	
-	@Override
-	public BusinessObject getBusinessObject(Map fieldValues) {
-		AccrualCategory ac = null;
-		if(StringUtils.isNotBlank((String)fieldValues.get("lmAccrualCategoryId"))) {
-			ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory((String)fieldValues.get("lmAccrualCategoryId"));
-			
-		} else if(StringUtils.isNotBlank((String)fieldValues.get("accrualCategory"))
-					&& StringUtils.isNotBlank((String)fieldValues.get("effectiveDate"))) {
-			java.util.Date uDate = null;
-			try {
-				uDate = new SimpleDateFormat("MM/dd/yyyy").parse(fieldValues.get("effectiveDate").toString());
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Date effdt = new java.sql.Date(uDate.getTime());
-			ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory((String)fieldValues.get("accrualCategory"), effdt);
-			
-		} else {
-			ac = (AccrualCategory) super.getBusinessObject(fieldValues);
-		}
-
-		return ac;
-	}
 }
