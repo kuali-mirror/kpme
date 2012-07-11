@@ -3,7 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
     
-    <changeSet id="1" author="djunk" context="bootstrap">
+    <changeSet id="1" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_time_sheet_init_s">
             <column autoIncrement="true" name="ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -13,7 +13,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="2" author="djunk" context="bootstrap">
+    <changeSet id="2" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_time_sheet_init_t">
             <column autoIncrement="true" name="tk_time_sheet_init_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -32,64 +32,64 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="3" author="djunk" context="bootstrap">
+    <changeSet id="3" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="active" newDataType="CHAR(1)" tableName="hr_location_t"/>
     </changeSet>
-    <changeSet id="4" author="djunk" context="bootstrap">
+    <changeSet id="4" author="djunk" context="kpme-client-bootstrap">
         <addNotNullConstraint columnDataType="CHAR(1)" columnName="active" tableName="hr_location_t"/>
     </changeSet>
-    <changeSet id="5" author="djunk" context="bootstrap">
+    <changeSet id="5" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="active" newDataType="CHAR(1)" tableName="hr_pay_grade_t"/>
     </changeSet>
-    <changeSet id="6" author="djunk" context="bootstrap">
+    <changeSet id="6" author="djunk" context="kpme-client-bootstrap">
         <addNotNullConstraint columnDataType="CHAR(1)" columnName="active" tableName="hr_pay_grade_t"/>
     </changeSet>
-    <changeSet id="7" author="djunk" context="bootstrap">
+    <changeSet id="7" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="MAX_GAP" newDataType="DECIMAL(8,2)" tableName="tk_daily_overtime_rl_t"/>
     </changeSet>
-    <changeSet id="8" author="djunk" context="bootstrap">
+    <changeSet id="8" author="djunk" context="kpme-client-bootstrap">
         <dropNotNullConstraint columnDataType="TIMESTAMP" columnName="TIMESTAMP_MODIFIED" tableName="tk_hour_detail_hist_t"/>
     </changeSet>
-    <changeSet id="9" author="djunk" context="bootstrap">
+    <changeSet id="9" author="djunk" context="kpme-client-bootstrap">
         <dropNotNullConstraint columnDataType="TIMESTAMP" columnName="TIMESTAMP_MODIFIED" tableName="tk_time_block_hist_t"/>
     </changeSet>
-    <changeSet id="10" author="djunk" context="bootstrap">
+    <changeSet id="10" author="djunk" context="kpme-client-bootstrap">
         <addColumn tableName="hr_work_schedule_entry_t">
             <column defaultValue="0000-00-00 00:00:00" name="begin_time" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
         </addColumn>
     </changeSet>
-    <changeSet id="11" author="djunk" context="bootstrap">
+    <changeSet id="11" author="djunk" context="kpme-client-bootstrap">
         <addColumn tableName="hr_work_schedule_entry_t">
             <column defaultValue="0000-00-00 00:00:00" name="end_time" type="TIMESTAMP">
                 <constraints nullable="false"/>
             </column>
         </addColumn>
     </changeSet>
-    <changeSet id="12" author="djunk" context="bootstrap">
+    <changeSet id="12" author="djunk" context="kpme-client-bootstrap">
         <addColumn tableName="hr_work_schedule_entry_t">
             <column defaultValue="0" name="index_of_day" type="DECIMAL(8,0)">
                 <constraints nullable="false"/>
             </column>
         </addColumn>
     </changeSet>
-    <changeSet id="13" author="djunk" context="bootstrap">
+    <changeSet id="13" author="djunk" context="kpme-client-bootstrap">
         <dropColumn columnName="CALENDAR_GROUP" tableName="hr_work_schedule_entry_t"/>
     </changeSet>
-    <changeSet id="14" author="djunk" context="bootstrap">
+    <changeSet id="14" author="djunk" context="kpme-client-bootstrap">
         <dropColumn columnName="DAY_OF_PERIOD" tableName="hr_work_schedule_entry_t"/>
     </changeSet>
-    <changeSet id="15" author="djunk" context="bootstrap">
+    <changeSet id="15" author="djunk" context="kpme-client-bootstrap">
         <dropColumn columnName="REG_HOURS" tableName="hr_work_schedule_entry_t"/>
     </changeSet>
-    <changeSet id="16" author="djunk" context="bootstrap">
+    <changeSet id="16" author="djunk" context="kpme-client-bootstrap">
         <dropColumn columnName="DEPT" tableName="hr_work_schedule_t"/>
     </changeSet>
-    <changeSet id="17" author="djunk" context="bootstrap">
+    <changeSet id="17" author="djunk" context="kpme-client-bootstrap">
         <dropColumn columnName="PRINCIPAL_ID" tableName="hr_work_schedule_t"/>
     </changeSet>
-    <changeSet id="18" author="djunk" context="bootstrap">
+    <changeSet id="18" author="djunk" context="kpme-client-bootstrap">
         <dropColumn columnName="WORK_AREA" tableName="hr_work_schedule_t"/>
     </changeSet>
     

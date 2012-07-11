@@ -1,0 +1,7 @@
+hr_location_id,location,timezone,description,effdt,active
+1,BL,America/Indiana/Indianapolis,Bloomington,2011-01-02,Y
+2,CST,America/Chicago,Central Standard Time,2011-01-01,Y
+3,EST,America/Indiana/Indianapolis,Eastern Standard Time,2011-01-01,Y
+4,FL,America/Indiana/Indianapolis,Orlando Florida,2011-01-01,Y
+5,IN,America/Indiana/Indianapolis,Indianapolis,2011-01-01,Y
+6,UA,America/Indiana/Indianapolis,University Admin,2011-01-01,Y

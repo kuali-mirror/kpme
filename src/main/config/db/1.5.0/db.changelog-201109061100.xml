@@ -3,7 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet id="1" author="yingzhou" context="bootstrap">
+    <changeSet id="1" author="yingzhou" context="kpme-client-bootstrap">
         <comment>Fixed column name for tk_time_sheet_init_t</comment>
         <renameColumn tableName="tk_time_sheet_init_t" oldColumnName="calendar_group" newColumnName="py_calendar_group" columnDataType="varchar(30)" />
     </changeSet>

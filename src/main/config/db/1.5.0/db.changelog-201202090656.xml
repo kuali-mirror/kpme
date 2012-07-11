@@ -3,7 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet id="1" author="tkagata" context="bootstrap">
+    <changeSet id="1" author="tkagata" context="kpme-client-bootstrap">
         <comment>Default for accrual_interval_earn needs to be "M" (monthly)</comment>
         <addDefaultValue tableName="lm_accrual_category_t" columnName="ACCRUAL_INTERVAL_EARN" defaultValue="M" />
     </changeSet>

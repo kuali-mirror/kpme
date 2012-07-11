@@ -3,13 +3,13 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
     
-    <changeSet id="1" author="lfox" context="bootstrap">
+    <changeSet id="1" author="lfox" context="kpme-client-bootstrap">
         <comment>add liquibase xml change for roles</comment>
         <addColumn tableName="hr_roles_t">
             <column name="tk_work_area_id" type="VARCHAR(60)" />
         </addColumn>
     </changeSet>
-    <changeSet id="2" author="lfox" context="bootstrap">
+    <changeSet id="2" author="lfox" context="kpme-client-bootstrap">
         <comment>added column missing from lb</comment>
         <addColumn tableName="tk_assign_acct_t">
             <column name="active" type="VARCHAR(1)" />

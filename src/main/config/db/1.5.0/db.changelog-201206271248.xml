@@ -3,8 +3,8 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet id="1" author="kbtaylor" context="bootstrap">
-        <comment>Adding back Quartz bootstrap data for 1.5</comment>
+    <changeSet id="1" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>Adding back Quartz kpme-client-bootstrap data for 1.5</comment>
 	    <insert tableName="qrtz_locks">
 	        <column name="LOCK_NAME" value="CALENDAR_ACCESS"/>
 	    </insert>

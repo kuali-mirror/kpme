@@ -3,7 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet id="1" author="npadharia" context="bootstrap">
+    <changeSet id="1" author="npadharia" context="kpme-client-bootstrap">
         <comment>KPME-1170 : npadharia : renamed hr_principal_attributes_t</comment>
         <renameTable oldTableName="hr_principal_calendar_t" newTableName="hr_principal_attributes_t" />
     </changeSet>

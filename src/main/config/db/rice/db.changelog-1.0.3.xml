@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+                      
+    <changeSet id="rice-server-1.0.3-oracle" author="kbtaylor" dbms="oracle" context="rice-server-bootstrap">
+        <sqlFile path="src/main/config/db/rice/1.0.3/oracle/schema.sql"/>
+        <sqlFile path="src/main/config/db/rice/1.0.3/oracle/install_final_oracle.sql"/>
+        <sqlFile path="src/main/config/db/rice/1.0.3/oracle/schema-constraints.sql"/>
+    </changeSet>
+    
+    <changeSet id="rice-client-1.0.3-oracle" author="kbtaylor" dbms="oracle" context="rice-client-bootstrap">
+        <sqlFile path="src/main/config/db/rice/1.0.3/oracle/schema-client.sql"/>
+        <sqlFile path="src/main/config/db/rice/1.0.3/oracle/install_client_final_oracle.sql"/>
+        <sqlFile path="src/main/config/db/rice/1.0.3/oracle/schema-constraints-client.sql"/>
+    </changeSet>
+    
+    <changeSet id="rice-server-1.0.3-mysql" author="kbtaylor" dbms="mysql" context="rice-server-bootstrap">
+        <sqlFile path="src/main/config/db/rice/1.0.3/mysql/schema.sql"/>
+        <sqlFile path="src/main/config/db/rice/1.0.3/mysql/install_final_mysql.sql"/>
+        <sqlFile path="src/main/config/db/rice/1.0.3/mysql/schema-constraints.sql"/>
+    </changeSet>
+    
+    <changeSet id="rice-client-1.0.3-mysql" author="kbtaylor" dbms="mysql" context="rice-client-bootstrap">
+        <sqlFile path="src/main/config/db/rice/1.0.3/mysql/schema-client.sql"/>
+        <sqlFile path="src/main/config/db/rice/1.0.3/mysql/install_client_final_mysql.sql"/>
+        <sqlFile path="src/main/config/db/rice/1.0.3/mysql/schema-constraints-client.sql"/>
+    </changeSet>
+
+</databaseChangeLog>

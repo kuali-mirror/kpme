@@ -1,0 +1,5 @@
+hr_earn_code_group_id,earn_code_group,descr,effdt,show_summary,active,OBJ_ID
+1,Overtime,Overtime Hours,2011-01-01,Y,Y,10fed464-ca9e-11e1-83ee-f07bcba88ef4
+2,Other,Other Hours,2011-01-01,Y,Y,24d7e770-ca9e-11e1-83ee-f07bcba88ef4
+3,SF1,Shift Eligible,2011-01-01,N,Y,2b69c5e6-ca9e-11e1-83ee-f07bcba88ef4
+4,Regular,Regular Hours,2011-01-01,Y,Y,30da7427-ca9e-11e1-83ee-f07bcba88ef4

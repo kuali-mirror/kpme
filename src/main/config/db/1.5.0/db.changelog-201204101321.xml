@@ -3,7 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet id="1" author="tkagata" context="bootstrap">
+    <changeSet id="1" author="tkagata" context="kpme-client-bootstrap">
         <comment>KPME-1347</comment>
         <modifyDataType tableName="lm_accrual_category_t" columnName="DESCR" newDataType="VARCHAR(50)"/>
         <addColumn tableName="lm_accrual_category_t">

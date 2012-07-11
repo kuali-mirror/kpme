@@ -3,13 +3,13 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet id="1" author="xichen" context="bootstrap">
+    <changeSet id="1" author="xichen" context="kpme-client-bootstrap">
         <comment>KPME-938.view link on lookup pages show same attributes as maint page.</comment>
         <dropPrimaryKey tableName="tk_assignment_t"/>
         <addPrimaryKey tableName="tk_assignment_t" columnNames="tk_assignment_id"/>
     </changeSet>
 
-    <changeSet id="2" author="xichen" context="bootstrap">
+    <changeSet id="2" author="xichen" context="kpme-client-bootstrap">
         <comment>KPME-938.view link on lookup pages show same attributes as maint page.</comment>
         <dropPrimaryKey tableName="hr_earn_group_t"/>
         <addPrimaryKey tableName="hr_earn_group_t" columnNames="hr_earn_group_id"/>

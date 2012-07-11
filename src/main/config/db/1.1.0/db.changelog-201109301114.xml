@@ -3,157 +3,157 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
    
-    <changeSet id="1" author="djunk" context="bootstrap">
+    <changeSet id="1" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="hr_dept_earn_code_id" newDataType="VARCHAR(60) NOT NULL" tableName="hr_dept_earn_code_t"/>
     </changeSet>
-    <changeSet id="2" author="djunk" context="bootstrap">
+    <changeSet id="2" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="HR_DEPT_ID" newDataType="VARCHAR(60)" tableName="hr_dept_t"/>
     </changeSet>
-    <changeSet id="3" author="djunk" context="bootstrap">
+    <changeSet id="3" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="hr_earn_code_id" newDataType="VARCHAR(60)" tableName="hr_earn_code_t"/>
     </changeSet>
-    <changeSet id="4" author="djunk" context="bootstrap">
+    <changeSet id="4" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="hr_earn_group_def_id" newDataType="VARCHAR(60) NOT NULL" tableName="hr_earn_group_def_t"/>
     </changeSet>
-    <changeSet id="5" author="djunk" context="bootstrap">
+    <changeSet id="5" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="hr_earn_group_id" newDataType="VARCHAR(60) NOT NULL" tableName="hr_earn_group_def_t"/>
     </changeSet>
-    <changeSet id="6" author="djunk" context="bootstrap">
+    <changeSet id="6" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="hr_earn_group_id" newDataType="VARCHAR(60)" tableName="hr_earn_group_t"/>
     </changeSet>
-    <changeSet id="7" author="djunk" context="bootstrap">
+    <changeSet id="7" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="HR_HOLIDAY_CALENDAR_DATES_ID" newDataType="VARCHAR(60)" tableName="hr_holiday_calendar_dates_t"/>
     </changeSet>
-    <changeSet id="8" author="djunk" context="bootstrap">
+    <changeSet id="8" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="HR_HOLIDAY_CALENDAR_ID" newDataType="VARCHAR(60) NOT NULL" tableName="hr_holiday_calendar_dates_t"/>
     </changeSet>
-    <changeSet id="9" author="djunk" context="bootstrap">
+    <changeSet id="9" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="HR_HOLIDAY_CALENDAR_ID" newDataType="VARCHAR(60)" tableName="hr_holiday_calendar_t"/>
     </changeSet>
-    <changeSet id="10" author="djunk" context="bootstrap">
+    <changeSet id="10" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="HR_JOB_ID" newDataType="VARCHAR(60)" tableName="hr_job_t"/>
     </changeSet>
-    <changeSet id="11" author="djunk" context="bootstrap">
+    <changeSet id="11" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="fte" newDataType="BIT" tableName="hr_job_t"/>
     </changeSet>
-    <changeSet id="12" author="djunk" context="bootstrap">
+    <changeSet id="12" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="hr_location_id" newDataType="VARCHAR(60)" tableName="hr_location_t"/>
     </changeSet>
-    <changeSet id="13" author="djunk" context="bootstrap">
+    <changeSet id="13" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="hr_pay_grade_id" newDataType="VARCHAR(60)" tableName="hr_pay_grade_t"/>
     </changeSet>
-    <changeSet id="14" author="djunk" context="bootstrap">
+    <changeSet id="14" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="HR_PAYTYPE_ID" newDataType="VARCHAR(60)" tableName="hr_paytype_t"/>
     </changeSet>
-    <changeSet id="15" author="djunk" context="bootstrap">
+    <changeSet id="15" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="HR_POSITION_ID" newDataType="VARCHAR(60)" tableName="hr_position_t"/>
     </changeSet>
-    <changeSet id="16" author="djunk" context="bootstrap">
+    <changeSet id="16" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="hr_py_calendar_entry_id" newDataType="VARCHAR(60)" tableName="hr_py_calendar_entries_t"/>
     </changeSet>
-    <changeSet id="17" author="djunk" context="bootstrap">
+    <changeSet id="17" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="hr_py_calendar_id" newDataType="VARCHAR(60)" tableName="hr_py_calendar_entries_t"/>
     </changeSet>
-    <changeSet id="18" author="djunk" context="bootstrap">
+    <changeSet id="18" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="hr_py_calendar_id" newDataType="VARCHAR(60)" tableName="hr_py_calendar_t"/>
     </changeSet>
-    <changeSet id="19" author="djunk" context="bootstrap">
+    <changeSet id="19" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="hr_roles_id" newDataType="VARCHAR(60)" tableName="hr_roles_t"/>
     </changeSet>
-    <changeSet id="20" author="djunk" context="bootstrap">
+    <changeSet id="20" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="HR_SAL_GROUP_ID" newDataType="VARCHAR(60)" tableName="hr_sal_group_t"/>
     </changeSet>
-    <changeSet id="21" author="djunk" context="bootstrap">
+    <changeSet id="21" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="LM_ACCRUAL_CATEGORY_ID" newDataType="VARCHAR(60)" tableName="lm_accrual_categories_t"/>
     </changeSet>
-    <changeSet id="22" author="djunk" context="bootstrap">
+    <changeSet id="22" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="LM_ACCRUALS_ID" newDataType="VARCHAR(60)" tableName="lm_accruals_t"/>
     </changeSet>
-    <changeSet id="23" author="djunk" context="bootstrap">
+    <changeSet id="23" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="TK_ASSIGN_ACCT_ID" newDataType="VARCHAR(60)" tableName="tk_assign_acct_t"/>
     </changeSet>
-    <changeSet id="24" author="djunk" context="bootstrap">
+    <changeSet id="24" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="TK_ASSIGNMENT_ID" newDataType="VARCHAR(60)" tableName="tk_assignment_t"/>
     </changeSet>
-    <changeSet id="25" author="djunk" context="bootstrap">
+    <changeSet id="25" author="djunk" context="kpme-client-bootstrap">
         <addNotNullConstraint columnDataType="TIMESTAMP" columnName="timestamp" tableName="tk_batch_job_t"/>
     </changeSet>
-    <changeSet id="26" author="djunk" context="bootstrap">
+    <changeSet id="26" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="TK_CLOCK_LOC_RULE_ID" newDataType="VARCHAR(60) NOT NULL" tableName="tk_clock_location_rl_t"/>
     </changeSet>
-    <changeSet id="27" author="djunk" context="bootstrap">
+    <changeSet id="27" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="HR_JOB_ID" newDataType="VARCHAR(60)" tableName="tk_clock_log_t"/>
     </changeSet>
-    <changeSet id="28" author="djunk" context="bootstrap">
+    <changeSet id="28" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="JOB_NUMBER" newDataType="VARCHAR(60)" tableName="tk_clock_log_t"/>
     </changeSet>
-    <changeSet id="29" author="djunk" context="bootstrap">
+    <changeSet id="29" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="TK_CLOCK_LOG_ID" newDataType="VARCHAR(60)" tableName="tk_clock_log_t"/>
     </changeSet>
-    <changeSet id="30" author="djunk" context="bootstrap">
+    <changeSet id="30" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="TK_TASK_ID" newDataType="VARCHAR(60)" tableName="tk_clock_log_t"/>
     </changeSet>
-    <changeSet id="31" author="djunk" context="bootstrap">
+    <changeSet id="31" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="TK_WORK_AREA_ID" newDataType="VARCHAR(60)" tableName="tk_clock_log_t"/>
     </changeSet>
-    <changeSet id="32" author="djunk" context="bootstrap">
+    <changeSet id="32" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="tk_daily_overtime_rl_id" newDataType="VARCHAR(60)" tableName="tk_daily_overtime_rl_t"/>
     </changeSet>
-    <changeSet id="33" author="djunk" context="bootstrap">
+    <changeSet id="33" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="TK_DEPT_LUNCH_RL_ID" newDataType="VARCHAR(60)" tableName="tk_dept_lunch_rl_t"/>
     </changeSet>
-    <changeSet id="34" author="djunk" context="bootstrap">
+    <changeSet id="34" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="TK_GRACE_PERIOD_RULE_ID" newDataType="VARCHAR(60)" tableName="tk_grace_period_rl_t"/>
     </changeSet>
-    <changeSet id="35" author="djunk" context="bootstrap">
+    <changeSet id="35" author="djunk" context="kpme-client-bootstrap">
         <addNotNullConstraint columnDataType="TIMESTAMP" columnName="TIMESTAMP_MODIFIED" defaultNullValue="'0000-00-00 00:00:00'" tableName="tk_hour_detail_hist_t"/>
     </changeSet>
-    <changeSet id="36" author="djunk" context="bootstrap">
+    <changeSet id="36" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="TK_SHIFT_DIFF_RL_ID" newDataType="VARCHAR(60)" tableName="tk_shift_differential_rl_t"/>
     </changeSet>
-    <changeSet id="37" author="djunk" context="bootstrap">
+    <changeSet id="37" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="TK_SYSTEM_LUNCH_RL_ID" newDataType="VARCHAR(60)" tableName="tk_system_lunch_rl_t"/>
     </changeSet>
-    <changeSet id="38" author="djunk" context="bootstrap">
+    <changeSet id="38" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="tk_task_id" newDataType="VARCHAR(60)" tableName="tk_task_t"/>
     </changeSet>
-    <changeSet id="39" author="djunk" context="bootstrap">
+    <changeSet id="39" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="tk_work_area_id" newDataType="VARCHAR(60) NOT NULL" tableName="tk_task_t"/>
     </changeSet>
-    <changeSet id="40" author="djunk" context="bootstrap">
+    <changeSet id="40" author="djunk" context="kpme-client-bootstrap">
         <addNotNullConstraint columnDataType="TIMESTAMP" columnName="TIMESTAMP_MODIFIED" defaultNullValue="'0000-00-00 00:00:00'" tableName="tk_time_block_hist_t"/>
     </changeSet>
-    <changeSet id="41" author="djunk" context="bootstrap">
+    <changeSet id="41" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="TK_TIME_BLOCK_HIST_ID" newDataType="VARCHAR(60)" tableName="tk_time_block_hist_t"/>
     </changeSet>
-    <changeSet id="42" author="djunk" context="bootstrap">
+    <changeSet id="42" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="TK_TIME_BLOCK_ID" newDataType="VARCHAR(60)" tableName="tk_time_block_hist_t"/>
     </changeSet>
-    <changeSet id="43" author="djunk" context="bootstrap">
+    <changeSet id="43" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="HR_JOB_ID" newDataType="VARCHAR(60)" tableName="tk_time_block_t"/>
     </changeSet>
-    <changeSet id="44" author="djunk" context="bootstrap">
+    <changeSet id="44" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="TK_TASK_ID" newDataType="VARCHAR(60)" tableName="tk_time_block_t"/>
     </changeSet>
-    <changeSet id="45" author="djunk" context="bootstrap">
+    <changeSet id="45" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="TK_TIME_BLOCK_ID" newDataType="VARCHAR(60)" tableName="tk_time_block_t"/>
     </changeSet>
-    <changeSet id="46" author="djunk" context="bootstrap">
+    <changeSet id="46" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="TK_WORK_AREA_ID" newDataType="VARCHAR(60)" tableName="tk_time_block_t"/>
     </changeSet>
-    <changeSet id="47" author="djunk" context="bootstrap">
+    <changeSet id="47" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="TK_TIME_COLL_RULE_ID" newDataType="VARCHAR(60)" tableName="tk_time_collection_rl_t"/>
     </changeSet>
-    <changeSet id="48" author="djunk" context="bootstrap">
+    <changeSet id="48" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="tk_time_sheet_init_id" newDataType="VARCHAR(60)" tableName="tk_time_sheet_init_t"/>
     </changeSet>
-    <changeSet id="49" author="djunk" context="bootstrap">
+    <changeSet id="49" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="TK_WEEKLY_OVERTIME_RL_ID" newDataType="VARCHAR(60)" tableName="tk_weekly_overtime_rl_t"/>
     </changeSet>
-    <changeSet id="50" author="djunk" context="bootstrap">
+    <changeSet id="50" author="djunk" context="kpme-client-bootstrap">
         <modifyDataType columnName="TK_WORK_AREA_ID" newDataType="VARCHAR(60)" tableName="tk_work_area_t"/>
     </changeSet>
-    <changeSet id="51" author="djunk" context="bootstrap">
+    <changeSet id="51" author="djunk" context="kpme-client-bootstrap">
         <dropForeignKeyConstraint baseTableName="ca_project_t" constraintName="CA_PROJECT_TI2" />
         <addForeignKeyConstraint baseTableName="ca_project_t" constraintName="CA_PROJECT_TR2" baseColumnNames="FIN_COA_CD, ORG_CD" referencedTableName="ca_org_t" referencedColumnNames="FIN_COA_CD, ORG_CD" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencesUniqueColumn="false" />
     </changeSet>

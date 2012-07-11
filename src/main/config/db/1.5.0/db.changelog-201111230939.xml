@@ -3,7 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
     
-    <changeSet id="1" author="lee55" context="bootstrap">
+    <changeSet id="1" author="lee55" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
         <renameTable oldTableName="hr_py_calendar_t" newTableName="hr_calendar_t" />
         <renameColumn tableName="hr_calendar_t" oldColumnName="hr_py_calendar_id" newColumnName="hr_calendar_id" columnDataType="BIGINT(20) NOT NULL" />
@@ -25,7 +25,7 @@
         <renameTable oldTableName="hr_py_calendar_entries_s" newTableName="hr_calendar_entries_s" />
     </changeSet>
 
-    <changeSet id="2" author="lee55" context="bootstrap">
+    <changeSet id="2" author="lee55" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
         <dropTable tableName="hr_holiday_calendar_t" />
         <dropTable tableName="hr_holiday_calendar_s" />
@@ -33,7 +33,7 @@
         <dropTable tableName="hr_holiday_calendar_dates_s" />
     </changeSet>
     
-    <changeSet id="3" author="lee55" context="bootstrap">
+    <changeSet id="3" author="lee55" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
         <createTable tableName="lm_leave_plan_s">
             <column autoIncrement="true" name="id" type="BIGINT(19)">
@@ -45,7 +45,7 @@
 		</modifySql>
 	</changeSet>
 	
-    <changeSet id="4" author="lee55" context="bootstrap">
+    <changeSet id="4" author="lee55" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
         <createTable tableName="lm_leave_plan_t">
             <column name="lm_leave_plan_id" type="VARCHAR(60)">
@@ -71,7 +71,7 @@
 		</modifySql>
     </changeSet>
     
-    <changeSet id="5" author="lee55" context="bootstrap">
+    <changeSet id="5" author="lee55" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
         <renameTable oldTableName="lm_accrual_categories_s" newTableName="lm_accrual_category_s" />
         <renameTable oldTableName="lm_accrual_categories_t" newTableName="lm_accrual_category_t" />
@@ -107,7 +107,7 @@
         </addColumn>
     </changeSet>
     
-    <changeSet id="6" author="lee55" context="bootstrap">
+    <changeSet id="6" author="lee55" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
         <createTable tableName="lm_accrual_category_rules_s">
             <column autoIncrement="true" name="id" type="BIGINT(19)">
@@ -119,7 +119,7 @@
 		</modifySql>
 	</changeSet>
 	
-	<changeSet id="7" author="lee55" context="bootstrap">
+	<changeSet id="7" author="lee55" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
         <createTable tableName="lm_accrual_category_rules_t">
             <column name="lm_accrual_category_rules_id" type="VARCHAR(60)">
@@ -168,7 +168,7 @@
 		</modifySql>
     </changeSet>
     
-    <changeSet id="8" author="lee55" context="bootstrap">
+    <changeSet id="8" author="lee55" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
         <createTable tableName="lm_leave_code_s">
             <column autoIncrement="true" name="id" type="BIGINT(19)">
@@ -180,7 +180,7 @@
 		</modifySql>
 	</changeSet>
 	
-	<changeSet id="9" author="lee55" context="bootstrap">
+	<changeSet id="9" author="lee55" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
         <createTable tableName="lm_leave_code_t">
             <column name="lm_leave_code_id" type="VARCHAR(60)">
@@ -235,7 +235,7 @@
 		</modifySql>
     </changeSet>
     
-    <changeSet id="10" author="lee55" context="bootstrap">
+    <changeSet id="10" author="lee55" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
         <createTable tableName="lm_leave_document_header_t">
             <column name="document_id" type="VARCHAR(14)">
@@ -265,20 +265,20 @@
 		</modifySql>
     </changeSet>
     
-    <changeSet id="11" author="lee55" context="bootstrap">
+    <changeSet id="11" author="lee55" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
         <addColumn tableName="hr_job_t">
             <column name="eligible_for_leave" type="VARCHAR(1)" defaultValue="N" />
         </addColumn>
     </changeSet>
     
-    <changeSet id="12" author="lee55" context="bootstrap">
+    <changeSet id="12" author="lee55" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
         <modifyDataType tableName="hr_calendar_t" columnName="hr_calendar_id" newDataType="VARCHAR(60) NOT NULL" />
         <modifyDataType tableName="hr_calendar_entries_t" columnName="hr_calendar_entry_id" newDataType="VARCHAR(60) NOT NULL" />
     </changeSet>
     
-    <changeSet id="13" author="lee55" context="bootstrap">
+    <changeSet id="13" author="lee55" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
         <createTable tableName="lm_sys_schd_timeoff_s">
             <column autoIncrement="true" name="id" type="BIGINT(19)">
@@ -290,7 +290,7 @@
 		</modifySql>
 	</changeSet>
 	
-	<changeSet id="14" author="lee55" context="bootstrap">
+	<changeSet id="14" author="lee55" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
         <createTable tableName="lm_sys_schd_timeoff_t">
             <column name="lm_sys_schd_timeoff_id" type="VARCHAR(60)">

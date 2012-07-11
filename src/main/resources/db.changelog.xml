@@ -5,5 +5,6 @@
                       
     <include file="src/main/config/db/db.changelog-main.xml" />
     <include file="src/test/config/db/db.changelog-test.xml" />
+    <include file="src/test/config/db/db.changelog-staging.xml" />
 
 </databaseChangeLog>

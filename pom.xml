@@ -290,7 +290,7 @@
 		        
 		        <liquibase.verbose>true</liquibase.verbose>
 		        <liquibase.dropFirst>false</liquibase.dropFirst>
-		        <liquibase.contexts>bootstrap,staging</liquibase.contexts>
+		        <liquibase.contexts>rice-client-bootstrap,kpme-client-bootstrap</liquibase.contexts>
             </properties>
         </profile>
         <profile>
@@ -304,7 +304,21 @@
                 
                 <liquibase.verbose>true</liquibase.verbose>
                 <liquibase.dropFirst>true</liquibase.dropFirst>
-                <liquibase.contexts>bootstrap,test</liquibase.contexts>
+                <liquibase.contexts>rice-client-bootstrap,kpme-client-bootstrap,kpme-client-test</liquibase.contexts>
+            </properties>
+        </profile>
+        <profile>
+            <id>kpme-rice</id>
+            <properties>
+                <dataSource.driver>com.mysql.jdbc.Driver</dataSource.driver>
+                <dataSource.jdbcUrl>jdbc:mysql://localhost:3306/</dataSource.jdbcUrl>
+                <dataSource.database>krtt</dataSource.database>
+                <dataSource.username>krtt</dataSource.username>
+                <dataSource.password>krtt</dataSource.password>
+                
+                <liquibase.verbose>true</liquibase.verbose>
+                <liquibase.dropFirst>false</liquibase.dropFirst>
+                <liquibase.contexts>rice-server-bootstrap,kpme-server-bootstrap</liquibase.contexts>
             </properties>
         </profile>
     </profiles>

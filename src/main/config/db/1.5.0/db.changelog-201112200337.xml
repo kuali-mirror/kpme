@@ -3,7 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet id="1" author="npadharia" context="bootstrap">
+    <changeSet id="1" author="npadharia" context="kpme-client-bootstrap">
         <comment>KPME-1207 : npadharia : created Leave Donation maint doc.</comment>
         <createTable tableName="lm_leave_donation_s">
             <column autoIncrement="true" name="id" type="BIGINT(19)">
@@ -15,7 +15,7 @@
 		</modifySql>
 	</changeSet>
 	
-	<changeSet id="2" author="npadharia" context="bootstrap">
+	<changeSet id="2" author="npadharia" context="kpme-client-bootstrap">
         <comment>KPME-1207 : npadharia : created Leave Donation maint doc.</comment>
         <createTable tableName="lm_leave_donation_t">
             <column name="lm_leave_donation_id" type="VARCHAR(60)">
