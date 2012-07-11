@@ -49,7 +49,8 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	private Long blockId;
 	private String tkAssignmentId;
 	private String requestStatus;
-
+	private String leaveBlockType;
+	
 	private List<LeaveBlockHistory> leaveBlockHistories = new ArrayList<LeaveBlockHistory>();
 	private EarnCode earnCodeObj;
 	private SystemScheduledTimeOff systemScheduledTimeOffObj;
@@ -98,6 +99,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		private Long workArea;
 		private Long jobNumber;
 		private Long task;
+		private String leaveBlockType;
 
 		public Builder(DateTime leaveBlockDate, String documentId,
 				String principalId, String earnCode, BigDecimal leaveAmount) {
@@ -181,6 +183,11 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 			this.requestStatus = val;
 			return this;
 		}
+		
+		public Builder leaveBlockType(String leaveBlockType) {
+			this.leaveBlockType = leaveBlockType;
+			return this;
+		}
 
 		public LeaveBlock build() {
 			return new LeaveBlock(this);
@@ -208,6 +215,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		workArea = builder.workArea;
 		jobNumber = builder.jobNumber;
 		task = builder.task;
+		leaveBlockType = builder.leaveBlockType;
 		// TODO: need to hook up leaveCodeObj, systemScheduledTimeOffObj,
 		// accrualCategoryObj, and ids for individual obj
 	}
@@ -526,7 +534,12 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	public void setEarnCodeObj(EarnCode earnCodeObj) {
 		this.earnCodeObj = earnCodeObj;
 	}
-	
-	
 
+	public String getLeaveBlockType() {
+		return leaveBlockType;
+	}
+
+	public void setLeaveBlockType(String leaveBlockType) {
+		this.leaveBlockType = leaveBlockType;
+	}
 }

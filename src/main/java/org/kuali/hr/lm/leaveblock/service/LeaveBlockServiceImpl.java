@@ -109,7 +109,8 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     }
 
     @Override
-    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntries ce, String selectedEarnCode, BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks) {
+    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntries ce, String selectedEarnCode, 
+    		BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks, String leaveBlockType) {
         String princpalId = TKContext.getTargetPrincipalId();
         DateTimeZone zone = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
         DateTime calBeginDateTime = beginDate;
@@ -156,6 +157,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 	                        .workArea(selectedAssignment.getWorkArea())
 	                        .jobNumber(selectedAssignment.getJobNumber())
 	                        .task(selectedAssignment.getTask())
+	                        .leaveBlockType(leaveBlockType)
 	                        .build();
 	                currentLeaveBlocks.add(leaveBlock);
             	}

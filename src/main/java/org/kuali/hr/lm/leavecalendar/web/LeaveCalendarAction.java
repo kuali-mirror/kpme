@@ -6,6 +6,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
+import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
@@ -172,7 +173,7 @@ public class LeaveCalendarAction extends TkAction {
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(lcd, lcf.getSelectedAssignment());
 
 		TkServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate,
-				endDate, lcf.getCalendarEntry(), selectedEarnCode, hours, desc, assignment, spanningWeeks); // KPME-1446
+				endDate, lcf.getCalendarEntry(), selectedEarnCode, hours, desc, assignment, spanningWeeks, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR); // KPME-1446
 		// after adding the leave block, set the fields of this form to null for future new leave blocks
 		lcf.setLeaveAmount(null);
 		lcf.setDescription(null);

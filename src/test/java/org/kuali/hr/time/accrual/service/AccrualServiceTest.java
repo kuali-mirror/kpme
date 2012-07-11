@@ -7,7 +7,9 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
+import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.util.TKUtils;
@@ -40,9 +42,18 @@ public class AccrualServiceTest extends TkTestCase {
 		 TkServiceLocator.getLeaveAccrualService().runAccrual(PRINCIPAL_ID, START_DATE, END_DATE);
 		 verifyLeaveBlocksForStatusChange();
 		 
+		 List<LeaveBlockHistory> historyList = TkServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistories(PRINCIPAL_ID, null);
+		 assertTrue("There should be 4 leave block history for emplyee " + PRINCIPAL_ID + ", not " + historyList.size(), historyList.size()== 4);
+		 LeaveBlockHistory lbh = historyList.get(0);
+		 assertTrue("Leave Block Type of leave block history should be " + LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE + ", not " + lbh.getLeaveBlockType()
+					, lbh.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE));
+		 
 		 // second time to run accrual from 02/20/2012 to 05/03/2012, should get the same results as first run
 		 TkServiceLocator.getLeaveAccrualService().runAccrual(PRINCIPAL_ID, START_DATE, END_DATE);
 		 verifyLeaveBlocksForStatusChange();
+		 
+		 historyList = TkServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistories(PRINCIPAL_ID, null);
+		 assertTrue("There should be 12 leave block history for emplyee " + PRINCIPAL_ID + ", not " + historyList.size(), historyList.size()== 12);
 	}
 	private void verifyLeaveBlocksForStatusChange() {
 		List<LeaveBlock> leaveBlockList;
@@ -57,6 +68,8 @@ public class AccrualServiceTest extends TkTestCase {
 		LeaveBlock lb = leaveBlockList.get(0);
 		assertTrue("Hours of the leave block for date 03/31/2012 should be 16, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(new BigDecimal(16)));
 		assertNull("lm_sys_schd_timeoff_id should be null for regular accrual leave block", lb.getScheduleTimeOffId());
+		assertTrue("Leave Block Type of leave block should be " + LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE + ", not " + lb.getLeaveBlockType()
+				, lb.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE));
 		
 		// employee changed status on 04/01, fte is changed from 1 to 0.5
 		// there should be an empty leave block for status change on 04/01/2012
@@ -67,6 +80,8 @@ public class AccrualServiceTest extends TkTestCase {
 		assertTrue("Hours of the leave block for date 04/01/2012 should be 0, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(BigDecimal.ZERO));
 		assertTrue("Leave Code of the leave block for date 04/01/2012 should be 'MSG', not " + lb.getEarnCode(), lb.getEarnCode().equals("MSG"));
 		assertNull("lm_accrual_category_id should be null for empty status change leave block", lb.getAccrualCategoryId()); 
+		assertTrue("Leave Block Type of leave block should be " + LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE + ", not " + lb.getLeaveBlockType()
+				, lb.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE));
 		
 		// there should be a holiday leave block of 4 hours on 04/10/2012
 		intervalDate = new Date((new DateTime(2012, 4, 10, 5, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
@@ -75,7 +90,9 @@ public class AccrualServiceTest extends TkTestCase {
 		lb = leaveBlockList.get(0);
 		assertTrue("Hours of the leave block for date 04/10/2012 should be 4, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(new BigDecimal(4)));
 		assertNotNull("lm_sys_schd_timeoff_id should NOT be null for holiday accrual leave block", lb.getScheduleTimeOffId());
-		 
+		assertTrue("Leave Block Type of leave block should be " + LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE + ", not " + lb.getLeaveBlockType()
+				, lb.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE));
+		
 		// there should be 1 leave blocks on 04/30/2012, regular accrual of 8 hours
 		intervalDate = new Date((new DateTime(2012, 4, 30, 5, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
 		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(PRINCIPAL_ID, intervalDate);
@@ -83,6 +100,8 @@ public class AccrualServiceTest extends TkTestCase {
 		lb = leaveBlockList.get(0);
 		assertTrue("Hours of the regular accrual leave block for date 04/30/2012 should be 8, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(new BigDecimal(8)));
 		assertNull("lm_sys_schd_timeoff_id should be null for regular accrual leave block", lb.getScheduleTimeOffId());
+		assertTrue("Leave Block Type of leave block should be " + LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE + ", not " + lb.getLeaveBlockType()
+				, lb.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE));
 	}
 	
 	@Test

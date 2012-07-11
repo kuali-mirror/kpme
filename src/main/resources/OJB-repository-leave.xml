@@ -158,6 +158,7 @@
         <field-descriptor name="jobNumber" 				column="job_number" 		jdbc-type="BIGINT" nullable="false" primarykey="false" />
         <field-descriptor name="workArea"				column="work_area"	 		jdbc-type="BIGINT"  nullable="false" primarykey="false" />
 		<field-descriptor name="task" 					column="task"	 			jdbc-type="BIGINT"  nullable="false" primarykey="false" />
+        <field-descriptor name="leaveBlockType"      	column="leave_block_type" 	jdbc-type="VARCHAR" length="5" 	nullable="false" />
         
         <field-descriptor name="objectId"      	column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" 	column="ver_nbr" jdbc-type="BIGINT" locking="true" />
@@ -194,6 +195,7 @@
         <field-descriptor name="action"                 column="action"	    jdbc-type="VARCHAR" length="1"  />
         <field-descriptor name="principalIdDeleted"     column="PRINCIPAL_ID_DELETED"	    jdbc-type="VARCHAR" length="40" nullable="true" />
         <field-descriptor name="timestampDeleted"       column="TIMESTAMP_DELETED"	     jdbc-type="TIMESTAMP" nullable="true" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
+        <field-descriptor name="leaveBlockType"      	column="leave_block_type" 	jdbc-type="VARCHAR" length="5" 	nullable="false" />
         <field-descriptor name="objectId"      	column="obj_id" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" 	column="ver_nbr" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>

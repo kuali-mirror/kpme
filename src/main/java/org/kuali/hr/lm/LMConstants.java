@@ -92,4 +92,13 @@ public class LMConstants {
 	 
 	 
 	 public static final String LEAVE_CALENDAR_TYPE = "leaveCalendar";
+	 
+	 public static final class LEAVE_BLOCK_TYPE {
+		 public static final String LEAVE_CALENDAR = "LC";
+		 public static final String ACCRUAL_SERVICE = "AS";
+		 public static final String BALANCE_TRANSFER = "BT";
+		 public static final String DONATION_MAINT = "DM";
+		 public static final String LEAVE_ADJUSTMENT_MAINT = "LAM";
+	 }
+	 
 }
