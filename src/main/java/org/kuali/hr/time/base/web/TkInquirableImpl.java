@@ -1,6 +1,7 @@
-package org.kuali.hr.lm.employeeoverride;
+package org.kuali.hr.time.base.web;
 
 import java.security.GeneralSecurityException;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,12 +31,12 @@ import org.kuali.rice.kns.util.ObjectUtils;
 import org.kuali.rice.kns.util.UrlFactory;
 import org.kuali.rice.kns.web.format.Formatter;
 
-public class EmployeeOverrideInquirableImpl extends KualiInquirableImpl {
+public class TkInquirableImpl extends KualiInquirableImpl {
 	
-	private static final Logger LOG = Logger.getLogger(EmployeeOverrideInquirableImpl.class);
+	private static final Logger LOG = Logger.getLogger(TkInquirableImpl.class);
+	
 	@Override
-	// copied the getInquiryUrl() from KualiInquirableImpl and added effectiveDate to parameters for leavePlan
-	// at the bottom of the method so we can do inquiry on leavePlan from Accrual Category search results
+	// copied the getInquiryUrl() from KualiInquirableImpl and added effectiveDate to parameters
     public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
         Properties parameters = new Properties();
         AnchorHtmlData hRef = new AnchorHtmlData(KNSConstants.EMPTY_STRING, KNSConstants.EMPTY_STRING);
@@ -221,11 +222,13 @@ public class EmployeeOverrideInquirableImpl extends KualiInquirableImpl {
             parameters.put(keyName, keyValue);
             fieldList.put(keyName, keyValue.toString());
         }
-
-    	EmployeeOverride eo = (EmployeeOverride) businessObject;
-    	if(eo.getEffectiveDate() != null) {
-    		parameters.put("effectiveDate", new SimpleDateFormat("MM/dd/yyyy").format(eo.getEffectiveDate()));
-    	}
+        
+        // pass in effective date of the businessObject
+        Date aDate = (Date) ObjectUtils.getPropertyValue(businessObject, "effectiveDate");
+        if(aDate != null) {
+        	parameters.put("effectiveDate", new SimpleDateFormat("MM/dd/yyyy").format(aDate));
+        }
+                	
         return getHyperLink(inquiryBusinessObjectClass, fieldList, UrlFactory.parameterizeUrl(KNSConstants.INQUIRY_ACTION, parameters));
     }
 }

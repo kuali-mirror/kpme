@@ -5,6 +5,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.rice.kew.util.KEWConstants;
 
 import java.math.BigDecimal;
@@ -404,6 +405,11 @@ public class TkConstants {
         keys.add("accrualCategory");
         keys.add("effectiveDate");
         CLASS_INQUIRY_KEY_MAP.put(AccrualCategory.class.getName(), keys);
+        
+        keys = new HashSet<String>();
+        keys.add("earnCode");
+        keys.add("effectiveDate");
+        CLASS_INQUIRY_KEY_MAP.put(EarnCode.class.getName(), keys);
     }
 
     public static final String FLSA_STATUS_NON_EXEMPT ="NE";

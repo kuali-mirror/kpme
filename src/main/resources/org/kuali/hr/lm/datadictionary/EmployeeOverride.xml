@@ -174,7 +174,7 @@
 	<!-- Inquiry Definitions -->
 	<bean id="EmployeeOverride-inquiryDefinition" parent="EmployeeOverride-inquiryDefinition-parentBean" />
 	<bean id="EmployeeOverride-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" 
-	 	p:inquirableClass="org.kuali.hr.lm.employeeoverride.EmployeeOverrideInquirableImpl">  
+	 	p:inquirableClass="org.kuali.hr.time.base.web.TkInquirableImpl">  
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">

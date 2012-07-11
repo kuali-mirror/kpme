@@ -1,5 +1,4 @@
-package org.kuali.hr.lm.accrual;
-
+package org.kuali.hr.time.earncode;
 
 import java.sql.Date;
 import java.text.ParseException;
@@ -7,19 +6,19 @@ import java.text.SimpleDateFormat;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.time.base.web.TkInquirableImpl;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 
-public class AccrualCategoryInquirableImpl extends TkInquirableImpl {
+public class EarnCodeInquirableImpl extends KualiInquirableImpl {
 	
 	@Override
 	public BusinessObject getBusinessObject(Map fieldValues) {
-		AccrualCategory ac = null;
-		if(StringUtils.isNotBlank((String)fieldValues.get("lmAccrualCategoryId"))) {
-			ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory((String)fieldValues.get("lmAccrualCategoryId"));
+		EarnCode ec = null;
+		if(StringUtils.isNotBlank((String)fieldValues.get("hrEarnCodeId"))) {
+			ec = TkServiceLocator.getEarnCodeService().getEarnCodeById((String)fieldValues.get("hrEarnCodeId"));
 			
-		} else if(StringUtils.isNotBlank((String)fieldValues.get("accrualCategory"))
+		} else if(StringUtils.isNotBlank((String)fieldValues.get("earnCode"))
 					&& StringUtils.isNotBlank((String)fieldValues.get("effectiveDate"))) {
 			java.util.Date uDate = null;
 			try {
@@ -29,12 +28,13 @@ public class AccrualCategoryInquirableImpl extends TkInquirableImpl {
 				e.printStackTrace();
 			}
 			Date effdt = new java.sql.Date(uDate.getTime());
-			ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory((String)fieldValues.get("accrualCategory"), effdt);
+			ec = TkServiceLocator.getEarnCodeService().getEarnCode((String)fieldValues.get("earnCode"), effdt);
 			
 		} else {
-			ac = (AccrualCategory) super.getBusinessObject(fieldValues);
+			ec = (EarnCode) super.getBusinessObject(fieldValues);
 		}
 
-		return ac;
+		return ec;
 	}
+
 }

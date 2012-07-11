@@ -443,7 +443,7 @@
 	<bean id="EarnCode-inquiryDefinition" parent="EarnCode-inquiryDefinition-parentBean" />
 
 	<bean id="EarnCode-inquiryDefinition-parentBean" abstract="true"
-		parent="InquiryDefinition">
+		parent="InquiryDefinition" p:inquirableClass="org.kuali.hr.time.earncode.EarnCodeInquirableImpl">
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
