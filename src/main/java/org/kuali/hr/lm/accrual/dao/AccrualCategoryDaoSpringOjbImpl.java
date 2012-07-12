@@ -100,14 +100,12 @@ public class AccrualCategoryDaoSpringOjbImpl extends PersistenceBrokerDaoSupport
 		Criteria effdt = new Criteria();
 		Criteria timestamp = new Criteria();
 
-		// OJB's awesome sub query setup part 1
-		effdt.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
+		effdt.addEqualToField("accrualCategory", Criteria.PARENT_QUERY_PREFIX + "accrualCategory");
 		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
 		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(AccrualCategory.class, effdt);
 		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
 
-		// OJB's awesome sub query setup part 2
-		timestamp.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
+		timestamp.addEqualToField("accrualCategory", Criteria.PARENT_QUERY_PREFIX + "accrualCategory");
 		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
 		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(AccrualCategory.class, timestamp);
 		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
