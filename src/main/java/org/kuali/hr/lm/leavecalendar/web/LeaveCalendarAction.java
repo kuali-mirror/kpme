@@ -93,6 +93,7 @@ public class LeaveCalendarAction extends TkAction {
 		
 		if (lcd != null) {
 			setupDocumentOnFormContext(lcf, lcd);
+            lcdh = lcd.getLeaveCalendarDocumentHeader();
 		} else {
 			LOG.error("Null leave calendar document in LeaveCalendarAction.");
 		}
@@ -110,9 +111,14 @@ public class LeaveCalendarAction extends TkAction {
 		lcf.setLeaveCalendar(calendar);
 		
 		this.populateCalendarAndPayPeriodLists(request, lcf);
-		
 		// KPME-1447
-		List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(lcd.getDocumentId());
+		//List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(lcd.getDocumentId());
+        List<LeaveBlock> leaveBlocks;
+        if (lcdh != null) {
+            leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(lcdh.getPrincipalId(), lcdh.getBeginDate(), lcdh.getEndDate());
+        } else {
+            leaveBlocks = Collections.emptyList();
+        }
         LeaveCalendar leaveCalender = new LeaveCalendar(viewPrincipal, calendarEntry);
         LeaveBlockAggregate aggregate = new LeaveBlockAggregate(leaveBlocks, calendarEntry, leaveCalender);
         lcf.setLeaveBlockString(LeaveActionFormUtils.getLeaveBlocksJson(aggregate.getFlattenedLeaveBlockList()));
@@ -187,9 +193,12 @@ public class LeaveCalendarAction extends TkAction {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
 		String leaveBlockId = lcf.getLeaveBlockId();
 
-		// TODO: need security check
-		TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(
+        LeaveBlock blockToDelete = TkServiceLocator.getLeaveBlockService().getLeaveBlock(new Long(leaveBlockId));
+        if (blockToDelete != null
+                && TkServiceLocator.getPermissionsService().canDeleteLeaveBlock(blockToDelete)) {
+		    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(
 				Long.parseLong(leaveBlockId));
+        }
 
 		return mapping.findForward("basic");
 	}
@@ -202,23 +211,24 @@ public class LeaveCalendarAction extends TkAction {
 		
 		LeaveBlock updatedLeaveBlock = null;
 		updatedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(new Long(leaveBlockId));
-		if (StringUtils.isNotBlank(lcf.getDescription())) {
-			updatedLeaveBlock.setDescription(lcf.getDescription().trim());	
-    	}
-    	if (!updatedLeaveBlock.getLeaveAmount().equals(lcf.getLeaveAmount())) {
-    		updatedLeaveBlock.setLeaveAmount(lcf.getLeaveAmount());
-    	}
-    	EarnCode earnCode =  TkServiceLocator.getEarnCodeService().getEarnCodeById(selectedEarnCode); // selectedEarnCode = hrEarnCodeId
-		if (!updatedLeaveBlock.getEarnCode().equals(earnCode.getEarnCode())) {
-    		updatedLeaveBlock.setEarnCode(earnCode.getEarnCode());
-    		// update hr_earn_code_id as well
-    		updatedLeaveBlock.setEarnCodeId(selectedEarnCode);
-    	}
-		TkServiceLocator.getLeaveBlockService().updateLeaveBlock(updatedLeaveBlock);
-		lcf.setLeaveAmount(null);
-		lcf.setDescription(null);
-		lcf.setSelectedEarnCode(null);
-		
+        if (updatedLeaveBlock.isEditable()) {
+            if (StringUtils.isNotBlank(lcf.getDescription())) {
+                updatedLeaveBlock.setDescription(lcf.getDescription().trim());
+            }
+            if (!updatedLeaveBlock.getLeaveAmount().equals(lcf.getLeaveAmount())) {
+                updatedLeaveBlock.setLeaveAmount(lcf.getLeaveAmount());
+            }
+            EarnCode earnCode =  TkServiceLocator.getEarnCodeService().getEarnCodeById(selectedEarnCode); // selectedEarnCode = hrEarnCodeId
+            if (!updatedLeaveBlock.getEarnCode().equals(earnCode.getEarnCode())) {
+                updatedLeaveBlock.setEarnCode(earnCode.getEarnCode());
+                // update hr_earn_code_id as well
+                updatedLeaveBlock.setEarnCodeId(selectedEarnCode);
+            }
+            TkServiceLocator.getLeaveBlockService().updateLeaveBlock(updatedLeaveBlock);
+            lcf.setLeaveAmount(null);
+            lcf.setDescription(null);
+            lcf.setSelectedEarnCode(null);
+        }
         return mapping.findForward("basic");
     }
 

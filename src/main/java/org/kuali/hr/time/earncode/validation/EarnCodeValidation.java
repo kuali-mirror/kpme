@@ -40,7 +40,7 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 	boolean validateRecordMethod(String recordMethod, String accrualCategory, Date asOfDate){
 		boolean valid = true;
 		if(recordMethod != null) {
-			if(accrualCategory != null && !StringUtils.isEmpty(accrualCategory)) {
+			if(StringUtils.isNotEmpty(accrualCategory)) {
 				valid = ValidationUtils.validateRecordMethod(recordMethod, accrualCategory, asOfDate);
 				if(!valid) {
 					this.putFieldError("recordMethod", "earncode.recordMethod.invalid", "Record Method");

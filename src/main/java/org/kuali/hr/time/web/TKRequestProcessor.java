@@ -41,6 +41,7 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 		super.process(request, response);
 		
 		TKUser user = TKContext.getUser();
+        String principalId = user == null ? "" : user.getPrincipalId();
 		
 		String header = " Browser: "+request.getHeader("User-Agent");
 		if(StringUtils.isBlank(header)){
@@ -51,7 +52,7 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 		
 		long totalTime = System.currentTimeMillis() - startTime.getTime();
 		
-		LOG.info(new StringBuffer("Finished processing :: PERFORMANCE :: [[[Total Time: " + totalTime + "ms]]] ").append(request.getRequestURL()).append(" for ").append(user.getPrincipalId()).append(header));
+		LOG.info(new StringBuffer("Finished processing :: PERFORMANCE :: [[[Total Time: " + totalTime + "ms]]] ").append(request.getRequestURL()).append(" for ").append(principalId).append(header));
 		
 	}
 

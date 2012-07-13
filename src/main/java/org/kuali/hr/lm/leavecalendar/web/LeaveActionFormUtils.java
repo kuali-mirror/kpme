@@ -38,7 +38,7 @@ public class LeaveActionFormUtils {
             Map<String, Object> LeaveBlockMap = new LinkedHashMap<String, Object>();
            
             WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(leaveBlock.getWorkArea(), leaveBlock.getLeaveDate());
-            String workAreaDesc = workArea.getDescription();
+            String workAreaDesc = workArea == null ? "" : workArea.getDescription();
             // Roles
             Boolean isAnyApprover = TKContext.getUser().getCurrentRoles().isAnyApproverActive();
             LeaveBlockMap.put("isApprover", isAnyApprover);
@@ -55,6 +55,8 @@ public class LeaveActionFormUtils {
             LeaveBlockMap.put("earnCodeId", leaveBlock.getEarnCodeId());
             LeaveBlockMap.put("leaveAmount", leaveBlock.getLeaveAmount());
             LeaveBlockMap.put("description", leaveBlock.getDescription());
+            LeaveBlockMap.put("leaveBlockType", leaveBlock.getLeaveBlockType());
+            LeaveBlockMap.put("editable", leaveBlock.isEditable());
             leaveBlockList.add(LeaveBlockMap);
         }
 

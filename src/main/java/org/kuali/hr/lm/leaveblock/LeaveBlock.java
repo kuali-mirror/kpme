@@ -542,4 +542,12 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	public void setLeaveBlockType(String leaveBlockType) {
 		this.leaveBlockType = leaveBlockType;
 	}
+
+    public boolean isEditable() {
+        return TkServiceLocator.getPermissionsService().canEditLeaveBlock(this);
+    }
+
+    public boolean isDeletable() {
+        return TkServiceLocator.getPermissionsService().canDeleteLeaveBlock(this);
+    }
 }

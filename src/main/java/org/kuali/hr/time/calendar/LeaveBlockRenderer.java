@@ -6,12 +6,7 @@ import org.kuali.hr.lm.leaveblock.LeaveBlock;
 
 public class LeaveBlockRenderer {
     private LeaveBlock leaveBlock;
-//    private String leaveCode;
-    private String earnCode;
-    private BigDecimal hours;
-    private long leaveBlockId;
-    private String documentId;
-    private String assignmentTitle;
+    //private boolean readOnly;
 
     public  LeaveBlockRenderer(LeaveBlock leaveBlock) {
         this.leaveBlock = leaveBlock;
@@ -40,5 +35,13 @@ public class LeaveBlockRenderer {
 	public String getAssignmentTitle() {
 		return leaveBlock.getAssignmentTitle();
 	}
+
+    public boolean getEditable() {
+        return leaveBlock.isEditable();
+    }
+
+    public boolean getDeletable() {
+        return leaveBlock.isDeletable();
+    }
 
 }

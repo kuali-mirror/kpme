@@ -9,8 +9,10 @@
     <div class="leaveBlock">
     	<div id="leaveblock_${leaveBlock.leaveBlockId}"
 	         class="${editableClass}">
-	        <img id="leaveBlockDelete_${leaveBlock.leaveBlockId}" src='images/delete.png' class="leaveBlock-delete"/> 
-	        <div id="show_${leaveBlock.leaveBlockId}">${leaveBlock.assignmentTitle}</div>
+            <c:if test="${leaveBlock.deletable}">
+	            <img id="leaveBlockDelete_${leaveBlock.leaveBlockId}" src='images/delete.png' class="leaveBlock-delete"/>
+            </c:if>
+            <div id="show_${leaveBlock.leaveBlockId}">${leaveBlock.assignmentTitle}</div>
 	       
 	    </div>
         ${leaveBlock.earnCode} (${leaveBlock.hours})	
