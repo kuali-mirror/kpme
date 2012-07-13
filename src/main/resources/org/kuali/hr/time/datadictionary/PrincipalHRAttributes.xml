@@ -27,8 +27,8 @@
 				<ref bean="PrincipalHRAttributes-serviceDate" />
 				<ref bean="PrincipalHRAttributes-fmlaEligible" />
 				<ref bean="PrincipalHRAttributes-workmansCompEligible" />
-				<ref bean="PrincipalHRAttributes-recordTime" />
-				<ref bean="PrincipalHRAttributes-recordLeave" />
+				<!-- <ref bean="PrincipalHRAttributes-recordTime" />
+				<ref bean="PrincipalHRAttributes-recordLeave" /> -->
 				<ref bean="PrincipalHRAttributes-timezone" />
 				<ref bean="PrincipalHRAttributes-effectiveDate" />
 				<ref bean="PrincipalHRAttributes-timestamp" />
@@ -249,7 +249,7 @@
   	</bean>
   	
   	<!-- KPME-1268 Kagata adding recordTime -->
-	<bean id="PrincipalHRAttributes-recordTime" parent="PrincipalHRAttributes-recordTime-parentBean" />
+	<!-- <bean id="PrincipalHRAttributes-recordTime" parent="PrincipalHRAttributes-recordTime-parentBean" />
 	<bean id="PrincipalHRAttributes-recordTime-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Record Time" />
 				<property name="control">
@@ -260,7 +260,7 @@
 		<property name="label" value="Record Time" />
 	</bean>
 	
-	<!-- KPME-1268 Kagata adding recordLeave -->
+	KPME-1268 Kagata adding recordLeave
 	<bean id="PrincipalHRAttributes-recordLeave" parent="PrincipalHRAttributes-recordLeave-parentBean" />
 	<bean id="PrincipalHRAttributes-recordLeave-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Record Leave" />
@@ -270,7 +270,7 @@
 		</property>
 		<property name="name" value="recordLeave" />
 		<property name="label" value="Record Leave" />
-	</bean>
+	</bean> -->
   	
   	
 	<!--  Inquiry Definitions  -->
