@@ -150,7 +150,6 @@
             <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-WKFLW' AND ROLE_NM = 'TK_SYS_ADMIN')" />
             <column name="MBR_ID" value="admin" />
             <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
-            <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
         </insert>
         
@@ -176,7 +175,6 @@
             <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-WKFLW' AND ROLE_NM = 'TK_APPROVER')" />
             <column name="MBR_ID" value="admin" />
             <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
-            <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
         </insert>
         
