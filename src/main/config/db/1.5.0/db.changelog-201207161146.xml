@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="kbtaylor" context="kpme-server-bootstrap" dbms="mysql">
+        <comment>Adding Rice role bootstrap data</comment>
+        <insert tableName="krim_role_id_s">
+            <column name="id" />
+        </insert>
+    </changeSet>
+    
+    <changeSet id="2" author="kbtaylor" context="kpme-server-bootstrap">
+        <comment>Adding Rice role bootstrap data</comment>
+        <insert tableName="krim_role_t">
+            <column name="ROLE_ID" value="krim_role_id_s.nextval" />
+            <column name="KIM_TYP_ID" value="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default')" />
+            <column name="NMSPC_CD" value="KPME-WKFLW" />
+            <column name="ROLE_NM" value="TK_SYS_ADMIN" />
+            <column name="DESC_TXT" value="KPME TK System Administrator Role" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+        </insert>
+        
+        <modifySql dbms="mysql">
+            <regExpReplace replace="(\w*).nextval" with="(SELECT MAX(id) FROM $1)" />
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+    
+    <changeSet id="3" author="kbtaylor" context="kpme-server-bootstrap" dbms="mysql">
+        <comment>Adding Rice role bootstrap data</comment>
+        <insert tableName="krim_role_id_s">
+            <column name="id" />
+        </insert>
+    </changeSet>
+    
+    <changeSet id="4" author="kbtaylor" context="kpme-server-bootstrap">
+        <comment>Adding Rice role bootstrap data</comment>
+        <insert tableName="krim_role_t">
+            <column name="ROLE_ID" value="krim_role_id_s.nextval" />
+            <column name="KIM_TYP_ID" value="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-IDM' AND NM = 'Derived Role: Principal')" />
+            <column name="NMSPC_CD" value="KPME-WKFLW" />
+            <column name="ROLE_NM" value="TK_ORG_ADMIN" />
+            <column name="DESC_TXT" value="KPME TK Organization Administrator Role" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+        </insert>
+        
+        <modifySql dbms="mysql">
+            <regExpReplace replace="(\w*).nextval" with="(SELECT MAX(id) FROM $1)" />
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+    
+    <changeSet id="5" author="kbtaylor" context="kpme-server-bootstrap" dbms="mysql">
+        <comment>Adding Rice role bootstrap data</comment>
+        <insert tableName="krim_role_id_s">
+            <column name="id" />
+        </insert>
+    </changeSet>
+    
+    <changeSet id="6" author="kbtaylor" context="kpme-server-bootstrap">
+        <comment>Adding Rice role bootstrap data</comment>
+        <insert tableName="krim_role_t">
+            <column name="ROLE_ID" value="krim_role_id_s.nextval" />
+            <column name="KIM_TYP_ID" value="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default')" />
+            <column name="NMSPC_CD" value="KPME-WKFLW" />
+            <column name="ROLE_NM" value="TK_EMPLOYEE" />
+            <column name="DESC_TXT" value="KPME Employee Role" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+        </insert>
+        
+        <modifySql dbms="mysql">
+            <regExpReplace replace="(\w*).nextval" with="(SELECT MAX(id) FROM $1)" />
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+    
+    <changeSet id="7" author="kbtaylor" context="kpme-server-bootstrap" dbms="mysql">
+        <comment>Adding Rice role bootstrap data</comment>
+        <insert tableName="krim_role_id_s">
+            <column name="id" />
+        </insert>
+    </changeSet>
+    
+    <changeSet id="8" author="kbtaylor" context="kpme-server-bootstrap">
+        <comment>Adding Rice role bootstrap data</comment>
+        <insert tableName="krim_role_t">
+            <column name="ROLE_ID" value="krim_role_id_s.nextval" />
+            <column name="KIM_TYP_ID" value="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Work Area Role Type')" />
+            <column name="NMSPC_CD" value="KPME-WKFLW" />
+            <column name="ROLE_NM" value="TK_APPROVER" />
+            <column name="DESC_TXT" value="KPME Approver Role" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+        </insert>
+        
+        <modifySql dbms="mysql">
+            <regExpReplace replace="(\w*).nextval" with="(SELECT MAX(id) FROM $1)" />
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+    
+    <changeSet id="9" author="kbtaylor" context="kpme-server-bootstrap" dbms="mysql">
+        <comment>Adding Rice role bootstrap data</comment>
+        <insert tableName="krim_role_mbr_id_s">
+            <column name="id" />
+        </insert>
+    </changeSet>
+    
+    <changeSet id="10" author="kbtaylor" context="kpme-server-bootstrap">
+        <comment>Adding Rice role bootstrap data</comment>
+        <insert tableName="krim_role_mbr_t">
+            <column name="ROLE_MBR_ID" value="krim_role_mbr_id_s.nextval" />
+            <column name="MBR_TYP_CD" value="P" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-WKFLW' AND ROLE_NM = 'TK_SYS_ADMIN')" />
+            <column name="MBR_ID" value="admin" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+        </insert>
+        
+        <modifySql dbms="mysql">
+            <regExpReplace replace="(\w*).nextval" with="(SELECT MAX(id) FROM $1)" />
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+    
+    <changeSet id="11" author="kbtaylor" context="kpme-server-bootstrap" dbms="mysql">
+        <comment>Adding Rice role bootstrap data</comment>
+        <insert tableName="krim_role_mbr_id_s">
+            <column name="id" />
+        </insert>
+    </changeSet>
+    
+    <changeSet id="12" author="kbtaylor" context="kpme-server-bootstrap">
+        <comment>Adding Rice role bootstrap data</comment>
+        <insert tableName="krim_role_mbr_t">
+            <column name="ROLE_MBR_ID" value="krim_role_mbr_id_s.nextval" />
+            <column name="MBR_TYP_CD" value="P" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-WKFLW' AND ROLE_NM = 'TK_APPROVER')" />
+            <column name="MBR_ID" value="admin" />
+            <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+        </insert>
+        
+        <modifySql dbms="mysql">
+            <regExpReplace replace="(\w*).nextval" with="(SELECT MAX(id) FROM $1)" />
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+    
+</databaseChangeLog>
