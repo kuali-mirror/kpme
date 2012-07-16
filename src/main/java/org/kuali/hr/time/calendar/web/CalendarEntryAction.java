@@ -5,6 +5,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntryPeriodType;
 import org.kuali.hr.time.calendar.service.CalendarEntriesService;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.util.GlobalVariables;
@@ -28,6 +29,9 @@ public class CalendarEntryAction extends TkAction {
 					"error.calendar.not.available");
 			return mapping.findForward("basic");
 		}
+        CalendarEntryPeriodType periodType = ceaf.getCalendarEntryPeriodType() == null ?
+                                                CalendarEntryPeriodType.BI_WEEKLY :
+                                                CalendarEntryPeriodType.fromCode(ceaf.getCalendarEntryPeriodType());
         CalendarEntriesService calendarEntriesService = TkServiceLocator.getCalendarEntriesService();
 		CalendarEntries calendarEntries = calendarEntriesService.getCalendarEntries(
 						ceaf.getHrPyCalendarEntryId().toString());
@@ -40,7 +44,7 @@ public class CalendarEntryAction extends TkAction {
 					CalendarEntries nextCalendarEntries = calendarEntriesService.getNextCalendarEntriesByCalendarId(
 									calendarEntries.getHrCalendarId(), calendarEntries);
 					if (nextCalendarEntries == null) {
-                        calendarEntriesService.createNextCalendarEntry(calendarEntries);
+                        calendarEntries = calendarEntriesService.createNextCalendarEntry(calendarEntries, periodType);
 					}
 				}
 				ceaf.setMessage("Calendar entry sucessfully created.");

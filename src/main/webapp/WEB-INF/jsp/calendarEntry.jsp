@@ -28,6 +28,17 @@
                         </td>
                     </tr>
                     <tr>
+                        <th><label>Calendar frequency : </label></th>
+                        <td>
+                            <select name="calendarEntryPeriodType" id="calendarEntryPeriodType">
+                                <option value="W">Weekly</option>
+                                <option value="B">Biweekly</option>
+                                <option value="S">Semi Monthly</option>
+                                <option value="M">Monthly</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
                     	<td></td>
                     	<td>
                         	<html:image property="methodToCall.createCalendarEntry" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" alt="Submit" title="Submit" styleClass="globalbuttons" />
