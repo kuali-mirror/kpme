@@ -6,8 +6,8 @@
     <changeSet id="1" author="kbtaylor" context="kpme-server-bootstrap">
         <comment>Adding Rice group bootstrap data</comment>
         <insert tableName="krns_nmspc_t">
-            <column name="NMSPC_CD" value="KPME-TK" />
-            <column name="NM" value="KPME Timekeeping" />
+            <column name="NMSPC_CD" value="KPME-WKFLW" />
+            <column name="NM" value="KPME Workflow Group" />
             <column name="APPL_NMSPC_CD" value="KPME" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
@@ -30,7 +30,7 @@
         <insert tableName="krim_grp_t">
             <column name="GRP_ID" valueComputed="krim_grp_id_s.nextval" />
             <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default')" />
-            <column name="NMSPC_CD" value="KPME-TK" />
+            <column name="NMSPC_CD" value="KPME-WKFLW" />
             <column name="GRP_NM" value="TK_SYSTEM_ADMIN" />
             <column name="GRP_DESC" value="KPME TK System Administrator Group" />
             <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
@@ -56,7 +56,7 @@
         <comment>Adding Rice group bootstrap data</comment>
         <insert tableName="krim_grp_mbr_t">
             <column name="GRP_MBR_ID" valueComputed="krim_grp_mbr_id_s.nextval" />
-            <column name="GRP_ID" valueComputed="(SELECT GRP_ID FROM KRIM_GRP_T WHERE NMSPC_CD = 'KPME-TK' AND GRP_NM = 'TK_SYSTEM_ADMIN')" />
+            <column name="GRP_ID" valueComputed="(SELECT GRP_ID FROM KRIM_GRP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND GRP_NM = 'TK_SYSTEM_ADMIN')" />
             <column name="MBR_TYP_CD" value="P" />
             <column name="MBR_ID" value="admin" />
             <column name="LAST_UPDT_DT" valueComputed="SYSDATE" />
