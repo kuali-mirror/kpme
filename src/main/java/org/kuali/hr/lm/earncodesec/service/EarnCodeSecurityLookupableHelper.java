@@ -35,7 +35,7 @@ public class EarnCodeSecurityLookupableHelper extends
 				public String constructCompleteHtmlTag() {
 					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
 							+ className
-							+ "&methodToCall=start&hrDeptEarnCodeId="
+							+ "&methodToCall=start&hrEarnCodeSecurityId="
 							+ hrDeptEarnCodeId + "\">view</a>";
 				}
 			};
