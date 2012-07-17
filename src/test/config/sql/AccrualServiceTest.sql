@@ -9,6 +9,7 @@ delete from hr_job_t where hr_job_id >= '5000';
 delete from lm_sys_schd_timeoff_t where lm_sys_schd_timeoff_id = '5000';
 delete from lm_leave_block_t where principal_id like('testUser%');
 delete from lm_leave_block_hist_t where principal_id like('testUser%');
+delete from lm_leave_plan_t where lm_leave_plan_id >= '8000';
 
 insert into lm_leave_plan_t (`lm_leave_plan_id`, `LEAVE_PLAN`, `DESCR`, `CAL_YEAR_START`, `EFFDT`, `OBJ_ID`, `VER_NBR`, `ACTIVE`, `TIMESTAMP`, `PLANNING_MONTHS`) values ('8000', 'testLP', 'Test Leave Plan', '02/01', '2012-02-01', '', '1', 'Y', '2012-02-06 11:59:46', '12');
 insert into hr_principal_attributes_t (`hr_principal_attribute_id`, `principal_id`, `pay_calendar`, `leave_plan`, `service_date`, `fmla_eligible`, `worksman_eligible`, `timezone`, `EFFDT`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`, `active`, `leave_calendar`) values('5001', 'testUser', 'BWS-CAL', 'testLP', '2012-03-01', 'Y', 'Y', null, '2012-03-01', now(), uuid(), '1', 'Y', 'LM');
