@@ -8,7 +8,17 @@ import java.util.Map;
 public class LMConstants {
 	public static final String SERVICE_TIME_YEAR = "year";
 	public static final String SERVICE_TIME_MONTHS = "month";
-	
+
+    public static final class ACCRUAL_EARN_INTERVAL_CODE{
+        public static final String DAILY = "D";
+        public static final String WEEKLY = "W";
+        public static final String BI_WEEKLY = "B";
+        public static final String SEMI_MONTHLY = "S";
+        public static final String MONTHLY = "M";
+        public static final String YEARLY = "Y";
+        public static final String NO_ACCRUAL = "N";
+    }
+
 	public static final class ACCRUAL_EARN_INTERVAL{
 		public static final String DAILY = "daily";
 		public static final String WEEKLY = "weekly";
@@ -22,13 +32,13 @@ public class LMConstants {
 	// KPME-1347 Kagata
 	public static final Map<String, String> ACCRUAL_EARN_INTERVAL_MAP = new HashMap<String, String>(7);
     static {
-    	ACCRUAL_EARN_INTERVAL_MAP.put("D", "Daily");
-    	ACCRUAL_EARN_INTERVAL_MAP.put("W", "Weekly");
-    	ACCRUAL_EARN_INTERVAL_MAP.put("B", "Bi-Weekly");
-    	ACCRUAL_EARN_INTERVAL_MAP.put("S", "Semi-Monthly");
-    	ACCRUAL_EARN_INTERVAL_MAP.put("M", "Monthly");
-    	ACCRUAL_EARN_INTERVAL_MAP.put("Y", "Yearly");
-    	ACCRUAL_EARN_INTERVAL_MAP.put("N", "No Accrual");
+    	ACCRUAL_EARN_INTERVAL_MAP.put(ACCRUAL_EARN_INTERVAL_CODE.DAILY, "Daily");
+    	ACCRUAL_EARN_INTERVAL_MAP.put(ACCRUAL_EARN_INTERVAL_CODE.WEEKLY, "Weekly");
+    	ACCRUAL_EARN_INTERVAL_MAP.put(ACCRUAL_EARN_INTERVAL_CODE.BI_WEEKLY, "Bi-Weekly");
+    	ACCRUAL_EARN_INTERVAL_MAP.put(ACCRUAL_EARN_INTERVAL_CODE.SEMI_MONTHLY, "Semi-Monthly");
+    	ACCRUAL_EARN_INTERVAL_MAP.put(ACCRUAL_EARN_INTERVAL_CODE.MONTHLY, "Monthly");
+    	ACCRUAL_EARN_INTERVAL_MAP.put(ACCRUAL_EARN_INTERVAL_CODE.YEARLY, "Yearly");
+    	ACCRUAL_EARN_INTERVAL_MAP.put(ACCRUAL_EARN_INTERVAL_CODE.NO_ACCRUAL, "No Accrual");
     }
     
 	
@@ -92,4 +102,13 @@ public class LMConstants {
 	 
 	 
 	 public static final String LEAVE_CALENDAR_TYPE = "leaveCalendar";
+	 
+	 public static final class LEAVE_BLOCK_TYPE {
+		 public static final String LEAVE_CALENDAR = "LC";
+		 public static final String ACCRUAL_SERVICE = "AS";
+		 public static final String BALANCE_TRANSFER = "BT";
+		 public static final String DONATION_MAINT = "DM";
+		 public static final String LEAVE_ADJUSTMENT_MAINT = "LAM";
+	 }
+	 
 }

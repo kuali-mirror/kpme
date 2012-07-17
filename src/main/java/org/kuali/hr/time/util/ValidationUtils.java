@@ -8,6 +8,7 @@ import org.apache.ojb.broker.PersistenceBrokerFactory;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.lm.leavecode.LeaveCode;
@@ -568,7 +569,17 @@ public class ValidationUtils {
 		boolean valid = false;
 		if (asOfDate != null) {
 			AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
-			valid = ac!=null & ac.getUnitOfTime()!=null & StringUtils.equalsIgnoreCase(ac.getUnitOfTime(), recordMethod);
+			if (ac != null
+                    && ac.getUnitOfTime() != null) {
+                if (LMConstants.RECORD_METHOD.HOUR.equals(ac.getUnitOfTime())
+                        && (LMConstants.RECORD_METHOD.HOUR.equals(recordMethod))
+                            || LMConstants.RECORD_METHOD.TIME.equals(recordMethod)) {
+                    valid = true;
+                } else {
+                    valid = StringUtils.equalsIgnoreCase(ac.getUnitOfTime(), recordMethod);
+                }
+
+            }
 		}
 		return valid;
 	}

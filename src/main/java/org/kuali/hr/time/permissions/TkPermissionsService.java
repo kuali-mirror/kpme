@@ -1,5 +1,6 @@
 package org.kuali.hr.time.permissions;
 
+import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
@@ -12,6 +13,8 @@ public interface TkPermissionsService {
 	   public boolean canEditTimeBlockAllFields(TimeBlock tb);
 	   public boolean canEditTimeBlock(TimeBlock tb);
 	   public boolean canDeleteTimeBlock(TimeBlock tb);
+       public boolean canEditLeaveBlock(LeaveBlock lb);
+       public boolean canDeleteLeaveBlock(LeaveBlock lb);
 	   public boolean canViewAdminTab();
 	   public boolean canViewClockTab();
 	   public boolean canViewApproverTab();

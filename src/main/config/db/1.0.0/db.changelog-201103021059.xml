@@ -3,7 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
     
-    <changeSet id="1" author="djunk" context="bootstrap">
+    <changeSet id="1" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="ca_account_t">
             <column defaultValue="" name="FIN_COA_CD" type="VARCHAR(2)">
                 <constraints nullable="false"/>
@@ -28,7 +28,7 @@
             <append value=" ENGINE INNODB"/>
         </modifySql>
     </changeSet>
-    <changeSet id="2" author="djunk" context="bootstrap">
+    <changeSet id="2" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="ca_chart_t">
             <column defaultValue="" name="FIN_COA_CD" type="VARCHAR(2)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -46,7 +46,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="3" author="djunk" context="bootstrap">
+    <changeSet id="3" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="ca_object_code_t">
             <column defaultValueNumeric="0" name="UNIV_FISCAL_YR" type="DECIMAL(4,0)">
                 <constraints nullable="false"/>
@@ -71,7 +71,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="4" author="djunk" context="bootstrap">
+    <changeSet id="4" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="ca_org_t">
             <column defaultValue="" name="FIN_COA_CD" type="VARCHAR(2)">
                 <constraints nullable="false"/>
@@ -92,7 +92,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="5" author="djunk" context="bootstrap">
+    <changeSet id="5" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="ca_project_t">
             <column defaultValue="" name="PROJECT_CD" type="VARCHAR(10)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -113,7 +113,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="6" author="djunk" context="bootstrap">
+    <changeSet id="6" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="ca_sub_acct_t">
             <column defaultValue="" name="FIN_COA_CD" type="VARCHAR(2)">
                 <constraints nullable="false"/>
@@ -137,7 +137,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="7" author="djunk" context="bootstrap">
+    <changeSet id="7" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="ca_sub_object_cd_t">
             <column defaultValueNumeric="0" name="UNIV_FISCAL_YR" type="DECIMAL(4,0)">
                 <constraints nullable="false"/>
@@ -168,7 +168,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="8" author="djunk" context="bootstrap">
+    <changeSet id="8" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="hr_job_s">
             <column autoIncrement="true" name="ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -178,7 +178,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="9" author="djunk" context="bootstrap">
+    <changeSet id="9" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="hr_job_t">
             <column name="HR_JOB_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -212,7 +212,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="10" author="djunk" context="bootstrap">
+    <changeSet id="10" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="hr_location_s">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -222,7 +222,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="11" author="djunk" context="bootstrap">
+    <changeSet id="11" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="hr_location_t">
             <column name="hr_location_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -249,7 +249,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="12" author="djunk" context="bootstrap">
+    <changeSet id="12" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="hr_pay_grade_s">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -259,7 +259,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="13" author="djunk" context="bootstrap">
+    <changeSet id="13" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="hr_pay_grade_t">
             <column name="hr_pay_grade_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -283,7 +283,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="14" author="djunk" context="bootstrap">
+    <changeSet id="14" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="hr_paytype_s">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -293,7 +293,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="15" author="djunk" context="bootstrap">
+    <changeSet id="15" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="hr_paytype_t">
             <column name="HR_PAYTYPE_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -321,7 +321,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="16" author="djunk" context="bootstrap">
+    <changeSet id="16" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="hr_work_schedule_entry_s">
             <column autoIncrement="true" name="ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -331,7 +331,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="17" author="djunk" context="bootstrap">
+    <changeSet id="17" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="hr_work_schedule_entry_t">
             <column name="HR_WORK_SCHEDULE_ENTRY_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -357,7 +357,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="18" author="djunk" context="bootstrap">
+    <changeSet id="18" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="hr_work_schedule_s">
             <column autoIncrement="true" name="ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -367,7 +367,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="19" author="djunk" context="bootstrap">
+    <changeSet id="19" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="hr_work_schedule_t">
             <column name="HR_WORK_SCHEDULE_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -394,482 +394,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="20" author="djunk" context="bootstrap">
-        <createTable tableName="krns_adhoc_rte_actn_recip_t">
-            <column defaultValueNumeric="0" name="RECIP_TYP_CD" type="DECIMAL(1,0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValue="" name="ACTN_RQST_CD" type="VARCHAR(30)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValue="" name="ACTN_RQST_RECIP_ID" type="VARCHAR(70)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValue="" name="DOC_HDR_ID" type="VARCHAR(14)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="21" author="djunk" context="bootstrap">
-        <createTable tableName="krns_att_t">
-            <column defaultValueNumeric="0" name="NTE_ID" type="DECIMAL(14,0)">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="MIME_TYP" type="VARCHAR(255)"/>
-            <column name="FILE_NM" type="VARCHAR(250)"/>
-            <column name="ATT_ID" type="VARCHAR(36)"/>
-            <column name="FILE_SZ" type="DECIMAL(14,0)"/>
-            <column name="ATT_TYP_CD" type="VARCHAR(40)"/>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="22" author="djunk" context="bootstrap">
-        <createTable tableName="krns_doc_hdr_t">
-            <column defaultValue="" name="DOC_HDR_ID" type="VARCHAR(14)">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="FDOC_DESC" type="VARCHAR(40)"/>
-            <column name="ORG_DOC_HDR_ID" type="VARCHAR(10)"/>
-            <column name="TMPL_DOC_HDR_ID" type="VARCHAR(14)"/>
-            <column name="EXPLANATION" type="VARCHAR(400)"/>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="23" author="djunk" context="bootstrap">
-        <createTable tableName="krns_lock_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="24" author="djunk" context="bootstrap">
-        <createTable tableName="krns_lookup_rslt_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="25" author="djunk" context="bootstrap">
-        <createTable tableName="krns_lookup_rslt_t">
-            <column defaultValue="" name="LOOKUP_RSLT_ID" type="VARCHAR(14)">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="PRNCPL_ID" type="VARCHAR(40)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="LOOKUP_DT" type="DATETIME">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SERIALZD_RSLTS" type="LONGTEXT"/>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="26" author="djunk" context="bootstrap">
-        <createTable tableName="krns_lookup_sel_t">
-            <column defaultValue="" name="LOOKUP_RSLT_ID" type="VARCHAR(14)">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="PRNCPL_ID" type="VARCHAR(40)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="LOOKUP_DT" type="DATETIME">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SEL_OBJ_IDS" type="LONGTEXT"/>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="27" author="djunk" context="bootstrap">
-        <createTable tableName="krns_maint_doc_att_t">
-            <column defaultValue="" name="DOC_HDR_ID" type="VARCHAR(14)">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="ATT_CNTNT" type="LONGBLOB">
-                <constraints nullable="false"/>
-            </column>
-            <column name="FILE_NM" type="VARCHAR(150)"/>
-            <column name="CNTNT_TYP" type="VARCHAR(255)"/>
-            <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="28" author="djunk" context="bootstrap">
-        <createTable tableName="krns_maint_doc_t">
-            <column defaultValue="" name="DOC_HDR_ID" type="VARCHAR(14)">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="DOC_CNTNT" type="LONGTEXT"/>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="29" author="djunk" context="bootstrap">
-        <createTable tableName="krns_maint_lock_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="30" author="djunk" context="bootstrap">
-        <createTable tableName="krns_maint_lock_t">
-            <column name="MAINT_LOCK_REP_TXT" type="VARCHAR(500)"/>
-            <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="DOC_HDR_ID" type="VARCHAR(14)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValue="" name="MAINT_LOCK_ID" type="VARCHAR(14)">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="31" author="djunk" context="bootstrap">
-        <createTable tableName="krns_nte_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="32" author="djunk" context="bootstrap">
-        <createTable tableName="krns_nte_t">
-            <column defaultValueNumeric="0" name="NTE_ID" type="DECIMAL(14,0)">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="RMT_OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="AUTH_PRNCPL_ID" type="VARCHAR(40)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="POST_TS" type="DATETIME">
-                <constraints nullable="false"/>
-            </column>
-            <column name="NTE_TYP_CD" type="VARCHAR(4)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="TXT" type="VARCHAR(800)"/>
-            <column name="PRG_CD" type="VARCHAR(1)"/>
-            <column name="TPC_TXT" type="VARCHAR(40)"/>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="33" author="djunk" context="bootstrap">
-        <createTable tableName="krns_nte_typ_t">
-            <column defaultValue="" name="NTE_TYP_CD" type="VARCHAR(4)">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="TYP_DESC_TXT" type="VARCHAR(100)"/>
-            <column name="ACTV_IND" type="VARCHAR(1)"/>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="34" author="djunk" context="bootstrap">
-        <createTable tableName="krns_pessimistic_lock_t">
-            <column defaultValueNumeric="0" name="PESSIMISTIC_LOCK_ID" type="DECIMAL(14,0)">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="LOCK_DESC_TXT" type="VARCHAR(4000)"/>
-            <column name="DOC_HDR_ID" type="VARCHAR(14)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="GNRT_DT" type="DATETIME">
-                <constraints nullable="false"/>
-            </column>
-            <column name="PRNCPL_ID" type="VARCHAR(40)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="35" author="djunk" context="bootstrap">
-        <createTable tableName="krns_sesn_doc_t">
-            <column defaultValue="" name="SESN_DOC_ID" type="VARCHAR(40)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValue="" name="DOC_HDR_ID" type="VARCHAR(14)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValue="" name="PRNCPL_ID" type="VARCHAR(40)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValue="" name="IP_ADDR" type="VARCHAR(60)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SERIALZD_DOC_FRM" type="LONGBLOB"/>
-            <column name="LAST_UPDT_DT" type="DATETIME"/>
-            <column defaultValue="N" name="CONTENT_ENCRYPTED_IND" type="CHAR(1)"/>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="36" author="djunk" context="bootstrap">
-        <createTable tableName="krsb_bam_parm_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="37" author="djunk" context="bootstrap">
-        <createTable tableName="krsb_bam_parm_t">
-            <column defaultValueNumeric="0" name="BAM_PARM_ID" type="DECIMAL(14,0)">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="BAM_ID" type="DECIMAL(14,0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="PARM" type="LONGTEXT">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="38" author="djunk" context="bootstrap">
-        <createTable tableName="krsb_bam_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="39" author="djunk" context="bootstrap">
-        <createTable tableName="krsb_bam_t">
-            <column defaultValueNumeric="0" name="BAM_ID" type="DECIMAL(14,0)">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="SVC_NM" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SVC_URL" type="VARCHAR(500)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="MTHD_NM" type="VARCHAR(2000)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="THRD_NM" type="VARCHAR(500)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="CALL_DT" type="DATETIME">
-                <constraints nullable="false"/>
-            </column>
-            <column name="TGT_TO_STR" type="VARCHAR(2000)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SRVR_IND" type="DECIMAL(1,0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="EXCPN_TO_STR" type="VARCHAR(2000)"/>
-            <column name="EXCPN_MSG" type="LONGTEXT"/>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="40" author="djunk" context="bootstrap">
-        <createTable tableName="krsb_msg_pyld_t">
-            <column defaultValueNumeric="0" name="MSG_QUE_ID" type="DECIMAL(14,0)">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="MSG_PYLD" type="LONGTEXT">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="41" author="djunk" context="bootstrap">
-        <createTable tableName="krsb_msg_que_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="42" author="djunk" context="bootstrap">
-        <createTable tableName="krsb_msg_que_t">
-            <column defaultValueNumeric="0" name="MSG_QUE_ID" type="DECIMAL(14,0)">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="DT" type="DATETIME">
-                <constraints nullable="false"/>
-            </column>
-            <column name="EXP_DT" type="DATETIME"/>
-            <column name="PRIO" type="DECIMAL(8,0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="STAT_CD" type="CHAR(1)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="RTRY_CNT" type="DECIMAL(8,0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="IP_NBR" type="VARCHAR(2000)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SVC_NM" type="VARCHAR(255)"/>
-            <column name="SVC_NMSPC" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SVC_MTHD_NM" type="VARCHAR(2000)"/>
-            <column name="APP_VAL_ONE" type="VARCHAR(2000)"/>
-            <column name="APP_VAL_TWO" type="VARCHAR(2000)"/>
-            <column defaultValueNumeric="0" name="VER_NBR" type="DECIMAL(8,0)"/>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="43" author="djunk" context="bootstrap">
-        <createTable tableName="krsb_svc_def_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="44" author="djunk" context="bootstrap">
-        <createTable tableName="krsb_svc_def_t">
-            <column defaultValueNumeric="0" name="SVC_DEF_ID" type="DECIMAL(14,0)">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="SVC_NM" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SVC_URL" type="VARCHAR(500)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SRVR_IP" type="VARCHAR(40)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SVC_NMSPC" type="VARCHAR(255)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SVC_ALIVE" type="DECIMAL(1,0)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueNumeric="0" name="VER_NBR" type="DECIMAL(8,0)"/>
-            <column name="FLT_SVC_DEF_ID" type="DECIMAL(14,0)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="SVC_DEF_CHKSM" type="VARCHAR(30)">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="45" author="djunk" context="bootstrap">
+    <changeSet id="20" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="la_accrual_categories_s">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -879,7 +404,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="46" author="djunk" context="bootstrap">
+    <changeSet id="21" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="la_accrual_categories_t">
             <column name="LA_ACCRUAL_CATEGORY_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -906,7 +431,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="47" author="djunk" context="bootstrap">
+    <changeSet id="22" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="la_accruals_s">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -916,7 +441,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="48" author="djunk" context="bootstrap">
+    <changeSet id="23" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="la_accruals_t">
             <column name="LA_ACCRUALS_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -948,7 +473,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="49" author="djunk" context="bootstrap">
+    <changeSet id="24" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="qrtz_blob_triggers">
             <column defaultValue="" name="TRIGGER_NAME" type="VARCHAR(80)">
                 <constraints nullable="false"/>
@@ -962,7 +487,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="50" author="djunk" context="bootstrap">
+    <changeSet id="25" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="qrtz_calendars">
             <column defaultValue="" name="CALENDAR_NAME" type="VARCHAR(80)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -975,7 +500,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="51" author="djunk" context="bootstrap">
+    <changeSet id="26" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="qrtz_cron_triggers">
             <column defaultValue="" name="TRIGGER_NAME" type="VARCHAR(80)">
                 <constraints nullable="false"/>
@@ -992,7 +517,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="52" author="djunk" context="bootstrap">
+    <changeSet id="27" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="qrtz_fired_triggers">
             <column defaultValue="" name="ENTRY_ID" type="VARCHAR(95)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1027,7 +552,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="53" author="djunk" context="bootstrap">
+    <changeSet id="28" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="qrtz_job_details">
             <column defaultValue="" name="JOB_NAME" type="VARCHAR(80)">
                 <constraints nullable="false"/>
@@ -1057,7 +582,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="54" author="djunk" context="bootstrap">
+    <changeSet id="29" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="qrtz_job_listeners">
             <column defaultValue="" name="JOB_NAME" type="VARCHAR(80)">
                 <constraints nullable="false"/>
@@ -1073,7 +598,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="55" author="djunk" context="bootstrap">
+    <changeSet id="30" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="qrtz_locks">
             <column defaultValue="" name="LOCK_NAME" type="VARCHAR(40)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1083,7 +608,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="56" author="djunk" context="bootstrap">
+    <changeSet id="31" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="qrtz_paused_trigger_grps">
             <column defaultValue="" name="TRIGGER_GROUP" type="VARCHAR(80)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1093,7 +618,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="57" author="djunk" context="bootstrap">
+    <changeSet id="32" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="qrtz_scheduler_state">
             <column defaultValue="" name="INSTANCE_NAME" type="VARCHAR(80)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1109,7 +634,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="58" author="djunk" context="bootstrap">
+    <changeSet id="33" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="qrtz_simple_triggers">
             <column defaultValue="" name="TRIGGER_NAME" type="VARCHAR(80)">
                 <constraints nullable="false"/>
@@ -1131,7 +656,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="59" author="djunk" context="bootstrap">
+    <changeSet id="34" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="qrtz_trigger_listeners">
             <column defaultValue="" name="TRIGGER_NAME" type="VARCHAR(80)">
                 <constraints nullable="false"/>
@@ -1147,7 +672,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="60" author="djunk" context="bootstrap">
+    <changeSet id="35" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="qrtz_triggers">
             <column defaultValue="" name="TRIGGER_NAME" type="VARCHAR(80)">
                 <constraints nullable="false"/>
@@ -1186,7 +711,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="61" author="djunk" context="bootstrap">
+    <changeSet id="36" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_assign_acct_s">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1196,7 +721,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="62" author="djunk" context="bootstrap">
+    <changeSet id="37" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_assign_acct_t">
             <column name="TK_ASSIGN_ACCT_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1222,7 +747,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="63" author="djunk" context="bootstrap">
+    <changeSet id="38" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_assignment_s">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1232,7 +757,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="64" author="djunk" context="bootstrap">
+    <changeSet id="39" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_assignment_t">
             <column name="TK_ASSIGNMENT_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1257,7 +782,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="65" author="djunk" context="bootstrap">
+    <changeSet id="40" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_clock_location_rl_s">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1267,7 +792,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="66" author="djunk" context="bootstrap">
+    <changeSet id="41" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_clock_location_rl_t">
             <column name="TK_CLOCK_LOC_RULE_ID" type="BIGINT">
                 <constraints nullable="false"/>
@@ -1294,7 +819,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="67" author="djunk" context="bootstrap">
+    <changeSet id="42" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_clock_log_s">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1304,7 +829,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="68" author="djunk" context="bootstrap">
+    <changeSet id="43" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_clock_log_t">
             <column name="TK_CLOCK_LOG_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1337,7 +862,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="69" author="djunk" context="bootstrap">
+    <changeSet id="44" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_daily_overtime_rl_s">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1347,7 +872,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="70" author="djunk" context="bootstrap">
+    <changeSet id="45" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_daily_overtime_rl_t">
             <column name="tk_daily_overtime_rl_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1371,7 +896,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="71" author="djunk" context="bootstrap">
+    <changeSet id="46" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_dept_earn_code_s">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1381,7 +906,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="72" author="djunk" context="bootstrap">
+    <changeSet id="47" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_dept_earn_code_t">
             <column name="tk_dept_earn_code_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1411,7 +936,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="73" author="djunk" context="bootstrap">
+    <changeSet id="48" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_dept_lunch_rl_s">
             <column autoIncrement="true" name="ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1421,7 +946,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="74" author="djunk" context="bootstrap">
+    <changeSet id="49" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_dept_lunch_rl_t">
             <column name="TK_DEPT_LUNCH_RL_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1455,7 +980,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="75" author="djunk" context="bootstrap">
+    <changeSet id="50" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_dept_s">
             <column autoIncrement="true" name="ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1465,7 +990,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="76" author="djunk" context="bootstrap">
+    <changeSet id="51" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_dept_t">
             <column name="tk_dept_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1487,7 +1012,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="77" author="djunk" context="bootstrap">
+    <changeSet id="52" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_document_header_t">
             <column name="DOCUMENT_ID" type="VARCHAR(14)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1503,7 +1028,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="78" author="djunk" context="bootstrap">
+    <changeSet id="53" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_earn_code_s">
             <column autoIncrement="true" name="ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1513,7 +1038,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="79" author="djunk" context="bootstrap">
+    <changeSet id="54" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_earn_code_t">
             <column name="tk_earn_code_id" type="INT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1547,7 +1072,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="80" author="djunk" context="bootstrap">
+    <changeSet id="55" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_earn_group_def_s">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1557,7 +1082,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="81" author="djunk" context="bootstrap">
+    <changeSet id="56" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_earn_group_def_t">
             <column name="tk_earn_group_id" type="BIGINT"/>
             <column name="earn_code" type="VARCHAR(3)"/>
@@ -1571,7 +1096,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="82" author="djunk" context="bootstrap">
+    <changeSet id="57" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_earn_group_s">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1581,7 +1106,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="83" author="djunk" context="bootstrap">
+    <changeSet id="58" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_earn_group_t">
             <column name="tk_earn_group_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1601,7 +1126,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="84" author="djunk" context="bootstrap">
+    <changeSet id="59" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_grace_period_rl_s">
             <column autoIncrement="true" name="ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1611,7 +1136,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="85" author="djunk" context="bootstrap">
+    <changeSet id="60" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_grace_period_rl_t">
             <column name="TK_GRACE_PERIOD_RULE_ID" type="BIGINT"/>
             <column name="EFFDT" type="DATE"/>
@@ -1633,7 +1158,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="86" author="djunk" context="bootstrap">
+    <changeSet id="61" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_holiday_calendar_dates_s">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1643,7 +1168,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="87" author="djunk" context="bootstrap">
+    <changeSet id="62" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_holiday_calendar_dates_t">
             <column name="HOLIDAY_CALENDAR_DATES_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1669,7 +1194,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="88" author="djunk" context="bootstrap">
+    <changeSet id="63" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_holiday_calendar_s">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1679,7 +1204,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="89" author="djunk" context="bootstrap">
+    <changeSet id="64" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_holiday_calendar_t">
             <column name="HOLIDAY_CALENDAR_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1701,7 +1226,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="90" author="djunk" context="bootstrap">
+    <changeSet id="65" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_hour_detail_hist_s">
             <column autoIncrement="true" name="ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1711,7 +1236,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="91" author="djunk" context="bootstrap">
+    <changeSet id="66" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_hour_detail_hist_t">
             <column name="TK_HOUR_DETAIL_HIST_ID" type="BIGINT">
                 <constraints nullable="false"/>
@@ -1736,7 +1261,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="92" author="djunk" context="bootstrap">
+    <changeSet id="67" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_hour_detail_s">
             <column autoIncrement="true" name="ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1746,7 +1271,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="93" author="djunk" context="bootstrap">
+    <changeSet id="68" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_hour_detail_t">
             <column name="TK_HOUR_DETAIL_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1768,7 +1293,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="94" author="djunk" context="bootstrap">
+    <changeSet id="69" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_missed_punch_doc_t">
             <column name="doc_hdr_id" type="VARCHAR(14)" >
             	<constraints nullable="false" primaryKey="true"/>
@@ -1807,7 +1332,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="95" author="djunk" context="bootstrap">
+    <changeSet id="70" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_principal_calendar_t">
             <column defaultValue="" name="principal_id" type="VARCHAR(40)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1837,7 +1362,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="96" author="djunk" context="bootstrap">
+    <changeSet id="71" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_py_calendar_entries_s">
             <column autoIncrement="true" name="ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1847,7 +1372,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="97" author="djunk" context="bootstrap">
+    <changeSet id="72" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_py_calendar_entries_t">
             <column name="tk_py_calendar_entry_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1875,7 +1400,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="98" author="djunk" context="bootstrap">
+    <changeSet id="73" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_py_calendar_s">
             <column autoIncrement="true" name="ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1885,7 +1410,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="99" author="djunk" context="bootstrap">
+    <changeSet id="74" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_py_calendar_t">
             <column name="tk_py_calendar_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1907,7 +1432,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="100" author="djunk" context="bootstrap">
+    <changeSet id="75" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_roles_group_t">
             <column name="principal_id" type="VARCHAR(20)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1917,7 +1442,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="101" author="djunk" context="bootstrap">
+    <changeSet id="76" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_roles_s">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1927,7 +1452,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="102" author="djunk" context="bootstrap">
+    <changeSet id="77" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_roles_t">
             <column name="tk_roles_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1955,7 +1480,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="103" author="djunk" context="bootstrap">
+    <changeSet id="78" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_sal_group_s">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1965,7 +1490,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="104" author="djunk" context="bootstrap">
+    <changeSet id="79" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_sal_group_t">
             <column name="TK_SAL_GROUP_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -1990,7 +1515,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="105" author="djunk" context="bootstrap">
+    <changeSet id="80" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_shift_differential_rl_s">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -2000,7 +1525,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="106" author="djunk" context="bootstrap">
+    <changeSet id="81" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_shift_differential_rl_t">
             <column name="TK_SHIFT_DIFF_RL_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -2049,7 +1574,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="107" author="djunk" context="bootstrap">
+    <changeSet id="82" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_system_lunch_rl_s">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -2059,7 +1584,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="108" author="djunk" context="bootstrap">
+    <changeSet id="83" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_system_lunch_rl_t">
             <column name="TK_SYSTEM_LUNCH_RL_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -2082,7 +1607,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="109" author="djunk" context="bootstrap">
+    <changeSet id="84" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_task_s">
             <column autoIncrement="true" name="ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -2092,7 +1617,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="110" author="djunk" context="bootstrap">
+    <changeSet id="85" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_task_t">
             <column name="tk_task_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -2121,7 +1646,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="111" author="djunk" context="bootstrap">
+    <changeSet id="86" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_time_block_hist_s">
             <column autoIncrement="true" name="ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -2131,7 +1656,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="112" author="djunk" context="bootstrap">
+    <changeSet id="87" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_time_block_hist_t">
             <column name="TK_TIME_BLOCK_HIST_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -2175,7 +1700,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="113" author="djunk" context="bootstrap">
+    <changeSet id="88" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_time_block_s">
             <column autoIncrement="true" name="ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -2185,7 +1710,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="114" author="djunk" context="bootstrap">
+    <changeSet id="89" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_time_block_t">
             <column name="TK_TIME_BLOCK_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -2224,7 +1749,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="115" author="djunk" context="bootstrap">
+    <changeSet id="90" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_time_collection_rl_s">
             <column autoIncrement="true" name="ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -2234,7 +1759,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="116" author="djunk" context="bootstrap">
+    <changeSet id="91" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_time_collection_rl_t">
             <column name="TK_TIME_COLL_RULE_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -2256,7 +1781,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="117" author="djunk" context="bootstrap">
+    <changeSet id="92" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_user_pref_t">
             <column name="PRINCIPAL_ID" type="VARCHAR(40)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -2267,7 +1792,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="118" author="djunk" context="bootstrap">
+    <changeSet id="93" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_wa_maint_doc_t">
             <column name="doc_hdr_id" type="VARCHAR(50)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -2280,7 +1805,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="119" author="djunk" context="bootstrap">
+    <changeSet id="94" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_weekly_overtime_rl_s">
             <column autoIncrement="true" name="ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -2290,7 +1815,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="120" author="djunk" context="bootstrap">
+    <changeSet id="95" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_weekly_overtime_rl_t">
             <column name="TK_WEEKLY_OVERTIME_RL_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -2316,7 +1841,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="121" author="djunk" context="bootstrap">
+    <changeSet id="96" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_weekly_ovt_group_t">
             <column name="TK_WEEKLY_OVERTIME_GROUP_ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -2326,7 +1851,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="122" author="djunk" context="bootstrap">
+    <changeSet id="97" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_work_area_document_t">
             <column name="doc_hdr_id" type="VARCHAR(50)">
                 <constraints nullable="false" primaryKey="true"/>
@@ -2338,7 +1863,7 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="123" author="djunk" context="bootstrap">
+    <changeSet id="98" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_work_area_s">
             <column autoIncrement="true" name="ID" type="BIGINT">
                 <constraints nullable="false" primaryKey="true"/>
@@ -2348,7 +1873,7 @@
 			<append value=" ENGINE MYISAM"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="124" author="djunk" context="bootstrap">
+    <changeSet id="99" author="djunk" context="kpme-client-bootstrap">
         <createTable tableName="tk_work_area_t">
             <column name="TK_WORK_AREA_ID" type="BIGINT">
                 <constraints nullable="false"/>
@@ -2378,353 +1903,201 @@
 			<append value=" ENGINE INNODB"/>
 		</modifySql>
     </changeSet>
-    <changeSet id="125" author="djunk" context="bootstrap">
+    <changeSet id="100" author="djunk" context="kpme-client-bootstrap">
         <addPrimaryKey columnNames="FIN_COA_CD, ACCOUNT_NBR" tableName="ca_account_t"/>
     </changeSet>
-    <changeSet id="126" author="djunk" context="bootstrap">
+    <changeSet id="101" author="djunk" context="kpme-client-bootstrap">
         <addPrimaryKey columnNames="UNIV_FISCAL_YR, FIN_COA_CD, FIN_OBJECT_CD" tableName="ca_object_code_t"/>
     </changeSet>
-    <changeSet id="127" author="djunk" context="bootstrap">
+    <changeSet id="102" author="djunk" context="kpme-client-bootstrap">
         <addPrimaryKey columnNames="FIN_COA_CD, ORG_CD" tableName="ca_org_t"/>
     </changeSet>
-    <changeSet id="128" author="djunk" context="bootstrap">
+    <changeSet id="103" author="djunk" context="kpme-client-bootstrap">
         <addPrimaryKey columnNames="FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR" tableName="ca_sub_acct_t"/>
     </changeSet>
-    <changeSet id="129" author="djunk" context="bootstrap">
+    <changeSet id="104" author="djunk" context="kpme-client-bootstrap">
         <addPrimaryKey columnNames="UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD" tableName="ca_sub_object_cd_t"/>
     </changeSet>
-    <changeSet id="130" author="djunk" context="bootstrap">
-        <addPrimaryKey columnNames="RECIP_TYP_CD, ACTN_RQST_CD, ACTN_RQST_RECIP_ID, DOC_HDR_ID" tableName="krns_adhoc_rte_actn_recip_t"/>
-    </changeSet>
-    <changeSet id="131" author="djunk" context="bootstrap">
-        <addPrimaryKey columnNames="SESN_DOC_ID, DOC_HDR_ID, PRNCPL_ID, IP_ADDR" tableName="krns_sesn_doc_t"/>
-    </changeSet>
-    <changeSet id="132" author="djunk" context="bootstrap">
+    <changeSet id="105" author="djunk" context="kpme-client-bootstrap">
         <addPrimaryKey columnNames="TRIGGER_NAME, TRIGGER_GROUP" tableName="qrtz_blob_triggers"/>
     </changeSet>
-    <changeSet id="133" author="djunk" context="bootstrap">
+    <changeSet id="106" author="djunk" context="kpme-client-bootstrap">
         <addPrimaryKey columnNames="TRIGGER_NAME, TRIGGER_GROUP" tableName="qrtz_cron_triggers"/>
     </changeSet>
-    <changeSet id="134" author="djunk" context="bootstrap">
+    <changeSet id="107" author="djunk" context="kpme-client-bootstrap">
         <addPrimaryKey columnNames="JOB_NAME, JOB_GROUP" tableName="qrtz_job_details"/>
     </changeSet>
-    <changeSet id="135" author="djunk" context="bootstrap">
+    <changeSet id="108" author="djunk" context="kpme-client-bootstrap">
         <addPrimaryKey columnNames="JOB_NAME, JOB_GROUP, JOB_LISTENER" tableName="qrtz_job_listeners"/>
     </changeSet>
-    <changeSet id="136" author="djunk" context="bootstrap">
+    <changeSet id="109" author="djunk" context="kpme-client-bootstrap">
         <addPrimaryKey columnNames="TRIGGER_NAME, TRIGGER_GROUP" tableName="qrtz_simple_triggers"/>
     </changeSet>
-    <changeSet id="137" author="djunk" context="bootstrap">
+    <changeSet id="110" author="djunk" context="kpme-client-bootstrap">
         <addPrimaryKey columnNames="TRIGGER_NAME, TRIGGER_GROUP, TRIGGER_LISTENER" tableName="qrtz_trigger_listeners"/>
     </changeSet>
-    <changeSet id="138" author="djunk" context="bootstrap">
+    <changeSet id="111" author="djunk" context="kpme-client-bootstrap">
         <addPrimaryKey columnNames="TRIGGER_NAME, TRIGGER_GROUP" tableName="qrtz_triggers"/>
     </changeSet>
-    <changeSet id="139" author="djunk" context="bootstrap">
+    <changeSet id="112" author="djunk" context="kpme-client-bootstrap">
         <createIndex indexName="CA_ACCOUNT_TC0" tableName="ca_account_t" unique="true">
             <column name="OBJ_ID"/>
         </createIndex>
     </changeSet>
-    <changeSet id="140" author="djunk" context="bootstrap">
+    <changeSet id="113" author="djunk" context="kpme-client-bootstrap">
         <createIndex indexName="CA_ACCOUNT_TI2" tableName="ca_account_t" unique="false">
             <column name="ACCOUNT_NBR"/>
             <column name="FIN_COA_CD"/>
         </createIndex>
     </changeSet>
-    <changeSet id="141" author="djunk" context="bootstrap">
+    <changeSet id="114" author="djunk" context="kpme-client-bootstrap">
         <createIndex indexName="CA_CHART_TC0" tableName="ca_chart_t" unique="true">
             <column name="OBJ_ID"/>
         </createIndex>
     </changeSet>
-    <changeSet id="142" author="djunk" context="bootstrap">
+    <changeSet id="115" author="djunk" context="kpme-client-bootstrap">
         <createIndex indexName="CA_OBJECT_CODE_TC0" tableName="ca_object_code_t" unique="true">
             <column name="OBJ_ID"/>
         </createIndex>
     </changeSet>
-    <changeSet id="143" author="djunk" context="bootstrap">
+    <changeSet id="116" author="djunk" context="kpme-client-bootstrap">
         <createIndex indexName="CA_ORG_TC0" tableName="ca_org_t" unique="true">
             <column name="OBJ_ID"/>
         </createIndex>
     </changeSet>
-    <changeSet id="144" author="djunk" context="bootstrap">
+    <changeSet id="117" author="djunk" context="kpme-client-bootstrap">
         <createIndex indexName="CA_PROJECT_TC0" tableName="ca_project_t" unique="true">
             <column name="OBJ_ID"/>
         </createIndex>
     </changeSet>
-    <changeSet id="145" author="djunk" context="bootstrap">
+    <changeSet id="118" author="djunk" context="kpme-client-bootstrap">
         <createIndex indexName="CA_SUB_ACCT_TC0" tableName="ca_sub_acct_t" unique="true">
             <column name="OBJ_ID"/>
         </createIndex>
     </changeSet>
-    <changeSet id="146" author="djunk" context="bootstrap">
+    <changeSet id="119" author="djunk" context="kpme-client-bootstrap">
         <createIndex indexName="CA_SUB_ACCT_TI2" tableName="ca_sub_acct_t" unique="false">
             <column name="FIN_COA_CD"/>
             <column name="ACCOUNT_NBR"/>
         </createIndex>
     </changeSet>
-    <changeSet id="147" author="djunk" context="bootstrap">
+    <changeSet id="120" author="djunk" context="kpme-client-bootstrap">
         <createIndex indexName="CA_SUB_OBJECT_CD_TC0" tableName="ca_sub_object_cd_t" unique="true">
             <column name="OBJ_ID"/>
         </createIndex>
     </changeSet>
-    <changeSet id="148" author="djunk" context="bootstrap">
+    <changeSet id="121" author="djunk" context="kpme-client-bootstrap">
         <createIndex indexName="CA_SUB_OBJECT_CD_TI2" tableName="ca_sub_object_cd_t" unique="false">
             <column name="UNIV_FISCAL_YR"/>
         </createIndex>
     </changeSet>
-    <changeSet id="149" author="djunk" context="bootstrap">
-        <createIndex indexName="KRNS_ADHOC_RTE_ACTN_RECIP_T2" tableName="krns_adhoc_rte_actn_recip_t" unique="false">
-            <column name="DOC_HDR_ID"/>
-        </createIndex>
-    </changeSet>
-    <changeSet id="150" author="djunk" context="bootstrap">
-        <createIndex indexName="KRNS_ADHOC_RTE_ACTN_RECIP_TC0" tableName="krns_adhoc_rte_actn_recip_t" unique="true">
-            <column name="OBJ_ID"/>
-        </createIndex>
-    </changeSet>
-    <changeSet id="151" author="djunk" context="bootstrap">
-        <createIndex indexName="KRNS_ATT_TC0" tableName="krns_att_t" unique="true">
-            <column name="OBJ_ID"/>
-        </createIndex>
-    </changeSet>
-    <changeSet id="152" author="djunk" context="bootstrap">
-        <createIndex indexName="KRNS_DOC_HDR_TC0" tableName="krns_doc_hdr_t" unique="true">
-            <column name="OBJ_ID"/>
-        </createIndex>
-    </changeSet>
-    <changeSet id="153" author="djunk" context="bootstrap">
-        <createIndex indexName="KRNS_DOC_HDR_TI3" tableName="krns_doc_hdr_t" unique="false">
-            <column name="ORG_DOC_HDR_ID"/>
-        </createIndex>
-    </changeSet>
-    <changeSet id="154" author="djunk" context="bootstrap">
-        <createIndex indexName="KRNS_LOOKUP_RSLT_TC0" tableName="krns_lookup_rslt_t" unique="true">
-            <column name="OBJ_ID"/>
-        </createIndex>
-    </changeSet>
-    <changeSet id="155" author="djunk" context="bootstrap">
-        <createIndex indexName="KRNS_LOOKUP_SEL_TC0" tableName="krns_lookup_sel_t" unique="true">
-            <column name="OBJ_ID"/>
-        </createIndex>
-    </changeSet>
-    <changeSet id="156" author="djunk" context="bootstrap">
-        <createIndex indexName="KRNS_MAINT_DOC_ATT_TC0" tableName="krns_maint_doc_att_t" unique="true">
-            <column name="OBJ_ID"/>
-        </createIndex>
-    </changeSet>
-    <changeSet id="157" author="djunk" context="bootstrap">
-        <createIndex indexName="KRNS_MAINT_DOC_TC0" tableName="krns_maint_doc_t" unique="true">
-            <column name="OBJ_ID"/>
-        </createIndex>
-    </changeSet>
-    <changeSet id="158" author="djunk" context="bootstrap">
-        <createIndex indexName="KRNS_MAINT_LOCK_TC0" tableName="krns_maint_lock_t" unique="true">
-            <column name="OBJ_ID"/>
-        </createIndex>
-    </changeSet>
-    <changeSet id="159" author="djunk" context="bootstrap">
-        <createIndex indexName="KRNS_MAINT_LOCK_TI2" tableName="krns_maint_lock_t" unique="false">
-            <column name="DOC_HDR_ID"/>
-        </createIndex>
-    </changeSet>
-    <changeSet id="160" author="djunk" context="bootstrap">
-        <createIndex indexName="KRNS_NTE_TC0" tableName="krns_nte_t" unique="true">
-            <column name="OBJ_ID"/>
-        </createIndex>
-    </changeSet>
-    <changeSet id="161" author="djunk" context="bootstrap">
-        <createIndex indexName="KRNS_NTE_TYP_TC0" tableName="krns_nte_typ_t" unique="true">
-            <column name="OBJ_ID"/>
-        </createIndex>
-    </changeSet>
-    <changeSet id="162" author="djunk" context="bootstrap">
-        <createIndex indexName="KRNS_PESSIMISTIC_LOCK_TC0" tableName="krns_pessimistic_lock_t" unique="true">
-            <column name="OBJ_ID"/>
-        </createIndex>
-    </changeSet>
-    <changeSet id="163" author="djunk" context="bootstrap">
-        <createIndex indexName="KRNS_PESSIMISTIC_LOCK_TI1" tableName="krns_pessimistic_lock_t" unique="false">
-            <column name="DOC_HDR_ID"/>
-        </createIndex>
-    </changeSet>
-    <changeSet id="164" author="djunk" context="bootstrap">
-        <createIndex indexName="KRNS_PESSIMISTIC_LOCK_TI2" tableName="krns_pessimistic_lock_t" unique="false">
-            <column name="PRNCPL_ID"/>
-        </createIndex>
-    </changeSet>
-    <changeSet id="165" author="djunk" context="bootstrap">
-        <createIndex indexName="KRNS_SESN_DOC_TI1" tableName="krns_sesn_doc_t" unique="false">
-            <column name="LAST_UPDT_DT"/>
-        </createIndex>
-    </changeSet>
-    <changeSet id="166" author="djunk" context="bootstrap">
-        <createIndex indexName="KREW_BAM_PARM_TI1" tableName="krsb_bam_parm_t" unique="false">
-            <column name="BAM_ID"/>
-        </createIndex>
-    </changeSet>
-    <changeSet id="167" author="djunk" context="bootstrap">
-        <createIndex indexName="KRSB_BAM_TI1" tableName="krsb_bam_t" unique="false">
-            <column name="SVC_NM"/>
-            <column name="MTHD_NM"/>
-        </createIndex>
-    </changeSet>
-    <changeSet id="168" author="djunk" context="bootstrap">
-        <createIndex indexName="KRSB_BAM_TI2" tableName="krsb_bam_t" unique="false">
-            <column name="SVC_NM"/>
-        </createIndex>
-    </changeSet>
-    <changeSet id="169" author="djunk" context="bootstrap">
-        <createIndex indexName="KRSB_MSG_QUE_TI1" tableName="krsb_msg_que_t" unique="false">
-            <column name="SVC_NM"/>
-            <column name="SVC_MTHD_NM"/>
-        </createIndex>
-    </changeSet>
-    <changeSet id="170" author="djunk" context="bootstrap">
-        <createIndex indexName="KRSB_MSG_QUE_TI2" tableName="krsb_msg_que_t" unique="false">
-            <column name="SVC_NMSPC"/>
-            <column name="STAT_CD"/>
-            <column name="IP_NBR"/>
-            <column name="DT"/>
-        </createIndex>
-    </changeSet>
-    <changeSet id="171" author="djunk" context="bootstrap">
-        <createIndex indexName="KRSB_SVC_DEF_TI1" tableName="krsb_svc_def_t" unique="false">
-            <column name="SRVR_IP"/>
-            <column name="SVC_NMSPC"/>
-        </createIndex>
-    </changeSet>
-    <changeSet id="172" author="djunk" context="bootstrap">
-        <createIndex indexName="KRSB_SVC_DEF_TI2" tableName="krsb_svc_def_t" unique="true">
-            <column name="FLT_SVC_DEF_ID"/>
-        </createIndex>
-    </changeSet>
-    <changeSet id="173" author="djunk" context="bootstrap">
+    <changeSet id="124" author="djunk" context="kpme-client-bootstrap">
         <createIndex indexName="qrtz_FIRED_TRIGGERS_TI1" tableName="qrtz_fired_triggers" unique="false">
             <column name="JOB_GROUP"/>
         </createIndex>
     </changeSet>
-    <changeSet id="174" author="djunk" context="bootstrap">
+    <changeSet id="125" author="djunk" context="kpme-client-bootstrap">
         <createIndex indexName="qrtz_FIRED_TRIGGERS_TI2" tableName="qrtz_fired_triggers" unique="false">
             <column name="JOB_NAME"/>
         </createIndex>
     </changeSet>
-    <changeSet id="175" author="djunk" context="bootstrap">
+    <changeSet id="126" author="djunk" context="kpme-client-bootstrap">
         <createIndex indexName="qrtz_FIRED_TRIGGERS_TI3" tableName="qrtz_fired_triggers" unique="false">
             <column name="REQUESTS_RECOVERY"/>
         </createIndex>
     </changeSet>
-    <changeSet id="176" author="djunk" context="bootstrap">
+    <changeSet id="127" author="djunk" context="kpme-client-bootstrap">
         <createIndex indexName="qrtz_FIRED_TRIGGERS_TI4" tableName="qrtz_fired_triggers" unique="false">
             <column name="IS_STATEFUL"/>
         </createIndex>
     </changeSet>
-    <changeSet id="177" author="djunk" context="bootstrap">
+    <changeSet id="128" author="djunk" context="kpme-client-bootstrap">
         <createIndex indexName="qrtz_FIRED_TRIGGERS_TI5" tableName="qrtz_fired_triggers" unique="false">
             <column name="TRIGGER_GROUP"/>
         </createIndex>
     </changeSet>
-    <changeSet id="178" author="djunk" context="bootstrap">
+    <changeSet id="129" author="djunk" context="kpme-client-bootstrap">
         <createIndex indexName="qrtz_FIRED_TRIGGERS_TI6" tableName="qrtz_fired_triggers" unique="false">
             <column name="INSTANCE_NAME"/>
         </createIndex>
     </changeSet>
-    <changeSet id="179" author="djunk" context="bootstrap">
+    <changeSet id="130" author="djunk" context="kpme-client-bootstrap">
         <createIndex indexName="qrtz_FIRED_TRIGGERS_TI7" tableName="qrtz_fired_triggers" unique="false">
             <column name="TRIGGER_NAME"/>
         </createIndex>
     </changeSet>
-    <changeSet id="180" author="djunk" context="bootstrap">
+    <changeSet id="131" author="djunk" context="kpme-client-bootstrap">
         <createIndex indexName="qrtz_FIRED_TRIGGERS_TI8" tableName="qrtz_fired_triggers" unique="false">
             <column name="TRIGGER_NAME"/>
             <column name="TRIGGER_GROUP"/>
         </createIndex>
     </changeSet>
-    <changeSet id="181" author="djunk" context="bootstrap">
+    <changeSet id="132" author="djunk" context="kpme-client-bootstrap">
         <createIndex indexName="qrtz_FIRED_TRIGGERS_TI9" tableName="qrtz_fired_triggers" unique="false">
             <column name="IS_VOLATILE"/>
         </createIndex>
     </changeSet>
-    <changeSet id="182" author="djunk" context="bootstrap">
+    <changeSet id="133" author="djunk" context="kpme-client-bootstrap">
         <createIndex indexName="qrtz_JOB_DETAILS_TI1" tableName="qrtz_job_details" unique="false">
             <column name="REQUESTS_RECOVERY"/>
         </createIndex>
     </changeSet>
-    <changeSet id="183" author="djunk" context="bootstrap">
+    <changeSet id="134" author="djunk" context="kpme-client-bootstrap">
         <createIndex indexName="qrtz_TRIGGERS_TI1" tableName="qrtz_triggers" unique="false">
             <column name="NEXT_FIRE_TIME"/>
         </createIndex>
     </changeSet>
-    <changeSet id="184" author="djunk" context="bootstrap">
+    <changeSet id="135" author="djunk" context="kpme-client-bootstrap">
         <createIndex indexName="qrtz_TRIGGERS_TI2" tableName="qrtz_triggers" unique="false">
             <column name="NEXT_FIRE_TIME"/>
             <column name="TRIGGER_STATE"/>
         </createIndex>
     </changeSet>
-    <changeSet id="185" author="djunk" context="bootstrap">
+    <changeSet id="136" author="djunk" context="kpme-client-bootstrap">
         <createIndex indexName="qrtz_TRIGGERS_TI3" tableName="qrtz_triggers" unique="false">
             <column name="TRIGGER_STATE"/>
         </createIndex>
     </changeSet>
-    <changeSet id="186" author="djunk" context="bootstrap">
+    <changeSet id="137" author="djunk" context="kpme-client-bootstrap">
         <createIndex indexName="qrtz_TRIGGERS_TI4" tableName="qrtz_triggers" unique="false">
             <column name="IS_VOLATILE"/>
         </createIndex>
     </changeSet>
-    <changeSet id="187" author="djunk" context="bootstrap">
+    <changeSet id="138" author="djunk" context="kpme-client-bootstrap">
         <addForeignKeyConstraint baseColumnNames="FIN_COA_CD" baseTableName="ca_account_t"  constraintName="CA_ACCOUNT_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="FIN_COA_CD" referencedTableName="ca_chart_t"  referencesUniqueColumn="false"/>
     </changeSet>
-    <changeSet id="188" author="djunk" context="bootstrap">
+    <changeSet id="139" author="djunk" context="kpme-client-bootstrap">
         <addForeignKeyConstraint baseColumnNames="FIN_COA_CD, ORG_CD" baseTableName="ca_account_t"  constraintName="CA_ACCOUNT_TR2" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="FIN_COA_CD, ORG_CD" referencedTableName="ca_org_t"  referencesUniqueColumn="false"/>
     </changeSet>
-    <changeSet id="189" author="djunk" context="bootstrap">
+    <changeSet id="140" author="djunk" context="kpme-client-bootstrap">
         <addForeignKeyConstraint baseColumnNames="FIN_COA_CD" baseTableName="ca_org_t"  constraintName="CA_ORG_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="FIN_COA_CD" referencedTableName="ca_chart_t"  referencesUniqueColumn="false"/>
     </changeSet>
-    <changeSet id="190" author="djunk" context="bootstrap">
+    <changeSet id="141" author="djunk" context="kpme-client-bootstrap">
         <addForeignKeyConstraint baseColumnNames="FIN_COA_CD" baseTableName="ca_project_t"  constraintName="CA_PROJECT_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="FIN_COA_CD" referencedTableName="ca_chart_t"  referencesUniqueColumn="false"/>
     </changeSet>
-    <changeSet id="191" author="djunk" context="bootstrap">
+    <changeSet id="142" author="djunk" context="kpme-client-bootstrap">
         <addForeignKeyConstraint baseColumnNames="FIN_COA_CD, ORG_CD" baseTableName="ca_project_t"  constraintName="CA_PROJECT_TI2" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="FIN_COA_CD, ORG_CD" referencedTableName="ca_org_t"  referencesUniqueColumn="false"/>
     </changeSet>
-    <changeSet id="192" author="djunk" context="bootstrap">
+    <changeSet id="143" author="djunk" context="kpme-client-bootstrap">
         <addForeignKeyConstraint baseColumnNames="FIN_COA_CD" baseTableName="ca_sub_acct_t"  constraintName="CA_SUB_ACCT_TR2" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="FIN_COA_CD" referencedTableName="ca_chart_t"  referencesUniqueColumn="false"/>
     </changeSet>
-    <changeSet id="193" author="djunk" context="bootstrap">
+    <changeSet id="144" author="djunk" context="kpme-client-bootstrap">
         <addForeignKeyConstraint baseColumnNames="FIN_COA_CD" baseTableName="ca_sub_object_cd_t"  constraintName="CA_SUB_OBJECT_CD_TR3" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="FIN_COA_CD" referencedTableName="ca_chart_t"  referencesUniqueColumn="false"/>
     </changeSet>
-    <changeSet id="194" author="djunk" context="bootstrap">
+    <changeSet id="145" author="djunk" context="kpme-client-bootstrap">
         <addForeignKeyConstraint baseColumnNames="UNIV_FISCAL_YR, FIN_COA_CD, FIN_OBJECT_CD" baseTableName="ca_sub_object_cd_t"  constraintName="CA_SUB_OBJECT_CD_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="UNIV_FISCAL_YR, FIN_COA_CD, FIN_OBJECT_CD" referencedTableName="ca_object_code_t"  referencesUniqueColumn="false"/>
     </changeSet>
-    <changeSet id="195" author="djunk" context="bootstrap">
-        <addForeignKeyConstraint baseColumnNames="NTE_ID" baseTableName="krns_att_t"  constraintName="KRNS_ATT_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="NTE_ID" referencedTableName="krns_nte_t"  referencesUniqueColumn="false"/>
-    </changeSet>
-    <changeSet id="196" author="djunk" context="bootstrap">
-        <addForeignKeyConstraint baseColumnNames="DOC_HDR_ID" baseTableName="krns_maint_doc_t"  constraintName="KRNS_MAINT_DOC_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="DOC_HDR_ID" referencedTableName="krns_doc_hdr_t"  referencesUniqueColumn="false"/>
-    </changeSet>
-    <changeSet id="197" author="djunk" context="bootstrap">
-        <addForeignKeyConstraint baseColumnNames="NTE_TYP_CD" baseTableName="krns_nte_t"  constraintName="KRNS_NTE_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="NTE_TYP_CD" referencedTableName="krns_nte_typ_t"  referencesUniqueColumn="false"/>
-    </changeSet>
-    <changeSet id="198" author="djunk" context="bootstrap">
+    <changeSet id="146" author="djunk" context="kpme-client-bootstrap">
         <addForeignKeyConstraint baseColumnNames="TRIGGER_NAME, TRIGGER_GROUP" baseTableName="qrtz_blob_triggers"  constraintName="qrtz_BLOB_TRIGGERS_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="TRIGGER_NAME, TRIGGER_GROUP" referencedTableName="qrtz_triggers"  referencesUniqueColumn="false"/>
     </changeSet>
-    <changeSet id="199" author="djunk" context="bootstrap">
+    <changeSet id="147" author="djunk" context="kpme-client-bootstrap">
         <addForeignKeyConstraint baseColumnNames="TRIGGER_NAME, TRIGGER_GROUP" baseTableName="qrtz_cron_triggers"  constraintName="qrtz_CRON_TRIGGERS_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="TRIGGER_NAME, TRIGGER_GROUP" referencedTableName="qrtz_triggers"  referencesUniqueColumn="false"/>
     </changeSet>
-    <changeSet id="200" author="djunk" context="bootstrap">
-        <addForeignKeyConstraint baseColumnNames="JOB_NAME, JOB_GROUP" baseTableName="qrtz_job_listeners"  constraintName="KRSB_QUARTZ_JOB_LISTENERS_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="JOB_NAME, JOB_GROUP" referencedTableName="qrtz_job_details"  referencesUniqueColumn="false"/>
-    </changeSet>
-    <changeSet id="201" author="djunk" context="bootstrap">
+    <changeSet id="148" author="djunk" context="kpme-client-bootstrap">
         <addForeignKeyConstraint baseColumnNames="TRIGGER_NAME, TRIGGER_GROUP" baseTableName="qrtz_simple_triggers"  constraintName="qrtz_SIMPLE_TRIGGERS_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="TRIGGER_NAME, TRIGGER_GROUP" referencedTableName="qrtz_triggers"  referencesUniqueColumn="false"/>
     </changeSet>
-    <changeSet id="202" author="djunk" context="bootstrap">
+    <changeSet id="149" author="djunk" context="kpme-client-bootstrap">
         <addForeignKeyConstraint baseColumnNames="TRIGGER_NAME, TRIGGER_GROUP" baseTableName="qrtz_trigger_listeners"  constraintName="qrtz_TRIGGER_LISTENE_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="TRIGGER_NAME, TRIGGER_GROUP" referencedTableName="qrtz_triggers"  referencesUniqueColumn="false"/>
-    </changeSet>
-    <changeSet id="203" author="djunk" context="bootstrap">
-        <createTable tableName="kr_unittest_t">
-            <column name="foo" type="VARCHAR(1)"/>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
-		</modifySql>
     </changeSet>
 
 </databaseChangeLog>

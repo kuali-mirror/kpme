@@ -28,4 +28,6 @@ public interface PrincipalHRAttributesDao {
 //	public PrincipalHRAttributes getPrincipalHRAttributes(String principalId);
 	
 	public PrincipalHRAttributes getInactivePrincipalHRAttributes(String principalId, Date asOfDate);
+	
+	public PrincipalHRAttributes getPrincipalHRAttributes(String hrPrincipalAttributeId);
 }

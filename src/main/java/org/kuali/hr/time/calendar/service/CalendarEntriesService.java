@@ -1,6 +1,7 @@
 package org.kuali.hr.time.calendar.service;
 
 import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntryPeriodType;
 
 import java.util.Date;
 import java.util.List;
@@ -10,7 +11,7 @@ public interface CalendarEntriesService {
     /**
      * Method to directly access the CalendarEntries object by ID.
      *
-     * @param hrPyCalendarEntriesId The ID to retrieve.
+     * @param hrCalendarEntriesId The ID to retrieve.
      * @return a CalendarEntries object.
      */
 	public CalendarEntries getCalendarEntries(String hrCalendarEntriesId);
@@ -18,7 +19,7 @@ public interface CalendarEntriesService {
     /**
      * Method to obtain the current CalendarEntries object based on the
      * indicated calendar and asOfDate.
-     * @param hrPyCalendarId The calendar to reference.
+     * @param hrCalendarId The calendar to reference.
      * @param asOfDate The date reference point.
      * @return the current CalendarEntries effective by the asOfDate.
      */
@@ -37,7 +38,7 @@ public interface CalendarEntriesService {
      */
 	public List<CalendarEntries> getCurrentCalendarEntryNeedsScheduled(int thresholdDays, Date asOfDate);
 	
-	public void createNextCalendarEntry(CalendarEntries calendarEntries);
+	public CalendarEntries createNextCalendarEntry(CalendarEntries calendarEntries, CalendarEntryPeriodType type);
 	
 	public List<CalendarEntries> getFutureCalendarEntries(String hrCalendarId, Date currentDate, int numberOfEntries);
 

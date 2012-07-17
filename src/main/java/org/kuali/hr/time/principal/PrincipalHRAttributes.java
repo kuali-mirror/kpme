@@ -26,8 +26,9 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 	private String holidayCalendarGroup;
 	private String timezone;
 	// KPME-1268 Kagata added recordTime and recordLeave variables
-	private String recordTime;
-	private String recordLeave;
+	// KPME-1676 
+//	private String recordTime;
+//	private String recordLeave;
 	
 	private Calendar calendar;
 	private Calendar leaveCalObj;
@@ -178,22 +179,6 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 	public String getId() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	public String getRecordTime() {
-		return recordTime;
-	}
-
-	public void setRecordTime(String recordTime) {
-		this.recordTime = recordTime;
-	}
-
-	public String getRecordLeave() {
-		return recordLeave;
-	}
-
-	public void setRecordLeave(String recordLeave) {
-		this.recordLeave = recordLeave;
 	}
 
 	public Calendar getLeaveCalObj() {

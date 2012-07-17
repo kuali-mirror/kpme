@@ -39,6 +39,7 @@ public class LeaveBlockHistory extends LeaveBlock {
 		this.setTimestamp(lb.getTimestamp());
 		this.setTkAssignmentId(lb.getTkAssignmentId());
 		this.setScheduleTimeOffId(lb.getScheduleTimeOffId());
+		this.setLeaveBlockType(lb.getLeaveBlockType());
 		
 	}
 	

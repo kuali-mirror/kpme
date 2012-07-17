@@ -177,10 +177,6 @@
                             Leave Adjustment</a>
                     </li>
                     <li>
-                        <a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.lm.leavecode.LeaveCode&returnLocation=${ConfigProperties.application.url}/Admin.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y">
-                            Leave Code</a>
-                    </li>
-                    <li>
                         <a href="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.lm.leaveplan.LeavePlan&returnLocation=${ConfigProperties.application.url}/Admin.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y">
                             Leave Plan</a>
                     </li>

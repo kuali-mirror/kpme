@@ -57,8 +57,11 @@ public class LeaveBlockAggregate {
 
 		Collections.sort(lstLeaveBlocks, new Comparator<LeaveBlock>() { // Sort the Leave Blocks
 			public int compare(LeaveBlock tb1, LeaveBlock tb2) {
-				if (tb1 != null && tb2 != null)
-					return tb1.getTimestamp().compareTo(tb2.getTimestamp());
+				if (tb1 != null && tb2 != null) {
+                    if (tb1.getTimestamp() != null && tb2.getTimestamp() != null) {
+					    return tb1.getTimestamp().compareTo(tb2.getTimestamp());
+                    }
+                }
 				return 0;
 			}
 		});

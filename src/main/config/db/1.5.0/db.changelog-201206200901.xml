@@ -3,12 +3,12 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet id="1" author="jkakkad" context="bootstrap">
+    <changeSet id="1" author="jkakkad" context="kpme-client-bootstrap">
         <comment>KPME-1636 and KPME-1637 Leave Donation/Adjustment maint doc earn code changes</comment>
         <renameColumn tableName="lm_leave_adjustment_t" oldColumnName="LEAVE_CODE" newColumnName="EARN_CODE" columnDataType="VARCHAR(15) NOT NULL" />
     </changeSet>
     
-    <changeSet id="2" author="jkakkad" context="bootstrap">
+    <changeSet id="2" author="jkakkad" context="kpme-client-bootstrap">
         <comment>KPME-1636 and KPME-1637 Leave Donation/Adjustment maint doc earn code changes</comment>
         <renameColumn tableName="lm_leave_donation_t" oldColumnName="DONATED_LV_CODE" newColumnName="DONATED_ER_CODE" columnDataType="VARCHAR(15)" />
         <renameColumn tableName="lm_leave_donation_t" oldColumnName="RECIPIENTS_LV_CODE" newColumnName="RECIPIENTS_ER_CODE" columnDataType="VARCHAR(15)" />

@@ -1,0 +1,4 @@
+hr_pay_grade_id,pay_grade,sal_group,description,effdt,active
+1,0F,,Support Staff Lvl F,2010-01-01,Y
+2,A,Hourly Level A,,2010-01-01,Y
+3,ANALYST,Analyst,,2010-01-01,Y

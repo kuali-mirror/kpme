@@ -5,7 +5,9 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
+import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.authorization.DepartmentalRule;
@@ -260,6 +262,32 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
         }
 
         return false;
+    }
+
+    @Override
+    public boolean canEditLeaveBlock(LeaveBlock lb) {
+        UserRoles ur = TKContext.getUser().getCurrentRoles();
+        String userId = TKContext.getUser().getPrincipalId();
+        if (userId != null && ur != null) {
+            String blockType = lb.getLeaveBlockType();
+            if (StringUtils.isBlank(blockType)
+                    || StringUtils.equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, blockType)) {
+                return true;
+            } else if (LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER.equals(blockType)
+                    || LMConstants.LEAVE_BLOCK_TYPE.DONATION_MAINT.equals(blockType)
+                    || LMConstants.LEAVE_BLOCK_TYPE.LEAVE_ADJUSTMENT_MAINT.equals(blockType)) {
+                if (ur.isSystemAdmin()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean canDeleteLeaveBlock(LeaveBlock lb) {
+        return canEditLeaveBlock(lb);
     }
 
     @Override

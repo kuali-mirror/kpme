@@ -3,7 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet id="1" author="lfox" context="bootstrap">
+    <changeSet id="1" author="lfox" context="kpme-client-bootstrap">
         <comment>kenneths changes</comment>
         <modifyDataType tableName="hr_earn_group_def_t" columnName="VER_NBR" newDataType="BIGINT(38) NOT NULL DEFAULT '1'" />
         <modifyDataType tableName="hr_earn_group_t" columnName="effdt" newDataType="DATE NOT NULL" />

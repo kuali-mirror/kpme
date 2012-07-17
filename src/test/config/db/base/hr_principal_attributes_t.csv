@@ -1,3 +1,0 @@
-"hr_principal_attribute_id","principal_id","pay_calendar","leave_plan","service_date","fmla_eligible","worksman_eligible","timezone","EFFDT","TIMESTAMP","OBJ_ID","VER_NBR","active","leave_calendar","record_time","record_leave"
-"1","admin","BWS-CAL",NULL,"2010-01-01","Y","Y","America/Chicago","2010-01-01","2010-01-01 08:08:08","7c84567f-c139-11e1-b5db-f07bcba88ef4",1,"Y",NULL,"Y","LM"
-"2","eric","BW-CAL1",NULL,"2010-01-01","Y","Y", "America/Chicago","2010-01-01","2010-01-01 08:08:08","7c8463ef-c139-11e1-b5db-f07bcba88ef4",1,"Y",NULL,"Y","LM"

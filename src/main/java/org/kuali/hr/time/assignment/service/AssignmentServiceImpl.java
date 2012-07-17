@@ -1,5 +1,6 @@
 package org.kuali.hr.time.assignment.service;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
@@ -258,11 +259,13 @@ public class AssignmentServiceImpl implements AssignmentService {
         List<Assignment> assignments = leaveCalendarDocument.getAssignments();
         AssignmentDescriptionKey desc = getAssignmentDescriptionKey(assignmentKey);
 
-        for (Assignment assignment : assignments) {
-            if (assignment.getJobNumber().compareTo(desc.getJobNumber()) == 0 &&
-                    assignment.getWorkArea().compareTo(desc.getWorkArea()) == 0 &&
-                    assignment.getTask().compareTo(desc.getTask()) == 0) {
-                return assignment;
+        if (CollectionUtils.isNotEmpty(assignments)) {
+            for (Assignment assignment : assignments) {
+                if (assignment.getJobNumber().compareTo(desc.getJobNumber()) == 0 &&
+                        assignment.getWorkArea().compareTo(desc.getWorkArea()) == 0 &&
+                        assignment.getTask().compareTo(desc.getTask()) == 0) {
+                    return assignment;
+                }
             }
         }
 

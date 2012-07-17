@@ -1,1 +1,0 @@
-alter table tk_assign_acct_t add column active varchar(1) NOT NULL DEFAULT 'Y';

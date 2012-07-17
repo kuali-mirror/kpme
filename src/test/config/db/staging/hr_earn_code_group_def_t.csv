@@ -1,0 +1,15 @@
+hr_earn_code_group_def_id,hr_earn_code_group_id,earn_code
+1,1,CPE
+2,1,DOT
+3,1,OVT
+4,2,CPP
+5,3,CPE
+6,3,DOT
+7,3,OVT
+8,3,RGH
+9,3,RGN
+10,4,HOL
+11,4,RGH
+12,4,RGN
+13,4,SCK
+14,4,VAC

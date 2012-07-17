@@ -425,9 +425,9 @@
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
-				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
+				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
+				<bean parent="FieldDefinition" p:attributeName="leavePlan" p:noInquiry="true" />
 				<bean parent="FieldDefinition" p:attributeName="accruedDate" />
 				<bean parent="FieldDefinition" p:attributeName="scheduledTimeOffDate" />
 				<bean parent="FieldDefinition" p:attributeName="location" />

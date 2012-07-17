@@ -632,8 +632,8 @@
 		<field-descriptor name="active"          column="active"      jdbc-type="VARCHAR" length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="fmlaEligible"    column="fmla_eligible"      jdbc-type="VARCHAR" length="1" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
 		<field-descriptor name="workmansCompEligible" column="worksman_eligible"      jdbc-type="VARCHAR" length="1" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-		<field-descriptor name="recordTime" column="record_time" jdbc-type="VARCHAR" length="1" nullable="false" />
-		<field-descriptor name="recordLeave" column="record_leave" jdbc-type="VARCHAR" length="2" nullable="false" />
+		<!-- <field-descriptor name="recordTime" column="record_time" jdbc-type="VARCHAR" length="1" nullable="false" />
+		<field-descriptor name="recordLeave" column="record_leave" jdbc-type="VARCHAR" length="2" nullable="false" /> -->
 		<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>

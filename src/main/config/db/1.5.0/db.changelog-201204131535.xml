@@ -3,7 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet id="1" author="henrydfs" context="bootstrap">
+    <changeSet id="1" author="henrydfs" context="kpme-client-bootstrap">
         <comment>Max Balance Flag related JIRAs (KPME 1288, 1289, 1349, 1352, 1408) and needed SQL file  changes for schema changes to lm_accrual_category_t and lm_accrual_category_rules_t.</comment>
         <addColumn tableName="lm_accrual_category_t">
             <column name="HAS_RULES" type="VARCHAR(1)"/>

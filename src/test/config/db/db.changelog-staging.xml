@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="kbtaylor" context="kpme-server-staging">
+        <loadData tableName="krim_entity_t" file="src/test/config/db/staging/krim_entity_t.csv" />
+        <loadData tableName="krim_entity_ent_typ_t" file="src/test/config/db/staging/krim_entity_ent_typ_t.csv" />
+        <loadData tableName="krim_entity_nm_t" file="src/test/config/db/staging/krim_entity_nm_t.csv" />
+        <loadData tableName="krim_entity_afltn_t" file="src/test/config/db/staging/krim_entity_afltn_t.csv" />
+        <loadData tableName="krim_entity_email_t" file="src/test/config/db/staging/krim_entity_email_t.csv" />
+        <loadData tableName="krim_entity_priv_pref_t" file="src/test/config/db/staging/krim_entity_priv_pref_t.csv" />
+        <loadData tableName="krim_prncpl_t" file="src/test/config/db/staging/krim_prncpl_t.csv" />
+    </changeSet>
+    
+	<changeSet id="2" author="kbtaylor" context="kpme-client-staging">
+	    <loadData tableName="ca_chart_t" file="src/test/config/db/staging/ca_chart_t.csv" />
+        <loadData tableName="ca_object_code_t" file="src/test/config/db/staging/ca_object_code_t.csv" />
+        <loadData tableName="ca_org_t" file="src/test/config/db/staging/ca_org_t.csv" />
+        <loadData tableName="ca_account_t" file="src/test/config/db/staging/ca_account_t.csv" />
+        <loadData tableName="ca_sub_object_cd_t" file="src/test/config/db/staging/ca_sub_object_cd_t.csv" />
+	</changeSet>
+	
+	<changeSet id="3" author="kbtaylor" context="kpme-client-staging">
+        <loadData tableName="hr_calendar_t" file="src/test/config/db/staging/hr_calendar_t.csv" />
+        <loadData tableName="hr_calendar_entries_t" file="src/test/config/db/staging/hr_calendar_entries_t.csv" />
+        <loadData tableName="hr_dept_t" file="src/test/config/db/staging/hr_dept_t.csv" />
+        <loadData tableName="hr_earn_code_t" file="src/test/config/db/staging/hr_earn_code_t.csv" />
+        <loadData tableName="hr_earn_code_security_t" file="src/test/config/db/staging/hr_earn_code_security_t.csv" />
+        <loadData tableName="hr_earn_code_group_t" file="src/test/config/db/staging/hr_earn_code_group_t.csv" />
+        <loadData tableName="hr_earn_code_group_def_t" file="src/test/config/db/staging/hr_earn_code_group_def_t.csv" />
+        <loadData tableName="hr_job_t" file="src/test/config/db/staging/hr_job_t.csv" />
+        <loadData tableName="hr_location_t" file="src/test/config/db/staging/hr_location_t.csv" />
+        <loadData tableName="hr_pay_grade_t" file="src/test/config/db/staging/hr_pay_grade_t.csv" />
+        <loadData tableName="hr_paytype_t" file="src/test/config/db/staging/hr_paytype_t.csv" />
+        <loadData tableName="hr_position_t" file="src/test/config/db/staging/hr_position_t.csv" />
+        <loadData tableName="hr_principal_attributes_t" file="src/test/config/db/staging/hr_principal_attributes_t.csv" />
+        <loadData tableName="hr_roles_t" file="src/test/config/db/staging/hr_roles_t.csv" />
+        <loadData tableName="hr_sal_group_t" file="src/test/config/db/staging/hr_sal_group_t.csv" />
+    </changeSet>
+    
+    <changeSet id="4" author="kbtaylor" context="kpme-client-staging">
+        <loadData tableName="lm_accrual_category_t" file="src/test/config/db/staging/lm_accrual_category_t.csv" />
+        <loadData tableName="lm_accrual_category_rules_t" file="src/test/config/db/staging/lm_accrual_category_rules_t.csv" />
+        <loadData tableName="lm_leave_plan_t" file="src/test/config/db/staging/lm_leave_plan_t.csv" />
+	</changeSet>
+    
+    <changeSet id="5" author="kbtaylor" context="kpme-client-staging">
+        <loadData tableName="tk_assignment_t" file="src/test/config/db/staging/tk_assignment_t.csv" />
+		<loadData tableName="tk_assign_acct_t" file="src/test/config/db/staging/tk_assign_acct_t.csv" />
+		<loadData tableName="tk_grace_period_rl_t" file="src/test/config/db/staging/tk_grace_period_rl_t.csv" />
+		<loadData tableName="tk_time_collection_rl_t" file="src/test/config/db/staging/tk_time_collection_rl_t.csv" />
+		<loadData tableName="tk_work_area_t" file="src/test/config/db/staging/tk_work_area_t.csv" />
+	</changeSet>
+
+</databaseChangeLog>

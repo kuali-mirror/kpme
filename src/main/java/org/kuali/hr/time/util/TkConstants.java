@@ -15,7 +15,9 @@ import java.util.TimeZone;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.rice.kew.api.KewApiConstants;
 
 public class TkConstants {
@@ -403,8 +405,17 @@ public class TkConstants {
         Set<String> keys = new HashSet<String>();
         keys.add("leavePlan");
         keys.add("effectiveDate");
-
         CLASS_INQUIRY_KEY_MAP.put(LeavePlan.class.getName(), keys);
+        
+        keys = new HashSet<String>();
+        keys.add("accrualCategory");
+        keys.add("effectiveDate");
+        CLASS_INQUIRY_KEY_MAP.put(AccrualCategory.class.getName(), keys);
+        
+        keys = new HashSet<String>();
+        keys.add("earnCode");
+        keys.add("effectiveDate");
+        CLASS_INQUIRY_KEY_MAP.put(EarnCode.class.getName(), keys);
     }
 
     public static final String FLSA_STATUS_NON_EXEMPT ="NE";

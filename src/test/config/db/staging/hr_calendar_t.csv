@@ -1,0 +1,4 @@
+hr_calendar_id,calendar_name,calendar_types,calendar_descriptions,flsa_begin_day,flsa_begin_time
+1,GA,Leave,Georgia,Sun,0:00:00
+2,ISU-LM,Leave,ISU Leave Management,NULL,NULL
+3,IU-BW,Pay,Test Pay Calendar,Sun,0:00:00

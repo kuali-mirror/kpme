@@ -62,6 +62,7 @@ $(function () {
         	"click div[id*=show]" : "showTimeBlock", // KPME-1447
             "click .create" : "showLeaveBlockEntryDialog",
             "click img[id^=leaveBlockDelete]" : "deleteLeaveBlock",
+            "click .leaveBlock" : "doNothing",
             "change #earnCode" : "changeEarnCode",
             "keypress #earnCode" : "changeEarnCode"
         },
@@ -84,6 +85,10 @@ $(function () {
             // If there is anything you want to render when the view is initiated, place them here.
             // A good convention is to return this at the end of render to enable chained calls.
             return this;
+        },
+
+        doNothing : function (e) {
+            e.stopPropagation();
         },
 
         formatTime : function (e) {
@@ -481,7 +486,7 @@ $(function () {
 			}
 
 			return isValid;
-		},
+		}
 
 
     });
@@ -518,6 +523,16 @@ $(function () {
             $('#leaveAmount').val(leaveBlock.get("leaveAmount"));
             $('#leaveBlockId').val(leaveBlock.get("lmLeaveBlockId"));
             $('#description').val(leaveBlock.get("description"));
+            if (leaveBlock.get("editable") == false) {
+                $('#startDate').attr('disabled', 'disabled');
+                $('#endDate').attr('disabled', 'disabled');
+                $('#selectedAssignment').attr('disabled', 'disabled');
+                $('#earnCode').attr('disabled', 'disabled');
+                $('#leaveAmount').attr('disabled', 'disabled');
+                $('#leaveBlockId').attr('disabled', 'disabled');
+                $('#description').attr('disabled', 'disabled');
+                $('#spanningWeeks').attr('disabled', 'disabled');
+            }
         },
         /**
          * Provides a helper method to change the button name on the time entry dialog.

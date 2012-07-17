@@ -163,7 +163,8 @@
 	
 	<!-- Inquiry Definitions -->
 	<bean id="LeaveAdjustment-inquiryDefinition" parent="LeaveAdjustment-inquiryDefinition-parentBean" />
-	<bean id="LeaveAdjustment-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+	<bean id="LeaveAdjustment-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition"
+		 p:inquirableClass="org.kuali.hr.time.base.web.TkInquirableImpl">
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">
@@ -205,7 +206,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
-				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
+				<bean parent="FieldDefinition" p:attributeName="leavePlan" p:noInquiry="true" />
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 				<bean parent="FieldDefinition" p:attributeName="earnCode" />
 				<bean parent="FieldDefinition" p:attributeName="adjustmentAmount" />

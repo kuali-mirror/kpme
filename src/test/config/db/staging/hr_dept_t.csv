@@ -1,0 +1,7 @@
+HR_DEPT_ID,dept,DESCRIPTION,location,effdt,active
+1,BL-CHEM,Chemistry,BL,2010-01-01,Y
+2,HC-DEPT,Holiday Calendar Test Department,BL,2010-01-01,Y
+3,HD-DEPT,Hours Distribution Test Dept,BL,2010-01-01,Y
+4,UA-FMOP,Financial Management Service,BL,2010-01-01,Y
+5,UA-ISU,Mindi,%,2010-01-01,Y
+6,UA-UGA,UGA Testing Dept,BL,2010-01-01,Y

@@ -24,7 +24,8 @@ public interface LeaveBlockService {
      */
     public void deleteLeaveBlock(long leaveBlockId);
 
-    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntries ce, String selectedEarnCode, BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks);
+    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntries ce, String selectedEarnCode, 
+    		BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks, String leaveBlockType);
     public void updateLeaveBlock(LeaveBlock leaveBlock);  // KPME-1447
     /**
      * 

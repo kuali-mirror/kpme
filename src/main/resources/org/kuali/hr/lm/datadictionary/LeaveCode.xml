@@ -454,7 +454,7 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="leaveCode" />
-				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
+				<bean parent="FieldDefinition" p:attributeName="leavePlan" p:noInquiry="true" />
 				<bean parent="FieldDefinition" p:attributeName="eligibleForAccrual" />
 				<bean parent="FieldDefinition" p:attributeName="affectPay" />
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />

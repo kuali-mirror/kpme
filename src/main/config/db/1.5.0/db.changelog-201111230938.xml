@@ -3,7 +3,7 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
     
-    <changeSet id="1" author="lee55" context="bootstrap">
+    <changeSet id="1" author="lee55" context="kpme-client-bootstrap">
         <comment>merge sql file changes</comment>
         <createTable tableName="lm_ledger_s">
             <column autoIncrement="true" name="id" type="BIGINT">
@@ -15,7 +15,7 @@
 		</modifySql>
 	</changeSet>
 	
-	<changeSet id="2" author="lee55" context="bootstrap">
+	<changeSet id="2" author="lee55" context="kpme-client-bootstrap">
         <comment>merge sql file changes</comment>
         <createTable tableName="lm_ledger_t">
             <column name="lm_ledger_id" type="VARCHAR(60)">
@@ -80,7 +80,7 @@
 		</modifySql>
     </changeSet>
     
-    <changeSet id="3" author="lee55" context="bootstrap">
+    <changeSet id="3" author="lee55" context="kpme-client-bootstrap">
         <comment>merge sql file changes</comment>
         <createTable tableName="lm_ledger_block_s">
             <column autoIncrement="true" name="id" type="BIGINT">
@@ -92,7 +92,7 @@
 		</modifySql>
     </changeSet>
     
-    <changeSet id="4" author="lee55" context="bootstrap">
+    <changeSet id="4" author="lee55" context="kpme-client-bootstrap">
         <comment>merge sql file changes</comment>
         <addColumn tableName="hr_pay_grade_t">
             <column name="sal_group" type="VARCHAR(20)">

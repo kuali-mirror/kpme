@@ -14,6 +14,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.accrual.RateRange;
@@ -121,7 +122,9 @@ public class AccrualServiceImpl implements AccrualService {
 			BigDecimal ftePercentage = currentRange.getAccrualRatePercentageModifier();
 			BigDecimal totalOfStandardHours = currentRange.getStandardHours();
 			
-			for(AccrualCategory ac : accrCatList) {
+			for(AccrualCategory anAC : accrCatList) {
+				// get the version of accrual category based on currentDate
+				AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(anAC.getAccrualCategory(), new java.sql.Date(currentDate.getTime()));
 				if(!currentDate.before(phra.getEffectiveDate()) && !ac.getAccrualEarnInterval().equals("N")) {   	// "N" means no accrual
 					boolean prorationFlag = this.getProrationFlag(ac.getProration());
 					// get the accrual rule 
@@ -350,6 +353,8 @@ public class AccrualServiceImpl implements AccrualService {
 		// use rounding option and fract time allowed of Leave Code to round the leave block hours
 		BigDecimal roundedHours = TkServiceLocator.getEarnCodeService().roundHrsWithEarnCode(hrs, ec);
 		aLeaveBlock.setLeaveAmount(roundedHours);
+		aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE);
+		
 		accrualLeaveBlocks.add(aLeaveBlock);
 		
 	}
@@ -366,6 +371,7 @@ public class AccrualServiceImpl implements AccrualService {
 		aLeaveBlock.setBlockId(0L);
 		aLeaveBlock.setScheduleTimeOffId(null);
 		aLeaveBlock.setLeaveAmount(BigDecimal.ZERO);
+		aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE);
 		
 		accrualLeaveBlocks.add(aLeaveBlock);
 		

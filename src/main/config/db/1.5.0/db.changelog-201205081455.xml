@@ -3,14 +3,14 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet id="1" author="xichen" context="bootstrap">
+    <changeSet id="1" author="xichen" context="kpme-client-bootstrap">
         <comment>KPME-1457. Added effectiveDate into table lm_employee_override_t and lm_ Leave_Adjustment_t.</comment>
         <addColumn tableName="lm_leave_adjustment_t">
             <column name="effdt" type="DATE" />
         </addColumn>
     </changeSet>
     
-    <changeSet id="2" author="xichen" context="bootstrap">
+    <changeSet id="2" author="xichen" context="kpme-client-bootstrap">
         <comment>KPME-1457. Added effectiveDate into table lm_employee_override_t and lm_ Leave_Adjustment_t.</comment>
         <addColumn tableName="lm_employee_override_t">
             <column name="effdt" type="DATE" />

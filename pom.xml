@@ -515,6 +515,7 @@
                                         <versionRange>[2.0-alpha1,)</versionRange>
                                         <goals>
                                             <goal>unpack</goal>
+                                            <goal>copy</goal>
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
