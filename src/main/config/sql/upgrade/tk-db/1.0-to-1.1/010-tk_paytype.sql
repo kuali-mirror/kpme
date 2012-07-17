@@ -1,1 +1,0 @@
-alter table tk_time_collection_rl_t add column pay_type varchar(5) DEFAULT '%';
