@@ -38,9 +38,9 @@ public class LeaveDonationMaintTest extends TkTestCase{
 		
 		List<LeaveBlock> leaveBlockList;
 		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("testuser1", START_DATE, END_DATE);
-		assertTrue("There are leave blocks for princiapl id " + "testuser1", leaveBlockList.isEmpty());
+		assertTrue("There are leave blocks for principal id " + "testuser1", leaveBlockList.isEmpty());
 		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("testuser2", START_DATE, END_DATE);
-		assertTrue("There are leave blocks for princiapl id " + "testuser2", leaveBlockList.isEmpty());
+		assertTrue("There are leave blocks for principal id " + "testuser2", leaveBlockList.isEmpty());
 		
 		List<LeaveBlockHistory> historyList = TkServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistories("testuser1", null);
 		assertTrue("There are leave block histories for princiapl id testuser1", historyList.isEmpty());
@@ -58,12 +58,12 @@ public class LeaveDonationMaintTest extends TkTestCase{
 	    setFieldValue(page, "document.newMaintainableObject.donorsPrincipalID", "testuser1");
 	    setFieldValue(page, "document.newMaintainableObject.donatedAccrualCategory", "testAC");	
 	    setFieldValue(page, "document.newMaintainableObject.donatedEarnCode", "EC");
-	    setFieldValue(page, "document.newMaintainableObject.amountDonated", "10.00");
+	    setFieldValue(page, "document.newMaintainableObject.amountDonated", "10");
 	    
 	    setFieldValue(page, "document.newMaintainableObject.recipientsPrincipalID", "testuser2");
 	    setFieldValue(page, "document.newMaintainableObject.recipientsAccrualCategory", "testAC");	
 	    setFieldValue(page, "document.newMaintainableObject.recipientsEarnCode", "EC");
-	    setFieldValue(page, "document.newMaintainableObject.amountReceived", "8.00");
+	    setFieldValue(page, "document.newMaintainableObject.amountReceived", "8");
 	    
 	    setFieldValue(page, "document.newMaintainableObject.description", "test-donation");
 	  	
@@ -72,7 +72,7 @@ public class LeaveDonationMaintTest extends TkTestCase{
 	  	HtmlElement element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
 	  	page.asText();
-	  	assertTrue("page text does not contain: ", page.asText().contains("success"));
+	  	assertTrue("page text does not contain: success ", page.asText().contains("success"));
 	  	
 	  	leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("testuser1", START_DATE, END_DATE);
 	  	assertTrue("There should be 1 leave blocks for emplyee 'testUser1', not " + leaveBlockList.size(), leaveBlockList.size()== 1);
