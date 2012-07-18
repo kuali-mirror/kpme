@@ -1,16 +1,11 @@
 package org.kuali.hr.lm.leaveadjustment.validation;
 
+import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.lm.leaveadjustment.LeaveAdjustment;
-import org.kuali.hr.lm.leavedonation.validation.LeaveDonationValidation;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.timeblock.TimeBlock;
-import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -57,6 +52,22 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 		}
 		return valid;
 	}
+	
+	private boolean validateFraction(String earnCode, BigDecimal amount, Date asOfDate) {
+		boolean valid = true;
+		if (!ValidationUtils.validateEarnCodeFraction(earnCode, amount, asOfDate)) {
+			EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
+			if(ec != null && ec.getFractionalTimeAllowed() != null) {
+				BigDecimal fracAllowed = new BigDecimal(ec.getFractionalTimeAllowed());
+				String[] parameters = new String[2];
+				parameters[0] = earnCode;
+				parameters[1] = Integer.toString(fracAllowed.scale());
+				this.putFieldError("adjustmentAmount", "error.amount.fraction", parameters);
+				valid = false;
+			 }
+		}
+		return valid;
+	}
 		
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
@@ -81,6 +92,9 @@ public class LeaveAdjustmentValidation extends MaintenanceDocumentRuleBase{
 				}
 				if(leaveAdjustment.getEarnCode() != null) {
 					valid &= this.validateEarnCode(leaveAdjustment.getEarnCode(), leaveAdjustment.getAccrualCategory(), leaveAdjustment.getPrincipalId(), leaveAdjustment.getEffectiveDate());
+					if(leaveAdjustment.getAdjustmentAmount() != null) {
+						valid &= this.validateFraction(leaveAdjustment.getEarnCode(), leaveAdjustment.getAdjustmentAmount(), leaveAdjustment.getEffectiveDate());
+					}
 				}
 			}
 		}

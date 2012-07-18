@@ -91,5 +91,10 @@ public class LeaveAdjustmentMaintTest extends TkTestCase{
 	  	page = element.click();
 	  	assertFalse("page text contains:\n" + "'IU-SM' does not exist", page.asText().contains("'IU-SM' does not exist"));
 	  	
+	  	setFieldValue(page, "document.newMaintainableObject.earnCode", "EC");	//fraction allowed is 99.9
+	  	setFieldValue(page, "document.newMaintainableObject.adjustmentAmount", "2.45");
+	  	element = page.getElementByName("methodToCall.route");
+	  	page = element.click();
+	  	assertTrue("page text does not contain amount fraction error.", page.asText().contains("Earn Code 'EC' only allows 1 decimal point."));
 	}
 }

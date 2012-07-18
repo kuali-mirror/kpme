@@ -1,5 +1,6 @@
 package org.kuali.hr.lm.leavedonation.validation;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
@@ -82,6 +83,22 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 		}
 		return valid;
 	}
+	
+	private boolean validateFraction(String earnCode, BigDecimal amount, Date asOfDate, String fieldName) {
+		boolean valid = true;
+		if (!ValidationUtils.validateEarnCodeFraction(earnCode, amount, asOfDate)) {
+			EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
+			if(ec != null && ec.getFractionalTimeAllowed() != null) {
+				BigDecimal fracAllowed = new BigDecimal(ec.getFractionalTimeAllowed());
+				String[] parameters = new String[2];
+				parameters[0] = earnCode;
+				parameters[1] = Integer.toString(fracAllowed.scale());
+				this.putFieldError(fieldName, "error.amount.fraction", parameters);
+				valid = false;
+			 }
+		}
+		return valid;
+	}
 
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
@@ -127,6 +144,20 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 						leaveDonation.getRecipientsAccrualCategory(),
 						leaveDonation.getRecipientsEarnCode(),
 						LeaveDonationValidation.RECEPIENT, leaveDonation.getEffectiveDate());
+				}
+				if(leaveDonation.getAmountDonated() != null && leaveDonation.getDonatedEarnCode() != null) {
+					valid &= this.validateFraction(
+					leaveDonation.getDonatedEarnCode(), 
+					leaveDonation.getAmountDonated(), 
+					leaveDonation.getEffectiveDate(),
+					"amountDonated");
+				}
+				if(leaveDonation.getAmountReceived() != null && leaveDonation.getRecipientsEarnCode() != null) {
+					valid &= this.validateFraction(
+					leaveDonation.getRecipientsEarnCode(), 
+					leaveDonation.getAmountReceived(), 
+					leaveDonation.getEffectiveDate(),
+					"amountReceived");
 				}
 			}
 		}

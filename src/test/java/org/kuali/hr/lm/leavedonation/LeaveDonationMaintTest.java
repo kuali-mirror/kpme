@@ -93,6 +93,36 @@ public class LeaveDonationMaintTest extends TkTestCase{
 	  	assertTrue("Hours of the leave block history for recipient 'testuser2' should be 8, not " + lbh.getLeaveAmount().toString(), lbh.getLeaveAmount().equals(new BigDecimal(8)));
 	}
 	
+	@Test
+	public void testValidation() throws Exception {
+	  	String baseUrl = TkTestConstants.Urls.LEAVE_DONATION_MAINT_NEW_URL;
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	assertNotNull(page);
+	 
+	  	HtmlForm form = page.getFormByName("KualiForm");
+	  	assertNotNull("Search form was missing from page.", form);
+	  	
+	  	setFieldValue(page, "document.documentHeader.documentDescription", "Leave Donation - test");
+	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", "04/01/2012");
+	    setFieldValue(page, "document.newMaintainableObject.donatedEarnCode", "EC");	//fraction allowed is 99
+	  	setFieldValue(page, "document.newMaintainableObject.amountDonated", "2.45");
+	  	HtmlElement element = page.getElementByName("methodToCall.route");
+	  	page = element.click();
+	  	assertTrue("page text does not contain donated amount fraction error.", page.asText().contains("Earn Code 'EC' only allows 0 decimal point."));
+	  	setFieldValue(page, "document.newMaintainableObject.amountDonated", "2");
+	  	page = page.getElementByName("methodToCall.route").click();
+	  	assertFalse("page text contains donated amount fraction error.", page.asText().contains("Earn Code 'EC' only allows 0 decimal point."));
+	  	
+	  	setFieldValue(page, "document.newMaintainableObject.recipientsEarnCode", "EC");	//fraction allowed is 99
+	  	setFieldValue(page, "document.newMaintainableObject.amountReceived", "3.822");
+	  	element = page.getElementByName("methodToCall.route");
+	  	page = element.click();
+	  	assertTrue("page text does not contain received amount fraction error.", page.asText().contains("Earn Code 'EC' only allows 0 decimal point."));
+	  	setFieldValue(page, "document.newMaintainableObject.amountReceived", "3");
+	  	page = page.getElementByName("methodToCall.route").click();
+	  	assertFalse("page text contains received amount fraction error.", page.asText().contains("Earn Code 'EC' only allows 0 decimal point."));
+	}
+	
 	// commented out this test, KPME-1207, effectiveDate can be past, current or future
 	//@Test
 	/*public void testFutureEffectiveDate() throws Exception {
