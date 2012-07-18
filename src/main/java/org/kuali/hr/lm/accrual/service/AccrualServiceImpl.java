@@ -46,6 +46,8 @@ public class AccrualServiceImpl implements AccrualService {
 	public void runAccrual(String principalId, Date startDate, Date endDate) {
 		List<LeaveBlock> accrualLeaveBlocks = new ArrayList<LeaveBlock>();
 		Map<String, BigDecimal> accumulatedAccrualCatToAccrualAmounts = new HashMap<String,BigDecimal>();
+		Map<String, BigDecimal> accumulatedAccrualCatToNegativeAccrualAmounts = new HashMap<String,BigDecimal>();
+		
 		if (startDate != null && endDate != null) {
 			System.out.println("AccrualServiceImpl.runAccrual() STARTED with Principal: "+principalId+" Start: "+startDate.toString()+" End: "+endDate.toString());
 		}
@@ -244,33 +246,38 @@ public class AccrualServiceImpl implements AccrualService {
 						BigDecimal accrualRate = currentAcRule.getAccrualRate();
 						int numberOfWorkDays = getWorkDaysInAccrualInterval(ac.getAccrualEarnInterval(), new java.sql.Date(currentDate.getTime()));
 						BigDecimal dayRate = accrualRate.divide(new BigDecimal(numberOfWorkDays), 6, BigDecimal.ROUND_HALF_UP);
-						
-						//get not eligible for accrual hours based on leave block on this day
-						BigDecimal noAccrualHours = getNotEligibleForAccrualHours(principalId, new java.sql.Date(currentDate.getTime()));
-						
-						if(noAccrualHours.compareTo(BigDecimal.ZERO) != 0) { 
-							if(totalOfStandardHours.compareTo(BigDecimal.ZERO) != 0) {
-								BigDecimal dayHours = totalOfStandardHours.divide(new BigDecimal(5), 6, BigDecimal.ROUND_HALF_UP);
-								if(noAccrualHours.compareTo(dayHours) > 0) {
-									noAccrualHours = dayHours;	// if the no accrual hours is bigger than the day hours, use day hours as no accurl hours
-								}
-								dayRate = dayRate.multiply((dayHours.add(noAccrualHours.negate())).divide(dayHours));
-							}
-						}
 						//Fetch the accural rate based on rate range for today(Rate range is the accumulated list of jobs and accrual rate for today)
 						//Add to total accumulatedAccrualCatToAccrualAmounts
 						//use rule and ftePercentage to calculate the hours						
 						this.calculateHours(ac.getLmAccrualCategoryId(), ftePercentage, dayRate, accumulatedAccrualCatToAccrualAmounts);
+						
+						//get not eligible for accrual hours based on leave block on this day
+						BigDecimal noAccrualHours = getNotEligibleForAccrualHours(principalId, new java.sql.Date(currentDate.getTime()));
+						
+						if(noAccrualHours.compareTo(BigDecimal.ZERO) != 0 && totalOfStandardHours.compareTo(BigDecimal.ZERO) != 0) {
+							BigDecimal dayHours = totalOfStandardHours.divide(new BigDecimal(5), 6, BigDecimal.ROUND_HALF_UP);
+							if(noAccrualHours.compareTo(dayHours) > 0) {
+								noAccrualHours = dayHours;	// if the no accrual hours is bigger than the day hours, use day hours as no accurl hours
+							}
+							BigDecimal noAccrualRate = dayRate.multiply(noAccrualHours.divide(dayHours)).negate();	// use negative decimal
+							this.calculateHours(ac.getLmAccrualCategoryId(), ftePercentage, noAccrualRate, accumulatedAccrualCatToNegativeAccrualAmounts);
+						}
 					}					
 					//Determine if we are at the accrual earn interval in the span, if so add leave block for accumulated accrual amount to list
-					//and reset accumulatedAccrualCatToAccrualAmounts for this accrual category
+					//and reset accumulatedAccrualCatToAccrualAmounts and accumulatedAccrualCatToNegativeAccrualAmounts for this accrual category
 					String earnIntervalKey = ac.getAccrualEarnInterval(); 
-					BigDecimal acHours = accumulatedAccrualCatToAccrualAmounts.get(ac.getLmAccrualCategoryId());
-					if(this.isDateAtEarnInterval(currentDate, earnIntervalKey) && acHours != null) {
-//						List<LeaveBlock> lbList = getLeaveBlocksForEarnInteral(principalId, new java.sql.Date(currentDate.getTime()), earnIntervalKey);
-						
-						createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, acHours, ac, null);
-						accumulatedAccrualCatToAccrualAmounts.remove(ac.getLmAccrualCategoryId());	// reset the Map
+					
+					if(this.isDateAtEarnInterval(currentDate, earnIntervalKey)) {
+						BigDecimal acHours = accumulatedAccrualCatToAccrualAmounts.get(ac.getLmAccrualCategoryId());
+						if(acHours != null) {
+							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, acHours, ac, null);
+							accumulatedAccrualCatToAccrualAmounts.remove(ac.getLmAccrualCategoryId());	// reset accumulatedAccrualCatToAccrualAmounts
+						}
+						BigDecimal adjustmentHours = accumulatedAccrualCatToNegativeAccrualAmounts.get(ac.getLmAccrualCategoryId());
+						if(adjustmentHours != null && adjustmentHours.compareTo(BigDecimal.ZERO) != 0) {
+							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, adjustmentHours, ac, null);
+							accumulatedAccrualCatToNegativeAccrualAmounts.remove(ac.getLmAccrualCategoryId());	// reset accumulatedAccrualCatToNegativeAccrualAmounts
+						}
 					}			
 				}
 			}
@@ -286,6 +293,7 @@ public class AccrualServiceImpl implements AccrualService {
 			}
 			// if today is the last day of the employment, create leave blocks if there's any hours available
 			if(endPhra != null && TKUtils.removeTime(currentDate).equals(TKUtils.removeTime(endPhra.getEffectiveDate()))){
+				// accumulated accrual amount
 				if(!accumulatedAccrualCatToAccrualAmounts.isEmpty()) {
 					for(Map.Entry<String, BigDecimal> entry : accumulatedAccrualCatToAccrualAmounts.entrySet()) {
 						if(entry.getValue() != null && entry.getValue().compareTo(BigDecimal.ZERO) != 0) {
@@ -293,10 +301,20 @@ public class AccrualServiceImpl implements AccrualService {
 							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, entry.getValue(), anAC, null);
 						}
 					}
-					accumulatedAccrualCatToAccrualAmounts = new HashMap<String,BigDecimal>();	// reset the Map
-					phra = null;	// reset principal attribute so new value will be retrieved
-					endPhra = null;	// reset end principal attribute so new value will be retrieved
+					accumulatedAccrualCatToAccrualAmounts = new HashMap<String,BigDecimal>();	// reset accumulatedAccrualCatToAccrualAmounts
 				}
+				// negative/adjustment accrual amount
+				if(!accumulatedAccrualCatToNegativeAccrualAmounts.isEmpty()) {
+					for(Map.Entry<String, BigDecimal> entry : accumulatedAccrualCatToNegativeAccrualAmounts.entrySet()) {
+						if(entry.getValue() != null && entry.getValue().compareTo(BigDecimal.ZERO) != 0) {
+							AccrualCategory anAC = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(entry.getKey());
+							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, entry.getValue(), anAC, null);
+						}
+					}
+					accumulatedAccrualCatToNegativeAccrualAmounts = new HashMap<String,BigDecimal>();	// reset accumulatedAccrualCatToNegativeAccrualAmounts
+				}
+				phra = null;	// reset principal attribute so new value will be retrieved
+				endPhra = null;	// reset end principal attribute so new value will be retrieved
 			}
 			
 			aCal.add(Calendar.DATE, 1);
@@ -340,6 +358,11 @@ public class AccrualServiceImpl implements AccrualService {
 		if(ec == null) {
 			throw new RuntimeException("Cannot find Earn Code for Accrual category " + anAC.getAccrualCategory());
 		}
+		// use rounding option and fract time allowed of Leave Code to round the leave block hours
+		BigDecimal roundedHours = TkServiceLocator.getEarnCodeService().roundHrsWithEarnCode(hrs, ec);
+		if(roundedHours.compareTo(BigDecimal.ZERO) == 0) {
+			return;	// do not create leave block with zero amount
+		}
 		LeaveBlock aLeaveBlock = new LeaveBlock();
 		aLeaveBlock.setAccrualCategoryId(anAC.getLmAccrualCategoryId());
 		aLeaveBlock.setLeaveDate(new java.sql.Date(currentDate.getTime()));
@@ -350,8 +373,6 @@ public class AccrualServiceImpl implements AccrualService {
 		aLeaveBlock.setAccrualGenerated(true);
 		aLeaveBlock.setBlockId(0L);
 		aLeaveBlock.setScheduleTimeOffId(sysSchTimeOffId);
-		// use rounding option and fract time allowed of Leave Code to round the leave block hours
-		BigDecimal roundedHours = TkServiceLocator.getEarnCodeService().roundHrsWithEarnCode(hrs, ec);
 		aLeaveBlock.setLeaveAmount(roundedHours);
 		aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE);
 		
@@ -377,11 +398,11 @@ public class AccrualServiceImpl implements AccrualService {
 		
 	}
 
-	private void calculateHours(String accrualCategoryId, BigDecimal fte, BigDecimal rate, Map<String, BigDecimal> accumulatedAccrualCatToAccrualAmounts ) {
+	private void calculateHours(String accrualCategoryId, BigDecimal fte, BigDecimal rate, Map<String, BigDecimal> accumulatedAmounts ) {
 		BigDecimal hours = rate.multiply(fte);
-		BigDecimal oldHours = accumulatedAccrualCatToAccrualAmounts.get(accrualCategoryId);
+		BigDecimal oldHours = accumulatedAmounts.get(accrualCategoryId);
 		BigDecimal newHours = oldHours == null ? hours : hours.add(oldHours);
-		accumulatedAccrualCatToAccrualAmounts.put(accrualCategoryId, newHours);
+		accumulatedAmounts.put(accrualCategoryId, newHours);
 	}
 	
 	public Date getStartAccrualDate(String principalId){
