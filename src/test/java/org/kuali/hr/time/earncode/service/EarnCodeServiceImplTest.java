@@ -129,7 +129,7 @@ public class EarnCodeServiceImplTest extends TkTestCase {
 	public void testGetEarnCodesForDisplay() throws Exception{
 		Map<String, String> earnCodesDisplay = earnCodeService.getEarnCodesForDisplay("testUser");
 		assertNotNull("earnCodesDisplay should not be null", earnCodesDisplay);
-		assertTrue("There should be 1 earnCode found for principal_id 'testUser', not " + earnCodesDisplay.size(), earnCodesDisplay.size()== 1);
+		assertEquals("There should be 2 earnCode found for principal_id 'testUser', not " + earnCodesDisplay.size(), earnCodesDisplay.size(), 2);
 		assertTrue("earnCodesDisplay should contain Key '5000'", earnCodesDisplay.containsKey("5000"));
 		assertTrue("earnCodesDisplay should contain Value 'EC1 : test1'", earnCodesDisplay.containsValue("EC1 : test1"));
 		
