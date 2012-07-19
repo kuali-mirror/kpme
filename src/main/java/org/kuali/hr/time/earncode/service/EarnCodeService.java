@@ -79,4 +79,12 @@ public interface EarnCodeService {
     public List<EarnCode> getEarnCodes(String principalId, Date asOfDate);
     
     public Map<String, String> getEarnCodesForDisplay(String principalId);
+
+    /**
+     *
+     * @param principalId
+     * @param asOfDate
+     * @return
+     */
+    public Map<String, String> getEarnCodesForDisplayWithEffectiveDate(String principalId, Date asOfDate);
 }

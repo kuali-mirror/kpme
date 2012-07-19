@@ -130,6 +130,7 @@ $(function () {
                 open : function () {
                     // Set the selected date on start/end time fields
                     // This statmement can tell is showTimeEntryDialog() by other methods or triggered directly by backbone.
+
                     if (!_.isUndefined(startDate) && !_.isUndefined(endDate)) {
                         $("#startDate").val(startDate);
                         $("#endDate").val(endDate);
@@ -149,6 +150,7 @@ $(function () {
 //                                        .done(self.showFieldByEarnCodeType());
 //                            }
                     }
+                    self.populatEarnCode();
                     self.changeEarnCode();
 
                 },
@@ -324,8 +326,32 @@ $(function () {
             }
             return isValid;
         },
-        
+
+        populatEarnCode : function(e) {
+            var params = {};
+            var startDate = $('#startDate').val();
+            $.ajax({
+                async : false,
+                url : "LeaveCalendarWS.do?methodToCall=getEarnCodeMap&startDate=" + startDate,
+                data : params,
+                cache : false,
+                dataType: "json",
+                type : "post",
+                success : function (data) {
+                    //var json = jQuery.parseJSON(data.trim());
+                    $("#earnCode").empty();
+                    $.each(data, function(key, value) {
+                        $("#earnCode").append('<option value="' + value.key + '">' + value.value + '</option>');
+                    });
+                },
+                error : function () {
+                    self.displayErrorMessages("Error: Can't retrieve earn codes.");
+                }
+            });
+        },
+
         changeEarnCode : function(e) {
+            // validate leaveblocks
         	var earnCodeString = _.isString(e) ? e : this.$("#earnCode option:selected").val();
         	earnCodeObj.fetch({
                 // Make the ajax call not async to be able to mark the earn code selected
