@@ -92,7 +92,7 @@
     <param name="server.datasource.pool.minSize">${datasource.pool.minSize}</param>
     <param name="server.datasource.pool.size">${datasource.pool.size}</param>
     <param name="server.datasource.pool.maxSize">${datasource.pool.maxSize}</param>
-    <param name="server.datasource.pool.class"">${datasource.pool.class}</param>
+    <param name="server.datasource.pool.class">${datasource.pool.class}</param>
     <param name="server.datasource.pool.class.non.xa">${datasource.pool.class.non.xa}</param>
     
     <!-- KPME Client DB -->
