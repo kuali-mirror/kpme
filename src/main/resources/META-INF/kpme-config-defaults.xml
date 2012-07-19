@@ -73,31 +73,37 @@
     <param name="kpme.struts.message.resources">ApplicationResources</param>
     <param name="rice.struts.message.resources">${core.rice.struts.message.resources}, ${kpme.struts.message.resources}</param>
 
-	<!-- Default KPME Client DB -->
+	<!-- Client DB Defaults -->
     <param name="datasource.ojb.platform">MySQL</param>
     <param name="datasource.platform">org.kuali.rice.core.framework.persistence.platform.MySQLDatabasePlatform</param>
 	<param name="datasource.driver.name">com.mysql.jdbc.Driver</param>
-    <param name="datasource.url">jdbc:mysql://localhost:3306/kpmedev</param>
-    <param name="datasource.username">kpmedev</param>
-    <param name="datasource.password">secret</param>
 	<param name="datasource.pool.validationQuery">select 1</param>
 	<param name="datasource.pool.maxWait">30000</param>
     <param name="datasource.pool.minSize">10</param>
     <param name="datasource.pool.size">50</param>
     <param name="datasource.pool.maxSize">150</param>
 	
-	<!-- Default Rice Server DB -->
-    <param name="server.datasource.ojb.platform">MySQL</param>
-    <param name="server.datasource.platform">org.kuali.rice.core.framework.persistence.platform.MySQLDatabasePlatform</param>
-    <param name="server.datasource.driver.name">com.mysql.jdbc.Driver</param>
+	<!-- Server DB Defaults -->
+    <param name="server.datasource.ojb.platform">${datasource.ojb.platform}</param>
+    <param name="server.datasource.platform">${datasource.platform}</param>
+    <param name="server.datasource.driver.name">${datasource.driver.name}</param>
+    <param name="server.datasource.pool.validationQuery">${datasource.pool.validationQuery}</param>
+    <param name="server.datasource.pool.maxWait">${datasource.pool.maxWait}</param>
+    <param name="server.datasource.pool.minSize">${datasource.pool.minSize}</param>
+    <param name="server.datasource.pool.size">${datasource.pool.size}</param>
+    <param name="server.datasource.pool.maxSize">${datasource.pool.maxSize}</param>
+    <param name="server.datasource.pool.class"">${datasource.pool.class}</param>
+    <param name="server.datasource.pool.class.non.xa">${datasource.pool.class.non.xa}</param>
+    
+    <!-- KPME Client DB -->
+    <param name="datasource.url">jdbc:mysql://localhost:3306/kpmedev</param>
+    <param name="datasource.username">kpmedev</param>
+    <param name="datasource.password">secret</param>
+    
+    <!-- Rice Server DB -->
     <param name="server.datasource.url">jdbc:mysql://localhost:3306/krdev</param>
     <param name="server.datasource.username">krdev</param>
     <param name="server.datasource.password">secret</param>
-    <param name="server.datasource.pool.validationQuery">select 1</param>
-    <param name="server.datasource.pool.maxWait">30000</param>
-    <param name="server.datasource.pool.minSize">10</param>
-    <param name="server.datasource.pool.size">50</param>
-    <param name="server.datasource.pool.maxSize">150</param>
 
 	<param name="keystore.alias">rice</param>
 	<param name="keystore.file">kul</param>

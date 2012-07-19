@@ -61,27 +61,27 @@
     
     <bean id="krDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
         <property name="transactionManager" ref="transactionManagerXAPool" />
-        <property name="driverClassName" value="${kr.datasource.driver.name}" />
-        <property name="url" value="${kr.datasource.url}" />
-        <property name="username" value="${kr.datasource.username}" />
-        <property name="password" value="${kr.datasource.password}" />
-        <property name="maxSize" value="${kr.datasource.pool.maxSize}" />
-        <property name="minSize" value="${kr.datasource.pool.minSize}" />
-        <property name="maxWait" value="${kr.datasource.pool.maxWait}" />
-        <property name="validationQuery" value="${kr.datasource.pool.validationQuery}" />
+        <property name="driverClassName" value="${server.datasource.driver.name}" />
+        <property name="url" value="${server.datasource.url}" />
+        <property name="username" value="${server.datasource.username}" />
+        <property name="password" value="${server.datasource.password}" />
+        <property name="maxSize" value="${server.datasource.pool.maxSize}" />
+        <property name="minSize" value="${server.datasource.pool.minSize}" />
+        <property name="maxWait" value="${server.datasource.pool.maxWait}" />
+        <property name="validationQuery" value="${server.datasource.pool.validationQuery}" />
 
     </bean>
     
     <bean id="kpmeDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
         <property name="transactionManager" ref="transactionManagerXAPool" />
-        <property name="driverClassName" value="${kpme.datasource.driver.name}" />
-        <property name="url" value="${kpme.datasource.url}" />
-        <property name="username" value="${kpme.datasource.username}" />
-        <property name="password" value="${kpme.datasource.password}" />
-        <property name="maxSize" value="${kpme.datasource.pool.maxSize}" />
-        <property name="minSize" value="${kpme.datasource.pool.minSize}" />
-        <property name="maxWait" value="${kpme.datasource.pool.maxWait}" />
-        <property name="validationQuery" value="${kpme.datasource.pool.validationQuery}" />
+        <property name="driverClassName" value="${datasource.driver.name}" />
+        <property name="url" value="${datasource.url}" />
+        <property name="username" value="${datasource.username}" />
+        <property name="password" value="${datasource.password}" />
+        <property name="maxSize" value="${datasource.pool.maxSize}" />
+        <property name="minSize" value="${datasource.pool.minSize}" />
+        <property name="maxWait" value="${datasource.pool.maxWait}" />
+        <property name="validationQuery" value="${datasource.pool.validationQuery}" />
     </bean>
 
     <bean id="ds-random-string" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
@@ -94,19 +94,19 @@
     </bean>
 
     <bean id="krDataSourceBitronix" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init" destroy-method="close" lazy-init="true">
-	    <property name="className" value="${datasource.pool.class.non.xa}" />
+	    <property name="className" value="${server.datasource.pool.class.non.xa}" />
 	    <property name="uniqueName" ref="ds-random-string" />
-	    <property name="minPoolSize" value="${kr.datasource.pool.minSize}" />
-	    <property name="maxPoolSize" value="${kr.datasource.pool.maxSize}" />
-	    <property name="testQuery" value="${kr.datasource.pool.validationQuery}" />
+	    <property name="minPoolSize" value="${server.datasource.pool.minSize}" />
+	    <property name="maxPoolSize" value="${server.datasource.pool.maxSize}" />
+	    <property name="testQuery" value="${server.datasource.pool.validationQuery}" />
         <property name="useTmJoin" value="true" />
 	    <property name="allowLocalTransactions" value="true" />
 	    <property name="driverProperties">
             <props>
-                <prop key="driverClassName">${kr.datasource.driver.name}</prop>
-                <prop key="Url">${kr.datasource.url}</prop>
-                <prop key="user">${kr.datasource.username}</prop>
-                <prop key="password">${kr.datasource.password}</prop>
+                <prop key="driverClassName">${server.datasource.driver.name}</prop>
+                <prop key="Url">${server.datasource.url}</prop>
+                <prop key="user">${server.datasource.username}</prop>
+                <prop key="password">${server.datasource.password}</prop>
             </props>
 	    </property>
     </bean>
@@ -114,34 +114,34 @@
     <bean id="kpmeDataSourceBitronix" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init" destroy-method="close" lazy-init="true">
 	    <property name="className" value="${datasource.pool.class.non.xa}" />
 	    <property name="uniqueName" ref="ds-random-string" />
-	    <property name="minPoolSize" value="${kpme.datasource.pool.minSize}" />
-	    <property name="maxPoolSize" value="${kpme.datasource.pool.maxSize}" />
-        <property name="testQuery" value="${kpme.datasource.pool.validationQuery}" />
+	    <property name="minPoolSize" value="${datasource.pool.minSize}" />
+	    <property name="maxPoolSize" value="${datasource.pool.maxSize}" />
+        <property name="testQuery" value="${datasource.pool.validationQuery}" />
 	    <property name="useTmJoin" value="true" />
 	    <property name="allowLocalTransactions" value="true" />
 	    <property name="driverProperties">
             <props>
-                <prop key="driverClassName">${kpme.datasource.driver.name}</prop>
-                <prop key="Url">${kpme.datasource.url}</prop>
-                <prop key="user">${kpme.datasource.username}</prop>
-                <prop key="password">${kpme.datasource.password}</prop>
+                <prop key="driverClassName">${datasource.driver.name}</prop>
+                <prop key="Url">${datasource.url}</prop>
+                <prop key="user">${datasource.username}</prop>
+                <prop key="password">${datasource.password}</prop>
             </props>
 	    </property>
     </bean>
   
     <bean id="krDataSourceBitronixXa" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init" destroy-method="close" lazy-init="true">
-	    <property name="className" value="${datasource.pool.class}" />
+	    <property name="className" value="${server.datasource.pool.class}" />
 	    <property name="uniqueName" ref="ds-random-string" />
-	    <property name="minPoolSize" value="${kr.datasource.pool.minSize}" />
-	    <property name="maxPoolSize" value="${kr.datasource.pool.maxSize}" />
-        <property name="testQuery" value="${kr.datasource.pool.validationQuery}" />
+	    <property name="minPoolSize" value="${server.datasource.pool.minSize}" />
+	    <property name="maxPoolSize" value="${server.datasource.pool.maxSize}" />
+        <property name="testQuery" value="${server.datasource.pool.validationQuery}" />
 	    <property name="useTmJoin" value="true" />
 	    <property name="allowLocalTransactions" value="true" />
 	    <property name="driverProperties">
             <props>
-		        <prop key="URL">${kr.datasource.url}</prop>
-		        <prop key="user">${kr.datasource.username}</prop>
-		        <prop key="password">${kr.datasource.password}</prop>
+		        <prop key="URL">${server.datasource.url}</prop>
+		        <prop key="user">${server.datasource.username}</prop>
+		        <prop key="password">${server.datasource.password}</prop>
             </props>
 	    </property>
     </bean>
@@ -156,19 +156,19 @@
 	    <property name="allowLocalTransactions" value="true" />
 	    <property name="driverProperties">
 	        <props>
-		        <prop key="URL">${kpme.datasource.url}</prop>
-		        <prop key="user">${kpme.datasource.username}</prop>
-		        <prop key="password">${kpme.datasource.password}</prop>
+		        <prop key="URL">${datasource.url}</prop>
+		        <prop key="user">${datasource.username}</prop>
+		        <prop key="password">$datasource.password}</prop>
 	        </props>
 	    </property>
     </bean>
 
     <bean id="nonTransactionalDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="${kpme.datasource.driver.name}"/>
-        <property name="url" value="${kpme.datasource.url}"/>
-        <property name="username" value="${kpme.datasource.username}" />
-        <property name="password" value="${kpme.datasource.password}" />
-        <property name="validationQuery" value="${kpme.datasource.pool.validationQuery}"/>
+        <property name="driverClassName" value="${datasource.driver.name}"/>
+        <property name="url" value="${datasource.url}"/>
+        <property name="username" value="${datasource.username}" />
+        <property name="password" value="${datasource.password}" />
+        <property name="validationQuery" value="${datasource.pool.validationQuery}"/>
         <property name="initialSize" value="${datasource.initialSize}"/>
         <property name="minIdle" value="${datasource.minIdle}" />
         <property name="maxActive" value="${datasource.pool.maxActive}"/>
