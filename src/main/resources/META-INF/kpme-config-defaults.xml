@@ -73,7 +73,7 @@
     <param name="kpme.struts.message.resources">ApplicationResources</param>
     <param name="rice.struts.message.resources">${core.rice.struts.message.resources}, ${kpme.struts.message.resources}</param>
 
-	<!-- Default DB Parameters -->
+	<!-- Default KPME Client DB -->
     <param name="datasource.ojb.platform">MySQL</param>
     <param name="datasource.platform">org.kuali.rice.core.framework.persistence.platform.MySQLDatabasePlatform</param>
 	<param name="datasource.driver.name">com.mysql.jdbc.Driver</param>
@@ -86,31 +86,18 @@
     <param name="datasource.pool.size">50</param>
     <param name="datasource.pool.maxSize">150</param>
 	
-	<!-- KPME Client DB -->
-    <param name="kpme.datasource.ojb.platform">${datasource.ojb.platform}</param>
-    <param name="kpme.datasource.platform">${datasource.platform}</param>
-    <param name="kpme.datasource.driver.name">${datasource.driver.name}</param>
-    <param name="kpme.datasource.url">${datasource.url}</param>
-    <param name="kpme.datasource.username">${datasource.username}</param>
-    <param name="kpme.datasource.password">${datasource.password}</param>
-    <param name="kpme.datasource.pool.validationQuery">${datasource.pool.validationQuery}</param>
-    <param name="kpme.datasource.pool.maxWait">${datasource.pool.maxWait}</param>
-    <param name="kpme.datasource.pool.minSize">${datasource.pool.minSize}</param>
-    <param name="kpme.datasource.pool.size">${datasource.pool.size}</param>
-    <param name="kpme.datasource.pool.maxSize">${datasource.pool.maxSize}</param>
-	
-	<!-- Rice Server DB -->
-    <param name="kr.datasource.ojb.platform">${datasource.ojb.platform}</param>
-    <param name="kr.datasource.platform">${datasource.platform}</param>
-    <param name="kr.datasource.driver.name">${datasource.driver.name}</param>
-    <param name="kr.datasource.url">${datasource.url}</param>
-    <param name="kr.datasource.username">${datasource.username}</param>
-    <param name="kr.datasource.password">${datasource.password}</param>
-    <param name="kr.datasource.pool.validationQuery">${datasource.pool.validationQuery}</param>
-    <param name="kr.datasource.pool.maxWait">${datasource.pool.maxWait}</param>
-    <param name="kr.datasource.pool.minSize">${datasource.pool.minSize}</param>
-    <param name="kr.datasource.pool.size">${datasource.pool.size}</param>
-    <param name="kr.datasource.pool.maxSize">${datasource.pool.maxSize}</param>
+	<!-- Default Rice Server DB -->
+    <param name="server.datasource.ojb.platform">MySQL</param>
+    <param name="server.datasource.platform">org.kuali.rice.core.framework.persistence.platform.MySQLDatabasePlatform</param>
+    <param name="server.datasource.driver.name">com.mysql.jdbc.Driver</param>
+    <param name="server.datasource.url">jdbc:mysql://localhost:3306/krdev</param>
+    <param name="server.datasource.username">krdev</param>
+    <param name="server.datasource.password">secret</param>
+    <param name="server.datasource.pool.validationQuery">select 1</param>
+    <param name="server.datasource.pool.maxWait">30000</param>
+    <param name="server.datasource.pool.minSize">10</param>
+    <param name="server.datasource.pool.size">50</param>
+    <param name="server.datasource.pool.maxSize">150</param>
 
 	<param name="keystore.alias">rice</param>
 	<param name="keystore.file">kul</param>
