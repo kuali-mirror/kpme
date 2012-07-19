@@ -55,6 +55,7 @@ public class LeaveCalendar extends CalendarParent {
                java.util.Date leaveDate = TKUtils.getTimelessDate(currDateTime.toDate());
                List<LeaveBlock> lbs = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principalId, leaveDate);
                leaveCalendarDay.setLeaveBlocks(lbs); 
+               dayNumber++;  // KPME-1664
             }
             leaveCalendarDay.setDayNumberString(currDateTime.dayOfMonth().getAsShortText());
             leaveCalendarDay.setDateString(currDateTime.toString(TkConstants.DT_BASIC_DATE_FORMAT));
@@ -66,7 +67,8 @@ public class LeaveCalendar extends CalendarParent {
                 leaveCalendarWeek = new LeaveCalendarWeek();
             }
 
-            dayNumber++;
+            // KPME-1664 increment dayNumber inside the else condition above to eliminate "grey" days.
+            //dayNumber++;
             currDateTime = currDateTime.plusDays(1);
         }
 

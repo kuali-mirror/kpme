@@ -1,5 +1,6 @@
 package org.kuali.hr.time.util;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
@@ -581,6 +582,18 @@ public class ValidationUtils {
 
             }
 		}
+		return valid;
+	}
+	
+	public static boolean validateEarnCodeFraction(String earnCode, BigDecimal amount, Date asOfDate) {
+		boolean valid = true;
+		 EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
+		 if(ec != null && ec.getFractionalTimeAllowed() != null) {
+			 BigDecimal fracAllowed = new BigDecimal(ec.getFractionalTimeAllowed());
+			 if(amount.scale() > fracAllowed.scale()) {
+				 valid = false;
+			 }
+		 }
 		return valid;
 	}
 }
