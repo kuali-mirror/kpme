@@ -21,7 +21,55 @@
         <loadData tableName="ca_sub_object_cd_t" file="src/test/config/db/staging/ca_sub_object_cd_t.csv" />
 	</changeSet>
 	
-	<changeSet id="3" author="kbtaylor" context="kpme-client-staging">
+    <changeSet id="3" author="kbtaylor" context="kpme-client-staging" dbms="mysql">
+        <insert tableName="hr_calendar_s">
+            <column name="id" value="3" />
+        </insert>
+        <insert tableName="hr_calendar_entries_s">
+            <column name="id" value="47" />
+        </insert>
+        <insert tableName="hr_dept_s">
+            <column name="id" value="6" />
+        </insert>
+        <insert tableName="hr_earn_code_s">
+            <column name="id" value="17" />
+        </insert>
+        <insert tableName="hr_earn_code_security_s">
+            <column name="id" value="8" />
+        </insert>
+        <insert tableName="hr_earn_code_group_s">
+            <column name="id" value="4" />
+        </insert>
+        <insert tableName="hr_earn_code_group_def_s">
+            <column name="id" value="14" />
+        </insert>
+        <insert tableName="hr_job_s">
+            <column name="id" value="9" />
+        </insert>
+        <insert tableName="hr_location_s">
+            <column name="id" value="6" />
+        </insert>
+        <insert tableName="hr_pay_grade_s">
+            <column name="id" value="3" />
+        </insert>
+        <insert tableName="hr_paytype_s">
+            <column name="id" value="4" />
+        </insert>
+        <insert tableName="hr_position_s">
+            <column name="id" value="4" />
+        </insert>
+        <insert tableName="hr_principal_attribute_s">
+            <column name="id" value="6" />
+        </insert>
+        <insert tableName="hr_roles_s">
+            <column name="id" value="12" />
+        </insert>
+        <insert tableName="hr_sal_group_s">
+            <column name="id" value="3" />
+        </insert>
+    </changeSet>
+	
+    <changeSet id="4" author="kbtaylor" context="kpme-client-staging">
         <loadData tableName="hr_calendar_t" file="src/test/config/db/staging/hr_calendar_t.csv" />
         <loadData tableName="hr_calendar_entries_t" file="src/test/config/db/staging/hr_calendar_entries_t.csv" />
         <loadData tableName="hr_dept_t" file="src/test/config/db/staging/hr_dept_t.csv" />
@@ -39,13 +87,43 @@
         <loadData tableName="hr_sal_group_t" file="src/test/config/db/staging/hr_sal_group_t.csv" />
     </changeSet>
     
-    <changeSet id="4" author="kbtaylor" context="kpme-client-staging">
+    <changeSet id="5" author="kbtaylor" context="kpme-client-staging" dbms="mysql">
+        <insert tableName="lm_accrual_category_s">
+            <column name="id" value="9" />
+        </insert>
+        <insert tableName="lm_accrual_category_rules_s">
+            <column name="id" value="7" />
+        </insert>
+        <insert tableName="lm_leave_plan_s">
+            <column name="id" value="3" />
+        </insert>
+    </changeSet>
+    
+    <changeSet id="6" author="kbtaylor" context="kpme-client-staging">
         <loadData tableName="lm_accrual_category_t" file="src/test/config/db/staging/lm_accrual_category_t.csv" />
         <loadData tableName="lm_accrual_category_rules_t" file="src/test/config/db/staging/lm_accrual_category_rules_t.csv" />
         <loadData tableName="lm_leave_plan_t" file="src/test/config/db/staging/lm_leave_plan_t.csv" />
 	</changeSet>
+	
+    <changeSet id="7" author="kbtaylor" context="kpme-client-staging" dbms="mysql">
+        <insert tableName="tk_assignment_s">
+            <column name="id" value="13" />
+        </insert>
+        <insert tableName="tk_assign_acct_s">
+            <column name="id" value="13" />
+        </insert>
+        <insert tableName="tk_grace_period_rl_s">
+            <column name="id" value="1" />
+        </insert>
+        <insert tableName="tk_time_collection_rl_s">
+            <column name="id" value="4" />
+        </insert>
+        <insert tableName="tk_work_area_s">
+            <column name="id" value="7" />
+        </insert>
+    </changeSet>
     
-    <changeSet id="5" author="kbtaylor" context="kpme-client-staging">
+    <changeSet id="8" author="kbtaylor" context="kpme-client-staging">
         <loadData tableName="tk_assignment_t" file="src/test/config/db/staging/tk_assignment_t.csv" />
 		<loadData tableName="tk_assign_acct_t" file="src/test/config/db/staging/tk_assign_acct_t.csv" />
 		<loadData tableName="tk_grace_period_rl_t" file="src/test/config/db/staging/tk_grace_period_rl_t.csv" />
