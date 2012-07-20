@@ -79,8 +79,7 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 			Person backdoorPerson = null;
             Person targetPerson = null;
 
-			if(userSession!=null){
-				backdoorPerson = userSession.getPerson();
+			if (userSession!=null) {
 				person = userSession.getActualPerson();
                 targetPerson = (Person)userSession.getObjectMap().get(TkConstants.TK_TARGET_USER_PERSON);
 			}
@@ -89,7 +88,6 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 			if (new Boolean(ConfigContext.getCurrentContextConfig().getProperty("test.mode"))) {
 				request.setAttribute("principalName", TkLoginFilter.TEST_ID);
 				person = KimApiServiceLocator.getPersonService().getPerson(TkLoginFilter.TEST_ID);
-				backdoorPerson = null;
 			}
 
             // Current date is sufficient for loading of current roles and permissions.

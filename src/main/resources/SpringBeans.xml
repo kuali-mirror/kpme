@@ -68,9 +68,9 @@
         </property>
         <property name="dataDictionaryPackages">
             <list>
-                <value>classpath:org/kuali/hr/time/datadictionary</value>
-                <value>classpath:org/kuali/hr/lm/datadictionary</value>
-                <value>classpath:org/kuali/kfs/coa/datadictionary</value>
+                <value>org/kuali/hr/time/datadictionary</value>
+                <value>org/kuali/hr/lm/datadictionary</value>
+                <value>org/kuali/kfs/coa/datadictionary</value>
             </list>
         </property>
     </bean>
@@ -177,6 +177,63 @@
 <!--     <bean id="cacheAspect" class="org.kuali.hr.time.cache.TKCacheAspect"/> -->
 
     <bean name="springContext" class="org.kuali.hr.sys.context.SpringContext" />
+    
+    <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
+        <property name="localServiceName" value="TK-Context"/>
+        <property name="serviceNameSpaceURI" value="TK" />
+        <property name="beanNames">
+            <set>
+                <value>timeBlockLookupable</value> 
+				<value>timeBlockHistoryLookupable</value> 
+				<value>timeBlockHistoryDetailLookupable</value> 
+				<!--<value>tkLookupable</value>-->
+				<value>calendarLookupable</value> 
+				<value>jobLookupable</value> 
+				<value>systemLunchRuleLookupable</value> 
+				<value>EarnCodeSecurityLookupable</value> 
+				<value>earnCodeLookupable</value> 
+				<value>earnCodeGroupLookupable</value> 
+				<value>payTypeLookupable</value> 
+				<value>positionLookupable</value> 
+				<value>salaryGroupLookupable</value> 
+				<value>dailyOvertimeRuleLookupable</value> 
+				<value>departmentLookupable</value> 
+				<value>workAreaLookupable</value> 
+				<value>clockLocationRuleLookupable</value> 
+				<value>departmentLunchRuleLookupable</value> 
+				<value>gracePeriodRuleLookupable</value> 
+				<value>shiftDifferentialRuleLookupable</value> 
+				<value>weeklyOvertimeRuleLookupable</value> 
+				<value>timeCollectionRuleLookupable</value> 
+				<value>assignmentLookupable</value> 
+				<value>clockLogLookupable</value> 
+				<value>holidayCalendarLookupable</value> 
+				<value>locationLookupable</value> 
+				<value>calendarEntriesLookupable</value> 
+				<value>payGradeLookupable</value> 
+				<value>principalHRAttributesLookupable</value> 
+				<value>timeOffAccrualLookupable</value> 
+				<value>workScheduleLookupable</value> 
+				<value>tkRoleLookupable</value> 
+				<value>accountLookupable</value> 
+				<value>chartLookupable</value> 
+				<value>objectCodeLookupable</value> 
+				<value>organizationLookupable</value> 
+				<value>projectCodeLookupable</value> 
+				<value>subAccountLookupable</value> 
+				<value>subObjectCodeLookupable</value> 
+				<value>taskLookupable</value> 
+				<value>timeSheetInitiateLookupable</value> 
+				<value>leavePlanLookupable</value> 
+				<value>systemScheduledTimeOffLookupable</value> 
+				<value>leaveCodeLookupable</value> 
+				<value>leaveDonationLookupable</value> 
+				<value>accrualCategoryLookupable</value> 
+				<value>leaveAdjustmentLookupable</value> 
+				<value>employeeOverrideLookupable</value>
+            </set>      
+        </property>
+    </bean>
 
     <!-- DAOs for wrapping database criteria queries -->
     <bean id="taskDao" class="org.kuali.hr.time.task.dao.TaskDaoSpringOjbImpl" parent="platformAwareDao" />

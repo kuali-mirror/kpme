@@ -7,12 +7,14 @@ import java.util.Set;
 
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.util.KRADConstants;
 
-public class SystemAdminAuthorizer implements MaintenanceDocumentAuthorizer {
+public class SystemAdminAuthorizer implements MaintenanceDocumentAuthorizer, DocumentAuthorizer {
 	
 	public boolean isSystemAdmin(){
 		return TKContext.getUser().getCurrentRoles().isSystemAdmin();
@@ -49,13 +51,19 @@ public class SystemAdminAuthorizer implements MaintenanceDocumentAuthorizer {
 			String attachmentTypeCode, String createdBySelfOnly, Person user) {
 		return isSystemAdmin();
 	}
+	
+	@Override
+	public boolean canViewNoteAttachment(Document document,
+			String attachmentTypeCode, Person user) {
+		return isSystemAdmin();
+	}
 
 	@Override
 	public boolean canViewNoteAttachment(Document document, 
 			String attachmentTypeCode, String authorUniversalIdentifier, Person user) {
 		return isSystemAdmin();
 	}
-
+	
 	@Override
 	public boolean canSendAdHocRequests(Document document,
 			String actionRequestCd, Person user) {
@@ -245,6 +253,90 @@ public class SystemAdminAuthorizer implements MaintenanceDocumentAuthorizer {
 			Map<String, String> additionalPermissionDetails,
 			Map<String, String> additionalRoleQualifiers) {
 		return isSystemAdmin();
+	}
+
+	/**
+	 * Copied from org.kuali.rice.kns.document.authorization.DocumentAuthorizerBase
+	 */
+	@Override
+	public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_EDIT) && !canEdit(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_EDIT);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_COPY) && !canCopy(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_COPY);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_CLOSE) && !canClose(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_CLOSE);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_RELOAD) && !canReload(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_RELOAD);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_BLANKET_APPROVE) && !canBlanketApprove(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_BLANKET_APPROVE);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_CANCEL) && !canCancel(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_CANCEL);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_RECALL) && !canRecall(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_RECALL);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_SAVE) && !canSave(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_SAVE);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_ROUTE) && !canRoute(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_ROUTE);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_ACKNOWLEDGE) && !canAcknowledge(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_ACKNOWLEDGE);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_FYI) && !canFyi(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_FYI);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_APPROVE) && !canApprove(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_APPROVE);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_DISAPPROVE) && !canDisapprove(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_DISAPPROVE);
+        }
+
+        if (!canSendAnyTypeAdHocRequests(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_ADD_ADHOC_REQUESTS);
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS);
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_SEND_NOTE_FYI);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_SEND_NOTE_FYI) && !canSendNoteFyi(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_SEND_NOTE_FYI);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_ANNOTATE) && !canAnnotate(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_ANNOTATE);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW) && !canEditDocumentOverview(
+                document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_PERFORM_ROUTE_REPORT) && !canPerformRouteReport(document,
+                user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_PERFORM_ROUTE_REPORT);
+        }
+
+        return documentActions;
 	}
 
 }

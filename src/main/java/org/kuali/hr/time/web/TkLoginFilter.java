@@ -18,9 +18,7 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 
 public class TkLoginFilter implements Filter {
 
-    private Filter dummyLoginFilter = new DummyLoginFilter();
-    //TODO add your Filtering mechanism here
-    private Filter userLoginFilter = new org.kuali.hr.time.web.DummyLoginFilter();
+    private Filter dummyLoginFilter = new org.kuali.rice.kew.web.DummyLoginFilter();
     private static boolean testMode = false;
     public static String TEST_ID = "admin";
 
@@ -37,27 +35,19 @@ public class TkLoginFilter implements Filter {
             chain.doFilter(hsRequest, response);
         } else {
             applyRedirectHeader(request, response);
-            getTargetFilter().doFilter(request, response, chain);
+            dummyLoginFilter.doFilter(request, response, chain);
         }
     }
 
     @Override
     public void init(FilterConfig config) throws ServletException {
         setTestMode();
-        this.getTargetFilter().init(config);
+        dummyLoginFilter.init(config);
     }
 
     @Override
     public void destroy() {
-        this.getTargetFilter().destroy();
-    }
-
-    protected Filter getTargetFilter() {
-        if (getTestMode()) {
-            return this.dummyLoginFilter;
-        } else {
-            return this.userLoginFilter;
-        }
+    	dummyLoginFilter.destroy();
     }
 
     protected static void setTestMode() {

@@ -153,8 +153,7 @@ public class TimesheetServiceImpl implements TimesheetService {
         TimesheetDocument timesheetDocument = null;
         WorkflowDocument workflowDocument = null;
 
-        workflowDocument = WorkflowDocumentFactory.loadDocument(principalId, documentType);
-        workflowDocument.setTitle(title);
+        workflowDocument = WorkflowDocumentFactory.createDocument(principalId, documentType, title);
 
         String status = workflowDocument.getStatus().getCode();
         TimesheetDocumentHeader documentHeader = new TimesheetDocumentHeader(workflowDocument.getDocumentId(), principalId, payBeginDate, payEndDate, status);

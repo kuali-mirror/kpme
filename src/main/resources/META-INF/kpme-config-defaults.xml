@@ -35,7 +35,7 @@
 	<param name="dev.mode">true</param>
 	
 	<param name="rice.krad.componentPublishing.enabled">false</param>
-<!-- 	<param name="service.namespace">KC</param> -->
+<!-- 	<param name="service.namespace">TK</param> -->
 <!-- 	<param name="app.namespace">${service.namespace}</param> -->
 
 	<param name="module.name">kpme</param>

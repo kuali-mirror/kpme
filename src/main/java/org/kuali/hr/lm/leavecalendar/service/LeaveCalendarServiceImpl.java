@@ -67,8 +67,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         LeaveCalendarDocument leaveCalendarDocument = null;
         WorkflowDocument workflowDocument = null;
 
-        workflowDocument =  WorkflowDocumentFactory.loadDocument(principalId, documentType);
-        workflowDocument.setTitle(title);
+        workflowDocument =  WorkflowDocumentFactory.createDocument(principalId, documentType, title);
 
         String status = workflowDocument.getStatus().getCode();
         LeaveCalendarDocumentHeader documentHeader = new LeaveCalendarDocumentHeader(workflowDocument.getDocumentId(), principalId, payBeginDate, payEndDate, status);
