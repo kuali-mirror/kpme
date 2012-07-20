@@ -79,7 +79,8 @@ public class AccrualServiceTest extends TkTestCase {
 		Assert.assertTrue("There should be 1 leave block for date 04/01/2012.", leaveBlockList.size()==1);
 		lb = leaveBlockList.get(0);
 		Assert.assertTrue("Hours of the leave block for date 04/01/2012 should be 0, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(BigDecimal.ZERO));
-		Assert.assertTrue("Leave Code of the leave block for date 04/01/2012 should be 'MSG', not " + lb.getEarnCode(), lb.getEarnCode().equals("MSG"));
+		Assert.assertTrue("Leave Code of the leave block for date 04/01/2012 should be " + LMConstants.STATUS_CHANGE_EARN_CODE + ", not " + lb.getEarnCode()
+				, lb.getEarnCode().equals(LMConstants.STATUS_CHANGE_EARN_CODE));
 		Assert.assertNull("lm_accrual_category_id should be null for empty status change leave block", lb.getAccrualCategoryId()); 
 		Assert.assertTrue("Leave Block Type of leave block should be " + LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE + ", not " + lb.getLeaveBlockType()
 				, lb.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE));

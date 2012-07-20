@@ -1,9 +1,18 @@
 package org.kuali.hr.lm.leave.web;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.joda.time.DateTime;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -11,13 +20,12 @@ import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationService;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.google.gson.Gson;
 
 public class LeaveCalendarWSAction extends TkAction {
 
@@ -44,6 +52,29 @@ public class LeaveCalendarWSAction extends TkAction {
         earnCodeMap.put("defaultAmountofTime", earnCode.getDefaultAmountofTime());
         earnCodeMap.put("fractionalTimeAllowed", earnCode.getFractionalTimeAllowed());
         lcf.setOutputString(JSONValue.toJSONString(earnCode));
+        return mapping.findForward("ws");
+    }
+
+    public ActionForward getEarnCodeMap(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //System.out.println("Leave code info called >>>>>>>>>>>>>>>");
+        LeaveCalendarWSForm lcf = (LeaveCalendarWSForm) form;
+        LOG.info(lcf.toString());
+        String principalId = TKContext.getUser().getTargetPrincipalId();
+        DateTime beginDate = new DateTime(
+                TKUtils.convertDateStringToTimestamp(lcf.getStartDate()));
+        //Map<String, String> = TkServiceLocator.getEarnCodeService().getEarnCodesForDisplayWithEffectiveDate(principalId, );
+        Map<String, String> earnCodeMap
+                = TkServiceLocator.getEarnCodeService().getEarnCodesForDisplayWithEffectiveDate(principalId, new java.sql.Date(beginDate.toDate().getTime()));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        for (Map.Entry<String, String> entry : earnCodeMap.entrySet()) {
+            keyValues.add(new ConcreteKeyValue(entry.getKey(), entry.getValue()));
+        }
+        Gson gson = new Gson();
+        String json = gson.toJson(keyValues);
+
+        lcf.setOutputString(json);
+        //gson.toJson(earnCodeMap, Map.class);
+        //lcf.setOutputString(JSONValue.toJSONString(keyValues));
         return mapping.findForward("ws");
     }
     

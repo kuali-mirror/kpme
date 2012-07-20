@@ -111,4 +111,6 @@ public class LMConstants {
 		 public static final String LEAVE_ADJUSTMENT_MAINT = "LAM";
 	 }
 	 
+	 public static final String STATUS_CHANGE_EARN_CODE = "Accrual Note";
+	 
 }

@@ -164,6 +164,8 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         PrincipalHRAttributes hrAttribute = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
         if(hrAttribute != null) {
         	leavePlan = hrAttribute.getLeavePlan();
+            boolean fmla = hrAttribute.isFmlaEligible();
+            boolean workmansComp = hrAttribute.isWorkmansCompEligible();
         	if (StringUtils.isBlank(leavePlan)) {
         		throw new RuntimeException("No leave plan defined for " + principalId + " in principal hr attributes");
         	}
@@ -176,8 +178,16 @@ public class EarnCodeServiceImpl implements EarnCodeService {
                 //TODO how do we know this is an approver for them
 //                if ((earnCode.getEmployee() && user.getCurrentRoles().isActiveEmployee()) ||
 //                        (earnCode.getApprover() && user.isApprover())) {
-            	if ((user.getCurrentRoles().isActiveEmployee()) || (user.isApprover())) {
-                	earnCodes.add(earnCode);
+
+                boolean addEarnCode = false;
+                if ((user.getCurrentRoles().isActiveEmployee()) || (user.isApprover())) {
+                    if ((earnCode.getFmla().equals("Y") && fmla)
+                          || !earnCode.getFmla().equals("Y"))  {
+                        if ((earnCode.getWorkmansComp().equals("Y") && workmansComp)
+                                || !earnCode.getWorkmansComp().equals("Y"))  {
+                            earnCodes.add(earnCode);
+                        }
+                    }
                 }
             }
 
@@ -188,29 +198,38 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 	@Override
 	@CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
 	public Map<String, String> getEarnCodesForDisplay(String principalId) {
-		List<EarnCode> earnCodes = this.getEarnCodes(principalId, TKUtils.getCurrentDate());
-		
-		List<EarnCode> copyList = new ArrayList<EarnCode>();
-		copyList.addAll(earnCodes);
-		for (EarnCode earnCode : copyList) {
-			if ( !earnCode.getAllowScheduledLeave().equalsIgnoreCase("Y")) {
-				earnCodes.remove(earnCode);
-			}
-		} 
-		Comparator<EarnCode> earnCodeComparator = new Comparator<EarnCode>() {
-			@Override
-			public int compare(EarnCode ec1, EarnCode ec2) {
-				return ec1.getEarnCode().compareToIgnoreCase(ec2.getEarnCode());
-			}
-		};
-		// Order by leaveCode ascending
-		Ordering<EarnCode> ordering = Ordering.from(earnCodeComparator);
-
-		Map<String, String> earnCodesForDisplay = new LinkedHashMap<String, String>();
-		for (EarnCode earnCode : ordering.sortedCopy(earnCodes)) {
-			earnCodesForDisplay.put(earnCode.getEarnCodeKeyForDisplay(), earnCode.getEarnCodeValueForDisplay());
-		}
-		return earnCodesForDisplay;
+		return getEarnCodesForDisplayWithEffectiveDate(principalId, TKUtils.getCurrentDate());
 	}
+
+    @Override
+    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
+    public Map<String, String> getEarnCodesForDisplayWithEffectiveDate(String principalId, Date asOfDate) {
+        List<EarnCode> earnCodes = this.getEarnCodes(principalId, asOfDate);
+
+        Date currentDate = TKUtils.getCurrentDate();
+        boolean futureDate = asOfDate.after(currentDate);
+        List<EarnCode> copyList = new ArrayList<EarnCode>();
+        copyList.addAll(earnCodes);
+        for (EarnCode earnCode : copyList) {
+            if ( futureDate
+                    && !earnCode.getAllowScheduledLeave().equalsIgnoreCase("Y")) {
+                earnCodes.remove(earnCode);
+            }
+        }
+        Comparator<EarnCode> earnCodeComparator = new Comparator<EarnCode>() {
+            @Override
+            public int compare(EarnCode ec1, EarnCode ec2) {
+                return ec1.getEarnCode().compareToIgnoreCase(ec2.getEarnCode());
+            }
+        };
+        // Order by leaveCode ascending
+        Ordering<EarnCode> ordering = Ordering.from(earnCodeComparator);
+
+        Map<String, String> earnCodesForDisplay = new LinkedHashMap<String, String>();
+        for (EarnCode earnCode : ordering.sortedCopy(earnCodes)) {
+            earnCodesForDisplay.put(earnCode.getEarnCodeKeyForDisplay(), earnCode.getEarnCodeValueForDisplay());
+        }
+        return earnCodesForDisplay;
+    }
 
 }

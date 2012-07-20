@@ -184,6 +184,15 @@ public class LeaveCalendarAction extends TkAction {
 		lcf.setLeaveAmount(null);
 		lcf.setDescription(null);
 		
+		// call accrual service for this pay period if earn code is not eligible for accrual
+		EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCodeById(selectedEarnCode);
+		if(ec != null && ec.getEligibleForAccrual().equals("N")) {
+			CalendarEntries ce = lcf.getCalendarEntry();
+			if(ce != null && ce.getBeginPeriodDate() != null && ce.getEndPeriodDate() != null) {
+				TkServiceLocator.getLeaveAccrualService().runAccrual(TKContext.getTargetPrincipalId(), ce.getBeginPeriodDate(), ce.getEndPeriodDate());
+			}
+		}
+		
 		return mapping.findForward("basic");
 	}
 

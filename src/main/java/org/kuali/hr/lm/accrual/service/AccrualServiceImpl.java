@@ -385,7 +385,7 @@ public class AccrualServiceImpl implements AccrualService {
 		aLeaveBlock.setAccrualCategoryId(null);
 		aLeaveBlock.setLeaveDate(new java.sql.Date(currentDate.getTime()));
 		aLeaveBlock.setPrincipalId(principalId);
-		aLeaveBlock.setEarnCode("MSG");	// fake leave code
+		aLeaveBlock.setEarnCode(LMConstants.STATUS_CHANGE_EARN_CODE);	// fake leave code
 		aLeaveBlock.setEarnCodeId("000");	// fake leave code id
 		aLeaveBlock.setDateAndTime(new Timestamp(currentDate.getTime()));
 		aLeaveBlock.setAccrualGenerated(true);
