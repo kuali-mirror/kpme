@@ -48,6 +48,7 @@ public class LeaveDonationMaintainableServiceImpl extends HrBusinessObjectMainta
 		aLeaveBlock.setLeaveAmount(ld.getAmountDonated());
 		aLeaveBlock.setAccrualGenerated(false);
 		aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.DONATION_MAINT);
+		aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
 		aLeaveBlock.setBlockId(0L);
 		lbList.add(aLeaveBlock);
 		
@@ -68,6 +69,7 @@ public class LeaveDonationMaintainableServiceImpl extends HrBusinessObjectMainta
 		aLeaveBlock.setLeaveAmount(ld.getAmountReceived());
 		aLeaveBlock.setAccrualGenerated(false);
 		aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.DONATION_MAINT);
+		aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
 		aLeaveBlock.setBlockId(0L);
 		lbList.add(aLeaveBlock);
 		

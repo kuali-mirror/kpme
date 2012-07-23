@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
+import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -78,19 +79,28 @@ public class LeaveDonationMaintTest extends TkTestCase{
 	  	assertTrue("There should be 1 leave blocks for emplyee 'testUser1', not " + leaveBlockList.size(), leaveBlockList.size()== 1);
 	  	LeaveBlock lb = leaveBlockList.get(0);
 	  	assertTrue("Hours of the leave block for donor 'testuser1' should be 10, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(new BigDecimal(10)));
+	  	assertTrue("Request status of the leave block for donor 'testuser1' should be Approved, not " + lb.getRequestStatus()
+	  			, lb.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED));
+	  	
 		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("testuser2", START_DATE, END_DATE);
 		assertTrue("There should be 1 leave blocks for emplyee 'testUser2', not " + leaveBlockList.size(), leaveBlockList.size()== 1);
 		lb = leaveBlockList.get(0);
 	  	assertTrue("Hours of the leave block for recipient 'testuser2' should be 8, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(new BigDecimal(8)));
+	  	assertTrue("Request status of the leave block for donor 'testuser2' should be Approved, not " + lb.getRequestStatus()
+	  			, lb.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED));
 	  	
 		historyList = TkServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistories("testuser1", null);
 		assertTrue("There should be 1 leave block histories for princiapl id testuser1"+ historyList.size(), historyList.size()== 1);
 		LeaveBlockHistory lbh = historyList.get(0);
 	  	assertTrue("Hours of the leave block history for donor 'testuser1' should be 10, not " + lbh.getLeaveAmount().toString(), lbh.getLeaveAmount().equals(new BigDecimal(10)));
+	  	assertTrue("Request status of the leave block history for donor 'testuser1' should be Approved, not " + lbh.getRequestStatus()
+	  			, lbh.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED));
 		historyList = TkServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistories("testuser2", null);
 		assertTrue("There should be 1 leave block histories for princiapl id testuser2"+ historyList.size(), historyList.size()== 1);
 		lbh = historyList.get(0);
 	  	assertTrue("Hours of the leave block history for recipient 'testuser2' should be 8, not " + lbh.getLeaveAmount().toString(), lbh.getLeaveAmount().equals(new BigDecimal(8)));
+	  	assertTrue("Request status of the leave block history for donor 'testuser2' should be Approved, not " + lbh.getRequestStatus()
+	  			, lbh.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED));
 	}
 	
 	@Test
