@@ -39,7 +39,7 @@ public class LeaveAdjustmentMaintainableServiceImpl extends HrBusinessObjectMain
 			aLeaveBlock.setAccrualCategoryId(ac.getLmAccrualCategoryId());
 		}
 		
-		aLeaveBlock.setDescription(la.getDescription());
+		aLeaveBlock.setDescription("Leave Adjustment");
 		aLeaveBlock.setLeaveAmount(la.getAdjustmentAmount());
 		aLeaveBlock.setAccrualGenerated(false);
 		aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_ADJUSTMENT_MAINT);
