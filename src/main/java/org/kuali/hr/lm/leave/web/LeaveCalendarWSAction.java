@@ -51,7 +51,7 @@ public class LeaveCalendarWSAction extends TkAction {
         earnCodeMap.put("unitOfTime", unitTime);
         earnCodeMap.put("defaultAmountofTime", earnCode.getDefaultAmountofTime());
         earnCodeMap.put("fractionalTimeAllowed", earnCode.getFractionalTimeAllowed());
-        lcf.setOutputString(JSONValue.toJSONString(earnCode));
+        lcf.setOutputString(JSONValue.toJSONString(earnCodeMap));
         return mapping.findForward("ws");
     }
 

@@ -59,7 +59,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><label for="leave-amount">* Leave Amount</label> <label id="unitOfTime"></label> : </label></td>
+                            <td><label for="leave-amount" id="unitOfTime">* Leave Amount</label> : </label></td>
                             <td>
                                 <html:text property="leaveAmount" styleId="leaveAmount"/>
                             </td>
