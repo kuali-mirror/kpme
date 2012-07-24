@@ -3,7 +3,6 @@ package org.kuali.hr.time.principal.dao;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 
 public interface PrincipalHRAttributesDao {
@@ -30,4 +29,6 @@ public interface PrincipalHRAttributesDao {
 	public PrincipalHRAttributes getInactivePrincipalHRAttributes(String principalId, Date asOfDate);
 	
 	public PrincipalHRAttributes getPrincipalHRAttributes(String hrPrincipalAttributeId);
+	
+	public List<PrincipalHRAttributes> getAllPrincipalHrAttributesForPrincipalId(String principalId, Date asOfDate);
 }

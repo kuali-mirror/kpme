@@ -35,4 +35,6 @@ public interface PrincipalHRAttributesService {
 	 * @return
 	 */
     public PrincipalHRAttributes getPrincipalHRAttributes(String hrPrincipalAttributeId);
+    
+    public List<PrincipalHRAttributes> getAllPrincipalHrAttributesForPrincipalId(String principalId, Date asOfDate);
 }

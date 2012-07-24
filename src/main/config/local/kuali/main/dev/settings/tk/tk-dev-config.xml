@@ -32,4 +32,8 @@
     <param name="kr.datasource.url">jdbc:mysql://CHANGE_THIS/krtt</param>
 	<param name="kr.datasource.username">krtt</param>
 	<param name="kr.datasource.password">CHANGE_THIS</param>
+	
+	<!-- run.accrual.from.calendar controls if the application allows user to run accrual service by looking at leave calendars
+      if only run accrual service via commands then set run.accrual.from.calendar to false  -->
+    <param name="run.accrual.from.calendar">true</param>
 </config>

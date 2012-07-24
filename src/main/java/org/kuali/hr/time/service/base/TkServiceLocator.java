@@ -2,6 +2,7 @@ package org.kuali.hr.time.service.base;
 
 import org.kuali.hr.job.service.JobService;
 import org.kuali.hr.lm.accrual.service.AccrualCategoryRuleService;
+import org.kuali.hr.lm.accrual.service.PrincipalAccrualRanService;
 
 import org.kuali.hr.lm.accrual.service.AccrualService;
 
@@ -147,6 +148,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String LM_LEAVE_ADJUSTMENT_SERVICE = "leaveAdjustmentService";
 	public static final String LM_LEAVE_BLOCK_HISTORY_SERVICE = "leaveBlockHistoryService";
 	public static final String LM_LEAVE_STATUS_HISTORY_SERVICE = "leaveStatusHistoryService";
+	public static final String LM_PRINCIPAL_ACCRUAL_RAN_SERVICE = "principalAccrualRanService";
 
 	public static void start() throws Exception {
 //		CONTEXT = new ClassPathXmlApplicationContext(SPRING_BEANS);
@@ -442,6 +444,11 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static CalendarEntriesService getCalendarEntriesService() {
 		return (CalendarEntriesService)CONTEXT.getBean(TK_PAY_CALENDAR_ENTRIES_SERVICE);
 	}
+	
+	public static PrincipalAccrualRanService getPrincipalAccrualRanService() {
+		return (PrincipalAccrualRanService)CONTEXT.getBean(LM_PRINCIPAL_ACCRUAL_RAN_SERVICE);
+	}
+	
 	
 	@Override
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {

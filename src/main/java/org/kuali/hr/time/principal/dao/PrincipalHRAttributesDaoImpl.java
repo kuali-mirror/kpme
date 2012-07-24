@@ -159,4 +159,24 @@ public class PrincipalHRAttributesDaoImpl extends PersistenceBrokerDaoSupport im
 		Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, crit);
 		return (PrincipalHRAttributes)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
+    
+    public List<PrincipalHRAttributes> getAllPrincipalHrAttributesForPrincipalId(String principalId, Date asOfDate) {
+    	// get future principalHRAttributes
+    	List<PrincipalHRAttributes> phaList = new ArrayList<PrincipalHRAttributes>();
+    	Criteria crit = new Criteria();
+		crit.addEqualTo("principalId", principalId);
+		crit.addGreaterOrEqualThan("effectiveDate", asOfDate);
+		
+    	Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, crit);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+        if (c != null) {
+        	phaList.addAll(c);
+        }
+        PrincipalHRAttributes pha = this.getPrincipalCalendar(principalId, asOfDate);  // get the current PrincipalHRAttributes
+        if(pha != null) {
+        	phaList.add(pha);
+        }
+        return phaList;
+    }
 }

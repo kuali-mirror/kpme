@@ -157,4 +157,8 @@
     <param name="filtermapping.caswrapper.3">/*</param>
     <param name="rice.portal.logout.redirectUrl">${cas.url}/logout</param> -->
     
+    <!-- run.accrual.from.calendar controls if the application allows user to run accrual service by looking at leave calendars
+      if only run accrual service via commands then set run.accrual.from.calendar to false  -->
+    <param name="run.accrual.from.calendar">true</param>
+    
 </config>
