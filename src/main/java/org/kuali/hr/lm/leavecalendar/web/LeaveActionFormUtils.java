@@ -40,7 +40,7 @@ public class LeaveActionFormUtils {
             WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(leaveBlock.getWorkArea(), leaveBlock.getLeaveDate());
             String workAreaDesc = workArea == null ? "" : workArea.getDescription();
             // Roles
-            Boolean isAnyApprover = TKContext.getUser().getCurrentRoles().isAnyApproverActive();
+            Boolean isAnyApprover = TKContext.getUser().getCurrentPersonRoles().isAnyApproverActive();
             LeaveBlockMap.put("isApprover", isAnyApprover);
            
             LeaveBlockMap.put("documentId", leaveBlock.getDocumentId());

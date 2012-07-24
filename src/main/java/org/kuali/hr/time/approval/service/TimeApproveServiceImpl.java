@@ -135,7 +135,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 				TkConstants.SYSTEM_DATE_TIME_ZONE);
 		minDt = minDt.minusDays(DAYS_WINDOW_DELTA);
 		java.sql.Date windowDate = TKUtils.getTimelessDate(minDt.toDate());
-		Set<Long> approverWorkAreas = tkUser.getCurrentRoles()
+		Set<Long> approverWorkAreas = tkUser.getCurrentPersonRoles()
 				.getApproverWorkAreas();
 
 		// Get all of the principals within our window of time.
@@ -185,7 +185,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		SortedSet<String> pcg = new TreeSet<String>();
 
 		TKUser tkUser = TKContext.getUser();
-		Set<Long> approverWorkAreas = tkUser.getCurrentRoles()
+		Set<Long> approverWorkAreas = tkUser.getCurrentPersonRoles()
 				.getApproverWorkAreas();
 		List<Assignment> assignments = new ArrayList<Assignment>();
 
@@ -575,7 +575,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	public boolean doesApproverHavePrincipalsForCalendarGroup(Date asOfDate,
 			String calGroup) {
 		TKUser tkUser = TKContext.getUser();
-		Set<Long> approverWorkAreas = tkUser.getCurrentRoles()
+		Set<Long> approverWorkAreas = tkUser.getCurrentPersonRoles()
 				.getApproverWorkAreas();
 		for (Long workArea : approverWorkAreas) {
 			List<Assignment> assignments = TkServiceLocator
@@ -830,7 +830,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		DateTime minDt = new DateTime(currentDate,
 				TkConstants.SYSTEM_DATE_TIME_ZONE);
 		minDt = minDt.minusDays(DAYS_WINDOW_DELTA);
-		Set<Long> approverWorkAreas = tkUser.getCurrentRoles().getApproverWorkAreas();
+		Set<Long> approverWorkAreas = tkUser.getCurrentPersonRoles().getApproverWorkAreas();
 
 		// Get all of the principals within our window of time.
 		for (Long waNum : approverWorkAreas) {

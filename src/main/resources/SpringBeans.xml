@@ -179,8 +179,8 @@
     <bean name="springContext" class="org.kuali.hr.sys.context.SpringContext" />
     
     <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
-        <property name="localServiceName" value="TK-Context"/>
-        <property name="serviceNameSpaceURI" value="TK" />
+        <property name="localServiceName" value="KPME-Context"/>
+        <property name="serviceNameSpaceURI" value="KPME" />
         <property name="beanNames">
             <set>
                 <value>timeBlockLookupable</value> 
@@ -602,8 +602,6 @@
           class="org.kuali.hr.time.workarea.web.WorkAreaQualifierRoleTypeService"/>
 
     <bean id="timezoneService" class="org.kuali.hr.time.timezone.service.TimezoneServiceImpl"/>
-
-    <bean id="userService" class="org.kuali.hr.time.user.service.UserServiceImpl"/>
     
     <bean id="tkUser" class="org.kuali.hr.time.util.TKUser"/>
 

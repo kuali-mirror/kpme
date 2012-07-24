@@ -34,7 +34,7 @@ public class AccrualCategoryLookupableHelper extends
 				}
 			}
 
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+		if (TKContext.getUser().getCurrentPersonRoles().isSystemAdmin()) {
 			AccrualCategory leaveAccrualCategory = (AccrualCategory) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String lmLeaveAccrualCategoryId = leaveAccrualCategory

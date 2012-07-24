@@ -50,7 +50,7 @@ public class ClockAction extends TimesheetAction {
 
         TimesheetActionForm taForm = (TimesheetActionForm) form;
         TKUser user = TKContext.getUser();
-        UserRoles roles = user.getCurrentRoles(); // either backdoor or actual
+        UserRoles roles = user.getCurrentPersonRoles(); // either backdoor or actual
         TimesheetDocument doc = TKContext.getCurrentTimesheetDoucment();
 
         // Check for write access to Timeblock.

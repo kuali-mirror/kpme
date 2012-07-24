@@ -32,7 +32,7 @@ public class TimesheetAction extends TkAction {
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         TKUser user = TKContext.getUser();
-        UserRoles roles = user.getCurrentRoles(); // either backdoor or actual
+        UserRoles roles = user.getCurrentPersonRoles(); // either backdoor or actual
         TimesheetDocument doc = TKContext.getCurrentTimesheetDoucment();
 
         if (!roles.isDocumentReadable(doc)) {

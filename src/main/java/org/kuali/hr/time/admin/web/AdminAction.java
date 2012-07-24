@@ -15,7 +15,6 @@ import org.apache.struts.action.ActionRedirect;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.user.service.UserServiceImpl;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TkConstants;
@@ -50,8 +49,8 @@ public class AdminAction extends TkAction {
             			&& !user.isGlobalViewOnly()
             			&& !user.isDepartmentViewOnly()
             			&& (changePerson == null ||
-            			 !user.getCurrentRoles().isApproverForPerson(changePerson.getPrincipalId())
-            			&& (changePerson == null || !user.getCurrentRoles().isDocumentReadable(adminForm.getDocumentId()))))
+            			 !user.getCurrentPersonRoles().isApproverForPerson(changePerson.getPrincipalId())
+            			&& (changePerson == null || !user.getCurrentPersonRoles().isDocumentReadable(adminForm.getDocumentId()))))
             		)  {
                 throw new AuthorizationException("", "AdminAction", "");
             }
@@ -62,20 +61,13 @@ public class AdminAction extends TkAction {
 		AdminActionForm adminForm = (AdminActionForm) form;
         TKUser tkUser = TKContext.getUser();
 
-        if (tkUser.getCurrentRoles().isSystemAdmin()) {
+        if (tkUser.getCurrentPersonRoles().isSystemAdmin()) {
             if (StringUtils.isNotBlank(adminForm.getBackdoorPrincipalName())) {
 
                 Person backdoorPerson = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(adminForm.getBackdoorPrincipalName());
 
                 if (backdoorPerson != null && tkUser != null) {
-                    UserSession userSession = GlobalVariables.getUserSession();
-
                     GlobalVariables.getUserSession().setBackdoorUser(backdoorPerson.getPrincipalId());
-
-                    tkUser.setBackdoorPerson(backdoorPerson);
-
-                    UserServiceImpl.loadRoles(tkUser);
-                    TKContext.setUser(tkUser);
                     LOG.debug("\n\n" + TKContext.getUser().getActualPerson().getPrincipalName() + " backdoors as : " + backdoorPerson.getPrincipalName() + "\n\n");
                 }
             }
@@ -95,13 +87,13 @@ public class AdminAction extends TkAction {
         	Person changePerson = KimApiServiceLocator.getPersonService().getPerson(adminForm.getChangeTargetPrincipalName());
         	
 	        if (changePerson != null && tkUser != null) {
-	            if (tkUser.getCurrentRoles().isSystemAdmin()
-	                	|| tkUser.getCurrentRoles().isGlobalViewOnly()
-	                	|| tkUser.getCurrentRoles().isDepartmentAdminForPerson(changePerson.getPrincipalId())
-	                	|| tkUser.getCurrentRoles().isDeptViewOnlyForPerson(changePerson.getPrincipalId())
-	                	|| tkUser.getCurrentRoles().isLocationAdminForPerson(changePerson.getPrincipalId())
-	                	|| tkUser.getCurrentRoles().isTimesheetReviewerForPerson(changePerson.getPrincipalId())
-	                	|| tkUser.getCurrentRoles().isApproverForPerson(changePerson.getPrincipalId())) {
+	            if (tkUser.getCurrentPersonRoles().isSystemAdmin()
+	                	|| tkUser.getCurrentPersonRoles().isGlobalViewOnly()
+	                	|| tkUser.getCurrentPersonRoles().isDepartmentAdminForPerson(changePerson.getPrincipalId())
+	                	|| tkUser.getCurrentPersonRoles().isDeptViewOnlyForPerson(changePerson.getPrincipalId())
+	                	|| tkUser.getCurrentPersonRoles().isLocationAdminForPerson(changePerson.getPrincipalId())
+	                	|| tkUser.getCurrentPersonRoles().isTimesheetReviewerForPerson(changePerson.getPrincipalId())
+	                	|| tkUser.getCurrentPersonRoles().isApproverForPerson(changePerson.getPrincipalId())) {
 		                	
 		            UserSession userSession = GlobalVariables.getUserSession();
 		            userSession.getObjectMap().put(TkConstants.TK_TARGET_USER_PERSON, changePerson);
@@ -111,7 +103,6 @@ public class AdminAction extends TkAction {
 		            }
 		
 		            tkUser.setTargetPerson(changePerson);
-		            UserServiceImpl.loadRoles(tkUser);
 		            TKContext.setUser(tkUser);
 		
 		            LOG.debug("\n\n" + TKContext.getUser().getActualPerson().getPrincipalName() + " change employee as : " + changePerson.getPrincipalName() + "\n\n");

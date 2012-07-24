@@ -24,7 +24,7 @@ public class TimesheetSubmitAction extends TkAction {
         TimesheetSubmitActionForm tsaf = (TimesheetSubmitActionForm)form;
 
         String principal = TKContext.getPrincipalId();
-        UserRoles roles = TKContext.getUser().getCurrentRoles();
+        UserRoles roles = TKContext.getUser().getCurrentPersonRoles();
 
         TimesheetDocument document = TkServiceLocator.getTimesheetService().getTimesheetDocument(tsaf.getDocumentId());
         if (!roles.isDocumentWritable(document)) {
@@ -81,7 +81,7 @@ public class TimesheetSubmitAction extends TkAction {
                 TkServiceLocator.getTimesheetService().disapproveTimesheet(TKContext.getPrincipalId(), document);
             }
         }
-        TKContext.getUser().clearTargetUserFromSession();
+        TKContext.getUser().clearTargetUser();
         return new ActionRedirect(mapping.findForward("approverRedirect"));
 
 

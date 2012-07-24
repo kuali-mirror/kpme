@@ -29,10 +29,6 @@ public class PersonInfoTest extends TkTestCase {
 		TkLoginFilter.TEST_ID = "eric";
 		GlobalVariables.setMessageMap(new MessageMap());
 		TKContext.setHttpServletRequest(new MockHttpServletRequest());
-		
-		new TKRequestProcessor().setUserOnContext(TKContext.getHttpServletRequest());
-		//this clears the cache that was loaded from the above call.  Do not comment
-		TKContext.setHttpServletRequest(new MockHttpServletRequest());
 	}
 	
 	@Test

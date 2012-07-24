@@ -1,5 +1,6 @@
 package org.kuali.hr.time.util;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -7,12 +8,13 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.kuali.hr.job.Job;
+import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.roles.TkRole;
+import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 import com.google.common.collect.Multimap;
@@ -40,13 +42,8 @@ import com.google.common.collect.Multimap;
  *
  */
 public class TKUser {
-	private Person actualPerson = null;
-	private Person backdoorPerson = null;
-	private Person targetPerson = null;
 
-	private UserRoles actualPersonRoles = null;
-	private UserRoles backdoorPersonRoles = null;
-    private UserRoles targetPersonRoles = null;
+	private Person targetPerson = null;
 
     /**
      * Uses the current "target" principal ID to fetch the timezone to use for
@@ -59,21 +56,48 @@ public class TKUser {
     }
 
 	public Person getActualPerson() {
-		return actualPerson;
+		return GlobalVariables.getUserSession().getActualPerson();
+	}
+    
+    /**
+     * Returns the current 'acting' person. This will be either the back door
+     * person, or the actual person.
+     *
+     * @return the current 'acting' Person (backdoor or actual).
+     */
+	public Person getCurrentPerson() {
+		return GlobalVariables.getUserSession().getPerson();
 	}
 
-	public void setActualPerson(Person person) {
-		this.actualPerson = person;
+    /**
+     * Provides the ACTUAL target person. Null is possible.
+     * @return The target Person object, if present, otherwise null.
+     */
+	public Person getTargetPerson() {
+		return targetPerson;
 	}
 
-	public Person getBackdoorPerson() {
-		return backdoorPerson;
+	public void setTargetPerson(Person targetPerson) {
+		this.targetPerson = targetPerson;
 	}
 
-	public void setBackdoorPerson(Person backdoorPerson) {
-		this.backdoorPerson = backdoorPerson;
+	public void clearTargetUser() {
+		GlobalVariables.getUserSession().getObjectMap().remove(TkConstants.TK_TARGET_USER_PERSON);
+		this.targetPerson = null;
 	}
 
+	public UserRoles getActualPersonRoles() {
+		return getUserRoles(GlobalVariables.getUserSession().getActualPerson().getPrincipalId());
+	}
+	
+    /**
+     * Provides access to the current roles.
+     * @return The roles of the current 'acting' Person (backdoor or actual).
+     */
+	public UserRoles getCurrentPersonRoles() {
+		return getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
+	}
+	
 	/**
 	 * @return The principal ID of the User.  Precedence order:
 	 *
@@ -91,64 +115,7 @@ public class TKUser {
 	public String getPrincipalName() {
 		return getCurrentPerson().getPrincipalName();
 	}
-
-    /**
-     * Target > Back Door > Actual
-     * @return The Principal ID of the user we are viewing.
-     */
-    public String getTargetPrincipalId() {
-        Person p = getTargetPerson();
-        if (p == null)
-            p = getBackdoorPerson();
-        if (p == null)
-            p = getActualPerson();
-
-        return p.getPrincipalId();
-    }
-
-	public void clearBackdoorUser() {
-		this.backdoorPerson = null;
-		this.backdoorPersonRoles = null;
-	}
-
-	public void clearTargetUser() {
-		this.targetPerson = null;
-	}
-
-	public void clearTargetUserFromSession(){
-		UserSession userSession = GlobalVariables.getUserSession();
-        userSession.getObjectMap().remove(TkConstants.TK_TARGET_USER_PERSON);
-        clearTargetUser();
-	}
-
-    /**
-     * Provides the ACTUAL target person. Null is possible.
-     * @return The target Person object, if present, otherwise null.
-     */
-	public Person getTargetPerson() {
-		return targetPerson;
-	}
-
-	public void setTargetPerson(Person targetPerson) {
-		this.targetPerson = targetPerson;
-	}
-
-	public UserRoles getActualPersonRoles() {
-		return actualPersonRoles;
-	}
-
-	public void setActualPersonRoles(UserRoles actualPersonRoles) {
-		this.actualPersonRoles = actualPersonRoles;
-	}
-
-	public UserRoles getBackdoorPersonRoles() {
-		return backdoorPersonRoles;
-	}
-
-	public void setBackdoorPersonRoles(UserRoles backdoorPersonRoles) {
-		this.backdoorPersonRoles = backdoorPersonRoles;
-	}
-
+    
     /**
      * Returns a Person object for the target person if present, otherwise
      * the backdoor, and finally the actual.
@@ -163,32 +130,44 @@ public class TKUser {
     }
 
     /**
+     * Target > Back Door > Actual
+     * @return The Principal ID of the user we are viewing.
+     */
+    public String getTargetPrincipalId() {
+        Person p = getTargetPerson();
+        if (p == null) {
+            p = getCurrentPerson();
+        }
+        return p.getPrincipalId();
+    }
+
+    /**
      * Returns a UserRoles object for the target person if present, otherwise
      * the backdoor, and finally the actual.
      *
      * @return A UserRoles object: target > backdoor > actual.
      */
     public UserRoles getCurrentTargetRoles() {
-        UserRoles r = this.targetPersonRoles;
-        if (r == null)
-            r = getCurrentRoles();
-        return r;
+    	return getUserRoles(getTargetPrincipalId());
+    }
+    
+    public static TKUser getUser(Person target, Date asOfDate) {
+        TKUser tkUser = new TKUser();
+
+        tkUser.setTargetPerson(target);
+
+        return tkUser;
     }
 
-    /**
-     * Provides access to the current roles.
-     * @return The roles of the current 'acting' Person (backdoor or actual).
-     */
-	public UserRoles getCurrentRoles() {
-		if (getBackdoorPersonRoles() != null) {
-			return getBackdoorPersonRoles();
-		} else {
-			return getActualPersonRoles();
-		}
-	}
+    public static TkUserRoles getUserRoles(String principalId) {
+    	List<TkRole> roles = TkServiceLocator.getTkRoleService().getRoles(principalId, TKUtils.getCurrentDate());
+		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getCurrentDate());
+		
+		return new TkUserRoles(principalId, roles, assignments);
+    }
 
 	public boolean isSystemAdmin() {
-		UserRoles userRoles = getCurrentRoles();
+		UserRoles userRoles = getCurrentPersonRoles();
 		return userRoles.isSystemAdmin();
 	}
 
@@ -201,27 +180,27 @@ public class TKUser {
 	}
 
 	public boolean isGlobalViewOnly() {
-		UserRoles userRoles = getCurrentRoles();
+		UserRoles userRoles = getCurrentPersonRoles();
 		return userRoles.isGlobalViewOnly();
 	}
 
 	public boolean isDepartmentViewOnly() {
-		UserRoles userRoles = getCurrentRoles();
+		UserRoles userRoles = getCurrentPersonRoles();
 		return userRoles.getDepartmentViewOnlyDepartments().size() > 0;
 	}
 
 	public boolean isReviewer(){
-		UserRoles userRoles = getCurrentRoles();
+		UserRoles userRoles = getCurrentPersonRoles();
 		return userRoles.getReviewerWorkAreas().size() > 0;
 	}
 
 	public boolean isApprover() {
-		UserRoles userRoles = getCurrentRoles();
+		UserRoles userRoles = getCurrentPersonRoles();
 		return userRoles.getApproverWorkAreas().size() > 0;
 	}
 	
 	public Multimap<String, Long> getReportingApprovalDepartments(){
-		UserRoles userRoles = getCurrentRoles();
+		UserRoles userRoles = getCurrentPersonRoles();
         Set<Long> workAreas = new HashSet<Long>();
         workAreas.addAll(userRoles.getApproverWorkAreas());
         workAreas.addAll(userRoles.getReviewerWorkAreas());
@@ -240,7 +219,7 @@ public class TKUser {
 	}
 	
 	public Set<Long> getReportingWorkAreas(){
-		UserRoles userRoles = getCurrentRoles();
+		UserRoles userRoles = getCurrentPersonRoles();
 		Set<Long> reportingWorkAreas = new HashSet<Long>();
 		List<String> depts = new ArrayList<String>();
 		
@@ -276,46 +255,22 @@ public class TKUser {
 	}
 
 	public Set<String> getLocationAdminAreas() {
-		UserRoles userRoles = getCurrentRoles();
+		UserRoles userRoles = getCurrentPersonRoles();
 		return userRoles.getOrgAdminCharts();
 	}
 
 	public Set<String> getDepartmentAdminAreas() {
-		UserRoles userRoles = getCurrentRoles();
+		UserRoles userRoles = getCurrentPersonRoles();
 		return userRoles.getOrgAdminDepartments();
 	}
 
-    /**
-     * Returns the current 'acting' person. This will be either the back door
-     * person, or the actual person.
-     *
-     * @return the current 'acting' Person (backdoor or actual).
-     */
-	public Person getCurrentPerson() {
-		if (backdoorPerson != null)
-			return getBackdoorPerson();
-
-		return actualPerson;
-	}
-
-    /**
-     * @return UserRoles for the target person if present, null otherwise.
-     */
-    public UserRoles getTargetPersonRoles() {
-        return targetPersonRoles;
-    }
-
-    public void setTargetPersonRoles(UserRoles targetPersonRoles) {
-        this.targetPersonRoles = targetPersonRoles;
-    }
-
     public SortedSet<Long> getWorkAreasFromUserRoles() {
         SortedSet<Long> workAreas = new TreeSet<Long>();
-        workAreas.addAll(this.getCurrentRoles().getApproverWorkAreas());
-        workAreas.addAll(this.getCurrentRoles().getReviewerWorkAreas());
+        workAreas.addAll(this.getCurrentPersonRoles().getApproverWorkAreas());
+        workAreas.addAll(this.getCurrentPersonRoles().getReviewerWorkAreas());
         
-        if(this.getCurrentRoles().isDepartmentAdmin()){
-        	Set<String> deptAdminDepts = this.getCurrentRoles().getOrgAdminDepartments();
+        if(this.getCurrentPersonRoles().isDepartmentAdmin()){
+        	Set<String> deptAdminDepts = this.getCurrentPersonRoles().getOrgAdminDepartments();
         	for(String dept : deptAdminDepts){
         		List<WorkArea> was = TkServiceLocator.getWorkAreaService().getWorkAreas(dept, TKUtils.getCurrentDate());
         		for(WorkArea wa : was){
@@ -327,18 +282,4 @@ public class TKUser {
         return workAreas;
     }
 
-    public List<Job> getJobs() {
-        return TkServiceLocator.getJobService().getJobs(getCurrentPerson().getPrincipalId(),TKUtils.getCurrentDate());
-    }
-
-    public Set<String> getDepartments() {
-        List<Job> jobs = getJobs();
-        Set<String> depts = new HashSet<String>();
-
-        for ( Job job : jobs ) {
-            depts.add(job.getDept());
-        }
-
-        return depts;
-    }
 }

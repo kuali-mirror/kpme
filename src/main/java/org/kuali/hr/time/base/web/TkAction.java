@@ -56,11 +56,6 @@ public class TkAction extends KualiAction {
 			GlobalVariables.getUserSession().clearBackdoorUser();
 		}
 
-		TKUser tkUser = TKContext.getUser();
-		if (tkUser != null) {
-			tkUser.clearBackdoorUser();
-		}
-
 		return mapping.findForward("basic");
 	}
 
@@ -70,7 +65,6 @@ public class TkAction extends KualiAction {
         String returnAction = (String)userSession.getObjectMap().get(TkConstants.TK_TARGET_USER_RETURN);
         if (returnAction == null) returnAction = "/PersonInfo.do";
 
-        userSession.getObjectMap().remove(TkConstants.TK_TARGET_USER_PERSON);
         TKContext.getUser().clearTargetUser();
 
         return new ActionRedirect(returnAction);

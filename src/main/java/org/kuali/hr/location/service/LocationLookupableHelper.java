@@ -20,7 +20,7 @@ public class LocationLookupableHelper extends HrEffectiveDateActiveLookupableHel
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
+		if (TKContext.getUser().getCurrentPersonRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			Location location = (Location) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String hrLocationId = location.getHrLocationId();

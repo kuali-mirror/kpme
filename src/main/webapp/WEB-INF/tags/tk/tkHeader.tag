@@ -16,17 +16,12 @@
 </head>
 <body>
 
-<c:choose>
-    <c:when test="${form.user.backdoorPerson ne null}">
-        <c:set var="person" value="${form.user.backdoorPerson}"/>
-        <c:set var="prefix" value="Backdoor"/>
-        <c:set var="highlight" value="highlight"/>
-        <c:set var="backdoor" value="backdoor"/>
-    </c:when>
-    <c:otherwise>
-        <c:set var="person" value="${form.user.actualPerson}"/>
-    </c:otherwise>
-</c:choose>
+<c:set var="person" value="${form.user.currentPerson}"/>
+<c:if test="${UserSession.backdoorInUse == 'true'}">
+    <c:set var="prefix" value="Backdoor"/>
+    <c:set var="highlight" value="highlight"/>
+    <c:set var="backdoor" value="backdoor"/>
+</c:if>
 <c:if test="${form.user.targetPerson ne null}">
 	<c:set var="targetuser" value="targetuser"/>
 </c:if>
@@ -52,7 +47,7 @@
             <table class="${backdoor}">
                 <tr>
                     <td align="right" colspan="2">
-                        <c:if test="${form.user.backdoorPerson ne null}">
+                        <c:if test="${UserSession.backdoorInUse == 'true'}">
                             <a href="?methodToCall=clearBackdoor" style="font-size: .8em;">Remove backdoor</a> |
                         </c:if>
                         <a href="<%=request.getContextPath() %>/logout.do" style="font-size: .8em;">Logout</a>

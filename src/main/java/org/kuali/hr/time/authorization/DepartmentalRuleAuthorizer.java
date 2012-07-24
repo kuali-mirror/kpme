@@ -51,7 +51,7 @@ public class DepartmentalRuleAuthorizer extends TkMaintenanceDocumentAuthorizerB
 
     public static boolean hasAccessToWrite(DepartmentalRule dr) {
         boolean ret = false;
-        UserRoles roles = TKContext.getUser().getCurrentRoles();
+        UserRoles roles = TKContext.getUser().getCurrentPersonRoles();
         if (roles.isSystemAdmin())
             return true;
 
@@ -79,7 +79,7 @@ public class DepartmentalRuleAuthorizer extends TkMaintenanceDocumentAuthorizerB
      */
     public static boolean hasAccessToRead(DepartmentalRule dr) {
         boolean ret = false;
-        UserRoles roles = TKContext.getUser().getCurrentRoles();
+        UserRoles roles = TKContext.getUser().getCurrentPersonRoles();
         if (roles.isSystemAdmin() || roles.isGlobalViewOnly())
             return true;
 

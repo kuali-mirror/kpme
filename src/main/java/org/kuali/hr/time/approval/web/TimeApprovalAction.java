@@ -110,8 +110,8 @@ public class TimeApprovalAction extends TkAction{
 		taaf.getWorkAreaDescr().clear();
     	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(taaf.getSelectedDept(), new java.sql.Date(taaf.getPayBeginDate().getTime()));
         for(WorkArea wa : workAreas){
-        	if (TKContext.getUser().getCurrentRoles().getApproverWorkAreas().contains(wa.getWorkArea())
-        			|| TKContext.getUser().getCurrentRoles().getReviewerWorkAreas().contains(wa.getWorkArea())) {
+        	if (TKContext.getUser().getCurrentPersonRoles().getApproverWorkAreas().contains(wa.getWorkArea())
+        			|| TKContext.getUser().getCurrentPersonRoles().getReviewerWorkAreas().contains(wa.getWorkArea())) {
         		taaf.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
         	}
         }
@@ -272,8 +272,8 @@ public class TimeApprovalAction extends TkAction{
 		    	
 		    	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(taaf.getSelectedDept(), new java.sql.Date(taaf.getPayBeginDate().getTime()));
 		        for(WorkArea wa : workAreas){
-		        	if (TKContext.getUser().getCurrentRoles().getApproverWorkAreas().contains(wa.getWorkArea())
-		        			|| TKContext.getUser().getCurrentRoles().getReviewerWorkAreas().contains(wa.getWorkArea())) {
+		        	if (TKContext.getUser().getCurrentPersonRoles().getApproverWorkAreas().contains(wa.getWorkArea())
+		        			|| TKContext.getUser().getCurrentPersonRoles().getReviewerWorkAreas().contains(wa.getWorkArea())) {
 		        		taaf.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
 		        	}
 		        }
@@ -339,7 +339,7 @@ public class TimeApprovalAction extends TkAction{
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         TKUser user = TKContext.getUser();
-        UserRoles roles = user.getCurrentRoles();
+        UserRoles roles = user.getCurrentPersonRoles();
 
         if (!roles.isTimesheetReviewer() && !roles.isAnyApproverActive() && !roles.isSystemAdmin() && !roles.isLocationAdmin() && !roles.isGlobalViewOnly() && !roles.isDeptViewOnly() && !roles.isDepartmentAdmin()) {
             throw new AuthorizationException(user.getPrincipalId(), "TimeApprovalAction", "");

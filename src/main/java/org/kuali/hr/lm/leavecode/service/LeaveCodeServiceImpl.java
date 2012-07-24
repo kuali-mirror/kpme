@@ -60,7 +60,7 @@ public class LeaveCodeServiceImpl implements LeaveCodeService {
             for (LeaveCode leaveCode : unfilteredLeaveCodes) {
                 //if employee add this leave code
                 //TODO how do we know this is an approver for them
-                if ((leaveCode.getEmployee() && user.getCurrentRoles().isActiveEmployee()) ||
+                if ((leaveCode.getEmployee() && user.getCurrentPersonRoles().isActiveEmployee()) ||
                         (leaveCode.getApprover() && user.isApprover())) {
                     leaveCodes.add(leaveCode);
                 }

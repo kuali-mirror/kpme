@@ -96,7 +96,7 @@ public class ActionFormUtils {
             String workAreaDesc = workArea.getDescription();
 
             // Roles
-            Boolean isAnyApprover = TKContext.getUser().getCurrentRoles().isAnyApproverActive();
+            Boolean isAnyApprover = TKContext.getUser().getCurrentPersonRoles().isAnyApproverActive();
             timeBlockMap.put("isApprover", isAnyApprover);
             timeBlockMap.put("isSynchronousUser", timeBlock.getClockLogCreated());
 

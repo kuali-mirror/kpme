@@ -261,7 +261,7 @@ public abstract class TkMaintenanceDocumentAuthorizerBase implements Maintenance
      */
     public UserRoles getRoles() {
         TKUser tkuser = TKContext.getUser();
-        return tkuser.getCurrentRoles();
+        return tkuser.getCurrentPersonRoles();
     }
 
     // Subclasses will implement these methods

@@ -1,6 +1,7 @@
 package org.kuali.hr.time.roles;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -364,7 +365,7 @@ public class TkUserRoles implements UserRoles {
         List<Assignment> lstAssignment = TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getCurrentDate());
 
         for (Assignment assignment : lstAssignment) {
-            if (TKContext.getUser().getCurrentRoles().getApproverWorkAreas().contains(assignment.getWorkArea())) {
+            if (TKContext.getUser().getCurrentPersonRoles().getApproverWorkAreas().contains(assignment.getWorkArea())) {
                 return true;
             }
         }
@@ -375,15 +376,14 @@ public class TkUserRoles implements UserRoles {
 
     @Override
     public boolean isDepartmentAdminForPerson(String principalId) {
-        UserRoles userRoles = TKContext.getUser().getCurrentRoles();
-        TKUser targetUser = TkServiceLocator.getUserService().buildTkUser(principalId, TKUtils.getCurrentDate());
+        UserRoles userRoles = TKContext.getUser().getCurrentPersonRoles();
 
         // Department admin
         // Department view only
         if (userRoles.isDepartmentAdmin() || userRoles.isDeptViewOnly()) {
-
-            for (String dept : targetUser.getDepartments()) {
-                if (getOrgAdminDepartments().contains(dept)) {
+        	List<Job> jobs = TkServiceLocator.getJobService().getJobs(principalId,TKUtils.getCurrentDate());
+            for (Job job : jobs) {
+                if (getOrgAdminDepartments().contains(job.getDept())) {
                     return true;
                 }
             }

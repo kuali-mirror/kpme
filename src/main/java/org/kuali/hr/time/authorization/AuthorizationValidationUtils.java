@@ -17,7 +17,7 @@ public class AuthorizationValidationUtils {
      */
     public static boolean canWildcardWorkArea(DepartmentalRule dr) {
         // Sysadmins and (Departmental OrgAdmins for their Department)
-        UserRoles roles = TKContext.getUser().getCurrentRoles();
+        UserRoles roles = TKContext.getUser().getCurrentPersonRoles();
         if (roles.isSystemAdmin())
             return true;
 
@@ -40,7 +40,7 @@ public class AuthorizationValidationUtils {
      */
     public static boolean canWildcardDepartment(DepartmentalRule dr) {
         // Sysadmins only.
-        UserRoles roles = TKContext.getUser().getCurrentRoles();
+        UserRoles roles = TKContext.getUser().getCurrentPersonRoles();
         return roles.isSystemAdmin();
     }
 }

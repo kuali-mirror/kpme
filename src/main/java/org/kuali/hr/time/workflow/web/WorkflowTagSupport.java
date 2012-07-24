@@ -4,11 +4,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.doctype.SecuritySession;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class WorkflowTagSupport {
 
@@ -17,7 +19,7 @@ public class WorkflowTagSupport {
     }
 
     public boolean isDisplayingRouteButton() {
-      UserRoles roles = TKContext.getUser().getActualPersonRoles();
+      UserRoles roles = TKUser.getUserRoles(GlobalVariables.getUserSession().getActualPerson().getPrincipalId());
       TimesheetDocument doc = TKContext.getCurrentTimesheetDoucment();
       TimesheetDocumentHeader tdh = doc.getDocumentHeader();
       if(tdh.getDocumentStatus().equals("S") || tdh.getDocumentStatus().equals("I")){
@@ -37,7 +39,7 @@ public class WorkflowTagSupport {
     }
 
     public boolean isDisplayingApprovalButtons() {
-        UserRoles roles = TKContext.getUser().getCurrentRoles();
+        UserRoles roles = TKContext.getUser().getCurrentPersonRoles();
         TimesheetDocument doc = TKContext.getCurrentTimesheetDoucment();
         boolean tookActionAlready = KEWServiceLocator.getActionTakenService().hasUserTakenAction(TKContext.getPrincipalId(), doc.getDocumentId());
         return !tookActionAlready && roles.isApproverForTimesheet(doc) && !StringUtils.equals(doc.getDocumentHeader().getDocumentStatus(), "F");

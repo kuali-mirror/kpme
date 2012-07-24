@@ -60,43 +60,28 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 	 */
 	protected boolean processPreprocess(HttpServletRequest request, HttpServletResponse response) {
 		boolean status = super.processPreprocess(request, response);
-
-		setUserOnContext(request);
+		
+		setUserOnContext();
 
 		return status;
 	}
-
+	
 	/**
 	 * This method exists because the UnitTests need to set the request as well.
 	 *
 	 * @param request
 	 */
-	public void setUserOnContext(HttpServletRequest request) {
-		if (request != null) {
-			UserSession userSession = GlobalVariables.getUserSession();
-
-			Person person = null;
-			Person backdoorPerson = null;
-            Person targetPerson = null;
-
-			if (userSession!=null) {
-				person = userSession.getActualPerson();
-                targetPerson = (Person)userSession.getObjectMap().get(TkConstants.TK_TARGET_USER_PERSON);
-			}
-
-			// Check for test mode; if not test mode check for backDoor validity.
-			if (new Boolean(ConfigContext.getCurrentContextConfig().getProperty("test.mode"))) {
-				request.setAttribute("principalName", TkLoginFilter.TEST_ID);
-				person = KimApiServiceLocator.getPersonService().getPerson(TkLoginFilter.TEST_ID);
-			}
-
-            // Current date is sufficient for loading of current roles and permissions.
-			TKUser tkUser = TkServiceLocator.getUserService().buildTkUser(person, backdoorPerson, targetPerson, TKUtils.getCurrentDate());
-			TKContext.setUser(tkUser);
-		} else {
-			// Bail with Exception
-			throw new RuntimeException("Null HttpServletRequest while setting user.");
+	public void setUserOnContext() {
+		// Check for test mode; if not test mode check for backDoor validity.
+		if (new Boolean(ConfigContext.getCurrentContextConfig().getProperty("test.mode"))) {
+			GlobalVariables.getUserSession().setBackdoorUser(TkLoginFilter.TEST_ID);
 		}
+
+        Person targetPerson = (Person) GlobalVariables.getUserSession().getObjectMap().get(TkConstants.TK_TARGET_USER_PERSON);
+
+        // Current date is sufficient for loading of current roles and permissions.
+		TKUser tkUser = TKUser.getUser(targetPerson, TKUtils.getCurrentDate());
+		TKContext.setUser(tkUser);
 	}
 
 }

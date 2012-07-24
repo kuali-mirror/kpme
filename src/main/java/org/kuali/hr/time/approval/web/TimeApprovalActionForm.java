@@ -243,7 +243,7 @@ public class TimeApprovalActionForm extends TkCommonCalendarForm {
      */
     public Set<Long> getApproverWorkAreas() {
         TKUser tkUser = TKContext.getUser();
-        return tkUser.getCurrentRoles().getApproverWorkAreas();
+        return tkUser.getCurrentPersonRoles().getApproverWorkAreas();
     }
 
     public Long getWorkArea() {

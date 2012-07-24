@@ -20,7 +20,7 @@ public class ProjectCodeLookupableHelper extends
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
+		if (TKContext.getUser().getCurrentPersonRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			ProjectCode projectCode = (ProjectCode) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String code = projectCode.getCode();

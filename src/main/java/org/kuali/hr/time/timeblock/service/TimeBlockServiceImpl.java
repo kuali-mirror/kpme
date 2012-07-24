@@ -322,7 +322,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	@Override
 	// figure out if the user has permission to edit/delete the time block
 	public Boolean isTimeBlockEditable(TimeBlock tb) {
-		UserRoles ur = TKContext.getUser().getCurrentRoles();
+		UserRoles ur = TKContext.getUser().getCurrentPersonRoles();
 		String userId = TKContext.getUser().getPrincipalId();
 
     	if(userId != null && ur != null) {

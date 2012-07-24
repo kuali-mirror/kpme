@@ -28,7 +28,7 @@ public class HolidayCalendarLookupableHelper extends
 				overrideUrls.add(actionUrl);
 			}
 		}
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
+		if (TKContext.getUser().getCurrentPersonRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			HolidayCalendar holidayCalendar = (HolidayCalendar) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String hrHolidayCalendarId = holidayCalendar

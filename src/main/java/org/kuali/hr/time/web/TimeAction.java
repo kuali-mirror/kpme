@@ -35,8 +35,8 @@ public class TimeAction extends TkAction {
             			&& !user.isDepartmentAdmin()
             			&& !user.isGlobalViewOnly()
             			&& !user.isDepartmentViewOnly()
-            			&& (adminForm.getDocumentId() != null && !user.getCurrentRoles().isApproverForTimesheet(adminForm.getDocumentId()))
-            			&& (adminForm.getDocumentId() != null && !user.getCurrentRoles().isDocumentReadable(adminForm.getDocumentId()))
+            			&& (adminForm.getDocumentId() != null && !user.getCurrentPersonRoles().isApproverForTimesheet(adminForm.getDocumentId()))
+            			&& (adminForm.getDocumentId() != null && !user.getCurrentPersonRoles().isDocumentReadable(adminForm.getDocumentId()))
             		))  {
                 throw new AuthorizationException("", "AdminAction", "");
             }
@@ -53,18 +53,18 @@ public class TimeAction extends TkAction {
 			if (user.isSystemAdmin()) {
 				return new ActionRedirect("/Admin.do");
 			} else if (user.isDepartmentAdmin()
-					&& !user.getCurrentRoles().isSynchronous()) {
+					&& !user.getCurrentPersonRoles().isSynchronous()) {
 				return new ActionRedirect("/Admin.do");
 			} else if (user.isApprover()
-					&& !user.getCurrentRoles().isSynchronous()) {
+					&& !user.getCurrentPersonRoles().isSynchronous()) {
 				return new ActionRedirect("/TimeApproval.do");
 			} else if (user.isReviewer()
-					&& !user.getCurrentRoles().isSynchronous()) {
+					&& !user.getCurrentPersonRoles().isSynchronous()) {
 				return new ActionRedirect("/TimeApproval.do");
-			} else if (user.getCurrentRoles().isActiveEmployee()
-					&& !user.getCurrentRoles().isSynchronous()) {
+			} else if (user.getCurrentPersonRoles().isActiveEmployee()
+					&& !user.getCurrentPersonRoles().isSynchronous()) {
 				return new ActionRedirect("/TimeDetail.do");
-			} else if (user.getCurrentRoles().isSynchronous()) {
+			} else if (user.getCurrentPersonRoles().isSynchronous()) {
 				return new ActionRedirect("/Clock.do");
 			} else {
 				return new ActionRedirect("/PersonInfo.do");

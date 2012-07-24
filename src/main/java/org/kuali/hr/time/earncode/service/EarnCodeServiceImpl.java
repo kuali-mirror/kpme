@@ -73,7 +73,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 
             // Check approver flag
             if (!addEc && dec.isApprover()) {
-                Set<Long> workAreas = user.getCurrentRoles().getApproverWorkAreas();
+                Set<Long> workAreas = user.getCurrentPersonRoles().getApproverWorkAreas();
                 for (Long wa : workAreas) {
                     WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(wa, asOfDate);
                     if (workArea!= null && a.getWorkArea().compareTo(workArea.getWorkArea())==0) {
@@ -180,7 +180,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 //                        (earnCode.getApprover() && user.isApprover())) {
 
                 boolean addEarnCode = false;
-                if ((user.getCurrentRoles().isActiveEmployee()) || (user.isApprover())) {
+                if ((user.getCurrentPersonRoles().isActiveEmployee()) || (user.isApprover())) {
                     if ((earnCode.getFmla().equals("Y") && fmla)
                           || !earnCode.getFmla().equals("Y"))  {
                         if ((earnCode.getWorkmansComp().equals("Y") && workmansComp)
