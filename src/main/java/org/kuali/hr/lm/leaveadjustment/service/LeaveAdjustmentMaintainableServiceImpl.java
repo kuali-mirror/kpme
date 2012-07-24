@@ -43,6 +43,7 @@ public class LeaveAdjustmentMaintainableServiceImpl extends HrBusinessObjectMain
 		aLeaveBlock.setLeaveAmount(la.getAdjustmentAmount());
 		aLeaveBlock.setAccrualGenerated(false);
 		aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_ADJUSTMENT_MAINT);
+		aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
 		aLeaveBlock.setBlockId(0L);
 		
 		TkServiceLocator.getLeaveBlockService().saveLeaveBlock(aLeaveBlock);		

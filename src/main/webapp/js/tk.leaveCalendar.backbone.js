@@ -367,9 +367,9 @@ $(function () {
         	var key = $("#earnCode option:selected").val();
         	var type = key.split(":")[1];
         	if (type == 'D') {
-        		$('#unitOfTime').text('Days');
+        		$('#unitOfTime').text('* Days');
         	} else if (type == 'H') {
-        		$('#unitOfTime').text('Hours');
+        		$('#unitOfTime').text('* Hours');
         	}
         },
         
@@ -377,9 +377,9 @@ $(function () {
         showFieldByEarnCodeType : function () {
             var earnCodeType = this.getEarnCodeUnit(earnCodeObj.toJSON());
             if (earnCodeType == 'D') {
-        		$('#unitOfTime').text('Days');
+        		$('#unitOfTime').text('* Days');
         	} else if (earnCodeType == 'H') {
-        		$('#unitOfTime').text('Hours');
+        		$('#unitOfTime').text('* Hours');
         	}
             var unitOfTime = this.getEarnCodeDefaultTime(earnCodeObj.toJSON());
             $('#leaveAmount').val(unitOfTime);
