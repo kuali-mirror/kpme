@@ -113,4 +113,6 @@ public class LMConstants {
 	 
 	 public static final String STATUS_CHANGE_EARN_CODE = "Accrual Note";
 	 
+	 public static final String RUN_ACCRUAL_FROM_CALENDAR = "run.accrual.from.calendar";   // controls if accrual should be ran from Leave calendar
+	 
 }

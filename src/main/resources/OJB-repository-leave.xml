@@ -267,6 +267,11 @@
 		<field-descriptor name="objectId"      			column="obj_id" 					jdbc-type="VARCHAR" index="true" />
 		<field-descriptor name="versionNumber" 			column="ver_nbr" 					jdbc-type="BIGINT" locking="true" />
 	</class-descriptor>
+	
+	<class-descriptor class="org.kuali.hr.lm.accrual.PrincipalAccrualRan" table="lm_prin_accr_ran_t">
+		<field-descriptor name="principalId"        	column="principal_id"				jdbc-type="VARCHAR" length="40" primarykey="true" />
+		<field-descriptor name="lastRanTs"     			column="last_ran_ts" 				jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>		
+	</class-descriptor>
 
 </descriptor-repository>
 

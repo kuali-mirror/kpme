@@ -344,6 +344,11 @@
     
     <bean id="leaveAdjustmentDao" class="org.kuali.hr.lm.leaveadjustment.dao.LeaveAdjustmentDaoSpringOjbImpl" parent="platformAwareDao" />
     
+    <bean id="principalAccrualRanDao" class="org.kuali.hr.lm.accrual.dao.PrincipalAccrualRanDaoSpringOjbImpl">
+    	<property name="jcdAlias" value="tkDataSource"/>
+    </bean>
+    
+    
     <!-- Time Services for Business Logic -->
     <bean id="missedPunchService" class="org.kuali.hr.time.missedpunch.service.MissedPunchServiceImpl">
         <property name="missedPunchDao" ref="missedPunchDao"/>
@@ -626,6 +631,10 @@
     <bean id="timeOffAccrualService" class="org.kuali.hr.time.accrual.service.TimeOffAccrualServiceImpl">
         <property name="timeOffAccrualDao" ref="timeOffAccrualDao"/>
     </bean>
+    <bean id="principalAccrualRanService" class="org.kuali.hr.lm.accrual.service.PrincipalAccrualRanServiceImpl">
+        <property name="principalAccrualRanDao" ref="principalAccrualRanDao"/>
+    </bean>
+    
     <!--<bean id="tkLookupable" class="org.kuali.rice.kns.lookup.KualiLookupableImpl" scope="singleton">-->
         <!--<property name="lookupableHelperService">-->
             <!--<bean class="org.kuali.hr.time.TkLookupableHelper"/>-->

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+ 
+	<changeSet id="1" author="yingzhou" context="kpme-client-bootstrap">
+		<comment>KPME-1267</comment>
+        <createTable tableName="lm_prin_accr_ran_t">
+            <column name="principal_id" type="VARCHAR(40)">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="last_ran_ts" type="TIME">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        
+    </changeSet>
+  
+</databaseChangeLog>

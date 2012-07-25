@@ -8,7 +8,12 @@ import org.kuali.hr.lm.accrual.RateRangeAggregate;
 
 public interface AccrualService {
 	public void runAccrual(String principalId);
-	public void runAccrual(String principalId, Date startDate, Date endDate);
+	
+	/*
+	 * run Accrual for the given principal id and dates. 
+	 * If recordRanData is true, record the timestamp of this run in database 
+	 */
+	public void runAccrual(String principalId, Date startDate, Date endDate, boolean recordRanData);
 	public void runAccrual(List<String> principalIds);
 	
 	
@@ -95,4 +100,6 @@ public interface AccrualService {
 	 * @return	int
 	 */
 	public int getWorkDaysInAccrualInterval(String earnInterval, Date aDate);
+	
+	public boolean statusChangedSinceLastRun(String principalId);
 }

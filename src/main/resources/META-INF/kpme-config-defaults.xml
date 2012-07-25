@@ -197,5 +197,9 @@
     <param name="tk.batch.job.days.polling.window">30</param>
     <!-- Startup sleep, wait this long before starting ANY threads on any nodes -->
     <param name="tk.batch.thread.startup.sleep">30</param>
+    
+    <!-- run.accrual.from.calendar controls if the application allows user to run accrual service by looking at leave calendars
+      if only run accrual service via commands then set run.accrual.from.calendar to false  -->
+    <param name="run.accrual.from.calendar">true</param>
 
 </config>

@@ -17,11 +17,13 @@ import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
+import org.kuali.hr.lm.accrual.PrincipalAccrualRan;
 import org.kuali.hr.lm.accrual.RateRange;
 import org.kuali.hr.lm.accrual.RateRangeAggregate;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
+import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -37,13 +39,13 @@ public class AccrualServiceImpl implements AccrualService {
 
 		System.out.println("AccrualServiceImpl.runAccrual() STARTED with Principal: "+principalId);
 		
-		runAccrual(principalId,startDate,endDate);
+		runAccrual(principalId,startDate,endDate, true);
 		
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public void runAccrual(String principalId, Date startDate, Date endDate) {
+	public void runAccrual(String principalId, Date startDate, Date endDate, boolean recordRanData) {
 		List<LeaveBlock> accrualLeaveBlocks = new ArrayList<LeaveBlock>();
 		Map<String, BigDecimal> accumulatedAccrualCatToAccrualAmounts = new HashMap<String,BigDecimal>();
 		Map<String, BigDecimal> accumulatedAccrualCatToNegativeAccrualAmounts = new HashMap<String,BigDecimal>();
@@ -323,6 +325,11 @@ public class AccrualServiceImpl implements AccrualService {
 		//Save accrual leave blocks at the very end
 		TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(accrualLeaveBlocks);
 		
+		// record timestamp of this accrual run in database
+		if(recordRanData) {
+			TkServiceLocator.getPrincipalAccrualRanService().updatePrincipalAccrualRanInfo(principalId);
+		}
+		
 	}
 
 	private void inactivateOldAccruals(String principalId, Date startDate, Date endDate) {
@@ -523,7 +530,7 @@ public class AccrualServiceImpl implements AccrualService {
 					aCal.set(Calendar.DATE, aCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 				}
 				Date endDate = new java.sql.Date(aCal.getTime().getTime());
-				TkServiceLocator.getLeaveAccrualService().runAccrual(principalId, currentDate, endDate);
+				TkServiceLocator.getLeaveAccrualService().runAccrual(principalId, currentDate, endDate, true);
 			}
 		}
 	}
@@ -703,5 +710,33 @@ public class AccrualServiceImpl implements AccrualService {
 			return true;
 		}
 		return proration == "Y" ? true : false;
+	}
+	
+	@Override
+	public boolean statusChangedSinceLastRun(String principalId) {
+		PrincipalAccrualRan par = TkServiceLocator.getPrincipalAccrualRanService().getLastPrincipalAccrualRan(principalId);
+		if(par == null) {
+			return true;
+		}
+		Date currentDate = TKUtils.getCurrentDate();
+		List<Job> jobList = TkServiceLocator.getJobService().getJobs(principalId, currentDate);
+		for(Job aJob : jobList) {
+			if(aJob.getTimestamp().after(par.getLastRanTs())) {
+				return true;
+			}
+		}
+		List<Assignment> assignmentList = TkServiceLocator.getAssignmentService().getAssignments(principalId, currentDate);
+		for(Assignment anAssign : assignmentList) {
+			if(anAssign.getTimestamp().after(par.getLastRanTs())) {
+				return true;
+			}
+		}
+		List<PrincipalHRAttributes> phaList = TkServiceLocator.getPrincipalHRAttributeService().getAllPrincipalHrAttributesForPrincipalId(principalId, currentDate);
+		for(PrincipalHRAttributes pha : phaList) {
+			if(pha.getTimestamp().after(par.getLastRanTs())) {
+				return true;
+			}
+		}		
+		return false;
 	}
 }

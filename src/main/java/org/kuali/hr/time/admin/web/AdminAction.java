@@ -169,7 +169,7 @@ public class AdminAction extends TkAction {
     			java.sql.Date endDate= new java.sql.Date(parsedEndDate.getTime());
     	
     			System.out.println("AccrualServiceImpl.runAccrual() called with Principal: "+accrualPrincipalId+" Start: "+startDate.toString()+" End: "+endDate.toString());
-    			TkServiceLocator.getLeaveAccrualService().runAccrual(accrualPrincipalId, startDate, endDate);
+    			TkServiceLocator.getLeaveAccrualService().runAccrual(accrualPrincipalId, startDate, endDate, true);
     	}else {
     		System.out.println("AccrualServiceImpl.runAccrual() called with Principal: "+accrualPrincipalId);
     		TkServiceLocator.getLeaveAccrualService().runAccrual(accrualPrincipalId);

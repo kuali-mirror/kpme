@@ -1,5 +1,17 @@
 package org.kuali.hr.lm.leavecalendar.web;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
@@ -24,17 +36,7 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 
 public class LeaveCalendarAction extends TkAction {
 
@@ -85,10 +87,16 @@ public class LeaveCalendarAction extends TkAction {
 		
 		lcf.setCalendarEntry(calendarEntry);
 		lcf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
-		// run accrual for future dates only, use planning month of leave plan for accrual period
-		// only run the accrual if the calendar entry contains future dates
-		if(calendarEntry != null && calendarEntry.getEndPeriodDate().after(TKUtils.getCurrentDate())) {
-			TkServiceLocator.getLeaveAccrualService().calculateFutureAccrualUsingPlanningMonth(viewPrincipal, calendarEntry.getBeginPeriodDate());
+		// check configuration setting for allowing accrual service to be ran from leave calendar
+		String runAccrualFlag = ConfigContext.getCurrentContextConfig().getProperty(LMConstants.RUN_ACCRUAL_FROM_CALENDAR);
+		if(StringUtils.equals(runAccrualFlag, "true")) {
+			// run accrual for future dates only, use planning month of leave plan for accrual period
+			// only run the accrual if the calendar entry contains future dates
+			if(calendarEntry != null && calendarEntry.getEndPeriodDate().after(TKUtils.getCurrentDate())) {
+				if(TkServiceLocator.getLeaveAccrualService().statusChangedSinceLastRun(viewPrincipal)) {
+					TkServiceLocator.getLeaveAccrualService().calculateFutureAccrualUsingPlanningMonth(viewPrincipal, calendarEntry.getBeginPeriodDate());
+				}
+			}
 		}
 		
 		if (lcd != null) {
@@ -119,8 +127,9 @@ public class LeaveCalendarAction extends TkAction {
         } else {
             leaveBlocks = Collections.emptyList();
         }
-        LeaveCalendar leaveCalender = new LeaveCalendar(viewPrincipal, calendarEntry);
-        LeaveBlockAggregate aggregate = new LeaveBlockAggregate(leaveBlocks, calendarEntry, leaveCalender);
+		// KPME-1690
+//        LeaveCalendar leaveCalender = new LeaveCalendar(viewPrincipal, calendarEntry);
+        LeaveBlockAggregate aggregate = new LeaveBlockAggregate(leaveBlocks, calendarEntry, calendar);
         lcf.setLeaveBlockString(LeaveActionFormUtils.getLeaveBlocksJson(aggregate.getFlattenedLeaveBlockList()));
 		
 		return forward;
@@ -189,7 +198,8 @@ public class LeaveCalendarAction extends TkAction {
 		if(ec != null && ec.getEligibleForAccrual().equals("N")) {
 			CalendarEntries ce = lcf.getCalendarEntry();
 			if(ce != null && ce.getBeginPeriodDate() != null && ce.getEndPeriodDate() != null) {
-				TkServiceLocator.getLeaveAccrualService().runAccrual(TKContext.getTargetPrincipalId(), ce.getBeginPeriodDate(), ce.getEndPeriodDate());
+				// since we are only recalculation accrual for this single pay period, we do not record the accrual run data
+				TkServiceLocator.getLeaveAccrualService().runAccrual(TKContext.getTargetPrincipalId(), ce.getBeginPeriodDate(), ce.getEndPeriodDate(), false);
 			}
 		}
 		
