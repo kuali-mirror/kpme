@@ -1,5 +1,6 @@
 package org.kuali.hr.lm.leave.web;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
@@ -57,6 +58,8 @@ public class LeaveBlockDisplayAction extends TkAction {
 					leaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.ACCURAL);
 				} else { // default USAGE
 					leaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.USAGE);
+					// KPME-1690 : set if usage then amount should be appeared as negative
+					leaveBlock.setLeaveAmount(leaveBlock.getLeaveAmount().multiply(new BigDecimal(-1)));
 				}
 			}
 		}

@@ -126,8 +126,9 @@ public class LeaveCalendarAction extends TkAction {
         } else {
             leaveBlocks = Collections.emptyList();
         }
-        LeaveCalendar leaveCalender = new LeaveCalendar(viewPrincipal, calendarEntry);
-        LeaveBlockAggregate aggregate = new LeaveBlockAggregate(leaveBlocks, calendarEntry, leaveCalender);
+		// KPME-1690
+//        LeaveCalendar leaveCalender = new LeaveCalendar(viewPrincipal, calendarEntry);
+        LeaveBlockAggregate aggregate = new LeaveBlockAggregate(leaveBlocks, calendarEntry, calendar);
         lcf.setLeaveBlockString(LeaveActionFormUtils.getLeaveBlocksJson(aggregate.getFlattenedLeaveBlockList()));
 		
 		return forward;
