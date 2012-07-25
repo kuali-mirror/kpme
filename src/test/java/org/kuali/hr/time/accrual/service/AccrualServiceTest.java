@@ -40,7 +40,7 @@ public class AccrualServiceTest extends TkTestCase {
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + PRINCIPAL_ID, leaveBlockList.isEmpty());
 		 
 		 // first time to run accrual from 02/20/2012 to 05/03/2012
-		 TkServiceLocator.getLeaveAccrualService().runAccrual(PRINCIPAL_ID, START_DATE, END_DATE);
+		 TkServiceLocator.getLeaveAccrualService().runAccrual(PRINCIPAL_ID, START_DATE, END_DATE, false);
 		 verifyLeaveBlocksForStatusChange();
 		 
 		 List<LeaveBlockHistory> historyList = TkServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistories(PRINCIPAL_ID, null);
@@ -50,7 +50,7 @@ public class AccrualServiceTest extends TkTestCase {
 					, lbh.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE));
 		 
 		 // second time to run accrual from 02/20/2012 to 05/03/2012, should get the same results as first run
-		 TkServiceLocator.getLeaveAccrualService().runAccrual(PRINCIPAL_ID, START_DATE, END_DATE);
+		 TkServiceLocator.getLeaveAccrualService().runAccrual(PRINCIPAL_ID, START_DATE, END_DATE, false);
 		 verifyLeaveBlocksForStatusChange();
 		 
 		 historyList = TkServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistories(PRINCIPAL_ID, null);
@@ -140,7 +140,7 @@ public class AccrualServiceTest extends TkTestCase {
 		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(PRINCIPAL_ID_2, START_DATE, endDate);
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + PRINCIPAL_ID_2, leaveBlockList.isEmpty());
 		
-		 TkServiceLocator.getLeaveAccrualService().runAccrual(PRINCIPAL_ID_2, START_DATE, endDate);
+		 TkServiceLocator.getLeaveAccrualService().runAccrual(PRINCIPAL_ID_2, START_DATE, endDate, false);
 		 
 		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(PRINCIPAL_ID_2, START_DATE, endDate);
 		 Assert.assertTrue("There should be 14 leave blocks for emplyee " + PRINCIPAL_ID_2 + ", not " + leaveBlockList.size(), leaveBlockList.size()== 14);
@@ -172,7 +172,7 @@ public class AccrualServiceTest extends TkTestCase {
 		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(PRINCIPAL_ID_3, START_DATE, END_DATE);
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + PRINCIPAL_ID_3, leaveBlockList.isEmpty());
 		 
-		 TkServiceLocator.getLeaveAccrualService().runAccrual(PRINCIPAL_ID_3, START_DATE, END_DATE);
+		 TkServiceLocator.getLeaveAccrualService().runAccrual(PRINCIPAL_ID_3, START_DATE, END_DATE, false);
 		 leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(PRINCIPAL_ID_3, START_DATE, END_DATE);
 		 Assert.assertTrue("There should be 6 leave blocks for emplyee " + PRINCIPAL_ID_3 + ", not " + leaveBlockList.size(), leaveBlockList.size()== 6);
 		 
@@ -225,7 +225,7 @@ public class AccrualServiceTest extends TkTestCase {
 		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(PRINCIPAL_ID_4, START_DATE, end);
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + PRINCIPAL_ID_4, leaveBlockList.isEmpty());
 		 
-		 TkServiceLocator.getLeaveAccrualService().runAccrual(PRINCIPAL_ID_4, START_DATE, end);
+		 TkServiceLocator.getLeaveAccrualService().runAccrual(PRINCIPAL_ID_4, START_DATE, end, false);
 		 leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(PRINCIPAL_ID_4, START_DATE, end);
 		 Assert.assertTrue("There should be 10 leave blocks for emplyee " + PRINCIPAL_ID_4 + ", not " + leaveBlockList.size(), leaveBlockList.size()== 10);
 		 
@@ -273,7 +273,7 @@ public class AccrualServiceTest extends TkTestCase {
 		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(PRINCIPAL_ID_5, START_DATE, endDate);
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + PRINCIPAL_ID_5, leaveBlockList.isEmpty());
 		
-		 TkServiceLocator.getLeaveAccrualService().runAccrual(PRINCIPAL_ID_5, START_DATE, endDate);
+		 TkServiceLocator.getLeaveAccrualService().runAccrual(PRINCIPAL_ID_5, START_DATE, endDate, false);
 		 
 		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(PRINCIPAL_ID_5, START_DATE, endDate);
 		 Assert.assertTrue("There should be 17 leave blocks for emplyee " + PRINCIPAL_ID_5 + ", not " + leaveBlockList.size(), leaveBlockList.size()== 17);
@@ -320,7 +320,7 @@ public class AccrualServiceTest extends TkTestCase {
 		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(PRINCIPAL_ID_6, START_DATE, endDate);
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + PRINCIPAL_ID_6, leaveBlockList.isEmpty());
 		
-		 TkServiceLocator.getLeaveAccrualService().runAccrual(PRINCIPAL_ID_6, START_DATE, endDate);
+		 TkServiceLocator.getLeaveAccrualService().runAccrual(PRINCIPAL_ID_6, START_DATE, endDate, false);
 		 
 		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(PRINCIPAL_ID_6, START_DATE, endDate);
 		 Assert.assertTrue("There should be 17 leave blocks for emplyee " + PRINCIPAL_ID_6 + ", not " + leaveBlockList.size(), leaveBlockList.size()== 17);
@@ -382,7 +382,7 @@ public class AccrualServiceTest extends TkTestCase {
 		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(PRINCIPAL_ID_7, START_DATE, endDate);
 		 Assert.assertTrue("There should be 4 leave blocks before runAccrual for princiapl id " + PRINCIPAL_ID_7, leaveBlockList.size() == 4);
 		
-		 TkServiceLocator.getLeaveAccrualService().runAccrual(PRINCIPAL_ID_7, START_DATE, endDate);
+		 TkServiceLocator.getLeaveAccrualService().runAccrual(PRINCIPAL_ID_7, START_DATE, endDate, false);
 		 
 		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(PRINCIPAL_ID_7, START_DATE, endDate);
 		 Assert.assertTrue("There should be 10 leave blocks for emplyee " + PRINCIPAL_ID_7 + ", not " + leaveBlockList.size(), leaveBlockList.size()== 10);
@@ -452,7 +452,7 @@ public class AccrualServiceTest extends TkTestCase {
 		 List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(PRINCIPAL_ID_8, START_DATE, endDate);
 		 Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + PRINCIPAL_ID_8, leaveBlockList.isEmpty());
 		
-		 TkServiceLocator.getLeaveAccrualService().runAccrual(PRINCIPAL_ID_8, START_DATE, endDate);
+		 TkServiceLocator.getLeaveAccrualService().runAccrual(PRINCIPAL_ID_8, START_DATE, endDate, false);
 		 
 		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(PRINCIPAL_ID_8, START_DATE, endDate);
 		 Assert.assertTrue("There should be 5 leave blocks for emplyee " + PRINCIPAL_ID_8 + ", not " + leaveBlockList.size(), leaveBlockList.size()== 5);		 
