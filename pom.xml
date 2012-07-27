@@ -413,6 +413,7 @@
                                 WEB-INF/web.xml,
                                 WEB-INF/classes/,
                                 WEB-INF/lib/,
+                                WEB-INF/tags/rice-portal/mainTab.tag,
                                 WEB-INF/tags/rice-portal/maintenanceTab.tag,
                                 WEB-INF/tags/rice-portal/portalBody.tag,
                                 WEB-INF/tags/rice-portal/portalTabs.tag,
