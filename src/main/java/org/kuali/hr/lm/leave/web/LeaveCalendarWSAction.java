@@ -1,6 +1,7 @@
 package org.kuali.hr.lm.leave.web;
 
 import com.google.gson.Gson;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -9,21 +10,42 @@ import org.joda.time.DateTime;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.kuali.hr.job.Job;
+import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
+import org.kuali.hr.lm.earncodesec.EarnCodeType;
+import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationService;
+import org.kuali.hr.lm.leavecalendar.web.LeaveActionFormUtils;
+import org.kuali.hr.lm.leavecalendar.web.LeaveCalendarForm;
+import org.kuali.hr.lm.leaveplan.LeavePlan;
+import org.kuali.hr.lm.util.LeaveBlockAggregate;
+import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
+import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.base.web.TkAction;
+import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.LeaveCalendar;
+import org.kuali.hr.time.detail.web.ActionFormUtils;
+import org.kuali.hr.time.detail.web.TimeDetailWSActionForm;
 import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.core.util.KeyValue;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.sql.*;
+import java.sql.Date;
+import java.util.*;
 
 public class LeaveCalendarWSAction extends TkAction {
 
@@ -31,7 +53,58 @@ public class LeaveCalendarWSAction extends TkAction {
 
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return super.execute(mapping, form, request, response);
+        //return super.execute(mapping, form, request, response);
+        LeaveCalendarWSForm lcf = (LeaveCalendarWSForm) form;
+
+        TKUser user = TKContext.getUser();
+        String documentId = lcf.getDocumentId();
+        // if the reload was trigger by changing of the selectedPayPeriod, use the passed in parameter as the calendar entry id
+        String calendarEntryId = StringUtils.isNotBlank(request.getParameter("selectedPP")) ? request.getParameter("selectedPP") : lcf.getCalEntryId();
+
+        // Here - viewPrincipal will be the principal of the user we intend to
+        // view, be it target user, backdoor or otherwise.
+        String viewPrincipal = user.getTargetPrincipalId();
+        CalendarEntries calendarEntry = null;
+
+        LeaveCalendarDocument lcd = null;
+        // By handling the prev/next in the execute method, we are saving one
+        // fetch/construction of a TimesheetDocument. If it were broken out into
+        // methods, we would first fetch the current document, and then fetch
+        // the next one instead of doing it in the single action.
+        if (StringUtils.isNotBlank(documentId)) {
+            lcd = TkServiceLocator.getLeaveCalendarService()
+                    .getLeaveCalendarDocument(documentId);
+            calendarEntry = lcd.getCalendarEntry();
+        } else if (StringUtils.isNotBlank(calendarEntryId)) {
+            // do further procedure
+            calendarEntry = TkServiceLocator.getCalendarEntriesService()
+                    .getCalendarEntries(calendarEntryId);
+            lcd = TkServiceLocator.getLeaveCalendarService()
+                    .getLeaveCalendarDocument(viewPrincipal, calendarEntry);
+        } else {
+            // Default to whatever is active for "today".
+            Date currentDate = TKUtils.getTimelessDate(null);
+            calendarEntry = TkServiceLocator.getCalendarService()
+                    .getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, currentDate);
+            lcd = TkServiceLocator.getLeaveCalendarService()
+                    .openLeaveCalendarDocument(viewPrincipal, calendarEntry);
+        }
+
+        lcf.setCalendarEntry(calendarEntry);
+        lcf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
+
+        if (lcd != null) {
+            setupDocumentOnFormContext(lcf, lcd);
+        } else {
+            LOG.error("Null leave calendar document in LeaveCalendarAction.");
+        }
+
+        ActionForward forward = super.execute(mapping, form, request, response);
+        if (forward.getRedirect()) {
+            return forward;
+        }
+
+        return forward;
     }
 
         
@@ -53,26 +126,42 @@ public class LeaveCalendarWSAction extends TkAction {
         return mapping.findForward("ws");
     }
 
-    public ActionForward getEarnCodeMap(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //System.out.println("Leave code info called >>>>>>>>>>>>>>>");
+    public ActionForward getEarnCodeJson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //TODO: copied from TimeDetailWSAction.  Need to reduce code duplication
         LeaveCalendarWSForm lcf = (LeaveCalendarWSForm) form;
-        LOG.info(lcf.toString());
-        String principalId = TKContext.getUser().getTargetPrincipalId();
-        DateTime beginDate = new DateTime(
-                TKUtils.convertDateStringToTimestamp(lcf.getStartDate()));
-        //Map<String, String> = TkServiceLocator.getEarnCodeService().getEarnCodesForDisplayWithEffectiveDate(principalId, );
-        Map<String, String> earnCodeMap
-                = TkServiceLocator.getEarnCodeService().getEarnCodesForDisplayWithEffectiveDate(principalId, new java.sql.Date(beginDate.toDate().getTime()));
-        List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        for (Map.Entry<String, String> entry : earnCodeMap.entrySet()) {
-            keyValues.add(new KeyValue(entry.getKey(), entry.getValue()));
-        }
-        Gson gson = new Gson();
-        String json = gson.toJson(keyValues);
+        List<Map<String, Object>> earnCodeList = new LinkedList<Map<String, Object>>();
 
-        lcf.setOutputString(json);
-        //gson.toJson(earnCodeMap, Map.class);
-        //lcf.setOutputString(JSONValue.toJSONString(keyValues));
+        if (StringUtils.isNotBlank(lcf.getSelectedAssignment())) {
+            List<Assignment> assignments = lcf.getLeaveCalendarDocument().getAssignments();
+            AssignmentDescriptionKey key = new AssignmentDescriptionKey(lcf.getSelectedAssignment());
+            for (Assignment assignment : assignments) {
+                if (assignment.getJobNumber().compareTo(key.getJobNumber()) == 0 &&
+                        assignment.getWorkArea().compareTo(key.getWorkArea()) == 0 &&
+                        assignment.getTask().compareTo(key.getTask()) == 0) {
+                    List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(assignment, new java.sql.Date(TKUtils.convertDateStringToTimestamp(lcf.getStartDate()).getTime()), EarnCodeType.LEAVE.getCode());
+                    for (EarnCode earnCode : earnCodes) {
+                        // TODO: minimize / compress the crazy if logics below
+                        if (earnCode.getEarnCode().equals(TkConstants.HOLIDAY_EARN_CODE)
+                                && !(TKContext.getUser().getCurrentRoles().isSystemAdmin())) {
+                            continue;
+                        }
+                        //TODO: I don't understand why this if statement is used.  We only want the EarnCode if one or more of these conditions is false, but why?
+                        if (!(assignment.getTimeCollectionRule().isClockUserFl() &&
+                                StringUtils.equals(assignment.getJob().getPayTypeObj().getRegEarnCode(), earnCode.getEarnCode()) && StringUtils.equals(TKContext.getPrincipalId(), assignment.getPrincipalId()))) {
+                            Map<String, Object> earnCodeMap = new HashMap<String, Object>();
+                            earnCodeMap.put("assignment", assignment.getAssignmentKey());
+                            earnCodeMap.put("earnCode", earnCode.getEarnCode());
+                            earnCodeMap.put("desc", earnCode.getDescription());
+                            earnCodeMap.put("type", earnCode.getEarnCodeType());
+                            earnCodeMap.put("earnCodeId", earnCode.getHrEarnCodeId());
+                            earnCodeList.add(earnCodeMap);
+                        }
+                    }
+                }
+            }
+        }
+        //LOG.info(lcf.toString());
+        lcf.setOutputString(JSONValue.toJSONString(earnCodeList));
         return mapping.findForward("ws");
     }
     
@@ -98,6 +187,11 @@ public class LeaveCalendarWSAction extends TkAction {
         lcf.setOutputString(JSONValue.toJSONString(errorMsgList));
         
         return mapping.findForward("ws");
+    }
+
+    protected void setupDocumentOnFormContext(LeaveCalendarForm leaveForm,
+                                              LeaveCalendarDocument lcd) {
+        leaveForm.setLeaveCalendarDocument(lcd);
     }
 
 }

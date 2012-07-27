@@ -560,7 +560,7 @@ $(function () {
 
         validateEarnCode : function () {
             var isValid = true;
-            isValid = isValid && this.checkEmptyField($("#earnCode"), "Earn Code");
+            isValid = isValid && this.checkEmptyField($("#selectedEarnCode option:selected"), "Earn Code");
 
             // couldn't find an easier way to get the earn code json, so we validate by the field id
             // The method below will get a list of not hidden fields' ids
@@ -595,7 +595,7 @@ $(function () {
 
         checkEmptyField : function (o, field) {
             var val = o.val();
-            if (val == '') {
+            if (val == '' || val == undefined) {
                 this.displayErrorMessages(field + " field cannot be empty", o);
                 return false;
             }

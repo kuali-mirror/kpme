@@ -54,11 +54,11 @@
                         <tr>
                             <td><label for="leave-code">* Earn Code:</label></td>
                             <td>
-                                <html:select property="selectedEarnCode" styleId="earnCode">
-                                    <c:forEach var="earnCode" items="${Form.leaveCalendar.earnCodeList}">
-                                        <option value="${earnCode.key}">${earnCode.value}</option>
-                                    </c:forEach>
-                                </html:select>
+                                <div id="earnCode-section">
+                                    <select id='selectedEarnCode' name="selectedEarnCode">
+                                        <option value=''>-- select an earn code --</option>
+                                    </select>
+                                </div>
                             </td>
                         </tr>
                         <tr>
@@ -86,4 +86,9 @@
             </html:form>
         </div>
     </div>
+
+    <%-- Earn code template --%>
+    <script type="text/template" id="earnCode-template">
+        <option value="<@= earnCodeId @>"><@= earnCode + " : " + desc @></option>
+    </script>
 </tk:tkHeader>

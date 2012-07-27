@@ -38,10 +38,24 @@ $(function () {
 //  
 //    var leaveCodeObj = new LeaveCode;
     
-    EarnCode = Backbone.Model.extend({
-   	 url : "LeaveCalendarWS.do?methodToCall=getEarnCodeInfo"
+    //EarnCode = Backbone.Model.extend({
+   	// url : "LeaveCalendarWS.do?methodToCall=getEarnCodeInfo"
+    //});
+
+    /**
+     * Earn Code
+     */
+        // Create an earn code model
+    EarnCode = Backbone.Model;
+
+    // Create a collection for earn codes
+    EarnCodeCollection = Backbone.Collection.extend({
+        model : EarnCode,
+        url : "LeaveCalendarWS.do?methodToCall=getEarnCodeJson"
     });
-    
+
+    var EarnCodes = new EarnCodeCollection;
+
     var earnCodeObj = new EarnCode;
 
     /**
@@ -63,19 +77,21 @@ $(function () {
             "click .create" : "showLeaveBlockEntryDialog",
             "click img[id^=leaveBlockDelete]" : "deleteLeaveBlock",
             "click .leaveBlock" : "doNothing",
-            "change #earnCode" : "changeEarnCode",
-            "keypress #earnCode" : "changeEarnCode"
+            "change #selectedEarnCode" : "showFieldByEarnCodeType",
+            "keypress #selectedEarnCode" : "showFieldByEarnCodeType",
+            "change #selectedAssignment" : "changeAssignment",
+            "keypress #selectedAssignment" : "changeAssignment"
         },
 
         initialize : function () {
 
             // This step binds the functions to the view so you can call the methods like : this.addOneEarnCode
-//            _.bindAll(this, "addAllEarnCodes", "addAllOvertimeEarnCodes", "render");
+            _.bindAll(this, "addAllEarnCodes", "render");
 
             // Bind the events onto the earncode collection, so these events will be triggered
             // when an earncode collection is created.
-//            EarnCodes.bind('add', this.addAllEarnCodes);
-//            EarnCodes.bind('reset', this.addAllEarnCodes);
+            EarnCodes.bind('add', this.addAllEarnCodes);
+            EarnCodes.bind('reset', this.addAllEarnCodes);
 
 //            OvertimeEarnCodes.bind('add', this.addAllOvertimeEarnCodes);
 //            OvertimeEarnCodes.bind('reset', this.addAllOvertimeEarnCodes);
@@ -150,14 +166,17 @@ $(function () {
 //                                        .done(self.showFieldByEarnCodeType());
 //                            }
                     }
-                    self.populatEarnCode();
-                    self.changeEarnCode();
+                    if ($("#selectedAssignment").is("input")) {
+                        var dfd = $.Deferred();
+                        dfd.done(self.fetchEarnCode(_.getSelectedAssignmentValue()))
+                            .done(self.showFieldByEarnCodeType());
+                    }
+
 
                 },
                 close : function () {
                 	$('.cal-table td').removeClass('ui-selected');
                     //reset values on the form
-                	self.changeEarnCode();
                     self.resetLeaveBlockDialog($("#timesheet-panel"));
                     self.resetState($("#dialog-form"));
                 },
@@ -225,7 +244,7 @@ $(function () {
             // Here we want to fire the ajax call first to grab the earn codes.
             // After that is done, we fill out the form and make the entry field show / hide based on the earn code type.
             var dfd = $.Deferred();
-            dfd.done($("#earnCode option[value='" + leaveBlock.get("earnCodeId") + "']").attr("selected", "selected"))
+            dfd.done($("#selectedEarnCode option[value='" + leaveBlock.get("earnCodeId") + "']").attr("selected", "selected"))
             .done(_(leaveBlock).fillInForm());
         },
         
@@ -246,7 +265,7 @@ $(function () {
          */
         resetLeaveBlockDialog : function (timeBlockDiv) {
         	 $("#leaveAmount").val("");
-        	 $("#earnCode").val("");
+        	 $("#selectedEarnCode").val("");
         	 $("#description").val("");
         	 $("#leaveBlockId").val("");
         },
@@ -279,10 +298,20 @@ $(function () {
             // show date pickers
             $(".ui-datepicker-trigger").show();
         },
-        
+
+        changeAssignment : function () {
+            this.fetchEarnCodeAndLoadFields();
+        },
+
+        fetchEarnCodeAndLoadFields : function () {
+            var dfd = $.Deferred();
+            dfd.done(this.fetchEarnCode(_.getSelectedAssignmentValue()))
+                .done(this.showFieldByEarnCodeType());
+        },
+
         validateEarnCode : function () {
             var isValid = true;
-            isValid = isValid && this.checkEmptyField($("#earnCode"), "Earn Code");
+            isValid = isValid && this.checkEmptyField($("#selectedEarnCode option:selected"), "Earn Code");
 
             // couldn't find an easier way to get the earn code json, so we validate by the field id
             // The method below will get a list of not hidden fields' ids
@@ -327,32 +356,42 @@ $(function () {
             return isValid;
         },
 
-        populatEarnCode : function(e) {
-            var params = {};
-            var startDate = $('#startDate').val();
-            $.ajax({
+        fetchEarnCode : function (e, isTimeBlockReadOnly) {
+
+            isTimeBlockReadOnly = _.isUndefined(isTimeBlockReadOnly) ? false : isTimeBlockReadOnly;
+
+            // When the method is called with a passed in value, the assignment is whatever that value is;
+            // If the method is called WITHOUT a passed in value, the assignment is an event.
+            // We want to be able to use this method in creating and editing timeblocks.
+            // If assignment is not a string, we'll grab the selected assignment on the form.
+            var assignment = _.isString(e) ? e : this.$("#selectedAssignment option:selected").val();
+            var startDate = this.$("#startDate").val();
+
+            // Fetch earn codes based on the selected assignment
+            // The fetch function is provided by backbone.js which also supports jQuery.ajax options.
+            // For more information: http://documentcloud.github.com/backbone/#Collection-fetch
+            EarnCodes.fetch({
+                // Make the ajax call not async to be able to mark the earn code selected
                 async : false,
-                url : "LeaveCalendarWS.do?methodToCall=getEarnCodeMap&startDate=" + startDate,
-                data : params,
-                cache : false,
-                dataType: "json",
-                type : "post",
-                success : function (data) {
-                    //var json = jQuery.parseJSON(data.trim());
-                    $("#earnCode").empty();
-                    $.each(data, function(key, value) {
-                        $("#earnCode").append('<option value="' + value.key + '">' + value.value + '</option>');
-                    });
-                },
-                error : function () {
-                    self.displayErrorMessages("Error: Can't retrieve earn codes.");
+                data : {
+                    selectedAssignment : assignment,
+                    startDate : startDate,
+                    timeBlockReadOnly : isTimeBlockReadOnly
                 }
             });
         },
 
+
+        addAllEarnCodes : function () {
+            var view = new EarnCodeView({collection : EarnCodes});
+            // Append the earn code to <select>
+            $("#earnCode-section").append(view.render().el);
+
+        },
+
         changeEarnCode : function(e) {
             // validate leaveblocks
-        	var earnCodeString = _.isString(e) ? e : this.$("#earnCode option:selected").val();
+        	var earnCodeString = _.isString(e) ? e : this.$("#selectedEarnCode option:selected").val();
         	earnCodeObj.fetch({
                 // Make the ajax call not async to be able to mark the earn code selected
                 async : false,
@@ -364,7 +403,7 @@ $(function () {
         },
         
         showFieldByEarnCode : function() {
-        	var key = $("#earnCode option:selected").val();
+        	var key = $("#selectedEarnCode option:selected").val();
         	var type = key.split(":")[1];
         	if (type == 'D') {
         		$('#unitOfTime').text('* Days');
@@ -461,7 +500,7 @@ $(function () {
 
         checkEmptyField : function (o, field) {
             var val = o.val();
-            if (val == '') {
+            if (val == '' || val == undefined) {
                 this.displayErrorMessages(field + " field cannot be empty", o);
                 return false;
             }
@@ -538,6 +577,26 @@ $(function () {
 
     });
 
+    var EarnCodeView = Backbone.View.extend({
+        el : $("#selectedEarnCode"),
+
+        template : _.template($('#earnCode-template').html()),
+
+        initialize : function () {
+            _.bindAll(this, "render");
+        },
+
+        render : function () {
+            var self = this;
+            $("#selectedEarnCode").html("");
+            this.collection.each(function (earnCode) {
+                $(self.el).append(self.template(earnCode.toJSON()));
+            });
+
+            return this;
+        }
+    });
+
     // Initialize the view. This is the kick-off point.
     var app = new LeaveBlockView;
 
@@ -569,12 +628,14 @@ $(function () {
             $('#endDate').val(leaveBlock.get("leaveDate"));
             $('#leaveAmount').val(leaveBlock.get("leaveAmount"));
             $('#leaveBlockId').val(leaveBlock.get("lmLeaveBlockId"));
+            $("#selectedAssignment option[value='" + leaveBlock.get("assignment") + "']").attr("selected", "selected");
+            $("#selectedEarnCode option[value='" + leaveBlock.get("earnCode") + "']").attr("selected", "selected");
             $('#description').val(leaveBlock.get("description"));
             if (leaveBlock.get("editable") == false) {
                 $('#startDate').attr('disabled', 'disabled');
                 $('#endDate').attr('disabled', 'disabled');
                 $('#selectedAssignment').attr('disabled', 'disabled');
-                $('#earnCode').attr('disabled', 'disabled');
+                $('#selectedEarnCode').attr('disabled', 'disabled');
                 $('#leaveAmount').attr('disabled', 'disabled');
                 $('#leaveBlockId').attr('disabled', 'disabled');
                 $('#description').attr('disabled', 'disabled');
@@ -588,6 +649,19 @@ $(function () {
          */
         replaceDialogButtonText : function (oriText, newText) {
             $(".ui-button-text:contains('" + oriText + "')").text(newText);
+        },
+
+        /**
+         * The selected assignment field can be a hidden text field if there is only one assignment, or a dropdown if there are multiple assignments
+         * This helper method will check which type of field is presented and return the value
+         */
+        getSelectedAssignmentValue : function () {
+            var $selectedAssignment = $("#selectedAssignment")
+            if ($selectedAssignment.is("input")) {
+                return $selectedAssignment.val();
+            } else {
+                return $("#selectedAssignment option:selected").val();
+            }
         }
     });
 
