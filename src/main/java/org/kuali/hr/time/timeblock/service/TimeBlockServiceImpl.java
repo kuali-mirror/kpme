@@ -11,6 +11,7 @@ import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.paytype.PayType;
+import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
@@ -22,6 +23,7 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -152,7 +154,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         for (TimeBlock tb : alteredTimeBlocks) {
             TkServiceLocator.getTimeHourDetailService().removeTimeHourDetails(tb.getTkTimeBlockId());
             // xichen, 11/01/11. KPME-744. set userPrincipalId with id which is logging in the sys.
-            tb.setUserPrincipalId(TKContext.getUser().getPrincipalId() );
+            tb.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
 
             timeBlockDao.saveOrUpdate(tb);
             tb.setTimeBlockHistories(TkServiceLocator.getTimeBlockService().createTimeBlockHistories(tb, TkConstants.ACTIONS.ADD_TIME_BLOCK));
@@ -322,16 +324,16 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 	@Override
 	// figure out if the user has permission to edit/delete the time block
 	public Boolean isTimeBlockEditable(TimeBlock tb) {
-		UserRoles ur = TKContext.getUser().getCurrentPersonRoles();
-		String userId = TKContext.getUser().getPrincipalId();
+		String userId = GlobalVariables.getUserSession().getPrincipalId();
 
-    	if(userId != null && ur != null) {
+    	if(userId != null) {
 
-			if(ur.isSystemAdmin()) {
+			if(TKContext.getUser().isSystemAdmin()) {
 				return true;
 			}
 
-			if(ur.isTimesheetApprover() && ur.getApproverWorkAreas().contains(tb.getWorkArea()) || ur.isTimesheetReviewer() && ur.getReviewerWorkAreas().contains(tb.getWorkArea())) {
+			if(TKContext.getUser().isTimesheetApprover() && TKContext.getUser().getApproverWorkAreas().contains(tb.getWorkArea()) 
+					|| TKContext.getUser().isTimesheetReviewer() && TKContext.getUser().getReviewerWorkAreas().contains(tb.getWorkArea())) {
 				Job job = TkServiceLocator.getJobService().getJob(TKContext.getTargetPrincipalId(),tb.getJobNumber(), tb.getEndDate());
 				PayType payType = TkServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), tb.getEndDate());
 				if(StringUtils.equals(payType.getRegEarnCode(), tb.getEarnCode())){

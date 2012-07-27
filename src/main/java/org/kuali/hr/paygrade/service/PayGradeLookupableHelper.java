@@ -20,7 +20,7 @@ public class PayGradeLookupableHelper extends HrEffectiveDateActiveLookupableHel
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().getCurrentPersonRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
+		if (TKContext.getUser().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			PayGrade payGrade = (PayGrade) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String hrPayGradeId = payGrade.getHrPayGradeId();

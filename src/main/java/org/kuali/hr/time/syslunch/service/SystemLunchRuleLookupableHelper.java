@@ -21,7 +21,7 @@ public class SystemLunchRuleLookupableHelper extends
 			@SuppressWarnings("rawtypes") List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().getCurrentPersonRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
+		if (TKContext.getUser().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			SystemLunchRule systemLunchRule = (SystemLunchRule) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String tkSystemLunchRuleId = systemLunchRule

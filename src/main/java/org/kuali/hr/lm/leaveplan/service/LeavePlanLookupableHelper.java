@@ -34,7 +34,7 @@ public class LeavePlanLookupableHelper extends
 				}
 			}
 
-		if (TKContext.getUser().getCurrentPersonRoles().isSystemAdmin()) {
+		if (TKContext.getUser().isSystemAdmin()) {
 			LeavePlan leavePlan = (LeavePlan) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String lmLeavePlanId = leavePlan

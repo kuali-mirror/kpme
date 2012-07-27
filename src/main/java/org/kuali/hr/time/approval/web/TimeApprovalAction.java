@@ -23,6 +23,7 @@ import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.detail.web.ActionFormUtils;
 import org.kuali.hr.time.person.TKPerson;
+import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
@@ -33,6 +34,7 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TimeApprovalAction extends TkAction{
 	
@@ -110,8 +112,8 @@ public class TimeApprovalAction extends TkAction{
 		taaf.getWorkAreaDescr().clear();
     	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(taaf.getSelectedDept(), new java.sql.Date(taaf.getPayBeginDate().getTime()));
         for(WorkArea wa : workAreas){
-        	if (TKContext.getUser().getCurrentPersonRoles().getApproverWorkAreas().contains(wa.getWorkArea())
-        			|| TKContext.getUser().getCurrentPersonRoles().getReviewerWorkAreas().contains(wa.getWorkArea())) {
+        	if (TKContext.getUser().getApproverWorkAreas().contains(wa.getWorkArea())
+        			|| TKContext.getUser().getReviewerWorkAreas().contains(wa.getWorkArea())) {
         		taaf.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
         	}
         }
@@ -272,8 +274,8 @@ public class TimeApprovalAction extends TkAction{
 		    	
 		    	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(taaf.getSelectedDept(), new java.sql.Date(taaf.getPayBeginDate().getTime()));
 		        for(WorkArea wa : workAreas){
-		        	if (TKContext.getUser().getCurrentPersonRoles().getApproverWorkAreas().contains(wa.getWorkArea())
-		        			|| TKContext.getUser().getCurrentPersonRoles().getReviewerWorkAreas().contains(wa.getWorkArea())) {
+		        	if (TKContext.getUser().getApproverWorkAreas().contains(wa.getWorkArea())
+		        			|| TKContext.getUser().getReviewerWorkAreas().contains(wa.getWorkArea())) {
 		        		taaf.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
 		        	}
 		        }
@@ -338,11 +340,10 @@ public class TimeApprovalAction extends TkAction{
 	}
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-        TKUser user = TKContext.getUser();
-        UserRoles roles = user.getCurrentPersonRoles();
-
-        if (!roles.isTimesheetReviewer() && !roles.isAnyApproverActive() && !roles.isSystemAdmin() && !roles.isLocationAdmin() && !roles.isGlobalViewOnly() && !roles.isDeptViewOnly() && !roles.isDepartmentAdmin()) {
-            throw new AuthorizationException(user.getPrincipalId(), "TimeApprovalAction", "");
+        if (!TKContext.getUser().isTimesheetReviewer() && !TKContext.getUser().isAnyApproverActive() && !TKContext.getUser().isSystemAdmin() 
+        		&& !TKContext.getUser().isLocationAdmin() && !TKContext.getUser().isGlobalViewOnly() && !TKContext.getUser().isDeptViewOnly() 
+        		&& !TKContext.getUser().isDepartmentAdmin()) {
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "TimeApprovalAction", "");
         }
     }
     

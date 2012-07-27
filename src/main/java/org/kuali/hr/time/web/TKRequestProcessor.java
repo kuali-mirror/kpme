@@ -38,8 +38,7 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 		TKContext.setHttpServletRequest(request);
 		super.process(request, response);
 		
-		TKUser user = TKContext.getUser();
-        String principalId = user == null ? "" : user.getPrincipalId();
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
 		
 		String header = " Browser: "+request.getHeader("User-Agent");
 		if(StringUtils.isBlank(header)){

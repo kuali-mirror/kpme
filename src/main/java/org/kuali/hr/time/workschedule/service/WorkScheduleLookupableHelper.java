@@ -20,7 +20,7 @@ public class WorkScheduleLookupableHelper extends
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().getCurrentPersonRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
+		if (TKContext.getUser().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			WorkSchedule workSchedule = (WorkSchedule) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final Long hrWorkScheduleId = workSchedule.getHrWorkSchedule();

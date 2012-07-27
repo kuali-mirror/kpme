@@ -479,36 +479,6 @@ label.error {
     margin: 5px;
 }
 
-#batch-content legend {
-    font-weight: bold;
-    font-size: 1.1em;
-}
-
-#batch-content fieldset {
-    margin: 10px;
-    padding: 10px;
-    font-size: .8em;
-}
-
-#batch-content table th {
-    font-weight: normal;
-    text-align: right;
-}
-
-#batch-result table {
-    border-collapse: collapse;
-    border: 1px solid black;
-}
-
-#batch-result tr th {
-    text-align: center;
-}
-
-#batch-result tr, #batch-result td, #batch-result th {
-    padding: 3px;
-    border: 1px solid black;
-}
-
 #timeBlockString {
     display: none;
 }

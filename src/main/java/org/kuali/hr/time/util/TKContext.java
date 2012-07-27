@@ -62,17 +62,11 @@ public class TKContext {
 	}
 
 	public static String getPrincipalId(){
-		if(getUser()!= null){
-			return getUser().getPrincipalId();
-		}
-		return null;
+		return GlobalVariables.getUserSession().getPrincipalId();
 	}
 
     public static String getTargetPrincipalId() {
-        if(getUser()!= null){
-            return getUser().getTargetPrincipalId();
-        }
-        return null;
+        return TKUser.getCurrentTargetPerson().getPrincipalId();
     }
 
 	public static HttpServletRequest getHttpServletRequest() {

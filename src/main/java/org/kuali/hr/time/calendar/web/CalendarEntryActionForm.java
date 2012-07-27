@@ -3,10 +3,9 @@ package org.kuali.hr.time.calendar.web;
 import org.kuali.hr.time.base.web.TkForm;
 
 public class CalendarEntryActionForm extends TkForm {
-	/**
-     *
-     */
+
 	private static final long serialVersionUID = 385904747462568474L;
+	
 	private Long hrPyCalendarEntryId;
 	private Integer noOfPeriods;
     private String calendarEntryPeriodType;

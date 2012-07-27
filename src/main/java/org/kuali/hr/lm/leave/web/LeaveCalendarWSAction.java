@@ -21,6 +21,7 @@ import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -59,7 +60,7 @@ public class LeaveCalendarWSAction extends TkAction {
         //System.out.println("Leave code info called >>>>>>>>>>>>>>>");
         LeaveCalendarWSForm lcf = (LeaveCalendarWSForm) form;
         LOG.info(lcf.toString());
-        String principalId = TKContext.getUser().getTargetPrincipalId();
+        String principalId = TKUser.getCurrentTargetPerson().getPrincipalId();
         DateTime beginDate = new DateTime(
                 TKUtils.convertDateStringToTimestamp(lcf.getStartDate()));
         //Map<String, String> = TkServiceLocator.getEarnCodeService().getEarnCodesForDisplayWithEffectiveDate(principalId, );

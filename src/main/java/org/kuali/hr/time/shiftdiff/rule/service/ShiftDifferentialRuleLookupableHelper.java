@@ -21,7 +21,7 @@ public class ShiftDifferentialRuleLookupableHelper extends
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().getCurrentPersonRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
+		if (TKContext.getUser().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			ShiftDifferentialRule shiftDifferentialRule = (ShiftDifferentialRule) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String tkShiftDiffRuleId = shiftDifferentialRule

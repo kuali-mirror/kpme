@@ -8,11 +8,10 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -43,77 +42,16 @@ import com.google.common.collect.Multimap;
  */
 public class TKUser {
 
-	private Person targetPerson = null;
-
-    /**
-     * Uses the current "target" principal ID to fetch the timezone to use for
-     * render/display purposes.
-     *
-     * @return A timezone string, see: http://joda-time.sourceforge.net/timezones.html
-     */
-    public String getUserTimezone() {
-        return TkServiceLocator.getTimezoneService().getUserTimezone(this.getTargetPrincipalId());
-    }
-
-	public Person getActualPerson() {
-		return GlobalVariables.getUserSession().getActualPerson();
-	}
-    
-    /**
-     * Returns the current 'acting' person. This will be either the back door
-     * person, or the actual person.
-     *
-     * @return the current 'acting' Person (backdoor or actual).
-     */
-	public Person getCurrentPerson() {
-		return GlobalVariables.getUserSession().getPerson();
-	}
-
-    /**
-     * Provides the ACTUAL target person. Null is possible.
-     * @return The target Person object, if present, otherwise null.
-     */
-	public Person getTargetPerson() {
-		return targetPerson;
-	}
-
-	public void setTargetPerson(Person targetPerson) {
-		this.targetPerson = targetPerson;
-	}
-
-	public void clearTargetUser() {
-		GlobalVariables.getUserSession().getObjectMap().remove(TkConstants.TK_TARGET_USER_PERSON);
-		this.targetPerson = null;
-	}
-
-	public UserRoles getActualPersonRoles() {
-		return getUserRoles(GlobalVariables.getUserSession().getActualPerson().getPrincipalId());
+	public static void setTargetPerson(Person targetPerson) {
+		GlobalVariables.getUserSession().addObject(TkConstants.TK_TARGET_USER_PERSON, targetPerson);
 	}
 	
-    /**
-     * Provides access to the current roles.
-     * @return The roles of the current 'acting' Person (backdoor or actual).
-     */
-	public UserRoles getCurrentPersonRoles() {
-		return getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
-	}
-	
-	/**
-	 * @return The principal ID of the User.  Precedence order:
-	 *
-	 *  Back Door User > Actual User
-	 */
-	public String getPrincipalId() {
-		return getCurrentPerson().getPrincipalId();
+	public static boolean isTargetInUse() {
+		return (Person) GlobalVariables.getUserSession().retrieveObject(TkConstants.TK_TARGET_USER_PERSON) != null;
 	}
 
-	/**
-	 * @return The principal name of the User.
-	 *
-	 * Back Door User > Actual User
-	 */
-	public String getPrincipalName() {
-		return getCurrentPerson().getPrincipalName();
+	public static void clearTargetUser() {
+		GlobalVariables.getUserSession().removeObject(TkConstants.TK_TARGET_USER_PERSON);
 	}
     
     /**
@@ -122,23 +60,12 @@ public class TKUser {
      *
      * @return A Person object: target > backdoor > actual.
      */
-    public Person getCurrentTargetPerson() {
-        Person p = this.getTargetPerson();
-        if (p == null)
-            p = this.getCurrentPerson();
-        return p;
-    }
-
-    /**
-     * Target > Back Door > Actual
-     * @return The Principal ID of the user we are viewing.
-     */
-    public String getTargetPrincipalId() {
-        Person p = getTargetPerson();
+    public static Person getCurrentTargetPerson() {
+        Person p = (Person) GlobalVariables.getUserSession().retrieveObject(TkConstants.TK_TARGET_USER_PERSON);
         if (p == null) {
-            p = getCurrentPerson();
+            p = GlobalVariables.getUserSession().getPerson();
         }
-        return p.getPrincipalId();
+        return p;
     }
 
     /**
@@ -147,28 +74,18 @@ public class TKUser {
      *
      * @return A UserRoles object: target > backdoor > actual.
      */
-    public UserRoles getCurrentTargetRoles() {
-    	return getUserRoles(getTargetPrincipalId());
+    public static UserRoles getCurrentTargetRoles() {
+    	return TkUserRoles.getUserRoles(getCurrentTargetPerson().getPrincipalId());
     }
     
     public static TKUser getUser(Person target, Date asOfDate) {
-        TKUser tkUser = new TKUser();
+        TKUser.setTargetPerson(target);
 
-        tkUser.setTargetPerson(target);
-
-        return tkUser;
-    }
-
-    public static TkUserRoles getUserRoles(String principalId) {
-    	List<TkRole> roles = TkServiceLocator.getTkRoleService().getRoles(principalId, TKUtils.getCurrentDate());
-		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getCurrentDate());
-		
-		return new TkUserRoles(principalId, roles, assignments);
+        return new TKUser();
     }
 
 	public boolean isSystemAdmin() {
-		UserRoles userRoles = getCurrentPersonRoles();
-		return userRoles.isSystemAdmin();
+		return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isSystemAdmin();
 	}
 
 	public boolean isLocationAdmin() {
@@ -180,27 +97,55 @@ public class TKUser {
 	}
 
 	public boolean isGlobalViewOnly() {
-		UserRoles userRoles = getCurrentPersonRoles();
-		return userRoles.isGlobalViewOnly();
+		return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isGlobalViewOnly();
 	}
 
-	public boolean isDepartmentViewOnly() {
-		UserRoles userRoles = getCurrentPersonRoles();
-		return userRoles.getDepartmentViewOnlyDepartments().size() > 0;
+	public boolean isDeptViewOnly() {
+		return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isDeptViewOnly();
+	}
+	
+	public boolean isActiveEmployee() {
+		return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isActiveEmployee();
+	}
+	
+	public boolean isSynchronous() {
+		return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isSynchronous();
 	}
 
-	public boolean isReviewer(){
-		UserRoles userRoles = getCurrentPersonRoles();
-		return userRoles.getReviewerWorkAreas().size() > 0;
+	public boolean isReviewer() {
+		return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isReviewer();
 	}
 
 	public boolean isApprover() {
-		UserRoles userRoles = getCurrentPersonRoles();
-		return userRoles.getApproverWorkAreas().size() > 0;
+		return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isApprover();
+	}
+	
+	public boolean isTimesheetReviewer() {
+		return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isTimesheetReviewer();
+	}
+	
+	public boolean isTimesheetApprover() {
+		return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isTimesheetApprover();
+	}
+	
+	public boolean isAnyApproverActive() {
+		return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isAnyApproverActive();
+	}
+	
+	public boolean isApproverForTimesheet(String docId) {
+		return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isApproverForTimesheet(docId);
+	}
+	
+	public boolean isDocumentReadable(String documentId) {
+		return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isDocumentReadable(documentId);
+	}
+	
+	public boolean isDocumentWritable(String documentId) {
+		return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isDocumentWritable(documentId);
 	}
 	
 	public Multimap<String, Long> getReportingApprovalDepartments(){
-		UserRoles userRoles = getCurrentPersonRoles();
+		UserRoles userRoles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
         Set<Long> workAreas = new HashSet<Long>();
         workAreas.addAll(userRoles.getApproverWorkAreas());
         workAreas.addAll(userRoles.getReviewerWorkAreas());
@@ -219,7 +164,7 @@ public class TKUser {
 	}
 	
 	public Set<Long> getReportingWorkAreas(){
-		UserRoles userRoles = getCurrentPersonRoles();
+		UserRoles userRoles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
 		Set<Long> reportingWorkAreas = new HashSet<Long>();
 		List<String> depts = new ArrayList<String>();
 		
@@ -253,24 +198,31 @@ public class TKUser {
 		
 		return reportingWorkAreas;
 	}
+	
+	public Set<Long> getApproverWorkAreas() {
+		return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
+	}
+
+	public Set<Long> getReviewerWorkAreas() {
+		return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getReviewerWorkAreas();
+	}
 
 	public Set<String> getLocationAdminAreas() {
-		UserRoles userRoles = getCurrentPersonRoles();
-		return userRoles.getOrgAdminCharts();
+		return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getOrgAdminCharts();
 	}
 
 	public Set<String> getDepartmentAdminAreas() {
-		UserRoles userRoles = getCurrentPersonRoles();
-		return userRoles.getOrgAdminDepartments();
+		return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getOrgAdminDepartments();
 	}
 
     public SortedSet<Long> getWorkAreasFromUserRoles() {
+    	UserRoles userRoles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
         SortedSet<Long> workAreas = new TreeSet<Long>();
-        workAreas.addAll(this.getCurrentPersonRoles().getApproverWorkAreas());
-        workAreas.addAll(this.getCurrentPersonRoles().getReviewerWorkAreas());
+        workAreas.addAll(userRoles.getApproverWorkAreas());
+        workAreas.addAll(userRoles.getReviewerWorkAreas());
         
-        if(this.getCurrentPersonRoles().isDepartmentAdmin()){
-        	Set<String> deptAdminDepts = this.getCurrentPersonRoles().getOrgAdminDepartments();
+        if(userRoles.isDepartmentAdmin()){
+        	Set<String> deptAdminDepts = userRoles.getOrgAdminDepartments();
         	for(String dept : deptAdminDepts){
         		List<WorkArea> was = TkServiceLocator.getWorkAreaService().getWorkAreas(dept, TKUtils.getCurrentDate());
         		for(WorkArea wa : was){

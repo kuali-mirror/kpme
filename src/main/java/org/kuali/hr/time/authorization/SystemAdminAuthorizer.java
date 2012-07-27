@@ -17,11 +17,11 @@ import org.kuali.rice.krad.util.KRADConstants;
 public class SystemAdminAuthorizer implements MaintenanceDocumentAuthorizer, DocumentAuthorizer {
 	
 	public boolean isSystemAdmin(){
-		return TKContext.getUser().getCurrentPersonRoles().isSystemAdmin();
+		return TKContext.getUser().isSystemAdmin();
 	}
 	
 	public boolean isGlobalViewOnly(){
-		return TKContext.getUser().getCurrentPersonRoles().isGlobalViewOnly();
+		return TKContext.getUser().isGlobalViewOnly();
 	}
 
 	@Override

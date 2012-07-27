@@ -14,6 +14,7 @@ import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.paytype.PayType;
+import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -26,6 +27,7 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.doctype.SecuritySession;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TkPermissionsServiceImpl implements TkPermissionsService {
     private static final Logger LOG = Logger
@@ -43,10 +45,9 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
                     .equals(TkConstants.ROUTE_STATUS.FINAL);
             if (!docFinal) {
                 if (StringUtils
-                        .equals(TKContext.getCurrentTimesheetDoucment()
-                                .getPrincipalId(), TKContext.getUser()
-                                .getPrincipalId())
-                        || TKContext.getUser().isSystemAdmin()
+                        .equals(TKContext.getCurrentTimesheetDoucment().getPrincipalId(), 
+                        		GlobalVariables.getUserSession().getPrincipalId())
+                        || TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isSystemAdmin()
                         || TKContext.getUser().isLocationAdmin()
 //                        || TKContext.getUser().isDepartmentAdmin()
                         || TKContext.getUser().isReviewer()
@@ -60,13 +61,11 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
 
     @Override
     public boolean canEditTimeBlockAllFields(TimeBlock tb) {
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
 
-        UserRoles ur = TKContext.getUser().getCurrentPersonRoles();
-        String userId = TKContext.getUser().getPrincipalId();
+        if (userId != null) {
 
-        if (userId != null && ur != null) {
-
-            if (ur.isSystemAdmin()) {
+            if (TKContext.getUser().isSystemAdmin()) {
                 return true;
             }
 
@@ -76,10 +75,10 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
             PayType payType = TkServiceLocator.getPayTypeService().getPayType(
                     job.getHrPayType(), tb.getEndDate());
 
-            if (ur.isTimesheetApprover()
-                    && ur.getApproverWorkAreas().contains(tb.getWorkArea())
-                    || ur.isTimesheetReviewer()
-                    && ur.getReviewerWorkAreas().contains(tb.getWorkArea())) {
+            if (TKContext.getUser().isTimesheetApprover()
+                    && TKContext.getUser().getApproverWorkAreas().contains(tb.getWorkArea())
+                    || TKContext.getUser().isTimesheetReviewer()
+                    && TKContext.getUser().getReviewerWorkAreas().contains(tb.getWorkArea())) {
 
                 if (StringUtils.equals(payType.getRegEarnCode(),
                         tb.getEarnCode())) {
@@ -126,13 +125,11 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
 
     @Override
     public boolean canEditTimeBlock(TimeBlock tb) {
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
 
-        UserRoles ur = TKContext.getUser().getCurrentPersonRoles();
-        String userId = TKContext.getUser().getPrincipalId();
+        if (userId != null) {
 
-        if (userId != null && ur != null) {
-
-            if (ur.isSystemAdmin()) {
+            if (TKContext.getUser().isSystemAdmin()) {
                 return true;
             }
 
@@ -142,10 +139,10 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
             PayType payType = TkServiceLocator.getPayTypeService().getPayType(
                     job.getHrPayType(), tb.getEndDate());
 
-            if (ur.isTimesheetApprover()
-                    && ur.getApproverWorkAreas().contains(tb.getWorkArea())
-                    || ur.isTimesheetReviewer()
-                    && ur.getReviewerWorkAreas().contains(tb.getWorkArea())) {
+            if (TKContext.getUser().isTimesheetApprover()
+                    && TKContext.getUser().getApproverWorkAreas().contains(tb.getWorkArea())
+                    || TKContext.getUser().isTimesheetReviewer()
+                    && TKContext.getUser().getReviewerWorkAreas().contains(tb.getWorkArea())) {
 
                 if (StringUtils.equals(payType.getRegEarnCode(),
                         tb.getEarnCode())) {
@@ -192,12 +189,11 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
 
     @Override
     public boolean canDeleteTimeBlock(TimeBlock tb) {
-        UserRoles ur = TKContext.getUser().getCurrentPersonRoles();
-        String userId = TKContext.getUser().getPrincipalId();
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
 
-        if (userId != null && ur != null) {
+        if (userId != null) {
 
-            if (ur.isSystemAdmin()) {
+            if (TKContext.getUser().isSystemAdmin()) {
                 return true;
             }
 
@@ -207,10 +203,10 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
             PayType payType = TkServiceLocator.getPayTypeService().getPayType(
                     job.getHrPayType(), tb.getEndDate());
 
-            if (ur.isTimesheetApprover()
-                    && ur.getApproverWorkAreas().contains(tb.getWorkArea())
-                    || ur.isTimesheetReviewer()
-                    && ur.getReviewerWorkAreas().contains(tb.getWorkArea())) {
+            if (TKContext.getUser().isTimesheetApprover()
+                    && TKContext.getUser().getApproverWorkAreas().contains(tb.getWorkArea())
+                    || TKContext.getUser().isTimesheetReviewer()
+                    && TKContext.getUser().getReviewerWorkAreas().contains(tb.getWorkArea())) {
 
                 if (StringUtils.equals(payType.getRegEarnCode(),
                         tb.getEarnCode())) {
@@ -266,9 +262,9 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
 
     @Override
     public boolean canEditLeaveBlock(LeaveBlock lb) {
-        UserRoles ur = TKContext.getUser().getCurrentPersonRoles();
-        String userId = TKContext.getUser().getPrincipalId();
-        if (userId != null && ur != null) {
+        String userId = GlobalVariables.getUserSession().getPrincipalId();
+        
+        if (userId != null) {
             String blockType = lb.getLeaveBlockType();
             if (StringUtils.isBlank(blockType)
                     || StringUtils.equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, blockType)) {
@@ -276,7 +272,7 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
             } else if (LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER.equals(blockType)
                     || LMConstants.LEAVE_BLOCK_TYPE.DONATION_MAINT.equals(blockType)
                     || LMConstants.LEAVE_BLOCK_TYPE.LEAVE_ADJUSTMENT_MAINT.equals(blockType)) {
-                if (ur.isSystemAdmin()) {
+                if (TKContext.getUser().isSystemAdmin()) {
                     return true;
                 }
             }
@@ -495,7 +491,7 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
 
     @Override
     public boolean canViewLinkOnMaintPages() {
-        return TKContext.getUser().getCurrentPersonRoles().isSystemAdmin()
+        return TKContext.getUser().isSystemAdmin()
                 || TKContext.getUser().isGlobalViewOnly();
     }
 
@@ -513,8 +509,7 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
     @Override
     public boolean canViewDeptMaintPages(DepartmentalRule dr) {
         boolean ret = false;
-        UserRoles ur = TKContext.getUser().getCurrentPersonRoles();
-        if (ur.isSystemAdmin() || ur.isGlobalViewOnly())
+        if (TKContext.getUser().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly())
             return true;
 
         if (dr != null) {
@@ -532,9 +527,9 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
                     .equals(dr.getDept(), TkConstants.WILDCARD_CHARACTER)
                     && dr.getWorkArea().equals(TkConstants.WILDCARD_LONG)) {
                 // case 1
-                ret = ur.getApproverWorkAreas().size() > 0
-                        || ur.getOrgAdminCharts().size() > 0
-                        || ur.getOrgAdminDepartments().size() > 0;
+                ret = TKContext.getUser().isApprover()
+                        || TKContext.getUser().getLocationAdminAreas().size() > 0
+                        || TKContext.getUser().getDepartmentAdminAreas().size() > 0;
             } else if (StringUtils.equals(dr.getDept(),
                     TkConstants.WILDCARD_CHARACTER)) {
                 // case 2 *
@@ -542,10 +537,10 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
                 LOG.error("Invalid case encountered while scanning business objects: Wildcard Department & Defined workArea.");
             } else if (dr.getWorkArea().equals(TkConstants.WILDCARD_LONG)) {
                 // case 3
-                ret = ur.getOrgAdminDepartments().contains(dr.getDept());
+                ret = TKContext.getUser().getDepartmentAdminAreas().contains(dr.getDept());
             } else {
-                ret = ur.getApproverWorkAreas().contains(dr.getWorkArea())
-                        || ur.getOrgAdminDepartments().contains(dr.getDept());
+                ret = TKContext.getUser().getApproverWorkAreas().contains(dr.getWorkArea())
+                        || TKContext.getUser().getDepartmentAdminAreas().contains(dr.getDept());
             }
         }
 
@@ -562,18 +557,17 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
     @Override
     public boolean canEditDeptMaintPages(DepartmentalRule dr) {
         boolean ret = false;
-        UserRoles ur = TKContext.getUser().getCurrentPersonRoles();
-        if (ur.isSystemAdmin())
+        if (TKContext.getUser().isSystemAdmin())
             return true;
 
-        if (dr != null && ur.getOrgAdminDepartments().size() > 0) {
+        if (dr != null && TKContext.getUser().getDepartmentAdminAreas().size() > 0) {
             String dept = dr.getDept();
             if (StringUtils.equals(dept, TkConstants.WILDCARD_CHARACTER)) {
                 // Must be system administrator
                 ret = false;
             } else {
                 // Must have parent Department
-                ret = ur.getOrgAdminDepartments().contains(dr.getDept());
+                ret = TKContext.getUser().getDepartmentAdminAreas().contains(dr.getDept());
             }
         }
 
@@ -583,25 +577,22 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
     @Override
     public boolean canWildcardWorkAreaInDeptRule(DepartmentalRule dr) {
         // Sysadmins and (Departmental OrgAdmins for their Department)
-        UserRoles ur = TKContext.getUser().getCurrentPersonRoles();
-        if (ur.isSystemAdmin())
+        if (TKContext.getUser().isSystemAdmin())
             return true;
 
         String dept = dr.getDept();
         if (StringUtils.equals(dept, TkConstants.WILDCARD_CHARACTER)) {
             // Only system administrators can wildcard the work area if the
             // department also has a wildcard.
-            return ur.isSystemAdmin();
+            return TKContext.getUser().isSystemAdmin();
         } else {
-            return ur.getOrgAdminDepartments().contains(dept);
+            return TKContext.getUser().getDepartmentAdminAreas().contains(dept);
         }
     }
 
     @Override
     public boolean canWildcardDeptInDeptRule(DepartmentalRule dr) {
-        // Sysadmins only.
-        UserRoles ur = TKContext.getUser().getCurrentPersonRoles();
-        return ur.isSystemAdmin();
+        return TKContext.getUser().isSystemAdmin();
     }
 
     @Override
@@ -611,9 +602,9 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
             return true;
         } else if (StringUtils.equals(workArea.getOvertimeEditRole(), TkConstants.ROLE_TK_APPROVER) ||
                 StringUtils.equals(workArea.getOvertimeEditRole(), TkConstants.ROLE_TK_APPROVER_DELEGATE)) {
-            return TKContext.getUser().getCurrentPersonRoles().getApproverWorkAreas().contains(workArea.getWorkArea());
+            return TKContext.getUser().getApproverWorkAreas().contains(workArea.getWorkArea());
         } else {
-            return TKContext.getUser().getCurrentPersonRoles().getOrgAdminDepartments().contains(workArea.getDepartment());
+            return TKContext.getUser().getDepartmentAdminAreas().contains(workArea.getDepartment());
         }
     }
     
@@ -644,7 +635,7 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
 
     @Override
     public boolean canDeleteDeptLunchDeduction() {
-        return TKContext.getUser().getCurrentPersonRoles().isAnyApproverActive();
+        return TKContext.getUser().isAnyApproverActive();
     }
 
     @Override
@@ -672,9 +663,8 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
     }
 
     public boolean hasManagerialRolesOnWorkArea(TimeBlock tb) {
-        UserRoles ur = TKContext.getUser().getCurrentPersonRoles();
-        return ur.getApproverWorkAreas().contains(tb.getWorkArea())
-               || ur.getReviewerWorkAreas().contains(tb.getWorkArea());
+        return TKContext.getUser().getApproverWorkAreas().contains(tb.getWorkArea())
+               || TKContext.getUser().getReviewerWorkAreas().contains(tb.getWorkArea());
     }
 
 }

@@ -15,7 +15,7 @@
 			<description>Missed Punch Document</description>
 			<label>Missed Punch Document</label>
 			<postProcessorName>org.kuali.hr.time.workflow.postprocessor.TkMissedPunchPostProcessor</postProcessorName>
-			<docHandler>${TK.DocHandlerPrefix}missedPunch.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/missedPunch.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<routingVersion>1</routingVersion>
 			<routePaths>

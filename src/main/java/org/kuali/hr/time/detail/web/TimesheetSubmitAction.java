@@ -10,12 +10,14 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.kuali.hr.time.base.web.TkAction;
+import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TimesheetSubmitAction extends TkAction {
 
@@ -24,7 +26,7 @@ public class TimesheetSubmitAction extends TkAction {
         TimesheetSubmitActionForm tsaf = (TimesheetSubmitActionForm)form;
 
         String principal = TKContext.getPrincipalId();
-        UserRoles roles = TKContext.getUser().getCurrentPersonRoles();
+        UserRoles roles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
 
         TimesheetDocument document = TkServiceLocator.getTimesheetService().getTimesheetDocument(tsaf.getDocumentId());
         if (!roles.isDocumentWritable(document)) {

@@ -15,11 +15,13 @@ import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.lm.leavecode.dao.LeaveCodeDao;
 import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
+import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import com.google.common.collect.Ordering;
 
@@ -60,7 +62,7 @@ public class LeaveCodeServiceImpl implements LeaveCodeService {
             for (LeaveCode leaveCode : unfilteredLeaveCodes) {
                 //if employee add this leave code
                 //TODO how do we know this is an approver for them
-                if ((leaveCode.getEmployee() && user.getCurrentPersonRoles().isActiveEmployee()) ||
+                if ((leaveCode.getEmployee() && TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isActiveEmployee()) ||
                         (leaveCode.getApprover() && user.isApprover())) {
                     leaveCodes.add(leaveCode);
                 }

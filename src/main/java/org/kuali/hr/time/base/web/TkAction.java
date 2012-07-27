@@ -43,33 +43,6 @@ public class TkAction extends KualiAction {
         return super.execute(mapping, form, request, response);
     }
 
-    /**
-	 * Action to clear the current users back door setting.  Clears both
-	 * workflow and TK backdoor settings.
-	 */
-	public ActionForward clearBackdoor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		UserSession userSession = GlobalVariables.getUserSession();
-
-		// There are two different UserSession objects in rice.
-		// We will clear them both.
-		if (userSession != null) {
-			GlobalVariables.getUserSession().clearBackdoorUser();
-		}
-
-		return mapping.findForward("basic");
-	}
-
-	public ActionForward clearChangeUser(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        UserSession userSession = GlobalVariables.getUserSession();
-
-        String returnAction = (String)userSession.getObjectMap().get(TkConstants.TK_TARGET_USER_RETURN);
-        if (returnAction == null) returnAction = "/PersonInfo.do";
-
-        TKContext.getUser().clearTargetUser();
-
-        return new ActionRedirect(returnAction);
-	}
-
 	public ActionForward userLogout(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TKContext.clear();
 		request.getSession().invalidate();

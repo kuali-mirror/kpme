@@ -86,7 +86,7 @@ public class TimeDetailWSAction extends TimesheetAction {
                     for (EarnCode earnCode : earnCodes) {
                         // TODO: minimize / compress the crazy if logics below
                         if (earnCode.getEarnCode().equals(TkConstants.HOLIDAY_EARN_CODE)
-                                && !(TKContext.getUser().getCurrentPersonRoles().isSystemAdmin() || TKContext.getUser().getCurrentPersonRoles().isTimesheetApprover())) {
+                                && !(TKContext.getUser().isSystemAdmin() || TKContext.getUser().isTimesheetApprover())) {
                             continue;
                         }
                         if (!(assignment.getTimeCollectionRule().isClockUserFl() &&
@@ -113,7 +113,7 @@ public class TimeDetailWSAction extends TimesheetAction {
         Boolean shouldAddEarnCode;
 
         shouldAddEarnCode = earnCode.getEarnCode().equals(TkConstants.HOLIDAY_EARN_CODE)
-                && !(TKContext.getUser().getCurrentPersonRoles().isSystemAdmin() || TKContext.getUser().getCurrentPersonRoles().isTimesheetApprover());
+                && !(TKContext.getUser().isSystemAdmin() || TKContext.getUser().isTimesheetApprover());
 
         shouldAddEarnCode |= !(assignment.getTimeCollectionRule().isClockUserFl() &&
                 StringUtils.equals(assignment.getJob().getPayTypeObj().getRegEarnCode(), earnCode.getEarnCode()) &&

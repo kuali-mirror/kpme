@@ -20,6 +20,7 @@ import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class WorkAreaMaintenanceDocumentRule extends
 		MaintenanceDocumentRuleBase {
@@ -126,7 +127,7 @@ public class WorkAreaMaintenanceDocumentRule extends
 			WorkArea wa = (WorkArea) pbo;
 			valid = validateDepartment(wa.getDept(), wa.getEffectiveDate());
 			if(!DepartmentalRuleAuthorizer.hasAccessToWrite((DepartmentalRule)pbo)) {
-				String[] params = new String[]{TKContext.getUser().getPrincipalName(), wa.getDept()};
+				String[] params = new String[]{GlobalVariables.getUserSession().getPrincipalName(), wa.getDept()};
 				this.putFieldError("dept", "dept.user.unauthorized", params);
 			}
 			valid &= validateRoles(wa.getRoles(), wa.getEffectiveDate());
