@@ -131,6 +131,7 @@ public class LeaveCalendarAction extends TkAction {
         LeaveBlockAggregate aggregate = new LeaveBlockAggregate(leaveBlocks, calendarEntry, calendar);
         lcf.setLeaveBlockString(LeaveActionFormUtils.getLeaveBlocksJson(aggregate.getFlattenedLeaveBlockList()));
 		
+//        System.out.println("Leave block string : "+lcf.getLeaveBlockString());
 		return forward;
 	}
 	
@@ -347,6 +348,15 @@ public class LeaveCalendarAction extends TkAction {
 		if(leaveForm.getViewLeaveTabsWithNEStatus()) {
 			if(!isFutureDate) {
 				leaveForm.setDocEditable(true);
+			} else {
+				// retrieve current pay calendar date
+				Date currentDate = TKUtils.getTimelessDate(null);
+				CalendarEntries calendarEntry = TkServiceLocator.getCalendarService()
+						.getCurrentCalendarDates(viewPrincipal, currentDate);
+				if(calendarEntry != null) {
+					leaveForm.setCurrentPayCalStart(calendarEntry.getBeginLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback()));
+					leaveForm.setCurrentPayCalEnd(calendarEntry.getEndLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback()));
+				}
 			}
 		} else {
 			leaveForm.setDocEditable(true);

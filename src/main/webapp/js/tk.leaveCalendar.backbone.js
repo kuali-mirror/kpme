@@ -117,7 +117,7 @@ $(function () {
 
         showLeaveBlockEntryDialog : function (startDate, endDate) {
             // check user permmissions before opening the dialog.
-            var isValid = this.checkPermissions();
+            var isValid = this.checkPermissions(startDate, endDate);
             var self = this;
             if (isValid) {
               $("#dialog-form").dialog({
@@ -232,12 +232,12 @@ $(function () {
         deleteLeaveBlock : function (e) {
             var key = _(e).parseEventKey();
 //            var timeBlock = timeBlockCollection.get(key.id);
-
-            if (this.checkPermissions()) {
+            
+//            if (this.checkPermissions()) {
             	if (confirm('You are about to delete a leave block. Click OK to confirm the delete.')) {
             		window.location = "LeaveCalendar.do?methodToCall=deleteLeaveBlock&leaveBlockId=" + key.id;
             	}
-            }
+//            }
         },
         
         /**
@@ -503,17 +503,38 @@ $(function () {
             }
         },
         
-        checkPermissions : function() {
-			var isValid = true;
-
+        checkPermissions : function(startDate, endDate) {
+			var isValid = false;
+			var curStartDate = $("#currentPayCalStartDate").val();
+			var curEndDate = $("#currentPayCalEndDate").val();
+			var currentDay = new Date(beginPeriodDateTimeObj);
+			var targetDay;
+			if(!_.isUndefined(startDate) && !_.isUndefined(endDate)) {
+    			targetDay = new Date(startDate);
+            } else {
+            	targetDay = currentDay.addDays(parseInt((startDate.target.id).split("_")[1]));
+            }
+			
+			var clickDate = new Date(targetDay).getTime();
 			// Can't add a new timeblock is the doc is not editable.
 			if ($('#docEditable').val() == "false") {
-				isValid = false;
+				if(!_.isUndefined(curStartDate) && !_.isUndefined(curEndDate)){
+					   var sd = new Date(curStartDate).getTime();
+					   var ed = new Date(curEndDate).getTime();
+						if(!_.isUndefined(clickDate) && (clickDate >= sd) && (clickDate <= ed)) {
+							isValid = true;
+						} else {
+							isValid = false;
+						}
+				} 
+			} else {
+				isValid = true;
 			}
-
+			if(!isValid) {
+			 $('.cal-table td').removeClass('ui-selected');
+			}
 			return isValid;
 		}
-
 
     });
 
@@ -611,7 +632,6 @@ $(function () {
 
             startDay = Date.parse(startDay).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT);
             endDay = Date.parse(endDay).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT);
-
             app.showLeaveBlockEntryDialog(startDay, endDay);
 
             // https://uisapp2.iu.edu/jira-prd/browse/TK-1593
@@ -623,8 +643,6 @@ $(function () {
         }
     });
 
-	if ($('#docEditable').val() == 'false') {
-		$(".cal-table").selectable("destroy");
-	}
+	
 	
 });
