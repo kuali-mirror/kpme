@@ -22,6 +22,7 @@ import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TkRoleGroupMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
@@ -55,7 +56,7 @@ public class TkRoleGroupMaintainableImpl extends HrBusinessObjectMaintainableImp
                     }
                 }
                 role.setPrincipalId(trg.getPrincipalId());
-                role.setUserPrincipalId(TKContext.getUser().getPrincipalId());
+                role.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
                 
                 HrBusinessObject oldHrObj = this.getObjectById(role.getId());
                 

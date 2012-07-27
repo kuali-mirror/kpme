@@ -117,9 +117,9 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
 
 
     public void deleteTimesheet(String tdocId) throws Exception {
-        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ADMIN_URL);
+        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.PORTAL_URL);
         Assert.assertNotNull(page);
-        page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ADMIN_URL + "?methodToCall=deleteTimesheet&deleteDocumentId="+tdocId);
+        page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.DELETE_TIMESHEET_URL + "?deleteDocumentId="+tdocId);
         HtmlUnitUtil.createTempFile(page, "Deleted");
     }
 

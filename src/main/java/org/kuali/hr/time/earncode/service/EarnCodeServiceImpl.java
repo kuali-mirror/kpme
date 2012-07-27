@@ -10,12 +10,14 @@ import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncode.dao.EarnCodeDao;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
+import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import com.google.common.collect.Ordering;
 
@@ -41,16 +43,6 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 	public List<EarnCode> getEarnCodes(Assignment a, Date asOfDate) {
 		List<EarnCode> earnCodes = new LinkedList<EarnCode>();
 
-        // Note: https://jira.kuali.org/browse/KPME-689
-        // We are grabbing a TkUser from the current thread local context here.
-        //
-
-        TKUser user = TKContext.getUser();
-        if (user == null) {
-            // TODO: Determine how to fail if there is no TkUser
-            throw new RuntimeException("No User on context.");
-        }
-
 		if (a == null)
 			throw new RuntimeException("Can not get earn codes for null assignment");
 		Job job = a.getJob();
@@ -67,13 +59,13 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 
             // Check employee flag
             if (dec.isEmployee() && 
-               	(StringUtils.equals(user.getCurrentTargetPerson().getEmployeeId(), user.getCurrentPerson().getEmployeeId()))) {
+               	(StringUtils.equals(TKUser.getCurrentTargetPerson().getEmployeeId(), GlobalVariables.getUserSession().getPerson().getEmployeeId()))) {
                 addEc = true;
             }
 
             // Check approver flag
             if (!addEc && dec.isApprover()) {
-                Set<Long> workAreas = user.getCurrentRoles().getApproverWorkAreas();
+                Set<Long> workAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
                 for (Long wa : workAreas) {
                     WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(wa, asOfDate);
                     if (workArea!= null && a.getWorkArea().compareTo(workArea.getWorkArea())==0) {
@@ -180,7 +172,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 //                        (earnCode.getApprover() && user.isApprover())) {
 
                 boolean addEarnCode = false;
-                if ((user.getCurrentRoles().isActiveEmployee()) || (user.isApprover())) {
+                if ((TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isActiveEmployee()) || (user.isApprover())) {
                     if ((earnCode.getFmla().equals("Y") && fmla)
                           || !earnCode.getFmla().equals("Y"))  {
                         if ((earnCode.getWorkmansComp().equals("Y") && workmansComp)

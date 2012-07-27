@@ -25,7 +25,7 @@
 				</attribute>
 			</attributes>
 			<postProcessorName>org.kuali.hr.time.workflow.postprocessor.TkPostProcessor</postProcessorName>
-			<docHandler>${TK.DocHandlerPrefix}Admin.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/Timesheet.do?methodToCall=docHandler</docHandler>
 			<active>true</active>
 			<routingVersion>1</routingVersion>
 			<routePaths>

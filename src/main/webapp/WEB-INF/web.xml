@@ -102,7 +102,7 @@
 		<filter-name>UserPreferencesFilter</filter-name>
 		<servlet-name>krad</servlet-name>
 	</filter-mapping>
-
+	
 	<listener>
 		<listener-class>org.kuali.hr.time.ApplicationInitializeListener</listener-class>
 	</listener>

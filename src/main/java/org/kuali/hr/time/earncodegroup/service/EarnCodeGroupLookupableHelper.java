@@ -27,7 +27,7 @@ public class EarnCodeGroupLookupableHelper extends HrEffectiveDateActiveLookupab
 				overrideUrls.add(actionUrl);
 			}
 		}
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
+		if (TKContext.getUser().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			EarnCodeGroup earnGroupObj = (EarnCodeGroup) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String earnGroup = earnGroupObj.getEarnCodeGroup();

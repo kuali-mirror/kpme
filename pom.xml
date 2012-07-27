@@ -36,6 +36,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <build.environment>dev</build.environment>
+        <default.context.path>/kpme-${build.environment}</default.context.path>
 
         <apache.cxf.version>2.3.8</apache.cxf.version>
         <displaytag.version>1.1.1</displaytag.version>
@@ -53,11 +55,6 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>1.7.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>10.0.1</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
@@ -407,7 +404,20 @@
 	                            </artifactItem>
 	                        </artifactItems>
 	                        <includes>*/**</includes>
-	                        <excludes>index.jsp,META-INF/,WEB-INF/classes/,WEB-INF/lib/,WEB-INF/struts-config.xml,WEB-INF/web.xml</excludes>
+                            <excludes>
+                                index.jsp,
+
+                                META-INF/,
+	                           
+                                WEB-INF/struts-config.xml,
+                                WEB-INF/web.xml,
+                                WEB-INF/classes/,
+                                WEB-INF/lib/,
+                                WEB-INF/tags/rice-portal/mainTab.tag,
+                                WEB-INF/tags/rice-portal/maintenanceTab.tag,
+                                WEB-INF/tags/rice-portal/portalBody.tag,
+                                WEB-INF/tags/rice-portal/portalTabs.tag,
+                            </excludes>
 	                    </configuration>
 	                </execution>
 	            </executions>
@@ -454,7 +464,17 @@
 	                                    <include>WEB-INF/tags/kim/</include>
 	                                    <include>WEB-INF/tags/kr/</include>
 	                                    <include>WEB-INF/tags/krad/</include>
-	                                    <include>WEB-INF/tags/rice-portal/</include>
+	                                    <include>WEB-INF/tags/rice-portal/administrationTab.tag</include>
+	                                    <include>WEB-INF/tags/rice-portal/iframePortletContainer.tag</include>
+	                                    <include>WEB-INF/tags/rice-portal/immutableBar.tag</include>
+	                                    <include>WEB-INF/tags/rice-portal/portalBottom.tag</include>
+	                                    <include>WEB-INF/tags/rice-portal/portalLink.tag</include>
+	                                    <include>WEB-INF/tags/rice-portal/portalTop.tag</include>
+	                                    <include>WEB-INF/tags/rice-portal/channel/portalChannelBottom.tag</include>
+	                                    <include>WEB-INF/tags/rice-portal/channel/portalChannelTop.tag</include>
+	                                    <include>WEB-INF/tags/rice-portal/channel/administration</include>
+	                                    <include>WEB-INF/tags/rice-portal/channel/krad</include>
+	                                    <include>WEB-INF/tags/rice-portal/channel/main</include>
 	                                    <include>WEB-INF/tld/</include>
 	                                </includes>
 	                                <excludes>
@@ -467,6 +487,16 @@
 	                </execution>
 	            </executions>
 	        </plugin>
+	        <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>${jetty.version}</version>
+                <configuration>
+                    <webAppConfig>
+                        <contextPath>${default.context.path}</contextPath>
+                    </webAppConfig>
+                </configuration>                        
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>

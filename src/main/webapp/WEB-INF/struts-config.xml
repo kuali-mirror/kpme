@@ -9,21 +9,24 @@
         <form-bean name="KualiLogoutForm" type="org.kuali.rice.kns.web.struts.form.KualiLogoutForm" />
         <!-- Rice content End -->
         
+        <form-bean name="ChangeTargetPersonForm" type="org.kuali.hr.time.admin.web.ChangeTargetPersonForm"/>
+        <form-bean name="DeleteTimesheetForm" type="org.kuali.hr.time.admin.web.DeleteTimesheetForm"/>
+        <form-bean name="CalculateLeaveAccrualsForm" type="org.kuali.hr.time.admin.web.CalculateLeaveAccrualsForm"/>
+        <form-bean name="BatchJobActionForm" type="org.kuali.hr.time.batch.web.BatchJobActionForm"/>
+        <form-bean name="CalendarEntryActionForm" type="org.kuali.hr.time.calendar.web.CalendarEntryActionForm"/>
         <form-bean name="ClockActionForm" type="org.kuali.hr.time.clock.web.ClockActionForm"/>
         <form-bean name="TimeDetailActionForm" type="org.kuali.hr.time.detail.web.TimeDetailActionForm"/>
         <form-bean name="TimeDetailWSActionForm" type="org.kuali.hr.time.detail.web.TimeDetailWSActionForm"/>
         <form-bean name="TimeApprovalActionForm" type="org.kuali.hr.time.approval.web.TimeApprovalActionForm"/>
         <form-bean name="TimeApprovalWSActionForm" type="org.kuali.hr.time.approval.web.TimeApprovalWSActionForm"/>
-        <form-bean name="AdminActionForm" type="org.kuali.hr.time.admin.web.AdminActionForm"/>
         <form-bean name="PersonInfoActionForm" type="org.kuali.hr.time.base.web.PersonInfoActionForm"/>
         <form-bean name="CacheAdministrationActionForm" type="org.kuali.hr.time.cache.web.CacheAdministrationActionForm"/>
         <form-bean name="TimeOffAccrualActionForm" type="org.kuali.hr.time.accrual.web.TimeOffAccrualActionForm"/>
-        <form-bean name="BatchJobActionForm" type="org.kuali.hr.time.batch.web.BatchJobActionForm"/>
+        <form-bean name="TimesheetActionForm" type="org.kuali.hr.time.timesheet.web.TimesheetActionForm"/>
         <form-bean name="TimesheetSubmitActionForm" type="org.kuali.hr.time.detail.web.TimesheetSubmitActionForm"/>
         <form-bean name="MissedPunchForm" type="org.kuali.hr.time.missedpunch.MissedPunchForm"/>
         <form-bean name="HelpActionForm" type="org.kuali.hr.time.help.web.HelpActionForm"/>
         <form-bean name="SessionInvalidateForm" type="org.kuali.hr.time.web.SessionInvalidateForm"/>
- 		<form-bean name="CalendarEntryActionForm" type="org.kuali.hr.time.calendar.web.CalendarEntryActionForm"/>
 		<form-bean name="LeaveCalendarForm" type="org.kuali.hr.lm.leavecalendar.web.LeaveCalendarForm"/>
 		<form-bean name="LeaveBlockDisplayForm" type="org.kuali.hr.lm.leave.web.LeaveBlockDisplayForm"/>
 		<form-bean name="LeaveRequestForm" type="org.kuali.hr.lm.leave.web.LeaveRequestForm"/>
@@ -76,6 +79,26 @@
         </action>
         <!-- Rice content End -->
         
+        <action path="/changeTargetPerson" name="ChangeTargetPersonForm" type="org.kuali.hr.time.admin.web.ChangeTargetPersonAction">
+            <forward name="basic" path="/portal.jsp"/>
+        </action>
+        
+        <action path="/deleteTimesheet" name="DeleteTimesheetForm" type="org.kuali.hr.time.admin.web.DeleteTimesheetAction">
+            <forward name="basic" path="/portal.jsp"/>
+        </action>
+        
+        <action path="/calculateLeaveAccruals" name="CalculateLeaveAccrualsForm" type="org.kuali.hr.time.admin.web.CalculateLeaveAccrualsAction">
+            <forward name="basic" path="/portal.jsp"/>
+        </action>
+        
+        <action path="/batchJob" name="BatchJobActionForm" type="org.kuali.hr.time.batch.web.BatchJobAction">
+            <forward name="basic" path="/portal.jsp"/>
+        </action>
+        
+        <action path="/calendarEntry" name="CalendarEntryActionForm" type="org.kuali.hr.time.calendar.web.CalendarEntryAction">
+            <forward name="basic" path="/portal.jsp"/>
+        </action>
+        
         <action path="/Clock" name="ClockActionForm" scope="request" input="/WEB-INF/jsp/clock.jsp"
                 type="org.kuali.hr.time.clock.web.ClockAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/clock.jsp"/>
@@ -85,6 +108,12 @@
             <forward name="closeMissedPunchDoc" path="/WEB-INF/jsp/closeMissedPunchDoc.jsp"/>
         </action>
 
+        <action path="/Timesheet" name="TimesheetActionForm" scope="request"
+                input="/WEB-INF/jsp/timeDetail.jsp"
+                type="org.kuali.hr.time.timesheet.web.TimesheetAction" parameter="methodToCall" validate="false">
+            <forward name="basic" path="/WEB-INF/jsp/timeDetail.jsp"/>
+        </action>
+        
         <action path="/TimesheetSubmit" name="TimesheetSubmitActionForm" scope="request"
                 input="/WEB-INF/jsp/timeDetail.jsp"
                 type="org.kuali.hr.time.detail.web.TimesheetSubmitAction" parameter="methodToCall" validate="false">
@@ -116,11 +145,6 @@
             <forward name="basic" path="/WEB-INF/jsp/webService.jsp"/>
             <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
         </action>
-
-        <action path="/Admin" name="AdminActionForm" scope="request" input="/WEB-INF/jsp/admin.jsp"
-                type="org.kuali.hr.time.admin.web.AdminAction" parameter="methodToCall" validate="false">
-            <forward name="basic" path="/WEB-INF/jsp/admin.jsp"/>
-        </action>
         
         <action path="/Time" name="TkForm" scope="request" input="/WEB-INF/jsp/dummy_login.jsp"
                 type="org.kuali.hr.time.web.TimeAction" parameter="methodToCall" validate="false">
@@ -142,18 +166,6 @@
                 input="/WEB-INF/jsp/timeOffAccrual.jsp" type="org.kuali.hr.time.accrual.web.TimeOffAccrualAction"
                 parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/timeOffAccrual.jsp"/>
-        </action>
-
-        <action path="/BatchJob" name="BatchJobActionForm" scope="request"
-                input="/WEB-INF/jsp/batchJob.jsp" type="org.kuali.hr.time.batch.web.BatchJobAction"
-                parameter="methodToCall" validate="false">
-            <forward name="basic" path="/WEB-INF/jsp/batchJob.jsp"/>
-        </action>
-
-        <action path="/CalendarEntry" name="CalendarEntryActionForm" scope="request"
-                input="/WEB-INF/jsp/calendarEntry.jsp" type="org.kuali.hr.time.calendar.web.CalendarEntryAction"
-                parameter="methodToCall" validate="false">
-            <forward name="basic" path="/WEB-INF/jsp/calendarEntry.jsp"/>
         </action>
 
         <action path="/missedPunch" name="MissedPunchForm" input="/WEB-INF/jsp/missedPunch.jsp"

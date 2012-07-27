@@ -1,5 +1,11 @@
 package org.kuali.hr.time.roles.service;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
@@ -10,12 +16,6 @@ import org.kuali.hr.time.roles.dao.TkRoleDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TkConstants;
-
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class TkRoleServiceImpl implements TkRoleService {
 
@@ -121,7 +121,7 @@ public class TkRoleServiceImpl implements TkRoleService {
 		List<TKUser> lstEmployees = new ArrayList<TKUser>();
 		List<Assignment> lstActiveAssignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, asOfDate);
 		for(Assignment assign: lstActiveAssignments){
-			TKUser tkUser = TkServiceLocator.getUserService().buildTkUser(assign.getPrincipalId(), assign.getEffectiveDate());
+			TKUser tkUser = TKUser.getUser(assign.getPrincipal(), assign.getEffectiveDate());
 			lstEmployees.add(tkUser);
 		}
 		return lstEmployees;

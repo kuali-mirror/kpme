@@ -16,19 +16,20 @@
 </head>
 <body>
 
-<c:choose>
-    <c:when test="${form.user.backdoorPerson ne null}">
-        <c:set var="person" value="${form.user.backdoorPerson}"/>
-        <c:set var="prefix" value="Backdoor"/>
-        <c:set var="highlight" value="highlight"/>
-        <c:set var="backdoor" value="backdoor"/>
-    </c:when>
-    <c:otherwise>
-        <c:set var="person" value="${form.user.actualPerson}"/>
-    </c:otherwise>
-</c:choose>
-<c:if test="${form.user.targetPerson ne null}">
+<c:if test="${!empty UserSession.loggedInUserPrincipalName}">
+    <c:set var="employeeName" value="${UserSession.person.name}" />
+    <c:set var="backdoorInUse" value="${UserSession.backdoorInUse == 'true'}" />
+    <c:set var="targetInUse" value='<%=org.kuali.hr.time.util.TKUser.isTargetInUse()%>' />
+</c:if>
+
+<c:if test="${backdoorInUse}">
+    <c:set var="prefix" value="Backdoor"/>
+    <c:set var="highlight" value="highlight"/>
+    <c:set var="backdoor" value="backdoor"/>
+</c:if>
+<c:if test="${targetInUse}">
 	<c:set var="targetuser" value="targetuser"/>
+	<c:set var="targetName" value='<%=org.kuali.hr.time.util.TKUser.getCurrentTargetPerson().getName()%>' />
 </c:if>
 
 <input type="hidden" id="tabId" value="${tabId}"/>
@@ -36,15 +37,14 @@
 <div id="tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
     <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all ${highlight} ${targetuser}">
 			<span class="title ${backdoor}">
-	            <img src="images/kuali_base.png" style="width:4em;"/>
-	            TIME 
+	            <img src="images/kpme_logo.png" style="width:4em;"/> 
 	        </span>
 	        <span class="yellowbanner">
-            	<c:if test="${form.user.targetPerson ne null}">
+            	<c:if test="${targetInUse}">
 	               You are working on 
-	                <a href="<%=request.getContextPath() %>/PersonInfo.do?methodToCall=showInfo" style="color: black;">${form.user.targetPerson.name}</a>'s calendar. 
+	                <a href="<%=request.getContextPath() %>/PersonInfo.do?methodToCall=showInfo" style="color: black;">${targetName}</a>'s calendar. 
 	                <input type="button" class="button" id="return-button" value="Return" name="return"
-	                 onclick="location.href='?methodToCall=clearChangeUser'" />
+	                       onclick="location.href='<%=request.getContextPath() %>/changeTargetPerson.do?methodToCall=clearTargetPerson'" />
            		 </c:if>
 	         </span>
 
@@ -52,27 +52,27 @@
             <table class="${backdoor}">
                 <tr>
                     <td align="right" colspan="2">
-                        <c:if test="${form.user.backdoorPerson ne null}">
+                        <c:if test="${backdoorInUse}">
                             <a href="?methodToCall=clearBackdoor" style="font-size: .8em;">Remove backdoor</a> |
                         </c:if>
                         <a href="<%=request.getContextPath() %>/logout.do" style="font-size: .8em;">Logout</a>
                     </td>
                     <td></td>
                 </tr>
-                <c:if test="${form.user.targetPerson ne null}">
+                <c:if test="${targetInUse}">
                     <tr>
                         <td align="right">${prefix} <bean:message key="person.info.targetEmployeeName"/>:</td>
-                        <td>${form.user.targetPerson.name}</td>
+                        <td>${targetName}</td>
                     </tr>
                 </c:if>
                 <tr>
                     <td align="right">${prefix} <bean:message key="person.info.employeeName"/>:</td>
-                    <td><a href="<%=request.getContextPath() %>/PersonInfo.do?methodToCall=showInfo">${person.name}</a>
+                    <td><a href="<%=request.getContextPath() %>/PersonInfo.do?methodToCall=showInfo">${employeeName}</a>
                     </td>
                 </tr>
                 <tr>
                     <td align="right">${prefix} <bean:message key="person.info.employeeId"/>:</td>
-                    <td>${person.name}</td>
+                    <td>${employeeName}</td>
                 </tr>
                 <c:if test="${form.documentIdFromContext ne null}">
                 	<tr>

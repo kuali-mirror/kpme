@@ -31,9 +31,6 @@ public class TimeBlockServiceTest extends TkTestCase {
 
 	@Test
 	public void testIsTimeBlockEditable() {
-		// login as admin
-		TKUser user = TkServiceLocator.getUserService().buildTkUser("admin", TKUtils.getCurrentDate());
-		TKContext.setUser(user);
 		// creator and user are the same person
 		TimeBlock tb = new TimeBlock();
 		tb.setClockLogCreated(false);

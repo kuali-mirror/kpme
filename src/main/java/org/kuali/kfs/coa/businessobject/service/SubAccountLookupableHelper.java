@@ -20,7 +20,7 @@ public class SubAccountLookupableHelper extends
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
+		if (TKContext.getUser().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			SubAccount subAccount = (SubAccount) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String accountNumber = subAccount.getAccountNumber();

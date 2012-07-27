@@ -20,7 +20,7 @@ public class LeaveAdjustmentLookupableHelper extends HrEffectiveDateActiveLookup
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
+		if (TKContext.getUser().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			LeaveAdjustment leaveAdjustmentObj = (LeaveAdjustment) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			

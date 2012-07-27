@@ -44,7 +44,7 @@ public class ClockLogLookupableHelper extends KualiLookupableHelperServiceImpl {
 				overrideUrls.add(actionUrl);
 			}
 		}
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
+		if (TKContext.getUser().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			clockLog = (ClockLog) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String tkClockLogId = clockLog.getTkClockLogId();

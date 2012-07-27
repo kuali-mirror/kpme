@@ -28,7 +28,7 @@ public class TimeOffAccrualLookupableHelper extends
 				overrideUrls.add(actionUrl);
 			}
 		}
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+		if (TKContext.getUser().isSystemAdmin()) {
 			TimeOffAccrual timeOffAccrual = (TimeOffAccrual) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String lmAccrualId = timeOffAccrual.getLmAccrualId();

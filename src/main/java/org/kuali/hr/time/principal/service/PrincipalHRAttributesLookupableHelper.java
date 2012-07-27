@@ -21,7 +21,7 @@ public class PrincipalHRAttributesLookupableHelper extends
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+		if (TKContext.getUser().isSystemAdmin()) {
 			PrincipalHRAttributes principalHRAttr = (PrincipalHRAttributes) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String hrPrincipalAttributeId = principalHRAttr.getHrPrincipalAttributeId();

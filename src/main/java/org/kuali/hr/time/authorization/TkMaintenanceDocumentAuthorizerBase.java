@@ -5,14 +5,18 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 /**
  * Base class for the implementation of Authorization in KPME Time and Attendance.
@@ -20,7 +24,7 @@ import org.kuali.rice.krad.maintenance.MaintenanceDocument;
  * Role Security Grid Documentation:
  * https://wiki.kuali.org/display/KPME/Role+Security+Grid
  */
-public abstract class TkMaintenanceDocumentAuthorizerBase implements MaintenanceDocumentAuthorizer {
+public abstract class TkMaintenanceDocumentAuthorizerBase implements MaintenanceDocumentAuthorizer, DocumentAuthorizer {
 
     // Methods from BusinessObjectAuthorizer
 
@@ -83,6 +87,91 @@ public abstract class TkMaintenanceDocumentAuthorizerBase implements Maintenance
     }
 
     // Methods from DocumentAuthorizer
+    
+
+    /**
+     * Copied from DocumentAuthorizerBase
+     */
+	@Override
+	public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_EDIT) && !canEdit(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_EDIT);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_COPY) && !canCopy(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_COPY);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_CLOSE) && !canClose(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_CLOSE);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_RELOAD) && !canReload(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_RELOAD);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_BLANKET_APPROVE) && !canBlanketApprove(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_BLANKET_APPROVE);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_CANCEL) && !canCancel(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_CANCEL);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_RECALL) && !canRecall(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_RECALL);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_SAVE) && !canSave(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_SAVE);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_ROUTE) && !canRoute(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_ROUTE);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_ACKNOWLEDGE) && !canAcknowledge(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_ACKNOWLEDGE);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_FYI) && !canFyi(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_FYI);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_APPROVE) && !canApprove(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_APPROVE);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_DISAPPROVE) && !canDisapprove(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_DISAPPROVE);
+        }
+
+        if (!canSendAnyTypeAdHocRequests(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_ADD_ADHOC_REQUESTS);
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS);
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_SEND_NOTE_FYI);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_SEND_NOTE_FYI) && !canSendNoteFyi(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_SEND_NOTE_FYI);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_ANNOTATE) && !canAnnotate(document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_ANNOTATE);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW) && !canEditDocumentOverview(
+                document, user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW);
+        }
+
+        if (documentActions.contains(KRADConstants.KUALI_ACTION_PERFORM_ROUTE_REPORT) && !canPerformRouteReport(document,
+                user)) {
+            documentActions.remove(KRADConstants.KUALI_ACTION_PERFORM_ROUTE_REPORT);
+        }
+
+        return documentActions;
+	}
 
     @Override
     /**
@@ -196,6 +285,11 @@ public abstract class TkMaintenanceDocumentAuthorizerBase implements Maintenance
         return true;
     }
 
+	@Override
+	public boolean canViewNoteAttachment(Document document,String attachmentTypeCode, Person user) {
+		return true;
+	}
+
     @Override
     public boolean canViewNoteAttachment(Document document, String attachmentTypeCode, String authorUniversalIdentifier, Person user) {
         return true;
@@ -260,8 +354,7 @@ public abstract class TkMaintenanceDocumentAuthorizerBase implements Maintenance
      * @return The UserRoles object for the current user.
      */
     public UserRoles getRoles() {
-        TKUser tkuser = TKContext.getUser();
-        return tkuser.getCurrentRoles();
+        return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
     }
 
     // Subclasses will implement these methods

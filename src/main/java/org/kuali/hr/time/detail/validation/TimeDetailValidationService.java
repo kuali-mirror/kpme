@@ -12,6 +12,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
@@ -171,7 +172,7 @@ public class TimeDetailValidationService {
         List<Interval> dayInt = new ArrayList<Interval>();
 
         //if the user is clocked in, check if this time block overlaps with the clock action
-        ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getUser().getTargetPrincipalId());
+        ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(TKUser.getCurrentTargetPerson().getPrincipalId());
         if(lastClockLog != null &&
         		(lastClockLog.getClockAction().equals(TkConstants.CLOCK_IN) 
         				|| lastClockLog.getClockAction().equals(TkConstants.LUNCH_IN))) {

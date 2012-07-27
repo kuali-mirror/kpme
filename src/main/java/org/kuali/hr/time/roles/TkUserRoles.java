@@ -1,16 +1,21 @@
 package org.kuali.hr.time.roles;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-
-import java.util.*;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 /**
  * TkUserRoles encapsulates the concept of roles for a single user and provides
@@ -30,16 +35,12 @@ public class TkUserRoles implements UserRoles {
     ;
     private Map<String, TkRole> deptViewOnlyRoles = new HashMap<String, TkRole>();
     private Set<String> activeAssignmentIds = new HashSet<String>();
-
-    /**
-     * Constructor that takes a list of all roles that will be encapsulated
-     * by this object.
-     *
-     * @param roles
-     */
-    public TkUserRoles(String principalId, List<TkRole> roles) {
-        this.principalId = principalId;
-        setRoles(roles);
+    
+    public static TkUserRoles getUserRoles(String principalId) {
+    	List<TkRole> roles = TkServiceLocator.getTkRoleService().getRoles(principalId, TKUtils.getCurrentDate());
+		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getCurrentDate());
+		
+		return new TkUserRoles(principalId, roles, assignments);
     }
 
     /**
@@ -50,7 +51,7 @@ public class TkUserRoles implements UserRoles {
      * @param roles
      * @param assignments
      */
-    public TkUserRoles(String principalId, List<TkRole> roles, List<Assignment> assignments) {
+    private TkUserRoles(String principalId, List<TkRole> roles, List<Assignment> assignments) {
         this.principalId = principalId;
         setRoles(roles);
         setAssignments(assignments);
@@ -131,6 +132,14 @@ public class TkUserRoles implements UserRoles {
     public boolean isSynchronous() {
         return synchronousAssignments;
     }
+    
+	public boolean isReviewer() {
+		return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getReviewerWorkAreas().size() > 0;
+	}
+
+	public boolean isApprover() {
+		return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas().size() > 0;
+	}
 
     /**
      * Place the TkRole objects in the provided List into their appropriate
@@ -364,7 +373,7 @@ public class TkUserRoles implements UserRoles {
         List<Assignment> lstAssignment = TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getCurrentDate());
 
         for (Assignment assignment : lstAssignment) {
-            if (TKContext.getUser().getCurrentRoles().getApproverWorkAreas().contains(assignment.getWorkArea())) {
+            if (getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas().contains(assignment.getWorkArea())) {
                 return true;
             }
         }
@@ -375,15 +384,14 @@ public class TkUserRoles implements UserRoles {
 
     @Override
     public boolean isDepartmentAdminForPerson(String principalId) {
-        UserRoles userRoles = TKContext.getUser().getCurrentRoles();
-        TKUser targetUser = TkServiceLocator.getUserService().buildTkUser(principalId, TKUtils.getCurrentDate());
+        UserRoles userRoles = getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
 
         // Department admin
         // Department view only
         if (userRoles.isDepartmentAdmin() || userRoles.isDeptViewOnly()) {
-
-            for (String dept : targetUser.getDepartments()) {
-                if (getOrgAdminDepartments().contains(dept)) {
+        	List<Job> jobs = TkServiceLocator.getJobService().getJobs(principalId,TKUtils.getCurrentDate());
+            for (Job job : jobs) {
+                if (getOrgAdminDepartments().contains(job.getDept())) {
                     return true;
                 }
             }

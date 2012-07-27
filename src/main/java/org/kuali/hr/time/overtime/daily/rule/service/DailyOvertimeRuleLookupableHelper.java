@@ -22,7 +22,7 @@ public class DailyOvertimeRuleLookupableHelper extends
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
+		if (TKContext.getUser().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			DailyOvertimeRule dailyOvertimeRule = (DailyOvertimeRule) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String tkDailyOvertimeRuleId = dailyOvertimeRule

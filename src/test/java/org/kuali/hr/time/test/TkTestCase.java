@@ -47,7 +47,7 @@ public class TkTestCase extends KNSTestCase{
 		GlobalVariables.setMessageMap(new MessageMap());
 		TKContext.setHttpServletRequest(new MockHttpServletRequest());
 		super.setUp();
-		new TKRequestProcessor().setUserOnContext(TKContext.getHttpServletRequest());
+		new TKRequestProcessor().setUserOnContext();
 		//this clears the cache that was loaded from the above call.  Do not comment
 		TKContext.setHttpServletRequest(new MockHttpServletRequest());
 		new ClearDatabaseLifecycle().start();

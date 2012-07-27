@@ -49,14 +49,13 @@ public class LeaveCalendarAction extends TkAction {
 			throws Exception {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
 
-		TKUser user = TKContext.getUser();
 		String documentId = lcf.getDocumentId();
 		// if the reload was trigger by changing of the selectedPayPeriod, use the passed in parameter as the calendar entry id
 		String calendarEntryId = StringUtils.isNotBlank(request.getParameter("selectedPP")) ? request.getParameter("selectedPP") : lcf.getCalEntryId();
 		
 		// Here - viewPrincipal will be the principal of the user we intend to
 		// view, be it target user, backdoor or otherwise.
-		String viewPrincipal = user.getTargetPrincipalId();
+		String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
 		CalendarEntries calendarEntry = null;
 
 		LeaveCalendarDocument lcd = null;
@@ -256,7 +255,7 @@ public class LeaveCalendarAction extends TkAction {
 		LeaveCalendarDocumentHeader prevLdh = null;
 		LeaveCalendarDocumentHeader nextLdh = null;
 		CalendarEntries futureCalEntry = null;
-		String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
+		String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
 		if (lcd.getLeaveCalendarDocumentHeader() != null) {
 			TKContext.setCurrentLeaveCalendarDocumentId(lcd.getDocumentId());
 			leaveForm.setDocumentId(lcd.getDocumentId());
@@ -359,7 +358,7 @@ public class LeaveCalendarAction extends TkAction {
 	
 	public ActionForward gotoCurrentPayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
-		String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
+		String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
 		Date currentDate = TKUtils.getTimelessDate(null);
 		CalendarEntries calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, currentDate);
 		LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, calendarEntry);
@@ -390,7 +389,7 @@ public class LeaveCalendarAction extends TkAction {
 	        CalendarEntries ce = TkServiceLocator.getCalendarEntriesService()
 				.getCalendarEntries(request.getParameter("selectedPP").toString());
 			if(ce != null) {
-				String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
+				String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
 				LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, ce);
 				lcf.setCalEntryId(ce.getHrCalendarEntriesId());
 				setupDocumentOnFormContext(lcf, lcd);

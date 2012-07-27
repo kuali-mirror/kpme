@@ -19,6 +19,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
@@ -205,7 +206,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     }
 
     public boolean isSynchronousUser() {
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getUser().getTargetPrincipalId(), TKUtils.getCurrentDate());
+        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKUser.getCurrentTargetPerson().getPrincipalId(), TKUtils.getCurrentDate());
         boolean isSynchronousUser = true;
         for (Assignment assignment : assignments) {
             isSynchronousUser &= assignment.isSynchronous();

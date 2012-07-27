@@ -5,49 +5,49 @@
 		<documentType>
 			<name>LeavePlanDocumentType</name>
 			<parent>RiceDocument</parent>
-			<docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 			<label>LeavePlanDocument</label>
 		</documentType>
 		<documentType>
 			<name>LeaveAccrualCategoryDocumentType</name>
 			<parent>RiceDocument</parent>
-			<docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 			<label>LeaveAccrualCategoryDocument</label>
 		</documentType>
 		<documentType>
 			<name>LeaveCodeDocumentType</name>
 			<parent>RiceDocument</parent>
-			<docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 			<label>LeaveCodeDocumentType</label>
 		</documentType>
 		<documentType>
 			<name>SystemScheduledTimeOffDocumentType</name>
 			<parent>RiceDocument</parent>
-			<docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 			<label>SystemScheduledTimeOffDocument</label>
 		</documentType>
 		<documentType>
 			<name>LeaveCalendarDocument</name>
 			<parent>RiceDocument</parent>
-			<docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 			<label>LeaveCalendarDocument</label>
 		</documentType>
 		<documentType>
 			<name>LeaveDonationDocument</name>
 			<parent>RiceDocument</parent>
-			<docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 			<label>LeaveDonationDocument</label>
 		</documentType>
 		<documentType>
 			<name>EmployeeOverrideDocumentType</name>
 			<parent>RiceDocument</parent>
-			<docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 			<label>EmployeeOverrideDocument</label>
 		</documentType>
 		<documentType>
 			<name>LeaveAdjustmentDocumentType</name>
 			<parent>RiceDocument</parent>
-			<docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 			<label>LeaveAdjustmentDocument</label>
 		</documentType>
 	</documentTypes>

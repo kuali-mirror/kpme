@@ -30,6 +30,7 @@ import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.timeblock.service.TimeBlockService;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -51,8 +52,8 @@ public class TkTestUtils {
 
 	public static TimesheetDocument populateBlankTimesheetDocument(Date calDate) {
 		try {
-			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getTargetPrincipalId(),
-							TkServiceLocator.getCalendarService().getCurrentCalendarDates(TKContext.getUser().getTargetPrincipalId(),
+			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKUser.getCurrentTargetPerson().getPrincipalId(),
+							TkServiceLocator.getCalendarService().getCurrentCalendarDates(TKUser.getCurrentTargetPerson().getPrincipalId(),
                                     calDate));
 			for(TimeBlock timeBlock : timesheet.getTimeBlocks()){
 				TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlock);
@@ -66,16 +67,16 @@ public class TkTestUtils {
 
 	public static TimesheetDocument populateTimesheetDocument(Date calDate) {
 		try {
-			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getTargetPrincipalId(),
-							TkServiceLocator.getCalendarService().getCurrentCalendarDates(TKContext.getUser().getTargetPrincipalId(),
+			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKUser.getCurrentTargetPerson().getPrincipalId(),
+							TkServiceLocator.getCalendarService().getCurrentCalendarDates(TKUser.getCurrentTargetPerson().getPrincipalId(),
                                     calDate));
 			for(TimeBlock timeBlock : timesheet.getTimeBlocks()){
 				TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlock);
 			}
 
 			//refetch clean document
-			timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getUser().getTargetPrincipalId(),
-					TkServiceLocator.getCalendarService().getCurrentCalendarDates(TKContext.getUser().getTargetPrincipalId(),
+			timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKUser.getCurrentTargetPerson().getPrincipalId(),
+					TkServiceLocator.getCalendarService().getCurrentCalendarDates(TKUser.getCurrentTargetPerson().getPrincipalId(),
                             calDate));
 			List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
 			for(int i = 0;i<5;i++){

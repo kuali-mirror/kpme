@@ -6,6 +6,7 @@ import org.joda.time.format.ISODateTimeFormat;
 import org.json.simple.JSONValue;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
+import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
@@ -13,6 +14,7 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.*;
 
@@ -40,7 +42,7 @@ public class LeaveActionFormUtils {
             WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(leaveBlock.getWorkArea(), leaveBlock.getLeaveDate());
             String workAreaDesc = workArea == null ? "" : workArea.getDescription();
             // Roles
-            Boolean isAnyApprover = TKContext.getUser().getCurrentRoles().isAnyApproverActive();
+            Boolean isAnyApprover = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isAnyApproverActive();
             LeaveBlockMap.put("isApprover", isAnyApprover);
            
             LeaveBlockMap.put("documentId", leaveBlock.getDocumentId());

@@ -1,7 +1,6 @@
 package org.kuali.hr.lm.leave.web;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
@@ -18,8 +17,9 @@ import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class LeaveBlockDisplayAction extends TkAction {
 
@@ -28,9 +28,9 @@ public class LeaveBlockDisplayAction extends TkAction {
 		ActionForward forward = super.execute(mapping, form, request, response);
 		LeaveBlockDisplayForm lbdf = (LeaveBlockDisplayForm) form;	
 		
-		String principalId = TKContext.getUser().getPrincipalId();
-		if(TKContext.getUser().getCurrentTargetPerson() != null) {
-			lbdf.setTargetName(TKContext.getUser().getCurrentTargetPerson().getName());
+		String principalId = GlobalVariables.getUserSession().getPrincipalId();
+		if(TKUser.getCurrentTargetPerson() != null) {
+			lbdf.setTargetName(TKUser.getCurrentTargetPerson().getName());
 		}
 		
 		if(lbdf.getNavString() == null) {

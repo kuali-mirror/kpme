@@ -20,7 +20,7 @@ public class TimeSheetInitiateLookupableHelper extends KualiLookupableHelperServ
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
+		if (TKContext.getUser().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			TimeSheetInitiate timeSheetInitiateObj = (TimeSheetInitiate) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String tkTimeSheetInitId = timeSheetInitiateObj.getTkTimeSheetInitId();

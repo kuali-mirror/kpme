@@ -24,7 +24,7 @@ public class EarnCodeSecurityLookupableHelper extends
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
+		if (TKContext.getUser().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			EarnCodeSecurity departmentEarnCode = (EarnCodeSecurity) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String hrDeptEarnCodeId = departmentEarnCode

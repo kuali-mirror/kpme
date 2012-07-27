@@ -147,12 +147,12 @@
                 <span id="showDetailButton_${row.documentId}" class="ui-icon ui-icon-plus rowInfo"></span>
             </div>
         </c:if>
-        <a href="Admin.do?${row.timesheetUserTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=TimeApproval.do">${row.name}</a> (${row.principalId})
+        <a href="deleteTimesheet.do?${row.timesheetUserTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=TimeApproval.do">${row.name}</a> (${row.principalId})
         <br/>${row.clockStatusMessage}
         <br/>
     </display:column>
     <display:column title="Document ID" sortable="true" sortName="documentId">
-        <a href="Admin.do?${row.timesheetUserTargetURLParams}&targetUrl=TimeDetail.do%3FdocumentId=${row.documentId}&returnUrl=TimeApproval.do">${row.documentId}</a>
+        <a href="deleteTimesheet.do?${row.timesheetUserTargetURLParams}&targetUrl=TimeDetail.do%3FdocumentId=${row.documentId}&returnUrl=TimeApproval.do">${row.documentId}</a>
         <c:if test="${fn:length(row.warnings) > 0 }">
             <div class="ui-state-default ui-corner-all" style="float:right;">
                 <span id="approvals-warning" class="ui-icon ui-icon-alert approvals-warning"></span>

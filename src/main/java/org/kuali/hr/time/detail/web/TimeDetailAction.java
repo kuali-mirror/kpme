@@ -23,6 +23,7 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.TkCalendar;
+import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
@@ -43,6 +44,7 @@ import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.krad.exception.AuthorizationException;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TimeDetailAction extends TimesheetAction {
 
@@ -50,7 +52,7 @@ public class TimeDetailAction extends TimesheetAction {
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         super.checkTKAuthorization(form, methodToCall); // Checks for read access first.
         TKUser user = TKContext.getUser();
-        UserRoles roles = user.getCurrentRoles(); // either backdoor or actual
+        UserRoles roles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
         TimesheetDocument doc = TKContext.getCurrentTimesheetDoucment();
 
         // Check for write access to Timeblock.
@@ -109,7 +111,7 @@ public class TimeDetailAction extends TimesheetAction {
 
         tdaf.setOvertimeEarnCodes(TkServiceLocator.getEarnCodeService().getOvertimeEarnCodesStrs(TKContext.getCurrentTimesheetDoucment().getAsOfDate()));
 
-        if (StringUtils.equals(TKContext.getCurrentTimesheetDoucment().getPrincipalId(), TKContext.getUser().getPrincipalId())) {
+        if (StringUtils.equals(TKContext.getCurrentTimesheetDoucment().getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())) {
         	tdaf.setWorkingOnItsOwn("true");
         }
         
@@ -119,7 +121,7 @@ public class TimeDetailAction extends TimesheetAction {
         } else {
             boolean docFinal = TKContext.getCurrentTimesheetDoucment().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL);
             if (!docFinal) {
-            	if(StringUtils.equals(TKContext.getCurrentTimesheetDoucment().getPrincipalId(), TKContext.getUser().getPrincipalId())
+            	if(StringUtils.equals(TKContext.getCurrentTimesheetDoucment().getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
 	            		|| TKContext.getUser().isSystemAdmin() 
 	            		|| TKContext.getUser().isLocationAdmin() 
 	            		|| TKContext.getUser().isDepartmentAdmin() 
@@ -129,7 +131,7 @@ public class TimeDetailAction extends TimesheetAction {
                 }
             	
 	            //if the timesheet has been approved by at least one of the approvers, the employee should not be able to edit it
-	            if (StringUtils.equals(TKContext.getCurrentTimesheetDoucment().getPrincipalId(), TKContext.getUser().getPrincipalId())
+	            if (StringUtils.equals(TKContext.getCurrentTimesheetDoucment().getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
 	            		&& TKContext.getCurrentTimesheetDoucment().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.ENROUTE)) {
 		        	Collection actions = KEWServiceLocator.getActionTakenService().findByDocIdAndAction(TKContext.getCurrentTimesheetDoucment().getDocumentHeader().getDocumentId(), TkConstants.TIMESHEET_ACTIONS.APPROVE);
 	        		if(!actions.isEmpty()) {
@@ -143,7 +145,7 @@ public class TimeDetailAction extends TimesheetAction {
     }
 
 	private void populateCalendarAndPayPeriodLists(HttpServletRequest request, TimeDetailActionForm tdaf) {
-		List<TimesheetDocumentHeader> documentHeaders = (List<TimesheetDocumentHeader>) TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeadersForPrincipalId(TKContext.getUser().getPrincipalId());
+		List<TimesheetDocumentHeader> documentHeaders = (List<TimesheetDocumentHeader>) TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeadersForPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         if(tdaf.getCalendarYears().isEmpty()) {
         	// get calendar year drop down list contents
@@ -367,7 +369,7 @@ public class TimeDetailAction extends TimesheetAction {
     }
       
   public ActionForward gotoCurrentPayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-	  String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
+	  String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
 	  Date currentDate = TKUtils.getTimelessDate(null);
       CalendarEntries pce = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal, currentDate);
       TimesheetDocument td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, pce);
@@ -393,7 +395,7 @@ public class TimeDetailAction extends TimesheetAction {
           CalendarEntries pce = TkServiceLocator.getCalendarEntriesService()
 		  	.getCalendarEntries(request.getParameter("selectedPP").toString());
 		  if(pce != null) {
-			  String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
+			  String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
 			  TimesheetDocument td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, pce);
 			  setupDocumentOnFormContext((TimesheetActionForm)form, td);
 		  }

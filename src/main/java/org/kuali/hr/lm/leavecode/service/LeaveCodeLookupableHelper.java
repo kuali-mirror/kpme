@@ -34,7 +34,7 @@ public class LeaveCodeLookupableHelper extends
 				}
 			}
 
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+		if (TKContext.getUser().isSystemAdmin()) {
 			LeaveCode leaveCode = (LeaveCode) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String lmLeaveCodeId = leaveCode

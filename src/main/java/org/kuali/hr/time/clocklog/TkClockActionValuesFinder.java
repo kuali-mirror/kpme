@@ -49,16 +49,13 @@ public class TkClockActionValuesFinder extends KeyValuesBase {
         		}
         	}
         } else {
-        	 TKUser user = TKContext.getUser();
-             if (user != null ) {
-                 ClockLog lastClock = TkServiceLocator.getClockLogService().getLastClockLog(user.getTargetPrincipalId());
-                 Set<String> validEntries = lastClock != null ?
-                         TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(lastClock.getClockAction()) :
-                         TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(TkConstants.CLOCK_OUT); // Force CLOCK_IN as next valid action.
-                 for (String entry : validEntries) {
-                     keyLabels.add(new ConcreteKeyValue(entry, TkConstants.CLOCK_ACTION_STRINGS.get(entry)));
-                 }
-             }  
+        	ClockLog lastClock = TkServiceLocator.getClockLogService().getLastClockLog(TKUser.getCurrentTargetPerson().getPrincipalId());
+            Set<String> validEntries = lastClock != null ?
+                    TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(lastClock.getClockAction()) :
+                    TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(TkConstants.CLOCK_OUT); // Force CLOCK_IN as next valid action.
+            for (String entry : validEntries) {
+                keyLabels.add(new ConcreteKeyValue(entry, TkConstants.CLOCK_ACTION_STRINGS.get(entry)));
+            } 
         }
         
         if(keyLabels.isEmpty()) {		// default is returning all options
