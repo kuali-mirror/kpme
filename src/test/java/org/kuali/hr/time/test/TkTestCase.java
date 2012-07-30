@@ -39,10 +39,10 @@ public class TkTestCase extends KNSTestCase{
 
 	public void setUp() throws Exception {
 		ApplicationInitializeListener.ALTERNATE_LOG4J_FILE = "classpath:test_log4j.properties";
-		setContextName("/tk-dev");
+		setContextName("/kpme-dev");
 		setRelativeWebappRoot("/src/main/webapp");
 
-		ConfigFactoryBean.CONFIG_OVERRIDE_LOCATION = "classpath:META-INF/tk-test-config.xml";
+		ConfigFactoryBean.CONFIG_OVERRIDE_LOCATION = "classpath:META-INF/kpme-test-config.xml";
 		TkLoginFilter.TEST_ID = "admin";
 		GlobalVariables.setMessageMap(new MessageMap());
 		TKContext.setHttpServletRequest(new MockHttpServletRequest());
@@ -106,7 +106,7 @@ public class TkTestCase extends KNSTestCase{
 	@Override
 	protected List<String> getConfigLocations() {
 		List<String> og_config = super.getConfigLocations();
-		og_config.add("classpath:META-INF/tk-test-config.xml");
+		og_config.add("classpath:META-INF/kpme-test-config.xml");
 	    return og_config;
 	}
 

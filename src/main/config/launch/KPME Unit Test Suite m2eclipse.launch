@@ -12,5 +12,5 @@
 <booleanAttribute key="M2_WORKSPACE_RESOLUTION" value="false"/>
 <stringAttribute key="bad_container_name" value="\kpme\src\main\config\launch\KPME Unit Test"/>
 <stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-<stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${project_loc}"/>
+<stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:/kpme}"/>
 </launchConfiguration>
