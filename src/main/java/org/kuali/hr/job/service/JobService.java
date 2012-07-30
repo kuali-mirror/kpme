@@ -111,4 +111,21 @@ public interface JobService {
 	 */
     public BigDecimal getStandardHoursSumForJobs(List<Job> jobs);
     
+    /**
+	 * Get list of all active jobs eligible for leave for given principal and date range
+	 * @param principalId
+	 * @param asOfDate
+	 * @return
+	 */
+    public List<Job> getAllActiveLeaveJobs(String principalId, Date asOfDate);
+    
+    public List<Job> getInactiveLeaveJobs(Long jobNumber, Date startDate, Date endDate);
+    
+    public List<Job> getAllInActiveLeaveJobsInRange(String principalId, Date startDate, Date endDate);
+    
+    /*
+     * Get the job entry with the max timestamp for given pricipalId
+     */
+    public Job getMaxTimestampJob(String principalId);
+    
 }

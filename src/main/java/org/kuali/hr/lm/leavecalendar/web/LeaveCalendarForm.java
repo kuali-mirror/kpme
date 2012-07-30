@@ -1,6 +1,7 @@
 package org.kuali.hr.lm.leavecalendar.web;
 
 import org.apache.struts.action.ActionMapping;
+import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
@@ -10,6 +11,7 @@ import org.kuali.hr.time.calendar.LeaveCalendar;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,8 +44,52 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
 	private String spanningWeeks; // KPME-1446
 	private String leaveBlockString;  // KPME-1447
 	private boolean isDocEditable;
+	private String currentPayCalStartDate;
+	private String currentPayCalEndDate;
+	private DateTime currentPayCalStart;
+	private DateTime currentPayCalEnd;
+	
+	public DateTime getCurrentPayCalStart() {
+		return currentPayCalStart;
+	}
 
-    public boolean isDocEditable() {
+	public void setCurrentPayCalStart(DateTime currentPayCalStart) {
+		this.currentPayCalStart = currentPayCalStart;
+	}
+
+	public DateTime getCurrentPayCalEnd() {
+		return currentPayCalEnd;
+	}
+
+	public void setCurrentPayCalEnd(DateTime currentPayCalEnd) {
+		this.currentPayCalEnd = currentPayCalEnd;
+	}
+
+	public String getCurrentPayCalStartDate() {
+		if(currentPayCalStart != null) {
+			return this.currentPayCalStart.toString(SDF_NO_TZ);
+		} else {
+			return null;
+		}
+	}
+
+	public void setCurrentPayCalStartDate(String currentPayCalStartDate) {
+		this.currentPayCalStartDate = currentPayCalStartDate;
+	}
+
+	public String getCurrentPayCalEndDate() {
+		if(currentPayCalEnd != null) {
+			return this.currentPayCalEnd.toString(SDF_NO_TZ);
+		} else {
+			return null;
+		}
+	}
+
+	public void setCurrentPayCalEndDate(String currentPayCalEndDate) {
+		this.currentPayCalEndDate = currentPayCalEndDate;
+	}
+
+	public boolean isDocEditable() {
 		return isDocEditable;
 	}
 

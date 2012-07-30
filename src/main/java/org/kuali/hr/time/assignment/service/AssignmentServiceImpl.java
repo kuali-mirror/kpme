@@ -278,4 +278,9 @@ public class AssignmentServiceImpl implements AssignmentService {
         LOG.warn("no matched assignment found");
         return new Assignment();
     }
+    
+    @Override
+    public Assignment getMaxTimestampAssignment(String principalId) {
+    	return assignmentDao.getMaxTimestampAssignment(principalId);
+    }
 }

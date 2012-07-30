@@ -410,6 +410,22 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
         }
         return results;
     }
+    
+    @Override
+    public Assignment getMaxTimestampAssignment(String principalId) {
+    	Criteria root = new Criteria();
+        Criteria crit = new Criteria();
+        
+        crit.addEqualTo("principalId", principalId);
+        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Assignment.class, crit);
+        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+
+        root.addEqualTo("principalId", principalId);
+        root.addEqualTo("timestamp", timestampSubQuery);
+
+        Query query = QueryFactory.newQuery(Assignment.class, root);
+        return (Assignment) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+    }
 
 
 }

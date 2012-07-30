@@ -63,4 +63,6 @@ public interface AssignmentDao {
 
     List<Assignment> searchAssignments(Date fromEffdt, Date toEffdt, String principalId, String jobNumber,
                                     String dept, String workArea, String active, String showHistory);
+    
+    public Assignment getMaxTimestampAssignment(String principalId);
 }

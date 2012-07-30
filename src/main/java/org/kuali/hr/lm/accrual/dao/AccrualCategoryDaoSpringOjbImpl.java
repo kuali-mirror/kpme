@@ -127,4 +127,39 @@ public class AccrualCategoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
 		}
 		return accrualCategories;
 	}
+	
+	@Override
+	public List<AccrualCategory> getActiveLeaveAccrualCategoriesForLeavePlan(String leavePlan, Date asOfDate){
+		Criteria root = new Criteria();
+		root.addEqualTo("leavePlan", leavePlan);
+		root.addLessOrEqualThan("effectiveDate", asOfDate);
+		root.addNotEqualTo("accrualEarnInterval", "N");
+		root.addEqualTo("active", true);
+		
+		Query query = QueryFactory.newQuery(AccrualCategory.class, root);
+		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+		List<AccrualCategory> accrualCategories = new ArrayList<AccrualCategory>();
+
+		if (c != null) {
+			accrualCategories.addAll(c);
+		}
+		return accrualCategories;
+	}
+	
+	@Override
+	public List <AccrualCategory> getInActiveLeaveAccrualCategoriesForLeavePlan(String leavePlan, Date asOfDate) {
+		Criteria root = new Criteria();
+		root.addEqualTo("leavePlan", leavePlan);
+		root.addNotEqualTo("accrualEarnInterval", "N");
+		root.addLessOrEqualThan("effectiveDate", asOfDate);
+		root.addEqualTo("active", false);
+		Query query = QueryFactory.newQuery(AccrualCategory.class, root);
+		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+		List<AccrualCategory> accrualCategories = new ArrayList<AccrualCategory>();
+
+		if (c != null) {
+			accrualCategories.addAll(c);
+		}
+		return accrualCategories;
+	}
 }

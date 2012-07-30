@@ -54,7 +54,16 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
     }
     
     @Override
-    public List<PrincipalHRAttributes> getAllPrincipalHrAttributesForPrincipalId(String principalId, Date asOfDate) {
-    	return this.principalHRAttributesDao.getAllPrincipalHrAttributesForPrincipalId(principalId, asOfDate);
+    public List<PrincipalHRAttributes> getAllActivePrincipalHrAttributesForPrincipalId(String principalId, Date asOfDate) {
+    	return this.principalHRAttributesDao.getAllActivePrincipalHrAttributesForPrincipalId(principalId, asOfDate);
+    }
+    @Override
+    public PrincipalHRAttributes getMaxTimeStampPrincipalHRAttributes(String principalId) {
+    	return principalHRAttributesDao.getMaxTimeStampPrincipalHRAttributes(principalId);
+    }
+    
+    @Override
+    public List<PrincipalHRAttributes> getAllInActivePrincipalHrAttributesForPrincipalId(String principalId, Date asOfDate) {
+    	return this.principalHRAttributesDao.getAllInActivePrincipalHrAttributesForPrincipalId(principalId, asOfDate);
     }
 }

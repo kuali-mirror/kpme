@@ -17,7 +17,9 @@ insert into lm_accrual_category_rules_t (`lm_accrual_category_rules_id`, `SERVIC
 insert into hr_earn_code_t values('5000', 'EC', 'test', '2012-02-01', 'Y', 'Y', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1', now(), 'testAC', '1.5', '1.5', 'testLP', 'None', '99', 'T', 'N', 'Y', 'Y', 'Y', 'Y', 'test', null, 'N', 'Hours');
 
 # job has a timestamp of 2012-06-01
-insert into hr_job_t (`hr_job_id`, `PRINCIPAL_ID`, `JOB_NUMBER`, `EFFDT`, `dept`, `HR_SAL_GROUP`, `pay_grade`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`, `comp_rate`, `location`, `std_hours`, `hr_paytype`, `active`, `primary_indicator`, `position_nbr`, `eligible_for_leave`, `FLSA_STATUS`) values ('5002', 'testUser', '3', '2012-03-01', 'TEST-DEPT', 'SD1', 'SD1', '2012-06-01 10:00:00', uuid(), '1', '0.000000', 'SD1', '40.00', 'BW', 'Y',  'Y', 'N', 'Y', null);
+insert into hr_job_t (`hr_job_id`, `PRINCIPAL_ID`, `JOB_NUMBER`, `EFFDT`, `dept`, `HR_SAL_GROUP`, `pay_grade`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`, `comp_rate`, `location`, `std_hours`, `hr_paytype`, `active`, `primary_indicator`, `position_nbr`, `eligible_for_leave`, `FLSA_STATUS`) values ('5002', 'testUser', '3', '2012-03-01', 'TEST-DEPT', 'SD1', 'SD1', '2012-06-01 10:00:00', uuid(), '2', '0.000000', 'SD1', '40.00', 'BW', 'Y',  'Y', 'N', 'Y', null);
+# this job has an older timestamp than 2012-05-01
+insert into hr_job_t (`hr_job_id`, `PRINCIPAL_ID`, `JOB_NUMBER`, `EFFDT`, `dept`, `HR_SAL_GROUP`, `pay_grade`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`, `comp_rate`, `location`, `std_hours`, `hr_paytype`, `active`, `primary_indicator`, `position_nbr`, `eligible_for_leave`, `FLSA_STATUS`) values ('5001', 'testUser', '3', '2012-03-01', 'TEST-DEPT', 'SD1', 'SD1', '2012-04-01 10:00:00', uuid(), '1', '0.000000', 'SD1', '40.00', 'BW', 'Y',  'Y', 'N', 'Y', null);
 # existing entry was entered on 2012-05-01
 insert into lm_prin_accr_ran_t (`principal_id`, `last_ran_ts`) values ('testUser', '2012-05-01 11:30:00');
 

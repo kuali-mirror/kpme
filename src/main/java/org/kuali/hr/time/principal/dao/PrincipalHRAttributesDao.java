@@ -30,5 +30,9 @@ public interface PrincipalHRAttributesDao {
 	
 	public PrincipalHRAttributes getPrincipalHRAttributes(String hrPrincipalAttributeId);
 	
-	public List<PrincipalHRAttributes> getAllPrincipalHrAttributesForPrincipalId(String principalId, Date asOfDate);
+	public List<PrincipalHRAttributes> getAllActivePrincipalHrAttributesForPrincipalId(String principalId, Date asOfDate);
+	
+	public List<PrincipalHRAttributes> getAllInActivePrincipalHrAttributesForPrincipalId(String principalId, Date asOfDate);
+	
+	public PrincipalHRAttributes getMaxTimeStampPrincipalHRAttributes(String principalId);
 }

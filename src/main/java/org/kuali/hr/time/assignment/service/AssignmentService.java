@@ -116,4 +116,6 @@ public interface AssignmentService {
     public Map<String,String> getAssignmentDescriptions(LeaveCalendarDocument lcd);
     
     public Assignment getAssignment(LeaveCalendarDocument leaveCalendarDocument, String assignmentKey);
+    
+    public Assignment getMaxTimestampAssignment(String principalId);
 }

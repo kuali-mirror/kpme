@@ -143,7 +143,7 @@ public class AccrualCategory extends HrBusinessObject {
 
 	@Override
 	protected String getUniqueKey() {
-		return accrualCategory;
+		return lmAccrualCategoryId;
 	}
 
 	public Boolean getHistory() {
@@ -179,5 +179,5 @@ public class AccrualCategory extends HrBusinessObject {
 	public String getId() {
 		return getLmAccrualCategoryId();
 	}
-
+	
 }

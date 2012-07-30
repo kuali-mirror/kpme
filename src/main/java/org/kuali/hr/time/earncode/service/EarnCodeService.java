@@ -17,6 +17,14 @@ public interface EarnCodeService {
 	 */
 	public List<EarnCode> getEarnCodes(Assignment a, Date asOfDate);
 
+    /**
+     * Fetch a List of earn codes for a particular assignment and earnTypeCode
+     * @param a
+     * @param asOfDate
+     * @return
+     */
+    public List<EarnCode> getEarnCodes(Assignment a, Date asOfDate, String earnTypeCode);
+
 	/**
 	 * Fetch an EarnCode of a particular date
 	 * @param earnCode

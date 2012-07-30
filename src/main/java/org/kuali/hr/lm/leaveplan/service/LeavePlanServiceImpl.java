@@ -1,6 +1,7 @@
 package org.kuali.hr.lm.leaveplan.service;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
@@ -43,4 +44,13 @@ public class LeavePlanServiceImpl implements LeavePlanService {
 		valid = (count > 0);
 		return valid;
 	}
+	
+	@Override
+	public List<LeavePlan> getAllActiveLeavePlan(String leavePlan, Date asOfDate) {
+		 return leavePlanDao.getAllActiveLeavePlan(leavePlan, asOfDate);
+	 }
+	@Override
+	public List<LeavePlan> getAllInActiveLeavePlan(String leavePlan, Date asOfDate) {
+		 return leavePlanDao.getAllInActiveLeavePlan(leavePlan, asOfDate);
+	 }
 }

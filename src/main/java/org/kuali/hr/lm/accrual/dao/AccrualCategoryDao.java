@@ -35,6 +35,10 @@ public interface AccrualCategoryDao {
      * @param asOfDate
      * @return
      */
-    public List<AccrualCategory> getActiveAccrualCategories(String leavePlan, Date asOfDate);
+   public List<AccrualCategory> getActiveAccrualCategories(String leavePlan, Date asOfDate);
+     
+    public List<AccrualCategory> getActiveLeaveAccrualCategoriesForLeavePlan(String leavePlan, Date asOfDate);
 	
+    
+    public List <AccrualCategory> getInActiveLeaveAccrualCategoriesForLeavePlan(String leavePlan, Date asOfDate);
 }

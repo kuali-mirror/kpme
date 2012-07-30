@@ -59,7 +59,7 @@
 
     <param name="portal.css.files">rice-portal/css/portal.css,krad/plugins/fancybox/jquery.fancybox-1.3.4.css,krad/plugins/rice/textpopout/popoutTextarea.css,krad/plugins/jgrowl/jquery.jgrowl.css,css/rice_override.css</param>
     <param name="portal.javascript.files">krad/plugins/jquery/jquery-1.6.3.js,krad/plugins/postmsg/jquery.ba-postmessage.js,krad/plugins/cookie/jquery.cookie.js,krad/plugins/scrollto/jquery.scrollTo-1.4.2-min.js,krad/plugins/blockUI/jquery.blockUI.js,kr/scripts/my_common.js,krad/plugins/easydrag/jquery.easydrag.js,krad/plugins/fancybox/jquery.fancybox-1.3.4.pack.js,krad/plugins/easing/jquery.easing-1.3.pack.js,krad/plugins/jgrowl/jquery.jgrowl.js,krad/scripts/portal.initialize.js</param>
-    <param name="portal.title">Kuali P</param>
+    <param name="portal.title">Kuali People Management for the Enterprise</param>
     
     <param name="kr.url">${rice.server.url}/kr</param>
 	<param name="ken.url">${rice.server.url}/ken</param>

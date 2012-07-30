@@ -1,5 +1,8 @@
 package org.kuali.hr.lm.accrual.dao;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -26,6 +29,36 @@ public class AccrualCategoryRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb
 		
 		Query query = QueryFactory.newQuery(AccrualCategoryRule.class, crit);
 		return (AccrualCategoryRule)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+    }
+    
+    public List <AccrualCategoryRule> getActiveRulesForAccrualCategoryId(String accrualCategoryId, Date asOfDate) {
+    	List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
+		
+		Criteria root = new Criteria();
+		root.addEqualTo("lmAccrualCategoryId", accrualCategoryId);
+		root.addEqualTo("active", true);
+		Query query = QueryFactory.newQuery(AccrualCategoryRule.class, root);
+		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+		if (c != null) {
+			rules.addAll(c);
+		}
+		return rules;
+    }
+    
+    public List <AccrualCategoryRule> getInActiveRulesForAccrualCategoryId(String accrualCategoryId, Date asOfDate) {
+    	List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
+		
+		Criteria root = new Criteria();
+		root.addEqualTo("lmAccrualCategoryId", accrualCategoryId);
+		root.addEqualTo("active", false);
+		Query query = QueryFactory.newQuery(AccrualCategoryRule.class, root);
+		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+		if (c != null) {
+			rules.addAll(c);
+		}
+		return rules;
     }
  
 }

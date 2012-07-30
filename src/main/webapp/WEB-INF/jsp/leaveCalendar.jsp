@@ -22,7 +22,10 @@
     <html:hidden property="prevCalEntryId" value="${Form.prevCalEntryId}" styleId="prevCalEntryId"/>
     <html:hidden property="nextCalEntryId" value="${Form.nextCalEntryId}" styleId="nextCalEntryId"/>
     <html:hidden property="docEditable" value="${Form.docEditable}" styleId="docEditable"/>
-    <html:hidden property="leaveCalendar.beginDateTime" value="${Form.leaveCalendar.beginDateTime}" styleId="beginPeriodDate"/>
+    <html:hidden property="currentPayCalStartDate" value="${Form.currentPayCalStartDate}" styleId="currentPayCalStartDate"/>
+    <html:hidden property="currentPayCalEndDate" value="${Form.currentPayCalEndDate}" styleId="currentPayCalEndDate"/>
+    
+    <html:hidden  value="${Form.leaveCalendar.beginDateTime}" styleId="beginPeriodDate"/>
            <div id="dialog-form" class="dialog-form" title="Add Ledgers:">
             <html:form action="/LeaveCalendar.do" styleId="leaveBlock-form">
 
@@ -51,11 +54,11 @@
                         <tr>
                             <td><label for="leave-code">* Earn Code:</label></td>
                             <td>
-                                <html:select property="selectedEarnCode" styleId="earnCode">
-                                    <c:forEach var="earnCode" items="${Form.leaveCalendar.earnCodeList}">
-                                        <option value="${earnCode.key}">${earnCode.value}</option>
-                                    </c:forEach>
-                                </html:select>
+                                <div id="earnCode-section">
+                                    <select id='selectedEarnCode' name="selectedEarnCode">
+                                        <option value=''>-- select an earn code --</option>
+                                    </select>
+                                </div>
                             </td>
                         </tr>
                         <tr>
@@ -83,4 +86,9 @@
             </html:form>
         </div>
     </div>
+
+    <%-- Earn code template --%>
+    <script type="text/template" id="earnCode-template">
+        <option value="<@= earnCodeId @>"><@= earnCode + " : " + desc @></option>
+    </script>
 </tk:tkHeader>
