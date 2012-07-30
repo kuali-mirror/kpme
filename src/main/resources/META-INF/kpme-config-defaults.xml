@@ -144,7 +144,7 @@
 	<param name="connection.pool.impl">XAPool</param>
 	 
     <param name="rice.portal.logout.redirectUrl">${application.url}/loggedOut.jsp</param>
-	<param name="rice.portal.allowed.regex" override="false">^(${application.url}|${rice.server.url})(/.*|)</param>
+	<param name="rice.portal.allowed.regex">^(${application.url}|${rice.server.url})(/.*|)</param>
 
     <!-- cluster.ips : A comma separated list of TK servers that will be utilized during batch job running. Machines are assigned round-robin. -->
     <param name="cluster.ips">override-in-local-settings</param>
