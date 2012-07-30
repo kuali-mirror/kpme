@@ -5,9 +5,9 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.lm.accrual.PrincipalAccrualRan;
 import org.kuali.hr.time.util.TKUtils;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class PrincipalAccrualRanDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements PrincipalAccrualRanDao{
+public class PrincipalAccrualRanDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements PrincipalAccrualRanDao{
 	
 	@Override
 	public PrincipalAccrualRan getLastPrincipalAccrualRan(String principalId) {

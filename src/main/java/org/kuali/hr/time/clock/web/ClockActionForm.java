@@ -9,6 +9,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
@@ -60,6 +61,10 @@ public class ClockActionForm extends TimesheetActionForm {
 
  // this is for the ajax call
 	private String outputString;
+	
+    public String getTargetUserTimezone() {
+        return TkServiceLocator.getTimezoneService().getUserTimezone(TKUser.getCurrentTargetPerson().getPrincipalId());
+    }
 
     public Date getLastClockTimeWithZone() {
         return lastClockTimeWithZone;
