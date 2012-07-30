@@ -43,7 +43,7 @@ public class AccrualServiceTest extends TkTestCase {
 		 verifyLeaveBlocksForStatusChange();
 		 
 		 List<LeaveBlockHistory> historyList = TkServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistories(PRINCIPAL_ID, null);
-		 assertTrue("There should be 4 leave block history for emplyee " + PRINCIPAL_ID + ", not " + historyList.size(), historyList.size()== 4);
+		 assertTrue("There should be 5 leave block history for emplyee " + PRINCIPAL_ID + ", not " + historyList.size(), historyList.size()== 5);
 		 LeaveBlockHistory lbh = historyList.get(0);
 		 assertTrue("Leave Block Type of leave block history should be " + LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE + ", not " + lbh.getLeaveBlockType()
 					, lbh.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE));
@@ -53,13 +53,13 @@ public class AccrualServiceTest extends TkTestCase {
 		 verifyLeaveBlocksForStatusChange();
 		 
 		 historyList = TkServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistories(PRINCIPAL_ID, null);
-		 assertTrue("There should be 12 leave block history for employee " + PRINCIPAL_ID + ", not " + historyList.size(), historyList.size()== 12);
+		 assertTrue("There should be 15 leave block history for employee " + PRINCIPAL_ID + ", not " + historyList.size(), historyList.size()== 15);
 	}
 	private void verifyLeaveBlocksForStatusChange() {
 		List<LeaveBlock> leaveBlockList;
 		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(PRINCIPAL_ID, START_DATE, END_DATE);
 		assertFalse("No leave blocks created by runAccrual for princiapl id " + PRINCIPAL_ID, leaveBlockList.isEmpty());
-		assertTrue("There should be 4 leave blocks for emplyee 'testUser', not " + leaveBlockList.size(), leaveBlockList.size()== 4);
+		assertTrue("There should be 5 leave blocks for emplyee 'testUser', not " + leaveBlockList.size(), leaveBlockList.size()== 5);
 		 
 		// there should be one leave block of 16 hours on 03/31/2012
 		Date intervalDate = new Date((new DateTime(2012, 3, 31, 5, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
@@ -84,15 +84,18 @@ public class AccrualServiceTest extends TkTestCase {
 		assertTrue("Leave Block Type of leave block should be " + LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE + ", not " + lb.getLeaveBlockType()
 				, lb.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE));
 		
-		// there should be a holiday leave block of 4 hours on 04/10/2012
+		// there should be two holiday leave blocks of 4 hours on 04/10/2012, one positive, one negative
 		intervalDate = new Date((new DateTime(2012, 4, 10, 5, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
 		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(PRINCIPAL_ID, intervalDate);
-		assertTrue("There should be 1 leave block for date 04/10/2012.", leaveBlockList.size()==1);
-		lb = leaveBlockList.get(0);
-		assertTrue("Hours of the leave block for date 04/10/2012 should be 4, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(new BigDecimal(4)));
-		assertNotNull("lm_sys_schd_timeoff_id should NOT be null for holiday accrual leave block", lb.getScheduleTimeOffId());
-		assertTrue("Leave Block Type of leave block should be " + LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE + ", not " + lb.getLeaveBlockType()
-				, lb.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE));
+		assertTrue("There should be 2 leave block for date 04/10/2012.", leaveBlockList.size()==2);
+		for(LeaveBlock aLeaveBlock : leaveBlockList) {
+			assertNotNull("lm_sys_schd_timeoff_id should NOT be null for holiday accrual leave block", aLeaveBlock.getScheduleTimeOffId());
+			assertTrue("Leave Block Type of leave block should be " + LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE + ", not " + aLeaveBlock.getLeaveBlockType()
+					, aLeaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE));
+			if(!aLeaveBlock.getLeaveAmount().equals(new BigDecimal(4)) && !aLeaveBlock.getLeaveAmount().equals(new BigDecimal(-4))) {
+				fail("Hours of the leave blocks for date 04/10/2012 should be either 4 or -4, not " + aLeaveBlock.getLeaveAmount().toString());
+			} 
+		}
 		
 		// there should be 1 leave blocks on 04/30/2012, regular accrual of 8 hours
 		intervalDate = new Date((new DateTime(2012, 4, 30, 5, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
