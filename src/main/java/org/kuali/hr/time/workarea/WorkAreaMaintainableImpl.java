@@ -20,6 +20,7 @@ import org.kuali.rice.kns.util.KNSConstants;
 import org.kuali.rice.kns.web.ui.Section;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -120,37 +121,27 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
     @Override
     public void customSaveLogic(HrBusinessObject hrObj) {
         WorkArea workArea = (WorkArea) hrObj;
-        Long workAreaNumber = workArea.getWorkArea();
-        // get the new roles on this workArea
         List<TkRole> roles = workArea.getRoles();
-
-        // populate the existing roles on the work area
-//        TkServiceLocator.getWorkAreaService().populateWorkAreaRoles(workArea);
-
-//		if (workArea.getInactiveRoles() != null
-//				&& workArea.getInactiveRoles().size() > 0) {
-//			for (TkRole role : workArea.getInactiveRoles()) {
-//				roles.add(role);
-//			}
-//		}
-
+		List<TkRole> rolesCopy = new ArrayList<TkRole>();
+		rolesCopy.addAll(roles);
+		if (workArea.getInactiveRoles() != null
+				&& workArea.getInactiveRoles().size() > 0) {
+			for (TkRole role : workArea.getInactiveRoles()) {
+				roles.add(role);
+			}
+		}
         List<Task> tasks = workArea.getTasks();
         for (Task task : tasks) {
             task.setTkTaskId(null);
-//            task.setTimestamp(new Timestamp(System.currentTimeMillis()));
+            task.setTimestamp(new Timestamp(System.currentTimeMillis()));
         }
         workArea.setTasks(tasks);
-
+        workArea.setRoles(roles);
         for (TkRole role : roles) {
             role.setWorkAreaObj(workArea);
-            //role.setWorkAreaId(workAreaNumber);
             role.setUserPrincipalId(TKContext.getPrincipalId());
         }
-        workArea.setRoles(roles);
-
-        if (roles.size() > 0) {
-            TkServiceLocator.getTkRoleService().saveOrUpdate(roles);
-        }
+        TkServiceLocator.getTkRoleService().saveOrUpdate(roles);
     }
 
     @Override
@@ -189,6 +180,5 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 		
 		KNSServiceLocator.getBusinessObjectService().save(hrObj);
 	}
-	
-	
+		
 }
