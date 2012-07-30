@@ -60,7 +60,7 @@
 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="30" />
+			<bean parent="TextControlDefinition" p:size="60" />
 		</property>
 		<property name="name" value="descr" />
 		<property name="label" value="Description" />
