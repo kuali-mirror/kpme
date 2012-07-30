@@ -1,5 +1,6 @@
 package org.kuali.hr.time.permissions;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -618,9 +619,15 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
     	AssignmentDescriptionKey adk = new AssignmentDescriptionKey(tb.getJobNumber().toString(), tb.getWorkArea().toString(), tb.getTask().toString());
         Assignment anAssignment = TkServiceLocator.getAssignmentService().getAssignment(adk, tb.getBeginDate());
         if(anAssignment != null) {
+        	// use timesheet's end date to get Time Collection Rule
+        	TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(tb.getDocumentId());
+        	Date aDate =  tb.getBeginDate();
+        	if(tdh != null && tdh.getPayEndDate() != null) {
+        		aDate = new java.sql.Date(tdh.getPayEndDate().getTime());
+        	}
         	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService()
         								.getTimeCollectionRule(anAssignment.getDept(), anAssignment.getWorkArea()
-        										, anAssignment.getJob().getHrPayType(), anAssignment.getEffectiveDate());
+        										, anAssignment.getJob().getHrPayType(), aDate);
         	if(tcr != null && tcr.isClockUserFl()) {
         		// use assignment to get the payType object, then check if the regEarnCode of the paytyep matches the earn code of the timeblock
         		// if they do match, then return false
