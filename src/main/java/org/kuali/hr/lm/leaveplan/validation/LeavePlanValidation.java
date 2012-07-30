@@ -72,8 +72,12 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 			if (leavePlan != null) {
 				valid = true;
 				valid &= this.validateInactivation(leavePlan);
-				valid &= this.validatePlanningMonths(leavePlan.getPlanningMonths());
-				valid &= this.validateEffectiveDate(leavePlan.getEffectiveDate());
+				if(StringUtils.isNotEmpty(leavePlan.getPlanningMonths())) {
+					valid &= this.validatePlanningMonths(leavePlan.getPlanningMonths());
+				}
+				if(leavePlan.getEffectiveDate() != null) {
+					valid &= this.validateEffectiveDate(leavePlan.getEffectiveDate());
+				}
 			}
 		}
 		return valid;
