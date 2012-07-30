@@ -26,5 +26,8 @@ public interface AccrualCategoryRuleService {
      * Fetch the accrual category rule applies for the given date and accrualCategory
      */
     public AccrualCategoryRule getAccrualCategoryRuleForDate(AccrualCategory accrualCategory, Date currentDate, Date serviceDate);
-
+    
+    public List <AccrualCategoryRule> getActiveRulesForAccrualCategoryId(String accrualCategoryId, Date asOfDate);
+    
+    public List <AccrualCategoryRule> getInActiveRulesForAccrualCategoryId(String accrualCategoryId, Date asOfDate);
 }

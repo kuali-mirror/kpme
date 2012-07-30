@@ -53,7 +53,7 @@ public class AccrualServiceTest extends TkTestCase {
 		 verifyLeaveBlocksForStatusChange();
 		 
 		 historyList = TkServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistories(PRINCIPAL_ID, null);
-		 assertTrue("There should be 12 leave block history for emplyee " + PRINCIPAL_ID + ", not " + historyList.size(), historyList.size()== 12);
+		 assertTrue("There should be 12 leave block history for employee " + PRINCIPAL_ID + ", not " + historyList.size(), historyList.size()== 12);
 	}
 	private void verifyLeaveBlocksForStatusChange() {
 		List<LeaveBlock> leaveBlockList;
@@ -253,7 +253,7 @@ public class AccrualServiceTest extends TkTestCase {
 		 
 		 monthlyDate = new Date((new DateTime(2012, 8, 31, 5, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
 		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(PRINCIPAL_ID_4, monthlyDate);
-		 assertTrue("There should be any leave blocks for date " + monthlyDate.toString() + " for emplyee " + PRINCIPAL_ID_4, leaveBlockList.size()==0);
+		 assertTrue("There should NOT be any leave blocks for date " + monthlyDate.toString() + " for emplyee " + PRINCIPAL_ID_4, leaveBlockList.size()==0);
 	}
 	
 	@Test
@@ -481,5 +481,5 @@ public class AccrualServiceTest extends TkTestCase {
 				 , lb.getLeaveAmount().equals(new BigDecimal(32)));
 		 
 	}
-	
+
 }

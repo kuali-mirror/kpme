@@ -427,6 +427,7 @@ public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements 
     	return jobList;
     }
     
+    @Override
     @SuppressWarnings("unchecked")
 	public List<Job> getInactiveLeaveJobs(Long jobNumber, Date asOfDate, Date jobDate) {
     	Criteria root = new Criteria();
@@ -452,6 +453,49 @@ public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements 
         
         Query query = QueryFactory.newQuery(Job.class, root);
         return (List<Job>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);    	
+    }
+    
+    @Override
+    public List<Job> getAllActiveLeaveJobs(String principalId, Date asOfDate) {
+    	Criteria root = new Criteria();
+        root.addEqualTo("principalId", principalId);
+        root.addLessOrEqualThan("effectiveDate", asOfDate);
+        root.addEqualTo("active", true);
+        root.addEqualTo("eligibleForLeave", true);
+
+        Query query = QueryFactory.newQuery(Job.class, root);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        
+        List<Job> jobs = new LinkedList<Job>();
+        if (c != null) {
+            jobs.addAll(c);
+        }
+        return jobs;
+    }
+    
+    public List<Job> getAllInActiveLeaveJobsInRange(String principalId, Date startDate, Date endDate) {
+    	Criteria root = new Criteria();    	
+        root.addEqualTo("principalId", principalId);
+        root.addLessOrEqualThan("effectiveDate", endDate);
+        root.addEqualTo("active", false);
+        Query query = QueryFactory.newQuery(Job.class, root);
+        return (List<Job>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);    	
+    }
+    
+    @Override
+    public Job getMaxTimestampJob(String principalId) {
+    	Criteria root = new Criteria();
+        Criteria crit = new Criteria();
+        
+        crit.addEqualTo("principalId", principalId);
+        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Job.class, crit);
+        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+
+        root.addEqualTo("principalId", principalId);
+        root.addEqualTo("timestamp", timestampSubQuery);
+
+        Query query = QueryFactory.newQuery(Job.class, root);
+        return (Job) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
     
 }

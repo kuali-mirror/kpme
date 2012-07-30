@@ -160,23 +160,53 @@ public class PrincipalHRAttributesDaoImpl extends PersistenceBrokerDaoSupport im
 		return (PrincipalHRAttributes)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
     
-    public List<PrincipalHRAttributes> getAllPrincipalHrAttributesForPrincipalId(String principalId, Date asOfDate) {
-    	// get future principalHRAttributes
+    @Override
+    public List<PrincipalHRAttributes> getAllActivePrincipalHrAttributesForPrincipalId(String principalId, Date asOfDate) {
+    	
     	List<PrincipalHRAttributes> phaList = new ArrayList<PrincipalHRAttributes>();
-    	Criteria crit = new Criteria();
-		crit.addEqualTo("principalId", principalId);
-		crit.addGreaterOrEqualThan("effectiveDate", asOfDate);
-		
-    	Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, crit);
+    	Criteria root = new Criteria();
+        root.addEqualTo("principalId", principalId);
+        root.addLessOrEqualThan("effectiveDate", asOfDate);
+        root.addEqualTo("active", true);
+        Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-
         if (c != null) {
-        	phaList.addAll(c);
+            phaList.addAll(c);
         }
-        PrincipalHRAttributes pha = this.getPrincipalCalendar(principalId, asOfDate);  // get the current PrincipalHRAttributes
-        if(pha != null) {
-        	phaList.add(pha);
+        return phaList;        
+    }
+    
+    @Override
+    public List<PrincipalHRAttributes> getAllInActivePrincipalHrAttributesForPrincipalId(String principalId, Date asOfDate) {
+    	List<PrincipalHRAttributes> phaList = new ArrayList<PrincipalHRAttributes>();
+    	Criteria root = new Criteria();
+        root.addEqualTo("principalId", principalId);
+        root.addLessOrEqualThan("effectiveDate", asOfDate);
+        root.addEqualTo("active", false);
+
+        Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, root);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        if (c != null) {
+            phaList.addAll(c);
         }
-        return phaList;
+        return phaList;  
+    }
+    
+    
+    
+    @Override
+    public PrincipalHRAttributes getMaxTimeStampPrincipalHRAttributes(String principalId) {
+    	Criteria root = new Criteria();
+        Criteria crit = new Criteria();
+        
+        crit.addEqualTo("principalId", principalId);
+        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(PrincipalHRAttributes.class, crit);
+        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+
+        root.addEqualTo("principalId", principalId);
+        root.addEqualTo("timestamp", timestampSubQuery);
+
+        Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, root);
+        return (PrincipalHRAttributes) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
 }

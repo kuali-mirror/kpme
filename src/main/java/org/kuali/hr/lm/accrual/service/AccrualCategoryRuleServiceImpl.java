@@ -68,4 +68,13 @@ public class AccrualCategoryRuleServiceImpl implements AccrualCategoryRuleServic
 			AccrualCategoryRuleDao accrualCategoryRuleDao) {
 		this.accrualCategoryRuleDao = accrualCategoryRuleDao;
 	}
+	@Override
+	public List <AccrualCategoryRule> getActiveRulesForAccrualCategoryId(String accrualCategoryId, Date asOfDate) {
+		return this.accrualCategoryRuleDao.getActiveRulesForAccrualCategoryId(accrualCategoryId, asOfDate);
+	}
+    @Override
+    public List <AccrualCategoryRule> getInActiveRulesForAccrualCategoryId(String accrualCategoryId, Date asOfDate) {
+    	return this.accrualCategoryRuleDao.getInActiveRulesForAccrualCategoryId(accrualCategoryId, asOfDate);
+    }
+	
 }

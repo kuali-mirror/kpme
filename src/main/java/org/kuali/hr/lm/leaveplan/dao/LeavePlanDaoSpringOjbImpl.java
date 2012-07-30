@@ -2,6 +2,9 @@ package org.kuali.hr.lm.leaveplan.dao;
 
 
 import java.sql.Date;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
@@ -69,5 +72,40 @@ public class LeavePlanDaoSpringOjbImpl extends PersistenceBrokerDaoSupport imple
 		crit.addEqualTo("leavePlan", leavePlan);
 		Query query = QueryFactory.newQuery(LeavePlan.class, crit);
 		return PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
+	}
+	
+	@Override
+	public List<LeavePlan> getAllActiveLeavePlan(String leavePlan, Date asOfDate) {
+		Criteria root = new Criteria();
+        root.addEqualTo("leavePlan", leavePlan);
+        root.addEqualTo("active", true);
+        root.addLessOrEqualThan("effectiveDate", asOfDate);
+
+        Query query = QueryFactory.newQuery(LeavePlan.class, root);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        
+        List<LeavePlan> lps = new LinkedList<LeavePlan>();
+        if (c != null) {
+        	lps.addAll(c);
+        }
+        return lps;
+		
+	}
+	
+	@Override
+	public List<LeavePlan> getAllInActiveLeavePlan(String leavePlan, Date asOfDate) {
+		Criteria root = new Criteria();
+        root.addEqualTo("leavePlan", leavePlan);
+        root.addEqualTo("active", false);
+        root.addLessOrEqualThan("effectiveDate", asOfDate);
+        
+        Query query = QueryFactory.newQuery(LeavePlan.class, root);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        
+        List<LeavePlan> lps = new LinkedList<LeavePlan>();
+        if (c != null) {
+        	lps.addAll(c);
+        }
+        return lps;
 	}
 }
