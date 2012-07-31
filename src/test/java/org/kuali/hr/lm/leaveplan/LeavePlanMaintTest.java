@@ -98,6 +98,11 @@ public class LeavePlanMaintTest extends TkTestCase {
 		Assert.assertTrue("Maintenance page text contains:\n" + "Planning Months (Planning Months) is a required field", outputPage.asText().contains("Planning Months (Planning Months) is a required field"));
 		Assert.assertTrue("Maintenance page text contains:\n" + "Calendar Year Start (MM/DD) (Calendar Year Start (MM/DD)) is a required field", outputPage.asText().contains("Calendar Year Start (MM/DD) (Calendar Year Start (MM/DD)) is a required field"));
 		
+		setFieldValue(outputPage, "document.newMaintainableObject.effectiveDate", "");
+		HtmlPage page = HtmlUnitUtil.clickInputContainingText(outputPage, "submit");
+		Assert.assertTrue("Maintenance page text contains:\n" + "Effective Date (Effective Date) is a required field.", page.asText().contains("Effective Date (Effective Date) is a required field."));
+		Assert.assertFalse("Maintenance page text contains:\n" + "Incident Report", page.asText().contains("Incident Report "));
+		
 	}
 	
 	

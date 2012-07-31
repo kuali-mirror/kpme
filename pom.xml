@@ -333,7 +333,6 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>liquibase.properties</include>
                     <include>META-INF/kpme-config-build.xml</include>
                 </includes>
             </resource>
@@ -370,15 +369,39 @@
                 <version>2.0.5</version>
                 <configuration>
                     <changeLogFile>src/main/resources/db.changelog.xml</changeLogFile>
-                    <propertyFile>target/classes/liquibase.properties</propertyFile>
+                    <verbose>true</verbose>
                 </configuration>
                 <executions>
-	                <execution>
+                    <execution>
+                        <id>rice-database-load</id>
 	                    <phase>process-resources</phase>
 	                    <goals>
 	                        <goal>update</goal>
 	                    </goals>
+                        <configuration>
+                            <driver>${kr.dataSource.driver}</driver>
+                            <url>${kr.dataSource.jdbcUrl}</url>
+                            <username>${kr.dataSource.username}</username>
+                            <password>${kr.dataSource.password}</password>
+                            <dropFirst>${kr.dataSource.dropFirst}</dropFirst>
+                            <contexts>${kr.dataSource.contexts}</contexts>
+	                    </configuration>
 	                </execution>
+                    <execution>
+                        <id>kpme-database-load</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>update</goal>
+                        </goals>
+                        <configuration>
+                            <driver>${kpme.dataSource.driver}</driver>
+                            <url>${kpme.dataSource.jdbcUrl}</url>
+                            <username>${kpme.dataSource.username}</username>
+                            <password>${kpme.dataSource.password}</password>
+                            <dropFirst>${kpme.dataSource.dropFirst}</dropFirst>
+                            <contexts>${kpme.dataSource.contexts}</contexts>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -571,43 +594,41 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>   
-		        <dataSource.driver>com.mysql.jdbc.Driver</dataSource.driver>
-		        <dataSource.jdbcUrl>jdbc:mysql://localhost:3306/</dataSource.jdbcUrl>
-		        <dataSource.database>tk</dataSource.database>
-		        <dataSource.username>tk</dataSource.username>
-		        <dataSource.password>tk_tk_tk</dataSource.password>
-		        
-		        <liquibase.verbose>true</liquibase.verbose>
-		        <liquibase.dropFirst>false</liquibase.dropFirst>
-		        <liquibase.contexts>rice-client-bootstrap,kpme-client-bootstrap</liquibase.contexts>
+                <kr.dataSource.driver>com.mysql.jdbc.Driver</kr.dataSource.driver>
+                <kr.dataSource.jdbcUrl>jdbc:mysql://localhost:3306/krtt</kr.dataSource.jdbcUrl>
+                <kr.dataSource.database>krtt</kr.dataSource.database>
+                <kr.dataSource.username>krtt</kr.dataSource.username>
+                <kr.dataSource.password>krtt</kr.dataSource.password>
+                <kr.dataSource.dropFirst>false</kr.dataSource.dropFirst>
+                <kr.dataSource.contexts>rice-server-bootstrap,kpme-server-bootstrap,kpme-server-staging</kr.dataSource.contexts>
+            
+                <kpme.dataSource.driver>com.mysql.jdbc.Driver</kpme.dataSource.driver>
+                <kpme.dataSource.jdbcUrl>jdbc:mysql://localhost:3306/tk</kpme.dataSource.jdbcUrl>
+                <kpme.dataSource.database>tk</kpme.dataSource.database>
+                <kpme.dataSource.username>tk</kpme.dataSource.username>
+                <kpme.dataSource.password>tk_tk_tk</kpme.dataSource.password>
+                <kpme.dataSource.dropFirst>false</kpme.dataSource.dropFirst>
+                <kpme.dataSource.contexts>rice-client-bootstrap,kpme-client-bootstrap,kpme-client-staging</kpme.dataSource.contexts>
             </properties>
         </profile>
         <profile>
             <id>kpme-test</id>
             <properties>
-                <dataSource.driver>com.mysql.jdbc.Driver</dataSource.driver>
-                <dataSource.jdbcUrl>jdbc:mysql://localhost:3306/</dataSource.jdbcUrl>
-                <dataSource.database>tk-test</dataSource.database>
-                <dataSource.username>tk</dataSource.username>
-                <dataSource.password>tk_tk_tk</dataSource.password>
-                
-                <liquibase.verbose>true</liquibase.verbose>
-                <liquibase.dropFirst>true</liquibase.dropFirst>
-                <liquibase.contexts>rice-client-bootstrap,kpme-client-bootstrap,kpme-client-test</liquibase.contexts>
-            </properties>
-        </profile>
-        <profile>
-            <id>kpme-rice</id>
-            <properties>
-                <dataSource.driver>com.mysql.jdbc.Driver</dataSource.driver>
-                <dataSource.jdbcUrl>jdbc:mysql://localhost:3306/</dataSource.jdbcUrl>
-                <dataSource.database>krtt</dataSource.database>
-                <dataSource.username>krtt</dataSource.username>
-                <dataSource.password>krtt</dataSource.password>
-                
-                <liquibase.verbose>true</liquibase.verbose>
-                <liquibase.dropFirst>false</liquibase.dropFirst>
-                <liquibase.contexts>rice-server-bootstrap,kpme-server-bootstrap</liquibase.contexts>
+                <kr.dataSource.driver>com.mysql.jdbc.Driver</kr.dataSource.driver>
+                <kr.dataSource.jdbcUrl>jdbc:mysql://localhost:3306/krtt</kr.dataSource.jdbcUrl>
+                <kr.dataSource.database>krtt</kr.dataSource.database>
+                <kr.dataSource.username>krtt</kr.dataSource.username>
+                <kr.dataSource.password>krtt</kr.dataSource.password>
+                <kr.dataSource.dropFirst>false</kr.dataSource.dropFirst>
+                <kr.dataSource.contexts>rice-server-bootstrap,kpme-server-bootstrap,kpme-server-staging</kr.dataSource.contexts>
+
+                <kpme.dataSource.driver>com.mysql.jdbc.Driver</kpme.dataSource.driver>
+                <kpme.dataSource.jdbcUrl>jdbc:mysql://localhost:3306/tk-test</kpme.dataSource.jdbcUrl>
+                <kpme.dataSource.database>tk-test</kpme.dataSource.database>
+                <kpme.dataSource.username>tk</kpme.dataSource.username>
+                <kpme.dataSource.password>tk_tk_tk</kpme.dataSource.password>
+                <kpme.dataSource.dropFirst>true</kpme.dataSource.dropFirst>
+                <kpme.dataSource.contexts>rice-client-bootstrap,kpme-client-bootstrap,kpme-client-test</kpme.dataSource.contexts>
             </properties>
         </profile>
         

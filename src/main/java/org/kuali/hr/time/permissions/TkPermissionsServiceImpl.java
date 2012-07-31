@@ -1,5 +1,6 @@
 package org.kuali.hr.time.permissions;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.authorization.DepartmentalRule;
@@ -276,6 +278,18 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
                 if (TKContext.getUser().isSystemAdmin()) {
                     return true;
                 }
+            }
+            // kpme-1689
+            if(StringUtils.equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE, blockType)
+            		&& StringUtils.isNotEmpty(lb.getScheduleTimeOffId())
+            		&& lb.getLeaveAmount().compareTo(BigDecimal.ZERO) == -1) {
+            	if(TKContext.getUser().isSystemAdmin()) {
+            		return true;
+            	}
+            	SystemScheduledTimeOff ssto = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
+            	if(ssto != null && !StringUtils.equals("NUTA", ssto.getUnusedTime())) {
+            		return true;
+            	}
             }
         }
 

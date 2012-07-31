@@ -4,9 +4,9 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
     
     <changeSet id="1" author="lee55" context="kpme-client-bootstrap">
-        <comment>reorganized the sql files</comment>
+        <comment>KPME-1331 KPME-1340</comment>
         <addColumn tableName="tk_time_block_t">
-            <column name="lunch_deleted" type="VARCHAR(1)" defaultValue="">
+            <column name="lunch_deleted" type="VARCHAR(1) NOT NULL" defaultValue="N">
                 <constraints nullable="false" />
             </column>
         </addColumn>

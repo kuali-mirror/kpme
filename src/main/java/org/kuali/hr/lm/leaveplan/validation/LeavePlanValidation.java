@@ -3,6 +3,7 @@ package org.kuali.hr.lm.leaveplan.validation;
 import java.sql.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -68,8 +69,12 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 			if (leavePlan != null) {
 				valid = true;
 				valid &= this.validateInactivation(leavePlan);
-				valid &= this.validatePlanningMonths(leavePlan.getPlanningMonths());
-				valid &= this.validateEffectiveDate(leavePlan.getEffectiveDate());
+				if(StringUtils.isNotEmpty(leavePlan.getPlanningMonths())) {
+					valid &= this.validatePlanningMonths(leavePlan.getPlanningMonths());
+				}
+				if(leavePlan.getEffectiveDate() != null) {
+					valid &= this.validateEffectiveDate(leavePlan.getEffectiveDate());
+				}
 			}
 		}
 		return valid;
