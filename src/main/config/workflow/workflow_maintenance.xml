@@ -244,7 +244,13 @@
     	<parent>RiceDocument</parent>
     	<docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
     	<label>PositionMaintenanceDocument</label>
-    </documentType>    
+    </documentType>
+    <documentType>
+        <name>PrincipalHRAttributesMaintenanceDocumentType</name>
+        <parent>RiceDocument</parent>
+        <docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
+        <label>PrincipalHRAttributesMaintenanceDocument</label>
+    </documentType>
 	<documentType>
       <name>ACCT</name>
       <parent>RiceDocument</parent>
