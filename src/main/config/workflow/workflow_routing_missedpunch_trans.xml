@@ -29,9 +29,9 @@
         <documentType>
             <name>MissedPunchDocumentType</name>
             <parent>RiceDocument</parent>
-            <superUserWorkgroupName>TK_SYSTEM_ADMIN</superUserWorkgroupName>
-      		<blanketApproveWorkgroupName>TK_SYSTEM_ADMIN</blanketApproveWorkgroupName>
-      		<defaultExceptionWorkgroupName>TK_SYSTEM_ADMIN</defaultExceptionWorkgroupName>
+            <superUserWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</superUserWorkgroupName>
+      		<blanketApproveWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</blanketApproveWorkgroupName>
+      		<defaultExceptionWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</defaultExceptionWorkgroupName>
             <description>Missed Punch Document</description>
             <label>Missed Punch Document</label>
             <postProcessorName>org.kuali.hr.time.workflow.postprocessor.TkMissedPunchPostProcessor</postProcessorName>
@@ -46,13 +46,13 @@
             </routePaths>
             <routeNodes>
                 <start name="adhoc">
-                    <exceptionWorkgroup>TK_SYSTEM_ADMIN</exceptionWorkgroup>
+                    <exceptionWorkgroup>KPME-WKFLW:TK_SYSTEM_ADMIN</exceptionWorkgroup>
                     <activationType>S</activationType>
                     <mandatoryRoute>false</mandatoryRoute>
                     <finalApproval>false</finalApproval>
                 </start>
                 <requests name="Missed Punch">
-                    <exceptionWorkgroup>TK_SYSTEM_ADMIN</exceptionWorkgroup>
+                    <exceptionWorkgroup>KPME-WKFLW:TK_SYSTEM_ADMIN</exceptionWorkgroup>
                     <activationType>S</activationType>
                     <ruleTemplate>TkWorkflowMissedPunchTemplate</ruleTemplate>
                     <mandatoryRoute>true</mandatoryRoute>
