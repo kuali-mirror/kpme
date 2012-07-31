@@ -10,7 +10,6 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +41,11 @@ public class LeaveCalendar extends CalendarParent {
             //Create weeks
             LeaveCalendarDay leaveCalendarDay = new LeaveCalendarDay();
 
+            leaveCalendarDay.setGray(false);
+            // if the last day time is the beginning of a day, make it gray
+            if(currDateTime.equals(getEndDateTime()) && getEndDateTime().getHourOfDay() == 0) {
+            	leaveCalendarDay.setGray(true);
+            }
             // If the day is not within the current pay period, mark them as read only (setGray)
             if (currDateTime.isBefore(getBeginDateTime()) || currDateTime.isAfter(getEndDateTime())) {
                 leaveCalendarDay.setGray(true);
