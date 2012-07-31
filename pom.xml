@@ -347,7 +347,7 @@
                 <kpme.dataSource.username>tk</kpme.dataSource.username>
                 <kpme.dataSource.password>tk_tk_tk</kpme.dataSource.password>
                 <kpme.dataSource.dropFirst>true</kpme.dataSource.dropFirst>
-                <kpme.dataSource.contexts>kpme-client-bootstrap,kpme-client-test</kpme.dataSource.contexts>
+                <kpme.dataSource.contexts>rice-client-bootstrap,kpme-client-bootstrap,kpme-client-test</kpme.dataSource.contexts>
             </properties>
         </profile>
         
