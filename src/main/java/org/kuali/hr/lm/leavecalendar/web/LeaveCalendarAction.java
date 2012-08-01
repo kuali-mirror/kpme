@@ -85,6 +85,9 @@ public class LeaveCalendarAction extends TkAction {
 		}
 		
 		lcf.setCalendarEntry(calendarEntry);
+		if(calendarEntry != null) {
+			lcf.setCalEntryId(calendarEntry.getHrCalendarEntriesId());
+		}
 		lcf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
 		// check configuration setting for allowing accrual service to be ran from leave calendar
 		String runAccrualFlag = ConfigContext.getCurrentContextConfig().getProperty(LMConstants.RUN_ACCRUAL_FROM_CALENDAR);
@@ -362,6 +365,9 @@ public class LeaveCalendarAction extends TkAction {
 			leaveForm.setDocEditable(true);
 		}
 		leaveForm.setCalendarEntry(lcd.getCalendarEntry());
+		if(lcd.getCalendarEntry() != null) {
+			leaveForm.setCalEntryId(lcd.getCalendarEntry().getHrCalendarEntriesId());
+		}
 		leaveForm.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(lcd.getCalendarEntry()));
 
 	}
@@ -373,6 +379,9 @@ public class LeaveCalendarAction extends TkAction {
 		CalendarEntries calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, currentDate);
 		LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, calendarEntry);
 		lcf.setCalendarEntry(calendarEntry);
+		if(calendarEntry != null) {
+			lcf.setCalEntryId(calendarEntry.getHrCalendarEntriesId());
+		}
 		lcf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
 		lcf.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(calendarEntry));
 		if (lcd != null) {
