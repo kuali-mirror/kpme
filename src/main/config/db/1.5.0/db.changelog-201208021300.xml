@@ -5,11 +5,7 @@
  
 	<changeSet id="1" author="yingzhou" context="kpme-client-bootstrap">
 		<comment>KPME-1267</comment>
-		<modifyColumn tableName="lm_prin_accr_ran_t">
-		    <column name="last_ran_ts" type="TIMESTAMP">
-		    	<constraints nullable="false" />
-          	</column>
-		</modifyColumn>
+		<modifyDataType tableName="lm_prin_accr_ran_t" columnName="last_ran_ts" newDataType="TIMESTAMP"/>
     </changeSet>
   
 </databaseChangeLog>
