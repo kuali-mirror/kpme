@@ -29,7 +29,7 @@
     <param name="kim.show.blank.qualifiers">false</param>
     
     <!-- Bundled (Development) mode Rice URL -->
-    <param name="application.host">127.0.0.1</param>
+    <param name="application.host">localhost</param>
     <param name="rice.server.url">${application.url}</param>
 
     <!-- Filter Override -->
@@ -48,7 +48,7 @@
 	<param name="krms.mode">LOCAL</param>
 	<param name="coreservice.mode">LOCAL</param>
 	<param name="location.mode">LOCAL</param>
-	<param name="dev.mode">true</param>
+	<param name="dev.mode">false</param>
 	
 	<!-- URL Settings -->
     <param name="kns.javascript.files">krad/plugins/jquery/jquery-1.6.3.js,krad/plugins/postmsg/jquery.ba-postmessage.js,krad/plugins/cookie/jquery.cookie.js,kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,dwr/interface/PersonService.js,kr/scripts/objectInfo.js</param>
@@ -106,20 +106,20 @@
     <param name="server.datasource.pool.class.non.xa">bitronix.tm.resource.jdbc.lrc.LrcXADataSource</param>
     
     <!-- KPME Client DB -->
-    <param name="datasource.url">jdbc:mysql://localhost:3306/kpmedev</param>
-    <param name="datasource.username">kpmedev</param>
-    <param name="datasource.password">secret</param>
+    <param name="datasource.url" override="false">jdbc:mysql://localhost:3306/kpmedev</param>
+    <param name="datasource.username" override="false">kpmedev</param>
+    <param name="datasource.password" override="false" >secret</param>
     
     <!-- Rice Server DB -->
-    <param name="server.datasource.url">jdbc:mysql://localhost:3306/krdev</param>
-    <param name="server.datasource.username">krdev</param>
-    <param name="server.datasource.password">secret</param>
+    <param name="server.datasource.url" override="false">jdbc:mysql://localhost:3306/krdev</param>
+    <param name="server.datasource.username" override="false">krdev</param>
+    <param name="server.datasource.password" override="false">secret</param>
 
     <!-- Rice Keystore -->
-	<param name="keystore.alias">rice</param>
-	<param name="keystore.file">kul</param>
-	<param name="keystore.password">r1c3pw</param>
-	<param name="encryption.key">7IC64w6kAAAA</param>
+	<param name="keystore.alias" override="false">rice</param>
+	<param name="keystore.file" override="false">kul</param>
+	<param name="keystore.password" override="false">r1c3pw</param>
+	<param name="encryption.key" override="false">7IC64w6kAAAA</param>
 
 	<!-- Exception Incident handling and reporting -->
 	<param name="KualiExceptionHandlerAction.EXCEPTION_INCIDENT_REPORT_SERVICE">knsExceptionIncidentService</param>

@@ -38,15 +38,16 @@
                            
     <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml" />
     <import resource="classpath:DataSourceSpringBeans.xml" />
+    <import resource="classpath:RiceConfigSpringBeans.xml" />
     
     <aop:aspectj-autoproxy/>
     
-    <bean id="kpmeCoreModule" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
-        <property name="moduleConfiguration" ref="kpmeCoreModuleConfiguration"/>
+    <bean id="kpmeModuleService" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
+        <property name="moduleConfiguration" ref="kpmeModuleConfiguration"/>
         <property name="kualiModuleService" ref="kualiModuleService"/>
     </bean>
     
-    <bean id="kpmeCoreModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
+    <bean id="kpmeModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
         <property name="namespaceCode" value="TK"/>
         <property name="initializeDataDictionary" value="true"/>
         <property name="packagePrefixes">

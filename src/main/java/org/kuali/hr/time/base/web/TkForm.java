@@ -85,7 +85,7 @@ public class TkForm extends KualiForm {
     	Date asOfDate = TKUtils.getTimelessDate(null);
     	String flsaStatus = TkConstants.FLSA_STATUS_NON_EXEMPT;
     	// find active assignments as of currentDate
-    	String principalId = GlobalVariables.getUserSession().getPrincipalId();
+    	String principalId = TKUser.getCurrentTargetPerson().getPrincipalId();
     	if(isActiveAssignmentFoundOnJobFlsaStatus(principalId, flsaStatus, false)) {
     		//find timecalendar defined
     		canViewTimeTabs = isCalendarDefined("payCalendar", principalId, asOfDate, false);
@@ -98,7 +98,7 @@ public class TkForm extends KualiForm {
     	Date asOfDate = TKUtils.getTimelessDate(null);
     	String flsaStatus = TkConstants.FLSA_STATUS_NON_EXEMPT;
     	// find active assignments as of currentDate
-    	String principalId = GlobalVariables.getUserSession().getPrincipalId();
+    	String principalId = TKUser.getCurrentTargetPerson().getPrincipalId();
     	boolean activeAss = isActiveAssignmentFoundOnJobFlsaStatus(principalId, flsaStatus, true);
     	// chk leave plan defined
     	boolean leaveCalNPlanDefined = isCalendarDefined("leaveCalendar", principalId, asOfDate, true);
@@ -110,7 +110,7 @@ public class TkForm extends KualiForm {
     
     private boolean canViewLeaveTabsWithEStatus() {
     	boolean canViewLeaveTabs = false;
-    	String principalId = GlobalVariables.getUserSession().getPrincipalId();
+    	String principalId = TKUser.getCurrentTargetPerson().getPrincipalId();
     	Date asOfDate = TKUtils.getTimelessDate(null);
     	boolean leaveCalNPlanDefined = isCalendarDefined("leaveCalendar", principalId, asOfDate, true);
     	String flsaStatus = TkConstants.FLSA_STATUS_EXEMPT;

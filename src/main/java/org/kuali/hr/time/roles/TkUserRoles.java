@@ -32,7 +32,7 @@ public class TkUserRoles implements UserRoles {
     private Map<Long, TkRole> approverRoles = new HashMap<Long, TkRole>();
     private Map<Long, TkRole> approverDelegateRoles = new HashMap<Long, TkRole>();
     private Map<Long, TkRole> reviewerRoles = new HashMap<Long, TkRole>();
-    ;
+
     private Map<String, TkRole> deptViewOnlyRoles = new HashMap<String, TkRole>();
     private Set<String> activeAssignmentIds = new HashSet<String>();
     

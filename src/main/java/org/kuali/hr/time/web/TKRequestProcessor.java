@@ -67,20 +67,21 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 	
 	/**
 	 * This method exists because the UnitTests need to set the request as well.
-	 *
-	 * @param request
 	 */
 	public void setUserOnContext() {
 		// Check for test mode; if not test mode check for backDoor validity.
 		if (new Boolean(ConfigContext.getCurrentContextConfig().getProperty("test.mode"))) {
-			GlobalVariables.getUserSession().setBackdoorUser(TkLoginFilter.TEST_ID);
+            GlobalVariables.setUserSession(new UserSession(TkLoginFilter.TEST_ID));
+			//GlobalVariables.getUserSession().setBackdoorUser(TkLoginFilter.TEST_ID);
 		}
 
-        Person targetPerson = (Person) GlobalVariables.getUserSession().getObjectMap().get(TkConstants.TK_TARGET_USER_PERSON);
+        //Person person = GlobalVariables.getUserSession().getActualPerson();
+        //Person targetPerson = (Person) GlobalVariables.getUserSession().getObjectMap().get(TkConstants.TK_TARGET_USER_PERSON);
 
         // Current date is sufficient for loading of current roles and permissions.
-		TKUser tkUser = TKUser.getUser(targetPerson, TKUtils.getCurrentDate());
-		TKContext.setUser(tkUser);
+		//TKUser tkUser = TKUser.getUser(targetPerson, TKUtils.getCurrentDate());
+        //TKUser.setTargetPerson(targetPerson);
+		//TKContext.setUser(tkUser);
 	}
 
 }

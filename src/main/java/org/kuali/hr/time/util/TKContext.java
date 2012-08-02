@@ -14,7 +14,7 @@ public class TKContext {
 
     private static final String TDOC_OBJ_KEY = "_TDOC_O_KEY";
     private static final String TDOC_KEY = "_TDOC_ID_KEY"; // Timesheet Document ID Key
-	private static final String USER_KEY = "_USER_KEY";
+	//private static final String USER_KEY = "_USER_KEY";
     private static final String LDOC_OBJ_KEY = "_LDOC_O_KEY";
     private static final String LDOC_KEY = "_LDOC_ID_KEY";
 
@@ -54,12 +54,14 @@ public class TKContext {
 	 * @return
 	 */
 	public static TKUser getUser() {
-		return (TKUser) GlobalVariables.getUserSession().retrieveObject(USER_KEY);
+        //TODO, this method isn't needed if everything in TKUser is accessed in a static fashion...
+        return new TKUser();
+		//return (TKUser) GlobalVariables.getUserSession().retrieveObject(USER_KEY);
 	}
 
-	public static void setUser(TKUser user) {
-		GlobalVariables.getUserSession().addObject(USER_KEY, user);
-	}
+	//public static void setUser(TKUser user) {
+	//	GlobalVariables.getUserSession().addObject(USER_KEY, user);
+	//}
 
 	public static String getPrincipalId(){
 		return GlobalVariables.getUserSession().getPrincipalId();

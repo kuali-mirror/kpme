@@ -68,20 +68,20 @@
 		<servlet-name>action</servlet-name>
 	</filter-mapping>
 	
-    <filter-mapping>
+    <!--<filter-mapping>
         <filter-name>BootstrapFilter</filter-name>
         <servlet-name>kcb</servlet-name>
-    </filter-mapping>
+    </filter-mapping>-->
 
 	<filter-mapping>
 		<filter-name>UserLoginFilter</filter-name>
 		<servlet-name>action</servlet-name>
 	</filter-mapping>
 	
-    <filter-mapping>
+    <!--<filter-mapping>
         <filter-name>UserLoginFilter</filter-name>
         <servlet-name>kcb</servlet-name>
-    </filter-mapping>
+    </filter-mapping>-->
     
     <filter-mapping>
         <filter-name>UserLoginFilter</filter-name>
@@ -98,10 +98,10 @@
 		<servlet-name>action</servlet-name>
 	</filter-mapping>
 
-	<filter-mapping>
+	<!--<filter-mapping>
 		<filter-name>UserPreferencesFilter</filter-name>
 		<servlet-name>kcb</servlet-name>
-	</filter-mapping>
+	</filter-mapping>-->
 
 	<filter-mapping>
 		<filter-name>UserPreferencesFilter</filter-name>

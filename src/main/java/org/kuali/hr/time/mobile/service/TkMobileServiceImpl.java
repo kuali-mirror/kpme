@@ -52,10 +52,8 @@ public class TkMobileServiceImpl implements TkMobileService {
 
         // Set person on the context
         // This is primary for getting the assignment, since we get the assignment by using the target principal id on the context
-        TKUser user = new TKUser();
         Person person = KimApiServiceLocator.getPersonService().getPerson(principalId);
-        user.setTargetPerson(person);
-        TKContext.setUser(user);
+        TKUser.setTargetPerson(person);
 
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(new AssignmentDescriptionKey(assignmentKey), TKUtils.getCurrentDate());
         Date currentDate = TKUtils.getCurrentDate();

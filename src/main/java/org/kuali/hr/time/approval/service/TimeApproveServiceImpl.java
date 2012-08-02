@@ -647,7 +647,11 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                         jobPositionNumbersList += job.getPositionNumber() + "','";
         }
         /* the sql statement will enclose this string in single quotes, so we do not want the leading quote, or the trailing quote, comma, and quote. */
-        jobPositionNumbersList = jobPositionNumbersList.substring(1, jobPositionNumbersList.length()-3) ;
+        if (jobPositionNumbersList.length() > 3) {
+            jobPositionNumbersList = jobPositionNumbersList.substring(1, jobPositionNumbersList.length()-3) ;
+        } else {
+            jobPositionNumbersList = jobPositionNumbersList.substring(1);
+        }
 
 	    if (department == null || department.isEmpty()) {
 	      return new ArrayList<String>();
