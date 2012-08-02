@@ -269,7 +269,7 @@
                                 <html:text property="accrualPrincipalId" size="20"/>
                             <kul:lookup
                                     boClassName="org.kuali.rice.kim.bo.impl.PersonImpl"
-                                    fieldConversions="principalName:accrualPrincipalId"
+                                    fieldConversions="principalId:accrualPrincipalId"
                                     lookupParameters="" baseLookupUrl="./kr/" />
                             <br/>
                             <script>
