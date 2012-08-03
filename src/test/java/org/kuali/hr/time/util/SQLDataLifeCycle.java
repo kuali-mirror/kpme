@@ -57,25 +57,21 @@ public class SQLDataLifeCycle  extends BaseLifecycle {
 		if (schemaName == null || schemaName.equals("")) {
 			Assert.fail("Empty schema name given");
 		}
-		new TransactionTemplate(transactionManager).execute(    new TransactionCallback() {
+		new TransactionTemplate(transactionManager).execute(new TransactionCallback<Object>() {
             public Object doInTransaction(final TransactionStatus status) {
             	verifyTestEnvironment(dataSource);
-            	return new JdbcTemplate(dataSource).execute(new StatementCallback() {
+            	return new JdbcTemplate(dataSource).execute(new StatementCallback<Object>() {
                 	public Object doInStatement(Statement statement) throws SQLException {
-                        List<String> sqlStatements = getTestDataSQLStatements("src/test/config/sql/tk-test-data.sql");
-                        //
-                        // djunk - add a per-class special test data loader,
-                        // loads <testclassname>.sql from the same directory
-                        // as the other SQL loaded.
                         if (callingTestClass != null) {
-                            sqlStatements.addAll(getTestDataSQLStatements("src/test/config/sql/" + callingTestClass.getSimpleName() + ".sql"));
+                        	 List<String> sqlStatements = getTestDataSQLStatements("src/test/config/sql/" + callingTestClass.getSimpleName() + ".sql");
+                        
+                     		for(String sql : sqlStatements){
+                                if (!sql.startsWith("#") && !sql.startsWith("//") && !StringUtils.isEmpty(sql.trim())) {
+                                    // ignore comment lines in our sql reader.
+                    			    statement.addBatch(sql);
+                                }
+                    		}
                         }
-                		for(String sql : sqlStatements){
-                            if (!sql.startsWith("#") && !sql.startsWith("//") && !StringUtils.isEmpty(sql.trim())) {
-                                // ignore comment lines in our sql reader.
-                			    statement.addBatch(sql);
-                            }
-                		}
                 		statement.executeBatch();
                 		return null;
                 	}

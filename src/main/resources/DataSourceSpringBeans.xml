@@ -56,10 +56,10 @@
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util-3.0.xsd">
 
-    <alias name="krDataSource${connection.pool.impl}" alias="krDataSource"/>
+    <alias name="riceDataSource${connection.pool.impl}" alias="riceDataSource"/>
     <alias name="kpmeDataSource${connection.pool.impl}" alias="kpmeDataSource"/>
     
-    <bean id="krDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
+    <bean id="riceDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
         <property name="transactionManager" ref="transactionManagerXAPool" />
         <property name="driverClassName" value="${server.datasource.driver.name}" />
         <property name="url" value="${server.datasource.url}" />
@@ -93,7 +93,7 @@
         </property>
     </bean>
 
-    <bean id="krDataSourceBitronix" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init" destroy-method="close" lazy-init="true">
+    <bean id="riceDataSourceBitronix" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init" destroy-method="close" lazy-init="true">
 	    <property name="className" value="${server.datasource.pool.class.non.xa}" />
 	    <property name="uniqueName" ref="ds-random-string" />
 	    <property name="minPoolSize" value="${server.datasource.pool.minSize}" />
@@ -129,7 +129,7 @@
 	    </property>
     </bean>
   
-    <bean id="krDataSourceBitronixXa" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init" destroy-method="close" lazy-init="true">
+    <bean id="riceDataSourceBitronixXa" class="bitronix.tm.resource.jdbc.PoolingDataSource" init-method="init" destroy-method="close" lazy-init="true">
 	    <property name="className" value="${server.datasource.pool.class}" />
 	    <property name="uniqueName" ref="ds-random-string" />
 	    <property name="minPoolSize" value="${server.datasource.pool.minSize}" />

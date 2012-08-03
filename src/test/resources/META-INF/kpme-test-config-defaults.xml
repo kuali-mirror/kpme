@@ -36,7 +36,8 @@
 	
 	<param name="tk.use.clearDatabaseLifecycle">true</param>
 	
-    <param name="filter.login.class">org.kuali.hr.time.web.TkLoginFilter</param>
+    <param name="filter.login.class">org.kuali.rice.krad.web.filter.AutoLoginFilter</param>
     <param name="filtermapping.login.1">/*</param>
+    <param name="filter.login.autouser">admin</param>
     
 </config>

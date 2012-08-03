@@ -112,7 +112,7 @@ public class TkTestCase extends KNSTestCase{
 
 	@Override
 	protected String getModuleName() {
-		return "";
+		return "kpme";
 	}
 
    protected final void setFieldValue(HtmlPage page, String fieldId, String fieldValue) {

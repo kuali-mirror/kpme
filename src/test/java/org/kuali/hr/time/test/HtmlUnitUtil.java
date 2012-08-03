@@ -114,7 +114,7 @@ public class HtmlUnitUtil {
 	}
 
     public static String getBaseURL() {
-	return "http://localhost:" + getPort() + "/tk-dev";
+	return "http://localhost:" + getPort() + "/kpme-dev";
     }
 
     public static String getTempDir() {

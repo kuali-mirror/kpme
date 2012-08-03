@@ -48,17 +48,17 @@
 
     <bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer">
         <property name="dataSource" ref="kpmeDataSource${connection.pool.impl}" />
-        <property name="serverDataSource" ref="krDataSource${connection.pool.impl}" />
+        <property name="serverDataSource" ref="riceDataSource${connection.pool.impl}" />
         <property name="nonTransactionalDataSource" ref="nonTransactionalDataSource" />
         <property name="transactionManager" ref="transactionManager${connection.pool.impl}" />
         <property name="userTransaction" ref="jtaUserTransaction" />
     </bean>
 
     <bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
-        <property name="registryDataSource" ref="krDataSource${connection.pool.impl}" />
-        <property name="messageDataSource" ref="krDataSource${connection.pool.impl}" />
+        <property name="registryDataSource" ref="riceDataSource${connection.pool.impl}" />
+        <property name="messageDataSource" ref="riceDataSource${connection.pool.impl}" />
         <property name="nonTransactionalMessageDataSource" ref="nonTransactionalDataSource" />
-        <property name="bamDataSource" ref="krDataSource${connection.pool.impl}" />
+        <property name="bamDataSource" ref="riceDataSource${connection.pool.impl}" />
         <property name="properties" ref="configProperties" />
     </bean>
 
@@ -74,7 +74,7 @@
     </bean>
 
     <bean id="kewConfigurer" class="org.kuali.rice.kew.config.KEWConfigurer">
-        <property name="dataSource" ref="krDataSource${connection.pool.impl}" />
+        <property name="dataSource" ref="riceDataSource${connection.pool.impl}" />
         <property name="properties" ref="configProperties" />
     </bean>
 

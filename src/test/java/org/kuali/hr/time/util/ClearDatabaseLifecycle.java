@@ -87,7 +87,7 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
 
 	public void start() throws Exception {
 		if (new Boolean(ConfigContext.getCurrentContextConfig().getProperty("tk.use.clearDatabaseLifecycle"))) {
-			final StandardXAPoolDataSource dataSource = (StandardXAPoolDataSource) TkServiceLocator.CONTEXT.getBean("tkDataSource");
+			final StandardXAPoolDataSource dataSource = (StandardXAPoolDataSource) TkServiceLocator.CONTEXT.getBean("kpmeDataSource");
 			final PlatformTransactionManager transactionManager = (PlatformTransactionManager) TkServiceLocator.CONTEXT.getBean("transactionManager");
 			final String schemaName = dataSource.getUser().toUpperCase();
 			clearTables(transactionManager, dataSource, schemaName);
@@ -117,10 +117,10 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
 		if (schemaName == null || schemaName.equals("")) {
 			Assert.fail("Empty schema name given");
 		}
-		new TransactionTemplate(transactionManager).execute(new TransactionCallback() {
+		new TransactionTemplate(transactionManager).execute(new TransactionCallback<Object>() {
             public Object doInTransaction(final TransactionStatus status) {
             	verifyTestEnvironment(dataSource);
-            	return new JdbcTemplate(dataSource).execute(new StatementCallback() {
+            	return new JdbcTemplate(dataSource).execute(new StatementCallback<Object>() {
                 	public Object doInStatement(Statement statement) throws SQLException {
                     		final List<String> reEnableConstraints = new ArrayList<String>();
                     		for (String tableName : TABLES_TO_CLEAR) {
