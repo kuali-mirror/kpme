@@ -10,7 +10,7 @@ $(document).ready(function() {
     // ajax tests
 	module("Calendar Ajax Unit Test");
 
-    var ajaxTestBaseUrl = "http://localhost:8080/tk-dev/TimeDetail.do?methodToCall=";
+    var ajaxTestBaseUrl = "http://localhost:8090/kpme-dev/TimeDetail.do?methodToCall=";
 
     test("Add / Load time blocks", function() {
         expect(1);

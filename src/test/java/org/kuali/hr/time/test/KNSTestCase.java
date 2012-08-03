@@ -1,5 +1,6 @@
 package org.kuali.hr.time.test;
 
+import java.io.File;
 import java.util.List;
 
 import org.kuali.rice.core.api.lifecycle.BaseLifecycle;
@@ -63,6 +64,20 @@ public abstract class KNSTestCase extends RiceInternalSuiteDataTestCase {
 			transactionalLifecycle.start();
 		}
 	}
+
+    /**
+     * maven will set this property and find resources from the config based on it. This makes eclipse testing work because
+     * we have to put the basedir in our config files in order to find things when testing from maven
+     */
+    @Override
+    protected void setBaseDirSystemProperty(String moduleBaseDir) {
+        if (System.getProperty("basedir") == null) {
+            final String userDir = System.getProperty("user.dir");
+            //String basedir = userDir + ((userDir.endsWith(File.separator + moduleBaseDir)) ? "" : File.separator + moduleBaseDir);
+            //basedir = basedir.endsWith(File.separator) ? basedir.substring(0, basedir.length() - 1) : basedir;
+            System.setProperty("basedir", userDir);
+        }
+    }
 	
 	public void tearDown() throws Exception {
 		final boolean needsSpring = true;

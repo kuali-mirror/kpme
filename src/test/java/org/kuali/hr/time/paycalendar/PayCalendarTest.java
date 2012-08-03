@@ -11,7 +11,7 @@ public class PayCalendarTest extends TkTestCase {
 	
 	@Test
 	public void testPayCalendar() throws Exception{
-    	String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.calendar.Calendar&returnLocation=http://localhost:8080/tk-dev/portal.do&hideReturnLink=true&docFormKey=88888888";	
+    	String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.calendar.Calendar&returnLocation=" + HtmlUnitUtil.getBaseURL() + "/portal.do&hideReturnLink=true&docFormKey=88888888";
     	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
     	HtmlUnitUtil.createTempFile(page);
     	page = HtmlUnitUtil.clickInputContainingText(page, "search");

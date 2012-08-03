@@ -157,12 +157,13 @@ public class JettyServer implements Lifecycle {
 		 * We can only tell if the context startup failed if the server is using a WebAppContext object since the
 		 * org.mortbay.jetty.servlet.Context object does not have a field named '_unavailable'
 		 */
-        if (useWebAppContext()) {
+        /*if (useWebAppContext()) {
             Field unavailableField = context.getClass().getDeclaredField("_unavailable");
             unavailableField.setAccessible(true);
             return unavailableField.getBoolean(context);
         }
-        return false;
+        return false;*/
+        return !context.isAvailable();
     }
 
     public String getRelativeWebappRoot() {

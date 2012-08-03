@@ -16,6 +16,7 @@ import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.lifecycle.Lifecycle;
 import org.kuali.rice.core.impl.config.property.ConfigFactoryBean;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.test.lifecycles.JettyServerLifecycle;
@@ -43,14 +44,18 @@ public class TkTestCase extends KNSTestCase{
 		setRelativeWebappRoot("/src/main/webapp");
 
 		ConfigFactoryBean.CONFIG_OVERRIDE_LOCATION = "classpath:META-INF/kpme-test-config.xml";
-		TkLoginFilter.TEST_ID = "admin";
+		//TkLoginFilter.TEST_ID = "admin";
 		GlobalVariables.setMessageMap(new MessageMap());
 		TKContext.setHttpServletRequest(new MockHttpServletRequest());
 		super.setUp();
-		new TKRequestProcessor().setUserOnContext();
+
+        //GlobalVariables.setUserSession(new UserSession("admin"));
+		//login with 'admin' user
+        //new TKRequestProcessor().setUserOnContext();
 		//this clears the cache that was loaded from the above call.  Do not comment
-		TKContext.setHttpServletRequest(new MockHttpServletRequest());
-		new ClearDatabaseLifecycle().start();
+		//TKContext.setHttpServletRequest(new MockHttpServletRequest());
+
+        new ClearDatabaseLifecycle().start();
 		new LoadDatabaseDataLifeCycle(this.getClass()).start();
 	}
 

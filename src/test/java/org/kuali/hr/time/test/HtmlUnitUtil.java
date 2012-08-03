@@ -114,7 +114,7 @@ public class HtmlUnitUtil {
 	}
 
     public static String getBaseURL() {
-	return "http://localhost:" + getPort() + "/kpme-dev";
+	    return ConfigContext.getCurrentContextConfig().getProperty("application.url");
     }
 
     public static String getTempDir() {

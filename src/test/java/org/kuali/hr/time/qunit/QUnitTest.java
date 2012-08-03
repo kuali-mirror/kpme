@@ -63,7 +63,7 @@ public class QUnitTest extends TkTestCase {
 
 		// pass the login filter
 		// need to change to the testing port 8090
-		HtmlPage page = client.getPage(new URL("http://localhost:8080/tk-dev/TimeDetail.do"));
+		HtmlPage page = client.getPage(new URL(HtmlUnitUtil.getBaseURL() + "/TimeDetail.do"));
 		HtmlForm form = page.getFormByName("login-form");
 		HtmlSubmitInput button = form.getInputByName("login");
 		page = button.click();

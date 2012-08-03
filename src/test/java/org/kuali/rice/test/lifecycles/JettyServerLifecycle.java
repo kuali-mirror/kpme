@@ -84,7 +84,7 @@ public class JettyServerLifecycle implements Lifecycle {
 
 	public JettyServerLifecycle(int port, String contextName, String relativeWebappRoot) {
 		jettyServer = new JettyServer(port, contextName, relativeWebappRoot);
-		jettyServer.setTestMode(true);
+        jettyServer.setFailOnContextFailure(true);
 		jettyServer.setTestMode(testMode);
 	}
 
@@ -134,6 +134,7 @@ public class JettyServerLifecycle implements Lifecycle {
             if (rl == null) {
                 throw new RuntimeException("Could not find resource loader for workflow test harness web app for: " + webappClassLoader);
             }
+            //GlobalResourceLoader.addResourceLoaderFirst();
             GlobalResourceLoader.addResourceLoader(rl);
 	    }
 	    org.kuali.rice.core.api.config.property.Config webappConfig = ConfigContext.getCurrentContextConfig();
