@@ -38,7 +38,6 @@
                            
     <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml" />
     <import resource="classpath:DataSourceSpringBeans.xml" />
-    <import resource="classpath:RiceConfigSpringBeans.xml" />
     
     <aop:aspectj-autoproxy/>
     
