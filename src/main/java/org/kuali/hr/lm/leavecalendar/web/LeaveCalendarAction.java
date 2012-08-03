@@ -124,11 +124,18 @@ public class LeaveCalendarAction extends TkAction {
 		// KPME-1447
 		//List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(lcd.getDocumentId());
         List<LeaveBlock> leaveBlocks;
-        if (lcdh != null) {
+        if (lcdh != null && lcdh.getPrincipalId() != null && lcdh.getBeginDate() != null && lcdh.getEndDate() != null) {
             leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(lcdh.getPrincipalId(), lcdh.getBeginDate(), lcdh.getEndDate());
+        } else if(calendarEntry != null){
+            leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(viewPrincipal, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
         } else {
-            leaveBlocks = Collections.emptyList();
+        	leaveBlocks = Collections.emptyList();
         }
+        
+        // add warning messages based on earn codes of leave blocks
+        List<String> warningMes = ActionFormUtils.fmlaWarningTextForLeaveBlocks(leaveBlocks);
+        lcf.setWarnings(warningMes);
+        
 		// KPME-1690
 //        LeaveCalendar leaveCalender = new LeaveCalendar(viewPrincipal, calendarEntry);
         LeaveBlockAggregate aggregate = new LeaveBlockAggregate(leaveBlocks, calendarEntry, calendar);
