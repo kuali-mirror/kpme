@@ -25,7 +25,7 @@ import org.kuali.rice.core.api.lifecycle.Lifecycle;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.resourceloader.ResourceLoader;
 import org.kuali.rice.core.api.util.RiceUtilities;
-import org.kuali.rice.core.web.jetty.JettyServer;
+import org.kuali.rice.test.launch.JettyLauncher;
 
 
 /**
@@ -68,7 +68,7 @@ public class JettyServerLifecycle implements Lifecycle {
     private boolean addWebappResourceLoaders = true;
 
 
-	protected JettyServer jettyServer;
+	protected JettyLauncher jettyServer;
 
 	public JettyServerLifecycle() {
 		this(8080, null);
@@ -83,7 +83,7 @@ public class JettyServerLifecycle implements Lifecycle {
 	}
 
 	public JettyServerLifecycle(int port, String contextName, String relativeWebappRoot) {
-		jettyServer = new JettyServer(port, contextName, relativeWebappRoot);
+		jettyServer = new JettyLauncher(port, contextName, relativeWebappRoot);
         jettyServer.setFailOnContextFailure(true);
 		jettyServer.setTestMode(testMode);
 	}
@@ -163,7 +163,7 @@ public class JettyServerLifecycle implements Lifecycle {
 	    		WEBAPP_CONFIGS.remove(jettyServer.getPort());
 	    	}
 	    } catch (Exception e) {
-	        LOG.error("Error shutting down Jetty " + jettyServer.getContextName() + " " + jettyServer.getRelativeWebappRoot(), e);
+	        LOG.error("Error shutting down Jetty " + jettyServer.getContextName(), e);
 	    }
 		started = false;
 	}

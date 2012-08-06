@@ -20,6 +20,7 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
 import org.kuali.rice.test.lifecycles.JettyServerLifecycle;
+import org.kuali.rice.test.lifecycles.JettyServerLifecycle.ConfigMode;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
@@ -42,6 +43,10 @@ public class TkTestCase extends KNSTestCase{
 		ApplicationInitializeListener.ALTERNATE_LOG4J_FILE = "classpath:test_log4j.properties";
 		setContextName("/kpme-dev");
 		setRelativeWebappRoot("/src/main/webapp");
+		
+        if (System.getProperty("basedir") == null) {
+            System.setProperty("basedir", System.getProperty("user.dir") + "/");
+        }
 
 		ConfigFactoryBean.CONFIG_OVERRIDE_LOCATION = "classpath:META-INF/kpme-test-config.xml";
 		//TkLoginFilter.TEST_ID = "admin";
@@ -98,6 +103,7 @@ public class TkTestCase extends KNSTestCase{
 
 			public void start() throws Exception {
 				jettyServerLifecycle = new JettyServerLifecycle(getPort(), getContextName(), getRelativeWebappRoot());
+				jettyServerLifecycle.setConfigMode(ConfigMode.MERGE);
 				jettyServerLifecycle.start();
 			}
 

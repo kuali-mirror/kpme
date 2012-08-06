@@ -31,6 +31,7 @@
 	<param name="override.finalapprover">false</param> 
 	<param name="use.clearDatabaseLifecycle">false</param>
 	<param name="use.sqlDataLoaderLifecycle">false</param>
+	<param name="dev.mode">true</param>
 	<param name="test.mode">true</param>
 	<param name="ken.test.mode">true</param>
 	

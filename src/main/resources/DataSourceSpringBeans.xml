@@ -158,7 +158,7 @@
 	        <props>
 		        <prop key="URL">${datasource.url}</prop>
 		        <prop key="user">${datasource.username}</prop>
-		        <prop key="password">$datasource.password}</prop>
+		        <prop key="password">${datasource.password}</prop>
 	        </props>
 	    </property>
     </bean>
