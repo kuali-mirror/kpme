@@ -17,7 +17,7 @@ public class PersonInfoTest extends TkTestCase {
 		HtmlUnitUtil.createTempFile(clockPage);
 		Assert.assertTrue("Person Info Page renders with inappropriate data",clockPage.asText().contains("Principal Name"));
 		Assert.assertTrue("Person Info Page renders with inappropriate data",clockPage.asText().contains("Name"));
-		Assert.assertTrue("Person Info Page renders with inappropriate data",clockPage.asText().contains("Employee, Eric"));
+		Assert.assertTrue("Person Info Page renders with inappropriate data",clockPage.asText().contains("admin, admin"));
 		Assert.assertTrue("Person Info Page renders with inappropriate data",clockPage.asText().contains("Job Number"));
 		Assert.assertTrue("Person Info Page renders with inappropriate data",clockPage.asText().contains("Department Admin"));
 		

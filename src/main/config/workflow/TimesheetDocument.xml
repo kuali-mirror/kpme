@@ -1,9 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<data xmlns="ns:workflow" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ns:workflow resource:WorkflowData">
-
-	<documentTypes xmlns="ns:workflow/DocumentType" xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+<?xml version='1.0' encoding='UTF-8'?>
+<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <documentTypes xmlns="ns:workflow/DocumentType"
+        xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
-			<name>TimesheetDocument</name>
+            <name>TimesheetDocument</name>
 			<parent>RiceDocument</parent>
 			<superUserWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</superUserWorkgroupName>
 			<blanketApproveWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</blanketApproveWorkgroupName>
@@ -61,39 +63,9 @@
 			</policies>
 		</documentType>
 	</documentTypes>
-	
-    <ruleTemplates xmlns="ns:workflow/RuleTemplate" xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
-        <ruleTemplate allowOverwrite="true">
-            <name>TkWorkflowTimesheetTemplate</name>
-            <description>TkWorkflowTimesheetTemplate</description>
-            <attributes>
-                <attribute>
-                    <name>TkWorkflowTimesheetAttribute</name>
-                    <required>false</required>
-                </attribute>
-            </attributes>
-        </ruleTemplate>
-    </ruleTemplates>
     
-    <rules xmlns="ns:workflow/Rule" xsi:schemaLocation="ns:workflow/Rule resource:Rule">
-        <rule>
-            <name>TkWorkflowTimesheetRule</name>
-            <documentType>TimesheetDocument</documentType>
-            <ruleTemplate>TkWorkflowTimesheetTemplate</ruleTemplate>
-            <description>TkWorkflowTimesheetRule</description>
-            <forceAction>true</forceAction>
-            <responsibilities>
-                <responsibility>
-                    <role>org.kuali.hr.time.workflow.TkWorkflowTimesheetAttribute!TK_APPROVER</role>
-                    <approvePolicy>F</approvePolicy>
-                    <actionRequested>A</actionRequested>
-                    <priority>1</priority>
-                </responsibility>
-            </responsibilities>
-        </rule>
-    </rules>
-    
-    <ruleAttributes xmlns="ns:workflow/RuleAttribute" xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttributes xmlns="ns:workflow/RuleAttribute" 
+        xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
         <ruleAttribute>
             <name>TimesheetWorkareaSearchAttribute</name>
             <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
@@ -170,5 +142,37 @@
             <type>RuleAttribute</type>
         </ruleAttribute>
     </ruleAttributes>
-
+    
+    <ruleTemplates xmlns="ns:workflow/RuleTemplate" 
+        xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+        <ruleTemplate allowOverwrite="true">
+            <name>TkWorkflowTimesheetTemplate</name>
+            <description>TkWorkflowTimesheetTemplate</description>
+            <attributes>
+                <attribute>
+                    <name>TkWorkflowTimesheetAttribute</name>
+                    <required>false</required>
+                </attribute>
+            </attributes>
+        </ruleTemplate>
+    </ruleTemplates>
+    
+    <rules xmlns="ns:workflow/Rule" 
+        xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+        <rule>
+            <name>TkWorkflowTimesheetRule</name>
+            <documentType>TimesheetDocument</documentType>
+            <ruleTemplate>TkWorkflowTimesheetTemplate</ruleTemplate>
+            <description>TkWorkflowTimesheetRule</description>
+            <forceAction>true</forceAction>
+            <responsibilities>
+                <responsibility>
+                    <role>org.kuali.hr.time.workflow.TkWorkflowTimesheetAttribute!TK_APPROVER</role>
+                    <approvePolicy>F</approvePolicy>
+                    <actionRequested>A</actionRequested>
+                    <priority>1</priority>
+                </responsibility>
+            </responsibilities>
+        </rule>
+    </rules>
 </data>

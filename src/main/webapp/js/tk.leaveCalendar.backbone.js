@@ -250,11 +250,11 @@ $(function () {
         
         deleteLeaveBlock : function (e) {
             var key = _(e).parseEventKey();
-//            var timeBlock = timeBlockCollection.get(key.id);
+            var calId = $('#calEntryId').val();
             
 //            if (this.checkPermissions()) {
             	if (confirm('You are about to delete a leave block. Click OK to confirm the delete.')) {
-            		window.location = "LeaveCalendar.do?methodToCall=deleteLeaveBlock&leaveBlockId=" + key.id;
+            		window.location = "LeaveCalendar.do?methodToCall=deleteLeaveBlock&leaveBlockId=" + key.id + "&calEntryId=" + calId;
             	}
 //            }
         },

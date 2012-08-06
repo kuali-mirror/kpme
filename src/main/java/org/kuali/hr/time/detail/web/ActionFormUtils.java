@@ -1,25 +1,35 @@
 package org.kuali.hr.time.detail.web;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.json.simple.JSONValue;
+import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 public class ActionFormUtils {
 
@@ -216,5 +226,25 @@ public class ActionFormUtils {
     	}
     	return false;
     }
+    
+    public static List<String> fmlaWarningTextForLeaveBlocks(List<LeaveBlock> leaveBlocks) {
+    	List<String> warningMessages = new ArrayList<String>();
+	    if (leaveBlocks.isEmpty()) {
+	        return warningMessages;
+	    }
+	    Set<String> aSet = new HashSet<String>();
+	    for(LeaveBlock lb : leaveBlocks) {
+	    	EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), lb.getLeaveDate());
+	    	if(ec != null && ec.getFmla().equals("Y")) {
+		    	EarnCodeGroup eg = TkServiceLocator.getEarnCodeGroupService().getEarnCodeGroupForEarnCode(lb.getEarnCode(), lb.getLeaveDate());
+		    	if(eg != null && !StringUtils.isEmpty(eg.getWarningText())) {
+		    		aSet.add(eg.getWarningText());
+		    	}
+	    	}
+	     }
+	    warningMessages.addAll(aSet);
+		return warningMessages;
+    }
+    
 }
 

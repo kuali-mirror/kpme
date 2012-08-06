@@ -85,6 +85,9 @@ public class LeaveCalendarAction extends TkAction {
 		}
 		
 		lcf.setCalendarEntry(calendarEntry);
+		if(calendarEntry != null) {
+			lcf.setCalEntryId(calendarEntry.getHrCalendarEntriesId());
+		}
 		lcf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
 		// check configuration setting for allowing accrual service to be ran from leave calendar
 		String runAccrualFlag = ConfigContext.getCurrentContextConfig().getProperty(LMConstants.RUN_ACCRUAL_FROM_CALENDAR);
@@ -121,11 +124,18 @@ public class LeaveCalendarAction extends TkAction {
 		// KPME-1447
 		//List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(lcd.getDocumentId());
         List<LeaveBlock> leaveBlocks;
-        if (lcdh != null) {
+        if (lcdh != null && lcdh.getPrincipalId() != null && lcdh.getBeginDate() != null && lcdh.getEndDate() != null) {
             leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(lcdh.getPrincipalId(), lcdh.getBeginDate(), lcdh.getEndDate());
+        } else if(calendarEntry != null){
+            leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(viewPrincipal, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
         } else {
-            leaveBlocks = Collections.emptyList();
+        	leaveBlocks = Collections.emptyList();
         }
+        
+        // add warning messages based on earn codes of leave blocks
+        List<String> warningMes = ActionFormUtils.fmlaWarningTextForLeaveBlocks(leaveBlocks);
+        lcf.setWarnings(warningMes);
+        
 		// KPME-1690
 //        LeaveCalendar leaveCalender = new LeaveCalendar(viewPrincipal, calendarEntry);
         LeaveBlockAggregate aggregate = new LeaveBlockAggregate(leaveBlocks, calendarEntry, calendar);
@@ -362,6 +372,9 @@ public class LeaveCalendarAction extends TkAction {
 			leaveForm.setDocEditable(true);
 		}
 		leaveForm.setCalendarEntry(lcd.getCalendarEntry());
+		if(lcd.getCalendarEntry() != null) {
+			leaveForm.setCalEntryId(lcd.getCalendarEntry().getHrCalendarEntriesId());
+		}
 		leaveForm.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(lcd.getCalendarEntry()));
 
 	}
@@ -373,6 +386,9 @@ public class LeaveCalendarAction extends TkAction {
 		CalendarEntries calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, currentDate);
 		LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, calendarEntry);
 		lcf.setCalendarEntry(calendarEntry);
+		if(calendarEntry != null) {
+			lcf.setCalEntryId(calendarEntry.getHrCalendarEntriesId());
+		}
 		lcf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
 		lcf.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(calendarEntry));
 		if (lcd != null) {
