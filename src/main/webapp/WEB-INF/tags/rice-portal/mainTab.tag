@@ -17,7 +17,7 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp" %>
 
 <td class="content" valign="top">
-    <kpmeChannel:links />
+    <admin:links />
 </td>
 
 <td class="content" valign="top">

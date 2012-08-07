@@ -18,7 +18,7 @@
 <c:set var="systemAdmin" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isSystemAdmin()%>' />
 <c:set var="globalViewOnly" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isGlobalViewOnly()%>' />
 
-<channel:portalChannelTop channelTitle="KPME" />
+<channel:portalChannelTop channelTitle="HR/Payroll" />
 <div class="body">
     <ul class="chan">
         <c:if test="${systemAdmin || globalViewOnly}">

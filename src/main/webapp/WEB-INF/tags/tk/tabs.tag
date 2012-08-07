@@ -1,6 +1,10 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp" %>
 
 <c:if test="${!empty UserSession.loggedInUserPrincipalName}">
+    <c:set var="systemAdmin" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isSystemAdmin()%>' />
+    <c:set var="locationAdmin" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isLocationAdmin()%>' />
+    <c:set var="departmentAdmin" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isDepartmentAdmin()%>' />
+    <c:set var="globalViewOnly" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isGlobalViewOnly()%>' />
     <c:set var="targetSystemAdmin" value='<%=org.kuali.hr.time.util.TKUser.getCurrentTargetRoles().isSystemAdmin()%>' />
     <c:set var="targetTimesheetApprover" value='<%=org.kuali.hr.time.util.TKUser.getCurrentTargetRoles().isTimesheetApprover()%>' />
     <c:set var="targetTimesheetReviewer" value='<%=org.kuali.hr.time.util.TKUser.getCurrentTargetRoles().isTimesheetReviewer()%>' />
@@ -10,6 +14,9 @@
 
 <div id="tab-section">
     <li id="help" class="ui-state-default ui-corner-top"><a href="Help.do">Help</a></li>
+    <c:if test="${systemAdmin || locationAdmin || departmentAdmin || globalViewOnly}">
+        <li id="departmentAdmin" class="ui-state-default ui-corner-top"><a href="DepartmentAdmin.do">Department Admin</a></li>
+    </c:if>
     <li id="personInfo" class="ui-state-default ui-corner-top"><a href="PersonInfo.do">Person Info</a></li>
     <c:if test="${targetSystemAdmin || targetTimesheetApprover || targetTimesheetReviewer}">
         <li id="approvals" class="ui-state-default ui-corner-top"><a

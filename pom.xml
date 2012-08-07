@@ -494,11 +494,7 @@
 	                                    <include>WEB-INF/tags/rice-portal/portalBottom.tag</include>
 	                                    <include>WEB-INF/tags/rice-portal/portalLink.tag</include>
 	                                    <include>WEB-INF/tags/rice-portal/portalTop.tag</include>
-	                                    <include>WEB-INF/tags/rice-portal/channel/portalChannelBottom.tag</include>
-	                                    <include>WEB-INF/tags/rice-portal/channel/portalChannelTop.tag</include>
-	                                    <include>WEB-INF/tags/rice-portal/channel/administration</include>
-	                                    <include>WEB-INF/tags/rice-portal/channel/krad</include>
-	                                    <include>WEB-INF/tags/rice-portal/channel/main</include>
+	                                    <include>WEB-INF/tags/rice-portal/channel/</include>
 	                                    <include>WEB-INF/tld/</include>
 	                                </includes>
 	                                <excludes>

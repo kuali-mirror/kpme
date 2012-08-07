@@ -16,18 +16,18 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp" %>
 
 <td class="content" valign="top">
-    <kpmeChannel:kpme />
-    <kpmeChannel:timeKeeping />
-    <kpmeChannel:leaveMaintenance />
-    <kpmeChannel:administrative />
+    <admin:hrPayroll />
+    <admin:timeKeeping />
+    <admin:leaveMaintenance />
+    <admin:administrative />
 </td>
 <td class="content" valign="top">
-    <kpmeChannel:inquiries />
-    <kpmeChannel:changeTargetPerson />
-    <kpmeChannel:deleteTimesheet />
-    <kpmeChannel:calculateLeaveAccruals />
+    <admin:inquiries />
+    <admin:changeTargetPerson />
+    <admin:deleteTimesheet />
+    <admin:calculateLeaveAccruals />
 </td>
 <td class="content" valign="top">
-    <kpmeChannel:batchJob />
-    <kpmeChannel:calendarEntry />
+    <admin:batchJob />
+    <admin:calendarEntry />
 </td>

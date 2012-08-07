@@ -17,9 +17,8 @@
 
 
 	<jdbc-connection-descriptor
-		jcd-alias="tkDataSource"
+		jcd-alias="kpmeDataSource"
 		default-connection="true"
-		platform="MySQL"
 		jdbc-level="3.0"
 		batch-mode="false"
 		useAutoCommit="0"

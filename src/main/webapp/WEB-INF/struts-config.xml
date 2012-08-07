@@ -99,6 +99,10 @@
             <forward name="basic" path="/portal.jsp"/>
         </action>
         
+        <action path="/DepartmentAdmin" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
+            <forward name="basic" path="/WEB-INF/jsp/departmentAdmin.jsp"/>
+        </action>
+        
         <action path="/Clock" name="ClockActionForm" scope="request" input="/WEB-INF/jsp/clock.jsp"
                 type="org.kuali.hr.time.clock.web.ClockAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/clock.jsp"/>

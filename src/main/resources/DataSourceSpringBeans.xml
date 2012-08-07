@@ -69,7 +69,6 @@
         <property name="minSize" value="${server.datasource.pool.minSize}" />
         <property name="maxWait" value="${server.datasource.pool.maxWait}" />
         <property name="validationQuery" value="${server.datasource.pool.validationQuery}" />
-
     </bean>
     
     <bean id="kpmeDataSourceXAPool" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource">
@@ -173,7 +172,6 @@
         <property name="minIdle" value="${datasource.minIdle}" />
         <property name="maxActive" value="${datasource.pool.maxActive}"/>
         <property name="accessToUnderlyingConnectionAllowed" value="${datasource.accessToUnderlyingConnectionAllowed}"/>
-        
    </bean>
    
 </beans>

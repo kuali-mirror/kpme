@@ -368,43 +368,38 @@ label.error {
 }
 
 /* admin section */
-#admin-page {
+#departmentAdmin {
     font-size: .8em;
 }
 
-#admin-page #content {
-    float: left;
-    width: 30%;
-    margin: 10px;
+#departmentAdmin .content {
+    padding: 10px;
 }
 
-#admin-page table {
-    border-collapse: collapse;
+#departmentAdmin .portlet {
+    border: 1px solid #999999;
+    margin: 20px 0;
     width: 100%;
 }
 
-#admin-page tr td {
-    border: 1px solid #999999;
+#departmentAdmin .header {
+    background: #ffffff url(ui-iu/images/headerback.gif) 20% 20% repeat-x;
+    border-bottom: 1px solid #999999;
+    color: #8D2C1B !important;
+    font-weight: bold;
     padding: 5px;
 }
 
-#admin-page table ul li {
-    display: disc;
+#departmentAdmin .body {
+    padding: 10px;
 }
 
-#admin-page table .header {
-    font-weight: bold;
-    color: #8D2C1B !important;
-    background: #ffffff url(ui-iu/images/headerback.gif) 20% 20% repeat-x;
-    padding-left: 5px;
-}
-
-#admin-page li:hover {
+#departmentAdmin li:hover {
     background: none;
     border: none;
 }
 
-#admin-page a:hover {
+#departmentAdmin a:hover {
     color: red;
     text-decoration: underline;
 }
