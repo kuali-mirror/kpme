@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.api.identity.Person;
@@ -13,7 +14,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class TkRoleGroup extends PersistableBusinessObjectBase {
-
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "TkRoleGroup";
     private static final long serialVersionUID = 1L;
 
     @Transient

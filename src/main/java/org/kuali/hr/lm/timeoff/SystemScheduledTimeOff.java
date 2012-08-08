@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.location.Location;
@@ -12,7 +13,7 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 
 public class SystemScheduledTimeOff extends HrBusinessObject {
-
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "SystemScheduledTimeOff";
 	private static final long serialVersionUID = 1L;
 	private String lmSystemScheduledTimeOffId;
 	private String leavePlan;

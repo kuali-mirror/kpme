@@ -3,6 +3,7 @@ package org.kuali.hr.lm.earncodesec;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.time.HrBusinessObject;
@@ -11,7 +12,7 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.salgroup.SalGroup;
 
 public class EarnCodeSecurity extends HrBusinessObject {
-
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "EarnCodeSecurity";
 	/**
 	 *
 	 */

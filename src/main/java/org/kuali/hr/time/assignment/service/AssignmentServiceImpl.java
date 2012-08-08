@@ -7,13 +7,11 @@ import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
-import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
 
 import java.sql.Date;
 import java.util.*;
@@ -33,7 +31,6 @@ public class AssignmentServiceImpl implements AssignmentService {
 
 
     @Override
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public List<Assignment> getAssignments(String principalId, Date asOfDate) {
         List<Assignment> assignments;
 
@@ -175,14 +172,12 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public Assignment getAssignment(String tkAssignmentId) {
         return getAssignmentDao().getAssignment(tkAssignmentId);
     }
 
 
     @Override
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public List<Assignment> getActiveAssignmentsForWorkArea(Long workArea, Date asOfDate) {
         List<Assignment> assignments = assignmentDao.getActiveAssignmentsInWorkArea(workArea, asOfDate);
         for (Assignment assignment : assignments) {
@@ -192,7 +187,6 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public List<Assignment> getActiveAssignments(Date asOfDate) {
         return assignmentDao.getActiveAssignments(asOfDate);
     }
@@ -231,7 +225,6 @@ public class AssignmentServiceImpl implements AssignmentService {
      * Get a list of active assignments based on principalId and jobNumber as of a particular date
      */
     @Override
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public List<Assignment> getActiveAssignmentsForJob(String principalId, Long jobNumber, Date asOfDate) {
         List<Assignment> assignments = assignmentDao.getActiveAssignmentsForJob(principalId, jobNumber, asOfDate);
 

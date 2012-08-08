@@ -1,21 +1,15 @@
 package org.kuali.hr.job.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.job.dao.JobDao;
-import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * Represents an implementation of {@link JobService}.
@@ -39,7 +33,6 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public List<Job> getJobs(String principalId, Date asOfDate) {
         List<Job> jobs = jobDao.getJobs(principalId, asOfDate);
 
@@ -53,18 +46,15 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public Job getJob(String principalId, Long jobNumber, Date asOfDate) {
         return getJob(principalId, jobNumber, asOfDate, true);
     }
 
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public Job getPrimaryJob(String principalId, Date payPeriodEndDate) {
         return jobDao.getPrimaryJob(principalId, payPeriodEndDate);
     }
 
     @Override
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public Job getJob(String principalId, Long jobNumber, Date asOfDate,
                       boolean chkDetails) {
         Job job = jobDao.getJob(principalId, jobNumber, asOfDate);
@@ -87,25 +77,21 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public List<Job> getActiveJobsForPosition(String positionNbr, Date asOfDate) {
         return jobDao.getActiveJobsForPosition(positionNbr, asOfDate);
     }
 
     @Override
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public List<Job> getActiveJobsForPayType(String hrPayType, Date asOfDate) {
         return jobDao.getActiveJobsForPayType(hrPayType, asOfDate);
     }
 
     @Override
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public Job getJob(String hrJobId) {
         return jobDao.getJob(hrJobId);
     }
 
     @Override
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public Job getMaxJob(String principalId) {
         return jobDao.getMaxJob(principalId);
     }

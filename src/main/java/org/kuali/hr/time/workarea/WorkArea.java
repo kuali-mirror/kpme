@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
@@ -13,7 +14,7 @@ import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.task.Task;
 
 public class WorkArea extends HrBusinessObject implements DepartmentalRule {
-
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "WorkArea";
     private static final long serialVersionUID = 1L;
 
     private String tkWorkAreaId;

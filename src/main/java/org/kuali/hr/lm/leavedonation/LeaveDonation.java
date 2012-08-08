@@ -2,13 +2,14 @@ package org.kuali.hr.lm.leavedonation;
 
 import java.math.BigDecimal;
 
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.rice.kim.api.identity.Person;
 
 public class LeaveDonation extends HrBusinessObject {
-
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "LeaveDonation";
 	/**
 	 * 
 	 */

@@ -1,23 +1,21 @@
 package org.kuali.hr.time.timecollection.rule.service;
 
+import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.time.collection.rule.TimeCollectionRule;
+import org.kuali.hr.time.timecollection.rule.dao.TimeCollectionRuleDaoService;
+
 import java.sql.Date;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.time.cache.CacheResult;
-import org.kuali.hr.time.collection.rule.TimeCollectionRule;
-import org.kuali.hr.time.timecollection.rule.dao.TimeCollectionRuleDaoService;
-import org.kuali.hr.time.util.TkConstants;
-
 public class TimeCollectionRuleServiceImpl implements TimeCollectionRuleService{
 	private TimeCollectionRuleDaoService timeCollectRuleDao;
-	
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
+
+    @Override
 	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea, String payType, Date asOfDate){
 		return timeCollectRuleDao.getTimeCollectionRule(dept, workArea, payType, asOfDate);
 	}
-	
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
+
+    @Override
 	public TimeCollectionRule getTimeCollectionRule(String dept, Long workArea,Date asOfDate){
 		return timeCollectRuleDao.getTimeCollectionRule(dept, workArea, asOfDate);
 	}

@@ -5,11 +5,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.time.DateUtils;
-import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.CalendarEntryPeriodType;
 import org.kuali.hr.time.calendar.dao.CalendarEntriesDao;
-import org.kuali.hr.time.util.TkConstants;
 
 public class CalendarEntriesServiceImpl implements CalendarEntriesService {
 
@@ -19,20 +17,17 @@ public class CalendarEntriesServiceImpl implements CalendarEntriesService {
         this.calendarEntriesDao = calendarEntriesDao;
     }
 
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public CalendarEntries getCalendarEntries(String hrCalendarEntriesId) {
 
         return calendarEntriesDao.getCalendarEntries(hrCalendarEntriesId);
     }
 
     @Override
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public CalendarEntries getCalendarEntriesByIdAndPeriodEndDate(String hrCalendarId, Date endPeriodDate) {
         return calendarEntriesDao.getCalendarEntriesByIdAndPeriodEndDate(hrCalendarId, endPeriodDate);
     }
 
     @Override
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public CalendarEntries getCurrentCalendarEntriesByCalendarId(
             String hrCalendarId, Date currentDate) {
         return calendarEntriesDao.getCurrentCalendarEntriesByCalendarId(hrCalendarId, currentDate);
@@ -48,13 +43,11 @@ public class CalendarEntriesServiceImpl implements CalendarEntriesService {
         return calendarEntriesDao.getNextCalendarEntriesByCalendarId(hrCalendarId, pce);
     }
 
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public List<CalendarEntries> getCurrentCalendarEntryNeedsScheduled(int thresholdDays, Date asOfDate) {
         return calendarEntriesDao.getCurrentCalendarEntryNeedsScheduled(thresholdDays, asOfDate);
     }
 
     @Override
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public CalendarEntries createNextCalendarEntry(CalendarEntries calendarEntries, CalendarEntryPeriodType type) {
         CalendarEntries newEntry = new CalendarEntries();
         newEntry.setCalendarName(calendarEntries.getCalendarName());

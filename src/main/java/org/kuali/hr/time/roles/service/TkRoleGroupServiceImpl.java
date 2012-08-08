@@ -1,23 +1,21 @@
 package org.kuali.hr.time.roles.service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
-import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.roles.TkRoleGroup;
 import org.kuali.hr.time.roles.dao.TkRoleGroupDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 public class TkRoleGroupServiceImpl implements TkRoleGroupService {
 
@@ -40,7 +38,6 @@ public class TkRoleGroupServiceImpl implements TkRoleGroupService {
     }
 
     @Override
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public TkRoleGroup getRoleGroup(String principalId) {
         return tkRoleGroupDao.getRoleGroup(principalId);
     }
@@ -49,7 +46,7 @@ public class TkRoleGroupServiceImpl implements TkRoleGroupService {
     public void populateRoles(TkRoleGroup tkRoleGroup) {
         if (tkRoleGroup != null) {
             List<TkRole> tkRoles = TkServiceLocator.getTkRoleService().getRoles(tkRoleGroup.getPrincipalId(), TKUtils.getCurrentDate());
-            List<TkRole> tkInActiveRoles = TkServiceLocator.getTkRoleService().getInActiveRoles(tkRoleGroup.getPrincipalId(), TKUtils.getCurrentDate());
+            List<TkRole> tkInActiveRoles = TkServiceLocator.getTkRoleService().getInactiveRoles(tkRoleGroup.getPrincipalId(), TKUtils.getCurrentDate());
             Iterator<TkRole> itr = tkRoles.iterator();
             while (itr.hasNext()) {
                 TkRole tkRole = (TkRole) itr.next();
@@ -129,7 +126,6 @@ public class TkRoleGroupServiceImpl implements TkRoleGroupService {
         return tkRoleGroups;
     }
 
-    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
     private boolean isAuthorizedToEditUserRole(String principalId) {
         boolean isAuthorized = false;
         //System admin can do anything

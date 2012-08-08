@@ -25,7 +25,6 @@ import org.kuali.hr.time.assignment.dao.AssignmentDao;
 import org.kuali.hr.time.assignment.service.AssignmentService;
 import org.kuali.hr.time.batch.service.BatchJobEntryService;
 import org.kuali.hr.time.batch.service.BatchJobService;
-import org.kuali.hr.time.cache.CacheManagementService;
 import org.kuali.hr.time.calendar.service.CalendarEntriesService;
 import org.kuali.hr.time.calendar.service.CalendarService;
 import org.kuali.hr.time.clock.location.service.ClockLocationRuleService;
@@ -256,10 +255,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static TkRuleControllerService getTkRuleControllerService(){
 		return (TkRuleControllerService) CONTEXT.getBean("tkRuleControllerService");
-	}
-
-	public static CacheManagementService getCacheManagerService(){
-		return (CacheManagementService) CONTEXT.getBean(TK_CACHE_MANAGER_SERVICE);
 	}
 
 	public static EarnCodeSecurityService getEarnCodeSecurityService() {

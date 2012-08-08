@@ -1,5 +1,6 @@
 package org.kuali.hr.lm.accrual.service;
 
+import org.kuali.hr.core.cache.CacheUtils;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.time.HrBusinessObject;
@@ -40,6 +41,8 @@ public class AccrualCategoryMaintainableServiceImpl extends HrBusinessObjectMain
 			accCatRule.setLmAccrualCategoryId(leaveAccrualCategory.getLmAccrualCategoryId());
 			accCatRule.setLmAccrualCategoryRuleId(null);
 		}
+
+        CacheUtils.flushCache(AccrualCategory.CACHE_NAME);
 	}
 
 	@Override

@@ -1,13 +1,11 @@
 package org.kuali.hr.lm.leaveplan.service;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.lm.leaveplan.dao.LeavePlanDao;
-import org.kuali.hr.time.cache.CacheResult;
-import org.kuali.hr.time.util.TkConstants;
+
+import java.sql.Date;
+import java.util.List;
 
 public class LeavePlanServiceImpl implements LeavePlanService {
 
@@ -26,13 +24,11 @@ public class LeavePlanServiceImpl implements LeavePlanService {
 
 
 	@Override
-    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public LeavePlan getLeavePlan(String lmLeavePlanId) {
 		return getLeavePlanDao().getLeavePlan(lmLeavePlanId);
 	}
 	
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public LeavePlan getLeavePlan(String leavePlan, Date asOfDate) {
 		return getLeavePlanDao().getLeavePlan(leavePlan, asOfDate);
 	}

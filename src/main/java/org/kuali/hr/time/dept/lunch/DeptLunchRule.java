@@ -2,6 +2,7 @@ package org.kuali.hr.time.dept.lunch;
 
 import java.math.BigDecimal;
 
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.authorization.DepartmentalRule;
@@ -10,7 +11,7 @@ import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.api.identity.Person;
 
 public class DeptLunchRule extends HrBusinessObject implements DepartmentalRule {
-
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "DeptLunchRule";
     private static final long serialVersionUID = 1L;
 
     private String tkDeptLunchRuleId;

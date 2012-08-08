@@ -1,21 +1,20 @@
 package org.kuali.hr.time.roles.service;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.roles.dao.TkRoleDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TkConstants;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class TkRoleServiceImpl implements TkRoleService {
 
@@ -24,37 +23,31 @@ public class TkRoleServiceImpl implements TkRoleService {
 	private TkRoleDao tkRoleDao;
 
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<TkRole> getDepartmentRoles(String department, Date asOfDate) {
 		return tkRoleDao.findRoles(null, asOfDate, null, null, department, null);
 	}
 
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<TkRole> getDepartmentRoles(String department, String roleName, Date asOfDate) {
 		return tkRoleDao.findRoles(null, asOfDate, roleName, null, department, null);
 	}
 	
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<TkRole> getDepartmentInactiveRoles(String department, String roleName, Date asOfDate) {
 		return tkRoleDao.findInActiveRoles(null, asOfDate, roleName, null, department, null);
 	}
 
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<TkRole> getWorkAreaRoles(Long workArea, Date asOfDate) {
 		return tkRoleDao.findRoles(null, asOfDate, null, workArea, null, null);
 	}
 
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<TkRole> getWorkAreaRoles(Long workArea, String roleName, Date asOfDate) {
 		return tkRoleDao.findRoles(null, asOfDate, roleName, workArea, null, null);
 	}
 
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<TkRole> getInActiveWorkAreaRoles(Long workArea, String roleName, Date asOfDate) {
 		return tkRoleDao.findInActiveRoles(null, asOfDate, roleName, workArea, null, null);
 	}
@@ -76,7 +69,6 @@ public class TkRoleServiceImpl implements TkRoleService {
 	/**
 	 * Returns all active roles for the given principal as of the indi
 	 */
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<TkRole> getRoles(String principalId, Date asOfDate) {
 		return tkRoleDao.findRoles(principalId, asOfDate, null, null, null, null);
 	}
@@ -84,8 +76,7 @@ public class TkRoleServiceImpl implements TkRoleService {
 	/**
 	 * Returns all active roles for the given principal as of the indi
 	 */
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
-	public List<TkRole> getInActiveRoles(String principalId, Date asOfDate) {
+	public List<TkRole> getInactiveRoles(String principalId, Date asOfDate) {
 		return tkRoleDao.findInActiveRoles(principalId, asOfDate, null, null, null, null);
 	}
 	
@@ -96,7 +87,6 @@ public class TkRoleServiceImpl implements TkRoleService {
 	 *
 	 * admin,TK_APPROVER will return all TK_APPROVER roles for the user admin.
 	 */
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<TkRole> getRoles(String principalId, String roleName, Date asOfDate) {
 		return this.tkRoleDao.findRoles(principalId, asOfDate, roleName, null, null, null);
 	}
@@ -111,14 +101,12 @@ public class TkRoleServiceImpl implements TkRoleService {
      * @return
      */
     @Override
-    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
     public List<TkRole> getRoles(String principalId, Date asOfDate, String roleName, Long workArea, String department) {
         return this.tkRoleDao.findRoles(principalId, asOfDate, roleName, workArea, department, null);
     }
 
     //TODO: this won't work at all.  We can't use TKUser here, as that just grabs stuff from the session
     // we need a wrapper class for TKUser, though I'm not sure why we can't just return Person, or Entity...
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<TKUser> getEmployeesForWorkArea(Long workArea, Date asOfDate){
 		List<TKUser> lstEmployees = new ArrayList<TKUser>();
 		List<Assignment> lstActiveAssignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, asOfDate);
@@ -151,7 +139,6 @@ public class TkRoleServiceImpl implements TkRoleService {
     }
 
     @Override
-    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
     public Set<Long> getWorkAreasForApprover(String principalId, Date asOfDate) {
         Set<Long> workAreas = new HashSet<Long>();
 
@@ -184,25 +171,21 @@ public class TkRoleServiceImpl implements TkRoleService {
     }
 
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public TkRole getRole(String tkRoleId) {
 		return tkRoleDao.getRole(tkRoleId);
 	}
 	
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public TkRole getRolesByPosition(String positionNumber) {
 		return tkRoleDao.getRolesByPosition(positionNumber);
 	}
 	
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public TkRole getInactiveRolesByPosition(String positionNumber) {
 		return tkRoleDao.getInactiveRolesByPosition(positionNumber);
 	}
 
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<TkRole> getPositionRolesForWorkArea(Long workArea, Date asOfDate) {
 		return tkRoleDao.getPositionRolesForWorkArea(workArea, asOfDate);
 	}

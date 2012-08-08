@@ -2,8 +2,6 @@ package org.kuali.hr.lm.earncodesec.service;
 
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.lm.earncodesec.dao.EarnCodeSecurityDao;
-import org.kuali.hr.time.cache.CacheResult;
-import org.kuali.hr.time.util.TkConstants;
 
 import java.sql.Date;
 import java.util.List;
@@ -17,13 +15,11 @@ public class EarnCodeSecurityServiceImpl implements EarnCodeSecurityService {
 	}
 
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<EarnCodeSecurity> getEarnCodeSecurities(String department, String hrSalGroup, String location, java.util.Date asOfDate) {
 		return earnCodeSecurityDao.getEarnCodeSecurities(department, hrSalGroup, location, asOfDate);
 	}
 
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public EarnCodeSecurity getEarnCodeSecurity(String hrEarnCodeSecId) {
 		return earnCodeSecurityDao.getEarnCodeSecurity(hrEarnCodeSecId);
 	}

@@ -8,7 +8,6 @@ import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.time.accrual.TimeOffAccrual;
 import org.kuali.hr.time.accrual.dao.TimeOffAccrualDao;
-import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -41,14 +40,12 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 	}
 
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<TimeOffAccrual> getTimeOffAccruals(String principalId, Date asOfDate) {
 		java.sql.Date currentDate = TKUtils.getTimelessDate(null);
 		return timeOffAccrualDao.getActiveTimeOffAccruals(principalId, asOfDate);
 	}
 
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<Map<String, Object>> getTimeOffAccrualsCalc(String principalId, Date asOfDate) {
 		PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
 		if(principalHRAttributes == null){
@@ -236,7 +233,6 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
     }
 
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public TimeOffAccrual getTimeOffAccrual(Long laTimeOffAccrualId) {
 		return timeOffAccrualDao.getTimeOffAccrual(laTimeOffAccrualId);
 	}

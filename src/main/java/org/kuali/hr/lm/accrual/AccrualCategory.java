@@ -4,12 +4,13 @@ import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.earncode.EarnCode;
 
 public class AccrualCategory extends HrBusinessObject {
-
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "AccrualCategory";
 	/**
 	 * 
 	 */

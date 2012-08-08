@@ -2,11 +2,12 @@ package org.kuali.hr.time.position;
 
 import java.sql.Timestamp;
 
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.workarea.WorkArea;
 
 public class Position extends HrBusinessObject {
-
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "Position";
 	/**
 	 * 
 	 */

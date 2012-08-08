@@ -1,22 +1,12 @@
 package org.kuali.hr.time.earncode.service;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.google.common.collect.Ordering;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.lm.earncodesec.EarnCodeType;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncode.dao.EarnCodeDao;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
@@ -25,11 +15,12 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-import com.google.common.collect.Ordering;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.*;
 
 public class EarnCodeServiceImpl implements EarnCodeService {
 
@@ -117,14 +108,12 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 	}
 
     @Override
-    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
     public String getEarnCodeType(String earnCode, Date asOfDate) {
         EarnCode earnCodeObj = getEarnCode(earnCode, asOfDate);
         return earnCodeObj.getEarnCodeType();
     }
 
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public EarnCode getEarnCodeById(String earnCodeId) {
 		return earnCodeDao.getEarnCodeById(earnCodeId);
 	}
@@ -209,13 +198,11 @@ public class EarnCodeServiceImpl implements EarnCodeService {
     }
 	
 	@Override
-	@CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
 	public Map<String, String> getEarnCodesForDisplay(String principalId) {
 		return getEarnCodesForDisplayWithEffectiveDate(principalId, TKUtils.getCurrentDate());
 	}
 
     @Override
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public Map<String, String> getEarnCodesForDisplayWithEffectiveDate(String principalId, Date asOfDate) {
         List<EarnCode> earnCodes = this.getEarnCodes(principalId, asOfDate);
 
@@ -247,7 +234,6 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 
     /* not using yet, may not be needed
     @Override
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public Map<String, String> getEarnCodesForDisplayWithAssignment(Assignment assignment, Date asOfDate) {
         List<EarnCode> earnCodes = this.getEarnCodes(assignment, asOfDate);
 

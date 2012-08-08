@@ -1,6 +1,5 @@
 package org.kuali.hr.time.department.service;
 
-import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.department.dao.DepartmentDao;
 import org.kuali.hr.time.roles.TkRole;
@@ -15,7 +14,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 	private DepartmentDao departmentDao;
 
     @Override
-    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
     public List<Department> getDepartments(String chart, Date asOfDate) {
         List<Department> ds = departmentDao.getDepartments(chart, asOfDate);
 
@@ -27,7 +25,6 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public Department getDepartment(String department, Date asOfDate) {
         Department d = departmentDao.getDepartment(department, asOfDate);
         populateDepartmentRoles(d);
@@ -86,13 +83,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public Department getDepartment(String hrDeptId) {
 		return departmentDao.getDepartment(hrDeptId);
 	}
 	
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List<Department> getDepartmentByLocation(String location) {
 		return departmentDao.getDepartmentByLocation(location);
 	}

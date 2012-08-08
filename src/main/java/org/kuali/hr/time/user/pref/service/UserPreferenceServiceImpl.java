@@ -1,6 +1,5 @@
 package org.kuali.hr.time.user.pref.service;
 
-import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.user.pref.UserPreferences;
 import org.kuali.hr.time.user.pref.dao.UserPreferenceDao;
 import org.kuali.hr.time.util.TKContext;
@@ -11,7 +10,6 @@ public class UserPreferenceServiceImpl implements UserPreferenceService {
 	
 	
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public UserPreferences getUserPreferences(String principalId) {
 		UserPreferences userPref = userPrefDao.getUserPreferences(principalId);
 		if(userPref == null){

@@ -1,6 +1,7 @@
 package org.kuali.hr.lm.earncodesec.service;
 
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.Date;
 import java.util.List;
@@ -10,13 +11,19 @@ public interface EarnCodeSecurityService {
 	/** This should handle wild cards on department and hr_sal_group.
 	 * 
 	 */
-	public List<EarnCodeSecurity> getEarnCodeSecurities(String department, String hr_sal_group, String location, Date asOfDate);
+    @Cacheable(value= EarnCodeSecurity.CACHE_NAME,
+            key="'department=' + #p0" +
+                    "+ '|' + 'hrSalGroup=' + #p1" +
+                    "+ '|' + 'location=' + #p2" +
+                    "+ '|' + 'asOfDate=' + #p3")
+	public List<EarnCodeSecurity> getEarnCodeSecurities(String department, String hrSalGroup, String location, Date asOfDate);
 	
 	/**
 	 * Fetch department earn code by id
 	 * @param hrDeptEarnCodeId
 	 * @return
 	 */
+    @Cacheable(value= EarnCodeSecurity.CACHE_NAME, key="'hrEarnCodeSecId=' + #p0")
 	public EarnCodeSecurity getEarnCodeSecurity(String hrEarnCodeSecId);
 	
 	public List<EarnCodeSecurity> searchEarnCodeSecurities(String dept, String salGroup, String earnCode, String location,

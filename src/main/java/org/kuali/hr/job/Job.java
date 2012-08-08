@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.time.HrBusinessObject;
@@ -20,7 +21,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
  *
  */
 public class Job extends HrBusinessObject {
-
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "Job";
 	/*
 	 * Standard field included for serialization support
 	 */

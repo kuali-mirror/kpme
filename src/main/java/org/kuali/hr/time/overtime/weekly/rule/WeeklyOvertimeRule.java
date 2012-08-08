@@ -3,12 +3,13 @@ package org.kuali.hr.time.overtime.weekly.rule;
 import java.math.BigDecimal;
 import java.sql.Date;
 
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.rule.TkRule;
 
 public class WeeklyOvertimeRule extends TkRule {
-
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "WeeklyOvertimeRule";
 	/**
 	 * 
 	 */

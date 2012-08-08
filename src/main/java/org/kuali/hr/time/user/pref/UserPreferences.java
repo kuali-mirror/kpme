@@ -1,11 +1,13 @@
 package org.kuali.hr.time.user.pref;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class UserPreferences extends PersistableBusinessObjectBase {
-	/**
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "UserPreferences";
+    /**
 	 *
 	 */
 	private static final long serialVersionUID = 1L;

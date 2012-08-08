@@ -1,10 +1,11 @@
 package org.kuali.hr.time.paytype;
 
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.earncode.EarnCode;
 
 public class PayType extends HrBusinessObject {
-
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "PayType";
 	/**
 	 *
 	 */

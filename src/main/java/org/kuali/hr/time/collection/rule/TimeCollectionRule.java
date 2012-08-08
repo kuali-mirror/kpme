@@ -1,5 +1,6 @@
 package org.kuali.hr.time.collection.rule;
 
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
@@ -7,7 +8,7 @@ import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.workarea.WorkArea;
 
 public class TimeCollectionRule extends HrBusinessObject implements DepartmentalRule {
-
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "TimeCollectionRule";
 	private static final long serialVersionUID = 1L;
 
 	private String tkTimeCollectionRuleId;

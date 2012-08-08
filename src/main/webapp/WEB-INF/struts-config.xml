@@ -20,7 +20,6 @@
         <form-bean name="TimeApprovalActionForm" type="org.kuali.hr.time.approval.web.TimeApprovalActionForm"/>
         <form-bean name="TimeApprovalWSActionForm" type="org.kuali.hr.time.approval.web.TimeApprovalWSActionForm"/>
         <form-bean name="PersonInfoActionForm" type="org.kuali.hr.time.base.web.PersonInfoActionForm"/>
-        <form-bean name="CacheAdministrationActionForm" type="org.kuali.hr.time.cache.web.CacheAdministrationActionForm"/>
         <form-bean name="TimeOffAccrualActionForm" type="org.kuali.hr.time.accrual.web.TimeOffAccrualActionForm"/>
         <form-bean name="TimesheetActionForm" type="org.kuali.hr.time.timesheet.web.TimesheetActionForm"/>
         <form-bean name="TimesheetSubmitActionForm" type="org.kuali.hr.time.detail.web.TimesheetSubmitActionForm"/>
@@ -158,12 +157,6 @@
         <action path="/PersonInfo" name="PersonInfoActionForm" scope="request" input="/WEB-INF/jsp/personInfo.jsp"
                 type="org.kuali.hr.time.base.web.PersonInfoAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/personInfo.jsp"/>
-        </action>
-
-        <action path="/CacheAdministration" name="CacheAdministrationActionForm" scope="request"
-                input="/WEB-INF/jsp/cache.jsp" type="org.kuali.hr.time.cache.web.CacheAdministrationAction"
-                parameter="methodToCall" validate="true" attribute="KualiForm">
-            <forward name="basic" path="/WEB-INF/jsp/cache.jsp"/>
         </action>
 
         <action path="/TimeOffAccrual" name="TimeOffAccrualActionForm" scope="request"

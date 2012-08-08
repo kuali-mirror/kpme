@@ -7,6 +7,7 @@ import javax.persistence.Transient;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -32,7 +33,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  *
  */
 public class CalendarEntries extends PersistableBusinessObjectBase implements Comparable<CalendarEntries>{
-
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "CalendarEntries";
     /**
      *
      */

@@ -762,18 +762,15 @@
 
 	<class-descriptor class="org.kuali.hr.time.position.Position" table="hr_position_t">
 		<field-descriptor name="hrPositionId"  column="hr_position_id"       jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="hr_position_id_s"/>
-		<field-descriptor name="positionNumber"        column="position_nbr" jdbc-type="VARCHAR" length="20"/>
-		<field-descriptor name="description"        column="description" jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
-		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
-        <field-descriptor name="active"          column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-        <field-descriptor name="effectiveDate"  column="effdt"			jdbc-type="DATE" nullable="false" primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
-        <field-descriptor name="timestamp"      column="TIMESTAMP"      jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
-        <field-descriptor name="workArea"        column="WORK_AREA" jdbc-type="BIGINT" />
+		<field-descriptor name="positionNumber" column="position_nbr" jdbc-type="VARCHAR" length="20" autoincrement="true" sequence-name="hr_position_s"/>
+		<field-descriptor name="description" column="description" jdbc-type="VARCHAR" length="30" nullable="false" primarykey="false" />
+		<field-descriptor name="objectId" column="obj_id" jdbc-type="VARCHAR" index="true" />
+		<field-descriptor name="versionNumber" column="ver_nbr" jdbc-type="BIGINT" locking="true" />
+        <field-descriptor name="active" column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="effectiveDate" column="effdt"			jdbc-type="DATE" nullable="false" primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="timestamp" column="TIMESTAMP"      jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
+        <field-descriptor name="workArea" column="WORK_AREA" jdbc-type="BIGINT" />
 	</class-descriptor>
 
-    <class-descriptor class="org.kuali.hr.time.position.PositionNumber" table="hr_position_s">
-        <field-descriptor name="positionNumber"  column="id"       jdbc-type="BIGINT" primarykey="true" autoincrement="true"/>
-    </class-descriptor>
 
 </descriptor-repository>

@@ -5,14 +5,12 @@ import java.util.List;
 
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
-import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.dao.CalendarDao;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TkConstants;
 
 public class CalendarServiceImpl implements CalendarService {
 
@@ -23,19 +21,16 @@ public class CalendarServiceImpl implements CalendarService {
 	}
 
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public Calendar getCalendar(String hrCalendarId) {
 		return calendarDao.getCalendar(hrCalendarId);
 	}
 
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public Calendar getCalendarByGroup(String calendarName) {
 		return calendarDao.getCalendarByGroup(calendarName);
 	}
 
     @Override
-    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
     public CalendarEntries getCalendarDatesByPayEndDate(String principalId, Date payEndDate, String calendarType) {
         CalendarEntries pcd = null;
         boolean findLeaveCal = false;
@@ -50,7 +45,6 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public CalendarEntries getCurrentCalendarDates(String principalId, Date currentDate) {
 		CalendarEntries pcd = null;
         Calendar calendar = getCalendarByPrincipalIdAndDate(principalId, currentDate, false);
@@ -69,7 +63,6 @@ public class CalendarServiceImpl implements CalendarService {
      * @param date A date, Principal Calendars are EffDt/Timestamped, so we can any current date.
      * @return A Calendar
      */
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
     private Calendar getCalendar(String principalId, Date date, boolean findLeaveCal) {
         Calendar pcal = null;
 
@@ -107,7 +100,8 @@ public class CalendarServiceImpl implements CalendarService {
 
         return pcal;
     }
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
+
+    @Override
 	public CalendarEntries getPreviousCalendarEntry(String tkCalendarId, Date beginDateCurrentCalendar){
 		return calendarDao.getPreviousCalendarEntry(tkCalendarId, beginDateCurrentCalendar);
 	}
@@ -150,7 +144,6 @@ public class CalendarServiceImpl implements CalendarService {
 	}
 
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public CalendarEntries getCurrentCalendarDatesForLeaveCalendar(
 			String principalId, Date currentDate) {
 		CalendarEntries pcd = null;

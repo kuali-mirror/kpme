@@ -1,18 +1,17 @@
 package org.kuali.hr.lm.timeoff.service;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.lm.timeoff.dao.SystemScheduledTimeOffDao;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TkConstants;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 public class SystemScheduledTimeOffServiceImpl implements SystemScheduledTimeOffService {
 
@@ -29,7 +28,6 @@ public class SystemScheduledTimeOffServiceImpl implements SystemScheduledTimeOff
 	}
 
 	@Override
-    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public SystemScheduledTimeOff getSystemScheduledTimeOff(String lmSystemScheduledTimeOffId) {
 		return getSystemScheduledTimeOffDao().getSystemScheduledTimeOff(lmSystemScheduledTimeOffId);
 	}

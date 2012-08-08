@@ -25,6 +25,7 @@
 	<param name="module.name">kpme</param>
     <param name="app.code">${module.name}</param>
     <param name="application.id">KPME</param>
+    <param name="kpme.version" override="false">${project.version}</param>
     <param name="rice.logging.configure">true</param>
     <param name="kim.show.blank.qualifiers">false</param>
     
@@ -92,7 +93,9 @@
     <param name="datasource.pool.maxSize">150</param>
     <param name="datasource.pool.class">com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</param>
     <param name="datasource.pool.class.non.xa">bitronix.tm.resource.jdbc.lrc.LrcXADataSource</param>
-	
+
+    <!-- Caching Defaults -->
+    <param name="kpme.ehcache.config.location" override="false">classpath:kpme.ehcache.xml</param>
 	<!-- Server DB Defaults -->
     <param name="server.datasource.ojb.platform">MySQL</param>
     <param name="server.datasource.platform">org.kuali.rice.core.framework.persistence.platform.MySQLDatabasePlatform</param>

@@ -3,6 +3,7 @@ package org.kuali.hr.time.overtime.daily.rule;
 import java.math.BigDecimal;
 import java.sql.Date;
 
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -14,10 +15,7 @@ import org.kuali.hr.time.workarea.WorkArea;
 
 
 public class DailyOvertimeRule extends TkRule {
-
-	/**
-	 *
-	 */
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "DailyOvertimeRule";
 	private static final long serialVersionUID = 1L;
 	private String tkDailyOvertimeRuleId;
 

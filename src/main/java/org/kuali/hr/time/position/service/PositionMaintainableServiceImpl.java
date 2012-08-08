@@ -22,11 +22,10 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
     @Override
     public void saveBusinessObject() {
         Position position = (Position) this.getBusinessObject();
-        String nextUniqueNumber = TkServiceLocator.getPositionService().getNextUniquePositionNumber();
-        position.setPositionNumber(nextUniqueNumber);
+        //String nextUniqueNumber = TkServiceLocator.getPositionService().getNextUniquePositionNumber();
+        //position.setPositionNumber(nextUniqueNumber);
 
-        KRADServiceLocator.getBusinessObjectService().save(position);
-
-        TkServiceLocator.getPositionService().updatePositionNumber(nextUniqueNumber);
+        position = KRADServiceLocator.getBusinessObjectService().save(position);
+        System.out.print(position);
     }
 }

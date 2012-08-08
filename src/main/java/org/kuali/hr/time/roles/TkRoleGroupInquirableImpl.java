@@ -39,7 +39,7 @@ public class TkRoleGroupInquirableImpl extends KualiInquirableImpl {
 		tkRoleGroup.setPositionRoles(positionRoles);
 		
 		List<TkRole> tkRoles = TkServiceLocator.getTkRoleService().getRoles(tkRoleGroup.getPrincipalId(), TKUtils.getCurrentDate());
-		List<TkRole> tkInActiveRoles = TkServiceLocator.getTkRoleService().getInActiveRoles(tkRoleGroup.getPrincipalId(), TKUtils.getCurrentDate());
+		List<TkRole> tkInActiveRoles = TkServiceLocator.getTkRoleService().getInactiveRoles(tkRoleGroup.getPrincipalId(), TKUtils.getCurrentDate());
 		Iterator<TkRole> itr = tkRoles.iterator();
 		// remove position roles from the active/inactive roles lists
 		while (itr.hasNext()) {

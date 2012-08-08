@@ -11,12 +11,10 @@ import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.accrual.RateRangeAggregate;
 import org.kuali.hr.lm.accrual.dao.AccrualCategoryDao;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
-import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TkConstants;
 
 public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 
@@ -26,7 +24,6 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 	}
 
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public AccrualCategory getAccrualCategory(String accrualCategory, Date asOfDate) {
 		return accrualCategoryDao.getAccrualCategory(accrualCategory, asOfDate);
 	}
@@ -45,13 +42,11 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 	}
 
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public AccrualCategory getAccrualCategory(String lmAccrualCategoryId) {
 		return accrualCategoryDao.getAccrualCategory(lmAccrualCategoryId);
 	}
 
 	@Override	
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public List <AccrualCategory> getActiveAccrualCategories(Date asOfDate){
 		return accrualCategoryDao.getActiveAccrualCategories(asOfDate);
 	}

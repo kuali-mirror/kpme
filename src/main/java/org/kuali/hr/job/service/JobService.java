@@ -1,6 +1,7 @@
 package org.kuali.hr.job.service;
 
 import org.kuali.hr.job.Job;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -32,16 +33,19 @@ public interface JobService {
 	 * @param asOfDate
 	 * @return
 	 */
+    @Cacheable(value= Job.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'asOfDate=' + #p1")
 	public List<Job> getJobs(String principalId, Date asOfDate);
 	
 	/**
 	 * Provides a job by specific job number, principal ID and as of Date combination. 
 	 */
+    @Cacheable(value= Job.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'jobNumber=' + #p1 + '|' + 'asOfDate=' + #p2")
 	public Job getJob(String principalId, Long jobNumber, Date asOfDate);
 	
 	/**
 	 * Provides a job by specific job number, principal ID and as of Date combination, and check details will throw error if required. 
 	 */
+    @Cacheable(value= Job.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'jobNumber=' + #p1 + '|' + 'asOfDate=' + #p2 + '|' + 'chkDetails=' + #p3")
 	public Job getJob(String principalId, Long jobNumber, Date asOfDate, boolean chkDetails);
 	
 	/**
@@ -52,6 +56,7 @@ public interface JobService {
 	 * @param asOfDate Run the request as of this date. 
 	 * @return
 	 */
+    @Cacheable(value= Job.CACHE_NAME, key="'{getPrimaryJob}' + 'principalId=' + #p0 + '|' + 'asOfDate=' + #p1")
 	public Job getPrimaryJob(String principalId, Date asOfDate);
 	
 	/**
@@ -60,6 +65,7 @@ public interface JobService {
 	 * @param asOfDate
 	 * @return
 	 */
+    @Cacheable(value= Job.CACHE_NAME, key="'positionNbr=' + #p0 + '|' + 'asOfDate=' + #p1")
 	public List<Job> getActiveJobsForPosition(String positionNbr, Date asOfDate);
 	
 	/**
@@ -68,6 +74,7 @@ public interface JobService {
 	 * @param asOfDate
 	 * @return
 	 */
+    @Cacheable(value= Job.CACHE_NAME, key="'hrPayType=' + #p0 + '|' + 'asOfDate=' + #p1")
 	public List<Job> getActiveJobsForPayType(String hrPayType, Date asOfDate);
 	
 	/**
@@ -75,6 +82,7 @@ public interface JobService {
 	 * @param hrJobId
 	 * @return
 	 */
+    @Cacheable(value= Job.CACHE_NAME, key="'hrJobId=' + #p0")
 	public Job getJob(String hrJobId);
 	
 	/**
@@ -82,6 +90,7 @@ public interface JobService {
 	 * @param principalId
 	 * @return
 	 */
+    @Cacheable(value= Job.CACHE_NAME, key="'principalId=' + #p0")
 	public Job getMaxJob(String principalId);
 
     List<Job> getJobs(String principalId, String firstName, String lastName, String jobNumber,

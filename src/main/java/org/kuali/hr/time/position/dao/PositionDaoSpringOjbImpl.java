@@ -5,7 +5,6 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.position.Position;
-import org.kuali.hr.time.position.PositionNumber;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class PositionDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements PositionDao {
@@ -29,7 +28,7 @@ public class PositionDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
         return (Position) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
 
-    @Override
+    /*@Override
     public PositionNumber getNextUniquePositionNumber() {
         Criteria crit = new Criteria();
         ReportQueryByCriteria query = QueryFactory.newReportQuery(PositionNumber.class, crit);
@@ -40,6 +39,6 @@ public class PositionDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
     @Override
     public void saveOrUpdate(PositionNumber positionNumber) {
         this.getPersistenceBrokerTemplate().store(positionNumber);
-    }
+    }*/
 
 }
