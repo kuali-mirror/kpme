@@ -44,7 +44,7 @@
             <column name="id" value="3" />
         </insert>
         <insert tableName="hr_calendar_entries_s">
-            <column name="id" value="103" />
+            <column name="id" value="301" />
         </insert>
         <insert tableName="hr_dept_s">
             <column name="id" value="6" />
