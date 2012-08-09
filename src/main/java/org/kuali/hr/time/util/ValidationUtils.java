@@ -2,7 +2,9 @@ package org.kuali.hr.time.util;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBrokerFactory;
@@ -457,13 +459,11 @@ public class ValidationUtils {
 	 * Checks for row presence of a pay calendar
 	 */
 	public static boolean validateCalendar(String calendarName) {
-		boolean valid = false;
-		Criteria crit = new Criteria();
-        crit.addEqualTo("calendarName", calendarName);
-        Query query = QueryFactory.newQuery(Calendar.class, crit);
-        int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-        valid = (count > 0);
-        return valid;
+		Map<String, String> fieldValues = new HashMap<String, String>();
+		fieldValues.put("calendarName", calendarName);
+		int matches = KRADServiceLocator.getBusinessObjectService().countMatching(Calendar.class, fieldValues);
+
+        return matches > 0;
 	}
 
    public static boolean duplicateDeptEarnCodeExists(EarnCodeSecurity deptEarnCode) {
@@ -552,18 +552,12 @@ public class ValidationUtils {
 	 * Checks for row presence of a pay calendar by calendar type
 	 */
 	public static boolean validateCalendarByType(String calendarName, String calendarType) {
-		boolean valid = false;
-		Criteria crit = new Criteria();
-		crit.addEqualTo("calendarName", calendarName);
-		if(StringUtils.equalsIgnoreCase(calendarType, "Pay")){
-			crit.addNotEqualTo("calendarTypes", "Leave");	
-		}else if(StringUtils.equalsIgnoreCase(calendarType, "Leave")){
-			crit.addNotEqualTo("calendarTypes", "Pay");
-		}
-		Query query = QueryFactory.newQuery(Calendar.class, crit);
-		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-		valid = (count > 0);
-		return valid;
+		Map<String, String> fieldValues = new HashMap<String, String>();
+		fieldValues.put("calendarName", calendarName);
+		fieldValues.put("calendarTypes", calendarType);
+		int matches = KRADServiceLocator.getBusinessObjectService().countMatching(Calendar.class, fieldValues);
+		
+		return matches > 0;
 	}
 	
 	public static boolean validateRecordMethod(String recordMethod, String accrualCategory, Date asOfDate) {
