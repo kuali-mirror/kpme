@@ -4,6 +4,7 @@ import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.base.web.TkCommonCalendarForm;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -11,7 +12,6 @@ import org.kuali.hr.time.calendar.LeaveCalendar;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +48,7 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
 	private String currentPayCalEndDate;
 	private DateTime currentPayCalStart;
 	private DateTime currentPayCalEnd;
+	private LeaveSummary leaveSummary;
 	
 	public DateTime getCurrentPayCalStart() {
 		return currentPayCalStart;
@@ -276,5 +277,13 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
 
 	public void setSelectedEarnCode(String selectedEarnCode) {
 		this.selectedEarnCode = selectedEarnCode;
+	}
+
+	public LeaveSummary getLeaveSummary() {
+		return leaveSummary;
+	}
+
+	public void setLeaveSummary(LeaveSummary leaveSummary) {
+		this.leaveSummary = leaveSummary;
 	}
 }

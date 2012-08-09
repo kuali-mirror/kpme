@@ -378,6 +378,7 @@ public class AccrualServiceImpl implements AccrualService {
 		aLeaveBlock.setScheduleTimeOffId(sysSchTimeOffId);
 		aLeaveBlock.setLeaveAmount(roundedHours);
 		aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE);
+		aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
 		
 		accrualLeaveBlocks.add(aLeaveBlock);
 		
@@ -396,6 +397,7 @@ public class AccrualServiceImpl implements AccrualService {
 		aLeaveBlock.setScheduleTimeOffId(null);
 		aLeaveBlock.setLeaveAmount(BigDecimal.ZERO);
 		aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE);
+		aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
 		
 		accrualLeaveBlocks.add(aLeaveBlock);
 		
@@ -760,22 +762,20 @@ public class AccrualServiceImpl implements AccrualService {
 	
 	@Override
 	public void calculateFutureAccrualUsingPlanningMonth(String principalId, Date asOfDate) {
-		Date currentDate = TKUtils.getCurrentDate();
 		PrincipalHRAttributes phra = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
 		if(phra != null) {
-//			LeavePlan lp = TkServiceLocator.getLeavePlanService().getLeavePlan(phra.getLeavePlan(), phra.getEffectiveDate());
 			// use the date from pay period to get the leave plan
 			LeavePlan lp = TkServiceLocator.getLeavePlanService().getLeavePlan(phra.getLeavePlan(), asOfDate);  
 			if(lp != null && StringUtils.isNotEmpty(lp.getPlanningMonths())) {
 				Calendar aCal = Calendar.getInstance();
-				aCal.setTime(currentDate);
+				aCal.setTime(asOfDate);
 				aCal.add(Calendar.MONTH, Integer.parseInt(lp.getPlanningMonths()));
 				// max days in months differ, if the date is bigger than the max day, set it to the max day of the month
 				if(aCal.getActualMaximum(Calendar.DAY_OF_MONTH) < aCal.get(Calendar.DATE)) {
 					aCal.set(Calendar.DATE, aCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 				}
 				Date endDate = new java.sql.Date(aCal.getTime().getTime());
-				TkServiceLocator.getLeaveAccrualService().runAccrual(principalId, currentDate, endDate, true);
+				TkServiceLocator.getLeaveAccrualService().runAccrual(principalId, asOfDate, endDate, true);
 			}
 		}
 	}

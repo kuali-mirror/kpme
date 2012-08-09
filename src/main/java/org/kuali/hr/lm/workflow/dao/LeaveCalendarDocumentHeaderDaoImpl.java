@@ -1,12 +1,17 @@
 package org.kuali.hr.lm.workflow.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
+import org.kuali.hr.time.util.TkConstants;
 import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
 public class LeaveCalendarDocumentHeaderDaoImpl extends PersistenceBrokerDaoSupport implements LeaveCalendarDocumentHeaderDao {
@@ -63,5 +68,45 @@ public class LeaveCalendarDocumentHeaderDaoImpl extends PersistenceBrokerDaoSupp
 
         return (LeaveCalendarDocumentHeader) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
+    
+    @Override
+    public LeaveCalendarDocumentHeader getMaxEndDateApprovedLeaveCalendar(String principalId) {
+    	Criteria root = new Criteria();
+        Criteria crit = new Criteria();
+        
+        crit.addEqualTo("principalId", principalId);
+        crit.addEqualTo("documentStatus", TkConstants.ROUTE_STATUS.FINAL);
+        ReportQueryByCriteria endDateSubQuery = QueryFactory.newReportQuery(LeaveCalendarDocumentHeader.class, crit);
+        endDateSubQuery.setAttributes(new String[]{"max(endDate)"});
+
+        root.addEqualTo("principalId", principalId);
+        root.addEqualTo("documentStatus", TkConstants.ROUTE_STATUS.FINAL);
+        root.addEqualTo("endDate", endDateSubQuery);
+
+        Query query = QueryFactory.newQuery(LeaveCalendarDocumentHeader.class, root);
+        return (LeaveCalendarDocumentHeader) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+    }
+    
+    @Override
+	public LeaveCalendarDocumentHeader getMinBeginDatePendingLeaveCalendar(String principalId) {
+    	Criteria root = new Criteria();
+        Criteria crit = new Criteria();
+        List<String> pendingStatuses = new ArrayList<String>();
+        pendingStatuses.add(TkConstants.ROUTE_STATUS.ENROUTE);
+        pendingStatuses.add(TkConstants.ROUTE_STATUS.INITIATED);
+        pendingStatuses.add(TkConstants.ROUTE_STATUS.SAVED);        
+        
+        crit.addEqualTo("principalId", principalId);
+        crit.addIn("documentStatus", pendingStatuses);
+        ReportQueryByCriteria startDateSubQuery = QueryFactory.newReportQuery(LeaveCalendarDocumentHeader.class, crit);
+        startDateSubQuery.setAttributes(new String[]{"min(beginDate)"});
+
+        root.addEqualTo("principalId", principalId);
+        root.addIn("documentStatus", pendingStatuses);
+        root.addEqualTo("beginDate", startDateSubQuery);
+
+        Query query = QueryFactory.newQuery(LeaveCalendarDocumentHeader.class, root);
+        return (LeaveCalendarDocumentHeader) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
 
 }

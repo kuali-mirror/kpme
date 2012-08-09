@@ -7,6 +7,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
+import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
@@ -136,6 +137,10 @@ public class LeaveCalendarAction extends TkAction {
         List<String> warningMes = ActionFormUtils.fmlaWarningTextForLeaveBlocks(leaveBlocks);
         lcf.setWarnings(warningMes);
         
+        // leave summary 
+        LeaveSummary ls = TkServiceLocator.getLeaveCalendarService().getLeaveSummary(viewPrincipal, calendarEntry);
+        lcf.setLeaveSummary(ls);
+        
 		// KPME-1690
 //        LeaveCalendar leaveCalender = new LeaveCalendar(viewPrincipal, calendarEntry);
         LeaveBlockAggregate aggregate = new LeaveBlockAggregate(leaveBlocks, calendarEntry, calendar);
@@ -212,6 +217,11 @@ public class LeaveCalendarAction extends TkAction {
 				TkServiceLocator.getLeaveAccrualService().runAccrual(TKContext.getTargetPrincipalId(), ce.getBeginPeriodDate(), ce.getEndPeriodDate(), false);
 			}
 		}
+		// recalculate summary
+		if(lcf.getCalendarEntry() != null) {
+			LeaveSummary ls = TkServiceLocator.getLeaveCalendarService().getLeaveSummary(TKContext.getTargetPrincipalId(), lcf.getCalendarEntry());
+		    lcf.setLeaveSummary(ls);
+		}
 		
 		return mapping.findForward("basic");
 	}
@@ -228,7 +238,11 @@ public class LeaveCalendarAction extends TkAction {
 		    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(
 				Long.parseLong(leaveBlockId));
         }
-
+		// recalculate summary
+		if(lcf.getCalendarEntry() != null) {
+			LeaveSummary ls = TkServiceLocator.getLeaveCalendarService().getLeaveSummary(TKContext.getTargetPrincipalId(), lcf.getCalendarEntry());
+		    lcf.setLeaveSummary(ls);
+		}
 		return mapping.findForward("basic");
 	}
 	
@@ -257,6 +271,11 @@ public class LeaveCalendarAction extends TkAction {
             lcf.setLeaveAmount(null);
             lcf.setDescription(null);
             lcf.setSelectedEarnCode(null);
+    		// recalculate summary
+    		if(lcf.getCalendarEntry() != null) {
+    			LeaveSummary ls = TkServiceLocator.getLeaveCalendarService().getLeaveSummary(TKContext.getTargetPrincipalId(), lcf.getCalendarEntry());
+    		    lcf.setLeaveSummary(ls);
+    		}
         }
         return mapping.findForward("basic");
     }

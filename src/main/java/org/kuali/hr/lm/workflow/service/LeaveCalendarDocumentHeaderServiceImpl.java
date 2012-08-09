@@ -50,4 +50,14 @@ public class LeaveCalendarDocumentHeaderServiceImpl implements LeaveCalendarDocu
 	        }
 	        return lcdh;
 	}
+	
+	@Override
+	public LeaveCalendarDocumentHeader getMaxEndDateApprovedLeaveCalendar(String principalId) {
+		return leaveCalendarDocumentHeaderDao.getMaxEndDateApprovedLeaveCalendar(principalId);
+	}
+
+	@Override
+	public LeaveCalendarDocumentHeader getMinBeginDatePendingLeaveCalendar(String principalId) {
+		return leaveCalendarDocumentHeaderDao.getMinBeginDatePendingLeaveCalendar(principalId);
+	}
 }

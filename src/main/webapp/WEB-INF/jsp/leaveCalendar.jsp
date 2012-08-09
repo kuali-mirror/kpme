@@ -10,6 +10,7 @@
     <script src="js/tk.leaveCalendar.backbone.js"></script>
     <tk:calendar cal="${Form.leaveCalendar}" docId="${Form.documentId}" calType="leaveCalendar"/>
     
+    <lm:leaveSummary leaveSummary="${Form.leaveSummary}" />
     
     <%-- this is used by the javascript to fetch the leave block json --%>
     <html:textarea property="leaveBlockString" styleId="leaveBlockString" value="${Form.leaveBlockString}"/>
