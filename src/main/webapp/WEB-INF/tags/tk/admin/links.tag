@@ -19,16 +19,19 @@
 <div class="body">
     <ul class="chan">
         <li>
-            <a href="portal.do?selectedTab=maintenance">Maintenance</a>
-        </li>
-        <li>
             <a href="Clock.do">Clock</a>
         </li>
         <li>
-            <a href="TimeDetail.do">TimeDetail</a>
+            <a href="DepartmentAdmin.do">Department Admin</a>
+        </li>
+        <li>
+            <a href="LeaveCalendar.do">Leave Calendar</a>
         </li>
         <li>
             <a href="TimeApproval.do?methodToCall=loadApprovalTab">Time Approval</a>
+        </li>
+        <li>
+            <a href="TimeDetail.do">Time Detail</a>
         </li>
         <li>
             <a href="PersonInfo.do">Person Info</a>
