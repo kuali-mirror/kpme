@@ -42,7 +42,7 @@ public class AccrualCategoryMaintainableServiceImpl extends HrBusinessObjectMain
 			accCatRule.setLmAccrualCategoryRuleId(null);
 		}
 
-        CacheUtils.flushCache(AccrualCategory.CACHE_NAME);
+        //CacheUtils.flushCache(AccrualCategory.CACHE_NAME);
 	}
 
 	@Override
