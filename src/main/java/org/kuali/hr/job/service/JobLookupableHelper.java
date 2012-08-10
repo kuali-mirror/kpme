@@ -1,7 +1,9 @@
 package org.kuali.hr.job.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
@@ -11,47 +13,55 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
-/**
- * Used to override default lookup behavior for the Job maintenance object
- */
 public class JobLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
 
-    @Override
-    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
-                                              @SuppressWarnings("rawtypes") List pkNames) {
-        List<HtmlData> customActionUrls = super.getCustomActionUrls(
-                businessObject, pkNames);
-        if (TKContext.getUser().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
-            Job job = (Job) businessObject;
-            final String className = this.getBusinessObjectClass().getName();
-            final String hrJobId = job.getHrJobId();
-            HtmlData htmlData = new HtmlData() {
+	private static final long serialVersionUID = 3233495722838070429L;
 
-                /**
-                 *
-                 */
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public String constructCompleteHtmlTag() {
-                    return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
-                            + className
-                            + "&methodToCall=start&hrJobId="
-                            + hrJobId + "&principalId=&jobNumber=\">view</a>";
-                }
-            };
-            customActionUrls.add(htmlData);
-        } else if (customActionUrls.size() != 0) {
-            customActionUrls.remove(0);
-        }
-        return customActionUrls;
+	@Override
+    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+    	List<HtmlData> customActionUrls = new ArrayList<HtmlData>();
+		
+		List<HtmlData> defaultCustomActionUrls = super.getCustomActionUrls(businessObject, pkNames);
+        
+		Job job = (Job) businessObject;
+        String hrJobId = job.getHrJobId();
+        String jobNumber = String.valueOf(job.getJobNumber());
+        String principalId = job.getPrincipalId();
+        String location = job.getLocation();
+        String department = job.getDept();
+        
+        boolean systemAdmin = TKContext.getUser().isSystemAdmin();
+		boolean locationAdmin = TKContext.getUser().getLocationAdminAreas().contains(location);
+		boolean departmentAdmin = TKContext.getUser().getDepartmentAdminAreas().contains(department);
+		
+		for (HtmlData defaultCustomActionUrl : defaultCustomActionUrls){
+			if (StringUtils.equals(defaultCustomActionUrl.getMethodToCall(), "edit")) {
+				if (systemAdmin || locationAdmin || departmentAdmin) {
+					customActionUrls.add(defaultCustomActionUrl);
+				}
+			} else {
+				customActionUrls.add(defaultCustomActionUrl);
+			}
+		}
+		
+		Properties params = new Properties();
+		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
+		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
+		params.put("hrJobId", hrJobId);
+		params.put("jobNumber", jobNumber);
+		params.put("principalId", principalId);
+		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
+		viewUrl.setDisplayText("view");
+		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
+		customActionUrls.add(viewUrl);
+		
+		return customActionUrls;
     }
 
     @SuppressWarnings({"unchecked"})

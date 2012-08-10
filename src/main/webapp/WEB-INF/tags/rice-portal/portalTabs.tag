@@ -19,9 +19,8 @@
 
 <c:if test="${!empty UserSession.loggedInUserPrincipalName}">
     <c:set var="systemAdmin" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isSystemAdmin()%>' />
-    <c:set var="targetLocationAdmin" value='<%=org.kuali.hr.time.util.TKUser.getCurrentTargetRoles().isLocationAdmin()%>' />
-    <c:set var="targetDepartmentAdmin" value='<%=org.kuali.hr.time.util.TKUser.getCurrentTargetRoles().isDepartmentAdmin()%>' />
-    <c:set var="targetGlobalViewOnly" value='<%=org.kuali.hr.time.util.TKUser.getCurrentTargetRoles().isGlobalViewOnly()%>' />
+    <c:set var="globalViewOnly" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isGlobalViewOnly()%>' />
+    <c:set var="locationAdmin" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isLocationAdmin()%>' />
 </c:if>
 <div id="tabs" class="tabposition">
 	<ul>
@@ -48,8 +47,8 @@
 			</c:if>
 		</c:if>
 		
-        <%-- Maintenance  --%>
-        <c:if test="${systemAdmin || targetLocationAdmin || targetDepartmentAdmin || globalViewOnly}">
+        <%-- Maintenance --%>
+        <c:if test="${systemAdmin || globalViewOnly || locationAdmin}">
             <c:if test='${selectedTab == "maintenance"}'>
                 <li class="red">
                     <a class="red" href="portal.do?selectedTab=maintenance"
@@ -65,7 +64,7 @@
             </c:if>
         </c:if>
 
-		<%-- Administration  --%>
+		<%-- Administration --%>
 		<c:if test='${selectedTab == "administration"}'>
 			<li class="red">
 				<a class="red" href="portal.do?selectedTab=administration"

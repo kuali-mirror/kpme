@@ -15,17 +15,13 @@
 --%>
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
-<c:set var="systemAdmin" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isSystemAdmin()%>' />
-
-<c:if test="${systemAdmin}">
-    <channel:portalChannelTop channelTitle="Delete Timesheet" />
-    <div class="body">
-        <div id="content">
-            <html:form action="/deleteTimesheet" method="post">
-                <html:text property="deleteDocumentId" size="20" />
-                <html:submit property="methodToCall.deleteTimesheet" value="Submit" />
-            </html:form>
-        </div>
+<channel:portalChannelTop channelTitle="Delete Timesheet" />
+<div class="body">
+    <div id="content">
+        <html:form action="/deleteTimesheet" method="post">
+            <html:text property="deleteDocumentId" size="20" />
+            <html:submit property="methodToCall.deleteTimesheet" value="Submit" />
+        </html:form>
     </div>
-    <channel:portalChannelBottom />
-</c:if>
+</div>
+<channel:portalChannelBottom />

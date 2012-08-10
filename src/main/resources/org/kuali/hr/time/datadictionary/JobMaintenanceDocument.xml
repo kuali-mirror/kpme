@@ -14,7 +14,7 @@
   		p:businessObjectClass="org.kuali.hr.job.Job"
   		p:businessRulesClass="org.kuali.hr.job.validation.JobValidation"
   		p:maintainableClass="org.kuali.hr.job.service.JobMaintainableImpl"
-  		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
+  		p:documentAuthorizerClass="org.kuali.hr.time.authorization.DepartmentAdminAuthorizer">
     <property name="maintainableSections">
       <list>
         <ref bean="JobMaintenanceDocument-JobMaintenance"/>

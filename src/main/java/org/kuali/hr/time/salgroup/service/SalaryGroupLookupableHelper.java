@@ -1,44 +1,37 @@
 package org.kuali.hr.time.salgroup.service;
 
 import java.util.List;
+import java.util.Properties;
 
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.salgroup.SalGroup;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
-public class SalaryGroupLookupableHelper extends
-		HrEffectiveDateActiveLookupableHelper {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class SalaryGroupLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
 
-	@SuppressWarnings({ "rawtypes", "serial" })
+	private static final long serialVersionUID = 4826886027602440306L;
+
 	@Override
-	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
-			List pkNames) {
-		List<HtmlData> customActionUrls = super.getCustomActionUrls(
-				businessObject, pkNames);
-		if (TKContext.getUser().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
-			SalGroup salGroup = (SalGroup) businessObject;
-			final String className = this.getBusinessObjectClass().getName();
-			final String hrSalGroupId = salGroup.getHrSalGroupId();
-			HtmlData htmlData = new HtmlData() {
-
-				@Override
-				public String constructCompleteHtmlTag() {
-					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
-							+ className
-							+ "&methodToCall=start&hrSalGroupId="
-							+ hrSalGroupId + "\">view</a>";
-				}
-			};
-			customActionUrls.add(htmlData);
-		} else if (customActionUrls.size() != 0) {
-			customActionUrls.remove(0);
-		}
+	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);		
+		
+		SalGroup salGroup = (SalGroup) businessObject;
+		String hrSalGroupId = salGroup.getHrSalGroupId();
+		
+		Properties params = new Properties();
+		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
+		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
+		params.put("hrSalGroupId", hrSalGroupId);
+		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
+		viewUrl.setDisplayText("view");
+		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
+		customActionUrls.add(viewUrl);
+		
 		return customActionUrls;
 	}
+	
 }

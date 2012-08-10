@@ -15,50 +15,44 @@
 --%>
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
-<c:set var="systemAdmin" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isSystemAdmin()%>' />
-
-<c:if test="${systemAdmin}">
-    <channel:portalChannelTop channelTitle="Create Calendar Entry" />
-    <div class="body">
-        <div id="content">
-            <html:form action="/calendarEntry.do">
-                <table>
-                    <tr>
-                        <td>Number of Periods:</td>
-                        <td>
-                            <html:text property="noOfPeriods" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Pay Calendar Period:</td>
-                        <td>
-                            <html:text property="hrPyCalendarEntryId" />
-                        </td>
-                        <td>
-                            <kul:lookup boClassName="org.kuali.hr.time.calendar.CalendarEntries" fieldConversions="hrCalendarEntriesId:hrPyCalendarEntryId" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Calendar Frequency:</td>
-                        <td>
-                            <select name="calendarEntryPeriodType" id="calendarEntryPeriodType">
-                                <option value="W">Weekly</option>
-                                <option value="B">Biweekly</option>
-                                <option value="S">Semi Monthly</option>
-                                <option value="M">Monthly</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <html:submit property="methodToCall.createCalendarEntry" value="Submit" />
-                        </td>
-                    </tr>
-                </table>
-            </html:form>
-            ${CalendarEntryActionForm.message}
-        </div>
+<channel:portalChannelTop channelTitle="Create Calendar Entry" />
+<div class="body">
+    <div id="content">
+        <html:form action="/calendarEntry.do">
+            <table>
+                <tr>
+                    <td>Number of Periods:</td>
+                    <td>
+                        <html:text property="noOfPeriods" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Pay Calendar Period:</td>
+                    <td>
+                        <html:text property="hrPyCalendarEntryId" />
+                    </td>
+                    <td>
+                        <kul:lookup boClassName="org.kuali.hr.time.calendar.CalendarEntries" fieldConversions="hrCalendarEntriesId:hrPyCalendarEntryId" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>Calendar Frequency:</td>
+                    <td>
+                        <select name="calendarEntryPeriodType" id="calendarEntryPeriodType">
+                            <option value="W">Weekly</option>
+                            <option value="B">Biweekly</option>
+                            <option value="S">Semi Monthly</option>
+                            <option value="M">Monthly</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <html:submit property="methodToCall.createCalendarEntry" value="Submit" />
+                    </td>
+                </tr>
+            </table>
+        </html:form>
+        ${CalendarEntryActionForm.message}
     </div>
-</c:if>
-
-</tk:tkHeader>
+</div>
