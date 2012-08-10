@@ -53,7 +53,7 @@
                 <tr>
                     <td align="right" colspan="2">
                         <c:if test="${backdoorInUse}">
-                            <a href="?methodToCall=clearBackdoor" style="font-size: .8em;">Remove backdoor</a> |
+                            <a href="<%=request.getContextPath() %>/backdoorlogin.do?methodToCall=logout" style="font-size: .8em;">Remove backdoor</a> |
                         </c:if>
                         <a href="<%=request.getContextPath() %>/logout.do" style="font-size: .8em;">Logout</a>
                     </td>
