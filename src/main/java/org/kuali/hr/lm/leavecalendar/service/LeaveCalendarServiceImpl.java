@@ -9,10 +9,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.codehaus.plexus.util.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
@@ -28,6 +32,7 @@ import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.WorkflowDocument;
 
@@ -143,17 +148,40 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     	
     	if(StringUtils.isNotEmpty(principalId) && calendarEntry != null) {
     		
-    		// could be a list of principalHrAttributes
-    		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, calendarEntry.getEndPeriodDate());
+    		// get principalHrAttributes for begin date of this pay period
+    		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, calendarEntry.getBeginPeriodDate());
+    		// get list of principalHrAttributes that become active during this pay period
+    		List<PrincipalHRAttributes> phaList = TkServiceLocator.getPrincipalHRAttributeService()
+    			.getActivePrincipalHrAttributesForRange(principalId, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
+    		
+    		Set<String> lpStrings = new HashSet<String>();
     		if(pha != null) {
-    			LeavePlan lp = TkServiceLocator.getLeavePlanService().getLeavePlan(pha.getLeavePlan(), calendarEntry.getEndPeriodDate());
-    			if(lp != null) {
+    			lpStrings.add(pha.getLeavePlan());
+    		}
+    		if(CollectionUtils.isNotEmpty(phaList)) {
+    			for(PrincipalHRAttributes aPha : phaList) {
+    				lpStrings.add(aPha.getLeavePlan());
+    			}
+    		}
+    		
+    		if(CollectionUtils.isNotEmpty(lpStrings)) {
+    			for(String aLpString : lpStrings) {
+	    			LeavePlan lp = TkServiceLocator.getLeavePlanService().getLeavePlan(aLpString, calendarEntry.getEndPeriodDate());
+	    			if(lp == null) {
+	    				continue;
+	    			}
+	    			
     				DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
     				// get the latest approved leave calendar
             		LeaveCalendarDocumentHeader approvedLcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getMaxEndDateApprovedLeaveCalendar(principalId);
             		List<LeaveBlock> approvedLeaveBlocks = new ArrayList<LeaveBlock> ();
             		if(approvedLcdh != null) {
-            			java.sql.Date endApprovedDate = new java.sql.Date(approvedLcdh.getEndDate().getTime());
+            			Date endApprovedDate = new java.sql.Date(approvedLcdh.getEndDate().getTime());
+            			LocalDateTime aLocalTime = new DateTime(approvedLcdh.getEndDate()).toLocalDateTime();
+            			DateTime endApprovedTime = aLocalTime.toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+            			if(endApprovedTime.getHourOfDay() == 0) {
+            				endApprovedDate = TKUtils.addDates(endApprovedDate, -1);
+            			}
         				Date yearStartDate = this.calendarYearStartDate(lp.getCalendarYearStart(), endApprovedDate);
         				String datesString = formatter.format(yearStartDate) + " - " + formatter.format(endApprovedDate);
         				ls.setYtdDatesString(datesString);
@@ -166,6 +194,11 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
             		if(pendingLcdh != null) {
             			Date pendingStartDate = pendingLcdh.getBeginDate();
             			Date pendingEndDate = calendarEntry.getEndPeriodDate();
+            			DateTime endDateTime = calendarEntry.getEndLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+            			if(endDateTime.getHourOfDay() == 0) {
+            				pendingEndDate = TKUtils.addDates(pendingEndDate, -1);
+            			}
+            			
             			if(!pendingStartDate.after(pendingEndDate)) {
             				String aString = formatter.format(pendingStartDate) + " - " + formatter.format(pendingEndDate);
             				ls.setPendingDatesString(aString);
@@ -193,6 +226,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     						}
     					}
     				}
+	    			
     			}
     		}
     	}
@@ -268,7 +302,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 		if(aDate.after(asOfDate)) {
 			yearString = Integer.toString(gc.get(Calendar.YEAR) -1);
 			fullString = tempString + "/" + yearString;
-			aDate = formatter.parse(dateString);
+			aDate = formatter.parse(fullString);
 		}
 		return aDate;
 	}
