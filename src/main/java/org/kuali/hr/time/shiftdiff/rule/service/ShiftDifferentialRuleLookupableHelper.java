@@ -1,50 +1,54 @@
 package org.kuali.hr.time.shiftdiff.rule.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
-public class ShiftDifferentialRuleLookupableHelper extends
-		HrEffectiveDateActiveLookupableHelper {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class ShiftDifferentialRuleLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
 
-	@SuppressWarnings("rawtypes")
+	private static final long serialVersionUID = -7636153206208704542L;
+
 	@Override
-	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
-			List pkNames) {
-		List<HtmlData> customActionUrls = super.getCustomActionUrls(
-				businessObject, pkNames);
-		if (TKContext.getUser().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
-			ShiftDifferentialRule shiftDifferentialRule = (ShiftDifferentialRule) businessObject;
-			final String className = this.getBusinessObjectClass().getName();
-			final String tkShiftDiffRuleId = shiftDifferentialRule
-					.getTkShiftDiffRuleId();
-			HtmlData htmlData = new HtmlData() {
+	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+List<HtmlData> customActionUrls = new ArrayList<HtmlData>();
+		
+		List<HtmlData> defaultCustomActionUrls = super.getCustomActionUrls(businessObject, pkNames);
+		
+		ShiftDifferentialRule shiftDifferentialRule = (ShiftDifferentialRule) businessObject;
+		String tkShiftDiffRuleId = shiftDifferentialRule.getTkShiftDiffRuleId();
+		
+		boolean systemAdmin = TKContext.getUser().isSystemAdmin();
 
-				/**
-				 * 
-				 */
-				private static final long serialVersionUID = -8135670958145207661L;
-
-				@Override
-				public String constructCompleteHtmlTag() {
-					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
-							+ className
-							+ "&methodToCall=start&tkShiftDiffRuleId="
-							+ tkShiftDiffRuleId + "\">view</a>";
+		for (HtmlData defaultCustomActionUrl : defaultCustomActionUrls){
+			if (StringUtils.equals(defaultCustomActionUrl.getMethodToCall(), "edit")) {
+				if (systemAdmin) {
+					customActionUrls.add(defaultCustomActionUrl);
 				}
-			};
-			customActionUrls.add(htmlData);
-		} else if (customActionUrls.size() != 0) {
-			customActionUrls.remove(0);
+			} else {
+				customActionUrls.add(defaultCustomActionUrl);
+			}
 		}
+		
+		Properties params = new Properties();
+		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
+		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
+		params.put("tkShiftDiffRuleId", tkShiftDiffRuleId);
+		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
+		viewUrl.setDisplayText("view");
+		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
+		customActionUrls.add(viewUrl);
+		
 		return customActionUrls;
 	}
+	
 }

@@ -16,6 +16,8 @@ import org.kuali.rice.krad.util.UrlFactory;
 
 public class EarnCodeLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
 
+	private static final long serialVersionUID = -4558119049003795647L;
+
 	@Override
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = new ArrayList<HtmlData>();
@@ -51,4 +53,5 @@ public class EarnCodeLookupableHelper extends HrEffectiveDateActiveLookupableHel
 		
 		return customActionUrls;
 	}
+	
 }
