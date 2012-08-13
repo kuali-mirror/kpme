@@ -56,11 +56,11 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 
 	@Override
 	public void setUp() throws Exception {
-		super.setUp();
-		
 	    if (System.getProperty("basedir") == null) {
 	        System.setProperty("basedir", System.getProperty("user.dir") + "/");
 	    }
+	    
+		super.setUp();
 
 		GlobalVariables.setMessageMap(new MessageMap());
 		
