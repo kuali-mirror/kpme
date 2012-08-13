@@ -12,10 +12,10 @@ import org.joda.time.LocalTime;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
@@ -30,7 +30,7 @@ import org.kuali.hr.time.workschedule.WorkScheduleEntry;
  * @author djunk
  *
  */
-public class ShiftDifferentialRuleServiceProcessTest extends TkTestCase {
+public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 
 
 	public static final String USER_PRINCIPAL_ID = "admin";

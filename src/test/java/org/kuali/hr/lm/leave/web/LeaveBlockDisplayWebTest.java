@@ -5,8 +5,8 @@ import junit.framework.Assert;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
@@ -14,7 +14,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlButton;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class LeaveBlockDisplayWebTest extends TkTestCase {
+public class LeaveBlockDisplayWebTest extends KPMETestCase {
 
 	@Before
 	public void setUp() throws Exception {

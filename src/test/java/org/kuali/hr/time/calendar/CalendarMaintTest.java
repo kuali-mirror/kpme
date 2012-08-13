@@ -3,8 +3,8 @@ package org.kuali.hr.time.calendar;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -12,7 +12,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class CalendarMaintTest extends TkTestCase {
+public class CalendarMaintTest extends KPMETestCase {
 
 	public static final String TEST_USER = "admin";
 	private static final String CAL_NAME_REQUIRED = "Calendar Name (Calendar Name) is a required field.";

@@ -5,15 +5,15 @@ import java.sql.Date;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class EarnCodeGroupServiceTest extends TkTestCase{
+public class EarnCodeGroupServiceTest extends KPMETestCase{
 	@Test
 	public void testEarnGroupFetch() throws Exception{
 		EarnCodeGroup earnGroup = TkServiceLocator.getEarnCodeGroupService().getEarnCodeGroup("REG", new Date(System.currentTimeMillis()));

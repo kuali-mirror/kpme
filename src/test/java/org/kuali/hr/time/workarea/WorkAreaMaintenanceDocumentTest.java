@@ -7,10 +7,10 @@ import org.joda.time.DateTimeZone;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
@@ -21,7 +21,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class WorkAreaMaintenanceDocumentTest extends TkTestCase {
+public class WorkAreaMaintenanceDocumentTest extends KPMETestCase {
 	
 	final String ERROR_MESSAGE = "At least one active role must be defined.";
 	final String ERROR_ROLE_MESSAGE = "Cannot define both Principal Id and Position Nubmer for Role.";

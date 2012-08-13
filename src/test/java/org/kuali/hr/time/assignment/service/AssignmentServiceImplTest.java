@@ -9,12 +9,12 @@ import org.joda.time.DateTimeZone;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.test.TkTestCase;
 
-public class AssignmentServiceImplTest extends TkTestCase {
+public class AssignmentServiceImplTest extends KPMETestCase {
 
 	private static final Logger LOG = Logger.getLogger(AssignmentServiceImplTest.class);
 	AssignmentDao assignmentDao = null;

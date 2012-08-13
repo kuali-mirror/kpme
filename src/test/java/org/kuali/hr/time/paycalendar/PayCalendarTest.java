@@ -2,12 +2,12 @@ package org.kuali.hr.time.paycalendar;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class PayCalendarTest extends TkTestCase {
+public class PayCalendarTest extends KPMETestCase {
 	
 	@Test
 	public void testPayCalendar() throws Exception{

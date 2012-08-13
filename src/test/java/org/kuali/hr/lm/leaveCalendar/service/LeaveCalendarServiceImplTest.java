@@ -7,11 +7,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.test.TkTestCase;
 
-public class LeaveCalendarServiceImplTest extends TkTestCase {
+public class LeaveCalendarServiceImplTest extends KPMETestCase {
 	
 	@Test
 	public void testGetLeaveSummary() throws Exception {

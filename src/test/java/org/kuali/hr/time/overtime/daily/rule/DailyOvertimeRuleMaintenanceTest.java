@@ -6,8 +6,8 @@ import java.util.HashMap;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -15,7 +15,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class DailyOvertimeRuleMaintenanceTest extends TkTestCase{
+public class DailyOvertimeRuleMaintenanceTest extends KPMETestCase{
 		
 	private static final String TEST_CODE="BL";		
 	private static String TEST_CODE_INVALID_DEPT_ID ="INVALID";

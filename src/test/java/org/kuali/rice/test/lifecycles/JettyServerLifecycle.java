@@ -25,7 +25,6 @@ import org.kuali.rice.core.api.lifecycle.Lifecycle;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.resourceloader.ResourceLoader;
 import org.kuali.rice.core.api.util.RiceUtilities;
-import org.kuali.rice.test.TestHarnessServiceLocator;
 import org.kuali.rice.test.launch.JettyLauncher;
 
 

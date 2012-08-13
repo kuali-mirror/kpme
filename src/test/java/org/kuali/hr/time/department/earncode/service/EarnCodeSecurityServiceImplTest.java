@@ -8,10 +8,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.lm.earncodesec.service.EarnCodeSecurityService;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.test.TkTestCase;
 
-public class EarnCodeSecurityServiceImplTest extends TkTestCase {
+public class EarnCodeSecurityServiceImplTest extends KPMETestCase {
 
 	public static final String TEST_TEST_DEPT = "TEST-DEPT";
 	public static final String TEST_LORA = "LORA-DEPT";

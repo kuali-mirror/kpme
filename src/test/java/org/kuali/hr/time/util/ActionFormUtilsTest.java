@@ -6,10 +6,10 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.detail.web.ActionFormUtils;
-import org.kuali.hr.time.test.TkTestCase;
 
-public class ActionFormUtilsTest extends TkTestCase {
+public class ActionFormUtilsTest extends KPMETestCase {
 	
 	@Test
 	public void testFmlaWarningTextForLeaveBlocks() throws Exception {

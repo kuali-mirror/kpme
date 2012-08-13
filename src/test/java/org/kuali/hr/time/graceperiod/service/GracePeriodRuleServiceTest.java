@@ -8,12 +8,12 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.graceperiod.rule.GracePeriodRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
-public class GracePeriodRuleServiceTest extends TkTestCase{
+public class GracePeriodRuleServiceTest extends KPMETestCase{
 
 	@Test
 	public void testGracePeriodRuleFetch() throws Exception{

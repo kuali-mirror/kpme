@@ -8,11 +8,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryInquirableImpl;
-import org.kuali.hr.time.test.TkTestCase;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 
-public class AccrualCategoryInquirableImplTest extends TkTestCase {
+public class AccrualCategoryInquirableImplTest extends KPMETestCase {
 
 	private String INQUIRY_URL = "inquiry.do?businessObjectClassName=org.kuali.hr.lm.leaveplan.LeavePlan&lmLeavePlanId=&methodToCall=start&effectiveDate=03%2F04%2F2012&leavePlan=testLeavePlan";
 	@Test

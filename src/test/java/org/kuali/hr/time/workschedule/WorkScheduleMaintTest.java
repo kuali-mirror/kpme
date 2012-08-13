@@ -3,15 +3,15 @@ package org.kuali.hr.time.workschedule;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 @Ignore
-public class WorkScheduleMaintTest extends TkTestCase{
+public class WorkScheduleMaintTest extends KPMETestCase{
 	
 	private static final String TEST_CODE = "test-schedule";		
 		

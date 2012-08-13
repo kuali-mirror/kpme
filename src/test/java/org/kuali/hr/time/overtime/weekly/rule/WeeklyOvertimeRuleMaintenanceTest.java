@@ -5,15 +5,15 @@ import java.util.Calendar;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class WeeklyOvertimeRuleMaintenanceTest extends TkTestCase {
+public class WeeklyOvertimeRuleMaintenanceTest extends KPMETestCase {
 	
 	protected static final String TEST_CODE="TST";
 	private static final BigDecimal TEST_NO=new BigDecimal(10);

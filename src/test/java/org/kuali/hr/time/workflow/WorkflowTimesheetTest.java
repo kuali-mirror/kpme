@@ -10,15 +10,15 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.service.TimesheetService;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 @Ignore
-public class WorkflowTimesheetTest extends TkTestCase {
+public class WorkflowTimesheetTest extends KPMETestCase {
 
 	private static final Logger LOG = Logger.getLogger(WorkflowTimesheetTest.class);
 	

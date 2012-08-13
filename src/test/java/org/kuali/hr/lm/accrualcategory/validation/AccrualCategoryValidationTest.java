@@ -3,8 +3,8 @@ package org.kuali.hr.lm.accrualcategory.validation;
 import junit.framework.Assert;
 
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
@@ -12,7 +12,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 
-public class AccrualCategoryValidationTest extends TkTestCase{
+public class AccrualCategoryValidationTest extends KPMETestCase{
 	private static final String ACCRUAL_CATEGORY = "testAC";
 	private static final String ERROR_LEAVE_PLAN = "The specified leavePlan 'IU-SM-W' does not exist";
 	@Test

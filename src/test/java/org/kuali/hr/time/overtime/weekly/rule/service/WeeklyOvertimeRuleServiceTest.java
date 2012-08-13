@@ -10,10 +10,10 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
@@ -25,7 +25,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
  * @author djunk
  *
  */
-public class WeeklyOvertimeRuleServiceTest extends TkTestCase {
+public class WeeklyOvertimeRuleServiceTest extends KPMETestCase {
 	
 	private static Date DEFAULT_EFFDT = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
 	private static Long DEFAULT_JOB_NUMBER = 30L;

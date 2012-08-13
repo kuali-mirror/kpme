@@ -4,7 +4,6 @@ import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 @Ignore
 public class TestHarnessNonWebBase extends TestHarnessBase {
     

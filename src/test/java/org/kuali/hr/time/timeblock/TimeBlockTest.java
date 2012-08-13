@@ -11,13 +11,13 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 
-public class TimeBlockTest extends TkTestCase {
+public class TimeBlockTest extends KPMETestCase {
 	
 	@Test
 	public void testTimeBlockComparison() throws Exception {

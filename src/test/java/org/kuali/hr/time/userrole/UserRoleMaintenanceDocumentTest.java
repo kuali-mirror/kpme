@@ -3,15 +3,15 @@ package org.kuali.hr.time.userrole;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.util.TkConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 
-public class UserRoleMaintenanceDocumentTest extends TkTestCase {
+public class UserRoleMaintenanceDocumentTest extends KPMETestCase {
 
 	@Before
 	public void setUp() throws Exception {

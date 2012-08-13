@@ -11,15 +11,15 @@ import org.joda.time.DateTimeZone;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.position.Position;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
-public class TkRoleServiceTest  extends TkTestCase {
+public class TkRoleServiceTest  extends KPMETestCase {
 
 	public static final String TEST_USER = "eric";
 	@SuppressWarnings("unused")

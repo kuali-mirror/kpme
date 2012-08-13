@@ -5,13 +5,13 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.batch.service.BatchJobEntryService;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.util.TkConstants;
 
-public class BatchJobEntryTest extends TkTestCase {
+public class BatchJobEntryTest extends KPMETestCase {
 	private static final String BATCH_JOB_NAME = "testJob";
 	private Long bjeId;
 	

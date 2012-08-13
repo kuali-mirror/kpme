@@ -3,8 +3,8 @@ package org.kuali.hr.lm.leaveadjustment;
 import junit.framework.Assert;
 
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -12,7 +12,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class LeaveAdjustmentMaintTest extends TkTestCase{
+public class LeaveAdjustmentMaintTest extends KPMETestCase{
 	
 	private static final String PRINCIPAL_ID = "admin";
 	

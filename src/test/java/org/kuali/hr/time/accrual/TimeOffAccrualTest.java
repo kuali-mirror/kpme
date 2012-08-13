@@ -2,14 +2,14 @@ package org.kuali.hr.time.accrual;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 
-public class TimeOffAccrualTest extends TkTestCase
+public class TimeOffAccrualTest extends KPMETestCase
 {
 	
 	private static Long timeOffAccrualId = 1L;//id entered in the bootstrap SQL

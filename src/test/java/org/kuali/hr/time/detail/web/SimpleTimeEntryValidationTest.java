@@ -6,11 +6,11 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
@@ -25,7 +25,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  *
  * insert into tk_document_header_t values ('2', 'admin', '2011-02-01 00:00:00', 'I', '2011-01-15 00:00:00', NULL, '1');
  */
-public class SimpleTimeEntryValidationTest extends TkTestCase {
+public class SimpleTimeEntryValidationTest extends KPMETestCase {
 
     public static final String USER_PRINCIPAL_ID = "admin";
 	private Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());

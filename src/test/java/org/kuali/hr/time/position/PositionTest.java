@@ -2,14 +2,14 @@ package org.kuali.hr.time.position;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class PositionTest extends TkTestCase {
+public class PositionTest extends KPMETestCase {
 
 	public static final String TEST_USER = "admin";
 	

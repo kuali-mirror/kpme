@@ -6,15 +6,15 @@ import java.util.Calendar;
 import junit.framework.Assert;
 
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class LeaveCodeMaintTest extends TkTestCase{
+public class LeaveCodeMaintTest extends KPMETestCase{
 	private static final String SUCCESS_MESSAGE = "Document was successfully submitted.";
 	private static final String ERROR_MESSAGE_ALLOW_NEGATIVE_ACC_BAN_REQUIRED = "Allow Negative Accrual Balance (Allow Negative Accrual Balance) is a required field";//KPME-1350
 	

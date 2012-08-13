@@ -6,13 +6,13 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TkConstants;
 
-public class TimeOffAccrualServiceTest extends TkTestCase {
+public class TimeOffAccrualServiceTest extends KPMETestCase {
 
 	@Test
 	public void testValidateAccrualHoursLimit() {

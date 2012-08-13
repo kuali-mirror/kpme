@@ -11,8 +11,8 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.junit.Assert;
 import org.junit.Ignore;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.web.TkLoginFilter;
@@ -22,7 +22,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 @Ignore
-public class TimesheetWebTestBase extends TkTestCase {
+public class TimesheetWebTestBase extends KPMETestCase {
 
     public static final Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
     public static final String USER_PRINCIPAL_ID = "admin";

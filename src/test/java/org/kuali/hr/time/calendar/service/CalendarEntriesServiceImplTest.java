@@ -6,11 +6,11 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.test.TkTestCase;
 
-public class CalendarEntriesServiceImplTest extends TkTestCase {
+public class CalendarEntriesServiceImplTest extends KPMETestCase {
 	private CalendarEntriesService ceService;
 	@Before
 	public void setUp() throws Exception{

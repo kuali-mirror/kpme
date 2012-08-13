@@ -1,14 +1,14 @@
 package org.kuali.hr.time.department.lunch.rule;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class DepartmentLunchRuleMaintTest extends TkTestCase {
+public class DepartmentLunchRuleMaintTest extends KPMETestCase {
 	
 	private static final String TEST_CODE = "admin";		
 	private static String TEST_CODE_DEPT_INVALID = "INVALID";

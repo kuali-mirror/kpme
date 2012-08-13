@@ -2,13 +2,13 @@ package org.kuali.hr.time.principalhr;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class PrincipalHRAttributeTest extends TkTestCase {
+public class PrincipalHRAttributeTest extends KPMETestCase {
 	@Test
 	public void testPrincipalHRAttributeTest() throws Exception{
 		//confirm maintenance page renders default data

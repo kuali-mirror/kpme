@@ -13,11 +13,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
 import org.kuali.hr.time.clock.location.ClockLocationRuleIpAddress;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -25,7 +25,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 /**
  * A really basic unit test testing persistence and searching over persisted business objects.
  */
-public class ClockLocationRuleTest extends TkTestCase {
+public class ClockLocationRuleTest extends KPMETestCase {
 
     private static final Logger LOG = Logger.getLogger(ClockLocationRuleTest.class);
 

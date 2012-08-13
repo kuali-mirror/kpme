@@ -6,12 +6,12 @@ import java.text.SimpleDateFormat;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.base.web.TkInquirableImpl;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 
-public class EmployeeOverrideInquirableTest extends TkTestCase {
+public class EmployeeOverrideInquirableTest extends KPMETestCase {
 
 	private String INQUIRY_URL = "inquiry.do?businessObjectClassName=org.kuali.hr.lm.accrual.AccrualCategory&methodToCall=start&effectiveDate=03%2F04%2F2012&accrualCategory=testAC&leavePlan=&lmAccrualCategoryId=";
 	@Test

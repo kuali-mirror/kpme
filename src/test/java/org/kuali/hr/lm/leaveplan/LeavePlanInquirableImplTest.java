@@ -7,9 +7,9 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.time.test.TkTestCase;
+import org.kuali.hr.test.KPMETestCase;
 
-public class LeavePlanInquirableImplTest extends TkTestCase {
+public class LeavePlanInquirableImplTest extends KPMETestCase {
 	
 	@SuppressWarnings("unchecked")
 	@Test

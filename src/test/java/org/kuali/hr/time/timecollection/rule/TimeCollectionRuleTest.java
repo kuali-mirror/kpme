@@ -6,12 +6,12 @@ import java.util.Calendar;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
-public class TimeCollectionRuleTest extends TkTestCase{
+public class TimeCollectionRuleTest extends KPMETestCase{
 
 	@Test
 	public void testTimeCollectionRuleFetch() throws Exception{

@@ -6,10 +6,10 @@ import java.util.Random;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -17,7 +17,7 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class TimeCollectionRuleMaintTest extends TkTestCase {
+public class TimeCollectionRuleMaintTest extends KPMETestCase {
 
 	private static final String TEST_CODE = "X";
 	private static final java.sql.Date TEST_DATE = new java.sql.Date(Calendar

@@ -5,10 +5,10 @@ import java.math.BigDecimal;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.lm.leavecode.LeaveCode;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.test.TkTestCase;
 
-public class LeaveCodeServiceTest extends TkTestCase {
+public class LeaveCodeServiceTest extends KPMETestCase {
 	
 	@Test
 	public void testRoundHrsWithLeaveCode() {

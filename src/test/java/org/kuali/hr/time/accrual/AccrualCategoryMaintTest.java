@@ -7,14 +7,14 @@ import java.util.Calendar;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class AccrualCategoryMaintTest extends TkTestCase {
+public class AccrualCategoryMaintTest extends KPMETestCase {
 
 	private static final String TEST_CODE = "_T";
 	private static String accrualCategoryId;

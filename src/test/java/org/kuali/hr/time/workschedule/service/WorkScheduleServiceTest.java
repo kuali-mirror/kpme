@@ -8,13 +8,13 @@ import org.joda.time.DateTimeZone;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workschedule.WorkSchedule;
 import org.kuali.hr.time.workschedule.WorkScheduleEntry;
 
-public class WorkScheduleServiceTest extends TkTestCase {
+public class WorkScheduleServiceTest extends KPMETestCase {
 
 	@Test
 	@Ignore

@@ -7,11 +7,11 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroupDefinition;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -21,7 +21,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
-public class EarnCodeGroupMaintenanceTest extends TkTestCase {
+public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
     private static final java.sql.Date TEST_DATE = new java.sql.Date(Calendar.getInstance().getTimeInMillis());
     private static final String EARN_CODE = "RGN";
     private static String hrEarnGroupId;

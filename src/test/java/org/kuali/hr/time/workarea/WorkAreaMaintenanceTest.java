@@ -4,18 +4,16 @@ import java.sql.Date;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import org.kuali.rice.krad.util.GlobalVariables;
 
-public class WorkAreaMaintenanceTest extends TkTestCase {
+public class WorkAreaMaintenanceTest extends KPMETestCase {
 
 	@Test
 	public void testWorkAreaMaintenanceScreen() throws Exception{

@@ -10,11 +10,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.util.TKUtils;
 
-public class LeaveBlockHistoryServiceImplTest extends TkTestCase {
+public class LeaveBlockHistoryServiceImplTest extends KPMETestCase {
 
 	private LeaveBlockHistoryService leaveBlockHistoryService;
 

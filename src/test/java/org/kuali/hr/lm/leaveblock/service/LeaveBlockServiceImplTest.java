@@ -12,11 +12,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.util.TKUtils;
 
-public class LeaveBlockServiceImplTest extends TkTestCase {
+public class LeaveBlockServiceImplTest extends KPMETestCase {
 	
 	private String TEST_USER = "admin";
 	private LeaveBlockService leaveBlockService;

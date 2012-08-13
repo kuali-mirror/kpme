@@ -6,8 +6,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
@@ -19,7 +19,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlSelect;
 import com.gargoylesoftware.htmlunit.html.HtmlTableDataCell;
 import com.google.common.collect.Lists;
 
-public class MissedPunchDocumentTest extends TkTestCase {
+public class MissedPunchDocumentTest extends KPMETestCase {
 
 	@Before
 	public void setUp() throws Exception {

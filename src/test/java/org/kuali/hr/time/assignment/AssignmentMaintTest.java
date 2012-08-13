@@ -3,6 +3,7 @@ package org.kuali.hr.time.assignment;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 
@@ -11,7 +12,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class AssignmentMaintTest extends org.kuali.hr.time.test.TkTestCase {
+public class AssignmentMaintTest extends KPMETestCase {
 	
 	//data defined in boot strap script
 	private static final String TEST_CODE="admin";

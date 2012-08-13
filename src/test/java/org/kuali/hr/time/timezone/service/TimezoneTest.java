@@ -5,14 +5,14 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.test.TkTestUtils;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class TimezoneTest extends TkTestCase {
+public class TimezoneTest extends KPMETestCase {
 
 	@Test
 	public void testClockInOutWithTimezone() throws Exception {

@@ -1,16 +1,8 @@
 package org.kuali.hr.lm.employeeoverride;
 
-import org.junit.Test;
-import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
-import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.test.KPMETestCase;
 
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-
-public class EmployeeOverrideMaintTest extends TkTestCase{
+public class EmployeeOverrideMaintTest extends KPMETestCase{
 	private static final String EFFECTIVE_DATE_REQUIRED = "Effective Date (Effective Date) is a required field.";
 	private static final String PRINCIPAL_ID_REQUIRED = "Principal Id (Principal Id) is a required field.";
 	private static final String LEAVE_PLAN_REQUIRED = "Leave Plan (Leave Plan) is a required field.";

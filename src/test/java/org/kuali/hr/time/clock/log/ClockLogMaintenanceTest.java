@@ -2,14 +2,14 @@ package org.kuali.hr.time.clock.log;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class ClockLogMaintenanceTest extends TkTestCase{
+public class ClockLogMaintenanceTest extends KPMETestCase{
 	private static Long TEST_CODE_INVALID_TASK_ID =9999L;
 	private static Long TEST_CODE_INVALID_WORK_AREA_ID =9999L;
 	private static Long clockLogId = 1L;	

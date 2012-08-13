@@ -2,13 +2,13 @@ package org.kuali.hr.time.util;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class PersonInfoTest extends TkTestCase {
+public class PersonInfoTest extends KPMETestCase {
 	
 	@Test
 	public void testPersonInfo() throws Exception{	

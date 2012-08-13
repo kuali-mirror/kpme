@@ -1,17 +1,15 @@
 package org.kuali.hr.lm.leaveblock.service;
 
-import static org.junit.Assert.*;
-
-import java.util.List;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.lm.leaveblock.LeaveStatusHistory;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.test.TkTestCase;
 
-public class LeaveStatusHistoryServiceImplTest extends TkTestCase{
+public class LeaveStatusHistoryServiceImplTest extends KPMETestCase{
 
 	private LeaveStatusHistoryService leaveStatusHistoryService;
 	

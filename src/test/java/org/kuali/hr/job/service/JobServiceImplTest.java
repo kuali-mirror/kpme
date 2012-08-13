@@ -10,10 +10,10 @@ import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.test.TkTestCase;
 
-public class JobServiceImplTest extends TkTestCase {
+public class JobServiceImplTest extends KPMETestCase {
 
 	public static final String TEST_USER = "admin";
 
