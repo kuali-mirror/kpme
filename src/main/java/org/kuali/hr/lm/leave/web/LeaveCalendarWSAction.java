@@ -1,51 +1,37 @@
 package org.kuali.hr.lm.leave.web;
 
-import com.google.gson.Gson;
+import java.sql.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.joda.time.DateTime;
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
-import org.kuali.hr.job.Job;
-import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
-import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.lm.earncodesec.EarnCodeType;
-import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationService;
-import org.kuali.hr.lm.leavecalendar.web.LeaveActionFormUtils;
 import org.kuali.hr.lm.leavecalendar.web.LeaveCalendarForm;
-import org.kuali.hr.lm.leaveplan.LeavePlan;
-import org.kuali.hr.lm.util.LeaveBlockAggregate;
-import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.CalendarEntries;
-import org.kuali.hr.time.calendar.LeaveCalendar;
-import org.kuali.hr.time.detail.web.ActionFormUtils;
-import org.kuali.hr.time.detail.web.TimeDetailWSActionForm;
 import org.kuali.hr.time.earncode.EarnCode;
-import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.rice.core.config.ConfigContext;
-import org.kuali.rice.core.util.KeyValue;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.sql.*;
-import java.sql.Date;
-import java.util.*;
 
 public class LeaveCalendarWSAction extends TkAction {
 
@@ -183,6 +169,15 @@ public class LeaveCalendarWSAction extends TkAction {
 
         List<String> errors = LeaveCalendarValidationService.validateLaveEntryDetails(lcf);
         errorMsgList.addAll(errors);
+        
+        if(errors.isEmpty()) {
+        	if(lcf.getLeaveSummary() == null && lcf.getCalendarEntry() != null) {
+        		LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), lcf.getCalendarEntry());
+    		    lcf.setLeaveSummary(ls);
+        	}
+        	errors = LeaveCalendarValidationService.validateAvailableLeaveBalance(lcf);
+        	errorMsgList.addAll(errors);
+        }
 
         lcf.setOutputString(JSONValue.toJSONString(errorMsgList));
         
