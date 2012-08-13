@@ -1,59 +1,37 @@
 package org.kuali.hr.lm.accrual.service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
-/**
- * Used to override lookup functionality for the leave accrual category lookup
- * 
- * 
- */
-public class AccrualCategoryLookupableHelper extends
-		HrEffectiveDateActiveLookupableHelper {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class AccrualCategoryLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
+
+	private static final long serialVersionUID = 1945437057693562692L;
 
 	@Override
-	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
-			List pkNames) {
-		List<HtmlData> customActionUrls = super.getCustomActionUrls(
-				businessObject, pkNames);
-			List<HtmlData> overrideUrls = new ArrayList<HtmlData>();
-			for(HtmlData actionUrl : customActionUrls){
-				if(!StringUtils.equals(actionUrl.getMethodToCall(), "copy")){
-					overrideUrls.add(actionUrl);
-				}
-			}
+	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
 
-		if (TKContext.getUser().isSystemAdmin()) {
-			AccrualCategory leaveAccrualCategory = (AccrualCategory) businessObject;
-			final String className = this.getBusinessObjectClass().getName();
-			final String lmLeaveAccrualCategoryId = leaveAccrualCategory
-					.getLmAccrualCategoryId();
-			HtmlData htmlData = new HtmlData() {
-
-				@Override
-				public String constructCompleteHtmlTag() {
-					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
-							+ className
-							+ "&methodToCall=start&lmAccrualCategoryId="
-							+ lmLeaveAccrualCategoryId + "\">view</a>";
-				}
-			};
-			overrideUrls.add(htmlData);
-		} else if (overrideUrls.size() != 0) {
-			overrideUrls.remove(0);
-		}
-		return overrideUrls;
+		AccrualCategory leaveAccrualCategory = (AccrualCategory) businessObject;
+		String lmAccrualCategoryId = leaveAccrualCategory.getLmAccrualCategoryId();
+		
+		Properties params = new Properties();
+		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
+		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
+		params.put("lmAccrualCategoryId", lmAccrualCategoryId);
+		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
+		viewUrl.setDisplayText("view");
+		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
+		customActionUrls.add(viewUrl);
+		
+		return customActionUrls;
 	}
 
 }
