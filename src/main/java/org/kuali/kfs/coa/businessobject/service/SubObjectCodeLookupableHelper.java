@@ -1,60 +1,45 @@
 package org.kuali.kfs.coa.businessobject.service;
 
 import java.util.List;
+import java.util.Properties;
 
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
-public class SubObjectCodeLookupableHelper extends
-		KualiLookupableHelperServiceImpl {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class SubObjectCodeLookupableHelper extends KualiLookupableHelperServiceImpl {
+
+	private static final long serialVersionUID = -1851652201286445549L;
 
 	@Override
-	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
-			List pkNames) {
-		List<HtmlData> customActionUrls = super.getCustomActionUrls(
-				businessObject, pkNames);
-		if (TKContext.getUser().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
-			SubObjectCode subObjectCode = (SubObjectCode) businessObject;
-			final String className = this.getBusinessObjectClass().getName();
-			final String financialObjectCode = subObjectCode
-					.getFinancialObjectCode();
-			final String financialSubObjectCode = subObjectCode
-					.getFinancialSubObjectCode();
-			final String accountNumber = subObjectCode.getAccountNumber();
-			final Integer universityFiscalYear = subObjectCode
-					.getUniversityFiscalYear();
-			final String chartOfAccountsCode = subObjectCode
-					.getChartOfAccountsCode();
-			HtmlData htmlData = new HtmlData() {
-
-				@Override
-				public String constructCompleteHtmlTag() {
-					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
-							+ className
-							+ "&methodToCall=start&financialObjectCode="
-							+ financialObjectCode
-							+ "&universityFiscalYear="
-							+ universityFiscalYear
-							+ "&chartOfAccountsCode="
-							+ chartOfAccountsCode
-							+ "&accountNumber="
-							+ accountNumber
-							+ "&financialSubObjectCode="
-							+ financialSubObjectCode + "\">view</a>";
-				}
-			};
-
-			customActionUrls.add(htmlData);
-		} else if (customActionUrls.size() != 0) {
-			customActionUrls.remove(0);
-		}
+	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
+		
+		SubObjectCode subObjectCode = (SubObjectCode) businessObject;
+		String financialSubObjectCode = subObjectCode.getFinancialSubObjectCode();
+		String financialObjectCode = subObjectCode.getFinancialObjectCode();
+		String accountNumber = subObjectCode.getAccountNumber();
+		String universityFiscalYear = String.valueOf(subObjectCode.getUniversityFiscalYear());
+		String chartOfAccountsCode = subObjectCode.getChartOfAccountsCode();
+		
+		Properties params = new Properties();
+		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
+		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
+		params.put("financialSubObjectCode", financialSubObjectCode);
+		params.put("financialObjectCode", financialObjectCode);
+		params.put("accountNumber", accountNumber);
+		params.put("universityFiscalYear", universityFiscalYear);
+		params.put("hrEarnCodeSecurityId", chartOfAccountsCode);
+		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
+		viewUrl.setDisplayText("view");
+		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
+		customActionUrls.add(viewUrl);
+		
 		return customActionUrls;
 	}
+	
 }
