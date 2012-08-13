@@ -13,6 +13,7 @@
     <cache name="KPME/Calendar" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/CalendarEntries" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/CalendarLocationRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/ClockLocationRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/DailyOvertimeRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/DeptLunchRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/Department" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>

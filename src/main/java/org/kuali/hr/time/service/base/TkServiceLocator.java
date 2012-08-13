@@ -145,15 +145,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String LM_LEAVE_STATUS_HISTORY_SERVICE = "leaveStatusHistoryService";
 	public static final String LM_PRINCIPAL_ACCRUAL_RAN_SERVICE = "principalAccrualRanService";
 
-	public static void start() throws Exception {
-//		CONTEXT = new ClassPathXmlApplicationContext(SPRING_BEANS);
-//		CONTEXT.start();
-	}
-
-	public static void stop() throws Exception {
-//		CONTEXT.stop();
-	}
-
     public static MissedPunchService getMissedPunchService() {
         return (MissedPunchService) CONTEXT.getBean(TK_MISSED_PUNCH_SERVICE);
     }

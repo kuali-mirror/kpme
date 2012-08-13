@@ -25,6 +25,7 @@ import org.kuali.rice.core.api.lifecycle.Lifecycle;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.resourceloader.ResourceLoader;
 import org.kuali.rice.core.api.util.RiceUtilities;
+import org.kuali.rice.test.TestHarnessServiceLocator;
 import org.kuali.rice.test.launch.JettyLauncher;
 
 
@@ -137,7 +138,8 @@ public class JettyServerLifecycle implements Lifecycle {
             //GlobalResourceLoader.addResourceLoaderFirst();
             GlobalResourceLoader.addResourceLoader(rl);
 	    }
-	    org.kuali.rice.core.api.config.property.Config webappConfig = ConfigContext.getCurrentContextConfig();
+	    //org.kuali.rice.core.api.config.property.Config webappConfig = ConfigContext.getCurrentContextConfig();
+        org.kuali.rice.core.api.config.property.Config webappConfig = ConfigContext.getConfig(webappClassLoader);
 	    WEBAPP_CONFIGS.put(new Integer(jettyServer.getPort()), webappConfig);
 	    if (ConfigMode.OVERRIDE == configMode) {
             // this overrides the test harness classloader config with the webapp's config...

@@ -20,7 +20,7 @@ public class UserRoleMaintenanceDocumentTest extends TkTestCase {
 
 	@Test
 	public void testUserRoleMaintenanceDocumentTest() throws Exception {
-
+        String user = "admin";
 		String baseUrl = HtmlUnitUtil.getBaseURL()
 				+ "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.roles.TkRoleGroup&returnLocation="
 				+ HtmlUnitUtil.getBaseURL()
@@ -33,11 +33,11 @@ public class UserRoleMaintenanceDocumentTest extends TkTestCase {
 				.clickInputContainingText(lookUpPage, "search");
 
 		HtmlPage editPage = HtmlUnitUtil.clickAnchorContainingText(lookUpPage,
-				"edit", "principalId=admin1");
+				"edit", "principalId=" + user);
 
 		// set Description
 		setFieldValue(editPage, "document.documentHeader.documentDescription",
-				"Adding role to user admin1");
+				"Adding role to user" + user);
 
 		// Click on Add and see errors
 		HtmlElement elementAddRole = HtmlUnitUtil.getInputContainingText(
@@ -136,7 +136,7 @@ public class UserRoleMaintenanceDocumentTest extends TkTestCase {
 		lookUpPage = HtmlUnitUtil
 				.clickInputContainingText(lookUpPage, "search");
 		editPage = HtmlUnitUtil.clickAnchorContainingText(lookUpPage, "edit",
-				"principalId=admin1");
+				"principalId=" + user);
 
 		// check if this page contains created roles System Admin and Global View Only
 		HtmlSpan oldRoleEle = (HtmlSpan) editPage
@@ -174,7 +174,7 @@ public class UserRoleMaintenanceDocumentTest extends TkTestCase {
 		lookUpPage = HtmlUnitUtil
 				.clickInputContainingText(lookUpPage, "search");
 		editPage = HtmlUnitUtil.clickAnchorContainingText(lookUpPage, "edit",
-				"principalId=admin1");
+				"principalId=" + user);
 
 		editPage = HtmlUnitUtil.clickInputContainingText(editPage,
 				"methodToCall.toggleTab.tabInactivePersonRoles");

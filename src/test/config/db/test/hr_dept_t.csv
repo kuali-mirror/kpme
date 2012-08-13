@@ -1,5 +1,5 @@
 "hr_dept_id","dept","DESCRIPTION","ORG","CHART","EFFDT","TIMESTAMP","ACTIVE","LOCATION"
-"100","TEST-DEPT" ,"test department" ,"TEST","DEPT","2010-01-31","2010-07-27 10:25:13","Y","BL"
+"100","TEST-DEPT","test department" ,"TEST","DEPT","2010-01-31","2010-07-27 10:25:13","Y","BL"
 "101","TEST-DEPT1","test department1","TEST","DEPT","2010-01-31","2010-07-27 10:25:13","Y","BL"
 "102","TEST-DEPT2","test department2","TEST","DEPT","2010-01-31","2010-07-27 10:25:13","Y","BL"
 "103","TEST-DEPT3","test department3","TEST","DEPT","2010-01-31","2010-07-27 10:25:13","Y","BL"

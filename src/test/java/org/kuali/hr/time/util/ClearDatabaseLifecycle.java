@@ -30,9 +30,9 @@ import org.springframework.transaction.support.TransactionTemplate;
 public class ClearDatabaseLifecycle extends BaseLifecycle {
 
 	protected static final Logger LOG = Logger.getLogger(ClearDatabaseLifecycle.class);
+    private List<String> alternativeTablesToClear = new ArrayList<String>();
 
 	private static List<String> TABLES_TO_CLEAR = new ArrayList<String>();
-
 	static {
 		TABLES_TO_CLEAR.add("HR_CALENDAR_T");
 		TABLES_TO_CLEAR.add("HR_CALENDAR_ENTRIES_T");
@@ -78,8 +78,18 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
 		TABLE_TO_ID_MAP.put("TK_CLOCK_LOCATION_RL_T", "TK_CLOCK_LOC_RULE_ID");
 		TABLE_TO_ID_MAP.put("HR_CALENDAR_ENTRIES_T", "HR_CALENDAR_ENTRY_ID");
 		TABLE_TO_ID_MAP.put("TK_DOCUMENT_HEADER_T", "DOCUMENT_ID");
+        TABLE_TO_ID_MAP.put("KREW_RULE_T", "RULE_ID");
+        TABLE_TO_ID_MAP.put("KREW_RULE_RSP_T", "RULE_RSP_ID");
+        TABLE_TO_ID_MAP.put("KREW_DLGN_RSP_T", "DLGN_RULE_ID");
+        TABLE_TO_ID_MAP.put("KREW_RULE_ATTR_T", "RULE_ATTR_ID");
+        TABLE_TO_ID_MAP.put("KREW_RULE_TMPL_T", "RULE_TMPL_ID");
+        TABLE_TO_ID_MAP.put("KREW_DOC_TYP_T", "DOC_TYP_ID");
 	}
 
+    private static final Map<String,Integer> TABLE_START_CLEAR_ID = new HashMap<String,Integer>();
+    static{
+        TABLE_START_CLEAR_ID.put("KREW_DOC_TYP_T", new Integer(3000));
+    }
 
 	public static final String TEST_TABLE_NAME = "KR_UNITTEST_T";
 
@@ -123,18 +133,24 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
             	return new JdbcTemplate(dataSource).execute(new StatementCallback<Object>() {
                 	public Object doInStatement(Statement statement) throws SQLException {
                     		final List<String> reEnableConstraints = new ArrayList<String>();
-                    		for (String tableName : TABLES_TO_CLEAR) {
-                    			//if there is an id name that doesnt follow convention check and limit accordingly
-                    			String idName = TABLE_TO_ID_MAP.get(tableName);
-                    			String deleteStatement = null;
-                    			if(idName == null){
-                    				deleteStatement = "DELETE FROM " + tableName +" WHERE "+StringUtils.removeEnd(tableName,"_T")+"_ID"+ " >= "+START_CLEAR_ID;
-                    			} else {
-                    				deleteStatement = "DELETE FROM " + tableName +" WHERE "+ idName + " >= "+START_CLEAR_ID;
-                    			}
+                            List<List<String>> tableLists = new ArrayList<List<String>>(2);
+                            tableLists.add(TABLES_TO_CLEAR);
+                            tableLists.add(alternativeTablesToClear);
+                            for (List<String> list : tableLists) {
+                                for (String tableName : list) {
+                                    //if there is an id name that doesnt follow convention check and limit accordingly
+                                    String idName = TABLE_TO_ID_MAP.get(tableName);
+                                    String deleteStatement = null;
+                                    Integer clearId = TABLE_START_CLEAR_ID.get(tableName) != null ? TABLE_START_CLEAR_ID.get(tableName) : START_CLEAR_ID;
+                                    if(idName == null){
+                                        deleteStatement = "DELETE FROM " + tableName +" WHERE "+StringUtils.removeEnd(tableName,"_T")+"_ID"+ " >= "+clearId;
+                                    } else {
+                                        deleteStatement = "DELETE FROM " + tableName +" WHERE "+ idName + " >= "+clearId;
+                                    }
 
-                            	LOG.error("Clearing contents using statement ->" + deleteStatement + "<-");
-                            	statement.addBatch(deleteStatement);
+                                    LOG.info("Clearing contents using statement ->" + deleteStatement + "<-");
+                                    statement.addBatch(deleteStatement);
+                                }
                             }
 
                             for (final String constraint : reEnableConstraints) {
@@ -153,6 +169,10 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
 	public List<String> getTablesToClear() {
 	return TABLES_TO_CLEAR;
 	}
+
+    public List<String> getAlternativeTablesToClear() {
+        return this.alternativeTablesToClear;
+    }
 
 }
 

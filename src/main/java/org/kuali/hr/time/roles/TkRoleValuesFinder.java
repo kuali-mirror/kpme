@@ -27,10 +27,12 @@ public class TkRoleValuesFinder extends KeyValuesBase {
 		//Filter this list based on your roles for this user
 		List<KeyValue> filteredLabels = new ArrayList<KeyValue>();
 		KualiMaintenanceForm kualiForm = null;
-		if(TKContext.getHttpServletRequest().getAttribute("KualiForm") instanceof KualiMaintenanceForm){
-			kualiForm = (KualiMaintenanceForm)TKContext.getHttpServletRequest().getAttribute("KualiForm");
-			setKualiForm(kualiForm);
-		}
+        if (TKContext.getHttpServletRequest() != null) {
+            if(TKContext.getHttpServletRequest().getAttribute("KualiForm") instanceof KualiMaintenanceForm){
+                kualiForm = (KualiMaintenanceForm)TKContext.getHttpServletRequest().getAttribute("KualiForm");
+                setKualiForm(kualiForm);
+            }
+        }
         
 		if(kualiForm == null || kualiForm.getDocTypeName().equals("RoleGroupMaintenanceDocumentType")){
 			if(TKContext.getUser().isSystemAdmin()){

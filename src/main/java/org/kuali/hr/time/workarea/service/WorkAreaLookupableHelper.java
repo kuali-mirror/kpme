@@ -39,7 +39,7 @@ public class WorkAreaLookupableHelper extends TkAuthorizedLookupableHelperBase {
 		
 		WorkArea workArea = (WorkArea) businessObject;
 		String tkWorkAreaId = workArea.getTkWorkAreaId();
-		String location = TkServiceLocator.getDepartmentService().getDepartment(workArea.getDept(), TKUtils.getCurrentDate()).getDept();
+		String location = TkServiceLocator.getDepartmentService().getDepartment(workArea.getDept(), TKUtils.getCurrentDate()).getLocation();
 		String department = workArea.getDept();
 		
 		boolean systemAdmin = TKContext.getUser().isSystemAdmin();

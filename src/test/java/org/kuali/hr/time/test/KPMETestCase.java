@@ -20,7 +20,7 @@ import org.kuali.rice.test.lifecycles.SQLDataLoaderLifecycle;
  * 
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
-public abstract class KNSTestCase extends RiceInternalSuiteDataTestCase {
+public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 
 	private static final String SQL_FILE = "classpath:DefaultSuiteTestData.sql";
 	private static final String XML_FILE = "classpath:DefaultSuiteTestData.xml";
@@ -30,29 +30,8 @@ public abstract class KNSTestCase extends RiceInternalSuiteDataTestCase {
     
 	
 	private TransactionalLifecycle transactionalLifecycle;
-	
-	@Override
-	protected void loadSuiteTestData() throws Exception {
-		super.loadSuiteTestData();
-		new SQLDataLoaderLifecycle(SQL_FILE, ";").start();
-	}
 
-	@Override
-	protected List<Lifecycle> getSuiteLifecycles() {
-		List<Lifecycle> suiteLifecycles = super.getSuiteLifecycles();
-		suiteLifecycles.add(new KEWXmlDataLoaderLifecycle(XML_FILE));
-		return suiteLifecycles;
-	}
 
-	@Override
-	protected Lifecycle getLoadApplicationLifecycle() {
-		return new BaseLifecycle() {
-			public void start() throws Exception {
-				new JettyServerLifecycle(getPort(), getContextName(), getRelativeWebappRoot()).start();
-				super.start();
-			}
-		};	
-	}
 
 	public void setUp() throws Exception {
 		super.setUp();
@@ -93,7 +72,7 @@ public abstract class KNSTestCase extends RiceInternalSuiteDataTestCase {
 
 	@Override
 	protected String getModuleName() {
-		return "kns";
+		return "kpme";
 	}
 
 	protected String getContextName() {

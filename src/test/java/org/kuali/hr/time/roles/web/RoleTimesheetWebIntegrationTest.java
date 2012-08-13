@@ -38,7 +38,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
     // Non Time Entry users (for this test) who have some access to 'fred's'
     // Time Sheet.
     private List<String> VALID_NON_ENTRY_USERS = new ArrayList<String>() {{
-        add("testuser6"); add("frank"); add("fran"); add("edna"); }};
+        /*add("testuser6");*/ add("frank"); add("fran"); add("edna"); }};
 
     // Users with incorrect Department or Work Area for Time Sheet privilege.
     private List<String> INVALID_NON_ENTRY_USERS = new ArrayList<String>(){{

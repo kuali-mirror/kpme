@@ -33,7 +33,7 @@ public class ApplicationInitializeListener extends KualiInitializeListener {
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
         LOG.info("Started contextDestroyed(ServletContextEvent servletContextEvent) Method");
         try {
-		    TkServiceLocator.stop();
+		    //TkServiceLocator.stop();
 		} catch (Exception e) {
 			LOG.error("Failed to stop TK app lifecycle", e);
 			throw new RuntimeException("Failed to stop TK app lifecycle", e);

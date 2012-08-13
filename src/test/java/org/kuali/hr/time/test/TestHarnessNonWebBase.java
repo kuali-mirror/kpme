@@ -15,7 +15,7 @@ public class TestHarnessNonWebBase extends TestHarnessBase {
     @Before
     public void setUp() throws Exception {
         try{
-            TkServiceLocator.start();
+            //TkServiceLocator.start();
             // TODO - Start up Minimal set of services here, perhaps depending on test case need.
         } catch(Exception e){
 		LOG.error("Failed to start TK app lifecycle", e);

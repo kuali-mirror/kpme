@@ -1,5 +1,6 @@
 package org.kuali.hr.time.test;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.List;
 
@@ -10,17 +11,19 @@ import org.kuali.hr.time.util.ClearDatabaseLifecycle;
 import org.kuali.hr.time.util.DatabaseCleanupDataLifecycle;
 import org.kuali.hr.time.util.LoadDatabaseDataLifeCycle;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.web.TKRequestProcessor;
-import org.kuali.hr.time.web.TkLoginFilter;
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.lifecycle.BaseLifecycle;
 import org.kuali.rice.core.api.lifecycle.Lifecycle;
 import org.kuali.rice.core.impl.config.property.ConfigFactoryBean;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.MessageMap;
+import org.kuali.rice.test.TestHarnessServiceLocator;
 import org.kuali.rice.test.lifecycles.JettyServerLifecycle;
 import org.kuali.rice.test.lifecycles.JettyServerLifecycle.ConfigMode;
+import org.kuali.rice.test.lifecycles.KEWXmlDataLoaderLifecycle;
+import org.kuali.rice.test.lifecycles.KPMEXmlDataLoaderLifecycle;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
@@ -37,8 +40,14 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
 @SuppressWarnings("deprecation")
 @Ignore
-public class TkTestCase extends KNSTestCase{
+public class TkTestCase extends KPMETestCase {
 
+    private static final String FILE_PREFIX = System.getProperty("user.dir") + "/src/main/config/workflow/";
+    /*private static final String[] XML_FILES = {
+        FILE_PREFIX+"TimesheetDocument.xml",
+        FILE_PREFIX+"WorkAreaMaintenanceDocumentType.xml",
+        FILE_PREFIX+"ShiftDifferentialRuleDocumentType.xml"
+    };*/
 	public void setUp() throws Exception {
 		ApplicationInitializeListener.ALTERNATE_LOG4J_FILE = "classpath:test_log4j.properties";
 		setContextName("/kpme-dev");
@@ -48,20 +57,17 @@ public class TkTestCase extends KNSTestCase{
             System.setProperty("basedir", System.getProperty("user.dir") + "/");
         }
 
-		ConfigFactoryBean.CONFIG_OVERRIDE_LOCATION = "classpath:META-INF/kpme-test-config.xml";
-		//TkLoginFilter.TEST_ID = "admin";
 		GlobalVariables.setMessageMap(new MessageMap());
-		TKContext.setHttpServletRequest(new MockHttpServletRequest());
+
 		super.setUp();
 
-        //GlobalVariables.setUserSession(new UserSession("admin"));
-		//login with 'admin' user
-        //new TKRequestProcessor().setUserOnContext();
-		//this clears the cache that was loaded from the above call.  Do not comment
-		//TKContext.setHttpServletRequest(new MockHttpServletRequest());
-
         new ClearDatabaseLifecycle().start();
+
 		new LoadDatabaseDataLifeCycle(this.getClass()).start();
+
+        //lets try to create a user session
+        GlobalVariables.setUserSession(new UserSession("admin"));
+        TKContext.setHttpServletRequest(new MockHttpServletRequest());
 	}
 
     @Override
@@ -74,8 +80,8 @@ public class TkTestCase extends KNSTestCase{
 
 	@Override
 	protected List<Lifecycle> getSuiteLifecycles() {
-		List<Lifecycle> lifeCycles = super.getPerTestLifecycles();
-		lifeCycles.add(new Lifecycle() {
+		List<Lifecycle> lifecycles = super.getPerTestLifecycles();
+        lifecycles.add(new Lifecycle() {
 			boolean started = false;
 
 			public boolean isStarted() {
@@ -94,7 +100,24 @@ public class TkTestCase extends KNSTestCase{
 				this.started = false;
 			}
 		});
-		lifeCycles.add(new Lifecycle() {
+        /**
+         * Loads the TestHarnessSpringBeans.xml file which obtains connections to the DB for us
+         */
+        /*lifecycles.add(getTestHarnessSpringResourceLoader());*/
+
+        /**
+         * Establishes the TestHarnessServiceLocator so that it has a reference to the Spring context
+         * created from TestHarnessSpringBeans.xml
+         */
+        /*lifecycles.add(new BaseLifecycle() {
+            @Override
+            public void start() throws Exception {
+                TestHarnessServiceLocator.setContext(getTestHarnessSpringResourceLoader().getContext());
+                super.start();
+            }
+        });*/
+
+        lifecycles.add(new Lifecycle() {
 			private JettyServerLifecycle jettyServerLifecycle;
 
 			public boolean isStarted() {
@@ -102,8 +125,9 @@ public class TkTestCase extends KNSTestCase{
 			}
 
 			public void start() throws Exception {
-				jettyServerLifecycle = new JettyServerLifecycle(getPort(), getContextName(), getRelativeWebappRoot());
-				jettyServerLifecycle.setConfigMode(ConfigMode.MERGE);
+                System.setProperty("web.bootstrap.spring.file", "classpath:TestHarnessSpringBeans.xml");
+                jettyServerLifecycle = new JettyServerLifecycle(getPort(), getContextName(), getRelativeWebappRoot());
+                jettyServerLifecycle.setConfigMode(ConfigMode.OVERRIDE);
 				jettyServerLifecycle.start();
 			}
 
@@ -111,14 +135,25 @@ public class TkTestCase extends KNSTestCase{
 				this.jettyServerLifecycle.stop();
 			}
 		});
-		return lifeCycles;
-	}
 
-	@Override
-	protected List<String> getConfigLocations() {
-		List<String> og_config = super.getConfigLocations();
-		og_config.add("classpath:META-INF/kpme-test-config.xml");
-	    return og_config;
+        ClearDatabaseLifecycle clearDatabaseLifecycle = new ClearDatabaseLifecycle();
+        clearDatabaseLifecycle.getAlternativeTablesToClear().add("KREW_RULE_T");
+        clearDatabaseLifecycle.getAlternativeTablesToClear().add("KREW_RULE_RSP_T");
+        clearDatabaseLifecycle.getAlternativeTablesToClear().add("KREW_DLGN_RSP_T");
+        clearDatabaseLifecycle.getAlternativeTablesToClear().add("KREW_RULE_ATTR_T");
+        clearDatabaseLifecycle.getAlternativeTablesToClear().add("KREW_RULE_TMPL_T");
+        clearDatabaseLifecycle.getAlternativeTablesToClear().add("KREW_DOC_TYP_T");
+        lifecycles.add(clearDatabaseLifecycle);
+
+        File[] files = new File(FILE_PREFIX).listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.getName().endsWith(".xml")) {
+                    lifecycles.add(new KPMEXmlDataLoaderLifecycle(FILE_PREFIX + file.getName()));
+                }
+            }
+        }
+		return lifecycles;
 	}
 
 	@Override

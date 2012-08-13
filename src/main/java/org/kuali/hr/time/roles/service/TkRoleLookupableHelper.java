@@ -28,7 +28,10 @@ public class TkRoleLookupableHelper extends HrEffectiveDateActiveLookupableHelpe
         
 		TkRoleGroup tkRoleGroup = (TkRoleGroup) businessObject;
         String principalId = tkRoleGroup.getPrincipalId();
-        String location = TkServiceLocator.getDepartmentService().getDepartment(tkRoleGroup.getDepartment(), TKUtils.getCurrentDate()).getLocation();
+        String location = null;
+        if (StringUtils.isNotBlank(tkRoleGroup.getDepartment())) {
+            location = TkServiceLocator.getDepartmentService().getDepartment(tkRoleGroup.getDepartment(), TKUtils.getCurrentDate()).getLocation();
+        }
         String department = tkRoleGroup.getDepartment();
         
         boolean systemAdmin = TKContext.getUser().isSystemAdmin();
