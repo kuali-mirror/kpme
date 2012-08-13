@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -191,9 +192,6 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
         }
         return phaList;  
     }
-    
-    
-    
     @Override
     public PrincipalHRAttributes getMaxTimeStampPrincipalHRAttributes(String principalId) {
     	Criteria root = new Criteria();
@@ -208,5 +206,50 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
 
         Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, root);
         return (PrincipalHRAttributes) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+    }
+    
+    @Override
+    public List<PrincipalHRAttributes> getActivePrincipalHrAttributesForRange(String principalId, Date startDate, Date endDate) {
+    	List<PrincipalHRAttributes> activeList = new ArrayList<PrincipalHRAttributes>();
+    	Criteria root = new Criteria();
+        root.addEqualTo("principalId", principalId);
+        root.addGreaterOrEqualThan("effectiveDate", startDate);
+        root.addLessOrEqualThan("effectiveDate", endDate);
+        root.addEqualTo("active", true);
+        Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, root);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        if (c != null) {
+        	activeList.addAll(c);
+        }
+        List<PrincipalHRAttributes> aList = new ArrayList<PrincipalHRAttributes>();
+        aList.addAll(activeList);
+        for(PrincipalHRAttributes aPha : aList) {
+        	List<PrincipalHRAttributes> inactivePhas = this.getInactivePrincipalHRAttributesForRange(principalId, aPha.getEffectiveDate(), endDate);
+        	if(CollectionUtils.isNotEmpty(inactivePhas)) {
+        		for(PrincipalHRAttributes inactive : inactivePhas) {
+        			if(inactive.getTimestamp().after(aPha.getTimestamp())) {
+        				activeList.remove(aPha);
+        			}
+        		}
+        	}
+        }
+        
+        return activeList;   
+    }
+    
+    @Override
+    public List<PrincipalHRAttributes> getInactivePrincipalHRAttributesForRange(String principalId, Date startDate, Date endDate) {
+    	List<PrincipalHRAttributes> inactiveList = new ArrayList<PrincipalHRAttributes>();
+    	Criteria root = new Criteria();
+        root.addEqualTo("principalId", principalId);
+        root.addGreaterOrEqualThan("effectiveDate", startDate);
+        root.addLessOrEqualThan("effectiveDate", endDate);
+        root.addEqualTo("active", false);
+        Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, root);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        if (c != null) {
+        	inactiveList.addAll(c);
+        }
+        return inactiveList;
     }
 }

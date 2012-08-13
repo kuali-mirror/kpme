@@ -71,6 +71,8 @@ public class AccrualServiceTest extends TkTestCase {
 		Assert.assertNull("lm_sys_schd_timeoff_id should be null for regular accrual leave block", lb.getScheduleTimeOffId());
 		Assert.assertTrue("Leave Block Type of leave block should be " + LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE + ", not " + lb.getLeaveBlockType()
 				, lb.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE));
+		Assert.assertTrue("Requst status of leave block should be " + LMConstants.REQUEST_STATUS.APPROVED + ", not " + lb.getRequestStatus()
+				, lb.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED));
 		
 		// employee changed status on 04/01, fte is changed from 1 to 0.5
 		// there should be an empty leave block for status change on 04/01/2012
@@ -84,6 +86,8 @@ public class AccrualServiceTest extends TkTestCase {
 		Assert.assertNull("lm_accrual_category_id should be null for empty status change leave block", lb.getAccrualCategoryId()); 
 		Assert.assertTrue("Leave Block Type of leave block should be " + LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE + ", not " + lb.getLeaveBlockType()
 				, lb.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE));
+		Assert.assertTrue("Requst status of leave block should be " + LMConstants.REQUEST_STATUS.APPROVED + ", not " + lb.getRequestStatus()
+				, lb.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED));
 		
 		// there should be two holiday leave blocks of 4 hours on 04/10/2012, one positive, one negative
 		intervalDate = new Date((new DateTime(2012, 4, 10, 5, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
@@ -93,6 +97,8 @@ public class AccrualServiceTest extends TkTestCase {
 			Assert.assertNotNull("lm_sys_schd_timeoff_id should NOT be null for holiday accrual leave block", aLeaveBlock.getScheduleTimeOffId());
 			Assert.assertTrue("Leave Block Type of leave block should be " + LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE + ", not " + aLeaveBlock.getLeaveBlockType()
 					, aLeaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE));
+			Assert.assertTrue("Requst status of leave block should be " + LMConstants.REQUEST_STATUS.APPROVED + ", not " + aLeaveBlock.getRequestStatus()
+					, aLeaveBlock.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED));
 			if(!aLeaveBlock.getLeaveAmount().equals(new BigDecimal(4)) && !aLeaveBlock.getLeaveAmount().equals(new BigDecimal(-4))) {
 				Assert.fail("Hours of the leave blocks for date 04/10/2012 should be either 4 or -4, not " + aLeaveBlock.getLeaveAmount().toString());
 			} 
@@ -107,6 +113,8 @@ public class AccrualServiceTest extends TkTestCase {
 		Assert.assertNull("lm_sys_schd_timeoff_id should be null for regular accrual leave block", lb.getScheduleTimeOffId());
 		Assert.assertTrue("Leave Block Type of leave block should be " + LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE + ", not " + lb.getLeaveBlockType()
 				, lb.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE));
+		Assert.assertTrue("Requst status of leave block should be " + LMConstants.REQUEST_STATUS.APPROVED + ", not " + lb.getRequestStatus()
+				, lb.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED));
 	}
 	
 	@Test

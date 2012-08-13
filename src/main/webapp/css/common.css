@@ -957,4 +957,42 @@ label.error {
     background-color: #F0F0F6;
 }
 
+/* Leave Summary Grid
+*/
+
+#leave-summary {
+    margin: 10px auto 20px auto;
+}
+
+#leave-summary table {
+    font-size: .7em;
+    text-align: center;
+    border-collapse: collapse;
+    width: 100%
+}
+
+#leave-summary .header {
+    border: none;
+    font-weight: bold;
+    font-size: 1.5em;
+    padding-bottom: 20px;
+}
+
+
+#leave-summary table tr td {
+    border: 1px solid #ccc;
+    padding: 3px;
+}
+
+#leave-summary table tr.noborder td {
+    border: 0;
+    padding: 3px;
+}
+
+#leave-summary table tr.noborder td.withborder {
+    border: 1px solid #ccc;
+    padding: 3px;
+}
+
+
 

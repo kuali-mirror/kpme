@@ -1,17 +1,19 @@
 package org.kuali.hr.time.calendar;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import java.sql.Date;
+import java.util.List;
+import java.util.Map;
+
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
-import java.sql.Date;
-import java.util.List;
-import java.util.Map;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 
 public class LeaveCalendar extends CalendarParent {
 
@@ -25,13 +27,12 @@ public class LeaveCalendar extends CalendarParent {
         DateTime firstDay = getBeginDateTime();
 
         // Fill in the days if the first day or end day is in the middle of the week
-        // Monday = 1; Sunday = 7
-        if (currDateTime.getDayOfWeek() > 0 && currDateTime.getDayOfWeek() != 7) {
+        if (currDateTime.getDayOfWeek() != DateTimeConstants.SUNDAY) {
             currDateTime = currDateTime.minusDays(currDateTime.getDayOfWeek());
             firstDay = currDateTime;
         }
-        if (endDateTime.getDayOfWeek() < 7) {
-            endDateTime = endDateTime.plusDays(7 - endDateTime.getDayOfWeek());
+        if (endDateTime.getDayOfWeek() != DateTimeConstants.SATURDAY) {
+            endDateTime = endDateTime.plusDays(DateTimeConstants.SATURDAY - endDateTime.getDayOfWeek());
         }
 
         LeaveCalendarWeek leaveCalendarWeek = new LeaveCalendarWeek();

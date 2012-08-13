@@ -519,4 +519,11 @@ public class TKUtils {
 		}
     	return false;
     }
+    
+    public static java.util.Date addDates(java.util.Date aDate, int aNumber) {
+    	Calendar gc = new GregorianCalendar();
+		gc.setTime(aDate);
+		gc.add(Calendar.DAY_OF_YEAR, aNumber);
+		return gc.getTime();
+    }
 }
