@@ -10,6 +10,7 @@ import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
 import org.kuali.hr.time.authorization.TkAuthorizedLookupableHelperBase;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
+import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
@@ -42,8 +43,11 @@ public class TimeCollectionRuleLookupableHelper extends TkAuthorizedLookupableHe
 		String tkTimeCollectionRuleId = timeCollectionRule.getTkTimeCollectionRuleId();
 		String department = timeCollectionRule.getDept();
 		String workArea = String.valueOf(timeCollectionRule.getWorkArea());
-		String location = TkServiceLocator.getDepartmentService().getDepartment(timeCollectionRule.getDept(), TKUtils.getCurrentDate()).getLocation();
-		
+        String location = null;
+        if (timeCollectionRule.getDept() != null) {
+            Department dept = TkServiceLocator.getDepartmentService().getDepartment(timeCollectionRule.getDept(), TKUtils.getCurrentDate());
+		    location = dept == null ? null : dept.getLocation();
+        }
 		boolean systemAdmin = TKContext.getUser().isSystemAdmin();
 		boolean locationAdmin = TKContext.getUser().getLocationAdminAreas().contains(location);
 		boolean departmentAdmin = TKContext.getUser().getDepartmentAdminAreas().contains(department);

@@ -1,8 +1,7 @@
 package org.kuali.hr.time.collection.rule;
 
 import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Random;
+import java.util.*;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -59,7 +58,7 @@ public class TimeCollectionRuleMaintTest extends KPMETestCase {
 		Assert.assertTrue("Maintenance Page contains test timeCollectionRule",
 				resultantPageAfterEdit.asText().contains(
 						"The specified department '"
-								+ TEST_CODE_INVALID_DEPT_ID
+								+ TEST_CODE_DEPARTMENT_VALID
 								+ "' does not exist."));
 		Assert.assertTrue("Maintenance Page contains test timeCollectionRule",
 				resultantPageAfterEdit.asText().contains("Clock User needs to be checked if Hr Distribution is checked."));
@@ -124,6 +123,7 @@ public class TimeCollectionRuleMaintTest extends KPMETestCase {
 		department.setDescription(TEST_CODE_DEPARTMENT_VALID);
 		department.setOrg(TEST_CODE_DEPARTMENT_VALID);
 		department.setLocation("TST");
+        department.setActive(Boolean.TRUE);
 		KRADServiceLocator.getBusinessObjectService().save(department);
 		TimeCollectionRule timeCollectionRuleWIthInvalidDept = new TimeCollectionRule();
 		// setting deptId for which Department doesn't exist .
@@ -179,10 +179,10 @@ public class TimeCollectionRuleMaintTest extends KPMETestCase {
 	@Override
 	public void tearDown() throws Exception {
 		// cleaning up
-		TimeCollectionRule timeCollectionRuleObj = KRADServiceLocator
-				.getBusinessObjectService().findBySinglePrimaryKey(
-						TimeCollectionRule.class,
-						timeCollectionRuleIdWithInvalidDept);
+		TimeCollectionRule timeCollectionRuleObj = KRADServiceLocator.getBusinessObjectService()
+                .findByPrimaryKey(TimeCollectionRule.class, Collections.singletonMap("tkTimeCollectionRuleId", timeCollectionRuleIdWithInvalidDept));
+        //Map<String, String> criteria = new (Collections()).singletonMap("dept")
+        //Collection<TimeCollectionRule> rules = KRADServiceLocator.getBusinessObjectService().findMatching(TimeCollectionRule.class, )
 		KRADServiceLocator.getBusinessObjectService().delete(
 				timeCollectionRuleObj);
 
