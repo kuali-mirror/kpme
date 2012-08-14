@@ -157,7 +157,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 		BigDecimal pendingRequests = BigDecimal.ZERO;
 		
 		for(LeaveBlock aLeaveBlock : pendingLeaveBlocks) {
-			if(aLeaveBlock.getAccrualCategoryId().equals(ac.getLmAccrualCategoryId())) {
+			if(aLeaveBlock.getAccrualCategoryId() != null && aLeaveBlock.getAccrualCategoryId().equals(ac.getLmAccrualCategoryId())) {
 				if(aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) >= 0) {
 					pendingAccrual = pendingAccrual.add(aLeaveBlock.getLeaveAmount());
 				} else {
