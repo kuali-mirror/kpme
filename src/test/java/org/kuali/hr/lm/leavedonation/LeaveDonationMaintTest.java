@@ -56,12 +56,12 @@ public class LeaveDonationMaintTest extends TkTestCase{
 	  	assertNotNull("Search form was missing from page.", form);
 	  	setFieldValue(page, "document.documentHeader.documentDescription", "Leave Donation - test");
 	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", "04/01/2012");
-	    setFieldValue(page, "document.newMaintainableObject.donorsPrincipalID", "testuser1");
+	    setFieldValue(page, "document.newMaintainableObject.donorsPrincipalID", "testUser1");
 	    setFieldValue(page, "document.newMaintainableObject.donatedAccrualCategory", "testAC");	
 	    setFieldValue(page, "document.newMaintainableObject.donatedEarnCode", "EC");
 	    setFieldValue(page, "document.newMaintainableObject.amountDonated", "10");
 	    
-	    setFieldValue(page, "document.newMaintainableObject.recipientsPrincipalID", "testuser2");
+	    setFieldValue(page, "document.newMaintainableObject.recipientsPrincipalID", "testUser2");
 	    setFieldValue(page, "document.newMaintainableObject.recipientsAccrualCategory", "testAC");	
 	    setFieldValue(page, "document.newMaintainableObject.recipientsEarnCode", "EC");
 	    setFieldValue(page, "document.newMaintainableObject.amountReceived", "8");
@@ -78,7 +78,7 @@ public class LeaveDonationMaintTest extends TkTestCase{
 	  	leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("testuser1", START_DATE, END_DATE);
 	  	assertTrue("There should be 1 leave blocks for emplyee 'testUser1', not " + leaveBlockList.size(), leaveBlockList.size()== 1);
 	  	LeaveBlock lb = leaveBlockList.get(0);
-	  	assertTrue("Hours of the leave block for donor 'testuser1' should be 10, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(new BigDecimal(10)));
+	  	assertTrue("Hours of the leave block for donor 'testuser1' should be -10, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(new BigDecimal(-10)));
 	  	assertTrue("Request status of the leave block for donor 'testuser1' should be Approved, not " + lb.getRequestStatus()
 	  			, lb.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED));
 	  	
@@ -92,7 +92,7 @@ public class LeaveDonationMaintTest extends TkTestCase{
 		historyList = TkServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistories("testuser1", null);
 		assertTrue("There should be 1 leave block histories for princiapl id testuser1"+ historyList.size(), historyList.size()== 1);
 		LeaveBlockHistory lbh = historyList.get(0);
-	  	assertTrue("Hours of the leave block history for donor 'testuser1' should be 10, not " + lbh.getLeaveAmount().toString(), lbh.getLeaveAmount().equals(new BigDecimal(10)));
+	  	assertTrue("Hours of the leave block history for donor 'testuser1' should be -10, not " + lbh.getLeaveAmount().toString(), lbh.getLeaveAmount().equals(new BigDecimal(-10)));
 	  	assertTrue("Request status of the leave block history for donor 'testuser1' should be Approved, not " + lbh.getRequestStatus()
 	  			, lbh.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED));
 		historyList = TkServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistories("testuser2", null);

@@ -45,7 +45,7 @@ public class LeaveDonationMaintainableServiceImpl extends HrBusinessObjectMainta
 			aLeaveBlock.setAccrualCategoryId(ac.getLmAccrualCategoryId());
 		}
 		aLeaveBlock.setDescription(ld.getDescription());
-		aLeaveBlock.setLeaveAmount(ld.getAmountDonated());
+		aLeaveBlock.setLeaveAmount(ld.getAmountDonated().negate());	// usage
 		aLeaveBlock.setAccrualGenerated(false);
 		aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.DONATION_MAINT);
 		aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
