@@ -20,6 +20,7 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 @Ignore
 public class TimesheetWebTestBase extends KPMETestCase {
@@ -57,7 +58,7 @@ public class TimesheetWebTestBase extends KPMETestCase {
         Person person = KimApiServiceLocator.getPersonService().getPerson(principalId);
         Assert.assertNotNull(person);
         Assert.assertEquals(person.getPrincipalId(), principalId);
-
+        GlobalVariables.getUserSession().setBackdoorUser(principalId);
         HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getTimesheetDocumentUrl(tdocId));
         Assert.assertNotNull(page);
         //HtmlUnitUtil.createTempFile(page, "Login-"+principalId);

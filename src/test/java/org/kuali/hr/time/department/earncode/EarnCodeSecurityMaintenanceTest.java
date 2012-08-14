@@ -1,6 +1,9 @@
 package org.kuali.hr.time.department.earncode;
 
 import java.sql.Date;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -107,6 +110,9 @@ public class EarnCodeSecurityMaintenanceTest extends KPMETestCase{
 	}
 	
 	public void createNewEarnCodeSecurity() {
+        //clear old earncode securitys:
+        Collection<EarnCodeSecurity> earnCodeSecurities = KRADServiceLocator.getBusinessObjectService().findMatching(EarnCodeSecurity.class, Collections.singletonMap("earnCode", EARN_CODE));
+        KRADServiceLocator.getBusinessObjectService().deleteMatching(EarnCodeSecurity.class, Collections.singletonMap("earnCode", EARN_CODE));
 		EarnCodeSecurity deptEarnCode = new EarnCodeSecurity();
 		deptEarnCode.setActive(true);
 		deptEarnCode.setEarnCode(EARN_CODE);

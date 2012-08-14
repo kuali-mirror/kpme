@@ -17,6 +17,7 @@
     
     <changeSet id="2" author="kbtaylor" context="kpme-server-test">
         <loadData tableName="krim_entity_t" file="src/test/config/db/test/krim_entity_t.csv" />
+        <loadData tableName="krim_entity_ent_typ_t" file="src/test/config/db/test/krim_entity_ent_typ_t.csv" />
         <loadData tableName="krim_entity_nm_t" file="src/test/config/db/test/krim_entity_nm_t.csv" />
         <loadData tableName="krim_prncpl_t" file="src/test/config/db/test/krim_prncpl_t.csv" />
     </changeSet>
