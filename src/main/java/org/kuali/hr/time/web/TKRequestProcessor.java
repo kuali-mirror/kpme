@@ -9,19 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
-import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.web.struts.action.KualiRequestProcessor;
-import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TKRequestProcessor extends KualiRequestProcessor {
+	
 	private static final Logger LOG = Logger.getLogger(TKRequestProcessor.class);
 	private static final String PRIVACY_POLICY_KEY = "P3P";
 	private static final String PRIVACY_POLICY_VALUE = "CP=\"CAO DSP COR CURa ADMa DEVa CUSo TAIa PSAa PSDa OUR STP ONL UNI COM NAV INT DEM STA PRE\"";
@@ -37,11 +29,9 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 		TKContext.clear();
 		TKContext.setHttpServletRequest(request);
 		super.process(request, response);
-		
-        String principalId = GlobalVariables.getUserSession().getPrincipalId();
-		
-		String header = " Browser: "+request.getHeader("User-Agent");
-		if(StringUtils.isBlank(header)){
+
+		String header = " Browser: " + request.getHeader("User-Agent");
+		if (StringUtils.isBlank(header)) {
 			header = "No header found";
 		}
 		
@@ -49,33 +39,8 @@ public class TKRequestProcessor extends KualiRequestProcessor {
 		
 		long totalTime = System.currentTimeMillis() - startTime.getTime();
 		
-		LOG.info(new StringBuffer("Finished processing :: PERFORMANCE :: [[[Total Time: " + totalTime + "ms]]] ").append(request.getRequestURL()).append(" for ").append(principalId).append(header));
+		LOG.info(new StringBuffer("Finished processing :: PERFORMANCE :: [[[Total Time: " + totalTime + "ms]]] ").append(request.getRequestURL()).append(header));
 		
-	}
-
-	@Override
-	/**
-	 * This method calls into our backdoor and TKUser setup.
-	 */
-	protected boolean processPreprocess(HttpServletRequest request, HttpServletResponse response) {
-		boolean status = super.processPreprocess(request, response);
-		
-		setUserOnContext();
-
-		return status;
-	}
-	
-	/**
-	 * This method exists because the UnitTests need to set the request as well.
-	 */
-	public void setUserOnContext() {
-        //Person person = GlobalVariables.getUserSession().getActualPerson();
-        //Person targetPerson = (Person) GlobalVariables.getUserSession().getObjectMap().get(TkConstants.TK_TARGET_USER_PERSON);
-
-        // Current date is sufficient for loading of current roles and permissions.
-		//TKUser tkUser = TKUser.getUser(targetPerson, TKUtils.getCurrentDate());
-        //TKUser.setTargetPerson(targetPerson);
-		//TKContext.setUser(tkUser);
 	}
 
 }
