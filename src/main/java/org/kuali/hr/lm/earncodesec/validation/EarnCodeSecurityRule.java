@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
+import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.TkConstants;
@@ -12,6 +13,7 @@ import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 
 public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
@@ -64,6 +66,15 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		}
 	}
 	
+	boolean validateDepartmentCurrentUser(EarnCodeSecurity departmentEarnCode) {
+		if (!TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getOrgAdminDepartments().contains(departmentEarnCode.getDept())) {
+			this.putFieldError("dept", "error.department.permissions", departmentEarnCode.getDept());
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
 	boolean isEarnCodeUsedByActiveTimeBlocks(EarnCodeSecurity departmentEarnCode){
 		// KPME-1106 can not inactivation of a department earn code if it used in active time blocks
 		boolean valid = true;
@@ -105,6 +116,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validateEarnCode(departmentEarnCode);
 				valid &= this.validateDuplication(departmentEarnCode);
 				valid &= this.validateLocation(departmentEarnCode);
+				valid &= this.validateDepartmentCurrentUser(departmentEarnCode);
 				valid &= this.isEarnCodeUsedByActiveTimeBlocks(departmentEarnCode);
 			}
 
