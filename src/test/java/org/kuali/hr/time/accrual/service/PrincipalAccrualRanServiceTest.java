@@ -26,8 +26,8 @@ public class PrincipalAccrualRanServiceTest extends KPMETestCase {
 		Assert.assertTrue("Date of the original entry in PrincipalAccrualRan for 'testUser' should be 05/01/2012"
 				, formatter.format(aDate).equals("05/01/2012"));
 		
-		Date startDate = new Date((new DateTime(2012, 2, 20, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
-		Date endDate = new Date((new DateTime(2012, 5, 3, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
+		Date startDate = new Date((new DateTime(2012, 2, 20, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		Date endDate = new Date((new DateTime(2012, 5, 3, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		
 		boolean rerunFlag = TkServiceLocator.getLeaveAccrualService().statusChangedSinceLastRun("testUser");
 		Assert.assertTrue("Status should be changed for 'testUser'", rerunFlag);

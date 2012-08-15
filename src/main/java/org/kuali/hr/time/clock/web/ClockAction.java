@@ -111,7 +111,7 @@ public class ClockAction extends TimesheetAction {
             Timestamp lastClockTimestamp = lastClockLog.getClockTimestamp();
             String lastClockZone = lastClockLog.getClockTimestampTimezone();
             if (StringUtils.isEmpty(lastClockZone)) {
-                lastClockZone = TkConstants.SYSTEM_TIME_ZONE;
+                lastClockZone = TKUtils.getSystemTimeZone();
             }
             // zone will not be null. At this point is Valid or Exception.
             // Exception would indicate bad data stored in the system. We can wrap this, but

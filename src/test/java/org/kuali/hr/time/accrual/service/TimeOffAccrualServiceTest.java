@@ -10,6 +10,7 @@ import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
 public class TimeOffAccrualServiceTest extends KPMETestCase {
@@ -17,7 +18,7 @@ public class TimeOffAccrualServiceTest extends KPMETestCase {
 	@Test
 	public void testValidateAccrualHoursLimit() {
         // Should fix the date in time. Stops NPE. Date set here is arbitrary.
-        Date TEST_DATE = new Date((new DateTime(2011, 3, 1, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
+        Date TEST_DATE = new Date((new DateTime(2011, 3, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		TimesheetDocument doc = TkTestUtils.populateTimesheetDocument(TEST_DATE);
 		List<String> warnings = TkServiceLocator.getTimeOffAccrualService().validateAccrualHoursLimit(doc);
 		Assert.assertTrue("There should be 1 warning message", warnings.size() == 1);

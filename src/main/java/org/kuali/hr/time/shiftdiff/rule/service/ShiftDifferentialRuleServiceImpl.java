@@ -200,8 +200,8 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
                     // Because of the way java.sql.Time are stored, we need to first
                     // construct a LocalTime in the System Time Zone, then convert that
                     // time to the users time zone.
-                    LocalTime ruleStart = new LocalTime(rule.getBeginTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
-                    LocalTime ruleEnd = new LocalTime(rule.getEndTime(), TkConstants.SYSTEM_DATE_TIME_ZONE);
+                    LocalTime ruleStart = new LocalTime(rule.getBeginTime(), TKUtils.getSystemDateTimeZone());
+                    LocalTime ruleEnd = new LocalTime(rule.getEndTime(), TKUtils.getSystemDateTimeZone());
                     ruleStart = new LocalTime(ruleStart, zone);
                     ruleEnd = new LocalTime(ruleEnd, zone);
 

@@ -58,9 +58,9 @@ public class TkConstants {
     
     public static final String GMT_TIME_ZONE_ID = "Etc/GMT";
     public static final TimeZone GMT_TIME_ZONE = TimeZone.getTimeZone(GMT_TIME_ZONE_ID);
-    public static final String SYSTEM_TIME_ZONE = "America/Indianapolis";
+    //public static final String SYSTEM_TIME_ZONE = TimeZone.getDefault().getDisplayName();
 
-    public static final DateTimeZone SYSTEM_DATE_TIME_ZONE = DateTimeZone.forID(TkConstants.SYSTEM_TIME_ZONE);
+    //public static final DateTimeZone SYSTEM_DATE_TIME_ZONE = DateTimeZone.forID(TKUtils.getSystemTimeZone());
     public static DateTimeFormatter DT_BASIC_TIME_FORMAT = DateTimeFormat.forPattern("hh:mm aa");
     public static DateTimeFormatter DT_MILITARY_TIME_FORMAT = DateTimeFormat.forPattern("H:mm");
     public static DateTimeFormatter DT_BASIC_DATE_FORMAT = DateTimeFormat.forPattern("MM/dd/yyyy");
@@ -319,6 +319,7 @@ public class TkConstants {
 
     public static class ConfigSettings {
         public static final String SESSION_TIMEOUT = "session.timeout";
+        public static final String KPME_SYSTEM_TIMEZONE = "kpme.system.timezone";
     }
 
     public static final Integer PAGE_SIZE = 20;

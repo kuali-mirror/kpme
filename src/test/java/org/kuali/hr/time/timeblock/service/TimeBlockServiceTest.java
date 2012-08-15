@@ -13,12 +13,13 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 @Ignore
 public class TimeBlockServiceTest extends KPMETestCase {
 	@Test
 	public void testBuildAssignmentStyleClassMap() {
-		Date aDate = new Date((new DateTime(2011, 7, 7, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
+		Date aDate = new Date((new DateTime(2011, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		TimesheetDocument doc = TkTestUtils.populateTimesheetDocument(aDate);
 		Map<String, String> aMap = ActionFormUtils.buildAssignmentStyleClassMap(doc.getTimeBlocks());
 		Assert.assertEquals("Wrong number of classes in style class map", 8, aMap.size());

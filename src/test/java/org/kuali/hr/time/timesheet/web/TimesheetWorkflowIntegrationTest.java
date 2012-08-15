@@ -23,6 +23,7 @@ import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.web.TkLoginFilter;
@@ -30,11 +31,12 @@ import org.kuali.hr.time.web.TkLoginFilter;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.kuali.hr.util.filter.TestAutoLoginFilter;
 
 public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
 
     public static final String USER_PRINCIPAL_ID = "admin";
-	private Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
+	private Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 
 
     /**
@@ -81,8 +83,8 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
 
         // 2. Set Timeblock Start and End time
         // 3/02/2011 - 8:00a to 4:00pm
-        DateTime start = new DateTime(2011, 3, 2, 8, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
-        DateTime end = new DateTime(2011, 3, 3, 16, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
+        DateTime start = new DateTime(2011, 3, 2, 8, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        DateTime end = new DateTime(2011, 3, 3, 16, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
         Assert.assertNotNull(form);
@@ -174,7 +176,7 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
 
         //Kind of hacky to change this, as it changes for everything.
         //Change back because other tests may use this.
-        TkLoginFilter.TEST_ID = "admin";
+        TestAutoLoginFilter.OVERRIDE_ID = "";
     }
 
 }

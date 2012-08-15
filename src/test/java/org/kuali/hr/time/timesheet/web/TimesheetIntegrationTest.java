@@ -20,6 +20,7 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.time.util.TkConstants;
 
@@ -32,7 +33,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 	public static final String USER_PRINCIPAL_ID = "admin";
 	public static final Date TIME_SHEET_DATE = new Date(
 			(new DateTime(2012, 2, 15, 0, 0, 0, 0, DateTimeZone
-					.forID(TkConstants.SYSTEM_TIME_ZONE))).getMillis());
+					.forID(TKUtils.getSystemTimeZone()))).getMillis());
 	public TimesheetDocument timeDoc;
 	public List<Assignment> assignmentsOfUser;
 	public CalendarEntries payCal;
@@ -96,9 +97,9 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		}
 
 		DateTime startTime = new DateTime(2012, 2, 15, 9, 0, 0, 0,
-				TkConstants.SYSTEM_DATE_TIME_ZONE);
+				TKUtils.getSystemDateTimeZone());
 		DateTime endTime = new DateTime(2012, 2, 15, 11, 0, 0, 0,
-				TkConstants.SYSTEM_DATE_TIME_ZONE);
+				TKUtils.getSystemDateTimeZone());
 
 		// Setup TimeDetailActionForm
 		TimeDetailActionFormBase addTB = TimeDetailTestUtils
@@ -176,9 +177,9 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		}
 
 		DateTime startTime = new DateTime(2012, 2, 15, 9, 0, 0, 0,
-				TkConstants.SYSTEM_DATE_TIME_ZONE);
+				TKUtils.getSystemDateTimeZone());
 		DateTime endTime = new DateTime(2012, 2, 15, 11, 0, 0, 0,
-				TkConstants.SYSTEM_DATE_TIME_ZONE);
+				TKUtils.getSystemDateTimeZone());
 
 		HtmlForm form = page.getFormByName("TimeDetailActionForm");
 		Assert.assertNotNull(form);
@@ -224,9 +225,9 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		}
 
 		DateTime startTime1 = new DateTime(2012, 2, 15, 14, 0, 0, 0,
-				TkConstants.SYSTEM_DATE_TIME_ZONE);
+				TKUtils.getSystemDateTimeZone());
 		DateTime endTime1 = new DateTime(2012, 2, 15, 17, 0, 0, 0,
-				TkConstants.SYSTEM_DATE_TIME_ZONE);
+				TKUtils.getSystemDateTimeZone());
 
 		form = page.getFormByName("TimeDetailActionForm");
 
@@ -273,9 +274,9 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		}
 
 		DateTime startTime = new DateTime(2012, 2, 15, 9, 0, 0, 0,
-				TkConstants.SYSTEM_DATE_TIME_ZONE);
+				TKUtils.getSystemDateTimeZone());
 		DateTime endTime = new DateTime(2012, 2, 15, 11, 0, 0, 0,
-				TkConstants.SYSTEM_DATE_TIME_ZONE);
+				TKUtils.getSystemDateTimeZone());
 
 		HtmlForm form = page.getFormByName("TimeDetailActionForm");
 		Assert.assertNotNull(form);
@@ -352,9 +353,9 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		}
 
 		DateTime startTime = new DateTime(2012, 2, 17, 9, 0, 0, 0,
-				TkConstants.SYSTEM_DATE_TIME_ZONE);  // Friday
+				TKUtils.getSystemDateTimeZone());  // Friday
 		DateTime endTime = new DateTime(2012, 2, 20, 11, 0, 0, 0,
-				TkConstants.SYSTEM_DATE_TIME_ZONE);  // Monday
+				TKUtils.getSystemDateTimeZone());  // Monday
 
 		// Setup TimeDetailActionForm1
 		TimeDetailActionFormBase addTB = TimeDetailTestUtils

@@ -15,6 +15,7 @@ import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -36,8 +37,8 @@ public class LeaveDonationMaintTest extends KPMETestCase{
 	
 	@Test
 	public void testCreatingLeaveBlocks() throws Exception {
-		Date START_DATE = new Date((new DateTime(2012, 4, 1, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
-		Date END_DATE = new Date((new DateTime(2012, 4, 2, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
+		Date START_DATE = new Date((new DateTime(2012, 4, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		Date END_DATE = new Date((new DateTime(2012, 4, 2, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		
 		List<LeaveBlock> leaveBlockList;
 		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("10001", START_DATE, END_DATE);

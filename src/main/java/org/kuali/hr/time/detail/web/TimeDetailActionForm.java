@@ -90,7 +90,7 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 	}
 
 	public String getServerTimezone() {
-		return TkConstants.SYSTEM_TIME_ZONE;
+		return TKUtils.getSystemTimeZone();
 	}
 
 	public String getUserTimezone() {

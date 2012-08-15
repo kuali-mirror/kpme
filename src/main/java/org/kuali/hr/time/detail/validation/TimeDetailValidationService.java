@@ -179,7 +179,7 @@ public class TimeDetailValidationService {
         	 Timestamp lastClockTimestamp = lastClockLog.getClockTimestamp();
              String lastClockZone = lastClockLog.getClockTimestampTimezone();
              if (StringUtils.isEmpty(lastClockZone)) {
-                 lastClockZone = TkConstants.SYSTEM_TIME_ZONE;
+                 lastClockZone = TKUtils.getSystemTimeZone();
              }
              DateTimeZone zone = DateTimeZone.forID(lastClockZone);
              DateTime clockWithZone = new DateTime(lastClockTimestamp, zone);

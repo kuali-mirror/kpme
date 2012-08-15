@@ -13,6 +13,7 @@ import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -20,7 +21,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class EarnCodeSecurityMaintenanceTest extends KPMETestCase{
-	private static final java.sql.Date TEST_DATE = new Date((new DateTime(2009, 1, 1, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
+	private static final java.sql.Date TEST_DATE = new Date((new DateTime(2009, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 	private static final String EARN_CODE = "RGN";
 	private static final String DEPT = "TEST-DEPT";
 	private static final String SAL_GROUP = "SD1";

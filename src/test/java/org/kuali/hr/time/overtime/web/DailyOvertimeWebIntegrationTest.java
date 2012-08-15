@@ -21,6 +21,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.web.TimesheetWebTestBase;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.time.util.TkConstants;
 
@@ -30,7 +31,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
 
     public static final String USER_PRINCIPAL_ID = "admin";
-	private Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
+	private Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 
     @Test
     /**
@@ -62,8 +63,8 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
         // 2. Set Timeblock Start and End time
         // 3/02/2011 - 8:00a to 6:00pm
         // OVT - 2 Hrs Expected
-        DateTime start = new DateTime(2011, 3, 2, 8, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
-        DateTime end = new DateTime(2011, 3, 3, 18, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
+        DateTime start = new DateTime(2011, 3, 2, 8, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        DateTime end = new DateTime(2011, 3, 3, 18, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 
         // Build an action form - we're using it as a POJO, it ties into the
         // existing TK validation setup

@@ -24,6 +24,7 @@ import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.web.TimesheetWebTestBase;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.time.util.TkConstants;
 
@@ -144,16 +145,16 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
         // 2. Set Timeblock Start and End time
         // 3/02/2011 - 8:00a to 6:00pm
         // OVT - 0 Hrs Expected
-        DateTime start = new DateTime(2011, 3, 2, 8, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
-        DateTime end = new DateTime(2011, 3, 2, 13, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
+        DateTime start = new DateTime(2011, 3, 2, 8, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        DateTime end = new DateTime(2011, 3, 2, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone());
         TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(tdoc, assignment, earnCode, start, end, null, false, null, true);
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
         Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
         page = TimeDetailTestUtils.submitTimeDetails(getTimesheetDocumentUrl(tdocId), tdaf);
         Assert.assertNotNull(page);
 
-        start = new DateTime(2011, 3, 2, 13, 10, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
-        end = new DateTime(2011, 3, 2, 18, 10, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
+        start = new DateTime(2011, 3, 2, 13, 10, 0, 0, TKUtils.getSystemDateTimeZone());
+        end = new DateTime(2011, 3, 2, 18, 10, 0, 0, TKUtils.getSystemDateTimeZone());
         tdaf = TimeDetailTestUtils.buildDetailActionForm(tdoc, assignment, earnCode, start, end, null, false, null, true);
         errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
         Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());

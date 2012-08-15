@@ -7,10 +7,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.time.util.ClearDatabaseLifecycle;
-import org.kuali.hr.time.util.DatabaseCleanupDataLifecycle;
-import org.kuali.hr.time.util.LoadDatabaseDataLifeCycle;
-import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.*;
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.lifecycle.Lifecycle;
@@ -85,6 +82,7 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 	    // runs custom SQL at the end of each test.
 	    // useful for difficult to reset test additions, not handled by
 	    // our ClearDatabaseLifecycle.
+        TKUser.clearTargetUser();
 	    new DatabaseCleanupDataLifecycle(this.getClass()).start();
 	    
 		final boolean needsSpring = true;

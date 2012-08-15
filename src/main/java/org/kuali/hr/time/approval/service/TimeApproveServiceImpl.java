@@ -47,7 +47,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	public Map<String, CalendarEntries> getPayCalendarEntriesForDept(
 			String dept, Date currentDate) {
 		DateTime minDt = new DateTime(currentDate,
-				TkConstants.SYSTEM_DATE_TIME_ZONE);
+				TKUtils.getSystemDateTimeZone());
 		minDt = minDt.minusDays(DAYS_WINDOW_DELTA);
 		java.sql.Date windowDate = TKUtils.getTimelessDate(minDt.toDate());
 
@@ -114,7 +114,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		Map<String, CalendarEntries> pceMap = new HashMap<String, CalendarEntries>();
 		Set<String> principals = new HashSet<String>();
 		DateTime minDt = new DateTime(currentDate,
-				TkConstants.SYSTEM_DATE_TIME_ZONE);
+				TKUtils.getSystemDateTimeZone());
 		minDt = minDt.minusDays(DAYS_WINDOW_DELTA);
 		java.sql.Date windowDate = TKUtils.getTimelessDate(minDt.toDate());
 		Set<Long> approverWorkAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
@@ -810,7 +810,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		TKUser tkUser = TKContext.getUser();
 		Set<String> principals = new HashSet<String>();
 		DateTime minDt = new DateTime(currentDate,
-				TkConstants.SYSTEM_DATE_TIME_ZONE);
+				TKUtils.getSystemDateTimeZone());
 		minDt = minDt.minusDays(DAYS_WINDOW_DELTA);
 		Set<Long> approverWorkAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
 

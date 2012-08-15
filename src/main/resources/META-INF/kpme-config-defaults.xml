@@ -28,6 +28,7 @@
     <param name="kpme.version" override="false">${project.version}</param>
     <param name="rice.logging.configure">true</param>
     <param name="kim.show.blank.qualifiers">false</param>
+    <param name="kpme.system.timezone"></param>
     
     <!-- Bundled (Development) mode Rice URL -->
     <param name="application.host">localhost</param>

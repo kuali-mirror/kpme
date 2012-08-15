@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
@@ -86,9 +87,10 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
         EarnCodeGroup earnGroupObjRGG = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnCodeGroup.class, hrEarnGroupIdRGG);
         KRADServiceLocator.getBusinessObjectService().delete(earnGroupObjRGG);
 
-        EarnCode earnCodeObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnCode.class, hrEarnCodeId);
-        KRADServiceLocator.getBusinessObjectService().delete(earnCodeObj);
-
+        if (StringUtils.isNotBlank(hrEarnCodeId)) {
+            EarnCode earnCodeObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(EarnCode.class, hrEarnCodeId);
+            KRADServiceLocator.getBusinessObjectService().delete(earnCodeObj);
+        }
         super.tearDown();
     }
 

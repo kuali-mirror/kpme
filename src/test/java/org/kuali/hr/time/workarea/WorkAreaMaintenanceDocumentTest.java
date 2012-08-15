@@ -101,7 +101,7 @@ public class WorkAreaMaintenanceDocumentTest extends KPMETestCase {
         searchPage = HtmlUnitUtil.clickInputContainingText(searchPage, "search");
         Assert.assertTrue("Page contains test Earn Code", searchPage.asText().contains(workArea.toString()));
 		
-		java.sql.Date aDate = new Date((new DateTime(2011, 5, 1, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
+		java.sql.Date aDate = new Date((new DateTime(2011, 5, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		WorkArea wa = TkServiceLocator.getWorkAreaService().getWorkArea(workArea, aDate);
 		String workAreaId = wa.getTkWorkAreaId().toString();
 		
