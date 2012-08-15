@@ -323,7 +323,7 @@ $(function () {
                 var hours = $('#leaveAmount');
                 isValid = isValid && (this.checkEmptyField(hours, "Leave amount")  && this.checkRegexp(hours, '/0/', 'Leave amount cannot be zero'));
                 if(isValid) {
-                	var type = this.getEarnCodeUnit(earnCodeObj.toJSON());
+                	var type = this.getEarnCodeUnit(EarnCodes.toJSON(), $('#selectedEarnCode option:selected').val());
                 	if (type == 'D') {
                 		isValid = isValid && (this.checkRangeValue(hours, 1, "Leave amount Days"));
                 	} else if (type == 'H') {
@@ -333,7 +333,7 @@ $(function () {
                 	var fracLength = 0;
                 	// check fraction digit
                 	if(isValid) {
-                		var fraction = this.getEarnCodeFractionalAllowedTime(earnCodeObj.toJSON());
+                		var fraction = this.getEarnCodeFractionalAllowedTime(EarnCodes.toJSON(), $('#selectedEarnCode option:selected').val());
                 		if(typeof fraction != 'undefined' && fraction != '') {
                 			var fractionAr = fraction.split(".");
                 			var hoursAr = hours.val().split(".");
@@ -343,8 +343,6 @@ $(function () {
                 			if(fractionAr.length > 1) {
                 				fracLength = fractionAr[1].length;
                 			}
-//                			alert('field length' +fieldLength);
-//                			alert('field length' +fracLength);
                 			if(fieldLength > fracLength) {
                 				isValid = false;
                 				this.displayErrorMessages("Leave Amount field should be in the format of "+fraction);
@@ -401,41 +399,40 @@ $(function () {
             });
         	this.showFieldByEarnCodeType();
         },
-        
-        showFieldByEarnCode : function() {
-        	var key = $("#selectedEarnCode option:selected").val();
-        	var type = key.split(":")[1];
-        	if (type == 'D') {
-        		$('#unitOfTime').text('* Days');
-        	} else if (type == 'H') {
-        		$('#unitOfTime').text('* Hours');
-        	}
-        },
-        
-        
+                
         showFieldByEarnCodeType : function () {
-            var earnCodeType = this.getEarnCodeUnit(earnCodeObj.toJSON());
-            if (earnCodeType == 'D') {
+        	var earnCodeUnit = this.getEarnCodeUnit(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
+            if (earnCodeUnit == CONSTANTS.EARNCODE_UNIT.DAY) {
         		$('#unitOfTime').text('* Days');
-        	} else if (earnCodeType == 'H') {
+        	} else if (earnCodeUnit == CONSTANTS.EARNCODE_UNIT.HOUR) {
         		$('#unitOfTime').text('* Hours');
         	}
-            var unitOfTime = this.getEarnCodeDefaultTime(earnCodeObj.toJSON());
-            $('#leaveAmount').val(unitOfTime);
+            var defaultTime = this.getEarnCodeDefaultTime(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
+            $('#leaveAmount').val(defaultTime);
             
         },
         
-        getEarnCodeUnit : function (earnCodeJson) {
-           return earnCodeJson.unitOfTime;
+        getEarnCodeUnit : function (earnCodeJson, earnCode) {
+            var matchedEarnCode = _.filter(earnCodeJson, function (json) {
+                return json["earnCodeId"] == earnCode
+            });
+            return _.first(matchedEarnCode).unitOfTime;
         },
         
-        getEarnCodeDefaultTime : function (earnCodeJson) {
-           return earnCodeJson.defaultAmountofTime;
+        getEarnCodeDefaultTime : function (earnCodeJson, earnCode) {
+        	 var matchedEarnCode = _.filter(earnCodeJson, function (json) {
+                 return json["earnCodeId"] == earnCode
+             });
+             return _.first(matchedEarnCode).defaultAmountofTime;
         },
         
-        getEarnCodeFractionalAllowedTime : function (earnCodeJson) {
-           return earnCodeJson.fractionalTimeAllowed;
+        getEarnCodeFractionalAllowedTime : function (earnCodeJson, earnCode) {
+        	 var matchedEarnCode = _.filter(earnCodeJson, function (json) {
+                 return json["earnCodeId"] == earnCode
+             });
+             return _.first(matchedEarnCode).fractionalTimeAllowed;
         },
+        
 
         validateLeaveBlock : function () {
             var self = this;

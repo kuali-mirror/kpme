@@ -60,6 +60,10 @@ var CONSTANTS = {
         TIME: "T",
         AMOUNT: "A"
     },
+    EARNCODE_UNIT: {
+    	HOUR: "H",
+    	DAY: "D"
+    },
     ACTIONS : {
         UPDATE_TIME_BLOCK : "updateTimeBlock",
         ADD_TIME_BLOCK: "addTimeBlock",

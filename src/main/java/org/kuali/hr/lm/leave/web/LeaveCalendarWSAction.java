@@ -140,6 +140,14 @@ public class LeaveCalendarWSAction extends TkAction {
                             earnCodeMap.put("desc", earnCode.getDescription());
                             earnCodeMap.put("type", earnCode.getEarnCodeType());
                             earnCodeMap.put("earnCodeId", earnCode.getHrEarnCodeId());
+                            AccrualCategory acObj = null;
+                        	if(earnCode.getAccrualCategory() != null) {
+                        		acObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCode.getAccrualCategory(), TKUtils.getCurrentDate());
+                        	}
+                            String unitTime = (acObj!= null ? acObj.getUnitOfTime() : earnCode.getRecordMethod()) ;
+                            earnCodeMap.put("unitOfTime", unitTime);
+                            earnCodeMap.put("defaultAmountofTime", earnCode.getDefaultAmountofTime());
+                            earnCodeMap.put("fractionalTimeAllowed", earnCode.getFractionalTimeAllowed());
                             earnCodeList.add(earnCodeMap);
                         }
                     }
