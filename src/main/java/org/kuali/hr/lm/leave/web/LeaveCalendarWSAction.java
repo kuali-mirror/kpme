@@ -18,6 +18,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.earncodesec.EarnCodeType;
+import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationService;
 import org.kuali.hr.lm.leavecalendar.web.LeaveCalendarForm;
@@ -140,6 +141,14 @@ public class LeaveCalendarWSAction extends TkAction {
                             earnCodeMap.put("desc", earnCode.getDescription());
                             earnCodeMap.put("type", earnCode.getEarnCodeType());
                             earnCodeMap.put("earnCodeId", earnCode.getHrEarnCodeId());
+                            AccrualCategory acObj = null;
+                        	if(earnCode.getAccrualCategory() != null) {
+                        		acObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCode.getAccrualCategory(), TKUtils.getCurrentDate());
+                        	}
+                            String unitTime = (acObj!= null ? acObj.getUnitOfTime() : earnCode.getRecordMethod()) ;
+                            earnCodeMap.put("unitOfTime", unitTime);
+                            earnCodeMap.put("defaultAmountofTime", earnCode.getDefaultAmountofTime());
+                            earnCodeMap.put("fractionalTimeAllowed", earnCode.getFractionalTimeAllowed());
                             earnCodeList.add(earnCodeMap);
                         }
                     }
@@ -169,6 +178,15 @@ public class LeaveCalendarWSAction extends TkAction {
 
         List<String> errors = LeaveCalendarValidationService.validateLaveEntryDetails(lcf);
         errorMsgList.addAll(errors);
+        
+        if(errors.isEmpty()) {
+        	if(lcf.getLeaveSummary() == null && lcf.getCalendarEntry() != null) {
+        		LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), lcf.getCalendarEntry());
+    		    lcf.setLeaveSummary(ls);
+        	}
+        	errors = LeaveCalendarValidationService.validateAvailableLeaveBalance(lcf);
+        	errorMsgList.addAll(errors);
+        }
 
         lcf.setOutputString(JSONValue.toJSONString(errorMsgList));
         

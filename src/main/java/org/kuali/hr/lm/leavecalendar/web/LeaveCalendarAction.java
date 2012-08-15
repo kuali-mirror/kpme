@@ -138,7 +138,7 @@ public class LeaveCalendarAction extends TkAction {
         lcf.setWarnings(warningMes);
         
         // leave summary 
-        LeaveSummary ls = TkServiceLocator.getLeaveCalendarService().getLeaveSummary(viewPrincipal, calendarEntry);
+        LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(viewPrincipal, calendarEntry);
         lcf.setLeaveSummary(ls);
         
 		// KPME-1690
@@ -219,7 +219,7 @@ public class LeaveCalendarAction extends TkAction {
 		}
 		// recalculate summary
 		if(lcf.getCalendarEntry() != null) {
-			LeaveSummary ls = TkServiceLocator.getLeaveCalendarService().getLeaveSummary(TKContext.getTargetPrincipalId(), lcf.getCalendarEntry());
+			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), lcf.getCalendarEntry());
 		    lcf.setLeaveSummary(ls);
 		}
 		
@@ -240,7 +240,7 @@ public class LeaveCalendarAction extends TkAction {
         }
 		// recalculate summary
 		if(lcf.getCalendarEntry() != null) {
-			LeaveSummary ls = TkServiceLocator.getLeaveCalendarService().getLeaveSummary(TKContext.getTargetPrincipalId(), lcf.getCalendarEntry());
+			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), lcf.getCalendarEntry());
 		    lcf.setLeaveSummary(ls);
 		}
 		return mapping.findForward("basic");
@@ -273,7 +273,7 @@ public class LeaveCalendarAction extends TkAction {
             lcf.setSelectedEarnCode(null);
     		// recalculate summary
     		if(lcf.getCalendarEntry() != null) {
-    			LeaveSummary ls = TkServiceLocator.getLeaveCalendarService().getLeaveSummary(TKContext.getTargetPrincipalId(), lcf.getCalendarEntry());
+    			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), lcf.getCalendarEntry());
     		    lcf.setLeaveSummary(ls);
     		}
         }

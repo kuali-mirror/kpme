@@ -1,4 +1,4 @@
-package org.kuali.hr.lm.leaveCalendar.service;
+package org.kuali.hr.lm.leaveSummary.service;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -11,14 +11,14 @@ import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 
-public class LeaveCalendarServiceImplTest extends KPMETestCase {
+public class LeaveSummaryServiceImplTest extends KPMETestCase {
 	
 	@Test
 	public void testGetLeaveSummary() throws Exception {
 		// selected calendar entry is 03/15/2012 - 04/01/2012
 		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("50001");
 		
-		LeaveSummary ls = TkServiceLocator.getLeaveCalendarService().getLeaveSummary("testUser", ce);
+		LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary("testUser", ce);
 		Assert.assertTrue("There ytd dates String should be '02/01/2012 - 03/14/2012', not " + ls.getYtdDatesString(), ls.getYtdDatesString().equals("02/01/2012 - 03/14/2012"));
 		Assert.assertTrue("There pending dates String should be '03/15/2012 - 03/31/2012', not " + ls.getPendingDatesString(), ls.getPendingDatesString().equals("03/15/2012 - 03/31/2012"));
 		
@@ -39,7 +39,7 @@ public class LeaveCalendarServiceImplTest extends KPMETestCase {
 		
 		// selected calendar entry is 04/01/2012 - 04/30/2012
 		ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("50002");
-		ls = TkServiceLocator.getLeaveCalendarService().getLeaveSummary("testUser", ce);
+		ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary("testUser", ce);
 		Assert.assertTrue("There ytd dates String should be '02/01/2012 - 03/14/2012', not " + ls.getYtdDatesString(), ls.getYtdDatesString().equals("02/01/2012 - 03/14/2012"));
 		Assert.assertTrue("There pending dates String should be '03/15/2012 - 04/30/2012', not " + ls.getPendingDatesString(), ls.getPendingDatesString().equals("03/15/2012 - 04/30/2012"));
 		
@@ -60,7 +60,7 @@ public class LeaveCalendarServiceImplTest extends KPMETestCase {
 		
 		// selected calendar entry is 05/01/2012 - 05/31/2012
 		ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("50003");
-		ls = TkServiceLocator.getLeaveCalendarService().getLeaveSummary("testUser", ce);
+		ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary("testUser", ce);
 		Assert.assertTrue("There ytd dates String should be '01/01/2012 - 03/14/2012', not " + ls.getYtdDatesString(), ls.getYtdDatesString().equals("01/01/2012 - 03/14/2012"));
 		Assert.assertTrue("There pending dates String should be '03/15/2012 - 05/31/2012', not " + ls.getPendingDatesString(), ls.getPendingDatesString().equals("03/15/2012 - 05/31/2012"));
 		
@@ -94,7 +94,4 @@ public class LeaveCalendarServiceImplTest extends KPMETestCase {
 			}
 		}
 	}
-	
-	
-
 }
