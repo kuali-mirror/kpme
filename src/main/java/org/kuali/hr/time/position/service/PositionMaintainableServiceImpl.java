@@ -26,6 +26,5 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
         //position.setPositionNumber(nextUniqueNumber);
 
         position = KRADServiceLocator.getBusinessObjectService().save(position);
-        System.out.print(position);
     }
 }
