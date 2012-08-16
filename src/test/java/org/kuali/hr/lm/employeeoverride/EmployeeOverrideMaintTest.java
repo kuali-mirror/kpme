@@ -1,7 +1,9 @@
 package org.kuali.hr.lm.employeeoverride;
 
+import org.junit.Ignore;
 import org.kuali.hr.test.KPMETestCase;
 
+@Ignore
 public class EmployeeOverrideMaintTest extends KPMETestCase{
 	private static final String EFFECTIVE_DATE_REQUIRED = "Effective Date (Effective Date) is a required field.";
 	private static final String PRINCIPAL_ID_REQUIRED = "Principal Id (Principal Id) is a required field.";
