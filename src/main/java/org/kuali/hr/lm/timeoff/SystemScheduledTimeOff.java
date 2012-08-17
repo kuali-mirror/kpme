@@ -45,6 +45,9 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 	}
 
 	public String getLeavePlan() {
+		if(StringUtils.isNotEmpty(leavePlan)) {
+			return leavePlan;
+		}
 		if (this.earnCodeObj == null && 
 				(!StringUtils.isEmpty(this.earnCode) && this.effectiveDate != null)) {		
 			earnCodeObj =  TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, this.effectiveDate);

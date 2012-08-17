@@ -65,10 +65,11 @@ public class SystemScheduledTimeOffMaintTest extends KPMETestCase{
 		sstoLookup = HtmlUnitUtil.clickInputContainingText(sstoLookup, "search");
 		HtmlUnitUtil.createTempFile(sstoLookup);
 		Assert.assertTrue("Page contains test SystemScheduledTimeOff", sstoLookup.asText().contains("TLC"));
+		Assert.assertTrue("Page contains test SystemScheduledTimeOff", sstoLookup.asText().contains("EC"));
 		Assert.assertFalse("Page contains test SystemScheduledTimeOff", sstoLookup.asText().contains("InactiveLP"));
-		
+
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(sstoLookup, "edit");
-		Assert.assertTrue("Maintenance Page contains test SystemScheduledTimeOff",maintPage.asText().contains("TLC"));	
+		Assert.assertTrue("Maintenance Page contains test SystemScheduledTimeOff",maintPage.asText().contains("EC"));	
 	}
 	
 	@Test
