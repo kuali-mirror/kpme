@@ -45,7 +45,7 @@ MODIFY COLUMN `MBR_TYP_CD` CHAR(1) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL;
 -- 
 
 
-UPDATE KREW_DOC_TYP_T SET LBL = 'Undefined' WHERE LBL is null
+UPDATE KREW_DOC_TYP_T SET LBL = 'Undefined' WHERE LBL IS NULL
 ;
 ALTER TABLE KREW_DOC_TYP_T MODIFY COLUMN LBL  VARCHAR(128) NOT NULL
 ;
@@ -61,7 +61,7 @@ ALTER TABLE KREW_DOC_TYP_T MODIFY COLUMN LBL  VARCHAR(128) NOT NULL
 -- KULRICE-6916 KRIM_ENTITY_CACHE_T.PRSN_NM is too small
 --
 
-ALTER TABLE `krim_entity_cache_t`
+ALTER TABLE `KRIM_ENTITY_CACHE_T`
 CHANGE COLUMN `PRSN_NM` `PRSN_NM` VARCHAR(255)
 CHARACTER SET 'utf8' COLLATE 'utf8_bin' NULL DEFAULT NULL;
 
@@ -76,7 +76,7 @@ CHARACTER SET 'utf8' COLLATE 'utf8_bin' NULL DEFAULT NULL;
 -- KULRICE-5931 increase PLCY_VAL in order to store extended Recall notification configuration
 --
 
-ALTER TABLE krew_doc_typ_plcy_reln_t MODIFY PLCY_VAL VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_bin
+ALTER TABLE KREW_DOC_TYP_PLCY_RELN_T MODIFY PLCY_VAL VARCHAR(1024) CHARACTER SET utf8 COLLATE utf8_bin
 ;
 
 
@@ -89,14 +89,14 @@ ALTER TABLE krew_doc_typ_plcy_reln_t MODIFY PLCY_VAL VARCHAR(1024) CHARACTER SET
 -- KULRICE-5931
 
 -- add 'appDocStatus' attr definition
-INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select KIM_ATTR_DEFN_ID from (select (max(cast(KIM_ATTR_DEFN_ID as decimal)) + 1) as KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and KIM_ATTR_DEFN_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_ATTR_DEFN_ID as decimal) < 10000) as tmptable), uuid(), 1, 'appDocStatus', null, 'Y', 'KR-WKFLW', 'org.kuali.rice.kim.bo.impl.KimAttributes')
+INSERT INTO KRIM_ATTR_DEFN_T VALUES ((SELECT KIM_ATTR_DEFN_ID FROM (SELECT (MAX(CAST(KIM_ATTR_DEFN_ID AS DECIMAL)) + 1) AS KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE KIM_ATTR_DEFN_ID IS NOT NULL AND KIM_ATTR_DEFN_ID REGEXP '^[1-9][0-9]*$' AND CAST(KIM_ATTR_DEFN_ID AS DECIMAL) < 10000) AS TMPTABLE), UUID(), 1, 'appDocStatus', null, 'Y', 'KR-WKFLW', 'org.kuali.rice.kim.bo.impl.KimAttributes')
 ;
 -- assign it to 'Document Type & Routing Node or State' type
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1) as KIM_TYP_ATTR_ID from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable), uuid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-SYS' and NM='Document Type & Routing Node or State'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-WKFLW' and NM='appDocStatus'), 'Y')
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT KIM_TYP_ATTR_ID FROM (SELECT (MAX(CAST(KIM_TYP_ATTR_ID AS DECIMAL)) + 1) AS KIM_TYP_ATTR_ID FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' AND CAST(KIM_TYP_ATTR_ID AS DECIMAL) < 10000) AS TMPTABLE), UUID(), 1, 'a', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-SYS' AND NM='Document Type & Routing Node or State'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD='KR-WKFLW' AND NM='appDocStatus'), 'Y')
 ;
 
 -- create Recall permission template
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast(perm_tmpl_id as decimal)) + 1) as perm_tmpl_id from krim_perm_tmpl_t where perm_tmpl_id is not NULL and perm_tmpl_id REGEXP '^[1-9][0-9]*$' and cast(perm_tmpl_id as decimal) < 10000) as tmptable), uuid(), 1, 'KR-WKFLW', 'Recall Document', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-SYS' and NM='Document Type & Routing Node or State'), 'Y')
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((SELECT PERM_TMPL_ID FROM (SELECT (MAX(CAST(PERM_TMPL_ID AS DECIMAL)) + 1) AS PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE PERM_TMPL_ID IS NOT NULL AND PERM_TMPL_ID REGEXP '^[1-9][0-9]*$' AND CAST(PERM_TMPL_ID AS DECIMAL) < 10000) AS TMPTABLE), UUID(), 1, 'KR-WKFLW', 'Recall Document', null, (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-SYS' AND NM='Document Type & Routing Node or State'), 'Y')
 ;
 
 
@@ -107,7 +107,7 @@ INSERT INTO KRIM_PERM_TMPL_T VALUES ((select perm_tmpl_id from (select (max(cast
 
 
 -- KULRICE-6784 Add index and constraint on KREW_RULE_ATTR_T.NM
-alter table KREW_RULE_ATTR_T add constraint KREW_RULE_ATTR_TC1 unique(NM)
+ALTER TABLE KREW_RULE_ATTR_T ADD CONSTRAINT KREW_RULE_ATTR_TC1 UNIQUE(NM)
 ;
 
 
@@ -118,13 +118,13 @@ alter table KREW_RULE_ATTR_T add constraint KREW_RULE_ATTR_TC1 unique(NM)
 
 
 -- insert Recall permission for initiators
-INSERT INTO KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM) values ((select PERM_ID from (select (max(cast(PERM_ID as decimal)) + 1) as PERM_ID from KRIM_PERM_T where PERM_ID is not NULL and PERM_ID REGEXP '^[1-9][0-9]*$' and cast(PERM_ID as decimal) < 10000) as tmptable), uuid(), 1, (select PERM_TMPL_ID from KRIM_PERM_TMPL_T where NMSPC_CD = 'KR-WKFLW' and NM = 'Recall Document'), 'KR-WKFLW', 'Recall Document')
+INSERT INTO KRIM_PERM_T (PERM_ID, OBJ_ID, VER_NBR, PERM_TMPL_ID, NMSPC_CD, NM) VALUES ((SELECT PERM_ID FROM (SELECT (MAX(CAST(PERM_ID AS DECIMAL)) + 1) AS PERM_ID FROM KRIM_PERM_T WHERE PERM_ID IS NOT NULL AND PERM_ID REGEXP '^[1-9][0-9]*$' AND CAST(PERM_ID AS DECIMAL) < 10000) AS TMPTABLE), UUID(), 1, (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Recall Document'), 'KR-WKFLW', 'Recall Document')
 ;
 -- define document type wildcard for permission
-INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) values ((select ATTR_DATA_ID from (select (max(cast(ATTR_DATA_ID as decimal)) + 1) as ATTR_DATA_ID from KRIM_PERM_ATTR_DATA_T where ATTR_DATA_ID is not NULL and ATTR_DATA_ID REGEXP '^[1-9][0-9]*$' and cast(ATTR_DATA_ID as decimal) < 10000) as tmptable), uuid(), 1, (select PERM_ID from KRIM_PERM_T where NMSPC_CD = 'KR-WKFLW' and NM='Recall Document'), (select KIM_TYP_ID from KRIM_PERM_TMPL_T where NMSPC_CD = 'KR-WKFLW' and NM = 'Recall Document'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD = 'KR-WKFLW' and NM = 'documentTypeName'), '*')
+INSERT INTO KRIM_PERM_ATTR_DATA_T (ATTR_DATA_ID, OBJ_ID, VER_NBR, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL) VALUES ((SELECT ATTR_DATA_ID FROM (SELECT (MAX(CAST(ATTR_DATA_ID AS DECIMAL)) + 1) AS ATTR_DATA_ID FROM KRIM_PERM_ATTR_DATA_T WHERE ATTR_DATA_ID IS NOT NULL AND ATTR_DATA_ID REGEXP '^[1-9][0-9]*$' AND CAST(ATTR_DATA_ID AS DECIMAL) < 10000) AS TMPTABLE), UUID(), 1, (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM='Recall Document'), (SELECT KIM_TYP_ID FROM KRIM_PERM_TMPL_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Recall Document'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'documentTypeName'), '*')
 ;
 -- associate Recall permission with initiator derived role
-INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) values ((select ROLE_PERM_ID from (select (max(cast(ROLE_PERM_ID as decimal)) + 1) as ROLE_PERM_ID from KRIM_ROLE_PERM_T where ROLE_PERM_ID is not NULL and ROLE_PERM_ID REGEXP '^[1-9][0-9]*$' and cast(ROLE_PERM_ID as decimal) < 10000) as tmptable), uuid(), 1, (select ROLE_ID from KRIM_ROLE_T where ROLE_NM = 'Initiator' and NMSPC_CD = 'KR-WKFLW'), (select PERM_ID from KRIM_PERM_T where NMSPC_CD = 'KR-WKFLW' and NM='Recall Document'), 'Y')
+INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, ACTV_IND) VALUES ((SELECT ROLE_PERM_ID FROM (SELECT (MAX(CAST(ROLE_PERM_ID AS DECIMAL)) + 1) AS ROLE_PERM_ID FROM KRIM_ROLE_PERM_T WHERE ROLE_PERM_ID IS NOT NULL AND ROLE_PERM_ID REGEXP '^[1-9][0-9]*$' AND CAST(ROLE_PERM_ID AS DECIMAL) < 10000) AS TMPTABLE), UUID(), 1, (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Initiator' AND NMSPC_CD = 'KR-WKFLW'), (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM='Recall Document'), 'Y')
 ;
 
 
@@ -135,10 +135,10 @@ INSERT INTO KRIM_ROLE_PERM_T (ROLE_PERM_ID, OBJ_ID, VER_NBR, ROLE_ID, PERM_ID, A
 
 
 -- create a Kim Type wired to the documentRouterRoleTypeService permission-derived role service
-INSERT INTO KRIM_TYP_T (KIM_TYP_ID, OBJ_ID, VER_NBR, NM, SRVC_NM, ACTV_IND, NMSPC_CD) values ((select KIM_TYP_ID from (select (max(cast(KIM_TYP_ID as decimal)) + 1) as KIM_TYP_ID from KRIM_TYP_T where KIM_TYP_ID is not NULL and KIM_TYP_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ID as decimal) < 10000) as tmptable), uuid(), 1, 'Derived Role: Permission (Route Document)', 'documentRouterRoleTypeService', 'Y', 'KR-WKFLW')
+INSERT INTO KRIM_TYP_T (KIM_TYP_ID, OBJ_ID, VER_NBR, NM, SRVC_NM, ACTV_IND, NMSPC_CD) VALUES ((SELECT KIM_TYP_ID FROM (SELECT (MAX(CAST(KIM_TYP_ID AS DECIMAL)) + 1) AS KIM_TYP_ID FROM KRIM_TYP_T WHERE KIM_TYP_ID IS NOT NULL AND KIM_TYP_ID REGEXP '^[1-9][0-9]*$' AND CAST(KIM_TYP_ID AS DECIMAL) < 10000) AS TMPTABLE), UUID(), 1, 'Derived Role: Permission (Route Document)', 'documentRouterRoleTypeService', 'Y', 'KR-WKFLW')
 ;
 -- define the Route Document derived role
-INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND) values ((select ROLE_ID from (select (max(cast(ROLE_ID as decimal)) + 1) as ROLE_ID from KRIM_ROLE_T where ROLE_ID is not NULL and ROLE_ID REGEXP '^[1-9][0-9]*$' and cast(ROLE_ID as decimal) < 10000) as tmptable), uuid(), 1, 'Document Router', 'KR-WKFLW', 'This role derives its members from users with the Route Document permission for a given document type.', (select KIM_TYP_ID from KRIM_TYP_T where NM = 'Derived Role: Permission (Route Document)' and NMSPC_CD = 'KR-WKFLW'), 'Y')
+INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND) VALUES ((SELECT ROLE_ID FROM (SELECT (MAX(CAST(ROLE_ID AS DECIMAL)) + 1) AS ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_ID IS NOT NULL AND ROLE_ID REGEXP '^[1-9][0-9]*$' AND CAST(ROLE_ID AS DECIMAL) < 10000) AS TMPTABLE), UUID(), 1, 'Document Router', 'KR-WKFLW', 'This role derives its members from users with the Route Document permission for a given document type.', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'Derived Role: Permission (Route Document)' AND NMSPC_CD = 'KR-WKFLW'), 'Y')
 ;
 
 
@@ -151,8 +151,8 @@ INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, 
 
 -- KULRICE-6964: Update Rice default From email address
 
-update KRCR_PARM_T set val='rice.test@kuali.org'
-where nmspc_cd='KR-WKFLW' and cmpnt_cd='Mailer' and parm_nm='FROM_ADDRESS' and appl_id='KUALI'
+UPDATE KRCR_PARM_T SET VAL='rice.test@kuali.org'
+WHERE NMSPC_CD='KR-WKFLW' AND CMPNT_CD='Mailer' AND PARM_NM='FROM_ADDRESS' AND APPL_ID='KUALI'
 ;
 
 
@@ -162,7 +162,7 @@ where nmspc_cd='KR-WKFLW' and cmpnt_cd='Mailer' and parm_nm='FROM_ADDRESS' and a
 
 
 -- KULRICE-7128 wire kim type attribute 'qualifierResolverProvidedIdentifier' to Responsibility type
-Insert into `krim_typ_attr_t`
+INSERT INTO `KRIM_TYP_ATTR_T`
 (`KIM_TYP_ATTR_ID`,
 `OBJ_ID`,
 `VER_NBR`,
@@ -171,9 +171,9 @@ Insert into `krim_typ_attr_t`
 `KIM_ATTR_DEFN_ID`,
 `ACTV_IND`)
 VALUES
-((select KIM_TYP_ATTR_ID from (select (max(cast(KIM_TYP_ATTR_ID as decimal)) + 1)
-  as KIM_TYP_ATTR_ID from krim_typ_attr_t
-  where KIM_TYP_ATTR_ID is not NULL and KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' and cast(KIM_TYP_ATTR_ID as decimal) < 10000) as tmptable),
+((SELECT KIM_TYP_ATTR_ID FROM (SELECT (MAX(CAST(KIM_TYP_ATTR_ID AS DECIMAL)) + 1)
+  AS KIM_TYP_ATTR_ID FROM KRIM_TYP_ATTR_T
+  WHERE KIM_TYP_ATTR_ID IS NOT NULL AND KIM_TYP_ATTR_ID REGEXP '^[1-9][0-9]*$' AND CAST(KIM_TYP_ATTR_ID AS DECIMAL) < 10000) AS TMPTABLE),
   '69FA55ACC2EE2598E0404F8189D86880',
   1,
   'e',
@@ -185,46 +185,20 @@ VALUES
 
 
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
--- mysql-2012-04-19b.sql
--- 
-
-
-create table TRV_ATT_SAMPLE (attachment_id varchar(30),
-                              description varchar(4000),
-                              attachment_filename varchar(300),
-                              attachment_file_content_type varchar(255),
-                              attachment_file longblob,
-                              obj_id varchar(36) not null,
-                              ver_nbr decimal(8) default 0 not null,
-                              primary key (attachment_id));
-
-create table TRV_MULTI_ATT_SAMPLE (gen_id decimal(14,0) not null,
-                              attachment_id varchar(30),
-                              description varchar(4000),
-                              attachment_filename varchar(300),
-                              attachment_file_content_type varchar(255),
-                              attachment_file longblob,
-                              obj_id varchar(36) not null,
-                              ver_nbr decimal(8) default 0 not null,
-                              primary key (gen_id),
-                              foreign key (attachment_id) references TRV_ATT_SAMPLE(attachment_id));
-
-
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 -- mysql-2012-04-19.sql
 -- 
 
 
 CREATE TABLE KRNS_MAINT_DOC_ATT_LST_T  (
-    ATT_ID      varchar(40) NOT NULL,
-	DOC_HDR_ID	varchar(14) NOT NULL,
-	ATT_CNTNT 	longblob NOT NULL,
-	FILE_NM   	varchar(150) NULL,
-	CNTNT_TYP 	varchar(255) NULL,
-	OBJ_ID    	varchar(36) NOT NULL,
-	VER_NBR   	decimal(8,0) NOT NULL DEFAULT 0,
+    ATT_ID      VARCHAR(40) NOT NULL,
+	DOC_HDR_ID	VARCHAR(14) NOT NULL,
+	ATT_CNTNT 	LONGBLOB NOT NULL,
+	FILE_NM   	VARCHAR(150) NULL,
+	CNTNT_TYP 	VARCHAR(255) NULL,
+	OBJ_ID    	VARCHAR(36) NOT NULL,
+	VER_NBR   	DECIMAL(8,0) NOT NULL DEFAULT 0,
 	PRIMARY KEY(ATT_ID),
-	CONSTRAINT KRNS_MAINT_DOC_ATT_LST_FK1 foreign key (DOC_HDR_ID) references KRNS_MAINT_DOC_T (DOC_HDR_ID)
+	CONSTRAINT KRNS_MAINT_DOC_ATT_LST_FK1 FOREIGN KEY (DOC_HDR_ID) REFERENCES KRNS_MAINT_DOC_T (DOC_HDR_ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin
 ;
 
@@ -232,13 +206,13 @@ ALTER TABLE KRNS_MAINT_DOC_ATT_LST_T
 	ADD CONSTRAINT KRNS_MAINT_DOC_ATT_LST_TC0
 	UNIQUE (OBJ_ID);
 
-create index KRNS_MAINT_DOC_ATT_LST_TI1 on KRNS_MAINT_DOC_ATT_LST_T (DOC_HDR_ID);
+CREATE INDEX KRNS_MAINT_DOC_ATT_LST_TI1 ON KRNS_MAINT_DOC_ATT_LST_T (DOC_HDR_ID);
 
-create table KRNS_MAINT_DOC_ATT_S (
-  id bigint(19) not null auto_increment,
-  primary key (id)
+CREATE TABLE KRNS_MAINT_DOC_ATT_S (
+  ID BIGINT(19) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (ID)
 ) ENGINE MyISAM;
-alter table KRNS_MAINT_DOC_ATT_S auto_increment = 10000;
+ALTER TABLE KRNS_MAINT_DOC_ATT_S AUTO_INCREMENT = 10000;
 
 
 
@@ -254,14 +228,14 @@ alter table KRNS_MAINT_DOC_ATT_S auto_increment = 10000;
 -- 
 
 
-drop table if exists KRIM_ROLE_PERM_ID_S;
+DROP TABLE IF EXISTS KRIM_ROLE_PERM_ID_S;
 
-create table KRIM_ROLE_PERM_ID_S (
-  id bigint(19) not null auto_increment,
-  primary key (id)
-) ENGINE MyISAM;
+CREATE TABLE KRIM_ROLE_PERM_ID_S (
+  ID BIGINT(19) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (ID)
+) ENGINE MYISAM;
 
-alter table KRIM_ROLE_PERM_ID_S auto_increment = 10000;
+ALTER TABLE KRIM_ROLE_PERM_ID_S AUTO_INCREMENT = 10000;
 
 
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -269,14 +243,14 @@ alter table KRIM_ROLE_PERM_ID_S auto_increment = 10000;
 -- 
 
 
-update krms_attr_defn_t set nm='actionTypeCode' where attr_defn_id='1004';
-update krms_attr_defn_t set nm='actionMessage' where attr_defn_id='1005';
-update krms_attr_defn_t set nm='ruleTypeCode' where attr_defn_id='1001';
+UPDATE KRMS_ATTR_DEFN_T SET NM='actionTypeCode' WHERE ATTR_DEFN_ID='1004';
+UPDATE KRMS_ATTR_DEFN_T SET NM='actionMessage' WHERE ATTR_DEFN_ID='1005';
+UPDATE KRMS_ATTR_DEFN_T SET NM='ruleTypeCode' WHERE ATTR_DEFN_ID='1001';
 
-delete from krms_typ_attr_t where ATTR_DEFN_ID = '1002';
-delete from krms_typ_attr_t where ATTR_DEFN_ID = '1003';
-delete from krms_attr_defn_t where ATTR_DEFN_ID = '1002';
-delete from krms_attr_defn_t where ATTR_DEFN_ID = '1003';
+DELETE FROM KRMS_TYP_ATTR_T WHERE ATTR_DEFN_ID = '1002';
+DELETE FROM KRMS_TYP_ATTR_T WHERE ATTR_DEFN_ID = '1003';
+DELETE FROM KRMS_ATTR_DEFN_T WHERE ATTR_DEFN_ID = '1002';
+DELETE FROM KRMS_ATTR_DEFN_T WHERE ATTR_DEFN_ID = '1003';
 
 
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -284,62 +258,62 @@ delete from krms_attr_defn_t where ATTR_DEFN_ID = '1003';
 -- 
 
 
-insert into krim_perm_t (perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, ver_nbr, obj_id)
-values ((select perm_id from (select (max(cast(perm_id as decimal)) + 1) as perm_id from krim_perm_t where perm_id is not NULL and perm_id REGEXP '^[1-9][0-9]*$' and cast(perm_id as decimal) < 10000)
-         as tmptable),
-        (select perm_tmpl_id from krim_perm_tmpl_t where nm = 'Send Ad Hoc Request' and nmspc_cd = 'KR-NS'),
-        'KR-SYS','Send Complete Request Kuali Document','Authorizes users to send Complete ad hoc requests for Kuali Documents','Y',1,uuid())
+INSERT INTO KRIM_PERM_T (PERM_ID, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND, VER_NBR, OBJ_ID)
+VALUES ((SELECT PERM_ID FROM (SELECT (MAX(CAST(PERM_ID AS DECIMAL)) + 1) AS PERM_ID FROM KRIM_PERM_T WHERE PERM_ID IS NOT NULL AND PERM_ID REGEXP '^[1-9][0-9]*$' AND CAST(PERM_ID AS DECIMAL) < 10000)
+         AS TMPTABLE),
+        (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NM = 'Send Ad Hoc Request' AND NMSPC_CD = 'KR-NS'),
+        'KR-SYS','Send Complete Request Kuali Document','Authorizes users to send Complete ad hoc requests for Kuali Documents','Y',1,UUID())
 ;
 
-insert into krim_perm_attr_data_t
-(attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, ver_nbr, obj_id)
-values ((select attr_data_id from
-          (select (max(cast(attr_data_id as decimal)) + 1) as attr_data_id from krim_perm_attr_data_t where attr_data_id is not NULL and attr_data_id REGEXP '^[1-9][0-9]*$' and cast(attr_data_id as decimal) < 10000)
-         as tmptable),
-        (select perm_id from krim_perm_t where nm = 'Send Complete Request Kuali Document' and nmspc_cd = 'KR-SYS'),
-        (select kim_typ_id from krim_typ_t where nm = 'Ad Hoc Review' and nmspc_cd = 'KR-WKFLW'),
-        (select kim_attr_defn_id from krim_attr_defn_t where nm = 'documentTypeName'), 'KualiDocument',1,uuid())
+INSERT INTO KRIM_PERM_ATTR_DATA_T
+(ATTR_DATA_ID, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, VER_NBR, OBJ_ID)
+VALUES ((SELECT ATTR_DATA_ID FROM
+          (SELECT (MAX(CAST(ATTR_DATA_ID AS DECIMAL)) + 1) AS ATTR_DATA_ID FROM KRIM_PERM_ATTR_DATA_T WHERE ATTR_DATA_ID IS NOT NULL AND ATTR_DATA_ID REGEXP '^[1-9][0-9]*$' AND CAST(ATTR_DATA_ID AS DECIMAL) < 10000)
+         AS TMPTABLE),
+        (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Send Complete Request Kuali Document' AND NMSPC_CD = 'KR-SYS'),
+        (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'Ad Hoc Review' AND NMSPC_CD = 'KR-WKFLW'),
+        (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NM = 'documentTypeName'), 'KualiDocument',1,UUID())
 ;
 
 
-insert into krim_perm_attr_data_t
-(attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, ver_nbr, obj_id)
-values ((select attr_data_id from
-          (select (max(cast(attr_data_id as decimal)) + 1) as attr_data_id from krim_perm_attr_data_t where attr_data_id is not NULL and attr_data_id REGEXP '^[1-9][0-9]*$' and cast(attr_data_id as decimal) < 10000)
-         as tmptable),
-        (select perm_id from krim_perm_t where nm = 'Send Complete Request Kuali Document' and nmspc_cd = 'KR-SYS'),
-        (select kim_typ_id from krim_typ_t where nm = 'Ad Hoc Review' and nmspc_cd = 'KR-WKFLW'),
-        (select kim_attr_defn_id from krim_attr_defn_t where nm = 'actionRequestCd'), 'C',1,uuid())
+INSERT INTO KRIM_PERM_ATTR_DATA_T
+(ATTR_DATA_ID, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, VER_NBR, OBJ_ID)
+VALUES ((SELECT ATTR_DATA_ID FROM
+          (SELECT (MAX(CAST(ATTR_DATA_ID AS DECIMAL)) + 1) AS ATTR_DATA_ID FROM KRIM_PERM_ATTR_DATA_T WHERE ATTR_DATA_ID IS NOT NULL AND ATTR_DATA_ID REGEXP '^[1-9][0-9]*$' AND CAST(ATTR_DATA_ID AS DECIMAL) < 10000)
+         AS TMPTABLE),
+        (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Send Complete Request Kuali Document' AND NMSPC_CD = 'KR-SYS'),
+        (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'Ad Hoc Review' AND NMSPC_CD = 'KR-WKFLW'),
+        (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NM = 'actionRequestCd'), 'C',1,UUID())
 ;
 
-insert into krim_role_perm_t
-(role_perm_id, role_id, perm_id, actv_ind, ver_nbr, obj_id)
-values ((select role_perm_id from
-          (select (max(cast(role_perm_id as decimal)) + 1) as role_perm_id from krim_role_perm_t where role_perm_id is not NULL and role_perm_id REGEXP '^[1-9][0-9]*$' and cast(role_perm_id as decimal) < 10000)
-         as tmptable),
-        (select role_id from krim_role_t where role_nm = 'Document Opener' and nmspc_cd = 'KR-NS'),
-        (select perm_id from krim_perm_t where nm = 'Send Complete Request Kuali Document' and nmspc_cd = 'KR-SYS'),
-        'Y', 1, uuid())
+INSERT INTO KRIM_ROLE_PERM_T
+(ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, VER_NBR, OBJ_ID)
+VALUES ((SELECT ROLE_PERM_ID FROM
+          (SELECT (MAX(CAST(ROLE_PERM_ID AS DECIMAL)) + 1) AS ROLE_PERM_ID FROM KRIM_ROLE_PERM_T WHERE ROLE_PERM_ID IS NOT NULL AND ROLE_PERM_ID REGEXP '^[1-9][0-9]*$' AND CAST(ROLE_PERM_ID AS DECIMAL) < 10000)
+         AS TMPTABLE),
+        (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Document Opener' AND NMSPC_CD = 'KR-NS'),
+        (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Send Complete Request Kuali Document' AND NMSPC_CD = 'KR-SYS'),
+        'Y', 1, UUID())
 ;
 
-insert into krim_role_perm_t
-(role_perm_id, role_id, perm_id, actv_ind, ver_nbr, obj_id)
-values ((select role_perm_id from
-          (select (max(cast(role_perm_id as decimal)) + 1) as role_perm_id from krim_role_perm_t where role_perm_id is not NULL and role_perm_id REGEXP '^[1-9][0-9]*$' and cast(role_perm_id as decimal) < 10000)
-         as tmptable),
-        (select role_id from krim_role_t where role_nm = 'Initiator or Reviewer' and nmspc_cd = 'KR-WKFLW'),
-        (select perm_id from krim_perm_t where nm = 'Edit Kuali ENROUTE Document Route Status Code R' and nmspc_cd = 'KUALI'),
-        'Y', 1, uuid())
+INSERT INTO KRIM_ROLE_PERM_T
+(ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, VER_NBR, OBJ_ID)
+VALUES ((SELECT ROLE_PERM_ID FROM
+          (SELECT (MAX(CAST(ROLE_PERM_ID AS DECIMAL)) + 1) AS ROLE_PERM_ID FROM KRIM_ROLE_PERM_T WHERE ROLE_PERM_ID IS NOT NULL AND ROLE_PERM_ID REGEXP '^[1-9][0-9]*$' AND CAST(ROLE_PERM_ID AS DECIMAL) < 10000)
+         AS TMPTABLE),
+        (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Initiator or Reviewer' AND NMSPC_CD = 'KR-WKFLW'),
+        (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Edit Kuali ENROUTE Document Route Status Code R' AND NMSPC_CD = 'KUALI'),
+        'Y', 1, UUID())
 ;
 
-insert into krim_role_perm_t
-(role_perm_id, role_id, perm_id, actv_ind, ver_nbr, obj_id)
-values ((select role_perm_id from
-          (select (max(cast(role_perm_id as decimal)) + 1) as role_perm_id from krim_role_perm_t where role_perm_id is not NULL and role_perm_id REGEXP '^[1-9][0-9]*$' and cast(role_perm_id as decimal) < 10000)
-         as tmptable),
-        (select role_id from krim_role_t where role_nm = 'Initiator or Reviewer' and nmspc_cd = 'KR-WKFLW'),
-        (select perm_id from krim_perm_t where nm = 'Cancel Document' and nmspc_cd = 'KUALI'),
-        'Y', 1, uuid())
+INSERT INTO KRIM_ROLE_PERM_T
+(ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, VER_NBR, OBJ_ID)
+VALUES ((SELECT ROLE_PERM_ID FROM
+          (SELECT (MAX(CAST(ROLE_PERM_ID AS DECIMAL)) + 1) AS ROLE_PERM_ID FROM KRIM_ROLE_PERM_T WHERE ROLE_PERM_ID IS NOT NULL AND ROLE_PERM_ID REGEXP '^[1-9][0-9]*$' AND CAST(ROLE_PERM_ID AS DECIMAL) < 10000)
+         AS TMPTABLE),
+        (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Initiator or Reviewer' AND NMSPC_CD = 'KR-WKFLW'),
+        (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Cancel Document' AND NMSPC_CD = 'KUALI'),
+        'Y', 1, UUID())
 ;
 
 
@@ -350,7 +324,7 @@ values ((select role_perm_id from
 
 
 -- KULRICE-7237: KRNS_NTE_T is selected by a field with no indexes - full table scan every time
-create index KRNS_NTE_TI1 on KRNS_NTE_T (RMT_OBJ_ID);
+CREATE INDEX KRNS_NTE_TI1 ON KRNS_NTE_T (RMT_OBJ_ID);
 
 
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -358,7 +332,7 @@ create index KRNS_NTE_TI1 on KRNS_NTE_T (RMT_OBJ_ID);
 -- 
 
 
-update krim_perm_attr_data_t set ATTR_VAL='org.kuali.rice.core.web.impex.IngesterAction' where ATTR_VAL='org.kuali.rice.kew.batch.web.IngesterAction';
+UPDATE KRIM_PERM_ATTR_DATA_T SET ATTR_VAL='org.kuali.rice.core.web.impex.IngesterAction' WHERE ATTR_VAL='org.kuali.rice.kew.batch.web.IngesterAction';
 
 
 
@@ -373,7 +347,7 @@ update krim_perm_attr_data_t set ATTR_VAL='org.kuali.rice.core.web.impex.Ingeste
 --  KULRICE-7377: KREW_RTE_NODE_T still defines DOC_TYP_ID as NUMBER(19)
 --
 
-alter table KREW_RTE_NODE_T modify column DOC_TYP_ID varchar(40);
+ALTER TABLE KREW_RTE_NODE_T MODIFY COLUMN DOC_TYP_ID VARCHAR(40);
 
 
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -386,4 +360,4 @@ alter table KREW_RTE_NODE_T modify column DOC_TYP_ID varchar(40);
 --  KULRICE-7375: Rice master data source has KREW_DOC_TYP_PROC_T.INIT_RTE_NODE_ID still defined as a NUMBER
 --
 
-alter table KREW_DOC_TYP_PROC_T modify column INIT_RTE_NODE_ID varchar(40);
+ALTER TABLE KREW_DOC_TYP_PROC_T MODIFY COLUMN INIT_RTE_NODE_ID VARCHAR(40);

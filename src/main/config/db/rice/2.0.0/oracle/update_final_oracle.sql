@@ -19,9 +19,9 @@
 -- 
 
 
-ALTER TABLE krns_sesn_doc_t ADD (OBJ_ID VARCHAR2(36))
+ALTER TABLE KRNS_SESN_DOC_T ADD (OBJ_ID VARCHAR2(36))
 /
-ALTER TABLE krns_sesn_doc_t ADD (VER_NBR NUMBER(8) DEFAULT 0)
+ALTER TABLE KRNS_SESN_DOC_T ADD (VER_NBR NUMBER(8) DEFAULT 0)
 /
 
 
@@ -33,8 +33,8 @@ ALTER TABLE krns_sesn_doc_t ADD (VER_NBR NUMBER(8) DEFAULT 0)
 -- 
 
 
-ALTER TABLE KRIM_PND_GRP_ATTR_DATA_T ADD (ACTV_IND VARCHAR2(1) default 'Y'
-                                        , EDIT_FLAG VARCHAR2(1) default 'N')
+ALTER TABLE KRIM_PND_GRP_ATTR_DATA_T ADD (ACTV_IND VARCHAR2(1) DEFAULT 'Y'
+                                        , EDIT_FLAG VARCHAR2(1) DEFAULT 'N')
 /
 
 
@@ -45,54 +45,38 @@ ALTER TABLE KRIM_PND_GRP_ATTR_DATA_T ADD (ACTV_IND VARCHAR2(1) default 'Y'
 -- 
 
 
-alter table kren_chnl_subscrp_t add OBJ_ID varchar2(36)
+ALTER TABLE KREN_CHNL_SUBSCRP_T ADD OBJ_ID VARCHAR2(36)
 /
-alter table kren_cntnt_typ_t add OBJ_ID varchar2(36) 
+ALTER TABLE KREN_CNTNT_TYP_T ADD OBJ_ID VARCHAR2(36) 
 /
-alter table kren_chnl_t add OBJ_ID varchar2(36) 
+ALTER TABLE KREN_CHNL_T ADD OBJ_ID VARCHAR2(36) 
 /
-alter table kren_ntfctn_msg_deliv_t add OBJ_ID varchar2(36) 
+ALTER TABLE KREN_NTFCTN_MSG_DELIV_T ADD OBJ_ID VARCHAR2(36) 
 /
-alter table kren_ntfctn_t add OBJ_ID varchar2(36) 
+ALTER TABLE KREN_NTFCTN_T ADD OBJ_ID VARCHAR2(36) 
 /
-alter table kren_prio_t add OBJ_ID varchar2(36) 
+ALTER TABLE KREN_PRIO_T ADD OBJ_ID VARCHAR2(36) 
 /
-alter table kren_prodcr_t add OBJ_ID varchar2(36) 
+ALTER TABLE KREN_PRODCR_T ADD OBJ_ID VARCHAR2(36) 
 /
-alter table kren_recip_list_t add OBJ_ID varchar2(36)
+ALTER TABLE KREN_RECIP_LIST_T ADD OBJ_ID VARCHAR2(36)
 /
-alter table kren_sndr_t add OBJ_ID varchar2(36)
+ALTER TABLE KREN_SNDR_T ADD OBJ_ID VARCHAR2(36)
 /
-alter table kren_recip_t add OBJ_ID varchar2(36) 
+ALTER TABLE KREN_RECIP_T ADD OBJ_ID VARCHAR2(36) 
 /
-alter table kren_rvwer_t add OBJ_ID varchar2(36) 
+ALTER TABLE KREN_RVWER_T ADD OBJ_ID VARCHAR2(36) 
 /
-alter table kren_chnl_subscrp_t add ver_nbr NUMBER(8)
+ALTER TABLE KREN_CHNL_SUBSCRP_T ADD VER_NBR NUMBER(8)
 /
-alter table kren_recip_list_t add ver_nbr NUMBER(8)
+ALTER TABLE KREN_RECIP_LIST_T ADD VER_NBR NUMBER(8)
 /
-alter table kren_sndr_t add ver_nbr NUMBER(8)
+ALTER TABLE KREN_SNDR_T ADD VER_NBR NUMBER(8)
 /
-alter table kren_recip_t add ver_nbr NUMBER(8)
+ALTER TABLE KREN_RECIP_T ADD VER_NBR NUMBER(8)
 /
 
 
-
-
---
--- 2010-12-23.sql
---
-
-UPDATE krew_rule_t SET RULE_TMPL_ID='1030' WHERE `RULE_ID`='1049'
-/
-UPDATE krew_rule_t SET RULE_TMPL_ID='1032' WHERE `RULE_ID`='1051'
-/
-DELETE FROM krew_rule_t WHERE RULE_ID='1052'
-/
-UPDATE krew_rule_rsp_t SET RULE_ID='1050' WHERE `RULE_RSP_ID`='2029'
-/
-UPDATE krew_rule_rsp_t SET RULE_ID='1051' WHERE `RULE_RSP_ID`='2031'
-/
 
 
 -- 
@@ -100,25 +84,23 @@ UPDATE krew_rule_rsp_t SET RULE_ID='1051' WHERE `RULE_RSP_ID`='2031'
 -- 
 
 
-update KREW_DOC_TYP_T set POST_PRCSR='org.kuali.rice.edl.framework.workflow.EDocLitePostProcessor'
-where POST_PRCSR='org.kuali.rice.kew.edl.EDocLitePostProcessor'
+UPDATE KREW_DOC_TYP_T SET POST_PRCSR='org.kuali.rice.edl.framework.workflow.EDocLitePostProcessor'
+WHERE POST_PRCSR='org.kuali.rice.kew.edl.EDocLitePostProcessor'
 /
 
-update KREW_DOC_TYP_T set POST_PRCSR='org.kuali.rice.edl.framework.workflow.EDocLiteDatabasePostProcessor'
-where POST_PRCSR='org.kuali.rice.kew.edl.EDLDatabasePostProcessor'
+UPDATE KREW_DOC_TYP_T SET POST_PRCSR='org.kuali.rice.edl.framework.workflow.EDocLiteDatabasePostProcessor'
+WHERE POST_PRCSR='org.kuali.rice.kew.edl.EDLDatabasePostProcessor'
+/
+
+UPDATE KREW_DOC_TYP_T SET PARNT_ID='2681' WHERE DOC_TYP_NM='TravelAccountMaintenanceDocument'
+/
+UPDATE KREW_DOC_TYP_T SET PARNT_ID='2681' WHERE DOC_TYP_NM='FiscalOfficerMaintenanceDocument'
+/
+UPDATE KREW_DOC_TYP_T SET PARNT_ID='2681' WHERE DOC_TYP_NM='TravelRequest'
 /
 
 
 
-
-
---
--- 2011-04-13.sql
---
-
-
-INSERT INTO KRIM_PHONE_TYP_T (ACTV_IND,DISPLAY_SORT_CD,OBJ_ID,PHONE_TYP_CD,PHONE_TYP_NM,VER_NBR) VALUES ('Y','e','5B97C50B03946110E0404F8189D85213','FAX','Facsimile',1)
-/
 
 
 -- 
@@ -141,25 +123,25 @@ INSERT INTO KRIM_PHONE_TYP_T (ACTV_IND,DISPLAY_SORT_CD,OBJ_ID,PHONE_TYP_CD,PHONE
 ALTER TABLE KREW_ACTN_ITM_T RENAME TO OLD_KREW_ACTN_ITM_T
 /
 CREATE TABLE KREW_ACTN_ITM_T ( 
-    ACTN_ITM_ID   	NUMBER(14,0),
-    PRNCPL_ID     	VARCHAR2(40) NOT NULL,
-    ASND_DT       	DATE NOT NULL,
-    RQST_CD       	CHAR(1) NOT NULL,
-    ACTN_RQST_ID  	NUMBER(14,0) NOT NULL,
-    DOC_HDR_ID     	VARCHAR2(40) NOT NULL,
-    ROLE_NM       	VARCHAR2(2000) NULL,
-    DLGN_PRNCPL_ID	VARCHAR2(40) NULL,
-    DOC_HDR_TTL   	VARCHAR2(255) NULL,
-    DOC_TYP_LBL   	VARCHAR2(128) NOT NULL,
-    DOC_HDLR_URL  	VARCHAR2(255) NOT NULL,
-    DOC_TYP_NM    	VARCHAR2(64) NOT NULL,
-    RSP_ID        	NUMBER(14,0) NOT NULL,
-    DLGN_TYP      	VARCHAR2(1) NULL,
-    VER_NBR       	NUMBER(8,0) DEFAULT 0 NULL,
-    DTYPE         	VARCHAR2(50) NULL,
-    GRP_ID        	VARCHAR2(40) NULL,
-    DLGN_GRP_ID   	VARCHAR2(40) NULL,
-    RQST_LBL      	VARCHAR2(255) NULL
+    ACTN_ITM_ID     NUMBER(14,0),
+    PRNCPL_ID       VARCHAR2(40) NOT NULL,
+    ASND_DT         DATE NOT NULL,
+    RQST_CD         CHAR(1) NOT NULL,
+    ACTN_RQST_ID    NUMBER(14,0) NOT NULL,
+    DOC_HDR_ID      VARCHAR2(40) NOT NULL,
+    ROLE_NM         VARCHAR2(2000) NULL,
+    DLGN_PRNCPL_ID  VARCHAR2(40) NULL,
+    DOC_HDR_TTL     VARCHAR2(255) NULL,
+    DOC_TYP_LBL     VARCHAR2(128) NOT NULL,
+    DOC_HDLR_URL    VARCHAR2(255) NOT NULL,
+    DOC_TYP_NM      VARCHAR2(64) NOT NULL,
+    RSP_ID          NUMBER(14,0) NOT NULL,
+    DLGN_TYP        VARCHAR2(1) NULL,
+    VER_NBR         NUMBER(8,0) DEFAULT 0 NULL,
+    DTYPE           VARCHAR2(50) NULL,
+    GRP_ID          VARCHAR2(40) NULL,
+    DLGN_GRP_ID     VARCHAR2(40) NULL,
+    RQST_LBL        VARCHAR2(255) NULL
 )
 /
 INSERT INTO KREW_ACTN_ITM_T SELECT * FROM OLD_KREW_ACTN_ITM_T
@@ -185,34 +167,34 @@ CREATE INDEX KREW_ACTN_ITM_TI5 ON KREW_ACTN_ITM_T(PRNCPL_ID, DLGN_TYP, DOC_HDR_I
 ALTER TABLE KREW_ACTN_RQST_T RENAME TO OLD_KREW_ACTN_RQST_T
 /
 CREATE TABLE KREW_ACTN_RQST_T ( 
-    ACTN_RQST_ID        	NUMBER(14,0),
-    PARNT_ID            	NUMBER(14,0) NULL,
-    ACTN_RQST_CD        	CHAR(1) NOT NULL,
-    DOC_HDR_ID          	VARCHAR2(40) NOT NULL,
-    RULE_ID             	NUMBER(19,0) NULL,
-    STAT_CD             	CHAR(1) NOT NULL,
-    RSP_ID              	NUMBER(14,0) NOT NULL,
-    PRNCPL_ID           	VARCHAR2(40) NULL,
-    ROLE_NM             	VARCHAR2(2000) NULL,
-    QUAL_ROLE_NM        	VARCHAR2(2000) NULL,
-    QUAL_ROLE_NM_LBL_TXT	VARCHAR2(2000) NULL,
-    RECIP_TYP_CD        	CHAR(1) NULL,
-    PRIO_NBR            	NUMBER(8,0) NOT NULL,
-    RTE_TYP_NM          	VARCHAR2(255) NULL,
-    RTE_LVL_NBR         	NUMBER(8,0) NOT NULL,
-    RTE_NODE_INSTN_ID   	NUMBER(19,0) NULL,
-    ACTN_TKN_ID         	NUMBER(14,0) NULL,
-    DOC_VER_NBR         	NUMBER(8,0) NOT NULL,
-    CRTE_DT             	DATE NOT NULL,
-    RSP_DESC_TXT        	VARCHAR2(200) NULL,
-    FRC_ACTN            	NUMBER(1,0) DEFAULT 0,
-    ACTN_RQST_ANNOTN_TXT	VARCHAR2(2000) NULL,
-    DLGN_TYP            	CHAR(1) NULL,
-    APPR_PLCY           	CHAR(1) NULL,
-    CUR_IND             	NUMBER(1,0) DEFAULT 1,
-    VER_NBR             	NUMBER(8,0) DEFAULT 0,
-    GRP_ID              	VARCHAR2(40) NULL,
-    RQST_LBL            	VARCHAR2(255) NULL
+    ACTN_RQST_ID            NUMBER(14,0),
+    PARNT_ID                NUMBER(14,0) NULL,
+    ACTN_RQST_CD            CHAR(1) NOT NULL,
+    DOC_HDR_ID              VARCHAR2(40) NOT NULL,
+    RULE_ID                 NUMBER(19,0) NULL,
+    STAT_CD                 CHAR(1) NOT NULL,
+    RSP_ID                  NUMBER(14,0) NOT NULL,
+    PRNCPL_ID               VARCHAR2(40) NULL,
+    ROLE_NM                 VARCHAR2(2000) NULL,
+    QUAL_ROLE_NM            VARCHAR2(2000) NULL,
+    QUAL_ROLE_NM_LBL_TXT    VARCHAR2(2000) NULL,
+    RECIP_TYP_CD            CHAR(1) NULL,
+    PRIO_NBR                NUMBER(8,0) NOT NULL,
+    RTE_TYP_NM              VARCHAR2(255) NULL,
+    RTE_LVL_NBR             NUMBER(8,0) NOT NULL,
+    RTE_NODE_INSTN_ID       NUMBER(19,0) NULL,
+    ACTN_TKN_ID             NUMBER(14,0) NULL,
+    DOC_VER_NBR             NUMBER(8,0) NOT NULL,
+    CRTE_DT                 DATE NOT NULL,
+    RSP_DESC_TXT            VARCHAR2(200) NULL,
+    FRC_ACTN                NUMBER(1,0) DEFAULT 0,
+    ACTN_RQST_ANNOTN_TXT    VARCHAR2(2000) NULL,
+    DLGN_TYP                CHAR(1) NULL,
+    APPR_PLCY               CHAR(1) NULL,
+    CUR_IND                 NUMBER(1,0) DEFAULT 1,
+    VER_NBR                 NUMBER(8,0) DEFAULT 0,
+    GRP_ID                  VARCHAR2(40) NULL,
+    RQST_LBL                VARCHAR2(255) NULL
 )
 /
 INSERT INTO KREW_ACTN_RQST_T SELECT * FROM OLD_KREW_ACTN_RQST_T
@@ -246,17 +228,17 @@ CREATE INDEX KREW_ACTN_RQST_T19 ON KREW_ACTN_RQST_T(STAT_CD, DOC_HDR_ID)
 ALTER TABLE KREW_ACTN_TKN_T RENAME TO OLD_KREW_ACTN_TKN_T
 /
 CREATE TABLE KREW_ACTN_TKN_T ( 
-    ACTN_TKN_ID    	NUMBER(14,0),
+    ACTN_TKN_ID     NUMBER(14,0),
     DOC_HDR_ID      VARCHAR2(40) NOT NULL,
-    PRNCPL_ID      	VARCHAR2(40) NOT NULL,
-    DLGTR_PRNCPL_ID	VARCHAR2(40),
-    ACTN_CD        	CHAR(1) NOT NULL,
-    ACTN_DT        	DATE NOT NULL,
-    DOC_VER_NBR    	NUMBER(8,0) NOT NULL,
-    ANNOTN         	VARCHAR2(2000),
-    CUR_IND        	NUMBER(1,0) DEFAULT 1,
-    VER_NBR        	NUMBER(8,0) DEFAULT 0,
-    DLGTR_GRP_ID   	VARCHAR2(40)
+    PRNCPL_ID       VARCHAR2(40) NOT NULL,
+    DLGTR_PRNCPL_ID VARCHAR2(40),
+    ACTN_CD         CHAR(1) NOT NULL,
+    ACTN_DT         DATE NOT NULL,
+    DOC_VER_NBR     NUMBER(8,0) NOT NULL,
+    ANNOTN          VARCHAR2(2000),
+    CUR_IND         NUMBER(1,0) DEFAULT 1,
+    VER_NBR         NUMBER(8,0) DEFAULT 0,
+    DLGTR_GRP_ID    VARCHAR2(40)
 )
 /
 INSERT INTO KREW_ACTN_TKN_T SELECT * FROM OLD_KREW_ACTN_TKN_T
@@ -316,8 +298,8 @@ CREATE INDEX KREW_APP_DOC_STAT_TI3 ON KREW_APP_DOC_STAT_TRAN_T (DOC_HDR_ID, APP_
 ALTER TABLE KREW_DOC_HDR_CNTNT_T RENAME TO OLD_KREW_DOC_HDR_CNTNT_T
 /
 CREATE TABLE KREW_DOC_HDR_CNTNT_T ( 
-    DOC_HDR_ID   	VARCHAR2(40),
-    DOC_CNTNT_TXT	CLOB NULL
+    DOC_HDR_ID      VARCHAR2(40),
+    DOC_CNTNT_TXT   CLOB NULL
 )
 /
 INSERT INTO KREW_DOC_HDR_CNTNT_T SELECT * FROM OLD_KREW_DOC_HDR_CNTNT_T
@@ -334,10 +316,10 @@ ALTER TABLE KREW_DOC_HDR_CNTNT_T ADD CONSTRAINT KREW_DOC_HDR_CNTNT_TP1 PRIMARY K
 ALTER TABLE KREW_DOC_HDR_EXT_DT_T RENAME TO OLD_KREW_DOC_HDR_EXT_DT_T
 /
 CREATE TABLE KREW_DOC_HDR_EXT_DT_T ( 
-    DOC_HDR_EXT_DT_ID	NUMBER(19,0),
-    DOC_HDR_ID   		VARCHAR2(40) NOT NULL,
-    KEY_CD           	VARCHAR2(256) NOT NULL,
-    VAL              	DATE NULL
+    DOC_HDR_EXT_DT_ID   NUMBER(19,0),
+    DOC_HDR_ID          VARCHAR2(40) NOT NULL,
+    KEY_CD              VARCHAR2(256) NOT NULL,
+    VAL                 DATE NULL
 )
 /
 INSERT INTO KREW_DOC_HDR_EXT_DT_T SELECT * FROM OLD_KREW_DOC_HDR_EXT_DT_T
@@ -360,10 +342,10 @@ CREATE INDEX KREW_DOC_HDR_EXT_DT_TI3 ON KREW_DOC_HDR_EXT_DT_T(VAL)
 ALTER TABLE KREW_DOC_HDR_EXT_LONG_T RENAME TO OLD_KREW_DOC_HDR_EXT_LONG_T
 /
 CREATE TABLE KREW_DOC_HDR_EXT_LONG_T ( 
-    DOC_HDR_EXT_LONG_ID	NUMBER(19,0),
-    DOC_HDR_ID   		VARCHAR2(40) NOT NULL,
-    KEY_CD             	VARCHAR2(256) NOT NULL,
-    VAL                	NUMBER(22,0) NULL
+    DOC_HDR_EXT_LONG_ID NUMBER(19,0),
+    DOC_HDR_ID          VARCHAR2(40) NOT NULL,
+    KEY_CD              VARCHAR2(256) NOT NULL,
+    VAL                 NUMBER(22,0) NULL
 )
 /
 INSERT INTO KREW_DOC_HDR_EXT_LONG_T SELECT * FROM OLD_KREW_DOC_HDR_EXT_LONG_T
@@ -386,10 +368,10 @@ CREATE INDEX KREW_DOC_HDR_EXT_LONG_TI3 ON KREW_DOC_HDR_EXT_LONG_T(VAL)
 ALTER TABLE KREW_DOC_HDR_EXT_FLT_T RENAME TO OLD_KREW_DOC_HDR_EXT_FLT_T
 /
 CREATE TABLE KREW_DOC_HDR_EXT_FLT_T ( 
-    DOC_HDR_EXT_FLT_ID	NUMBER(19,0),
-	DOC_HDR_ID    		VARCHAR2(40) NOT NULL,
-    KEY_CD            	VARCHAR2(256) NOT NULL,
-    VAL               	NUMBER(30,15) NULL
+    DOC_HDR_EXT_FLT_ID  NUMBER(19,0),
+    DOC_HDR_ID          VARCHAR2(40) NOT NULL,
+    KEY_CD              VARCHAR2(256) NOT NULL,
+    VAL                 NUMBER(30,15) NULL
 )
 /
 INSERT INTO KREW_DOC_HDR_EXT_FLT_T SELECT * FROM OLD_KREW_DOC_HDR_EXT_FLT_T
@@ -412,10 +394,10 @@ CREATE INDEX KREW_DOC_HDR_EXT_FLT_TI3 ON KREW_DOC_HDR_EXT_FLT_T(VAL)
 ALTER TABLE KREW_DOC_HDR_EXT_T RENAME TO OLD_KREW_DOC_HDR_EXT_T
 /
 CREATE TABLE KREW_DOC_HDR_EXT_T ( 
-    DOC_HDR_EXT_ID	NUMBER(19,0),
-	DOC_HDR_ID    	VARCHAR2(40) NOT NULL,
-    KEY_CD        	VARCHAR2(256) NOT NULL,
-    VAL           	VARCHAR2(2000)
+    DOC_HDR_EXT_ID  NUMBER(19,0),
+    DOC_HDR_ID      VARCHAR2(40) NOT NULL,
+    KEY_CD          VARCHAR2(256) NOT NULL,
+    VAL             VARCHAR2(2000)
 )
 /
 INSERT INTO KREW_DOC_HDR_EXT_T SELECT * FROM OLD_KREW_DOC_HDR_EXT_T
@@ -461,12 +443,12 @@ ALTER TABLE KREW_DOC_HDR_T DROP COLUMN DOC_HDR_ID_TEMP
 ALTER TABLE KREW_DOC_NTE_T RENAME TO OLD_KREW_DOC_NTE_T
 /
 CREATE TABLE KREW_DOC_NTE_T ( 
-    DOC_NTE_ID    	NUMBER(19,0),
-	DOC_HDR_ID    	VARCHAR2(40) NOT NULL,
-    AUTH_PRNCPL_ID	VARCHAR2(40) NOT NULL,
-    CRT_DT        	DATE NOT NULL,
-    TXT           	VARCHAR2(4000) NULL,
-    VER_NBR       	NUMBER(8,0) DEFAULT 0 NULL
+    DOC_NTE_ID      NUMBER(19,0),
+    DOC_HDR_ID      VARCHAR2(40) NOT NULL,
+    AUTH_PRNCPL_ID  VARCHAR2(40) NOT NULL,
+    CRT_DT          DATE NOT NULL,
+    TXT             VARCHAR2(4000) NULL,
+    VER_NBR         NUMBER(8,0) DEFAULT 0 NULL
 )
 /
 INSERT INTO KREW_DOC_NTE_T SELECT * FROM OLD_KREW_DOC_NTE_T
@@ -500,15 +482,15 @@ ALTER TABLE KREW_DOC_TYP_T DROP COLUMN DOC_HDR_ID_OLD
 ALTER TABLE KREW_EDL_DMP_T RENAME TO OLD_KREW_EDL_DMP_T
 /
 CREATE TABLE KREW_EDL_DMP_T ( 
-    DOC_HDR_ID             	VARCHAR2(40),
-    DOC_TYP_NM             	VARCHAR2(64) NOT NULL,
-    DOC_HDR_STAT_CD        	CHAR(1) NOT NULL,
-    DOC_HDR_MDFN_DT        	DATE NOT NULL,
-    DOC_HDR_CRTE_DT        	DATE NOT NULL,
-    DOC_HDR_TTL            	VARCHAR2(255) NULL,
-    DOC_HDR_INITR_PRNCPL_ID	VARCHAR2(40) NOT NULL,
-    CRNT_NODE_NM           	VARCHAR2(30) NOT NULL,
-    VER_NBR                	NUMBER(8,0) DEFAULT 0 NULL
+    DOC_HDR_ID              VARCHAR2(40),
+    DOC_TYP_NM              VARCHAR2(64) NOT NULL,
+    DOC_HDR_STAT_CD         CHAR(1) NOT NULL,
+    DOC_HDR_MDFN_DT         DATE NOT NULL,
+    DOC_HDR_CRTE_DT         DATE NOT NULL,
+    DOC_HDR_TTL             VARCHAR2(255) NULL,
+    DOC_HDR_INITR_PRNCPL_ID VARCHAR2(40) NOT NULL,
+    CRNT_NODE_NM            VARCHAR2(30) NOT NULL,
+    VER_NBR                 NUMBER(8,0) DEFAULT 0 NULL
 )
 /
 INSERT INTO KREW_EDL_DMP_T SELECT * FROM OLD_KREW_EDL_DMP_T
@@ -527,11 +509,11 @@ CREATE INDEX KREW_EDL_DMP_TI1 ON KREW_EDL_DMP_T(DOC_TYP_NM, DOC_HDR_ID)
 ALTER TABLE KREW_EDL_FLD_DMP_T RENAME TO OLD_KREW_EDL_FLD_DMP_T
 /
 CREATE TABLE KREW_EDL_FLD_DMP_T ( 
-    EDL_FIELD_DMP_ID	NUMBER(14,0),
-    DOC_HDR_ID      	VARCHAR2(40) NOT NULL,
-    FLD_NM          	VARCHAR2(255) NOT NULL,
-    FLD_VAL         	VARCHAR2(4000) NULL,
-    VER_NBR         	NUMBER(8,0) DEFAULT 0 NULL
+    EDL_FIELD_DMP_ID    NUMBER(14,0),
+    DOC_HDR_ID          VARCHAR2(40) NOT NULL,
+    FLD_NM              VARCHAR2(255) NOT NULL,
+    FLD_VAL             VARCHAR2(4000) NULL,
+    VER_NBR             NUMBER(8,0) DEFAULT 0 NULL
 )
 /
 INSERT INTO KREW_EDL_FLD_DMP_T SELECT * FROM OLD_KREW_EDL_FLD_DMP_T
@@ -548,8 +530,8 @@ ALTER TABLE KREW_EDL_FLD_DMP_T ADD CONSTRAINT KREW_EDL_FLD_DMP_TP1 PRIMARY KEY (
 ALTER TABLE KREW_INIT_RTE_NODE_INSTN_T RENAME TO OLD_INIT_RTE_NODE_INSTN_T
 /
 CREATE TABLE KREW_INIT_RTE_NODE_INSTN_T ( 
-    DOC_HDR_ID       	VARCHAR2(40),
-    RTE_NODE_INSTN_ID	NUMBER(19,0)
+    DOC_HDR_ID          VARCHAR2(40),
+    RTE_NODE_INSTN_ID   NUMBER(19,0)
 )
 /
 INSERT INTO KREW_INIT_RTE_NODE_INSTN_T SELECT * FROM OLD_INIT_RTE_NODE_INSTN_T
@@ -570,24 +552,24 @@ CREATE INDEX KREW_INIT_RTE_NODE_INSTN_TI2 ON KREW_INIT_RTE_NODE_INSTN_T(RTE_NODE
 ALTER TABLE KREW_OUT_BOX_ITM_T RENAME TO OLD_KREW_OUT_BOX_ITM_T
 /
 CREATE TABLE KREW_OUT_BOX_ITM_T ( 
-    ACTN_ITM_ID   	NUMBER(14,0),
-    PRNCPL_ID     	VARCHAR2(40) NOT NULL,
-    ASND_DT       	DATE NOT NULL,
-    RQST_CD       	CHAR(1) NOT NULL,
-    ACTN_RQST_ID  	NUMBER(14,0) NOT NULL,
-    DOC_HDR_ID    	VARCHAR2(40) NOT NULL,
-    ROLE_NM       	VARCHAR2(2000) NULL,
-    DLGN_PRNCPL_ID	VARCHAR2(40) NULL,
-    DOC_HDR_TTL   	VARCHAR2(255) NULL,
-    DOC_TYP_LBL   	VARCHAR2(128) NOT NULL,
-    DOC_HDLR_URL  	VARCHAR2(255) NOT NULL,
-    DOC_TYP_NM    	VARCHAR2(64) NOT NULL,
-    RSP_ID        	NUMBER(14,0) NOT NULL,
-    DLGN_TYP      	VARCHAR2(1) NULL,
-    VER_NBR       	NUMBER(8,0) DEFAULT 0 NULL,
-    GRP_ID        	VARCHAR2(40) NULL,
-    DLGN_GRP_ID   	VARCHAR2(40) NULL,
-    RQST_LBL      	VARCHAR2(255) NULL
+    ACTN_ITM_ID     NUMBER(14,0),
+    PRNCPL_ID       VARCHAR2(40) NOT NULL,
+    ASND_DT         DATE NOT NULL,
+    RQST_CD         CHAR(1) NOT NULL,
+    ACTN_RQST_ID    NUMBER(14,0) NOT NULL,
+    DOC_HDR_ID      VARCHAR2(40) NOT NULL,
+    ROLE_NM         VARCHAR2(2000) NULL,
+    DLGN_PRNCPL_ID  VARCHAR2(40) NULL,
+    DOC_HDR_TTL     VARCHAR2(255) NULL,
+    DOC_TYP_LBL     VARCHAR2(128) NOT NULL,
+    DOC_HDLR_URL    VARCHAR2(255) NOT NULL,
+    DOC_TYP_NM      VARCHAR2(64) NOT NULL,
+    RSP_ID          NUMBER(14,0) NOT NULL,
+    DLGN_TYP        VARCHAR2(1) NULL,
+    VER_NBR         NUMBER(8,0) DEFAULT 0 NULL,
+    GRP_ID          VARCHAR2(40) NULL,
+    DLGN_GRP_ID     VARCHAR2(40) NULL,
+    RQST_LBL        VARCHAR2(255) NULL
 )
 /
 INSERT INTO KREW_OUT_BOX_ITM_T SELECT * FROM OLD_KREW_OUT_BOX_ITM_T
@@ -610,11 +592,11 @@ CREATE INDEX KREW_OUT_BOX_ITM_TI3 ON KREW_OUT_BOX_ITM_T(ACTN_RQST_ID)
 ALTER TABLE KREW_RMV_RPLC_DOC_T RENAME TO OLD_KREW_RMV_RPLC_DOC_T
 /
 CREATE TABLE KREW_RMV_RPLC_DOC_T ( 
-    DOC_HDR_ID  	VARCHAR2(40),
-    OPRN          	CHAR(1) NOT NULL,
-    PRNCPL_ID     	VARCHAR2(40) NOT NULL,
-    RPLC_PRNCPL_ID	VARCHAR2(40) NULL,
-    VER_NBR       	NUMBER(8,0) DEFAULT 0 NULL
+    DOC_HDR_ID      VARCHAR2(40),
+    OPRN            CHAR(1) NOT NULL,
+    PRNCPL_ID       VARCHAR2(40) NOT NULL,
+    RPLC_PRNCPL_ID  VARCHAR2(40) NULL,
+    VER_NBR         NUMBER(8,0) DEFAULT 0 NULL
 )
 /
 INSERT INTO KREW_RMV_RPLC_DOC_T SELECT * FROM OLD_KREW_RMV_RPLC_DOC_T
@@ -632,7 +614,7 @@ ALTER TABLE KREW_RMV_RPLC_GRP_T RENAME TO OLD_KREW_RMV_RPLC_GRP_T
 /
 CREATE TABLE KREW_RMV_RPLC_GRP_T ( 
     DOC_HDR_ID  VARCHAR2(40),
-    GRP_ID    	NUMBER(14,0)
+    GRP_ID      NUMBER(14,0)
 )
 /
 INSERT INTO KREW_RMV_RPLC_GRP_T SELECT * FROM OLD_KREW_RMV_RPLC_GRP_T
@@ -650,7 +632,7 @@ ALTER TABLE KREW_RMV_RPLC_RULE_T RENAME TO OLD_KREW_RMV_RPLC_RULE_T
 /
 CREATE TABLE KREW_RMV_RPLC_RULE_T ( 
     DOC_HDR_ID  VARCHAR2(40),
-    RULE_ID   	NUMBER(19,0)
+    RULE_ID     NUMBER(19,0)
 )
 /
 INSERT INTO KREW_RMV_RPLC_RULE_T SELECT * FROM OLD_KREW_RMV_RPLC_RULE_T
@@ -667,15 +649,15 @@ ALTER TABLE KREW_RMV_RPLC_RULE_T ADD CONSTRAINT KREW_RMV_RPLC_RULE_TP1 PRIMARY K
 ALTER TABLE KREW_RTE_NODE_INSTN_T RENAME TO OLD_KREW_RTE_NODE_INSTN_T
 /
 CREATE TABLE KREW_RTE_NODE_INSTN_T ( 
-    RTE_NODE_INSTN_ID     	NUMBER(19,0),
-    DOC_HDR_ID            	VARCHAR2(40) NOT NULL,
-    RTE_NODE_ID           	NUMBER(19,0) NOT NULL,
-    BRCH_ID               	NUMBER(19,0) NULL,
-    PROC_RTE_NODE_INSTN_ID	NUMBER(19,0) NULL,
-    ACTV_IND              	NUMBER(1,0) DEFAULT 0 NOT NULL,
-    CMPLT_IND             	NUMBER(1,0) DEFAULT 0 NOT NULL,
-    INIT_IND              	NUMBER(1,0) DEFAULT 0 NOT NULL,
-    VER_NBR               	NUMBER(8,0) DEFAULT 0 NULL
+    RTE_NODE_INSTN_ID       NUMBER(19,0),
+    DOC_HDR_ID              VARCHAR2(40) NOT NULL,
+    RTE_NODE_ID             NUMBER(19,0) NOT NULL,
+    BRCH_ID                 NUMBER(19,0) NULL,
+    PROC_RTE_NODE_INSTN_ID  NUMBER(19,0) NULL,
+    ACTV_IND                NUMBER(1,0) DEFAULT 0 NOT NULL,
+    CMPLT_IND               NUMBER(1,0) DEFAULT 0 NOT NULL,
+    INIT_IND                NUMBER(1,0) DEFAULT 0 NOT NULL,
+    VER_NBR                 NUMBER(8,0) DEFAULT 0 NULL
 )
 /
 INSERT INTO KREW_RTE_NODE_INSTN_T SELECT * FROM OLD_KREW_RTE_NODE_INSTN_T
@@ -700,26 +682,26 @@ CREATE INDEX KREW_RTE_NODE_INSTN_TI4 ON KREW_RTE_NODE_INSTN_T(PROC_RTE_NODE_INST
 ALTER TABLE KREW_RULE_T RENAME TO OLD_KREW_RULE_T
 /
 CREATE TABLE KREW_RULE_T ( 
-    RULE_ID           	NUMBER(19,0),
-    NM                	VARCHAR2(256) NULL,
-    RULE_TMPL_ID      	NUMBER(19,0) NULL,
-    RULE_EXPR_ID      	NUMBER(19,0) NULL,
-    ACTV_IND          	NUMBER(1,0) NOT NULL,
-    RULE_BASE_VAL_DESC	VARCHAR2(2000) NULL,
-    FRC_ACTN          	NUMBER(1,0) NOT NULL,
-    DOC_TYP_NM        	VARCHAR2(64) NOT NULL,
+    RULE_ID             NUMBER(19,0),
+    NM                  VARCHAR2(256) NULL,
+    RULE_TMPL_ID        NUMBER(19,0) NULL,
+    RULE_EXPR_ID        NUMBER(19,0) NULL,
+    ACTV_IND            NUMBER(1,0) NOT NULL,
+    RULE_BASE_VAL_DESC  VARCHAR2(2000) NULL,
+    FRC_ACTN            NUMBER(1,0) NOT NULL,
+    DOC_TYP_NM          VARCHAR2(64) NOT NULL,
     DOC_HDR_ID          VARCHAR2(40) NULL,
-    TMPL_RULE_IND     	NUMBER(1,0) NULL,
-    FRM_DT            	DATE NULL,
-    TO_DT             	DATE NULL,
-    DACTVN_DT         	DATE NULL,
-    CUR_IND           	NUMBER(1,0) DEFAULT 0 NULL,
-    RULE_VER_NBR      	NUMBER(8,0) DEFAULT 0 NULL,
-    DLGN_IND          	NUMBER(1,0) NULL,
-    PREV_RULE_VER_NBR 	NUMBER(19,0) NULL,
-    ACTVN_DT          	DATE NULL,
-    VER_NBR           	NUMBER(8,0) DEFAULT 0 NULL,
-    OBJ_ID            	VARCHAR2(36) NOT NULL
+    TMPL_RULE_IND       NUMBER(1,0) NULL,
+    FRM_DT              DATE NULL,
+    TO_DT               DATE NULL,
+    DACTVN_DT           DATE NULL,
+    CUR_IND             NUMBER(1,0) DEFAULT 0 NULL,
+    RULE_VER_NBR        NUMBER(8,0) DEFAULT 0 NULL,
+    DLGN_IND            NUMBER(1,0) NULL,
+    PREV_RULE_VER_NBR   NUMBER(19,0) NULL,
+    ACTVN_DT            DATE NULL,
+    VER_NBR             NUMBER(8,0) DEFAULT 0 NULL,
+    OBJ_ID              VARCHAR2(36) NOT NULL
 )
 /
 INSERT INTO KREW_RULE_T SELECT * FROM OLD_KREW_RULE_T
@@ -772,569 +754,569 @@ create INDEX KREW_DOC_LNK_TI1 on krew_doc_lnk_t(ORGN_DOC_ID)
 --
 
 -- -----------------------------------------------------
--- Table krms_typ_t
+-- Table KRMS_TYP_T
 -- -----------------------------------------------------
--- begin execute immediate 'drop table krms_typ_t'; exception when others then null; end;
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_TYP_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
 
-CREATE  TABLE  krms_typ_t (
-  typ_id VARCHAR2(40)  NOT NULL ,
-  nm VARCHAR2(100)  NOT NULL ,
-  nmspc_cd VARCHAR2(40)  NOT NULL ,
-  srvc_nm VARCHAR2(200) NULL ,
-  actv VARCHAR2(1) DEFAULT 'Y'  NOT NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL ,
-  PRIMARY KEY (typ_id) )
+CREATE  TABLE  KRMS_TYP_T (
+  TYP_ID VARCHAR2(40)  NOT NULL ,
+  NM VARCHAR2(100)  NOT NULL ,
+  NMSPC_CD VARCHAR2(40)  NOT NULL ,
+  SRVC_NM VARCHAR2(200) NULL ,
+  ACTV VARCHAR2(1) DEFAULT 'Y'  NOT NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL ,
+  PRIMARY KEY (TYP_ID) )
 /
 
 
 
 -- -----------------------------------------------------
--- Table krms_attr_defn_t
+-- Table KRMS_ATTR_DEFN_T
 -- -----------------------------------------------------
--- begin execute immediate 'drop table krms_attr_defn_t'; exception when others then null; end;
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_ATTR_DEFN_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
 
-CREATE  TABLE  krms_attr_defn_t (
-  attr_defn_id VARCHAR2(255)  NOT NULL ,
-  nm VARCHAR2(100)  NOT NULL ,
-  nmspc_cd VARCHAR2(40)  NOT NULL ,
-  lbl VARCHAR2(40) NULL ,
-  actv VARCHAR2(1) DEFAULT 'Y'  NOT NULL ,
-  cmpnt_nm VARCHAR2(100) NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL ,
-  PRIMARY KEY (attr_defn_id) )
+CREATE  TABLE  KRMS_ATTR_DEFN_T (
+  ATTR_DEFN_ID VARCHAR2(255)  NOT NULL ,
+  NM VARCHAR2(100)  NOT NULL ,
+  NMSPC_CD VARCHAR2(40)  NOT NULL ,
+  LBL VARCHAR2(40) NULL ,
+  ACTV VARCHAR2(1) DEFAULT 'Y'  NOT NULL ,
+  CMPNT_NM VARCHAR2(100) NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL ,
+  PRIMARY KEY (ATTR_DEFN_ID) )
 /
 
 
 -- -----------------------------------------------------
--- Table krms_typ_attr_t
+-- Table KRMS_TYP_ATTR_T
 -- -----------------------------------------------------
--- begin execute immediate 'drop table krms_typ_attr_t'; exception when others then null; end;
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_TYP_ATTR_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
 
-CREATE  TABLE  krms_typ_attr_t (
-  typ_attr_id VARCHAR2(40)  NOT NULL ,
-  seq_no NUMBER(5)  NOT NULL ,
-  typ_id VARCHAR2(40)  NOT NULL ,
-  attr_defn_id VARCHAR2(255)  NOT NULL ,
-  actv VARCHAR2(1) DEFAULT 'Y'  NOT NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL ,
-  PRIMARY KEY (typ_attr_id) ,
-  -- CREATE INDEX krms_typ_attr_ti1 (attr_defn_id ASC) ,
-  -- CREATE INDEX krms_typ_attr_ti2 (typ_id ASC) ,
-  CONSTRAINT krms_typ_attr_tc1 UNIQUE (typ_id, attr_defn_id) ,
-  CONSTRAINT krms_typ_attr_fk1
-    FOREIGN KEY (attr_defn_id )
-    REFERENCES krms_attr_defn_t (attr_defn_id ),
-  CONSTRAINT krms_typ_attr_fk2
-    FOREIGN KEY (typ_id )
-    REFERENCES krms_typ_t (typ_id ))
+CREATE  TABLE  KRMS_TYP_ATTR_T (
+  TYP_ATTR_ID VARCHAR2(40)  NOT NULL ,
+  SEQ_NO NUMBER(5)  NOT NULL ,
+  TYP_ID VARCHAR2(40)  NOT NULL ,
+  ATTR_DEFN_ID VARCHAR2(255)  NOT NULL ,
+  ACTV VARCHAR2(1) DEFAULT 'Y'  NOT NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL ,
+  PRIMARY KEY (TYP_ATTR_ID) ,
+  -- CREATE INDEX KRMS_TYP_ATTR_TI1 (ATTR_DEFN_ID ASC) ,
+  -- CREATE INDEX KRMS_TYP_ATTR_TI2 (TYP_ID ASC) ,
+  CONSTRAINT KRMS_TYP_ATTR_TC1 UNIQUE (TYP_ID, ATTR_DEFN_ID) ,
+  CONSTRAINT KRMS_TYP_ATTR_FK1
+    FOREIGN KEY (ATTR_DEFN_ID )
+    REFERENCES KRMS_ATTR_DEFN_T (ATTR_DEFN_ID ),
+  CONSTRAINT KRMS_TYP_ATTR_FK2
+    FOREIGN KEY (TYP_ID )
+    REFERENCES KRMS_TYP_T (TYP_ID ))
 /
 
-CREATE INDEX krms_typ_attr_ti1 on krms_typ_attr_t (attr_defn_id ASC) 
+CREATE INDEX KRMS_TYP_ATTR_TI1 ON KRMS_TYP_ATTR_T (ATTR_DEFN_ID ASC) 
 /
-CREATE INDEX krms_typ_attr_ti2 on krms_typ_attr_t (typ_id ASC) 
+CREATE INDEX KRMS_TYP_ATTR_TI2 ON KRMS_TYP_ATTR_T (TYP_ID ASC) 
 /
 
 
 -- -----------------------------------------------------
--- Table krms_rule_t
+-- Table KRMS_RULE_T
 -- -----------------------------------------------------
--- begin execute immediate 'drop table krms_rule_t'; exception when others then null; end;
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_RULE_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
 
-CREATE  TABLE  krms_rule_t (
-  rule_id VARCHAR2(40)  NOT NULL ,
-  nmspc_cd VARCHAR2(40)  NOT NULL ,
-  nm VARCHAR2(100)  NOT NULL ,
-  typ_id VARCHAR2(40)  NOT NULL ,
-  prop_id VARCHAR2(40)  NOT NULL ,
-  actv VARCHAR2(1) DEFAULT 'Y'  NOT NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL ,
-  descr_txt VARCHAR2(4000) NULL ,
-  PRIMARY KEY (rule_id) 
-  -- CREATE INDEX krms_rule_ti1 (prop_id ASC) ,
+CREATE  TABLE  KRMS_RULE_T (
+  RULE_ID VARCHAR2(40)  NOT NULL ,
+  NMSPC_CD VARCHAR2(40)  NOT NULL ,
+  NM VARCHAR2(100)  NOT NULL ,
+  TYP_ID VARCHAR2(40)  NOT NULL ,
+  PROP_ID VARCHAR2(40)  NOT NULL ,
+  ACTV VARCHAR2(1) DEFAULT 'Y'  NOT NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL ,
+  DESCR_TXT VARCHAR2(4000) NULL ,
+  PRIMARY KEY (RULE_ID) 
+  -- CREATE INDEX KRMS_RULE_TI1 (PROP_ID ASC) ,
 )
 /
 
-CREATE INDEX krms_rule_ti1 on krms_rule_t (prop_id ASC)
+CREATE INDEX KRMS_RULE_TI1 ON KRMS_RULE_T (PROP_ID ASC)
 /
 
 -- -----------------------------------------------------
--- Table krms_prop_t
+-- Table KRMS_PROP_T
 -- -----------------------------------------------------
--- begin execute immediate 'drop table krms_prop_t'; exception when others then null; end;
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_PROP_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
 
-CREATE  TABLE  krms_prop_t (
-  prop_id VARCHAR2(40)  NOT NULL ,
-  desc_txt VARCHAR2(100) NULL ,
-  typ_id VARCHAR2(40)  NOT NULL ,
-  dscrm_typ_cd VARCHAR2(10)  NOT NULL ,
-  cmpnd_op_cd VARCHAR2(40) NULL ,
-  rule_id VARCHAR2(40)  NOT NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL ,
-  PRIMARY KEY (prop_id) ,
-  -- CREATE INDEX krms_prop_ti1 (rule_id ASC) ,
-  -- CREATE INDEX krms_prop_fk2 (typ_id ASC) ,
-  CONSTRAINT krms_prop_fk1
-    FOREIGN KEY (rule_id )
-    REFERENCES krms_rule_t (rule_id ) ,
-  CONSTRAINT krms_prop_fk2
-    FOREIGN KEY (typ_id )
-    REFERENCES krms_typ_t (typ_id ) )
+CREATE  TABLE  KRMS_PROP_T (
+  PROP_ID VARCHAR2(40)  NOT NULL ,
+  DESC_TXT VARCHAR2(100) NULL ,
+  TYP_ID VARCHAR2(40)  NOT NULL ,
+  DSCRM_TYP_CD VARCHAR2(10)  NOT NULL ,
+  CMPND_OP_CD VARCHAR2(40) NULL ,
+  RULE_ID VARCHAR2(40)  NOT NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL ,
+  PRIMARY KEY (PROP_ID) ,
+  -- CREATE INDEX KRMS_PROP_TI1 (RULE_ID ASC) ,
+  -- CREATE INDEX KRMS_PROP_FK2 (TYP_ID ASC) ,
+  CONSTRAINT KRMS_PROP_FK1
+    FOREIGN KEY (RULE_ID )
+    REFERENCES KRMS_RULE_T (RULE_ID ) ,
+  CONSTRAINT KRMS_PROP_FK2
+    FOREIGN KEY (TYP_ID )
+    REFERENCES KRMS_TYP_T (TYP_ID ) )
 /
 
-CREATE INDEX krms_prop_ti1 on krms_prop_t (rule_id ASC)
+CREATE INDEX KRMS_PROP_TI1 ON KRMS_PROP_T (RULE_ID ASC)
 /
-CREATE INDEX krms_prop_fk2 on krms_prop_t (typ_id ASC)
-/
-
-
-ALTER TABLE krms_rule_t ADD CONSTRAINT krms_rule_fk1
-    FOREIGN KEY (prop_id )
-    REFERENCES krms_prop_t (prop_id )
+CREATE INDEX KRMS_PROP_FK2 ON KRMS_PROP_T (TYP_ID ASC)
 /
 
 
--- -----------------------------------------------------
--- Table krms_rule_attr_t
--- -----------------------------------------------------
--- begin execute immediate 'drop table krms_rule_attr_t'; exception when others then null; end;
-
-CREATE  TABLE  krms_rule_attr_t (
-  rule_attr_id VARCHAR2(40)  NOT NULL ,
-  rule_id VARCHAR2(40)  NOT NULL ,
-  attr_defn_id VARCHAR2(40)  NOT NULL ,
-  attr_val VARCHAR2(400) NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL ,
-  PRIMARY KEY (rule_attr_id) ,
-  -- CREATE INDEX krms_rule_attr_ti1 (rule_id ASC) ,
-  -- CREATE INDEX krms_rule_attr_ti2 (attr_defn_id ASC) ,
-  CONSTRAINT krms_rule_attr_fk1
-    FOREIGN KEY (rule_id )
-    REFERENCES krms_rule_t (rule_id ) ,
-  CONSTRAINT krms_rule_attr_fk2
-    FOREIGN KEY (attr_defn_id )
-    REFERENCES krms_attr_defn_t (attr_defn_id ) )
-/
-
-CREATE INDEX krms_rule_attr_ti1 on krms_rule_attr_t (rule_id ASC) 
-/
-CREATE INDEX krms_rule_attr_ti2 on krms_rule_attr_t (attr_defn_id ASC) 
+ALTER TABLE KRMS_RULE_T ADD CONSTRAINT KRMS_RULE_FK1
+    FOREIGN KEY (PROP_ID )
+    REFERENCES KRMS_PROP_T (PROP_ID )
 /
 
 
 -- -----------------------------------------------------
--- Table krms_actn_t
+-- Table KRMS_RULE_ATTR_T
 -- -----------------------------------------------------
--- begin execute immediate 'drop table krms_actn_t'; exception when others then null; end;
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_RULE_ATTR_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
 
-CREATE  TABLE  krms_actn_t (
-  actn_id VARCHAR2(40)  NOT NULL ,
-  nm VARCHAR2(40) NULL ,
-  desc_txt VARCHAR2(4000) NULL ,
-  typ_id VARCHAR2(40)  NOT NULL ,
-  rule_id VARCHAR2(40) NULL ,
-  seq_no NUMBER(5) NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL ,
-  PRIMARY KEY (actn_id) ,
-  -- CREATE INDEX KRMS_ACTN_TI2 (rule_id ASC) ,
-  -- CREATE INDEX KRMS_ACTN_TI1 (typ_id ASC) ,
-  CONSTRAINT KRMS_ACTN_TC2 UNIQUE (actn_id, rule_id, seq_no) ,
-  -- CREATE INDEX KRMS_ACTN_TI3 (rule_id ASC, seq_no ASC) ,
+CREATE  TABLE  KRMS_RULE_ATTR_T (
+  RULE_ATTR_ID VARCHAR2(40)  NOT NULL ,
+  RULE_ID VARCHAR2(40)  NOT NULL ,
+  ATTR_DEFN_ID VARCHAR2(40)  NOT NULL ,
+  ATTR_VAL VARCHAR2(400) NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL ,
+  PRIMARY KEY (RULE_ATTR_ID) ,
+  -- CREATE INDEX KRMS_RULE_ATTR_TI1 (RULE_ID ASC) ,
+  -- CREATE INDEX KRMS_RULE_ATTR_TI2 (ATTR_DEFN_ID ASC) ,
+  CONSTRAINT KRMS_RULE_ATTR_FK1
+    FOREIGN KEY (RULE_ID )
+    REFERENCES KRMS_RULE_T (RULE_ID ) ,
+  CONSTRAINT KRMS_RULE_ATTR_FK2
+    FOREIGN KEY (ATTR_DEFN_ID )
+    REFERENCES KRMS_ATTR_DEFN_T (ATTR_DEFN_ID ) )
+/
+
+CREATE INDEX KRMS_RULE_ATTR_TI1 ON KRMS_RULE_ATTR_T (RULE_ID ASC) 
+/
+CREATE INDEX KRMS_RULE_ATTR_TI2 ON KRMS_RULE_ATTR_T (ATTR_DEFN_ID ASC) 
+/
+
+
+-- -----------------------------------------------------
+-- Table KRMS_ACTN_T
+-- -----------------------------------------------------
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_ACTN_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
+
+CREATE  TABLE  KRMS_ACTN_T (
+  ACTN_ID VARCHAR2(40)  NOT NULL ,
+  NM VARCHAR2(40) NULL ,
+  DESC_TXT VARCHAR2(4000) NULL ,
+  TYP_ID VARCHAR2(40)  NOT NULL ,
+  RULE_ID VARCHAR2(40) NULL ,
+  SEQ_NO NUMBER(5) NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL ,
+  PRIMARY KEY (ACTN_ID) ,
+  -- CREATE INDEX KRMS_ACTN_TI2 (RULE_ID ASC) ,
+  -- CREATE INDEX KRMS_ACTN_TI1 (TYP_ID ASC) ,
+  CONSTRAINT KRMS_ACTN_TC2 UNIQUE (ACTN_ID, RULE_ID, SEQ_NO) ,
+  -- CREATE INDEX KRMS_ACTN_TI3 (RULE_ID ASC, SEQ_NO ASC) ,
   CONSTRAINT KRMS_ACTN_FK1
-    FOREIGN KEY (rule_id )
-    REFERENCES krms_rule_t (rule_id ) )
+    FOREIGN KEY (RULE_ID )
+    REFERENCES KRMS_RULE_T (RULE_ID ) )
 /
 
-CREATE INDEX KRMS_ACTN_TI2 on krms_actn_t (rule_id ASC)
+CREATE INDEX KRMS_ACTN_TI2 ON KRMS_ACTN_T (RULE_ID ASC)
 /
-CREATE INDEX KRMS_ACTN_TI1 on krms_actn_t (typ_id ASC)
+CREATE INDEX KRMS_ACTN_TI1 ON KRMS_ACTN_T (TYP_ID ASC)
 /
-CREATE INDEX KRMS_ACTN_TI3 on krms_actn_t (rule_id ASC, seq_no ASC)
-/
-
-
--- -----------------------------------------------------
--- Table krms_actn_attr_t
--- -----------------------------------------------------
--- begin execute immediate 'drop table krms_actn_attr_t'; exception when others then null; end;
-
-CREATE  TABLE  krms_actn_attr_t (
-  actn_attr_data_id VARCHAR2(40)  NOT NULL ,
-  actn_id VARCHAR2(40)  NOT NULL ,
-  attr_defn_id VARCHAR2(40)  NOT NULL ,
-  attr_val VARCHAR2(400) NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL ,
-  PRIMARY KEY (actn_attr_data_id) ,
-  -- CREATE INDEX krms_actn_attr_ti1 (actn_id ASC) ,
-  -- CREATE INDEX krms_actn_attr_ti2 (attr_defn_id ASC) ,
-  CONSTRAINT krms_actn_attr_fk1
-    FOREIGN KEY (actn_id )
-    REFERENCES krms_actn_t (actn_id ) ,
-  CONSTRAINT krms_actn_attr_fk2
-    FOREIGN KEY (attr_defn_id )
-    REFERENCES krms_attr_defn_t (attr_defn_id ) )
-/
-
-CREATE INDEX krms_actn_attr_ti1 on krms_actn_attr_t (actn_id ASC) 
-/
-CREATE INDEX krms_actn_attr_ti2 on krms_actn_attr_t (attr_defn_id ASC) 
+CREATE INDEX KRMS_ACTN_TI3 ON KRMS_ACTN_T (RULE_ID ASC, SEQ_NO ASC)
 /
 
 
 -- -----------------------------------------------------
--- Table krms_cmpnd_prop_props_t
+-- Table KRMS_ACTN_ATTR_T
 -- -----------------------------------------------------
--- begin execute immediate 'drop table krms_cmpnd_prop_props_t'; exception when others then null; end;
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_ACTN_ATTR_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
 
-CREATE  TABLE  krms_cmpnd_prop_props_t (
-  cmpnd_prop_id VARCHAR2(40)  NOT NULL ,
-  prop_id VARCHAR2(40)  NOT NULL ,
-  seq_no NUMBER(5)  NOT NULL ,
-  PRIMARY KEY (cmpnd_prop_id, prop_id) ,
-  -- CREATE INDEX krms_cmpnd_prop_props_ti1 (prop_id ASC) ,
-  -- CREATE INDEX krms_cmpnd_prop_props_fk2 (cmpnd_prop_id ASC) ,
-  CONSTRAINT krms_cmpnd_prop_props_fk1
-    FOREIGN KEY (prop_id )
-    REFERENCES krms_prop_t (prop_id ) ,
-  CONSTRAINT krms_cmpnd_prop_props_fk2
-    FOREIGN KEY (cmpnd_prop_id )
-    REFERENCES krms_prop_t (prop_id ) )
+CREATE  TABLE  KRMS_ACTN_ATTR_T (
+  ACTN_ATTR_DATA_ID VARCHAR2(40)  NOT NULL ,
+  ACTN_ID VARCHAR2(40)  NOT NULL ,
+  ATTR_DEFN_ID VARCHAR2(40)  NOT NULL ,
+  ATTR_VAL VARCHAR2(400) NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL ,
+  PRIMARY KEY (ACTN_ATTR_DATA_ID) ,
+  -- CREATE INDEX KRMS_ACTN_ATTR_TI1 (ACTN_ID ASC) ,
+  -- CREATE INDEX KRMS_ACTN_ATTR_TI2 (ATTR_DEFN_ID ASC) ,
+  CONSTRAINT KRMS_ACTN_ATTR_FK1
+    FOREIGN KEY (ACTN_ID )
+    REFERENCES KRMS_ACTN_T (ACTN_ID ) ,
+  CONSTRAINT KRMS_ACTN_ATTR_FK2
+    FOREIGN KEY (ATTR_DEFN_ID )
+    REFERENCES KRMS_ATTR_DEFN_T (ATTR_DEFN_ID ) )
 /
 
-CREATE INDEX krms_cmpnd_prop_props_ti1 on krms_cmpnd_prop_props_t (prop_id ASC)
+CREATE INDEX KRMS_ACTN_ATTR_TI1 ON KRMS_ACTN_ATTR_T (ACTN_ID ASC) 
 /
-CREATE INDEX krms_cmpnd_prop_props_fk2 on krms_cmpnd_prop_props_t (cmpnd_prop_id ASC)
-/
-
-
--- -----------------------------------------------------
--- Table krms_prop_parm_t
--- -----------------------------------------------------
--- begin execute immediate 'drop table krms_prop_parm_t'; exception when others then null; end;
-
-CREATE  TABLE  krms_prop_parm_t (
-  prop_parm_id VARCHAR2(40)  NOT NULL ,
-  prop_id VARCHAR2(40)  NOT NULL ,
-  parm_val VARCHAR2(255) NULL ,
-  parm_typ_cd VARCHAR2(1)  NOT NULL ,
-  seq_no NUMBER(5)  NOT NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL ,
-  PRIMARY KEY (prop_parm_id) ,
-  -- CREATE INDEX krms_prop_parm_ti1 (prop_id ASC) ,
-  CONSTRAINT krms_prop_parm_fk1
-    FOREIGN KEY (prop_id )
-    REFERENCES krms_prop_t (prop_id ))
-/
-
-CREATE INDEX krms_prop_parm_ti1 ON krms_prop_parm_t (prop_id ASC)
+CREATE INDEX KRMS_ACTN_ATTR_TI2 ON KRMS_ACTN_ATTR_T (ATTR_DEFN_ID ASC) 
 /
 
 
+-- -----------------------------------------------------
+-- Table KRMS_CMPND_PROP_PROPS_T
+-- -----------------------------------------------------
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_CMPND_PROP_PROPS_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
+
+CREATE  TABLE  KRMS_CMPND_PROP_PROPS_T (
+  CMPND_PROP_ID VARCHAR2(40)  NOT NULL ,
+  PROP_ID VARCHAR2(40)  NOT NULL ,
+  SEQ_NO NUMBER(5)  NOT NULL ,
+  PRIMARY KEY (CMPND_PROP_ID, PROP_ID) ,
+  -- CREATE INDEX KRMS_CMPND_PROP_PROPS_TI1 (PROP_ID ASC) ,
+  -- CREATE INDEX KRMS_CMPND_PROP_PROPS_FK2 (CMPND_PROP_ID ASC) ,
+  CONSTRAINT KRMS_CMPND_PROP_PROPS_FK1
+    FOREIGN KEY (PROP_ID )
+    REFERENCES KRMS_PROP_T (PROP_ID ) ,
+  CONSTRAINT KRMS_CMPND_PROP_PROPS_FK2
+    FOREIGN KEY (CMPND_PROP_ID )
+    REFERENCES KRMS_PROP_T (PROP_ID ) )
+/
+
+CREATE INDEX KRMS_CMPND_PROP_PROPS_TI1 ON KRMS_CMPND_PROP_PROPS_T (PROP_ID ASC)
+/
+CREATE INDEX KRMS_CMPND_PROP_PROPS_FK2 ON KRMS_CMPND_PROP_PROPS_T (CMPND_PROP_ID ASC)
+/
 
 
 -- -----------------------------------------------------
--- Table krms_cntxt_t
+-- Table KRMS_PROP_PARM_T
 -- -----------------------------------------------------
--- begin execute immediate 'drop table krms_cntxt_t'; exception when others then null; end;
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_PROP_PARM_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
 
-CREATE  TABLE  krms_cntxt_t (
-  cntxt_id VARCHAR2(40)  NOT NULL ,
-  nmspc_cd VARCHAR2(40)  NOT NULL ,
-  nm VARCHAR2(100)  NOT NULL ,
-  typ_id VARCHAR2(40)  NOT NULL ,
-  actv VARCHAR2(1) DEFAULT 'Y'  NOT NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL ,
-  PRIMARY KEY (cntxt_id) )
+CREATE  TABLE  KRMS_PROP_PARM_T (
+  PROP_PARM_ID VARCHAR2(40)  NOT NULL ,
+  PROP_ID VARCHAR2(40)  NOT NULL ,
+  PARM_VAL VARCHAR2(255) NULL ,
+  PARM_TYP_CD VARCHAR2(1)  NOT NULL ,
+  SEQ_NO NUMBER(5)  NOT NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL ,
+  PRIMARY KEY (PROP_PARM_ID) ,
+  -- CREATE INDEX KRMS_PROP_PARM_TI1 (PROP_ID ASC) ,
+  CONSTRAINT KRMS_PROP_PARM_FK1
+    FOREIGN KEY (PROP_ID )
+    REFERENCES KRMS_PROP_T (PROP_ID ))
+/
+
+CREATE INDEX KRMS_PROP_PARM_TI1 ON KRMS_PROP_PARM_T (PROP_ID ASC)
 /
 
 
 
 
 -- -----------------------------------------------------
--- Table krms_agenda_t
+-- Table KRMS_CNTXT_T
 -- -----------------------------------------------------
--- begin execute immediate 'drop table krms_agenda_t'; exception when others then null; end;
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_CNTXT_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
 
-CREATE  TABLE  krms_agenda_t (
-  agenda_id VARCHAR2(40)  NOT NULL ,
-  nmspc_cd VARCHAR2(40)  NOT NULL ,
-  nm VARCHAR2(100)  NOT NULL ,
-  cntxt_id VARCHAR2(40)  NOT NULL ,
-  init_agenda_itm_id VARCHAR2(40) NULL ,
-  typ_id VARCHAR2(40)  NOT NULL ,
-  actv VARCHAR2(1) DEFAULT 'Y'  NOT NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL ,
-  PRIMARY KEY (agenda_id) ,
-  -- CREATE INDEX krms_agenda_ti1 (cntxt_id ASC) ,
-  CONSTRAINT krms_agenda_fk1
-    FOREIGN KEY (cntxt_id )
-    REFERENCES krms_cntxt_t (cntxt_id ) )
-/
-
-CREATE INDEX krms_agenda_ti1 on krms_agenda_t (cntxt_id ASC)
+CREATE  TABLE  KRMS_CNTXT_T (
+  CNTXT_ID VARCHAR2(40)  NOT NULL ,
+  NMSPC_CD VARCHAR2(40)  NOT NULL ,
+  NM VARCHAR2(100)  NOT NULL ,
+  TYP_ID VARCHAR2(40)  NOT NULL ,
+  ACTV VARCHAR2(1) DEFAULT 'Y'  NOT NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL ,
+  PRIMARY KEY (CNTXT_ID) )
 /
 
 
 
 
 -- -----------------------------------------------------
--- Table krms_agenda_attr_t
+-- Table KRMS_AGENDA_T
 -- -----------------------------------------------------
--- begin execute immediate 'drop table krms_agenda_attr_t'; exception when others then null; end;
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_AGENDA_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
 
-CREATE  TABLE  krms_agenda_attr_t (
-  agenda_attr_id VARCHAR2(40)  NOT NULL ,
-  agenda_id VARCHAR2(40)  NOT NULL ,
-  attr_val VARCHAR2(400) NULL ,
-  attr_defn_id VARCHAR2(40)  NOT NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL ,
-  PRIMARY KEY (agenda_attr_id) ,
-  -- CREATE INDEX krms_agenda_attr_ti1 (agenda_id ASC) ,
-  -- CREATE INDEX krms_agenda_attr_t12 (attr_defn_id ASC) ,
-  CONSTRAINT krms_agenda_attr_fk1
-    FOREIGN KEY (agenda_id )
-    REFERENCES krms_agenda_t (agenda_id ),
-  CONSTRAINT krms_agenda_attr_fk2
-    FOREIGN KEY (attr_defn_id )
-    REFERENCES krms_attr_defn_t (attr_defn_id ))
+CREATE  TABLE  KRMS_AGENDA_T (
+  AGENDA_ID VARCHAR2(40)  NOT NULL ,
+  NMSPC_CD VARCHAR2(40)  NOT NULL ,
+  NM VARCHAR2(100)  NOT NULL ,
+  CNTXT_ID VARCHAR2(40)  NOT NULL ,
+  INIT_AGENDA_ITM_ID VARCHAR2(40) NULL ,
+  TYP_ID VARCHAR2(40)  NOT NULL ,
+  ACTV VARCHAR2(1) DEFAULT 'Y'  NOT NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL ,
+  PRIMARY KEY (AGENDA_ID) ,
+  -- CREATE INDEX KRMS_AGENDA_TI1 (CNTXT_ID ASC) ,
+  CONSTRAINT KRMS_AGENDA_FK1
+    FOREIGN KEY (CNTXT_ID )
+    REFERENCES KRMS_CNTXT_T (CNTXT_ID ) )
 /
 
-CREATE INDEX krms_agenda_attr_ti1 on krms_agenda_attr_t (agenda_id ASC)
-/
-CREATE INDEX krms_agenda_attr_t12 on krms_agenda_attr_t (attr_defn_id ASC)
-/
-
-
--- -----------------------------------------------------
--- Table krms_agenda_itm_t
--- -----------------------------------------------------
--- begin execute immediate 'drop table krms_agenda_itm_t'; exception when others then null; end;
-
-CREATE  TABLE  krms_agenda_itm_t (
-  agenda_itm_id VARCHAR2(40)  NOT NULL ,
-  rule_id VARCHAR2(40) NULL ,
-  sub_agenda_id VARCHAR2(40) NULL ,
-  agenda_id VARCHAR2(40)  NOT NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL ,
-  when_true VARCHAR2(40) NULL ,
-  when_false VARCHAR2(40) NULL ,
-  always VARCHAR2(40) NULL ,
-  PRIMARY KEY (agenda_itm_id) ,
-  -- CREATE INDEX krms_agenda_itm_ti1 (rule_id ASC) ,
-  -- CREATE INDEX krms_agenda_itm_ti2 (agenda_id ASC) ,
-  -- CREATE INDEX krms_agenda_itm_ti3 (sub_agenda_id ASC) ,
-  -- CREATE INDEX krms_agenda_itm_ti4 (when_true ASC) ,
-  -- CREATE INDEX krms_agenda_itm_ti5 (when_false ASC) ,
-  -- CREATE INDEX krms_agenda_itm_ti6 (always ASC) ,
-  CONSTRAINT krms_agenda_itm_fk1
-    FOREIGN KEY (rule_id )
-    REFERENCES krms_rule_t (rule_id ) ,
-  CONSTRAINT krms_agenda_itm_fk2
-    FOREIGN KEY (agenda_id )
-    REFERENCES krms_agenda_t (agenda_id ) ,
-  CONSTRAINT krms_agenda_itm_fk3
-    FOREIGN KEY (sub_agenda_id )
-    REFERENCES krms_agenda_t (agenda_id ) ,
-  CONSTRAINT krms_agenda_itm_fk4
-    FOREIGN KEY (when_true )
-    REFERENCES krms_agenda_itm_t (agenda_itm_id ) ,
-  CONSTRAINT krms_agenda_itm_fk5
-    FOREIGN KEY (when_false )
-    REFERENCES krms_agenda_itm_t (agenda_itm_id ) ,
-  CONSTRAINT krms_agenda_itm_fk6
-    FOREIGN KEY (always )
-    REFERENCES krms_agenda_itm_t (agenda_itm_id ) )
-/
-
-CREATE INDEX krms_agenda_itm_ti1 on krms_agenda_itm_t (rule_id ASC) 
-/
-CREATE INDEX krms_agenda_itm_ti2 on krms_agenda_itm_t (agenda_id ASC) 
-/
-CREATE INDEX krms_agenda_itm_ti3 on krms_agenda_itm_t (sub_agenda_id ASC) 
-/
-CREATE INDEX krms_agenda_itm_ti4 on krms_agenda_itm_t (when_true ASC) 
-/
-CREATE INDEX krms_agenda_itm_ti5 on krms_agenda_itm_t (when_false ASC) 
-/
-CREATE INDEX krms_agenda_itm_ti6 on krms_agenda_itm_t (always ASC) 
-/
-
-
-
--- -----------------------------------------------------
--- Table krms_func_t
--- -----------------------------------------------------
--- begin execute immediate 'drop table krms_func_t'; exception when others then null; end;
-
-CREATE  TABLE  krms_func_t (
-  func_id VARCHAR2(40)  NOT NULL ,
-  nmspc_cd VARCHAR2(40)  NOT NULL ,
-  nm VARCHAR2(100)  NOT NULL ,
-  desc_txt VARCHAR2(255) NULL ,
-  rtrn_typ VARCHAR2(255)  NOT NULL ,
-  typ_id VARCHAR2(40)  NOT NULL ,
-  actv VARCHAR2(1) DEFAULT 'Y'  NOT NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL ,
-  PRIMARY KEY (func_id) ,
-  -- CREATE INDEX krms_func_ti1 (typ_id ASC) ,
-  CONSTRAINT krms_func_fk1
-    FOREIGN KEY (typ_id )
-    REFERENCES krms_typ_t (typ_id ))
-/
-
-CREATE INDEX krms_func_ti1 on krms_func_t (typ_id ASC)
-/
-
-
-
--- -----------------------------------------------------
--- Table krms_func_parm_t
--- -----------------------------------------------------
--- begin execute immediate 'drop table krms_func_parm_t'; exception when others then null; end;
-
-CREATE  TABLE  krms_func_parm_t (
-  func_parm_id VARCHAR2(40)  NOT NULL ,
-  nm VARCHAR2(100)  NOT NULL ,
-  desc_txt VARCHAR2(255) NULL ,
-  typ VARCHAR2(255)  NOT NULL ,
-  func_id VARCHAR2(40)  NOT NULL ,
-  seq_no NUMBER(5)  NOT NULL ,
-  PRIMARY KEY (func_parm_id) ,
-  -- CREATE INDEX krms_func_parm_ti1 (func_id ASC) ,
-  CONSTRAINT krms_func_parm_fk1
-    FOREIGN KEY (func_id )
-    REFERENCES krms_func_t (func_id ) )
-/
-
-CREATE INDEX krms_func_parm_ti1 on krms_func_parm_t (func_id ASC)
-/
-
--- -----------------------------------------------------
--- Table krms_term_spec_t
--- -----------------------------------------------------
--- begin execute immediate 'drop table krms_term_spec_t'; exception when others then null; end;
-
-CREATE  TABLE  krms_term_spec_t (
-  term_spec_id VARCHAR2(40)  NOT NULL ,
-  cntxt_id VARCHAR2(40) NULL ,
-  nm VARCHAR2(255)  NOT NULL ,
-  typ VARCHAR2(255)  NOT NULL ,
-  actv VARCHAR2(1) DEFAULT 'Y'  NOT NULL ,
-  ver_nbr NUMBER(8)  NOT NULL ,
-  PRIMARY KEY (term_spec_id) ,
-  CONSTRAINT krms_asset_tc1 UNIQUE (nm, cntxt_id) ,
-  -- CREATE INDEX krms_asset_ti1 (cntxt_id ASC) ,
-  CONSTRAINT krms_asset_fk1
-    FOREIGN KEY (cntxt_id )
-    REFERENCES krms_cntxt_t (cntxt_id ) )
-/
-
-CREATE INDEX krms_asset_ti1 on krms_term_spec_t (cntxt_id ASC)
+CREATE INDEX KRMS_AGENDA_TI1 ON KRMS_AGENDA_T (CNTXT_ID ASC)
 /
 
 
 
 
 -- -----------------------------------------------------
--- Table krms_term_t
+-- Table KRMS_AGENDA_ATTR_T
 -- -----------------------------------------------------
--- begin execute immediate 'drop table krms_term_t'; exception when others then null; end;
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_AGENDA_ATTR_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
 
-CREATE  TABLE  krms_term_t (
-  term_id VARCHAR2(40)  NOT NULL ,
-  term_spec_id VARCHAR2(40)  NOT NULL ,
-  ver_nbr NUMBER(8)  NOT NULL ,
-  PRIMARY KEY (term_id) ,
-  -- CREATE INDEX krms_term_ti1 (term_spec_id ASC) ,
-  CONSTRAINT krms_term_t__fk1
-    FOREIGN KEY (term_spec_id )
-    REFERENCES krms_term_spec_t (term_spec_id ) )
+CREATE  TABLE  KRMS_AGENDA_ATTR_T (
+  AGENDA_ATTR_ID VARCHAR2(40)  NOT NULL ,
+  AGENDA_ID VARCHAR2(40)  NOT NULL ,
+  ATTR_VAL VARCHAR2(400) NULL ,
+  ATTR_DEFN_ID VARCHAR2(40)  NOT NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL ,
+  PRIMARY KEY (AGENDA_ATTR_ID) ,
+  -- CREATE INDEX KRMS_AGENDA_ATTR_TI1 (AGENDA_ID ASC) ,
+  -- CREATE INDEX KRMS_AGENDA_ATTR_T12 (ATTR_DEFN_ID ASC) ,
+  CONSTRAINT KRMS_AGENDA_ATTR_FK1
+    FOREIGN KEY (AGENDA_ID )
+    REFERENCES KRMS_AGENDA_T (AGENDA_ID ),
+  CONSTRAINT KRMS_AGENDA_ATTR_FK2
+    FOREIGN KEY (ATTR_DEFN_ID )
+    REFERENCES KRMS_ATTR_DEFN_T (ATTR_DEFN_ID ))
 /
 
-CREATE INDEX krms_term_ti1 on krms_term_t (term_spec_id ASC)
+CREATE INDEX KRMS_AGENDA_ATTR_TI1 ON KRMS_AGENDA_ATTR_T (AGENDA_ID ASC)
 /
-
-
--- -----------------------------------------------------
--- Table krms_term_parm_t
--- -----------------------------------------------------
--- begin execute immediate 'drop table krms_term_parm_t'; exception when others then null; end;
-
-CREATE  TABLE  krms_term_parm_t (
-  term_parm_id VARCHAR2(40)  NOT NULL ,
-  term_id VARCHAR2(40)  NOT NULL ,
-  nm VARCHAR2(255)  NOT NULL ,
-  val VARCHAR2(255) NULL ,
-  ver_nbr NUMBER(8)  NOT NULL ,
-  PRIMARY KEY (term_parm_id) ,
-  -- CREATE INDEX krms_term_parm_ti1 (term_id ASC) ,
-  CONSTRAINT krms_term_parm_fk1
-    FOREIGN KEY (term_id )
-    REFERENCES krms_term_t (term_id ))
-/
-
-CREATE INDEX krms_term_parm_ti1 on krms_term_parm_t (term_id ASC)
+CREATE INDEX KRMS_AGENDA_ATTR_T12 ON KRMS_AGENDA_ATTR_T (ATTR_DEFN_ID ASC)
 /
 
 
 -- -----------------------------------------------------
--- Table krms_cntxt_term_spec_prereq_t
+-- Table KRMS_AGENDA_ITM_T
 -- -----------------------------------------------------
--- begin execute immediate 'drop table krms_cntxt_term_spec_prereq_t'; exception when others then null; end;
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_AGENDA_ITM_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
 
-CREATE  TABLE  krms_cntxt_term_spec_prereq_t (
-  cntxt_term_spec_prereq_id VARCHAR2(40)  NOT NULL ,
-  cntxt_id VARCHAR2(40)  NOT NULL ,
-  term_spec_id VARCHAR2(40)  NOT NULL ,
-  PRIMARY KEY (cntxt_term_spec_prereq_id) ,
-  -- CREATE INDEX krms_cntxt_asset_prereq_ti1 (cntxt_id ASC) ,
-  -- CREATE INDEX krms_cntxt_asset_prereq_ti2 (term_spec_id ASC) ,
-  CONSTRAINT krms_cntxt_asset_prereq_fk1
-    FOREIGN KEY (cntxt_id )
-    REFERENCES krms_cntxt_t (cntxt_id ) ,
-  CONSTRAINT krms_cntxt_asset_prereq_fk2
-    FOREIGN KEY (term_spec_id )
-    REFERENCES krms_term_spec_t (term_spec_id ) )
+CREATE  TABLE  KRMS_AGENDA_ITM_T (
+  AGENDA_ITM_ID VARCHAR2(40)  NOT NULL ,
+  RULE_ID VARCHAR2(40) NULL ,
+  SUB_AGENDA_ID VARCHAR2(40) NULL ,
+  AGENDA_ID VARCHAR2(40)  NOT NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL ,
+  WHEN_TRUE VARCHAR2(40) NULL ,
+  WHEN_FALSE VARCHAR2(40) NULL ,
+  ALWAYS VARCHAR2(40) NULL ,
+  PRIMARY KEY (AGENDA_ITM_ID) ,
+  -- CREATE INDEX KRMS_AGENDA_ITM_TI1 (RULE_ID ASC) ,
+  -- CREATE INDEX KRMS_AGENDA_ITM_TI2 (AGENDA_ID ASC) ,
+  -- CREATE INDEX KRMS_AGENDA_ITM_TI3 (SUB_AGENDA_ID ASC) ,
+  -- CREATE INDEX KRMS_AGENDA_ITM_TI4 (WHEN_TRUE ASC) ,
+  -- CREATE INDEX KRMS_AGENDA_ITM_TI5 (WHEN_FALSE ASC) ,
+  -- CREATE INDEX KRMS_AGENDA_ITM_TI6 (ALWAYS ASC) ,
+  CONSTRAINT KRMS_AGENDA_ITM_FK1
+    FOREIGN KEY (RULE_ID )
+    REFERENCES KRMS_RULE_T (RULE_ID ) ,
+  CONSTRAINT KRMS_AGENDA_ITM_FK2
+    FOREIGN KEY (AGENDA_ID )
+    REFERENCES KRMS_AGENDA_T (AGENDA_ID ) ,
+  CONSTRAINT KRMS_AGENDA_ITM_FK3
+    FOREIGN KEY (SUB_AGENDA_ID )
+    REFERENCES KRMS_AGENDA_T (AGENDA_ID ) ,
+  CONSTRAINT KRMS_AGENDA_ITM_FK4
+    FOREIGN KEY (WHEN_TRUE )
+    REFERENCES KRMS_AGENDA_ITM_T (AGENDA_ITM_ID ) ,
+  CONSTRAINT KRMS_AGENDA_ITM_FK5
+    FOREIGN KEY (WHEN_FALSE )
+    REFERENCES KRMS_AGENDA_ITM_T (AGENDA_ITM_ID ) ,
+  CONSTRAINT KRMS_AGENDA_ITM_FK6
+    FOREIGN KEY (ALWAYS )
+    REFERENCES KRMS_AGENDA_ITM_T (AGENDA_ITM_ID ) )
 /
 
-CREATE INDEX krms_cntxt_asset_prereq_ti1 on krms_cntxt_term_spec_prereq_t (cntxt_id ASC)
+CREATE INDEX KRMS_AGENDA_ITM_TI1 ON KRMS_AGENDA_ITM_T (RULE_ID ASC) 
 /
-CREATE INDEX krms_cntxt_asset_prereq_ti2 on krms_cntxt_term_spec_prereq_t (term_spec_id ASC)
+CREATE INDEX KRMS_AGENDA_ITM_TI2 ON KRMS_AGENDA_ITM_T (AGENDA_ID ASC) 
+/
+CREATE INDEX KRMS_AGENDA_ITM_TI3 ON KRMS_AGENDA_ITM_T (SUB_AGENDA_ID ASC) 
+/
+CREATE INDEX KRMS_AGENDA_ITM_TI4 ON KRMS_AGENDA_ITM_T (WHEN_TRUE ASC) 
+/
+CREATE INDEX KRMS_AGENDA_ITM_TI5 ON KRMS_AGENDA_ITM_T (WHEN_FALSE ASC) 
+/
+CREATE INDEX KRMS_AGENDA_ITM_TI6 ON KRMS_AGENDA_ITM_T (ALWAYS ASC) 
 /
 
 
 
 -- -----------------------------------------------------
--- Table krms_term_rslvr_t
+-- Table KRMS_FUNC_T
 -- -----------------------------------------------------
--- begin execute immediate 'drop table krms_term_rslvr_t'; exception when others then null; end;
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_FUNC_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
 
-CREATE  TABLE  krms_term_rslvr_t (
-  term_rslvr_id VARCHAR2(40)  NOT NULL ,
-  nmspc_cd VARCHAR2(40)  NOT NULL ,
-  nm VARCHAR2(100)  NOT NULL ,
-  typ_id VARCHAR2(40)  NOT NULL ,
-  output_term_spec_id VARCHAR2(40)  NOT NULL ,
-  cntxt_id VARCHAR2(40) NULL ,
-  actv VARCHAR2(1) DEFAULT 'Y'  NOT NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL ,
-  PRIMARY KEY (term_rslvr_id) ,
-  -- CREATE INDEX krms_term_rslvr_ti1 (cntxt_id ASC) ,
-  -- CREATE INDEX krms_term_rslvr_ti2 (typ_id ASC) ,
-  CONSTRAINT krms_term_rslvr_tc1 UNIQUE (nmspc_cd, nm, cntxt_id) ,
-  CONSTRAINT krms_term_rslvr_fk1
-    FOREIGN KEY (output_term_spec_id )
-    REFERENCES krms_term_spec_t (term_spec_id ) ,
-  CONSTRAINT krms_term_rslvr_fk2
-    FOREIGN KEY (cntxt_id )
-    REFERENCES krms_cntxt_t (cntxt_id ) ,
-  CONSTRAINT krms_term_rslvr_fk3
-    FOREIGN KEY (typ_id )
-    REFERENCES krms_typ_t (typ_id ) )
+CREATE  TABLE  KRMS_FUNC_T (
+  FUNC_ID VARCHAR2(40)  NOT NULL ,
+  NMSPC_CD VARCHAR2(40)  NOT NULL ,
+  NM VARCHAR2(100)  NOT NULL ,
+  DESC_TXT VARCHAR2(255) NULL ,
+  RTRN_TYP VARCHAR2(255)  NOT NULL ,
+  TYP_ID VARCHAR2(40)  NOT NULL ,
+  ACTV VARCHAR2(1) DEFAULT 'Y'  NOT NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL ,
+  PRIMARY KEY (FUNC_ID) ,
+  -- CREATE INDEX KRMS_FUNC_TI1 (TYP_ID ASC) ,
+  CONSTRAINT KRMS_FUNC_FK1
+    FOREIGN KEY (TYP_ID )
+    REFERENCES KRMS_TYP_T (TYP_ID ))
 /
 
-CREATE INDEX krms_term_rslvr_ti1 on krms_term_rslvr_t (cntxt_id ASC) 
+CREATE INDEX KRMS_FUNC_TI1 ON KRMS_FUNC_T (TYP_ID ASC)
 /
-CREATE INDEX krms_term_rslvr_ti2 on krms_term_rslvr_t (typ_id ASC) 
+
+
+
+-- -----------------------------------------------------
+-- Table KRMS_FUNC_PARM_T
+-- -----------------------------------------------------
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_FUNC_PARM_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
+
+CREATE  TABLE  KRMS_FUNC_PARM_T (
+  FUNC_PARM_ID VARCHAR2(40)  NOT NULL ,
+  NM VARCHAR2(100)  NOT NULL ,
+  DESC_TXT VARCHAR2(255) NULL ,
+  TYP VARCHAR2(255)  NOT NULL ,
+  FUNC_ID VARCHAR2(40)  NOT NULL ,
+  SEQ_NO NUMBER(5)  NOT NULL ,
+  PRIMARY KEY (FUNC_PARM_ID) ,
+  -- CREATE INDEX KRMS_FUNC_PARM_TI1 (FUNC_ID ASC) ,
+  CONSTRAINT KRMS_FUNC_PARM_FK1
+    FOREIGN KEY (FUNC_ID )
+    REFERENCES KRMS_FUNC_T (FUNC_ID ) )
+/
+
+CREATE INDEX KRMS_FUNC_PARM_TI1 ON KRMS_FUNC_PARM_T (FUNC_ID ASC)
+/
+
+-- -----------------------------------------------------
+-- Table KRMS_TERM_SPEC_T
+-- -----------------------------------------------------
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_TERM_SPEC_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
+
+CREATE  TABLE  KRMS_TERM_SPEC_T (
+  TERM_SPEC_ID VARCHAR2(40)  NOT NULL ,
+  CNTXT_ID VARCHAR2(40) NULL ,
+  NM VARCHAR2(255)  NOT NULL ,
+  TYP VARCHAR2(255)  NOT NULL ,
+  ACTV VARCHAR2(1) DEFAULT 'Y'  NOT NULL ,
+  VER_NBR NUMBER(8)  NOT NULL ,
+  PRIMARY KEY (TERM_SPEC_ID) ,
+  CONSTRAINT KRMS_ASSET_TC1 UNIQUE (NM, CNTXT_ID) ,
+  -- CREATE INDEX KRMS_ASSET_TI1 (CNTXT_ID ASC) ,
+  CONSTRAINT KRMS_ASSET_FK1
+    FOREIGN KEY (CNTXT_ID )
+    REFERENCES KRMS_CNTXT_T (CNTXT_ID ) )
+/
+
+CREATE INDEX KRMS_ASSET_TI1 ON KRMS_TERM_SPEC_T (CNTXT_ID ASC)
+/
+
+
+
+
+-- -----------------------------------------------------
+-- Table KRMS_TERM_T
+-- -----------------------------------------------------
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_TERM_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
+
+CREATE  TABLE  KRMS_TERM_T (
+  TERM_ID VARCHAR2(40)  NOT NULL ,
+  TERM_SPEC_ID VARCHAR2(40)  NOT NULL ,
+  VER_NBR NUMBER(8)  NOT NULL ,
+  PRIMARY KEY (TERM_ID) ,
+  -- CREATE INDEX KRMS_TERM_TI1 (TERM_SPEC_ID ASC) ,
+  CONSTRAINT KRMS_TERM_T__FK1
+    FOREIGN KEY (TERM_SPEC_ID )
+    REFERENCES KRMS_TERM_SPEC_T (TERM_SPEC_ID ) )
+/
+
+CREATE INDEX KRMS_TERM_TI1 ON KRMS_TERM_T (TERM_SPEC_ID ASC)
+/
+
+
+-- -----------------------------------------------------
+-- Table KRMS_TERM_PARM_T
+-- -----------------------------------------------------
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_TERM_PARM_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
+
+CREATE  TABLE  KRMS_TERM_PARM_T (
+  TERM_PARM_ID VARCHAR2(40)  NOT NULL ,
+  TERM_ID VARCHAR2(40)  NOT NULL ,
+  NM VARCHAR2(255)  NOT NULL ,
+  VAL VARCHAR2(255) NULL ,
+  VER_NBR NUMBER(8)  NOT NULL ,
+  PRIMARY KEY (TERM_PARM_ID) ,
+  -- CREATE INDEX KRMS_TERM_PARM_TI1 (TERM_ID ASC) ,
+  CONSTRAINT KRMS_TERM_PARM_FK1
+    FOREIGN KEY (TERM_ID )
+    REFERENCES KRMS_TERM_T (TERM_ID ))
+/
+
+CREATE INDEX KRMS_TERM_PARM_TI1 ON KRMS_TERM_PARM_T (TERM_ID ASC)
+/
+
+
+-- -----------------------------------------------------
+-- Table KRMS_CNTXT_TERM_SPEC_PREREQ_T
+-- -----------------------------------------------------
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_CNTXT_TERM_SPEC_PREREQ_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
+
+CREATE  TABLE  KRMS_CNTXT_TERM_SPEC_PREREQ_T (
+  CNTXT_TERM_SPEC_PREREQ_ID VARCHAR2(40)  NOT NULL ,
+  CNTXT_ID VARCHAR2(40)  NOT NULL ,
+  TERM_SPEC_ID VARCHAR2(40)  NOT NULL ,
+  PRIMARY KEY (CNTXT_TERM_SPEC_PREREQ_ID) ,
+  -- CREATE INDEX KRMS_CNTXT_ASSET_PREREQ_TI1 (CNTXT_ID ASC) ,
+  -- CREATE INDEX KRMS_CNTXT_ASSET_PREREQ_TI2 (TERM_SPEC_ID ASC) ,
+  CONSTRAINT KRMS_CNTXT_ASSET_PREREQ_FK1
+    FOREIGN KEY (CNTXT_ID )
+    REFERENCES KRMS_CNTXT_T (CNTXT_ID ) ,
+  CONSTRAINT KRMS_CNTXT_ASSET_PREREQ_FK2
+    FOREIGN KEY (TERM_SPEC_ID )
+    REFERENCES KRMS_TERM_SPEC_T (TERM_SPEC_ID ) )
+/
+
+CREATE INDEX KRMS_CNTXT_ASSET_PREREQ_TI1 ON KRMS_CNTXT_TERM_SPEC_PREREQ_T (CNTXT_ID ASC)
+/
+CREATE INDEX KRMS_CNTXT_ASSET_PREREQ_TI2 ON KRMS_CNTXT_TERM_SPEC_PREREQ_T (TERM_SPEC_ID ASC)
+/
+
+
+
+-- -----------------------------------------------------
+-- Table KRMS_TERM_RSLVR_T
+-- -----------------------------------------------------
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_TERM_RSLVR_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
+
+CREATE  TABLE  KRMS_TERM_RSLVR_T (
+  TERM_RSLVR_ID VARCHAR2(40)  NOT NULL ,
+  NMSPC_CD VARCHAR2(40)  NOT NULL ,
+  NM VARCHAR2(100)  NOT NULL ,
+  TYP_ID VARCHAR2(40)  NOT NULL ,
+  OUTPUT_TERM_SPEC_ID VARCHAR2(40)  NOT NULL ,
+  CNTXT_ID VARCHAR2(40) NULL ,
+  ACTV VARCHAR2(1) DEFAULT 'Y'  NOT NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL ,
+  PRIMARY KEY (TERM_RSLVR_ID) ,
+  -- CREATE INDEX KRMS_TERM_RSLVR_TI1 (CNTXT_ID ASC) ,
+  -- CREATE INDEX KRMS_TERM_RSLVR_TI2 (TYP_ID ASC) ,
+  CONSTRAINT KRMS_TERM_RSLVR_TC1 UNIQUE (NMSPC_CD, NM, CNTXT_ID) ,
+  CONSTRAINT KRMS_TERM_RSLVR_FK1
+    FOREIGN KEY (OUTPUT_TERM_SPEC_ID )
+    REFERENCES KRMS_TERM_SPEC_T (TERM_SPEC_ID ) ,
+  CONSTRAINT KRMS_TERM_RSLVR_FK2
+    FOREIGN KEY (CNTXT_ID )
+    REFERENCES KRMS_CNTXT_T (CNTXT_ID ) ,
+  CONSTRAINT KRMS_TERM_RSLVR_FK3
+    FOREIGN KEY (TYP_ID )
+    REFERENCES KRMS_TYP_T (TYP_ID ) )
+/
+
+CREATE INDEX KRMS_TERM_RSLVR_TI1 ON KRMS_TERM_RSLVR_T (CNTXT_ID ASC) 
+/
+CREATE INDEX KRMS_TERM_RSLVR_TI2 ON KRMS_TERM_RSLVR_T (TYP_ID ASC) 
 /
 
      --
@@ -1347,187 +1329,187 @@ CREATE INDEX krms_term_rslvr_ti2 on krms_term_rslvr_t (typ_id ASC)
 
 
 -- -----------------------------------------------------
--- Table krms_cntxt_attr_t
+-- Table KRMS_CNTXT_ATTR_T
 -- -----------------------------------------------------
--- begin execute immediate 'drop table krms_cntxt_attr_t'; exception when others then null; end;
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_CNTXT_ATTR_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
 
-CREATE  TABLE  krms_cntxt_attr_t (
-  cntxt_attr_id VARCHAR2(40)  NOT NULL ,
-  cntxt_id VARCHAR2(40)  NOT NULL ,
-  attr_val VARCHAR2(400) NULL ,
-  attr_defn_id VARCHAR2(40) NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL ,
-  PRIMARY KEY (cntxt_attr_id) ,
-  -- CREATE INDEX krms_cntxt_attr_ti1 (cntxt_id ASC) ,
-  -- CREATE INDEX krms_cntxt_attr_ti2 (attr_defn_id ASC) ,
-  CONSTRAINT krms_cntxt_attr_fk1
-    FOREIGN KEY (cntxt_id )
-    REFERENCES krms_cntxt_t (cntxt_id ) ,
-  CONSTRAINT krms_cntxt_attr_fk2
-    FOREIGN KEY (attr_defn_id )
-    REFERENCES krms_attr_defn_t (attr_defn_id ) )
+CREATE  TABLE  KRMS_CNTXT_ATTR_T (
+  CNTXT_ATTR_ID VARCHAR2(40)  NOT NULL ,
+  CNTXT_ID VARCHAR2(40)  NOT NULL ,
+  ATTR_VAL VARCHAR2(400) NULL ,
+  ATTR_DEFN_ID VARCHAR2(40) NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL ,
+  PRIMARY KEY (CNTXT_ATTR_ID) ,
+  -- CREATE INDEX KRMS_CNTXT_ATTR_TI1 (CNTXT_ID ASC) ,
+  -- CREATE INDEX KRMS_CNTXT_ATTR_TI2 (ATTR_DEFN_ID ASC) ,
+  CONSTRAINT KRMS_CNTXT_ATTR_FK1
+    FOREIGN KEY (CNTXT_ID )
+    REFERENCES KRMS_CNTXT_T (CNTXT_ID ) ,
+  CONSTRAINT KRMS_CNTXT_ATTR_FK2
+    FOREIGN KEY (ATTR_DEFN_ID )
+    REFERENCES KRMS_ATTR_DEFN_T (ATTR_DEFN_ID ) )
 /
 
-CREATE INDEX krms_cntxt_attr_ti1 on krms_cntxt_attr_t (cntxt_id ASC)
+CREATE INDEX KRMS_CNTXT_ATTR_TI1 ON KRMS_CNTXT_ATTR_T (CNTXT_ID ASC)
 /
-CREATE INDEX krms_cntxt_attr_ti2 on krms_cntxt_attr_t (attr_defn_id ASC)
-/
-
-
--- -----------------------------------------------------
--- Table krms_cntxt_vld_actn_t
--- -----------------------------------------------------
--- begin execute immediate 'drop table krms_cntxt_vld_actn_t'; exception when others then null; end;
-
-CREATE  TABLE  krms_cntxt_vld_actn_t (
-  cntxt_vld_actn_id VARCHAR2(40)  NOT NULL ,
-  cntxt_id VARCHAR2(40)  NOT NULL ,
-  actn_typ_id VARCHAR2(40)  NOT NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL ,
-  PRIMARY KEY (cntxt_vld_actn_id) ,
-  -- CREATE INDEX krms_cntxt_vld_actn_ti1 (cntxt_id ASC) ,
-  CONSTRAINT krms_cntxt_vld_actn_fk1
-    FOREIGN KEY (cntxt_id )
-    REFERENCES krms_cntxt_t (cntxt_id ) )
-/
-
-CREATE INDEX krms_cntxt_vld_actn_ti1 on krms_cntxt_vld_actn_t (cntxt_id ASC)
+CREATE INDEX KRMS_CNTXT_ATTR_TI2 ON KRMS_CNTXT_ATTR_T (ATTR_DEFN_ID ASC)
 /
 
 
 -- -----------------------------------------------------
--- Table krms_term_rslvr_attr_t
+-- Table KRMS_CNTXT_VLD_ACTN_T
 -- -----------------------------------------------------
--- begin execute immediate 'drop table krms_term_rslvr_attr_t'; exception when others then null; end;
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_CNTXT_VLD_ACTN_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
 
-CREATE  TABLE  krms_term_rslvr_attr_t (
-  term_rslvr_attr_id VARCHAR2(40)  NOT NULL ,
-  term_rslvr_id VARCHAR2(40)  NOT NULL ,
-  attr_defn_id VARCHAR2(40)  NOT NULL ,
-  attr_val VARCHAR2(400) NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL ,
-  PRIMARY KEY (term_rslvr_attr_id) ,
-  -- CREATE INDEX krms_asset_rslvr_attr_ti1 (term_rslvr_id ASC) ,
-  -- CREATE INDEX krms_asset_rslvr_attr_ti2 (attr_defn_id ASC) ,
-  CONSTRAINT krms_asset_rslvr_attr_fk1
-    FOREIGN KEY (term_rslvr_id )
-    REFERENCES krms_term_rslvr_t (term_rslvr_id ) ,
-  CONSTRAINT krms_asset_rslvr_attr_fk2
-    FOREIGN KEY (attr_defn_id )
-    REFERENCES krms_attr_defn_t (attr_defn_id ) )
+CREATE  TABLE  KRMS_CNTXT_VLD_ACTN_T (
+  CNTXT_VLD_ACTN_ID VARCHAR2(40)  NOT NULL ,
+  CNTXT_ID VARCHAR2(40)  NOT NULL ,
+  ACTN_TYP_ID VARCHAR2(40)  NOT NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL ,
+  PRIMARY KEY (CNTXT_VLD_ACTN_ID) ,
+  -- CREATE INDEX KRMS_CNTXT_VLD_ACTN_TI1 (CNTXT_ID ASC) ,
+  CONSTRAINT KRMS_CNTXT_VLD_ACTN_FK1
+    FOREIGN KEY (CNTXT_ID )
+    REFERENCES KRMS_CNTXT_T (CNTXT_ID ) )
 /
 
-CREATE INDEX krms_asset_rslvr_attr_ti1 on krms_term_rslvr_attr_t (term_rslvr_id ASC)
-/
-CREATE INDEX krms_asset_rslvr_attr_ti2 on krms_term_rslvr_attr_t (attr_defn_id ASC)
+CREATE INDEX KRMS_CNTXT_VLD_ACTN_TI1 ON KRMS_CNTXT_VLD_ACTN_T (CNTXT_ID ASC)
 /
 
 
 -- -----------------------------------------------------
--- Table krms_term_rslvr_input_spec_t
+-- Table KRMS_TERM_RSLVR_ATTR_T
 -- -----------------------------------------------------
--- begin execute immediate 'drop table krms_term_rslvr_input_spec_t'; exception when others then null; end;
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_TERM_RSLVR_ATTR_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
 
-CREATE  TABLE  krms_term_rslvr_input_spec_t (
-  term_spec_id VARCHAR2(40)  NOT NULL ,
-  term_rslvr_id VARCHAR2(40)  NOT NULL ,
-  -- CREATE INDEX krms_input_asset_ti1 (term_spec_id ASC) ,
-  -- CREATE INDEX krms_input_asset_ti2 (term_rslvr_id ASC) ,
-  PRIMARY KEY (term_spec_id, term_rslvr_id) ,
-  CONSTRAINT krms_input_asset_fk2
-    FOREIGN KEY (term_spec_id )
-    REFERENCES krms_term_spec_t (term_spec_id ) ,
-  CONSTRAINT krms_input_asset_fk1
-    FOREIGN KEY (term_rslvr_id )
-    REFERENCES krms_term_rslvr_t (term_rslvr_id ) )
+CREATE  TABLE  KRMS_TERM_RSLVR_ATTR_T (
+  TERM_RSLVR_ATTR_ID VARCHAR2(40)  NOT NULL ,
+  TERM_RSLVR_ID VARCHAR2(40)  NOT NULL ,
+  ATTR_DEFN_ID VARCHAR2(40)  NOT NULL ,
+  ATTR_VAL VARCHAR2(400) NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL ,
+  PRIMARY KEY (TERM_RSLVR_ATTR_ID) ,
+  -- CREATE INDEX KRMS_ASSET_RSLVR_ATTR_TI1 (TERM_RSLVR_ID ASC) ,
+  -- CREATE INDEX KRMS_ASSET_RSLVR_ATTR_TI2 (ATTR_DEFN_ID ASC) ,
+  CONSTRAINT KRMS_ASSET_RSLVR_ATTR_FK1
+    FOREIGN KEY (TERM_RSLVR_ID )
+    REFERENCES KRMS_TERM_RSLVR_T (TERM_RSLVR_ID ) ,
+  CONSTRAINT KRMS_ASSET_RSLVR_ATTR_FK2
+    FOREIGN KEY (ATTR_DEFN_ID )
+    REFERENCES KRMS_ATTR_DEFN_T (ATTR_DEFN_ID ) )
 /
 
-CREATE INDEX krms_input_asset_ti1 on krms_term_rslvr_input_spec_t (term_spec_id ASC)
+CREATE INDEX KRMS_ASSET_RSLVR_ATTR_TI1 ON KRMS_TERM_RSLVR_ATTR_T (TERM_RSLVR_ID ASC)
 /
-CREATE INDEX krms_input_asset_ti2 on krms_term_rslvr_input_spec_t (term_rslvr_id ASC)
-/
-
-
-
--- -----------------------------------------------------
--- Table krms_term_rslvr_parm_spec_t
--- -----------------------------------------------------
--- begin execute immediate 'drop table krms_term_rslvr_parm_spec_t'; exception when others then null; end;
-
-CREATE  TABLE  krms_term_rslvr_parm_spec_t (
-  term_rslvr_parm_spec_id VARCHAR2(40)  NOT NULL ,
-  term_rslvr_id VARCHAR2(40)  NOT NULL ,
-  nm VARCHAR2(45)  NOT NULL ,
-  ver_nbr NUMBER(8)  NOT NULL ,
-  PRIMARY KEY (term_rslvr_parm_spec_id) ,
-  -- CREATE INDEX krms_term_reslv_parm_fk1 (term_rslvr_id ASC) ,
-  CONSTRAINT krms_term_reslv_parm_fk1
-    FOREIGN KEY (term_rslvr_id )
-    REFERENCES krms_term_rslvr_t (term_rslvr_id ) )
-/
-
-CREATE INDEX krms_term_reslv_parm_fk1 on krms_term_rslvr_parm_spec_t (term_rslvr_id ASC)
-/
-
--- -----------------------------------------------------
--- Table krms_cntxt_vld_func_t
--- -----------------------------------------------------
--- begin execute immediate 'drop table krms_cntxt_vld_func_t'; exception when others then null; end;
-
-CREATE  TABLE  krms_cntxt_vld_func_t (
-  cntxt_vld_func_id VARCHAR2(40)  NOT NULL ,
-  cntxt_id VARCHAR2(40)  NOT NULL ,
-  func_id VARCHAR2(40)  NOT NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL ,
-  PRIMARY KEY (cntxt_vld_func_id) ,
-  -- CREATE INDEX krms_cntxt_vld_func_ti1 (cntxt_id ASC) ,
-  CONSTRAINT krms_cntxt_vld_func_fk1
-    FOREIGN KEY (cntxt_id )
-    REFERENCES krms_cntxt_t (cntxt_id ) )
-/
-
-CREATE INDEX krms_cntxt_vld_func_ti1 on krms_cntxt_vld_func_t (cntxt_id ASC)
+CREATE INDEX KRMS_ASSET_RSLVR_ATTR_TI2 ON KRMS_TERM_RSLVR_ATTR_T (ATTR_DEFN_ID ASC)
 /
 
 
 -- -----------------------------------------------------
--- Table krms_cntxt_vld_rule_t
+-- Table KRMS_TERM_RSLVR_INPUT_SPEC_T
 -- -----------------------------------------------------
--- begin execute immediate 'drop table krms_cntxt_vld_rule_t'; exception when others then null; end;
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_TERM_RSLVR_INPUT_SPEC_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
 
-CREATE  TABLE  krms_cntxt_vld_rule_t (
-  cntxt_vld_rule_id VARCHAR2(40)  NOT NULL ,
-  cntxt_id VARCHAR2(40)  NOT NULL ,
-  rule_id VARCHAR2(40)  NOT NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL ,
-  PRIMARY KEY (cntxt_vld_rule_id) ,
-  -- CREATE INDEX krms_cntxt_vld_rule_ti1 (cntxt_id ASC) ,
-  CONSTRAINT krms_cntxt_vld_rule_fk1
-    FOREIGN KEY (cntxt_id )
-    REFERENCES krms_cntxt_t (cntxt_id ) )
+CREATE  TABLE  KRMS_TERM_RSLVR_INPUT_SPEC_T (
+  TERM_SPEC_ID VARCHAR2(40)  NOT NULL ,
+  TERM_RSLVR_ID VARCHAR2(40)  NOT NULL ,
+  -- CREATE INDEX KRMS_INPUT_ASSET_TI1 (TERM_SPEC_ID ASC) ,
+  -- CREATE INDEX KRMS_INPUT_ASSET_TI2 (TERM_RSLVR_ID ASC) ,
+  PRIMARY KEY (TERM_SPEC_ID, TERM_RSLVR_ID) ,
+  CONSTRAINT KRMS_INPUT_ASSET_FK2
+    FOREIGN KEY (TERM_SPEC_ID )
+    REFERENCES KRMS_TERM_SPEC_T (TERM_SPEC_ID ) ,
+  CONSTRAINT KRMS_INPUT_ASSET_FK1
+    FOREIGN KEY (TERM_RSLVR_ID )
+    REFERENCES KRMS_TERM_RSLVR_T (TERM_RSLVR_ID ) )
 /
 
-CREATE INDEX krms_cntxt_vld_rule_ti1 on krms_cntxt_vld_rule_t (cntxt_id ASC)
+CREATE INDEX KRMS_INPUT_ASSET_TI1 ON KRMS_TERM_RSLVR_INPUT_SPEC_T (TERM_SPEC_ID ASC)
+/
+CREATE INDEX KRMS_INPUT_ASSET_TI2 ON KRMS_TERM_RSLVR_INPUT_SPEC_T (TERM_RSLVR_ID ASC)
+/
+
+
+
+-- -----------------------------------------------------
+-- Table KRMS_TERM_RSLVR_PARM_SPEC_T
+-- -----------------------------------------------------
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_TERM_RSLVR_PARM_SPEC_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
+
+CREATE  TABLE  KRMS_TERM_RSLVR_PARM_SPEC_T (
+  TERM_RSLVR_PARM_SPEC_ID VARCHAR2(40)  NOT NULL ,
+  TERM_RSLVR_ID VARCHAR2(40)  NOT NULL ,
+  NM VARCHAR2(45)  NOT NULL ,
+  VER_NBR NUMBER(8)  NOT NULL ,
+  PRIMARY KEY (TERM_RSLVR_PARM_SPEC_ID) ,
+  -- CREATE INDEX KRMS_TERM_RESLV_PARM_FK1 (TERM_RSLVR_ID ASC) ,
+  CONSTRAINT KRMS_TERM_RESLV_PARM_FK1
+    FOREIGN KEY (TERM_RSLVR_ID )
+    REFERENCES KRMS_TERM_RSLVR_T (TERM_RSLVR_ID ) )
+/
+
+CREATE INDEX KRMS_TERM_RESLV_PARM_FK1 ON KRMS_TERM_RSLVR_PARM_SPEC_T (TERM_RSLVR_ID ASC)
 /
 
 -- -----------------------------------------------------
--- Table krms_cntxt_vld_event_t
+-- TABLE KRMS_CNTXT_VLD_FUNC_T
 -- -----------------------------------------------------
--- begin execute immediate 'drop table krms_cntxt_vld_event_t'; exception when others then null; end;
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_CNTXT_VLD_FUNC_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
 
-CREATE  TABLE  krms_cntxt_vld_event_t (
-  cntxt_vld_event_id VARCHAR2(40)  NOT NULL ,
-  cntxt_id VARCHAR2(40)  NOT NULL ,
-  event_nm VARCHAR2(255)  NOT NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL ,
-  PRIMARY KEY (cntxt_vld_event_id) ,
-  -- CREATE INDEX krms_cntxt_vld_event_ti1 (cntxt_id ASC) ,
-  CONSTRAINT krms_cntxt_vld_event_fk1
-    FOREIGN KEY (cntxt_id )
-    REFERENCES krms_cntxt_t (cntxt_id ) )
+CREATE  TABLE  KRMS_CNTXT_VLD_FUNC_T (
+  CNTXT_VLD_FUNC_ID VARCHAR2(40)  NOT NULL ,
+  CNTXT_ID VARCHAR2(40)  NOT NULL ,
+  FUNC_ID VARCHAR2(40)  NOT NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL ,
+  PRIMARY KEY (CNTXT_VLD_FUNC_ID) ,
+  -- CREATE INDEX KRMS_CNTXT_VLD_FUNC_TI1 (CNTXT_ID ASC) ,
+  CONSTRAINT KRMS_CNTXT_VLD_FUNC_FK1
+    FOREIGN KEY (CNTXT_ID )
+    REFERENCES KRMS_CNTXT_T (CNTXT_ID ) )
 /
 
-CREATE INDEX krms_cntxt_vld_event_ti1 on krms_cntxt_vld_event_t (cntxt_id ASC)
+CREATE INDEX KRMS_CNTXT_VLD_FUNC_TI1 ON KRMS_CNTXT_VLD_FUNC_T (CNTXT_ID ASC)
+/
+
+
+-- -----------------------------------------------------
+-- Table KRMS_CNTXT_VLD_RULE_T
+-- -----------------------------------------------------
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_CNTXT_VLD_RULE_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
+
+CREATE  TABLE  KRMS_CNTXT_VLD_RULE_T (
+  CNTXT_VLD_RULE_ID VARCHAR2(40)  NOT NULL ,
+  CNTXT_ID VARCHAR2(40)  NOT NULL ,
+  RULE_ID VARCHAR2(40)  NOT NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL ,
+  PRIMARY KEY (CNTXT_VLD_RULE_ID) ,
+  -- CREATE INDEX KRMS_CNTXT_VLD_RULE_TI1 (CNTXT_ID ASC) ,
+  CONSTRAINT KRMS_CNTXT_VLD_RULE_FK1
+    FOREIGN KEY (CNTXT_ID )
+    REFERENCES KRMS_CNTXT_T (CNTXT_ID ) )
+/
+
+CREATE INDEX KRMS_CNTXT_VLD_RULE_TI1 ON KRMS_CNTXT_VLD_RULE_T (CNTXT_ID ASC)
+/
+
+-- -----------------------------------------------------
+-- Table KRMS_CNTXT_VLD_EVENT_T
+-- -----------------------------------------------------
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_CNTXT_VLD_EVENT_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
+
+CREATE  TABLE  KRMS_CNTXT_VLD_EVENT_T (
+  CNTXT_VLD_EVENT_ID VARCHAR2(40)  NOT NULL ,
+  CNTXT_ID VARCHAR2(40)  NOT NULL ,
+  EVENT_NM VARCHAR2(255)  NOT NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL ,
+  PRIMARY KEY (CNTXT_VLD_EVENT_ID) ,
+  -- CREATE INDEX KRMS_CNTXT_VLD_EVENT_TI1 (CNTXT_ID ASC) ,
+  CONSTRAINT KRMS_CNTXT_VLD_EVENT_FK1
+    FOREIGN KEY (CNTXT_ID )
+    REFERENCES KRMS_CNTXT_T (CNTXT_ID ) )
+/
+
+CREATE INDEX KRMS_CNTXT_VLD_EVENT_TI1 ON KRMS_CNTXT_VLD_EVENT_T (CNTXT_ID ASC)
 /
 
 
@@ -1538,91 +1520,91 @@ CREATE INDEX krms_cntxt_vld_event_ti1 on krms_cntxt_vld_event_t (cntxt_id ASC)
 --
 
 
-CREATE SEQUENCE krms_typ_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_TYP_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_prop_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_PROP_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_rule_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_RULE_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_cntxt_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_CNTXT_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_agenda_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_AGENDA_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_attr_defn_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_ATTR_DEFN_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_typ_attr_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_TYP_ATTR_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_actn_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_ACTN_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_actn_attr_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_ACTN_ATTR_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_agenda_itm_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_AGENDA_ITM_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_rule_attr_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_RULE_ATTR_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_cntxt_attr_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_CNTXT_ATTR_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_cntxt_vld_actn_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_CNTXT_VLD_ACTN_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_agenda_attr_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_AGENDA_ATTR_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_cmpnd_prop_props_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_CMPND_PROP_PROPS_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_prop_parm_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_PROP_PARM_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_term_spec_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_TERM_SPEC_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_term_rslvr_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_TERM_RSLVR_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_term_rslvr_attr_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_TERM_RSLVR_ATTR_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_term_rslvr_input_spec_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_TERM_RSLVR_INPUT_SPEC_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_cntxt_term_spec_prereq_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_CNTXT_TERM_SPEC_PREREQ_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_term_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_TERM_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_term_rslvr_parm_spec_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_TERM_RSLVR_PARM_SPEC_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_term_parm_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_TERM_PARM_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_func_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_FUNC_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_func_parm_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_FUNC_PARM_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_cntxt_vld_func_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_CNTXT_VLD_FUNC_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_cntxt_vld_rule_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_CNTXT_VLD_RULE_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE SEQUENCE krms_cntxt_vld_event_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_CNTXT_VLD_EVENT_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
 
@@ -1634,35 +1616,35 @@ CREATE SEQUENCE krms_cntxt_vld_event_s INCREMENT BY 1 START WITH 10000 NOMAXVALU
 -- 
 
 
-drop table KRSB_SVC_DEF_T
+DROP TABLE KRSB_SVC_DEF_T
 /
-drop table KRSB_FLT_SVC_DEF_T
+DROP TABLE KRSB_FLT_SVC_DEF_T
 /
-drop sequence KRSB_SVC_DEF_S
+DROP SEQUENCE KRSB_SVC_DEF_S
 /
-drop sequence KRSB_FLT_SVC_DEF_S
+DROP SEQUENCE KRSB_FLT_SVC_DEF_S
 /
 CREATE TABLE KRSB_SVC_DSCRPTR_T (
-  SVC_DSCRPTR_ID varchar2(40) NOT NULL,
-  DSCRPTR clob NOT NULL,
+  SVC_DSCRPTR_ID VARCHAR2(40) NOT NULL,
+  DSCRPTR CLOB NOT NULL,
   PRIMARY KEY (SVC_DSCRPTR_ID)
 )
 /
 CREATE SEQUENCE KRSB_SVC_DSCRPTR_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 CREATE TABLE KRSB_SVC_DEF_T (
-  SVC_DEF_ID varchar2(40) NOT NULL,
-  SVC_NM varchar2(255) NOT NULL,
-  SVC_URL varchar2(500) NOT NULL,
-  INSTN_ID varchar2(255) NOT NULL,
-  APPL_NMSPC varchar2(255) NOT NULL,
-  SRVR_IP varchar2(40) NOT NULL,
-  TYP_CD varchar2(40) NOT NULL,
-  SVC_VER varchar2(40) NOT NULL,
-  STAT_CD varchar2(1) NOT NULL,
-  SVC_DSCRPTR_ID varchar2(40) NOT NULL,
-  CHKSM varchar2(30) NOT NULL,
-  VER_NBR number(8) DEFAULT 0 NOT NULL,
+  SVC_DEF_ID VARCHAR2(40) NOT NULL,
+  SVC_NM VARCHAR2(255) NOT NULL,
+  SVC_URL VARCHAR2(500) NOT NULL,
+  INSTN_ID VARCHAR2(255) NOT NULL,
+  APPL_NMSPC VARCHAR2(255) NOT NULL,
+  SRVR_IP VARCHAR2(40) NOT NULL,
+  TYP_CD VARCHAR2(40) NOT NULL,
+  SVC_VER VARCHAR2(40) NOT NULL,
+  STAT_CD VARCHAR2(1) NOT NULL,
+  SVC_DSCRPTR_ID VARCHAR2(40) NOT NULL,
+  CHKSM VARCHAR2(30) NOT NULL,
+  VER_NBR NUMBER(8) DEFAULT 0 NOT NULL,
   PRIMARY KEY (SVC_DEF_ID),
   CONSTRAINT KRSB_SVC_DEF_FK1
     FOREIGN KEY (SVC_DSCRPTR_ID)
@@ -1671,11 +1653,11 @@ CREATE TABLE KRSB_SVC_DEF_T (
 /
 CREATE SEQUENCE KRSB_SVC_DEF_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
-CREATE INDEX KRSB_SVC_DEF_TI1 on KRSB_SVC_DEF_T (INSTN_ID)
+CREATE INDEX KRSB_SVC_DEF_TI1 ON KRSB_SVC_DEF_T (INSTN_ID)
 /
-CREATE INDEX KRSB_SVC_DEF_TI2 on KRSB_SVC_DEF_T (SVC_NM, STAT_CD)
+CREATE INDEX KRSB_SVC_DEF_TI2 ON KRSB_SVC_DEF_T (SVC_NM, STAT_CD)
 /
-CREATE INDEX KRSB_SVC_DEF_TI3 on KRSB_SVC_DEF_T (STAT_CD)
+CREATE INDEX KRSB_SVC_DEF_TI3 ON KRSB_SVC_DEF_T (STAT_CD)
 /
 
 
@@ -1732,23 +1714,23 @@ ALTER TABLE KR_COUNTY_T RENAME TO KRLC_CNTY_T
 
 
 -- make krms_rule_t.prop_id nullable
-alter table krms_rule_t modify (prop_id NULL)
+ALTER TABLE KRMS_RULE_T MODIFY (PROP_ID NULL)
 /
 
 -- add krms_actn_t.nmspc_cd
-alter table krms_actn_t add nmspc_cd varchar2(40) not null
+ALTER TABLE KRMS_ACTN_T ADD NMSPC_CD VARCHAR2(40) NOT NULL
 /
 
 -- make krms_agenda_t default to 'Y'
-alter table krms_agenda_t modify actv varchar2(1) DEFAULT 'Y'
+ALTER TABLE KRMS_AGENDA_T MODIFY ACTV VARCHAR2(1) DEFAULT 'Y'
 /
 
 -- make krms_prop_t.typ_id nullable 
-alter table krms_prop_t modify (typ_id NULL)
+ALTER TABLE KRMS_PROP_T MODIFY (TYP_ID NULL)
 /
 
 -- change krms_rule_t.descr_txt to desc_t for consistency
-alter table krms_rule_t rename column descr_txt to desc_txt
+ALTER TABLE KRMS_RULE_T RENAME COLUMN DESCR_TXT TO DESC_TXT
 /
 
 
@@ -1760,13 +1742,13 @@ alter table krms_rule_t rename column descr_txt to desc_txt
 -- 
 
 
-update krew_doc_typ_t set post_prcsr = 'org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor' where post_prcsr = 'org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor'
+UPDATE KREW_DOC_TYP_T SET POST_PRCSR = 'org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor' WHERE POST_PRCSR = 'org.kuali.rice.kns.workflow.postprocessor.KualiPostProcessor'
 /
-update krew_rule_attr_t set cls_nm = 'org.kuali.rice.krad.workflow.attribute.KualiXmlSearchableAttributeImpl' where cls_nm = 'org.kuali.rice.kns.workflow.attribute.KualiXmlSearchableAttributeImpl'
+UPDATE KREW_RULE_ATTR_T SET CLS_NM = 'org.kuali.rice.krad.workflow.attribute.KualiXmlSearchableAttributeImpl' WHERE CLS_NM = 'org.kuali.rice.kns.workflow.attribute.KualiXmlSearchableAttributeImpl'
 /
-update krew_rule_attr_t set cls_nm = 'org.kuali.rice.kns.workflow.attribute.KualiXMLBooleanTranslatorSearchableAttributeImpl' where cls_nm = 'org.kuali.rice.kns.workflow.attribute.KualiXMLBooleanTranslatorSearchableAttributeImpl'
+UPDATE KREW_RULE_ATTR_T SET CLS_NM = 'org.kuali.rice.kns.workflow.attribute.KualiXMLBooleanTranslatorSearchableAttributeImpl' WHERE CLS_NM = 'org.kuali.rice.kns.workflow.attribute.KualiXMLBooleanTranslatorSearchableAttributeImpl'
 /
-update krew_rule_attr_t set cls_nm = 'org.kuali.rice.kns.workflow.attribute.KualiXmlRuleAttributeImpl' where cls_nm = 'org.kuali.rice.kns.workflow.attribute.KualiXmlRuleAttributeImpl'
+UPDATE KREW_RULE_ATTR_T SET CLS_NM = 'org.kuali.rice.kns.workflow.attribute.KualiXmlRuleAttributeImpl' WHERE CLS_NM = 'org.kuali.rice.kns.workflow.attribute.KualiXmlRuleAttributeImpl'
 /
 
 
@@ -1871,7 +1853,7 @@ CREATE TABLE KREW_DOC_TYP_T
 /
 
 INSERT INTO KREW_DOC_TYP_T(
-		DOC_TYP_ID
+        DOC_TYP_ID
         , PARNT_ID
         , DOC_TYP_NM
         , DOC_TYP_VER_NBR
@@ -2410,18 +2392,18 @@ CREATE INDEX KREW_DOC_TYP_PROC_TI3
 -- 
 
 
-alter table KRIM_PERM_TMPL_T modify NMSPC_CD varchar2(40) not null
+ALTER TABLE KRIM_PERM_TMPL_T MODIFY NMSPC_CD VARCHAR2(40) NOT NULL
 /
-alter table KRIM_PERM_TMPL_T modify NM varchar2(100) not null
+ALTER TABLE KRIM_PERM_TMPL_T MODIFY NM VARCHAR2(100) NOT NULL
 /
-alter table KRIM_PERM_TMPL_T add constraint KRIM_PERM_TMPL_TC1 unique (NM, NMSPC_CD)
+ALTER TABLE KRIM_PERM_TMPL_T ADD CONSTRAINT KRIM_PERM_TMPL_TC1 UNIQUE (NM, NMSPC_CD)
 /
 
-alter table KRIM_RSP_TMPL_T modify NMSPC_CD varchar2(40) not null
+ALTER TABLE KRIM_RSP_TMPL_T MODIFY NMSPC_CD VARCHAR2(40) NOT NULL
 /
-alter table KRIM_RSP_TMPL_T modify NM varchar2(100) not null
+ALTER TABLE KRIM_RSP_TMPL_T MODIFY NM VARCHAR2(100) NOT NULL
 /
-alter table KRIM_RSP_TMPL_T add constraint KRIM_RSP_TMPL_TC1 unique (NM, NMSPC_CD)
+ALTER TABLE KRIM_RSP_TMPL_T ADD CONSTRAINT KRIM_RSP_TMPL_TC1 UNIQUE (NM, NMSPC_CD)
 /
 
 
@@ -2476,147 +2458,147 @@ CREATE TABLE KRMS_FUNC_CTGRY_T
 -- 
 
 
-update KRIM_PERM_T t set NM='Use Document Operation Screen' where PERM_ID = '140'
+UPDATE KRIM_PERM_T t SET NM='Use Document Operation Screen' WHERE PERM_ID = '140'
 /
-update KRIM_PERM_T t set NM='Use Java Security Management Screen' where PERM_ID = '141'
+UPDATE KRIM_PERM_T t SET NM='Use Java Security Management Screen' WHERE PERM_ID = '141'
 /
-update KRIM_PERM_T t set NM='Use Message Queue Screen' where PERM_ID = '142'
+UPDATE KRIM_PERM_T t SET NM='Use Message Queue Screen' WHERE PERM_ID = '142'
 /
-update KRIM_PERM_T t set NM='Use Service Registry Screen' where PERM_ID = '143'
+UPDATE KRIM_PERM_T t SET NM='Use Service Registry Screen' WHERE PERM_ID = '143'
 /
-update KRIM_PERM_T t set NM='Use Thread Pool Screen' where PERM_ID = '144'
+UPDATE KRIM_PERM_T t SET NM='Use Thread Pool Screen' WHERE PERM_ID = '144'
 /
-update KRIM_PERM_T t set NM='Use Quartz Queue Screen' where PERM_ID = '145'
+UPDATE KRIM_PERM_T t SET NM='Use Quartz Queue Screen' WHERE PERM_ID = '145'
 /
-update KRIM_PERM_T t set NM='Ad Hoc Review RICE Document' where PERM_ID = '146'
+UPDATE KRIM_PERM_T t SET NM='Ad Hoc Review RICE Document' WHERE PERM_ID = '146'
 /
-update KRIM_PERM_T t set NM='Administer Routing RICE Document' where PERM_ID = '147'
+UPDATE KRIM_PERM_T t SET NM='Administer Routing RICE Document' WHERE PERM_ID = '147'
 /
-update KRIM_PERM_T t set NM='Blanket Approve RICE Document'	where PERM_ID = '148'
+UPDATE KRIM_PERM_T t SET NM='Blanket Approve RICE Document' WHERE PERM_ID = '148'
 /
-update KRIM_PERM_T t set NM='Initiate RICE Document' where PERM_ID = '149'
+UPDATE KRIM_PERM_T t SET NM='Initiate RICE Document' WHERE PERM_ID = '149'
 /
-update KRIM_PERM_T t set NM='Assign Role' where PERM_ID = '150'
+UPDATE KRIM_PERM_T t SET NM='Assign Role' WHERE PERM_ID = '150'
 /
-update KRIM_PERM_T t set NM='Grant Permission' where PERM_ID = '151'
+UPDATE KRIM_PERM_T t SET NM='Grant Permission' WHERE PERM_ID = '151'
 /
-update KRIM_PERM_T t set NM='Grant Responsibility' where PERM_ID = '152'
+UPDATE KRIM_PERM_T t SET NM='Grant Responsibility' WHERE PERM_ID = '152'
 /
-update KRIM_PERM_T t set NM='Populate Group' where PERM_ID = '155'
+UPDATE KRIM_PERM_T t SET NM='Populate Group' WHERE PERM_ID = '155'
 /
-update KRIM_PERM_T t set NM='Copy RICE Document' where PERM_ID = '156'
+UPDATE KRIM_PERM_T t SET NM='Copy RICE Document' WHERE PERM_ID = '156'
 /
-update KRIM_PERM_T t set NM='Inquire Into RICE Records' where PERM_ID = '161'
+UPDATE KRIM_PERM_T t SET NM='Inquire Into RICE Records' WHERE PERM_ID = '161'
 /
-update KRIM_PERM_T t set NM='Look Up RICE Records' where PERM_ID = '162'
+UPDATE KRIM_PERM_T t SET NM='Look Up RICE Records' WHERE PERM_ID = '162'
 /
-update KRIM_PERM_T t set NM='Maintain System Parameter' where PERM_ID = '163'
+UPDATE KRIM_PERM_T t SET NM='Maintain System Parameter' WHERE PERM_ID = '163'
 /
-update KRIM_PERM_T t set NM='Modify Batch Job' where PERM_ID = '164'
+UPDATE KRIM_PERM_T t SET NM='Modify Batch Job' WHERE PERM_ID = '164'
 /
-update KRIM_PERM_T t set NM='Open RICE Document' where PERM_ID = '165'
+UPDATE KRIM_PERM_T t SET NM='Open RICE Document' WHERE PERM_ID = '165'
 /
-update KRIM_PERM_T t set NM='Use all RICE Screen' where PERM_ID = '166'
+UPDATE KRIM_PERM_T t SET NM='Use all RICE Screen' WHERE PERM_ID = '166'
 /
-update KRIM_PERM_T t set NM='Cancel Document' where PERM_ID = '167'
+UPDATE KRIM_PERM_T t SET NM='Cancel Document' WHERE PERM_ID = '167'
 /
-update KRIM_PERM_T t set NM='Route Document' where PERM_ID = '168'
+UPDATE KRIM_PERM_T t SET NM='Route Document' WHERE PERM_ID = '168'
 /
-update KRIM_PERM_T t set NM='Take Requested Apprive Action' where PERM_ID = '170'
+UPDATE KRIM_PERM_T t SET NM='Take Requested Apprive Action' WHERE PERM_ID = '170'
 /
-update KRIM_PERM_T t set NM='Take Requested FYI Action' where PERM_ID = '172'
+UPDATE KRIM_PERM_T t SET NM='Take Requested FYI Action' WHERE PERM_ID = '172'
 /
-update KRIM_PERM_T t set NM='Take Requested Acknowledge Action' where PERM_ID = '173'
+UPDATE KRIM_PERM_T t SET NM='Take Requested Acknowledge Action' WHERE PERM_ID = '173'
 /
-update KRIM_PERM_T t set NM='Log In Kuali Portal' where PERM_ID = '174'
+UPDATE KRIM_PERM_T t SET NM='Log In Kuali Portal' WHERE PERM_ID = '174'
 /
-update KRIM_PERM_T t set NM='Edit Kuali ENROUTE Document Node Name PreRoute' where PERM_ID = '180'
+UPDATE KRIM_PERM_T t SET NM='Edit Kuali ENROUTE Document Node Name PreRoute' WHERE PERM_ID = '180'
 /
-update KRIM_PERM_T t set NM='Edit Kuali ENROUTE Document Route Status Code R' where PERM_ID = '181'
+UPDATE KRIM_PERM_T t SET NM='Edit Kuali ENROUTE Document Route Status Code R' WHERE PERM_ID = '181'
 /
-update KRIM_PERM_T t set NM='Full Unmask Tax Identification Number Payee ACH Document'	where PERM_ID = '183'
+UPDATE KRIM_PERM_T t SET NM='Full Unmask Tax Identification Number Payee ACH Document'  WHERE PERM_ID = '183'
 /
-update KRIM_PERM_T t set NM='Add Note  Attachment Kuali Document' where PERM_ID = '259'
+UPDATE KRIM_PERM_T t SET NM='Add Note  Attachment Kuali Document' WHERE PERM_ID = '259'
 /
-update KRIM_PERM_T t set NM='View Note  Attachment Kuali Document' where PERM_ID = '261'
+UPDATE KRIM_PERM_T t SET NM='View Note  Attachment Kuali Document' WHERE PERM_ID = '261'
 /
-update KRIM_PERM_T t set NM='Delete Note  Attachment Kuali Document' where PERM_ID = '264'
+UPDATE KRIM_PERM_T t SET NM='Delete Note  Attachment Kuali Document' WHERE PERM_ID = '264'
 /
-update KRIM_PERM_T t set NM='Use Screen XML Ingester Screen' where PERM_ID = '265'
+UPDATE KRIM_PERM_T t SET NM='Use Screen XML Ingester Screen' WHERE PERM_ID = '265'
 /
-update KRIM_PERM_T t set NM='Administer Pessimistic Locking' where PERM_ID = '289'
+UPDATE KRIM_PERM_T t SET NM='Administer Pessimistic Locking' WHERE PERM_ID = '289'
 /
-update KRIM_PERM_T t set NM='Save RICE Document' where PERM_ID = '290'
+UPDATE KRIM_PERM_T t SET NM='Save RICE Document' WHERE PERM_ID = '290'
 /
-update KRIM_PERM_T t set NM='View Other Action List' where PERM_ID = '298'
+UPDATE KRIM_PERM_T t SET NM='View Other Action List' WHERE PERM_ID = '298'
 /
-update KRIM_PERM_T t set NM='Unrestricted Document Search' where PERM_ID = '299'
+UPDATE KRIM_PERM_T t SET NM='Unrestricted Document Search' WHERE PERM_ID = '299'
 /
-update KRIM_PERM_T t set NM='Full Unmask Tax Identification Number Person Document'	where PERM_ID = '306'
+UPDATE KRIM_PERM_T t SET NM='Full Unmask Tax Identification Number Person Document' WHERE PERM_ID = '306'
 /
-update KRIM_PERM_T t set NM='Modify Entity' where PERM_ID = '307'
+UPDATE KRIM_PERM_T t SET NM='Modify Entity' WHERE PERM_ID = '307'
 /
-update KRIM_PERM_T t set NM='Send FYI Request Kuali Document' where PERM_ID = '332'
+UPDATE KRIM_PERM_T t SET NM='Send FYI Request Kuali Document' WHERE PERM_ID = '332'
 /
-update KRIM_PERM_T t set NM='Send Acknowledge Request Kuali Document' where PERM_ID = '333'
+UPDATE KRIM_PERM_T t SET NM='Send Acknowledge Request Kuali Document' WHERE PERM_ID = '333'
 /
-update KRIM_PERM_T t set NM='Send Approve Request Kuali Document' where PERM_ID = '334'
+UPDATE KRIM_PERM_T t SET NM='Send Approve Request Kuali Document' WHERE PERM_ID = '334'
 /
-update KRIM_PERM_T t set NM='Override Entity Privacy Preferences' where PERM_ID = '378'
+UPDATE KRIM_PERM_T t SET NM='Override Entity Privacy Preferences' WHERE PERM_ID = '378'
 /
-update KRIM_PERM_T t set NM='Look Up Rule Template'	where PERM_ID = '701'
+UPDATE KRIM_PERM_T t SET NM='Look Up Rule Template' WHERE PERM_ID = '701'
 /
-update KRIM_PERM_T t set NM='Look Up Stylesheet' where PERM_ID = '702'
+UPDATE KRIM_PERM_T t SET NM='Look Up Stylesheet' WHERE PERM_ID = '702'
 /
-update KRIM_PERM_T t set NM='Look Up eDocLite' where PERM_ID = '703'
+UPDATE KRIM_PERM_T t SET NM='Look Up eDocLite' WHERE PERM_ID = '703'
 /
-update KRIM_PERM_T t set NM='Look Up Rule Attribute' where PERM_ID = '707'
+UPDATE KRIM_PERM_T t SET NM='Look Up Rule Attribute' WHERE PERM_ID = '707'
 /
-update KRIM_PERM_T t set NM='Look Up Parameter Component' where PERM_ID = '719'
+UPDATE KRIM_PERM_T t SET NM='Look Up Parameter Component' WHERE PERM_ID = '719'
 /
-update KRIM_PERM_T t set NM='Look Up Namespace'	where PERM_ID = '720'
+UPDATE KRIM_PERM_T t SET NM='Look Up Namespace' WHERE PERM_ID = '720'
 /
-update KRIM_PERM_T t set NM='Look Up Parameter Type' where PERM_ID = '721'
+UPDATE KRIM_PERM_T t SET NM='Look Up Parameter Type' WHERE PERM_ID = '721'
 /
-update KRIM_PERM_T t set NM='Inquire Into Rule Template' where PERM_ID = '801'
+UPDATE KRIM_PERM_T t SET NM='Inquire Into Rule Template' WHERE PERM_ID = '801'
 /
-update KRIM_PERM_T t set NM='Inquire Into Stylesheet' where PERM_ID = '802'
+UPDATE KRIM_PERM_T t SET NM='Inquire Into Stylesheet' WHERE PERM_ID = '802'
 /
-update KRIM_PERM_T t set NM='Inquire Into eDocLite' where PERM_ID = '803'
+UPDATE KRIM_PERM_T t SET NM='Inquire Into eDocLite' WHERE PERM_ID = '803'
 /
-update KRIM_PERM_T t set NM='Inquire Into Rule Attribute' where PERM_ID = '807'
+UPDATE KRIM_PERM_T t SET NM='Inquire Into Rule Attribute' WHERE PERM_ID = '807'
 /
-update KRIM_PERM_T t set NM='Inquire Into Pessimistic' where PERM_ID = '814'
+UPDATE KRIM_PERM_T t SET NM='Inquire Into Pessimistic' WHERE PERM_ID = '814'
 /
-update KRIM_PERM_T t set NM='Inquire Into Parameter Component' where PERM_ID = '819'
+UPDATE KRIM_PERM_T t SET NM='Inquire Into Parameter Component' WHERE PERM_ID = '819'
 /
-update KRIM_PERM_T t set NM='Inquire Into Namespace' where PERM_ID = '820'
+UPDATE KRIM_PERM_T t SET NM='Inquire Into Namespace' WHERE PERM_ID = '820'
 /
-update KRIM_PERM_T t set NM='Inquire Into Parameter Type' where PERM_ID = '821'
+UPDATE KRIM_PERM_T t SET NM='Inquire Into Parameter Type' WHERE PERM_ID = '821'
 /
-update KRIM_PERM_T t set NM='Populate Group KUALI Namespace' where PERM_ID = '833'
+UPDATE KRIM_PERM_T t SET NM='Populate Group KUALI Namespace' WHERE PERM_ID = '833'
 /
-update KRIM_PERM_T t set NM='Assign Role KUALI Namespace' where PERM_ID = '834'
+UPDATE KRIM_PERM_T t SET NM='Assign Role KUALI Namespace' WHERE PERM_ID = '834'
 /
-update KRIM_PERM_T t set NM='Grant Permission KUALI Namespace' where PERM_ID = '835'
+UPDATE KRIM_PERM_T t SET NM='Grant Permission KUALI Namespace' WHERE PERM_ID = '835'
 /
-update KRIM_PERM_T t set NM='Grant Responsibility KUALI Namespace' where PERM_ID = '836'
+UPDATE KRIM_PERM_T t SET NM='Grant Responsibility KUALI Namespace' WHERE PERM_ID = '836'
 /
-update KRIM_PERM_T t set NM='Use Configuration Viewer Screen' where PERM_ID = '840'
+UPDATE KRIM_PERM_T t SET NM='Use Configuration Viewer Screen' WHERE PERM_ID = '840'
 /
-update KRIM_PERM_T t set NM='Add Message to Route Log'	where PERM_ID = '841'
+UPDATE KRIM_PERM_T t SET NM='Add Message to Route Log'  WHERE PERM_ID = '841'
 /
-alter table KRIM_PERM_T modify NMSPC_CD varchar2(40) not null
+ALTER TABLE KRIM_PERM_T MODIFY NMSPC_CD VARCHAR2(40) NOT NULL
 /
-alter table KRIM_PERM_T modify NM varchar2(100) not null
+ALTER TABLE KRIM_PERM_T MODIFY NM VARCHAR2(100) NOT NULL
 /
-alter table KRIM_PERM_T add constraint KRIM_PERM_T_TC1 unique (NM, NMSPC_CD)
+ALTER TABLE KRIM_PERM_T ADD CONSTRAINT KRIM_PERM_T_TC1 UNIQUE (NM, NMSPC_CD)
 /
-alter table KRIM_RSP_T modify NMSPC_CD varchar2(40) not null
+ALTER TABLE KRIM_RSP_T MODIFY NMSPC_CD VARCHAR2(40) NOT NULL
 /
-alter table KRIM_RSP_T modify NM varchar2(100) not null
+ALTER TABLE KRIM_RSP_T MODIFY NM VARCHAR2(100) NOT NULL
 /
-alter table KRIM_RSP_T add constraint KRIM_RSP_T_TC1 unique (NM, NMSPC_CD)
+ALTER TABLE KRIM_RSP_T ADD CONSTRAINT KRIM_RSP_T_TC1 UNIQUE (NM, NMSPC_CD)
 /
 
 
@@ -2660,12 +2642,12 @@ END IF;
 END;
 /
 CREATE TABLE KREW_DOC_NTE_T ( 
-    DOC_NTE_ID    	VARCHAR2(40),
-	DOC_HDR_ID    	VARCHAR2(40) NOT NULL,
-    AUTH_PRNCPL_ID	VARCHAR2(40) NOT NULL,
-    CRT_DT        	DATE NOT NULL,
-    TXT           	VARCHAR2(4000) NULL,
-    VER_NBR       	NUMBER(8,0) DEFAULT 0 NULL
+    DOC_NTE_ID      VARCHAR2(40),
+    DOC_HDR_ID      VARCHAR2(40) NOT NULL,
+    AUTH_PRNCPL_ID  VARCHAR2(40) NOT NULL,
+    CRT_DT          DATE NOT NULL,
+    TXT             VARCHAR2(4000) NULL,
+    VER_NBR         NUMBER(8,0) DEFAULT 0 NULL
 )
 /
 ALTER TABLE KREW_DOC_NTE_T ADD CONSTRAINT KREW_DOC_NTE_TP1 PRIMARY KEY (DOC_NTE_ID)
@@ -2679,8 +2661,8 @@ FROM TEMP_KREW_DOC_NTE_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DOC_NTE_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_NTE_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DOC_NTE_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_NTE_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -2711,12 +2693,12 @@ END IF;
 END;
 /
 CREATE TABLE KREW_ATT_T (
-	ATTACHMENT_ID	VARCHAR2(40),
-	NTE_ID			VARCHAR2(40) NULL,
-	FILE_NM			VARCHAR2(255) NOT NULL,
-	FILE_LOC		VARCHAR2(255) NOT NULL,
-	MIME_TYP		VARCHAR2(255) NOT NULL,
-	VER_NBR			NUMBER(8,0) DEFAULT 0 NULL
+    ATTACHMENT_ID   VARCHAR2(40),
+    NTE_ID          VARCHAR2(40) NULL,
+    FILE_NM         VARCHAR2(255) NOT NULL,
+    FILE_LOC        VARCHAR2(255) NOT NULL,
+    MIME_TYP        VARCHAR2(255) NOT NULL,
+    VER_NBR         NUMBER(8,0) DEFAULT 0 NULL
 )
 /
 ALTER TABLE KREW_ATT_T ADD CONSTRAINT KREW_ATT_TP1 PRIMARY KEY (ATTACHMENT_ID)
@@ -2730,8 +2712,8 @@ FROM TEMP_KREW_ATT_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_ATT_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_ATT_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_ATT_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_ATT_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -2850,8 +2832,8 @@ FROM TEMP_KREW_ACTN_ITM_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_ACTN_ITM_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_ACTN_ITM_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_ACTN_ITM_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_ACTN_ITM_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -2973,8 +2955,8 @@ FROM TEMP_KREW_ACTN_TKN_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_ACTN_TKN_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_ACTN_TKN_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_ACTN_TKN_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_ACTN_TKN_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -3164,8 +3146,8 @@ FROM TEMP_KREW_ACTN_RQST_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_ACTN_RQST_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_ACTN_RQST_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_ACTN_RQST_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_ACTN_RQST_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -3204,8 +3186,8 @@ FROM TEMP_KREW_RULE_TMPL_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_TMPL_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_TMPL_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_TMPL_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_TMPL_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -3283,8 +3265,8 @@ FROM TEMP_KREW_RULE_TMPL_ATTR_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_TMPL_ATTR_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_TMPL_ATTR_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_TMPL_ATTR_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_TMPL_ATTR_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -3340,8 +3322,8 @@ FROM TEMP_KREW_RULE_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -3377,8 +3359,8 @@ FROM TEMP_KREW_DLGN_RSP_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DLGN_RSP_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DLGN_RSP_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DLGN_RSP_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DLGN_RSP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -3450,8 +3432,8 @@ FROM TEMP_KREW_RULE_RSP_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_RSP_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_RSP_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_RSP_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_RSP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -3505,8 +3487,8 @@ FROM TEMP_KREW_RULE_EXT_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_EXT_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_EXT_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_EXT_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_EXT_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -3616,8 +3598,8 @@ FROM TEMP_KREW_RTE_NODE_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_NODE_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_NODE_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_NODE_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_NODE_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -3724,8 +3706,8 @@ FROM TEMP_KREW_RTE_NODE_INSTN_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_NODE_INSTN_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_NODE_INSTN_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_NODE_INSTN_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_NODE_INSTN_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -3791,8 +3773,8 @@ FROM TEMP_KREW_RTE_NODE_INSTN_LNK_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_NODE_INSTN_LNK_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_NODE_INSTN_LNK_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_NODE_INSTN_LNK_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_NODE_INSTN_LNK_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -3911,8 +3893,8 @@ FROM TEMP_KREW_RTE_BRCH_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_BRCH_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_BRCH_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_BRCH_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_BRCH_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -3997,8 +3979,8 @@ FROM TEMP_KREW_RTE_BRCH_ST_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_BRCH_ST_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_BRCH_ST_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_BRCH_ST_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_BRCH_ST_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -4083,8 +4065,8 @@ FROM TEMP_KREW_RTE_NODE_INSTN_ST_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_NODE_INSTN_ST_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_NODE_INSTN_ST_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_NODE_INSTN_ST_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_NODE_INSTN_ST_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -4139,8 +4121,8 @@ FROM TEMP_KREW_DOC_TYP_ATTR_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DOC_TYP_ATTR_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_TYP_ATTR_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DOC_TYP_ATTR_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_TYP_ATTR_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -4179,8 +4161,8 @@ FROM TEMP_KREW_RULE_ATTR_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_ATTR_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_ATTR_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_ATTR_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_ATTR_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -4211,8 +4193,8 @@ FROM TEMP_KREW_RULE_TMPL_OPTN_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_TMPL_OPTN_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_TMPL_OPTN_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_TMPL_OPTN_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_TMPL_OPTN_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -4316,8 +4298,8 @@ FROM TEMP_KREW_OUT_BOX_ITM_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_OUT_BOX_ITM_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_OUT_BOX_ITM_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_OUT_BOX_ITM_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_OUT_BOX_ITM_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -4371,8 +4353,8 @@ FROM TEMP_KREW_RTE_NODE_CFG_PARM_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_NODE_CFG_PARM_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_NODE_CFG_PARM_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_NODE_CFG_PARM_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_NODE_CFG_PARM_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -4459,8 +4441,8 @@ FROM TEMP_KREW_DOC_TYP_PROC_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DOC_TYP_PROC_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_TYP_PROC_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DOC_TYP_PROC_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_TYP_PROC_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -4513,8 +4495,8 @@ FROM TEMP_KREW_DOC_LNK_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DOC_LNK_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_LNK_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DOC_LNK_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_LNK_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -4567,8 +4549,8 @@ FROM TEMP_KREW_RTE_BRCH_PROTO_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_BRCH_PROTO_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_BRCH_PROTO_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_BRCH_PROTO_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_BRCH_PROTO_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -4623,8 +4605,8 @@ FROM TEMP_KREW_HLP_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_HLP_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_HLP_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_HLP_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_HLP_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -4694,8 +4676,8 @@ FROM TEMP_KREW_RULE_EXT_VAL_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_EXT_VAL_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_EXT_VAL_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_EXT_VAL_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_EXT_VAL_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -4729,8 +4711,8 @@ FROM TEMP_KREW_RULE_EXPR_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_EXPR_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_EXPR_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RULE_EXPR_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RULE_EXPR_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -4829,8 +4811,8 @@ FROM TEMP_KREW_APP_DOC_STAT_TRAN_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_APP_DOC_STAT_TRAN_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_APP_DOC_STAT_TRAN_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_APP_DOC_STAT_TRAN_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_APP_DOC_STAT_TRAN_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -4914,8 +4896,8 @@ FROM TEMP_KREW_DOC_HDR_EXT_DT_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DOC_HDR_EXT_DT_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_HDR_EXT_DT_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DOC_HDR_EXT_DT_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_HDR_EXT_DT_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -4999,8 +4981,8 @@ FROM TEMP_KREW_DOC_HDR_EXT_LONG_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DOC_HDR_EXT_LONG_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_HDR_EXT_LONG_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DOC_HDR_EXT_LONG_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_HDR_EXT_LONG_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -5084,8 +5066,8 @@ FROM TEMP_KREW_DOC_HDR_EXT_FLT_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DOC_HDR_EXT_FLT_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_HDR_EXT_FLT_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DOC_HDR_EXT_FLT_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_HDR_EXT_FLT_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 -----------------------------------------------------------------------------
@@ -5169,8 +5151,8 @@ FROM TEMP_KREW_DOC_HDR_EXT_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DOC_HDR_EXT_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_HDR_EXT_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_DOC_HDR_EXT_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_DOC_HDR_EXT_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 
@@ -5212,7 +5194,7 @@ DROP INDEX KREW_RTE_NODE_LNK_TI2
 /
 CREATE TABLE KREW_RTE_NODE_LNK_T
 (
-	FROM_RTE_NODE_ID VARCHAR2(40)
+    FROM_RTE_NODE_ID VARCHAR2(40)
     , TO_RTE_NODE_ID VARCHAR2(40)
 )
 /
@@ -5235,8 +5217,8 @@ FROM TEMP_KREW_RTE_NODE_LNK_T
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_NODE_LNK_T';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_NODE_LNK_T CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_RTE_NODE_LNK_T';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_RTE_NODE_LNK_T CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 
@@ -5249,7 +5231,7 @@ END;
 -- 
 
 
---KRCR_PARM_T
+-- KRCR_PARM_T
 ALTER TABLE KRCR_PARM_T RENAME column PARM_DTL_TYP_CD to CMPNT_CD
 /
 ALTER TABLE KRCR_PARM_T RENAME column TXT to VAL
@@ -5257,13 +5239,13 @@ ALTER TABLE KRCR_PARM_T RENAME column TXT to VAL
 ALTER TABLE KRCR_PARM_T RENAME column CONS_CD to EVAL_OPRTR_CD
 /
 
---KRCR_PARM_DTL_TYP_T to KRCR_CMPNT_T
+-- KRCR_PARM_DTL_TYP_T to KRCR_CMPNT_T
 ALTER TABLE KRCR_PARM_DTL_TYP_T RENAME TO KRCR_CMPNT_T
 /
 ALTER TABLE KRCR_CMPNT_T RENAME COLUMN PARM_DTL_TYP_CD TO CMPNT_CD
 /
 
---KRLC_CMP_TYP_T
+-- KRLC_CMP_TYP_T
 ALTER TABLE KRLC_CMP_TYP_T DROP COLUMN DOBJ_MAINT_CD_ACTV_IND
 /
 
@@ -5277,13 +5259,13 @@ ALTER TABLE KRLC_CMP_TYP_T DROP COLUMN DOBJ_MAINT_CD_ACTV_IND
 
 
 -- Oracle sql for KULRICE-5419:
-alter table krms_cntxt_t add desc_txt varchar2(255) default null
+ALTER TABLE KRMS_CNTXT_T ADD DESC_TXT VARCHAR2(255) DEFAULT NULL
 /
-alter table krms_term_spec_t add desc_txt varchar2(255) default null
+ALTER TABLE KRMS_TERM_SPEC_T ADD DESC_TXT VARCHAR2(255) DEFAULT NULL
 /
-alter table krms_term_t add desc_txt varchar2(255) default null
+ALTER TABLE KRMS_TERM_T ADD DESC_TXT VARCHAR2(255) DEFAULT NULL
 /
-alter table krms_attr_defn_t add desc_txt varchar2(255) default null
+ALTER TABLE KRMS_ATTR_DEFN_T ADD DESC_TXT VARCHAR2(255) DEFAULT NULL
 /
 
 
@@ -5295,9 +5277,9 @@ alter table krms_attr_defn_t add desc_txt varchar2(255) default null
 -- 
 
 
-drop sequence KREW_HLP_S 
+DROP SEQUENCE KREW_HLP_S 
 /
-drop table KREW_HLP_T
+DROP TABLE KREW_HLP_T
 /
 
 
@@ -5309,17 +5291,17 @@ drop table KREW_HLP_T
 -- 
 
 
-drop table KREW_RIA_DOC_T
+DROP TABLE KREW_RIA_DOC_T
 /
-drop sequence KREW_RIA_DOCTYPE_MAP_ID_S
+DROP SEQUENCE KREW_RIA_DOCTYPE_MAP_ID_S
 /
-drop table KREW_RIA_DOCTYPE_MAP_T
+DROP TABLE KREW_RIA_DOCTYPE_MAP_T
 /
-drop table KREW_RMV_RPLC_DOC_T 
+DROP TABLE KREW_RMV_RPLC_DOC_T 
 /
-drop table KREW_RMV_RPLC_GRP_T
+DROP TABLE KREW_RMV_RPLC_GRP_T
 /
-drop table KREW_RMV_RPLC_RULE_T
+DROP TABLE KREW_RMV_RPLC_RULE_T
 /
 
 
@@ -5367,8 +5349,8 @@ FROM TEMP_KREW_INIT_RTE_NODE
 /
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_INIT_RTE_NODE';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_INIT_RTE_NODE CASCADE CONSTRAINTS PURGE'; END IF;
+    SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'TEMP_KREW_INIT_RTE_NODE';
+    IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE TEMP_KREW_INIT_RTE_NODE CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 
@@ -5381,7 +5363,7 @@ END;
 -- 
 
 
-update KRIM_PERM_T t set NM='Take Requested Approve Action' where PERM_ID = '170'
+UPDATE KRIM_PERM_T t SET NM='Take Requested Approve Action' WHERE PERM_ID = '170'
 /
 
 
@@ -5403,86 +5385,86 @@ update KRIM_PERM_T t set NM='Take Requested Approve Action' where PERM_ID = '170
 --
 
 -- remove cntxt_id from krms_term_rslvr_t, fix unique constraint
-alter table krms_term_rslvr_t drop constraint krms_term_rslvr_tc1
+ALTER TABLE KRMS_TERM_RSLVR_T DROP CONSTRAINT KRMS_TERM_RSLVR_TC1
 /
-alter table krms_term_rslvr_t add constraint krms_term_rslvr_tc1 unique (nm, nmspc_cd)
+ALTER TABLE KRMS_TERM_RSLVR_T ADD CONSTRAINT KRMS_TERM_RSLVR_TC1 UNIQUE (NM, NMSPC_CD)
 /
-alter table krms_term_rslvr_t drop constraint KRMS_TERM_RSLVR_FK2
+ALTER TABLE KRMS_TERM_RSLVR_T DROP CONSTRAINT KRMS_TERM_RSLVR_FK2
 /
-alter table krms_term_rslvr_t drop column cntxt_id
+ALTER TABLE KRMS_TERM_RSLVR_T DROP COLUMN CNTXT_ID
 /
 -- remove fk from krms_term_spec_t to krms_cntxt_t
-alter table krms_term_spec_t add nmspc_cd varchar2(40) not null
+ALTER TABLE KRMS_TERM_SPEC_T ADD NMSPC_CD VARCHAR2(40) NOT NULL
 /
-alter table krms_term_spec_t drop constraint KRMS_ASSET_FK1
+ALTER TABLE KRMS_TERM_SPEC_T DROP CONSTRAINT KRMS_ASSET_FK1
 /
-drop index KRMS_ASSET_TI1
+DROP INDEX KRMS_ASSET_TI1
 /
-alter table krms_term_spec_t drop constraint krms_asset_tc1
+ALTER TABLE KRMS_TERM_SPEC_T DROP CONSTRAINT KRMS_ASSET_TC1
 /
-alter table krms_term_spec_t add constraint krms_term_spec_tc1 unique (nm, nmspc_cd)
+ALTER TABLE KRMS_TERM_SPEC_T ADD CONSTRAINT KRMS_TERM_SPEC_TC1 UNIQUE (NM, NMSPC_CD)
 /
-alter table krms_term_spec_t drop column cntxt_id
+ALTER TABLE KRMS_TERM_SPEC_T DROP COLUMN CNTXT_ID
 /
 --
 -- refactor krms_cntxt_term_spec_prereq_t to be a valid term specs table instead
 --
 -- rename krms_cntxt_term_spec_prereq_t to krms_cntxt_vld_term_spec_t
 -- and add prereq column
-alter table krms_cntxt_term_spec_prereq_t drop constraint KRMS_CNTXT_ASSET_PREREQ_FK1
+ALTER TABLE KRMS_CNTXT_TERM_SPEC_PREREQ_T DROP CONSTRAINT KRMS_CNTXT_ASSET_PREREQ_FK1
 /
-drop index krms_cntxt_asset_prereq_ti1
+DROP INDEX KRMS_CNTXT_ASSET_PREREQ_TI1
 /
-alter table krms_cntxt_term_spec_prereq_t drop constraint KRMS_CNTXT_ASSET_PREREQ_FK2
+ALTER TABLE KRMS_CNTXT_TERM_SPEC_PREREQ_T DROP CONSTRAINT KRMS_CNTXT_ASSET_PREREQ_FK2
 /
-drop index krms_cntxt_asset_prereq_ti2
+DROP INDEX KRMS_CNTXT_ASSET_PREREQ_TI2
 /
-alter table krms_cntxt_term_spec_prereq_t rename to krms_cntxt_vld_term_spec_t
+ALTER TABLE KRMS_CNTXT_TERM_SPEC_PREREQ_T RENAME TO KRMS_CNTXT_VLD_TERM_SPEC_T
 /
-alter table krms_cntxt_vld_term_spec_t add prereq varchar2(1) default 'n'
+ALTER TABLE KRMS_CNTXT_VLD_TERM_SPEC_T ADD PREREQ VARCHAR2(1) DEFAULT 'N'
 /
-alter table krms_cntxt_vld_term_spec_t add constraint krms_cntxt_vld_term_spec_ti1 foreign key (cntxt_id) references krms_cntxt_t(cntxt_id)
+ALTER TABLE KRMS_CNTXT_VLD_TERM_SPEC_T ADD CONSTRAINT KRMS_CNTXT_VLD_TERM_SPEC_TI1 FOREIGN KEY (CNTXT_ID) REFERENCES KRMS_CNTXT_T(CNTXT_ID)
 /
-alter table krms_cntxt_vld_term_spec_t add constraint krms_cntxt_vld_term_spec_ti2 foreign key (term_spec_id) references krms_term_spec_t(term_spec_id)
+ALTER TABLE KRMS_CNTXT_VLD_TERM_SPEC_T ADD CONSTRAINT KRMS_CNTXT_VLD_TERM_SPEC_TI2 FOREIGN KEY (TERM_SPEC_ID) REFERENCES KRMS_TERM_SPEC_T(TERM_SPEC_ID)
 /
 --
 -- set up some missing unique constraints
 --
 -- wow, Oracle and MySQL support the same syntax here
-alter table krms_cntxt_t add constraint krms_cntxt_tc1 unique (nm, nmspc_cd)
+ALTER TABLE KRMS_CNTXT_T ADD CONSTRAINT KRMS_CNTXT_TC1 UNIQUE (NM, NMSPC_CD)
 /
-alter table krms_func_t add constraint krms_func_tc1 unique (nm, nmspc_cd)
+ALTER TABLE KRMS_FUNC_T ADD CONSTRAINT KRMS_FUNC_TC1 UNIQUE (NM, NMSPC_CD)
 /
 -- drop namespace code from krms_agenda_t
-alter table krms_agenda_t drop column nmspc_cd
+ALTER TABLE KRMS_AGENDA_T DROP COLUMN NMSPC_CD
 /
-alter table krms_agenda_t add constraint krms_agenda_tc1 unique (nm, cntxt_id)
+ALTER TABLE KRMS_AGENDA_T ADD CONSTRAINT KRMS_AGENDA_TC1 UNIQUE (NM, CNTXT_ID)
 /
-alter table krms_typ_t add constraint krms_typ_tc1 unique (nm, nmspc_cd)
+ALTER TABLE KRMS_TYP_T ADD CONSTRAINT KRMS_TYP_TC1 UNIQUE (NM, NMSPC_CD)
 /
-alter table krms_attr_defn_t add constraint krms_attr_defn_tc1 unique (nm, nmspc_cd)
+ALTER TABLE KRMS_ATTR_DEFN_T ADD CONSTRAINT KRMS_ATTR_DEFN_TC1 UNIQUE (NM, NMSPC_CD)
 /
-alter table krms_rule_t add constraint krms_rule_tc1 unique (nm, nmspc_cd)
+ALTER TABLE KRMS_RULE_T ADD CONSTRAINT KRMS_RULE_TC1 UNIQUE (NM, NMSPC_CD)
 /
 --
 -- clean up some crufty index and constraint names
 --
 
-alter table krms_term_rslvr_attr_t drop constraint KRMS_ASSET_RSLVR_ATTR_FK1
+ALTER TABLE KRMS_TERM_RSLVR_ATTR_T DROP CONSTRAINT KRMS_ASSET_RSLVR_ATTR_FK1
 /
-alter table krms_term_rslvr_attr_t drop constraint KRMS_ASSET_RSLVR_ATTR_FK2
+ALTER TABLE KRMS_TERM_RSLVR_ATTR_T DROP CONSTRAINT KRMS_ASSET_RSLVR_ATTR_FK2
 /
-drop index krms_asset_rslvr_attr_ti1
+DROP INDEX KRMS_ASSET_RSLVR_ATTR_TI1
 /
-create index krms_term_rslvr_attr_ti1 on krms_term_rslvr_attr_t (term_rslvr_id)
+CREATE INDEX KRMS_TERM_RSLVR_ATTR_TI1 ON KRMS_TERM_RSLVR_ATTR_T (TERM_RSLVR_ID)
 /
-drop index krms_asset_rslvr_attr_ti2
+DROP INDEX KRMS_ASSET_RSLVR_ATTR_TI2
 /
-create index krms_term_rslvr_attr_ti2 on krms_term_rslvr_attr_t (attr_defn_id)
+CREATE INDEX KRMS_TERM_RSLVR_ATTR_TI2 ON KRMS_TERM_RSLVR_ATTR_T (ATTR_DEFN_ID)
 /
-alter table krms_term_rslvr_attr_t add constraint krms_term_rslvr_attr_fk1 foreign key (term_rslvr_id) references krms_term_rslvr_t (term_rslvr_id)
+ALTER TABLE KRMS_TERM_RSLVR_ATTR_T ADD CONSTRAINT KRMS_TERM_RSLVR_ATTR_FK1 FOREIGN KEY (TERM_RSLVR_ID) REFERENCES KRMS_TERM_RSLVR_T (TERM_RSLVR_ID)
 /
-alter table krms_term_rslvr_attr_t add constraint krms_term_rslvr_attr_fk2 foreign key (attr_defn_id) references krms_attr_defn_t (attr_defn_id)
+ALTER TABLE KRMS_TERM_RSLVR_ATTR_T ADD CONSTRAINT KRMS_TERM_RSLVR_ATTR_FK2 FOREIGN KEY (ATTR_DEFN_ID) REFERENCES KRMS_ATTR_DEFN_T (ATTR_DEFN_ID)
 /
 
 
@@ -5497,192 +5479,192 @@ alter table krms_term_rslvr_attr_t add constraint krms_term_rslvr_attr_fk2 forei
 
 
 -- -----------------------------------------------------
--- Table krew_typ_t
+-- Table KREW_TYP_T
 -- -----------------------------------------------------
 
-CREATE  TABLE krew_typ_t (
-  typ_id VARCHAR2(40) NOT NULL ,
-  nm VARCHAR2(100) NOT NULL ,
-  nmspc_cd VARCHAR2(40) NOT NULL ,
-  srvc_nm VARCHAR2(200) NULL ,
-  actv VARCHAR2(1) DEFAULT 'Y' NOT NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0 NOT NULL ,
-  PRIMARY KEY (typ_id) )
+CREATE  TABLE KREW_TYP_T (
+  TYP_ID VARCHAR2(40) NOT NULL ,
+  NM VARCHAR2(100) NOT NULL ,
+  NMSPC_CD VARCHAR2(40) NOT NULL ,
+  SRVC_NM VARCHAR2(200) NULL ,
+  ACTV VARCHAR2(1) DEFAULT 'Y' NOT NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0 NOT NULL ,
+  PRIMARY KEY (TYP_ID) )
 /
 
-CREATE UNIQUE INDEX krew_typ_tc1 ON krew_typ_t (nm, nmspc_cd)
-/
-
-
--- -----------------------------------------------------
--- Table krew_ppl_flw_t
--- -----------------------------------------------------
-
-CREATE  TABLE krew_ppl_flw_t (
-  ppl_flw_id VARCHAR2(40) NOT NULL ,
-  nm VARCHAR2(100) NOT NULL ,
-  nmspc_cd VARCHAR2(40) NOT NULL ,
-  typ_id VARCHAR2(40) NOT NULL ,
-  actv VARCHAR2(1) DEFAULT 'Y' NOT NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0 NOT NULL ,
-  desc_txt VARCHAR2(4000) NULL ,
-  PRIMARY KEY (ppl_flw_id) ,
-  CONSTRAINT krew_ppl_flw_fk1
-    FOREIGN KEY (typ_id )
-    REFERENCES krew_typ_t (typ_id ))
-/
-
-CREATE UNIQUE INDEX krew_ppl_flw_tc1 ON krew_ppl_flw_t (nm, nmspc_cd)
-/
-
-CREATE INDEX krew_ppl_flw_fk1 ON krew_ppl_flw_t (typ_id)
+CREATE UNIQUE INDEX KREW_TYP_TC1 ON KREW_TYP_T (NM, NMSPC_CD)
 /
 
 
 -- -----------------------------------------------------
--- Table krew_attr_defn_t
+-- Table KREW_PPL_FLW_T
 -- -----------------------------------------------------
 
-CREATE  TABLE krew_attr_defn_t (
-  attr_defn_id VARCHAR2(40) NOT NULL ,
-  nm VARCHAR2(100) NOT NULL ,
-  nmspc_cd VARCHAR2(40) NOT NULL ,
-  lbl VARCHAR2(40) NULL ,
-  actv VARCHAR2(1) DEFAULT 'Y' NOT NULL ,
-  cmpnt_nm VARCHAR2(100) NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0 NOT NULL ,
-  desc_txt VARCHAR2(40) NULL ,
-  PRIMARY KEY (attr_defn_id) )
+CREATE  TABLE KREW_PPL_FLW_T (
+  PPL_FLW_ID VARCHAR2(40) NOT NULL ,
+  NM VARCHAR2(100) NOT NULL ,
+  NMSPC_CD VARCHAR2(40) NOT NULL ,
+  TYP_ID VARCHAR2(40) NOT NULL ,
+  ACTV VARCHAR2(1) DEFAULT 'Y' NOT NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0 NOT NULL ,
+  DESC_TXT VARCHAR2(4000) NULL ,
+  PRIMARY KEY (PPL_FLW_ID) ,
+  CONSTRAINT KREW_PPL_FLW_FK1
+    FOREIGN KEY (TYP_ID )
+    REFERENCES KREW_TYP_T (TYP_ID ))
 /
 
-CREATE UNIQUE INDEX krew_attr_defn_tc1 ON krew_attr_defn_t (nm, nmspc_cd)
+CREATE UNIQUE INDEX KREW_PPL_FLW_TC1 ON KREW_PPL_FLW_T (NM, NMSPC_CD)
 /
 
-
--- -----------------------------------------------------
--- Table krew_typ_attr_t
--- -----------------------------------------------------
-
-CREATE  TABLE krew_typ_attr_t (
-  typ_attr_id VARCHAR2(40) NOT NULL ,
-  seq_no NUMBER(5) NOT NULL ,
-  typ_id VARCHAR2(40) NOT NULL ,
-  attr_defn_id VARCHAR2(255) NOT NULL ,
-  actv VARCHAR2(1) DEFAULT 'Y' NOT NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0 NOT NULL ,
-  PRIMARY KEY (typ_attr_id) ,
-  CONSTRAINT krew_typ_attr_fk1
-    FOREIGN KEY (attr_defn_id )
-    REFERENCES krew_attr_defn_t (attr_defn_id ),
-  CONSTRAINT krew_typ_attr_fk2
-    FOREIGN KEY (typ_id )
-    REFERENCES krew_typ_t (typ_id ))
-/
-
-CREATE INDEX krew_typ_attr_ti1 ON krew_typ_attr_t (attr_defn_id)
-/
-
-CREATE INDEX krew_typ_attr_ti2 ON krew_typ_attr_t (typ_id)
-/
-
-CREATE UNIQUE INDEX krew_typ_attr_tc1 ON krew_typ_attr_t (typ_id, attr_defn_id)
+CREATE INDEX KREW_PPL_FLW_FK1 ON KREW_PPL_FLW_T (TYP_ID)
 /
 
 
 -- -----------------------------------------------------
--- Table krew_ppl_flw_mbr_t
+-- Table KREW_ATTR_DEFN_T
 -- -----------------------------------------------------
 
-CREATE  TABLE krew_ppl_flw_mbr_t (
-  ppl_flw_mbr_id VARCHAR2(40) NOT NULL ,
-  ppl_flw_id VARCHAR2(40) NOT NULL ,
-  mbr_typ_cd VARCHAR2(1) NOT NULL ,
-  mbr_id VARCHAR2(40) NOT NULL ,
-  prio NUMBER(8) NULL ,
-  dlgt_frm_id VARCHAR2(40) NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0 NOT NULL ,
-  PRIMARY KEY (ppl_flw_mbr_id) ,
-  CONSTRAINT krew_ppl_flw_mbr_fk1
-    FOREIGN KEY (ppl_flw_id )
-    REFERENCES krew_ppl_flw_t (ppl_flw_id ),
-  CONSTRAINT krew_ppl_flw_mbr_fk2
-    FOREIGN KEY (dlgt_frm_id )
-    REFERENCES krew_ppl_flw_mbr_t (ppl_flw_mbr_id ))
+CREATE  TABLE KREW_ATTR_DEFN_T (
+  ATTR_DEFN_ID VARCHAR2(40) NOT NULL ,
+  NM VARCHAR2(100) NOT NULL ,
+  NMSPC_CD VARCHAR2(40) NOT NULL ,
+  LBL VARCHAR2(40) NULL ,
+  ACTV VARCHAR2(1) DEFAULT 'Y' NOT NULL ,
+  CMPNT_NM VARCHAR2(100) NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0 NOT NULL ,
+  DESC_TXT VARCHAR2(40) NULL ,
+  PRIMARY KEY (ATTR_DEFN_ID) )
 /
 
-CREATE INDEX krew_ppl_flw_mbr_ti1 ON krew_ppl_flw_mbr_t (ppl_flw_id)
-/
-
-CREATE INDEX krew_ppl_flw_mbr_ti2 ON krew_ppl_flw_mbr_t (ppl_flw_id, prio)
-/
-
-CREATE UNIQUE INDEX krew_ppl_flw_mbr_tc1 ON krew_ppl_flw_mbr_t (ppl_flw_id, mbr_typ_cd, mbr_id, dlgt_frm_id)
-/
-
-CREATE INDEX krew_ppl_flw_mbr_fk2 ON krew_ppl_flw_mbr_t (dlgt_frm_id)
+CREATE UNIQUE INDEX KREW_ATTR_DEFN_TC1 ON KREW_ATTR_DEFN_T (NM, NMSPC_CD)
 /
 
 
 -- -----------------------------------------------------
--- Table krew_ppl_flw_attr_t
+-- Table KREW_TYP_ATTR_T
 -- -----------------------------------------------------
 
-CREATE  TABLE krew_ppl_flw_attr_t (
-  ppl_flw_attr_id VARCHAR2(40) NOT NULL ,
-  ppl_flw_id VARCHAR2(40) NOT NULL ,
-  attr_defn_id VARCHAR2(40) NOT NULL ,
-  attr_val VARCHAR2(400) NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0 NOT NULL ,
-  PRIMARY KEY (ppl_flw_attr_id) ,
-  CONSTRAINT krew_ppl_flw_attr_fk1
-    FOREIGN KEY (ppl_flw_id )
-    REFERENCES krew_ppl_flw_t (ppl_flw_id ),
-  CONSTRAINT krew_ppl_flw_attr_fk2
-    FOREIGN KEY (attr_defn_id )
-    REFERENCES krew_attr_defn_t (attr_defn_id ))
+CREATE  TABLE KREW_TYP_ATTR_T (
+  TYP_ATTR_ID VARCHAR2(40) NOT NULL ,
+  SEQ_NO NUMBER(5) NOT NULL ,
+  TYP_ID VARCHAR2(40) NOT NULL ,
+  ATTR_DEFN_ID VARCHAR2(255) NOT NULL ,
+  ACTV VARCHAR2(1) DEFAULT 'Y' NOT NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0 NOT NULL ,
+  PRIMARY KEY (TYP_ATTR_ID) ,
+  CONSTRAINT KREW_TYP_ATTR_FK1
+    FOREIGN KEY (ATTR_DEFN_ID )
+    REFERENCES KREW_ATTR_DEFN_T (ATTR_DEFN_ID ),
+  CONSTRAINT KREW_TYP_ATTR_FK2
+    FOREIGN KEY (TYP_ID )
+    REFERENCES KREW_TYP_T (TYP_ID ))
 /
 
-CREATE INDEX krew_ppl_flw_attr_ti1 ON krew_ppl_flw_attr_t (ppl_flw_id)
+CREATE INDEX KREW_TYP_ATTR_TI1 ON KREW_TYP_ATTR_T (ATTR_DEFN_ID)
 /
 
-CREATE INDEX krew_ppl_flw_attr_ti2 ON krew_ppl_flw_attr_t (attr_defn_id)
+CREATE INDEX KREW_TYP_ATTR_TI2 ON KREW_TYP_ATTR_T (TYP_ID)
+/
+
+CREATE UNIQUE INDEX KREW_TYP_ATTR_TC1 ON KREW_TYP_ATTR_T (TYP_ID, ATTR_DEFN_ID)
 /
 
 
 -- -----------------------------------------------------
--- Table krew_typ_s
+-- Table KREW_PPL_FLW_MBR_T
 -- -----------------------------------------------------
-CREATE SEQUENCE krew_typ_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+
+CREATE  TABLE KREW_PPL_FLW_MBR_T (
+  PPL_FLW_MBR_ID VARCHAR2(40) NOT NULL ,
+  PPL_FLW_ID VARCHAR2(40) NOT NULL ,
+  MBR_TYP_CD VARCHAR2(1) NOT NULL ,
+  MBR_ID VARCHAR2(40) NOT NULL ,
+  PRIO NUMBER(8) NULL ,
+  DLGT_FRM_ID VARCHAR2(40) NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0 NOT NULL ,
+  PRIMARY KEY (PPL_FLW_MBR_ID) ,
+  CONSTRAINT KREW_PPL_FLW_MBR_FK1
+    FOREIGN KEY (PPL_FLW_ID )
+    REFERENCES KREW_PPL_FLW_T (PPL_FLW_ID ),
+  CONSTRAINT KREW_PPL_FLW_MBR_FK2
+    FOREIGN KEY (DLGT_FRM_ID )
+    REFERENCES KREW_PPL_FLW_MBR_T (PPL_FLW_MBR_ID ))
+/
+
+CREATE INDEX KREW_PPL_FLW_MBR_TI1 ON KREW_PPL_FLW_MBR_T (PPL_FLW_ID)
+/
+
+CREATE INDEX KREW_PPL_FLW_MBR_TI2 ON KREW_PPL_FLW_MBR_T (PPL_FLW_ID, PRIO)
+/
+
+CREATE UNIQUE INDEX KREW_PPL_FLW_MBR_TC1 ON KREW_PPL_FLW_MBR_T (PPL_FLW_ID, MBR_TYP_CD, MBR_ID, DLGT_FRM_ID)
+/
+
+CREATE INDEX KREW_PPL_FLW_MBR_FK2 ON KREW_PPL_FLW_MBR_T (DLGT_FRM_ID)
+/
+
+
+-- -----------------------------------------------------
+-- Table KREW_PPL_FLW_ATTR_T
+-- -----------------------------------------------------
+
+CREATE  TABLE KREW_PPL_FLW_ATTR_T (
+  PPL_FLW_ATTR_ID VARCHAR2(40) NOT NULL ,
+  PPL_FLW_ID VARCHAR2(40) NOT NULL ,
+  ATTR_DEFN_ID VARCHAR2(40) NOT NULL ,
+  ATTR_VAL VARCHAR2(400) NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0 NOT NULL ,
+  PRIMARY KEY (PPL_FLW_ATTR_ID) ,
+  CONSTRAINT KREW_PPL_FLW_ATTR_FK1
+    FOREIGN KEY (PPL_FLW_ID )
+    REFERENCES KREW_PPL_FLW_T (PPL_FLW_ID ),
+  CONSTRAINT KREW_PPL_FLW_ATTR_FK2
+    FOREIGN KEY (ATTR_DEFN_ID )
+    REFERENCES KREW_ATTR_DEFN_T (ATTR_DEFN_ID ))
+/
+
+CREATE INDEX KREW_PPL_FLW_ATTR_TI1 ON KREW_PPL_FLW_ATTR_T (PPL_FLW_ID)
+/
+
+CREATE INDEX KREW_PPL_FLW_ATTR_TI2 ON KREW_PPL_FLW_ATTR_T (ATTR_DEFN_ID)
+/
+
+
+-- -----------------------------------------------------
+-- Table KREW_TYP_S
+-- -----------------------------------------------------
+CREATE SEQUENCE KREW_TYP_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
 -- -----------------------------------------------------
--- Table krew_typ_attr_s
+-- Table KREW_TYP_ATTR_S
 -- -----------------------------------------------------
-CREATE SEQUENCE krew_typ_attr_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KREW_TYP_ATTR_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
 -- -----------------------------------------------------
--- Table krew_attr_defn_s
+-- Table KREW_ATTR_DEFN_S
 -- -----------------------------------------------------
-CREATE SEQUENCE krew_attr_defn_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KREW_ATTR_DEFN_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
 -- -----------------------------------------------------
--- Table krew_ppl_flw_s
+-- Table KREW_PPL_FLW_S
 -- -----------------------------------------------------
-CREATE SEQUENCE krew_ppl_flw_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KREW_PPL_FLW_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
 -- -----------------------------------------------------
--- Table krew_ppl_flw_attr_s
+-- Table KREW_PPL_FLW_ATTR_S
 -- -----------------------------------------------------
-CREATE SEQUENCE krew_ppl_flw_attr_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KREW_PPL_FLW_ATTR_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
 -- -----------------------------------------------------
--- Table krew_ppl_flw_mbr_s
+-- Table KREW_PPL_FLW_MBR_S
 -- -----------------------------------------------------
-CREATE SEQUENCE krew_ppl_flw_mbr_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KREW_PPL_FLW_MBR_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
 
@@ -5694,10 +5676,10 @@ CREATE SEQUENCE krew_ppl_flw_mbr_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NO
 -- 
 
 
-delete from krcr_parm_t
-where nmspc_cd = 'KR-NS'
-and cmpnt_cd = 'All'
-and parm_nm in ('STRING_TO_DATE_FORMATS', 'STRING_TO_TIMESTAMP_FORMATS', 'TIMESTAMP_TO_STRING_FORMAT_FOR_USER_INTERFACE', 'DATE_TO_STRING_FORMAT_FOR_FILE_NAME', 'TIMESTAMP_TO_STRING_FORMAT_FOR_FILE_NAME')
+DELETE FROM KRCR_PARM_T
+WHERE NMSPC_CD = 'KR-NS'
+AND CMPNT_CD = 'All'
+AND PARM_NM IN ('STRING_TO_DATE_FORMATS', 'STRING_TO_TIMESTAMP_FORMATS', 'TIMESTAMP_TO_STRING_FORMAT_FOR_USER_INTERFACE', 'DATE_TO_STRING_FORMAT_FOR_FILE_NAME', 'TIMESTAMP_TO_STRING_FORMAT_FOR_FILE_NAME')
 /
 
 
@@ -5709,7 +5691,7 @@ and parm_nm in ('STRING_TO_DATE_FORMATS', 'STRING_TO_TIMESTAMP_FORMATS', 'TIMEST
 -- 
 
 
-delete from krcr_parm_t where PARM_NM = 'CACHING_IND'
+DELETE FROM KRCR_PARM_T WHERE PARM_NM = 'CACHING_IND'
 /
 
 
@@ -5722,22 +5704,22 @@ delete from krcr_parm_t where PARM_NM = 'CACHING_IND'
 
 
 -- KULRICE-5360 rename KIM entity fields
-alter table KRIM_ENTITY_NM_T rename column TITLE_NM to PREFIX_NM
+ALTER TABLE KRIM_ENTITY_NM_T RENAME COLUMN TITLE_NM TO PREFIX_NM
 /
 
-alter table KRIM_ENTITY_BIO_T rename column BIRTH_STATE_CD to BIRTH_STATE_PVC_CD
+ALTER TABLE KRIM_ENTITY_BIO_T RENAME COLUMN BIRTH_STATE_CD TO BIRTH_STATE_PVC_CD
 /
 
-alter table KRIM_ENTITY_ADDR_T rename column POSTAL_STATE_CD to STATE_PVC_CD
+ALTER TABLE KRIM_ENTITY_ADDR_T RENAME COLUMN POSTAL_STATE_CD TO STATE_PVC_CD
 /
-alter table KRIM_ENTITY_ADDR_T rename column CITY_NM to CITY
+ALTER TABLE KRIM_ENTITY_ADDR_T RENAME COLUMN CITY_NM TO CITY
 /
 
-alter table KRIM_PND_NM_MT rename column TITLE_NM to PREFIX_NM
+ALTER TABLE KRIM_PND_NM_MT RENAME COLUMN TITLE_NM TO PREFIX_NM
 /
-alter table KRIM_PND_ADDR_MT rename column POSTAL_STATE_CD to STATE_PVC_CD
+ALTER TABLE KRIM_PND_ADDR_MT RENAME COLUMN POSTAL_STATE_CD TO STATE_PVC_CD
 /
-alter table KRIM_PND_ADDR_MT rename column CITY_NM to CITY
+ALTER TABLE KRIM_PND_ADDR_MT RENAME COLUMN CITY_NM TO CITY
 /
 
 
@@ -5749,7 +5731,7 @@ alter table KRIM_PND_ADDR_MT rename column CITY_NM to CITY
 -- 
 
 
-delete from KREW_USR_OPTN_T where PRSN_OPTN_ID like 'DocSearch%'
+DELETE FROM KREW_USR_OPTN_T WHERE PRSN_OPTN_ID LIKE 'DocSearch%'
 /
 
 
@@ -5762,50 +5744,50 @@ delete from KREW_USR_OPTN_T where PRSN_OPTN_ID like 'DocSearch%'
 
 
 -- KULRICE-5360 add KIM entity fields
-alter table KRIM_ENTITY_NM_T add TITLE_NM VARCHAR(20)
+ALTER TABLE KRIM_ENTITY_NM_T ADD TITLE_NM VARCHAR(20)
 /
-alter table KRIM_ENTITY_NM_T add NOTE_MSG VARCHAR(1024)
+ALTER TABLE KRIM_ENTITY_NM_T ADD NOTE_MSG VARCHAR(1024)
 /
-alter table KRIM_ENTITY_NM_T add NM_CHNG_DT DATE
-/
-
-alter table KRIM_ENTITY_ADDR_T add ATTN_LINE VARCHAR(45)
-/
-alter table KRIM_ENTITY_ADDR_T add ADDR_FMT VARCHAR(256)
-/
-alter table KRIM_ENTITY_ADDR_T add MOD_DT DATE DEFAULT SYSDATE
-/
-alter table KRIM_ENTITY_ADDR_T add VALID_DT DATE
-/
-alter table KRIM_ENTITY_ADDR_T add VALID_IND VARCHAR(1)
-/
-alter table KRIM_ENTITY_ADDR_T add NOTE_MSG VARCHAR(1024)
+ALTER TABLE KRIM_ENTITY_NM_T ADD NM_CHNG_DT DATE
 /
 
+ALTER TABLE KRIM_ENTITY_ADDR_T ADD ATTN_LINE VARCHAR(45)
+/
+ALTER TABLE KRIM_ENTITY_ADDR_T ADD ADDR_FMT VARCHAR(256)
+/
+ALTER TABLE KRIM_ENTITY_ADDR_T ADD MOD_DT DATE DEFAULT SYSDATE
+/
+ALTER TABLE KRIM_ENTITY_ADDR_T ADD VALID_DT DATE
+/
+ALTER TABLE KRIM_ENTITY_ADDR_T ADD VALID_IND VARCHAR(1)
+/
+ALTER TABLE KRIM_ENTITY_ADDR_T ADD NOTE_MSG VARCHAR(1024)
+/
 
-alter table KRIM_ENTITY_BIO_T add NOTE_MSG VARCHAR(1024)
+
+ALTER TABLE KRIM_ENTITY_BIO_T ADD NOTE_MSG VARCHAR(1024)
 /
-alter table KRIM_ENTITY_BIO_T add GNDR_CHG_CD VARCHAR(20)
+ALTER TABLE KRIM_ENTITY_BIO_T ADD GNDR_CHG_CD VARCHAR(20)
 /
 
-alter table KRIM_PND_NM_MT add TITLE_NM VARCHAR(20)
+ALTER TABLE KRIM_PND_NM_MT ADD TITLE_NM VARCHAR(20)
 /
-alter table KRIM_PND_NM_MT add NOTE_MSG VARCHAR(1024)
+ALTER TABLE KRIM_PND_NM_MT ADD NOTE_MSG VARCHAR(1024)
 /
-alter table KRIM_PND_NM_MT add NM_CHNG_DT DATE
+ALTER TABLE KRIM_PND_NM_MT ADD NM_CHNG_DT DATE
 /
 
-alter table KRIM_PND_ADDR_MT add ATTN_LINE VARCHAR(45)
+ALTER TABLE KRIM_PND_ADDR_MT ADD ATTN_LINE VARCHAR(45)
 /
-alter table KRIM_PND_ADDR_MT add ADDR_FMT VARCHAR(256)
+ALTER TABLE KRIM_PND_ADDR_MT ADD ADDR_FMT VARCHAR(256)
 /
-alter table KRIM_PND_ADDR_MT add MOD_DT DATE DEFAULT SYSDATE
+ALTER TABLE KRIM_PND_ADDR_MT ADD MOD_DT DATE DEFAULT SYSDATE
 /
-alter table KRIM_PND_ADDR_MT add VALID_DT DATE
+ALTER TABLE KRIM_PND_ADDR_MT ADD VALID_DT DATE
 /
-alter table KRIM_PND_ADDR_MT add VALID_IND VARCHAR(1)
+ALTER TABLE KRIM_PND_ADDR_MT ADD VALID_IND VARCHAR(1)
 /
-alter table KRIM_PND_ADDR_MT add NOTE_MSG VARCHAR(1024)
+ALTER TABLE KRIM_PND_ADDR_MT ADD NOTE_MSG VARCHAR(1024)
 /
 
 
@@ -5817,7 +5799,7 @@ alter table KRIM_PND_ADDR_MT add NOTE_MSG VARCHAR(1024)
 -- 
 
 
-alter table KREW_PPL_FLW_T modify(TYP_ID NULL)
+ALTER TABLE KREW_PPL_FLW_T MODIFY(TYP_ID NULL)
 /
 DECLARE
 c NUMBER;
@@ -5830,30 +5812,30 @@ DBMS_OUTPUT.PUT_LINE('KREW_PPL_FLW_MBR_TC1 does not exist, so not running statem
 END IF;
 END;
 /
-alter table KREW_PPL_FLW_MBR_T DROP COLUMN dlgt_frm_id
+ALTER TABLE KREW_PPL_FLW_MBR_T DROP COLUMN DLGT_FRM_ID
 /
 
 -- -----------------------------------------------------
--- Table krew_ppl_flw_dlgt_t
+-- Table KREW_PPL_FLW_DLGT_T
 -- -----------------------------------------------------
 
-CREATE  TABLE krew_ppl_flw_dlgt_t (
-  ppl_flw_dlgt_id VARCHAR2(40) NOT NULL ,
-  ppl_flw_mbr_id VARCHAR2(40) NOT NULL ,
-  mbr_id VARCHAR2(40) NOT NULL ,
-  mbr_typ_cd VARCHAR2(1) NOT NULL ,
-  dlgn_typ_cd VARCHAR2(1) NOT NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0 NOT NULL ,
-  PRIMARY KEY (ppl_flw_dlgt_id) ,
-  CONSTRAINT krew_ppl_flw_dlgt_fk1
-    FOREIGN KEY (ppl_flw_mbr_id )
-    REFERENCES krew_ppl_flw_mbr_t (ppl_flw_mbr_id ))
+CREATE  TABLE KREW_PPL_FLW_DLGT_T (
+  PPL_FLW_DLGT_ID VARCHAR2(40) NOT NULL ,
+  PPL_FLW_MBR_ID VARCHAR2(40) NOT NULL ,
+  MBR_ID VARCHAR2(40) NOT NULL ,
+  MBR_TYP_CD VARCHAR2(1) NOT NULL ,
+  DLGN_TYP_CD VARCHAR2(1) NOT NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0 NOT NULL ,
+  PRIMARY KEY (PPL_FLW_DLGT_ID) ,
+  CONSTRAINT KREW_PPL_FLW_DLGT_FK1
+    FOREIGN KEY (PPL_FLW_MBR_ID )
+    REFERENCES KREW_PPL_FLW_MBR_T (PPL_FLW_MBR_ID ))
 /
 
-CREATE INDEX krew_ppl_flw_dlgt_ti1 ON krew_ppl_flw_dlgt_t (ppl_flw_mbr_id)
+CREATE INDEX KREW_PPL_FLW_DLGT_TI1 ON KREW_PPL_FLW_DLGT_T (PPL_FLW_MBR_ID)
 /
 
-CREATE SEQUENCE krew_ppl_flw_dlgt_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KREW_PPL_FLW_DLGT_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
 
@@ -5866,60 +5848,60 @@ CREATE SEQUENCE krew_ppl_flw_dlgt_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE N
 
 
 -- KIM permissions
-insert into krcr_nmspc_t
-(nmspc_cd, nm, actv_ind, appl_id, ver_nbr, obj_id)
-values ('KR-RULE','Kuali Rules','Y','RICE',1,sys_guid())
+INSERT INTO KRCR_NMSPC_T
+(NMSPC_CD, NM, ACTV_IND, APPL_ID, VER_NBR, OBJ_ID)
+VALUES ('KR-RULE','Kuali Rules','Y','RICE',1,SYS_GUID())
 /
 
-insert into krim_perm_tmpl_t
-(perm_tmpl_id, nm, nmspc_cd, desc_txt, kim_typ_id, actv_ind, ver_nbr, obj_id)
-values ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000),
+INSERT INTO KRIM_PERM_TMPL_T
+(PERM_TMPL_ID, NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, VER_NBR, OBJ_ID)
+VALUES ((SELECT (MAX(TO_NUMBER(PERM_TMPL_ID)) + 1) FROM KRIM_PERM_TMPL_T WHERE PERM_TMPL_ID IS NOT NULL AND TO_NUMBER(PERM_TMPL_ID) < 10000),
         'KRMS Agenda Permission','KR-RULE','View/Maintain Agenda',
-        (select kim_typ_id from krim_typ_t where nm = 'Namespace' and nmspc_cd = 'KR-NS'),
-        'Y',1,sys_guid())
+        (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'Namespace' AND NMSPC_CD = 'KR-NS'),
+        'Y',1,SYS_GUID())
 /
 
-insert into krim_perm_t
-(perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, ver_nbr, obj_id)
-values ((select (max(to_number(perm_id)) + 1) from krim_perm_t where perm_id is not NULL and to_number(perm_id) < 10000),
-        (select perm_tmpl_id from krim_perm_tmpl_t where nm = 'KRMS Agenda Permission' and nmspc_cd = 'KR-RULE'),
-        'KR-RULE','Maintain KRMS Agenda','Allows creation and modification of agendas via the agenda editor','Y',1,sys_guid())
+INSERT INTO KRIM_PERM_T
+(PERM_ID, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND, VER_NBR, OBJ_ID)
+VALUES ((SELECT (MAX(TO_NUMBER(PERM_ID)) + 1) FROM KRIM_PERM_T WHERE PERM_ID IS NOT NULL AND TO_NUMBER(PERM_ID) < 10000),
+        (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NM = 'KRMS Agenda Permission' AND NMSPC_CD = 'KR-RULE'),
+        'KR-RULE','Maintain KRMS Agenda','Allows creation and modification of agendas via the agenda editor','Y',1,SYS_GUID())
 /
 
-insert into krim_perm_attr_data_t
-(attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, ver_nbr, obj_id)
-values ((select (max(to_number(attr_data_id)) + 1) from krim_perm_attr_data_t where attr_data_id is not NULL and to_number(attr_data_id) < 10000),
-        (select perm_id from krim_perm_t where nm = 'Maintain KRMS Agenda' and nmspc_cd = 'KR-RULE'),
-        (select kim_typ_id from krim_typ_t where nm = 'Namespace' and nmspc_cd = 'KR-NS'),
-        (select kim_attr_defn_id from krim_attr_defn_t where nm = 'namespaceCode'),
-        'KRMS_TEST',1,sys_guid())
+INSERT INTO KRIM_PERM_ATTR_DATA_T
+(ATTR_DATA_ID, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, VER_NBR, OBJ_ID)
+VALUES ((SELECT (MAX(TO_NUMBER(ATTR_DATA_ID)) + 1) FROM KRIM_PERM_ATTR_DATA_T WHERE ATTR_DATA_ID IS NOT NULL AND TO_NUMBER(ATTR_DATA_ID) < 10000),
+        (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Maintain KRMS Agenda' AND NMSPC_CD = 'KR-RULE'),
+        (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'Namespace' AND NMSPC_CD = 'KR-NS'),
+        (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NM = 'namespaceCode'),
+        'KRMS_TEST',1,SYS_GUID())
 /
 
 -- KIM roles
-insert into krim_role_t
-(role_id, role_nm, nmspc_cd, desc_txt, kim_typ_id, actv_ind, last_updt_dt, obj_id)
-values ((select (max(to_number(role_id)) + 1) from krim_role_t where role_id is not NULL and to_number(role_id) < 10000),
+INSERT INTO KRIM_ROLE_T
+(ROLE_ID, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT, OBJ_ID)
+VALUES ((SELECT (MAX(TO_NUMBER(ROLE_ID)) + 1) FROM KRIM_ROLE_T WHERE ROLE_ID IS NOT NULL AND TO_NUMBER(ROLE_ID) < 10000),
         'Kuali Rules Management System Administrator',
         'KR-RULE',
         'This role maintains KRMS agendas and rules.',
-        (select kim_typ_id from krim_typ_t where nm = 'Default' and nmspc_cd = 'KUALI'),
-        'Y', current_date, sys_guid())
+        (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'Default' AND NMSPC_CD = 'KUALI'),
+        'Y', CURRENT_DATE, SYS_GUID())
 /
 
-insert into krim_role_mbr_t
-(role_mbr_id, role_id, mbr_id, mbr_typ_cd, last_updt_dt, ver_nbr, obj_id)
-values ((select (max(to_number(role_mbr_id)) + 1) from krim_role_mbr_t where role_mbr_id is not NULL and to_number(role_mbr_id) < 10000),
-        (select role_id from krim_role_t where role_nm = 'Kuali Rules Management System Administrator' and nmspc_cd = 'KR-RULE'),
-        (select prncpl_id from krim_prncpl_t where prncpl_nm = 'admin'),
-        'P', current_date, 1, sys_guid())
+INSERT INTO KRIM_ROLE_MBR_T
+(ROLE_MBR_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, LAST_UPDT_DT, VER_NBR, OBJ_ID)
+VALUES ((SELECT (MAX(TO_NUMBER(ROLE_MBR_ID)) + 1) FROM KRIM_ROLE_MBR_T WHERE ROLE_MBR_ID IS NOT NULL AND TO_NUMBER(ROLE_MBR_ID) < 10000),
+        (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Kuali Rules Management System Administrator' AND NMSPC_CD = 'KR-RULE'),
+        (SELECT PRNCPL_ID FROM KRIM_PRNCPL_T WHERE PRNCPL_NM = 'admin'),
+        'P', CURRENT_DATE, 1, SYS_GUID())
 /
 
-insert into krim_role_perm_t
-(role_perm_id, role_id, perm_id, actv_ind, ver_nbr, obj_id)
-values ((select (max(to_number(role_perm_id)) + 1) from krim_role_perm_t where role_perm_id is not NULL and to_number(role_perm_id) < 10000),
-        (select role_id from krim_role_t where role_nm = 'Kuali Rules Management System Administrator' and nmspc_cd = 'KR-RULE'),
-        (select perm_id from krim_perm_t where nm = 'Maintain KRMS Agenda' and nmspc_cd = 'KR-RULE'),
-        'Y', 1, sys_guid())
+INSERT INTO KRIM_ROLE_PERM_T
+(ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, VER_NBR, OBJ_ID)
+VALUES ((SELECT (MAX(TO_NUMBER(ROLE_PERM_ID)) + 1) FROM KRIM_ROLE_PERM_T WHERE ROLE_PERM_ID IS NOT NULL AND TO_NUMBER(ROLE_PERM_ID) < 10000),
+        (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Kuali Rules Management System Administrator' AND NMSPC_CD = 'KR-RULE'),
+        (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Maintain KRMS Agenda' AND NMSPC_CD = 'KR-RULE'),
+        'Y', 1, SYS_GUID())
 /
 
 
@@ -5942,29 +5924,6 @@ ALTER TABLE KREW_DOC_TYP_T DROP COLUMN CSTM_DOC_NTE_ATTRIB_CLS_NM
 
 
 -- 
--- 2011-09-27.sql
--- 
-
-
--- Notification PeopleFlowActionType
-
-insert into krms_typ_t
-(typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr)
-values ('1000', 'notificationPeopleFlowActionType', 'KRMS', 'notificationPeopleFlowActionTypeService', 'Y', 1)
-/
-
--- Approval PeopleFlowActionType
-
-insert into krms_typ_t
-(typ_id, nm, nmspc_cd, srvc_nm, actv, ver_nbr)
-values ('1001', 'approvalPeopleFlowActionType', 'KRMS_TEST', 'approvalPeopleFlowActionTypeService', 'Y', 1)
-/
-
-
-
-
-
--- 
 -- 2011-09-30.sql
 -- 
 
@@ -5972,26 +5931,26 @@ values ('1001', 'approvalPeopleFlowActionType', 'KRMS_TEST', 'approvalPeopleFlow
 
 
 -- -----------------------------------------------------
--- Table krms_cntxt_vld_agenda_t
+-- Table KRMS_CNTXT_VLD_AGENDA_T
 -- -----------------------------------------------------
--- begin execute immediate 'drop table krms_cntxt_vld_agenda_t'; exception when others then null; end;
+-- BEGIN EXECUTE IMMEDIATE 'DROP TABLE KRMS_CNTXT_VLD_AGENDA_T'; EXCEPTION WHEN OTHERS THEN NULL; END;
 
-CREATE  TABLE  krms_cntxt_vld_agenda_t (
-  cntxt_vld_agenda_id VARCHAR2(40)  NOT NULL ,
-  cntxt_id VARCHAR2(40)  NOT NULL ,
-  agenda_typ_id VARCHAR2(40)  NOT NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL ,
-  PRIMARY KEY (cntxt_vld_agenda_id) ,
-  -- CREATE INDEX krms_cntxt_vld_agenda_ti1 (cntxt_id ASC) ,
-  CONSTRAINT krms_cntxt_vld_agenda_fk1
-    FOREIGN KEY (cntxt_id )
-    REFERENCES krms_cntxt_t (cntxt_id ) )
+CREATE  TABLE  KRMS_CNTXT_VLD_AGENDA_T (
+  CNTXT_VLD_AGENDA_ID VARCHAR2(40)  NOT NULL ,
+  CNTXT_ID VARCHAR2(40)  NOT NULL ,
+  AGENDA_TYP_ID VARCHAR2(40)  NOT NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL ,
+  PRIMARY KEY (CNTXT_VLD_AGENDA_ID) ,
+  -- CREATE INDEX KRMS_CNTXT_VLD_AGENDA_TI1 (CNTXT_ID ASC) ,
+  CONSTRAINT KRMS_CNTXT_VLD_AGENDA_FK1
+    FOREIGN KEY (CNTXT_ID )
+    REFERENCES KRMS_CNTXT_T (CNTXT_ID ) )
 /
 
-CREATE INDEX krms_cntxt_vld_agenda_ti1 on krms_cntxt_vld_agenda_t (cntxt_id ASC)
+CREATE INDEX KRMS_CNTXT_VLD_AGENDA_TI1 ON KRMS_CNTXT_VLD_AGENDA_T (CNTXT_ID ASC)
 /
 
-CREATE SEQUENCE krms_cntxt_vld_agenda_s INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
+CREATE SEQUENCE KRMS_CNTXT_VLD_AGENDA_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
 
@@ -6003,13 +5962,13 @@ CREATE SEQUENCE krms_cntxt_vld_agenda_s INCREMENT BY 1 START WITH 10000 NOMAXVAL
 -- 
 
 
-alter table KREW_PPL_FLW_MBR_T add ACTN_RQST_PLCY_CD VARCHAR2(1)
+ALTER TABLE KREW_PPL_FLW_MBR_T ADD ACTN_RQST_PLCY_CD VARCHAR2(1)
 /
-alter table KREW_PPL_FLW_MBR_T add RSP_ID VARCHAR2(40) NOT NULL
+ALTER TABLE KREW_PPL_FLW_MBR_T ADD RSP_ID VARCHAR2(40) NOT NULL
 /
-alter table KREW_PPL_FLW_DLGT_T add ACTN_RQST_PLCY_CD VARCHAR2(1)
+ALTER TABLE KREW_PPL_FLW_DLGT_T ADD ACTN_RQST_PLCY_CD VARCHAR2(1)
 /
-alter table KREW_PPL_FLW_DLGT_T add RSP_ID VARCHAR2(40) NOT NULL
+ALTER TABLE KREW_PPL_FLW_DLGT_T ADD RSP_ID VARCHAR2(40) NOT NULL
 /
 
 
@@ -6043,14 +6002,14 @@ WHERE NMSPC_CD = 'KR-WKFLW'
 -- 
 
 
-alter table krcr_cmpnt_t add cmpnt_set_id varchar2(40)
+ALTER TABLE KRCR_CMPNT_T ADD CMPNT_SET_ID VARCHAR2(40)
 /
-create table krcr_cmpnt_set_t (
-  cmpnt_set_id varchar2(40) not null,
-  last_updt_ts date not null,
-  chksm varchar2(40) not null,
-  ver_nbr number(8) default 0 not null,
-  primary key (cmpnt_set_id) )
+CREATE TABLE KRCR_CMPNT_SET_T (
+  CMPNT_SET_ID VARCHAR2(40) NOT NULL,
+  LAST_UPDT_TS DATE NOT NULL,
+  CHKSM VARCHAR2(40) NOT NULL,
+  VER_NBR NUMBER(8) DEFAULT 0 NOT NULL,
+  PRIMARY KEY (CMPNT_SET_ID) )
 /
 
 
@@ -6062,14 +6021,14 @@ create table krcr_cmpnt_set_t (
 -- 
 
 
-alter table krcr_cmpnt_t drop column cmpnt_set_id
+ALTER TABLE KRCR_CMPNT_T DROP COLUMN CMPNT_SET_ID
 /
-create table krcr_drvd_cmpnt_t (
-  nmspc_cd varchar2(20) not null,
-  cmpnt_cd varchar2(100) not null,
-  nm varchar2(255),
-  cmpnt_set_id varchar2(40) not null,
-  primary key (nmspc_cd, cmpnt_cd))
+CREATE TABLE KRCR_DRVD_CMPNT_T (
+  NMSPC_CD VARCHAR2(20) NOT NULL,
+  CMPNT_CD VARCHAR2(100) NOT NULL,
+  NM VARCHAR2(255),
+  CMPNT_SET_ID VARCHAR2(40) NOT NULL,
+  PRIMARY KEY (NMSPC_CD, CMPNT_CD))
 /
 
 
@@ -6081,13 +6040,13 @@ create table krcr_drvd_cmpnt_t (
 -- 
 
 
-update KREW_RULE_ATTR_T set RULE_ATTR_TYP_CD='DocumentSecurityAttribute' where RULE_ATTR_TYP_CD='DocumentSearchSecurityFilterAttribute'
+UPDATE KREW_RULE_ATTR_T SET RULE_ATTR_TYP_CD='DocumentSecurityAttribute' WHERE RULE_ATTR_TYP_CD='DocumentSearchSecurityFilterAttribute'
 /
 
-update KRCR_PARM_T set CMPNT_CD='DocumentSearch' where CMPNT_CD='DocSearchCriteriaDTO'
+UPDATE KRCR_PARM_T SET CMPNT_CD='DocumentSearch' WHERE CMPNT_CD='DocSearchCriteriaDTO'
 /
-insert into KRCR_CMPNT_T (NMSPC_CD, CMPNT_CD, NM, ACTV_IND, OBJ_ID, VER_NBR)
-values ('KR-WKFLW', 'DocumentSearch', 'Document Search', 'Y', sys_guid(), 1)
+INSERT INTO KRCR_CMPNT_T (NMSPC_CD, CMPNT_CD, NM, ACTV_IND, OBJ_ID, VER_NBR)
+VALUES ('KR-WKFLW', 'DocumentSearch', 'Document Search', 'Y', SYS_GUID(), 1)
 /
 
 
@@ -6099,10 +6058,10 @@ values ('KR-WKFLW', 'DocumentSearch', 'Document Search', 'Y', sys_guid(), 1)
 -- 
 
 
-insert into KRCR_CMPNT_T (NMSPC_CD, CMPNT_CD, NM, ACTV_IND, OBJ_ID, VER_NBR)
-VALUES ('KR-WKFLW', 'Rule', 'Rule', 'Y', sys_guid(), 1)
+INSERT INTO KRCR_CMPNT_T (NMSPC_CD, CMPNT_CD, NM, ACTV_IND, OBJ_ID, VER_NBR)
+VALUES ('KR-WKFLW', 'Rule', 'Rule', 'Y', SYS_GUID(), 1)
 /
-update KRCR_CMPNT_T set cmpnt_cd='EDocLite' where cmpnt_cd like 'EDocLite%'
+UPDATE KRCR_CMPNT_T SET CMPNT_CD='EDocLite' WHERE CMPNT_CD LIKE 'EDocLite%'
 /
 
 
@@ -6116,31 +6075,31 @@ update KRCR_CMPNT_T set cmpnt_cd='EDocLite' where cmpnt_cd like 'EDocLite%'
 
 -- create a KIM permission for the Cache Administrator screen/controller
 
-insert into krim_perm_t
-(perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, ver_nbr, obj_id)
-values ((select (max(to_number(perm_id)) + 1) from krim_perm_t where perm_id is not NULL and to_number(perm_id) < 10000),
-        (select perm_tmpl_id from krim_perm_tmpl_t where nm = 'Use Screen' and nmspc_cd = 'KR-NS'),
-        'KR-SYS','Use Cache Adminstration Screen','Allows use of the cache administration screen','Y',1,sys_guid())
+INSERT INTO KRIM_PERM_T
+(PERM_ID, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND, VER_NBR, OBJ_ID)
+VALUES ((SELECT (MAX(TO_NUMBER(PERM_ID)) + 1) FROM KRIM_PERM_T WHERE PERM_ID IS NOT NULL AND TO_NUMBER(PERM_ID) < 10000),
+        (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NM = 'Use Screen' AND NMSPC_CD = 'KR-NS'),
+        'KR-SYS','Use Cache Adminstration Screen','Allows use of the cache administration screen','Y',1,SYS_GUID())
 /
 
 
 
-insert into krim_perm_attr_data_t
-(attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, ver_nbr, obj_id)
-values ((select (max(to_number(attr_data_id)) + 1) from krim_perm_attr_data_t where attr_data_id is not NULL and to_number(attr_data_id) < 10000),
-        (select perm_id from krim_perm_t where nm = 'Use Cache Adminstration Screen' and nmspc_cd = 'KR-SYS'),
-        (select kim_typ_id from krim_typ_t where nm = 'Namespace or Action' and nmspc_cd = 'KR-NS'),
-        (select kim_attr_defn_id from krim_attr_defn_t where nm = 'actionClass'),
-        'org.kuali.rice.core.web.cache.CacheAdminController',1,sys_guid())
+INSERT INTO KRIM_PERM_ATTR_DATA_T
+(ATTR_DATA_ID, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, VER_NBR, OBJ_ID)
+VALUES ((SELECT (MAX(TO_NUMBER(ATTR_DATA_ID)) + 1) FROM KRIM_PERM_ATTR_DATA_T WHERE ATTR_DATA_ID IS NOT NULL AND TO_NUMBER(ATTR_DATA_ID) < 10000),
+        (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Use Cache Adminstration Screen' AND NMSPC_CD = 'KR-SYS'),
+        (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'Namespace or Action' AND NMSPC_CD = 'KR-NS'),
+        (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NM = 'actionClass'),
+        'org.kuali.rice.core.web.cache.CacheAdminController',1,SYS_GUID())
 /
 
 
-insert into krim_role_perm_t
-(role_perm_id, role_id, perm_id, actv_ind, ver_nbr, obj_id)
-values ((select (max(to_number(role_perm_id)) + 1) from krim_role_perm_t where role_perm_id is not NULL and to_number(role_perm_id) < 10000),
-        (select role_id from krim_role_t where role_nm = 'Technical Administrator' and nmspc_cd = 'KR-SYS'),
-        (select perm_id from krim_perm_t where nm = 'Use Cache Adminstration Screen' and nmspc_cd = 'KR-SYS'),
-        'Y', 1, sys_guid())
+INSERT INTO KRIM_ROLE_PERM_T
+(ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, VER_NBR, OBJ_ID)
+VALUES ((SELECT (MAX(TO_NUMBER(ROLE_PERM_ID)) + 1) FROM KRIM_ROLE_PERM_T WHERE ROLE_PERM_ID IS NOT NULL AND TO_NUMBER(ROLE_PERM_ID) < 10000),
+        (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Technical Administrator' AND NMSPC_CD = 'KR-SYS'),
+        (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Use Cache Adminstration Screen' AND NMSPC_CD = 'KR-SYS'),
+        'Y', 1, SYS_GUID())
 /
 
 
@@ -6154,11 +6113,11 @@ values ((select (max(to_number(role_perm_id)) + 1) from krim_role_perm_t where r
 
 -- Make typ_id column optional where appropriate
 
-ALTER TABLE krms_rule_t MODIFY typ_id varchar2(40) null
+ALTER TABLE KRMS_RULE_T MODIFY TYP_ID VARCHAR2(40) NULL
 /
-ALTER TABLE krms_agenda_t MODIFY typ_id varchar2(40) null
+ALTER TABLE KRMS_AGENDA_T MODIFY TYP_ID VARCHAR2(40) NULL
 /
-ALTER TABLE krms_cntxt_t MODIFY typ_id varchar2(40) null
+ALTER TABLE KRMS_CNTXT_T MODIFY TYP_ID VARCHAR2(40) NULL
 /
 
 
@@ -6171,7 +6130,7 @@ ALTER TABLE krms_cntxt_t MODIFY typ_id varchar2(40) null
 
 
 -- Drop foreign key constraint on krms_prop_t table
-alter table KRMS_PROP_T drop constraint KRMS_PROP_FK1
+ALTER TABLE KRMS_PROP_T DROP CONSTRAINT KRMS_PROP_FK1
 /
 
 
@@ -6185,14 +6144,14 @@ alter table KRMS_PROP_T drop constraint KRMS_PROP_FK1
 
 -- give PeopleFlows friendlier names
 
-update krms_typ_t set nm='Notify PeopleFlow' where typ_id = '1000'
+UPDATE KRMS_TYP_T SET NM='NOTIFY PEOPLEFLOW' WHERE TYP_ID = '1000'
 /
-update krms_typ_t set nm='Route to PeopleFlow' where typ_id = '1001'
+UPDATE KRMS_TYP_T SET NM='ROUTE TO PEOPLEFLOW' WHERE TYP_ID = '1001'
 /
 
 -- remove constraint that is preventing compound props from persisting
 
-alter table krms_cmpnd_prop_props_t modify seq_no NUMBER(5) null
+ALTER TABLE KRMS_CMPND_PROP_PROPS_T MODIFY SEQ_NO NUMBER(5) NULL
 /
 
 
@@ -6204,14 +6163,14 @@ alter table krms_cmpnd_prop_props_t modify seq_no NUMBER(5) null
 -- 
 
 
-update krim_perm_t
-   set nmspc_cd = 'KRMS_TEST'
- where nm = 'Maintain KRMS Agenda'
-   and nmspc_cd = 'KR-RULE'
+UPDATE KRIM_PERM_T
+   SET NMSPC_CD = 'KRMS_TEST'
+ WHERE NM = 'Maintain KRMS Agenda'
+   AND NMSPC_CD = 'KR-RULE'
 /
 
-delete from krim_perm_attr_data_t
- where perm_id = (select perm_id from krim_perm_t where nm = 'Maintain KRMS Agenda' and nmspc_cd = 'KRMS_TEST')
+DELETE FROM KRIM_PERM_ATTR_DATA_T
+ WHERE PERM_ID = (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Maintain KRMS Agenda' AND NMSPC_CD = 'KRMS_TEST')
 /
 
 
@@ -6223,7 +6182,7 @@ delete from krim_perm_attr_data_t
 -- 
 
 
-alter table KREW_RTE_NODE_T modify ACTVN_TYP varchar(1)
+ALTER TABLE KREW_RTE_NODE_T MODIFY ACTVN_TYP VARCHAR(1)
 /
 
 
@@ -6237,23 +6196,23 @@ alter table KREW_RTE_NODE_T modify ACTVN_TYP varchar(1)
 
 
 -- correct fields in krms test data
-update krms_prop_t set cmpnd_op_cd = '&' where cmpnd_op_cd = 'a'
+UPDATE KRMS_PROP_T SET CMPND_OP_CD = '&' WHERE CMPND_OP_CD = 'a'
 /
-update krms_cmpnd_prop_props_t set seq_no = '2' where prop_id = 'P421C'
+UPDATE KRMS_CMPND_PROP_PROPS_T SET SEQ_NO = '2' WHERE PROP_ID = 'P421C'
 /
-update krms_cmpnd_prop_props_t set seq_no = '3' where prop_id = 'P421D'
+UPDATE KRMS_CMPND_PROP_PROPS_T SET SEQ_NO = '3' WHERE PROP_ID = 'P421D'
 /
-update krms_cmpnd_prop_props_t set seq_no = '3' where prop_id = 'P502C'
+UPDATE KRMS_CMPND_PROP_PROPS_T SET SEQ_NO = '3' WHERE PROP_ID = 'P502C'
 /
 
 -- move seq_no column from krms_cmpnd_prop_props_t pivot table to krms_prop_t table.
-alter table krms_prop_t add (cmpnd_seq_no decimal(5,0) default null)
+ALTER TABLE KRMS_PROP_T ADD (CMPND_SEQ_NO DECIMAL(5,0) DEFAULT NULL)
 /
 
-update krms_prop_t set krms_prop_t.cmpnd_seq_no = (select seq_no from krms_cmpnd_prop_props_t where prop_id = krms_prop_t.prop_id)
+UPDATE KRMS_PROP_T SET KRMS_PROP_T.CMPND_SEQ_NO = (SELECT SEQ_NO FROM KRMS_CMPND_PROP_PROPS_T WHERE PROP_ID = KRMS_PROP_T.PROP_ID)
 /
 
-alter table krms_cmpnd_prop_props_t drop (seq_no)
+ALTER TABLE KRMS_CMPND_PROP_PROPS_T DROP (SEQ_NO)
 /
 
 
@@ -6276,115 +6235,115 @@ UPDATE KRCR_NMSPC_T SET APPL_ID = 'RICE' WHERE NMSPC_CD = 'KUALI'
 -- 
 
 
-INSERT INTO KRCR_NMSPC_T VALUES ('KR-KRAD', sys_guid(), 1, 'Kuali Rapid Application Development', 'Y', 'RICE')
+INSERT INTO KRCR_NMSPC_T VALUES ('KR-KRAD', SYS_GUID(), 1, 'Kuali Rapid Application Development', 'Y', 'RICE')
 /
-INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select (max(to_number(KIM_ATTR_DEFN_ID)) + 1) from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and to_number(KIM_ATTR_DEFN_ID) < 10000), sys_guid(), 1, 'viewId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
+INSERT INTO KRIM_ATTR_DEFN_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_ATTR_DEFN_ID)) + 1) FROM KRIM_ATTR_DEFN_T WHERE KIM_ATTR_DEFN_ID IS NOT NULL AND TO_NUMBER(KIM_ATTR_DEFN_ID) < 10000), SYS_GUID(), 1, 'viewId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
 /
-INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select (max(to_number(KIM_ATTR_DEFN_ID)) + 1) from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and to_number(KIM_ATTR_DEFN_ID) < 10000), sys_guid(), 1, 'actionEvent', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
+INSERT INTO KRIM_ATTR_DEFN_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_ATTR_DEFN_ID)) + 1) FROM KRIM_ATTR_DEFN_T WHERE KIM_ATTR_DEFN_ID IS NOT NULL AND TO_NUMBER(KIM_ATTR_DEFN_ID) < 10000), SYS_GUID(), 1, 'actionEvent', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
 /
-INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select (max(to_number(KIM_ATTR_DEFN_ID)) + 1) from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and to_number(KIM_ATTR_DEFN_ID) < 10000), sys_guid(), 1, 'collectionPropertyName', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
+INSERT INTO KRIM_ATTR_DEFN_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_ATTR_DEFN_ID)) + 1) FROM KRIM_ATTR_DEFN_T WHERE KIM_ATTR_DEFN_ID IS NOT NULL AND TO_NUMBER(KIM_ATTR_DEFN_ID) < 10000), SYS_GUID(), 1, 'collectionPropertyName', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
 /
-INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select (max(to_number(KIM_ATTR_DEFN_ID)) + 1) from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and to_number(KIM_ATTR_DEFN_ID) < 10000), sys_guid(), 1, 'fieldId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
+INSERT INTO KRIM_ATTR_DEFN_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_ATTR_DEFN_ID)) + 1) FROM KRIM_ATTR_DEFN_T WHERE KIM_ATTR_DEFN_ID IS NOT NULL AND TO_NUMBER(KIM_ATTR_DEFN_ID) < 10000), SYS_GUID(), 1, 'fieldId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
 /
-INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select (max(to_number(KIM_ATTR_DEFN_ID)) + 1) from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and to_number(KIM_ATTR_DEFN_ID) < 10000), sys_guid(), 1, 'groupId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
+INSERT INTO KRIM_ATTR_DEFN_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_ATTR_DEFN_ID)) + 1) FROM KRIM_ATTR_DEFN_T WHERE KIM_ATTR_DEFN_ID IS NOT NULL AND TO_NUMBER(KIM_ATTR_DEFN_ID) < 10000), SYS_GUID(), 1, 'groupId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
 /
-INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select (max(to_number(KIM_ATTR_DEFN_ID)) + 1) from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and to_number(KIM_ATTR_DEFN_ID) < 10000), sys_guid(), 1, 'widgetId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
+INSERT INTO KRIM_ATTR_DEFN_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_ATTR_DEFN_ID)) + 1) FROM KRIM_ATTR_DEFN_T WHERE KIM_ATTR_DEFN_ID IS NOT NULL AND TO_NUMBER(KIM_ATTR_DEFN_ID) < 10000), SYS_GUID(), 1, 'widgetId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
 /
-INSERT INTO KRIM_ATTR_DEFN_T VALUES ((select (max(to_number(KIM_ATTR_DEFN_ID)) + 1) from KRIM_ATTR_DEFN_T where KIM_ATTR_DEFN_ID is not NULL and to_number(KIM_ATTR_DEFN_ID) < 10000), sys_guid(), 1, 'actionId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
+INSERT INTO KRIM_ATTR_DEFN_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_ATTR_DEFN_ID)) + 1) FROM KRIM_ATTR_DEFN_T WHERE KIM_ATTR_DEFN_ID IS NOT NULL AND TO_NUMBER(KIM_ATTR_DEFN_ID) < 10000), SYS_GUID(), 1, 'actionId', null, 'Y', 'KR-KRAD', 'org.kuali.rice.kim.bo.impl.KimAttributes')
 /
-INSERT INTO KRIM_TYP_T VALUES ((select (max(to_number(kim_typ_id)) + 1) from KRIM_TYP_T where kim_typ_id is not NULL and to_number(kim_typ_id) < 10000), sys_guid(), 1, 'View', 'viewPermissionTypeService', 'Y', 'KR-KRAD')
+INSERT INTO KRIM_TYP_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ID)) + 1) FROM KRIM_TYP_T WHERE KIM_TYP_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ID) < 10000), SYS_GUID(), 1, 'View', 'viewPermissionTypeService', 'Y', 'KR-KRAD')
 /
-INSERT INTO KRIM_TYP_T VALUES ((select (max(to_number(kim_typ_id)) + 1) from KRIM_TYP_T where kim_typ_id is not NULL and to_number(kim_typ_id) < 10000), sys_guid(), 1, 'View Edit Mode', 'viewEditModePermissionTypeService', 'Y', 'KR-KRAD')
+INSERT INTO KRIM_TYP_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ID)) + 1) FROM KRIM_TYP_T WHERE KIM_TYP_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ID) < 10000), SYS_GUID(), 1, 'View Edit Mode', 'viewEditModePermissionTypeService', 'Y', 'KR-KRAD')
 /
-INSERT INTO KRIM_TYP_T VALUES ((select (max(to_number(kim_typ_id)) + 1) from KRIM_TYP_T where kim_typ_id is not NULL and to_number(kim_typ_id) < 10000), sys_guid(), 1, 'View Field', 'viewFieldPermissionTypeService', 'Y', 'KR-KRAD')
+INSERT INTO KRIM_TYP_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ID)) + 1) FROM KRIM_TYP_T WHERE KIM_TYP_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ID) < 10000), SYS_GUID(), 1, 'View Field', 'viewFieldPermissionTypeService', 'Y', 'KR-KRAD')
 /
-INSERT INTO KRIM_TYP_T VALUES ((select (max(to_number(kim_typ_id)) + 1) from KRIM_TYP_T where kim_typ_id is not NULL and to_number(kim_typ_id) < 10000), sys_guid(), 1, 'View Group', 'viewGroupPermissionTypeService', 'Y', 'KR-KRAD')
+INSERT INTO KRIM_TYP_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ID)) + 1) FROM KRIM_TYP_T WHERE KIM_TYP_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ID) < 10000), SYS_GUID(), 1, 'View Group', 'viewGroupPermissionTypeService', 'Y', 'KR-KRAD')
 /
-INSERT INTO KRIM_TYP_T VALUES ((select (max(to_number(kim_typ_id)) + 1) from KRIM_TYP_T where kim_typ_id is not NULL and to_number(kim_typ_id) < 10000), sys_guid(), 1, 'View Widget', 'viewWidgetPermissionTypeService', 'Y', 'KR-KRAD')
+INSERT INTO KRIM_TYP_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ID)) + 1) FROM KRIM_TYP_T WHERE KIM_TYP_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ID) < 10000), SYS_GUID(), 1, 'View Widget', 'viewWidgetPermissionTypeService', 'Y', 'KR-KRAD')
 /
-INSERT INTO KRIM_TYP_T VALUES ((select (max(to_number(kim_typ_id)) + 1) from KRIM_TYP_T where kim_typ_id is not NULL and to_number(kim_typ_id) < 10000), sys_guid(), 1, 'View Action', 'viewActionPermissionTypeService', 'Y', 'KR-KRAD')
+INSERT INTO KRIM_TYP_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ID)) + 1) FROM KRIM_TYP_T WHERE KIM_TYP_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ID) < 10000), SYS_GUID(), 1, 'View Action', 'viewActionPermissionTypeService', 'Y', 'KR-KRAD')
 /
-INSERT INTO KRIM_TYP_T VALUES ((select (max(to_number(kim_typ_id)) + 1) from KRIM_TYP_T where kim_typ_id is not NULL and to_number(kim_typ_id) < 10000), sys_guid(), 1, 'View Line Field', 'viewLineFieldPermissionTypeService', 'Y', 'KR-KRAD')
+INSERT INTO KRIM_TYP_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ID)) + 1) FROM KRIM_TYP_T WHERE KIM_TYP_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ID) < 10000), SYS_GUID(), 1, 'View Line Field', 'viewLineFieldPermissionTypeService', 'Y', 'KR-KRAD')
 /
-INSERT INTO KRIM_TYP_T VALUES ((select (max(to_number(kim_typ_id)) + 1) from KRIM_TYP_T where kim_typ_id is not NULL and to_number(kim_typ_id) < 10000), sys_guid(), 1, 'View Line Action', 'viewLineActionPermissionTypeService', 'Y', 'KR-KRAD')
+INSERT INTO KRIM_TYP_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ID)) + 1) FROM KRIM_TYP_T WHERE KIM_TYP_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ID) < 10000), SYS_GUID(), 1, 'View Line Action', 'viewLineActionPermissionTypeService', 'Y', 'KR-KRAD')
 /
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) + 1) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ATTR_ID) < 10000), SYS_GUID(), 1, 'a', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD='KR-KRAD' AND NM='viewId'), 'Y');
 /
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Edit Mode'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) + 1) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ATTR_ID) < 10000), SYS_GUID(), 1, 'a', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Edit Mode'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD='KR-KRAD' AND NM='viewId'), 'Y');
 /
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'b', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Edit Mode'), '10', 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) + 1) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ATTR_ID) < 10000), SYS_GUID(), 1, 'b', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Edit Mode'), '10', 'Y');
 /
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) + 1) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ATTR_ID) < 10000), SYS_GUID(), 1, 'a', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Field'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD='KR-KRAD' AND NM='viewId'), 'Y');
 /
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'b', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='fieldId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) + 1) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ATTR_ID) < 10000), SYS_GUID(), 1, 'b', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Field'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD='KR-KRAD' AND NM='fieldId'), 'Y');
 /
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'c', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Field'), '6', 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) + 1) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ATTR_ID) < 10000), SYS_GUID(), 1, 'c', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Field'), '6', 'Y');
 /
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Group'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) + 1) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ATTR_ID) < 10000), SYS_GUID(), 1, 'a', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Group'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD='KR-KRAD' AND NM='viewId'), 'Y');
 /
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'b', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Group'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='groupId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) + 1) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ATTR_ID) < 10000), SYS_GUID(), 1, 'b', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Group'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD='KR-KRAD' AND NM='groupId'), 'Y');
 /
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'c', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Group'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='fieldId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) + 1) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ATTR_ID) < 10000), SYS_GUID(), 1, 'c', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Group'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD='KR-KRAD' AND NM='fieldId'), 'Y');
 /
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Widget'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) + 1) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ATTR_ID) < 10000), SYS_GUID(), 1, 'a', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Widget'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD='KR-KRAD' AND NM='viewId'), 'Y');
 /
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'b', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Widget'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='widgetId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) + 1) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ATTR_ID) < 10000), SYS_GUID(), 1, 'b', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Widget'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD='KR-KRAD' AND NM='widgetId'), 'Y');
 /
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) + 1) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ATTR_ID) < 10000), SYS_GUID(), 1, 'a', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Action'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD='KR-KRAD' AND NM='viewId'), 'Y');
 /
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'b', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='actionId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) + 1) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ATTR_ID) < 10000), SYS_GUID(), 1, 'b', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Action'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD='KR-KRAD' AND NM='actionId'), 'Y');
 /
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'c', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='actionEvent'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) + 1) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ATTR_ID) < 10000), SYS_GUID(), 1, 'c', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Action'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD='KR-KRAD' AND NM='actionEvent'), 'Y');
 /
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) + 1) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ATTR_ID) < 10000), SYS_GUID(), 1, 'a', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Line Field'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD='KR-KRAD' AND NM='viewId'), 'Y');
 /
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'b', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='groupId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) + 1) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ATTR_ID) < 10000), SYS_GUID(), 1, 'b', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Line Field'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD='KR-KRAD' AND NM='groupId'), 'Y');
 /
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'c', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='collectionPropertyName'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) + 1) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ATTR_ID) < 10000), SYS_GUID(), 1, 'c', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Line Field'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD='KR-KRAD' AND NM='collectionPropertyName'), 'Y');
 /
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'd', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Field'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='fieldId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) + 1) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ATTR_ID) < 10000), SYS_GUID(), 1, 'd', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Line Field'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD='KR-KRAD' AND NM='fieldId'), 'Y');
 /
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'e', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Field'), '6', 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) + 1) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ATTR_ID) < 10000), SYS_GUID(), 1, 'e', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Line Field'), '6', 'Y');
 /
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'a', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='viewId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) + 1) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ATTR_ID) < 10000), SYS_GUID(), 1, 'a', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Line Action'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD='KR-KRAD' AND NM='viewId'), 'Y');
 /
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'b', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='groupId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) + 1) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ATTR_ID) < 10000), SYS_GUID(), 1, 'b', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Line Action'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD='KR-KRAD' AND NM='groupId'), 'Y');
 /
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'c', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='collectionPropertyName'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) + 1) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ATTR_ID) < 10000), SYS_GUID(), 1, 'c', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Line Action'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD='KR-KRAD' AND NM='collectionPropertyName'), 'Y');
 /
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'd', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='actionId'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) + 1) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ATTR_ID) < 10000), SYS_GUID(), 1, 'd', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Line Action'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD='KR-KRAD' AND NM='actionId'), 'Y');
 /
-INSERT INTO KRIM_TYP_ATTR_T VALUES ((select (max(to_number(KIM_TYP_ATTR_ID)) + 1) from KRIM_TYP_ATTR_T where KIM_TYP_ATTR_ID is not NULL and to_number(KIM_TYP_ATTR_ID) < 10000), sys_guid(), 1, 'e', (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Action'), (select KIM_ATTR_DEFN_ID from KRIM_ATTR_DEFN_T where NMSPC_CD='KR-KRAD' and NM='actionEvent'), 'Y');
+INSERT INTO KRIM_TYP_ATTR_T VALUES ((SELECT (MAX(TO_NUMBER(KIM_TYP_ATTR_ID)) + 1) FROM KRIM_TYP_ATTR_T WHERE KIM_TYP_ATTR_ID IS NOT NULL AND TO_NUMBER(KIM_TYP_ATTR_ID) < 10000), SYS_GUID(), 1, 'e', (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Line Action'), (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NMSPC_CD='KR-KRAD' AND NM='actionEvent'), 'Y');
 /
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'Open View', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View'), 'Y')
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), SYS_GUID(), 1, 'KR-KRAD', 'Open View', null, (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View'), 'Y')
 /
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'Edit View', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View'), 'Y')
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), SYS_GUID(), 1, 'KR-KRAD', 'Edit View', null, (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View'), 'Y')
 /
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'Use View', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Edit Mode'), 'Y')
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), SYS_GUID(), 1, 'KR-KRAD', 'Use View', null, (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Edit Mode'), 'Y')
 /
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'View Field', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Field'), 'Y')
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), SYS_GUID(), 1, 'KR-KRAD', 'View Field', null, (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Field'), 'Y')
 /
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'Edit Field', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Field'), 'Y')
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), SYS_GUID(), 1, 'KR-KRAD', 'Edit Field', null, (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Field'), 'Y')
 /
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'View Group', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Group'), 'Y')
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), SYS_GUID(), 1, 'KR-KRAD', 'View Group', null, (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Group'), 'Y')
 /
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'Edit Group', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Group'), 'Y')
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), SYS_GUID(), 1, 'KR-KRAD', 'Edit Group', null, (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Group'), 'Y')
 /
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'View Widget', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Widget'), 'Y')
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), SYS_GUID(), 1, 'KR-KRAD', 'View Widget', null, (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Widget'), 'Y')
 /
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'Edit Widget', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Widget'), 'Y')
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), SYS_GUID(), 1, 'KR-KRAD', 'Edit Widget', null, (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Widget'), 'Y')
 /
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'Perform Action', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Action'), 'Y')
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), SYS_GUID(), 1, 'KR-KRAD', 'Perform Action', null, (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Action'), 'Y')
 /
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'View Line', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Group'), 'Y')
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), SYS_GUID(), 1, 'KR-KRAD', 'View Line', null, (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Group'), 'Y')
 /
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'Edit Line', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Group'), 'Y')
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), SYS_GUID(), 1, 'KR-KRAD', 'Edit Line', null, (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Group'), 'Y')
 /
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'View Line Field', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Field'), 'Y')
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), SYS_GUID(), 1, 'KR-KRAD', 'View Line Field', null, (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Line Field'), 'Y')
 /
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'Edit Line Field', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Field'), 'Y')
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), SYS_GUID(), 1, 'KR-KRAD', 'Edit Line Field', null, (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Line Field'), 'Y')
 /
-INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), sys_guid(), 1, 'KR-KRAD', 'Perform Line Action', null, (select kim_typ_id from krim_typ_t where NMSPC_CD='KR-KRAD' and NM='View Line Action'), 'Y')
+INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) from krim_perm_tmpl_t where perm_tmpl_id is not NULL and to_number(perm_tmpl_id) < 10000), SYS_GUID(), 1, 'KR-KRAD', 'Perform Line Action', null, (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD='KR-KRAD' AND NM='View Line Action'), 'Y')
 /
 
 
@@ -6396,13 +6355,13 @@ INSERT INTO KRIM_PERM_TMPL_T VALUES ((select (max(to_number(perm_tmpl_id)) + 1) 
 -- 
 
 
-update KRMS_TERM_SPEC_T set TYP = 'java.lang.String' where TYP = 'T2'
+UPDATE KRMS_TERM_SPEC_T SET TYP = 'java.lang.String' WHERE TYP = 'T2'
 /
-	
-update KRMS_TERM_SPEC_T set TYP = 'java.lang.String' where TYP = 'T1'
+    
+UPDATE KRMS_TERM_SPEC_T SET TYP = 'java.lang.String' WHERE TYP = 'T1'
 /
 
-update KRMS_TERM_SPEC_T set TYP = 'java.lang.Integer' where TYP = 'T6'
+UPDATE KRMS_TERM_SPEC_T SET TYP = 'java.lang.Integer' WHERE TYP = 'T6'
 /
 
 
@@ -6460,7 +6419,7 @@ DELETE FROM KRMS_CNTXT_VLD_RULE_TYP_T
 
 
 -- KULRICE-6299: New DB index to improve action list performance
-create index KREW_ACTN_ITM_TI6 on KREW_ACTN_ITM_T (DLGN_TYP, DLGN_PRNCPL_ID, DLGN_GRP_ID)
+CREATE INDEX KREW_ACTN_ITM_TI6 ON KREW_ACTN_ITM_T (DLGN_TYP, DLGN_PRNCPL_ID, DLGN_GRP_ID)
 /
 
 
@@ -6474,11 +6433,11 @@ create index KREW_ACTN_ITM_TI6 on KREW_ACTN_ITM_T (DLGN_TYP, DLGN_PRNCPL_ID, DLG
 
 -- KULRICE-6452
 
-drop table krms_cntxt_vld_event_t
+DROP TABLE KRMS_CNTXT_VLD_EVENT_T
 /
-drop sequence krms_cntxt_vld_event_s
+DROP SEQUENCE KRMS_CNTXT_VLD_EVENT_S
 /
-rename krms_cntxt_term_spec_prereq_s to krms_cntxt_vld_term_spec_s
+RENAME KRMS_CNTXT_TERM_SPEC_PREREQ_S TO KRMS_CNTXT_VLD_TERM_SPEC_S
 /
 
 
@@ -6490,7 +6449,7 @@ rename krms_cntxt_term_spec_prereq_s to krms_cntxt_vld_term_spec_s
 -- 
 
 
-alter table KREW_DOC_HDR_T drop column RTE_LVL_MDFN_DT
+ALTER TABLE KREW_DOC_HDR_T DROP COLUMN RTE_LVL_MDFN_DT
 /
 
 
@@ -6528,27 +6487,93 @@ CREATE INDEX KRIM_ROLE_MBR_TI3 ON KRIM_ROLE_MBR_T (mbr_id, mbr_typ_cd)
 /
 
 --
+-- KRMS Sample (and production) Data
+--
+
+--
 -- Copyright 2005-2012 The Kuali Foundation
 --
 --
 
+-- Notification PeopleFlowActionType
+
+INSERT INTO KRMS_TYP_T
+(TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR)
+VALUES ('1000', 'Notify PeopleFlow', 'KR-RULE', 'notificationPeopleFlowActionTypeService', 'Y', 1)
+/
+
+-- Approval PeopleFlowActionType
+
+INSERT INTO KRMS_TYP_T
+(TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR)
+VALUES ('1001', 'Route to PeopleFlow', 'KR-RULE', 'approvalPeopleFlowActionTypeService', 'Y', 1)
+/
+
+
+-- add a PeopleFlow attribute to the PeopleFlow types
+INSERT INTO KRMS_ATTR_DEFN_T (ATTR_DEFN_ID, NM, NMSPC_CD, LBL, CMPNT_NM, DESC_TXT)
+VALUES ('1000', 'peopleFlowId', 'KR-RULE', 'PeopleFlow', null,
+'An identifier for a PeopleFlow')
+/
+INSERT INTO KRMS_TYP_ATTR_T (TYP_ATTR_ID, SEQ_NO, TYP_ID, ATTR_DEFN_ID) VALUES ('1000', 1, '1000', '1000')
+/
+INSERT INTO KRMS_TYP_ATTR_T (TYP_ATTR_ID, SEQ_NO, TYP_ID, ATTR_DEFN_ID) VALUES ('1001', 1, '1001', '1000')
+/
+
+
+-- General validation rule type
+INSERT INTO KRMS_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR) VALUES('1002', 'Validation Rule', 'KR-RULE', 'validationRuleTypeService', 'Y', 1)
+/
+-- General validation action type
+INSERT INTO KRMS_TYP_T (TYP_ID, NM, NMSPC_CD, SRVC_NM, ACTV, VER_NBR) VALUES('1003', 'Validation Action', 'KR-RULE', 'validationActionTypeService', 'Y', 1)
+/
+-- Invalid rule
+INSERT INTO KRMS_ATTR_DEFN_T (ATTR_DEFN_ID, NM, NMSPC_CD, LBL, ACTV, CMPNT_NM, VER_NBR, DESC_TXT) VALUES ('1001', 'Invalid Rule', 'KR-RULE', 'Invalid Rule', 'Y', null, 1, 'If true, execute the action')
+/
+-- Valid rule
+INSERT INTO KRMS_ATTR_DEFN_T (ATTR_DEFN_ID, NM, NMSPC_CD, LBL, ACTV, CMPNT_NM, VER_NBR, DESC_TXT) VALUES ('1002', 'Valid Rule', 'KR-RULE', 'Valid Rule', 'Y', null, 1, 'If false, execute the action')
+/
+-- The General rule subtypes attributes
+-- use same sequence number to prove that falling back to natural order when sequences are the same works.
+INSERT INTO KRMS_TYP_ATTR_T (TYP_ATTR_ID, SEQ_NO, TYP_ID, ATTR_DEFN_ID, ACTV, VER_NBR) VALUES ('1002', 1, '1002', '1001', 'Y', 1)
+/
+INSERT INTO KRMS_TYP_ATTR_T (TYP_ATTR_ID, SEQ_NO, TYP_ID, ATTR_DEFN_ID, ACTV, VER_NBR) VALUES ('1003', 1, '1002', '1002', 'Y', 1)
+/
+-- warning action
+INSERT INTO KRMS_ATTR_DEFN_T (ATTR_DEFN_ID, NM, NMSPC_CD, LBL, ACTV, CMPNT_NM, VER_NBR, DESC_TXT) VALUES ('1003', 'Warning Action', 'KR-RULE', 'Warning Action', 'Y', null, 1, 'Warning')
+/
+-- error action
+INSERT INTO KRMS_ATTR_DEFN_T (ATTR_DEFN_ID, NM, NMSPC_CD, LBL, ACTV, CMPNT_NM, VER_NBR, DESC_TXT) VALUES ('1004', 'Error Action', 'KR-RULE', 'Error Action', 'Y', null, 1, 'Error')
+/
+-- action message
+INSERT INTO KRMS_ATTR_DEFN_T (ATTR_DEFN_ID, NM, NMSPC_CD, LBL, ACTV, CMPNT_NM, VER_NBR, DESC_TXT) VALUES ('1005', 'Action Message', 'KR-RULE', 'Action Message', 'Y', null, 1, 'Message validation action returns')
+/
+-- The General action type attribute
+INSERT INTO KRMS_TYP_ATTR_T (TYP_ATTR_ID, SEQ_NO, TYP_ID, ATTR_DEFN_ID, ACTV, VER_NBR) VALUES ('1004', 1, '1003', '1003', 'Y', 1)
+/
+INSERT INTO KRMS_TYP_ATTR_T (TYP_ATTR_ID, SEQ_NO, TYP_ID, ATTR_DEFN_ID, ACTV, VER_NBR) VALUES ('1005', 2, '1003', '1004', 'Y', 1)
+/
+INSERT INTO KRMS_TYP_ATTR_T (TYP_ATTR_ID, SEQ_NO, TYP_ID, ATTR_DEFN_ID, ACTV, VER_NBR) VALUES ('1006', 3, '1003', '1005', 'Y', 1)
+/
+
+
 -- change permisison to use new krms test namespace
-update krim_perm_attr_data_t set attr_val = 'KR-RULE-TEST' where attr_val = 'KRMS_TEST'
+UPDATE KRIM_PERM_ATTR_DATA_T SET ATTR_VAL = 'KR-RULE-TEST' WHERE ATTR_VAL = 'KRMS_TEST'
 /
-update krim_perm_t
-   set nmspc_cd = 'KR-RULE-TEST'
- where nm = 'Maintain KRMS Agenda'
-   and nmspc_cd = 'KR-RULE'
-/
-
-update krim_perm_t
-   set nmspc_cd = 'KR-RULE-TEST'
- where nm = 'Maintain KRMS Agenda'
-   and nmspc_cd = 'KRMS_TEST'
+UPDATE KRIM_PERM_T
+   SET NMSPC_CD = 'KR-RULE-TEST'
+ WHERE NM = 'Maintain KRMS Agenda'
+   AND NMSPC_CD = 'KR-RULE'
 /
 
-delete from krim_perm_attr_data_t
- where perm_id = (select perm_id from krim_perm_t where nm = 'Maintain KRMS Agenda' and nmspc_cd = 'KRMS_TEST')
+UPDATE KRIM_PERM_T
+   SET NMSPC_CD = 'KR-RULE-TEST'
+ WHERE NM = 'Maintain KRMS Agenda'
+   AND NMSPC_CD = 'KRMS_TEST'
+/
+
+DELETE FROM KRIM_PERM_ATTR_DATA_T
+ WHERE PERM_ID = (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Maintain KRMS Agenda' AND NMSPC_CD = 'KRMS_TEST')
 /
 
 
@@ -6561,7 +6586,7 @@ delete from krim_perm_attr_data_t
 
 
 -- KULRICE-6537 - increase size of MBR_NM field
-ALTER TABLE KRIM_PND_GRP_MBR_T MODIFY (MBR_NM varchar2(100))
+ALTER TABLE KRIM_PND_GRP_MBR_T MODIFY (MBR_NM VARCHAR2(100))
 /
 
 
@@ -6579,7 +6604,7 @@ CREATE TABLE KRCR_STYLE_T
         , NM VARCHAR2(200) NOT NULL
         , XML CLOB NOT NULL
         , ACTV_IND NUMBER(1) NOT NULL
-        , VER_NBR NUMBER(8) default 0
+        , VER_NBR NUMBER(8) DEFAULT 0
         , OBJ_ID VARCHAR2(36) NOT NULL
     , CONSTRAINT KRCR_STYLE_TC0 UNIQUE (OBJ_ID)
 )
@@ -6599,19 +6624,16 @@ PRIMARY KEY (STYLE_ID)
 --
 
 
--- unset type on My Fabulous Agenda since the required attribute isn't specified
-UPDATE krms_agenda_t SET TYP_ID=null WHERE AGENDA_ID='T1000'
-/
 
 -- PeopleFlow Name
-insert into krms_attr_defn_t (attr_defn_id, nm, nmspc_cd, lbl, actv, cmpnt_nm, ver_nbr, desc_txt)
-values ('1006', 'peopleFlowName', 'KR_RULE', 'PeopleFlow Name', 'Y', null, 1, 'PeopleFlow Name')
+INSERT INTO KRMS_ATTR_DEFN_T (ATTR_DEFN_ID, NM, NMSPC_CD, LBL, ACTV, CMPNT_NM, VER_NBR, DESC_TXT)
+VALUES ('1006', 'peopleFlowName', 'KR_RULE', 'PeopleFlow Name', 'Y', null, 1, 'PeopleFlow Name')
 /
-insert into krms_typ_attr_t (typ_attr_id, seq_no, typ_id, attr_defn_id, actv, ver_nbr)
-values ('1007', 3, '1000', '1006', 'Y', 1)
+INSERT INTO KRMS_TYP_ATTR_T (TYP_ATTR_ID, SEQ_NO, TYP_ID, ATTR_DEFN_ID, ACTV, VER_NBR)
+VALUES ('1007', 3, '1000', '1006', 'Y', 1)
 /
-insert into krms_typ_attr_t (typ_attr_id, seq_no, typ_id, attr_defn_id, actv, ver_nbr)
-values ('1008', 3, '1001', '1006', 'Y', 1)
+INSERT INTO KRMS_TYP_ATTR_T (TYP_ATTR_ID, SEQ_NO, TYP_ID, ATTR_DEFN_ID, ACTV, VER_NBR)
+VALUES ('1008', 3, '1001', '1006', 'Y', 1)
 /
 
 
@@ -6627,96 +6649,88 @@ ALTER TABLE KRIM_ROLE_PERM_T MODIFY (PERM_ID NOT NULL)
 /
 
 --
--- 2012-02-03.sql
---
-
--- KULRICE-6630: Add SQL scripts for missing data in master database
-
-insert into krew_typ_t values ('1', 'Sample Type', 'KR-SAP', 'sampleAppPeopleFlowTypeService', 'Y', 1)
-/
-insert into krew_attr_defn_t values ('1', 'number', 'KR-SAP', 'Travel Number', 'Y', 'edu.sampleu.travel.bo.TravelAccount', 1, null)
-/
-insert into krew_attr_defn_t values ('2', 'id', 'KR-SAP', null, 'Y', 'edu.sampleu.travel.bo.FiscalOfficer', 1, null)
-/
-insert into krew_typ_attr_t values ('1', 1, '1', '1', 'Y', 1)
-/
-insert into krew_typ_attr_t values ('2', 2, '1', '2', 'Y', 1)
-/
-
-
---
 -- 2012-02-08.sql
 --
 
 -- create a KIM permission for the Creating a new Term, Context and TermSpecification
 
-insert into krim_perm_t
-(perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, ver_nbr, obj_id)
-values ((select (max(to_number(perm_id)) + 1) from krim_perm_t where perm_id is not NULL and to_number(perm_id) < 10000),
-        (select perm_tmpl_id from krim_perm_tmpl_t where nm = 'Create / Maintain Record(s)' and nmspc_cd = 'KR-NS'),
+INSERT INTO KRIM_PERM_T
+(PERM_ID, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND, VER_NBR, OBJ_ID)
+VALUES ((SELECT (MAX(TO_NUMBER(PERM_ID)) + 1) FROM KRIM_PERM_T WHERE PERM_ID IS NOT NULL AND TO_NUMBER(PERM_ID) < 10000),
+        (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NM = 'Create / Maintain Record(s)' AND NMSPC_CD = 'KR-NS'),
         'KR-NS','Create Term Maintenance Document','Allows user to create a new Term maintainence document','Y',1,
         '0dbce939-4f22-4e9b-a4bb-1615c0f411a2')
 /
-insert into krim_perm_attr_data_t
-(attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, ver_nbr, obj_id)
-values ((select (max(to_number(attr_data_id)) + 1) from krim_perm_attr_data_t where attr_data_id is not NULL and to_number(attr_data_id) < 10000),
-        (select perm_id from krim_perm_t where nm = 'Create Term Maintenance Document' and nmspc_cd = 'KR-NS'),
-        (select kim_typ_id from krim_typ_t where nm = 'Document Type & Existing Records Only' and nmspc_cd = 'KR-NS'),
-        (select kim_attr_defn_id from krim_attr_defn_t where nm = 'documentTypeName'),
+INSERT INTO KRIM_PERM_ATTR_DATA_T
+(ATTR_DATA_ID, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, VER_NBR, OBJ_ID)
+VALUES ((SELECT (MAX(TO_NUMBER(ATTR_DATA_ID)) + 1) FROM KRIM_PERM_ATTR_DATA_T WHERE ATTR_DATA_ID IS NOT NULL AND TO_NUMBER(ATTR_DATA_ID) < 10000),
+        (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Create Term Maintenance Document' AND NMSPC_CD = 'KR-NS'),
+        (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'Document Type & Existing Records Only' AND NMSPC_CD = 'KR-NS'),
+        (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NM = 'documentTypeName'),
         'TermMaintenanceDocument',1,'aa1d1400-6155-4819-8bad-e5dd81f9871b')
 /
-insert into krim_role_perm_t
-(role_perm_id, role_id, perm_id, actv_ind, ver_nbr, obj_id)
-values ((select (max(to_number(role_perm_id)) + 1) from krim_role_perm_t where role_perm_id is not NULL and to_number(role_perm_id) < 10000),
-        (select role_id from krim_role_t where role_nm = 'Kuali Rules Management System Administrator' and nmspc_cd = 'KR-RULE'),
-        (select perm_id from krim_perm_t where nm = 'Create Term Maintenance Document' and nmspc_cd = 'KR-NS'),
+INSERT INTO KRIM_ROLE_PERM_T
+(ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, VER_NBR, OBJ_ID)
+VALUES ((SELECT (MAX(TO_NUMBER(ROLE_PERM_ID)) + 1) FROM KRIM_ROLE_PERM_T WHERE ROLE_PERM_ID IS NOT NULL AND TO_NUMBER(ROLE_PERM_ID) < 10000),
+        (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Kuali Rules Management System Administrator' AND NMSPC_CD = 'KR-RULE'),
+        (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Create Term Maintenance Document' AND NMSPC_CD = 'KR-NS'),
         'Y', 1, '45f8f55e-23d9-4278-ade8-ddfc870852e6')
 /
-insert into krim_perm_t
-(perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, ver_nbr, obj_id)
-values ((select (max(to_number(perm_id)) + 1) from krim_perm_t where perm_id is not NULL and to_number(perm_id) < 10000),
-        (select perm_tmpl_id from krim_perm_tmpl_t where nm = 'Create / Maintain Record(s)' and nmspc_cd = 'KR-NS'),
+INSERT INTO KRIM_PERM_T
+(PERM_ID, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND, VER_NBR, OBJ_ID)
+VALUES ((SELECT (MAX(TO_NUMBER(PERM_ID)) + 1) FROM KRIM_PERM_T WHERE PERM_ID IS NOT NULL AND TO_NUMBER(PERM_ID) < 10000),
+        (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NM = 'Create / Maintain Record(s)' AND NMSPC_CD = 'KR-NS'),
         'KR-NS','Create Context Maintenance Document','Allows user to create a new Context maintainence document','Y',1,
         'cefeed6d-b5e2-40aa-9034-137db317b532')
 /
-insert into krim_perm_attr_data_t
-(attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, ver_nbr, obj_id)
-values ((select (max(to_number(attr_data_id)) + 1) from krim_perm_attr_data_t where attr_data_id is not NULL and to_number(attr_data_id) < 10000),
-        (select perm_id from krim_perm_t where nm = 'Create Context Maintenance Document' and nmspc_cd = 'KR-NS'),
-        (select kim_typ_id from krim_typ_t where nm = 'Document Type & Existing Records Only' and nmspc_cd = 'KR-NS'),
-        (select kim_attr_defn_id from krim_attr_defn_t where nm = 'documentTypeName'),
+INSERT INTO KRIM_PERM_ATTR_DATA_T
+(ATTR_DATA_ID, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, VER_NBR, OBJ_ID)
+VALUES ((SELECT (MAX(TO_NUMBER(ATTR_DATA_ID)) + 1) FROM KRIM_PERM_ATTR_DATA_T WHERE ATTR_DATA_ID IS NOT NULL AND TO_NUMBER(ATTR_DATA_ID) < 10000),
+        (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Create Context Maintenance Document' AND NMSPC_CD = 'KR-NS'),
+        (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'Document Type & Existing Records Only' AND NMSPC_CD = 'KR-NS'),
+        (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NM = 'documentTypeName'),
         'ContextMaintenanceDocument',1,'c43bc7f5-949e-4a85-b173-6a53d81f2762')
 /
-insert into krim_role_perm_t
-(role_perm_id, role_id, perm_id, actv_ind, ver_nbr, obj_id)
-values ((select (max(to_number(role_perm_id)) + 1) from krim_role_perm_t where role_perm_id is not NULL and to_number(role_perm_id) < 10000),
-        (select role_id from krim_role_t where role_nm = 'Kuali Rules Management System Administrator' and nmspc_cd = 'KR-RULE'),
-        (select perm_id from krim_perm_t where nm = 'Create Context Maintenance Document' and nmspc_cd = 'KR-NS'),
+INSERT INTO KRIM_ROLE_PERM_T
+(ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, VER_NBR, OBJ_ID)
+VALUES ((SELECT (MAX(TO_NUMBER(ROLE_PERM_ID)) + 1) FROM KRIM_ROLE_PERM_T WHERE ROLE_PERM_ID IS NOT NULL AND TO_NUMBER(ROLE_PERM_ID) < 10000),
+        (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Kuali Rules Management System Administrator' AND NMSPC_CD = 'KR-RULE'),
+        (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Create Context Maintenance Document' AND NMSPC_CD = 'KR-NS'),
         'Y', 1, 'cd7cbc67-c0b2-4785-afa8-8c8d073b78df')
 /
-insert into krim_perm_t
-(perm_id, perm_tmpl_id, nmspc_cd, nm, desc_txt, actv_ind, ver_nbr, obj_id)
-values ((select (max(to_number(perm_id)) + 1) from krim_perm_t where perm_id is not NULL and to_number(perm_id) < 10000),
-        (select perm_tmpl_id from krim_perm_tmpl_t where nm = 'Create / Maintain Record(s)' and nmspc_cd = 'KR-NS'),
+INSERT INTO KRIM_PERM_T
+(PERM_ID, PERM_TMPL_ID, NMSPC_CD, NM, DESC_TXT, ACTV_IND, VER_NBR, OBJ_ID)
+VALUES ((SELECT (MAX(TO_NUMBER(PERM_ID)) + 1) FROM KRIM_PERM_T WHERE PERM_ID IS NOT NULL AND TO_NUMBER(PERM_ID) < 10000),
+        (SELECT PERM_TMPL_ID FROM KRIM_PERM_TMPL_T WHERE NM = 'Create / Maintain Record(s)' AND NMSPC_CD = 'KR-NS'),
         'KR-NS','Create TermSpecification Maintenance Document','Allows user to create a new TermSpecification maintainence document','Y',1,
         '02bd9acd-48d9-4fec-acbd-6a441c5ea8c2')
 /
-insert into krim_perm_attr_data_t
-(attr_data_id, perm_id, kim_typ_id, kim_attr_defn_id, attr_val, ver_nbr, obj_id)
-values ((select (max(to_number(attr_data_id)) + 1) from krim_perm_attr_data_t where attr_data_id is not NULL and to_number(attr_data_id) < 10000),
-        (select perm_id from krim_perm_t where nm = 'Create TermSpecification Maintenance Document' and nmspc_cd = 'KR-NS'),
-        (select kim_typ_id from krim_typ_t where nm = 'Document Type & Existing Records Only' and nmspc_cd = 'KR-NS'),
-        (select kim_attr_defn_id from krim_attr_defn_t where nm = 'documentTypeName'),
+INSERT INTO KRIM_PERM_ATTR_DATA_T
+(ATTR_DATA_ID, PERM_ID, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ATTR_VAL, VER_NBR, OBJ_ID)
+VALUES ((SELECT (MAX(TO_NUMBER(ATTR_DATA_ID)) + 1) FROM KRIM_PERM_ATTR_DATA_T WHERE ATTR_DATA_ID IS NOT NULL AND TO_NUMBER(ATTR_DATA_ID) < 10000),
+        (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Create TermSpecification Maintenance Document' AND NMSPC_CD = 'KR-NS'),
+        (SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NM = 'Document Type & Existing Records Only' AND NMSPC_CD = 'KR-NS'),
+        (SELECT KIM_ATTR_DEFN_ID FROM KRIM_ATTR_DEFN_T WHERE NM = 'documentTypeName'),
         'TermSpecificationMaintenanceDocument',1,'d3e373ca-296b-4834-bd66-ba159ebe733a')
 /
-insert into krim_role_perm_t
-(role_perm_id, role_id, perm_id, actv_ind, ver_nbr, obj_id)
-values ((select (max(to_number(role_perm_id)) + 1) from krim_role_perm_t where role_perm_id is not NULL and to_number(role_perm_id) < 10000),
-        (select role_id from krim_role_t where role_nm = 'Kuali Rules Management System Administrator' and nmspc_cd = 'KR-RULE'),
-        (select perm_id from krim_perm_t where nm = 'Create TermSpecification Maintenance Document' and nmspc_cd = 'KR-NS'),
+INSERT INTO KRIM_ROLE_PERM_T
+(ROLE_PERM_ID, ROLE_ID, PERM_ID, ACTV_IND, VER_NBR, OBJ_ID)
+VALUES ((SELECT (MAX(TO_NUMBER(ROLE_PERM_ID)) + 1) FROM KRIM_ROLE_PERM_T WHERE ROLE_PERM_ID IS NOT NULL AND TO_NUMBER(ROLE_PERM_ID) < 10000),
+        (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Kuali Rules Management System Administrator' AND NMSPC_CD = 'KR-RULE'),
+        (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Create TermSpecification Maintenance Document' AND NMSPC_CD = 'KR-NS'),
         'Y', 1, '83a270a0-1cdb-4440-ab8b-41cd8afc41d9')
 /
 
+
+--
+-- KULRICE-6799: At one point (2.0-RC4 and before), the DOC_STAT_NM column was incorrectly set to 20 characters
+--               the original script (2011-06-17.sql, and the "final" script) has been corrected, but this script has
+--               been created in case that script had already been run.  Mysql scripts are unaffected by this, so there is no
+--               equivalent mysql script.
+--
+
+ALTER TABLE KREW_DOC_TYP_APP_DOC_STAT_T MODIFY (DOC_STAT_NM VARCHAR2(64))
+/
 
 --
 -- 2012-02-23.sql
@@ -6726,5 +6740,5 @@ values ((select (max(to_number(role_perm_id)) + 1) from krim_role_perm_t where r
 -- KULRICE-6811: Conversion of WorkflowFunctions to EDLFunctions in eDocLite stylesheets
 --
 
-UPDATE KRCR_STYLE_T set XML=replace(XML,'org.kuali.rice.kew.edl.WorkflowFunctions','org.kuali.rice.edl.framework.util.EDLFunctions')
+UPDATE KRCR_STYLE_T SET XML=REPLACE(XML,'org.kuali.rice.kew.edl.WorkflowFunctions','org.kuali.rice.edl.framework.util.EDLFunctions')
 /
