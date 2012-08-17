@@ -1,16 +1,20 @@
 package org.kuali.hr.test;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.*;
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.lifecycle.BaseLifecycle;
 import org.kuali.rice.core.api.lifecycle.Lifecycle;
+import org.kuali.rice.core.impl.services.CoreImplServiceLocator;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.service.KRADServiceLocatorInternal;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -20,6 +24,7 @@ import org.kuali.rice.test.TransactionalLifecycle;
 import org.kuali.rice.test.lifecycles.JettyServerLifecycle;
 import org.kuali.rice.test.lifecycles.JettyServerLifecycle.ConfigMode;
 import org.kuali.rice.test.lifecycles.KPMEXmlDataLoaderLifecycle;
+import org.springframework.cache.CacheManager;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
@@ -97,6 +102,12 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 		super.tearDown();
 	}
 
+    @Override
+    protected List<Lifecycle> getPerTestLifecycles() {
+        List<Lifecycle> lifecycles = super.getPerTestLifecycles();
+        lifecycles.add(new ClearCacheLifecycle());
+        return lifecycles;
+    }
 	@Override
 	protected List<Lifecycle> getSuiteLifecycles() {
 		List<Lifecycle> lifecycles = super.getPerTestLifecycles();
@@ -247,5 +258,30 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 	  	page = page.getElementByName("methodToCall.route").click();
 	  	Assert.assertFalse("page text contains:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
 	}
+
+    public class ClearCacheLifecycle extends BaseLifecycle {
+        private final Logger LOG = Logger.getLogger(ClearCacheLifecycle.class);
+
+        @Override
+        public void start() throws Exception {
+            long startTime = System.currentTimeMillis();
+            LOG.info("Starting cache flushing");
+            List<CacheManager> cms = new ArrayList<CacheManager>(CoreImplServiceLocator.getCacheManagerRegistry().getCacheManagers());
+            for (CacheManager cm : cms) {
+                for (String cacheName : cm.getCacheNames()) {
+                    //LOG.info("Clearing cache: " + cacheName);
+                    cm.getCache(cacheName).clear();
+                }
+            }
+            long endTime = System.currentTimeMillis();
+            LOG.info("Caches cleared in " + (endTime - startTime) + "ms");
+        }
+
+        @Override
+        public void stop() throws Exception {
+            super.stop();
+        }
+
+    }
 
 }
