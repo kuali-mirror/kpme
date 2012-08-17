@@ -180,8 +180,6 @@ public class TkUserRoles implements UserRoles {
                 globalViewOnly = role;
             } else if (role.getRoleName().equals(TkConstants.ROLE_TK_REVIEWER)) {
                 reviewerRoles.put(role.getWorkArea(), role);
-            } else {
-                throw new RuntimeException("Invalid Role."); // TODO: Maybe we want to just ignore this exception.
             }
         }
     }
