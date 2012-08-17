@@ -125,7 +125,7 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
     }
 
     public String KPME788_789(ArrayList<Map<String, Object>> tb1ThdItems, HashMap<String, Object> tb1Items, ArrayList<Map<String, Object>> tb2ThdItems, HashMap<String, Object> tb2Items) throws Exception {
-        Date asOfDate = new Date((new DateTime(2011, 3, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+        Date asOfDate = new Date((new DateTime(2011, 3, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
         CalendarEntries pcd = TkServiceLocator.getCalendarService().getCurrentCalendarDates(USER_PRINCIPAL_ID, asOfDate);
         Assert.assertNotNull("No PayCalendarDates", pcd);
 

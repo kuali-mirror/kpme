@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
 import org.kuali.hr.time.test.HtmlUnitUtil;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
@@ -36,7 +37,7 @@ public class ClockLocationRuleLookupTest extends KPMETestCase {
     	ClockLocationRule clr = new ClockLocationRule();
     	clr.setActive(true);
     	clr.setDept("12345");
-    	Date asOfDate = new Date((new DateTime(2010, 8, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+    	Date asOfDate = new Date((new DateTime(2010, 8, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
     	clr.setEffectiveDate(asOfDate);
     	boService.save(clr);
     }

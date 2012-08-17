@@ -17,6 +17,7 @@ import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -101,7 +102,7 @@ public class JobTest extends KPMETestCase {
 
 	@Test
 	public void testGetJobs() {
-		Date payPeriodEndDate = new Date((new DateTime(2010,7,30,1,0,0,0,DateTimeZone.forID("EST"))).getMillis());
+		Date payPeriodEndDate = new Date((new DateTime(2010,7,30,1,0,0,0, TKUtils.getSystemDateTimeZone())).getMillis());
 		List<Job> jobs = TkServiceLocator.getJobService().getJobs(TEST_USER, payPeriodEndDate);
 		Assert.assertNotNull("Jobs was null", jobs);
 		Assert.assertEquals("Incorrect number of jobs", 2, jobs.size());

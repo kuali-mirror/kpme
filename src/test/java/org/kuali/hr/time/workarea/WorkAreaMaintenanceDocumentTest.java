@@ -27,7 +27,7 @@ public class WorkAreaMaintenanceDocumentTest extends KPMETestCase {
 	final String ERROR_ROLE_MESSAGE = "Cannot define both Principal Id and Position Nubmer for Role.";
 	final String SUCCESS_MESSAGE = "Document was successfully submitted.";
 	private static final String TEST_CODE_DEPARTMENT_VALID = "_TEST";
-	private static final Date TEST_DATE = new Date((new DateTime(2011,1,1,1,0,0,0,DateTimeZone.forID("EST"))).getMillis());
+	private static final Date TEST_DATE = new Date((new DateTime(2011,1,1,1,0,0,0,TKUtils.getSystemDateTimeZone())).getMillis());
 
     @Before
     public void setUp() throws Exception {

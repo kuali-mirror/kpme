@@ -46,7 +46,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         add("testuser1"); add("testuser2"); add("testuser3"); add("testuser4"); }};
 
     private TimesheetDocument fredsDocument = null;
-    Date asOfDate = new Date((new DateTime(2011, 3, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+    Date asOfDate = new Date((new DateTime(2011, 3, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 
     @Override
     /**

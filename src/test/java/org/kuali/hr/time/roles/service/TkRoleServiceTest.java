@@ -35,17 +35,17 @@ public class TkRoleServiceTest  extends KPMETestCase {
 		Long workArea = 999L;
 		
 		// Finds TkConstants.ROLE_TK_APPROVER roles
-		Date asOfDate = new Date((new DateTime(2010, 8, 25, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		Date asOfDate = new Date((new DateTime(2010, 8, 25, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		List<TkRole> roles = trs.getWorkAreaRoles(workArea, TkConstants.ROLE_TK_APPROVER, asOfDate);
 		Assert.assertNotNull(roles);
 		Assert.assertEquals("Incorrect number of roles.", 2, roles.size());
 		
-		asOfDate = new Date((new DateTime(2010, 8, 25, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		asOfDate = new Date((new DateTime(2010, 8, 25, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		roles = trs.getWorkAreaRoles(workArea, TkConstants.ROLE_TK_APPROVER, asOfDate);
 		Assert.assertNotNull(roles);
 		Assert.assertEquals("Incorrect number of roles.", 2, roles.size());
 
-		asOfDate = new Date((new DateTime(2010, 8, 25, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		asOfDate = new Date((new DateTime(2010, 8, 25, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		roles = trs.getWorkAreaRoles(workArea, TkConstants.ROLE_TK_APPROVER, asOfDate);
 		Assert.assertNotNull(roles);
 		Assert.assertEquals("Incorrect number of roles.", 2, roles.size());
@@ -72,7 +72,7 @@ public class TkRoleServiceTest  extends KPMETestCase {
 		String principalId = TEST_USER;
 		
 		// All Role Names, One User with Specific asOfDate
-		Date asOfDate = new Date((new DateTime(2010, 8, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		Date asOfDate = new Date((new DateTime(2010, 8, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		List<TkRole> roles = trs.getRoles(principalId, asOfDate);
 		Assert.assertNotNull(roles);
 		Assert.assertEquals("Incorrect number of roles.", 2, roles.size());
@@ -83,7 +83,7 @@ public class TkRoleServiceTest  extends KPMETestCase {
 		}
 		
 		// All Role Names, One User with Specific asOfDate with multiple timestamps
-		asOfDate = new Date((new DateTime(2010, 8, 20, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		asOfDate = new Date((new DateTime(2010, 8, 20, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		roles = trs.getRoles(principalId, asOfDate);
 		Assert.assertNotNull(roles);
 		Assert.assertEquals("Incorrect number of roles.", 2, roles.size());
@@ -94,7 +94,7 @@ public class TkRoleServiceTest  extends KPMETestCase {
 		}
 		
 		// Specific Role Name, Specific User
-		asOfDate = new Date((new DateTime(2010, 8, 21, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		asOfDate = new Date((new DateTime(2010, 8, 21, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		roles = trs.getRoles(principalId, TkConstants.ROLE_TK_APPROVER, asOfDate);
 		Assert.assertNotNull(roles);
 		Assert.assertEquals("Incorrect number of roles.", 1, roles.size());
@@ -118,7 +118,7 @@ public class TkRoleServiceTest  extends KPMETestCase {
 		pos.setActive(true);
 		pos.setTimestamp(new Timestamp(System.currentTimeMillis()));
 		pos.setDescription("Advising");
-		pos.setEffectiveDate(new Date((new DateTime(2010, 8, 20, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
+		pos.setEffectiveDate(new Date((new DateTime(2010, 8, 20, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis()));
 		pos.setPositionNumber("123456");
 		KRADServiceLocator.getBusinessObjectService().save(pos);
 		String posNumber = pos.getPositionNumber();
@@ -128,7 +128,7 @@ public class TkRoleServiceTest  extends KPMETestCase {
 		job.setPositionNumber(posNumber);
 		job.setPrincipalId("earl");
 		job.setJobNumber(0L);
-		job.setEffectiveDate(new Date((new DateTime(2010, 8, 20, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
+		job.setEffectiveDate(new Date((new DateTime(2010, 8, 20, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis()));
 		job.setDept("BL-CHEM");
 		job.setHrSalGroup("BW1");
 		job.setPayGrade("2IT");
@@ -150,7 +150,7 @@ public class TkRoleServiceTest  extends KPMETestCase {
 		 tkRole.setRoleName(TkConstants.ROLE_TK_APPROVER);
 		 tkRole.setUserPrincipalId("admin");
 		 tkRole.setWorkArea(1234L);
-		 tkRole.setEffectiveDate(new Date((new DateTime(2010, 8, 20, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
+		 tkRole.setEffectiveDate(new Date((new DateTime(2010, 8, 20, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis()));
 		 tkRole.setTimestamp(new Timestamp(System.currentTimeMillis()));
 		 tkRole.setActive(true);
 		 tkRole.setPositionNumber(posNumber);

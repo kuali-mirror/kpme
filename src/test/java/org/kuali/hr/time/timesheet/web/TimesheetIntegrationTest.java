@@ -32,7 +32,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 
 	public static final String USER_PRINCIPAL_ID = "admin";
 	public static final Date TIME_SHEET_DATE = new Date(
-			(new DateTime(2012, 2, 15, 0, 0, 0, 0, DateTimeZone
+			(new DateTime(2011, 2, 15, 0, 0, 0, 0, DateTimeZone
 					.forID(TKUtils.getSystemTimeZone()))).getMillis());
 	public TimesheetDocument timeDoc;
 	public List<Assignment> assignmentsOfUser;
@@ -64,9 +64,9 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 				.getAssignments(USER_PRINCIPAL_ID, TIME_SHEET_DATE);
 		Assert.assertNotNull("No Assignments found for the user ", assignmentsOfUser);
 
-		// check if page contains calendar for February 2012
-		Assert.assertTrue("Page could not find calendar for Feb 2012", page.asText()
-				.contains("February 2012"));
+		// check if page contains calendar for February 2011
+		Assert.assertTrue("Page could not find calendar for Feb 2011", page.asText()
+				.contains("February 2011"));
 
 		HtmlForm form = page.getFormByName("TimeDetailActionForm");
 		Assert.assertNotNull(form);
@@ -96,9 +96,9 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 			earnCode = earnCodes.get(0);
 		}
 
-		DateTime startTime = new DateTime(2012, 2, 15, 9, 0, 0, 0,
+		DateTime startTime = new DateTime(2011, 2, 15, 9, 0, 0, 0,
 				TKUtils.getSystemDateTimeZone());
-		DateTime endTime = new DateTime(2012, 2, 15, 11, 0, 0, 0,
+		DateTime endTime = new DateTime(2011, 2, 15, 11, 0, 0, 0,
 				TKUtils.getSystemDateTimeZone());
 
 		// Setup TimeDetailActionForm
@@ -143,8 +143,8 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		}, new HashMap<String, Object>() {
 			{
 				put("earnCode", "RGN");
-				put("startNoTz", "2012-02-15T09:00:00");
-				put("endNoTz", "2012-02-15T11:00:00");
+				put("startNoTz", "2011-02-15T09:00:00");
+				put("endNoTz", "2011-02-15T11:00:00");
 				put("assignment", assignmentKey);
 			}
 		}));
@@ -152,7 +152,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 
 		// check value ....
 		Assert.assertTrue("TimeBlock did not created successfully.", page.asText()
-				.contains("09:00 AM - 11:00 AM"));
+				.contains("work area description-description 1"));
 		Assert.assertTrue("TimeBlock did not created successfully.", page.asText()
 				.contains("RGN - 2.00 hours"));
 
@@ -176,9 +176,9 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 			earnCode = earnCodes.get(0);
 		}
 
-		DateTime startTime = new DateTime(2012, 2, 15, 9, 0, 0, 0,
+		DateTime startTime = new DateTime(2011, 2, 15, 9, 0, 0, 0,
 				TKUtils.getSystemDateTimeZone());
-		DateTime endTime = new DateTime(2012, 2, 15, 11, 0, 0, 0,
+		DateTime endTime = new DateTime(2011, 2, 15, 11, 0, 0, 0,
 				TKUtils.getSystemDateTimeZone());
 
 		HtmlForm form = page.getFormByName("TimeDetailActionForm");
@@ -202,7 +202,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 
 		// chk if the page contains the created time block.
 		Assert.assertTrue("TimeBlock not Present.",
-				page.asText().contains("09:00 AM - 11:00 AM"));
+				page.asText().contains("work area description-description 1"));
 		Assert.assertTrue("TimeBlock not Present.",
 				page.asText().contains("RGN - 2.00 hours"));
 
@@ -224,9 +224,9 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 			earnCode = earnCodes.get(0);
 		}
 
-		DateTime startTime1 = new DateTime(2012, 2, 15, 14, 0, 0, 0,
+		DateTime startTime1 = new DateTime(2011, 2, 15, 14, 0, 0, 0,
 				TKUtils.getSystemDateTimeZone());
-		DateTime endTime1 = new DateTime(2012, 2, 15, 17, 0, 0, 0,
+		DateTime endTime1 = new DateTime(2011, 2, 15, 17, 0, 0, 0,
 				TKUtils.getSystemDateTimeZone());
 
 		form = page.getFormByName("TimeDetailActionForm");
@@ -248,7 +248,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 
 		// chk the timesheet contains the changes done with the time block
 		Assert.assertTrue("TimeBlock did not updated properly.", page.asText()
-				.contains("02:00 PM - 05:00 PM"));
+				.contains("work area description-description 1"));
 		Assert.assertTrue("TimeBlock did not updated properly.", page.asText()
 				.contains("RGN - 3.00 hours"));
 
@@ -273,9 +273,9 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 			earnCode = earnCodes.get(0);
 		}
 
-		DateTime startTime = new DateTime(2012, 2, 15, 9, 0, 0, 0,
+		DateTime startTime = new DateTime(2011, 2, 15, 9, 0, 0, 0,
 				TKUtils.getSystemDateTimeZone());
-		DateTime endTime = new DateTime(2012, 2, 15, 11, 0, 0, 0,
+		DateTime endTime = new DateTime(2011, 2, 15, 11, 0, 0, 0,
 				TKUtils.getSystemDateTimeZone());
 
 		HtmlForm form = page.getFormByName("TimeDetailActionForm");
@@ -299,7 +299,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 
 		// chk the page must contain the created time block
 		Assert.assertTrue("TimeBlock did not created successfully.", page.asText()
-				.contains("09:00 AM - 11:00 AM"));
+				.contains("work area description-description 1"));
 		Assert.assertTrue("TimeBlock did not created successfully.", page.asText()
 				.contains("RGN - 2.00 hours"));
 
@@ -325,7 +325,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 
 		// chk the timesheet does not contain the time block
 		Assert.assertTrue("TimeBlock did not deleted successfully.", !page.asText()
-				.contains("09:00 AM - 11:00 AM"));
+				.contains("work area description-description 1"));
 		Assert.assertTrue("TimeBlock did not deleted successfully.", !page.asText()
 				.contains("RGN - 2.00 hours"));
 
@@ -352,9 +352,9 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 			earnCode = earnCodes.get(0);
 		}
 
-		DateTime startTime = new DateTime(2012, 2, 17, 9, 0, 0, 0,
+		DateTime startTime = new DateTime(2011, 2, 17, 9, 0, 0, 0,
 				TKUtils.getSystemDateTimeZone());  // Friday
-		DateTime endTime = new DateTime(2012, 2, 20, 11, 0, 0, 0,
+		DateTime endTime = new DateTime(2011, 2, 20, 11, 0, 0, 0,
 				TKUtils.getSystemDateTimeZone());  // Monday
 
 		// Setup TimeDetailActionForm1

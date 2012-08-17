@@ -15,6 +15,7 @@ import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -22,7 +23,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class SystemLunchRuleTest extends KPMETestCase {
 	
 	SystemLunchRule systemLunchRule;
-	Date date = new Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+	Date date = new Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 	
 	@Test
 	public void testSystemLunchRuleFetch() throws Exception{

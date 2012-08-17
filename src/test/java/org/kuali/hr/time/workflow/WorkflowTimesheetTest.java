@@ -15,6 +15,7 @@ import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.service.TimesheetService;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 @Ignore
@@ -27,7 +28,7 @@ public class WorkflowTimesheetTest extends KPMETestCase {
 		TimesheetService timesheetService = TkServiceLocator.getTimesheetService();
 		Assert.assertNotNull("timesheet service null", timesheetService);
 
-		Date asOfDate = new Date((new DateTime(2010, 8, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		Date asOfDate = new Date((new DateTime(2010, 8, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 
 		List<Job> jobs = TkServiceLocator.getJobService().getJobs(GlobalVariables.getUserSession().getPrincipalId(), asOfDate);
 		Assert.assertNotNull("No jobs", jobs);

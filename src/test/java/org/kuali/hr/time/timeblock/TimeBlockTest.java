@@ -53,14 +53,14 @@ public class TimeBlockTest extends KPMETestCase {
 	@Test
 	public void testTimeBlockBuilding() throws Exception {
 		CalendarEntries payCalendarEntry = new CalendarEntries();
-		java.util.Date beginDateTime = new java.util.Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
-		java.util.Date endDateTime = new java.util.Date((new DateTime(2010, 1, 15, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		java.util.Date beginDateTime = new java.util.Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		java.util.Date endDateTime = new java.util.Date((new DateTime(2010, 1, 15, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		payCalendarEntry.setBeginPeriodDateTime(beginDateTime);
 		payCalendarEntry.setEndPeriodDateTime(endDateTime);
 		
 		List<Interval> dayInterval = TKUtils.getDaySpanForCalendarEntry(payCalendarEntry);
-		Timestamp beginTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 13, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
-		Timestamp endTimeStamp = new Timestamp((new DateTime(2010, 1, 2, 14, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		Timestamp beginTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		Timestamp endTimeStamp = new Timestamp((new DateTime(2010, 1, 2, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		
 		Interval firstDay = null;
 		List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
@@ -95,8 +95,8 @@ public class TimeBlockTest extends KPMETestCase {
 		
 		lstTimeBlocks.clear();
 		
-		beginTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 13, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
-		endTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 15, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		beginTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		endTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 15, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		
 		firstDay = null;
 		for(Interval dayInt : dayInterval){
@@ -131,8 +131,8 @@ public class TimeBlockTest extends KPMETestCase {
 	
 	@Test
 	public void testTimeBlockAggregate() throws Exception {
-		DateTime beginTime = new DateTime(2010, 1, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"));
-		DateTime endTime = new DateTime(2010, 1, 16, 12, 0, 0, 0, DateTimeZone.forID("EST"));
+		DateTime beginTime = new DateTime(2010, 1, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime endTime = new DateTime(2010, 1, 16, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		
 		Calendar payCalendar = new Calendar();
 		
@@ -153,13 +153,13 @@ public class TimeBlockTest extends KPMETestCase {
 		List<TimeBlock> tbList = new ArrayList<TimeBlock>();
 		TimeBlock tb1 = new TimeBlock();
 		// time block with 2010 time
-		tb1.setBeginTimestamp(new Timestamp((new DateTime(2010, 1, 1, 13, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
-		tb1.setEndTimestamp(new Timestamp((new DateTime(2010, 1, 2, 14, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
+		tb1.setBeginTimestamp(new Timestamp((new DateTime(2010, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis()));
+		tb1.setEndTimestamp(new Timestamp((new DateTime(2010, 1, 2, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis()));
 		tbList.add(tb1);
 		//time block with 2009 time
 		TimeBlock tb2 = new TimeBlock();
-		tb2.setBeginTimestamp(new Timestamp((new DateTime(2009, 1, 1, 13, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
-		tb2.setEndTimestamp(new Timestamp((new DateTime(2009, 1, 2, 14, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis()));
+		tb2.setBeginTimestamp(new Timestamp((new DateTime(2009, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis()));
+		tb2.setEndTimestamp(new Timestamp((new DateTime(2009, 1, 2, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis()));
 		tbList.add(tb2);
 		
 		Assert.assertTrue(tbList.get(0) == tb1);
@@ -171,8 +171,8 @@ public class TimeBlockTest extends KPMETestCase {
 	}
 	private List<TimeBlock> setupTimeBlocks(DateTime startTime, DateTime endTime, CalendarEntries payCalendarEntry){
 		List<Interval> dayInterval = TKUtils.getDaySpanForCalendarEntry(payCalendarEntry);
-		Timestamp beginTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 13, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
-		Timestamp endTimeStamp = new Timestamp((new DateTime(2010, 1, 2, 14, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		Timestamp beginTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		Timestamp endTimeStamp = new Timestamp((new DateTime(2010, 1, 2, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		
 		Interval firstDay = null;
 		List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
@@ -207,8 +207,8 @@ public class TimeBlockTest extends KPMETestCase {
 		
 		lstTimeBlocks.clear();
 		
-		beginTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 13, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
-		endTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 15, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		beginTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		endTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 15, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		
 		firstDay = null;
 		for(Interval dayInt : dayInterval){

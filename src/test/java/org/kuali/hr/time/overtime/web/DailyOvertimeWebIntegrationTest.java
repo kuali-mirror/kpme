@@ -41,7 +41,7 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
      * 3/3/2011 10hrs; 8 RGN, 2 OVT
      */
     public void testSimpleDOTCalculationIntegration() throws Exception {
-        Date asOfDate = new Date((new DateTime(2011, 3, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+        Date asOfDate = new Date((new DateTime(2011, 3, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 
         CalendarEntries pcd = TkServiceLocator.getCalendarService().getCurrentCalendarDates(USER_PRINCIPAL_ID, asOfDate);
         Assert.assertNotNull("No PayCalendarDates", pcd);

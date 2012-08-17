@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 
 public class JobServiceImplTest extends KPMETestCase {
 
@@ -28,7 +29,7 @@ public class JobServiceImplTest extends KPMETestCase {
 	
 	@Test
 	public void testGetJobs() {
-		Date payPeriodEndDate = new Date((new DateTime(2010,7,30,1,0,0,0,DateTimeZone.forID("EST"))).getMillis());
+		Date payPeriodEndDate = new Date((new DateTime(2010,7,30,1,0,0,0, TKUtils.getSystemDateTimeZone())).getMillis());
 		List<Job> jobs = jobService.getJobs(TEST_USER, payPeriodEndDate);
 		Assert.assertNotNull("Jobs was null", jobs);
 		Assert.assertEquals("Incorrect number of jobs", 2, jobs.size());

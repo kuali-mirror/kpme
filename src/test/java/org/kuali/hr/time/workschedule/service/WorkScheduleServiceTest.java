@@ -10,6 +10,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workschedule.WorkSchedule;
 import org.kuali.hr.time.workschedule.WorkScheduleEntry;
@@ -24,7 +25,7 @@ public class WorkScheduleServiceTest extends KPMETestCase {
 		String principalId = null;
 		Long workScheduleId = null;
 		Long workArea = null;
-		Date asOfDate = new Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		Date asOfDate = new Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		List<WorkSchedule> schedules = null;
 
 		// principal, department, workarea
@@ -60,14 +61,14 @@ public class WorkScheduleServiceTest extends KPMETestCase {
 	@Test
 	public void testWorkScheduleFlattening() throws Exception{
 		WorkSchedule workSchedule = new WorkSchedule();
-		Date asOfDate = new Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		Date asOfDate = new Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		workSchedule.setEffectiveDate(asOfDate);
 		WorkScheduleEntry wse = new WorkScheduleEntry();
 		for(int i = 0 ;i<TkConstants.LENGTH_OF_WORK_SCHEDULE;i++){
 			workSchedule.getWorkScheduleEntries().add(wse);
 		}
-		Date beginPeriodDate = new Date((new DateTime(2010, 1, 3, 1, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
-		Date endPeriodDate = new Date((new DateTime(2010, 1, 15, 1, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+		Date beginPeriodDate = new Date((new DateTime(2010, 1, 3, 1, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		Date endPeriodDate = new Date((new DateTime(2010, 1, 15, 1, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 
 		List<WorkScheduleEntry> lstWorkSchedEntries = TkServiceLocator.getWorkScheduleService().getWorkSchedEntries(
 															workSchedule, beginPeriodDate, endPeriodDate);
