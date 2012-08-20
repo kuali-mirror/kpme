@@ -517,7 +517,7 @@ $(document).ready(function() {
         var ipToChange = value[0];
         var tkBatchJobEntryId = value[1];
 
-        window.location = "BatchJob.do?methodToCall=changeIpAddress&ipToChange=" + ipToChange + "&tkBatchJobEntryId=" + tkBatchJobEntryId;
+        window.location = "batchJob.do?methodToCall=changeIpAddress&ipToChange=" + ipToChange + "&tkBatchJobEntryId=" + tkBatchJobEntryId;
     });
 
 

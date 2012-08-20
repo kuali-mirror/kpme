@@ -10,13 +10,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.core.util.RiceConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.core.api.util.RiceConstants;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kns.inquiry.Inquirable;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.RiceKeyConstants;
 import org.kuali.rice.kns.web.struts.form.InquiryForm;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class TkInquiryAction extends KualiInquiryAction {
 	
@@ -25,7 +25,7 @@ public class TkInquiryAction extends KualiInquiryAction {
 	protected BusinessObject retrieveBOUsingKeyMap(Map<String, String> keyMap, Inquirable kualiInquirable) {
 		BusinessObject bo = kualiInquirable.getBusinessObject(keyMap);
         if (bo == null) {
-            GlobalVariables.getMessageMap().putError(KNSConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_INQUIRY);
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_INQUIRY);
         }
         return bo;
 	}

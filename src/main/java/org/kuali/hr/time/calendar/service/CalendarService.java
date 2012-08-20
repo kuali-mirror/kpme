@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
+import org.springframework.cache.annotation.Cacheable;
 
 public interface CalendarService {
 	/**
@@ -11,6 +12,7 @@ public interface CalendarService {
 	 * @param hrCalendarId
 	 * @return
 	 */
+    @Cacheable(value= Calendar.CACHE_NAME, key="'hrCalendarId=' + #p0")
 	public Calendar getCalendar(String hrCalendarId);
 
 	/**
@@ -18,6 +20,7 @@ public interface CalendarService {
 	 * @param calendarName
 	 * @return
 	 */
+    @Cacheable(value= Calendar.CACHE_NAME, key="'calendarName=' + #p0")
 	public Calendar getCalendarByGroup(String calendarName);
 
 	/**
@@ -40,6 +43,7 @@ public interface CalendarService {
      * @param payEndDate
      * @return
      */
+    @Cacheable(value= Calendar.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'payEndDate=' + #p1 + '|' + 'calendarType=' + #p2")
     public CalendarEntries getCalendarDatesByPayEndDate(String principalId, Date payEndDate, String calendarType);
 
 	/**
@@ -48,6 +52,7 @@ public interface CalendarService {
 	 * @param beginDateCurrentCalendar
 	 * @return
 	 */
+    @Cacheable(value= Calendar.CACHE_NAME, key="'tkCalendarId=' + #p0 + '|' + 'beginDateCurrentCalendar=' + #p1")
 	public CalendarEntries getPreviousCalendarEntry(String tkCalendarId, Date beginDateCurrentCalendar);
 	
 	/**
@@ -64,6 +69,7 @@ public interface CalendarService {
 	 * @param currentDate
 	 * @return
 	 */
+    @Cacheable(value= Calendar.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'currentDate=' + #p1")
 	public CalendarEntries getCurrentCalendarDatesForLeaveCalendar(String principalId, Date currentDate);
 
 }

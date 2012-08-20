@@ -9,8 +9,8 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TimeCollectionRuleMaintainableImpl extends KualiMaintainableImpl {
     /**
@@ -52,14 +52,14 @@ public class TimeCollectionRuleMaintainableImpl extends KualiMaintainableImpl {
 					//NOTE this is done to prevent the timestamp of the inactive one to be greater than the 
 					oldTimeCollectRule.setTimestamp(TKUtils.subtractOneSecondFromTimestamp(new Timestamp(System.currentTimeMillis())));
 					oldTimeCollectRule.setEffectiveDate(timeCollectionRule.getEffectiveDate());
-					KNSServiceLocator.getBusinessObjectService().save(oldTimeCollectRule);
+					KRADServiceLocator.getBusinessObjectService().save(oldTimeCollectRule);
 				}
 				timeCollectionRule.setTimestamp(new Timestamp(System.currentTimeMillis()));
 				timeCollectionRule.setTkTimeCollectionRuleId(null);
 			}
 		}
 		
-		KNSServiceLocator.getBusinessObjectService().save(timeCollectionRule);
+		KRADServiceLocator.getBusinessObjectService().save(timeCollectionRule);
     }
 
 

@@ -9,11 +9,11 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.batch.BatchJob;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
 
-public class BatchJobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements BatchJobDao {
+public class BatchJobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements BatchJobDao {
 
     public void saveOrUpdate(final BatchJob batchJob) {
     	TkServiceLocator.getTransactionTemplate().execute(new TransactionCallbackWithoutResult() {

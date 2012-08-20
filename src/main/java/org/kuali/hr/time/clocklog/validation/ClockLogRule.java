@@ -1,16 +1,16 @@
 package org.kuali.hr.time.clocklog.validation;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.clock.location.validation.ClockLocationRuleRule;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ClockLogRule  extends MaintenanceDocumentRuleBase {
 
@@ -77,7 +77,7 @@ public class ClockLogRule  extends MaintenanceDocumentRuleBase {
 		boolean valid = false;
 
 		LOG.debug("entering custom validation for ClockLog");
-		PersistableBusinessObject pbo = this.getNewBo();
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
 		if (pbo instanceof ClockLog) {
 			ClockLog clockLog = (ClockLog) pbo;
 			clockLog.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());

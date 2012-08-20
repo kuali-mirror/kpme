@@ -8,9 +8,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class CalendarDaoSpringOjbImpl extends PersistenceBrokerDaoSupport  implements CalendarDao {
+public class CalendarDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb  implements CalendarDao {
 
 	private static final Logger LOG = Logger.getLogger(CalendarDaoSpringOjbImpl.class);
 

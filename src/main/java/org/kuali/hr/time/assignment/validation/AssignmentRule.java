@@ -1,5 +1,15 @@
 package org.kuali.hr.time.assignment.validation;
 
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
@@ -13,13 +23,10 @@ import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.kfs.coa.businessobject.Account;
 import org.kuali.kfs.coa.businessobject.ObjectCode;
 import org.kuali.kfs.coa.businessobject.SubObjectCode;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-
-import java.sql.Date;
-import java.util.*;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class AssignmentRule extends MaintenanceDocumentRuleBase {
 
@@ -179,7 +186,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 		LOG.debug("Validating Account: " + assignmentAccount.getAccountNbr());
 		Map<String, String> fields = new HashMap<String, String>();
 		fields.put("accountNumber", assignmentAccount.getAccountNbr());
-		Collection account = KNSServiceLocator.getBusinessObjectDao()
+		Collection account = KRADServiceLocator.getBusinessObjectService()
 				.findMatching(Account.class, fields);
 		valid = account.size() > 0;
 		if (!valid) {
@@ -195,7 +202,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 				+ assignmentAccount.getFinObjectCd());
 		Map<String, String> fields = new HashMap<String, String>();
 		fields.put("financialObjectCode", assignmentAccount.getFinObjectCd());
-		Collection objectCode = KNSServiceLocator.getBusinessObjectDao()
+		Collection objectCode = KRADServiceLocator.getBusinessObjectService()
 				.findMatching(ObjectCode.class, fields);
 		valid = objectCode.size() > 0;
 		if (!valid) {
@@ -213,7 +220,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 			Map<String, String> fields = new HashMap<String, String>();
 			fields.put("financialSubObjectCode", assignmentAccount
 					.getFinSubObjCd());
-			Collection subObjectCode = KNSServiceLocator.getBusinessObjectDao()
+			Collection subObjectCode = KRADServiceLocator.getBusinessObjectService()
 					.findMatching(SubObjectCode.class, fields);
 			valid = subObjectCode.size() > 0;
 			if (!valid) {
@@ -262,7 +269,7 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 			MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for DeptLunchRule");
-		PersistableBusinessObject pbo = this.getNewBo();
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
 		if (pbo instanceof Assignment) {
 			Assignment assignment = (Assignment) pbo;
 			if (assignment != null) {

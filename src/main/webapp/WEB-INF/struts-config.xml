@@ -1,24 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
-        "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+
 <struts-config>
     <form-beans>
+        <!-- Rice content Start -->
+        <form-bean name="BackdoorForm" type="org.kuali.rice.kns.web.struts.form.BackdoorForm" />
+        <form-bean name="KualiForm" type="org.kuali.rice.kns.web.struts.form.KualiForm" />
+        <form-bean name="KualiLogoutForm" type="org.kuali.rice.kns.web.struts.form.KualiLogoutForm" />
+        <!-- Rice content End -->
+        
+        <form-bean name="ChangeTargetPersonForm" type="org.kuali.hr.time.admin.web.ChangeTargetPersonForm"/>
+        <form-bean name="DeleteTimesheetForm" type="org.kuali.hr.time.admin.web.DeleteTimesheetForm"/>
+        <form-bean name="CalculateLeaveAccrualsForm" type="org.kuali.hr.time.admin.web.CalculateLeaveAccrualsForm"/>
+        <form-bean name="BatchJobActionForm" type="org.kuali.hr.time.batch.web.BatchJobActionForm"/>
+        <form-bean name="CalendarEntryActionForm" type="org.kuali.hr.time.calendar.web.CalendarEntryActionForm"/>
         <form-bean name="ClockActionForm" type="org.kuali.hr.time.clock.web.ClockActionForm"/>
         <form-bean name="TimeDetailActionForm" type="org.kuali.hr.time.detail.web.TimeDetailActionForm"/>
         <form-bean name="TimeDetailWSActionForm" type="org.kuali.hr.time.detail.web.TimeDetailWSActionForm"/>
         <form-bean name="TimeApprovalActionForm" type="org.kuali.hr.time.approval.web.TimeApprovalActionForm"/>
         <form-bean name="TimeApprovalWSActionForm" type="org.kuali.hr.time.approval.web.TimeApprovalWSActionForm"/>
-        <form-bean name="AdminActionForm" type="org.kuali.hr.time.admin.web.AdminActionForm"/>
         <form-bean name="PersonInfoActionForm" type="org.kuali.hr.time.base.web.PersonInfoActionForm"/>
-        <form-bean name="CacheAdministrationActionForm"
-                   type="org.kuali.hr.time.cache.web.CacheAdministrationActionForm"/>
         <form-bean name="TimeOffAccrualActionForm" type="org.kuali.hr.time.accrual.web.TimeOffAccrualActionForm"/>
-        <form-bean name="BatchJobActionForm" type="org.kuali.hr.time.batch.web.BatchJobActionForm"/>
+        <form-bean name="TimesheetActionForm" type="org.kuali.hr.time.timesheet.web.TimesheetActionForm"/>
         <form-bean name="TimesheetSubmitActionForm" type="org.kuali.hr.time.detail.web.TimesheetSubmitActionForm"/>
         <form-bean name="MissedPunchForm" type="org.kuali.hr.time.missedpunch.MissedPunchForm"/>
         <form-bean name="HelpActionForm" type="org.kuali.hr.time.help.web.HelpActionForm"/>
         <form-bean name="SessionInvalidateForm" type="org.kuali.hr.time.web.SessionInvalidateForm"/>
- 		<form-bean name="CalendarEntryActionForm" type="org.kuali.hr.time.calendar.web.CalendarEntryActionForm"/>
 		<form-bean name="LeaveCalendarForm" type="org.kuali.hr.lm.leavecalendar.web.LeaveCalendarForm"/>
 		<form-bean name="LeaveBlockDisplayForm" type="org.kuali.hr.lm.leave.web.LeaveBlockDisplayForm"/>
 		<form-bean name="LeaveRequestForm" type="org.kuali.hr.lm.leave.web.LeaveRequestForm"/>
@@ -26,18 +33,75 @@
     </form-beans>
 
     <global-exceptions>
+        <!-- Rice content Start -->
         <exception type="java.lang.Throwable"
-                   handler="org.kuali.rice.kns.web.struts.pojo.StrutsExceptionIncidentHandler"
+                   handler="org.kuali.rice.kns.web.struts.form.pojo.StrutsExceptionIncidentHandler"
                    key="meaningless"/>
+        <exception type="org.kuali.rice.krad.exception.AuthorizationException"
+                   handler="org.kuali.rice.kns.web.struts.form.pojo.AuthorizationExceptionHandler"
+                   key="meaningless" />
+        <!-- Rice content End -->
     </global-exceptions>
 
     <global-forwards type="org.apache.struts.action.ActionForward">
+        <!-- Rice content Start -->
+        <forward name="save" path="/portal.jsp" redirect="true" />
+        <forward name="cancel" path="/portal.jsp" redirect="true" />
+        <forward name="close" path="/portal.jsp" redirect="true" />
+        <forward name="portal" path="/portal.jsp" redirect="true" />
+        <forward name="route_report" path="/WEB-INF/jsp/RoutingReportForward.jsp"/>
+        <forward name="updateTextArea" path="/kr/WEB-INF/jsp/TextArea.jsp" />
+        <forward name="exceptionIncidentHandler" path="/kr/kualiExceptionIncidentReport.do" />
+        <forward name="authorizationExceptionHandler" path="/kr/authorizationExceptionReport.do"/>
+        <!-- Rice content End -->
+        
         <forward name="unauthorized" path="/WEB-INF/jsp/unauthorized.jsp"/>
-        <forward name="exceptionIncidentHandler" path="/kr/kualiExceptionIncidentReport.do"/>
     </global-forwards>
 
-
     <action-mappings>
+        <!-- Rice content Start -->
+        <action path="/portal" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiPortalAction">
+            <forward name="basic" path="/portal.jsp" />
+        </action>
+        <action path="/backdoorlogin" name="BackdoorForm" scope="request" parameter="methodToCall"
+                input="/WEB-INF/jsp/backdoor/index.jsp" type="org.kuali.rice.kns.web.struts.action.BackdoorAction">
+            <forward name="basic" path="/portal.jsp" />
+            <forward name="viewPortal" path="/portal.jsp" />
+            <forward name="logout" path="/logout.do" />
+        </action> 
+        <action path="/logout" name="KualiLogoutForm" type="org.kuali.rice.kns.web.struts.action.KualiLogoutAction" />
+        <action path="/index" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
+            <forward name="basic" path="/portal.jsp" />
+        </action>
+        <action path="/updateTextArea" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiDocumentActionBase">
+            <forward name="basic" path="/kr/WEB-INF/jsp/TextArea.jsp" />
+        </action>
+        <!-- Rice content End -->
+        
+        <action path="/changeTargetPerson" name="ChangeTargetPersonForm" type="org.kuali.hr.time.admin.web.ChangeTargetPersonAction">
+            <forward name="basic" path="/portal.jsp"/>
+        </action>
+        
+        <action path="/deleteTimesheet" name="DeleteTimesheetForm" type="org.kuali.hr.time.admin.web.DeleteTimesheetAction">
+            <forward name="basic" path="/portal.jsp"/>
+        </action>
+        
+        <action path="/calculateLeaveAccruals" name="CalculateLeaveAccrualsForm" type="org.kuali.hr.time.admin.web.CalculateLeaveAccrualsAction">
+            <forward name="basic" path="/portal.jsp"/>
+        </action>
+        
+        <action path="/batchJob" name="BatchJobActionForm" type="org.kuali.hr.time.batch.web.BatchJobAction">
+            <forward name="basic" path="/portal.jsp"/>
+        </action>
+        
+        <action path="/calendarEntry" name="CalendarEntryActionForm" type="org.kuali.hr.time.calendar.web.CalendarEntryAction">
+            <forward name="basic" path="/portal.jsp"/>
+        </action>
+        
+        <action path="/DepartmentAdmin" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
+            <forward name="basic" path="/WEB-INF/jsp/departmentAdmin.jsp"/>
+        </action>
+        
         <action path="/Clock" name="ClockActionForm" scope="request" input="/WEB-INF/jsp/clock.jsp"
                 type="org.kuali.hr.time.clock.web.ClockAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/clock.jsp"/>
@@ -47,6 +111,12 @@
             <forward name="closeMissedPunchDoc" path="/WEB-INF/jsp/closeMissedPunchDoc.jsp"/>
         </action>
 
+        <action path="/Timesheet" name="TimesheetActionForm" scope="request"
+                input="/WEB-INF/jsp/timeDetail.jsp"
+                type="org.kuali.hr.time.timesheet.web.TimesheetAction" parameter="methodToCall" validate="false">
+            <forward name="basic" path="/WEB-INF/jsp/timeDetail.jsp"/>
+        </action>
+        
         <action path="/TimesheetSubmit" name="TimesheetSubmitActionForm" scope="request"
                 input="/WEB-INF/jsp/timeDetail.jsp"
                 type="org.kuali.hr.time.detail.web.TimesheetSubmitAction" parameter="methodToCall" validate="false">
@@ -78,11 +148,6 @@
             <forward name="basic" path="/WEB-INF/jsp/webService.jsp"/>
             <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
         </action>
-
-        <action path="/Admin" name="AdminActionForm" scope="request" input="/WEB-INF/jsp/admin.jsp"
-                type="org.kuali.hr.time.admin.web.AdminAction" parameter="methodToCall" validate="false">
-            <forward name="basic" path="/WEB-INF/jsp/admin.jsp"/>
-        </action>
         
         <action path="/Time" name="TkForm" scope="request" input="/WEB-INF/jsp/dummy_login.jsp"
                 type="org.kuali.hr.time.web.TimeAction" parameter="methodToCall" validate="false">
@@ -94,33 +159,10 @@
             <forward name="basic" path="/WEB-INF/jsp/personInfo.jsp"/>
         </action>
 
-        <action path="/CacheAdministration" name="CacheAdministrationActionForm" scope="request"
-                input="/WEB-INF/jsp/cache.jsp" type="org.kuali.hr.time.cache.web.CacheAdministrationAction"
-                parameter="methodToCall" validate="true" attribute="KualiForm">
-            <forward name="basic" path="/WEB-INF/jsp/cache.jsp"/>
-        </action>
-
         <action path="/TimeOffAccrual" name="TimeOffAccrualActionForm" scope="request"
                 input="/WEB-INF/jsp/timeOffAccrual.jsp" type="org.kuali.hr.time.accrual.web.TimeOffAccrualAction"
                 parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/timeOffAccrual.jsp"/>
-        </action>
-
-        <action path="/Logout" scope="request" type="org.kuali.hr.time.base.web.LogoutAction">
-            <forward name="basic" path="/loggedOut.jsp" redirect="true"/>
-        </action>
-
-        <action path="/BatchJob" name="BatchJobActionForm" scope="request"
-                input="/WEB-INF/jsp/batchJob.jsp" type="org.kuali.hr.time.batch.web.BatchJobAction"
-                parameter="methodToCall" validate="false">
-            <forward name="basic" path="/WEB-INF/jsp/batchJob.jsp"/>
-        </action>
-
-
-        <action path="/CalendarEntry" name="CalendarEntryActionForm" scope="request"
-                input="/WEB-INF/jsp/calendarEntry.jsp" type="org.kuali.hr.time.calendar.web.CalendarEntryAction"
-                parameter="methodToCall" validate="false">
-            <forward name="basic" path="/WEB-INF/jsp/calendarEntry.jsp"/>
         </action>
 
         <action path="/missedPunch" name="MissedPunchForm" input="/WEB-INF/jsp/missedPunch.jsp"
@@ -139,10 +181,12 @@
                 type="org.kuali.hr.time.web.SessionInvalidateAction" parameter="methodToCall" validate="true">
             <forward name="basic" path="/WEB-INF/jsp/sessionInvalidate.jsp"/>
         </action>
+        
         <action path="/LeaveCalendar" name="LeaveCalendarForm" scope="request" input="/WEB-INF/jsp/leaveCalendar.jsp"
                 type="org.kuali.hr.lm.leavecalendar.web.LeaveCalendarAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/leaveCalendar.jsp"/>
         </action>
+        
         <action path="/LeaveRequest" name="LeaveRequestForm" scope="session" input="/WEB-INF/jsp/leaveRequest.jsp"
                 type="org.kuali.hr.lm.leave.web.LeaveRequestAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/leaveRequest.jsp"/>
@@ -161,6 +205,5 @@
     </action-mappings>
 
     <controller processorClass="org.kuali.hr.time.web.TKRequestProcessor"/>
-    <message-resources factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory"
-                       parameter="KR-ApplicationResources,org.kuali.rice.kew.ApplicationResources,org.kuali.rice.ksb.messaging.ApplicationResources,KIM-ApplicationResources,ApplicationResources"/>
+    <message-resources factory="org.kuali.rice.kns.web.struts.action.KualiPropertyMessageResourcesFactory" parameter="" />
 </struts-config>                    

@@ -1,7 +1,7 @@
 package org.kuali.hr.time.workarea.web;
 
 import org.kuali.rice.kns.datadictionary.MaintenanceDocumentEntry;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.krad.document.Document;
 
 /**
  * 

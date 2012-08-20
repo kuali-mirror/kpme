@@ -1,19 +1,17 @@
 package org.kuali.hr.time.userrole;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
-import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TkConstants;
 
-import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
-import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 
-public class UserRoleMaintenanceDocumentTest extends TkTestCase {
+public class UserRoleMaintenanceDocumentTest extends KPMETestCase {
 
 	@Before
 	public void setUp() throws Exception {
@@ -22,31 +20,31 @@ public class UserRoleMaintenanceDocumentTest extends TkTestCase {
 
 	@Test
 	public void testUserRoleMaintenanceDocumentTest() throws Exception {
-
+        String user = "admin";
 		String baseUrl = HtmlUnitUtil.getBaseURL()
 				+ "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.roles.TkRoleGroup&returnLocation="
 				+ HtmlUnitUtil.getBaseURL()
 				+ "/portal.do&hideReturnLink=true&docFormKey=88888888";
 
 		HtmlPage lookUpPage = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
-		assertNotNull(lookUpPage);
+		Assert.assertNotNull(lookUpPage);
 
 		lookUpPage = HtmlUnitUtil
 				.clickInputContainingText(lookUpPage, "search");
 
 		HtmlPage editPage = HtmlUnitUtil.clickAnchorContainingText(lookUpPage,
-				"edit", "principalId=admin1");
+				"edit", "principalId=" + user);
 
 		// set Description
 		setFieldValue(editPage, "document.documentHeader.documentDescription",
-				"Adding role to user admin1");
+				"Adding role to user" + user);
 
 		// Click on Add and see errors
 		HtmlElement elementAddRole = HtmlUnitUtil.getInputContainingText(
 				editPage, "methodToCall.addLine.roles");
 		editPage = elementAddRole.click();
 
-		assertTrue(
+		Assert.assertTrue(
 				"page text:\n" + editPage.asText() + "\n does not contain:\n",
 				editPage.asText().contains(
 						"Effective Date (Effective Date) is a required field."));
@@ -65,7 +63,7 @@ public class UserRoleMaintenanceDocumentTest extends TkTestCase {
 		// click on add
 		editPage = elementAddRole.click();
 
-		assertTrue("page text:\n" + editPage.asText()
+		Assert.assertTrue("page text:\n" + editPage.asText()
 				+ "\n does not contain:\n",
 				!editPage.asText().contains("error(s) found on page."));
 
@@ -81,7 +79,7 @@ public class UserRoleMaintenanceDocumentTest extends TkTestCase {
 
 		editPage = elementAddRole.click();
 
-		assertTrue("page text:\n" + editPage.asText()
+		Assert.assertTrue("page text:\n" + editPage.asText()
 				+ "\n does not contain:\n",
 				!editPage.asText().contains("error(s) found on page."));
 
@@ -99,7 +97,7 @@ public class UserRoleMaintenanceDocumentTest extends TkTestCase {
 
 		// as location is required in case of Location Admin/Location view only
 		// roles
-		assertTrue("page text:\n" + editPage.asText()
+		Assert.assertTrue("page text:\n" + editPage.asText()
 				+ "\n does not contain:\n",
 				editPage.asText().contains("error(s) found on page."));
 
@@ -111,7 +109,7 @@ public class UserRoleMaintenanceDocumentTest extends TkTestCase {
 		editPage = elementAddRole.click();
 
 		// page should not contain any errors
-		assertTrue("page text:\n" + editPage.asText()
+		Assert.assertTrue("page text:\n" + editPage.asText()
 				+ "\n does not contain:\n",
 				!editPage.asText().contains("error(s) found on page."));
 
@@ -126,30 +124,30 @@ public class UserRoleMaintenanceDocumentTest extends TkTestCase {
 				editPage, "methodToCall.route");
 
 		editPage = submitElement.click();
-		assertTrue(
+		Assert.assertTrue(
 				"page text:\n" + editPage.asText() + "\n does not contain:\n",
 				editPage.asText().contains(
 						"Document was successfully submitted."));
 
 		// again go to the url and do login
 		lookUpPage = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
-		assertNotNull(lookUpPage);
+		Assert.assertNotNull(lookUpPage);
 
 		lookUpPage = HtmlUnitUtil
 				.clickInputContainingText(lookUpPage, "search");
 		editPage = HtmlUnitUtil.clickAnchorContainingText(lookUpPage, "edit",
-				"principalId=admin1");
+				"principalId=" + user);
 
 		// check if this page contains created roles System Admin and Global View Only
 		HtmlSpan oldRoleEle = (HtmlSpan) editPage
 				.getElementById("document.oldMaintainableObject.roles[0].roleName.div");
-		assertTrue("page text:\n" + oldRoleEle.asText()
+		Assert.assertTrue("page text:\n" + oldRoleEle.asText()
 				+ "\n does not contain:\n",
 				oldRoleEle.asText().contains("System Admin"));
 
 		oldRoleEle = (HtmlSpan) editPage
 				.getElementById("document.oldMaintainableObject.roles[1].roleName.div");
-		assertTrue("page text:\n" + oldRoleEle.asText()
+		Assert.assertTrue("page text:\n" + oldRoleEle.asText()
 				+ "\n does not contain:\n",
 				oldRoleEle.asText().contains("Global View Only"));
 
@@ -164,19 +162,19 @@ public class UserRoleMaintenanceDocumentTest extends TkTestCase {
 
 		editPage = submitElement.click();
 
-		assertTrue(
+		Assert.assertTrue(
 				"page text:\n" + editPage.asText() + "\n does not contain:\n",
 				editPage.asText().contains(
 						"Document was successfully submitted"));
 
 		// again go through maintenance page and check if inactive roles tab contains the role Department Admin
 		lookUpPage = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
-		assertNotNull(lookUpPage);
+		Assert.assertNotNull(lookUpPage);
 
 		lookUpPage = HtmlUnitUtil
 				.clickInputContainingText(lookUpPage, "search");
 		editPage = HtmlUnitUtil.clickAnchorContainingText(lookUpPage, "edit",
-				"principalId=admin1");
+				"principalId=" + user);
 
 		editPage = HtmlUnitUtil.clickInputContainingText(editPage,
 				"methodToCall.toggleTab.tabInactivePersonRoles");
@@ -184,11 +182,11 @@ public class UserRoleMaintenanceDocumentTest extends TkTestCase {
 		// check if Global view only role is in inactive role list.
 		HtmlSpan oldIARoleEle = (HtmlSpan) editPage
 				.getElementById("document.oldMaintainableObject.inactiveRoles[0].roleName.div");
-		assertTrue("Inactive Roles "+oldIARoleEle.asText() +" does not contains", oldIARoleEle.asText().contains("Global View Only"));
+		Assert.assertTrue("Inactive Roles "+oldIARoleEle.asText() +" does not contains", oldIARoleEle.asText().contains("Global View Only"));
 
 		oldIARoleEle = (HtmlSpan) editPage
 				.getElementById("document.oldMaintainableObject.inactiveRoles[0].active.div");
-		assertTrue("Inactive Roles "+oldIARoleEle.asText() +" does not contains", oldIARoleEle.asText().contains("No"));
+		Assert.assertTrue("Inactive Roles "+oldIARoleEle.asText() +" does not contains", oldIARoleEle.asText().contains("No"));
 	}
 
 }

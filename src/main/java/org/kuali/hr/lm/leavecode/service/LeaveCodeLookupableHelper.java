@@ -7,8 +7,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 /**
  * Used to override lookup functionality for the leave accrual category lookup
@@ -34,7 +34,7 @@ public class LeaveCodeLookupableHelper extends
 				}
 			}
 
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+		if (TKContext.getUser().isSystemAdmin()) {
 			LeaveCode leaveCode = (LeaveCode) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String lmLeaveCodeId = leaveCode

@@ -10,12 +10,10 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.lm.LMConstants;
-import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class LeaveBlockHistoryDaoSpringOjbImpl extends
-		PersistenceBrokerDaoSupport implements LeaveBlockHistoryDao {
+public class LeaveBlockHistoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements LeaveBlockHistoryDao {
 
 	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger

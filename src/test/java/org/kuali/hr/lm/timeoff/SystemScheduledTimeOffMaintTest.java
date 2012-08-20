@@ -3,9 +3,10 @@ package org.kuali.hr.lm.timeoff;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -13,7 +14,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class SystemScheduledTimeOffMaintTest extends TkTestCase{
+public class SystemScheduledTimeOffMaintTest extends KPMETestCase{
 	private static final String EFFECTIVE_DATE_REQUIRED = "Effective Date (Effective Date) is a required field.";
 	private static final String LEAVE_PLAN_REQUIRED = "Leave Plan (Leave Plan) is a required field.";
 	private static final String ACCRUAL_CATEGORY_REQUIRED = "Accrual Category (Accrual Category) is a required field.";
@@ -33,29 +34,29 @@ public class SystemScheduledTimeOffMaintTest extends TkTestCase{
 	public void testRequiredFields() throws Exception {
 	  	String baseUrl = TkTestConstants.Urls.TIME_OFF_MAINT_NEW_URL;
 	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
-	  	assertNotNull(page);
+	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");
-	  	assertNotNull("Search form was missing from page.", form);
+	  	Assert.assertNotNull("Search form was missing from page.", form);
 	  	
 	  	HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
-	  	assertNotNull("Could not locate submit button", input);
+	  	Assert.assertNotNull("Could not locate submit button", input);
 	  	//default value for premium holiday is no
-	  	assertTrue("Preminum Holiday is not default to No", page.getHtmlElementById("document.newMaintainableObject.premiumHolidayNo").asText().equals("checked"));
+	  	Assert.assertTrue("Preminum Holiday is not default to No", page.getHtmlElementById("document.newMaintainableObject.premiumHolidayNo").asText().equals("checked"));
 	  		  	
 	  	HtmlElement element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
-	  	assertTrue("page text does not contain:\n" + EFFECTIVE_DATE_REQUIRED, page.asText().contains(EFFECTIVE_DATE_REQUIRED));
-	    assertTrue("page text does not contain:\n" + LEAVE_PLAN_REQUIRED, page.asText().contains(LEAVE_PLAN_REQUIRED));
-	    assertTrue("page text does not contain:\n" + ACCRUAL_CATEGORY_REQUIRED, page.asText().contains(ACCRUAL_CATEGORY_REQUIRED));
-	    assertTrue("page text does not contain:\n" + EARN_CODE_REQUIRED, page.asText().contains(EARN_CODE_REQUIRED));
+	  	Assert.assertTrue("page text does not contain:\n" + EFFECTIVE_DATE_REQUIRED, page.asText().contains(EFFECTIVE_DATE_REQUIRED));
+	    Assert.assertTrue("page text does not contain:\n" + LEAVE_PLAN_REQUIRED, page.asText().contains(LEAVE_PLAN_REQUIRED));
+	    Assert.assertTrue("page text does not contain:\n" + ACCRUAL_CATEGORY_REQUIRED, page.asText().contains(ACCRUAL_CATEGORY_REQUIRED));
+	    Assert.assertTrue("page text does not contain:\n" + EARN_CODE_REQUIRED, page.asText().contains(EARN_CODE_REQUIRED));
 	    
-	    assertTrue("page text does not contain:\n" + ACCRUED_DATE_REQUIRED, page.asText().contains(ACCRUED_DATE_REQUIRED));
-	    assertTrue("page text does not contain:\n" + LOCATION_REQUIRED, page.asText().contains(LOCATION_REQUIRED));
-	    assertTrue("page text does not contain:\n" + DESCRIPTION_REQUIRED, page.asText().contains(DESCRIPTION_REQUIRED));
-	    assertTrue("page text does not contain:\n" + AMOUNT_OF_TIME_REQUIRED, page.asText().contains(AMOUNT_OF_TIME_REQUIRED));
+	    Assert.assertTrue("page text does not contain:\n" + ACCRUED_DATE_REQUIRED, page.asText().contains(ACCRUED_DATE_REQUIRED));
+	    Assert.assertTrue("page text does not contain:\n" + LOCATION_REQUIRED, page.asText().contains(LOCATION_REQUIRED));
+	    Assert.assertTrue("page text does not contain:\n" + DESCRIPTION_REQUIRED, page.asText().contains(DESCRIPTION_REQUIRED));
+	    Assert.assertTrue("page text does not contain:\n" + AMOUNT_OF_TIME_REQUIRED, page.asText().contains(AMOUNT_OF_TIME_REQUIRED));
 	    //there should be a default value for premium holiday
-	    assertFalse("page text contains:\n" + PREMIUM_HOLIDAY_REQUIRED, page.asText().contains(PREMIUM_HOLIDAY_REQUIRED));
+	    Assert.assertFalse("page text contains:\n" + PREMIUM_HOLIDAY_REQUIRED, page.asText().contains(PREMIUM_HOLIDAY_REQUIRED));
 	}
 	
 	@Test
@@ -63,22 +64,22 @@ public class SystemScheduledTimeOffMaintTest extends TkTestCase{
 		HtmlPage sstoLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.TIME_OFF_MAINT_URL);
 		sstoLookup = HtmlUnitUtil.clickInputContainingText(sstoLookup, "search");
 		HtmlUnitUtil.createTempFile(sstoLookup);
-		assertTrue("Page contains test SystemScheduledTimeOff", sstoLookup.asText().contains("TLC"));
-		assertTrue("Page contains test SystemScheduledTimeOff", sstoLookup.asText().contains("EC"));
-		assertFalse("Page contains test SystemScheduledTimeOff", sstoLookup.asText().contains("InactiveLP"));
+		Assert.assertTrue("Page contains test SystemScheduledTimeOff", sstoLookup.asText().contains("TLC"));
+		Assert.assertTrue("Page contains test SystemScheduledTimeOff", sstoLookup.asText().contains("EC"));
+		Assert.assertFalse("Page contains test SystemScheduledTimeOff", sstoLookup.asText().contains("InactiveLP"));
 
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(sstoLookup, "edit");
-		assertTrue("Maintenance Page contains test SystemScheduledTimeOff",maintPage.asText().contains("EC"));	
+		Assert.assertTrue("Maintenance Page contains test SystemScheduledTimeOff",maintPage.asText().contains("EC"));	
 	}
 	
 	@Test
 	public void testErrorMessages() throws Exception {
 	  	String baseUrl = TkTestConstants.Urls.TIME_OFF_MAINT_NEW_URL;
 	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
-	  	assertNotNull(page);
+	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");
-	  	assertNotNull("Search form was missing from page.", form);
+	  	Assert.assertNotNull("Search form was missing from page.", form);
 	  	setFieldValue(page, "document.documentHeader.documentDescription", "System Scheduled Time Off - test");
 	  	// use past dates
 	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", "04/01/2011");
@@ -87,13 +88,13 @@ public class SystemScheduledTimeOffMaintTest extends TkTestCase{
 	    setFieldValue(page, "document.newMaintainableObject.expirationDate", "04/01/2011");
 	  	
 	  	HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
-	  	assertNotNull("Could not locate submit button", input);
+	  	Assert.assertNotNull("Could not locate submit button", input);
 	  	HtmlElement element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
-	  	assertTrue("page text does not contain:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
-	  	assertTrue("page text does not contain:\n" + ACCRUED_DATE_PAST_ERROR, page.asText().contains(ACCRUED_DATE_PAST_ERROR));
-	  	assertTrue("page text does not contain:\n" + SCHEDULED_TO_DATE_PAST_ERROR, page.asText().contains(SCHEDULED_TO_DATE_PAST_ERROR));
-	  	assertTrue("page text does not contain:\n" + EXPIRATION_DATE_FUTURE_ERROR, page.asText().contains(EXPIRATION_DATE_FUTURE_ERROR));	  	
+	  	Assert.assertTrue("page text does not contain:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
+	  	Assert.assertTrue("page text does not contain:\n" + ACCRUED_DATE_PAST_ERROR, page.asText().contains(ACCRUED_DATE_PAST_ERROR));
+	  	Assert.assertTrue("page text does not contain:\n" + SCHEDULED_TO_DATE_PAST_ERROR, page.asText().contains(SCHEDULED_TO_DATE_PAST_ERROR));
+	  	Assert.assertTrue("page text does not contain:\n" + EXPIRATION_DATE_FUTURE_ERROR, page.asText().contains(EXPIRATION_DATE_FUTURE_ERROR));	  	
 	}
 	
 	@Test
@@ -101,10 +102,10 @@ public class SystemScheduledTimeOffMaintTest extends TkTestCase{
 	public void testGetLeavePlanAccrualCategoryFromSelectedEarnCode() throws Exception {
 	  	String baseUrl = TkTestConstants.Urls.TIME_OFF_MAINT_NEW_URL;
 	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
-	  	assertNotNull(page);
+	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");
-	  	assertNotNull("Search form was missing from page.", form); 	
+	  	Assert.assertNotNull("Search form was missing from page.", form); 	
 	  	
 	  	Calendar validDate = Calendar.getInstance();
 	  	// add 150 days in the future, need to add dates instead of month 
@@ -117,8 +118,8 @@ public class SystemScheduledTimeOffMaintTest extends TkTestCase{
 	    
 	    page = page.getElementByName("methodToCall.route").click();
 	    HtmlUnitUtil.createTempFile(page);
-	    assertTrue("page text contains:\n" + "testLP", page.asText().contains("testLP"));
-	    assertTrue("page text contains:\n" + "testAC", page.asText().contains("testAC"));
+	    Assert.assertTrue("page text contains:\n" + "testLP", page.asText().contains("testLP"));
+	    Assert.assertTrue("page text contains:\n" + "testAC", page.asText().contains("testAC"));
 	}
 	
 	@Test
@@ -126,10 +127,10 @@ public class SystemScheduledTimeOffMaintTest extends TkTestCase{
 	public void testValidateLeaveCode() throws Exception {
 	  	String baseUrl = TkTestConstants.Urls.TIME_OFF_MAINT_NEW_URL;
 	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
-	  	assertNotNull(page);
+	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");
-	  	assertNotNull("Search form was missing from page.", form); 	
+	  	Assert.assertNotNull("Search form was missing from page.", form); 	
 	  	
 	  	Calendar validDate = Calendar.getInstance();
 	  	// add 150 days in the future, need to add dates instead of month 
@@ -142,6 +143,6 @@ public class SystemScheduledTimeOffMaintTest extends TkTestCase{
 	    
 	    page = page.getElementByName("methodToCall.route").click();
 	    HtmlUnitUtil.createTempFile(page);
-	    assertTrue("page text does not contain:\n" + ERROR_LEAVE_CODE, page.asText().contains(ERROR_LEAVE_CODE));
+	    Assert.assertTrue("page text does not contain:\n" + ERROR_LEAVE_CODE, page.asText().contains(ERROR_LEAVE_CODE));
 	}
 }

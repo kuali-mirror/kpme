@@ -1,5 +1,9 @@
 package org.kuali.hr.lm.earncodesec;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.time.HrBusinessObject;
@@ -7,12 +11,8 @@ import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.salgroup.SalGroup;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
-
 public class EarnCodeSecurity extends HrBusinessObject {
-
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "EarnCodeSecurity";
 	/**
 	 *
 	 */
@@ -46,12 +46,6 @@ public class EarnCodeSecurity extends HrBusinessObject {
 		this.hrEarnCodeSecurityId = hrEarnCodeSecurityId;
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		return null;
-	}
-	
 	public String getEarnCodeType() {
 		return earnCodeType;
 	}

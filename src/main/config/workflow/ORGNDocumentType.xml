@@ -8,7 +8,7 @@
       		<name>ORGN</name>
       		<parent>RiceDocument</parent>
       		<label>Organization</label>
-      		<docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
+      		<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
     	</documentType>
 	</documentTypes>
 </data>

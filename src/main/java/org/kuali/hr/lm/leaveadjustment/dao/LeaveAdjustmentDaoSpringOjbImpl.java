@@ -10,9 +10,9 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.lm.leaveadjustment.LeaveAdjustment;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class LeaveAdjustmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements LeaveAdjustmentDao{
+public class LeaveAdjustmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements LeaveAdjustmentDao{
 
 	@SuppressWarnings("unchecked")
 	@Override

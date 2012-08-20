@@ -159,7 +159,7 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
 		</property>
-		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
 		<property name="name" value="effectiveDate" />
 		<property name="label" value="Effective Date" />
 	</bean>
@@ -175,7 +175,7 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
 		</property>
-		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
 		<property name="name" value="expirationDate" />
 		<property name="label" value="Expiration Date" />
 	</bean>
@@ -236,7 +236,7 @@
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.BooleanFormatter" />
+			value="org.kuali.rice.core.web.format.BooleanFormatter" />
 	</bean>
 
 	<bean id="Role-userPrincipalId" parent="Role-userPrincipalId-parentBean" />

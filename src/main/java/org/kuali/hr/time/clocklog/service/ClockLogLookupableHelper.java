@@ -15,9 +15,9 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 public class ClockLogLookupableHelper extends KualiLookupableHelperServiceImpl {
 	/**
@@ -44,7 +44,7 @@ public class ClockLogLookupableHelper extends KualiLookupableHelperServiceImpl {
 				overrideUrls.add(actionUrl);
 			}
 		}
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
+		if (TKContext.getUser().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			clockLog = (ClockLog) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String tkClockLogId = clockLog.getTkClockLogId();

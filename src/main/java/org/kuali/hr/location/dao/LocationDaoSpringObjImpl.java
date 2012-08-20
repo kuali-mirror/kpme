@@ -1,15 +1,15 @@
 package org.kuali.hr.location.dao;
 
+import java.sql.Date;
+
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.location.Location;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-import java.sql.Date;
-
-public class LocationDaoSpringObjImpl extends PersistenceBrokerDaoSupport implements LocationDao {
+public class LocationDaoSpringObjImpl extends PlatformAwareDaoBaseOjb implements LocationDao {
 
 	@Override
 	public Location getLocation(String location, Date asOfDate) {

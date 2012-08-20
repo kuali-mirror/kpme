@@ -1,12 +1,9 @@
 package org.kuali.hr.time.workarea.web;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
+import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 
 /**
  * This class is required to enable role-qualifiers on the roles we add to the system.  
@@ -33,18 +30,7 @@ import org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase;
  * @author djunk
  *
  */
-public class WorkAreaQualifierRoleTypeService extends KimRoleTypeServiceBase {
-
-	@Override
-	public List<RoleMembershipInfo> doRoleQualifiersMatchQualification(AttributeSet qualification, List<RoleMembershipInfo> roleMemberList) {
-		List<RoleMembershipInfo> matchingMemberships = new ArrayList<RoleMembershipInfo>();
-		for (RoleMembershipInfo rmi : roleMemberList) {			
-			if (performMatch(qualification, rmi.getQualifier())) {
-				matchingMemberships.add(rmi);
-			}
-		}
-		return matchingMemberships;
-	}
+public class WorkAreaQualifierRoleTypeService extends RoleTypeServiceBase {
 	
 	/**
 	 * The default performMatch is implemented in a way that makes it un-usable, even though they are
@@ -53,23 +39,23 @@ public class WorkAreaQualifierRoleTypeService extends KimRoleTypeServiceBase {
 	 * This method will fail fast on its conditionals.  It is intentionally verbose.
 	 */
 	@Override
-	public boolean performMatch(AttributeSet qualifier, AttributeSet stored) {
+	public boolean performMatch(Map<String, String> inputAttributes, Map<String, String> storedAttributes) {
 		boolean matches = true;
 		
-		if (qualifier == null) {
+		if (inputAttributes == null) {
 			return true;
 		}
 		
-		if (stored == null) {
+		if (storedAttributes == null) {
 			return false;
 		}
 		
-		for (String key : qualifier.keySet()) {
-			if (!stored.containsKey(key)) {
+		for (String key : inputAttributes.keySet()) {
+			if (!storedAttributes.containsKey(key)) {
 				return false;
 			} else {
-				String storedValue = stored.get(key);
-				String qualifierValue = qualifier.get(key);
+				String storedValue = storedAttributes.get(key);
+				String qualifierValue = inputAttributes.get(key);
 				
 				matches = StringUtils.equals(qualifierValue, storedValue);
 				if (!matches) {

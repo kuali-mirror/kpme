@@ -1,12 +1,11 @@
 package org.kuali.hr.time.overtime.weekly.rule;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.persistence.Transient;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class WeeklyOvertimeRuleGroup extends PersistableBusinessObjectBase{
 	/**
@@ -25,13 +24,6 @@ public class WeeklyOvertimeRuleGroup extends PersistableBusinessObjectBase{
 	public void setLstWeeklyOvertimeRules(
 			List<WeeklyOvertimeRule> lstWeeklyOvertimeRules) {
 		this.lstWeeklyOvertimeRules = lstWeeklyOvertimeRules;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	public Long getTkWeeklyOvertimeRuleGroupId() {

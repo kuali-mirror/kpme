@@ -15,21 +15,21 @@ import org.apache.commons.collections.BidiMap;
 import org.apache.commons.collections.bidimap.DualHashBidiMap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.kns.bo.BusinessObject;
-import org.kuali.rice.kns.bo.BusinessObjectRelationship;
-import org.kuali.rice.kns.bo.DocumentHeader;
-import org.kuali.rice.kns.bo.ExternalizableBusinessObject;
-import org.kuali.rice.kns.datadictionary.AttributeSecurity;
+import org.kuali.rice.core.web.format.Formatter;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
+import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.ExternalizableBusinessObjectUtils;
-import org.kuali.rice.kns.util.KNSConstants;
-import org.kuali.rice.kns.util.ObjectUtils;
-import org.kuali.rice.kns.util.UrlFactory;
-import org.kuali.rice.kns.web.format.Formatter;
+import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.bo.DataObjectRelationship;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.bo.ExternalizableBusinessObject;
+import org.kuali.rice.krad.datadictionary.AttributeSecurity;
+import org.kuali.rice.krad.util.ExternalizableBusinessObjectUtils;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class TkInquirableImpl extends KualiInquirableImpl {
 	
@@ -39,8 +39,8 @@ public class TkInquirableImpl extends KualiInquirableImpl {
 	// copied the getInquiryUrl() from KualiInquirableImpl and added effectiveDate to parameters
     public HtmlData getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
         Properties parameters = new Properties();
-        AnchorHtmlData hRef = new AnchorHtmlData(KNSConstants.EMPTY_STRING, KNSConstants.EMPTY_STRING);
-        parameters.put(KNSConstants.DISPATCH_REQUEST_PARAMETER, "start");
+        AnchorHtmlData hRef = new AnchorHtmlData(KRADConstants.EMPTY_STRING, KRADConstants.EMPTY_STRING);
+        parameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "start");
 
         Class inquiryBusinessObjectClass = null;
         String attributeRefName = "";
@@ -105,7 +105,7 @@ public class TkInquirableImpl extends KualiInquirableImpl {
                 // if NullPointerException on the following line, maybe the Spring bean wasn't injected w/ KualiConfigurationException, or if
                 // instances of a sub-class of this class are not Spring created, then override getKualiConfigurationService() in the subclass
                 // to return the configuration service from a Spring service locator (or set it).
-                hRef.setHref(getKualiConfigurationService().getPropertyString(KNSConstants.WORKFLOW_URL_KEY) + KNSConstants.DOCHANDLER_DO_URL + documentNumber + KNSConstants.DOCHANDLER_URL_CHUNK);
+                hRef.setHref(getKualiConfigurationService().getPropertyValueAsString(KRADConstants.WORKFLOW_URL_KEY) + KRADConstants.DOCHANDLER_DO_URL + documentNumber + KRADConstants.DOCHANDLER_URL_CHUNK);
             }
             return hRef;
         }
@@ -127,7 +127,7 @@ public class TkInquirableImpl extends KualiInquirableImpl {
         	inquiryBusinessObjectClass = ExternalizableBusinessObjectUtils.determineExternalizableBusinessObjectSubInterface(inquiryBusinessObjectClass);
         }
 
-        parameters.put(KNSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, inquiryBusinessObjectClass.getName());
+        parameters.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, inquiryBusinessObjectClass.getName());
 
 
         // listPrimaryKeyFieldNames returns an unmodifiable list.  So a copy is necessary.
@@ -137,7 +137,7 @@ public class TkInquirableImpl extends KualiInquirableImpl {
         	keys = Collections.emptyList();
         }
 
-        BusinessObjectRelationship businessObjectRelationship = null;
+        DataObjectRelationship businessObjectRelationship = null;
 
         if(attributeRefName != null && !"".equals(attributeRefName)){
 	        businessObjectRelationship =
@@ -229,6 +229,6 @@ public class TkInquirableImpl extends KualiInquirableImpl {
         	parameters.put("effectiveDate", new SimpleDateFormat("MM/dd/yyyy").format(aDate));
         }
                 	
-        return getHyperLink(inquiryBusinessObjectClass, fieldList, UrlFactory.parameterizeUrl(KNSConstants.INQUIRY_ACTION, parameters));
+        return getHyperLink(inquiryBusinessObjectClass, fieldList, UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, parameters));
     }
 }

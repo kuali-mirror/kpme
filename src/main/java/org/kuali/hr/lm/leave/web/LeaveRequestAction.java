@@ -18,6 +18,7 @@ import org.kuali.hr.lm.leaveblock.LeaveStatusHistory;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 
 public class LeaveRequestAction extends TkAction {
@@ -26,7 +27,7 @@ public class LeaveRequestAction extends TkAction {
 	  public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 	        ActionForward forward = super.execute(mapping, form, request, response);
 	        LeaveRequestForm leaveForm = (LeaveRequestForm) form;
-	        String principalId = TKContext.getUser().getTargetPrincipalId();
+	        String principalId = TKUser.getCurrentTargetPerson().getPrincipalId();
 	        Date currentDate = TKUtils.getTimelessDate(null);
 	        // Planned Leaves
 	        List<LeaveBlock> plannedLeaves  = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, LMConstants.REQUEST_STATUS.PLANNED, currentDate);
@@ -81,7 +82,7 @@ public class LeaveRequestAction extends TkAction {
 				  LeaveStatusHistory leaveStatusHistory = new LeaveStatusHistory();
 				  leaveStatusHistory.setLmLeaveBlockId(leaveBlock.getLmLeaveBlockId());
 				  leaveStatusHistory.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
-				  leaveStatusHistory.setPrincipalIdModified(TKContext.getUser().getTargetPrincipalId());
+				  leaveStatusHistory.setPrincipalIdModified(TKUser.getCurrentTargetPerson().getPrincipalId());
 				  leaveStatusHistory.setTimestamp(new Timestamp(System.currentTimeMillis()));
 				  TkServiceLocator.getLeaveStatusHistoryService().saveLeaveStatusHistory(leaveStatusHistory);
 			  }

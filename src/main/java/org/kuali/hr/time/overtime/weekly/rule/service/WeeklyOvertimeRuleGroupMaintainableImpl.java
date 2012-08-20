@@ -7,8 +7,8 @@ import java.util.Set;
 import org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule;
 import org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRuleGroup;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class WeeklyOvertimeRuleGroupMaintainableImpl extends KualiMaintainableImpl{
 
@@ -29,7 +29,7 @@ public class WeeklyOvertimeRuleGroupMaintainableImpl extends KualiMaintainableIm
             		steps.add(wotr.getStep());
             	}
             	if(steps.contains(aRule.getStep())){
-            		GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE +"lstWeeklyOvertimeRules", 
+            		GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"lstWeeklyOvertimeRules", 
             				"weeklyOvertimeRule.duplicate.step",aRule.getStep().toString());
             		return;
     			} 

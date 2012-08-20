@@ -2,15 +2,16 @@ package org.kuali.hr.time.batch;
 
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.batch.service.BatchJobEntryService;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.util.TkConstants;
 
-public class BatchJobEntryTest extends TkTestCase {
+public class BatchJobEntryTest extends KPMETestCase {
 	private static final String BATCH_JOB_NAME = "testJob";
 	private Long bjeId;
 	
@@ -48,9 +49,9 @@ public class BatchJobEntryTest extends TkTestCase {
 	public void testSavingAndRetrievingBatchJobEntry() throws Exception {
 		creatAndSaveBatchJobEntry();
 		BatchJobEntry bje = (BatchJobEntry) bjeService.getBatchJobEntry(bjeId);
-		assertTrue("Batch Job Name not right", bje.getBatchJobName().equals(BATCH_JOB_NAME));
+		Assert.assertTrue("Batch Job Name not right", bje.getBatchJobName().equals(BATCH_JOB_NAME));
 		
 		List<BatchJobEntry> entries = bjeService.getBatchJobEntries(bje.getTkBatchJobId());
-		assertTrue("Batch Job Entry not empty", (!entries.isEmpty()));
+		Assert.assertTrue("Batch Job Entry not empty", (!entries.isEmpty()));
 	}
 }

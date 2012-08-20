@@ -1,0 +1,13 @@
+<config>
+
+	<!-- KPME Client DB -->
+	<param name="datasource.url">jdbc:mysql://localhost:3306/tk</param>
+	<param name="datasource.username">tk</param>
+	<param name="datasource.password">tk_tk_tk</param>
+
+	<!-- Rice Server DB -->
+	<param name="server.datasource.url">jdbc:mysql://localhost:3306/krtt</param>
+	<param name="server.datasource.username">krtt</param>
+	<param name="server.datasource.password">krtt</param>
+
+</config>

@@ -1,5 +1,14 @@
 package org.kuali.hr.time.timeblock;
 
+import java.math.BigDecimal;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.Transient;
+
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
 import org.kuali.hr.time.assignment.Assignment;
@@ -8,17 +17,8 @@ import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-
-import javax.persistence.Transient;
-import java.math.BigDecimal;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class TimeBlock extends PersistableBusinessObjectBase implements Comparable {
 
@@ -86,22 +86,6 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     private List<TimeBlockHistory> timeBlockHistories = new ArrayList<TimeBlockHistory>();
 
     public TimeBlock() {
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
-        toStringMap.put("tkTimeBlockId", tkTimeBlockId);
-        toStringMap.put("earnCode", earnCode);
-        toStringMap.put("hours", hours);
-        toStringMap.put("beginTimestamp", beginTimestamp);
-        toStringMap.put("endTimestamp", endTimestamp);
-        for (TimeHourDetail thd : timeHourDetails) {
-            toStringMap.put("thd:earnCode:" + thd.getEarnCode(), thd.getHours());
-            toStringMap.put("thd:earnCode:" + thd.getEarnCode(), thd.getHours());
-        }
-        return toStringMap;
     }
 
     public String getDocumentId() {

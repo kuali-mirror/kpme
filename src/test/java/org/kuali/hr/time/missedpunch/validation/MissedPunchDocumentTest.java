@@ -3,11 +3,13 @@ package org.kuali.hr.time.missedpunch.validation;
 import java.util.List;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
+
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -17,7 +19,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlSelect;
 import com.gargoylesoftware.htmlunit.html.HtmlTableDataCell;
 import com.google.common.collect.Lists;
 
-public class MissedPunchDocumentTest extends TkTestCase {
+public class MissedPunchDocumentTest extends KPMETestCase {
 
 	@Before
 	public void setUp() throws Exception {
@@ -41,8 +43,8 @@ public class MissedPunchDocumentTest extends TkTestCase {
 
 		String baseUrl = TkTestConstants.Urls.CLOCK_URL;
 		HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
-		assertNotNull(page);
-		assertTrue("Clock Page contains Missed Punch Button", page.asText()
+		Assert.assertNotNull(page);
+		Assert.assertTrue("Clock Page contains Missed Punch Button", page.asText()
 				.contains("Missed Punch"));
 		this.setWebClient(page.getWebClient());
 
@@ -80,13 +82,13 @@ public class MissedPunchDocumentTest extends TkTestCase {
 				.gotoPageAndLogin(HtmlUnitUtil.getBaseURL()
 						+ "/missedPunch.do?methodToCall=docHandler&command=initiate&docTypeName=MissedPunchDocumentType&tdocid="
 						+ docId);
-		assertNotNull(mPunchPage);
+		Assert.assertNotNull(mPunchPage);
 		
 		// clock action and assignment are drop down lists that are not readonly
 		HtmlElement element = mPunchPage.getElementById("document.clockAction");
-		assertNotNull(element);
+		Assert.assertNotNull(element);
 		element = mPunchPage.getElementById("document.assignment");
-		assertNotNull(element);
+		Assert.assertNotNull(element);
 
 		System.out.println("Page1 is : " + mPunchPage.asText());
 
@@ -105,7 +107,7 @@ public class MissedPunchDocumentTest extends TkTestCase {
 		System.out.println("After first click >>>>> page is : "
 				+ mPunchPage.asText());
 
-		assertTrue("page text:\n" + mPunchPage.asText() + "\n does not contain:\n",
+		Assert.assertTrue("page text:\n" + mPunchPage.asText() + "\n does not contain:\n",
 				mPunchPage.asText().contains("5:5 is not a valid date."));
 
 		// set Future time 
@@ -115,7 +117,7 @@ public class MissedPunchDocumentTest extends TkTestCase {
 		elementSubmit = mPunchPage.getElementByName("methodToCall.route");
 		mPunchPage = elementSubmit.click();
 
-		assertTrue(
+		Assert.assertTrue(
 				"page text:\n" + mPunchPage.asText() + "\n does not contain:\n",
 				mPunchPage.asText().contains(
 						"Missed Punch Action Date cannot be a future date"));
@@ -135,7 +137,7 @@ public class MissedPunchDocumentTest extends TkTestCase {
 		System.out.println("After third click >>>>> page is : "
 				+ mPunchPage.asText());
 
-		assertTrue(
+		Assert.assertTrue(
 				"page text:\n" + mPunchPage.asText() + "\n does not contain:\n",
 				mPunchPage.asText()
 						.contains(
@@ -154,20 +156,20 @@ public class MissedPunchDocumentTest extends TkTestCase {
 		System.out.println("After forth click >>>>> page is : "
 				+ mPunchPage.asText());
 
-		assertTrue("page text:\n" + mPunchPage.asText() + "\n does not contain:\n",
+		Assert.assertTrue("page text:\n" + mPunchPage.asText() + "\n does not contain:\n",
 				mPunchPage.asText().contains("Document was successfully submitted."));
 		
 		// open another missed punch doc for clock out
 		mPunchPage = HtmlUnitUtil.gotoPageAndLogin(HtmlUnitUtil.getBaseURL()
 				+ "/missedPunch.do?methodToCall=docHandler&command=initiate&docTypeName=MissedPunchDocumentType&tdocid="
 				+ docId);
-		assertNotNull(mPunchPage);
+		Assert.assertNotNull(mPunchPage);
 		element = mPunchPage.getElementById("document.clockAction");
-		assertNotNull(element);
+		Assert.assertNotNull(element);
 		// element not found for assignment since it is a readonly field now
 		element = mPunchPage.getElementById("document.assignment");
-		assertNull(element);
-		assertTrue("page text:does not contain: \n", 
+		Assert.assertNull(element);
+		Assert.assertTrue("page text:does not contain: \n", 
 				mPunchPage.asText().contains("Assignment: 	 work area description : $0.00 Rcd 2 TEST-DEPT description 2"));
 		
 	}

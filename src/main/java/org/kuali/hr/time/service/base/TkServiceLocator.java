@@ -2,11 +2,9 @@ package org.kuali.hr.time.service.base;
 
 import org.kuali.hr.job.service.JobService;
 import org.kuali.hr.lm.accrual.service.AccrualCategoryRuleService;
-import org.kuali.hr.lm.accrual.service.PrincipalAccrualRanService;
-
-import org.kuali.hr.lm.accrual.service.AccrualService;
-
 import org.kuali.hr.lm.accrual.service.AccrualCategoryService;
+import org.kuali.hr.lm.accrual.service.AccrualService;
+import org.kuali.hr.lm.accrual.service.PrincipalAccrualRanService;
 import org.kuali.hr.lm.earncodesec.service.EarnCodeSecurityService;
 import org.kuali.hr.lm.employeeoverride.service.EmployeeOverrideService;
 import org.kuali.hr.lm.leaveSummary.service.LeaveSummaryService;
@@ -28,7 +26,6 @@ import org.kuali.hr.time.assignment.dao.AssignmentDao;
 import org.kuali.hr.time.assignment.service.AssignmentService;
 import org.kuali.hr.time.batch.service.BatchJobEntryService;
 import org.kuali.hr.time.batch.service.BatchJobService;
-import org.kuali.hr.time.cache.CacheManagementService;
 import org.kuali.hr.time.calendar.service.CalendarEntriesService;
 import org.kuali.hr.time.calendar.service.CalendarService;
 import org.kuali.hr.time.clock.location.service.ClockLocationRuleService;
@@ -64,7 +61,6 @@ import org.kuali.hr.time.timesheet.service.TimesheetService;
 import org.kuali.hr.time.timesummary.service.TimeSummaryService;
 import org.kuali.hr.time.timezone.service.TimezoneService;
 import org.kuali.hr.time.user.pref.service.UserPreferenceService;
-import org.kuali.hr.time.user.service.UserService;
 import org.kuali.hr.time.warning.TkWarningService;
 import org.kuali.hr.time.workarea.service.WorkAreaService;
 import org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderService;
@@ -126,7 +122,6 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String TK_TASK_SERVICE = "taskService";
     public static final String TK_LOCATION_SERVICE = "locationService";
     public static final String TK_PAY_GRADE_SERVICE = "payGradeService";
-    public static final String TK_USER_SERVICE = "userService";
     public static final String TK_PERSON_SERVICE = "tkPersonService";
     public static final String TK_APPROVE_SERVICE = "timeApproveService";
     public static final String TK_BATCH_JOB_SERVICE = "batchJobService";
@@ -151,15 +146,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String LM_LEAVE_STATUS_HISTORY_SERVICE = "leaveStatusHistoryService";
 	public static final String LM_PRINCIPAL_ACCRUAL_RAN_SERVICE = "principalAccrualRanService";
 	public static final String LM_LEAVE_SUMMARY_SERVICE = "leaveSummaryService";
-
-	public static void start() throws Exception {
-//		CONTEXT = new ClassPathXmlApplicationContext(SPRING_BEANS);
-//		CONTEXT.start();
-	}
-
-	public static void stop() throws Exception {
-//		CONTEXT.stop();
-	}
 
     public static MissedPunchService getMissedPunchService() {
         return (MissedPunchService) CONTEXT.getBean(TK_MISSED_PUNCH_SERVICE);
@@ -264,10 +250,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 		return (TkRuleControllerService) CONTEXT.getBean("tkRuleControllerService");
 	}
 
-	public static CacheManagementService getCacheManagerService(){
-		return (CacheManagementService) CONTEXT.getBean(TK_CACHE_MANAGER_SERVICE);
-	}
-
 	public static EarnCodeSecurityService getEarnCodeSecurityService() {
 		return (EarnCodeSecurityService) CONTEXT.getBean(TK_EARN_CODE_SECURITY);
 	}
@@ -338,10 +320,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static PayGradeService getPayGradeService() {
 	    return (PayGradeService)CONTEXT.getBean(TK_PAY_GRADE_SERVICE);
-	}
-
-	public static UserService getUserService(){
-		return (UserService)CONTEXT.getBean(TK_USER_SERVICE);
 	}
 
 	public static PersonService getPersonService(){

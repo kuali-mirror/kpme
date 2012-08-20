@@ -26,7 +26,7 @@
     <html:hidden property="currentPayCalStartDate" value="${Form.currentPayCalStartDate}" styleId="currentPayCalStartDate"/>
     <html:hidden property="currentPayCalEndDate" value="${Form.currentPayCalEndDate}" styleId="currentPayCalEndDate"/>
     
-    <html:hidden  value="${Form.leaveCalendar.beginDateTime}" styleId="beginPeriodDate"/>
+    <html:hidden property="leaveCalendar.beginDateTime" value="${Form.leaveCalendar.beginDateTime}" styleId="beginPeriodDate"/>
            <div id="dialog-form" class="dialog-form" title="Add Ledgers:">
             <html:form action="/LeaveCalendar.do" styleId="leaveBlock-form">
 

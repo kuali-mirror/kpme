@@ -2,11 +2,10 @@ package org.kuali.hr.time.workschedule;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class WorkSchedule extends PersistableBusinessObjectBase {
 
@@ -88,21 +87,6 @@ public class WorkSchedule extends PersistableBusinessObjectBase {
 
 	public void setActive(boolean active) {
 		this.active = active;
-	}
-
-
-
-	@SuppressWarnings("rawtypes")
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
-
-		toStringMap.put("workScheduleId", hrWorkScheduleId);
-		toStringMap.put("workScheduleDesc", workScheduleDesc);
-		toStringMap.put("effectiveDate", effectiveDate);
-		toStringMap.put("active", active);
-
-		return toStringMap;
 	}
 
 

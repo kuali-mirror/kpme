@@ -9,21 +9,25 @@ import org.joda.time.DateTime;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.junit.Assert;
 import org.junit.Ignore;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.web.TkLoginFilter;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.hr.util.filter.TestAutoLoginFilter;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 @Ignore
-public class TimesheetWebTestBase extends TkTestCase {
+public class TimesheetWebTestBase extends KPMETestCase {
 
-    public static final Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
+    public static final Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
     public static final String USER_PRINCIPAL_ID = "admin";
     public static String BASE_DETAIL_URL = ""; // moved to setUp() method -- initialization order for TkTestConstants problem.
 
@@ -39,7 +43,8 @@ public class TimesheetWebTestBase extends TkTestCase {
     @Override
     public void tearDown() throws Exception {
         super.tearDown();
-        TkLoginFilter.TEST_ID = "admin";
+        //TkLoginFilter.TEST_ID = "admin";
+        TestAutoLoginFilter.OVERRIDE_ID = "";
     }
 
     public static String getTimesheetDocumentUrl(String tdocId) {
@@ -50,22 +55,22 @@ public class TimesheetWebTestBase extends TkTestCase {
      * Uses an ID hack to manipulate the current Test user Login.
      *
      */
-    public static HtmlPage loginAndGetTimeDetailsHtmlPage(String principalId, String tdocId, boolean assertValid) throws Exception {
-        TkLoginFilter.TEST_ID = principalId;
+    public static synchronized HtmlPage loginAndGetTimeDetailsHtmlPage(String principalId, String tdocId, boolean assertValid) throws Exception {
 
-        Person person = KIMServiceLocator.getPersonService().getPerson(principalId);
-        assertNotNull(person);
-        assertEquals(person.getPrincipalId(), principalId);
-
+        Person person = KimApiServiceLocator.getPersonService().getPerson(principalId);
+        Assert.assertNotNull(person);
+        Assert.assertEquals(person.getPrincipalId(), principalId);
+        TestAutoLoginFilter.OVERRIDE_ID = principalId;
         HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getTimesheetDocumentUrl(tdocId));
-        assertNotNull(page);
+        TestAutoLoginFilter.OVERRIDE_ID = "";
+        Assert.assertNotNull(page);
         //HtmlUnitUtil.createTempFile(page, "Login-"+principalId);
 
         String pageAsText = page.asText();
         if (assertValid) {
-            assertTrue("Login info not present.", pageAsText.contains("Employee Id:"));
-            assertTrue("Login info not present.", pageAsText.contains(person.getName()));
-            assertTrue("Wrong Document Loaded.", pageAsText.contains(tdocId));
+        	Assert.assertTrue("Login info not present.", pageAsText.contains("Employee Id:"));
+        	Assert.assertTrue("Login info not present for " + person.getName() , pageAsText.contains(person.getName()));
+        	Assert.assertTrue("Wrong Document Loaded.", pageAsText.contains(tdocId));
         }
 
         return page;

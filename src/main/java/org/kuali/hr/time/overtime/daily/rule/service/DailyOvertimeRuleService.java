@@ -6,6 +6,7 @@ import java.util.List;
 import org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
+import org.springframework.cache.annotation.Cacheable;
 
 public interface DailyOvertimeRuleService {
 	/**
@@ -28,6 +29,12 @@ public interface DailyOvertimeRuleService {
 	 * @param asOfDate
 	 * @return
 	 */
+    @Cacheable(value= DailyOvertimeRule.CACHE_NAME,
+            key="'location=' + #p0" +
+                    "+ '|' + 'paytype=' + #p1" +
+                    "+ '|' + 'dept=' + #p2" +
+                    "+ '|' + 'workArea=' + #p3" +
+                    "+ '|' + 'asOfDate=' + #p4")
 	public DailyOvertimeRule getDailyOvertimeRule(String location, String paytype, String dept, Long workArea, Date asOfDate);
 	/**
 	 * Process DailyOvertimeRules for the given TkTimeBlockAggregate
@@ -40,5 +47,6 @@ public interface DailyOvertimeRuleService {
 	 * @param tkDailyOvertimeRuleId
 	 * @return
 	 */
+    @Cacheable(value= DailyOvertimeRule.CACHE_NAME, key="'tkDailyOvertimeRuleId=' + #p0")
 	public DailyOvertimeRule getDailyOvertimeRule(String tkDailyOvertimeRuleId);
 }

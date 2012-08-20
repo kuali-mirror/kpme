@@ -1,11 +1,10 @@
 package org.kuali.hr.lm.leaveplan;
 
-import java.util.LinkedHashMap;
-
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.time.HrBusinessObject;
 
 public class LeavePlan extends HrBusinessObject {
-
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "LeavePlan";
 	/**
 	 * 
 	 */
@@ -79,12 +78,5 @@ public class LeavePlan extends HrBusinessObject {
 	public void setId(String id) {
 		setLmLeavePlanId(id);
 	}
-
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 }

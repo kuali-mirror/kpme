@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
 import org.kuali.hr.time.timeblock.TimeBlock;
+import org.springframework.cache.annotation.Cacheable;
 
 public interface DepartmentLunchRuleService {
 	/**
@@ -16,6 +17,12 @@ public interface DepartmentLunchRuleService {
 	 * @param asOfDate
 	 * @return
 	 */
+    @Cacheable(value= DeptLunchRule.CACHE_NAME,
+            key="'dept=' + #p0" +
+                    "+ '|' + 'workArea=' + #p1" +
+                    "+ '|' + 'principalId=' + #p2" +
+                    "+ '|' + 'jobNumber=' + #p3" +
+                    "+ '|' + 'asOfDate=' + #p4")
 	public DeptLunchRule getDepartmentLunchRule(String dept, Long workArea, String principalId, Long jobNumber, Date asOfDate);
 	/**
 	 * Apply department lunch rule to the list of timeblocks
@@ -28,5 +35,6 @@ public interface DepartmentLunchRuleService {
 	 * @param tkDeptLunchRuleId
 	 * @return
 	 */
+    @Cacheable(value= DeptLunchRule.CACHE_NAME, key="'tkDeptLunchRuleId=' + #p0")
 	public DeptLunchRule getDepartmentLunchRule(String tkDeptLunchRuleId);
 }

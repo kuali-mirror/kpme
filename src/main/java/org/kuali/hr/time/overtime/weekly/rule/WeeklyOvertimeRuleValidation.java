@@ -2,9 +2,9 @@ package org.kuali.hr.time.overtime.weekly.rule;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.util.ValidationUtils;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class WeeklyOvertimeRuleValidation extends MaintenanceDocumentRuleBase {
 

@@ -1,9 +1,8 @@
 package org.kuali.hr.time.workschedule;
 
 import java.sql.Time;
-import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class WorkScheduleEntry extends PersistableBusinessObjectBase {
 
@@ -44,21 +43,6 @@ public class WorkScheduleEntry extends PersistableBusinessObjectBase {
 
 	public void setEndTime(Time endTime) {
 		this.endTime = endTime;
-	}
-
-
-
-
-
-	@SuppressWarnings("rawtypes")
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
-
-		toStringMap.put("workScheduleEntryId", hrWorkScheduleEntryId);
-		toStringMap.put("workSchedule", hrWorkSchedule);
-		return toStringMap;
-
 	}
 
 

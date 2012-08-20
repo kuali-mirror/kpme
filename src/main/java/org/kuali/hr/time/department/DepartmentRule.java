@@ -12,10 +12,10 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class DepartmentRule extends MaintenanceDocumentRuleBase {
 	
@@ -42,7 +42,7 @@ public class DepartmentRule extends MaintenanceDocumentRuleBase {
 	boolean validateChart(String value) {
 		boolean valid = true;
 		if (value != null) {
-			Chart chart = KNSServiceLocator.getBusinessObjectService()
+			Chart chart = KRADServiceLocator.getBusinessObjectService()
 					.findBySinglePrimaryKey(Chart.class, value);
 			valid = (chart != null);
 
@@ -68,7 +68,7 @@ public class DepartmentRule extends MaintenanceDocumentRuleBase {
 
 	boolean validateChartAndOrg(String chartString, String orgString) {
 		if(chartString != null && orgString != null) {
-			Chart chart = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Chart.class, chartString);
+			Chart chart = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Chart.class, chartString);
 			Organization org = this.getOrganization(orgString);
 			if(chart != null && org != null) {
 				Chart chartTemp = org.getChartOfAccounts();
@@ -85,7 +85,7 @@ public class DepartmentRule extends MaintenanceDocumentRuleBase {
 	Organization getOrganization(String orgCode) {
 		Map<String, String> primaryKeys = new HashMap<String, String>();
 		primaryKeys.put("organizationCode", orgCode);
-		return (Organization) KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(Organization.class, primaryKeys);
+		return (Organization) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(Organization.class, primaryKeys);
 	}
 
 	/**
@@ -136,7 +136,7 @@ public class DepartmentRule extends MaintenanceDocumentRuleBase {
 			MaintenanceDocument document) {
 		boolean valid = false;
 
-		PersistableBusinessObject pbo = this.getNewBo();
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
 		if (pbo instanceof Department) {
 			Department clr = (Department) pbo;
 			valid = validateChart(clr.getChart());

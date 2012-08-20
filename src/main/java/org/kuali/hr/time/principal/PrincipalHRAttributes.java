@@ -2,16 +2,16 @@ package org.kuali.hr.time.principal;
 
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.calendar.Calendar;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 public class PrincipalHRAttributes extends HrBusinessObject {
-
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "PrincipalHRAttributes";
 	/**
 	 * 
 	 */
@@ -36,12 +36,6 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 	private Person person;
 	private LeavePlan leavePlanObj;
 
-	@SuppressWarnings("rawtypes")
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public String getPrincipalId() {
 		return principalId;
@@ -49,12 +43,12 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 
 	public void setPrincipalId(String principalId) {
 		this.principalId = principalId;
-		person = KIMServiceLocator.getPersonService().getPerson(this.principalId);
+		person = KimApiServiceLocator.getPersonService().getPerson(this.principalId);
 	}
 
 	public String getName() {
 		 if (person == null) {
-	            person = KIMServiceLocator.getPersonService().getPerson(this.principalId);
+	            person = KimApiServiceLocator.getPersonService().getPerson(this.principalId);
 	    }
 	    return (person != null) ? person.getName() : "";
 	}

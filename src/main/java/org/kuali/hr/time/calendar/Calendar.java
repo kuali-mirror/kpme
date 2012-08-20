@@ -2,15 +2,15 @@ package org.kuali.hr.time.calendar;
 
 import java.sql.Time;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTimeConstants;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.hr.core.KPMEConstants;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class Calendar extends PersistableBusinessObjectBase {
-
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "Calendar";
 	/**
      *
      */
@@ -89,12 +89,6 @@ public class Calendar extends PersistableBusinessObjectBase {
 
 	public void setCalendarDescriptions(String calendarDescriptions) {
 		this.calendarDescriptions = calendarDescriptions;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		return null;
 	}
 
 	public String getFlsaBeginDay() {

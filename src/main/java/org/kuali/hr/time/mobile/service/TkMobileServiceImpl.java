@@ -17,9 +17,9 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import com.google.gson.Gson;
 
@@ -52,10 +52,8 @@ public class TkMobileServiceImpl implements TkMobileService {
 
         // Set person on the context
         // This is primary for getting the assignment, since we get the assignment by using the target principal id on the context
-        TKUser user = new TKUser();
-        Person person = KIMServiceLocator.getPersonService().getPerson(principalId);
-        user.setActualPerson(person);
-        TKContext.setUser(user);
+        Person person = KimApiServiceLocator.getPersonService().getPerson(principalId);
+        TKUser.setTargetPerson(person);
 
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(new AssignmentDescriptionKey(assignmentKey), TKUtils.getCurrentDate());
         Date currentDate = TKUtils.getCurrentDate();

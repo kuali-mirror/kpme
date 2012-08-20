@@ -4,11 +4,11 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class PrincipalHRAttributesMaintainableImpl extends KualiMaintainableImpl {
 	private static final long serialVersionUID = 1L;
@@ -19,7 +19,7 @@ public class PrincipalHRAttributesMaintainableImpl extends KualiMaintainableImpl
 			MaintenanceDocument maintenanceDocument, String methodToCall) {
 		if (fieldValues.containsKey("principalId")
 				&& StringUtils.isNotEmpty(fieldValues.get("principalId"))) {
-			Person p = KIMServiceLocator.getPersonService().getPerson(
+			Person p = KimApiServiceLocator.getPersonService().getPerson(
 					fieldValues.get("principalId"));
 			if (p != null) {
 				fieldValues.put("name", p.getName());
@@ -35,7 +35,7 @@ public class PrincipalHRAttributesMaintainableImpl extends KualiMaintainableImpl
 	public void saveBusinessObject() {
 		PrincipalHRAttributes principalHRAttr = (PrincipalHRAttributes) this.getBusinessObject();
 		principalHRAttr.setTimestamp(null);
-		KNSServiceLocator.getBusinessObjectService().save(principalHRAttr);
+		KRADServiceLocator.getBusinessObjectService().save(principalHRAttr);
 	}
 	
 	

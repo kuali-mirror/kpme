@@ -1,15 +1,15 @@
 package org.kuali.hr.lm.leavedonation;
 
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
 
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.earncode.EarnCode;
-import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.api.identity.Person;
 
 public class LeaveDonation extends HrBusinessObject {
-
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "LeaveDonation";
 	/**
 	 * 
 	 */
@@ -155,12 +155,6 @@ public class LeaveDonation extends HrBusinessObject {
 	@Override
 	public String getId() {
 		return getLmLeaveDonationId();
-	}
-
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

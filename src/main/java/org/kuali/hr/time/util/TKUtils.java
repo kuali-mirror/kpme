@@ -1,15 +1,5 @@
 package org.kuali.hr.time.util;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.joda.time.*;
-import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.calendar.CalendarEntries;
-import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.task.Task;
-import org.kuali.rice.core.config.ConfigContext;
-
-import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.net.UnknownHostException;
 import java.sql.Date;
@@ -17,6 +7,22 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Days;
+import org.joda.time.Interval;
+import org.joda.time.Period;
+import org.kuali.hr.location.service.TimezoneKeyValueFinder;
+import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.task.Task;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 
 public class TKUtils {
 
@@ -33,6 +39,27 @@ public class TKUtils {
     public static String getDayOfMonthFromDateString(String dateString) {
         String[] date = dateString.split("/");
         return date[1];
+    }
+
+    public static String getSystemTimeZone() {
+        String configTimezone = TimeZone.getDefault().getID();
+        if (ConfigContext.getCurrentContextConfig() != null
+                && StringUtils.isNotBlank(ConfigContext.getCurrentContextConfig().getProperty(TkConstants.ConfigSettings.KPME_SYSTEM_TIMEZONE).trim())) {
+            String tempTimeZoneId = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.ConfigSettings.KPME_SYSTEM_TIMEZONE);
+
+            if (TimeZone.getTimeZone(tempTimeZoneId) != null) {
+                configTimezone = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.ConfigSettings.KPME_SYSTEM_TIMEZONE);
+            } else {
+                LOG.error("Timezone set by configuration parameter " + TkConstants.ConfigSettings.KPME_SYSTEM_TIMEZONE + " is not a valid time zone id.  Using the systems default time zone instead.");
+            }
+        }
+
+
+        return configTimezone;
+    }
+
+    public static DateTimeZone getSystemDateTimeZone() {
+        return DateTimeZone.forID(TKUtils.getSystemTimeZone());
     }
 
     /**

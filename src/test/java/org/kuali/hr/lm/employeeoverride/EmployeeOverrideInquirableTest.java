@@ -4,13 +4,14 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 
 import org.apache.commons.lang.StringUtils;
+import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.base.web.TkInquirableImpl;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 
-public class EmployeeOverrideInquirableTest extends TkTestCase {
+public class EmployeeOverrideInquirableTest extends KPMETestCase {
 
 	private String INQUIRY_URL = "inquiry.do?businessObjectClassName=org.kuali.hr.lm.accrual.AccrualCategory&methodToCall=start&effectiveDate=03%2F04%2F2012&accrualCategory=testAC&leavePlan=&lmAccrualCategoryId=";
 	@Test
@@ -22,9 +23,9 @@ public class EmployeeOverrideInquirableTest extends TkTestCase {
 		eo.setEffectiveDate(aDate);
 		
 		HtmlData hd = (HtmlData) new TkInquirableImpl().getInquiryUrl(eo, "accrualCategory", false);
-		assertNotNull("No HtmlData found", hd);
+		Assert.assertNotNull("No HtmlData found", hd);
 		String inquiryUrl = ((AnchorHtmlData) hd).getHref();
-		assertTrue("Inquiry url is wrong", StringUtils.contains(inquiryUrl, INQUIRY_URL));
+		Assert.assertTrue("Inquiry url is wrong", StringUtils.contains(inquiryUrl, INQUIRY_URL));
 		
 	}
 }

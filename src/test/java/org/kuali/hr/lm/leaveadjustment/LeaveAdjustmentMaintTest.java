@@ -1,8 +1,10 @@
 package org.kuali.hr.lm.leaveadjustment;
 
+import junit.framework.Assert;
+
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -10,7 +12,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class LeaveAdjustmentMaintTest extends TkTestCase{
+public class LeaveAdjustmentMaintTest extends KPMETestCase{
 	
 	private static final String PRINCIPAL_ID = "admin";
 	
@@ -26,26 +28,26 @@ public class LeaveAdjustmentMaintTest extends TkTestCase{
 	public void testRequiredFields() throws Exception {
 	  	String baseUrl = TkTestConstants.Urls.LEAVE_ADJUSTMENT_MAINT_NEW_URL;
 	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
-	  	assertNotNull(page);
+	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");
-	  	assertNotNull("Search form was missing from page.", form);
+	  	Assert.assertNotNull("Search form was missing from page.", form);
 	  	
 	  	HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
-	  	assertNotNull("Could not locate submit button", input);
+	  	Assert.assertNotNull("Could not locate submit button", input);
 	  	
 	  	HtmlElement element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
-	  	assertTrue("page text does not contain:\n" + EFFECTIVE_DATE_REQUIRED, page.asText().contains(EFFECTIVE_DATE_REQUIRED));
-	    assertTrue("page text does not contain:\n" + PRINCIPAL_ID_REQUIRED, page.asText().contains(PRINCIPAL_ID_REQUIRED));
-	    assertTrue("page text does not contain:\n" + LEAVE_PLAN_REQUIRED, page.asText().contains(LEAVE_PLAN_REQUIRED));
-	    assertTrue("page text does not contain:\n" + ACCRUAL_CATEGORY_REQUIRED, page.asText().contains(ACCRUAL_CATEGORY_REQUIRED));
-	    assertTrue("page text does not contain:\n" + EARN_CODE_REQUIRED, page.asText().contains(EARN_CODE_REQUIRED));
-	    assertTrue("page text does not contain:\n" + DES_REQUIRED, page.asText().contains(DES_REQUIRED));
+	  	Assert.assertTrue("page text does not contain:\n" + EFFECTIVE_DATE_REQUIRED, page.asText().contains(EFFECTIVE_DATE_REQUIRED));
+	  	Assert.assertTrue("page text does not contain:\n" + PRINCIPAL_ID_REQUIRED, page.asText().contains(PRINCIPAL_ID_REQUIRED));
+	  	Assert.assertTrue("page text does not contain:\n" + LEAVE_PLAN_REQUIRED, page.asText().contains(LEAVE_PLAN_REQUIRED));
+	  	Assert.assertTrue("page text does not contain:\n" + ACCRUAL_CATEGORY_REQUIRED, page.asText().contains(ACCRUAL_CATEGORY_REQUIRED));
+	  	Assert.assertTrue("page text does not contain:\n" + EARN_CODE_REQUIRED, page.asText().contains(EARN_CODE_REQUIRED));
+	  	Assert.assertTrue("page text does not contain:\n" + DES_REQUIRED, page.asText().contains(DES_REQUIRED));
 	    setFieldValue(page, "document.newMaintainableObject.adjustmentAmount", "");
 	    element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
-	    assertTrue("page text does not contain:\n" + ADJUSTMENT_AMOUNT_REQUIRED, page.asText().contains(ADJUSTMENT_AMOUNT_REQUIRED));
+	  	Assert.assertTrue("page text does not contain:\n" + ADJUSTMENT_AMOUNT_REQUIRED, page.asText().contains(ADJUSTMENT_AMOUNT_REQUIRED));
 	}
 	
 	@Test
@@ -53,19 +55,19 @@ public class LeaveAdjustmentMaintTest extends TkTestCase{
 		HtmlPage leaveAdjustmentLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.LEAVE_ADJUSTMENT_MAINT_URL);
 		leaveAdjustmentLookup = HtmlUnitUtil.clickInputContainingText(leaveAdjustmentLookup, "search");
 		System.out.println(leaveAdjustmentLookup.asXml());
-		assertTrue("Page contains test LeaveAdjustment", leaveAdjustmentLookup.asText().contains("AC1"));
+		Assert.assertTrue("Page contains test LeaveAdjustment", leaveAdjustmentLookup.asText().contains("AC1"));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(leaveAdjustmentLookup, "edit", "lmLeaveAdjustmentId=3000");
-		assertTrue("Maintenance Page contains test LeaveAdjustment", maintPage.asText().contains("AC1"));	 
+		Assert.assertTrue("Maintenance Page contains test LeaveAdjustment", maintPage.asText().contains("AC1"));	 
 	}
 	
 	@Test
 	public void testAddNew() throws Exception {
 	  	String baseUrl = TkTestConstants.Urls.LEAVE_ADJUSTMENT_MAINT_NEW_URL;
 	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
-	  	assertNotNull(page);
+	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");
-	  	assertNotNull("Search form was missing from page.", form);
+	  	Assert.assertNotNull("Search form was missing from page.", form);
 	  	
 	  	setFieldValue(page, "document.documentHeader.documentDescription", "Leave Adjustment - test");
 	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", "04/01/2012");
@@ -74,27 +76,27 @@ public class LeaveAdjustmentMaintTest extends TkTestCase{
 	    setFieldValue(page, "document.newMaintainableObject.earnCode", "myLC");	//nonexist leave Code
 	  	
 	  	HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
-	  	assertNotNull("Could not locate submit button", input);
+	  	Assert.assertNotNull("Could not locate submit button", input);
 	  	HtmlElement element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
 	  	HtmlUnitUtil.createTempFile(page);
-	  	assertTrue("page text contains:\n" + "'myAC' does not exist", page.asText().contains("'myAC' does not exist"));
+	  	Assert.assertTrue("page text contains:\n" + "'myAC' does not exist", page.asText().contains("'myAC' does not exist"));
 	  	  	
 	  	setFieldValue(page, "document.newMaintainableObject.accrualCategory", "AC1"); // existing accrual category
 	  	setFieldValue(page, "document.newMaintainableObject.earnCode", "testLC");
 	  	element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
-	  	assertFalse("page text contains:\n" + "'AC1' does not exist", page.asText().contains("'AC1' does not exist"));
+	  	Assert.assertFalse("page text contains:\n" + "'AC1' does not exist", page.asText().contains("'AC1' does not exist"));
 	  	
 	  	setFieldValue(page, "document.newMaintainableObject.principalId", "admin"); // existing principal hr attributes
 	  	element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
-	  	assertFalse("page text contains:\n" + "'IU-SM' does not exist", page.asText().contains("'IU-SM' does not exist"));
+	  	Assert.assertFalse("page text contains:\n" + "'IU-SM' does not exist", page.asText().contains("'IU-SM' does not exist"));
 	  	
 	  	setFieldValue(page, "document.newMaintainableObject.earnCode", "EC");	//fraction allowed is 99.9
 	  	setFieldValue(page, "document.newMaintainableObject.adjustmentAmount", "2.45");
 	  	element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
-	  	assertTrue("page text does not contain amount fraction error.", page.asText().contains("Earn Code 'EC' only allows 1 decimal point."));
+	  	Assert.assertTrue("page text does not contain amount fraction error.", page.asText().contains("Earn Code 'EC' only allows 1 decimal point."));
 	}
 }

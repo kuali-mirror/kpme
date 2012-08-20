@@ -10,9 +10,9 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class EmployeeOverrideDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements EmployeeOverrideDao{
+public class EmployeeOverrideDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements EmployeeOverrideDao{
 
 	@SuppressWarnings("unchecked")
 	@Override

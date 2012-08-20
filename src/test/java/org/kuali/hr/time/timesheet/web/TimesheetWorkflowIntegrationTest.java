@@ -11,6 +11,7 @@ import org.joda.time.DateTimeZone;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -22,6 +23,7 @@ import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.web.TkLoginFilter;
@@ -29,11 +31,12 @@ import org.kuali.hr.time.web.TkLoginFilter;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.kuali.hr.util.filter.TestAutoLoginFilter;
 
 public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
 
     public static final String USER_PRINCIPAL_ID = "admin";
-	private Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE)).getMillis());
+	private Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 
 
     /**
@@ -65,9 +68,9 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
      * - verify submit for routing button gone
      */
     public void testTimesheetSubmissionIntegration() throws Exception {
-        Date asOfDate = new Date((new DateTime(2011, 3, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+        Date asOfDate = new Date((new DateTime(2011, 3, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
         CalendarEntries pcd = TkServiceLocator.getCalendarService().getCurrentCalendarDates(USER_PRINCIPAL_ID, asOfDate);
-        assertNotNull("No PayCalendarDates", pcd);
+        Assert.assertNotNull("No PayCalendarDates", pcd);
         TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(USER_PRINCIPAL_ID, pcd);
         String tdocId = tdoc.getDocumentId();
         HtmlPage page = loginAndGetTimeDetailsHtmlPage("admin", tdocId, true);
@@ -80,21 +83,21 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
 
         // 2. Set Timeblock Start and End time
         // 3/02/2011 - 8:00a to 4:00pm
-        DateTime start = new DateTime(2011, 3, 2, 8, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
-        DateTime end = new DateTime(2011, 3, 3, 16, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
+        DateTime start = new DateTime(2011, 3, 2, 8, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        DateTime end = new DateTime(2011, 3, 3, 16, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
-        assertNotNull(form);
+        Assert.assertNotNull(form);
 
         // Build an action form - we're using it as a POJO, it ties into the
         // existing TK validation setup
         TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(tdoc, assignment, earnCode, start, end, null, true, null, true);
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
         // Check for errors
-        assertEquals("There should be no errors in this time detail submission", 0, errors.size());
+        Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
 
         page = TimeDetailTestUtils.submitTimeDetails(TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), tdaf);
-        assertNotNull(page);
+        Assert.assertNotNull(page);
         //HtmlUnitUtil.createTempFile(page, "TimeBlockPresent");
 
         // Verify block present on rendered page.
@@ -108,7 +111,7 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
         String dataText = page.getElementById("timeBlockString").getFirstChild().getNodeValue();
         JSONArray jsonData = (JSONArray)JSONValue.parse(dataText);
         final JSONObject jsonDataObject = (JSONObject) jsonData.get(0);
-        assertTrue("TimeBlock Data Missing.", checkJSONValues(new JSONObject() {{ put("outer", jsonDataObject); }},
+        Assert.assertTrue("TimeBlock Data Missing.", checkJSONValues(new JSONObject() {{ put("outer", jsonDataObject); }},
                 new ArrayList<Map<String, Object>>() {{
                     add(new HashMap<String, Object>() {{
                         put("earnCode", "RGN");
@@ -126,8 +129,8 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
         ));
 
         // Check the Display Rendered Text for Time Block, Quick Check
-        assertTrue("TimeBlock not Present.", pageAsText.contains("08:00 AM - 04:00 PM"));
-        assertTrue("TimeBlock not Present.", pageAsText.contains("RGN - 8.00 hours"));
+        Assert.assertTrue("TimeBlock not Present.", pageAsText.contains("08:00 AM - 04:00 PM"));
+        Assert.assertTrue("TimeBlock not Present.", pageAsText.contains("RGN - 8.00 hours"));
 
         //
         // Route Timesheet
@@ -141,21 +144,21 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
         //HtmlUnitUtil.createTempFile(page, "RouteClicked");
         pageAsText = page.asText();
         // Verify Route Status via UI
-        assertTrue("Wrong Document Loaded.", pageAsText.contains(tdocId));
-        assertTrue("Document not routed.", pageAsText.contains("Enroute"));
+        Assert.assertTrue("Wrong Document Loaded.", pageAsText.contains(tdocId));
+        Assert.assertTrue("Document not routed.", pageAsText.contains("Enroute"));
         routeButton = page.getElementById("ts-route-button");
-        assertNull("Route button should not be present.", routeButton);
+        Assert.assertNull("Route button should not be present.", routeButton);
         HtmlElement approveButton = page.getElementById("ts-approve-button");
-        assertNull("Approval button should not be present.", approveButton);
+        Assert.assertNull("Approval button should not be present.", approveButton);
 
         //
         // Login as Approver, who is not 'admin'
         page = TimesheetWebTestBase.loginAndGetTimeDetailsHtmlPage("eric", tdocId, true);
         //HtmlUnitUtil.createTempFile(page, "2ndLogin");
         pageAsText = page.asText();
-        assertTrue("Document not routed.", pageAsText.contains("Enroute"));
+        Assert.assertTrue("Document not routed.", pageAsText.contains("Enroute"));
         approveButton = page.getElementById("ts-approve-button");
-        assertNotNull("No approval button present.", approveButton);
+        Assert.assertNotNull("No approval button present.", approveButton);
 
         // Click Approve
         // And Verify
@@ -164,16 +167,16 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
         page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.BASE_URL + "/" + routeHref);
         //HtmlUnitUtil.createTempFile(page, "ApproveClicked");
         pageAsText = page.asText();
-        assertTrue("Wrong Document Loaded.", pageAsText.contains(tdocId));
-        assertTrue("Login info not present.", pageAsText.contains("Employee Id:"));
-        assertTrue("Login info not present.", pageAsText.contains("Employee, Eric"));
-        assertTrue("Document not routed.", pageAsText.contains("Final"));
+        Assert.assertTrue("Wrong Document Loaded.", pageAsText.contains(tdocId));
+        Assert.assertTrue("Login info not present.", pageAsText.contains("Employee Id:"));
+        Assert.assertTrue("Login info not present.", pageAsText.contains("Employee, Eric"));
+        Assert.assertTrue("Document not routed.", pageAsText.contains("Final"));
         approveButton = page.getElementById("ts-approve-button");
-        assertNull("Approval button should not be present.", approveButton);
+        Assert.assertNull("Approval button should not be present.", approveButton);
 
         //Kind of hacky to change this, as it changes for everything.
         //Change back because other tests may use this.
-        TkLoginFilter.TEST_ID = "admin";
+        TestAutoLoginFilter.OVERRIDE_ID = "";
     }
 
 }

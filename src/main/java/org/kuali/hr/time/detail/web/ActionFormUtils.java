@@ -1,5 +1,17 @@
 package org.kuali.hr.time.detail.web;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
@@ -9,17 +21,15 @@ import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
+import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
-import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
-
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ActionFormUtils {
 
@@ -99,7 +109,7 @@ public class ActionFormUtils {
             String workAreaDesc = workArea.getDescription();
 
             // Roles
-            Boolean isAnyApprover = TKContext.getUser().getCurrentRoles().isAnyApproverActive();
+            Boolean isAnyApprover = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isAnyApproverActive();
             timeBlockMap.put("isApprover", isAnyApprover);
             timeBlockMap.put("isSynchronousUser", timeBlock.getClockLogCreated());
 
@@ -208,7 +218,7 @@ public class ActionFormUtils {
     // detect if the passed-in calendar entry is the current one
     public static boolean getOnCurrentPeriodFlag(CalendarEntries pce) {
     	Date currentDate = TKUtils.getTimelessDate(null);
-    	String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
+    	String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
         CalendarEntries calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal,  currentDate);
 
         if(pce != null && calendarEntry != null && calendarEntry.equals(pce)) {

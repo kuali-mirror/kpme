@@ -6,7 +6,7 @@ import java.util.List;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface TimesheetService {
 

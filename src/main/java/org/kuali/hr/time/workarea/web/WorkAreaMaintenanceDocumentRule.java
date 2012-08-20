@@ -1,5 +1,9 @@
 package org.kuali.hr.time.workarea.web;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.assignment.Assignment;
@@ -13,13 +17,10 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class WorkAreaMaintenanceDocumentRule extends
 		MaintenanceDocumentRuleBase {
@@ -121,12 +122,12 @@ public class WorkAreaMaintenanceDocumentRule extends
 			MaintenanceDocument document) {
 		boolean valid = false;
 
-		PersistableBusinessObject pbo = this.getNewBo();
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
 		if (pbo instanceof WorkArea) {
 			WorkArea wa = (WorkArea) pbo;
 			valid = validateDepartment(wa.getDept(), wa.getEffectiveDate());
 			if(!DepartmentalRuleAuthorizer.hasAccessToWrite((DepartmentalRule)pbo)) {
-				String[] params = new String[]{TKContext.getUser().getPrincipalName(), wa.getDept()};
+				String[] params = new String[]{GlobalVariables.getUserSession().getPrincipalName(), wa.getDept()};
 				this.putFieldError("dept", "dept.user.unauthorized", params);
 			}
 			valid &= validateRoles(wa.getRoles(), wa.getEffectiveDate());

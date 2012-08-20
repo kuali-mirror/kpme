@@ -8,9 +8,9 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.workschedule.WorkSchedule;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class WorkScheduleDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements WorkScheduleDao {
+public class WorkScheduleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements WorkScheduleDao {
 
     @Override
     public WorkSchedule getWorkSchedule(Long workSchedule, Date asOfDate) {

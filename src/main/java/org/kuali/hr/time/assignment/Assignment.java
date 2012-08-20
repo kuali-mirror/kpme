@@ -1,7 +1,13 @@
 package org.kuali.hr.time.assignment;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
@@ -10,17 +16,11 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 public class Assignment extends HrBusinessObject {
-
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "Assignment";
 	/**
      *
      */
@@ -68,31 +68,18 @@ public class Assignment extends HrBusinessObject {
 		this.task = taskId;
 	}
 
-	@SuppressWarnings({ "rawtypes" })
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
-		toStringMap.put("tkAssignmentId", tkAssignmentId);
-		toStringMap.put("principalId", principalId);
-		toStringMap.put("jobNumber", jobNumber);
-		toStringMap.put("workArea", workArea);
-		toStringMap.put("task", task);
-
-		return toStringMap;
-	}
-
 	public String getPrincipalId() {
 		return principalId;
 	}
 
 	public void setPrincipalId(String principalId) {
 		this.principalId = principalId;
-		this.setPrincipal(KIMServiceLocator.getPersonService().getPerson(this.principalId));
+		this.setPrincipal(KimApiServiceLocator.getPersonService().getPerson(this.principalId));
 	}
 
 	public String getName() {
 		if (principal == null) {
-        principal = KIMServiceLocator.getPersonService().getPerson(this.principalId);
+        principal = KimApiServiceLocator.getPersonService().getPerson(this.principalId);
 		}
 		return (principal != null) ? principal.getName() : "";
 	}

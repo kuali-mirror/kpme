@@ -3,10 +3,10 @@ package org.kuali.hr.time.workarea.web;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kns.document.Document;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.TransactionalDocumentAuthorizerBase;
-import org.kuali.rice.kns.util.KNSConstants;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class WorkAreaMaintenanceDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
 
@@ -14,15 +14,15 @@ public class WorkAreaMaintenanceDocumentAuthorizer extends TransactionalDocument
 	public Set<String> getDocumentActions(Document document, Person user, Set<String> documentActions) {
 		Set<String> finalDocActs = new HashSet<String>();
 
-		finalDocActs.add(KNSConstants.KUALI_ACTION_CAN_EDIT__DOCUMENT_OVERVIEW);
-		finalDocActs.add(KNSConstants.KUALI_ACTION_CAN_EDIT);
-		finalDocActs.add(KNSConstants.KUALI_ACTION_CAN_ROUTE);
-		finalDocActs.add(KNSConstants.KUALI_ACTION_CAN_SAVE);
-		finalDocActs.add(KNSConstants.KUALI_ACTION_CAN_BLANKET_APPROVE);
-		finalDocActs.add(KNSConstants.KUALI_ACTION_CAN_CANCEL);
+		finalDocActs.add(KRADConstants.KUALI_ACTION_CAN_EDIT_DOCUMENT_OVERVIEW);
+		finalDocActs.add(KRADConstants.KUALI_ACTION_CAN_EDIT);
+		finalDocActs.add(KRADConstants.KUALI_ACTION_CAN_ROUTE);
+		finalDocActs.add(KRADConstants.KUALI_ACTION_CAN_SAVE);
+		finalDocActs.add(KRADConstants.KUALI_ACTION_CAN_BLANKET_APPROVE);
+		finalDocActs.add(KRADConstants.KUALI_ACTION_CAN_CANCEL);
 
 		// all docs can close
-		finalDocActs.add(KNSConstants.KUALI_ACTION_CAN_CLOSE);
+		finalDocActs.add(KRADConstants.KUALI_ACTION_CAN_CLOSE);
 		return finalDocActs;
 	}
 

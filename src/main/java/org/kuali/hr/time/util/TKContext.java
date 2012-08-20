@@ -8,14 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kew.web.session.UserSession;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TKContext {
 
     private static final String TDOC_OBJ_KEY = "_TDOC_O_KEY";
     private static final String TDOC_KEY = "_TDOC_ID_KEY"; // Timesheet Document ID Key
-	private static final String USER_KEY = "_USER_KEY";
+	//private static final String USER_KEY = "_USER_KEY";
     private static final String LDOC_OBJ_KEY = "_LDOC_O_KEY";
     private static final String LDOC_KEY = "_LDOC_ID_KEY";
 
@@ -55,29 +54,21 @@ public class TKContext {
 	 * @return
 	 */
 	public static TKUser getUser() {
-		return (TKUser) getStorageMap().get(USER_KEY);
+        //TODO, this method isn't needed if everything in TKUser is accessed in a static fashion...
+        return new TKUser();
+		//return (TKUser) GlobalVariables.getUserSession().retrieveObject(USER_KEY);
 	}
 
-	public static void setUser(TKUser user) {
-		TKContext.getStorageMap().put(USER_KEY, user);
-	}
-
-	public static UserSession getUserSession(){
-		return (UserSession) getHttpServletRequest().getSession().getAttribute(KEWConstants.USER_SESSION_KEY);
-	}
+	//public static void setUser(TKUser user) {
+	//	GlobalVariables.getUserSession().addObject(USER_KEY, user);
+	//}
 
 	public static String getPrincipalId(){
-		if(getUser()!= null){
-			return getUser().getPrincipalId();
-		}
-		return null;
+		return GlobalVariables.getUserSession().getPrincipalId();
 	}
 
     public static String getTargetPrincipalId() {
-        if(getUser()!= null){
-            return getUser().getTargetPrincipalId();
-        }
-        return null;
+        return TKUser.getCurrentTargetPerson().getPrincipalId();
     }
 
 	public static HttpServletRequest getHttpServletRequest() {

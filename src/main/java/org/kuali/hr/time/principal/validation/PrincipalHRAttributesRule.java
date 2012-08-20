@@ -2,9 +2,9 @@ package org.kuali.hr.time.principal.validation;
 
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.util.ValidationUtils;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class PrincipalHRAttributesRule extends MaintenanceDocumentRuleBase {
 
@@ -69,7 +69,7 @@ public class PrincipalHRAttributesRule extends MaintenanceDocumentRuleBase {
 		boolean valid = false;
 
 		LOG.debug("entering custom validation for Job");
-		PersistableBusinessObject pbo = this.getNewBo();
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
 		if (pbo instanceof PrincipalHRAttributes) {
 			PrincipalHRAttributes principalHRAttr = (PrincipalHRAttributes) pbo;
 			if (principalHRAttr != null) {

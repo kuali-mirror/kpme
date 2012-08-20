@@ -1,19 +1,19 @@
 package org.kuali.hr.time.earncode.dao;
 
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.kuali.hr.time.earncode.EarnCode;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
-import uk.ltd.getahead.dwr.util.Logger;
-
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class EarnCodeDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements EarnCodeDao {
+import org.apache.log4j.Logger;
+import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
+import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+
+public class EarnCodeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements EarnCodeDao {
 
 	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(EarnCodeDaoSpringOjbImpl.class);

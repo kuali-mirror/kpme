@@ -1,12 +1,11 @@
 package org.kuali.hr.time.paytype;
 
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.earncode.EarnCode;
 
-import java.util.LinkedHashMap;
-
 public class PayType extends HrBusinessObject {
-
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "PayType";
 	/**
 	 *
 	 */
@@ -28,13 +27,6 @@ public class PayType extends HrBusinessObject {
     public void setRegEarnCodeObj(EarnCode regEarnCodeObj) {
         this.regEarnCodeObj = regEarnCodeObj;
     }
-
-    @SuppressWarnings("unchecked")
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		return null;
-	}
-
 
 	public String getPayType() {
 		return payType;

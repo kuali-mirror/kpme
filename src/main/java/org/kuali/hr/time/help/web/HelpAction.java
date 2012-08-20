@@ -4,7 +4,7 @@ import org.apache.struts.action.ActionForm;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
-import org.kuali.rice.kns.exception.AuthorizationException;
+import org.kuali.rice.krad.exception.AuthorizationException;
 
 public class HelpAction extends TkAction {
 

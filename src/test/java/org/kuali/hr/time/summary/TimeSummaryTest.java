@@ -5,13 +5,14 @@ import java.sql.Timestamp;
 import java.util.Map;
 
 import org.joda.time.DateTime;
+import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.time.test.TkTestCase;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
 
-public class TimeSummaryTest extends TkTestCase {
+public class TimeSummaryTest extends KPMETestCase {
 
 	@Test
 	public void testTimeBlockTimeHourDetailBreakup() throws Exception{
@@ -25,7 +26,7 @@ public class TimeSummaryTest extends TkTestCase {
 		TimeHourDetail timeHourDetail = new TimeHourDetail();
 		
 		Map<Timestamp, BigDecimal> timeToHrs = TkTestUtils.getDateToHoursMap(timeBlock, timeHourDetail);
-		assertTrue(timeToHrs!=null);
+		Assert.assertTrue(timeToHrs!=null);
 	}
 	
 }

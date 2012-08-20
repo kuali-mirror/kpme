@@ -4,12 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.impl.KimAttributes;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.ModuleService;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.ModuleService;
 
 /**
  * This is set up in the kr/struts-config.xml, so that our maintenance docs
@@ -30,9 +29,9 @@ public class TimeMaintenanceForm extends KualiMaintenanceForm {
         StringBuffer urlBuffer = new StringBuffer();
                 
         if(user != null && StringUtils.isNotEmpty(linkBody) ) {
-        	ModuleService moduleService = KNSServiceLocator.getKualiModuleService().getResponsibleModuleService(Person.class);
+        	ModuleService moduleService = KRADServiceLocatorWeb.getKualiModuleService().getResponsibleModuleService(Person.class);
         	Map<String, String[]> parameters = new HashMap<String, String[]>();
-        	parameters.put(KimAttributes.PRINCIPAL_ID, new String[] { user.getPrincipalId() });
+        	parameters.put(KimConstants.AttributeConstants.PRINCIPAL_ID, new String[] { user.getPrincipalId() });
         	String inquiryUrl = moduleService.getExternalizableBusinessObjectInquiryUrl(Person.class, parameters);
             if(!StringUtils.equals(KimConstants.EntityTypes.SYSTEM, user.getEntityTypeCode())){
 	            urlBuffer.append("<a href='");

@@ -1,9 +1,7 @@
 package org.kuali.hr.time.paytype.service;
 
-import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.paytype.dao.PayTypeDao;
-import org.kuali.hr.time.util.TkConstants;
 
 import java.util.Date;
 import java.util.List;
@@ -27,13 +25,11 @@ public class PayTypeServiceImpl implements PayTypeService {
 	}
 
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public PayType getPayType(String payType, Date effectiveDate) {
 		return payTypeDao.getPayType(payType, effectiveDate);
 	}
 
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public PayType getPayType(String hrPayTypeId) {
 		return payTypeDao.getPayType(hrPayTypeId);
 	}

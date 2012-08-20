@@ -349,7 +349,7 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
 		</property>
-		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
 		<property name="name" value="effectiveDate" />
 		<property name="label" value="Effective Date" />
 	</bean>
@@ -379,7 +379,7 @@
 		<property name="name" value="primaryIndicator" />
 		<property name="label" value="Primary Indicator" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.BooleanFormatter" />
+			value="org.kuali.rice.core.web.format.BooleanFormatter" />
 	</bean>
 
 	<!-- <bean id="Job-hrPyCalendarId" parent="Job-hrPyCalendarId-parentBean" 
@@ -417,7 +417,7 @@
 		<property name="name" value="eligibleForLeave" />
 		<property name="label" value="Eligible For Leave" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.BooleanFormatter" />
+			value="org.kuali.rice.core.web.format.BooleanFormatter" />
 	</bean>
 
 	<bean id="Job-timestamp" parent="Job-timestamp-parentBean" />
@@ -429,7 +429,7 @@
 		<property name="control">
 			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
 		</property>
-		<!-- <property name="formatterClass" value="org.kuali.rice.kns.web.format.TimeStampAMPMFormatter"/> -->
+		<!-- <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/> -->
 		<property name="name" value="timestamp" />
 		<property name="label" value="Time Stamp" />
 	</bean>

@@ -13,7 +13,7 @@
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.principal.PrincipalHRAttributes"
 		p:businessRulesClass="org.kuali.hr.time.principal.validation.PrincipalHRAttributesRule"
 		p:maintainableClass="org.kuali.hr.time.principal.service.PrincipalHRAttributesMaintainableImpl"
-		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
+		p:documentAuthorizerClass="org.kuali.hr.time.authorization.DepartmentAdminAuthorizer">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="PrincipalHRAttributesMaintenanceDocument-PrincipalHRAttributesMaintenance" />

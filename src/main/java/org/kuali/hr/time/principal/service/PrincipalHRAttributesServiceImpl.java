@@ -1,13 +1,11 @@
 package org.kuali.hr.time.principal.service;
 
-import java.util.Date;
-import java.util.List;
-
-import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.principal.dao.PrincipalHRAttributesDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TkConstants;
+
+import java.util.Date;
+import java.util.List;
 
 public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesService {
 	private PrincipalHRAttributesDao principalHRAttributesDao;
@@ -16,7 +14,6 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
 		this.principalHRAttributesDao = principalHRAttributesDao;
 	}
 	
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public PrincipalHRAttributes getPrincipalCalendar(String principalId, Date asOfDate){
 		PrincipalHRAttributes pc =  this.principalHRAttributesDao.getPrincipalCalendar(principalId, asOfDate);
 		if(pc != null) {
@@ -31,7 +28,6 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
      * Get a list of active employees based on leave plan and as of a particular date
      */
     @Override
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public List<PrincipalHRAttributes> getActiveEmployeesForLeavePlan(String leavePlan, Date asOfDate) {
         List<PrincipalHRAttributes> principals = principalHRAttributesDao.getActiveEmployeesForLeavePlan(leavePlan, asOfDate);
 

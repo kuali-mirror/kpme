@@ -3,22 +3,24 @@ package org.kuali.hr.time.calendar;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 
-public class FlsaDayKeyValue extends org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase {
+public class FlsaDayKeyValue extends KeyValuesBase {
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List getKeyValues() {
-        List<KeyLabelPair> keyValues = new ArrayList<KeyLabelPair>();
-        keyValues.add(new KeyLabelPair("Sun", "Sun"));
-        keyValues.add(new KeyLabelPair("Mon", "Mon"));
-        keyValues.add(new KeyLabelPair("Tues", "Tues"));
-        keyValues.add(new KeyLabelPair("Wed", "Wed"));
-        keyValues.add(new KeyLabelPair("Thur", "Thur"));
-        keyValues.add(new KeyLabelPair("Fri", "Fri"));
-        keyValues.add(new KeyLabelPair("Sat", "Sat"));
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+        keyValues.add(new ConcreteKeyValue("Sun", "Sun"));
+        keyValues.add(new ConcreteKeyValue("Mon", "Mon"));
+        keyValues.add(new ConcreteKeyValue("Tues", "Tues"));
+        keyValues.add(new ConcreteKeyValue("Wed", "Wed"));
+        keyValues.add(new ConcreteKeyValue("Thur", "Thur"));
+        keyValues.add(new ConcreteKeyValue("Fri", "Fri"));
+        keyValues.add(new ConcreteKeyValue("Sat", "Sat"));
         return keyValues;
 	}
 

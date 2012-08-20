@@ -1,5 +1,11 @@
 package org.kuali.hr.job.dao;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
@@ -8,14 +14,12 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.util.TKUtils;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
-
-import java.util.*;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 /**
  * Represents an implementation of {@link JobDao}.
  */
-public class JobDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements JobDao {
+public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobDao {
 
     @SuppressWarnings("unused")
     private static final Logger LOG = Logger.getLogger(JobDaoSpringOjbImpl.class);

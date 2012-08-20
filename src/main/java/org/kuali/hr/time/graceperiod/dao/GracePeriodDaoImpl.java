@@ -1,15 +1,15 @@
 package org.kuali.hr.time.graceperiod.dao;
 
+import java.sql.Date;
+
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.graceperiod.rule.GracePeriodRule;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-import java.sql.Date;
-
-public class GracePeriodDaoImpl extends PersistenceBrokerDaoSupport implements GracePeriodDao {
+public class GracePeriodDaoImpl extends PlatformAwareDaoBaseOjb implements GracePeriodDao {
 	public GracePeriodRule getGracePeriodRule(Date asOfDate){
 		GracePeriodRule gracePeriodRule = null;
 		

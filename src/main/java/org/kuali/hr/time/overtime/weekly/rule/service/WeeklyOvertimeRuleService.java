@@ -6,6 +6,7 @@ import java.util.List;
 import org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
+import org.springframework.cache.annotation.Cacheable;
 
 public interface WeeklyOvertimeRuleService {
 	/**
@@ -23,6 +24,7 @@ public interface WeeklyOvertimeRuleService {
 	 * @param asOfDate
 	 * @return
 	 */
+    @Cacheable(value= WeeklyOvertimeRule.CACHE_NAME, key="'asOfDate=' + #p1")
 	public List<WeeklyOvertimeRule> getWeeklyOvertimeRules(Date asOfDate);
 	/**
 	 * Process weekly overtime rules for a given TkTimeBlockAggregate
@@ -35,5 +37,6 @@ public interface WeeklyOvertimeRuleService {
 	 * @param tkWeeklyOvertimeRuleId
 	 * @return
 	 */
+    @Cacheable(value= WeeklyOvertimeRule.CACHE_NAME, key="'tkWeeklyOvertimeRuleId=' + #p0")
 	public WeeklyOvertimeRule getWeeklyOvertimeRule(String tkWeeklyOvertimeRuleId);
 }

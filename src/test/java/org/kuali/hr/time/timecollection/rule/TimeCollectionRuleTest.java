@@ -4,32 +4,33 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
 
+import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.test.TkTestCase;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
-public class TimeCollectionRuleTest extends TkTestCase{
+public class TimeCollectionRuleTest extends KPMETestCase{
 
 	@Test
 	public void testTimeCollectionRuleFetch() throws Exception{
 		loadData();
 		TimeCollectionRule timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-DEPT",
 												1234L, new Date(System.currentTimeMillis()));
-		assertTrue("Time collection rule present" , timeCollection!=null);
+		Assert.assertTrue("Time collection rule present" , timeCollection!=null);
 
 		timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-ME",
 				1234L, new Date(System.currentTimeMillis()));
-		assertTrue("Time collection rule present" , timeCollection!=null);
+		Assert.assertTrue("Time collection rule present" , timeCollection!=null);
 
 		timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-DEPT",
 				234L, new Date(System.currentTimeMillis()));
-		assertTrue("Time collection rule present" , timeCollection!=null);
+		Assert.assertTrue("Time collection rule present" , timeCollection!=null);
 
 		timeCollection = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule("TEST-ME",
 				234L, new Date(System.currentTimeMillis()));
-		assertTrue("Time collection rule present" , timeCollection!=null);
+		Assert.assertTrue("Time collection rule present" , timeCollection!=null);
 	}
 
 	private void loadData()
@@ -40,7 +41,7 @@ public class TimeCollectionRuleTest extends TkTestCase{
 		timeCollectionRule.setEffectiveDate(new Date(System.currentTimeMillis()));
 		timeCollectionRule.setActive(true);
 		timeCollectionRule.setTimestamp(new Timestamp(Calendar.getInstance().getTimeInMillis()));
-		KNSServiceLocator.getBusinessObjectService().save(timeCollectionRule);
+		KRADServiceLocator.getBusinessObjectService().save(timeCollectionRule);
 
 		TimeCollectionRule timeCollectionRule2 = new TimeCollectionRule();
 		timeCollectionRule2.setDept("TEST-ME");
@@ -48,6 +49,6 @@ public class TimeCollectionRuleTest extends TkTestCase{
 		timeCollectionRule2.setEffectiveDate(new Date(System.currentTimeMillis()));
 		timeCollectionRule2.setActive(true);
 		timeCollectionRule2.setTimestamp(new Timestamp(Calendar.getInstance().getTimeInMillis()));
-		KNSServiceLocator.getBusinessObjectService().save(timeCollectionRule2);
+		KRADServiceLocator.getBusinessObjectService().save(timeCollectionRule2);
 	}
 }

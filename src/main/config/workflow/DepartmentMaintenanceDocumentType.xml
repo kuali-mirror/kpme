@@ -7,7 +7,7 @@
 		<documentType>
 			<name>DepartmentMaintenanceDocumentType</name>
 			<parent>RiceDocument</parent>
-			<docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 			<label>DepartmentMaintenanceDocument</label>
 		</documentType>
 	</documentTypes>

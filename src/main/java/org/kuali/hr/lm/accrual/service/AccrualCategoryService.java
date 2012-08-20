@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.springframework.cache.annotation.Cacheable;
 
 public interface AccrualCategoryService {
     
@@ -13,6 +14,7 @@ public interface AccrualCategoryService {
 	 * @param asOfDate
 	 * @return
 	 */
+    @Cacheable(value= AccrualCategory.CACHE_NAME, key="'accrualCategory=' + #p0 + '|' + 'asOfDate=' + #p1")
     public AccrualCategory getAccrualCategory(String accrualCategory, Date asOfDate);
     /**
      * Save or Update an accrual category
@@ -25,6 +27,7 @@ public interface AccrualCategoryService {
      * @param lmAccrualCategoryId
      * @return
      */
+    @Cacheable(value= AccrualCategory.CACHE_NAME, key="'accrualCategoryId=' + #p0")
     public AccrualCategory getAccrualCategory(String lmAccrualCategoryId);
     
     /**
@@ -32,6 +35,7 @@ public interface AccrualCategoryService {
      * @param asOfDate
      * @return
      */
+    @Cacheable(value= AccrualCategory.CACHE_NAME, key="'asOfDate=' + #p0")
     public List <AccrualCategory> getActiveAccrualCategories(Date asOfDate);
     
     /**

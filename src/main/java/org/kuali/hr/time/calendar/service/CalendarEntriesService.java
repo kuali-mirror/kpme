@@ -2,6 +2,7 @@ package org.kuali.hr.time.calendar.service;
 
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.CalendarEntryPeriodType;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.Date;
 import java.util.List;
@@ -14,6 +15,7 @@ public interface CalendarEntriesService {
      * @param hrCalendarEntriesId The ID to retrieve.
      * @return a CalendarEntries object.
      */
+    @Cacheable(value= CalendarEntries.CACHE_NAME, key="'hrCalendarEntriesId=' + #p0")
 	public CalendarEntries getCalendarEntries(String hrCalendarEntriesId);
 
     /**
@@ -23,7 +25,9 @@ public interface CalendarEntriesService {
      * @param asOfDate The date reference point.
      * @return the current CalendarEntries effective by the asOfDate.
      */
+    @Cacheable(value= CalendarEntries.CACHE_NAME, key="'hrCalendarId=' + #p0 + '|' + 'asOfDate=' + #p1")
 	public CalendarEntries getCurrentCalendarEntriesByCalendarId(String hrCalendarId, Date asOfDate);
+    @Cacheable(value= CalendarEntries.CACHE_NAME, key="'hrCalendarId=' + #p0 + '|' + 'endPeriodDate=' + #p1")
     public CalendarEntries getCalendarEntriesByIdAndPeriodEndDate(String hrCalendarId, Date endPeriodDate);
 
     public CalendarEntries getPreviousCalendarEntriesByCalendarId(String hrCalendarId, CalendarEntries pce);
@@ -36,6 +40,7 @@ public interface CalendarEntriesService {
      * @param asOfDate The central date to query from.
      * @return A list of CalendarEntries.
      */
+    @Cacheable(value= CalendarEntries.CACHE_NAME, key="'thresholdDays=' + #p0 + '|' + 'endPeriodDate=' + #p1")
 	public List<CalendarEntries> getCurrentCalendarEntryNeedsScheduled(int thresholdDays, Date asOfDate);
 	
 	public CalendarEntries createNextCalendarEntry(CalendarEntries calendarEntries, CalendarEntryPeriodType type);
@@ -43,8 +48,9 @@ public interface CalendarEntriesService {
 	public List<CalendarEntries> getFutureCalendarEntries(String hrCalendarId, Date currentDate, int numberOfEntries);
 
     public CalendarEntries getCalendarEntriesByBeginAndEndDate(Date beginPeriodDate, Date endPeriodDate);
-    
+
+    @Cacheable(value= CalendarEntries.CACHE_NAME, key="'hrCalendarId=' + #p0")
     public List<CalendarEntries> getAllCalendarEntriesForCalendarId(String hrCalendarId);
-    
+    @Cacheable(value= CalendarEntries.CACHE_NAME, key="'hrCalendarId=' + #p0 + '|' + 'year=' + #p1")
     public List<CalendarEntries> getAllCalendarEntriesForCalendarIdAndYear(String hrCalendarId, String year);
 }

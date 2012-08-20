@@ -4,11 +4,11 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
@@ -21,8 +21,7 @@ import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
-import org.apache.commons.lang.StringUtils;  
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class LeaveBlock extends PersistableBusinessObjectBase {
 
@@ -222,13 +221,6 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 
 	public LeaveBlock() {
 
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		return null; // To change body of implemented methods use File |
-						// Settings | File Templates.
 	}
 
 	public String getAccrualCategoryId() {

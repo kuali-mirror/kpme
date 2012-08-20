@@ -1,21 +1,21 @@
 package org.kuali.hr.time.clock.location;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.rule.TkRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.rice.kim.bo.Person;
-
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
+import org.kuali.rice.kim.api.identity.Person;
 
 public class ClockLocationRule extends TkRule implements DepartmentalRule {
-
 	private static final long serialVersionUID = 1L;
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "ClockLocationRule";
 
 	private String tkClockLocationRuleId;
 
@@ -37,15 +37,6 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 	private WorkArea workAreaObj;
 	private Job job;
 	private Person principal;
-
-	@Override
-	protected LinkedHashMap<String,Object> toStringMapper() {
-		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String,Object>();
-
-		toStringMap.put("principalId", principalId);
-
-		return toStringMap;
-	}
 
 	public Long getWorkArea() {
 		return workArea;

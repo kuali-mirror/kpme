@@ -1,13 +1,16 @@
 package org.kuali.hr.time.principalhr;
 
+import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-public class PrincipalHRAttributeTest extends TkTestCase {
+public class PrincipalHRAttributeTest extends KPMETestCase {
 	@Test
 	public void testPrincipalHRAttributeTest() throws Exception{
 		//confirm maintenance page renders default data
@@ -16,11 +19,11 @@ public class PrincipalHRAttributeTest extends TkTestCase {
 		HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.PRIN_HR_MAINT_URL);
     	page = HtmlUnitUtil.clickInputContainingText(page, "search");
     	HtmlUnitUtil.createTempFile(page);
-    	page = HtmlUnitUtil.clickAnchorContainingText(page, "edit","principalId=fred");
+    	page = HtmlUnitUtil.clickAnchorContainingText(page, "edit","hrPrincipalAttributeId=2004");
     	HtmlUnitUtil.createTempFile(page);
-    	assertTrue("Test that maintenance screen rendered", page.asText().contains("fred"));
-    	assertTrue("Test that maintenance screen rendered", page.asText().contains("Record Time"));//KPME1268
-    	assertTrue("Test that maintenance screen rendered", page.asText().contains("Record Leave"));//KPME1268
+    	Assert.assertTrue("Test that maintenance screen rendered", page.asText().contains("fred"));
+    	Assert.assertTrue("Test that maintenance screen rendered", page.asText().contains("Pay Calendar"));
+    	Assert.assertTrue("Test that maintenance screen rendered", page.asText().contains("Leave Calendar"));
 	}
 	
 	// KPME-1442 Kagata

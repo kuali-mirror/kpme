@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.kuali.hr.time.timeblock.TimeBlock;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -26,7 +26,7 @@ public class TimeBlockSerializerService {
 	 */
 	public void serializeToXML() throws FileNotFoundException {
 		// Fetching data using BO service
-		Collection timeBlocks = KNSServiceLocator.getBusinessObjectService()
+		Collection timeBlocks = KRADServiceLocator.getBusinessObjectService()
 				.findAll(TimeBlock.class);
 		Iterator<TimeBlock> itr = timeBlocks.iterator();
 		while (itr.hasNext()) {
@@ -44,7 +44,7 @@ public class TimeBlockSerializerService {
 
 	public void serializeToCSV() throws FileNotFoundException {
 		// Fetching data using BO service
-		Collection timeBlocks = KNSServiceLocator.getBusinessObjectService()
+		Collection timeBlocks = KRADServiceLocator.getBusinessObjectService()
 				.findAll(TimeBlock.class);
 		Iterator<TimeBlock> itr = timeBlocks.iterator();
 		while (itr.hasNext()) {

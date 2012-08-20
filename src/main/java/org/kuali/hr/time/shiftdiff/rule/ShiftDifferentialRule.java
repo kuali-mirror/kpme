@@ -1,5 +1,10 @@
 package org.kuali.hr.time.shiftdiff.rule;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Time;
+
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.time.calendar.Calendar;
@@ -8,13 +13,8 @@ import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.rule.TkRule;
 import org.kuali.hr.time.salgroup.SalGroup;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Time;
-import java.util.LinkedHashMap;
-
 public class ShiftDifferentialRule extends TkRule {
-
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "ShiftDifferentialRule";
 	/**
 	 *
 	 */
@@ -51,13 +51,7 @@ public class ShiftDifferentialRule extends TkRule {
     private Calendar payCalendar;
     private Location locationObj;
     private PayGrade payGradeObj;
-
-	@SuppressWarnings("rawtypes")
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		return null;
-	}
-
+    
 	public String getTkShiftDiffRuleId() {
 		return tkShiftDiffRuleId;
 	}

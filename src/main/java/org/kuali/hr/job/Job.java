@@ -1,5 +1,10 @@
 package org.kuali.hr.job;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
+
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.time.HrBusinessObject;
@@ -8,20 +13,15 @@ import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.position.Position;
 import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.LinkedHashMap;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 /**
  * 
  * Job representation
  *
  */
 public class Job extends HrBusinessObject {
-
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "Job";
 	/*
 	 * Standard field included for serialization support
 	 */
@@ -82,18 +82,6 @@ public class Job extends HrBusinessObject {
 			this.fte = new BigDecimal(0).setScale(2);
 		}
 	}
-
-	
-	@SuppressWarnings({ "rawtypes" })
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
-		toStringMap.put("jobId", hrJobId);
-		toStringMap.put("principalId", principalId);
-		toStringMap.put("hrSalGroup", hrSalGroup);
-
-		return toStringMap;
-	}
 	
 	public String getPayGrade() {
 		return payGrade;
@@ -137,14 +125,14 @@ public class Job extends HrBusinessObject {
 
 	public String getName() {
 		if (principal == null) {
-            principal = KIMServiceLocator.getPersonService().getPerson(this.principalId);
+            principal = KimApiServiceLocator.getPersonService().getPerson(this.principalId);
 	    }
 	    return (principal != null) ? principal.getName() : "";
 	}
 
 	public String getPrincipalName() {
 		if(principalName == null && !this.getPrincipalId().isEmpty()) {
-			Person aPerson = KIMServiceLocator.getPersonService().getPerson(getPrincipalId());
+			Person aPerson = KimApiServiceLocator.getPersonService().getPerson(getPrincipalId());
 			setPrincipalName(aPerson.getName());
 		}
 		return principalName;

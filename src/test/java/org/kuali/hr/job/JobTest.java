@@ -5,17 +5,20 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.List;
 
+import junit.framework.Assert;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -24,7 +27,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  *
  *
  */
-public class JobTest extends TkTestCase {
+public class JobTest extends KPMETestCase {
 
 	private static final String TEST_USER_ID = "eric";
 	private static final String CALENDAR_GROUP = "BW-CAL";
@@ -42,8 +45,9 @@ public class JobTest extends TkTestCase {
 		payCalendar.setFlsaBeginDay("Sun");
 		payCalendar.setFlsaBeginTime(Time.valueOf("0:00:00"));
         payCalendar.setCalendarDescriptions("Test Description");
-		KNSServiceLocator.getBusinessObjectService().save(payCalendar);
-		assertTrue(TkServiceLocator.getCalendarService().getCalendar(payCalendar.getHrCalendarId()) != null);
+
+		KRADServiceLocator.getBusinessObjectService().save(payCalendar);
+		Assert.assertTrue(TkServiceLocator.getCalendarService().getCalendar(payCalendar.getHrCalendarId()) != null);
 
 	}
 
@@ -63,8 +67,8 @@ public class JobTest extends TkTestCase {
 		cal.set(java.util.Calendar.DATE, 14);
 		payCalendarDates.setEndPeriodDateTime(new java.sql.Date(cal.getTime().getTime()));
 
-		KNSServiceLocator.getBusinessObjectService().save(payCalendarDates);
-		assertTrue(TkServiceLocator.getCalendarEntriesService().getCalendarEntries(payCalendarDates.getHrCalendarEntriesId()) != null);
+		KRADServiceLocator.getBusinessObjectService().save(payCalendarDates);
+		Assert.assertTrue(TkServiceLocator.getCalendarEntriesService().getCalendarEntries(payCalendarDates.getHrCalendarEntriesId()) != null);
 
 	}
 
@@ -80,8 +84,8 @@ public class JobTest extends TkTestCase {
 		payType.setEffectiveDate(new java.sql.Date(currentTimestamp));
 		payType.setTimestamp(new Timestamp(currentTimestamp));
 
-		KNSServiceLocator.getBusinessObjectService().save(payType);
-		assertTrue(TkServiceLocator.getPayTypeService().getPayType(payType.getPayType(), payType.getEffectiveDate()) != null);
+		KRADServiceLocator.getBusinessObjectService().save(payType);
+		Assert.assertTrue(TkServiceLocator.getPayTypeService().getPayType(payType.getPayType(), payType.getEffectiveDate()) != null);
 	}
 
 	@Test
@@ -89,19 +93,19 @@ public class JobTest extends TkTestCase {
 		HtmlPage lookupPage = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.JOB_MAINT_URL);
 		lookupPage = HtmlUnitUtil.clickInputContainingText(lookupPage, "search");
 		HtmlUnitUtil.createTempFile(lookupPage);
-		assertTrue("Page contains admin entry", lookupPage.asText().contains("admin"));
+		Assert.assertTrue("Page contains admin entry", lookupPage.asText().contains("admin"));
 		// xichen, changed to edit jobId 23, because clickAnchorContainingText() is a wild search. The test was editing jobId 1, it returned the first entry whose jobId starts with 1.
 		HtmlPage editPage = HtmlUnitUtil.clickAnchorContainingText(lookupPage, "edit", jobId.toString());
 		HtmlUnitUtil.createTempFile(editPage);
-		assertTrue("Maintenance Page contains the correct job number", editPage.asText().contains(jobNumber.toString()));
+		Assert.assertTrue("Maintenance Page contains the correct job number", editPage.asText().contains(jobNumber.toString()));
 	}
 
 	@Test
 	public void testGetJobs() {
-		Date payPeriodEndDate = new Date((new DateTime(2010,7,30,1,0,0,0,DateTimeZone.forID("EST"))).getMillis());
+		Date payPeriodEndDate = new Date((new DateTime(2010,7,30,1,0,0,0, TKUtils.getSystemDateTimeZone())).getMillis());
 		List<Job> jobs = TkServiceLocator.getJobService().getJobs(TEST_USER, payPeriodEndDate);
-		assertNotNull("Jobs was null", jobs);
-		assertEquals("Incorrect number of jobs", 2, jobs.size());
+		Assert.assertNotNull("Jobs was null", jobs);
+		Assert.assertEquals("Incorrect number of jobs", 2, jobs.size());
 	}
 
 

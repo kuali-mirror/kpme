@@ -1,5 +1,17 @@
 package org.kuali.hr.lm.leavecalendar.web;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
@@ -25,18 +37,7 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.core.config.ConfigContext;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 
 public class LeaveCalendarAction extends TkAction {
 
@@ -49,14 +50,13 @@ public class LeaveCalendarAction extends TkAction {
 			throws Exception {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
 
-		TKUser user = TKContext.getUser();
 		String documentId = lcf.getDocumentId();
 		// if the reload was trigger by changing of the selectedPayPeriod, use the passed in parameter as the calendar entry id
 		String calendarEntryId = StringUtils.isNotBlank(request.getParameter("selectedPP")) ? request.getParameter("selectedPP") : lcf.getCalEntryId();
 		
 		// Here - viewPrincipal will be the principal of the user we intend to
 		// view, be it target user, backdoor or otherwise.
-		String viewPrincipal = user.getTargetPrincipalId();
+		String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
 		CalendarEntries calendarEntry = null;
 
 		LeaveCalendarDocument lcd = null;
@@ -285,7 +285,7 @@ public class LeaveCalendarAction extends TkAction {
 		LeaveCalendarDocumentHeader prevLdh = null;
 		LeaveCalendarDocumentHeader nextLdh = null;
 		CalendarEntries futureCalEntry = null;
-		String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
+		String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
 		if (lcd.getLeaveCalendarDocumentHeader() != null) {
 			TKContext.setCurrentLeaveCalendarDocumentId(lcd.getDocumentId());
 			leaveForm.setDocumentId(lcd.getDocumentId());
@@ -400,7 +400,7 @@ public class LeaveCalendarAction extends TkAction {
 	
 	public ActionForward gotoCurrentPayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
-		String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
+		String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
 		Date currentDate = TKUtils.getTimelessDate(null);
 		CalendarEntries calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, currentDate);
 		LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, calendarEntry);
@@ -434,7 +434,7 @@ public class LeaveCalendarAction extends TkAction {
 	        CalendarEntries ce = TkServiceLocator.getCalendarEntriesService()
 				.getCalendarEntries(request.getParameter("selectedPP").toString());
 			if(ce != null) {
-				String viewPrincipal = TKContext.getUser().getTargetPrincipalId();
+				String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
 				LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, ce);
 				lcf.setCalEntryId(ce.getHrCalendarEntriesId());
 				setupDocumentOnFormContext(lcf, lcd);

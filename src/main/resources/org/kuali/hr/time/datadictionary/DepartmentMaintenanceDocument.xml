@@ -14,7 +14,7 @@
   		p:businessObjectClass="org.kuali.hr.time.department.Department"
   		p:businessRulesClass="org.kuali.hr.time.department.DepartmentRule"
   		p:maintainableClass="org.kuali.hr.time.department.DepartmentMaintainableImpl"
-  		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
+  		p:documentAuthorizerClass="org.kuali.hr.time.authorization.DepartmentAdminAuthorizer">
     <property name="maintainableSections">
       <list>
         <ref bean="DepartmentMaintenanceDocument-DepartmentMaintenance"/>

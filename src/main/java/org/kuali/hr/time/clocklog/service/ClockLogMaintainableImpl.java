@@ -4,8 +4,8 @@ import java.util.Map;
 
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ClockLogMaintainableImpl extends org.kuali.rice.kns.maintenance.KualiMaintainableImpl {
 
@@ -41,7 +41,7 @@ public class ClockLogMaintainableImpl extends org.kuali.rice.kns.maintenance.Kua
 		ClockLog clockLog = (ClockLog) this.getBusinessObject();
 		clockLog.setTkClockLogId(null);
 		clockLog.setTimestamp(null);
-		KNSServiceLocator.getBusinessObjectService().save(clockLog);
+		KRADServiceLocator.getBusinessObjectService().save(clockLog);
 	}
 
 }

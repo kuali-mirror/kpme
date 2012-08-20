@@ -3,6 +3,7 @@ package org.kuali.hr.lm.leavecode;
 import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.HrBusinessObject;
@@ -11,7 +12,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 
 public class LeaveCode extends HrBusinessObject {
-
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "LeaveCode";
 	/**
 	 * 
 	 */
@@ -239,13 +240,6 @@ public class LeaveCode extends HrBusinessObject {
 		return getLmLeaveCodeId();
 	}
 
-
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-    
     public String getLeaveCodeKeyForDisplay() {
 //    	String unitTime = null;
 //    	AccrualCategory acObj = null;

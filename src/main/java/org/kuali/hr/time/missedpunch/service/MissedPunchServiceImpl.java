@@ -1,5 +1,10 @@
 package org.kuali.hr.time.missedpunch.service;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -15,15 +20,10 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowDocument;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
-
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class MissedPunchServiceImpl implements MissedPunchService {
 
@@ -79,7 +79,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         	for(TimeBlock tb : timeBlocks){
         		TkServiceLocator.getTimeBlockService().deleteTimeBlock(tb);
         	}
-        	KNSServiceLocator.getBusinessObjectService().delete(cl);
+        	KRADServiceLocator.getBusinessObjectService().delete(cl);
         	// delete the existing clock log and add new time blocks
         	addClockLogForMissedPunch(missedPunch, logEndId, logBeginId);
         }
@@ -220,17 +220,12 @@ public class MissedPunchServiceImpl implements MissedPunchService {
 
     @Override
     public void approveMissedPunch(MissedPunchDocument document) {
-        try {
             String rhid = document.getDocumentNumber();
-            WorkflowDocument wd = new WorkflowDocument(TkConstants.BATCH_JOB_USER_PRINCIPAL_ID, Long.parseLong(rhid));
-            wd.superUserApprove("Batch job superuser approving missed punch document.");
+            WorkflowDocument wd = WorkflowDocumentFactory.loadDocument(TkConstants.BATCH_JOB_USER_PRINCIPAL_ID, rhid);
+            wd.superUserBlanketApprove("Batch job superuser approving missed punch document.");
 
             document.setDocumentStatus(TkConstants.ROUTE_STATUS.FINAL);
-            KNSServiceLocator.getBusinessObjectService().save(document);
-
-        } catch (WorkflowException e) {
-            throw new RuntimeException("Exception during route", e);
-        }
+            KRADServiceLocator.getBusinessObjectService().save(document);
     }
 
     @Override

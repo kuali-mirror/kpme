@@ -1,14 +1,15 @@
 package org.kuali.hr.lm.leavecode.validation;
 
 import java.sql.Date;
+
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.ValidationUtils;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class LeaveCodeValidation extends MaintenanceDocumentRuleBase {	 
 	boolean validateEffectiveDate(Date effectiveDate) {
@@ -95,7 +96,7 @@ public class LeaveCodeValidation extends MaintenanceDocumentRuleBase {
 			MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for Leave Code");
-		PersistableBusinessObject pbo = this.getNewBo();
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
 		if (pbo instanceof LeaveCode) {
 			LeaveCode leaveCode = (LeaveCode) pbo;
 			if (leaveCode != null) {

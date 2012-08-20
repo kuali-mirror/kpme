@@ -1,6 +1,5 @@
 package org.kuali.hr.lm.leavecalendar.service;
 
-
 import java.util.Date;
 import java.util.List;
 
@@ -12,8 +11,9 @@ import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.rice.kew.exception.WorkflowException;
-import org.kuali.rice.kew.service.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.WorkflowDocumentFactory;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 
@@ -66,13 +66,12 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         LeaveCalendarDocument leaveCalendarDocument = null;
         WorkflowDocument workflowDocument = null;
 
-        workflowDocument = new WorkflowDocument(principalId, documentType);
-        workflowDocument.setTitle(title);
+        workflowDocument =  WorkflowDocumentFactory.createDocument(principalId, documentType, title);
 
-        String status = workflowDocument.getRouteHeader().getDocRouteStatus();
-        LeaveCalendarDocumentHeader documentHeader = new LeaveCalendarDocumentHeader(workflowDocument.getRouteHeaderId().toString(), principalId, payBeginDate, payEndDate, status);
+        String status = workflowDocument.getStatus().getCode();
+        LeaveCalendarDocumentHeader documentHeader = new LeaveCalendarDocumentHeader(workflowDocument.getDocumentId(), principalId, payBeginDate, payEndDate, status);
 
-        documentHeader.setDocumentId(workflowDocument.getRouteHeaderId().toString());
+        documentHeader.setDocumentId(workflowDocument.getDocumentId());
         documentHeader.setDocumentStatus("I");
 
         TkServiceLocator.getLeaveCalendarDocumentHeaderService().saveOrUpdate(documentHeader);

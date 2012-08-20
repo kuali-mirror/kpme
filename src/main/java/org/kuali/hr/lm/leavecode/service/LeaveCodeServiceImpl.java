@@ -1,27 +1,22 @@
 package org.kuali.hr.lm.leavecode.service;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.google.common.collect.Ordering;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.lm.leavecode.dao.LeaveCodeDao;
-import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
+import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
 
-import com.google.common.collect.Ordering;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.*;
 
 public class LeaveCodeServiceImpl implements LeaveCodeService {
 
@@ -38,7 +33,6 @@ public class LeaveCodeServiceImpl implements LeaveCodeService {
 	}
 
 	@Override
-	@CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
 	public LeaveCode getLeaveCode(String lmLeaveCodeId) {
 		return getLeaveCodeDao().getLeaveCode(lmLeaveCodeId);
 	}
@@ -60,7 +54,7 @@ public class LeaveCodeServiceImpl implements LeaveCodeService {
             for (LeaveCode leaveCode : unfilteredLeaveCodes) {
                 //if employee add this leave code
                 //TODO how do we know this is an approver for them
-                if ((leaveCode.getEmployee() && user.getCurrentRoles().isActiveEmployee()) ||
+                if ((leaveCode.getEmployee() && TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isActiveEmployee()) ||
                         (leaveCode.getApprover() && user.isApprover())) {
                     leaveCodes.add(leaveCode);
                 }
@@ -72,7 +66,6 @@ public class LeaveCodeServiceImpl implements LeaveCodeService {
     }
 
 	@Override
-	@CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
 	public Map<String, String> getLeaveCodesForDisplay(String principalId) {
 		List<LeaveCode> leaveCodes = getLeaveCodes(principalId,
 				TKUtils.getCurrentDate());
@@ -104,7 +97,6 @@ public class LeaveCodeServiceImpl implements LeaveCodeService {
 	}
 
 	@Override
-	@CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
 	public LeaveCode getLeaveCode(String leaveCode, Date effectiveDate) {
 		return leaveCodeDao.getLeaveCode(leaveCode, effectiveDate);
 	}

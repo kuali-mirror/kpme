@@ -17,13 +17,13 @@ package org.kuali.kfs.coa.businessobject;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.Inactivateable;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.core.api.mo.common.active.Inactivatable;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 /**
  *
  */
-public class ObjectCode extends PersistableBusinessObjectBase implements Inactivateable {
+public class ObjectCode extends PersistableBusinessObjectBase implements Inactivatable {
 
 
 /*    static {

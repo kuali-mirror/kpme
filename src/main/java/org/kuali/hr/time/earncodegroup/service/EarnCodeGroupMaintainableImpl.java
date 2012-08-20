@@ -1,5 +1,9 @@
 package org.kuali.hr.time.earncodegroup.service;
 
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroupDefinition;
@@ -7,12 +11,8 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class EarnCodeGroupMaintainableImpl extends HrBusinessObjectMaintainableImpl{
 	/**
@@ -31,12 +31,12 @@ public class EarnCodeGroupMaintainableImpl extends HrBusinessObjectMaintainableI
             		earnCodes.add(earnGroupDef.getEarnCode());
             	}
             	if(earnCodes.contains(definition.getEarnCode())){
-            		GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE +"earnCodeGroups", 
+            		GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"earnCodeGroups", 
             				"earngroup.duplicate.earncode",definition.getEarnCode());
             		return;
     			} 
             	if (!ValidationUtils.validateEarnCode(definition.getEarnCode().toUpperCase(), earnGroup.getEffectiveDate())) {
-    				GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE +"earnCodeGroups", 
+    				GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"earnCodeGroups", 
     							"error.existence", "Earncode '" + definition.getEarnCode()+ "'");
     				return;
     			} 
@@ -50,7 +50,7 @@ public class EarnCodeGroupMaintainableImpl extends HrBusinessObjectMaintainableI
 		EarnCodeGroup earnGroup = (EarnCodeGroup)this.getBusinessObject();
 		int count = TkServiceLocator.getEarnCodeGroupService().getNewerEarnCodeGroupCount(earnGroup.getEarnCodeGroup(), earnGroup.getEffectiveDate());
 		if(count > 0) {
-			GlobalVariables.getMessageMap().putWarningWithoutFullErrorPath(KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + "effectiveDate", 
+			GlobalVariables.getMessageMap().putWarningWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "effectiveDate", 
 					"earngroup.effectiveDate.newr.exists");
 		}
 	}

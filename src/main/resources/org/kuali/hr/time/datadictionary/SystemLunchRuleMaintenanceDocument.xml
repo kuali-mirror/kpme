@@ -12,7 +12,7 @@
 	<bean id="SystemLunchRuleMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.syslunch.rule.SystemLunchRule"
 		p:maintainableClass="org.kuali.hr.time.syslunch.service.SystemLunchRuleMaintainableImpl"
-		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
+		p:documentAuthorizerClass="org.kuali.hr.time.authorization.DepartmentAdminAuthorizer">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="SystemLunchRuleMaintenanceDocument-SystemLunchRuleMaintenance" />

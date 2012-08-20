@@ -1,20 +1,8 @@
 package org.kuali.hr.time.overtime.daily.rule.service;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule;
 import org.kuali.hr.time.overtime.daily.rule.dao.DailyOvertimeRuleDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -24,6 +12,10 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.*;
 
 public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 
@@ -49,7 +41,6 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	 *
 	 * asOfDate is required.
 	 */
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public DailyOvertimeRule getDailyOvertimeRule(String location, String paytype, String dept, Long workArea, Date asOfDate) {
 		DailyOvertimeRule dailyOvertimeRule = null;
 
@@ -362,7 +353,6 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	}
 
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public DailyOvertimeRule getDailyOvertimeRule(String tkDailyOvertimeRuleId) {
 		return dailyOvertimeRuleDao.getDailyOvertimeRule(tkDailyOvertimeRuleId);
 	}

@@ -1,17 +1,17 @@
 package org.kuali.hr.time.dept.lunch;
 
+import java.math.BigDecimal;
+
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.rice.kim.bo.Person;
-
-import java.math.BigDecimal;
-import java.util.LinkedHashMap;
+import org.kuali.rice.kim.api.identity.Person;
 
 public class DeptLunchRule extends HrBusinessObject implements DepartmentalRule {
-
+    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "DeptLunchRule";
     private static final long serialVersionUID = 1L;
 
     private String tkDeptLunchRuleId;
@@ -68,16 +68,6 @@ public class DeptLunchRule extends HrBusinessObject implements DepartmentalRule 
 	public void setDepartmentObj(Department departmentObj) {
 		this.departmentObj = departmentObj;
 	}
-
-
-	@SuppressWarnings({ "rawtypes" })
-	@Override
-    protected LinkedHashMap toStringMapper() {
-	// TODO Auto-generated method stub
-	LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String,Object>();
-		toStringMap.put("principalId", principalId);
-		return toStringMap;
-    }
 
     public Long getWorkArea() {
 		return workArea;

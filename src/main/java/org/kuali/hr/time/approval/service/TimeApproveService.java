@@ -3,6 +3,7 @@ package org.kuali.hr.time.approval.service;
 import com.google.common.collect.Multimap;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
+import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -10,6 +11,7 @@ import org.kuali.hr.time.person.TKPerson;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -30,6 +32,7 @@ public interface TimeApproveService {
 
 //	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, List<String> principalIds);
 
+    @Cacheable(value= KPMEConstants.KPME_GLOBAL_CACHE_NAME, key="'{PayCalendarLabelsForApprovalTab}' + 'payBeginDate=' + #p0 + '|' + 'payEndDate=' + #p1")
 	public List<String> getPayCalendarLabelsForApprovalTab(Date payBeginDate, Date payEndDate);
 
     /**

@@ -1,10 +1,12 @@
 package org.kuali.hr.time.util;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.PersistenceBrokerFactory;
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.Query;
-import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
@@ -26,13 +28,9 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.List;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 /**
  * A few methods to assist with various validation tasks.
@@ -116,11 +114,11 @@ public class ValidationUtils {
 			LeaveCode lc = TkServiceLocator.getLeaveCodeService().getLeaveCode(leaveCode, asOfDate);
 			valid = (lc != null);
 		} else {
-			Criteria crit = new Criteria();
-			crit.addEqualTo("leaveCode", leaveCode);
-			Query query = QueryFactory.newQuery(LeaveCode.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-			valid = (count > 0);
+			Map<String, String> fieldValues = new HashMap<String, String>();
+			fieldValues.put("leaveCode", leaveCode);
+			int matches = KRADServiceLocator.getBusinessObjectService().countMatching(LeaveCode.class, fieldValues);
+			
+			valid = matches > 0;
 		}
 		
 		return valid;
@@ -157,11 +155,11 @@ public class ValidationUtils {
 			}
 //			valid = (leaveCodes != null);
 		} else {
-			Criteria crit = new Criteria();
-			crit.addEqualTo("leaveCode", leaveCode);
-			Query query = QueryFactory.newQuery(LeaveCode.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-			valid = (count > 0);
+			Map<String, String> fieldValues = new HashMap<String, String>();
+			fieldValues.put("leaveCode", leaveCode);
+			int matches = KRADServiceLocator.getBusinessObjectService().countMatching(LeaveCode.class, fieldValues);
+			
+			valid = matches > 0;
 		}
 		
 		return valid;
@@ -186,11 +184,11 @@ public class ValidationUtils {
 			}
 //			valid = (leaveCodes != null);
 		} else {
-			Criteria crit = new Criteria();
-			crit.addEqualTo("earnCode", earnCode);
-			Query query = QueryFactory.newQuery(EarnCode.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-			valid = (count > 0);
+			Map<String, String> fieldValues = new HashMap<String, String>();
+			fieldValues.put("earnCode", earnCode);
+			int matches = KRADServiceLocator.getBusinessObjectService().countMatching(EarnCode.class, fieldValues);
+			
+			valid = matches > 0;
 		}
 		
 		return valid;
@@ -203,11 +201,11 @@ public class ValidationUtils {
 			AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
 			valid = (ac != null);
 		} else {
-			Criteria crit = new Criteria();
-			crit.addEqualTo("accrualCategory", accrualCategory);
-			Query query = QueryFactory.newQuery(AccrualCategory.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-			valid = (count > 0);
+			Map<String, String> fieldValues = new HashMap<String, String>();
+			fieldValues.put("accrualCategory", accrualCategory);
+			int matches = KRADServiceLocator.getBusinessObjectService().countMatching(AccrualCategory.class, fieldValues);
+			
+			valid = matches > 0;
 		}
 		
 		return valid;
@@ -230,11 +228,11 @@ public class ValidationUtils {
 				}
 			} 
 		} else {
-			Criteria crit = new Criteria();
-			crit.addEqualTo("accrualCategory", accrualCategory);
-			Query query = QueryFactory.newQuery(AccrualCategory.class, crit);
-			int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-			valid = (count > 0);
+			Map<String, String> fieldValues = new HashMap<String, String>();
+			fieldValues.put("accrualCategory", accrualCategory);
+			int matches = KRADServiceLocator.getBusinessObjectService().countMatching(AccrualCategory.class, fieldValues);
+			
+			valid = matches > 0;
 		}
 		return valid;
 	}
@@ -324,7 +322,7 @@ public class ValidationUtils {
         boolean valid = false;
 
         if (!StringUtils.isEmpty(chart)) {
-            Object o = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Chart.class, chart);
+            Object o = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(Chart.class, chart);
             valid = (o instanceof Chart);
         }
 
@@ -383,7 +381,7 @@ public class ValidationUtils {
 	public static boolean validatePrincipalId(String principalId) {
 		boolean valid = false;
 		if (principalId != null) {
-			Person p = KIMServiceLocator.getPersonService().getPerson(principalId);
+			Person p = KimApiServiceLocator.getPersonService().getPerson(principalId);
 		    valid = (p != null);
 		}
 		return valid;
@@ -457,13 +455,11 @@ public class ValidationUtils {
 	 * Checks for row presence of a pay calendar
 	 */
 	public static boolean validateCalendar(String calendarName) {
-		boolean valid = false;
-		Criteria crit = new Criteria();
-        crit.addEqualTo("calendarName", calendarName);
-        Query query = QueryFactory.newQuery(Calendar.class, crit);
-        int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-        valid = (count > 0);
-        return valid;
+		Map<String, String> fieldValues = new HashMap<String, String>();
+		fieldValues.put("calendarName", calendarName);
+		int matches = KRADServiceLocator.getBusinessObjectService().countMatching(Calendar.class, fieldValues);
+
+        return matches > 0;
 	}
 
    public static boolean duplicateDeptEarnCodeExists(EarnCodeSecurity deptEarnCode) {
@@ -552,18 +548,12 @@ public class ValidationUtils {
 	 * Checks for row presence of a pay calendar by calendar type
 	 */
 	public static boolean validateCalendarByType(String calendarName, String calendarType) {
-		boolean valid = false;
-		Criteria crit = new Criteria();
-		crit.addEqualTo("calendarName", calendarName);
-		if(StringUtils.equalsIgnoreCase(calendarType, "Pay")){
-			crit.addNotEqualTo("calendarTypes", "Leave");	
-		}else if(StringUtils.equalsIgnoreCase(calendarType, "Leave")){
-			crit.addNotEqualTo("calendarTypes", "Pay");
-		}
-		Query query = QueryFactory.newQuery(Calendar.class, crit);
-		int count = PersistenceBrokerFactory.defaultPersistenceBroker().getCount(query);
-		valid = (count > 0);
-		return valid;
+		Map<String, String> fieldValues = new HashMap<String, String>();
+		fieldValues.put("calendarName", calendarName);
+		fieldValues.put("calendarTypes", calendarType);
+		int matches = KRADServiceLocator.getBusinessObjectService().countMatching(Calendar.class, fieldValues);
+		
+		return matches > 0;
 	}
 	
 	public static boolean validateRecordMethod(String recordMethod, String accrualCategory, Date asOfDate) {

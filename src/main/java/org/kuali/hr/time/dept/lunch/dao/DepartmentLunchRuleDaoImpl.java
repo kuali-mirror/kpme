@@ -7,9 +7,9 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class DepartmentLunchRuleDaoImpl  extends PersistenceBrokerDaoSupport implements DepartmentLunchRuleDao {
+public class DepartmentLunchRuleDaoImpl  extends PlatformAwareDaoBaseOjb implements DepartmentLunchRuleDao {
 
 	@Override
 	public DeptLunchRule getDepartmentLunchRule(String dept, Long workArea, String principalId, 

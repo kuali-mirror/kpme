@@ -5,10 +5,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.time.test.TkTestCase;
+import org.kuali.hr.test.KPMETestCase;
 
-public class LeavePlanInquirableImplTest extends TkTestCase {
+public class LeavePlanInquirableImplTest extends KPMETestCase {
 	
 	@SuppressWarnings("unchecked")
 	@Test
@@ -17,11 +18,11 @@ public class LeavePlanInquirableImplTest extends TkTestCase {
 		fieldValues.put("leavePlan", "TestLeavePlan");
 		fieldValues.put("effectiveDate", "02/01/2012");
 		LeavePlan lp = (LeavePlan) new LeavePlanInquirableImpl().getBusinessObject(fieldValues);
-		assertNotNull("No leave plan found", lp);
+		Assert.assertNotNull("No leave plan found", lp);
 		String dateString =  new SimpleDateFormat("MM/dd/yyyy").format(lp.getEffectiveDate());
 		// in LeavePlanInquirableImplTest, 3 leave plans are added to database with 3 effectiveDate 12/01/2011, 01/01/2012
 		// and 03/01/2012, both have "TestLeavePlan" as leavePlan
-		assertTrue("Wrong leave plan found", StringUtils.equals(dateString, "01/01/2012"));
+		Assert.assertTrue("Wrong leave plan found", StringUtils.equals(dateString, "01/01/2012"));
 				
 		
 	}

@@ -11,7 +11,6 @@ import org.kuali.hr.job.Job;
 import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
-import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.clocklog.ClockLog;
@@ -19,6 +18,7 @@ import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
 import org.kuali.hr.time.person.TKPerson;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
+import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
@@ -28,7 +28,8 @@ import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.notes.Note;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import java.math.BigDecimal;
@@ -46,7 +47,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	public Map<String, CalendarEntries> getPayCalendarEntriesForDept(
 			String dept, Date currentDate) {
 		DateTime minDt = new DateTime(currentDate,
-				TkConstants.SYSTEM_DATE_TIME_ZONE);
+				TKUtils.getSystemDateTimeZone());
 		minDt = minDt.minusDays(DAYS_WINDOW_DELTA);
 		java.sql.Date windowDate = TKUtils.getTimelessDate(minDt.toDate());
 
@@ -113,11 +114,10 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		Map<String, CalendarEntries> pceMap = new HashMap<String, CalendarEntries>();
 		Set<String> principals = new HashSet<String>();
 		DateTime minDt = new DateTime(currentDate,
-				TkConstants.SYSTEM_DATE_TIME_ZONE);
+				TKUtils.getSystemDateTimeZone());
 		minDt = minDt.minusDays(DAYS_WINDOW_DELTA);
 		java.sql.Date windowDate = TKUtils.getTimelessDate(minDt.toDate());
-		Set<Long> approverWorkAreas = tkUser.getCurrentRoles()
-				.getApproverWorkAreas();
+		Set<Long> approverWorkAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
 
 		// Get all of the principals within our window of time.
 		for (Long waNum : approverWorkAreas) {
@@ -166,8 +166,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		SortedSet<String> pcg = new TreeSet<String>();
 
 		TKUser tkUser = TKContext.getUser();
-		Set<Long> approverWorkAreas = tkUser.getCurrentRoles()
-				.getApproverWorkAreas();
+		Set<Long> approverWorkAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
 		List<Assignment> assignments = new ArrayList<Assignment>();
 
 		for (Long workArea : approverWorkAreas) {
@@ -303,7 +302,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	/**
 	 * Get pay calendar labels for approval tab
 	 */
-	@CacheResult
 	public List<String> getPayCalendarLabelsForApprovalTab(Date payBeginDate,
 			Date payEndDate) {
 		// :)
@@ -556,8 +554,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	public boolean doesApproverHavePrincipalsForCalendarGroup(Date asOfDate,
 			String calGroup) {
 		TKUser tkUser = TKContext.getUser();
-		Set<Long> approverWorkAreas = tkUser.getCurrentRoles()
-				.getApproverWorkAreas();
+		Set<Long> approverWorkAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
 		for (Long workArea : approverWorkAreas) {
 			List<Assignment> assignments = TkServiceLocator
 					.getAssignmentService().getActiveAssignmentsForWorkArea(
@@ -586,11 +583,11 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	@SuppressWarnings("rawtypes")
 	public List getNotesForDocument(String documentNumber) {
 		List notes = KEWServiceLocator.getNoteService()
-				.getNotesByRouteHeaderId(Long.parseLong(documentNumber));
+				.getNotesByDocumentId(documentNumber);
 		// add the user name in the note object
 		for (Object obj : notes) {
 			Note note = (Note) obj;
-			note.setNoteAuthorFullName(KIMServiceLocator.getPersonService()
+			note.setNoteAuthorFullName(KimApiServiceLocator.getPersonService()
 					.getPerson(note.getNoteAuthorWorkflowId()).getName());
 		}
 		return notes;
@@ -623,13 +620,17 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		      java.sql.Date beginDate, java.sql.Date endDate) {
 	    String sql = null;
 
-        List<Job> jobs = TkServiceLocator.getJobService().getJobs(TKContext.getUser().getTargetPrincipalId(), effdt);
+        List<Job> jobs = TkServiceLocator.getJobService().getJobs(TKUser.getCurrentTargetPerson().getPrincipalId(), effdt);
         String jobPositionNumbersList = "'";
         for (Job job : jobs) {
                         jobPositionNumbersList += job.getPositionNumber() + "','";
         }
         /* the sql statement will enclose this string in single quotes, so we do not want the leading quote, or the trailing quote, comma, and quote. */
-        jobPositionNumbersList = jobPositionNumbersList.substring(1, jobPositionNumbersList.length()-3) ;
+        if (jobPositionNumbersList.length() > 3) {
+            jobPositionNumbersList = jobPositionNumbersList.substring(1, jobPositionNumbersList.length()-3) ;
+        } else {
+            jobPositionNumbersList = jobPositionNumbersList.substring(1);
+        }
 
 	    if (department == null || department.isEmpty()) {
 	      return new ArrayList<String>();
@@ -675,7 +676,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	              java.sql.Types.DATE,
 	              java.sql.Types.VARCHAR,
 	              java.sql.Types.INTEGER };
-	          values = new Object[] {effdt, beginDate, endDate, TKContext.getUser().getTargetPrincipalId(), effdt, jobPositionNumbersList, effdt, department, effdt, payCalendarGroup, workArea };
+	          values = new Object[] {effdt, beginDate, endDate, TKUser.getCurrentTargetPerson().getPrincipalId(), effdt, jobPositionNumbersList, effdt, department, effdt, payCalendarGroup, workArea };
 	        }else {
 	          params = new int[] {java.sql.Types.DATE,
 	              java.sql.Types.DATE,
@@ -687,7 +688,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	              java.sql.Types.VARCHAR,
 	              java.sql.Types.DATE,
 	              java.sql.Types.VARCHAR};
-	          values = new Object[] {effdt, beginDate, endDate, TKContext.getUser().getTargetPrincipalId(), effdt, jobPositionNumbersList, effdt, department, effdt, payCalendarGroup};
+	          values = new Object[] {effdt, beginDate, endDate, TKUser.getCurrentTargetPerson().getPrincipalId(), effdt, jobPositionNumbersList, effdt, department, effdt, payCalendarGroup};
 	        }
 	        rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(
 	            sql, values, params);
@@ -801,8 +802,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	}
 
 	public DocumentRouteHeaderValue getRouteHeader(String documentId) {
-		return KEWServiceLocator.getRouteHeaderService().getRouteHeader(
-				Long.parseLong(documentId));
+		return KEWServiceLocator.getRouteHeaderService().getRouteHeader(documentId);
 	}
 	
 	@Override
@@ -810,9 +810,9 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		TKUser tkUser = TKContext.getUser();
 		Set<String> principals = new HashSet<String>();
 		DateTime minDt = new DateTime(currentDate,
-				TkConstants.SYSTEM_DATE_TIME_ZONE);
+				TKUtils.getSystemDateTimeZone());
 		minDt = minDt.minusDays(DAYS_WINDOW_DELTA);
-		Set<Long> approverWorkAreas = tkUser.getCurrentRoles().getApproverWorkAreas();
+		Set<Long> approverWorkAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
 
 		// Get all of the principals within our window of time.
 		for (Long waNum : approverWorkAreas) {

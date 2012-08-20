@@ -14,7 +14,7 @@
   		p:businessObjectClass="org.kuali.hr.lm.leavedonation.LeaveDonation"
   		p:businessRulesClass="org.kuali.hr.lm.leavedonation.validation.LeaveDonationValidation"
   		p:maintainableClass="org.kuali.hr.lm.leavedonation.service.LeaveDonationMaintainableServiceImpl"
-  		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
+  		p:documentAuthorizerClass="org.kuali.hr.time.authorization.LocationAdminAuthorizer">
     <property name="maintainableSections">
       <list>
         <ref bean="LeaveDonationMaintenanceDocument-LeaveDonationMaintenance"/>

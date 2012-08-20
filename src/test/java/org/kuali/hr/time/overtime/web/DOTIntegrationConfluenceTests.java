@@ -11,6 +11,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -23,6 +24,7 @@ import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.web.TimesheetWebTestBase;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.time.util.TkConstants;
 
@@ -116,49 +118,49 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
 
 
     public void deleteTimesheet(String tdocId) throws Exception {
-        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ADMIN_URL);
-        assertNotNull(page);
-        page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ADMIN_URL + "?methodToCall=deleteTimesheet&deleteDocumentId="+tdocId);
+        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.PORTAL_URL);
+        Assert.assertNotNull(page);
+        page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.DELETE_TIMESHEET_URL + "?deleteDocumentId="+tdocId);
         HtmlUnitUtil.createTempFile(page, "Deleted");
     }
 
     public String KPME788_789(ArrayList<Map<String, Object>> tb1ThdItems, HashMap<String, Object> tb1Items, ArrayList<Map<String, Object>> tb2ThdItems, HashMap<String, Object> tb2Items) throws Exception {
-        Date asOfDate = new Date((new DateTime(2011, 3, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+        Date asOfDate = new Date((new DateTime(2011, 3, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
         CalendarEntries pcd = TkServiceLocator.getCalendarService().getCurrentCalendarDates(USER_PRINCIPAL_ID, asOfDate);
-        assertNotNull("No PayCalendarDates", pcd);
+        Assert.assertNotNull("No PayCalendarDates", pcd);
 
         TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(USER_PRINCIPAL_ID, pcd);
         String tdocId = tdoc.getDocumentId();
         HtmlPage page = loginAndGetTimeDetailsHtmlPage("admin", tdocId, true);
-        assertNotNull(page);
+        Assert.assertNotNull(page);
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
-        assertNotNull(form);
+        Assert.assertNotNull(form);
 
         List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getPrincipalId(), JAN_AS_OF_DATE);
         Assignment assignment = assignments.get(0);
         List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(assignment, JAN_AS_OF_DATE);
         EarnCode earnCode = earnCodes.get(0);
-        assertEquals("There should be no existing time blocks.", 0, tdoc.getTimeBlocks().size());
+        Assert.assertEquals("There should be no existing time blocks.", 0, tdoc.getTimeBlocks().size());
 
         // 2. Set Timeblock Start and End time
         // 3/02/2011 - 8:00a to 6:00pm
         // OVT - 0 Hrs Expected
-        DateTime start = new DateTime(2011, 3, 2, 8, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
-        DateTime end = new DateTime(2011, 3, 2, 13, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
+        DateTime start = new DateTime(2011, 3, 2, 8, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        DateTime end = new DateTime(2011, 3, 2, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone());
         TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(tdoc, assignment, earnCode, start, end, null, false, null, true);
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
-        assertEquals("There should be no errors in this time detail submission", 0, errors.size());
+        Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
         page = TimeDetailTestUtils.submitTimeDetails(getTimesheetDocumentUrl(tdocId), tdaf);
-        assertNotNull(page);
+        Assert.assertNotNull(page);
 
-        start = new DateTime(2011, 3, 2, 13, 10, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
-        end = new DateTime(2011, 3, 2, 18, 10, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
+        start = new DateTime(2011, 3, 2, 13, 10, 0, 0, TKUtils.getSystemDateTimeZone());
+        end = new DateTime(2011, 3, 2, 18, 10, 0, 0, TKUtils.getSystemDateTimeZone());
         tdaf = TimeDetailTestUtils.buildDetailActionForm(tdoc, assignment, earnCode, start, end, null, false, null, true);
         errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
-        assertEquals("There should be no errors in this time detail submission", 0, errors.size());
+        Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
         page = TimeDetailTestUtils.submitTimeDetails(getTimesheetDocumentUrl(tdocId), tdaf);
         HtmlUnitUtil.createTempFile(page, "Hours");
-        assertNotNull(page);
+        Assert.assertNotNull(page);
 
         // Verify block present on rendered page.
         String pageAsText = page.asText();
@@ -166,8 +168,8 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
         // to be more fine grained in our validation.
         String dataText = page.getElementById("timeBlockString").getFirstChild().getNodeValue();
         JSONObject jsonData = (JSONObject) JSONValue.parse(dataText);
-        assertTrue("TimeBlock #1 Data Missing.", checkJSONValues(jsonData, tb1ThdItems, tb1Items));
-        assertTrue("TimeBlock #2 Data Missing.", checkJSONValues(jsonData, tb2ThdItems, tb2Items));
+        Assert.assertTrue("TimeBlock #1 Data Missing.", checkJSONValues(jsonData, tb1ThdItems, tb1Items));
+        Assert.assertTrue("TimeBlock #2 Data Missing.", checkJSONValues(jsonData, tb2ThdItems, tb2Items));
 
         return tdocId;
     }

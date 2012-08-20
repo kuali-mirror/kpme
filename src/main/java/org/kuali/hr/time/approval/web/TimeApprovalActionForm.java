@@ -2,8 +2,10 @@ package org.kuali.hr.time.approval.web;
 
 import org.kuali.hr.time.base.web.TkCommonCalendarForm;
 import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.util.*;
 
@@ -242,8 +244,7 @@ public class TimeApprovalActionForm extends TkCommonCalendarForm {
      * @return A Set of Longs representing work areas.
      */
     public Set<Long> getApproverWorkAreas() {
-        TKUser tkUser = TKContext.getUser();
-        return tkUser.getCurrentRoles().getApproverWorkAreas();
+        return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
     }
 
     public Long getWorkArea() {

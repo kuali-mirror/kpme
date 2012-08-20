@@ -1,10 +1,9 @@
 package org.kuali.hr.time.earncodegroup;
 
-import org.kuali.hr.time.HrBusinessObject;
-
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
+
+import org.kuali.hr.time.HrBusinessObject;
 
 public class EarnCodeGroup extends HrBusinessObject {
 
@@ -35,13 +34,6 @@ public class EarnCodeGroup extends HrBusinessObject {
 
 	public void setHistory(Boolean history) {
 		this.history = history;
-	}
-	
-
-	@Override
-	protected LinkedHashMap<String, Object> toStringMapper() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	public List<EarnCodeGroupDefinition> getEarnCodeGroups() {

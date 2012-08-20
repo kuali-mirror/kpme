@@ -1,7 +1,6 @@
 package org.kuali.hr.time.task.service;
 
-import org.codehaus.plexus.util.StringUtils;
-import org.kuali.hr.time.cache.CacheResult;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.task.dao.TaskDao;
@@ -17,7 +16,6 @@ public class TaskServiceImpl implements TaskService {
     private TaskDao taskDao;
 
     @Override
-    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
     public Task getTask(Long task, Date asOfDate) {
         Task taskObj =  taskDao.getTask(task, asOfDate);
         if(taskObj == null){

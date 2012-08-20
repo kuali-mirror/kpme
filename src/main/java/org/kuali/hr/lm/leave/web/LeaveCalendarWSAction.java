@@ -27,11 +27,13 @@ import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class LeaveCalendarWSAction extends TkAction {
 
@@ -42,14 +44,13 @@ public class LeaveCalendarWSAction extends TkAction {
         //return super.execute(mapping, form, request, response);
         LeaveCalendarWSForm lcf = (LeaveCalendarWSForm) form;
 
-        TKUser user = TKContext.getUser();
         String documentId = lcf.getDocumentId();
         // if the reload was trigger by changing of the selectedPayPeriod, use the passed in parameter as the calendar entry id
         String calendarEntryId = StringUtils.isNotBlank(request.getParameter("selectedPP")) ? request.getParameter("selectedPP") : lcf.getCalEntryId();
 
         // Here - viewPrincipal will be the principal of the user we intend to
         // view, be it target user, backdoor or otherwise.
-        String viewPrincipal = user.getTargetPrincipalId();
+        String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
         CalendarEntries calendarEntry = null;
 
         LeaveCalendarDocument lcd = null;
@@ -128,7 +129,7 @@ public class LeaveCalendarWSAction extends TkAction {
                     for (EarnCode earnCode : earnCodes) {
                         // TODO: minimize / compress the crazy if logics below
                         if (earnCode.getEarnCode().equals(TkConstants.HOLIDAY_EARN_CODE)
-                                && !(TKContext.getUser().getCurrentRoles().isSystemAdmin())) {
+                                && !(TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isSystemAdmin())) {
                             continue;
                         }
                         //TODO: I don't understand why this if statement is used.  We only want the EarnCode if one or more of these conditions is false, but why?

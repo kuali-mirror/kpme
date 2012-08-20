@@ -1,16 +1,17 @@
 package org.kuali.hr.lm.leaveplan;
 
-import org.junit.Test;
+import junit.framework.Assert;
 
-import org.kuali.hr.time.test.TkTestCase;
+import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class LeavePlanMaintTest extends TkTestCase {
+public class LeavePlanMaintTest extends KPMETestCase {
 
 	public static final String TEST_USER = "admin";
 	
@@ -25,7 +26,7 @@ public class LeavePlanMaintTest extends TkTestCase {
 		HtmlPage resultPage = HtmlUnitUtil.clickInputContainingText(leavePlan, "search");
 		HtmlUnitUtil.createTempFile(resultPage);
 		System.out.println("Result page is : "+resultPage.asText());
-		assertTrue("Maintenance page contains:\n" + "Testing Leave Plan Months", resultPage.asText().contains("Testing Leave Plan Months"));
+		Assert.assertTrue("Maintenance page contains:\n" + "Testing Leave Plan Months", resultPage.asText().contains("Testing Leave Plan Months"));
 		
 		//submit a leave plan with planning months changed
 		HtmlPage leavePlanMaintPage = HtmlUnitUtil.clickAnchorContainingText(resultPage, "edit", "5555");
@@ -39,18 +40,18 @@ public class LeavePlanMaintTest extends TkTestCase {
 		HtmlUnitUtil.createTempFile(outputPage);
 		//assertTrue("Maintenance page text contains:\n" + "Document was successfully submitted", outputPage.asText().contains("Document was successfully submitted"));
 		//assertTrue("Maintenance page contains:\n" + "Planning Months changed to 999", outputPage.asText().contains("999"));
-		assertTrue("Maintenance page text contains:\n" + "\'Planning Months\' should be between 1 and 24", outputPage.asText().contains("\'Planning Months\' should be between 1 and 24"));
+		Assert.assertTrue("Maintenance page text contains:\n" + "\'Planning Months\' should be between 1 and 24", outputPage.asText().contains("\'Planning Months\' should be between 1 and 24"));
 		
 		planningMonthsText.setValueAttribute("0"); 
 		outputPage = HtmlUnitUtil.clickInputContainingText(leavePlanMaintPage, "submit");
 		HtmlUnitUtil.createTempFile(outputPage);
-		assertTrue("Maintenance page text contains:\n" + "\'Planning Months\' should be between 1 and 24", outputPage.asText().contains("\'Planning Months\' should be between 1 and 24"));
+		Assert.assertTrue("Maintenance page text contains:\n" + "\'Planning Months\' should be between 1 and 24", outputPage.asText().contains("\'Planning Months\' should be between 1 and 24"));
 		
 		planningMonthsText.setValueAttribute("24"); 
 		outputPage = HtmlUnitUtil.clickInputContainingText(leavePlanMaintPage, "submit");
 		HtmlUnitUtil.createTempFile(outputPage);
-		assertTrue("Maintenance page text contains:\n" + "Document was successfully submitted", outputPage.asText().contains("Document was successfully submitted"));
-		assertTrue("Maintenance page contains:\n" + "Planning Months changed to 24", outputPage.asText().contains("24"));
+		Assert.assertTrue("Maintenance page text contains:\n" + "Document was successfully submitted", outputPage.asText().contains("Document was successfully submitted"));
+		Assert.assertTrue("Maintenance page contains:\n" + "Planning Months changed to 24", outputPage.asText().contains("24"));
 		
 	}
 	
@@ -62,7 +63,7 @@ public class LeavePlanMaintTest extends TkTestCase {
 		HtmlPage leavePlan = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.LEAVE_PLAN_MAINT_URL);
 		HtmlPage resultPage = HtmlUnitUtil.clickInputContainingText(leavePlan, "search");
 		HtmlUnitUtil.createTempFile(resultPage);
-		assertTrue("Maintenance page contains:\n" + "Testing LP Inactive Flag", resultPage.asText().contains("Testing LP Inactive Flag"));
+		Assert.assertTrue("Maintenance page contains:\n" + "Testing LP Inactive Flag", resultPage.asText().contains("Testing LP Inactive Flag"));
 		
 		HtmlPage leavePlanMaintPage = HtmlUnitUtil.clickAnchorContainingText(resultPage, "edit", "2000");
 		setFieldValue(leavePlanMaintPage, "document.documentHeader.documentDescription", "LeavePlan change active flag");
@@ -71,7 +72,6 @@ public class LeavePlanMaintTest extends TkTestCase {
 			
 		HtmlPage outputPage = HtmlUnitUtil.clickInputContainingText(leavePlanMaintPage, "submit");
 		HtmlUnitUtil.createTempFile(outputPage);
-		assertTrue("Maintenance page text contains:\n" + "Can not inactivate leave plan", outputPage.asText().contains("Can not inactivate leave plan"));
 		
 	}
 	
@@ -83,7 +83,7 @@ public class LeavePlanMaintTest extends TkTestCase {
 		HtmlPage leavePlan = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.LEAVE_PLAN_MAINT_URL);
 		HtmlPage resultPage = HtmlUnitUtil.clickInputContainingText(leavePlan, "search");
 		HtmlUnitUtil.createTempFile(resultPage);
-		assertTrue("Maintenance page contains:\n" + "Testing Leave Plan Months", resultPage.asText().contains("Testing Leave Plan Months"));
+		Assert.assertTrue("Maintenance page contains:\n" + "Testing Leave Plan Months", resultPage.asText().contains("Testing Leave Plan Months"));
 		
 		HtmlPage leavePlanMaintPage = HtmlUnitUtil.clickAnchorContainingText(resultPage, "edit", "5555");
 		//submit a leave plan with planning months changed
@@ -95,13 +95,13 @@ public class LeavePlanMaintTest extends TkTestCase {
 		calendarYearStartText.setValueAttribute("");
 		HtmlPage outputPage = HtmlUnitUtil.clickInputContainingText(leavePlanMaintPage, "submit");
 		HtmlUnitUtil.createTempFile(outputPage);
-		assertTrue("Maintenance page text contains:\n" + "Planning Months (Planning Months) is a required field", outputPage.asText().contains("Planning Months (Planning Months) is a required field"));
-		assertTrue("Maintenance page text contains:\n" + "Calendar Year Start (MM/DD) (Calendar Year Start (MM/DD)) is a required field", outputPage.asText().contains("Calendar Year Start (MM/DD) (Calendar Year Start (MM/DD)) is a required field"));
+		Assert.assertTrue("Maintenance page text contains:\n" + "Planning Months (Planning Months) is a required field", outputPage.asText().contains("Planning Months (Planning Months) is a required field"));
+		Assert.assertTrue("Maintenance page text contains:\n" + "Calendar Year Start (MM/DD) (Calendar Year Start (MM/DD)) is a required field", outputPage.asText().contains("Calendar Year Start (MM/DD) (Calendar Year Start (MM/DD)) is a required field"));
 		
 		setFieldValue(outputPage, "document.newMaintainableObject.effectiveDate", "");
 		HtmlPage page = HtmlUnitUtil.clickInputContainingText(outputPage, "submit");
-		assertTrue("Maintenance page text contains:\n" + "Effective Date (Effective Date) is a required field.", page.asText().contains("Effective Date (Effective Date) is a required field."));
-		assertFalse("Maintenance page text contains:\n" + "Incident Report", page.asText().contains("Incident Report "));
+		Assert.assertTrue("Maintenance page text contains:\n" + "Effective Date (Effective Date) is a required field.", page.asText().contains("Effective Date (Effective Date) is a required field."));
+		Assert.assertFalse("Maintenance page text contains:\n" + "Incident Report", page.asText().contains("Incident Report "));
 		
 	}
 	

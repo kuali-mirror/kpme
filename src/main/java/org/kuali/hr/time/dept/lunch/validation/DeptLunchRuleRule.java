@@ -1,15 +1,15 @@
 package org.kuali.hr.time.dept.lunch.validation;
 
+import java.math.BigDecimal;
+
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.util.GlobalVariables;
-
-import java.math.BigDecimal;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 
@@ -89,7 +89,7 @@ public class DeptLunchRuleRule extends MaintenanceDocumentRuleBase {
 		boolean valid = false;
 
 		LOG.debug("entering custom validation for DeptLunchRule");
-		PersistableBusinessObject pbo = this.getNewBo();
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
 		if (pbo instanceof DeptLunchRule) {
 			DeptLunchRule deptLunchRule = (DeptLunchRule) pbo;
 			deptLunchRule.setUserPrincipalId(GlobalVariables.getUserSession().getPrincipalId());

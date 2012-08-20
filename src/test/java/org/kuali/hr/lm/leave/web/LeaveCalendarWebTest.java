@@ -1,22 +1,20 @@
 package org.kuali.hr.lm.leave.web;
 
+import junit.framework.Assert;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlButton;
-import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
-import com.gargoylesoftware.htmlunit.javascript.host.html.HTMLInputElement;
 
-public class LeaveCalendarWebTest extends TkTestCase {
+public class LeaveCalendarWebTest extends KPMETestCase {
 
 	@Before
 	public void setUp() throws Exception {
@@ -40,27 +38,27 @@ public class LeaveCalendarWebTest extends TkTestCase {
 		// get the page and Login
 		HtmlPage leaveCalendarPage = HtmlUnitUtil
 				.gotoPageAndLogin(TkTestConstants.Urls.LEAVE_CALENDAR_URL);
-		assertNotNull("Leave Request page not found" ,leaveCalendarPage);
+		Assert.assertNotNull("Leave Request page not found" ,leaveCalendarPage);
 
 		this.setWebClient(leaveCalendarPage.getWebClient());
 
 		
-		assertTrue("Page does not have Current calendar ", leaveCalendarPage
+		Assert.assertTrue("Page does not have Current calendar ", leaveCalendarPage
 				.asText().contains("April 2012"));
 
 		// Check for previous document
 		HtmlButton prevButton = (HtmlButton) leaveCalendarPage
 				.getElementById("nav_prev_lc");
-		assertNotNull(prevButton);
+		Assert.assertNotNull(prevButton);
 	
 		
 		// Check for next document
 		HtmlButton nextButton = (HtmlButton) leaveCalendarPage
 				.getElementById("nav_next_lc");
-		assertNotNull(nextButton);
+		Assert.assertNotNull(nextButton);
 		HtmlPage page = nextButton.click();
 		
-		assertNotNull(page);
+		Assert.assertNotNull(page);
 
 	}
 

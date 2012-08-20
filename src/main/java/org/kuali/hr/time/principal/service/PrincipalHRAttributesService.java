@@ -3,6 +3,7 @@ package org.kuali.hr.time.principal.service;
 import java.util.Date;
 import java.util.List;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
+import org.springframework.cache.annotation.Cacheable;
 
 public interface PrincipalHRAttributesService {
 	/**
@@ -11,6 +12,7 @@ public interface PrincipalHRAttributesService {
 	 * @param asOfDate
 	 * @return
 	 */
+    @Cacheable(value= PrincipalHRAttributes.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'asOfDate=' + #p1")
 	public PrincipalHRAttributes getPrincipalCalendar(String principalId, Date asOfDate);
 	
 	/**
@@ -20,6 +22,7 @@ public interface PrincipalHRAttributesService {
 	 * @param asOfDate
 	 * @return
 	 */
+    @Cacheable(value= PrincipalHRAttributes.CACHE_NAME, key="'leavePlan=' + #p0 + '|' + 'asOfDate=' + #p1")
     public List<PrincipalHRAttributes> getActiveEmployeesForLeavePlan(String leavePlan, Date asOfDate);
     
 	/**

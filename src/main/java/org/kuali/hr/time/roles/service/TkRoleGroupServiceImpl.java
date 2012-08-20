@@ -3,16 +3,14 @@ package org.kuali.hr.time.roles.service;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
-import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.roles.TkRoleGroup;
 import org.kuali.hr.time.roles.dao.TkRoleGroupDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -40,7 +38,6 @@ public class TkRoleGroupServiceImpl implements TkRoleGroupService {
     }
 
     @Override
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public TkRoleGroup getRoleGroup(String principalId) {
         return tkRoleGroupDao.getRoleGroup(principalId);
     }
@@ -49,7 +46,7 @@ public class TkRoleGroupServiceImpl implements TkRoleGroupService {
     public void populateRoles(TkRoleGroup tkRoleGroup) {
         if (tkRoleGroup != null) {
             List<TkRole> tkRoles = TkServiceLocator.getTkRoleService().getRoles(tkRoleGroup.getPrincipalId(), TKUtils.getCurrentDate());
-            List<TkRole> tkInActiveRoles = TkServiceLocator.getTkRoleService().getInActiveRoles(tkRoleGroup.getPrincipalId(), TKUtils.getCurrentDate());
+            List<TkRole> tkInActiveRoles = TkServiceLocator.getTkRoleService().getInactiveRoles(tkRoleGroup.getPrincipalId(), TKUtils.getCurrentDate());
             Iterator<TkRole> itr = tkRoles.iterator();
             while (itr.hasNext()) {
                 TkRole tkRole = (TkRole) itr.next();
@@ -81,12 +78,12 @@ public class TkRoleGroupServiceImpl implements TkRoleGroupService {
          * 3) search for all the roles / role groups
          */
         if (StringUtils.isNotBlank(principalId)) {
-            Person person = KIMServiceLocator.getPersonService().getPerson(principalId);
+            Person person = KimApiServiceLocator.getPersonService().getPerson(principalId);
             if (person != null && isAuthorizedToEditUserRole(person.getPrincipalId())) {
                 principalIdToQuery = person.getPrincipalId();
             }
         } else if (StringUtils.isNotBlank(principalName)) {
-            Person person = KIMServiceLocator.getPersonService().getPersonByPrincipalName(principalName);
+            Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(principalName);
             if (person != null && isAuthorizedToEditUserRole(person.getPrincipalId())) {
                 principalIdToQuery = person.getPrincipalId();
             }
@@ -117,7 +114,7 @@ public class TkRoleGroupServiceImpl implements TkRoleGroupService {
         				if (((StringUtils.isNotEmpty(dept) && StringUtils.equals(tkRole.getDepartment(), dept)) || StringUtils.isEmpty(dept)) &&
             				((StringUtils.isNotEmpty(roleName) && StringUtils.equals(tkRole.getRoleName(), roleName)) || StringUtils.isEmpty(roleName)) &&
             				((StringUtils.isNotEmpty(workArea) && StringUtils.equals(tkRole.getWorkArea().toString(), workArea)) || StringUtils.isEmpty(workArea)) ) {
-        						tkRoleGroup.setPerson(KIMServiceLocator.getPersonService().getPerson(rolePositionJobPrincipalId));
+        						tkRoleGroup.setPerson(KimApiServiceLocator.getPersonService().getPerson(rolePositionJobPrincipalId));
         						tkRoleGroup.setPrincipalId(rolePositionJobPrincipalId);
         						tkRoleGroups.add(tkRoleGroup);
         				}
@@ -129,7 +126,6 @@ public class TkRoleGroupServiceImpl implements TkRoleGroupService {
         return tkRoleGroups;
     }
 
-    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
     private boolean isAuthorizedToEditUserRole(String principalId) {
         boolean isAuthorized = false;
         //System admin can do anything

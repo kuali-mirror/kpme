@@ -3,12 +3,13 @@ package org.kuali.hr.time.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.detail.web.ActionFormUtils;
-import org.kuali.hr.time.test.TkTestCase;
 
-public class ActionFormUtilsTest extends TkTestCase {
+public class ActionFormUtilsTest extends KPMETestCase {
 	
 	@Test
 	public void testFmlaWarningTextForLeaveBlocks() throws Exception {
@@ -28,9 +29,9 @@ public class ActionFormUtilsTest extends TkTestCase {
 		leaveBlocs.add(lbB);
 		
 		List<String> warningMess = ActionFormUtils.fmlaWarningTextForLeaveBlocks(leaveBlocs);
-		assertTrue("There should be 1 warning message ", warningMess.size()== 1);
+		Assert.assertTrue("There should be 1 warning message ", warningMess.size()== 1);
 		String warning = warningMess.get(0);
-		assertTrue("Warning message should be 'Test Message'", warning.equals("Test Message"));
+		Assert.assertTrue("Warning message should be 'Test Message'", warning.equals("Test Message"));
 		
 	}
 

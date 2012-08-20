@@ -29,7 +29,7 @@
         <loadData tableName="krim_entity_afltn_t" file="src/test/config/db/staging/krim_entity_afltn_t.csv" />
         <loadData tableName="krim_entity_email_t" file="src/test/config/db/staging/krim_entity_email_t.csv" />
         <loadData tableName="krim_prncpl_t" file="src/test/config/db/staging/krim_prncpl_t.csv" />
-        <loadData tableName="krns_campus_t" file="src/test/config/db/staging/krns_campus_t.csv" />
+        <loadData tableName="krlc_cmp_t" file="src/test/config/db/staging/krlc_cmp_t.csv" />
     </changeSet>
     
 	<changeSet id="3" author="kbtaylor" context="kpme-client-staging">
@@ -45,7 +45,7 @@
             <column name="id" value="3" />
         </insert>
         <insert tableName="hr_calendar_entries_s">
-            <column name="id" value="47" />
+            <column name="id" value="301" />
         </insert>
         <insert tableName="hr_dept_s">
             <column name="id" value="6" />

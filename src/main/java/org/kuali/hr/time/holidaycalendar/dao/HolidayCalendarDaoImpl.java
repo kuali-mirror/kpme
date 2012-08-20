@@ -1,15 +1,15 @@
 package org.kuali.hr.time.holidaycalendar.dao;
 
+import java.util.Date;
+import java.util.List;
+
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
 import org.kuali.hr.time.holidaycalendar.HolidayCalendarDateEntry;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-import java.util.Date;
-import java.util.List;
-
-public class HolidayCalendarDaoImpl extends PersistenceBrokerDaoSupport implements HolidayCalendarDao {
+public class HolidayCalendarDaoImpl extends PlatformAwareDaoBaseOjb implements HolidayCalendarDao {
 
 	@Override
 	public HolidayCalendar getHolidayCalendarByGroup(String holidayCalendarGroup) {

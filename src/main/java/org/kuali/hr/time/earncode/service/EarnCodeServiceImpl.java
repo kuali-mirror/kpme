@@ -1,34 +1,26 @@
 package org.kuali.hr.time.earncode.service;
 
+import com.google.common.collect.Ordering;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.lm.earncodesec.EarnCodeType;
-import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncode.dao.EarnCodeDao;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
+import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
-
-import com.google.common.collect.Ordering;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class EarnCodeServiceImpl implements EarnCodeService {
 
@@ -78,13 +70,13 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 
                 // Check employee flag
                 if (dec.isEmployee() &&
-                        (StringUtils.equals(user.getCurrentTargetPerson().getEmployeeId(), user.getCurrentPerson().getEmployeeId()))) {
+                        (StringUtils.equals(TKUser.getCurrentTargetPerson().getEmployeeId(), GlobalVariables.getUserSession().getPerson().getEmployeeId()))) {
                     addEc = true;
                 }
 
                 // Check approver flag
                 if (!addEc && dec.isApprover()) {
-                    Set<Long> workAreas = user.getCurrentRoles().getApproverWorkAreas();
+                    Set<Long> workAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
                     for (Long wa : workAreas) {
                         WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(wa, asOfDate);
                         if (workArea!= null && a.getWorkArea().compareTo(workArea.getWorkArea())==0) {
@@ -116,14 +108,12 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 	}
 
     @Override
-    @CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
     public String getEarnCodeType(String earnCode, Date asOfDate) {
         EarnCode earnCodeObj = getEarnCode(earnCode, asOfDate);
         return earnCodeObj.getEarnCodeType();
     }
 
 	@Override
-	@CacheResult(secondsRefreshPeriod=TkConstants.DEFAULT_CACHE_TIME)
 	public EarnCode getEarnCodeById(String earnCodeId) {
 		return earnCodeDao.getEarnCodeById(earnCodeId);
 	}
@@ -192,7 +182,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 //                        (earnCode.getApprover() && user.isApprover())) {
 
                 boolean addEarnCode = false;
-                if ((user.getCurrentRoles().isActiveEmployee()) || (user.isApprover())) {
+                if ((TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isActiveEmployee()) || (user.isApprover())) {
                     if ((earnCode.getFmla().equals("Y") && fmla)
                           || !earnCode.getFmla().equals("Y"))  {
                         if ((earnCode.getWorkmansComp().equals("Y") && workmansComp)
@@ -208,13 +198,11 @@ public class EarnCodeServiceImpl implements EarnCodeService {
     }
 	
 	@Override
-	@CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
 	public Map<String, String> getEarnCodesForDisplay(String principalId) {
 		return getEarnCodesForDisplayWithEffectiveDate(principalId, TKUtils.getCurrentDate());
 	}
 
     @Override
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public Map<String, String> getEarnCodesForDisplayWithEffectiveDate(String principalId, Date asOfDate) {
         List<EarnCode> earnCodes = this.getEarnCodes(principalId, asOfDate);
 
@@ -246,7 +234,6 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 
     /* not using yet, may not be needed
     @Override
-    @CacheResult(secondsRefreshPeriod = TkConstants.DEFAULT_CACHE_TIME)
     public Map<String, String> getEarnCodesForDisplayWithAssignment(Assignment assignment, Date asOfDate) {
         List<EarnCode> earnCodes = this.getEarnCodes(assignment, asOfDate);
 

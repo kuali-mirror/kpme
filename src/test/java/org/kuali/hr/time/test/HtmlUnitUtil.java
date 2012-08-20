@@ -9,7 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.config.ConfigContext;
+import org.kuali.hr.time.web.TkLoginFilter;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 
 import com.gargoylesoftware.htmlunit.BrowserVersion;
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -18,6 +19,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class HtmlUnitUtil {
 
@@ -114,7 +116,7 @@ public class HtmlUnitUtil {
 	}
 
     public static String getBaseURL() {
-	return "http://localhost:" + getPort() + "/tk-dev";
+	    return ConfigContext.getCurrentContextConfig().getProperty("application.url");
     }
 
     public static String getTempDir() {

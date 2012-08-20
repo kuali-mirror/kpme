@@ -1,7 +1,7 @@
 package org.kuali.hr.lm.leavecalendar.dao;
 
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class LeaveCalendarDaoImpl extends PersistenceBrokerDaoSupport implements LeaveCalendarDao {
+public class LeaveCalendarDaoImpl extends PlatformAwareDaoBaseOjb implements LeaveCalendarDao {
 
 }

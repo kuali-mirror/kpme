@@ -10,9 +10,9 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.workschedule.WorkScheduleAssignment;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class WorkScheduleAssignmentDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements WorkScheduleAssignmentDao {
+public class WorkScheduleAssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements WorkScheduleAssignmentDao {
 
     @Override
     public void saveOrUpdate(WorkScheduleAssignment wsa) {

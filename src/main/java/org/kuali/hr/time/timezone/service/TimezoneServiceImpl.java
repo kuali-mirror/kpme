@@ -7,7 +7,6 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.location.Location;
-import org.kuali.hr.time.cache.CacheResult;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -18,7 +17,6 @@ import org.kuali.hr.time.util.TkConstants;
 public class TimezoneServiceImpl implements TimezoneService {
 
     @Override
-    @CacheResult
     public String getUserTimezone(String principalId) {
         PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, TKUtils.getCurrentDate());
         if(principalCalendar != null && principalCalendar.getTimezone() != null){
@@ -34,7 +32,7 @@ public class TimezoneServiceImpl implements TimezoneService {
                 }
             }
         }
-        return TkConstants.SYSTEM_TIME_ZONE;
+        return TKUtils.getSystemTimeZone();
     }
 
     /**
@@ -49,7 +47,7 @@ public class TimezoneServiceImpl implements TimezoneService {
     public DateTimeZone getUserTimezoneWithFallback() {
         String tzid = getUserTimezone();
         if (StringUtils.isEmpty(tzid)) {
-            return TkConstants.SYSTEM_DATE_TIME_ZONE;
+            return TKUtils.getSystemDateTimeZone();
         } else {
             return DateTimeZone.forID(tzid);
         }
@@ -64,7 +62,7 @@ public class TimezoneServiceImpl implements TimezoneService {
 	public List<TimeBlock> translateForTimezone(List<TimeBlock> timeBlocks, String timezone){
 		for(TimeBlock tb : timeBlocks){
 			//No need for translation if it matches the current timezone
-			if(StringUtils.equals(timezone, TkConstants.SYSTEM_TIME_ZONE)){
+			if(StringUtils.equals(timezone, TKUtils.getSystemTimeZone())){
 				tb.setBeginTimeDisplay(new DateTime(tb.getBeginTimestamp()));
 				tb.setEndTimeDisplay(new DateTime(tb.getEndTimestamp()));
 			}
@@ -84,14 +82,14 @@ public class TimezoneServiceImpl implements TimezoneService {
 	public boolean isSameTimezone() {
 		String userTimezone = getUserTimezone();
 		if(StringUtils.isNotBlank(userTimezone)) {
-			return StringUtils.equals(TkConstants.SYSTEM_TIME_ZONE, userTimezone);
+			return StringUtils.equals(TKUtils.getSystemTimeZone(), userTimezone);
 		}
 		return true;
 	}
 	
 	
 	public long getTimezoneOffsetFromServerTime(DateTimeZone dtz){
-		long systemOffsetUTC = TkConstants.SYSTEM_DATE_TIME_ZONE.getOffset(null);
+		long systemOffsetUTC = TKUtils.getSystemDateTimeZone().getOffset(null);
 		long tzOffsetUTC = dtz.getOffset(null);
 		return tzOffsetUTC - systemOffsetUTC;
 	}

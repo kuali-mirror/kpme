@@ -1,19 +1,19 @@
 package org.kuali.hr.time.accrual.dao;
 
+import java.sql.Date;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.accrual.TimeOffAccrual;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-import java.sql.Date;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
-
-public class TimeOffAccrualkDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements TimeOffAccrualDao {
+public class TimeOffAccrualkDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements TimeOffAccrualDao {
 
 	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(TimeOffAccrualkDaoSpringOjbImpl.class);

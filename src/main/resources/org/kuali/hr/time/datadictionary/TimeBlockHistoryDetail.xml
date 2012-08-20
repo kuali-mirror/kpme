@@ -115,7 +115,7 @@
             <bean parent="LookupReadonlyControlDefinition" p:size="15"/>
         </property>
         <property name="formatterClass"
-                  value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter"/>
+                  value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
         <property name="name" value="timeBlockHistory.beginTimestamp"/>
         <property name="label" value=" Begin Time"/>
     </bean>
@@ -129,7 +129,7 @@
             <bean parent="LookupReadonlyControlDefinition" p:size="15"/>
         </property>
         <property name="formatterClass"
-                  value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter"/>
+                  value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
         <property name="name" value="timeBlockHistory.endTimestamp"/>
         <property name="label" value="End Time"/>
     </bean>
@@ -179,7 +179,7 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
 		</property>
-		<property name="formatterClass" value="org.kuali.rice.kns.web.format.DateFormatter" />
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
 		<property name="name" value="beginDate" />
 		<property name="label" value="Date" />
 	</bean> 
@@ -193,7 +193,7 @@
             <bean parent="LookupReadonlyControlDefinition" p:size="15"/>
         </property>
         <property name="formatterClass"
-                  value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter"/>
+                  value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>
         <property name="name" value="timeBlockHistory.timestamp"/>
         <property name="label" value="Time Stamp"/>
     </bean>
@@ -207,7 +207,7 @@
         </property>
         <property name="name" value="timeBlockHistory.clockLogCreated"/>
         <property name="label" value="Clock Log Created"/>
-        <property name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/>
+        <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
     </bean>
 
     <bean id="TimeBlockHistoryDetail-timeBlockHistory.userPrincipalId" parent="TimeBlockHistoryDetail-timeBlockHistory.userPrincipalId-parentBean"/>

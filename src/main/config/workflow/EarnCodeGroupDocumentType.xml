@@ -8,7 +8,7 @@
 			<name>EarnCodeGroupDocumentType</name>
 			<parent>RiceDocument</parent>
 			<label>EarnCodeGroupDocument</label>
-			<docHandler>${TK.DocHandlerPrefix}kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
 		</documentType>
 	</documentTypes>
 </data>

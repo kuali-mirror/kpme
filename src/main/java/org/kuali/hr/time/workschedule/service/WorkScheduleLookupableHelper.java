@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.workschedule.WorkSchedule;
-import org.kuali.rice.kns.bo.BusinessObject;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 public class WorkScheduleLookupableHelper extends
 		KualiLookupableHelperServiceImpl {
@@ -20,7 +20,7 @@ public class WorkScheduleLookupableHelper extends
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().getCurrentRoles().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
+		if (TKContext.getUser().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
 			WorkSchedule workSchedule = (WorkSchedule) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final Long hrWorkScheduleId = workSchedule.getHrWorkSchedule();

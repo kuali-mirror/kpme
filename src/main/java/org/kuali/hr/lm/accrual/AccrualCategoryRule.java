@@ -1,7 +1,6 @@
 package org.kuali.hr.lm.accrual;
 
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
 
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -198,12 +197,6 @@ public class AccrualCategoryRule extends HrBusinessObject {
 	@Override
 	public String getId() {
 		return getLmAccrualCategoryRuleId();
-	}
-
-
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		return null;
 	}
 
 	@Override

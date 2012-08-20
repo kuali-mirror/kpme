@@ -6,9 +6,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.lm.leavedonation.LeaveDonation;
-import org.springmodules.orm.ojb.support.PersistenceBrokerDaoSupport;
+import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class LeaveDonationDaoSpringOjbImpl extends PersistenceBrokerDaoSupport implements LeaveDonationDao {
+public class LeaveDonationDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements LeaveDonationDao {
 
 	private static final Logger LOG = Logger.getLogger(LeaveDonationDaoSpringOjbImpl.class);
 

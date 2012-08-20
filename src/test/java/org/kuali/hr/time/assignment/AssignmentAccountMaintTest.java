@@ -2,15 +2,16 @@ package org.kuali.hr.time.assignment;
 
 import java.math.BigDecimal;
 
+import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class AssignmentAccountMaintTest extends TkTestCase{
+public class AssignmentAccountMaintTest extends KPMETestCase{
 	private static final String TEST_CODE="CD";
 	private static final String TEST_ID="1";
 	private static final String TEST_ASSIGN_ID="23";
@@ -21,9 +22,9 @@ public class AssignmentAccountMaintTest extends TkTestCase{
 	public void testAssignmentAccountMaint() throws Exception {	 
 		HtmlPage assignmentAccountLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ASSIGNMENT_ACCOUNT_MAINT_URL);
 		assignmentAccountLookup = HtmlUnitUtil.clickInputContainingText(assignmentAccountLookup, "search");
-		assertTrue("Page contains test assignmentAccount", assignmentAccountLookup.asText().contains(TEST_ASSIGN_ID.toString()));
+		Assert.assertTrue("Page contains test assignmentAccount", assignmentAccountLookup.asText().contains(TEST_ASSIGN_ID.toString()));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(assignmentAccountLookup, "edit",assignmentAccountId.toString());
-		assertTrue("Maintenance Page contains test assignmentAccount",maintPage.asText().contains(TEST_ASSIGN_ID.toString()));	 
+		Assert.assertTrue("Maintenance Page contains test assignmentAccount",maintPage.asText().contains(TEST_ASSIGN_ID.toString()));	 
 	}
 
 	@Override
@@ -37,14 +38,14 @@ public class AssignmentAccountMaintTest extends TkTestCase{
 		assignmentAccount.setFinObjectCd(TEST_CODE);
 		assignmentAccount.setFinSubObjCd(TEST_CODE);
 		assignmentAccount.setPercent(TEST_PERCENT);		
-		KNSServiceLocator.getBusinessObjectService().save(assignmentAccount);
+		KRADServiceLocator.getBusinessObjectService().save(assignmentAccount);
 		assignmentAccountId = assignmentAccount.getTkAssignAcctId();
 	}
 
 	@Override
 	public void tearDown() throws Exception {				
-		AssignmentAccount assignmentAccountObj = KNSServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(AssignmentAccount.class, assignmentAccountId);		 
-		KNSServiceLocator.getBusinessObjectService().delete(assignmentAccountObj);
+		AssignmentAccount assignmentAccountObj = KRADServiceLocator.getBusinessObjectService().findBySinglePrimaryKey(AssignmentAccount.class, assignmentAccountId);		 
+		KRADServiceLocator.getBusinessObjectService().delete(assignmentAccountObj);
 		super.tearDown();
 	}
 	

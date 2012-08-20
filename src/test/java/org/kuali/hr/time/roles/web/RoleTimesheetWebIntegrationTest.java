@@ -12,6 +12,7 @@ import org.joda.time.DateTimeZone;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -21,6 +22,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.web.TimesheetWebTestBase;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.time.util.TkConstants;
 
@@ -37,14 +39,14 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
     // Non Time Entry users (for this test) who have some access to 'fred's'
     // Time Sheet.
     private List<String> VALID_NON_ENTRY_USERS = new ArrayList<String>() {{
-        add("testuser6"); add("frank"); add("fran"); add("edna"); }};
+        /*add("testuser6");*/ add("frank"); add("fran"); add("edna"); }};
 
     // Users with incorrect Department or Work Area for Time Sheet privilege.
     private List<String> INVALID_NON_ENTRY_USERS = new ArrayList<String>(){{
         add("testuser1"); add("testuser2"); add("testuser3"); add("testuser4"); }};
 
     private TimesheetDocument fredsDocument = null;
-    Date asOfDate = new Date((new DateTime(2011, 3, 1, 12, 0, 0, 0, DateTimeZone.forID("EST"))).getMillis());
+    Date asOfDate = new Date((new DateTime(2011, 3, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 
     @Override
     /**
@@ -56,7 +58,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
 
         String userId = "fred";
         CalendarEntries pcd = TkServiceLocator.getCalendarService().getCurrentCalendarDates(userId, asOfDate);
-        assertNotNull("No PayCalendarDates", pcd);
+        Assert.assertNotNull("No PayCalendarDates", pcd);
         fredsDocument = TkServiceLocator.getTimesheetService().openTimesheetDocument(userId, pcd);
         String tdocId = fredsDocument.getDocumentId();
 
@@ -65,31 +67,31 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
 
         // Verify Fred, and Add Timeblocks
         HtmlPage page = loginAndGetTimeDetailsHtmlPage(userId, tdocId, true);
-        assertTrue("Calendar not loaded.", page.asText().contains("March 2011"));
+        Assert.assertTrue("Calendar not loaded.", page.asText().contains("March 2011"));
 
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
-        assertNotNull(form);
+        Assert.assertNotNull(form);
         List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(userId, JAN_AS_OF_DATE);
         Assignment assignment = assignments.get(0);
         List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(assignment, JAN_AS_OF_DATE);
         EarnCode earnCode = earnCodes.get(0);
-        assertEquals("There should be no existing time blocks.", 0, fredsDocument.getTimeBlocks().size());
+        Assert.assertEquals("There should be no existing time blocks.", 0, fredsDocument.getTimeBlocks().size());
 
         // 2. Set Timeblock Start and End time
         // 3/02/2011 - 8:00a to 6:00pm
         // OVT - 0 Hrs Expected
-        DateTime start = new DateTime(2011, 3, 2, 8, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
-        DateTime end = new DateTime(2011, 3, 2, 13, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
+        DateTime start = new DateTime(2011, 3, 2, 8, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        DateTime end = new DateTime(2011, 3, 2, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone());
         TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(fredsDocument, assignment, earnCode, start, end, null, false, null, true);
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
-        assertEquals("There should be no errors in this time detail submission", 0, errors.size());
+        Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
         page = TimeDetailTestUtils.submitTimeDetails(getTimesheetDocumentUrl(tdocId), tdaf);
-        assertNotNull(page);
+        Assert.assertNotNull(page);
 
         String dataText = page.getElementById("timeBlockString").getFirstChild().getNodeValue();
         JSONArray jsonData = (JSONArray) JSONValue.parse(dataText);
         final JSONObject jsonDataObject = (JSONObject) jsonData.get(0);
-        assertTrue("TimeBlock Data Missing.", checkJSONValues(new JSONObject() {{ put("outer", jsonDataObject); }},
+        Assert.assertTrue("TimeBlock Data Missing.", checkJSONValues(new JSONObject() {{ put("outer", jsonDataObject); }},
                 new ArrayList<Map<String, Object>>() {{
                     add(new HashMap<String, Object>() {{
                         put("earnCode", "RGN");
@@ -120,7 +122,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         for (String uid : VALID_NON_ENTRY_USERS) {
             LOG.info("Testing visibility for " + uid);
             HtmlPage page = loginAndGetTimeDetailsHtmlPage(uid, fredsDocument.getDocumentId(), true);
-            assertTrue("Calendar not loaded.", page.asText().contains("March 2011"));
+            Assert.assertTrue("Calendar not loaded.", page.asText().contains("March 2011"));
         }
     }
 
@@ -130,7 +132,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
             LOG.info("Testing visibility for " + uid);
             HtmlPage page = loginAndGetTimeDetailsHtmlPage(uid, fredsDocument.getDocumentId(), false);
             //HtmlUnitUtil.createTempFile(page, "badlogin");
-            assertTrue("Should not have access", page.asText().contains("You are not authorized to access this portion of the application."));
+            Assert.assertTrue("Should not have access", page.asText().contains("You are not authorized to access this portion of the application."));
         }
     }
 
@@ -139,30 +141,30 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         String tdocId = fredsDocument.getDocumentId();
         HtmlPage page = loginAndGetTimeDetailsHtmlPage(userId, tdocId, true);
         //HtmlUnitUtil.createTempFile(page, "loggedin");
-        assertTrue("Calendar not loaded.", page.asText().contains("March 2011"));
+        Assert.assertTrue("Calendar not loaded.", page.asText().contains("March 2011"));
 
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
-        assertNotNull(form);
+        Assert.assertNotNull(form);
         List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments("fred", JAN_AS_OF_DATE);
         Assignment assignment = assignments.get(0);
         List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(assignment, JAN_AS_OF_DATE);
         EarnCode earnCode = earnCodes.get(0);
 
-        assertEquals("There should be one existing time block.", 1, fredsDocument.getTimeBlocks().size());
+        Assert.assertEquals("There should be one existing time block.", 1, fredsDocument.getTimeBlocks().size());
 
-        DateTime start = new DateTime(2011, 3, 4, 8, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
-        DateTime end = new DateTime(2011, 3, 4, 13, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
+        DateTime start = new DateTime(2011, 3, 4, 8, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        DateTime end = new DateTime(2011, 3, 4, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone());
         TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(fredsDocument, assignment, earnCode, start, end, null, false, null, true);
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
-        assertEquals("There should be no errors in this time detail submission", 0, errors.size());
+        Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
         page = TimeDetailTestUtils.submitTimeDetails(getTimesheetDocumentUrl(tdocId), tdaf);
-        assertNotNull(page);
+        Assert.assertNotNull(page);
         HtmlUnitUtil.createTempFile(page, "initiatetest");
 
         String dataText = page.getElementById("timeBlockString").getFirstChild().getNodeValue();
         JSONArray jsonData = (JSONArray) JSONValue.parse(dataText);
         final JSONObject jsonDataObject = (JSONObject) jsonData.get(1);
-        assertTrue("TimeBlock Data Missing.", checkJSONValues(new JSONObject() {{ put("outer", jsonDataObject); }},
+        Assert.assertTrue("TimeBlock Data Missing.", checkJSONValues(new JSONObject() {{ put("outer", jsonDataObject); }},
                 new ArrayList<Map<String, Object>>() {{
                     add(new HashMap<String, Object>() {{
                         put("earnCode", "RGN");
@@ -185,26 +187,26 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         String tdocId = fredsDocument.getDocumentId();
         HtmlPage page = loginAndGetTimeDetailsHtmlPage(userId, tdocId, true);
         //HtmlUnitUtil.createTempFile(page, "loggedin");
-        assertTrue("Calendar not loaded.", page.asText().contains("March 2011"));
+        Assert.assertTrue("Calendar not loaded.", page.asText().contains("March 2011"));
 
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
-        assertNotNull(form);
+        Assert.assertNotNull(form);
         List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments("fred", JAN_AS_OF_DATE);
         Assignment assignment = assignments.get(0);
         List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(assignment, JAN_AS_OF_DATE);
         EarnCode earnCode = earnCodes.get(0);
 
-        assertEquals("There should be one existing time block.", 1, fredsDocument.getTimeBlocks().size());
+        Assert.assertEquals("There should be one existing time block.", 1, fredsDocument.getTimeBlocks().size());
 
-        DateTime start = new DateTime(2011, 3, 4, 8, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
-        DateTime end = new DateTime(2011, 3, 4, 13, 0, 0, 0, TkConstants.SYSTEM_DATE_TIME_ZONE);
+        DateTime start = new DateTime(2011, 3, 4, 8, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+        DateTime end = new DateTime(2011, 3, 4, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone());
         TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(fredsDocument, assignment, earnCode, start, end, null, false, null, true);
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
-        assertEquals("There should be no errors in this time detail submission", 0, errors.size());
+        Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
         page = TimeDetailTestUtils.submitTimeDetails(getTimesheetDocumentUrl(tdocId), tdaf);
-        assertNotNull(page);
+        Assert.assertNotNull(page);
         HtmlUnitUtil.createTempFile(page, "aftertdadd");
-        assertTrue("Should not have access", page.asText().contains("You are not authorized to access this portion of the application."));
+        Assert.assertTrue("Should not have access", page.asText().contains("You are not authorized to access this portion of the application."));
     }
 
     @Test
@@ -357,7 +359,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         for (String userId : VALID_NON_ENTRY_USERS) {
             String tdocId = tdoc.getDocumentId();
             HtmlPage page = loginAndGetTimeDetailsHtmlPage(userId, tdocId, true);
-            assertTrue("Calendar not loaded.", page.asText().contains("March 2011"));
+            Assert.assertTrue("Calendar not loaded.", page.asText().contains("March 2011"));
         }
     }
 

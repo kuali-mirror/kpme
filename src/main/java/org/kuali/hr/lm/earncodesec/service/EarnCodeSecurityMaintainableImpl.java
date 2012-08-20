@@ -1,15 +1,15 @@
 package org.kuali.hr.lm.earncodesec.service;
 
+import java.util.Map;
+
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.util.GlobalVariables;
-import org.kuali.rice.kns.util.KNSConstants;
-
-import java.util.Map;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class EarnCodeSecurityMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 	/**
@@ -24,13 +24,13 @@ public class EarnCodeSecurityMaintainableImpl extends HrBusinessObjectMaintainab
 		int count = TkServiceLocator.getEarnCodeSecurityService().getNewerEarnCodeSecurityCount(departmentEarnCode.getEarnCode(), departmentEarnCode.getEffectiveDate());
 		if(count > 0) {
 			GlobalVariables.getMessageMap().putWarningWithoutFullErrorPath(
-					KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + "effectiveDate", 
+					KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "effectiveDate", 
 					"deptEarncode.effectiveDate.newer.exists");
 		}
 		
 		if(ValidationUtils.duplicateDeptEarnCodeExists(departmentEarnCode)) {
 			GlobalVariables.getMessageMap().putWarningWithoutFullErrorPath(
-					KNSConstants.MAINTENANCE_NEW_MAINTAINABLE + "dept", 
+					KRADConstants.MAINTENANCE_NEW_MAINTAINABLE + "dept", 
 					"deptEarncode.duplicate.exists");
 		}
     }

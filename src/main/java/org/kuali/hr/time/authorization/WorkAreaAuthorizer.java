@@ -1,6 +1,6 @@
 package org.kuali.hr.time.authorization;
 
-import org.kuali.rice.kns.bo.BusinessObject;
+import org.kuali.rice.krad.bo.BusinessObject;
 
 public class WorkAreaAuthorizer extends DepartmentalRuleAuthorizer {
 	

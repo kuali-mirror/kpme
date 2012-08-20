@@ -117,7 +117,7 @@
 		<property name="name" value="ovtEarnCode" />
 		<property name="label" value="Overtime Earn Code" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.BooleanFormatter" />
+			value="org.kuali.rice.core.web.format.BooleanFormatter" />
 	</bean>
 	<!-- history -->
 	<bean id="EarnCode-history" parent="EarnCode-history-parentBean" />
@@ -141,7 +141,7 @@
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.BooleanFormatter" />
+			value="org.kuali.rice.core.web.format.BooleanFormatter" />
 	</bean>
 
 	<!-- <bean id="EarnCode-recordTime" parent="EarnCode-recordTime-parentBean"/> 
@@ -149,19 +149,19 @@
 		<property name="shortLabel" value="Record Time"/> <property name="control"> 
 		<bean parent="CheckboxControlDefinition"/> </property> <property name="name" 
 		value="recordTime"/> <property name="label" value="Record Time"/> <property 
-		name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/> 
+		name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/> 
 		</bean> <bean id="EarnCode-recordHours" parent="EarnCode-recordHours-parentBean"/> 
 		<bean id="EarnCode-recordHours-parentBean" abstract="true" parent="AttributeDefinition"> 
 		<property name="shortLabel" value="Record Hours"/> <property name="control"> 
 		<bean parent="CheckboxControlDefinition"/> </property> <property name="name" 
 		value="recordHours"/> <property name="label" value="Record Hours"/> <property 
-		name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/> 
+		name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/> 
 		</bean> <bean id="EarnCode-recordAmount" parent="EarnCode-recordAmount-parentBean"/> 
 		<bean id="EarnCode-recordAmount-parentBean" abstract="true" parent="AttributeDefinition"> 
 		<property name="shortLabel" value="Record Amount"/> <property name="control"> 
 		<bean parent="CheckboxControlDefinition"/> </property> <property name="name" 
 		value="recordAmount"/> <property name="label" value="Record Amount"/> <property 
-		name="formatterClass" value="org.kuali.rice.kns.web.format.BooleanFormatter"/> 
+		name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/> 
 		</bean> -->
 
 	<bean id="EarnCode-accrualCategory" parent="EarnCode-accrualCategory-parentBean" />
@@ -256,7 +256,7 @@
 			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
 		</property>
 		<property name="formatterClass"
-			value="org.kuali.rice.kns.web.format.TimestampAMPMFormatter" />
+			value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
 		<property name="name" value="timestamp" />
 		<property name="label" value="Time Stamp" />
 	</bean>

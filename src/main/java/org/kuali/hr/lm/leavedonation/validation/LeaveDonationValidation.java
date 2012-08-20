@@ -8,9 +8,9 @@ import org.kuali.hr.lm.leavedonation.LeaveDonation;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.ValidationUtils;
-import org.kuali.rice.kns.bo.PersistableBusinessObject;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 	public static final String DONOR = "donor";
@@ -105,7 +105,7 @@ public class LeaveDonationValidation extends MaintenanceDocumentRuleBase {
 			MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for Leave Donation");
-		PersistableBusinessObject pbo = this.getNewBo();
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
 		if (pbo instanceof LeaveDonation) {
 			LeaveDonation leaveDonation = (LeaveDonation) pbo;
 			if (leaveDonation != null) {

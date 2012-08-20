@@ -1,9 +1,8 @@
 package org.kuali.hr.lm.leaveblock;
 
 import java.sql.Timestamp;
-import java.util.LinkedHashMap;
 
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class LeaveStatusHistory extends PersistableBusinessObjectBase {
 
@@ -64,12 +63,6 @@ public class LeaveStatusHistory extends PersistableBusinessObjectBase {
 
 	public void setReason(String reason) {
 		this.reason = reason;
-	}
-
-	@Override
-	protected LinkedHashMap toStringMapper() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

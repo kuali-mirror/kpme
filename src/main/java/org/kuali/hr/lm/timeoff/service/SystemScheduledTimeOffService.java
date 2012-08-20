@@ -8,6 +8,7 @@ import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.springframework.cache.annotation.Cacheable;
 
 public interface SystemScheduledTimeOffService {
     
@@ -16,6 +17,7 @@ public interface SystemScheduledTimeOffService {
      * @param lmSystemScheduledTimeOffId
      * @return
      */
+    @Cacheable(value= SystemScheduledTimeOff.CACHE_NAME, key="'lmSystemScheduledTimeOffId=' + #p0")
     public SystemScheduledTimeOff getSystemScheduledTimeOff(String lmSystemScheduledTimeOffId);
     
     public List<SystemScheduledTimeOff> getSystemScheduledTimeOffForPayPeriod(

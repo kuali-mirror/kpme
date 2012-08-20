@@ -5,17 +5,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.test.TkTestCase;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.TKUtils;
 
-public class UserPrefTest extends TkTestCase{
+public class UserPrefTest extends KPMETestCase{
 	@Test
 	public void testUserPrefFetch() throws Exception{
 		UserPreferences userPref = TkServiceLocator.getUserPreferenceService().getUserPreferences("admin");
-		assertTrue("User Pref is valid", userPref!=null && StringUtils.equals(userPref.getTimezone(),"America/Chicago"));
+		Assert.assertTrue("User Pref is valid", userPref!=null && StringUtils.equals(userPref.getTimezone(),"America/Chicago"));
 	}
 	
 	@Test
