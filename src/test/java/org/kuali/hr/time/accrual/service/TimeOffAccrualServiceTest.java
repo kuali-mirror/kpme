@@ -22,7 +22,7 @@ public class TimeOffAccrualServiceTest extends KPMETestCase {
 		TimesheetDocument doc = TkTestUtils.populateTimesheetDocument(TEST_DATE);
 		List<String> warnings = TkServiceLocator.getTimeOffAccrualService().validateAccrualHoursLimit(doc);
 		Assert.assertTrue("There should be 1 warning message", warnings.size() == 1);
-		Assert.assertTrue("Warning message not right", warnings.toString().contains("Warning: Total hours entered (4.00) for Accrual Category TEX has exceeded balance (0.00)."));
+		Assert.assertTrue("Warning message not right", warnings.get(0).contains("Warning: Total hours entered (4.00) for Accrual Category \"Tex accrual cat(TEX)\" has exceeded balance (0.00)."));
 	}
 
 }

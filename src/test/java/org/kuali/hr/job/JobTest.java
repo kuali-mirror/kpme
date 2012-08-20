@@ -29,7 +29,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  */
 public class JobTest extends KPMETestCase {
 
-	private static final String TEST_USER_ID = "eric";
 	private static final String CALENDAR_GROUP = "BW-CAL";
 	private static Long jobId = 23L;//id entered in the bootstrap SQL
 	private static Long jobNumber = 5L;//number entered in the bootstrap SQL

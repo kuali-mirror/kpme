@@ -143,7 +143,7 @@ public class TkRoleServiceTest  extends KPMETestCase {
 		job.setHrJobId("9999");
 
 		// This is causing all the unit tests to have an error - needs to be looked into later.
-		//TkServiceLocator.getJobService().saveOrUpdate(job);
+		TkServiceLocator.getJobService().saveOrUpdate(job);
 		
 		 TkRole tkRole = new TkRole();
 		 tkRole.setPrincipalId(null);
