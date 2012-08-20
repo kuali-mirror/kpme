@@ -456,6 +456,25 @@
                             </excludes>
 	                    </configuration>
 	                </execution>
+	                <execution>
+                        <id>copy-rice-web</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.kuali.rice</groupId>
+                                    <artifactId>rice-standalone</artifactId>
+                                    <version>${rice.version}</version>
+                                    <type>war</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
 	            </executions>
 	        </plugin>
 	        <plugin>
@@ -643,39 +662,6 @@
                 <kpme.dataSource.dropFirst>false</kpme.dataSource.dropFirst>
                 <kpme.dataSource.contexts>kpme-client-bootstrap,kpme-client-test</kpme.dataSource.contexts>
             </properties>
-        </profile>
-        
-        <profile>
-            <id>server-embedded</id>
-            <build>
-	            <plugins>
-		            <plugin>
-		                <groupId>org.apache.maven.plugins</groupId>
-		                <artifactId>maven-dependency-plugin</artifactId>
-		                <executions>
-		                    <execution>
-		                        <id>copy-rice-web</id>
-		                        <phase>generate-sources</phase>
-		                        <goals>
-		                            <goal>copy</goal>
-		                        </goals>
-		                        <configuration>
-		                            <artifactItems>
-		                                <artifactItem>
-		                                    <groupId>org.kuali.rice</groupId>
-		                                    <artifactId>rice-standalone</artifactId>
-		                                    <version>${rice.version}</version>
-		                                    <type>war</type>
-		                                    <overWrite>false</overWrite>
-		                                    <outputDirectory>${project.build.directory}</outputDirectory>
-		                                </artifactItem>
-		                            </artifactItems>
-		                        </configuration>
-		                    </execution>
-		                </executions>
-		            </plugin>
-		        </plugins>
-		    </build>
         </profile>
     </profiles>
     
