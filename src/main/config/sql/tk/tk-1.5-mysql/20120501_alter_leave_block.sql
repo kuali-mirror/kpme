@@ -1,1 +1,0 @@
-ALTER table lm_leave_block_t MODIFY LM_ACCRUAL_CATEGORY_ID varchar(60) null;

@@ -1,1 +1,0 @@
-ALTER TABLE `lm_accruals_t` ADD COLUMN `yearly_carryover` decimal(6,2) DEFAULT 0;

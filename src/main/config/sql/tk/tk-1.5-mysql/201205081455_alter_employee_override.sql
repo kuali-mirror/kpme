@@ -1,1 +1,0 @@
-ALTER TABLE `lm_leave_adjustment_t` add column `effdt` date DEFAULT NULL;

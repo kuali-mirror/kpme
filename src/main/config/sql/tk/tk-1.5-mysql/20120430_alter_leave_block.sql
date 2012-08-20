@@ -1,3 +1,0 @@
-ALTER TABLE `lm_leave_block_t` ADD COLUMN `JOB_NUMBER` bigint(20) DEFAULT NULL;
-ALTER TABLE `lm_leave_block_t` ADD COLUMN `WORK_AREA` bigint(10) DEFAULT NULL;
-ALTER TABLE `lm_leave_block_t` ADD COLUMN `TASK` bigint(20) DEFAULT NULL;
