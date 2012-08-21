@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.core.cache.CacheUtils;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
@@ -60,6 +61,7 @@ public class TimeCollectionRuleMaintainableImpl extends KualiMaintainableImpl {
 		}
 		
 		KRADServiceLocator.getBusinessObjectService().save(timeCollectionRule);
+        CacheUtils.flushCache(TimeCollectionRule.CACHE_NAME);
     }
 
 

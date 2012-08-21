@@ -66,6 +66,7 @@ import org.kuali.hr.time.workarea.service.WorkAreaService;
 import org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderService;
 import org.kuali.hr.time.workschedule.service.WorkScheduleAssignmentService;
 import org.kuali.hr.time.workschedule.service.WorkScheduleService;
+import org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -146,6 +147,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String LM_LEAVE_STATUS_HISTORY_SERVICE = "leaveStatusHistoryService";
 	public static final String LM_PRINCIPAL_ACCRUAL_RAN_SERVICE = "principalAccrualRanService";
 	public static final String LM_LEAVE_SUMMARY_SERVICE = "leaveSummaryService";
+    public static final String KPME_DISTRIBUTED_CACHE_MANAGER = "kpmeDistributedCacheManager";
 
     public static MissedPunchService getMissedPunchService() {
         return (MissedPunchService) CONTEXT.getBean(TK_MISSED_PUNCH_SERVICE);
@@ -210,6 +212,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static TkPermissionsService getPermissionsService(){
 	    return (TkPermissionsService)CONTEXT.getBean(TK_PERMISSIONS_SERVICE);
 	}
+
+    public static DistributedCacheManagerDecorator getDistributedCacheManager() {
+        return (DistributedCacheManagerDecorator)CONTEXT.getBean(KPME_DISTRIBUTED_CACHE_MANAGER);
+    }
 
 
 

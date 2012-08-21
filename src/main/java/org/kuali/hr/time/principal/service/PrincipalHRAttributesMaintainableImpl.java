@@ -3,6 +3,7 @@ package org.kuali.hr.time.principal.service;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.core.cache.CacheUtils;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -36,6 +37,7 @@ public class PrincipalHRAttributesMaintainableImpl extends KualiMaintainableImpl
 		PrincipalHRAttributes principalHRAttr = (PrincipalHRAttributes) this.getBusinessObject();
 		principalHRAttr.setTimestamp(null);
 		KRADServiceLocator.getBusinessObjectService().save(principalHRAttr);
+        CacheUtils.flushCache(PrincipalHRAttributes.CACHE_NAME);
 	}
 	
 	

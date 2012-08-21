@@ -2,6 +2,8 @@ package org.kuali.hr.time.roles.service;
 
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.roles.TkRole;
+import org.kuali.hr.time.roles.TkRoleGroup;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.sql.Date;
@@ -92,11 +94,13 @@ public interface TkRoleService {
 	 * Save or Update a given TkRole
 	 * @param role
 	 */
+    @CacheEvict(value={TkRole.CACHE_NAME, TkRoleGroup.CACHE_NAME}, allEntries = true)
 	public void saveOrUpdate(TkRole role);
 	/**
 	 * Save or Update a List of TkRole objects
 	 * @param roles
 	 */
+    @CacheEvict(value={TkRole.CACHE_NAME, TkRoleGroup.CACHE_NAME}, allEntries = true)
 	public void saveOrUpdate(List<TkRole> roles);
 
     /**

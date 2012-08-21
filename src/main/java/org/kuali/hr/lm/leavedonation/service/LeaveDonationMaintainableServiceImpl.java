@@ -3,6 +3,7 @@ package org.kuali.hr.lm.leavedonation.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.hr.core.cache.CacheUtils;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -27,7 +28,9 @@ public class LeaveDonationMaintainableServiceImpl extends HrBusinessObjectMainta
 	@Override
 	public void saveBusinessObject() {
 		super.saveBusinessObject();
-		
+		//leave donation saved, clear cache before grabbing saved object
+        CacheUtils.flushCache(LeaveDonation.CACHE_NAME);
+
 		// create leave blocks for donor and recipient
 		LeaveDonation ld = (LeaveDonation) this.getBusinessObject();
 		List<LeaveBlock> lbList = new ArrayList<LeaveBlock>();

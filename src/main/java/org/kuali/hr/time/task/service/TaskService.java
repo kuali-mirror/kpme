@@ -2,6 +2,7 @@ package org.kuali.hr.time.task.service;
 
 
 import org.kuali.hr.time.task.Task;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.sql.Date;
@@ -20,11 +21,13 @@ public interface TaskService {
      * Save a given Task
      * @param task
      */
+    @CacheEvict(value={Task.CACHE_NAME}, allEntries = true)
     public void saveTask(Task task);
     /**
      * Save a List of Tasks
      * @param tasks
      */
+    @CacheEvict(value={Task.CACHE_NAME}, allEntries = true)
     public void saveTasks(List<Task> tasks);
     
 	public Task getMaxTask();

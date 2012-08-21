@@ -1,11 +1,11 @@
 package org.kuali.hr.time.clocklog.service;
 
-import java.util.Map;
-
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.Map;
 
 public class ClockLogMaintainableImpl extends org.kuali.rice.kns.maintenance.KualiMaintainableImpl {
 

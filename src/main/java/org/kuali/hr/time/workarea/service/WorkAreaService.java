@@ -1,6 +1,7 @@
 package org.kuali.hr.time.workarea.service;
 
 import org.kuali.hr.time.workarea.WorkArea;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.sql.Date;
@@ -31,6 +32,7 @@ public interface WorkAreaService {
      * Save or Update given work area
      * @param workArea
      */
+    @CacheEvict(value={WorkArea.CACHE_NAME}, allEntries = true)
     public void saveOrUpdate(WorkArea workArea);
 
     /**

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.core.cache.CacheUtils;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
 import org.kuali.hr.time.clock.location.ClockLocationRuleIpAddress;
@@ -94,6 +95,7 @@ public class ClockLocationMaintainableImpl extends HrBusinessObjectMaintainableI
 				ipAddress.setTkClockLocationRuleId(clr.getTkClockLocationRuleId());
 				KRADServiceLocator.getBusinessObjectService().save(ipAddress);
 			}
+            CacheUtils.flushCache(ClockLocationRule.CACHE_NAME);
 		}
 		
 	}

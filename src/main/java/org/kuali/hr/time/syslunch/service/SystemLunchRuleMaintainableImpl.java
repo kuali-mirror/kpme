@@ -2,6 +2,7 @@ package org.kuali.hr.time.syslunch.service;
 
 import java.sql.Timestamp;
 
+import org.kuali.hr.core.cache.CacheUtils;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.syslunch.rule.SystemLunchRule;
 import org.kuali.hr.time.util.TKUtils;
@@ -35,5 +36,6 @@ public class SystemLunchRuleMaintainableImpl extends KualiMaintainableImpl {
 		}
 		
 		KRADServiceLocator.getBusinessObjectService().save(sysLunchRule);
+        CacheUtils.flushCache(SystemLunchRule.CACHE_NAME);
 	}
 }

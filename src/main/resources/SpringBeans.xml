@@ -46,28 +46,28 @@
     <aop:aspectj-autoproxy/>
 
     <!-- caching setup -->
-    <bean id="kpme.CacheAdminService" class="org.kuali.rice.core.impl.cache.CacheAdminServiceImpl"
-          p:cacheManager-ref="kpme.LocalCacheManager" />
+    <bean id="kpmeCacheAdminService" class="org.kuali.rice.core.impl.cache.CacheAdminServiceImpl"
+          p:cacheManager-ref="kpmeLocalCacheManager" />
 
-    <bean id="kpme.LocalCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+    <bean id="kpmeLocalCacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
         <property name="cacheManager">
             <bean class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:configLocation="${kpme.ehcache.config.location}" />
         </property>
     </bean>
 
     <!-- the distributed cache manager that calls into the CacheAdminService on the ksb -->
-    <bean id="kpme.DistributedCacheManager" class="org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator">
-        <property name="cacheManager" ref="kpme.LocalCacheManager" />
+    <bean id="kpmeDistributedCacheManager" class="org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator">
+        <property name="cacheManager" ref="kpmeLocalCacheManager" />
         <property name="serviceName" value="{KPME}kpmeCacheAdminService" />
     </bean>
 
-    <bean id="kpme.cacheManagerRegistry" class="org.kuali.rice.core.impl.cache.CacheManagerRegistryImpl">
-        <property name="cacheManager" ref="kpme.DistributedCacheManager" />
+    <bean id="kpmeCacheManagerRegistry" class="org.kuali.rice.core.impl.cache.CacheManagerRegistryImpl">
+        <property name="cacheManager" ref="kpmeDistributedCacheManager" />
     </bean>
 
-    <bean id="kpme.CacheAdminService.exporter" parent="kpme.serviceExporter">
+    <bean id="kpmeCacheAdminService.exporter" parent="kpme.serviceExporter">
         <property name="serviceDefinition">
-            <bean parent="kpme.service" p:service-ref="kpme.CacheAdminService" p:localServiceName="kpmeCacheAdminService"
+            <bean parent="kpme.service" p:service-ref="kpmeCacheAdminService" p:localServiceName="kpmeCacheAdminService"
                   p:queue="false" />
         </property>
     </bean>

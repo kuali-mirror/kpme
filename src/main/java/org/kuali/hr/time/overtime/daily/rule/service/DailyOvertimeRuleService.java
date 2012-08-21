@@ -6,6 +6,7 @@ import java.util.List;
 import org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 public interface DailyOvertimeRuleService {
@@ -13,11 +14,13 @@ public interface DailyOvertimeRuleService {
 	 * Save of update a DailyOvertimeRule
 	 * @param dailyOvertimeRule
 	 */
+    @CacheEvict(value={DailyOvertimeRule.CACHE_NAME}, allEntries = true)
 	public void saveOrUpdate(DailyOvertimeRule dailyOvertimeRule);
 	/**
 	 * Save or Update a List of DailyOvertimeRules
 	 * @param dailyOvertimeRules
 	 */
+    @CacheEvict(value={DailyOvertimeRule.CACHE_NAME}, allEntries = true)
 	public void saveOrUpdate(List<DailyOvertimeRule> dailyOvertimeRules);
 	
 	/**

@@ -6,6 +6,7 @@ import java.util.List;
 import org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 public interface ShiftDifferentialRuleService {
@@ -13,11 +14,13 @@ public interface ShiftDifferentialRuleService {
 	 * Save or Update List of ShiftDifferentialRule objects
 	 * @param shiftDifferentialRules
 	 */
+    @CacheEvict(value={ShiftDifferentialRule.CACHE_NAME}, allEntries = true)
 	public void saveOrUpdate(List<ShiftDifferentialRule> shiftDifferentialRules);
 	/**
 	 * Save or Update a ShiftDifferentialRule object
 	 * @param shiftDifferentialRule
 	 */
+    @CacheEvict(value={ShiftDifferentialRule.CACHE_NAME}, allEntries = true)
 	public void saveOrUpdate(ShiftDifferentialRule shiftDifferentialRule);
 	/**
 	 * Fetch a ShiftDifferentialRule object for a given id

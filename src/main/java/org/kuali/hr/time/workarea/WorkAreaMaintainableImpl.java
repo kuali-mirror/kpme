@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.core.cache.CacheUtils;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.position.Position;
 import org.kuali.hr.time.roles.TkRole;
@@ -179,6 +180,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 		hrObj.setId(null);
 
 		KRADServiceLocator.getBusinessObjectService().save(hrObj);
+        CacheUtils.flushCache(WorkArea.CACHE_NAME);
 	}
 		
 }

@@ -1,19 +1,11 @@
 package org.kuali.hr.time.roles;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.core.cache.CacheUtils;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -23,6 +15,9 @@ import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.sql.Timestamp;
+import java.util.*;
 
 public class TkRoleGroupMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
@@ -73,7 +68,9 @@ public class TkRoleGroupMaintainableImpl extends HrBusinessObjectMaintainableImp
     					oldHrObj.setId(null);
     				}
     				KRADServiceLocator.getBusinessObjectService().save(oldHrObj);
-    				
+                    CacheUtils.flushCache(TkRole.CACHE_NAME);
+                    CacheUtils.flushCache(TkRoleGroup.CACHE_NAME);
+
     				role.setTimestamp(new Timestamp(System.currentTimeMillis()));
     				role.setId(null);
     			}

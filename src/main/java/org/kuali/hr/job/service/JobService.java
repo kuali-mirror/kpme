@@ -1,6 +1,7 @@
 package org.kuali.hr.job.service;
 
 import org.kuali.hr.job.Job;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.math.BigDecimal;
@@ -13,12 +14,14 @@ public interface JobService {
 	 * Updates or saves a job
 	 * @param job
 	 */
+    @CacheEvict(value={Job.CACHE_NAME}, allEntries = true)
 	public void saveOrUpdate(Job job);
 	
 	/**
 	 * Updates or saves a list of jobs
 	 * @param jobList
 	 */
+    @CacheEvict(value={Job.CACHE_NAME}, allEntries = true)
 	public void saveOrUpdate(List<Job> jobList);
 	
 	/**
