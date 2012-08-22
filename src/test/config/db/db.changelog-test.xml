@@ -2,7 +2,7 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-                      
+
     <changeSet id="1" author="kbtaylor" context="kpme-server-test" dbms="mysql">
         <insert tableName="krim_entity_id_s">
             <column name="id" value="10000" />
@@ -30,7 +30,7 @@
     
     <changeSet id="4" author="djunk" context="kpme-client-test" dbms="mysql">
         <insert tableName="hr_calendar_entries_s">
-            <column name="id" value="58" />
+            <column name="id" value="100" />
         </insert>
         <insert tableName="hr_calendar_s">
             <column name="id" value="2" />

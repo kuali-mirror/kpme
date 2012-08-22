@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
 import org.kuali.hr.time.authorization.TkAuthorizedLookupableHelperBase;
+import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
@@ -41,7 +42,8 @@ public class DepartmentLunchRuleLookupableHelper extends TkAuthorizedLookupableH
 		String tkDeptLunchRuleId = deptLunchRule.getTkDeptLunchRuleId();
 		String department = deptLunchRule.getDept();
 		String workArea = String.valueOf(deptLunchRule.getWorkArea());
-        String location = TkServiceLocator.getDepartmentService().getDepartment(deptLunchRule.getDept(), TKUtils.getCurrentDate()).getLocation();
+        Department dept = TkServiceLocator.getDepartmentService().getDepartment(deptLunchRule.getDept(), TKUtils.getCurrentDate());
+        String location = dept == null ? null : dept.getLocation();
 		
 		boolean systemAdmin = TKContext.getUser().isSystemAdmin();
 		boolean locationAdmin = TKContext.getUser().getLocationAdminAreas().contains(location);

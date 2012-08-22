@@ -28,7 +28,7 @@ public class SystemScheduledTimeOffMaintTest extends KPMETestCase{
 	private static final String SCHEDULED_TO_DATE_PAST_ERROR = "'Scheduled Time Off Date' needs to be a future date.";
 	private static final String EXPIRATION_DATE_FUTURE_ERROR = "'Expiration Date' must be a future date that is NOT more than a year away from current date.";
 	private static final String SUCCESS_MESSAGE = "Document was successfully submitted.";
-	private static final String ERROR_LEAVE_CODE = "The specified leaveCode 'testLCL' does not exist";
+	private static final String ERROR_LEAVE_CODE = "The specified earnCode 'testLCL' does not exist";
 	
 	@Test
 	public void testRequiredFields() throws Exception {
@@ -86,6 +86,7 @@ public class SystemScheduledTimeOffMaintTest extends KPMETestCase{
 	    setFieldValue(page, "document.newMaintainableObject.accruedDate", "04/01/2011");
 	    setFieldValue(page, "document.newMaintainableObject.scheduledTimeOffDate", "04/01/2011");
 	    setFieldValue(page, "document.newMaintainableObject.expirationDate", "04/01/2011");
+
 	  	
 	  	HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
 	  	Assert.assertNotNull("Could not locate submit button", input);
@@ -112,9 +113,14 @@ public class SystemScheduledTimeOffMaintTest extends KPMETestCase{
 	  	// because if we happen to be running the test on the 31 of a month, some future months do not have 31st 
 	  	validDate.add(Calendar.DATE, 150);   	
 	  	String validDateString = new SimpleDateFormat("MM/dd/yyyy").format(validDate.getTime());
-	  	
+
+        setFieldValue(page, "document.documentHeader.documentDescription", "something clever...");
 	  	setFieldValue(page, "document.newMaintainableObject.effectiveDate", validDateString);
-	    setFieldValue(page, "document.newMaintainableObject.earnCode", "testLC"); 
+	    setFieldValue(page, "document.newMaintainableObject.earnCode", "EC");
+        setFieldValue(page, "document.newMaintainableObject.descr", "this is my description");
+        setFieldValue(page, "document.newMaintainableObject.amountofTime", "8");
+        setFieldValue(page, "document.newMaintainableObject.location", "CST");
+        setFieldValue(page, "document.newMaintainableObject.accruedDate", validDateString);
 	    
 	    page = page.getElementByName("methodToCall.route").click();
 	    HtmlUnitUtil.createTempFile(page);

@@ -14,6 +14,8 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlButton;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+import java.util.Calendar;
+
 public class LeaveCalendarWebTest extends KPMETestCase {
 
 	@Before
@@ -42,23 +44,23 @@ public class LeaveCalendarWebTest extends KPMETestCase {
 
 		this.setWebClient(leaveCalendarPage.getWebClient());
 
-		
 		Assert.assertTrue("Page does not have Current calendar ", leaveCalendarPage
-				.asText().contains("April 2012"));
+				.asText().contains(new org.joda.time.DateTime().toString("MMM YYYY")));
+
+        // Check for next document
+        HtmlButton nextButton = (HtmlButton) leaveCalendarPage
+                .getElementById("nav_next_lc");
+        Assert.assertNotNull(nextButton);
+        //TODO: click not working.  Not even getting to the 'execute' method in LeaveCalendarAction
+        HtmlPage page = nextButton.click();
+        Assert.assertNotNull(page);
 
 		// Check for previous document
-		HtmlButton prevButton = (HtmlButton) leaveCalendarPage
+		HtmlButton prevButton = (HtmlButton) page
 				.getElementById("nav_prev_lc");
 		Assert.assertNotNull(prevButton);
-	
-		
-		// Check for next document
-		HtmlButton nextButton = (HtmlButton) leaveCalendarPage
-				.getElementById("nav_next_lc");
-		Assert.assertNotNull(nextButton);
-		HtmlPage page = nextButton.click();
-		
-		Assert.assertNotNull(page);
+        page = prevButton.click();
+        Assert.assertNotNull(page);
 
 	}
 

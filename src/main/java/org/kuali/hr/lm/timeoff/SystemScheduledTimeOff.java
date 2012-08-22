@@ -53,7 +53,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 			earnCodeObj =  TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, this.effectiveDate);
 		}
 		leavePlan = (earnCodeObj != null) ? earnCodeObj.getLeavePlan() : "";
-		return (earnCodeObj != null) ? earnCodeObj.getLeavePlan() : "";
+		return leavePlan;
 	}
 
 	public void setLeavePlan(String leavePlan) {
@@ -61,12 +61,14 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 	}
 
 	public String getAccrualCategory() {
-//		if (this.earnCodeObj == null && 
-//				(!StringUtils.isEmpty(this.earnCode) && this.effectiveDate != null)) {		
-//			earnCodeObj =  TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, this.effectiveDate);
-//		}
-//		accrualCategory = (earnCodeObj != null) ? earnCodeObj.getAccrualCategory() : "";
-//		return (earnCodeObj != null) ? earnCodeObj.getAccrualCategory() : "";
+        if(StringUtils.isNotEmpty(accrualCategory)) {
+            return accrualCategory;
+        }
+		if (this.earnCodeObj == null &&
+				(!StringUtils.isEmpty(this.earnCode) && this.effectiveDate != null)) {
+			earnCodeObj =  TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, this.effectiveDate);
+		}
+		accrualCategory = (earnCodeObj != null) ? earnCodeObj.getAccrualCategory() : "";
 		return accrualCategory;
 	}
 

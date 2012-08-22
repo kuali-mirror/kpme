@@ -25,7 +25,17 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class ActualTimeInquiryWebTest extends KPMETestCase {
 	private String documentId;
 	private TimeBlock timeBlock;
-	@Test
+
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+
+        //create current timeshee
+
+
+    }
+
+    @Test
 	public void testActualTimeInquiry() throws Exception {
 		String baseUrl = TkTestConstants.Urls.TIME_DETAIL_URL;
     	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);

@@ -29,6 +29,9 @@
     <param name="rice.logging.configure">true</param>
     <param name="kim.show.blank.qualifiers">false</param>
     <param name="kpme.system.timezone"></param>
+
+    <!-- Caching Defaults -->
+    <param name="kpme.ehcache.config.location" override="false">classpath:kpme.ehcache.xml</param>
     
     <!-- Bundled (Development) mode Rice URL -->
     <param name="application.host">localhost</param>
@@ -95,8 +98,6 @@
     <param name="datasource.pool.class">com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</param>
     <param name="datasource.pool.class.non.xa">bitronix.tm.resource.jdbc.lrc.LrcXADataSource</param>
 
-    <!-- Caching Defaults -->
-    <param name="kpme.ehcache.config.location" override="false">classpath:kpme.ehcache.xml</param>
 	<!-- Server DB Defaults -->
     <param name="server.datasource.ojb.platform">MySQL</param>
     <param name="server.datasource.platform">org.kuali.rice.core.framework.persistence.platform.MySQLDatabasePlatform</param>
@@ -112,7 +113,7 @@
     <!-- KPME Client DB -->
     <param name="datasource.url" override="false">jdbc:mysql://localhost:3306/kpmedev</param>
     <param name="datasource.username" override="false">kpmedev</param>
-    <param name="datasource.password" override="false" >secret</param>
+    <param name="datasource.password" override="false">secret</param>
     
     <!-- Rice Server DB -->
     <param name="server.datasource.url" override="false">jdbc:mysql://localhost:3306/krdev</param>
