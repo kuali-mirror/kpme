@@ -2,10 +2,7 @@ package org.kuali.hr.time.clock.web;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import org.joda.time.DateTime;
 import org.junit.Assert;
@@ -33,19 +30,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class ClockWebTest extends KPMETestCase {
 
-    private String documentId;
     private String tbId;
-    private TimeBlock timeBlock;
-
-    @Override
-    public void setUp() throws Exception {
-        super.setUp();
-    }
-
-    @Override
-    public void tearDown() throws Exception {
-        super.tearDown();
-    }
 
     public Long maxDocumentId() {
         Collection aCol = KRADServiceLocator.getBusinessObjectService().findAll(TimesheetDocumentHeader.class);
@@ -76,7 +61,7 @@ public class ClockWebTest extends KPMETestCase {
     }
 
     public void createTB() {
-        timeBlock = new TimeBlock();
+        TimeBlock timeBlock = new TimeBlock();
         timeBlock.setUserPrincipalId("admin");
         timeBlock.setJobNumber(2L);
         timeBlock.setWorkArea(1234L);
@@ -92,13 +77,13 @@ public class ClockWebTest extends KPMETestCase {
         timeBlock.getTimeHourDetails().add(timeHourDetail);
         timeBlock.setHours(new BigDecimal(2.0));
         List<TimeBlock> tbList = new ArrayList<TimeBlock>();
-        documentId = this.maxDocumentId().toString();
+        String documentId = this.maxDocumentId().toString();
         timeBlock.setDocumentId(documentId);
         tbList.add(timeBlock);
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(tbList);
 
-        tbId = timeBlock.getTkTimeBlockId().toString();
-        TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId.toString());
+        tbId = timeBlock.getTkTimeBlockId();
+        TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
         td.setTimeBlocks(tbList);
 
     }
@@ -192,8 +177,10 @@ public class ClockWebTest extends KPMETestCase {
 
     @Test
     public void testClockActionWithGracePeriodRule() throws Exception {
+        //clean clock logs
+        KRADServiceLocator.getBusinessObjectService().deleteMatching(ClockLog.class, Collections.singletonMap("principalId", "admin"));
         GracePeriodRule gpr = new GracePeriodRule();
-        gpr.setTkGracePeriodRuleId("1");
+        //gpr.setTkGracePeriodRuleId("1");
         gpr.setEffectiveDate(TKUtils.createDate(1, 1, 2010, 0, 0, 0));
         gpr.setHourFactor(new BigDecimal(3));
         gpr.setTimestamp(new Timestamp(System.currentTimeMillis()));
@@ -215,6 +202,8 @@ public class ClockWebTest extends KPMETestCase {
         lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog("admin");
         Assert.assertTrue("The seconds on clock timestamp should NOT be preserved", new DateTime(lastClockLog.getClockTimestamp().getTime()).getSecondOfMinute() == 0);
         Assert.assertTrue("The seconds on timestamp should be preserved", new DateTime(lastClockLog.getTimestamp().getTime()).getSecondOfMinute() != 0);
+
+
     }
 
     private HtmlPage clockIn() throws Exception {
