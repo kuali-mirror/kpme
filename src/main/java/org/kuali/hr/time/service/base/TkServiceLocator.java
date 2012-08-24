@@ -7,6 +7,7 @@ import org.kuali.hr.lm.accrual.service.AccrualService;
 import org.kuali.hr.lm.accrual.service.PrincipalAccrualRanService;
 import org.kuali.hr.lm.earncodesec.service.EarnCodeSecurityService;
 import org.kuali.hr.lm.employeeoverride.service.EmployeeOverrideService;
+import org.kuali.hr.lm.leave.approval.service.LeaveApprovalService;
 import org.kuali.hr.lm.leaveSummary.service.LeaveSummaryService;
 import org.kuali.hr.lm.leaveadjustment.service.LeaveAdjustmentService;
 import org.kuali.hr.lm.leaveblock.service.LeaveBlockHistoryService;
@@ -147,8 +148,9 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String LM_LEAVE_STATUS_HISTORY_SERVICE = "leaveStatusHistoryService";
 	public static final String LM_PRINCIPAL_ACCRUAL_RAN_SERVICE = "principalAccrualRanService";
 	public static final String LM_LEAVE_SUMMARY_SERVICE = "leaveSummaryService";
+	public static final String LM_LEAVE_APPROVAL_SERVICE = "leaveApprovalService";
     public static final String KPME_DISTRIBUTED_CACHE_MANAGER = "kpmeDistributedCacheManager";
-
+    
     public static MissedPunchService getMissedPunchService() {
         return (MissedPunchService) CONTEXT.getBean(TK_MISSED_PUNCH_SERVICE);
     }
@@ -436,6 +438,9 @@ public class TkServiceLocator implements ApplicationContextAware {
 	}
 	public static LeaveSummaryService getLeaveSummaryService() {
 		return (LeaveSummaryService)CONTEXT.getBean(LM_LEAVE_SUMMARY_SERVICE);
+	}
+	public static LeaveApprovalService getLeaveApprovalService() {
+		return (LeaveApprovalService)CONTEXT.getBean(LM_LEAVE_APPROVAL_SERVICE);
 	}
 	
 	@Override

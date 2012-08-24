@@ -1,13 +1,18 @@
 package org.kuali.hr.time.approval.web;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.kuali.hr.time.base.web.TkCommonCalendarForm;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.roles.TkUserRoles;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-import java.util.*;
 
 public class TimeApprovalActionForm extends TkCommonCalendarForm {
 
@@ -45,6 +50,9 @@ public class TimeApprovalActionForm extends TkCommonCalendarForm {
     
     private Map<Long,String> workAreaDescr = new HashMap<Long,String>();
 
+    private String selectedApprovalType;
+    private List<ApprovalLeaveSummaryRow> leaveApprovalRows;
+	private List<String> leaveCalendarLabels = new ArrayList<String>();
 
 
 	/**
@@ -381,6 +389,30 @@ public class TimeApprovalActionForm extends TkCommonCalendarForm {
 
 	public void setWorkAreaDescr(Map<Long,String> workAreaDescr) {
 		this.workAreaDescr = workAreaDescr;
+	}
+
+	public List<ApprovalLeaveSummaryRow> getLeaveApprovalRows() {
+		return leaveApprovalRows;
+	}
+
+	public void setLeaveApprovalRows(List<ApprovalLeaveSummaryRow> leaveApprovalRows) {
+		this.leaveApprovalRows = leaveApprovalRows;
+	}
+
+	public List<String> getLeaveCalendarLabels() {
+		return leaveCalendarLabels;
+	}
+
+	public void setLeaveCalendarLabels(List<String> leaveCalendarLabels) {
+		this.leaveCalendarLabels = leaveCalendarLabels;
+	}
+
+	public String getSelectedApprovalType() {
+		return selectedApprovalType;
+	}
+
+	public void setSelectedApprovalType(String selectedApprovalType) {
+		this.selectedApprovalType = selectedApprovalType;
 	}
 
 }

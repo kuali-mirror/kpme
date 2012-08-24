@@ -1,15 +1,14 @@
 package org.kuali.hr.lm.workflow.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.lm.workflow.dao.LeaveCalendarDocumentHeaderDao;
-import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 public class LeaveCalendarDocumentHeaderServiceImpl implements LeaveCalendarDocumentHeaderService {
 
@@ -59,5 +58,14 @@ public class LeaveCalendarDocumentHeaderServiceImpl implements LeaveCalendarDocu
 	@Override
 	public LeaveCalendarDocumentHeader getMinBeginDatePendingLeaveCalendar(String principalId) {
 		return leaveCalendarDocumentHeaderDao.getMinBeginDatePendingLeaveCalendar(principalId);
+	}
+	
+	@Override
+	public List<LeaveCalendarDocumentHeader> getAllDocumentHeadersForPricipalId(String principalId){
+		return leaveCalendarDocumentHeaderDao.getAllDocumentHeadersForPricipalId(principalId);
+	}
+	@Override
+	public List<LeaveCalendarDocumentHeader> getAllDelinquentDocumentHeadersForPricipalId(String principalId){
+		return leaveCalendarDocumentHeaderDao.getAllDelinquentDocumentHeadersForPricipalId(principalId);
 	}
 }

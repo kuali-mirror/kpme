@@ -17,14 +17,14 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
+import org.kuali.hr.lm.LMConstants;
+import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.detail.web.ActionFormUtils;
 import org.kuali.hr.time.person.TKPerson;
-import org.kuali.hr.time.roles.TkUserRoles;
-import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
@@ -58,14 +58,13 @@ public class TimeApprovalAction extends TkAction{
         List<String> principalIds = new ArrayList<String>();
         principalIds.add(principalId);
         List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
+        CalendarEntries payCalendarEntries = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(taaf.getHrPyCalendarEntriesId());
         if (persons.isEmpty()) {
         	taaf.setApprovalRows(new ArrayList<ApprovalTimeSummaryRow>());
         	taaf.setResultSize(0);
         } else {
-        	taaf.setResultSize(persons.size());	
-	        taaf.setApprovalRows(getApprovalRows(taaf, persons));
-	        
-        	CalendarEntries payCalendarEntries = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(taaf.getHrPyCalendarEntriesId());
+        	this.setApprovalTables(taaf, principalIds, request, payCalendarEntries);
+        	
    	        taaf.setPayCalendarEntries(payCalendarEntries);
    	        taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(payCalendarEntries, new ArrayList<Boolean>()));
         	
@@ -87,17 +86,32 @@ public class TimeApprovalAction extends TkAction{
 	
     public ActionForward approve(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
-        List<ApprovalTimeSummaryRow> lstApprovalRows = taaf.getApprovalRows();
-        for (ApprovalTimeSummaryRow ar : lstApprovalRows) {
-            if (ar.isApprovable() && StringUtils.equals(ar.getSelected(), "on")) {
-                String documentNumber = ar.getDocumentId();
-                TimesheetDocument tDoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentNumber);
-                TkServiceLocator.getTimesheetService().approveTimesheet(TKContext.getPrincipalId(), tDoc);
-            }
-        }
+        if(taaf.getSelectedApprovalType().equals(LMConstants.TIME_APPROVAL_TYPE.TIME)
+        		|| taaf.getSelectedApprovalType().equals(LMConstants.TIME_APPROVAL_TYPE.ALL) ) {
+	        List<ApprovalTimeSummaryRow> lstApprovalRows = taaf.getApprovalRows();
+	        for (ApprovalTimeSummaryRow ar : lstApprovalRows) {
+	            if (ar.isApprovable() && StringUtils.equals(ar.getSelected(), "on")) {
+	                String documentNumber = ar.getDocumentId();
+	                TimesheetDocument tDoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentNumber);
+	                TkServiceLocator.getTimesheetService().approveTimesheet(TKContext.getPrincipalId(), tDoc);
+	            }
+	        }
+        } 
+        if(taaf.getSelectedApprovalType().equals(LMConstants.TIME_APPROVAL_TYPE.LEAVE)
+        		|| taaf.getSelectedApprovalType().equals(LMConstants.TIME_APPROVAL_TYPE.ALL) 	) {
+	        List<ApprovalLeaveSummaryRow> lstLeaveRows = taaf.getLeaveApprovalRows();
+	        for (ApprovalLeaveSummaryRow ar : lstLeaveRows) {
+	            if (ar.isApprovable() && StringUtils.equals(ar.getSelected(), "on")) {
+	                String documentNumber = ar.getDocumentId();
+	                LeaveCalendarDocumentHeader lcd = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentNumber);
+	                //TODO: approve the selected leave calendar documents, logic does not exist in LeaveCalendarDocumentHeaderService yet
+	            }
+	        }
+        }       
+        
         return mapping.findForward("basic");
     }
-    
+        
 	public ActionForward selectNewDept(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -119,16 +133,7 @@ public class TimeApprovalAction extends TkAction{
         }
 	
     	List<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByDeptWorkAreaRolename(taaf.getRoleName(), taaf.getSelectedDept(), taaf.getSelectedWorkArea(), new java.sql.Date(taaf.getPayBeginDate().getTime()), new java.sql.Date(taaf.getPayEndDate().getTime()), taaf.getSelectedPayCalendarGroup());
-    	if (principalIds.isEmpty()) {
-    		taaf.setApprovalRows(new ArrayList<ApprovalTimeSummaryRow>());
-    		taaf.setResultSize(0);
-    	}
-    	else {
-	        List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
-	        Collections.sort(persons);
-	        taaf.setApprovalRows(getApprovalRows(taaf, getSubListPrincipalIds(request, persons)));
-	        taaf.setResultSize(persons.size());
-    	}
+    	this.setApprovalTables(taaf, principalIds, request, payCalendarEntries);
     	
     	this.populateCalendarAndPayPeriodLists(request, taaf);
 		return mapping.findForward("basic");
@@ -145,18 +150,47 @@ public class TimeApprovalAction extends TkAction{
         taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(payCalendarEntries, new ArrayList<Boolean>()));
         
         List<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByDeptWorkAreaRolename(taaf.getRoleName(), taaf.getSelectedDept(), taaf.getSelectedWorkArea(), new java.sql.Date(taaf.getPayBeginDate().getTime()), new java.sql.Date(taaf.getPayEndDate().getTime()), taaf.getSelectedPayCalendarGroup());
+        this.setApprovalTables(taaf, principalIds, request, payCalendarEntries);
+        
+		return mapping.findForward("basic");
+	}
+	public ActionForward selectNewApprovalType(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+		TimeApprovalActionForm taaf = (TimeApprovalActionForm)form;
+		taaf.setSearchField(null);
+		taaf.setSearchTerm(null);
+		List<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByDeptWorkAreaRolename(taaf.getRoleName(), taaf.getSelectedDept(), taaf.getSelectedWorkArea(), new java.sql.Date(taaf.getPayBeginDate().getTime()), new java.sql.Date(taaf.getPayEndDate().getTime()), taaf.getSelectedPayCalendarGroup());
+		CalendarEntries payCalendarEntries = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(taaf.getHrPyCalendarEntriesId());
+		this.setApprovalTables(taaf, principalIds, request, payCalendarEntries);
+		return mapping.findForward("basic");
+	}
+	
+	private void setApprovalTables(TimeApprovalActionForm taaf, List<String> principalIds, HttpServletRequest request, CalendarEntries payCalendarEntries) {
 		if (principalIds.isEmpty()) {
 			taaf.setApprovalRows(new ArrayList<ApprovalTimeSummaryRow>());
+			taaf.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
 			taaf.setResultSize(0);
 		}
 		else {
-	        List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
-	        Collections.sort(persons);
-	        taaf.setApprovalRows(getApprovalRows(taaf, getSubListPrincipalIds(request, persons)));
-	        taaf.setResultSize(persons.size());
+			List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
+		    Collections.sort(persons);
+			if(taaf.getSelectedApprovalType().equals(LMConstants.TIME_APPROVAL_TYPE.TIME) 
+				|| taaf.getSelectedApprovalType().equals(LMConstants.TIME_APPROVAL_TYPE.ALL)) {
+				 taaf.setApprovalRows(getApprovalRows(taaf, getSubListPrincipalIds(request, persons)));
+				 taaf.setResultSize(persons.size());
+			}
+			if(taaf.getSelectedApprovalType().equals(LMConstants.TIME_APPROVAL_TYPE.LEAVE)
+				|| taaf.getSelectedApprovalType().equals(LMConstants.TIME_APPROVAL_TYPE.ALL)) {
+				 List<ApprovalLeaveSummaryRow> leaveRows = new ArrayList<ApprovalLeaveSummaryRow>();
+			     leaveRows = this.getApprovalLeaveRows(taaf, getSubListPrincipalIds(request, persons)); 
+			     taaf.setLeaveApprovalRows(leaveRows);
+			     taaf.setLeaveCalendarLabels(TkServiceLocator.getLeaveSummaryService().getHeaderForSummary(payCalendarEntries));
+			     taaf.setResultSize(persons.size());
+			}
 		}
-		return mapping.findForward("basic");
 	}
+	
+	
+	
 	
 	public ActionForward loadApprovalTab(ActionMapping mapping, ActionForm form,
 	HttpServletRequest request, HttpServletResponse response)
@@ -212,8 +246,20 @@ public class TimeApprovalAction extends TkAction{
 		}
 		
 		List<CalendarEntries> pcListForYear = new ArrayList<CalendarEntries>();
-		List<CalendarEntries> pceList = TkServiceLocator.getTimeApproveService()
-			.getAllPayCalendarEntriesForApprover(TKContext.getPrincipalId(), TKUtils.getTimelessDate(null));
+		List<CalendarEntries> pceList =  new ArrayList<CalendarEntries>();
+		if(taaf.getSelectedApprovalType() != null) {
+			if(taaf.getSelectedApprovalType().equals(LMConstants.TIME_APPROVAL_TYPE.TIME)
+					 || taaf.getSelectedApprovalType().equals(LMConstants.TIME_APPROVAL_TYPE.ALL)) {
+				pceList.addAll(TkServiceLocator.getTimeApproveService()
+					.getAllPayCalendarEntriesForApprover(TKContext.getPrincipalId(), TKUtils.getTimelessDate(null)));
+			}
+			if(taaf.getSelectedApprovalType().equals(LMConstants.TIME_APPROVAL_TYPE.LEAVE)
+					 || taaf.getSelectedApprovalType().equals(LMConstants.TIME_APPROVAL_TYPE.ALL)) {
+				pceList.addAll(TkServiceLocator.getTimeApproveService()
+					.getAllLeavePayCalendarEntriesForApprover(TKContext.getPrincipalId(), TKUtils.getTimelessDate(null)));
+			}
+		}
+		
 	    for(CalendarEntries pce : pceList) {
 	    	yearSet.add(sdf.format(pce.getBeginPeriodDate()));
 	    	if(sdf.format(pce.getBeginPeriodDate()).equals(taaf.getSelectedCalendarYear())) {
@@ -284,17 +330,8 @@ public class TimeApprovalAction extends TkAction{
 
 		List<String> principalIds = new ArrayList<String>();
 		principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByDeptWorkAreaRolename(taaf.getRoleName(), taaf.getSelectedDept(), taaf.getSelectedWorkArea(), new java.sql.Date(taaf.getPayBeginDate().getTime()), new java.sql.Date(taaf.getPayEndDate().getTime()), taaf.getSelectedPayCalendarGroup());
-		if (principalIds.isEmpty()) {
-			taaf.setApprovalRows(new ArrayList<ApprovalTimeSummaryRow>());
-			taaf.setResultSize(0);
-		}
-		else {
-		    List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
-		    Collections.sort(persons);
-		    taaf.setApprovalRows(getApprovalRows(taaf, getSubListPrincipalIds(request, persons)));
-		    taaf.setResultSize(persons.size());
-		}
-		
+	
+		this.setApprovalTables(taaf, principalIds, request, nextPayCalendarEntries);
 		taaf.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(taaf.getPayCalendarEntries()));
 	}
 	
@@ -323,6 +360,11 @@ public class TimeApprovalAction extends TkAction{
      */
     protected List<ApprovalTimeSummaryRow> getApprovalRows(TimeApprovalActionForm taaf, List<TKPerson> assignmentPrincipalIds) {
         return TkServiceLocator.getTimeApproveService().getApprovalSummaryRows(taaf.getPayBeginDate(), taaf.getPayEndDate(), taaf.getSelectedPayCalendarGroup(), assignmentPrincipalIds, taaf.getPayCalendarLabels(), taaf.getPayCalendarEntries());
+    }
+    
+    protected List<ApprovalLeaveSummaryRow> getApprovalLeaveRows(TimeApprovalActionForm taaf, List<TKPerson> assignmentPrincipalIds) {
+        return TkServiceLocator.getLeaveApprovalService().getLeaveApprovalSummaryRows
+        	(assignmentPrincipalIds, taaf.getPayCalendarEntries(), taaf.getLeaveCalendarLabels());
     }
 	
     public void resetState(ActionForm form, HttpServletRequest request) {

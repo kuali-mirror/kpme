@@ -15,6 +15,7 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeFieldType;
 import org.joda.time.LocalDateTime;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -29,11 +30,12 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
 
 public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 	
 	@Override
-	 public LeaveSummary getLeaveSummary(String principalId, CalendarEntries calendarEntry) throws Exception {
+	public LeaveSummary getLeaveSummary(String principalId, CalendarEntries calendarEntry) throws Exception {
    	LeaveSummary ls = new LeaveSummary();
    	List<LeaveSummaryRow> rows = new ArrayList<LeaveSummaryRow>();
    	
@@ -196,6 +198,21 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 			aDate = formatter.parse(fullString);
 		}
 		return aDate;
+	}
+	
+	@Override
+	public List<String> getHeaderForSummary(CalendarEntries cal) {
+		 List<String> header = new ArrayList<String>();	
+		 LocalDateTime startDate = cal.getBeginLocalDateTime();
+	     LocalDateTime endDate = cal.getEndLocalDateTime();
+	     if (endDate.get(DateTimeFieldType.hourOfDay()) != 0 || endDate.get(DateTimeFieldType.minuteOfHour()) != 0 ||
+	                endDate.get(DateTimeFieldType.secondOfMinute()) != 0) {
+	            endDate = endDate.plusDays(1);
+	     }
+		 for (LocalDateTime currentDate = startDate; currentDate.compareTo(endDate) < 0; currentDate = currentDate.plusDays(1)) {
+			 header.add(currentDate.toString(TkConstants.DT_ABBREV_DATE_FORMAT));
+		 }
+		 return header;
 	}
 
 }

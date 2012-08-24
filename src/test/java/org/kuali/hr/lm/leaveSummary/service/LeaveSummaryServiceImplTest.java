@@ -94,4 +94,13 @@ public class LeaveSummaryServiceImplTest extends KPMETestCase {
 			}
 		}
 	}
+	
+	@Test
+	public void testGetHeaderForSummary() throws Exception {
+		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("50001");
+		List<String> headers = TkServiceLocator.getLeaveSummaryService().getHeaderForSummary(ce);
+		
+		Assert.assertTrue("The size of the headers should be 17, not " + headers.size(), headers.size()== 17);
+		
+	}
 }

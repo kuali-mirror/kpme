@@ -1,6 +1,12 @@
 package org.kuali.hr.time.approval.service;
 
-import com.google.common.collect.Multimap;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.kuali.hr.core.KPMEConstants;
@@ -13,8 +19,7 @@ import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.springframework.cache.annotation.Cacheable;
 
-import java.math.BigDecimal;
-import java.util.*;
+import com.google.common.collect.Multimap;
 
 
 public interface TimeApproveService {
@@ -29,6 +34,8 @@ public interface TimeApproveService {
      * @return A Map<String, List<ApprovalTimeSummaryRow>> container.
      */
 	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, List<TKPerson> principalIds, List<String> payCalendarLabels, CalendarEntries payCalendarEntries);
+	
+
 
 //	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(Date payBeginDate, Date payEndDate, String calGroup, List<String> principalIds);
 
@@ -70,7 +77,15 @@ public interface TimeApproveService {
      */
     public Map<String,CalendarEntries> getPayCalendarEntriesForApprover(String principalId, Date currentDate, String dept);
     
+    /*
+     * returns all Calendar entries with TimeSheetDocument created and can be approved by given principalId
+     */
     public List<CalendarEntries> getAllPayCalendarEntriesForApprover(String principalId, Date currentDate);
+    
+    /*
+     * returns all calendar entries with LeaveCalendarDocument created and can be approved by given principalId
+     */
+    public List<CalendarEntries> getAllLeavePayCalendarEntriesForApprover(String principalId, Date currentDate);
     
     public boolean doesApproverHavePrincipalsForCalendarGroup(Date asOfDate, String calGroup);
     public Map<String,CalendarEntries> getPayCalendarEntriesForDept(String dept, Date currentDate);

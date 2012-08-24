@@ -1,6 +1,7 @@
 package org.kuali.hr.lm.workflow.dao;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -108,5 +109,32 @@ public class LeaveCalendarDocumentHeaderDaoImpl extends PlatformAwareDaoBaseOjb 
         Query query = QueryFactory.newQuery(LeaveCalendarDocumentHeader.class, root);
         return (LeaveCalendarDocumentHeader) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
+    @Override
+    public List<LeaveCalendarDocumentHeader> getAllDocumentHeadersForPricipalId(String principalId) {
+   	 	Criteria crit = new Criteria();
+        List<LeaveCalendarDocumentHeader> lstDocumentHeaders = new ArrayList<LeaveCalendarDocumentHeader>();
+
+        crit.addEqualTo("principalId", principalId);
+        QueryByCriteria query = new QueryByCriteria(LeaveCalendarDocumentHeader.class, crit);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        if (c != null) {
+            lstDocumentHeaders.addAll(c);
+        }
+        return lstDocumentHeaders;
+    }
+    @Override
+    public List<LeaveCalendarDocumentHeader> getAllDelinquentDocumentHeadersForPricipalId(String principalId) {
+    	Criteria crit = new Criteria();
+        List<LeaveCalendarDocumentHeader> lstDocumentHeaders = new ArrayList<LeaveCalendarDocumentHeader>();
+
+        crit.addEqualTo("principalId", principalId);
+        crit.addNotEqualTo("documentStatus", TkConstants.ROUTE_STATUS.FINAL);
+        QueryByCriteria query = new QueryByCriteria(LeaveCalendarDocumentHeader.class, crit);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        if (c != null) {
+            lstDocumentHeaders.addAll(c);
+        }
+        return lstDocumentHeaders;
+    }
 
 }

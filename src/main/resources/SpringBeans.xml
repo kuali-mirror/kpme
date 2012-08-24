@@ -670,6 +670,9 @@
     
     <bean id="leaveSummaryService" class="org.kuali.hr.lm.leaveSummary.service.LeaveSummaryServiceImpl"/>
     
+    <bean id="leaveApprovalService" class="org.kuali.hr.lm.leave.approval.service.LeaveApprovalServiceImpl"/>
+     
+    
     <!--<bean id="tkLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">-->
         <!--<property name="lookupableHelperService">-->
             <!--<bean class="org.kuali.hr.time.TkLookupableHelper"/>-->

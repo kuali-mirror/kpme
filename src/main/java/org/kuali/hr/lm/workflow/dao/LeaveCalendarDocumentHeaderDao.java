@@ -1,6 +1,7 @@
 package org.kuali.hr.lm.workflow.dao;
 
 import java.util.Date;
+import java.util.List;
 
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 
@@ -15,4 +16,8 @@ public interface LeaveCalendarDocumentHeaderDao {
     public LeaveCalendarDocumentHeader getMaxEndDateApprovedLeaveCalendar(String principalId);
     
 	public LeaveCalendarDocumentHeader getMinBeginDatePendingLeaveCalendar(String principalId);
+	
+	public List<LeaveCalendarDocumentHeader> getAllDocumentHeadersForPricipalId(String principalId);
+	
+	public List<LeaveCalendarDocumentHeader> getAllDelinquentDocumentHeadersForPricipalId(String principalId);
 }

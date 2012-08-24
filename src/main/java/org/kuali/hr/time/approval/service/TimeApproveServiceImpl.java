@@ -1,13 +1,31 @@
 package org.kuali.hr.time.approval.service;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import java.math.BigDecimal;
+import java.sql.Types;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.joda.time.*;
+import org.joda.time.DateMidnight;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Hours;
+import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
@@ -22,7 +40,11 @@ import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.*;
+import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.notes.Note;
@@ -32,10 +54,8 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
-import java.math.BigDecimal;
-import java.sql.Types;
-import java.text.SimpleDateFormat;
-import java.util.*;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 
 public class TimeApproveServiceImpl implements TimeApproveService {
 
@@ -538,12 +558,14 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			} else if (StringUtils.contains(payCalendarLabel, "Period Total")) {
 				hoursToPayLabelMap.put(payCalendarLabel, periodTotal);
 			} else {
-				hoursToPayLabelMap.put(payCalendarLabel,
-						dayTotals.get(dayCount));
-				weekTotal = weekTotal.add(dayTotals.get(dayCount),
-						TkConstants.MATH_CONTEXT);
-				periodTotal = periodTotal.add(dayTotals.get(dayCount));
-				dayCount++;
+				if(dayCount < dayTotals.size()) {
+					hoursToPayLabelMap.put(payCalendarLabel,
+							dayTotals.get(dayCount));
+					weekTotal = weekTotal.add(dayTotals.get(dayCount),
+							TkConstants.MATH_CONTEXT);
+					periodTotal = periodTotal.add(dayTotals.get(dayCount));
+					dayCount++;
+				}
 
 			}
 
@@ -702,36 +724,15 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	@Override
 	public Map<String, TimesheetDocumentHeader> getPrincipalDocumehtHeader(
 			List<TKPerson> persons, Date payBeginDate, Date payEndDate) {
-
-		if (persons.size() == 0) {
-			return new LinkedHashMap<String, TimesheetDocumentHeader>();
-		}
-
-		StringBuilder ids = new StringBuilder();
-		for (TKPerson person : persons) {
-			ids.append("principal_id = '" + person.getPrincipalId() + "' or ");
-		}
-		String idsForQuery = ids.substring(0, ids.length() - 4);
-		String sql = "SELECT document_id, principal_id, document_status "
-				+ "FROM tk_document_header_t " + "WHERE (" + idsForQuery
-				+ ") AND pay_begin_dt = ? AND pay_end_dt = ?";
 		Map<String, TimesheetDocumentHeader> principalDocumentHeader = new LinkedHashMap<String, TimesheetDocumentHeader>();
-		SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql,
-				new Object[] { payBeginDate, payEndDate },
-				new int[] { Types.DATE, Types.DATE });
-		while (rs.next()) {
-			TimesheetDocumentHeader tdh = new TimesheetDocumentHeader();
-			tdh.setPrincipalId(rs.getString("principal_id"));
-			String docId = StringUtils.isBlank(rs.getString("document_id")) ? ""
-					: rs.getString("document_id");
-			tdh.setDocumentId(docId);
-			tdh.setDocumentStatus(rs.getString("document_status"));
-			tdh.setPayBeginDate(payBeginDate);
-			tdh.setPayEndDate(payEndDate);
-
-			principalDocumentHeader.put(rs.getString("principal_id"), tdh);
+		for (TKPerson person : persons) {
+			String principalId = person.getPrincipalId();
+			
+			TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, payEndDate);
+			if(tdh != null) {
+				principalDocumentHeader.put(principalId, tdh);	
+			}
 		}
-
 		return principalDocumentHeader;
 	}
 
@@ -743,8 +744,10 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		if (approverWorkAreas.size() > 0) {
 			// prepare the OR statement for query
 			StringBuilder workAreas = new StringBuilder();
-			for (long workarea : approverWorkAreas) {
-				workAreas.append("work_area = " + workarea + " or ");
+			for (Long workarea : approverWorkAreas) {
+				if(workarea != null) {
+					workAreas.append("work_area = " + workarea + " or ");
+				}
 			}
 			String workAreasForQuery = workAreas.substring(0,
 					workAreas.length() - 3);
@@ -840,4 +843,45 @@ public class TimeApproveServiceImpl implements TimeApproveService {
         
 		return ppList;
 	}
+	
+	@Override
+	public List<CalendarEntries> getAllLeavePayCalendarEntriesForApprover(String principalId, Date currentDate) {
+		TKUser tkUser = TKContext.getUser();
+		Set<String> principals = new HashSet<String>();
+		DateTime minDt = new DateTime(currentDate,
+				TKUtils.getSystemDateTimeZone());
+		minDt = minDt.minusDays(DAYS_WINDOW_DELTA);
+		Set<Long> approverWorkAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
+
+		// Get all of the principals within our window of time.
+		for (Long waNum : approverWorkAreas) {
+			List<Assignment> assignments = TkServiceLocator
+					.getAssignmentService().getActiveAssignmentsForWorkArea(waNum, TKUtils.getTimelessDate(currentDate));
+
+			if (assignments != null) {
+				for (Assignment assignment : assignments) {
+					principals.add(assignment.getPrincipalId());
+				}
+			}
+		}
+		List<LeaveCalendarDocumentHeader> documentHeaders = new ArrayList<LeaveCalendarDocumentHeader>();
+		for(String pid : principals) {
+			documentHeaders.addAll(TkServiceLocator.getLeaveCalendarDocumentHeaderService().getAllDocumentHeadersForPricipalId(pid));
+		}
+		Set<CalendarEntries> payPeriodSet = new HashSet<CalendarEntries>();
+		for(LeaveCalendarDocumentHeader lcdh : documentHeaders) {
+    		CalendarEntries pe = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(lcdh.getBeginDate(), lcdh.getEndDate());
+    		if(pe != null) {
+    			payPeriodSet.add(pe);
+    		}
+        }
+		List<CalendarEntries> ppList = new ArrayList<CalendarEntries>(payPeriodSet);
+        
+		return ppList;
+	}
+	
+	
+
+
+	
 }
