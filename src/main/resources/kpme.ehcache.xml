@@ -7,7 +7,7 @@
                   overflowToDisk="false"
                   copyOnRead="false"
                   copyOnWrite="false"/>
-    <cache name="KPME/Global" maxEntriesLocalHeap="10000"/>
+    <cache name="KPME/Global" maxEntriesLocalHeap="10000" copyOnRead="true" copyOnWrite="true"/>
     <cache name="KPME/AccrualCategory" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/Assignment" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/Calendar" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
@@ -37,9 +37,9 @@
     <cache name="KPME/Task" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/TimeCollectionRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/TimeOffAccrual" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
-    <cache name="KPME/TkRoleGroup" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
-    <cache name="KPME/TkRole" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
-    <cache name="KPME/UserPreferences" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/TkRoleGroup" maxEntriesLocalHeap="10000" timeToLiveSeconds="900" copyOnRead="true" copyOnWrite="true"/>
+    <cache name="KPME/TkRole" maxEntriesLocalHeap="10000" timeToLiveSeconds="900" copyOnRead="true" copyOnWrite="true"/>
+    <cache name="KPME/UserPreferences" maxEntriesLocalHeap="10000" timeToLiveSeconds="900" copyOnRead="true" copyOnWrite="true"/>
     <cache name="KPME/WeeklyOvertimeRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/WorkArea" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
 </ehcache>
