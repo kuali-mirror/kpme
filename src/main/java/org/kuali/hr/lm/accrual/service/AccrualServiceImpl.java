@@ -240,7 +240,7 @@ public class AccrualServiceImpl implements AccrualService {
 					if(!TKUtils.isWeekend(currentDate)) {
 						BigDecimal accrualRate = currentAcRule.getAccrualRate();
 						int numberOfWorkDays = getWorkDaysInAccrualInterval(anAC.getAccrualEarnInterval(), new java.sql.Date(currentDate.getTime()));
-						BigDecimal dayRate = accrualRate.divide(new BigDecimal(numberOfWorkDays), 6, BigDecimal.ROUND_HALF_UP);
+						BigDecimal dayRate = numberOfWorkDays > 0 ? accrualRate.divide(new BigDecimal(numberOfWorkDays), 6, BigDecimal.ROUND_HALF_UP) : new BigDecimal(0);
 						//Fetch the accural rate based on rate range for today(Rate range is the accumulated list of jobs and accrual rate for today)
 						//Add to total accumulatedAccrualCatToAccrualAmounts
 						//use rule and ftePercentage to calculate the hours						
