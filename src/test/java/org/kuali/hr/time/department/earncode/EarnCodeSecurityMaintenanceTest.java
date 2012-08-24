@@ -105,7 +105,7 @@ public class EarnCodeSecurityMaintenanceTest extends KPMETestCase{
 		this.setFieldValue(deptEarnCodeLookup, "effectiveDate", "08/01/2010");
 		
 		deptEarnCodeLookup = HtmlUnitUtil.clickInputContainingText(deptEarnCodeLookup, "search");
-		maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit", "hrEarnCodeSecurityId=1");
+		maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit", "hrEarnCodeSecurityId="+hrDeptEarnCodeId);
 		Assert.assertTrue("Maintenance Page contains Warnings",maintPage.asText().contains("Warnings for this Section:"));
 		Assert.assertTrue("Maintenance Page contains Warning message",maintPage.asText().contains("There is a newer version of this Department Earn Code."));
 	}

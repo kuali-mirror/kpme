@@ -8,6 +8,7 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
@@ -29,7 +30,8 @@ public class AssignmentLookupableHelper extends HrEffectiveDateActiveLookupableH
         
 		Assignment assignment = (Assignment) businessObject;
         String tkAssignmentId = assignment.getTkAssignmentId();
-        String location = TkServiceLocator.getDepartmentService().getDepartment(assignment.getDept(), TKUtils.getCurrentDate()).getLocation();
+        Department dept = TkServiceLocator.getDepartmentService().getDepartment(assignment.getDept(), TKUtils.getCurrentDate());
+        String location = dept == null ? null : dept.getLocation();
         String department = assignment.getDept();
         
         boolean systemAdmin = TKContext.getUser().isSystemAdmin();

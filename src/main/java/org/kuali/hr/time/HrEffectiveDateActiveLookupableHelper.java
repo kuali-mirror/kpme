@@ -192,8 +192,17 @@ public abstract class HrEffectiveDateActiveLookupableHelper extends KualiLookupa
 
 		@Override
 		public int compare(Object arg0, Object arg1) {
-			HrBusinessObject hrBusinessObject = (HrBusinessObject)arg0;
+            HrBusinessObject hrBusinessObject = (HrBusinessObject)arg0;
 			HrBusinessObject hrBusinessObject2 = (HrBusinessObject)arg1;
+
+            java.sql.Date effDate1 = hrBusinessObject.getEffectiveDate();
+            java.sql.Date effDate2 = hrBusinessObject2.getEffectiveDate();
+            if (effDate1 == null ^ effDate2 == null) {
+                return (effDate1 == null) ? -1 : 1;
+            }
+            if (effDate1 == null && effDate2 == null) {
+                return 0;
+            }
 			int result = hrBusinessObject.getEffectiveDate().compareTo(hrBusinessObject2.getEffectiveDate());
 			if(result==0){
 				return hrBusinessObject.getTimestamp().compareTo(hrBusinessObject2.getTimestamp());

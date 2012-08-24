@@ -28,7 +28,8 @@ public class DepartmentLookupableHelper extends HrEffectiveDateActiveLookupableH
 		
 		Department departmentObj = (Department) businessObject;
 		String hrDeptId = departmentObj.getHrDeptId();
-		String location = TkServiceLocator.getDepartmentService().getDepartment(departmentObj.getDept(), TKUtils.getCurrentDate()).getLocation();
+        Department dept = TkServiceLocator.getDepartmentService().getDepartment(departmentObj.getDept(), TKUtils.getCurrentDate());
+		String location = dept == null ? null : dept.getLocation();
 		String department = departmentObj.getDept();
 		
 		boolean systemAdmin = TKContext.getUser().isSystemAdmin();

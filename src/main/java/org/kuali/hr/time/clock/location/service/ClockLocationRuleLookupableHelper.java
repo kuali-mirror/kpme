@@ -10,6 +10,7 @@ import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
 import org.kuali.hr.time.authorization.TkAuthorizedLookupableHelperBase;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
+import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
@@ -40,7 +41,8 @@ public class ClockLocationRuleLookupableHelper extends TkAuthorizedLookupableHel
 		
 		ClockLocationRule clockLocationRule = (ClockLocationRule) businessObject;
 		String tkClockLocationRuleId = clockLocationRule.getTkClockLocationRuleId();
-		String location = TkServiceLocator.getDepartmentService().getDepartment(clockLocationRule.getDept(), TKUtils.getCurrentDate()).getLocation();
+        Department dept = TkServiceLocator.getDepartmentService().getDepartment(clockLocationRule.getDept(), TKUtils.getCurrentDate());
+		String location = dept == null ? null : dept.getLocation();
         String department = clockLocationRule.getDept();
         
 		boolean systemAdmin = TKContext.getUser().isSystemAdmin();
