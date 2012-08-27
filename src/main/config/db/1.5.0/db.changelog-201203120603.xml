@@ -101,7 +101,7 @@
                 <constraints nullable="false" />
             </column>
             <column name="REQUEST_STATUS" type="VARCHAR(1)"/>
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="PRINCIPAL_ID_MODIFIED" type="VARCHAR(40)" />
@@ -129,7 +129,7 @@
         <dropColumn tableName="LM_LEAVE_BLOCK_T" columnName="TIMESTAMP_INACTIVATED" />
 		
         <addColumn tableName="LM_LEAVE_BLOCK_T">
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
 		</addColumn>

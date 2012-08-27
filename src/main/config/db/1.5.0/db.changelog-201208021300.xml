@@ -12,7 +12,7 @@
     
     <changeSet id="2-oracle" author="yingzhou" dbms="oracle" context="kpme-client-bootstrap">
         <comment>KPME-1267</comment>
-        <addDefaultValue tableName="LM_PRIN_ACCR_RAN_T" columnName="LAST_RAN_TS" defaultValueComputed="CURRENT_TIMESTAMP" />
+        <addDefaultValue tableName="LM_PRIN_ACCR_RAN_T" columnName="LAST_RAN_TS" defaultValueDate="1970-01-01 00:00:00" />
     </changeSet>
     <changeSet id="2-mysql" author="jkakkad" dbms="mysql" context="kpme-client-bootstrap">
         <comment>KPME-1267</comment>

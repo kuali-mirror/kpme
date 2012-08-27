@@ -19,9 +19,9 @@
             </column>
             <column name="ACCOUNT_NM" type="VARCHAR(40)" />
             <column name="ORG_CD" type="VARCHAR(10)" />
-            <column name="ACCT_CREATE_DT" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP" />
-            <column name="ACCT_EFFECT_DT" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP" />
-            <column name="ACCT_EXPIRATION_DT" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="ACCT_CREATE_DT" type="DATETIME" />
+            <column name="ACCT_EFFECT_DT" type="DATETIME" />
+            <column name="ACCT_EXPIRATION_DT" type="DATETIME" />
             <column name="ACCT_CLOSED_IND" type="VARCHAR(1)" />
         </createTable>
         <modifySql dbms="mysql">
@@ -194,7 +194,7 @@
             </column>
             <column name="TK_SAL_GROUP" type="VARCHAR(10)" />
             <column name="PAY_GRADE" type="VARCHAR(20)" />
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)" />
@@ -238,7 +238,7 @@
             <column name="EFFDT" type="DATE">
                 <constraints nullable="false" />
             </column>
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="TIMEZONE" type="VARCHAR(30)" defaultValue="America\\Indianapolis">
@@ -276,7 +276,7 @@
             <column name="EFFDT" type="DATE">
                 <constraints nullable="false" />
             </column>
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="ACTIVE" type="CHAR(1)" />
@@ -312,7 +312,7 @@
             <column name="EFFDT" type="DATE">
                 <constraints nullable="false" />
             </column>
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)" />
@@ -392,7 +392,7 @@
             <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
                 <constraints nullable="false" />
             </column>
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
         </createTable>
@@ -430,7 +430,7 @@
                 <constraints nullable="false" />
             </column>
             <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
         </createTable>
@@ -784,7 +784,7 @@
                 <constraints nullable="false" />
             </column>
             <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
         </createTable>
@@ -815,7 +815,7 @@
             <column name="ACTIVE" type="VARCHAR(1)" />
             <column name="IP_ADDRESS" type="VARCHAR(15)" />
             <column name="USER_PRINCIPAL_ID" type="VARCHAR(10)" />
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)">
@@ -852,7 +852,7 @@
             <column name="TASK" type="BIGINT" />
             <column name="TK_WORK_AREA_ID" type="BIGINT" />
             <column name="TK_TASK_ID" type="BIGINT" />
-            <column name="CLOCK_TS" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="CLOCK_TS" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="CLOCK_TS_TZ" type="VARCHAR(50)" />
@@ -860,7 +860,7 @@
             <column name="IP_ADDRESS" type="VARCHAR(15)" />
             <column name="HR_JOB_ID" type="BIGINT" />
             <column name="USER_PRINCIPAL_ID" type="VARCHAR(40)" />
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)">
@@ -894,7 +894,7 @@
             <column name="PAYTYPE" type="VARCHAR(5)" />
             <column name="EFFDT" type="DATE" />
             <column name="USER_PRINCIPAL_ID" type="VARCHAR(10)" />
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="DEPT" type="VARCHAR(21)" />
@@ -942,7 +942,7 @@
             <column name="LOCATION" type="VARCHAR(10)" />
             <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
             <column name="EFFDT" type="DATE" />
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
         </createTable>
@@ -978,7 +978,7 @@
             <column name="REQUIRED_CLOCK_FL" type="VARCHAR(3)" />
             <column name="MAX_MINS" type="DECIMAL(2,0)" />
             <column name="USER_PRINCIPAL_ID" type="VARCHAR(10)" />
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)">
@@ -1019,7 +1019,7 @@
                 <constraints nullable="false" />
             </column>
             <column name="EFFDT" type="DATE" />
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
@@ -1034,9 +1034,9 @@
                 <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="PRINCIPAL_ID" type="VARCHAR(40)" />
-            <column name="PAY_END_DT" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="PAY_END_DT" type="DATETIME" defaultValueDate="1970-01-01 00:00:00" />
             <column name="DOCUMENT_STATUS" type="VARCHAR(1)" />
-            <column name="PAY_BEGIN_DT" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="PAY_BEGIN_DT" type="DATETIME" defaultValueDate="1970-01-01 00:00:00" />
             <column name="OBJ_ID" type="VARCHAR(36)" />
             <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1" />
         </createTable>
@@ -1074,7 +1074,7 @@
             <column name="ACTIVE" type="VARCHAR(1)" />
             <column name="OBJ_ID" type="VARCHAR(36)" />
             <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1" />
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="ACCRUAL_CATEGORY" type="VARCHAR(3)" />
@@ -1137,7 +1137,7 @@
             <column name="ACTIVE" type="VARCHAR(1)" />
             <column name="OBJ_ID" type="VARCHAR(36)" />
             <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1" />
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
         </createTable>
@@ -1163,7 +1163,7 @@
             <column name="GRACE_MINS" type="DECIMAL(2,0)" />
             <column name="HOUR_FACTOR" type="DECIMAL(6,0)" />
             <column name="USER_PRINCIPAL_ID" type="VARCHAR(10)" />
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)">
@@ -1278,7 +1278,7 @@
             </column>
             <column name="ACTION_HISTORY" type="VARCHAR(15)" />
             <column name="MODIFIED_BY_PRINCIPAL_ID" type="VARCHAR(40)" />
-            <column name="TIMESTAMP_MODIFIED" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="TIMESTAMP_MODIFIED" type="DATETIME" defaultValueDate="1970-01-01 00:00:00" />
         </createTable>
 		<modifySql dbms="mysql">
 			<append value=" ENGINE INNODB" />
@@ -1331,7 +1331,7 @@
             <column name="ASSIGNMENT" type="VARCHAR(20)">
                 <constraints nullable="false" />
             </column>
-            <column name="ACTION_DATE" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="ACTION_DATE" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="ACTION_TIME" type="TIME" defaultValueDate="00:00:00">
@@ -1339,7 +1339,7 @@
             </column>
             <column name="DOCUMENT_STATUS" type="VARCHAR(1)" />
             <column name="TK_CLOCK_LOG_ID" type="BIGINT" />
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="TIMESHEET_DOC_ID" type="VARCHAR(14)">
@@ -1368,7 +1368,7 @@
             <column name="EFFDT" type="DATE">
                 <constraints nullable="false" />
             </column>
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)">
@@ -1406,10 +1406,10 @@
             <column name="CALENDAR_GROUP" type="VARCHAR(45)">
                 <constraints nullable="false" />
             </column>
-            <column name="BEGIN_PERIOD_DATE" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="BEGIN_PERIOD_DATE" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
-            <column name="END_PERIOD_DATE" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="END_PERIOD_DATE" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="INITIATE_DATE" type="DATE" />
@@ -1496,7 +1496,7 @@
             <column name="EFFDT" type="DATE">
                 <constraints nullable="false" />
             </column>
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
@@ -1529,7 +1529,7 @@
             <column name="EFFDT" type="DATE">
                 <constraints nullable="false" />
             </column>
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="ACTIVE" type="VARCHAR(1)" />
@@ -1572,7 +1572,7 @@
             </column>
             <column name="MAX_GAP" type="DECIMAL(5,2)" defaultValueNumeric="0.00" />
             <column name="USER_PRINCIPAL_ID" type="VARCHAR(10)" />
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
@@ -1622,7 +1622,7 @@
             <column name="EFFDT" type="DATE">
                 <constraints nullable="false" />
             </column>
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="ACTIVE" type="VARCHAR(1)" />
@@ -1669,7 +1669,7 @@
             <column name="ACTIVE" type="VARCHAR(1)" defaultValue="Y">
                 <constraints nullable="false" />
             </column>
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
         </createTable>
@@ -1702,23 +1702,23 @@
             <column name="TK_WORK_AREA_ID" type="BIGINT" />
             <column name="TK_TASK_ID" type="BIGINT" />
             <column name="EARN_CODE" type="VARCHAR(3)" />
-            <column name="BEGIN_TS" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="BEGIN_TS" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="BEGIN_TS_TZ" type="VARCHAR(50)" />
-            <column name="END_TS" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="END_TS" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="END_TS_TZ" type="VARCHAR(50)" />
             <column name="CLOCK_LOG_CREATED" type="CHAR(1)" defaultValue="N" />
             <column name="HOURS" type="DECIMAL(5,2)" />
             <column name="USER_PRINCIPAL_ID" type="VARCHAR(40)" />
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="ACTION_HISTORY" type="VARCHAR(15)" />
             <column name="MODIFIED_BY_PRINCIPAL_ID" type="VARCHAR(40)" />
-            <column name="TIMESTAMP_MODIFIED" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="TIMESTAMP_MODIFIED" type="DATETIME" defaultValueDate="1970-01-01 00:00:00" />
             <column name="OBJ_ID" type="VARCHAR(36)">
                 <constraints nullable="false" />
             </column>
@@ -1756,11 +1756,11 @@
             <column name="HR_JOB_ID" type="BIGINT" />
             <column name="TK_TASK_ID" type="BIGINT" />
             <column name="EARN_CODE" type="VARCHAR(3)" />
-            <column name="BEGIN_TS" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="BEGIN_TS" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="BEGIN_TS_TZ" type="VARCHAR(50)" />
-            <column name="END_TS" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="END_TS" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="END_TS_TZ" type="VARCHAR(50)" />
@@ -1768,7 +1768,7 @@
             <column name="HOURS" type="DECIMAL(5,2)" />
             <column name="AMOUNT" type="DECIMAL(6,2)" defaultValueNumeric="0.00" />
             <column name="USER_PRINCIPAL_ID" type="VARCHAR(40)" />
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)">
@@ -1804,7 +1804,7 @@
             <column name="CLOCK_USERS_FL" type="VARCHAR(1)" />
             <column name="HRS_DISTRIBUTION_FL" type="VARCHAR(1)" />
             <column name="USER_PRINCIPAL_ID" type="VARCHAR(10)" />
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)" />
@@ -1862,7 +1862,7 @@
             <column name="STEP" type="DECIMAL(2,0)" />
             <column name="MAX_HRS" type="DECIMAL(3,0)" />
             <column name="USER_PRINCIPAL_ID" type="VARCHAR(10)" />
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)" />
@@ -1928,7 +1928,7 @@
             </column>
             <column name="ADMIN_DESCR" type="VARCHAR(30)" />
             <column name="USER_PRINCIPAL_ID" type="VARCHAR(40)" />
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)" />

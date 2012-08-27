@@ -52,7 +52,7 @@
                 <constraints nullable="false" />
             </column>
             <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00" />
         </createTable>
 		<modifySql dbms="mysql">
 			<append value=" ENGINE INNODB" />

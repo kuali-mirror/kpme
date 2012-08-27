@@ -31,7 +31,7 @@
             <column name="EFFDT" type="DATE">
                 <constraints nullable="false" />
             </column>
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)" />
@@ -65,7 +65,7 @@
             <column name="CLOCK_ACTION" type="VARCHAR(20)">
                 <constraints nullable="false" />
             </column>
-            <column name="ACTION_DATE" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="ACTION_DATE" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>
             <column name="ACTION_TIME" type="TIME" defaultValueDate="00:00:00">
@@ -77,7 +77,7 @@
             <column name="DOCUMENT_ID" type="VARCHAR(14)" />
             <column name="DOCUMENT_STATUS" type="VARCHAR(1)" />
             <column name="TK_CLOCK_LOG_ID" type="BIGINT" />
-            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+            <column name="TIMESTAMP" type="DATETIME" defaultValueDate="1970-01-01 00:00:00">
                 <constraints nullable="false" />
             </column>     
         </createTable>

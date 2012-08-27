@@ -12,8 +12,8 @@
     
     <changeSet id="2-oracle" author="jkakkad" dbms="oracle" context="kpme-client-bootstrap">
         <comment>KPME-1232 Leave Request Page added</comment>
-        <addDefaultValue tableName="LM_LEAVE_BLOCK_HIST_T" columnName="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
-        <addDefaultValue tableName="LM_LEAVE_BLOCK_HIST_T" columnName="TIMESTAMP_DELETED" defaultValueComputed="CURRENT_TIMESTAMP" />
+        <addDefaultValue tableName="LM_LEAVE_BLOCK_HIST_T" columnName="TIMESTAMP" defaultValueDate="1970-01-01 00:00:00" />
+        <addDefaultValue tableName="LM_LEAVE_BLOCK_HIST_T" columnName="TIMESTAMP_DELETED" defaultValueDate="1970-01-01 00:00:00" />
     </changeSet>
     <changeSet id="2-mysql" author="jkakkad" dbms="mysql" context="kpme-client-bootstrap">
         <comment>KPME-1232 Leave Request Page added</comment>
