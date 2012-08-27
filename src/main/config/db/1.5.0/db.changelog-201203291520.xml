@@ -5,10 +5,10 @@
 
     <changeSet id="1" author="lee55" context="kpme-client-bootstrap">
         <comment>make the leave calendar work again</comment>
-        <dropNotNullConstraint tableName="lm_leave_block_t" columnName="description" columnDataType="VARCHAR(255)" />
-        <dropNotNullConstraint tableName="lm_leave_block_t" columnName="apply_to_ytd_used" columnDataType="VARCHAR(255)" />
-        <dropNotNullConstraint tableName="lm_leave_block_hist_t" columnName="description" columnDataType="VARCHAR(255)" />
-        <dropNotNullConstraint tableName="lm_leave_block_hist_t" columnName="apply_to_ytd_used" columnDataType="VARCHAR(255)" />
+        <dropNotNullConstraint tableName="LM_LEAVE_BLOCK_T" columnName="DESCRIPTION" columnDataType="VARCHAR(255) NOT NULL" />
+        <dropNotNullConstraint tableName="LM_LEAVE_BLOCK_T" columnName="APPLY_TO_YTD_USED" columnDataType="VARCHAR(255) NOT NULL" />
+        <dropNotNullConstraint tableName="LM_LEAVE_BLOCK_HIST_T" columnName="DESCRIPTION" columnDataType="VARCHAR(255) NOT NULL" />
+        <dropNotNullConstraint tableName="LM_LEAVE_BLOCK_HIST_T" columnName="APPLY_TO_YTD_USED" columnDataType="VARCHAR(255) NOT NULL" />
     </changeSet>
     
 </databaseChangeLog>

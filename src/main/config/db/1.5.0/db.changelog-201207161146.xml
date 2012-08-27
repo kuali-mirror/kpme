@@ -3,17 +3,10 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet id="1" author="kbtaylor" context="kpme-server-bootstrap" dbms="mysql">
-        <comment>Adding Rice role bootstrap data</comment>
-        <insert tableName="KRIM_TYP_ID_S">
-            <column name="id" />
-        </insert>
-    </changeSet>
-    
-    <changeSet id="2" author="kbtaylor" context="kpme-server-bootstrap">
+    <changeSet id="1" author="kbtaylor" context="kpme-server-bootstrap">
         <comment>Adding Rice role bootstrap data</comment>
         <insert tableName="KRIM_TYP_T">
-            <column name="KIM_TYP_ID" valueComputed="KRIM_TYP_ID_S.NEXTVAL" />
+            <column name="KIM_TYP_ID" value="KPME0001" />
             <column name="NMSPC_CD" value="KPME-WKFLW" />
             <column name="NM" value="Work Area Role Type" />
             <column name="SRVC_NM" value="workAreaQualifierRoleTypeService" />
@@ -22,46 +15,31 @@
         </insert>
         
         <modifySql dbms="mysql">
-            <regExpReplace replace="(\w*).NEXTVAL" with="(SELECT MAX(id) FROM $1)" />
             <replace replace="SYS_GUID()" with="UUID()" />
         </modifySql>
     </changeSet>
     
-    <changeSet id="3" author="kbtaylor" context="kpme-client-bootstrap" dbms="mysql">
+    <changeSet id="2" author="kbtaylor" context="kpme-client-bootstrap">
         <comment>Adding KPME role bootstrap data</comment>
-        <insert tableName="hr_roles_s">
-            <column name="id" valueNumeric="2"/>
-        </insert>
-    </changeSet>
-    
-    <changeSet id="4" author="kbtaylor" context="kpme-client-bootstrap">
-        <comment>Adding KPME role bootstrap data</comment>
-        <insert tableName="hr_roles_t">
-            <column name="hr_roles_id" valueNumeric="2"/>
-            <column name="principal_id" value="admin"/>
-            <column name="role_name" value="TK_ORG_ADMIN"/>
-            <column name="user_principal_id" value="admin"/>
-            <column name="effdt" valueDate="2010-01-01"/>
-            <column name="timestamp" valueComputed="sysdate"/>
-            <column name="active" value="Y"/>
+        <insert tableName="HR_ROLES_T">
+            <column name="HR_ROLES_ID" valueNumeric="2"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="ROLE_NAME" value="TK_ORG_ADMIN"/>
+            <column name="USER_PRINCIPAL_ID" value="admin"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="TIMESTAMP" valueComputed="SYSDATE"/>
+            <column name="ACTIVE" value="Y"/>
         </insert>
         
         <modifySql dbms="mysql">
-            <replace replace="sysdate" with="now()" />
+            <replace replace="SYSDATE" with="NOW()" />
         </modifySql>
     </changeSet>
     
-    <changeSet id="5" author="kbtaylor" context="kpme-server-bootstrap" dbms="mysql">
-        <comment>Adding Rice role bootstrap data</comment>
-        <insert tableName="KRIM_ROLE_ID_S">
-            <column name="id" />
-        </insert>
-    </changeSet>
-    
-    <changeSet id="6" author="kbtaylor" context="kpme-server-bootstrap">
+    <changeSet id="3" author="kbtaylor" context="kpme-server-bootstrap">
         <comment>Adding Rice role bootstrap data</comment>
         <insert tableName="KRIM_ROLE_T">
-            <column name="ROLE_ID" valueComputed="KRIM_ROLE_ID_S.NEXTVAL" />
+            <column name="ROLE_ID" value="KPME0002" />
             <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KR-IDM' AND NM = 'Derived Role: Principal')" />
             <column name="NMSPC_CD" value="KPME-WKFLW" />
             <column name="ROLE_NM" value="TK_ORG_ADMIN" />
@@ -72,23 +50,15 @@
         </insert>
         
         <modifySql dbms="mysql">
-            <regExpReplace replace="(\w*).NEXTVAL" with="(SELECT MAX(id) FROM $1)" />
             <replace replace="SYSDATE" with="NOW()" />
             <replace replace="SYS_GUID()" with="UUID()" />
         </modifySql>
     </changeSet>
     
-    <changeSet id="7" author="kbtaylor" context="kpme-server-bootstrap" dbms="mysql">
-        <comment>Adding Rice role bootstrap data</comment>
-        <insert tableName="KRIM_ROLE_MBR_ID_S">
-            <column name="id" />
-        </insert>
-    </changeSet>
-    
-    <changeSet id="8" author="kbtaylor" context="kpme-server-bootstrap">
+    <changeSet id="4" author="kbtaylor" context="kpme-server-bootstrap">
         <comment>Adding Rice role bootstrap data</comment>
         <insert tableName="KRIM_ROLE_MBR_T">
-            <column name="ROLE_MBR_ID" valueComputed="KRIM_ROLE_MBR_ID_S.NEXTVAL" />
+            <column name="ROLE_MBR_ID" value="KPME0002" />
             <column name="MBR_TYP_CD" value="P" />
             <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-WKFLW' AND ROLE_NM = 'TK_ORG_ADMIN')" />
             <column name="MBR_ID" value="admin" />
@@ -97,47 +67,32 @@
         </insert>
         
         <modifySql dbms="mysql">
-            <regExpReplace replace="(\w*).NEXTVAL" with="(SELECT MAX(id) FROM $1)" />
             <replace replace="SYSDATE" with="NOW()" />
             <replace replace="SYS_GUID()" with="UUID()" />
         </modifySql>
     </changeSet>
     
-    <changeSet id="9" author="lee55" context="kpme-client-bootstrap" dbms="mysql">
+    <changeSet id="5" author="lee55" context="kpme-client-bootstrap">
         <comment>Adding KPME role bootstrap data</comment>
-        <insert tableName="hr_roles_s">
-            <column name="id" valueNumeric="3"/>
-        </insert>
-    </changeSet>
-    
-    <changeSet id="10" author="lee55" context="kpme-client-bootstrap">
-        <comment>Adding KPME role bootstrap data</comment>
-        <insert tableName="hr_roles_t">
-            <column name="hr_roles_id" valueNumeric="3"/>
-            <column name="principal_id" value="admin"/>
-            <column name="role_name" value="TK_APPROVER"/>
-            <column name="user_principal_id" value="admin"/>
-            <column name="effdt" valueDate="2010-01-01"/>
-            <column name="timestamp" valueComputed="sysdate"/>
-            <column name="active" value="Y"/>
+        <insert tableName="HR_ROLES_T">
+            <column name="HR_ROLES_ID" valueNumeric="3"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="ROLE_NAME" value="TK_APPROVER"/>
+            <column name="USER_PRINCIPAL_ID" value="admin"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="TIMESTAMP" valueComputed="SYSDATE"/>
+            <column name="ACTIVE" value="Y"/>
         </insert>
         
         <modifySql dbms="mysql">
-            <replace replace="sysdate" with="now()" />
+            <replace replace="SYSDATE" with="NOW()" />
         </modifySql>
     </changeSet>
     
-    <changeSet id="11" author="kbtaylor" context="kpme-server-bootstrap" dbms="mysql">
-        <comment>Adding Rice role bootstrap data</comment>
-        <insert tableName="KRIM_ROLE_ID_S">
-            <column name="id" />
-        </insert>
-    </changeSet>
-    
-    <changeSet id="12" author="kbtaylor" context="kpme-server-bootstrap">
+    <changeSet id="6" author="kbtaylor" context="kpme-server-bootstrap">
         <comment>Adding Rice role bootstrap data</comment>
         <insert tableName="krim_role_t">
-            <column name="ROLE_ID" valueComputed="KRIM_ROLE_ID_S.NEXTVAL" />
+            <column name="ROLE_ID" value="KPME0003" />
             <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'Work Area Role Type')" />
             <column name="NMSPC_CD" value="KPME-WKFLW" />
             <column name="ROLE_NM" value="TK_APPROVER" />
@@ -148,23 +103,15 @@
         </insert>
         
         <modifySql dbms="mysql">
-            <regExpReplace replace="(\w*).NEXTVAL" with="(SELECT MAX(id) FROM $1)" />
             <replace replace="SYSDATE" with="NOW()" />
             <replace replace="SYS_GUID()" with="UUID()" />
         </modifySql>
     </changeSet>
 
-    <changeSet id="13" author="kbtaylor" context="kpme-server-bootstrap" dbms="mysql">
-        <comment>Adding Rice role bootstrap data</comment>
-        <insert tableName="KRIM_ROLE_MBR_ID_S">
-            <column name="id" />
-        </insert>
-    </changeSet>
-    
-    <changeSet id="14" author="kbtaylor" context="kpme-server-bootstrap">
+    <changeSet id="7" author="kbtaylor" context="kpme-server-bootstrap">
         <comment>Adding Rice role bootstrap data</comment>
         <insert tableName="KRIM_ROLE_MBR_T">
-            <column name="ROLE_MBR_ID" valueComputed="KRIM_ROLE_MBR_ID_S.NEXTVAL" />
+            <column name="ROLE_MBR_ID" value="KPME0003" />
             <column name="MBR_TYP_CD" value="P" />
             <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-WKFLW' AND ROLE_NM = 'TK_APPROVER')" />
             <column name="MBR_ID" value="admin" />
@@ -173,47 +120,32 @@
         </insert>
         
         <modifySql dbms="mysql">
-            <regExpReplace replace="(\w*).NEXTVAL" with="(SELECT MAX(id) FROM $1)" />
             <replace replace="SYSDATE" with="NOW()" />
             <replace replace="SYS_GUID()" with="UUID()" />
         </modifySql>
     </changeSet>
     
-    <changeSet id="15" author="lee55" context="kpme-client-bootstrap" dbms="mysql">
-        <comment>Adding KPME role bootstrap data</comment>
-        <insert tableName="hr_roles_s">
-            <column name="id" valueNumeric="4"/>
-        </insert>
-    </changeSet>
-    
-    <changeSet id="16" author="lee55" context="kpme-client-bootstrap">
+    <changeSet id="8" author="lee55" context="kpme-client-bootstrap">
         <comment>Adding Rice role bootstrap data</comment>
-        <insert tableName="hr_roles_t">
-            <column name="hr_roles_id" valueNumeric="4"/>
-            <column name="principal_id" value="admin"/>
-            <column name="role_name" value="TK_EMPLOYEE"/>
-            <column name="user_principal_id" value="admin"/>
-            <column name="effdt" valueDate="2010-01-01"/>
-            <column name="timestamp" valueComputed="sysdate"/>
-            <column name="active" value="Y"/>
+        <insert tableName="HR_ROLES_T">
+            <column name="HR_ROLES_ID" valueNumeric="4"/>
+            <column name="PRINCIPAL_ID" value="admin"/>
+            <column name="ROLE_NAME" value="TK_EMPLOYEE"/>
+            <column name="USER_PRINCIPAL_ID" value="admin"/>
+            <column name="EFFDT" valueDate="2010-01-01"/>
+            <column name="TIMESTAMP" valueComputed="SYSDATE"/>
+            <column name="ACTIVE" value="Y"/>
         </insert>
         
         <modifySql dbms="mysql">
-            <replace replace="sysdate" with="now()" />
+            <replace replace="SYSDATE" with="NOW()" />
         </modifySql>
     </changeSet>
     
-    <changeSet id="17" author="kbtaylor" context="kpme-server-bootstrap" dbms="mysql">
-        <comment>Adding Rice role bootstrap data</comment>
-        <insert tableName="KRIM_ROLE_ID_S">
-            <column name="id" />
-        </insert>
-    </changeSet>
-    
-    <changeSet id="18" author="kbtaylor" context="kpme-server-bootstrap">
+    <changeSet id="9" author="kbtaylor" context="kpme-server-bootstrap">
         <comment>Adding Rice role bootstrap data</comment>
         <insert tableName="KRIM_ROLE_T">
-            <column name="ROLE_ID" valueComputed="KRIM_ROLE_ID_S.NEXTVAL" />
+            <column name="ROLE_ID" value="KPME0004" />
             <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default')" />
             <column name="NMSPC_CD" value="KPME-WKFLW" />
             <column name="ROLE_NM" value="TK_EMPLOYEE" />
@@ -224,23 +156,15 @@
         </insert>
         
         <modifySql dbms="mysql">
-            <regExpReplace replace="(\w*).NEXTVAL" with="(SELECT MAX(id) FROM $1)" />
             <replace replace="SYSDATE" with="NOW()" />
             <replace replace="SYS_GUID()" with="UUID()" />
         </modifySql>
     </changeSet>
     
-    <changeSet id="19" author="kbtaylor" context="kpme-server-bootstrap" dbms="mysql">
-        <comment>Adding Rice role bootstrap data</comment>
-        <insert tableName="KRIM_ROLE_MBR_ID_S">
-            <column name="id" />
-        </insert>
-    </changeSet>
-    
     <changeSet id="20" author="kbtaylor" context="kpme-server-bootstrap">
         <comment>Adding Rice role bootstrap data</comment>
         <insert tableName="KRIM_ROLE_MBR_T">
-            <column name="ROLE_MBR_ID" valueComputed="KRIM_ROLE_MBR_ID_S.NEXTVAL" />
+            <column name="ROLE_MBR_ID" value="KPME0004" />
             <column name="MBR_TYP_CD" value="P" />
             <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-WKFLW' AND ROLE_NM = 'TK_EMPLOYEE')" />
             <column name="MBR_ID" value="admin" />
@@ -249,7 +173,6 @@
         </insert>
         
         <modifySql dbms="mysql">
-            <regExpReplace replace="(\w*).NEXTVAL" with="(SELECT MAX(id) FROM $1)" />
             <replace replace="SYSDATE" with="NOW()" />
             <replace replace="SYS_GUID()" with="UUID()" />
         </modifySql>

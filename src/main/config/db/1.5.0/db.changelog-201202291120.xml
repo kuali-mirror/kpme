@@ -5,8 +5,8 @@
 
     <changeSet id="1" author="yingzhou" context="kpme-client-bootstrap">
         <comment>kpme-1365: added validations for Calendar and fixed db issue, CalendarMaintTest</comment>
-        <dropNotNullConstraint tableName="hr_calendar_t" columnName="flsa_begin_day" columnDataType="VARCHAR(9)" />
-        <dropNotNullConstraint tableName="hr_calendar_t" columnName="flsa_begin_time" columnDataType="TIME" />
+        <dropNotNullConstraint tableName="HR_CALENDAR_T" columnName="FLSA_BEGIN_DAY" columnDataType="VARCHAR(9)" />
+        <dropNotNullConstraint tableName="HR_CALENDAR_T" columnName="FLSA_BEGIN_TIME" columnDataType="TIME" />
     </changeSet>
     
 </databaseChangeLog>

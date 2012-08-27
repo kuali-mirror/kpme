@@ -4,18 +4,20 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
     
     <changeSet id="1" author="djunk" context="kpme-client-bootstrap">
-        <addColumn tableName="tk_roles_t">
-            <column name="chart" type="VARCHAR(10)"/>
+        <addColumn tableName="TK_ROLES_T">
+            <column name="CHART" type="VARCHAR(10)" />
         </addColumn>
     </changeSet>
     <changeSet id="2" author="djunk" context="kpme-client-bootstrap">
-        <addNotNullConstraint columnDataType="VARCHAR(1)" columnName="active" defaultNullValue="'Y'" tableName="tk_roles_t"/>
+        <dropDefaultValue tableName="TK_ROLES_T" columnName="ACTIVE" />
+        <addNotNullConstraint tableName="TK_ROLES_T" columnName="ACTIVE" columnDataType="VARCHAR(1)" />
+        <addDefaultValue tableName="TK_ROLES_T" columnName="ACTIVE" defaultValue="Y" />
     </changeSet>
     <changeSet id="3" author="djunk" context="kpme-client-bootstrap">
-        <dropColumn columnName="tk_dept_id" tableName="tk_roles_t"/>
+        <dropColumn tableName="TK_ROLES_T" columnName="TK_DEPT_ID" />
     </changeSet>
     <changeSet id="4" author="djunk" context="kpme-client-bootstrap">
-        <dropColumn columnName="tk_work_area_id" tableName="tk_roles_t"/>
+        <dropColumn tableName="TK_ROLES_T" columnName="TK_WORK_AREA_ID" />
     </changeSet>
     
 </databaseChangeLog>

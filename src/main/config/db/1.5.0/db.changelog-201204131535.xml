@@ -5,14 +5,14 @@
 
     <changeSet id="1" author="henrydfs" context="kpme-client-bootstrap">
         <comment>Max Balance Flag related JIRAs (KPME 1288, 1289, 1349, 1352, 1408) and needed SQL file  changes for schema changes to lm_accrual_category_t and lm_accrual_category_rules_t.</comment>
-        <addColumn tableName="lm_accrual_category_t">
-            <column name="HAS_RULES" type="VARCHAR(1)"/>
+        <addColumn tableName="LM_ACCRUAL_CATEGORY_T">
+            <column name="HAS_RULES" type="VARCHAR(1)" />
         </addColumn>
-        <addColumn tableName="lm_accrual_category_rules_t">
-            <column name="MAX_BAL_FLAG" type="VARCHAR(1)"/>
+        <addColumn tableName="LM_ACCRUAL_CATEGORY_RULES_T">
+            <column name="MAX_BAL_FLAG" type="VARCHAR(1)" />
         </addColumn>
-        <modifyDataType tableName="lm_accrual_category_rules_t" columnName="LM_ACCRUAL_CATEGORY_ID" newDataType="VARCHAR(60) NOT NULL" />
-        <dropNotNullConstraint tableName="lm_accrual_category_rules_t" columnName="LM_ACCRUAL_CATEGORY_ID" columnDataType="VARCHAR(60)" />
+        <dropNotNullConstraint tableName="LM_ACCRUAL_CATEGORY_RULES_T" columnName="LM_ACCRUAL_CATEGORY_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="LM_ACCRUAL_CATEGORY_RULES_T" columnName="LM_ACCRUAL_CATEGORY_ID" newDataType="VARCHAR(60)" />
     </changeSet>
     
 </databaseChangeLog>

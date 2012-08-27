@@ -5,7 +5,7 @@
         
     <changeSet id="1" author="xichen" context="kpme-client-bootstrap">
         <comment>KPME-1152, add payType into time collection rule.</comment>
-        <addColumn tableName="tk_time_collection_rl_t">
+        <addColumn tableName="TK_TIME_COLLECTION_RL_T">
             <column name="PAY_TYPE" type="VARCHAR(5)" defaultValue="%" />
         </addColumn>
     </changeSet>

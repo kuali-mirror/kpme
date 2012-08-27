@@ -5,11 +5,11 @@
  
 	<changeSet id="1" author="yingzhou" context="kpme-client-bootstrap">
 		<comment>KPME-1267</comment>
-        <createTable tableName="lm_prin_accr_ran_t">
-            <column name="principal_id" type="VARCHAR(40)">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="LM_PRIN_ACCR_RAN_T">
+            <column name="PRINCIPAL_ID" type="VARCHAR(40)">
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="last_ran_ts" type="TIME">
+            <column name="LAST_RAN_TS" type="TIME">
                 <constraints nullable="false" />
             </column>
         </createTable>

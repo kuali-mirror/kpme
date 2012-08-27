@@ -5,14 +5,14 @@
 
     <changeSet id="1" author="xichen" context="kpme-client-bootstrap">
         <comment>KPME-938.view link on lookup pages show same attributes as maint page.</comment>
-        <dropPrimaryKey tableName="tk_assignment_t"/>
-        <addPrimaryKey tableName="tk_assignment_t" columnNames="tk_assignment_id"/>
+        <dropPrimaryKey tableName="TK_ASSIGNMENT_T" />
+        <addPrimaryKey tableName="TK_ASSIGNMENT_T" columnNames="TK_ASSIGNMENT_ID" />
     </changeSet>
 
     <changeSet id="2" author="xichen" context="kpme-client-bootstrap">
         <comment>KPME-938.view link on lookup pages show same attributes as maint page.</comment>
-        <dropPrimaryKey tableName="hr_earn_group_t"/>
-        <addPrimaryKey tableName="hr_earn_group_t" columnNames="hr_earn_group_id"/>
+        <dropPrimaryKey tableName="HR_EARN_GROUP_T" />
+        <addPrimaryKey tableName="HR_EARN_GROUP_T" columnNames="HR_EARN_GROUP_ID" />
     </changeSet>
 
 </databaseChangeLog>

@@ -5,67 +5,67 @@
 
     <changeSet id="1" author="jkakkad" context="kpme-client-bootstrap">
         <comment>KPME-1624 Earn code maint changed for Leave Management</comment>
-        <addColumn tableName="hr_earn_code_t">
+        <addColumn tableName="HR_EARN_CODE_T">
             <column name="LEAVE_PLAN" type="VARCHAR(15)" />
         </addColumn>
-        <addColumn tableName="hr_earn_code_t">
+        <addColumn tableName="HR_EARN_CODE_T">
             <column name="ACCRUAL_BAL_ACTION" type="VARCHAR(15)" />
         </addColumn>
-        <addColumn tableName="hr_earn_code_t">
+        <addColumn tableName="HR_EARN_CODE_T">
             <column name="FRACT_TIME_ALLOWD" type="VARCHAR(5)">
                 <constraints nullable="false" />
             </column>
         </addColumn>
-        <addColumn tableName="hr_earn_code_t">
+        <addColumn tableName="HR_EARN_CODE_T">
             <column name="ROUND_OPT" type="VARCHAR(5)">
                 <constraints nullable="false" />
             </column>
         </addColumn>
-        <addColumn tableName="hr_earn_code_t">
+        <addColumn tableName="HR_EARN_CODE_T">
             <column name="ROLLUP_TO_EARNCODE" type="VARCHAR(3)" />
         </addColumn>
-        <addColumn tableName="hr_earn_code_t">
+        <addColumn tableName="HR_EARN_CODE_T">
             <column name="ELIGIBLE_FOR_ACC" type="VARCHAR(1)">
                 <constraints nullable="false" />
             </column>
         </addColumn>
-        <addColumn tableName="hr_earn_code_t">
+        <addColumn tableName="HR_EARN_CODE_T">
             <column name="AFFECT_PAY" type="VARCHAR(1)">
                 <constraints nullable="false" />
             </column>
         </addColumn>
-        <addColumn tableName="hr_earn_code_t">
+        <addColumn tableName="HR_EARN_CODE_T">
             <column name="ALLOW_SCHD_LEAVE" type="VARCHAR(1)">
                 <constraints nullable="false" />
             </column>
         </addColumn>
-        <addColumn tableName="hr_earn_code_t">
+        <addColumn tableName="HR_EARN_CODE_T">
             <column name="FMLA" type="VARCHAR(1)">
                 <constraints nullable="false" />
             </column>
         </addColumn>
-        <addColumn tableName="hr_earn_code_t">
+        <addColumn tableName="HR_EARN_CODE_T">
             <column name="WORKMANS_COMP" type="VARCHAR(15)">
                 <constraints nullable="false" />
             </column>
         </addColumn>
-        <addColumn tableName="hr_earn_code_t">
+        <addColumn tableName="HR_EARN_CODE_T">
             <column name="DEF_TIME" type="VARCHAR(15)" />
         </addColumn>
-        <addColumn tableName="hr_earn_code_t">
+        <addColumn tableName="HR_EARN_CODE_T">
             <column name="ALLOW_NEGATIVE_ACC_BALANCE" type="VARCHAR(1)">
                 <constraints nullable="false" />
             </column>
         </addColumn>
-        <dropColumn tableName="hr_earn_code_t" columnName="record_time" />
-        <dropColumn tableName="hr_earn_code_t" columnName="record_amount" />
-        <dropColumn tableName="hr_earn_code_t" columnName="record_hours" />
-        <addColumn tableName="hr_earn_code_t">
+        <dropColumn tableName="HR_EARN_CODE_T" columnName="RECORD_TIME" />
+        <dropColumn tableName="HR_EARN_CODE_T" columnName="RECORD_AMOUNT" />
+        <dropColumn tableName="HR_EARN_CODE_T" columnName="RECORD_HOURS" />
+        <addColumn tableName="HR_EARN_CODE_T">
             <column name="RECORD_METHOD" type="VARCHAR(5)">
                 <constraints nullable="false" />
             </column>
         </addColumn>
-        <modifyDataType tableName="hr_earn_code_t" columnName="ACCRUAL_CATEGORY" newDataType="VARCHAR(15)"/>
+        <modifyDataType tableName="HR_EARN_CODE_T" columnName="ACCRUAL_CATEGORY" newDataType="VARCHAR(15)" />
     </changeSet>
     
 </databaseChangeLog>

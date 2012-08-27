@@ -1,4 +1,4 @@
-hr_location_id,location,timezone,description,effdt,active
+HR_LOCATION_ID,LOCATION,TIMEZONE,DESCRIPTION,EFFDT,ACTIVE
 1,BL,America/Indiana/Indianapolis,Bloomington,2010-01-01,Y
 2,CST,America/Chicago,Central Standard Time,2010-01-01,Y
 3,EST,America/Indiana/Indianapolis,Eastern Standard Time,2010-01-01,Y

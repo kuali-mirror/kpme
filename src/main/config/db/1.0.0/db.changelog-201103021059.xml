@@ -4,2100 +4,2138 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
     
     <changeSet id="1" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="ca_account_t">
-            <column defaultValue="" name="FIN_COA_CD" type="VARCHAR(2)">
-                <constraints nullable="false"/>
+        <createTable tableName="CA_ACCOUNT_T">
+            <column name="FIN_COA_CD" type="VARCHAR(2)" defaultValue="">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="" name="ACCOUNT_NBR" type="VARCHAR(10)">
-                <constraints nullable="false"/>
+            <column name="ACCOUNT_NBR" type="VARCHAR(10)" defaultValue="">
+                <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
-                <constraints nullable="false"/>
+            <column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
-            <column name="ACCOUNT_NM" type="VARCHAR(40)"/>
-            <column name="ORG_CD" type="VARCHAR(10)"/>
-            <column name="ACCT_CREATE_DT" type="DATETIME"/>
-            <column name="ACCT_EFFECT_DT" type="DATETIME"/>
-            <column name="ACCT_EXPIRATION_DT" type="DATETIME"/>
-            <column name="ACCT_CLOSED_IND" type="VARCHAR(1)"/>
+            <column name="ACCOUNT_NM" type="VARCHAR(40)" />
+            <column name="ORG_CD" type="VARCHAR(10)" />
+            <column name="ACCT_CREATE_DT" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="ACCT_EFFECT_DT" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="ACCT_EXPIRATION_DT" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="ACCT_CLOSED_IND" type="VARCHAR(1)" />
         </createTable>
         <modifySql dbms="mysql">
-            <append value=" ENGINE INNODB"/>
+            <append value=" ENGINE INNODB" />
         </modifySql>
     </changeSet>
     <changeSet id="2" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="ca_chart_t">
-            <column defaultValue="" name="FIN_COA_CD" type="VARCHAR(2)">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="CA_CHART_T">
+            <column name="FIN_COA_CD" type="VARCHAR(2)" defaultValue="">
+                <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
-                <constraints nullable="false"/>
+            <column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
-            <column name="FIN_COA_DESC" type="VARCHAR(40)"/>
-            <column name="FIN_COA_ACTIVE_CD" type="VARCHAR(1)"/>
+            <column name="FIN_COA_DESC" type="VARCHAR(40)" />
+            <column name="FIN_COA_ACTIVE_CD" type="VARCHAR(1)" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="3" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="ca_object_code_t">
-            <column defaultValueNumeric="0" name="UNIV_FISCAL_YR" type="DECIMAL(4,0)">
-                <constraints nullable="false"/>
+        <createTable tableName="CA_OBJECT_CODE_T">
+            <column name="UNIV_FISCAL_YR" type="DECIMAL(4,0)" defaultValueNumeric="0">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="" name="FIN_COA_CD" type="VARCHAR(2)">
-                <constraints nullable="false"/>
+            <column name="FIN_COA_CD" type="VARCHAR(2)" defaultValue="">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="" name="FIN_OBJECT_CD" type="VARCHAR(5)">
-                <constraints nullable="false"/>
+            <column name="FIN_OBJECT_CD" type="VARCHAR(5)" defaultValue="">
+                <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
-                <constraints nullable="false"/>
+            <column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
-            <column name="FIN_OBJ_CD_NM" type="VARCHAR(40)"/>
-            <column name="FIN_OBJ_CD_SHRT_NM" type="VARCHAR(12)"/>
-            <column name="FIN_OBJ_ACTIVE_CD" type="VARCHAR(1)"/>
+            <column name="FIN_OBJ_CD_NM" type="VARCHAR(40)" />
+            <column name="FIN_OBJ_CD_SHRT_NM" type="VARCHAR(12)" />
+            <column name="FIN_OBJ_ACTIVE_CD" type="VARCHAR(1)" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="4" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="ca_org_t">
-            <column defaultValue="" name="FIN_COA_CD" type="VARCHAR(2)">
-                <constraints nullable="false"/>
+        <createTable tableName="CA_ORG_T">
+            <column name="FIN_COA_CD" type="VARCHAR(2)" defaultValue="">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="" name="ORG_CD" type="VARCHAR(10)">
-                <constraints nullable="false"/>
+            <column name="ORG_CD" type="VARCHAR(10)" defaultValue="">
+                <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
-                <constraints nullable="false"/>
+            <column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
-            <column name="ORG_NM" type="VARCHAR(40)"/>
-            <column name="ORG_ACTIVE_CD" type="VARCHAR(1)"/>
+            <column name="ORG_NM" type="VARCHAR(40)" />
+            <column name="ORG_ACTIVE_CD" type="VARCHAR(1)" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="5" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="ca_project_t">
-            <column defaultValue="" name="PROJECT_CD" type="VARCHAR(10)">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="CA_PROJECT_T">
+            <column name="PROJECT_CD" type="VARCHAR(10)" defaultValue="">
+                <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
-                <constraints nullable="false"/>
+            <column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
-            <column name="PROJECT_NM" type="VARCHAR(40)"/>
-            <column name="FIN_COA_CD" type="VARCHAR(2)"/>
-            <column name="ORG_CD" type="VARCHAR(10)"/>
-            <column name="PROJ_ACTIVE_CD" type="VARCHAR(1)"/>
-            <column name="PROJECT_DESC" type="VARCHAR(400)"/>
+            <column name="PROJECT_NM" type="VARCHAR(40)" />
+            <column name="FIN_COA_CD" type="VARCHAR(2)" />
+            <column name="ORG_CD" type="VARCHAR(10)" />
+            <column name="PROJ_ACTIVE_CD" type="VARCHAR(1)" />
+            <column name="PROJECT_DESC" type="VARCHAR(400)" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="6" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="ca_sub_acct_t">
-            <column defaultValue="" name="FIN_COA_CD" type="VARCHAR(2)">
-                <constraints nullable="false"/>
+        <createTable tableName="CA_SUB_ACCT_T">
+            <column name="FIN_COA_CD" type="VARCHAR(2)" defaultValue="">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="" name="ACCOUNT_NBR" type="VARCHAR(10)">
-                <constraints nullable="false"/>
+            <column name="ACCOUNT_NBR" type="VARCHAR(10)" defaultValue="">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="" name="SUB_ACCT_NBR" type="VARCHAR(5)">
-                <constraints nullable="false"/>
+            <column name="SUB_ACCT_NBR" type="VARCHAR(5)" defaultValue="">
+                <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
-                <constraints nullable="false"/>
+            <column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
-            <column name="SUB_ACCT_NM" type="VARCHAR(40)"/>
-            <column name="SUB_ACCT_ACTV_CD" type="VARCHAR(1)"/>
+            <column name="SUB_ACCT_NM" type="VARCHAR(40)" />
+            <column name="SUB_ACCT_ACTV_CD" type="VARCHAR(1)" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="7" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="ca_sub_object_cd_t">
-            <column defaultValueNumeric="0" name="UNIV_FISCAL_YR" type="DECIMAL(4,0)">
-                <constraints nullable="false"/>
+        <createTable tableName="CA_SUB_OBJECT_CD_T">
+            <column name="UNIV_FISCAL_YR" type="DECIMAL(4,0)" defaultValueNumeric="0">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="" name="FIN_COA_CD" type="VARCHAR(2)">
-                <constraints nullable="false"/>
+            <column name="FIN_COA_CD" type="VARCHAR(2)" defaultValue="">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="" name="ACCOUNT_NBR" type="VARCHAR(10)">
-                <constraints nullable="false"/>
+            <column name="ACCOUNT_NBR" type="VARCHAR(10)" defaultValue="">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="" name="FIN_OBJECT_CD" type="VARCHAR(5)">
-                <constraints nullable="false"/>
+            <column name="FIN_OBJECT_CD" type="VARCHAR(5)" defaultValue="">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="" name="FIN_SUB_OBJ_CD" type="VARCHAR(3)">
-                <constraints nullable="false"/>
+            <column name="FIN_SUB_OBJ_CD" type="VARCHAR(3)" defaultValue="">
+                <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
-                <constraints nullable="false"/>
+            <column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
-            <column name="FIN_SUB_OBJ_CD_NM" type="VARCHAR(40)"/>
-            <column name="FIN_SUBOBJ_SHRT_NM" type="VARCHAR(12)"/>
-            <column name="FIN_SUBOBJ_ACTV_CD" type="VARCHAR(1)"/>
+            <column name="FIN_SUB_OBJ_CD_NM" type="VARCHAR(40)" />
+            <column name="FIN_SUBOBJ_SHRT_NM" type="VARCHAR(12)" />
+            <column name="FIN_SUBOBJ_ACTV_CD" type="VARCHAR(1)" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="8" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="hr_job_s">
-            <column autoIncrement="true" name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="8-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="HR_JOB_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="8-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE HR_JOB_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE HR_JOB_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="9" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="hr_job_t">
+        <createTable tableName="HR_JOB_T">
             <column name="HR_JOB_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="PRINCIPAL_ID" type="VARCHAR(40)"/>
-            <column name="JOB_NUMBER" type="BIGINT"/>
-            <column defaultValueDate="0002-11-30" name="EFFDT" type="DATE">
-                <constraints nullable="false"/>
+            <column name="PRINCIPAL_ID" type="VARCHAR(40)" />
+            <column name="JOB_NUMBER" type="BIGINT" />
+            <column name="EFFDT" type="DATE">
+                <constraints nullable="false" />
             </column>
-            <column name="dept" type="VARCHAR(21)">
-                <constraints nullable="false"/>
+            <column name="DEPT" type="VARCHAR(21)">
+                <constraints nullable="false" />
             </column>
-            <column name="TK_SAL_GROUP" type="VARCHAR(10)"/>
-            <column name="PAY_GRADE" type="VARCHAR(20)"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="TK_SAL_GROUP" type="VARCHAR(10)" />
+            <column name="PAY_GRADE" type="VARCHAR(20)" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
-            <column defaultValueNumeric="0.00" name="comp_rate" type="DECIMAL(5,2)"/>
-            <column name="location" type="VARCHAR(45)"/>
-            <column name="std_hours" type="DECIMAL(5,2)"/>
-            <column name="fte" type="VARCHAR(1)"/>
-            <column name="hr_paytype" type="VARCHAR(5)"/>
-            <column defaultValue="N" name="active" type="VARCHAR(1)"/>
-            <column defaultValue="N" name="primary_indicator" type="VARCHAR(1)"/>
+            <column name="COMP_RATE" type="DECIMAL(5,2)" defaultValueNumeric="0.00" />
+            <column name="LOCATION" type="VARCHAR(45)" />
+            <column name="STD_HOURS" type="DECIMAL(5,2)" />
+            <column name="FTE" type="VARCHAR(1)" />
+            <column name="HR_PAYTYPE" type="VARCHAR(5)" />
+            <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
+            <column name="PRIMARY_INDICATOR" type="VARCHAR(1)" defaultValue="N" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="10" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="hr_location_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="10-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="HR_LOCATION_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="10-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE HR_LOCATION_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE HR_LOCATION_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="11" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="hr_location_t">
-            <column name="hr_location_id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="HR_LOCATION_T">
+            <column name="HR_LOCATION_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="location" type="VARCHAR(20)">
-                <constraints nullable="false"/>
+            <column name="LOCATION" type="VARCHAR(20)">
+                <constraints nullable="false" />
             </column>
-            <column name="description" type="VARCHAR(40)">
-                <constraints nullable="false"/>
+            <column name="DESCRIPTION" type="VARCHAR(40)">
+                <constraints nullable="false" />
             </column>
-            <column name="effdt" type="DATE">
-                <constraints nullable="false"/>
+            <column name="EFFDT" type="DATE">
+                <constraints nullable="false" />
             </column>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="timestamp" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column name="timezone" type="VARCHAR(30)" defaultValue="America\\Indianapolis">
-            	<constraints nullable="false"/>
+            <column name="TIMEZONE" type="VARCHAR(30)" defaultValue="America\\Indianapolis">
+            	<constraints nullable="false" />
             </column>
-            <column name="active" type="BIT"/>
-            <column name="user_principal_id" type="VARCHAR(40)"/>
+            <column name="ACTIVE" type="CHAR(1)" />
+            <column name="USER_PRINCIPAL_ID" type="VARCHAR(40)" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="12" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="hr_pay_grade_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="12-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="HR_PAY_GRADE_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="12-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE HR_PAY_GRADE_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE HR_PAY_GRADE_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="13" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="hr_pay_grade_t">
-            <column name="hr_pay_grade_id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="HR_PAY_GRADE_T">
+            <column name="HR_PAY_GRADE_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="pay_grade" type="VARCHAR(20)">
-                <constraints nullable="false"/>
+            <column name="PAY_GRADE" type="VARCHAR(20)">
+                <constraints nullable="false" />
             </column>
-            <column name="description" type="VARCHAR(40)">
-                <constraints nullable="false"/>
+            <column name="DESCRIPTION" type="VARCHAR(40)">
+                <constraints nullable="false" />
             </column>
-            <column name="effdt" type="DATE">
-                <constraints nullable="false"/>
+            <column name="EFFDT" type="DATE">
+                <constraints nullable="false" />
             </column>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="timestamp" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column name="active" type="BIT"/>
-            <column name="user_principal_id" type="VARCHAR(40)"/>
+            <column name="ACTIVE" type="CHAR(1)" />
+            <column name="USER_PRINCIPAL_ID" type="VARCHAR(40)" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="14" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="hr_paytype_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="14-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="HR_PAYTYPE_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="14-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE HR_PAYTYPE_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE HR_PAYTYPE_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="15" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="hr_paytype_t">
+        <createTable tableName="HR_PAYTYPE_T">
             <column name="HR_PAYTYPE_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="PAYTYPE" type="VARCHAR(5)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column name="DESCR" type="VARCHAR(30)"/>
+            <column name="DESCR" type="VARCHAR(30)" />
             <column name="REG_ERN_CODE" type="VARCHAR(3)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="EFFDT" type="DATE">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="N" name="ACTIVE" type="VARCHAR(1)"/>
+            <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="16" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="hr_work_schedule_entry_s">
-            <column autoIncrement="true" name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="16-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="HR_WORK_SCHEDULE_ENTRY_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="16-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE HR_WORK_SCHEDULE_ENTRY_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE HR_WORK_SCHEDULE_ENTRY_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="17" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="hr_work_schedule_entry_t">
+        <createTable tableName="HR_WORK_SCHEDULE_ENTRY_T">
             <column name="HR_WORK_SCHEDULE_ENTRY_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="HR_WORK_SCHEDULE_ID" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="CALENDAR_GROUP" type="VARCHAR(45)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="DAY_OF_PERIOD" type="INT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="REG_HOURS" type="INT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="18" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="hr_work_schedule_s">
-            <column autoIncrement="true" name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="18-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="HR_WORK_SCHEDULE_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="18-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE HR_WORK_SCHEDULE_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE HR_WORK_SCHEDULE_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="19" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="hr_work_schedule_t">
+        <createTable tableName="HR_WORK_SCHEDULE_T">
             <column name="HR_WORK_SCHEDULE_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="WORK_SCHEDULE_DESC" type="VARCHAR(30)">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueDate="0002-11-30" name="EFFDT" type="DATE">
-                <constraints nullable="false"/>
-            </column>
-            <column name="DEPT" type="VARCHAR(21)"/>
-            <column name="WORK_AREA" type="BIGINT"/>
-            <column name="PRINCIPAL_ID" type="VARCHAR(40)"/>
-            <column defaultValue="N" name="ACTIVE" type="VARCHAR(1)"/>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="20" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="la_accrual_categories_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="21" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="la_accrual_categories_t">
-            <column name="LA_ACCRUAL_CATEGORY_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="ACCRUAL_CATEGORY" type="VARCHAR(3)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="DESCR" type="VARCHAR(30)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="EFFDT" type="DATE">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="DEPT" type="VARCHAR(21)" />
+            <column name="WORK_AREA" type="BIGINT" />
+            <column name="PRINCIPAL_ID" type="VARCHAR(40)" />
+            <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="N" name="ACTIVE" type="VARCHAR(1)"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
-		</modifySql>
-    </changeSet>
-    <changeSet id="22" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="la_accruals_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="23" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="la_accruals_t">
-            <column name="LA_ACCRUALS_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-            <column name="PRINCIPAL_ID" type="VARCHAR(21)">
-                <constraints nullable="false"/>
+    <changeSet id="20-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="LA_ACCRUAL_CATEGORIES_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="20-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE LA_ACCRUAL_CATEGORIES_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE LA_ACCRUAL_CATEGORIES_S AUTO_INCREMENT = 10000;
+        </sql>
+    </changeSet>
+    <changeSet id="21" author="djunk" context="kpme-client-bootstrap">
+        <createTable tableName="LA_ACCRUAL_CATEGORIES_T">
+            <column name="LA_ACCRUAL_CATEGORY_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="ACCRUAL_CATEGORY" type="VARCHAR(3)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column name="EFFDT" type="DATETIME">
-                <constraints nullable="false"/>
+            <column name="DESCR" type="VARCHAR(30)">
+                <constraints nullable="false" />
             </column>
-            <column name="HOURS_ACCRUED" type="DECIMAL(6,2)">
-                <constraints nullable="false"/>
+            <column name="EFFDT" type="DATE">
+                <constraints nullable="false" />
             </column>
-            <column name="HOURS_TAKEN" type="DECIMAL(6,2)">
-                <constraints nullable="false"/>
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
-            <column name="HOURS_ADJUST" type="DECIMAL(6,2)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
+		</modifySql>
+    </changeSet>
+    <changeSet id="22-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="LA_ACCRUALS_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="22-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE LA_ACCRUALS_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE LA_ACCRUALS_S AUTO_INCREMENT = 10000;
+        </sql>
+    </changeSet>
+    <changeSet id="23" author="djunk" context="kpme-client-bootstrap">
+        <createTable tableName="LA_ACCRUALS_T">
+            <column name="LA_ACCRUALS_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="PRINCIPAL_ID" type="VARCHAR(21)">
+                <constraints nullable="false" />
+            </column>
+            <column name="ACCRUAL_CATEGORY" type="VARCHAR(3)">
+                <constraints nullable="false" />
+            </column>
+            <column name="EFFDT" type="DATE">
+                <constraints nullable="false" />
+            </column>
+            <column name="HOURS_ACCRUED" type="DECIMAL(6,2)">
+                <constraints nullable="false" />
+            </column>
+            <column name="HOURS_TAKEN" type="DECIMAL(6,2)">
+                <constraints nullable="false" />
+            </column>
+            <column name="HOURS_ADJUST" type="DECIMAL(6,2)">
+                <constraints nullable="false" />
+            </column>
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+		<modifySql dbms="mysql">
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="24" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="qrtz_blob_triggers">
-            <column defaultValue="" name="TRIGGER_NAME" type="VARCHAR(80)">
-                <constraints nullable="false"/>
+        <createTable tableName="QRTZ_BLOB_TRIGGERS">
+            <column name="TRIGGER_NAME" type="VARCHAR(80)" defaultValue="">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="" name="TRIGGER_GROUP" type="VARCHAR(80)">
-                <constraints nullable="false"/>
+            <column name="TRIGGER_GROUP" type="VARCHAR(80)" defaultValue="">
+                <constraints nullable="false" />
             </column>
-            <column name="BLOB_DATA" type="LONGBLOB"/>
+            <column name="BLOB_DATA" type="LONGBLOB" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="25" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="qrtz_calendars">
-            <column defaultValue="" name="CALENDAR_NAME" type="VARCHAR(80)">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="QRTZ_CALENDARS">
+            <column name="CALENDAR_NAME" type="VARCHAR(80)" defaultValue="">
+                <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="CALENDAR" type="LONGBLOB">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="26" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="qrtz_cron_triggers">
-            <column defaultValue="" name="TRIGGER_NAME" type="VARCHAR(80)">
-                <constraints nullable="false"/>
+        <createTable tableName="QRTZ_CRON_TRIGGERS">
+            <column name="TRIGGER_NAME" type="VARCHAR(80)" defaultValue="">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="" name="TRIGGER_GROUP" type="VARCHAR(80)">
-                <constraints nullable="false"/>
+            <column name="TRIGGER_GROUP" type="VARCHAR(80)" defaultValue="">
+                <constraints nullable="false" />
             </column>
             <column name="CRON_EXPRESSION" type="VARCHAR(80)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column name="TIME_ZONE_ID" type="VARCHAR(80)"/>
+            <column name="TIME_ZONE_ID" type="VARCHAR(80)" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="27" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="qrtz_fired_triggers">
-            <column defaultValue="" name="ENTRY_ID" type="VARCHAR(95)">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="QRTZ_FIRED_TRIGGERS">
+            <column name="ENTRY_ID" type="VARCHAR(95)" defaultValue="">
+                <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="TRIGGER_NAME" type="VARCHAR(80)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="TRIGGER_GROUP" type="VARCHAR(80)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="IS_VOLATILE" type="VARCHAR(1)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="INSTANCE_NAME" type="VARCHAR(80)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="FIRED_TIME" type="DECIMAL(13,0)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="PRIORITY" type="DECIMAL(13,0)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="STATE" type="VARCHAR(16)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column name="JOB_NAME" type="VARCHAR(80)"/>
-            <column name="JOB_GROUP" type="VARCHAR(80)"/>
-            <column name="IS_STATEFUL" type="VARCHAR(1)"/>
-            <column name="REQUESTS_RECOVERY" type="VARCHAR(1)"/>
+            <column name="JOB_NAME" type="VARCHAR(80)" />
+            <column name="JOB_GROUP" type="VARCHAR(80)" />
+            <column name="IS_STATEFUL" type="VARCHAR(1)" />
+            <column name="REQUESTS_RECOVERY" type="VARCHAR(1)" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="28" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="qrtz_job_details">
-            <column defaultValue="" name="JOB_NAME" type="VARCHAR(80)">
-                <constraints nullable="false"/>
+        <createTable tableName="QRTZ_JOB_DETAILS">
+            <column name="JOB_NAME" type="VARCHAR(80)" defaultValue="">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="" name="JOB_GROUP" type="VARCHAR(80)">
-                <constraints nullable="false"/>
+            <column name="JOB_GROUP" type="VARCHAR(80)" defaultValue="">
+                <constraints nullable="false" />
             </column>
-            <column name="DESCRIPTION" type="VARCHAR(120)"/>
+            <column name="DESCRIPTION" type="VARCHAR(120)" />
             <column name="JOB_CLASS_NAME" type="VARCHAR(128)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="IS_DURABLE" type="VARCHAR(1)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="IS_VOLATILE" type="VARCHAR(1)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="IS_STATEFUL" type="VARCHAR(1)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="REQUESTS_RECOVERY" type="VARCHAR(1)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column name="JOB_DATA" type="LONGBLOB"/>
+            <column name="JOB_DATA" type="LONGBLOB" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="29" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="qrtz_job_listeners">
-            <column defaultValue="" name="JOB_NAME" type="VARCHAR(80)">
-                <constraints nullable="false"/>
+        <createTable tableName="QRTZ_JOB_LISTENERS">
+            <column name="JOB_NAME" type="VARCHAR(80)" defaultValue="">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="" name="JOB_GROUP" type="VARCHAR(80)">
-                <constraints nullable="false"/>
+            <column name="JOB_GROUP" type="VARCHAR(80)" defaultValue="">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="" name="JOB_LISTENER" type="VARCHAR(80)">
-                <constraints nullable="false"/>
+            <column name="JOB_LISTENER" type="VARCHAR(80)" defaultValue="">
+                <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="30" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="qrtz_locks">
-            <column defaultValue="" name="LOCK_NAME" type="VARCHAR(40)">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="QRTZ_LOCKS">
+            <column name="LOCK_NAME" type="VARCHAR(40)" defaultValue="">
+                <constraints nullable="false" primaryKey="true" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="31" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="qrtz_paused_trigger_grps">
-            <column defaultValue="" name="TRIGGER_GROUP" type="VARCHAR(80)">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="QRTZ_PAUSED_TRIGGER_GRPS">
+            <column name="TRIGGER_GROUP" type="VARCHAR(80)" defaultValue="">
+                <constraints nullable="false" primaryKey="true" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="32" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="qrtz_scheduler_state">
-            <column defaultValue="" name="INSTANCE_NAME" type="VARCHAR(80)">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="QRTZ_SCHEDULER_STATE">
+            <column name="INSTANCE_NAME" type="VARCHAR(80)" defaultValue="">
+                <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="LAST_CHECKIN_TIME" type="DECIMAL(13,0)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="CHECKIN_INTERVAL" type="DECIMAL(13,0)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="33" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="qrtz_simple_triggers">
-            <column defaultValue="" name="TRIGGER_NAME" type="VARCHAR(80)">
-                <constraints nullable="false"/>
+        <createTable tableName="QRTZ_SIMPLE_TRIGGERS">
+            <column name="TRIGGER_NAME" type="VARCHAR(80)" defaultValue="">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="" name="TRIGGER_GROUP" type="VARCHAR(80)">
-                <constraints nullable="false"/>
+            <column name="TRIGGER_GROUP" type="VARCHAR(80)" defaultValue="">
+                <constraints nullable="false" />
             </column>
             <column name="REPEAT_COUNT" type="DECIMAL(7,0)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="REPEAT_INTERVAL" type="DECIMAL(12,0)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="TIMES_TRIGGERED" type="DECIMAL(7,0)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="34" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="qrtz_trigger_listeners">
-            <column defaultValue="" name="TRIGGER_NAME" type="VARCHAR(80)">
-                <constraints nullable="false"/>
+        <createTable tableName="QRTZ_TRIGGER_LISTENERS">
+            <column name="TRIGGER_NAME" type="VARCHAR(80)" defaultValue="">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="" name="TRIGGER_GROUP" type="VARCHAR(80)">
-                <constraints nullable="false"/>
+            <column name="TRIGGER_GROUP" type="VARCHAR(80)" defaultValue="">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="" name="TRIGGER_LISTENER" type="VARCHAR(80)">
-                <constraints nullable="false"/>
+            <column name="TRIGGER_LISTENER" type="VARCHAR(80)" defaultValue="">
+                <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="35" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="qrtz_triggers">
-            <column defaultValue="" name="TRIGGER_NAME" type="VARCHAR(80)">
-                <constraints nullable="false"/>
+        <createTable tableName="QRTZ_TRIGGERS">
+            <column name="TRIGGER_NAME" type="VARCHAR(80)" defaultValue="">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="" name="TRIGGER_GROUP" type="VARCHAR(80)">
-                <constraints nullable="false"/>
+            <column name="TRIGGER_GROUP" type="VARCHAR(80)" defaultValue="">
+                <constraints nullable="false" />
             </column>
             <column name="JOB_NAME" type="VARCHAR(80)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="JOB_GROUP" type="VARCHAR(80)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="IS_VOLATILE" type="VARCHAR(1)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column name="DESCRIPTION" type="VARCHAR(120)"/>
-            <column name="NEXT_FIRE_TIME" type="DECIMAL(13,0)"/>
-            <column name="PREV_FIRE_TIME" type="DECIMAL(13,0)"/>
-            <column name="PRIORITY" type="DECIMAL(13,0)"/>
+            <column name="DESCRIPTION" type="VARCHAR(120)" />
+            <column name="NEXT_FIRE_TIME" type="DECIMAL(13,0)" />
+            <column name="PREV_FIRE_TIME" type="DECIMAL(13,0)" />
+            <column name="PRIORITY" type="DECIMAL(13,0)" />
             <column name="TRIGGER_STATE" type="VARCHAR(16)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="TRIGGER_TYPE" type="VARCHAR(8)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="START_TIME" type="DECIMAL(13,0)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column name="END_TIME" type="DECIMAL(13,0)"/>
-            <column name="CALENDAR_NAME" type="VARCHAR(80)"/>
-            <column name="MISFIRE_INSTR" type="DECIMAL(2,0)"/>
-            <column name="JOB_DATA" type="LONGBLOB"/>
+            <column name="END_TIME" type="DECIMAL(13,0)" />
+            <column name="CALENDAR_NAME" type="VARCHAR(80)" />
+            <column name="MISFIRE_INSTR" type="DECIMAL(2,0)" />
+            <column name="JOB_DATA" type="LONGBLOB" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="36" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_assign_acct_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="36-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_ASSIGN_ACCT_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="36-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_ASSIGN_ACCT_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_ASSIGN_ACCT_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="37" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_assign_acct_t">
+        <createTable tableName="TK_ASSIGN_ACCT_T">
             <column name="TK_ASSIGN_ACCT_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="FIN_COA_CD" type="VARCHAR(2)"/>
-            <column name="ACCOUNT_NBR" type="VARCHAR(7)"/>
-            <column name="SUB_ACCT_NBR" type="VARCHAR(5)"/>
-            <column name="FIN_OBJECT_CD" type="VARCHAR(4)"/>
-            <column name="FIN_SUB_OBJ_CD" type="VARCHAR(3)"/>
-            <column name="PROJECT_CD" type="VARCHAR(10)"/>
-            <column name="ORG_REF_ID" type="VARCHAR(8)"/>
-            <column name="PERCENT" type="DECIMAL(5,2)"/>
+            <column name="FIN_COA_CD" type="VARCHAR(2)" />
+            <column name="ACCOUNT_NBR" type="VARCHAR(7)" />
+            <column name="SUB_ACCT_NBR" type="VARCHAR(5)" />
+            <column name="FIN_OBJECT_CD" type="VARCHAR(4)" />
+            <column name="FIN_SUB_OBJ_CD" type="VARCHAR(3)" />
+            <column name="PROJECT_CD" type="VARCHAR(10)" />
+            <column name="ORG_REF_ID" type="VARCHAR(8)" />
+            <column name="PERCENT" type="DECIMAL(5,2)" />
             <column name="TK_ASSIGNMENT_ID" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
-                <constraints nullable="false"/>
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
-            <column name="EARN_CODE" type="VARCHAR(3)"/>
+            <column name="EARN_CODE" type="VARCHAR(3)" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="38" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_assignment_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="38-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_ASSIGNMENT_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="38-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_ASSIGNMENT_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_ASSIGNMENT_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="39" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_assignment_t">
+        <createTable tableName="TK_ASSIGNMENT_T">
             <column name="TK_ASSIGNMENT_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="PRINCIPAL_ID" type="VARCHAR(40)"/>
-            <column name="JOB_NUMBER" type="BIGINT"/>
-            <column defaultValueDate="0002-11-30" name="EFFDT" type="DATE">
-                <constraints nullable="false"/>
+            <column name="PRINCIPAL_ID" type="VARCHAR(40)" />
+            <column name="JOB_NUMBER" type="BIGINT" />
+            <column name="EFFDT" type="DATE">
+                <constraints nullable="false" />
             </column>
-            <column name="WORK_AREA" type="BIGINT"/>
-            <column name="TASK" type="BIGINT"/>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="WORK_AREA" type="BIGINT" />
+            <column name="TASK" type="BIGINT" />
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="N" name="active" type="VARCHAR(1)"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="timestamp" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="40" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_clock_location_rl_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="40-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_CLOCK_LOCATION_RL_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="40-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_CLOCK_LOCATION_RL_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_CLOCK_LOCATION_RL_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="41" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_clock_location_rl_t">
+        <createTable tableName="TK_CLOCK_LOCATION_RL_T">
             <column name="TK_CLOCK_LOC_RULE_ID" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column name="WORK_AREA" type="BIGINT"/>
-            <column name="PRINCIPAL_ID" type="VARCHAR(10)"/>
-            <column name="job_number" type="BIGINT"/>
-            <column name="EFFDT" type="DATE"/>
-            <column name="active" type="VARCHAR(1)"/>
-            <column name="IP_ADDRESS" type="VARCHAR(15)"/>
-            <column name="USER_PRINCIPAL_ID" type="VARCHAR(10)"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="WORK_AREA" type="BIGINT" />
+            <column name="PRINCIPAL_ID" type="VARCHAR(10)" />
+            <column name="JOB_NUMBER" type="BIGINT" />
+            <column name="EFFDT" type="DATE" />
+            <column name="ACTIVE" type="VARCHAR(1)" />
+            <column name="IP_ADDRESS" type="VARCHAR(15)" />
+            <column name="USER_PRINCIPAL_ID" type="VARCHAR(10)" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
-            <column name="dept" type="VARCHAR(21)"/>
+            <column name="DEPT" type="VARCHAR(21)" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="42" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_clock_log_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="42-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_CLOCK_LOG_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="42-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_CLOCK_LOG_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_CLOCK_LOG_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="43" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_clock_log_t">
+        <createTable tableName="TK_CLOCK_LOG_T">
             <column name="TK_CLOCK_LOG_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="PRINCIPAL_ID" type="VARCHAR(40)"/>
-            <column name="JOB_NUMBER" type="BIGINT"/>
-            <column name="WORK_AREA" type="BIGINT"/>
-            <column name="TASK" type="BIGINT"/>
-            <column name="TK_WORK_AREA_ID" type="BIGINT"/>
-            <column name="TK_TASK_ID" type="BIGINT"/>
-            <column defaultValue="0000-00-00 00:00:00" name="CLOCK_TS" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="PRINCIPAL_ID" type="VARCHAR(40)" />
+            <column name="JOB_NUMBER" type="BIGINT" />
+            <column name="WORK_AREA" type="BIGINT" />
+            <column name="TASK" type="BIGINT" />
+            <column name="TK_WORK_AREA_ID" type="BIGINT" />
+            <column name="TK_TASK_ID" type="BIGINT" />
+            <column name="CLOCK_TS" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column name="CLOCK_TS_TZ" type="VARCHAR(50)"/>
-            <column name="CLOCK_ACTION" type="VARCHAR(2)"/>
-            <column name="IP_ADDRESS" type="VARCHAR(15)"/>
-            <column name="HR_JOB_ID" type="BIGINT"/>
-            <column name="USER_PRINCIPAL_ID" type="VARCHAR(40)"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="CLOCK_TS_TZ" type="VARCHAR(50)" />
+            <column name="CLOCK_ACTION" type="VARCHAR(2)" />
+            <column name="IP_ADDRESS" type="VARCHAR(15)" />
+            <column name="HR_JOB_ID" type="BIGINT" />
+            <column name="USER_PRINCIPAL_ID" type="VARCHAR(40)" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="44" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_daily_overtime_rl_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="44-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_DAILY_OVERTIME_RL_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="44-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_DAILY_OVERTIME_RL_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_DAILY_OVERTIME_RL_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="45" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_daily_overtime_rl_t">
-            <column name="tk_daily_overtime_rl_id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="TK_DAILY_OVERTIME_RL_T">
+            <column name="TK_DAILY_OVERTIME_RL_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="LOCATION" type="VARCHAR(40)"/>
-            <column name="PAYTYPE" type="VARCHAR(5)"/>
-            <column name="EFFDT" type="DATE"/>
-            <column name="USER_PRINCIPAL_ID" type="VARCHAR(10)"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="LOCATION" type="VARCHAR(40)" />
+            <column name="PAYTYPE" type="VARCHAR(5)" />
+            <column name="EFFDT" type="DATE" />
+            <column name="USER_PRINCIPAL_ID" type="VARCHAR(10)" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column name="DEPT" type="VARCHAR(21)"/>
-            <column name="WORK_AREA" type="BIGINT"/>
-            <column defaultValueNumeric="0.00" name="MAX_GAP" type="DECIMAL(5,2)"/>
-            <column name="MIN_HOURS" type="DECIMAL(2,0)"/>
-            <column name="ACTIVE" type="VARCHAR(1)"/>
-            <column name="FROM_EARN_GROUP" type="VARCHAR(10)"/>
-            <column name="EARN_CODE" type="VARCHAR(10)"/>
+            <column name="DEPT" type="VARCHAR(21)" />
+            <column name="WORK_AREA" type="BIGINT" />
+            <column name="MAX_GAP" type="DECIMAL(5,2)" defaultValueNumeric="0.00" />
+            <column name="MIN_HOURS" type="DECIMAL(2,0)" />
+            <column name="ACTIVE" type="VARCHAR(1)" />
+            <column name="FROM_EARN_GROUP" type="VARCHAR(10)" />
+            <column name="EARN_CODE" type="VARCHAR(10)" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="46" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_dept_earn_code_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="46-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_DEPT_EARN_CODE_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="46-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_DEPT_EARN_CODE_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_DEPT_EARN_CODE_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="47" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_dept_earn_code_t">
-            <column name="tk_dept_earn_code_id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="TK_DEPT_EARN_CODE_T">
+            <column name="TK_DEPT_EARN_CODE_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="dept" type="VARCHAR(21)">
-                <constraints nullable="false"/>
+            <column name="DEPT" type="VARCHAR(21)">
+                <constraints nullable="false" />
             </column>
-            <column name="tk_sal_group" type="VARCHAR(10)">
-                <constraints nullable="false"/>
+            <column name="TK_SAL_GROUP" type="VARCHAR(10)">
+                <constraints nullable="false" />
             </column>
-            <column name="earn_code" type="VARCHAR(3)">
-                <constraints nullable="false"/>
+            <column name="EARN_CODE" type="VARCHAR(3)">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="N" name="employee" type="VARCHAR(1)"/>
-            <column defaultValue="N" name="approver" type="VARCHAR(1)"/>
-            <column defaultValue="N" name="org_admin" type="VARCHAR(1)"/>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT"/>
-            <column name="location" type="VARCHAR(10)"/>
-            <column defaultValue="N" name="active" type="VARCHAR(1)"/>
-            <column name="effdt" type="DATE"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="timestamp" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="EMPLOYEE" type="VARCHAR(1)" defaultValue="N" />
+            <column name="APPROVER" type="VARCHAR(1)" defaultValue="N" />
+            <column name="ORG_ADMIN" type="VARCHAR(1)" defaultValue="N" />
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1" />
+            <column name="LOCATION" type="VARCHAR(10)" />
+            <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
+            <column name="EFFDT" type="DATE" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="48" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_dept_lunch_rl_s">
-            <column autoIncrement="true" name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="48-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_DEPT_LUNCH_RL_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="48-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_DEPT_LUNCH_RL_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_DEPT_LUNCH_RL_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="49" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_dept_lunch_rl_t">
+        <createTable tableName="TK_DEPT_LUNCH_RL_T">
             <column name="TK_DEPT_LUNCH_RL_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="DEPT" type="VARCHAR(21)"/>
-            <column name="WORK_AREA" type="BIGINT"/>
-            <column defaultValue="" name="principal_id" type="VARCHAR(10)">
-                <constraints nullable="false"/>
+            <column name="DEPT" type="VARCHAR(21)" />
+            <column name="WORK_AREA" type="BIGINT" />
+            <column name="PRINCIPAL_ID" type="VARCHAR(10)" defaultValue="">
+                <constraints nullable="false" />
             </column>
-            <column name="job_number" type="BIGINT"/>
+            <column name="JOB_NUMBER" type="BIGINT" />
             <column name="EFFDT" type="DATE">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column name="REQUIRED_CLOCK_FL" type="VARCHAR(3)"/>
-            <column name="MAX_MINS" type="DECIMAL(2,0)"/>
-            <column name="user_principal_id" type="VARCHAR(10)"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="REQUIRED_CLOCK_FL" type="VARCHAR(3)" />
+            <column name="MAX_MINS" type="DECIMAL(2,0)" />
+            <column name="USER_PRINCIPAL_ID" type="VARCHAR(10)" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
-            <column name="active" type="VARCHAR(1)"/>
-            <column name="SHIFT_HOURS" type="DECIMAL(2,1)"/>
-            <column name="DEDUCTION_MINS" type="DECIMAL(3,0)"/>
+            <column name="ACTIVE" type="VARCHAR(1)" />
+            <column name="SHIFT_HOURS" type="DECIMAL(2,1)" />
+            <column name="DEDUCTION_MINS" type="DECIMAL(3,0)" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="50" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_dept_s">
-            <column autoIncrement="true" name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="50-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_DEPT_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="50-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_DEPT_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_DEPT_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="51" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_dept_t">
-            <column name="tk_dept_id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="TK_DEPT_T">
+            <column name="TK_DEPT_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="dept" type="VARCHAR(21)"/>
-            <column name="DESCRIPTION" type="VARCHAR(75)"/>
-            <column name="ORG" type="VARCHAR(10)"/>
-            <column name="CHART" type="VARCHAR(10)"/>
-            <column name="location" type="VARCHAR(20)">
-                <constraints nullable="false"/>
+            <column name="DEPT" type="VARCHAR(21)" />
+            <column name="DESCRIPTION" type="VARCHAR(75)" />
+            <column name="ORG" type="VARCHAR(10)" />
+            <column name="CHART" type="VARCHAR(10)" />
+            <column name="LOCATION" type="VARCHAR(20)">
+                <constraints nullable="false" />
             </column>
-            <column name="effdt" type="DATE"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="timestamp" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="EFFDT" type="DATE" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="N" name="active" type="VARCHAR(1)"/>
+            <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="52" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_document_header_t">
+        <createTable tableName="TK_DOCUMENT_HEADER_T">
             <column name="DOCUMENT_ID" type="VARCHAR(14)">
-                <constraints nullable="false" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="PRINCIPAL_ID" type="VARCHAR(40)"/>
-            <column name="PAY_END_DT" type="DATETIME"/>
-            <column name="DOCUMENT_STATUS" type="VARCHAR(1)"/>
-            <column name="PAY_BEGIN_DT" type="DATETIME"/>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT"/>
+            <column name="PRINCIPAL_ID" type="VARCHAR(40)" />
+            <column name="PAY_END_DT" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="DOCUMENT_STATUS" type="VARCHAR(1)" />
+            <column name="PAY_BEGIN_DT" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP" />
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="53" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_earn_code_s">
-            <column autoIncrement="true" name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="53-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_EARN_CODE_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="53-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_EARN_CODE_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_EARN_CODE_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="54" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_earn_code_t">
-            <column name="tk_earn_code_id" type="INT">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="TK_EARN_CODE_T">
+            <column name="TK_EARN_CODE_ID" type="INT">
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="earn_code" type="VARCHAR(3)">
-                <constraints nullable="false"/>
+            <column name="EARN_CODE" type="VARCHAR(3)">
+                <constraints nullable="false" />
             </column>
-            <column name="descr" type="VARCHAR(30)"/>
-            <column name="effdt" type="DATE"/>
-            <column defaultValue="N" name="ovt_earn_code" type="CHAR(1)">
-                <constraints nullable="false"/>
+            <column name="DESCR" type="VARCHAR(30)" />
+            <column name="EFFDT" type="DATE" />
+            <column name="OVT_EARN_CODE" type="CHAR(1)" defaultValue="N">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="N" name="record_time" type="VARCHAR(1)"/>
-            <column defaultValue="N" name="record_amount" type="VARCHAR(1)"/>
-            <column defaultValue="N" name="record_hours" type="VARCHAR(1)"/>
-            <column name="ACTIVE" type="VARCHAR(1)"/>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="timestamp" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="RECORD_TIME" type="VARCHAR(1)" defaultValue="N" />
+            <column name="RECORD_AMOUNT" type="VARCHAR(1)" defaultValue="N" />
+            <column name="RECORD_HOURS" type="VARCHAR(1)" defaultValue="N" />
+            <column name="ACTIVE" type="VARCHAR(1)" />
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column name="ACCRUAL_CATEGORY" type="VARCHAR(3)"/>
-            <column defaultValueNumeric="0.00" name="inflate_min_hours" type="DECIMAL(3,2)">
-                <constraints nullable="false"/>
+            <column name="ACCRUAL_CATEGORY" type="VARCHAR(3)" />
+            <column name="INFLATE_MIN_HOURS" type="DECIMAL(3,2)" defaultValueNumeric="0.00">
+                <constraints nullable="false" />
             </column>
-            <column defaultValueNumeric="1.00" name="inflate_factor" type="DECIMAL(3,2)">
-                <constraints nullable="false"/>
+            <column name="INFLATE_FACTOR" type="DECIMAL(3,2)" defaultValueNumeric="1.00">
+                <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="55" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_earn_group_def_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="55-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_EARN_GROUP_DEF_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="55-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_EARN_GROUP_DEF_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_EARN_GROUP_DEF_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="56" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_earn_group_def_t">
-            <column name="tk_earn_group_id" type="BIGINT"/>
-            <column name="earn_code" type="VARCHAR(3)"/>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT"/>
-            <column name="tk_earn_group_def_id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="TK_EARN_GROUP_DEF_T">
+            <column name="TK_EARN_GROUP_ID" type="BIGINT" />
+            <column name="EARN_CODE" type="VARCHAR(3)" />
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1" />
+            <column name="TK_EARN_GROUP_DEF_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="57" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_earn_group_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="57-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_EARN_GROUP_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="57-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_EARN_GROUP_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_EARN_GROUP_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="58" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_earn_group_t">
-            <column name="tk_earn_group_id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="TK_EARN_GROUP_T">
+            <column name="TK_EARN_GROUP_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="earn_group" type="VARCHAR(10)"/>
-            <column name="descr" type="VARCHAR(30)"/>
-            <column defaultValue="N" name="show_summary" type="VARCHAR(1)"/>
-            <column name="effdt" type="DATE"/>
-            <column name="active" type="VARCHAR(1)"/>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="timestamp" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="EARN_GROUP" type="VARCHAR(10)" />
+            <column name="DESCR" type="VARCHAR(30)" />
+            <column name="SHOW_SUMMARY" type="VARCHAR(1)" defaultValue="N" />
+            <column name="EFFDT" type="DATE" />
+            <column name="ACTIVE" type="VARCHAR(1)" />
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="59" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_grace_period_rl_s">
-            <column autoIncrement="true" name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="59-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_GRACE_PERIOD_RL_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="59-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_GRACE_PERIOD_RL_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_GRACE_PERIOD_RL_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="60" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_grace_period_rl_t">
-            <column name="TK_GRACE_PERIOD_RULE_ID" type="BIGINT"/>
-            <column name="EFFDT" type="DATE"/>
-            <column name="GRACE_MINS" type="DECIMAL(2,0)"/>
-            <column name="HOUR_FACTOR" type="DECIMAL(6,0)"/>
-            <column name="user_principal_id" type="VARCHAR(10)"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
-                <constraints nullable="false"/>
+        <createTable tableName="TK_GRACE_PERIOD_RL_T">
+            <column name="TK_GRACE_PERIOD_RULE_ID" type="BIGINT" />
+            <column name="EFFDT" type="DATE" />
+            <column name="GRACE_MINS" type="DECIMAL(2,0)" />
+            <column name="HOUR_FACTOR" type="DECIMAL(6,0)" />
+            <column name="USER_PRINCIPAL_ID" type="VARCHAR(10)" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
-            <column name="ACTIVE" type="VARCHAR(1)"/>
+            <column name="ACTIVE" type="VARCHAR(1)" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="61" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_holiday_calendar_dates_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="61-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_HOLIDAY_CALENDAR_DATES_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="61-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_HOLIDAY_CALENDAR_DATES_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_HOLIDAY_CALENDAR_DATES_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="62" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_holiday_calendar_dates_t">
+        <createTable tableName="TK_HOLIDAY_CALENDAR_DATES_T">
             <column name="HOLIDAY_CALENDAR_DATES_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="HOLIDAY_DATE" type="DATE">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="HOLIDAY_DESC" type="VARCHAR(30)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="HOLIDAY_CALENDAR_ID" type="INT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
             <column name="HOLIDAY_HRS" type="DECIMAL(4,2)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="63" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_holiday_calendar_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="63-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_HOLIDAY_CALENDAR_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="63-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_HOLIDAY_CALENDAR_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_HOLIDAY_CALENDAR_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="64" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_holiday_calendar_t">
+        <createTable tableName="TK_HOLIDAY_CALENDAR_T">
             <column name="HOLIDAY_CALENDAR_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="HOLIDAY_CALENDAR_GROUP" type="VARCHAR(3)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column name="DESCR" type="VARCHAR(30)"/>
-            <column name="location" type="VARCHAR(30)"/>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="DESCR" type="VARCHAR(30)" />
+            <column name="LOCATION" type="VARCHAR(30)" />
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="Y" name="active" type="VARCHAR(1)">
-                <constraints nullable="false"/>
+            <column name="ACTIVE" type="VARCHAR(1)" defaultValue="Y">
+                <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="65" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_hour_detail_hist_s">
-            <column autoIncrement="true" name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="65-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_HOUR_DETAIL_HIST_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="65-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_HOUR_DETAIL_HIST_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_HOUR_DETAIL_HIST_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="66" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_hour_detail_hist_t">
+        <createTable tableName="TK_HOUR_DETAIL_HIST_T">
             <column name="TK_HOUR_DETAIL_HIST_ID" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="TK_HOUR_DETAIL_ID" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column name="EARN_CODE" type="VARCHAR(3)"/>
-            <column name="HOURS" type="DECIMAL(5,2)"/>
-            <column defaultValueNumeric="0.00" name="amount" type="DECIMAL(6,2)"/>
+            <column name="EARN_CODE" type="VARCHAR(3)" />
+            <column name="HOURS" type="DECIMAL(5,2)" />
+            <column name="AMOUNT" type="DECIMAL(6,2)" defaultValueNumeric="0.00" />
             <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
-            <column name="ACTION_HISTORY" type="VARCHAR(15)"/>
-            <column name="MODIFIED_BY_PRINCIPAL_ID" type="VARCHAR(40)"/>
-            <column defaultValue="0000-00-00 00:00:00" name="TIMESTAMP_MODIFIED" type="TIMESTAMP"/>
+            <column name="ACTION_HISTORY" type="VARCHAR(15)" />
+            <column name="MODIFIED_BY_PRINCIPAL_ID" type="VARCHAR(40)" />
+            <column name="TIMESTAMP_MODIFIED" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="67" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_hour_detail_s">
-            <column autoIncrement="true" name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="67-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_HOUR_DETAIL_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="67-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_HOUR_DETAIL_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_HOUR_DETAIL_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="68" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_hour_detail_t">
+        <createTable tableName="TK_HOUR_DETAIL_T">
             <column name="TK_HOUR_DETAIL_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="TK_TIME_BLOCK_ID" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column name="EARN_CODE" type="VARCHAR(3)"/>
-            <column name="HOURS" type="DECIMAL(5,2)"/>
-            <column defaultValueNumeric="0.00" name="amount" type="DECIMAL(6,2)"/>
+            <column name="EARN_CODE" type="VARCHAR(3)" />
+            <column name="HOURS" type="DECIMAL(5,2)" />
+            <column name="AMOUNT" type="DECIMAL(6,2)" defaultValueNumeric="0.00" />
             <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="69" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_missed_punch_doc_t">
-            <column name="doc_hdr_id" type="VARCHAR(14)" >
-            	<constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="TK_MISSED_PUNCH_DOC_T">
+            <column name="DOC_HDR_ID" type="VARCHAR(14)" >
+            	<constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="principal_id" type="VARCHAR(40)">
-                <constraints nullable="false"/>
+            <column name="PRINCIPAL_ID" type="VARCHAR(40)">
+                <constraints nullable="false" />
             </column>
-            <column name="clock_action" type="VARCHAR(20)">
-                <constraints nullable="false"/>
+            <column name="CLOCK_ACTION" type="VARCHAR(20)">
+                <constraints nullable="false" />
             </column>
-            <column name="assignment" type="VARCHAR(20)">
-                <constraints nullable="false"/>
+            <column name="ASSIGNMENT" type="VARCHAR(20)">
+                <constraints nullable="false" />
             </column>
-            <column defaultValueDate="0002-11-30T00:00:00.0" name="action_date" type="DATETIME">
-                <constraints nullable="false"/>
+            <column name="ACTION_DATE" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="0000-00-00 00:00:00" name="action_time" type="TIME">
-                <constraints nullable="false"/>
+            <column name="ACTION_TIME" type="TIME" defaultValueDate="00:00:00">
+                <constraints nullable="false" />
             </column>
-            <column name="document_status" type="VARCHAR(1)"/>
-            <column name="tk_clock_log_id" type="BIGINT"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="timestamp" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="DOCUMENT_STATUS" type="VARCHAR(1)" />
+            <column name="TK_CLOCK_LOG_ID" type="BIGINT" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column name="timesheet_doc_id" type="VARCHAR(14)">
-                <constraints nullable="false"/>
+            <column name="TIMESHEET_DOC_ID" type="VARCHAR(14)">
+                <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
-                <constraints nullable="false"/>
+            <column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>          
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="70" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_principal_calendar_t">
-            <column defaultValue="" name="principal_id" type="VARCHAR(40)">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="TK_PRINCIPAL_CALENDAR_T">
+            <column name="PRINCIPAL_ID" type="VARCHAR(40)" defaultValue="">
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column defaultValue="" name="calendar_group" type="VARCHAR(45)">
-                <constraints nullable="false"/>
+            <column name="CALENDAR_GROUP" type="VARCHAR(45)" defaultValue="">
+                <constraints nullable="false" />
             </column>
-            <column name="holiday_calendar_group" type="VARCHAR(45)"/>
-            <column defaultValueDate="0002-11-30" name="EFFDT" type="DATE">
-                <constraints nullable="false"/>
+            <column name="HOLIDAY_CALENDAR_GROUP" type="VARCHAR(45)" />
+            <column name="EFFDT" type="DATE">
+                <constraints nullable="false" />
             </column>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column name="timezone" type="VARCHAR(30)">
-            	<constraints nullable="true"/>
+            <column name="TIMEZONE" type="VARCHAR(30)">
+            	<constraints nullable="true" />
             </column>            
-            <column defaultValueNumeric="1" name="VER_NBR" type="DECIMAL(8,0)">
-                <constraints nullable="false"/>
+            <column name="VER_NBR" type="DECIMAL(8,0)" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="Y" name="active" type="VARCHAR(1)"/>
+            <column name="ACTIVE" type="VARCHAR(1)" defaultValue="Y" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="71" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_py_calendar_entries_s">
-            <column autoIncrement="true" name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="71-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_PY_CALENDAR_ENTRIES_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="71-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_PY_CALENDAR_ENTRIES_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_PY_CALENDAR_ENTRIES_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="72" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_py_calendar_entries_t">
-            <column name="tk_py_calendar_entry_id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="TK_PY_CALENDAR_ENTRIES_T">
+            <column name="TK_PY_CALENDAR_ENTRY_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="tk_py_calendar_id" type="BIGINT"/>
-            <column name="calendar_group" type="VARCHAR(45)">
-                <constraints nullable="false"/>
+            <column name="TK_PY_CALENDAR_ID" type="BIGINT" />
+            <column name="CALENDAR_GROUP" type="VARCHAR(45)">
+                <constraints nullable="false" />
             </column>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="begin_period_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="BEGIN_PERIOD_DATE" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="0000-00-00 00:00:00" name="end_period_date" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="END_PERIOD_DATE" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column name="initiate_date" type="DATE"/>
-            <column name="initiate_time" type="TIME"/>
-            <column name="end_pay_period_date" type="DATE"/>
-            <column name="end_pay_period_time" type="TIME"/>
-            <column name="employee_approval_date" type="DATE"/>
-            <column name="employee_approval_time" type="TIME"/>
-            <column name="supervisor_approval_date" type="DATE"/>
-            <column name="supervisor_approval_time" type="TIME"/>
+            <column name="INITIATE_DATE" type="DATE" />
+            <column name="INITIATE_TIME" type="TIME" />
+            <column name="END_PAY_PERIOD_DATE" type="DATE" />
+            <column name="END_PAY_PERIOD_TIME" type="TIME" />
+            <column name="EMPLOYEE_APPROVAL_DATE" type="DATE" />
+            <column name="EMPLOYEE_APPROVAL_TIME" type="TIME" />
+            <column name="SUPERVISOR_APPROVAL_DATE" type="DATE" />
+            <column name="SUPERVISOR_APPROVAL_TIME" type="TIME" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="73" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_py_calendar_s">
-            <column autoIncrement="true" name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="73-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_PY_CALENDAR_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="73-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_PY_CALENDAR_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_PY_CALENDAR_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="74" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_py_calendar_t">
-            <column name="tk_py_calendar_id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="TK_PY_CALENDAR_T">
+            <column name="TK_PY_CALENDAR_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="calendar_group" type="VARCHAR(45)">
-                <constraints nullable="false"/>
+            <column name="CALENDAR_GROUP" type="VARCHAR(45)">
+                <constraints nullable="false" />
             </column>
-            <column name="flsa_begin_day" type="VARCHAR(9)">
-                <constraints nullable="false"/>
+            <column name="FLSA_BEGIN_DAY" type="VARCHAR(9)">
+                <constraints nullable="false" />
             </column>
-            <column name="flsa_begin_time" type="TIME">
-                <constraints nullable="false"/>
+            <column name="FLSA_BEGIN_TIME" type="TIME">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="Y" name="active" type="VARCHAR(1)">
-                <constraints nullable="false"/>
+            <column name="ACTIVE" type="VARCHAR(1)" defaultValue="Y">
+                <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="75" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_roles_group_t">
-            <column name="principal_id" type="VARCHAR(20)">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="TK_ROLES_GROUP_T">
+            <column name="PRINCIPAL_ID" type="VARCHAR(20)">
+                <constraints nullable="false" primaryKey="true" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="76" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_roles_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="76-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_ROLES_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="76-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_ROLES_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_ROLES_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="77" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_roles_t">
-            <column name="tk_roles_id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="TK_ROLES_T">
+            <column name="TK_ROLES_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="principal_id" type="VARCHAR(20)">
-                <constraints nullable="false"/>
+            <column name="PRINCIPAL_ID" type="VARCHAR(20)">
+                <constraints nullable="false" />
             </column>
-            <column name="role_name" type="VARCHAR(20)">
-                <constraints nullable="false"/>
+            <column name="ROLE_NAME" type="VARCHAR(20)">
+                <constraints nullable="false" />
             </column>
-            <column name="user_principal_id" type="VARCHAR(40)"/>
-            <column name="work_area" type="BIGINT"/>
-            <column name="dept" type="VARCHAR(21)"/>
-            <column name="effdt" type="DATE">
-                <constraints nullable="false"/>
+            <column name="USER_PRINCIPAL_ID" type="VARCHAR(40)" />
+            <column name="WORK_AREA" type="BIGINT" />
+            <column name="DEPT" type="VARCHAR(21)" />
+            <column name="EFFDT" type="DATE">
+                <constraints nullable="false" />
             </column>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="timestamp" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="N" name="active" type="VARCHAR(1)"/>
-            <column name="tk_dept_id" type="BIGINT"/>
-            <column name="tk_work_area_id" type="BIGINT"/>
+            <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
+            <column name="TK_DEPT_ID" type="BIGINT" />
+            <column name="TK_WORK_AREA_ID" type="BIGINT" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="78" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_sal_group_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="78-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_SAL_GROUP_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="78-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_SAL_GROUP_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_SAL_GROUP_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="79" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_sal_group_t">
+        <createTable tableName="TK_SAL_GROUP_T">
             <column name="TK_SAL_GROUP_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="TK_SAL_GROUP" type="VARCHAR(10)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="EFFDT" type="DATE">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column name="ACTIVE" type="VARCHAR(1)"/>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="ACTIVE" type="VARCHAR(1)" />
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
-            <column name="descr" type="VARCHAR(30)"/>
+            <column name="DESCR" type="VARCHAR(30)" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="80" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_shift_differential_rl_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="80-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_SHIFT_DIFFERENTIAL_RL_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="80-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_SHIFT_DIFFERENTIAL_RL_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_SHIFT_DIFFERENTIAL_RL_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="81" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_shift_differential_rl_t">
+        <createTable tableName="TK_SHIFT_DIFFERENTIAL_RL_T">
             <column name="TK_SHIFT_DIFF_RL_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="LOCATION" type="VARCHAR(45)"/>
-            <column name="TK_SAL_GROUP" type="VARCHAR(10)"/>
-            <column name="PAY_GRADE" type="VARCHAR(20)"/>
-            <column name="EFFDT" type="DATE"/>
-            <column name="EARN_CODE" type="VARCHAR(3)"/>
-            <column defaultValueDate="00:00:00" name="BEGIN_TS" type="TIME"/>
-            <column defaultValueDate="00:00:00" name="END_TS" type="TIME"/>
-            <column name="MIN_HRS" type="DECIMAL(2,0)"/>
+            <column name="LOCATION" type="VARCHAR(45)" />
+            <column name="TK_SAL_GROUP" type="VARCHAR(10)" />
+            <column name="PAY_GRADE" type="VARCHAR(20)" />
+            <column name="EFFDT" type="DATE" />
+            <column name="EARN_CODE" type="VARCHAR(3)" />
+            <column name="BEGIN_TS" type="TIME" defaultValueDate="00:00:00" />
+            <column name="END_TS" type="TIME" defaultValueDate="00:00:00" />
+            <column name="MIN_HRS" type="DECIMAL(2,0)" />
             <column name="CALENDAR_GROUP" type="VARCHAR(30)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column defaultValueNumeric="0.00" name="MAX_GAP" type="DECIMAL(5,2)"/>
-            <column name="USER_PRINCIPAL_ID" type="VARCHAR(10)"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="MAX_GAP" type="DECIMAL(5,2)" defaultValueNumeric="0.00" />
+            <column name="USER_PRINCIPAL_ID" type="VARCHAR(10)" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="N" name="ACTIVE" type="VARCHAR(1)"/>
-            <column defaultValue="N" name="sun" type="VARCHAR(1)">
-                <constraints nullable="false"/>
+            <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
+            <column name="SUN" type="VARCHAR(1)" defaultValue="N">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="N" name="mon" type="VARCHAR(1)">
-                <constraints nullable="false"/>
+            <column name="MON" type="VARCHAR(1)" defaultValue="N">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="N" name="tue" type="VARCHAR(1)">
-                <constraints nullable="false"/>
+            <column name="TUE" type="VARCHAR(1)" defaultValue="N">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="N" name="wed" type="VARCHAR(1)">
-                <constraints nullable="false"/>
+            <column name="WED" type="VARCHAR(1)" defaultValue="N">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="N" name="thu" type="VARCHAR(1)">
-                <constraints nullable="false"/>
+            <column name="THU" type="VARCHAR(1)" defaultValue="N">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="N" name="fri" type="VARCHAR(1)">
-                <constraints nullable="false"/>
+            <column name="FRI" type="VARCHAR(1)" defaultValue="N">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="N" name="sat" type="VARCHAR(1)">
-                <constraints nullable="false"/>
+            <column name="SAT" type="VARCHAR(1)" defaultValue="N">
+                <constraints nullable="false" />
             </column>
-            <column name="from_earn_group" type="VARCHAR(10)"/>
+            <column name="FROM_EARN_GROUP" type="VARCHAR(10)" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="82" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_system_lunch_rl_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="82-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_SYSTEM_LUNCH_RL_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="82-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_SYSTEM_LUNCH_RL_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_SYSTEM_LUNCH_RL_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="83" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_system_lunch_rl_t">
+        <createTable tableName="TK_SYSTEM_LUNCH_RL_T">
             <column name="TK_SYSTEM_LUNCH_RL_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="EFFDT" type="DATE">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column name="ACTIVE" type="VARCHAR(1)"/>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="ACTIVE" type="VARCHAR(1)" />
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
-            <column name="USER_PRINCIPAL_ID" type="VARCHAR(10)"/>
-            <column defaultValue="0" name="SHOW_LUNCH_BUTTON" type="VARCHAR(1)"/>
+            <column name="USER_PRINCIPAL_ID" type="VARCHAR(10)" />
+            <column name="SHOW_LUNCH_BUTTON" type="VARCHAR(1)" defaultValue="0" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="84" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_task_s">
-            <column autoIncrement="true" name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="84-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_TASK_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="84-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_TASK_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_TASK_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="85" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_task_t">
-            <column name="tk_task_id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="TK_TASK_T">
+            <column name="TK_TASK_ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="task" type="BIGINT"/>
-            <column name="work_area" type="BIGINT"/>
-            <column name="tk_work_area_id" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="TASK" type="BIGINT" />
+            <column name="WORK_AREA" type="BIGINT" />
+            <column name="TK_WORK_AREA_ID" type="BIGINT">
+                <constraints nullable="false" />
             </column>
-            <column name="descr" type="VARCHAR(45)"/>
-            <column name="admin_descr" type="VARCHAR(45)"/>
-            <column name="obj_id" type="VARCHAR(45)"/>
-            <column defaultValueNumeric="1" name="ver_nbr" type="BIGINT"/>
-            <column name="USER_PRINCIPAL_ID" type="VARCHAR(40)"/>
-            <column name="effdt" type="DATE">
-                <constraints nullable="false"/>
+            <column name="DESCR" type="VARCHAR(45)" />
+            <column name="ADMIN_DESCR" type="VARCHAR(45)" />
+            <column name="OBJ_ID" type="VARCHAR(45)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1" />
+            <column name="USER_PRINCIPAL_ID" type="VARCHAR(40)" />
+            <column name="EFFDT" type="DATE">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="Y" name="active" type="VARCHAR(1)">
-                <constraints nullable="false"/>
+            <column name="ACTIVE" type="VARCHAR(1)" defaultValue="Y">
+                <constraints nullable="false" />
             </column>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="timestamp" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="86" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_time_block_hist_s">
-            <column autoIncrement="true" name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="86-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_TIME_BLOCK_HIST_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="86-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_TIME_BLOCK_HIST_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_TIME_BLOCK_HIST_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="87" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_time_block_hist_t">
+        <createTable tableName="TK_TIME_BLOCK_HIST_T">
             <column name="TK_TIME_BLOCK_HIST_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="TK_TIME_BLOCK_ID" type="BIGINT"/>
-            <column name="DOCUMENT_ID" type="VARCHAR(14)"/>
-            <column name="principal_id" type="VARCHAR(40)"/>
-            <column name="JOB_NUMBER" type="BIGINT"/>
-            <column name="TASK" type="BIGINT"/>
-            <column name="WORK_AREA" type="BIGINT"/>
-            <column name="TK_WORK_AREA_ID" type="BIGINT"/>
-            <column name="TK_TASK_ID" type="BIGINT"/>
-            <column name="EARN_CODE" type="VARCHAR(3)"/>
-            <column defaultValue="0000-00-00 00:00:00" name="BEGIN_TS" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="TK_TIME_BLOCK_ID" type="BIGINT" />
+            <column name="DOCUMENT_ID" type="VARCHAR(14)" />
+            <column name="PRINCIPAL_ID" type="VARCHAR(40)" />
+            <column name="JOB_NUMBER" type="BIGINT" />
+            <column name="TASK" type="BIGINT" />
+            <column name="WORK_AREA" type="BIGINT" />
+            <column name="TK_WORK_AREA_ID" type="BIGINT" />
+            <column name="TK_TASK_ID" type="BIGINT" />
+            <column name="EARN_CODE" type="VARCHAR(3)" />
+            <column name="BEGIN_TS" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column name="BEGIN_TS_TZ" type="VARCHAR(50)"/>
-            <column defaultValue="0000-00-00 00:00:00" name="END_TS" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="BEGIN_TS_TZ" type="VARCHAR(50)" />
+            <column name="END_TS" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column name="END_TS_TZ" type="VARCHAR(50)"/>
-            <column defaultValueBoolean="false" name="CLOCK_LOG_CREATED" type="BIT"/>
-            <column name="HOURS" type="DECIMAL(5,2)"/>
-            <column name="USER_PRINCIPAL_ID" type="VARCHAR(40)"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="END_TS_TZ" type="VARCHAR(50)" />
+            <column name="CLOCK_LOG_CREATED" type="CHAR(1)" defaultValue="N" />
+            <column name="HOURS" type="DECIMAL(5,2)" />
+            <column name="USER_PRINCIPAL_ID" type="VARCHAR(40)" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column name="ACTION_HISTORY" type="VARCHAR(15)"/>
-            <column name="MODIFIED_BY_PRINCIPAL_ID" type="VARCHAR(40)"/>
-            <column defaultValue="0000-00-00 00:00:00" name="TIMESTAMP_MODIFIED" type="TIMESTAMP"/>
+            <column name="ACTION_HISTORY" type="VARCHAR(15)" />
+            <column name="MODIFIED_BY_PRINCIPAL_ID" type="VARCHAR(40)" />
+            <column name="TIMESTAMP_MODIFIED" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP" />
             <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
-            <column defaultValueNumeric="0.00" name="amount" type="DECIMAL(6,2)"/>
-            <column name="HR_JOB_ID" type="BIGINT"/>
+            <column name="AMOUNT" type="DECIMAL(6,2)" defaultValueNumeric="0.00" />
+            <column name="HR_JOB_ID" type="BIGINT" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="88" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_time_block_s">
-            <column autoIncrement="true" name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="88-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_TIME_BLOCK_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="88-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_TIME_BLOCK_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_TIME_BLOCK_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="89" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_time_block_t">
+        <createTable tableName="TK_TIME_BLOCK_T">
             <column name="TK_TIME_BLOCK_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="DOCUMENT_ID" type="VARCHAR(14)"/>
-            <column name="JOB_NUMBER" type="BIGINT"/>
-            <column name="WORK_AREA" type="BIGINT"/>
-            <column name="TASK" type="BIGINT"/>
-            <column name="TK_WORK_AREA_ID" type="BIGINT"/>
-            <column name="HR_JOB_ID" type="BIGINT"/>
-            <column name="TK_TASK_ID" type="BIGINT"/>
-            <column name="EARN_CODE" type="VARCHAR(3)"/>
-            <column defaultValue="0000-00-00 00:00:00" name="BEGIN_TS" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="DOCUMENT_ID" type="VARCHAR(14)" />
+            <column name="JOB_NUMBER" type="BIGINT" />
+            <column name="WORK_AREA" type="BIGINT" />
+            <column name="TASK" type="BIGINT" />
+            <column name="TK_WORK_AREA_ID" type="BIGINT" />
+            <column name="HR_JOB_ID" type="BIGINT" />
+            <column name="TK_TASK_ID" type="BIGINT" />
+            <column name="EARN_CODE" type="VARCHAR(3)" />
+            <column name="BEGIN_TS" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column name="BEGIN_TS_TZ" type="VARCHAR(50)"/>
-            <column defaultValue="0000-00-00 00:00:00" name="END_TS" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="BEGIN_TS_TZ" type="VARCHAR(50)" />
+            <column name="END_TS" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column name="END_TS_TZ" type="VARCHAR(50)"/>
-            <column defaultValueBoolean="false" name="CLOCK_LOG_CREATED" type="BIT"/>
-            <column name="HOURS" type="DECIMAL(5,2)"/>
-            <column defaultValueNumeric="0.00" name="amount" type="DECIMAL(6,2)"/>
-            <column name="USER_PRINCIPAL_ID" type="VARCHAR(40)"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="END_TS_TZ" type="VARCHAR(50)" />
+            <column name="CLOCK_LOG_CREATED" type="CHAR(1)" defaultValue="N" />
+            <column name="HOURS" type="DECIMAL(5,2)" />
+            <column name="AMOUNT" type="DECIMAL(6,2)" defaultValueNumeric="0.00" />
+            <column name="USER_PRINCIPAL_ID" type="VARCHAR(40)" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="90" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_time_collection_rl_s">
-            <column autoIncrement="true" name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="90-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_TIME_COLLECTION_RL_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="90-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_TIME_COLLECTION_RL_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_TIME_COLLECTION_RL_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="91" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_time_collection_rl_t">
+        <createTable tableName="TK_TIME_COLLECTION_RL_T">
             <column name="TK_TIME_COLL_RULE_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="DEPT" type="VARCHAR(21)"/>
-            <column name="WORK_AREA" type="BIGINT"/>
-            <column name="EFFDT" type="DATE"/>
-            <column name="CLOCK_USERS_FL" type="VARCHAR(1)"/>
-            <column name="HRS_DISTRIBUTION_FL" type="VARCHAR(1)"/>
-            <column name="USER_PRINCIPAL_ID" type="VARCHAR(10)"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="DEPT" type="VARCHAR(21)" />
+            <column name="WORK_AREA" type="BIGINT" />
+            <column name="EFFDT" type="DATE" />
+            <column name="CLOCK_USERS_FL" type="VARCHAR(1)" />
+            <column name="HRS_DISTRIBUTION_FL" type="VARCHAR(1)" />
+            <column name="USER_PRINCIPAL_ID" type="VARCHAR(10)" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT"/>
-            <column defaultValue="N" name="ACTIVE" type="VARCHAR(1)"/>
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1" />
+            <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="92" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_user_pref_t">
+        <createTable tableName="TK_USER_PREF_T">
             <column name="PRINCIPAL_ID" type="VARCHAR(40)">
-                <constraints nullable="false" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="TIME_ZONE" type="VARCHAR(30)"/>
+            <column name="TIME_ZONE" type="VARCHAR(30)" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="93" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_wa_maint_doc_t">
-            <column name="doc_hdr_id" type="VARCHAR(50)">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="TK_WA_MAINT_DOC_T">
+            <column name="DOC_HDR_ID" type="VARCHAR(50)">
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="ver_nbr" type="BIGINT"/>
-            <column name="obj_id" type="VARCHAR(50)"/>
-            <column name="doc_cntnt" type="LONGTEXT"/>
+            <column name="VER_NBR" type="BIGINT" />
+            <column name="OBJ_ID" type="VARCHAR(50)" />
+            <column name="DOC_CNTNT" type="BLOB" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="94" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_weekly_overtime_rl_s">
-            <column autoIncrement="true" name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="92-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_WEEKLY_OVERTIME_RL_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="92-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_WEEKLY_OVERTIME_RL_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_WEEKLY_OVERTIME_RL_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="95" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_weekly_overtime_rl_t">
+        <createTable tableName="TK_WEEKLY_OVERTIME_RL_T">
             <column name="TK_WEEKLY_OVERTIME_RL_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="MAX_HRS_ERN_GROUP" type="VARCHAR(3)"/>
-            <column name="CONVERT_FROM_ERN_GROUP" type="VARCHAR(3)"/>
-            <column name="CONVERT_TO_ERNCD" type="VARCHAR(3)"/>
-            <column name="EFFDT" type="DATE"/>
-            <column name="STEP" type="DECIMAL(2,0)"/>
-            <column name="MAX_HRS" type="DECIMAL(3,0)"/>
-            <column name="USER_PRINCIPAL_ID" type="VARCHAR(10)"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="MAX_HRS_ERN_GROUP" type="VARCHAR(3)" />
+            <column name="CONVERT_FROM_ERN_GROUP" type="VARCHAR(3)" />
+            <column name="CONVERT_TO_ERNCD" type="VARCHAR(3)" />
+            <column name="EFFDT" type="DATE" />
+            <column name="STEP" type="DECIMAL(2,0)" />
+            <column name="MAX_HRS" type="DECIMAL(3,0)" />
+            <column name="USER_PRINCIPAL_ID" type="VARCHAR(10)" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT"/>
-            <column defaultValue="N" name="ACTIVE" type="VARCHAR(1)"/>
-            <column defaultValueNumeric="1" name="TK_WEEKLY_OVT_GROUP_ID" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1" />
+            <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
+            <column name="TK_WEEKLY_OVT_GROUP_ID" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="96" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_weekly_ovt_group_t">
+        <createTable tableName="TK_WEEKLY_OVT_GROUP_T">
             <column name="TK_WEEKLY_OVERTIME_GROUP_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="97" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_work_area_document_t">
-            <column name="doc_hdr_id" type="VARCHAR(50)">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="TK_WORK_AREA_DOCUMENT_T">
+            <column name="DOC_HDR_ID" type="VARCHAR(50)">
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="ver_nbr" type="BIGINT"/>
-            <column name="obj_id" type="VARCHAR(50)"/>
+            <column name="VER_NBR" type="BIGINT" />
+            <column name="OBJ_ID" type="VARCHAR(50)" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="98" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_work_area_s">
-            <column autoIncrement="true" name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="98-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_WORK_AREA_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="98-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_WORK_AREA_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_WORK_AREA_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="99" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_work_area_t">
+        <createTable tableName="TK_WORK_AREA_T">
             <column name="TK_WORK_AREA_ID" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column autoIncrement="true" name="work_area" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+            <column name="WORK_AREA" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="DEPT" type="VARCHAR(21)"/>
+            <column name="DEPT" type="VARCHAR(21)" />
             <column name="EFFDT" type="DATE">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column name="ACTIVE" type="VARCHAR(1)"/>
-            <column name="DESCR" type="VARCHAR(30)"/>
-            <column name="DEFAULT_OVERTIME_EARNCODE" type="VARCHAR(3)"/>
-            <column name="ADMIN_DESCR" type="VARCHAR(30)"/>
-            <column name="USER_PRINCIPAL_ID" type="VARCHAR(40)"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="ACTIVE" type="VARCHAR(1)" />
+            <column name="DESCR" type="VARCHAR(30)" />
+            <column name="DEFAULT_OVERTIME_EARNCODE" type="VARCHAR(3)">
+                <constraints nullable="false" />
             </column>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT"/>
-            <column defaultValue="" name="OVERTIME_EDIT_ROLE" type="VARCHAR(20)">
-                <constraints nullable="false"/>
+            <column name="ADMIN_DESCR" type="VARCHAR(30)" />
+            <column name="USER_PRINCIPAL_ID" type="VARCHAR(40)" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1" />
+            <column name="OVERTIME_EDIT_ROLE" type="VARCHAR(20)" defaultValue="">
+                <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="100" author="djunk" context="kpme-client-bootstrap">
-        <addPrimaryKey columnNames="FIN_COA_CD, ACCOUNT_NBR" tableName="ca_account_t"/>
+        <addPrimaryKey columnNames="FIN_COA_CD, ACCOUNT_NBR" tableName="CA_ACCOUNT_T" />
     </changeSet>
     <changeSet id="101" author="djunk" context="kpme-client-bootstrap">
-        <addPrimaryKey columnNames="UNIV_FISCAL_YR, FIN_COA_CD, FIN_OBJECT_CD" tableName="ca_object_code_t"/>
+        <addPrimaryKey columnNames="UNIV_FISCAL_YR, FIN_COA_CD, FIN_OBJECT_CD" tableName="CA_OBJECT_CODE_T" />
     </changeSet>
     <changeSet id="102" author="djunk" context="kpme-client-bootstrap">
-        <addPrimaryKey columnNames="FIN_COA_CD, ORG_CD" tableName="ca_org_t"/>
+        <addPrimaryKey columnNames="FIN_COA_CD, ORG_CD" tableName="CA_ORG_T" />
     </changeSet>
     <changeSet id="103" author="djunk" context="kpme-client-bootstrap">
-        <addPrimaryKey columnNames="FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR" tableName="ca_sub_acct_t"/>
+        <addPrimaryKey columnNames="FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR" tableName="CA_SUB_ACCT_T" />
     </changeSet>
     <changeSet id="104" author="djunk" context="kpme-client-bootstrap">
-        <addPrimaryKey columnNames="UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD" tableName="ca_sub_object_cd_t"/>
+        <addPrimaryKey columnNames="UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD" tableName="CA_SUB_OBJECT_CD_T" />
     </changeSet>
     <changeSet id="105" author="djunk" context="kpme-client-bootstrap">
-        <addPrimaryKey columnNames="TRIGGER_NAME, TRIGGER_GROUP" tableName="qrtz_blob_triggers"/>
+        <addPrimaryKey columnNames="TRIGGER_NAME, TRIGGER_GROUP" tableName="QRTZ_BLOB_TRIGGERS" />
     </changeSet>
     <changeSet id="106" author="djunk" context="kpme-client-bootstrap">
-        <addPrimaryKey columnNames="TRIGGER_NAME, TRIGGER_GROUP" tableName="qrtz_cron_triggers"/>
+        <addPrimaryKey columnNames="TRIGGER_NAME, TRIGGER_GROUP" tableName="QRTZ_CRON_TRIGGERS" />
     </changeSet>
     <changeSet id="107" author="djunk" context="kpme-client-bootstrap">
-        <addPrimaryKey columnNames="JOB_NAME, JOB_GROUP" tableName="qrtz_job_details"/>
+        <addPrimaryKey columnNames="JOB_NAME, JOB_GROUP" tableName="QRTZ_JOB_DETAILS" />
     </changeSet>
     <changeSet id="108" author="djunk" context="kpme-client-bootstrap">
-        <addPrimaryKey columnNames="JOB_NAME, JOB_GROUP, JOB_LISTENER" tableName="qrtz_job_listeners"/>
+        <addPrimaryKey columnNames="JOB_NAME, JOB_GROUP, JOB_LISTENER" tableName="QRTZ_JOB_LISTENERS" />
     </changeSet>
     <changeSet id="109" author="djunk" context="kpme-client-bootstrap">
-        <addPrimaryKey columnNames="TRIGGER_NAME, TRIGGER_GROUP" tableName="qrtz_simple_triggers"/>
+        <addPrimaryKey columnNames="TRIGGER_NAME, TRIGGER_GROUP" tableName="QRTZ_SIMPLE_TRIGGERS" />
     </changeSet>
     <changeSet id="110" author="djunk" context="kpme-client-bootstrap">
-        <addPrimaryKey columnNames="TRIGGER_NAME, TRIGGER_GROUP, TRIGGER_LISTENER" tableName="qrtz_trigger_listeners"/>
+        <addPrimaryKey columnNames="TRIGGER_NAME, TRIGGER_GROUP, TRIGGER_LISTENER" tableName="QRTZ_TRIGGER_LISTENERS" />
     </changeSet>
     <changeSet id="111" author="djunk" context="kpme-client-bootstrap">
-        <addPrimaryKey columnNames="TRIGGER_NAME, TRIGGER_GROUP" tableName="qrtz_triggers"/>
+        <addPrimaryKey columnNames="TRIGGER_NAME, TRIGGER_GROUP" tableName="QRTZ_TRIGGERS" />
     </changeSet>
     <changeSet id="112" author="djunk" context="kpme-client-bootstrap">
-        <createIndex indexName="CA_ACCOUNT_TC0" tableName="ca_account_t" unique="true">
-            <column name="OBJ_ID"/>
+        <createIndex indexName="CA_ACCOUNT_TC0" tableName="CA_ACCOUNT_T" unique="true">
+            <column name="OBJ_ID" />
         </createIndex>
     </changeSet>
     <changeSet id="113" author="djunk" context="kpme-client-bootstrap">
-        <createIndex indexName="CA_ACCOUNT_TI2" tableName="ca_account_t" unique="false">
-            <column name="ACCOUNT_NBR"/>
-            <column name="FIN_COA_CD"/>
+        <createIndex indexName="CA_ACCOUNT_TI2" tableName="CA_ACCOUNT_T" unique="false">
+            <column name="ACCOUNT_NBR" />
+            <column name="FIN_COA_CD" />
         </createIndex>
     </changeSet>
     <changeSet id="114" author="djunk" context="kpme-client-bootstrap">
-        <createIndex indexName="CA_CHART_TC0" tableName="ca_chart_t" unique="true">
-            <column name="OBJ_ID"/>
+        <createIndex indexName="CA_CHART_TC0" tableName="CA_CHART_T" unique="true">
+            <column name="OBJ_ID" />
         </createIndex>
     </changeSet>
     <changeSet id="115" author="djunk" context="kpme-client-bootstrap">
-        <createIndex indexName="CA_OBJECT_CODE_TC0" tableName="ca_object_code_t" unique="true">
-            <column name="OBJ_ID"/>
+        <createIndex indexName="CA_OBJECT_CODE_TC0" tableName="CA_OBJECT_CODE_T" unique="true">
+            <column name="OBJ_ID" />
         </createIndex>
     </changeSet>
     <changeSet id="116" author="djunk" context="kpme-client-bootstrap">
-        <createIndex indexName="CA_ORG_TC0" tableName="ca_org_t" unique="true">
-            <column name="OBJ_ID"/>
+        <createIndex indexName="CA_ORG_TC0" tableName="CA_ORG_T" unique="true">
+            <column name="OBJ_ID" />
         </createIndex>
     </changeSet>
     <changeSet id="117" author="djunk" context="kpme-client-bootstrap">
-        <createIndex indexName="CA_PROJECT_TC0" tableName="ca_project_t" unique="true">
-            <column name="OBJ_ID"/>
+        <createIndex indexName="CA_PROJECT_TC0" tableName="CA_PROJECT_T" unique="true">
+            <column name="OBJ_ID" />
         </createIndex>
     </changeSet>
     <changeSet id="118" author="djunk" context="kpme-client-bootstrap">
-        <createIndex indexName="CA_SUB_ACCT_TC0" tableName="ca_sub_acct_t" unique="true">
-            <column name="OBJ_ID"/>
+        <createIndex indexName="CA_SUB_ACCT_TC0" tableName="CA_SUB_ACCT_T" unique="true">
+            <column name="OBJ_ID" />
         </createIndex>
     </changeSet>
     <changeSet id="119" author="djunk" context="kpme-client-bootstrap">
-        <createIndex indexName="CA_SUB_ACCT_TI2" tableName="ca_sub_acct_t" unique="false">
-            <column name="FIN_COA_CD"/>
-            <column name="ACCOUNT_NBR"/>
+        <createIndex indexName="CA_SUB_ACCT_TI2" tableName="CA_SUB_ACCT_T" unique="false">
+            <column name="FIN_COA_CD" />
+            <column name="ACCOUNT_NBR" />
         </createIndex>
     </changeSet>
     <changeSet id="120" author="djunk" context="kpme-client-bootstrap">
-        <createIndex indexName="CA_SUB_OBJECT_CD_TC0" tableName="ca_sub_object_cd_t" unique="true">
-            <column name="OBJ_ID"/>
+        <createIndex indexName="CA_SUB_OBJECT_CD_TC0" tableName="CA_SUB_OBJECT_CD_T" unique="true">
+            <column name="OBJ_ID" />
         </createIndex>
     </changeSet>
     <changeSet id="121" author="djunk" context="kpme-client-bootstrap">
-        <createIndex indexName="CA_SUB_OBJECT_CD_TI2" tableName="ca_sub_object_cd_t" unique="false">
-            <column name="UNIV_FISCAL_YR"/>
+        <createIndex indexName="CA_SUB_OBJECT_CD_TI2" tableName="CA_SUB_OBJECT_CD_T" unique="false">
+            <column name="UNIV_FISCAL_YR" />
         </createIndex>
     </changeSet>
     <changeSet id="124" author="djunk" context="kpme-client-bootstrap">
-        <createIndex indexName="qrtz_FIRED_TRIGGERS_TI1" tableName="qrtz_fired_triggers" unique="false">
-            <column name="JOB_GROUP"/>
+        <createIndex indexName="qrtz_FIRED_TRIGGERS_TI1" tableName="QRTZ_FIRED_TRIGGERS" unique="false">
+            <column name="JOB_GROUP" />
         </createIndex>
     </changeSet>
     <changeSet id="125" author="djunk" context="kpme-client-bootstrap">
-        <createIndex indexName="qrtz_FIRED_TRIGGERS_TI2" tableName="qrtz_fired_triggers" unique="false">
-            <column name="JOB_NAME"/>
+        <createIndex indexName="qrtz_FIRED_TRIGGERS_TI2" tableName="QRTZ_FIRED_TRIGGERS" unique="false">
+            <column name="JOB_NAME" />
         </createIndex>
     </changeSet>
     <changeSet id="126" author="djunk" context="kpme-client-bootstrap">
-        <createIndex indexName="qrtz_FIRED_TRIGGERS_TI3" tableName="qrtz_fired_triggers" unique="false">
-            <column name="REQUESTS_RECOVERY"/>
+        <createIndex indexName="qrtz_FIRED_TRIGGERS_TI3" tableName="QRTZ_FIRED_TRIGGERS" unique="false">
+            <column name="REQUESTS_RECOVERY" />
         </createIndex>
     </changeSet>
     <changeSet id="127" author="djunk" context="kpme-client-bootstrap">
-        <createIndex indexName="qrtz_FIRED_TRIGGERS_TI4" tableName="qrtz_fired_triggers" unique="false">
-            <column name="IS_STATEFUL"/>
+        <createIndex indexName="qrtz_FIRED_TRIGGERS_TI4" tableName="QRTZ_FIRED_TRIGGERS" unique="false">
+            <column name="IS_STATEFUL" />
         </createIndex>
     </changeSet>
     <changeSet id="128" author="djunk" context="kpme-client-bootstrap">
-        <createIndex indexName="qrtz_FIRED_TRIGGERS_TI5" tableName="qrtz_fired_triggers" unique="false">
-            <column name="TRIGGER_GROUP"/>
+        <createIndex indexName="qrtz_FIRED_TRIGGERS_TI5" tableName="QRTZ_FIRED_TRIGGERS" unique="false">
+            <column name="TRIGGER_GROUP" />
         </createIndex>
     </changeSet>
     <changeSet id="129" author="djunk" context="kpme-client-bootstrap">
-        <createIndex indexName="qrtz_FIRED_TRIGGERS_TI6" tableName="qrtz_fired_triggers" unique="false">
-            <column name="INSTANCE_NAME"/>
+        <createIndex indexName="qrtz_FIRED_TRIGGERS_TI6" tableName="QRTZ_FIRED_TRIGGERS" unique="false">
+            <column name="INSTANCE_NAME" />
         </createIndex>
     </changeSet>
     <changeSet id="130" author="djunk" context="kpme-client-bootstrap">
-        <createIndex indexName="qrtz_FIRED_TRIGGERS_TI7" tableName="qrtz_fired_triggers" unique="false">
-            <column name="TRIGGER_NAME"/>
+        <createIndex indexName="qrtz_FIRED_TRIGGERS_TI7" tableName="QRTZ_FIRED_TRIGGERS" unique="false">
+            <column name="TRIGGER_NAME" />
         </createIndex>
     </changeSet>
     <changeSet id="131" author="djunk" context="kpme-client-bootstrap">
-        <createIndex indexName="qrtz_FIRED_TRIGGERS_TI8" tableName="qrtz_fired_triggers" unique="false">
-            <column name="TRIGGER_NAME"/>
-            <column name="TRIGGER_GROUP"/>
+        <createIndex indexName="qrtz_FIRED_TRIGGERS_TI8" tableName="QRTZ_FIRED_TRIGGERS" unique="false">
+            <column name="TRIGGER_NAME" />
+            <column name="TRIGGER_GROUP" />
         </createIndex>
     </changeSet>
     <changeSet id="132" author="djunk" context="kpme-client-bootstrap">
-        <createIndex indexName="qrtz_FIRED_TRIGGERS_TI9" tableName="qrtz_fired_triggers" unique="false">
-            <column name="IS_VOLATILE"/>
+        <createIndex indexName="qrtz_FIRED_TRIGGERS_TI9" tableName="QRTZ_FIRED_TRIGGERS" unique="false">
+            <column name="IS_VOLATILE" />
         </createIndex>
     </changeSet>
     <changeSet id="133" author="djunk" context="kpme-client-bootstrap">
-        <createIndex indexName="qrtz_JOB_DETAILS_TI1" tableName="qrtz_job_details" unique="false">
-            <column name="REQUESTS_RECOVERY"/>
+        <createIndex indexName="qrtz_JOB_DETAILS_TI1" tableName="QRTZ_JOB_DETAILS" unique="false">
+            <column name="REQUESTS_RECOVERY" />
         </createIndex>
     </changeSet>
     <changeSet id="134" author="djunk" context="kpme-client-bootstrap">
-        <createIndex indexName="qrtz_TRIGGERS_TI1" tableName="qrtz_triggers" unique="false">
-            <column name="NEXT_FIRE_TIME"/>
+        <createIndex indexName="qrtz_TRIGGERS_TI1" tableName="QRTZ_TRIGGERS" unique="false">
+            <column name="NEXT_FIRE_TIME" />
         </createIndex>
     </changeSet>
     <changeSet id="135" author="djunk" context="kpme-client-bootstrap">
-        <createIndex indexName="qrtz_TRIGGERS_TI2" tableName="qrtz_triggers" unique="false">
-            <column name="NEXT_FIRE_TIME"/>
-            <column name="TRIGGER_STATE"/>
+        <createIndex indexName="qrtz_TRIGGERS_TI2" tableName="QRTZ_TRIGGERS" unique="false">
+            <column name="NEXT_FIRE_TIME" />
+            <column name="TRIGGER_STATE" />
         </createIndex>
     </changeSet>
     <changeSet id="136" author="djunk" context="kpme-client-bootstrap">
-        <createIndex indexName="qrtz_TRIGGERS_TI3" tableName="qrtz_triggers" unique="false">
-            <column name="TRIGGER_STATE"/>
+        <createIndex indexName="qrtz_TRIGGERS_TI3" tableName="QRTZ_TRIGGERS" unique="false">
+            <column name="TRIGGER_STATE" />
         </createIndex>
     </changeSet>
     <changeSet id="137" author="djunk" context="kpme-client-bootstrap">
-        <createIndex indexName="qrtz_TRIGGERS_TI4" tableName="qrtz_triggers" unique="false">
-            <column name="IS_VOLATILE"/>
+        <createIndex indexName="qrtz_TRIGGERS_TI4" tableName="QRTZ_TRIGGERS" unique="false">
+            <column name="IS_VOLATILE" />
         </createIndex>
     </changeSet>
     <changeSet id="138" author="djunk" context="kpme-client-bootstrap">
-        <addForeignKeyConstraint baseColumnNames="FIN_COA_CD" baseTableName="ca_account_t"  constraintName="CA_ACCOUNT_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="FIN_COA_CD" referencedTableName="ca_chart_t"  referencesUniqueColumn="false"/>
+        <addForeignKeyConstraint baseColumnNames="FIN_COA_CD" baseTableName="CA_ACCOUNT_T"  constraintName="CA_ACCOUNT_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="FIN_COA_CD" referencedTableName="CA_CHART_T"  referencesUniqueColumn="false" />
     </changeSet>
     <changeSet id="139" author="djunk" context="kpme-client-bootstrap">
-        <addForeignKeyConstraint baseColumnNames="FIN_COA_CD, ORG_CD" baseTableName="ca_account_t"  constraintName="CA_ACCOUNT_TR2" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="FIN_COA_CD, ORG_CD" referencedTableName="ca_org_t"  referencesUniqueColumn="false"/>
+        <addForeignKeyConstraint baseColumnNames="FIN_COA_CD, ORG_CD" baseTableName="CA_ACCOUNT_T"  constraintName="CA_ACCOUNT_TR2" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="FIN_COA_CD, ORG_CD" referencedTableName="CA_ORG_T"  referencesUniqueColumn="false" />
     </changeSet>
     <changeSet id="140" author="djunk" context="kpme-client-bootstrap">
-        <addForeignKeyConstraint baseColumnNames="FIN_COA_CD" baseTableName="ca_org_t"  constraintName="CA_ORG_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="FIN_COA_CD" referencedTableName="ca_chart_t"  referencesUniqueColumn="false"/>
+        <addForeignKeyConstraint baseColumnNames="FIN_COA_CD" baseTableName="CA_ORG_T"  constraintName="CA_ORG_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="FIN_COA_CD" referencedTableName="CA_CHART_T"  referencesUniqueColumn="false" />
     </changeSet>
     <changeSet id="141" author="djunk" context="kpme-client-bootstrap">
-        <addForeignKeyConstraint baseColumnNames="FIN_COA_CD" baseTableName="ca_project_t"  constraintName="CA_PROJECT_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="FIN_COA_CD" referencedTableName="ca_chart_t"  referencesUniqueColumn="false"/>
+        <addForeignKeyConstraint baseColumnNames="FIN_COA_CD" baseTableName="CA_PROJECT_T"  constraintName="CA_PROJECT_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="FIN_COA_CD" referencedTableName="CA_CHART_T"  referencesUniqueColumn="false" />
     </changeSet>
     <changeSet id="142" author="djunk" context="kpme-client-bootstrap">
-        <addForeignKeyConstraint baseColumnNames="FIN_COA_CD, ORG_CD" baseTableName="ca_project_t"  constraintName="CA_PROJECT_TI2" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="FIN_COA_CD, ORG_CD" referencedTableName="ca_org_t"  referencesUniqueColumn="false"/>
+        <addForeignKeyConstraint baseColumnNames="FIN_COA_CD, ORG_CD" baseTableName="CA_PROJECT_T"  constraintName="CA_PROJECT_TI2" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="FIN_COA_CD, ORG_CD" referencedTableName="CA_ORG_T"  referencesUniqueColumn="false" />
     </changeSet>
     <changeSet id="143" author="djunk" context="kpme-client-bootstrap">
-        <addForeignKeyConstraint baseColumnNames="FIN_COA_CD" baseTableName="ca_sub_acct_t"  constraintName="CA_SUB_ACCT_TR2" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="FIN_COA_CD" referencedTableName="ca_chart_t"  referencesUniqueColumn="false"/>
+        <addForeignKeyConstraint baseColumnNames="FIN_COA_CD" baseTableName="CA_SUB_ACCT_T"  constraintName="CA_SUB_ACCT_TR2" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="FIN_COA_CD" referencedTableName="CA_CHART_T"  referencesUniqueColumn="false" />
     </changeSet>
     <changeSet id="144" author="djunk" context="kpme-client-bootstrap">
-        <addForeignKeyConstraint baseColumnNames="FIN_COA_CD" baseTableName="ca_sub_object_cd_t"  constraintName="CA_SUB_OBJECT_CD_TR3" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="FIN_COA_CD" referencedTableName="ca_chart_t"  referencesUniqueColumn="false"/>
+        <addForeignKeyConstraint baseColumnNames="FIN_COA_CD" baseTableName="CA_SUB_OBJECT_CD_T"  constraintName="CA_SUB_OBJECT_CD_TR3" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="FIN_COA_CD" referencedTableName="CA_CHART_T"  referencesUniqueColumn="false" />
     </changeSet>
     <changeSet id="145" author="djunk" context="kpme-client-bootstrap">
-        <addForeignKeyConstraint baseColumnNames="UNIV_FISCAL_YR, FIN_COA_CD, FIN_OBJECT_CD" baseTableName="ca_sub_object_cd_t"  constraintName="CA_SUB_OBJECT_CD_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="UNIV_FISCAL_YR, FIN_COA_CD, FIN_OBJECT_CD" referencedTableName="ca_object_code_t"  referencesUniqueColumn="false"/>
+        <addForeignKeyConstraint baseColumnNames="UNIV_FISCAL_YR, FIN_COA_CD, FIN_OBJECT_CD" baseTableName="CA_SUB_OBJECT_CD_T"  constraintName="CA_SUB_OBJECT_CD_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="UNIV_FISCAL_YR, FIN_COA_CD, FIN_OBJECT_CD" referencedTableName="CA_OBJECT_CODE_T"  referencesUniqueColumn="false" />
     </changeSet>
     <changeSet id="146" author="djunk" context="kpme-client-bootstrap">
-        <addForeignKeyConstraint baseColumnNames="TRIGGER_NAME, TRIGGER_GROUP" baseTableName="qrtz_blob_triggers"  constraintName="qrtz_BLOB_TRIGGERS_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="TRIGGER_NAME, TRIGGER_GROUP" referencedTableName="qrtz_triggers"  referencesUniqueColumn="false"/>
+        <addForeignKeyConstraint baseColumnNames="TRIGGER_NAME, TRIGGER_GROUP" baseTableName="QRTZ_BLOB_TRIGGERS"  constraintName="QRTZ_BLOB_TRIGGERS_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="TRIGGER_NAME, TRIGGER_GROUP" referencedTableName="QRTZ_TRIGGERS"  referencesUniqueColumn="false" />
     </changeSet>
     <changeSet id="147" author="djunk" context="kpme-client-bootstrap">
-        <addForeignKeyConstraint baseColumnNames="TRIGGER_NAME, TRIGGER_GROUP" baseTableName="qrtz_cron_triggers"  constraintName="qrtz_CRON_TRIGGERS_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="TRIGGER_NAME, TRIGGER_GROUP" referencedTableName="qrtz_triggers"  referencesUniqueColumn="false"/>
+        <addForeignKeyConstraint baseColumnNames="TRIGGER_NAME, TRIGGER_GROUP" baseTableName="QRTZ_CRON_TRIGGERS"  constraintName="QRTZ_CRON_TRIGGERS_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="TRIGGER_NAME, TRIGGER_GROUP" referencedTableName="QRTZ_TRIGGERS"  referencesUniqueColumn="false" />
     </changeSet>
     <changeSet id="148" author="djunk" context="kpme-client-bootstrap">
-        <addForeignKeyConstraint baseColumnNames="TRIGGER_NAME, TRIGGER_GROUP" baseTableName="qrtz_simple_triggers"  constraintName="qrtz_SIMPLE_TRIGGERS_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="TRIGGER_NAME, TRIGGER_GROUP" referencedTableName="qrtz_triggers"  referencesUniqueColumn="false"/>
+        <addForeignKeyConstraint baseColumnNames="TRIGGER_NAME, TRIGGER_GROUP" baseTableName="QRTZ_SIMPLE_TRIGGERS"  constraintName="QRTZ_SIMPLE_TRIGGERS_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="TRIGGER_NAME, TRIGGER_GROUP" referencedTableName="QRTZ_TRIGGERS"  referencesUniqueColumn="false" />
     </changeSet>
     <changeSet id="149" author="djunk" context="kpme-client-bootstrap">
-        <addForeignKeyConstraint baseColumnNames="TRIGGER_NAME, TRIGGER_GROUP" baseTableName="qrtz_trigger_listeners"  constraintName="qrtz_TRIGGER_LISTENE_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="TRIGGER_NAME, TRIGGER_GROUP" referencedTableName="qrtz_triggers"  referencesUniqueColumn="false"/>
+        <addForeignKeyConstraint baseColumnNames="TRIGGER_NAME, TRIGGER_GROUP" baseTableName="QRTZ_TRIGGER_LISTENERS"  constraintName="QRTZ_TRIGGER_LISTENE_TR1" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="TRIGGER_NAME, TRIGGER_GROUP" referencedTableName="QRTZ_TRIGGERS"  referencesUniqueColumn="false" />
     </changeSet>
 
 </databaseChangeLog>

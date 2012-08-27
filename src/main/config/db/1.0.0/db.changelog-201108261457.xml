@@ -5,208 +5,348 @@
     
     <changeSet id="1" author="lee55" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <modifyDataType tableName="tk_weekly_overtime_rl_t" columnName="max_hrs_ern_group" newDataType="VARCHAR(10) NOT NULL" />
-        <modifyDataType tableName="tk_weekly_overtime_rl_t" columnName="convert_from_ern_group" newDataType="VARCHAR(10) NOT NULL" />
-        <modifyDataType tableName="tk_weekly_overtime_rl_t" columnName="convert_to_erncd" newDataType="VARCHAR(9) NOT NULL" />
+        <modifyDataType tableName="TK_WEEKLY_OVERTIME_RL_T" columnName="MAX_HRS_ERN_GROUP" newDataType="VARCHAR(10)" />
+        <addNotNullConstraint tableName="TK_WEEKLY_OVERTIME_RL_T" columnName="MAX_HRS_ERN_GROUP" columnDataType="VARCHAR(10)" />
+        <modifyDataType tableName="TK_WEEKLY_OVERTIME_RL_T" columnName="CONVERT_FROM_ERN_GROUP" newDataType="VARCHAR(10)" />
+        <addNotNullConstraint tableName="TK_WEEKLY_OVERTIME_RL_T" columnName="CONVERT_FROM_ERN_GROUP" columnDataType="VARCHAR(10)" />
+        <modifyDataType tableName="TK_WEEKLY_OVERTIME_RL_T" columnName="CONVERT_TO_ERNCD" newDataType="VARCHAR(9)" />
+        <addNotNullConstraint tableName="TK_WEEKLY_OVERTIME_RL_T" columnName="CONVERT_TO_ERNCD" columnDataType="VARCHAR(9)" />
     </changeSet>
     
     <changeSet id="2" author="lee55" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <renameColumn tableName="tk_dept_T" oldColumnName="tk_dept_id" newColumnName="HR_DEPT_ID" columnDataType="BIGINT(20) NOT NULL" />
-        <renameTable oldTableName="tk_dept_T" newTableName="hr_dept_t" />
-        <renameTable oldTableName="tk_dept_s" newTableName="hr_dept_s" />
+        <renameColumn tableName="TK_DEPT_T" oldColumnName="TK_DEPT_ID" newColumnName="HR_DEPT_ID" columnDataType="BIGINT NOT NULL" />
+        <renameTable oldTableName="TK_DEPT_T" newTableName="HR_DEPT_T" />
+    </changeSet>
+    <changeSet id="3-oracle" author="lee55" dbms="oracle" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <sql>
+            RENAME TK_DEPT_S TO HR_DEPT_S;
+        </sql>
     </changeSet>
     
-    <changeSet id="3" author="lee55" context="kpme-client-bootstrap">
+    <changeSet id="3-mysql" author="lee55" dbms="mysql" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <renameColumn tableName="tk_sal_group_t" oldColumnName="TK_SAL_GROUP_ID" newColumnName="HR_SAL_GROUP_ID" columnDataType="BIGINT(20) NOT NULL" />
-        <renameColumn tableName="tk_sal_group_t" oldColumnName="TK_SAL_GROUP" newColumnName="HR_SAL_GROUP" columnDataType="VARCHAR(10) NOT NULL" />
-        <renameTable oldTableName="tk_sal_group_t" newTableName="hr_sal_group_t" />
-        <renameTable oldTableName="tk_sal_group_s" newTableName="hr_sal_group_s" />
+        <renameTable oldTableName="TK_DEPT_S" newTableName="HR_DEPT_S" />
     </changeSet>
     
     <changeSet id="4" author="lee55" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <renameColumn tableName="hr_job_t" oldColumnName="TK_SAL_GROUP" newColumnName="HR_SAL_GROUP" columnDataType="VARCHAR(10)" />
+        <renameColumn tableName="TK_SAL_GROUP_T" oldColumnName="TK_SAL_GROUP_ID" newColumnName="HR_SAL_GROUP_ID" columnDataType="BIGINT NOT NULL" />
+        <renameColumn tableName="TK_SAL_GROUP_T" oldColumnName="TK_SAL_GROUP" newColumnName="HR_SAL_GROUP" columnDataType="VARCHAR(10) NOT NULL" />
+        <renameTable oldTableName="TK_SAL_GROUP_T" newTableName="HR_SAL_GROUP_T" />
     </changeSet>
     
-    <changeSet id="5" author="lee55" context="kpme-client-bootstrap">
+    <changeSet id="5-oracle" author="lee55" dbms="oracle" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <renameColumn tableName="tk_dept_earn_code_t" oldColumnName="tk_sal_group" newColumnName="hr_sal_group" columnDataType="VARCHAR(10) NOT NULL" />
+        <sql>
+            RENAME TK_SAL_GROUP_S TO HR_SAL_GROUP_S;
+        </sql>
+    </changeSet>
+    <changeSet id="5-mysql" author="lee55" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameTable oldTableName="TK_SAL_GROUP_S" newTableName="HR_SAL_GROUP_S" />
     </changeSet>
     
     <changeSet id="6" author="lee55" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <renameColumn tableName="tk_earn_code_t" oldColumnName="tk_earn_code_id" newColumnName="hr_earn_code_id" columnDataType="INT(11) NOT NULL" />
-        <renameTable oldTableName="tk_earn_code_t" newTableName="hr_earn_code_t" />
-        <renameTable oldTableName="tk_earn_code_s" newTableName="hr_earn_code_s" />
+        <renameColumn tableName="HR_JOB_T" oldColumnName="TK_SAL_GROUP" newColumnName="HR_SAL_GROUP" columnDataType="VARCHAR(10)" />
     </changeSet>
     
     <changeSet id="7" author="lee55" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <renameColumn tableName="tk_earn_group_t" oldColumnName="tk_earn_group_id" newColumnName="hr_earn_group_id" columnDataType="BIGINT(20) NOT NULL" />
-        <renameTable oldTableName="tk_earn_group_t" newTableName="hr_earn_group_t" />
-        <renameTable oldTableName="tk_earn_group_s" newTableName="hr_earn_group_s" />
+        <renameColumn tableName="TK_DEPT_EARN_CODE_T" oldColumnName="TK_SAL_GROUP" newColumnName="HR_SAL_GROUP" columnDataType="VARCHAR(10) NOT NULL" />
     </changeSet>
     
     <changeSet id="8" author="lee55" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <renameColumn tableName="tk_earn_group_def_t" oldColumnName="tk_earn_group_id" newColumnName="hr_earn_group_id" columnDataType="BIGINT(20)" />
-        <addNotNullConstraint tableName="tk_earn_group_def_t" columnName="hr_earn_group_id" columnDataType="BIGINT(20)" />
-        <renameColumn tableName="tk_earn_group_def_t" oldColumnName="tk_earn_group_def_id" newColumnName="hr_earn_group_def_id" columnDataType="BIGINT(20) NOT NULL" />
-        <renameTable oldTableName="tk_earn_group_def_t" newTableName="hr_earn_group_def_t" />
-        <renameTable oldTableName="tk_earn_group_def_s" newTableName="hr_earn_group_def_s" />
+        <renameColumn tableName="TK_EARN_CODE_T" oldColumnName="TK_EARN_CODE_ID" newColumnName="HR_EARN_CODE_ID" columnDataType="INT(11) NOT NULL" />
+        <renameTable oldTableName="TK_EARN_CODE_T" newTableName="HR_EARN_CODE_T" />
     </changeSet>
     
-    <changeSet id="9" author="lee55" context="kpme-client-bootstrap">
+    <changeSet id="9-oracle" author="lee55" dbms="oracle" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <renameColumn tableName="tk_dept_earn_code_t" oldColumnName="tk_dept_earn_code_id" newColumnName="hr_dept_earn_code_id" columnDataType="BIGINT(20) NOT NULL" />
-        <renameTable oldTableName="tk_dept_earn_code_t" newTableName="hr_dept_earn_code_t" />
-        <renameTable oldTableName="tk_dept_earn_code_s" newTableName="hr_dept_earn_code_s" />
+        <sql>
+            RENAME TK_EARN_CODE_S TO HR_EARN_CODE_S;
+        </sql>
+    </changeSet>
+    <changeSet id="9-mysql" author="lee55" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameTable oldTableName="TK_EARN_CODE_S" newTableName="HR_EARN_CODE_S" />
     </changeSet>
     
     <changeSet id="10" author="lee55" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <renameColumn tableName="tk_principal_calendar_t" oldColumnName="calendar_group" newColumnName="py_calendar_group" columnDataType="VARCHAR(45) NOT NULL DEFAULT ''" />
-        <renameTable oldTableName="tk_principal_calendar_t" newTableName="hr_principal_calendar_t" />
+        <renameColumn tableName="TK_EARN_GROUP_T" oldColumnName="TK_EARN_GROUP_ID" newColumnName="HR_EARN_GROUP_ID" columnDataType="BIGINT NOT NULL" />
+        <renameTable oldTableName="TK_EARN_GROUP_T" newTableName="HR_EARN_GROUP_T" />
     </changeSet>
     
-    <changeSet id="11" author="lee55" context="kpme-client-bootstrap">
+    <changeSet id="11-oracle" author="lee55" dbms="oracle" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <renameColumn tableName="tk_holiday_calendar_t" oldColumnName="HOLIDAY_CALENDAR_ID" newColumnName="HR_HOLIDAY_CALENDAR_ID" columnDataType="BIGINT(20) NOT NULL" />
-        <renameTable oldTableName="tk_holiday_calendar_t" newTableName="hr_holiday_calendar_t" />
-        <renameTable oldTableName="tk_holiday_calendar_s" newTableName="hr_holiday_calendar_s" />
+        <sql>
+            RENAME TK_EARN_GROUP_S TO HR_EARN_GROUP_S;
+        </sql>
+    </changeSet>
+    <changeSet id="11-mysql" author="lee55" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameTable oldTableName="TK_EARN_GROUP_S" newTableName="HR_EARN_GROUP_S" />
     </changeSet>
     
     <changeSet id="12" author="lee55" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <renameColumn tableName="tk_holiday_calendar_dates_t" oldColumnName="HOLIDAY_CALENDAR_DATES_ID" newColumnName="HR_HOLIDAY_CALENDAR_DATES_ID" columnDataType="BIGINT(20) NOT NULL" />
-        <renameColumn tableName="tk_holiday_calendar_dates_t" oldColumnName="HOLIDAY_CALENDAR_ID" newColumnName="HR_HOLIDAY_CALENDAR_ID" columnDataType="INT(11) NOT NULL" />
-        <renameTable oldTableName="tk_holiday_calendar_dates_t" newTableName="hr_holiday_calendar_dates_t" />
-        <renameTable oldTableName="tk_holiday_calendar_dates_s" newTableName="hr_holiday_calendar_dates_s" />
+        <renameColumn tableName="TK_EARN_GROUP_DEF_T" oldColumnName="TK_EARN_GROUP_ID" newColumnName="HR_EARN_GROUP_ID" columnDataType="BIGINT NOT NULL" />
+        <renameColumn tableName="TK_EARN_GROUP_DEF_T" oldColumnName="TK_EARN_GROUP_DEF_ID" newColumnName="HR_EARN_GROUP_DEF_ID" columnDataType="BIGINT NOT NULL" />
+        <renameTable oldTableName="TK_EARN_GROUP_DEF_T" newTableName="HR_EARN_GROUP_DEF_T" />
     </changeSet>
     
-    <changeSet id="13" author="lee55" context="kpme-client-bootstrap">
+    <changeSet id="13-oracle" author="lee55" dbms="oracle" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <createTable tableName="tk_holiday_calendar_dates_s">
-            <column autoIncrement="true" name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+        <sql>
+            RENAME TK_EARN_GROUP_DEF_S TO HR_EARN_GROUP_DEF_S;
+        </sql>
+    </changeSet>
+    <changeSet id="13-mysql" author="lee55" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameTable oldTableName="TK_EARN_GROUP_DEF_S" newTableName="HR_EARN_GROUP_DEF_S" />
     </changeSet>
     
     <changeSet id="14" author="lee55" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <renameColumn tableName="tk_py_calendar_t" oldColumnName="tk_py_calendar_id" newColumnName="hr_py_calendar_id" columnDataType="BIGINT(20) NOT NULL" />
-        <renameColumn tableName="tk_py_calendar_t" oldColumnName="calendar_group" newColumnName="py_calendar_group" columnDataType="VARCHAR(45) NOT NULL" />
-        <renameTable oldTableName="tk_py_calendar_t" newTableName="hr_py_calendar_t" />
-        <renameTable oldTableName="tk_py_calendar_s" newTableName="hr_py_calendar_s" />
+        <renameColumn tableName="TK_DEPT_EARN_CODE_T" oldColumnName="TK_DEPT_EARN_CODE_ID" newColumnName="HR_DEPT_EARN_CODE_ID" columnDataType="BIGINT NOT NULL" />
+        <renameTable oldTableName="TK_DEPT_EARN_CODE_T" newTableName="HR_DEPT_EARN_CODE_T" />
+    </changeSet>
+    <changeSet id="15-oracle" author="lee55" dbms="oracle" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <sql>
+            RENAME TK_DEPT_EARN_CODE_S TO HR_DEPT_EARN_CODE_S;
+        </sql>
     </changeSet>
     
-    <changeSet id="15" author="lee55" context="kpme-client-bootstrap">
+    <changeSet id="15-mysql" author="lee55" dbms="mysql" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <renameColumn tableName="tk_py_calendar_entries_t" oldColumnName="tk_py_calendar_entry_id" newColumnName="hr_py_calendar_entry_id" columnDataType="BIGINT(20) NOT NULL" />
-        <renameColumn tableName="tk_py_calendar_entries_t" oldColumnName="tk_py_calendar_id" newColumnName="hr_py_calendar_id" columnDataType="BIGINT(20)" />
-        <renameColumn tableName="tk_py_calendar_entries_t" oldColumnName="calendar_group" newColumnName="py_calendar_group" columnDataType="VARCHAR(45) NOT NULL" />
-        <renameTable oldTableName="tk_py_calendar_entries_t" newTableName="hr_py_calendar_entries_t" />
-        <renameTable oldTableName="tk_py_calendar_entries_s" newTableName="hr_py_calendar_entries_s" />
+        <renameTable oldTableName="TK_DEPT_EARN_CODE_S" newTableName="HR_DEPT_EARN_CODE_S" />
     </changeSet>
     
     <changeSet id="16" author="lee55" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <renameColumn tableName="tk_batch_job_t" oldColumnName="TK_PAY_CALENDAR_ENTRY_ID" newColumnName="HR_PY_CALENDAR_ENTRY_ID" columnDataType="BIGINT(20) NOT NULL" />
-        <renameColumn tableName="tk_batch_job_entry_t" oldColumnName="TK_PY_CALENDAR_ENTRY_ID" newColumnName="HR_PY_CALENDAR_ENTRY_ID" columnDataType="BIGINT(20) NOT NULL" />
+        <renameColumn tableName="TK_PRINCIPAL_CALENDAR_T" oldColumnName="CALENDAR_GROUP" newColumnName="PY_CALENDAR_GROUP" columnDataType="VARCHAR(45) NOT NULL DEFAULT ''" />
+        <renameTable oldTableName="TK_PRINCIPAL_CALENDAR_T" newTableName="HR_PRINCIPAL_CALENDAR_T" />
     </changeSet>
     
     <changeSet id="17" author="lee55" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <renameColumn tableName="tk_roles_t" oldColumnName="tk_roles_id" newColumnName="hr_roles_id" columnDataType="BIGINT(19) NOT NULL" />
-        <renameTable oldTableName="tk_roles_t" newTableName="hr_roles_t" />
-        <renameTable oldTableName="tk_roles_s" newTableName="hr_roles_s" />
+        <renameColumn tableName="TK_HOLIDAY_CALENDAR_T" oldColumnName="HOLIDAY_CALENDAR_ID" newColumnName="HR_HOLIDAY_CALENDAR_ID" columnDataType="BIGINT NOT NULL" />
+        <renameTable oldTableName="TK_HOLIDAY_CALENDAR_T" newTableName="HR_HOLIDAY_CALENDAR_T" />
     </changeSet>
     
-    <changeSet id="18" author="lee55" context="kpme-client-bootstrap">
+    <changeSet id="18-oracle" author="lee55" dbms="oracle" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <renameTable oldTableName="tk_roles_group_t" newTableName="hr_roles_group_t" />
+        <sql>
+            RENAME TK_HOLIDAY_CALENDAR_S TO HR_HOLIDAY_CALENDAR_S;
+        </sql>
+    </changeSet>
+    <changeSet id="18-mysql" author="lee55" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameTable oldTableName="TK_HOLIDAY_CALENDAR_S" newTableName="HR_HOLIDAY_CALENDAR_S" />
     </changeSet>
     
     <changeSet id="19" author="lee55" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <renameColumn tableName="la_accruals_t" oldColumnName="LA_ACCRUALS_ID" newColumnName="LM_ACCRUALS_ID" columnDataType="BIGINT(20) NOT NULL" />
-        <renameTable oldTableName="la_accruals_t" newTableName="lm_accruals_t" />
-        <renameTable oldTableName="la_accruals_s" newTableName="lm_accruals_s" />
+        <renameColumn tableName="TK_HOLIDAY_CALENDAR_DATES_T" oldColumnName="HOLIDAY_CALENDAR_DATES_ID" newColumnName="HR_HOLIDAY_CALENDAR_DATES_ID" columnDataType="BIGINT NOT NULL" />
+        <renameColumn tableName="TK_HOLIDAY_CALENDAR_DATES_T" oldColumnName="HOLIDAY_CALENDAR_ID" newColumnName="HR_HOLIDAY_CALENDAR_ID" columnDataType="INT(11) NOT NULL" />
+        <renameTable oldTableName="TK_HOLIDAY_CALENDAR_DATES_T" newTableName="HR_HOLIDAY_CALENDAR_DATES_T" />
     </changeSet>
     
-    <changeSet id="20" author="lee55" context="kpme-client-bootstrap">
+    <changeSet id="20-oracle" author="lee55" dbms="oracle" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <renameColumn tableName="la_accrual_categories_t" oldColumnName="LA_ACCRUAL_CATEGORY_ID" newColumnName="LM_ACCRUAL_CATEGORY_ID" columnDataType="BIGINT(20) NOT NULL" />
-        <renameTable oldTableName="la_accrual_categories_t" newTableName="lm_accrual_categories_t" />
-        <renameTable oldTableName="la_accrual_categories_s" newTableName="lm_accrual_categories_s" />
+        <sql>
+            RENAME TK_HOLIDAY_CALENDAR_DATES_S TO HR_HOLIDAY_CALENDAR_DATES_S;
+        </sql>
+    </changeSet>
+    <changeSet id="20-mysql" author="lee55" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameTable oldTableName="TK_HOLIDAY_CALENDAR_DATES_S" newTableName="HR_HOLIDAY_CALENDAR_DATES_S" />
     </changeSet>
     
     <changeSet id="21" author="lee55" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <addColumn tableName="tk_time_block_t">
-            <column name="principal_id" type="VARCHAR(40)" />
-        </addColumn>
+        <renameColumn tableName="TK_PY_CALENDAR_T" oldColumnName="TK_PY_CALENDAR_ID" newColumnName="HR_PY_CALENDAR_ID" columnDataType="BIGINT NOT NULL" />
+        <renameColumn tableName="TK_PY_CALENDAR_T" oldColumnName="CALENDAR_GROUP" newColumnName="PY_CALENDAR_GROUP" columnDataType="VARCHAR(45) NOT NULL" />
+        <renameTable oldTableName="TK_PY_CALENDAR_T" newTableName="HR_PY_CALENDAR_T" />
     </changeSet>
     
-    <changeSet id="22" author="lee55" context="kpme-client-bootstrap">
+    <changeSet id="22-oracle" author="lee55" dbms="oracle" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <renameColumn tableName="tk_shift_differential_rl_t" oldColumnName="TK_SAL_GROUP" newColumnName="HR_SAL_GROUP" columnDataType="VARCHAR(10)" />
-        <renameColumn tableName="tk_shift_differential_rl_t" oldColumnName="CALENDAR_GROUP" newColumnName="PY_CALENDAR_GROUP" columnDataType="VARCHAR(30) NOT NULL" />
+        <sql>
+            RENAME TK_PY_CALENDAR_S TO HR_PY_CALENDAR_S;
+        </sql>
+    </changeSet>
+    <changeSet id="22-mysql" author="lee55" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameTable oldTableName="TK_PY_CALENDAR_S" newTableName="HR_PY_CALENDAR_S" />
     </changeSet>
     
     <changeSet id="23" author="lee55" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <addDefaultValue tableName="hr_earn_group_def_t" columnName="OBJ_ID" defaultValue="1" />
+        <renameColumn tableName="TK_PY_CALENDAR_ENTRIES_T" oldColumnName="TK_PY_CALENDAR_ENTRY_ID" newColumnName="HR_PY_CALENDAR_ENTRY_ID" columnDataType="BIGINT NOT NULL" />
+        <renameColumn tableName="TK_PY_CALENDAR_ENTRIES_T" oldColumnName="TK_PY_CALENDAR_ID" newColumnName="HR_PY_CALENDAR_ID" columnDataType="BIGINT" />
+        <renameColumn tableName="TK_PY_CALENDAR_ENTRIES_T" oldColumnName="CALENDAR_GROUP" newColumnName="PY_CALENDAR_GROUP" columnDataType="VARCHAR(45) NOT NULL" />
+        <renameTable oldTableName="TK_PY_CALENDAR_ENTRIES_T" newTableName="HR_PY_CALENDAR_ENTRIES_T" />
     </changeSet>
     
-    <changeSet id="24" author="lee55" context="kpme-client-bootstrap">
+    <changeSet id="24-oracle" author="lee55" dbms="oracle" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <modifyDataType tableName="hr_earn_group_t" columnName="hr_earn_group_id" newDataType="BIGINT(38) NOT NULL" />
-        <addDefaultValue tableName="hr_earn_group_t" columnName="OBJ_ID" defaultValue="1" />
-        <modifyDataType tableName="hr_earn_group_t" columnName="VER_NBR" newDataType="BIGINT(38)" />
+        <sql>
+            RENAME TK_PY_CALENDAR_ENTRIES_S TO HR_PY_CALENDAR_ENTRIES_S;
+        </sql>
+    </changeSet>
+    <changeSet id="24-mysql" author="lee55" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameTable oldTableName="TK_PY_CALENDAR_ENTRIES_S" newTableName="HR_PY_CALENDAR_ENTRIES_S" />
     </changeSet>
     
     <changeSet id="25" author="lee55" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <modifyDataType tableName="hr_sal_group_t" columnName="HR_SAL_GROUP_ID" newDataType="BIGINT(38) NOT NULL" />
-        <addNotNullConstraint tableName="hr_sal_group_t" columnName="ACTIVE" columnDataType="VARCHAR(1)" />
-        <modifyDataType tableName="hr_sal_group_t" columnName="OBJ_ID" newDataType="VARCHAR(38)" />
-        <addNotNullConstraint tableName="hr_sal_group_t" columnName="OBJ_ID" columnDataType="VARCHAR(38)" defaultNullValue="1" />
-        <modifyDataType tableName="hr_sal_group_t" columnName="VER_NBR" newDataType="BIGINT(38) NOT NULL DEFAULT '1'" />
+        <renameColumn tableName="TK_BATCH_JOB_T" oldColumnName="TK_PAY_CALENDAR_ENTRY_ID" newColumnName="HR_PY_CALENDAR_ENTRY_ID" columnDataType="BIGINT NOT NULL" />
+        <renameColumn tableName="TK_BATCH_JOB_ENTRY_T" oldColumnName="TK_PY_CALENDAR_ENTRY_ID" newColumnName="HR_PY_CALENDAR_ENTRY_ID" columnDataType="BIGINT NOT NULL" />
     </changeSet>
     
     <changeSet id="26" author="lee55" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <modifyDataType tableName="hr_job_t" columnName="dept" newDataType="VARCHAR(90) NOT NULL" />
-        <modifyDataType tableName="hr_job_t" columnName="comp_rate" newDataType="DECIMAL(18,6)" />
-        <modifyDataType tableName="hr_job_t" columnName="location" newDataType="VARCHAR(20)" />
-        <modifyDataType tableName="hr_job_t" columnName="position_nbr" newDataType="VARCHAR(20)" />
+        <renameColumn tableName="TK_ROLES_T" oldColumnName="TK_ROLES_ID" newColumnName="HR_ROLES_ID" columnDataType="BIGINT NOT NULL" />
+        <renameTable oldTableName="TK_ROLES_T" newTableName="HR_ROLES_T" />
     </changeSet>
     
-    <changeSet id="27" author="lee55" context="kpme-client-bootstrap">
+    <changeSet id="27-oracle" author="lee55" dbms="oracle" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <modifyDataType tableName="hr_paytype_t" columnName="DESCR" newDataType="VARCHAR(90)" />
+        <sql>
+            RENAME TK_ROLES_S TO HR_ROLES_S;
+        </sql>
+    </changeSet>
+    <changeSet id="27-mysql" author="lee55" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameTable oldTableName="TK_ROLES_S" newTableName="HR_ROLES_S" />
     </changeSet>
     
     <changeSet id="28" author="lee55" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <modifyDataType tableName="hr_location_t" columnName="description" newDataType="VARCHAR(60) NOT NULL" />
+        <renameTable oldTableName="TK_ROLES_GROUP_T" newTableName="HR_ROLES_GROUP_T" />
     </changeSet>
     
     <changeSet id="29" author="lee55" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <modifyDataType tableName="hr_position_t" columnName="POSITION_NBR" newDataType="VARCHAR(20) NOT NULL" />
+        <renameColumn tableName="LA_ACCRUALS_T" oldColumnName="LA_ACCRUALS_ID" newColumnName="LM_ACCRUALS_ID" columnDataType="BIGINT NOT NULL" />
+        <renameTable oldTableName="LA_ACCRUALS_T" newTableName="LM_ACCRUALS_T" />
     </changeSet>
     
-    <changeSet id="30" author="lee55" context="kpme-client-bootstrap">
+    <changeSet id="30-oracle" author="lee55" dbms="oracle" context="kpme-client-bootstrap">
         <comment>renamed tables, columns, and associated objects</comment>
-        <modifyDataType tableName="hr_roles_t" columnName="position_nbr" newDataType="VARCHAR(20)" />
+        <sql>
+            RENAME LA_ACCRUALS_S TO LM_ACCRUALS_S;
+        </sql>
+    </changeSet>
+    <changeSet id="30-mysql" author="lee55" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameTable oldTableName="LA_ACCRUALS_S" newTableName="LM_ACCRUALS_S" />
+    </changeSet>
+    
+    <changeSet id="31" author="lee55" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameColumn tableName="LA_ACCRUAL_CATEGORIES_T" oldColumnName="LA_ACCRUAL_CATEGORY_ID" newColumnName="LM_ACCRUAL_CATEGORY_ID" columnDataType="BIGINT NOT NULL" />
+        <renameTable oldTableName="LA_ACCRUAL_CATEGORIES_T" newTableName="LM_ACCRUAL_CATEGORIES_T" />
+    </changeSet>
+    
+    <changeSet id="32-oracle" author="lee55" dbms="oracle" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <sql>
+            RENAME LA_ACCRUAL_CATEGORIES_S TO LM_ACCRUAL_CATEGORIES_S;
+        </sql>
+    </changeSet>
+    <changeSet id="32-mysql" author="lee55" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameTable oldTableName="LA_ACCRUAL_CATEGORIES_S" newTableName="LM_ACCRUAL_CATEGORIES_S" />
+    </changeSet>
+    
+    <changeSet id="33" author="lee55" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <addColumn tableName="TK_TIME_BLOCK_T">
+            <column name="PRINCIPAL_ID" type="VARCHAR(40)" />
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="34" author="lee55" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <renameColumn tableName="TK_SHIFT_DIFFERENTIAL_RL_T" oldColumnName="TK_SAL_GROUP" newColumnName="HR_SAL_GROUP" columnDataType="VARCHAR(10)" />
+        <renameColumn tableName="TK_SHIFT_DIFFERENTIAL_RL_T" oldColumnName="CALENDAR_GROUP" newColumnName="PY_CALENDAR_GROUP" columnDataType="VARCHAR(30) NOT NULL" />
+    </changeSet>
+    
+    <changeSet id="35" author="lee55" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <addDefaultValue tableName="HR_EARN_GROUP_DEF_T" columnName="OBJ_ID" defaultValue="1" />
+    </changeSet>
+    
+    <changeSet id="36" author="lee55" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <dropNotNullConstraint tableName="HR_EARN_GROUP_T" columnName="HR_EARN_GROUP_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="HR_EARN_GROUP_T" columnName="HR_EARN_GROUP_ID" newDataType="BIGINT" />
+        <addNotNullConstraint tableName="HR_EARN_GROUP_T" columnName="HR_EARN_GROUP_ID" columnDataType="BIGINT" />
+        <addDefaultValue tableName="HR_EARN_GROUP_T" columnName="OBJ_ID" defaultValue="1" />
+        <dropDefaultValue tableName="HR_EARN_GROUP_T" columnName="VER_NBR" />
+        <modifyDataType tableName="HR_EARN_GROUP_T" columnName="VER_NBR" newDataType="BIGINT" />
+        <addDefaultValue tableName="HR_EARN_GROUP_T" columnName="VER_NBR" defaultValueNumeric="1" />
+    </changeSet>
+    
+    <changeSet id="37" author="lee55" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <dropNotNullConstraint tableName="HR_SAL_GROUP_T" columnName="HR_SAL_GROUP_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="HR_SAL_GROUP_T" columnName="HR_SAL_GROUP_ID" newDataType="BIGINT" />
+        <addNotNullConstraint tableName="HR_SAL_GROUP_T" columnName="HR_SAL_GROUP_ID" columnDataType="BIGINT" />
+        <addNotNullConstraint tableName="HR_SAL_GROUP_T" columnName="ACTIVE" columnDataType="VARCHAR(1)" />
+        <modifyDataType tableName="HR_SAL_GROUP_T" columnName="OBJ_ID" newDataType="VARCHAR(38)" />
+        <addNotNullConstraint tableName="HR_SAL_GROUP_T" columnName="OBJ_ID" columnDataType="VARCHAR(38)" defaultNullValue="1" />
+        <dropDefaultValue tableName="HR_SAL_GROUP_T" columnName="VER_NBR" />
+        <dropNotNullConstraint tableName="HR_SAL_GROUP_T" columnName="VER_NBR" columnDataType="BIGINT" />
+        <modifyDataType tableName="HR_SAL_GROUP_T" columnName="VER_NBR" newDataType="BIGINT" />
+        <addNotNullConstraint tableName="HR_SAL_GROUP_T" columnName="VER_NBR" columnDataType="BIGINT" />
+        <addDefaultValue tableName="HR_SAL_GROUP_T" columnName="VER_NBR" defaultValueNumeric="1" />
+    </changeSet>
+    
+    <changeSet id="38" author="lee55" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <dropNotNullConstraint tableName="HR_JOB_T" columnName="DEPT" columnDataType="VARCHAR(21)" />
+        <modifyDataType tableName="HR_JOB_T" columnName="DEPT" newDataType="VARCHAR(90)" />
+        <addNotNullConstraint tableName="HR_JOB_T" columnName="DEPT" columnDataType="VARCHAR(90)" />
+        <dropDefaultValue tableName="HR_JOB_T" columnName="COMP_RATE" />
+        <modifyDataType tableName="HR_JOB_T" columnName="COMP_RATE" newDataType="DECIMAL(18,6)" />
+        <addDefaultValue tableName="HR_JOB_T" columnName="COMP_RATE" defaultValueNumeric="0.00" />
+        <modifyDataType tableName="HR_JOB_T" columnName="LOCATION" newDataType="VARCHAR(20)" />
+        <modifyDataType tableName="HR_JOB_T" columnName="POSITION_NBR" newDataType="VARCHAR(20)" />
+    </changeSet>
+    
+    <changeSet id="39" author="lee55" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <modifyDataType tableName="HR_PAYTYPE_T" columnName="DESCR" newDataType="VARCHAR(90)" />
+    </changeSet>
+    
+    <changeSet id="40" author="lee55" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <dropNotNullConstraint tableName="HR_LOCATION_T" columnName="DESCRIPTION" columnDataType="VARCHAR(40)" />
+        <modifyDataType tableName="HR_LOCATION_T" columnName="DESCRIPTION" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="HR_LOCATION_T" columnName="DESCRIPTION" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    
+    <changeSet id="41" author="lee55" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <dropDefaultValue tableName="HR_POSITION_T" columnName="POSITION_NBR" />
+        <dropNotNullConstraint tableName="HR_POSITION_T" columnName="POSITION_NBR" columnDataType="BIGINT" />
+        <modifyDataType tableName="HR_POSITION_T" columnName="POSITION_NBR" newDataType="VARCHAR(20)" />
+        <addNotNullConstraint tableName="HR_POSITION_T" columnName="POSITION_NBR" columnDataType="VARCHAR(20)" />
+        <addDefaultValue tableName="HR_POSITION_T" columnName="POSITION_NBR" defaultValueNumeric="1" />
+    </changeSet>
+    
+    <changeSet id="42" author="lee55" context="kpme-client-bootstrap">
+        <comment>renamed tables, columns, and associated objects</comment>
+        <modifyDataType tableName="HR_ROLES_T" columnName="POSITION_NBR" newDataType="VARCHAR(20)" />
     </changeSet>
     
 </databaseChangeLog>

@@ -6,8 +6,8 @@
     <changeSet id="1" author="jkakkad" context="kpme-client-bootstrap">
         <comment>KPME-1676 Record Time/Leave removed from Princiapal Attributes</comment>
         
-        <dropColumn tableName="hr_principal_attributes_t" columnName="record_time" />
-        <dropColumn tableName="hr_principal_attributes_t" columnName="record_leave" />
+        <dropColumn tableName="HR_PRINCIPAL_ATTRIBUTES_T" columnName="RECORD_TIME" />
+        <dropColumn tableName="HR_PRINCIPAL_ATTRIBUTES_T" columnName="RECORD_LEAVE" />
 	</changeSet>
 	
 	

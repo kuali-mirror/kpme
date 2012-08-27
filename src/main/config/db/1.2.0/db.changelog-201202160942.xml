@@ -5,8 +5,8 @@
 
     <changeSet id="1" author="lfox" context="kpme-client-bootstrap">
         <comment>fixed ytd accrual carryover</comment>
-        <addColumn tableName="lm_accruals_t">
-            <column name="yearly_carryover" type="decimal(6,2)" defaultValueNumeric="0" />
+        <addColumn tableName="LM_ACCRUALS_T">
+            <column name="YEARLY_CARRYOVER" type="DECIMAL(6,2)" defaultValueNumeric="0" />
         </addColumn>
     </changeSet>
     

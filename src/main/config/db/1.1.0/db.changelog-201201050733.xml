@@ -5,7 +5,7 @@
    
     <changeSet id="1" author="lfox" context="kpme-client-bootstrap">
         <comment>cleaned up project and fixed migration issue</comment>
-        <modifyDataType columnName="tk_clock_log_id" newDataType="VARCHAR(60)" tableName="tk_missed_punch_doc_t"/>
+        <modifyDataType tableName="TK_MISSED_PUNCH_DOC_T" columnName="TK_CLOCK_LOG_ID" newDataType="VARCHAR(60)" />
     </changeSet>
 
 </databaseChangeLog>

@@ -5,47 +5,56 @@
 
     <changeSet id="1" author="lee55" context="kpme-client-bootstrap">
         <comment>reorganized the sql files</comment>
-        <modifyDataType tableName="tk_assign_acct_t" columnName="tk_assignment_id" newDataType="VARCHAR(60) NOT NULL" />
+        <dropNotNullConstraint tableName="TK_ASSIGN_ACCT_T" columnName="TK_ASSIGNMENT_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="TK_ASSIGN_ACCT_T" columnName="TK_ASSIGNMENT_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_ASSIGN_ACCT_T" columnName="TK_ASSIGNMENT_ID" columnDataType="VARCHAR(60)" />
         
-        <modifyDataType tableName="tk_clock_log_t" columnName="hr_job_id" newDataType="VARCHAR(60) NOT NULL" />
-        <modifyDataType tableName="tk_clock_log_t" columnName="JOB_NUMBER" newDataType="BIGINT(20)" />
-        <modifyDataType tableName="tk_clock_log_t" columnName="TK_WORK_AREA_ID" newDataType="VARCHAR(60) NOT NULL" />
+        <modifyDataType tableName="TK_CLOCK_LOG_T" columnName="HR_JOB_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_CLOCK_LOG_T" columnName="HR_JOB_ID" columnDataType="VARCHAR(60)" />
+        <modifyDataType tableName="TK_CLOCK_LOG_T" columnName="JOB_NUMBER" newDataType="BIGINT" />
+        <modifyDataType tableName="TK_CLOCK_LOG_T" columnName="TK_WORK_AREA_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_CLOCK_LOG_T" columnName="TK_WORK_AREA_ID" columnDataType="VARCHAR(60)" />
         
-        <modifyDataType tableName="tk_grace_period_rl_t" columnName="TK_GRACE_PERIOD_RULE_ID" newDataType="VARCHAR(60) NOT NULL" />
+        <addNotNullConstraint tableName="TK_GRACE_PERIOD_RL_T" columnName="TK_GRACE_PERIOD_RULE_ID" columnDataType="VARCHAR(60)" />
+
+        <modifyDataType tableName="TK_TIME_BLOCK_HIST_T" columnName="HR_JOB_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_TIME_BLOCK_HIST_T" columnName="HR_JOB_ID" columnDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_TIME_BLOCK_HIST_T" columnName="TK_TIME_BLOCK_ID" columnDataType="VARCHAR(60)" />
         
-        <modifyDataType tableName="tk_hour_detail_hist_t" columnName="TIMESTAMP_MODIFIED" newDataType="TIMESTAMP NULL DEFAULT '0000-00-00 00:00:00'" />
+        <addNotNullConstraint tableName="TK_TIME_BLOCK_T" columnName="TK_WORK_AREA_ID" columnDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_TIME_BLOCK_T" columnName="HR_JOB_ID" columnDataType="VARCHAR(60)" />
         
-        <modifyDataType tableName="tk_time_block_hist_t" columnName="hr_job_id" newDataType="VARCHAR(60) NOT NULL" />
-        <modifyDataType tableName="tk_time_block_hist_t" columnName="tk_time_block_id" newDataType="VARCHAR(60) NOT NULL" />
-        
-        <modifyDataType tableName="tk_time_block_t" columnName="TK_WORK_AREA_ID" newDataType="VARCHAR(60) NOT NULL" />
-        <modifyDataType tableName="tk_time_block_t" columnName="hr_job_id" newDataType="VARCHAR(60) NOT NULL" />
-        
-        <modifyDataType tableName="tk_time_sheet_init_t" columnName="py_calendar_entries_id" newDataType="VARCHAR(60) NOT NULL" />
+        <dropNotNullConstraint tableName="TK_TIME_SHEET_INIT_T" columnName="PY_CALENDAR_ENTRIES_ID" columnDataType="VARCHAR(60)" />
+        <modifyDataType tableName="TK_TIME_SHEET_INIT_T" columnName="PY_CALENDAR_ENTRIES_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_TIME_SHEET_INIT_T" columnName="PY_CALENDAR_ENTRIES_ID" columnDataType="VARCHAR(60)" />
     </changeSet>
     
     <changeSet id="2" author="lee55" context="kpme-client-bootstrap">
         <comment>reorganized the sql files</comment>
-        <modifyDataType tableName="lm_accrual_category_t" columnName="ACCRUAL_INTERVAL_EARN" newDataType="VARCHAR(1) NOT NULL" />
+        <dropNotNullConstraint tableName="LM_ACCRUAL_CATEGORY_T" columnName="ACCRUAL_INTERVAL_EARN" columnDataType="VARCHAR(5)" />
+        <modifyDataType tableName="LM_ACCRUAL_CATEGORY_T" columnName="ACCRUAL_INTERVAL_EARN" newDataType="VARCHAR(1)" />
+        <addNotNullConstraint tableName="LM_ACCRUAL_CATEGORY_T" columnName="ACCRUAL_INTERVAL_EARN" columnDataType="VARCHAR(1)" />
         
-        <dropColumn tableName="lm_accrual_category_t" columnName="PLANNING_MONTHS" />
+        <dropColumn tableName="LM_ACCRUAL_CATEGORY_T" columnName="PLANNING_MONTHS" />
     </changeSet>
-    
-    <changeSet id="3" author="lee55" context="kpme-client-bootstrap">
+
+    <changeSet id="3-oracle" author="lee55" dbms="oracle" context="kpme-client-bootstrap">
         <comment>reorganized the sql files</comment>
-        <createTable tableName="lm_employee_override_s">
-            <column autoIncrement="true" name="id" type="BIGINT(19)">
-                <constraints nullable="false" primaryKey="true" />
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
-	</changeSet>
+        <createSequence sequenceName="LM_EMPLOYEE_OVERRIDE_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="3-mysql" author="lee55" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>reorganized the sql files</comment>
+        <sql>
+            CREATE TABLE LM_EMPLOYEE_OVERRIDE_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE LM_EMPLOYEE_OVERRIDE_S AUTO_INCREMENT = 10000;
+        </sql>
+    </changeSet>
 	
 	<changeSet id="4" author="lee55" context="kpme-client-bootstrap">
         <comment>reorganized the sql files</comment>
-        <createTable tableName="lm_employee_override_t">
+        <createTable tableName="LM_EMPLOYEE_OVERRIDE_T">
             <column name="LM_EMPLOYEE_OVERRIDE_ID" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />
             </column>
@@ -61,37 +70,39 @@
             <column name="OVERRIDE_TYPE" type="VARCHAR(30)">
                 <constraints nullable="false" />
             </column>
-            <column name="OVERRIDE_VALUE" type="BIGINT(20)" />
+            <column name="OVERRIDE_VALUE" type="BIGINT" />
             <column name="DESCRIPTION" type="VARCHAR(50)" />
             <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N">
                 <constraints nullable="false" />
             </column>
-            <column name="TIMESTAMP" type="TIMESTAMP" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP" />
             <column name="OBJ_ID" type="VARCHAR(36)" />
             <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
                 <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    
-    <changeSet id="5" author="lee55" context="kpme-client-bootstrap">
+
+    <changeSet id="5-oracle" author="lee55" dbms="oracle" context="kpme-client-bootstrap">
         <comment>reorganized the sql files</comment>
-        <createTable tableName="lm_leave_adjustment_s">
-            <column autoIncrement="true" name="id" type="BIGINT(19)">
-                <constraints nullable="false" primaryKey="true" />
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
-	</changeSet>
+        <createSequence sequenceName="LM_LEAVE_ADJUSTMENT_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="5-mysql" author="lee55" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>reorganized the sql files</comment>
+        <sql>
+            CREATE TABLE LM_LEAVE_ADJUSTMENT_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE LM_LEAVE_ADJUSTMENT_S AUTO_INCREMENT = 10000;
+        </sql>
+    </changeSet>
 	
 	<changeSet id="6" author="lee55" context="kpme-client-bootstrap">
         <comment>reorganized the sql files</comment>
-        <createTable tableName="lm_leave_adjustment_t">
+        <createTable tableName="LM_LEAVE_ADJUSTMENT_T">
             <column name="LM_LEAVE_ADJUSTMENT_ID" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />
             </column>
@@ -111,26 +122,30 @@
                 <constraints nullable="false" />
             </column>
             <column name="DESCRIPTION" type="VARCHAR(50)" />
-            <column name="TIMESTAMP" type="TIMESTAMP" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP" />
             <column name="OBJ_ID" type="VARCHAR(36)" />
             <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
                 <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     
     <changeSet id="7" author="lee55" context="kpme-client-bootstrap">
         <comment>reorganized the sql files</comment>
-        <modifyDataType tableName="tk_batch_job_t" columnName="hr_py_calendar_entry_id" newDataType="VARCHAR(60) NOT NULL" />
-        <modifyDataType tableName="tk_batch_job_entry_t" columnName="hr_py_calendar_entry_id" newDataType="VARCHAR(60) NOT NULL" />
+        <dropNotNullConstraint tableName="TK_BATCH_JOB_T" columnName="HR_PY_CALENDAR_ENTRY_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="TK_BATCH_JOB_T" columnName="HR_PY_CALENDAR_ENTRY_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_BATCH_JOB_T" columnName="HR_PY_CALENDAR_ENTRY_ID" columnDataType="VARCHAR(60)" />
+        <dropNotNullConstraint tableName="TK_BATCH_JOB_ENTRY_T" columnName="HR_PY_CALENDAR_ENTRY_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="TK_BATCH_JOB_ENTRY_T" columnName="HR_PY_CALENDAR_ENTRY_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_BATCH_JOB_ENTRY_T" columnName="HR_PY_CALENDAR_ENTRY_ID" columnDataType="VARCHAR(60)" />
     </changeSet>
     
     <changeSet id="8" author="lee55" context="kpme-client-bootstrap">
         <comment>reorganized the sql files</comment>
-        <addColumn tableName="lm_accrual_category_t">
+        <addColumn tableName="LM_ACCRUAL_CATEGORY_T">
             <column name="MIN_PERCENT_WORKED" type="DECIMAL(5,2)" defaultValueNumeric="0.00" />
         </addColumn>
     </changeSet>

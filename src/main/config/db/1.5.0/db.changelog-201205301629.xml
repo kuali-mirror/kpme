@@ -5,7 +5,7 @@
 
     <changeSet id="1" author="jkakkad" context="kpme-client-bootstrap">
         <comment>KPME-1573 Add Flsa status added on job maint doc</comment>
-        <addColumn tableName="hr_job_t">
+        <addColumn tableName="HR_JOB_T">
             <column name="FLSA_STATUS" type="VARCHAR(15)" />
         </addColumn>
     </changeSet>

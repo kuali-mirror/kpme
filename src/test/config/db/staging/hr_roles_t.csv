@@ -1,4 +1,4 @@
-hr_roles_id,principal_id,user_principal_id,role_name,work_area,dept,effdt,tk_work_area_id,active
+HR_ROLES_ID,PRINCIPAL_ID,USER_PRINCIPAL_ID,ROLE_NAME,WORK_AREA,DEPT,EFFDT,TK_WORK_AREA_ID,ACTIVE
 5,admin,admin,TK_APPROVER,1002,NULL,2010-01-01,NULL,Y
 6,admin,admin,TK_APPROVER,1003,BL-CHEM,2010-01-01,2,Y
 7,admin,admin,TK_APPROVER,1004,NULL,2010-01-01,3,Y

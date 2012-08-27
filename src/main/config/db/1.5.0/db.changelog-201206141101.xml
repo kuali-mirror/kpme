@@ -5,18 +5,29 @@
 
     <changeSet id="1" author="jkakkad" context="kpme-client-bootstrap">
         <comment>KPME-1632 Earn Code Group maint doc changes</comment>
-        <renameColumn tableName="hr_earn_group_t" oldColumnName="hr_earn_group_id" newColumnName="hr_earn_code_group_id" columnDataType="VARCHAR(60) NOT NULL" />
-        <renameColumn tableName="hr_earn_group_t" oldColumnName="earn_group" newColumnName="earn_code_group" columnDataType="VARCHAR(10)" />
-		<addNotNullConstraint tableName="hr_earn_group_t" columnName="earn_code_group" columnDataType="VARCHAR(10) NOT NULL" />
+        <renameColumn tableName="HR_EARN_GROUP_T" oldColumnName="HR_EARN_GROUP_ID" newColumnName="HR_EARN_CODE_GROUP_ID" columnDataType="VARCHAR(60) NOT NULL" />
+        <renameColumn tableName="HR_EARN_GROUP_T" oldColumnName="EARN_GROUP" newColumnName="EARN_CODE_GROUP" columnDataType="VARCHAR(10)" />
+		<addNotNullConstraint tableName="HR_EARN_GROUP_T" columnName="EARN_CODE_GROUP" columnDataType="VARCHAR(10)" />
 		
-		<renameTable oldTableName="hr_earn_group_t" newTableName="hr_earn_code_group_t" />
-		<renameTable oldTableName="hr_earn_group_s" newTableName="hr_earn_code_group_s" />
+		<renameTable oldTableName="HR_EARN_GROUP_T" newTableName="HR_EARN_CODE_GROUP_T" />
 		
-		<renameColumn tableName="hr_earn_group_def_t" oldColumnName="hr_earn_group_def_id" newColumnName="hr_earn_code_group_def_id" columnDataType="VARCHAR(60) NOT NULL" />
-        <renameColumn tableName="hr_earn_group_def_t" oldColumnName="hr_earn_group_id" newColumnName="hr_earn_code_group_id" columnDataType="VARCHAR(60) NOT NULL" />
+		<renameColumn tableName="HR_EARN_GROUP_DEF_T" oldColumnName="HR_EARN_GROUP_DEF_ID" newColumnName="HR_EARN_CODE_GROUP_DEF_ID" columnDataType="VARCHAR(60) NOT NULL" />
+        <renameColumn tableName="HR_EARN_GROUP_DEF_T" oldColumnName="HR_EARN_GROUP_ID" newColumnName="HR_EARN_CODE_GROUP_ID" columnDataType="VARCHAR(60) NOT NULL" />
 		
-		<renameTable oldTableName="hr_earn_group_def_t" newTableName="hr_earn_code_group_def_t" />
-        <renameTable oldTableName="hr_earn_group_def_s" newTableName="hr_earn_code_group_def_s" />
+		<renameTable oldTableName="HR_EARN_GROUP_DEF_T" newTableName="HR_EARN_CODE_GROUP_DEF_T" />
+    </changeSet>
+    
+    <changeSet id="2-oracle" author="jkakkad" dbms="oracle" context="kpme-client-bootstrap">
+        <comment>KPME-1632 Earn Code Group maint doc changes</comment>
+        <sql>
+            RENAME HR_EARN_GROUP_S TO HR_EARN_CODE_GROUP_S;
+            RENAME HR_EARN_GROUP_DEF_S TO HR_EARN_CODE_GROUP_DEF_S;
+        </sql>
+    </changeSet>
+    <changeSet id="2-mysql" author="jkakkad" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>KPME-1632 Earn Code Group maint doc changes</comment>
+        <renameTable oldTableName="HR_EARN_GROUP_S" newTableName="HR_EARN_CODE_GROUP_S" />
+        <renameTable oldTableName="HR_EARN_GROUP_DEF_S" newTableName="HR_EARN_CODE_GROUP_DEF_S" />
     </changeSet>
 
 </databaseChangeLog>

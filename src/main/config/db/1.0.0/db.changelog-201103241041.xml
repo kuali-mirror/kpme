@@ -1,114 +1,116 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-    <changeSet id="1" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="hr_work_schedule_assign_s">
-            <column autoIncrement="true" name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="1-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="HR_WORK_SCHEDULE_ASSIGN_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="1-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE HR_WORK_SCHEDULE_ASSIGN_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE HR_WORK_SCHEDULE_ASSIGN_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="2" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="hr_work_schedule_assign_t">
+        <createTable tableName="HR_WORK_SCHEDULE_ASSIGN_T">
             <column name="HR_WORK_SCHEDULE_ASSIGNMENT_ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
+                <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="HR_WORK_SCHEDULE" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="DEPT" type="VARCHAR(21)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column name="WORK_AREA" type="BIGINT"/>
-            <column name="PRINCIPAL_ID" type="VARCHAR(40)"/>
-            <column name="USER_PRINCIPAL_ID" type="VARCHAR(40)"/>
-            <column defaultValue="Y" name="ACTIVE" type="VARCHAR(1)">
-                <constraints nullable="false"/>
+            <column name="WORK_AREA" type="BIGINT" />
+            <column name="PRINCIPAL_ID" type="VARCHAR(40)" />
+            <column name="USER_PRINCIPAL_ID" type="VARCHAR(40)" />
+            <column name="ACTIVE" type="VARCHAR(1)" defaultValue="Y">
+                <constraints nullable="false" />
             </column>
-            <column defaultValueDate="0002-11-30" name="EFFDT" type="DATE">
-                <constraints nullable="false"/>
+            <column name="EFFDT" type="DATE">
+                <constraints nullable="false" />
             </column>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="TIMESTAMP" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column name="OBJ_ID" type="VARCHAR(36)"/>
-            <column defaultValueNumeric="1" name="VER_NBR" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="OBJ_ID" type="VARCHAR(36)" />
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    <changeSet id="3" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_missed_punch_s">
-            <column autoIncrement="true" name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
+    <changeSet id="3-oracle" author="djunk" dbms="oracle" context="kpme-client-bootstrap">
+        <createSequence sequenceName="TK_MISSED_PUNCH_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="3-mysql" author="djunk" dbms="mysql" context="kpme-client-bootstrap">
+        <sql>
+            CREATE TABLE TK_MISSED_PUNCH_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_MISSED_PUNCH_S AUTO_INCREMENT = 10000;
+        </sql>
     </changeSet>
     <changeSet id="4" author="djunk" context="kpme-client-bootstrap">
-        <createTable tableName="tk_missed_punch_t">
-            <column name="tk_missed_punch_id" type="BIGINT(20)" >
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="TK_MISSED_PUNCH_T">
+            <column name="TK_MISSED_PUNCH_ID" type="BIGINT" >
+                <constraints nullable="false" primaryKey="true" />
             </column>
-            <column name="principal_id" type="VARCHAR(40)">
-                <constraints nullable="false"/>
+            <column name="PRINCIPAL_ID" type="VARCHAR(40)">
+                <constraints nullable="false" />
             </column>
-            <column name="clock_action" type="VARCHAR(20)">
-                <constraints nullable="false"/>
+            <column name="CLOCK_ACTION" type="VARCHAR(20)">
+                <constraints nullable="false" />
             </column>
-            <column defaultValueDate="0002-11-30T00:00:00.0" name="action_date" type="DATETIME">
-                <constraints nullable="false"/>
+            <column name="ACTION_DATE" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>
-            <column defaultValue="0000-00-00 00:00:00" name="action_time" type="TIME">
-                <constraints nullable="false"/>
+            <column name="ACTION_TIME" type="TIME" defaultValueDate="00:00:00">
+                <constraints nullable="false" />
             </column>
-            <column name="timesheet_doc_id" type="VARCHAR(14)">
-                <constraints nullable="false"/>
+            <column name="TIMESHEET_DOC_ID" type="VARCHAR(14)">
+                <constraints nullable="false" />
             </column>   
-            <column name="document_id" type="VARCHAR(14)"/>
-            <column name="document_status" type="VARCHAR(1)"/>
-            <column name="tk_clock_log_id" type="BIGINT"/>
-            <column defaultValueComputed="CURRENT_TIMESTAMP" name="timestamp" type="TIMESTAMP">
-                <constraints nullable="false"/>
+            <column name="DOCUMENT_ID" type="VARCHAR(14)" />
+            <column name="DOCUMENT_STATUS" type="VARCHAR(1)" />
+            <column name="TK_CLOCK_LOG_ID" type="BIGINT" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
             </column>     
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     <changeSet id="5" author="djunk" context="kpme-client-bootstrap">
-        <addColumn tableName="hr_work_schedule_entry_t">
+        <addColumn tableName="HR_WORK_SCHEDULE_ENTRY_T">
             <column name="HR_WORK_SCHEDULE" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
         </addColumn>
     </changeSet>
     <changeSet id="6" author="djunk" context="kpme-client-bootstrap">
-        <addColumn tableName="hr_work_schedule_t">
+        <addColumn tableName="HR_WORK_SCHEDULE_T">
             <column name="HR_WORK_SCHEDULE" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
         </addColumn>
     </changeSet>
 
     <changeSet id="7" author="djunk" context="kpme-client-bootstrap">
-        <addColumn tableName="tk_time_block_t">
-            <column name="clock_log_begin_id" type="BIGINT"/>
+        <addColumn tableName="TK_TIME_BLOCK_T">
+            <column name="CLOCK_LOG_BEGIN_ID" type="BIGINT" />
         </addColumn>
     </changeSet>
     <changeSet id="8" author="djunk" context="kpme-client-bootstrap">
-        <addColumn tableName="tk_time_block_t">
-            <column name="clock_log_end_id" type="BIGINT"/>
+        <addColumn tableName="TK_TIME_BLOCK_T">
+            <column name="CLOCK_LOG_END_ID" type="BIGINT" />
         </addColumn>
     </changeSet>
     <changeSet id="9" author="djunk" context="kpme-client-bootstrap">
-        <dropColumn columnName="HR_WORK_SCHEDULE_ID" tableName="hr_work_schedule_entry_t"/>
+        <dropColumn tableName="HR_WORK_SCHEDULE_ENTRY_T" columnName="HR_WORK_SCHEDULE_ID" />
     </changeSet>
 </databaseChangeLog>

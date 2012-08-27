@@ -1,4 +1,4 @@
-HR_DEPT_ID,dept,DESCRIPTION,location,effdt,active
+HR_DEPT_ID,DEPT,DESCRIPTION,LOCATION,EFFDT,ACTIVE
 1,BL-CHEM,Chemistry,BL,2010-01-01,Y
 2,HC-DEPT,Holiday Calendar Test Department,BL,2010-01-01,Y
 3,HD-DEPT,Hours Distribution Test Dept,BL,2010-01-01,Y

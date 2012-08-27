@@ -5,14 +5,14 @@
 
     <changeSet id="1" author="jkakkad" context="kpme-client-bootstrap">
         <comment>KPME-1445 jobnumber, workarea, task fields added</comment>
-        <addColumn tableName="lm_leave_block_t">
-            <column name="JOB_NUMBER" type="BIGINT(20)" />
+        <addColumn tableName="LM_LEAVE_BLOCK_T">
+            <column name="JOB_NUMBER" type="BIGINT" />
         </addColumn>
-        <addColumn tableName="lm_leave_block_t">
-            <column name="WORK_AREA" type="BIGINT(10)" />
+        <addColumn tableName="LM_LEAVE_BLOCK_T">
+            <column name="WORK_AREA" type="BIGINT" />
         </addColumn>
-        <addColumn tableName="lm_leave_block_t">
-            <column name="TASK" type="BIGINT(20)" />
+        <addColumn tableName="LM_LEAVE_BLOCK_T">
+            <column name="TASK" type="BIGINT" />
         </addColumn>
     </changeSet>
     

@@ -5,7 +5,7 @@
 
     <changeSet id="1" author="jkakkad" context="kpme-client-bootstrap">
         <comment>KPME1464, added AffectPay field into Leave Code Maint page.</comment>
-        <addColumn tableName="lm_leave_code_t">
+        <addColumn tableName="LM_LEAVE_CODE_T">
             <column name="AFFECT_PAY" type="VARCHAR(1)" defaultValue="N">
                 <constraints nullable="false" />
             </column>

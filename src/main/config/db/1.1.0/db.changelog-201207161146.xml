@@ -3,17 +3,10 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet id="1" author="kbtaylor" context="kpme-server-bootstrap" dbms="mysql">
-        <comment>Adding Rice role bootstrap data</comment>
-        <insert tableName="KRIM_ROLE_ID_S">
-            <column name="id" />
-        </insert>
-    </changeSet>
-    
-    <changeSet id="2" author="kbtaylor" context="kpme-server-bootstrap">
+    <changeSet id="1" author="kbtaylor" context="kpme-server-bootstrap">
         <comment>Adding Rice role bootstrap data</comment>
         <insert tableName="KRIM_ROLE_T">
-            <column name="ROLE_ID" valueComputed="KRIM_ROLE_ID_S.NEXTVAL" />
+            <column name="ROLE_ID" value="KPME0001" />
             <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default')" />
             <column name="NMSPC_CD" value="KPME-WKFLW" />
             <column name="ROLE_NM" value="TK_SYS_ADMIN" />
@@ -24,23 +17,15 @@
         </insert>
         
         <modifySql dbms="mysql">
-            <regExpReplace replace="(\w*).NEXTVAL" with="(SELECT MAX(id) FROM $1)" />
             <replace replace="SYSDATE" with="NOW()" />
             <replace replace="SYS_GUID()" with="UUID()" />
         </modifySql>
     </changeSet>
     
-    <changeSet id="3" author="kbtaylor" context="kpme-server-bootstrap" dbms="mysql">
-        <comment>Adding Rice role bootstrap data</comment>
-        <insert tableName="KRIM_ROLE_MBR_ID_S">
-            <column name="id" />
-        </insert>
-    </changeSet>
-    
-    <changeSet id="4" author="kbtaylor" context="kpme-server-bootstrap">
+    <changeSet id="2" author="kbtaylor" context="kpme-server-bootstrap">
         <comment>Adding Rice role bootstrap data</comment>
         <insert tableName="KRIM_ROLE_MBR_T">
-            <column name="ROLE_MBR_ID" valueComputed="KRIM_ROLE_MBR_ID_S.NEXTVAL" />
+            <column name="ROLE_MBR_ID" value="KPME0001" />
             <column name="MBR_TYP_CD" value="P" />
             <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-WKFLW' AND ROLE_NM = 'TK_SYS_ADMIN')" />
             <column name="MBR_ID" value="admin" />
@@ -49,7 +34,6 @@
         </insert>
         
         <modifySql dbms="mysql">
-            <regExpReplace replace="(\w*).NEXTVAL" with="(SELECT MAX(id) FROM $1)" />
             <replace replace="SYSDATE" with="NOW()" />
             <replace replace="SYS_GUID()" with="UUID()" />
         </modifySql>

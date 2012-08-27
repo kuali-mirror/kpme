@@ -5,8 +5,8 @@
 
     <changeSet id="1" author="lfox" context="kpme-client-bootstrap">
         <comment>modified for testing</comment>
-        <modifyDataType tableName="lm_leave_block_t" columnName="LM_ACCRUAL_CATEGORY_ID" newDataType="VARCHAR(60) NOT NULL" />
-        <dropNotNullConstraint tableName="lm_leave_block_t" columnName="LM_ACCRUAL_CATEGORY_ID" columnDataType="VARCHAR(60)" />
+        <dropNotNullConstraint tableName="LM_LEAVE_BLOCK_T" columnName="LM_ACCRUAL_CATEGORY_ID" columnDataType="VARCHAR(60)" />
+        <modifyDataType tableName="LM_LEAVE_BLOCK_T" columnName="LM_ACCRUAL_CATEGORY_ID" newDataType="VARCHAR(60)" />
     </changeSet>
     
 </databaseChangeLog>

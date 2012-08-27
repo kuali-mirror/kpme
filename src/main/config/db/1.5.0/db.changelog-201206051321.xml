@@ -5,7 +5,7 @@
 
     <changeSet id="1" author="yingzhou" context="kpme-client-bootstrap">
         <comment>kpme-1267: partial commit, create empty leave block for employee status change</comment>
-        <dropNotNullConstraint tableName="lm_leave_block_hist_t" columnName="lm_accrual_category_id" columnDataType="VARCHAR(60)" />
+        <dropNotNullConstraint tableName="LM_LEAVE_BLOCK_HIST_T" columnName="LM_ACCRUAL_CATEGORY_ID" columnDataType="VARCHAR(60)" />
     </changeSet>
     
 </databaseChangeLog>

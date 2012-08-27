@@ -5,9 +5,9 @@
 
     <changeSet id="1" author="yingzhou" context="kpme-client-bootstrap">
         <comment>kpme-1262, kpme-1209: added runAccrual logic in AccrualService, AccrualServiceTest</comment>
-		<modifyDataType tableName="lm_leave_block_t" columnName="lm_sys_schd_timeoff_id" newDataType="VARCHAR(60) NOT NULL" />
-		<dropNotNullConstraint tableName="lm_leave_block_t" columnName="lm_sys_schd_timeoff_id" columnDataType="VARCHAR(60)" />
-		<dropNotNullConstraint tableName="lm_leave_block_hist_t" columnName="lm_sys_schd_timeoff_id" columnDataType="VARCHAR(60)" />
+        <dropNotNullConstraint tableName="LM_LEAVE_BLOCK_T" columnName="LM_SYS_SCHD_TIMEOFF_ID" columnDataType="VARCHAR(60)" />
+		<modifyDataType tableName="LM_LEAVE_BLOCK_T" columnName="LM_SYS_SCHD_TIMEOFF_ID" newDataType="VARCHAR(60)" />
+		<dropNotNullConstraint tableName="LM_LEAVE_BLOCK_HIST_T" columnName="LM_SYS_SCHD_TIMEOFF_ID" columnDataType="VARCHAR(60)" />
     </changeSet>
     
 </databaseChangeLog>

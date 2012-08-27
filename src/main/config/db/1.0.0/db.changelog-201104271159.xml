@@ -3,48 +3,50 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet id="1" author="yingzhou" context="kpme-client-bootstrap">
+    <changeSet id="1-oracle" author="yingzhou" dbms="oracle" context="kpme-client-bootstrap">
         <comment>Batch Job Entry table, service, dao</comment>
-		<createTable tableName="tk_batch_job_entry_s">
-			<column autoIncrement="true" name="id" type="BIGINT">
-				<constraints nullable="false" primaryKey="true" />
-			</column>
-		</createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
-	</changeSet>
+        <createSequence sequenceName="TK_BATCH_JOB_ENTRY_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="1-mysql" author="yingzhou" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>Batch Job Entry table, service, dao</comment>
+        <sql>
+            CREATE TABLE TK_BATCH_JOB_ENTRY_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE TK_BATCH_JOB_ENTRY_S AUTO_INCREMENT = 10000;
+        </sql>
+    </changeSet>
 
     <changeSet id="2" author="yingzhou" context="kpme-client-bootstrap">
         <comment>Batch Job Entry table, service, dao</comment>
-		<createTable tableName="tk_batch_job_entry_t">
-			<column autoIncrement="true" name="TK_BATCH_JOB_ENTRY_ID" type="BIGINT">
+		<createTable tableName="TK_BATCH_JOB_ENTRY_T">
+			<column name="TK_BATCH_JOB_ENTRY_ID" type="BIGINT">
 				<constraints nullable="false" primaryKey="true" />
 			</column>
 			<column name="BATCH_JOB_ENTRY_STATUS" type="VARCHAR(1)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-			<column name="BATCH_JOB_EXCEPTION" type="VARCHAR(100)"/>
+			<column name="BATCH_JOB_EXCEPTION" type="VARCHAR(100)" />
             <column name="BATCH_JOB_NAME" type="VARCHAR(40)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column name="DOCUMENT_ID" type="VARCHAR(40)"/>
+            <column name="DOCUMENT_ID" type="VARCHAR(40)" />
             <column name="IP_ADDRESS" type="VARCHAR(20)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
-            <column name="PRINCIPAL_ID" type="VARCHAR(40)"/>
+            <column name="PRINCIPAL_ID" type="VARCHAR(40)" />
             <column name="TK_BATCH_JOB_ID" type="BIGINT">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="TK_PY_CALENDAR_ENTRY_ID" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
             <column name="CLOCK_LOG_ID" type="BIGINT">
-                <constraints nullable="true"/>
+                <constraints nullable="true" />
             </column>
 		</createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
 	</changeSet>
 

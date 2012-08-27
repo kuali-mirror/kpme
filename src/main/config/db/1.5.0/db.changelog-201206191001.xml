@@ -5,8 +5,8 @@
 
     <changeSet id="1" author="jkakkad" context="kpme-client-bootstrap">
         <comment>KPME-1635 System scheduled time off maint doc change (reference changed from leave code to earn code)</comment>
-        <renameColumn tableName="lm_sys_schd_timeoff_t" oldColumnName="LEAVE_CODE" newColumnName="EARN_CODE" columnDataType="VARCHAR(15) NOT NULL" />
-        <renameColumn tableName="lm_sys_schd_timeoff_t" oldColumnName="TRANSFER_TO_LEAVE_CODE" newColumnName="TRANSFER_TO_EARN_CODE" columnDataType="VARCHAR(15)" />
+        <renameColumn tableName="LM_SYS_SCHD_TIMEOFF_T" oldColumnName="LEAVE_CODE" newColumnName="EARN_CODE" columnDataType="VARCHAR(15) NOT NULL" />
+        <renameColumn tableName="LM_SYS_SCHD_TIMEOFF_T" oldColumnName="TRANSFER_TO_LEAVE_CODE" newColumnName="TRANSFER_TO_EARN_CODE" columnDataType="VARCHAR(15)" />
     </changeSet>
 
 </databaseChangeLog>

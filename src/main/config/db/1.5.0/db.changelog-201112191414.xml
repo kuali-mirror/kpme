@@ -5,7 +5,7 @@
 
     <changeSet id="1" author="henrydfs" context="kpme-client-bootstrap">
         <comment>KPME-1147</comment>
-        <addColumn tableName="hr_position_t">
+        <addColumn tableName="HR_POSITION_T">
             <column name="WORK_AREA" type="VARCHAR(10)" />
         </addColumn>
     </changeSet>

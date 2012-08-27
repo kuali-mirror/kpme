@@ -5,7 +5,7 @@
 
     <changeSet id="1" author="lfox" context="kpme-client-bootstrap">
         <comment>modify table to allow null</comment>
-        <dropNotNullConstraint tableName="lm_leave_code_t" columnName="LEAVE_PLAN" columnDataType="VARCHAR(15)" />
+        <dropNotNullConstraint tableName="LM_LEAVE_CODE_T" columnName="LEAVE_PLAN" columnDataType="VARCHAR(15)" />
     </changeSet>
     
 </databaseChangeLog>

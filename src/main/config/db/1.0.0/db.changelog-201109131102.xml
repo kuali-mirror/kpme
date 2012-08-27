@@ -5,14 +5,18 @@
 
     <changeSet id="1" author="lee55" context="kpme-client-bootstrap">
         <comment>KPME-744. Timesheet - Allow users to change overtime earncode to new value (exmp. CPE)</comment>
-        <addColumn tableName="tk_time_block_t">
-            <column name="ovt_pref" type="VARCHAR(5)" />
+        <addColumn tableName="TK_TIME_BLOCK_T">
+            <column name="OVT_PREF" type="VARCHAR(5)" />
         </addColumn>
     </changeSet>
     <changeSet id="2" author="lee55" context="kpme-client-bootstrap">
         <comment>more sql changes</comment>
-		<modifyDataType tableName="tk_time_block_t" columnName="CLOCK_LOG_CREATED" newDataType="VARCHAR(1)"/>
-        <modifyDataType tableName="tk_time_block_hist_t" columnName="CLOCK_LOG_CREATED" newDataType="VARCHAR(1)"/>
+        <dropDefaultValue tableName="TK_TIME_BLOCK_T" columnName="CLOCK_LOG_CREATED" />
+		<modifyDataType tableName="TK_TIME_BLOCK_T" columnName="CLOCK_LOG_CREATED" newDataType="VARCHAR(1)" />
+        <addDefaultValue tableName="TK_TIME_BLOCK_T" columnName="CLOCK_LOG_CREATED" defaultValue="N" />
+        <dropDefaultValue tableName="TK_TIME_BLOCK_HIST_T" columnName="CLOCK_LOG_CREATED" />
+        <modifyDataType tableName="TK_TIME_BLOCK_HIST_T" columnName="CLOCK_LOG_CREATED" newDataType="VARCHAR(1)" />
+        <addDefaultValue tableName="TK_TIME_BLOCK_HIST_T" columnName="CLOCK_LOG_CREATED" defaultValue="N" />
 	</changeSet>
 
 </databaseChangeLog>

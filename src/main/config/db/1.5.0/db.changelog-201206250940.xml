@@ -5,11 +5,13 @@
 
     <changeSet id="1" author="yingzhou" context="kpme-client-bootstrap">
         <comment>kpme-1661: change leave block to use Earn Code instead of Leave Code, gui and test changes. Changed Accrual calculation to be based on work days.</comment>
-        <renameColumn tableName="lm_leave_block_t" oldColumnName="LEAVE_CODE" newColumnName="EARN_CODE" columnDataType="VARCHAR(15) NOT NULL" />
-        <renameColumn tableName="lm_leave_block_t" oldColumnName="LM_LEAVE_CODE_ID" newColumnName="HR_EARN_CODE_ID" columnDataType="VARCHAR(60) NOT NULL" />
-        <modifyDataType tableName="lm_leave_block_t" columnName="HR_EARN_CODE_ID" newDataType="VARCHAR(15) NOT NULL" />
-        <renameColumn tableName="lm_leave_block_hist_t" oldColumnName="LEAVE_CODE" newColumnName="EARN_CODE" columnDataType="VARCHAR(15) NOT NULL" />
-        <renameColumn tableName="lm_leave_block_hist_t" oldColumnName="LM_LEAVE_CODE_ID" newColumnName="HR_EARN_CODE_ID" columnDataType="VARCHAR(15) NOT NULL" />
+        <renameColumn tableName="LM_LEAVE_BLOCK_T" oldColumnName="LEAVE_CODE" newColumnName="EARN_CODE" columnDataType="VARCHAR(15) NOT NULL" />
+        <renameColumn tableName="LM_LEAVE_BLOCK_T" oldColumnName="LM_LEAVE_CODE_ID" newColumnName="HR_EARN_CODE_ID" columnDataType="VARCHAR(60) NOT NULL" />
+        <dropNotNullConstraint tableName="LM_LEAVE_BLOCK_T" columnName="HR_EARN_CODE_ID" columnDataType="VARCHAR(60)" />
+        <modifyDataType tableName="LM_LEAVE_BLOCK_T" columnName="HR_EARN_CODE_ID" newDataType="VARCHAR(15)" />
+        <addNotNullConstraint tableName="LM_LEAVE_BLOCK_T" columnName="HR_EARN_CODE_ID" columnDataType="VARCHAR(15)" />
+        <renameColumn tableName="LM_LEAVE_BLOCK_HIST_T" oldColumnName="LEAVE_CODE" newColumnName="EARN_CODE" columnDataType="VARCHAR(15) NOT NULL" />
+        <renameColumn tableName="LM_LEAVE_BLOCK_HIST_T" oldColumnName="LM_LEAVE_CODE_ID" newColumnName="HR_EARN_CODE_ID" columnDataType="VARCHAR(60) NOT NULL" />
     </changeSet>
 
 </databaseChangeLog>

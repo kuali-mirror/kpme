@@ -5,26 +5,30 @@
 
     <changeSet id="1" author="lfox" context="kpme-client-bootstrap">
         <comment>cleaned up project and fixed migration issue</comment>
-        <modifyDataType tableName="tk_time_block_hist_detail_t" columnName="VER_NBR" newDataType="BIGINT(20) NOT NULL DEFAULT '1'" />
+        <dropDefaultValue tableName="TK_TIME_BLOCK_HIST_DETAIL_T" columnName="VER_NBR" />
+        <dropNotNullConstraint tableName="TK_TIME_BLOCK_HIST_DETAIL_T" columnName="VER_NBR" columnDataType="DECIMAL(8,0)" />
+        <modifyDataType tableName="TK_TIME_BLOCK_HIST_DETAIL_T" columnName="VER_NBR" newDataType="BIGINT" />
+        <addNotNullConstraint tableName="TK_TIME_BLOCK_HIST_DETAIL_T" columnName="VER_NBR" columnDataType="BIGINT" />
+        <addDefaultValue tableName="TK_TIME_BLOCK_HIST_DETAIL_T" columnName="VER_NBR" defaultValueNumeric="1" />
     </changeSet>
 
     <changeSet id="2" author="lfox" context="kpme-client-bootstrap">
         <comment>cleaned up project and fixed migration issue</comment>
-        <dropTable tableName="tk_work_area_document_t" />
-        <dropTable tableName="hr_work_schedule_t" />
-        <dropTable tableName="hr_work_schedule_entry_t" />
-        <dropTable tableName="hr_work_schedule_assign_t" />
-        <dropTable tableName="tk_wa_maint_doc_t" />
+        <dropTable tableName="TK_WORK_AREA_DOCUMENT_T" />
+        <dropTable tableName="HR_WORK_SCHEDULE_T" />
+        <dropTable tableName="HR_WORK_SCHEDULE_ENTRY_T" />
+        <dropTable tableName="HR_WORK_SCHEDULE_ASSIGN_T" />
+        <dropTable tableName="TK_WA_MAINT_DOC_T" />
     </changeSet>
     
     <changeSet id="3" author="lfox" context="kpme-client-bootstrap">
         <comment>cleaned up project and fixed migration issue</comment>
-        <addNotNullConstraint tableName="tk_assign_acct_t" columnName="active" columnDataType="VARCHAR(1) NOT NULL" defaultNullValue="Y" />
+        <addNotNullConstraint tableName="TK_ASSIGN_ACCT_T" columnName="ACTIVE" columnDataType="VARCHAR(1)" defaultNullValue="Y" />
     </changeSet>
     
     <changeSet id="4" author="lfox" context="kpme-client-bootstrap">
         <comment>cleaned up project and fixed migration issue</comment>
-        <modifyDataType tableName="tk_batch_job_entry_t" columnName="clock_log_id" newDataType="VARCHAR(20)" />
+        <modifyDataType tableName="TK_BATCH_JOB_ENTRY_T" columnName="CLOCK_LOG_ID" newDataType="VARCHAR(20)" />
     </changeSet>
     
 </databaseChangeLog>

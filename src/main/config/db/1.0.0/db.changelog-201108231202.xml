@@ -5,8 +5,8 @@
 
     <changeSet id="1" author="yingzhou" context="kpme-client-bootstrap">
         <comment>kpme-199: added begin/end date time and modified validation</comment>
-        <addColumn tableName="tk_time_sheet_init_t">
-            <column name="calendar_group" type="varchar(30) not null"/>
+        <addColumn tableName="TK_TIME_SHEET_INIT_T">
+            <column name="CALENDAR_GROUP" type="VARCHAR(30) NOT NULL"/>
         </addColumn>
     </changeSet>
 

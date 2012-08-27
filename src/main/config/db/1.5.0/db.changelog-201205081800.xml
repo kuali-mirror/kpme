@@ -5,10 +5,10 @@
 
     <changeSet id="1" author="henrydfs" context="kpme-client-bootstrap">
         <comment>KPME-1487, rename alter_employee_override.sql and alter_leave_adjustments to not execute after any sql files submitted in the AM on 05-09</comment>
-        <addColumn tableName="lm_leave_donation_t">
+        <addColumn tableName="LM_LEAVE_DONATION_T">
             <column name="DONATED_LV_CODE" type="VARCHAR(15)" />
         </addColumn>
-        <addColumn tableName="lm_leave_donation_t">
+        <addColumn tableName="LM_LEAVE_DONATION_T">
             <column name="RECIPIENTS_LV_CODE" type="VARCHAR(15)" />
         </addColumn>
     </changeSet>

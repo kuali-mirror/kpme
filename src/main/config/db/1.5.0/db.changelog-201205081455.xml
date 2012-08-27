@@ -5,15 +5,15 @@
 
     <changeSet id="1" author="xichen" context="kpme-client-bootstrap">
         <comment>KPME-1457. Added effectiveDate into table lm_employee_override_t and lm_ Leave_Adjustment_t.</comment>
-        <addColumn tableName="lm_leave_adjustment_t">
-            <column name="effdt" type="DATE" />
+        <addColumn tableName="LM_LEAVE_ADJUSTMENT_T">
+            <column name="EFFDT" type="DATE" />
         </addColumn>
     </changeSet>
     
     <changeSet id="2" author="xichen" context="kpme-client-bootstrap">
         <comment>KPME-1457. Added effectiveDate into table lm_employee_override_t and lm_ Leave_Adjustment_t.</comment>
-        <addColumn tableName="lm_employee_override_t">
-            <column name="effdt" type="DATE" />
+        <addColumn tableName="LM_EMPLOYEE_OVERRIDE_T">
+            <column name="EFFDT" type="DATE" />
         </addColumn>
     </changeSet>
     

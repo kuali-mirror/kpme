@@ -5,12 +5,28 @@
 
     <changeSet id="1" author="jkakkad" context="kpme-client-bootstrap">
         <comment>KPME-1232 Leave Request Page added</comment>
-        <modifyDataType tableName="lm_leave_block_t" columnName="TIMESTAMP" newDataType="TIMESTAMP" />
-		<modifyDataType tableName="lm_leave_block_hist_t" columnName="TIMESTAMP" newDataType="TIMESTAMP" />
-		<modifyDataType tableName="lm_leave_block_hist_t" columnName="TIMESTAMP_DELETED" newDataType="TIMESTAMP" />
-		<modifyDataType tableName="lm_leave_status_hist_t" columnName="TIMESTAMP" newDataType="TIMESTAMP" />
-		<renameColumn tableName="lm_leave_block_t" oldColumnName="hours" newColumnName="leave_amount" columnDataType="INT(11) NOT NULL" />
-		<renameColumn tableName="lm_leave_block_hist_t" oldColumnName="hours" newColumnName="leave_amount" columnDataType="INT(11) NOT NULL" />
+		<modifyDataType tableName="LM_LEAVE_BLOCK_HIST_T" columnName="TIMESTAMP" newDataType="DATETIME" />
+		<addNotNullConstraint tableName="LM_LEAVE_BLOCK_HIST_T" columnName="TIMESTAMP" columnDataType="DATETIME" />
+		<modifyDataType tableName="LM_LEAVE_BLOCK_HIST_T" columnName="TIMESTAMP_DELETED" newDataType="DATETIME" />
+    </changeSet>
+    
+    <changeSet id="2-oracle" author="jkakkad" dbms="oracle" context="kpme-client-bootstrap">
+        <comment>KPME-1232 Leave Request Page added</comment>
+        <addDefaultValue tableName="LM_LEAVE_BLOCK_HIST_T" columnName="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP" />
+        <addDefaultValue tableName="LM_LEAVE_BLOCK_HIST_T" columnName="TIMESTAMP_DELETED" defaultValueComputed="CURRENT_TIMESTAMP" />
+    </changeSet>
+    <changeSet id="2-mysql" author="jkakkad" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>KPME-1232 Leave Request Page added</comment>
+        <sql>
+            ALTER TABLE LM_LEAVE_BLOCK_HIST_T CHANGE COLUMN TIMESTAMP TIMESTAMP DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+            ALTER TABLE LM_LEAVE_BLOCK_HIST_T CHANGE COLUMN TIMESTAMP_DELETED TIMESTAMP_DELETED DATETIME DEFAULT CURRENT_TIMESTAMP;
+        </sql>
+    </changeSet>
+    
+    <changeSet id="2" author="jkakkad" context="kpme-client-bootstrap">
+        <comment>KPME-1232 Leave Request Page added</comment>
+		<renameColumn tableName="LM_LEAVE_BLOCK_T" oldColumnName="HOURS" newColumnName="LEAVE_AMOUNT" columnDataType="INT NOT NULL" />
+		<renameColumn tableName="LM_LEAVE_BLOCK_HIST_T" oldColumnName="HOURS" newColumnName="LEAVE_AMOUNT" columnDataType="INT NOT NULL" />
     </changeSet>
     
 </databaseChangeLog>

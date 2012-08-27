@@ -5,7 +5,7 @@
 	
     <changeSet id="1" author="xichen" context="kpme-client-bootstrap">
         <comment>KPME-921.</comment>
-		<dropNotNullConstraint tableName="tk_work_area_t" columnDataType="VARCHAR(3)" columnName="default_overtime_earncode" />
+		<dropNotNullConstraint tableName="TK_WORK_AREA_T" columnName="DEFAULT_OVERTIME_EARNCODE" columnDataType="VARCHAR(3)" />
 	</changeSet>
 
 </databaseChangeLog>

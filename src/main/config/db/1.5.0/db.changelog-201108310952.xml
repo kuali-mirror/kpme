@@ -5,10 +5,16 @@
 
     <changeSet id="1" author="lfox" context="kpme-client-bootstrap">
         <comment>kenneths changes</comment>
-        <modifyDataType tableName="hr_earn_group_def_t" columnName="VER_NBR" newDataType="BIGINT(38) NOT NULL DEFAULT '1'" />
-        <modifyDataType tableName="hr_earn_group_t" columnName="effdt" newDataType="DATE NOT NULL" />
-        <modifyDataType tableName="hr_earn_group_t" columnName="active" newDataType="VARCHAR(1) NOT NULL" />
-        <modifyDataType tableName="hr_earn_group_t" columnName="VER_NBR" newDataType="BIGINT(38) NOT NULL DEFAULT '1'" />
+        <dropDefaultValue tableName="HR_EARN_GROUP_DEF_T" columnName="VER_NBR" />
+        <modifyDataType tableName="HR_EARN_GROUP_DEF_T" columnName="VER_NBR" newDataType="BIGINT" />
+        <addNotNullConstraint tableName="HR_EARN_GROUP_DEF_T" columnName="VER_NBR" columnDataType="BIGINT" />
+        <addDefaultValue tableName="HR_EARN_GROUP_DEF_T" columnName="VER_NBR" defaultValueNumeric="1" />
+        <addNotNullConstraint tableName="HR_EARN_GROUP_T" columnName="EFFDT" columnDataType="DATE" />
+        <addNotNullConstraint tableName="HR_EARN_GROUP_T" columnName="ACTIVE" columnDataType="VARCHAR(1)" />
+        <dropDefaultValue tableName="HR_EARN_GROUP_T" columnName="VER_NBR" />
+        <modifyDataType tableName="HR_EARN_GROUP_T" columnName="VER_NBR" newDataType="BIGINT" />
+        <addNotNullConstraint tableName="HR_EARN_GROUP_T" columnName="VER_NBR" columnDataType="BIGINT" />
+        <addDefaultValue tableName="HR_EARN_GROUP_T" columnName="VER_NBR" defaultValueNumeric="1" />
     </changeSet>
     
 </databaseChangeLog>

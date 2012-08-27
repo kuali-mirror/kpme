@@ -14,21 +14,14 @@
         </insert>
         
         <modifySql dbms="mysql">
-            <replace replace="SYS_GUID" with="UUID" />
+            <replace replace="SYS_GUID()" with="UUID()" />
         </modifySql>
     </changeSet>
     
-    <changeSet id="2" author="kbtaylor" context="kpme-server-bootstrap" dbms="mysql">
-        <comment>Adding Rice group bootstrap data</comment>
-        <insert tableName="KRIM_GRP_ID_S">
-            <column name="id" />
-        </insert>
-    </changeSet>
-    
-    <changeSet id="3" author="kbtaylor" context="kpme-server-bootstrap">
+    <changeSet id="2" author="kbtaylor" context="kpme-server-bootstrap">
         <comment>Adding Rice group bootstrap data</comment>
         <insert tableName="KRIM_GRP_T">
-            <column name="GRP_ID" valueComputed="KRIM_GRP_ID_S.NEXTVAL" />
+            <column name="GRP_ID" value="KPME0001" />
             <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default')" />
             <column name="NMSPC_CD" value="KPME-WKFLW" />
             <column name="GRP_NM" value="TK_SYSTEM_ADMIN" />
@@ -39,23 +32,15 @@
         </insert>
         
         <modifySql dbms="mysql">
-            <regExpReplace replace="(\w*).NEXTVAL" with="(SELECT MAX(id) FROM $1)" />
             <replace replace="SYSDATE" with="NOW()" />
             <replace replace="SYS_GUID()" with="UUID()" />
         </modifySql>
     </changeSet>
     
-    <changeSet id="4" author="kbtaylor" context="kpme-server-bootstrap" dbms="mysql">
-        <comment>Adding Rice group bootstrap data</comment>
-        <insert tableName="KRIM_GRP_MBR_ID_S">
-            <column name="id" />
-        </insert>
-    </changeSet>
-    
-    <changeSet id="5" author="kbtaylor" context="kpme-server-bootstrap">
+    <changeSet id="3" author="kbtaylor" context="kpme-server-bootstrap">
         <comment>Adding Rice group bootstrap data</comment>
         <insert tableName="KRIM_GRP_MBR_T">
-            <column name="GRP_MBR_ID" valueComputed="KRIM_GRP_MBR_ID_S.NEXTVAL" />
+            <column name="GRP_MBR_ID" value="KPME0001" />
             <column name="GRP_ID" valueComputed="(SELECT GRP_ID FROM KRIM_GRP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND GRP_NM = 'TK_SYSTEM_ADMIN')" />
             <column name="MBR_TYP_CD" value="P" />
             <column name="MBR_ID" value="admin" />
@@ -64,9 +49,8 @@
         </insert>
         
         <modifySql dbms="mysql">
-            <regExpReplace replace="(\w*).NEXTVAL" with="(SELECT MAX(id) FROM $1)" />
             <replace replace="SYSDATE" with="NOW()" />
-            <replace replace="SYS_GUID" with="UUID" />
+            <replace replace="SYS_GUID()" with="UUID()" />
         </modifySql>
     </changeSet>
     

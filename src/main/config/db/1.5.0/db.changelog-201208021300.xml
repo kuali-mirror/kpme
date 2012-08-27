@@ -5,7 +5,20 @@
  
 	<changeSet id="1" author="yingzhou" context="kpme-client-bootstrap">
 		<comment>KPME-1267</comment>
-		<modifyDataType tableName="lm_prin_accr_ran_t" columnName="last_ran_ts" newDataType="TIMESTAMP"/>
+		<dropNotNullConstraint tableName="LM_PRIN_ACCR_RAN_T" columnName="LAST_RAN_TS" columnDataType="TIME" />
+		<modifyDataType tableName="LM_PRIN_ACCR_RAN_T" columnName="LAST_RAN_TS" newDataType="DATETIME" />
+        <addNotNullConstraint tableName="LM_PRIN_ACCR_RAN_T" columnName="LAST_RAN_TS" columnDataType="DATETIME" />
+    </changeSet>
+    
+    <changeSet id="2-oracle" author="yingzhou" dbms="oracle" context="kpme-client-bootstrap">
+        <comment>KPME-1267</comment>
+        <addDefaultValue tableName="LM_PRIN_ACCR_RAN_T" columnName="LAST_RAN_TS" defaultValueComputed="CURRENT_TIMESTAMP" />
+    </changeSet>
+    <changeSet id="2-mysql" author="jkakkad" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>KPME-1267</comment>
+        <sql>
+            ALTER TABLE LM_PRIN_ACCR_RAN_T CHANGE COLUMN LAST_RAN_TS LAST_RAN_TS DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+        </sql>
     </changeSet>
   
 </databaseChangeLog>

@@ -5,8 +5,8 @@
 
     <changeSet id="1" author="yingzhou" context="kpme-client-bootstrap">
         <comment>kpme-1484: changed logic in leave calendar to display/add leave blocks with date, not document id</comment>
-        <dropNotNullConstraint tableName="lm_leave_block_t" columnName="document_id" columnDataType="VARCHAR(14)" />
-        <dropNotNullConstraint tableName="lm_leave_block_hist_t" columnName="document_id" columnDataType="VARCHAR(14)" />
+        <dropNotNullConstraint tableName="LM_LEAVE_BLOCK_T" columnName="DOCUMENT_ID" columnDataType="VARCHAR(14)" />
+        <dropNotNullConstraint tableName="LM_LEAVE_BLOCK_HIST_T" columnName="DOCUMENT_ID" columnDataType="VARCHAR(14)" />
     </changeSet>
     
 </databaseChangeLog>

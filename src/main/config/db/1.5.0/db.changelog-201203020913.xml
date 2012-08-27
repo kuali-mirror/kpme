@@ -5,14 +5,14 @@
 
     <changeSet id="1" author="tkagata" context="kpme-client-bootstrap">
         <comment>kpme1250, kpme1268</comment>
-        <addColumn tableName="hr_principal_attributes_t">
-            <column name="record_time" type="VARCHAR(1)" defaultValue="Y">
-                <constraints nullable="false"/>
+        <addColumn tableName="HR_PRINCIPAL_ATTRIBUTES_T">
+            <column name="RECORD_TIME" type="VARCHAR(1)" defaultValue="Y">
+                <constraints nullable="false" />
             </column>
         </addColumn>
-        <addColumn tableName="hr_principal_attributes_t">
-            <column name="record_leave" type="VARCHAR(2)" defaultValue="LM">
-                <constraints nullable="false"/>
+        <addColumn tableName="HR_PRINCIPAL_ATTRIBUTES_T">
+            <column name="RECORD_LEAVE" type="VARCHAR(2)" defaultValue="LM">
+                <constraints nullable="false" />
             </column>
         </addColumn>
     </changeSet>

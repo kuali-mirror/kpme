@@ -5,8 +5,8 @@
 
     <changeSet id="1" author="henrydfs" context="kpme-client-bootstrap">
         <comment>KPME-1247</comment>
-        <addColumn tableName="lm_leave_plan_t">
-            <column name="PLANNING_MONTHS" type="VARCHAR(3)"/>
+        <addColumn tableName="LM_LEAVE_PLAN_T">
+            <column name="PLANNING_MONTHS" type="VARCHAR(3)" />
         </addColumn>
     </changeSet>
     

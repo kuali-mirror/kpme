@@ -5,8 +5,8 @@
 
     <changeSet id="1" author="npadharia" context="kpme-client-bootstrap">
         <comment>KPME-1211 : npadharia : added expiration date to roles.</comment>
-        <addColumn tableName="hr_roles_t">
-            <column name="expdt" type="DATE" />
+        <addColumn tableName="HR_ROLES_T">
+            <column name="EXPDT" type="DATE" />
         </addColumn>
     </changeSet>
 

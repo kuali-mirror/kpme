@@ -5,7 +5,7 @@
 
     <changeSet id="1" author="tkagata" context="kpme-client-bootstrap">
         <comment>Default for accrual_interval_earn needs to be "M" (monthly)</comment>
-        <addDefaultValue tableName="lm_accrual_category_t" columnName="ACCRUAL_INTERVAL_EARN" defaultValue="M" />
+        <addDefaultValue tableName="LM_ACCRUAL_CATEGORY_T" columnName="ACCRUAL_INTERVAL_EARN" defaultValue="M" />
     </changeSet>
     
 </databaseChangeLog>

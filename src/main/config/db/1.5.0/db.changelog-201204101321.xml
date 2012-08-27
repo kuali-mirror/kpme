@@ -5,8 +5,10 @@
 
     <changeSet id="1" author="tkagata" context="kpme-client-bootstrap">
         <comment>KPME-1347</comment>
-        <modifyDataType tableName="lm_accrual_category_t" columnName="DESCR" newDataType="VARCHAR(50)"/>
-        <addColumn tableName="lm_accrual_category_t">
+        <dropNotNullConstraint tableName="LM_ACCRUAL_CATEGORY_T" columnName="DESCR" columnDataType="VARCHAR(30)" />
+        <modifyDataType tableName="LM_ACCRUAL_CATEGORY_T" columnName="DESCR" newDataType="VARCHAR(50)" />
+        <addNotNullConstraint tableName="LM_ACCRUAL_CATEGORY_T" columnName="DESCR" columnDataType="VARCHAR(50)" />
+        <addColumn tableName="LM_ACCRUAL_CATEGORY_T">
             <column name="LEAVE_CODE" type="VARCHAR(15)" />
         </addColumn>
     </changeSet>

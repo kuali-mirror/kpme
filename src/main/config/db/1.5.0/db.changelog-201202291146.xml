@@ -5,9 +5,9 @@
 
     <changeSet id="1" author="xichen" context="kpme-client-bootstrap">
         <comment>KPME-1350, add allow_negative_accrual_balance field into Leave Code.</comment>
-        <addColumn tableName="lm_leave_code_t">
+        <addColumn tableName="LM_LEAVE_CODE_T">
             <column name="ALLOW_NEGATIVE_ACC_BALANCE" type="VARCHAR(1)" defaultValue="N">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
         </addColumn>
     </changeSet>

@@ -5,19 +5,19 @@
 
     <changeSet id="1" author="kbtaylor" context="kpme-client-bootstrap">
         <comment>Adding back Quartz kpme-client-bootstrap data for 1.5</comment>
-	    <insert tableName="qrtz_locks">
+	    <insert tableName="QRTZ_LOCKS">
 	        <column name="LOCK_NAME" value="CALENDAR_ACCESS"/>
 	    </insert>
-	    <insert tableName="qrtz_locks">
+	    <insert tableName="QRTZ_LOCKS">
 	        <column name="LOCK_NAME" value="JOB_ACCESS"/>
 	    </insert>
-	    <insert tableName="qrtz_locks">
+	    <insert tableName="QRTZ_LOCKS">
 	        <column name="LOCK_NAME" value="MISFIRE_ACCESS"/>
 	    </insert>
-	    <insert tableName="qrtz_locks">
+	    <insert tableName="QRTZ_LOCKS">
 	        <column name="LOCK_NAME" value="STATE_ACCESS"/>
 	    </insert>
-	    <insert tableName="qrtz_locks">
+	    <insert tableName="QRTZ_LOCKS">
 	        <column name="LOCK_NAME" value="TRIGGER_ACCESS"/>
 	    </insert>
     </changeSet>

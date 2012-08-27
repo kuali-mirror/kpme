@@ -14,264 +14,252 @@
  limitations under the License.
 -->
 <descriptor-repository version="1.0">
-	<!-- Leave Plan -->
-	<class-descriptor class="org.kuali.hr.lm.leaveplan.LeavePlan" table="lm_leave_plan_t">
-		<field-descriptor name="lmLeavePlanId" 	column="LM_LEAVE_PLAN_ID" jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="lm_leave_plan_s"/>
-		<field-descriptor name="leavePlan" 		column="LEAVE_PLAN" jdbc-type="VARCHAR" length="15" nullable="false" />
-		<field-descriptor name="calendarYearStart" column="CAL_YEAR_START" jdbc-type="VARCHAR" length="5" nullable="false" />
-		<field-descriptor name="descr"     		column="DESCR" jdbc-type="VARCHAR" length="30" nullable="false" />
-	    <field-descriptor name="planningMonths" column="PLANNING_MONTHS" jdbc-type="VARCHAR" length="3" nullable="false" />
-		<field-descriptor name="effectiveDate" 	column="EFFDT" jdbc-type="DATE" nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
-		<field-descriptor name="timestamp"     	column="timestamp" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
-		<field-descriptor name="active"        	column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-		<field-descriptor name="objectId"      	column="obj_id" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" 	column="ver_nbr" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
 
-	<!-- Accrual Category -->
-	<class-descriptor class="org.kuali.hr.lm.accrual.AccrualCategory" table="lm_accrual_category_t">
-		<field-descriptor name="lmAccrualCategoryId" column="LM_ACCRUAL_CATEGORY_ID" jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="lm_accrual_category_s"/>
-		<field-descriptor name="accrualCategory" 	column="ACCRUAL_CATEGORY" jdbc-type="VARCHAR" length="15" nullable="false" />
-		<field-descriptor name="leavePlan" 			column="LEAVE_PLAN" jdbc-type="VARCHAR" length="15" nullable="false" />
-		<field-descriptor name="accrualEarnInterval" column="ACCRUAL_INTERVAL_EARN" jdbc-type="VARCHAR" length="1" nullable="false" />
-		<field-descriptor name="unitOfTime" 		column="UNIT_OF_TIME" jdbc-type="VARCHAR" length="5" nullable="false" />
-		<field-descriptor name="descr" 				column="DESCR" jdbc-type="VARCHAR" length="50" />
-		<field-descriptor name="effectiveDate" 		column="EFFDT" jdbc-type="DATE" nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
-		<field-descriptor name="timestamp" 			column="timestamp" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
-		<field-descriptor name="active" 			column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-		<field-descriptor name="proration" 			column="PRORATION"	    jdbc-type="VARCHAR" length="1" nullable="false" />
-		<field-descriptor name="donation" 			column="DONATION"	    jdbc-type="VARCHAR" length="1" nullable="false" />
-		<field-descriptor name="showOnGrid" 		column="SHOW_ON_GRID"	    jdbc-type="VARCHAR" length="1" nullable="false" />
-		<field-descriptor name="minPercentWorked" 	column="MIN_PERCENT_WORKED"	    jdbc-type="DECIMAL" nullable="false" />
-		<!-- KPME-1347 Kagata -->
-		<field-descriptor name="earnCode" 	column="EARN_CODE" jdbc-type="VARCHAR" length="15" nullable="false" />	
-		<field-descriptor name="hasRules" 			column="HAS_RULES"	    jdbc-type="VARCHAR" length="1" nullable="false" />	
-		<field-descriptor name="objectId" 			column="obj_id" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" 		column="ver_nbr" jdbc-type="BIGINT" locking="true" />
-		<collection-descriptor
-			name="accrualCategoryRules"
-			element-class-ref="org.kuali.hr.lm.accrual.AccrualCategoryRule"
-			auto-retrieve="true"
-			auto-update="object"
-			auto-delete="object"
-			>
-			<inverse-foreignkey field-ref="lmAccrualCategoryId"/>
-		</collection-descriptor>
-	</class-descriptor>
+    <!-- Leave Plan -->
+    <class-descriptor class="org.kuali.hr.lm.leaveplan.LeavePlan" table="LM_LEAVE_PLAN_T">
+        <field-descriptor name="lmLeavePlanId"      column="LM_LEAVE_PLAN_ID"   jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_PLAN_S" />
+        <field-descriptor name="leavePlan"          column="LEAVE_PLAN"         jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="calendarYearStart"  column="CAL_YEAR_START"     jdbc-type="VARCHAR"     length="5"  nullable="false" />
+        <field-descriptor name="descr"              column="DESCR"              jdbc-type="VARCHAR"     length="30" nullable="false" />
+        <field-descriptor name="planningMonths"     column="PLANNING_MONTHS"    jdbc-type="VARCHAR"     length="3" nullable="false" />
+        <field-descriptor name="effectiveDate"      column="EFFDT"              jdbc-type="DATE"        nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="timestamp"          column="TIMESTAMP"          jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
+        <field-descriptor name="active"             column="ACTIVE"             jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="objectId"           column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"      column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
+    </class-descriptor>
 
-	<!-- Accrual Category Rules -->
-	<class-descriptor class="org.kuali.hr.lm.accrual.AccrualCategoryRule" table="lm_accrual_category_rules_t">
-		<field-descriptor name="lmAccrualCategoryRuleId"	column="LM_ACCRUAL_CATEGORY_RULES_ID" jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="lm_accrual_category_rules_s"/>
-		<field-descriptor name="serviceUnitOfTime" 			column="SERVICE_UNIT_OF_TIME" jdbc-type="VARCHAR" length="15" nullable="false" />
-		<field-descriptor name="start" 						column="START_ACC" jdbc-type="BIGINT" length="5" nullable="false" />
-		<field-descriptor name="end" 						column="END_ACC" jdbc-type="BIGINT" length="5" nullable="false" />
-		<field-descriptor name="accrualRate" 				column="ACCRUAL_RATE" jdbc-type="DECIMAL" length="12" nullable="false" />
-		<field-descriptor name="maxBalFlag"        			column="MAX_BAL_FLAG"	    jdbc-type="VARCHAR" length="1" nullable="false" />
-		<field-descriptor name="maxBalance" 				column="MAX_BAL" jdbc-type="DECIMAL" length="12" nullable="false" />
-		<field-descriptor name="maxBalanceActionFrequency" 	column="MAX_BAL_ACTION_FREQUENCY" jdbc-type="VARCHAR" length="5" nullable="false" />
-		<field-descriptor name="actionAtMaxBalance" 		column="ACTION_AT_MAX_BAL" jdbc-type="VARCHAR" length="5" nullable="false" />
-		<field-descriptor name="maxBalanceTransferToAccrualCategory" column="MAX_BAL_TRANS_ACC_CAT" jdbc-type="VARCHAR" length="15" nullable="false" />
-		<field-descriptor name="maxBalanceTransferConversionFactor" column="MAX_BAL_TRANS_CONV_FACTOR" jdbc-type="DECIMAL" length="12" nullable="false" />
-		<field-descriptor name="maxTransferAmount" 			column="MAX_TRANS_AMOUNT" jdbc-type="BIGINT" length="20" nullable="false" />
-		<field-descriptor name="maxPayoutAmount" 			column="MAX_PAYOUT_AMOUNT" jdbc-type="BIGINT" length="20" nullable="false" />
-		<field-descriptor name="maxPayoutEarnCode" 		column="MAX_PAYOUT_EARN_CODE" jdbc-type="VARCHAR" length="15" nullable="false" />
-		<field-descriptor name="maxUsage" 					column="MAX_USAGE" jdbc-type="BIGINT" length="20" nullable="false" />
-		<field-descriptor name="maxCarryOver" 				column="MAX_CARRY_OVER" jdbc-type="BIGINT" length="20" nullable="false" />
-		<field-descriptor name="lmAccrualCategoryId"		column="LM_ACCRUAL_CATEGORY_ID" jdbc-type="VARCHAR" length="60" nullable="false" />
-		<field-descriptor name="timestamp" 					column="timestamp" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
-		<field-descriptor name="active"          			column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-		<field-descriptor name="objectId"           		column="obj_id" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber"      		column="ver_nbr" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-
-	<!-- Leave Code -->
-	<class-descriptor class="org.kuali.hr.lm.leavecode.LeaveCode" table="lm_leave_code_t">
-		<field-descriptor name="lmLeaveCodeId"		column="LM_LEAVE_CODE_ID" jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="lm_leave_code_s"/>
-		<field-descriptor name="leavePlan" 			column="LEAVE_PLAN" jdbc-type="VARCHAR" length="15" />
-		<field-descriptor name="eligibleForAccrual" column="ELIGIBLE_FOR_ACC" jdbc-type="VARCHAR" length="5" nullable="false" />
-		<field-descriptor name="accrualCategory" 	column="ACCRUAL_CAT" jdbc-type="VARCHAR" length="15" />
-		<field-descriptor name="earnCode" 			column="EARN_CODE" jdbc-type="VARCHAR" length="15" />
-		<field-descriptor name="leaveCode" 			column="LEAVE_CODE" jdbc-type="VARCHAR" length="15" nullable="false" />
-		<field-descriptor name="displayName" 		column="DISP_NAME" jdbc-type="VARCHAR" length="20" />
-		<field-descriptor name="unitOfTime" 		column="UNIT_OF_TIME" jdbc-type="VARCHAR" length="5" nullable="false" />
-		<field-descriptor name="fractionalTimeAllowed" column="FRACT_TIME_ALLOWD" jdbc-type="VARCHAR" length="5" nullable="false" />
-		<field-descriptor name="roundingOption" 	column="ROUND_OPT" jdbc-type="VARCHAR" length="5" nullable="false" />
-		<field-descriptor name="allowScheduledLeave" column="ALLOW_SCHD_LEAVE" jdbc-type="VARCHAR" length="5" nullable="false" />
-		<field-descriptor name="fmla" 				column="FMLA" jdbc-type="VARCHAR" length="5" nullable="false" />
-		<field-descriptor name="workmansComp" 		column="WORKMANS_COMP" jdbc-type="VARCHAR" length="5" nullable="false" />
-		<field-descriptor name="defaultAmountofTime" column="DEF_TIME" jdbc-type="BIGINT" length="2" />
-		<field-descriptor name="employee" 			column="EMPLOYEE" jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-		<field-descriptor name="approver"			column="APPROVER" jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-		<field-descriptor name="departmentAdmin"	column="DEPT_ADMIN" jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-		<field-descriptor name="effectiveDate" 		column="EFFDT" jdbc-type="DATE" nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
-		<field-descriptor name="allowNegativeAccrualBalance" column="ALLOW_NEGATIVE_ACC_BALANCE" jdbc-type="VARCHAR" length="1" nullable="false" />
-		<field-descriptor name="timestamp" 			column="timestamp" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
-		<field-descriptor name="active"          	column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-		<field-descriptor name="affectPay" column="AFFECT_PAY" jdbc-type="VARCHAR" length="5" nullable="false" />
-		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-
-	<!-- System Scheduled Time Off -->
-	<class-descriptor class="org.kuali.hr.lm.timeoff.SystemScheduledTimeOff" table="lm_sys_schd_timeoff_t">
-		<field-descriptor name="lmSystemScheduledTimeOffId"		column="LM_SYS_SCHD_TIMEOFF_ID" jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="lm_sys_schd_timeoff_s"/>
-		<field-descriptor name="leavePlan" 			column="LEAVE_PLAN" jdbc-type="VARCHAR" length="15" nullable="false" />
-		<field-descriptor name="accrualCategory" 	column="ACCRUAL_CATEGORY" jdbc-type="VARCHAR" length="15" nullable="false"/>
-		<field-descriptor name="earnCode" 			column="EARN_CODE" jdbc-type="VARCHAR" length="15" nullable="false" />
-		<field-descriptor name="accruedDate" 		column="ACCR_DT" jdbc-type="DATE" nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
-		<field-descriptor name="scheduledTimeOffDate" column="SCH_TIME_OFF_DT" jdbc-type="DATE" nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
-		<field-descriptor name="location" 			column="LOCATION" jdbc-type="VARCHAR" length="15" nullable="false" />
-		<field-descriptor name="descr" 				column="DESCR" jdbc-type="VARCHAR" length="50" nullable="false" />
-		<field-descriptor name="amountofTime" column="AMOUNT_OF_TIME" jdbc-type="BIGINT" length="20" nullable="false" />
-		<field-descriptor name="unusedTime" 				column="UNUSED_TIME" jdbc-type="VARCHAR" length="5" nullable="false" />
-		<field-descriptor name="transferConversionFactor" 		column="TRANS_CONV_FACTOR" jdbc-type="DECIMAL" length="12" nullable="false" />
-		<field-descriptor name="transfertoEarnCode" column="TRANSFER_TO_EARN_CODE" jdbc-type="VARCHAR" length="15" nullable="false" />
-		<field-descriptor name="expirationDate" 			column="EXP_DT" jdbc-type="DATE" nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
-		<field-descriptor name="premiumHoliday"			column="PREMIUM_HOLIDAY" jdbc-type="VARCHAR" length="5" nullable="false" />
-		<field-descriptor name="effectiveDate" 		column="EFFDT" jdbc-type="DATE" nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
-		<field-descriptor name="timestamp" 			column="timestamp" jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
-		<field-descriptor name="active"          	column="active"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-		<field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-
-	<!--  Leave Block -->
-    <class-descriptor class="org.kuali.hr.lm.leaveblock.LeaveBlock" table="lm_leave_block_t">
-		<field-descriptor name="lmLeaveBlockId"		    column="LM_LEAVE_BLOCK_ID" jdbc-type="VARCHAR"  length="60"  primarykey="true" autoincrement="true" sequence-name="lm_leave_block_s"/>
-		<field-descriptor name="leaveDate" 			    column="LEAVE_DATE" jdbc-type="DATE" nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
-		<field-descriptor name="description" 			column="description" jdbc-type="VARCHAR" length="255" nullable="true" />
-        <field-descriptor name="principalId"            column="PRINCIPAL_ID"		jdbc-type="VARCHAR" length="40" nullable="false" />
-        <field-descriptor name="earnCode" 			    column="EARN_CODE" jdbc-type="VARCHAR" length="15" nullable="false" />
-        <field-descriptor name="earnCodeId"            column="hr_earn_code_id" jdbc-type="VARCHAR" length="60" nullable="false" />
-        <field-descriptor name="scheduleTimeOffId"      column="lm_sys_schd_timeoff_id" jdbc-type="VARCHAR" length="60" nullable="true" />
-        <field-descriptor name="accrualCategoryId"      column="lm_accrual_category_id" jdbc-type="VARCHAR" length="60" nullable="true" />
-        <field-descriptor name="leaveAmount"            column="leave_amount" jdbc-type="NUMERIC" nullable="false"/>
-        <field-descriptor name="applyToYtdUsed"         column="apply_to_ytd_used" jdbc-type="VARCHAR"/>
-        <field-descriptor name="documentId"             column="document_id" jdbc-type="VARCHAR" length="40" nullable="true" />
-        <field-descriptor name="principalIdModified"    column="PRINCIPAL_ID_MODIFIED"		jdbc-type="VARCHAR" length="40" nullable="true" />
-        <field-descriptor name="timestamp"              column="TIMESTAMP " jdbc-type="TIMESTAMP" nullable="true" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
-        <field-descriptor name="accrualGenerated"       column="accrual_generated"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-        <field-descriptor name="blockId"                column="block_id" jdbc-type="BIGINT" nullable="true" />
-        <field-descriptor name="tkAssignmentId" column="TK_ASSIGNMENT_ID" jdbc-type="VARCHAR" length="60" nullable="true"/>
-        <field-descriptor name="requestStatus"                 column="REQUEST_STATUS"	    jdbc-type="VARCHAR" length="1" nullable="false"	 />
+    <!-- Accrual Category -->
+    <class-descriptor class="org.kuali.hr.lm.accrual.AccrualCategory" table="LM_ACCRUAL_CATEGORY_T">
+        <field-descriptor name="lmAccrualCategoryId"  column="LM_ACCRUAL_CATEGORY_ID" jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_ACCRUAL_CATEGORY_S" />
+        <field-descriptor name="accrualCategory"      column="ACCRUAL_CATEGORY"       jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="leavePlan"            column="LEAVE_PLAN"             jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="accrualEarnInterval"  column="ACCRUAL_INTERVAL_EARN"  jdbc-type="VARCHAR"     length="1" nullable="false" />
+        <field-descriptor name="unitOfTime"           column="UNIT_OF_TIME"           jdbc-type="VARCHAR"     length="5" nullable="false" />
+        <field-descriptor name="descr"                column="DESCR"                  jdbc-type="VARCHAR"     length="50" />
+        <field-descriptor name="effectiveDate"        column="EFFDT"                  jdbc-type="DATE"        nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="timestamp"            column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
+        <field-descriptor name="active"               column="ACTIVE"                 jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="proration"            column="PRORATION"              jdbc-type="VARCHAR"     length="1" nullable="false" />
+        <field-descriptor name="donation"             column="DONATION"               jdbc-type="VARCHAR"     length="1" nullable="false" />
+        <field-descriptor name="showOnGrid"           column="SHOW_ON_GRID"           jdbc-type="VARCHAR"     length="1" nullable="false" />
+        <field-descriptor name="minPercentWorked"     column="MIN_PERCENT_WORKED"     jdbc-type="DECIMAL"     nullable="false" />
+        <field-descriptor name="earnCode"             column="EARN_CODE"              jdbc-type="VARCHAR"     length="15" nullable="false" />    
+        <field-descriptor name="hasRules"             column="HAS_RULES"              jdbc-type="VARCHAR"     length="1" nullable="false" />    
+        <field-descriptor name="objectId"             column="OBJ_ID"                 jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"        column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
         
-        <field-descriptor name="jobNumber" 				column="job_number" 		jdbc-type="BIGINT" nullable="false" primarykey="false" />
-        <field-descriptor name="workArea"				column="work_area"	 		jdbc-type="BIGINT"  nullable="false" primarykey="false" />
-		<field-descriptor name="task" 					column="task"	 			jdbc-type="BIGINT"  nullable="false" primarykey="false" />
-        <field-descriptor name="leaveBlockType"      	column="leave_block_type" 	jdbc-type="VARCHAR" length="5" 	nullable="false" />
+        <collection-descriptor name="accrualCategoryRules" element-class-ref="org.kuali.hr.lm.accrual.AccrualCategoryRule" auto-retrieve="true" auto-update="object" auto-delete="object">
+            <inverse-foreignkey field-ref="lmAccrualCategoryId" />
+        </collection-descriptor>
+    </class-descriptor>
+
+    <!-- Accrual Category Rules -->
+    <class-descriptor class="org.kuali.hr.lm.accrual.AccrualCategoryRule" table="LM_ACCRUAL_CATEGORY_RULES_T">
+        <field-descriptor name="lmAccrualCategoryRuleId"                column="LM_ACCRUAL_CATEGORY_RULES_ID"   jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_ACCRUAL_CATEGORY_RULES_S" />
+        <field-descriptor name="serviceUnitOfTime"                      column="SERVICE_UNIT_OF_TIME"           jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="start"                                  column="START_ACC"                      jdbc-type="BIGINT"      length="5" nullable="false" />
+        <field-descriptor name="end"                                    column="END_ACC"                        jdbc-type="BIGINT"      length="5" nullable="false" />
+        <field-descriptor name="accrualRate"                            column="ACCRUAL_RATE"                   jdbc-type="DECIMAL"     length="12" nullable="false" />
+        <field-descriptor name="maxBalFlag"                             column="MAX_BAL_FLAG"                   jdbc-type="VARCHAR"     length="1" nullable="false" />
+        <field-descriptor name="maxBalance"                             column="MAX_BAL"                        jdbc-type="DECIMAL"     length="12" nullable="false" />
+        <field-descriptor name="maxBalanceActionFrequency"              column="MAX_BAL_ACTION_FREQUENCY"       jdbc-type="VARCHAR"     length="5" nullable="false" />
+        <field-descriptor name="actionAtMaxBalance"                     column="ACTION_AT_MAX_BAL"              jdbc-type="VARCHAR"     length="5" nullable="false" />
+        <field-descriptor name="maxBalanceTransferToAccrualCategory"    column="MAX_BAL_TRANS_ACC_CAT"          jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="maxBalanceTransferConversionFactor"     column="MAX_BAL_TRANS_CONV_FACTOR"      jdbc-type="DECIMAL"     length="12" nullable="false" />
+        <field-descriptor name="maxTransferAmount"                      column="MAX_TRANS_AMOUNT"               jdbc-type="BIGINT"      length="20" nullable="false" />
+        <field-descriptor name="maxPayoutAmount"                        column="MAX_PAYOUT_AMOUNT"              jdbc-type="BIGINT"      length="20" nullable="false" />
+        <field-descriptor name="maxPayoutEarnCode"                      column="MAX_PAYOUT_EARN_CODE"           jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="maxUsage"                               column="MAX_USAGE"                      jdbc-type="BIGINT"      length="20" nullable="false" />
+        <field-descriptor name="maxCarryOver"                           column="MAX_CARRY_OVER"                 jdbc-type="BIGINT"      length="20" nullable="false" />
+        <field-descriptor name="lmAccrualCategoryId"                    column="LM_ACCRUAL_CATEGORY_ID"         jdbc-type="VARCHAR"     length="60" nullable="false" />
+        <field-descriptor name="timestamp"                              column="TIMESTAMP"                      jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
+        <field-descriptor name="active"                                 column="ACTIVE"                         jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="objectId"                               column="OBJ_ID"                         jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"                          column="VER_NBR"                        jdbc-type="BIGINT"      locking="true" />
+    </class-descriptor>
+
+    <!-- Leave Code -->
+    <class-descriptor class="org.kuali.hr.lm.leavecode.LeaveCode" table="LM_LEAVE_CODE_T">
+        <field-descriptor name="lmLeaveCodeId"                column="LM_LEAVE_CODE_ID"           jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_CODE_S" />
+        <field-descriptor name="leavePlan"                    column="LEAVE_PLAN"                 jdbc-type="VARCHAR"     length="15" />
+        <field-descriptor name="eligibleForAccrual"           column="ELIGIBLE_FOR_ACC"           jdbc-type="VARCHAR"     length="5" nullable="false" />
+        <field-descriptor name="accrualCategory"              column="ACCRUAL_CAT"                jdbc-type="VARCHAR"     length="15" />
+        <field-descriptor name="earnCode"                     column="EARN_CODE"                  jdbc-type="VARCHAR"     length="15" />
+        <field-descriptor name="leaveCode"                    column="LEAVE_CODE"                 jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="displayName"                  column="DISP_NAME"                  jdbc-type="VARCHAR"     length="20" />
+        <field-descriptor name="unitOfTime"                   column="UNIT_OF_TIME"               jdbc-type="VARCHAR"     length="5" nullable="false" />
+        <field-descriptor name="fractionalTimeAllowed"        column="FRACT_TIME_ALLOWD"          jdbc-type="VARCHAR"     length="5" nullable="false" />
+        <field-descriptor name="roundingOption"               column="ROUND_OPT"                  jdbc-type="VARCHAR"     length="5" nullable="false" />
+        <field-descriptor name="allowScheduledLeave"          column="ALLOW_SCHD_LEAVE"           jdbc-type="VARCHAR"     length="5" nullable="false" />
+        <field-descriptor name="fmla"                         column="FMLA"                       jdbc-type="VARCHAR"     length="5" nullable="false" />
+        <field-descriptor name="workmansComp"                 column="WORKMANS_COMP"              jdbc-type="VARCHAR"     length="5" nullable="false" />
+        <field-descriptor name="defaultAmountofTime"          column="DEF_TIME"                   jdbc-type="BIGINT"      length="2" />
+        <field-descriptor name="employee"                     column="EMPLOYEE"                   jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="approver"                     column="APPROVER"                   jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="departmentAdmin"              column="DEPT_ADMIN"                 jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="effectiveDate"                column="EFFDT"                      jdbc-type="DATE"        nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="allowNegativeAccrualBalance"  column="ALLOW_NEGATIVE_ACC_BALANCE" jdbc-type="VARCHAR"     length="1" nullable="false" />
+        <field-descriptor name="timestamp"                    column="TIMESTAMP"                  jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
+        <field-descriptor name="active"                       column="ACTIVE"                     jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="affectPay"                    column="AFFECT_PAY"                 jdbc-type="VARCHAR"     length="5" nullable="false" />
+        <field-descriptor name="objectId"                     column="OBJ_ID"                     jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"                column="VER_NBR"                    jdbc-type="BIGINT"      locking="true" />
+    </class-descriptor>
+
+    <!-- System Scheduled Time Off -->
+    <class-descriptor class="org.kuali.hr.lm.timeoff.SystemScheduledTimeOff" table="LM_SYS_SCHD_TIMEOFF_T">
+        <field-descriptor name="lmSystemScheduledTimeOffId"   column="LM_SYS_SCHD_TIMEOFF_ID" jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_SYS_SCHD_TIMEOFF_S" />
+        <field-descriptor name="leavePlan"                    column="LEAVE_PLAN"             jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="accrualCategory"              column="ACCRUAL_CATEGORY"       jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="earnCode"                     column="EARN_CODE"              jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="accruedDate"                  column="ACCR_DT"                jdbc-type="DATE"        nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="scheduledTimeOffDate"         column="SCH_TIME_OFF_DT"        jdbc-type="DATE"        nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="location"                     column="LOCATION"               jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="descr"                        column="DESCR"                  jdbc-type="VARCHAR"     length="50" nullable="false" />
+        <field-descriptor name="amountofTime"                 column="AMOUNT_OF_TIME"         jdbc-type="BIGINT"      length="20" nullable="false" />
+        <field-descriptor name="unusedTime"                   column="UNUSED_TIME"            jdbc-type="VARCHAR"     length="5" nullable="false" />
+        <field-descriptor name="transferConversionFactor"     column="TRANS_CONV_FACTOR"      jdbc-type="DECIMAL"     length="12" nullable="false" />
+        <field-descriptor name="transfertoEarnCode"           column="TRANSFER_TO_EARN_CODE"  jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="expirationDate"               column="EXP_DT"                 jdbc-type="DATE"        nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="premiumHoliday"               column="PREMIUM_HOLIDAY"        jdbc-type="VARCHAR"     length="5" nullable="false" />
+        <field-descriptor name="effectiveDate"                column="EFFDT"                  jdbc-type="DATE"        nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="timestamp"                    column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
+        <field-descriptor name="active"                       column="ACTIVE"                 jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="objectId"                     column="OBJ_ID"                 jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"                column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
+    </class-descriptor>
+
+    <!--  Leave Block -->
+    <class-descriptor class="org.kuali.hr.lm.leaveblock.LeaveBlock" table="LM_LEAVE_BLOCK_T">
+        <field-descriptor name="lmLeaveBlockId"         column="LM_LEAVE_BLOCK_ID"      jdbc-type="VARCHAR"     length="60"  primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_BLOCK_S" />
+        <field-descriptor name="leaveDate"              column="LEAVE_DATE"             jdbc-type="DATE"        nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="description"            column="DESCRIPTION"            jdbc-type="VARCHAR"     length="255" nullable="true" />
+        <field-descriptor name="principalId"            column="PRINCIPAL_ID"           jdbc-type="VARCHAR"     length="40" nullable="false" />
+        <field-descriptor name="earnCode"               column="EARN_CODE"              jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="earnCodeId"             column="HR_EARN_CODE_ID"        jdbc-type="VARCHAR"     length="60" nullable="false" />
+        <field-descriptor name="scheduleTimeOffId"      column="LM_SYS_SCHD_TIMEOFF_ID" jdbc-type="VARCHAR"     length="60" nullable="true" />
+        <field-descriptor name="accrualCategoryId"      column="LM_ACCRUAL_CATEGORY_ID" jdbc-type="VARCHAR"     length="60" nullable="true" />
+        <field-descriptor name="leaveAmount"            column="LEAVE_AMOUNT"           jdbc-type="NUMERIC"     nullable="false" />
+        <field-descriptor name="applyToYtdUsed"         column="APPLY_TO_YTD_USED"      jdbc-type="VARCHAR" />
+        <field-descriptor name="documentId"             column="DOCUMENT_ID"            jdbc-type="VARCHAR"     length="40" nullable="true" />
+        <field-descriptor name="principalIdModified"    column="PRINCIPAL_ID_MODIFIED"  jdbc-type="VARCHAR"     length="40" nullable="true" />
+        <field-descriptor name="timestamp"              column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="true" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
+        <field-descriptor name="accrualGenerated"       column="ACCRUAL_GENERATED"      jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="blockId"                column="BLOCK_ID"               jdbc-type="BIGINT"      nullable="true" />
+        <field-descriptor name="tkAssignmentId"         column="TK_ASSIGNMENT_ID"       jdbc-type="VARCHAR"     length="60" nullable="true" />
+        <field-descriptor name="requestStatus"          column="REQUEST_STATUS"         jdbc-type="VARCHAR"     length="1" nullable="false"     />
+        <field-descriptor name="jobNumber"              column="JOB_NUMBER"             jdbc-type="BIGINT"      nullable="false" primarykey="false" />
+        <field-descriptor name="workArea"               column="WORK_AREA"              jdbc-type="BIGINT"      nullable="false" primarykey="false" />
+        <field-descriptor name="task"                   column="TASK"                   jdbc-type="BIGINT"      nullable="false" primarykey="false" />
+        <field-descriptor name="leaveBlockType"         column="LEAVE_BLOCK_TYPE"       jdbc-type="VARCHAR"     length="5" nullable="false" />
+        <field-descriptor name="objectId"               column="OBJ_ID"                 jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"          column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
         
-        <field-descriptor name="objectId"      	column="obj_id" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" 	column="ver_nbr" jdbc-type="BIGINT" locking="true" />
-        <collection-descriptor
-			name="leaveBlockHistories"
-			element-class-ref="org.kuali.hr.lm.leaveblock.LeaveBlockHistory"
-			auto-retrieve="true"
-			auto-update="false"
-			>
-			<inverse-foreignkey field-ref="lmLeaveBlockId"/>
-		</collection-descriptor>
-	</class-descriptor>
-	
-	<!-- Leave Block History -->
-	 <class-descriptor class="org.kuali.hr.lm.leaveblock.LeaveBlockHistory" table="lm_leave_block_hist_t">
-	 	<field-descriptor name="lmLeaveBlockHistoryId"	column="LM_LEAVE_BLOCK_HIST_ID" jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="lm_leave_block_s"/>
-		<field-descriptor name="lmLeaveBlockId"		    column="LM_LEAVE_BLOCK_ID" jdbc-type="VARCHAR" length="60" nullable="false"/>
-		<field-descriptor name="leaveDate" 			    column="LEAVE_DATE" jdbc-type="DATE" nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
-		<field-descriptor name="description" 			column="description" jdbc-type="VARCHAR" length="255" nullable="true" />
-        <field-descriptor name="principalId"            column="PRINCIPAL_ID"		jdbc-type="VARCHAR" length="40" nullable="false" />
-        <field-descriptor name="earnCode" 			    column="EARN_CODE" jdbc-type="VARCHAR" length="15" nullable="false" />
-        <field-descriptor name="earnCodeId"            column="hr_earn_code_id" jdbc-type="VARCHAR" length="60" nullable="false" />
-        <field-descriptor name="scheduleTimeOffId"      column="lm_sys_schd_timeoff_id" jdbc-type="VARCHAR" length="60" nullable="true" />
-        <field-descriptor name="accrualCategoryId"      column="lm_accrual_category_id" jdbc-type="VARCHAR" length="60" nullable="true" />
-        <field-descriptor name="leaveAmount"            column="leave_amount" jdbc-type="NUMERIC" nullable="false"/>
-        <field-descriptor name="applyToYtdUsed"         column="apply_to_ytd_used" jdbc-type="VARCHAR"/>
-        <field-descriptor name="documentId"             column="document_id" jdbc-type="VARCHAR" length="40" nullable="true" />
-        <field-descriptor name="principalIdModified"    column="PRINCIPAL_ID_MODIFIED"		jdbc-type="VARCHAR" length="40" nullable="true" />
-        <field-descriptor name="timestamp"              column="TIMESTAMP " jdbc-type="TIMESTAMP" nullable="true" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
-        <field-descriptor name="accrualGenerated"       column="accrual_generated"	    jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-        <field-descriptor name="blockId"                column="block_id" jdbc-type="BIGINT" nullable="true" />
-        <field-descriptor name="tkAssignmentId"         column="TK_ASSIGNMENT_ID" jdbc-type="VARCHAR" length="60" />
-        <field-descriptor name="requestStatus"          column="REQUEST_STATUS"	    jdbc-type="VARCHAR" length="1" nullable="false"	 />
-        <field-descriptor name="action"                 column="action"	    jdbc-type="VARCHAR" length="1"  />
-        <field-descriptor name="principalIdDeleted"     column="PRINCIPAL_ID_DELETED"	    jdbc-type="VARCHAR" length="40" nullable="true" />
-        <field-descriptor name="timestampDeleted"       column="TIMESTAMP_DELETED"	     jdbc-type="TIMESTAMP" nullable="true" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
-        <field-descriptor name="leaveBlockType"      	column="leave_block_type" 	jdbc-type="VARCHAR" length="5" 	nullable="false" />
-        <field-descriptor name="objectId"      	column="obj_id" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" 	column="ver_nbr" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.hr.lm.leaveblock.LeaveStatusHistory" table="lm_leave_status_hist_t">
-		<field-descriptor name="lmLeaveStatusHistoryId" column="lm_leave_status_hist_id" jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="lm_leave_status_hist_s"></field-descriptor>
-		<field-descriptor name="lmLeaveBlockId" column="lm_leave_block_id" jdbc-type="VARCHAR" length="60" nullable="false"></field-descriptor>
-		<field-descriptor name="requestStatus" column="request_status" jdbc-type="VARCHAR" length="1"></field-descriptor>
-		<field-descriptor name="timestamp" column="timestamp" jdbc-type="TIMESTAMP" conversion="org.kuali.hr.time.util.TkTimestampConverter"></field-descriptor>
-		<field-descriptor name="principalIdModified" column="principal_id_modified"  jdbc-type="varchar" length="40"></field-descriptor>
-		<field-descriptor name="reason" column="reason" jdbc-type="varchar" length="255"></field-descriptor>
-		<field-descriptor name="objectId"      	column="obj_id" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" 	column="ver_nbr" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
+        <collection-descriptor name="leaveBlockHistories" element-class-ref="org.kuali.hr.lm.leaveblock.LeaveBlockHistory" auto-retrieve="true" auto-update="false">
+            <inverse-foreignkey field-ref="lmLeaveBlockId" />
+        </collection-descriptor>
+    </class-descriptor>
+    
+    <!-- Leave Block History -->
+    <class-descriptor class="org.kuali.hr.lm.leaveblock.LeaveBlockHistory" table="LM_LEAVE_BLOCK_HIST_T">
+        <field-descriptor name="lmLeaveBlockHistoryId"  column="LM_LEAVE_BLOCK_HIST_ID" jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_BLOCK_S" />
+        <field-descriptor name="lmLeaveBlockId"         column="LM_LEAVE_BLOCK_ID"      jdbc-type="VARCHAR"     length="60" nullable="false" />
+        <field-descriptor name="leaveDate"              column="LEAVE_DATE"             jdbc-type="DATE"        nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="description"            column="DESCRIPTION"            jdbc-type="VARCHAR"     length="255" nullable="true" />
+        <field-descriptor name="principalId"            column="PRINCIPAL_ID"           jdbc-type="VARCHAR"     length="40" nullable="false" />
+        <field-descriptor name="earnCode"               column="EARN_CODE"              jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="earnCodeId"             column="HR_EARN_CODE_ID"        jdbc-type="VARCHAR"     length="60" nullable="false" />
+        <field-descriptor name="scheduleTimeOffId"      column="LM_SYS_SCHD_TIMEOFF_ID" jdbc-type="VARCHAR"     length="60" nullable="true" />
+        <field-descriptor name="accrualCategoryId"      column="LM_ACCRUAL_CATEGORY_ID" jdbc-type="VARCHAR"     length="60" nullable="true" />
+        <field-descriptor name="leaveAmount"            column="LEAVE_AMOUNT"           jdbc-type="NUMERIC"     nullable="false" />
+        <field-descriptor name="applyToYtdUsed"         column="APPLY_TO_YTD_USED"      jdbc-type="VARCHAR" />
+        <field-descriptor name="documentId"             column="DOCUMENT_ID"            jdbc-type="VARCHAR"     length="40" nullable="true" />
+        <field-descriptor name="principalIdModified"    column="PRINCIPAL_ID_MODIFIED"  jdbc-type="VARCHAR"     length="40" nullable="true" />
+        <field-descriptor name="timestamp"              column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="true" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
+        <field-descriptor name="accrualGenerated"       column="ACCRUAL_GENERATED"      jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="blockId"                column="BLOCK_ID"               jdbc-type="BIGINT"      nullable="true" />
+        <field-descriptor name="tkAssignmentId"         column="TK_ASSIGNMENT_ID"       jdbc-type="VARCHAR"     length="60" />
+        <field-descriptor name="requestStatus"          column="REQUEST_STATUS"         jdbc-type="VARCHAR"     length="1" nullable="false"     />
+        <field-descriptor name="action"                 column="ACTION"                 jdbc-type="VARCHAR"     length="1"  />
+        <field-descriptor name="principalIdDeleted"     column="PRINCIPAL_ID_DELETED"   jdbc-type="VARCHAR"     length="40" nullable="true" />
+        <field-descriptor name="timestampDeleted"       column="TIMESTAMP_DELETED"      jdbc-type="TIMESTAMP"   nullable="true" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
+        <field-descriptor name="leaveBlockType"         column="LEAVE_BLOCK_TYPE"       jdbc-type="VARCHAR"     length="5" nullable="false" />
+        <field-descriptor name="objectId"               column="OBJ_ID"                 jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"          column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.hr.lm.leaveblock.LeaveStatusHistory" table="LM_LEAVE_STATUS_HIST_T">
+        <field-descriptor name="lmLeaveStatusHistoryId" column="LM_LEAVE_STATUS_HIST_ID"    jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_STATUS_HIST_S" />
+        <field-descriptor name="lmLeaveBlockId"         column="LM_LEAVE_BLOCK_ID"          jdbc-type="VARCHAR"     length="60" nullable="false" />
+        <field-descriptor name="requestStatus"          column="REQUEST_STATUS"             jdbc-type="VARCHAR"     length="1" />
+        <field-descriptor name="timestamp"              column="TIMESTAMP"                  jdbc-type="TIMESTAMP"   conversion="org.kuali.hr.time.util.TkTimestampConverter" />
+        <field-descriptor name="principalIdModified"    column="PRINCIPAL_ID_MODIFIED"      jdbc-type="varchar"     length="40" />
+        <field-descriptor name="reason"                 column="REASON"                     jdbc-type="varchar"     length="255" />
+        <field-descriptor name="objectId"               column="OBJ_ID"                     jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"          column="VER_NBR"                    jdbc-type="BIGINT"      locking="true" />
+    </class-descriptor>
 
-     <class-descriptor class="org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader" table="lm_leave_document_header_t">
-		<field-descriptor name="documentId"             column="document_id" jdbc-type="VARCHAR" length="40" primarykey="true"/>
-        <field-descriptor name="principalId"            column="PRINCIPAL_ID"		jdbc-type="VARCHAR" length="40" nullable="false" />
-        <field-descriptor name="beginDate"              column="begin_date"	        jdbc-type="TIMESTAMP"    primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
-        <field-descriptor name="endDate"                column="end_date"	        jdbc-type="TIMESTAMP"    primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
-        <field-descriptor name="documentStatus"         column="document_status"    jdbc-type="VARCHAR" length="1" />
-        <field-descriptor name="objectId"           column="obj_id" jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber"      column="ver_nbr" jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
+    <class-descriptor class="org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader" table="LM_LEAVE_DOCUMENT_HEADER_T">
+        <field-descriptor name="documentId"       column="DOCUMENT_ID"        jdbc-type="VARCHAR"     length="40" primarykey="true" />
+        <field-descriptor name="principalId"      column="PRINCIPAL_ID"       jdbc-type="VARCHAR"     length="40" nullable="false" />
+        <field-descriptor name="beginDate"        column="BEGIN_DATE"         jdbc-type="TIMESTAMP"   primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="endDate"          column="END_DATE"           jdbc-type="TIMESTAMP"   primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="documentStatus"   column="DOCUMENT_STATUS"    jdbc-type="VARCHAR"     length="1" />
+        <field-descriptor name="objectId"         column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"    column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
+    </class-descriptor>
 
-     <class-descriptor class="org.kuali.hr.lm.leavedonation.LeaveDonation" table="lm_leave_donation_t">
-		<field-descriptor name="lmLeaveDonationId"         	column="LM_LEAVE_DONATION_ID"	jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="lm_leave_donation_s"/>
-        <field-descriptor name="donatedAccrualCategory"    	column="DONATED_ACC_CAT"		jdbc-type="VARCHAR" length="15" nullable="false" />
-        <field-descriptor name="donatedEarnCode" 			column="DONATED_ER_CODE" 		jdbc-type="VARCHAR" length="15" nullable="false" />
-        <field-descriptor name="recipientsAccrualCategory" 	column="RECIPIENTS_ACC_CAT"	    jdbc-type="VARCHAR" length="15" nullable="false" />
-        <field-descriptor name="recipientsEarnCode" 		column="RECIPIENTS_ER_CODE" 	jdbc-type="VARCHAR" length="15" nullable="false" />
-        <field-descriptor name="amountDonated"             	column="AMOUNT_DONATED"	        jdbc-type="DECIMAL"  length="20" nullable="false" />
-        <field-descriptor name="amountReceived"             column="AMOUNT_RECEIVED"	    jdbc-type="DECIMAL"  length="20" nullable="false" />
-        <field-descriptor name="donorsPrincipalID"         	column="DONOR"    				jdbc-type="VARCHAR"  length="20" nullable="false"/>
-        <field-descriptor name="recipientsPrincipalID"     	column="RECEPIENT"    			jdbc-type="VARCHAR"  length="20" nullable="false"/>
-        <field-descriptor name="description"         	   	column="DESCR"   				jdbc-type="VARCHAR" length="50" nullable="false"/>
-        <field-descriptor name="effectiveDate" 				column="EFFDT" 					jdbc-type="DATE" 	nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
-		<field-descriptor name="timestamp" 					column="timestamp" 				jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
-		<field-descriptor name="active"          			column="active"	    			jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-		<field-descriptor name="objectId"           		column="obj_id" 				jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber"      		column="ver_nbr" 				jdbc-type="BIGINT"  locking="true" />
-	</class-descriptor>
-
-	<class-descriptor class="org.kuali.hr.lm.employeeoverride.EmployeeOverride" table="lm_employee_override_t">
-		<field-descriptor name="lmEmployeeOverrideId" 	column="LM_EMPLOYEE_OVERRIDE_ID" 	jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="lm_employee_override_s"/>
-		<field-descriptor name="principalId"        	column="PRINCIPAL_ID"				jdbc-type="VARCHAR" length="40" nullable="false" />
-		<field-descriptor name="accrualCategory"		column="ACCRUAL_CAT" 				jdbc-type="VARCHAR" length="60" nullable="false" />
-		<field-descriptor name="leavePlan" 				column="LEAVE_PLAN"					jdbc-type="VARCHAR" length="60"	nullable="false"/>
-		<field-descriptor name="overrideType" 			column="OVERRIDE_TYPE" 				jdbc-type="VARCHAR" length="30" nullable="false" />
-		<field-descriptor name="overrideValue" 			column="OVERRIDE_VALUE" 			jdbc-type="BIGINT" 	nullable="true" />
-		<field-descriptor name="description" 			column="DESCRIPTION" 				jdbc-type="VARCHAR" length="50" nullable="true" />
-		<field-descriptor name="active"          		column="active"	    				jdbc-type="VARCHAR" length="1" nullable="false"	conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-		<field-descriptor name="timestamp"     			column="timestamp" 					jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
-		<field-descriptor name="effectiveDate" 			column="EFFDT" 						jdbc-type="DATE" 	nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
-		<field-descriptor name="objectId"      			column="obj_id" 					jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" 			column="ver_nbr" 					jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.hr.lm.leaveadjustment.LeaveAdjustment" table="lm_leave_adjustment_t">
-		<field-descriptor name="lmLeaveAdjustmentId"	column="LM_LEAVE_ADJUSTMENT_ID" 	jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="lm_leave_adjustment_s"/>
-		<field-descriptor name="principalId"        	column="PRINCIPAL_ID"				jdbc-type="VARCHAR" length="40" nullable="false" />
-		<field-descriptor name="accrualCategory"		column="ACCRUAL_CAT" 				jdbc-type="VARCHAR" length="15" nullable="false" />
-		<field-descriptor name="leavePlan" 				column="LEAVE_PLAN"					jdbc-type="VARCHAR" length="15"	nullable="false"/>
-		<field-descriptor name="earnCode" 				column="EARN_CODE" 				jdbc-type="VARCHAR" length="15" nullable="false" />
-		<field-descriptor name="adjustmentAmount" 		column="ADJUSTMENT_AMOUNT" 			jdbc-type="DECIMAL" nullable="false" />
-		<field-descriptor name="description" 			column="DESCRIPTION" 				jdbc-type="VARCHAR" length="50" nullable="true" />
-		<field-descriptor name="timestamp"     			column="timestamp" 					jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>
-		<field-descriptor name="effectiveDate" 			column="EFFDT" 						jdbc-type="DATE" 	nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion"/>
-		<field-descriptor name="objectId"      			column="obj_id" 					jdbc-type="VARCHAR" index="true" />
-		<field-descriptor name="versionNumber" 			column="ver_nbr" 					jdbc-type="BIGINT" locking="true" />
-	</class-descriptor>
-	
-	<class-descriptor class="org.kuali.hr.lm.accrual.PrincipalAccrualRan" table="lm_prin_accr_ran_t">
-		<field-descriptor name="principalId"        	column="principal_id"				jdbc-type="VARCHAR" length="40" primarykey="true" />
-		<field-descriptor name="lastRanTs"     			column="last_ran_ts" 				jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter"/>		
-	</class-descriptor>
+    <class-descriptor class="org.kuali.hr.lm.leavedonation.LeaveDonation" table="LM_LEAVE_DONATION_T">
+        <field-descriptor name="lmLeaveDonationId"          column="LM_LEAVE_DONATION_ID"   jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_DONATION_S" />
+        <field-descriptor name="donatedAccrualCategory"     column="DONATED_ACC_CAT"        jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="donatedEarnCode"            column="DONATED_ER_CODE"        jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="recipientsAccrualCategory"  column="RECIPIENTS_ACC_CAT"     jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="recipientsEarnCode"         column="RECIPIENTS_ER_CODE"     jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="amountDonated"              column="AMOUNT_DONATED"         jdbc-type="DECIMAL"     length="20" nullable="false" />
+        <field-descriptor name="amountReceived"             column="AMOUNT_RECEIVED"        jdbc-type="DECIMAL"     length="20" nullable="false" />
+        <field-descriptor name="donorsPrincipalID"          column="DONOR"                  jdbc-type="VARCHAR"     length="20" nullable="false" />
+        <field-descriptor name="recipientsPrincipalID"      column="RECEPIENT"              jdbc-type="VARCHAR"     length="20" nullable="false" />
+        <field-descriptor name="description"                column="DESCR"                  jdbc-type="VARCHAR"     length="50" nullable="false" />
+        <field-descriptor name="effectiveDate"              column="EFFDT"                  jdbc-type="DATE"        nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="timestamp"                  column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
+        <field-descriptor name="active"                     column="ACTIVE"                 jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="objectId"                   column="OBJ_ID"                 jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"              column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.hr.lm.employeeoverride.EmployeeOverride" table="LM_EMPLOYEE_OVERRIDE_T">
+        <field-descriptor name="lmEmployeeOverrideId"   column="LM_EMPLOYEE_OVERRIDE_ID"    jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_EMPLOYEE_OVERRIDE_S" />
+        <field-descriptor name="principalId"            column="PRINCIPAL_ID"               jdbc-type="VARCHAR"     length="40" nullable="false" />
+        <field-descriptor name="accrualCategory"        column="ACCRUAL_CAT"                jdbc-type="VARCHAR"     length="60" nullable="false" />
+        <field-descriptor name="leavePlan"              column="LEAVE_PLAN"                 jdbc-type="VARCHAR"     length="60" nullable="false" />
+        <field-descriptor name="overrideType"           column="OVERRIDE_TYPE"              jdbc-type="VARCHAR"     length="30" nullable="false" />
+        <field-descriptor name="overrideValue"          column="OVERRIDE_VALUE"             jdbc-type="BIGINT"      nullable="true" />
+        <field-descriptor name="description"            column="DESCRIPTION"                jdbc-type="VARCHAR"     length="50" nullable="true" />
+        <field-descriptor name="active"                 column="ACTIVE"                     jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="timestamp"              column="TIMESTAMP"                  jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
+        <field-descriptor name="effectiveDate"          column="EFFDT"                      jdbc-type="DATE"        nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="objectId"               column="OBJ_ID"                     jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"          column="VER_NBR"                    jdbc-type="BIGINT"      locking="true" />
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.hr.lm.leaveadjustment.LeaveAdjustment" table="LM_LEAVE_ADJUSTMENT_T">
+        <field-descriptor name="lmLeaveAdjustmentId"    column="LM_LEAVE_ADJUSTMENT_ID" jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_ADJUSTMENT_S" />
+        <field-descriptor name="principalId"            column="PRINCIPAL_ID"           jdbc-type="VARCHAR"     length="40" nullable="false" />
+        <field-descriptor name="accrualCategory"        column="ACCRUAL_CAT"            jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="leavePlan"              column="LEAVE_PLAN"             jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="earnCode"               column="EARN_CODE"              jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="adjustmentAmount"       column="ADJUSTMENT_AMOUNT"      jdbc-type="DECIMAL"     nullable="false" />
+        <field-descriptor name="description"            column="DESCRIPTION"            jdbc-type="VARCHAR"     length="50" nullable="true" />
+        <field-descriptor name="timestamp"              column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
+        <field-descriptor name="effectiveDate"          column="EFFDT"                  jdbc-type="DATE"        nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="objectId"               column="OBJ_ID"                 jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"          column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
+    </class-descriptor>
+    
+    <class-descriptor class="org.kuali.hr.lm.accrual.PrincipalAccrualRan" table="LM_PRIN_ACCR_RAN_T">
+        <field-descriptor name="principalId" column="PRINCIPAL_ID"  jdbc-type="VARCHAR" length="40" primarykey="true" />
+        <field-descriptor name="lastRanTs"  column="LAST_RAN_TS"    jdbc-type="TIMESTAMP" nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter" />        
+    </class-descriptor>
 
 </descriptor-repository>
-

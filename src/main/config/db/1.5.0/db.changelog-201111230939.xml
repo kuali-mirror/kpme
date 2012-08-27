@@ -5,50 +5,76 @@
     
     <changeSet id="1" author="lee55" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
-        <renameTable oldTableName="hr_py_calendar_t" newTableName="hr_calendar_t" />
-        <renameColumn tableName="hr_calendar_t" oldColumnName="hr_py_calendar_id" newColumnName="hr_calendar_id" columnDataType="BIGINT(20) NOT NULL" />
-        <renameColumn tableName="hr_calendar_t" oldColumnName="py_calendar_group" newColumnName="calendar_name" columnDataType="VARCHAR(15) NOT NULL" />
-        <addColumn tableName="hr_calendar_t">
-            <column name="calendar_types" type="VARCHAR(9)" />
-            <column name="calendar_descriptions" type="VARCHAR(50)" />
+        <renameTable oldTableName="HR_PY_CALENDAR_T" newTableName="HR_CALENDAR_T" />
+        <renameColumn tableName="HR_CALENDAR_T" oldColumnName="HR_PY_CALENDAR_ID" newColumnName="HR_CALENDAR_ID" columnDataType="VARCHAR(60) NOT NULL" />
+        <renameColumn tableName="HR_CALENDAR_T" oldColumnName="PY_CALENDAR_GROUP" newColumnName="CALENDAR_NAME" columnDataType="VARCHAR(45) NOT NULL" />
+        <dropNotNullConstraint tableName="HR_CALENDAR_T" columnName="CALENDAR_NAME" columnDataType="VARCHAR(45)" />
+        <modifyDataType tableName="HR_CALENDAR_T" columnName="CALENDAR_NAME" newDataType="VARCHAR(15)" />
+        <addNotNullConstraint tableName="HR_CALENDAR_T" columnName="CALENDAR_NAME" columnDataType="VARCHAR(15)" />
+        <addColumn tableName="HR_CALENDAR_T">
+            <column name="CALENDAR_TYPES" type="VARCHAR(9)" />
+            <column name="CALENDAR_DESCRIPTIONS" type="VARCHAR(50)" />
         </addColumn>
-        <addNotNullConstraint tableName="hr_calendar_t" columnName="calendar_descriptions" columnDataType="VARCHAR(50) NOT NULL" />
-        <dropColumn tableName="hr_calendar_t" columnName="active" />
-        
-        <renameTable oldTableName="hr_py_calendar_s" newTableName="hr_calendar_s" />
-        
-        <renameTable oldTableName="hr_py_calendar_entries_t" newTableName="hr_calendar_entries_t" />
-        <renameColumn tableName="hr_calendar_entries_t" oldColumnName="hr_py_calendar_entry_id" newColumnName="hr_calendar_entry_id" columnDataType="BIGINT(20) NOT NULL" />
-        <renameColumn tableName="hr_calendar_entries_t" oldColumnName="hr_py_calendar_id" newColumnName="hr_calendar_id" columnDataType="BIGINT(20)" />
-        <renameColumn tableName="hr_calendar_entries_t" oldColumnName="py_calendar_group" newColumnName="calendar_name" columnDataType="VARCHAR(15) NOT NULL" />
-        
-        <renameTable oldTableName="hr_py_calendar_entries_s" newTableName="hr_calendar_entries_s" />
-    </changeSet>
+        <addNotNullConstraint tableName="HR_CALENDAR_T" columnName="CALENDAR_DESCRIPTIONS" columnDataType="VARCHAR(50) NOT NULL" />
+        <dropColumn tableName="HR_CALENDAR_T" columnName="ACTIVE" />
 
-    <changeSet id="2" author="lee55" context="kpme-client-bootstrap">
-        <comment>another sql file merge</comment>
-        <dropTable tableName="hr_holiday_calendar_t" />
-        <dropTable tableName="hr_holiday_calendar_s" />
-        <dropTable tableName="hr_holiday_calendar_dates_t" />
-        <dropTable tableName="hr_holiday_calendar_dates_s" />
+        <renameTable oldTableName="HR_PY_CALENDAR_ENTRIES_T" newTableName="HR_CALENDAR_ENTRIES_T" />
+        <renameColumn tableName="HR_CALENDAR_ENTRIES_T" oldColumnName="HR_PY_CALENDAR_ENTRY_ID" newColumnName="HR_CALENDAR_ENTRY_ID" columnDataType="VARCHAR(60) NOT NULL" />
+        <renameColumn tableName="HR_CALENDAR_ENTRIES_T" oldColumnName="HR_PY_CALENDAR_ID" newColumnName="HR_CALENDAR_ID" columnDataType="VARCHAR(60)" />
+        <renameColumn tableName="HR_CALENDAR_ENTRIES_T" oldColumnName="PY_CALENDAR_GROUP" newColumnName="CALENDAR_NAME" columnDataType="VARCHAR(45) NOT NULL" />
+        <dropNotNullConstraint tableName="HR_CALENDAR_ENTRIES_T" columnName="CALENDAR_NAME" columnDataType="VARCHAR(45)" />
+        <modifyDataType tableName="HR_CALENDAR_ENTRIES_T" columnName="CALENDAR_NAME" newDataType="VARCHAR(30)" />
+        <addNotNullConstraint tableName="HR_CALENDAR_ENTRIES_T" columnName="CALENDAR_NAME" columnDataType="VARCHAR(30)" />
     </changeSet>
     
+    <changeSet id="2-oracle" author="lee55" dbms="oracle" context="kpme-client-bootstrap">
+        <comment>another sql file merge</comment>
+        <sql>
+            RENAME HR_PY_CALENDAR_S TO HR_CALENDAR_S;
+            RENAME HR_PY_CALENDAR_ENTRIES_S TO HR_CALENDAR_ENTRIES_S;
+        </sql>
+    </changeSet>
+    <changeSet id="2-mysql" author="lee55" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>another sql file merge</comment>
+        <renameTable oldTableName="HR_PY_CALENDAR_S" newTableName="HR_CALENDAR_S" />
+        <renameTable oldTableName="HR_PY_CALENDAR_ENTRIES_S" newTableName="HR_CALENDAR_ENTRIES_S" />
+    </changeSet>
+
     <changeSet id="3" author="lee55" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
-        <createTable tableName="lm_leave_plan_s">
-            <column autoIncrement="true" name="id" type="BIGINT(19)">
-                <constraints nullable="false" primaryKey="true" />
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
-	</changeSet>
-	
-    <changeSet id="4" author="lee55" context="kpme-client-bootstrap">
+        <dropTable tableName="HR_HOLIDAY_CALENDAR_T" />
+        <dropTable tableName="HR_HOLIDAY_CALENDAR_DATES_T" />
+    </changeSet>
+    
+    <changeSet id="4-oracle" author="lee55" dbms="oracle" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
-        <createTable tableName="lm_leave_plan_t">
-            <column name="lm_leave_plan_id" type="VARCHAR(60)">
+        <dropSequence sequenceName="HR_HOLIDAY_CALENDAR_S" />
+        <dropSequence sequenceName="HR_HOLIDAY_CALENDAR_DATES_S" />
+    </changeSet>
+    <changeSet id="4-mysql" author="lee55" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>another sql file merge</comment>
+        <dropTable tableName="HR_HOLIDAY_CALENDAR_S" />
+        <dropTable tableName="HR_HOLIDAY_CALENDAR_DATES_S" />
+    </changeSet>
+
+    <changeSet id="5-oracle" author="lee55" dbms="oracle" context="kpme-client-bootstrap">
+        <comment>another sql file merge</comment>
+        <createSequence sequenceName="LM_LEAVE_PLAN_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="5-mysql" author="lee55" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>another sql file merge</comment>
+        <sql>
+            CREATE TABLE LM_LEAVE_PLAN_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE LM_LEAVE_PLAN_S AUTO_INCREMENT = 10000;
+        </sql>
+    </changeSet>
+	
+    <changeSet id="6" author="lee55" context="kpme-client-bootstrap">
+        <comment>another sql file merge</comment>
+        <createTable tableName="LM_LEAVE_PLAN_T">
+            <column name="LM_LEAVE_PLAN_ID" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="LEAVE_PLAN" type="VARCHAR(15)">
@@ -60,78 +86,92 @@
                 <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)" />
-            <column name="VER_NBR" type="BIGINT(20)" defaultValueNumeric="1">
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
                 <constraints nullable="false" />
             </column>
             <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
-            <column name="TIMESTAMP" type="TIMESTAMP" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     
-    <changeSet id="5" author="lee55" context="kpme-client-bootstrap">
+    <changeSet id="7" author="lee55" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
-        <renameTable oldTableName="lm_accrual_categories_s" newTableName="lm_accrual_category_s" />
-        <renameTable oldTableName="lm_accrual_categories_t" newTableName="lm_accrual_category_t" />
-        <modifyDataType tableName="lm_accrual_category_t" columnName="ACCRUAL_CATEGORY" newDataType="VARCHAR(15) NOT NULL" />
-        <addColumn tableName="lm_accrual_category_t">
+        <renameTable oldTableName="LM_ACCRUAL_CATEGORIES_T" newTableName="LM_ACCRUAL_CATEGORY_T" />
+        <dropNotNullConstraint tableName="LM_ACCRUAL_CATEGORY_T" columnName="ACCRUAL_CATEGORY" columnDataType="VARCHAR(3)" />
+        <modifyDataType tableName="LM_ACCRUAL_CATEGORY_T" columnName="ACCRUAL_CATEGORY" newDataType="VARCHAR(15)" />
+        <addNotNullConstraint tableName="LM_ACCRUAL_CATEGORY_T" columnName="ACCRUAL_CATEGORY" columnDataType="VARCHAR(15)" />
+        <addColumn tableName="LM_ACCRUAL_CATEGORY_T">
             <column name="LEAVE_PLAN" type="VARCHAR(15)">
                 <constraints nullable="false" />
             </column>
         </addColumn>
-        <addColumn tableName="lm_accrual_category_t">
+        <addColumn tableName="LM_ACCRUAL_CATEGORY_T">
             <column name="ACCRUAL_INTERVAL_EARN" type="VARCHAR(5)">
                 <constraints nullable="false" />
             </column>
         </addColumn>
-        <addColumn tableName="lm_accrual_category_t">
+        <addColumn tableName="LM_ACCRUAL_CATEGORY_T">
             <column name="UNIT_OF_TIME" type="VARCHAR(5)">
                 <constraints nullable="false" />
             </column>
         </addColumn>
-        <addColumn tableName="lm_accrual_category_t">
+        <addColumn tableName="LM_ACCRUAL_CATEGORY_T">
             <column name="PRORATION" type="VARCHAR(1)" defaultValue="N" />
         </addColumn>
-        <addColumn tableName="lm_accrual_category_t">
+        <addColumn tableName="LM_ACCRUAL_CATEGORY_T">
             <column name="DONATION" type="VARCHAR(1)" defaultValue="N" />
         </addColumn>
-        <addColumn tableName="lm_accrual_category_t">
+        <addColumn tableName="LM_ACCRUAL_CATEGORY_T">
             <column name="SHOW_ON_GRID" type="VARCHAR(1)" defaultValue="N" />
         </addColumn>
-        <addColumn tableName="lm_accrual_category_t">
-            <column name="PLANNING_MONTHS" type="BIGINT(2)" defaultValueNumeric="1">
+        <addColumn tableName="LM_ACCRUAL_CATEGORY_T">
+            <column name="PLANNING_MONTHS" type="BIGINT" defaultValueNumeric="1">
                 <constraints nullable="false" />
             </column>
         </addColumn>
     </changeSet>
     
-    <changeSet id="6" author="lee55" context="kpme-client-bootstrap">
+    <changeSet id="8-oracle" author="lee55" dbms="oracle" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
-        <createTable tableName="lm_accrual_category_rules_s">
-            <column autoIncrement="true" name="id" type="BIGINT(19)">
-                <constraints nullable="false" primaryKey="true" />
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
-	</changeSet>
+        <sql>
+            RENAME LM_ACCRUAL_CATEGORIES_S TO LM_ACCRUAL_CATEGORY_S;
+        </sql>
+    </changeSet>
+    <changeSet id="8-mysql" author="lee55" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>another sql file merge</comment>
+        <renameTable oldTableName="LM_ACCRUAL_CATEGORIES_S" newTableName="LM_ACCRUAL_CATEGORY_S" />
+    </changeSet>
+
+    <changeSet id="9-oracle" author="lee55" dbms="oracle" context="kpme-client-bootstrap">
+        <comment>another sql file merge</comment>
+        <createSequence sequenceName="LM_ACCRUAL_CATEGORY_RULES_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="9-mysql" author="lee55" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>another sql file merge</comment>
+        <sql>
+            CREATE TABLE LM_ACCRUAL_CATEGORY_RULES_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE LM_ACCRUAL_CATEGORY_RULES_S AUTO_INCREMENT = 10000;
+        </sql>
+    </changeSet>
 	
-	<changeSet id="7" author="lee55" context="kpme-client-bootstrap">
+	<changeSet id="10" author="lee55" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
-        <createTable tableName="lm_accrual_category_rules_t">
-            <column name="lm_accrual_category_rules_id" type="VARCHAR(60)">
+        <createTable tableName="LM_ACCRUAL_CATEGORY_RULES_T">
+            <column name="LM_ACCRUAL_CATEGORY_RULES_ID" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="SERVICE_UNIT_OF_TIME" type="VARCHAR(15)">
                 <constraints nullable="false" />
             </column>
-            <column name="START_ACC" type="BIGINT(20)">
+            <column name="START_ACC" type="BIGINT">
                 <constraints nullable="false" />
             </column>
-            <column name="END_ACC" type="BIGINT(20)">
+            <column name="END_ACC" type="BIGINT">
                 <constraints nullable="false" />
             </column>
             <column name="ACCRUAL_RATE" type="DECIMAL(10,2)">
@@ -148,49 +188,51 @@
             </column>
             <column name="MAX_BAL_TRANS_ACC_CAT" type="VARCHAR(15)" />
             <column name="MAX_BAL_TRANS_CONV_FACTOR" type="DECIMAL(10,2)" />
-            <column name="MAX_TRANS_AMOUNT" type="BIGINT(20)" />
-            <column name="MAX_PAYOUT_AMOUNT" type="BIGINT(20)" />
+            <column name="MAX_TRANS_AMOUNT" type="BIGINT" />
+            <column name="MAX_PAYOUT_AMOUNT" type="BIGINT" />
             <column name="MAX_PAYOUT_LEAVE_CODE" type="VARCHAR(15)" />
-            <column name="MAX_USAGE" type="BIGINT(20)" />
-            <column name="MAX_CARRY_OVER" type="BIGINT(20)" />
-            <column name="LM_ACCRUAL_CATEGORY_ID" type="BIGINT(20)">
+            <column name="MAX_USAGE" type="BIGINT" />
+            <column name="MAX_CARRY_OVER" type="BIGINT" />
+            <column name="LM_ACCRUAL_CATEGORY_ID" type="BIGINT">
                 <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)" />
-            <column name="VER_NBR" type="BIGINT(20)" defaultValueNumeric="1">
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
                 <constraints nullable="false" />
             </column>
             <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
-            <column name="TIMESTAMP" type="TIMESTAMP" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
-    
-    <changeSet id="8" author="lee55" context="kpme-client-bootstrap">
+
+    <changeSet id="11-oracle" author="lee55" dbms="oracle" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
-        <createTable tableName="lm_leave_code_s">
-            <column autoIncrement="true" name="id" type="BIGINT(19)">
-                <constraints nullable="false" primaryKey="true"/>
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
-		</modifySql>
-	</changeSet>
+        <createSequence sequenceName="LM_LEAVE_CODE_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="11-mysql" author="lee55" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>another sql file merge</comment>
+        <sql>
+            CREATE TABLE LM_LEAVE_CODE_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE LM_LEAVE_CODE_S AUTO_INCREMENT = 10000;
+        </sql>
+    </changeSet>
 	
-	<changeSet id="9" author="lee55" context="kpme-client-bootstrap">
+	<changeSet id="12" author="lee55" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
-        <createTable tableName="lm_leave_code_t">
-            <column name="lm_leave_code_id" type="VARCHAR(60)">
+        <createTable tableName="LM_LEAVE_CODE_T">
+            <column name="LM_LEAVE_CODE_ID" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="LEAVE_PLAN" type="VARCHAR(15)">
                 <constraints nullable="false" />
             </column>
             <column name="ELIGIBLE_FOR_ACC" type="VARCHAR(5)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="ACCRUAL_CAT" type="VARCHAR(15)" />
             <column name="EARN_CODE" type="VARCHAR(15)" />
@@ -216,7 +258,7 @@
             <column name="WORKMANS_COMP" type="VARCHAR(5)">
                 <constraints nullable="false" />
             </column>
-            <column name="DEF_TIME" type="BIGINT(2)" />
+            <column name="DEF_TIME" type="BIGINT" />
             <column name="EMPLOYEE" type="VARCHAR(1)" defaultValue="N" />
             <column name="APPROVER" type="VARCHAR(1)" defaultValue="N" />
             <column name="DEPT_ADMIN" type="VARCHAR(1)" defaultValue="N" />
@@ -224,83 +266,79 @@
                 <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)" />
-            <column name="VER_NBR" type="BIGINT(20)" defaultValueNumeric="1" >
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1" >
                 <constraints nullable="false" />
             </column>
             <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
-            <column name="TIMESTAMP" type="TIMESTAMP" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
-    </changeSet>
-    
-    <changeSet id="10" author="lee55" context="kpme-client-bootstrap">
-        <comment>another sql file merge</comment>
-        <createTable tableName="lm_leave_document_header_t">
-            <column name="document_id" type="VARCHAR(14)">
-                <constraints nullable="false" />
-            </column>
-            <column name="principal_id" type="VARCHAR(10)">
-                <constraints nullable="false" />
-            </column>
-            <column name="begin_date" type="DATETIME">
-                <constraints nullable="false" />
-            </column>
-            <column name="end_date" type="DATETIME">
-                <constraints nullable="false" />
-            </column>
-            <column name="document_status" type="VARCHAR(1)">
-                <constraints nullable="false" />
-            </column>
-            <column name="obj_id" type="VARCHAR(36)">
-                <constraints nullable="false" />
-            </column>
-            <column name="ver_nbr" type="BIGINT(20)">
-                <constraints nullable="false" />
-            </column>
-        </createTable>
-		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
-		</modifySql>
-    </changeSet>
-    
-    <changeSet id="11" author="lee55" context="kpme-client-bootstrap">
-        <comment>another sql file merge</comment>
-        <addColumn tableName="hr_job_t">
-            <column name="eligible_for_leave" type="VARCHAR(1)" defaultValue="N" />
-        </addColumn>
-    </changeSet>
-    
-    <changeSet id="12" author="lee55" context="kpme-client-bootstrap">
-        <comment>another sql file merge</comment>
-        <modifyDataType tableName="hr_calendar_t" columnName="hr_calendar_id" newDataType="VARCHAR(60) NOT NULL" />
-        <modifyDataType tableName="hr_calendar_entries_t" columnName="hr_calendar_entry_id" newDataType="VARCHAR(60) NOT NULL" />
     </changeSet>
     
     <changeSet id="13" author="lee55" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
-        <createTable tableName="lm_sys_schd_timeoff_s">
-            <column autoIncrement="true" name="id" type="BIGINT(19)">
-                <constraints nullable="false" primaryKey="true"/>
+        <createTable tableName="LM_LEAVE_DOCUMENT_HEADER_T">
+            <column name="DOCUMENT_ID" type="VARCHAR(14)">
+                <constraints nullable="false" />
+            </column>
+            <column name="PRINCIPAL_ID" type="VARCHAR(10)">
+                <constraints nullable="false" />
+            </column>
+            <column name="BEGIN_DATE" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+            <column name="END_DATE" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false" />
+            </column>
+            <column name="DOCUMENT_STATUS" type="VARCHAR(1)">
+                <constraints nullable="false" />
+            </column>
+            <column name="OBJ_ID" type="VARCHAR(36)">
+                <constraints nullable="false" />
+            </column>
+            <column name="VER_NBR" type="BIGINT">
+                <constraints nullable="false" />
             </column>
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE MYISAM"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
-	</changeSet>
-	
-	<changeSet id="14" author="lee55" context="kpme-client-bootstrap">
+    </changeSet>
+    
+    <changeSet id="14" author="lee55" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
-        <createTable tableName="lm_sys_schd_timeoff_t">
-            <column name="lm_sys_schd_timeoff_id" type="VARCHAR(60)">
+        <addColumn tableName="HR_JOB_T">
+            <column name="ELIGIBLE_FOR_LEAVE" type="VARCHAR(1)" defaultValue="N" />
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="15-oracle" author="lee55" dbms="oracle" context="kpme-client-bootstrap">
+        <comment>another sql file merge</comment>
+        <createSequence sequenceName="LM_SYS_SCHD_TIMEOFF_S" startValue="10000" />
+    </changeSet>
+    <changeSet id="15-mysql" author="lee55" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>another sql file merge</comment>
+        <sql>
+            CREATE TABLE LM_SYS_SCHD_TIMEOFF_S (
+                ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
+            ) ENGINE MyISAM;
+            ALTER TABLE LM_SYS_SCHD_TIMEOFF_S AUTO_INCREMENT = 10000;
+        </sql>
+    </changeSet>
+	
+	<changeSet id="16" author="lee55" context="kpme-client-bootstrap">
+        <comment>another sql file merge</comment>
+        <createTable tableName="LM_SYS_SCHD_TIMEOFF_T">
+            <column name="LM_SYS_SCHD_TIMEOFF_ID" type="VARCHAR(60)">
                 <constraints nullable="false" primaryKey="true" />
             </column>
             <column name="LEAVE_PLAN" type="VARCHAR(15)">
                 <constraints nullable="false" />
             </column>
             <column name="ACCRUAL_CATEGORY" type="VARCHAR(15)">
-                <constraints nullable="false"/>
+                <constraints nullable="false" />
             </column>
             <column name="LEAVE_CODE" type="VARCHAR(15)">
                 <constraints nullable="false" />
@@ -315,8 +353,8 @@
             <column name="DESCR" type="VARCHAR(50)">
                 <constraints nullable="false" />
             </column>
-            <column name="AMOUNT_OF_TIME" type="BIGINT(20)" defaultValueNumeric="1" >
-                <constraints nullable="false"/>
+            <column name="AMOUNT_OF_TIME" type="BIGINT" defaultValueNumeric="1" >
+                <constraints nullable="false" />
             </column>
             <column name="UNUSED_TIME" type="VARCHAR(5)" />
             <column name="TRANS_CONV_FACTOR" type="DECIMAL(10,2)" />
@@ -329,14 +367,14 @@
                 <constraints nullable="false" />
             </column>
             <column name="OBJ_ID" type="VARCHAR(36)" />
-            <column name="VER_NBR" type="BIGINT(20)" defaultValueNumeric="1">
-                <constraints nullable="false"/>
+            <column name="VER_NBR" type="BIGINT" defaultValueNumeric="1">
+                <constraints nullable="false" />
             </column>
             <column name="ACTIVE" type="VARCHAR(1)" defaultValue="N" />
-            <column name="TIMESTAMP" type="TIMESTAMP" />
+            <column name="TIMESTAMP" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP" />
         </createTable>
 		<modifySql dbms="mysql">
-			<append value=" ENGINE INNODB"/>
+			<append value=" ENGINE INNODB" />
 		</modifySql>
     </changeSet>
     
