@@ -17,7 +17,7 @@
     <changeSet id="2-mysql" author="jkakkad" dbms="mysql" context="kpme-client-bootstrap">
         <comment>KPME-1267</comment>
         <sql>
-            ALTER TABLE LM_PRIN_ACCR_RAN_T CHANGE COLUMN LAST_RAN_TS LAST_RAN_TS DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP;
+            ALTER TABLE LM_PRIN_ACCR_RAN_T CHANGE COLUMN LAST_RAN_TS LAST_RAN_TS DATETIME NOT NULL DEFAULT '1970-01-01 00:00:00';
         </sql>
     </changeSet>
   
