@@ -239,9 +239,7 @@ public class AssignmentServiceImpl implements AssignmentService {
         List<Assignment> assignments = lcd.getAssignments();
         Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
         for (Assignment assignment : assignments) {
-            if (assignment.isSynchronous()) {
                 assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
-            }
         }
         return assignmentDescriptions;
     }
