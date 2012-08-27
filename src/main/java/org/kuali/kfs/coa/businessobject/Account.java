@@ -40,7 +40,7 @@ public class Account extends PersistableBusinessObjectBase implements Inactivata
     private Date accountExpirationDate;
     private boolean active;
     private String organizationCode;
-    private boolean closed;
+    //private boolean closed;
 
     public String getOrganizationCode() {
 		return organizationCode;
@@ -238,7 +238,7 @@ public class Account extends PersistableBusinessObjectBase implements Inactivata
      * @return the opposite of isActive()
      */
     public boolean isClosed() {
-        return active;
+        return !active;
     }
     
     /**
@@ -247,7 +247,7 @@ public class Account extends PersistableBusinessObjectBase implements Inactivata
      * @param closed The closed to set.
      */
     public void setClosed(boolean closed) {
-        this.active = closed;
+        this.active = !closed;
     }
 
     /**
