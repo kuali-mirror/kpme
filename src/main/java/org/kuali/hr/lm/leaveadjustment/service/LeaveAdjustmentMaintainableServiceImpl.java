@@ -1,13 +1,19 @@
 package org.kuali.hr.lm.leaveadjustment.service;
 
+import java.util.Date;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveadjustment.LeaveAdjustment;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
+import org.kuali.rice.kns.document.MaintenanceDocument;
 
 public class LeaveAdjustmentMaintainableServiceImpl extends HrBusinessObjectMaintainableImpl{
 
@@ -48,5 +54,24 @@ public class LeaveAdjustmentMaintainableServiceImpl extends HrBusinessObjectMain
 		
 		TkServiceLocator.getLeaveBlockService().saveLeaveBlock(aLeaveBlock);		
 	}
+	
+	@SuppressWarnings("rawtypes")
+	@Override
+	public Map populateBusinessObject(Map<String, String> fieldValues,
+			MaintenanceDocument maintenanceDocument, String methodToCall) {
+		if (fieldValues.containsKey("principalId")
+				&& StringUtils.isNotEmpty(fieldValues.get("principalId"))
+				&& fieldValues.containsKey("effectiveDate")
+				&& StringUtils.isNotEmpty(fieldValues.get("effectiveDate"))) {
+			Date effDate = new Date(fieldValues.get("effectiveDate"));
+			PrincipalHRAttributes principalHRAttrObj = TkServiceLocator.getPrincipalHRAttributeService()
+						.getPrincipalCalendar(fieldValues.get("principalId"), effDate);
+			String lpString = (principalHRAttrObj != null) ? principalHRAttrObj.getLeavePlan() : "";
+			fieldValues.put("leavePlan", lpString);
+		}
+		return super.populateBusinessObject(fieldValues, maintenanceDocument,
+				methodToCall); 
+	}
+
 
 }
