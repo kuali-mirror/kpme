@@ -30,9 +30,7 @@ public class LeaveDonationMaintTest extends KPMETestCase{
 		HtmlPage lcLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.LEAVE_DONATION_MAINT_URL);
 		lcLookup = HtmlUnitUtil.clickInputContainingText(lcLookup, "search");
 		Assert.assertTrue("Page contains test Donated Account Category", lcLookup.asText().contains("dAC"));
-		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(lcLookup, "edit");
-		Assert.assertTrue("Maintenance Page contains test Donated Account Category",maintPage.asText().contains("dAC"));
-		Assert.assertTrue("Maintenance Page contains test Earn Codes",maintPage.asText().contains("LC-TEST2"));
+		Assert.assertFalse("Page should not contain edit action", lcLookup.asText().contains("edit"));
 	}
 	
 	@Test

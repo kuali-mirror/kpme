@@ -56,8 +56,7 @@ public class LeaveAdjustmentMaintTest extends KPMETestCase{
 		leaveAdjustmentLookup = HtmlUnitUtil.clickInputContainingText(leaveAdjustmentLookup, "search");
 		System.out.println(leaveAdjustmentLookup.asXml());
 		Assert.assertTrue("Page contains test LeaveAdjustment", leaveAdjustmentLookup.asText().contains("AC1"));
-		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(leaveAdjustmentLookup, "edit", "lmLeaveAdjustmentId=3000");
-		Assert.assertTrue("Maintenance Page contains test LeaveAdjustment", maintPage.asText().contains("AC1"));	 
+		Assert.assertFalse("Page should not contain edit action", leaveAdjustmentLookup.asText().contains("edit")); 
 	}
 	
 	@Test
