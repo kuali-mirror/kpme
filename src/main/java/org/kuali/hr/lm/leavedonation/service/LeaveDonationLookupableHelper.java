@@ -1,5 +1,6 @@
 package org.kuali.hr.lm.leavedonation.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -18,7 +19,14 @@ public class LeaveDonationLookupableHelper extends HrEffectiveDateActiveLookupab
 	@Override
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
-			
+		
+		List<HtmlData> copyOfUrls = new ArrayList<HtmlData>();
+		copyOfUrls.addAll(customActionUrls);
+		for(HtmlData aData : copyOfUrls) {
+			if(aData.getMethodToCall().equals(KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL)) {
+				customActionUrls.remove(aData);
+			}
+		}
 		LeaveDonation leaveDonation = (LeaveDonation) businessObject;
 		String lmLeaveDonationId = leaveDonation.getLmLeaveDonationId();
 		

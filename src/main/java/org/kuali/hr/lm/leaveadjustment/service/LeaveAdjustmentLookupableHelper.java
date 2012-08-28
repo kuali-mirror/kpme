@@ -1,5 +1,6 @@
 package org.kuali.hr.lm.leaveadjustment.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -18,6 +19,14 @@ public class LeaveAdjustmentLookupableHelper extends HrEffectiveDateActiveLookup
 	@Override
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
+		
+		List<HtmlData> copyOfUrls = new ArrayList<HtmlData>();
+		copyOfUrls.addAll(customActionUrls);
+		for(HtmlData aData : copyOfUrls) {
+			if(aData.getMethodToCall().equals(KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL)) {
+				customActionUrls.remove(aData);
+			}
+		}
 		
 		LeaveAdjustment leaveAdjustment = (LeaveAdjustment) businessObject;
 		String lmLeaveAdjustmentId = leaveAdjustment.getLmLeaveAdjustmentId();
