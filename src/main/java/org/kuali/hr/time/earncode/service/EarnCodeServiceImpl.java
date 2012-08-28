@@ -59,7 +59,11 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         EarnCode regularEc = getEarnCode(job.getPayTypeObj().getRegEarnCode(), asOfDate);
         if (regularEc == null)
             throw new RuntimeException("No regular earn code defined.");
-        earnCodes.add(regularEc);
+        if (earnTypeCode.equals(EarnCodeType.LEAVE.getCode())) {
+        }
+        else {
+            earnCodes.add(regularEc);
+        }
         List<EarnCodeSecurity> decs = TkServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), asOfDate);
         for (EarnCodeSecurity dec : decs) {
             if (StringUtils.isBlank(earnTypeCode)

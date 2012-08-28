@@ -127,30 +127,21 @@ public class LeaveCalendarWSAction extends TkAction {
                         assignment.getTask().compareTo(key.getTask()) == 0) {
                     List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(assignment, new java.sql.Date(TKUtils.convertDateStringToTimestamp(lcf.getStartDate()).getTime()), EarnCodeType.LEAVE.getCode());
                     for (EarnCode earnCode : earnCodes) {
-                        // TODO: minimize / compress the crazy if logics below
-                        if (earnCode.getEarnCode().equals(TkConstants.HOLIDAY_EARN_CODE)
-                                && !(TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isSystemAdmin())) {
-                            continue;
+                        Map<String, Object> earnCodeMap = new HashMap<String, Object>();
+                        earnCodeMap.put("assignment", assignment.getAssignmentKey());
+                        earnCodeMap.put("earnCode", earnCode.getEarnCode());
+                        earnCodeMap.put("desc", earnCode.getDescription());
+                        earnCodeMap.put("type", earnCode.getEarnCodeType());
+                        earnCodeMap.put("earnCodeId", earnCode.getHrEarnCodeId());
+                        AccrualCategory acObj = null;
+                        if(earnCode.getAccrualCategory() != null) {
+                        	acObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCode.getAccrualCategory(), TKUtils.getCurrentDate());
                         }
-                        //TODO: I don't understand why this if statement is used.  We only want the EarnCode if one or more of these conditions is false, but why?
-                        if (!(assignment.getTimeCollectionRule().isClockUserFl() &&
-                                StringUtils.equals(assignment.getJob().getPayTypeObj().getRegEarnCode(), earnCode.getEarnCode()) && StringUtils.equals(TKContext.getPrincipalId(), assignment.getPrincipalId()))) {
-                            Map<String, Object> earnCodeMap = new HashMap<String, Object>();
-                            earnCodeMap.put("assignment", assignment.getAssignmentKey());
-                            earnCodeMap.put("earnCode", earnCode.getEarnCode());
-                            earnCodeMap.put("desc", earnCode.getDescription());
-                            earnCodeMap.put("type", earnCode.getEarnCodeType());
-                            earnCodeMap.put("earnCodeId", earnCode.getHrEarnCodeId());
-                            AccrualCategory acObj = null;
-                        	if(earnCode.getAccrualCategory() != null) {
-                        		acObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCode.getAccrualCategory(), TKUtils.getCurrentDate());
-                        	}
-                            String unitTime = (acObj!= null ? acObj.getUnitOfTime() : earnCode.getRecordMethod()) ;
-                            earnCodeMap.put("unitOfTime", unitTime);
-                            earnCodeMap.put("defaultAmountofTime", earnCode.getDefaultAmountofTime());
-                            earnCodeMap.put("fractionalTimeAllowed", earnCode.getFractionalTimeAllowed());
-                            earnCodeList.add(earnCodeMap);
-                        }
+                        String unitTime = (acObj!= null ? acObj.getUnitOfTime() : earnCode.getRecordMethod()) ;
+                        earnCodeMap.put("unitOfTime", unitTime);
+                        earnCodeMap.put("defaultAmountofTime", earnCode.getDefaultAmountofTime());
+                        earnCodeMap.put("fractionalTimeAllowed", earnCode.getFractionalTimeAllowed());
+                        earnCodeList.add(earnCodeMap);
                     }
                 }
             }
