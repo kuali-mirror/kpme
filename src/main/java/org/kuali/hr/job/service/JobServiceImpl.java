@@ -59,8 +59,9 @@ public class JobServiceImpl implements JobService {
                       boolean chkDetails) {
         Job job = jobDao.getJob(principalId, jobNumber, asOfDate);
         if (job == null && chkDetails) {
-            throw new RuntimeException("No job for principal : " + principalId
-                    + " Job Number: " + jobNumber);
+            return null;
+            //throw new RuntimeException("No job for principal : " + principalId
+            //        + " Job Number: " + jobNumber);
         }
         if (chkDetails) {
             String hrPayType = job.getHrPayType();
