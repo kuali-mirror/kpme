@@ -78,13 +78,15 @@
 
                         <c:set var="dayStyle" value="width:14%;padding-bottom:20px;"/>
                         <c:set var="dayId" value="day_${day.dayNumberDelta}"/>
+                        <c:set var="dayClass" value="create ui-state-default"/>
                         <c:if test="${day.gray}">
                             <c:set var="dayStyle" value="width:14%; background: rgb(224, 235, 225);"/>
                             <c:set var="dayId" value="gray_day"/>
+                            <c:set var="dayClass" value="ui-state-default"/>
                         </c:if>
 
 
-                        <td id="${dayId}" class="create ui-state-default" style="${dayStyle}">
+                        <td id="${dayId}" class="${dayClass}" style="${dayStyle}">
                                 <%-- Day Number --%>
                             <div class="day-number">${day.dayNumberString}</div>
                                 <%-- Render the Time Blocks --%>
