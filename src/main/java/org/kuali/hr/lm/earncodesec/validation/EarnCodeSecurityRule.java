@@ -67,7 +67,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 	}
 	
 	boolean validateDepartmentCurrentUser(EarnCodeSecurity departmentEarnCode) {
-		if (!TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getOrgAdminDepartments().contains(departmentEarnCode.getDept())) {
+		if (!TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isSystemAdmin() && !TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getOrgAdminDepartments().contains(departmentEarnCode.getDept())) {
 			this.putFieldError("dept", "error.department.permissions", departmentEarnCode.getDept());
 			return false;
 		} else {
