@@ -39,7 +39,9 @@ public class EarnCodeServiceImpl implements EarnCodeService {
     @Override
     public List<EarnCode> getEarnCodes(Assignment a, Date asOfDate, String earnTypeCode) {
         List<EarnCode> earnCodes = new LinkedList<EarnCode>();
-
+        if (StringUtils.isBlank(earnTypeCode)) {
+            earnTypeCode = EarnCodeType.BOTH.getCode();
+        }
         // Note: https://jira.kuali.org/browse/KPME-689
         // We are grabbing a TkUser from the current thread local context here.
         // really, this should probably be passed in..
