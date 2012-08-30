@@ -33,6 +33,9 @@ public class LeaveCalendar extends CalendarParent {
         }
         if (endDateTime.getDayOfWeek() != DateTimeConstants.SATURDAY) {
             endDateTime = endDateTime.plusDays(DateTimeConstants.SATURDAY - endDateTime.getDayOfWeek());
+            if(endDateTime.getHourOfDay() == 0) {
+            	 endDateTime = endDateTime.plusDays(1);
+        	}
         }
 
         LeaveCalendarWeek leaveCalendarWeek = new LeaveCalendarWeek();
