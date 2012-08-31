@@ -18,6 +18,7 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import com.gargoylesoftware.htmlunit.html.HtmlButton;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.kuali.hr.util.filter.TestAutoLoginFilter;
 
 public class TimeDetailTestUtils {
 
@@ -171,6 +172,31 @@ public class TimeDetailTestUtils {
 
         try {
             page = HtmlUnitUtil.gotoPageAndLogin(url);
+        } catch (Exception e) {
+            LOG.error("Error while submitting form", e);
+        }
+
+        return page;
+    }
+
+    /**
+     * A method to wrap the submission of the time details.
+     * @param baseUrl
+     * @param tdaf
+     * @return
+     */
+    public static HtmlPage submitTimeDetails(String principalId, String baseUrl, TimeDetailActionFormBase tdaf) {
+        // For now, until a more HtmlUnit based click method can be found
+        // workable, we're building a url-encoded string to directly
+        // post to the servlet.
+
+        String url = baseUrl + buildPostFromFormParams(tdaf);
+        HtmlPage page = null;
+
+        try {
+            TestAutoLoginFilter.OVERRIDE_ID = principalId;
+            page = HtmlUnitUtil.gotoPageAndLogin(url);
+            TestAutoLoginFilter.OVERRIDE_ID = "";
         } catch (Exception e) {
             LOG.error("Error while submitting form", e);
         }

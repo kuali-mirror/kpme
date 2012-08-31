@@ -203,7 +203,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(fredsDocument, assignment, earnCode, start, end, null, false, null, true);
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
         Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
-        page = TimeDetailTestUtils.submitTimeDetails(getTimesheetDocumentUrl(tdocId), tdaf);
+        page = TimeDetailTestUtils.submitTimeDetails(userId, getTimesheetDocumentUrl(tdocId), tdaf);
         Assert.assertNotNull(page);
         HtmlUnitUtil.createTempFile(page, "aftertdadd");
         Assert.assertTrue("Should not have access", page.asText().contains("You are not authorized to access this portion of the application."));
