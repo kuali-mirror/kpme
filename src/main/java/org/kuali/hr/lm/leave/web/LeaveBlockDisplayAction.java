@@ -28,7 +28,7 @@ public class LeaveBlockDisplayAction extends TkAction {
 		ActionForward forward = super.execute(mapping, form, request, response);
 		LeaveBlockDisplayForm lbdf = (LeaveBlockDisplayForm) form;	
 		
-		String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        String principalId = TKUser.getCurrentTargetPerson().getPrincipalId();
 		if(TKUser.getCurrentTargetPerson() != null) {
 			lbdf.setTargetName(TKUser.getCurrentTargetPerson().getName());
 		}
