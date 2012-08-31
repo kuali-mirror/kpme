@@ -7,13 +7,19 @@
 <div id="tkCal" class="ui-widget cal ${calType}" style="margin: 20px auto 20px auto; width:95%;">
 
 	<tk:payCalendarSelect />
-
-    <%-- Add Paging Controls for moving between Calendars --%>
+	
+	<c:if test="${calType eq 'leaveCalendar'}">
+		<span id="ledger-link">
+        	<a href="LeaveBlockDisplay.do"
+          	 target="_self">Leave Ledger View</a>
+        </span>
+	</c:if>	
+	
+	<%-- Add Paging Controls for moving between Calendars --%>
     <table class="cal-header">
         <tbody>
         <tr>
             <td>
-
                 <c:if test="${Form.prevDocumentId ne null || (calType eq 'leaveCalendar' && Form.prevCalEntryId ne null)}">
                     <button id="${calType == 'payCalendar' ? 'nav_prev' : 'nav_prev_lc' }"
                             class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"

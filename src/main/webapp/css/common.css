@@ -994,5 +994,13 @@ label.error {
     padding: 3px;
 }
 
+/* Leave Leger Link
+*/
+#ledger-link {
+	font-size: 1.5em !important;
+}
+#ledger-link a:link {color: #0000FF;}
+#ledger-link a:visited {color: #800080;}
+
 
 

@@ -22,11 +22,6 @@
         <li id="approvals" class="ui-state-default ui-corner-top"><a
                 href="TimeApproval.do?methodToCall=loadApprovalTab">Approvals</a></li>
     </c:if>
-    <c:if test="${Form.leaveEnabled}">
-        <li id="leaveBlockDisplay" class="ui-state-default ui-corner-top"><a href="LeaveBlockDisplay.do">Leave Ledger</a></li>
-        <li id="leaveRequest" class="ui-state-default ui-corner-top"><a href="LeaveRequest.do">Leave Request</a></li>
-    </c:if>
-    
     <c:if test="${targetActiveEmployee}">
         <li id="leaveAccrual" class="ui-state-default ui-corner-top"><a href="TimeOffAccrual.do">Leave Accrual</a></li>
         <c:if test="${Form.leaveEnabled}">
