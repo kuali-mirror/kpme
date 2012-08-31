@@ -42,7 +42,7 @@
 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
+			<bean parent="TextControlDefinition" p:size="15" />
 		</property>
 		<property name="name" value="leavePlan" />
 		<property name="label" value="Leave Plan" />
