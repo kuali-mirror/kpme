@@ -23,7 +23,7 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 	private String leavePlan;
 	private Date serviceDate;
 	private boolean fmlaEligible;
-	private boolean workmansCompEligible;
+	private boolean workersCompEligible;
 	private String holidayCalendarGroup;
 	private String timezone;
 	// KPME-1268 Kagata added recordTime and recordLeave variables
@@ -85,12 +85,12 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 		this.fmlaEligible = fmlaEligible;
 	}
 
-	public boolean isWorkmansCompEligible() {
-		return workmansCompEligible;
+	public boolean isWorkersCompEligible() {
+		return workersCompEligible;
 	}
 
-	public void setWorkmansCompEligible(boolean workmansCompEligible) {
-		this.workmansCompEligible = workmansCompEligible;
+	public void setWorkersCompEligible(boolean workersCompEligible) {
+		this.workersCompEligible = workersCompEligible;
 	}
 
 	public Date getEffectiveDate() {

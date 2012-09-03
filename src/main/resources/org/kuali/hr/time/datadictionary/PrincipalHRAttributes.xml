@@ -26,7 +26,7 @@
 				<ref bean="PrincipalHRAttributes-leaveCalendar" />
 				<ref bean="PrincipalHRAttributes-serviceDate" />
 				<ref bean="PrincipalHRAttributes-fmlaEligible" />
-				<ref bean="PrincipalHRAttributes-workmansCompEligible" />
+				<ref bean="PrincipalHRAttributes-workersCompEligible" />
 				<!-- <ref bean="PrincipalHRAttributes-recordTime" />
 				<ref bean="PrincipalHRAttributes-recordLeave" /> -->
 				<ref bean="PrincipalHRAttributes-timezone" />
@@ -237,14 +237,14 @@
     	<property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
   	</bean>
 	
- 	<bean id="PrincipalHRAttributes-workmansCompEligible" parent="PrincipalHRAttributes-workmansCompEligible-parentBean"/>
-  	<bean id="PrincipalHRAttributes-workmansCompEligible-parentBean" abstract="true" parent="AttributeDefinition">
+ 	<bean id="PrincipalHRAttributes-workersCompEligible" parent="PrincipalHRAttributes-workersCompEligible-parentBean"/>
+  	<bean id="PrincipalHRAttributes-workersCompEligible-parentBean" abstract="true" parent="AttributeDefinition">
     	<property name="shortLabel" value="Workman's Comp Eligible"/>
     	<property name="control">
       		<bean parent="CheckboxControlDefinition"/>
     	</property>
-    	<property name="name" value="workmansCompEligible"/>
-    	<property name="label" value="Workman's Comp Eligible"/>
+    	<property name="name" value="workersCompEligible"/>
+    	<property name="label" value="Worker's Comp Eligible"/>
     	<property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
   	</bean>
   	
@@ -294,7 +294,7 @@
 							<bean parent="FieldDefinition" p:attributeName="serviceDate" />
 							<bean parent="FieldDefinition" p:attributeName="timezone" />
 							<bean parent="FieldDefinition" p:attributeName="fmlaEligible" />
-							<bean parent="FieldDefinition" p:attributeName="workmansCompEligible" />
+							<bean parent="FieldDefinition" p:attributeName="workersCompEligible" />
 						</list>
 					</property>
 					<property name="title" value="PrincipalHRAttributes" />

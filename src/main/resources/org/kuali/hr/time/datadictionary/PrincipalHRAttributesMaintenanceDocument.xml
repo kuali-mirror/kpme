@@ -44,11 +44,8 @@
 				<bean parent="MaintainableFieldDefinition" p:name="leavePlan" />
 				<bean parent="MaintainableFieldDefinition" p:name="serviceDate" />
 				<bean parent="MaintainableFieldDefinition" p:name="fmlaEligible" />
-				<bean parent="MaintainableFieldDefinition" p:name="workmansCompEligible" />
-				<!--
-				<bean parent="MaintainableFieldDefinition" p:name="recordTime" p:defaultValue="Y" p:required="true"/>
-				<bean parent="MaintainableFieldDefinition" p:name="recordLeave" p:defaultValue="LM" p:required="true"/>
-				 -->
+				<bean parent="MaintainableFieldDefinition" p:name="workersCompEligible" />
+				
 				<bean parent="MaintainableFieldDefinition" p:name="timezone" p:required="false" />
 				<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true"/>
 			</list>

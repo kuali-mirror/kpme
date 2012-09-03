@@ -568,7 +568,7 @@
         <field-descriptor name="timestamp"              column="TIMESTAMP"                  jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
         <field-descriptor name="active"                 column="ACTIVE"                     jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="fmlaEligible"           column="FMLA_ELIGIBLE"              jdbc-type="VARCHAR"     length="1" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-        <field-descriptor name="workmansCompEligible"   column="WORKSMAN_ELIGIBLE"          jdbc-type="VARCHAR"     length="1" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="workersCompEligible"    column="workers_eligible"           jdbc-type="VARCHAR"     length="1" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <!-- 
         <field-descriptor name="recordTime"             column="RECORD_TIME"                jdbc-type="VARCHAR"     length="1" nullable="false" />
         <field-descriptor name="recordLeave"            column="RECORD_LEAVE"               jdbc-type="VARCHAR"     length="2" nullable="false" />

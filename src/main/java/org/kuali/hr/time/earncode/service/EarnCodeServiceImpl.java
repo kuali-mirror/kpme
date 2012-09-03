@@ -173,7 +173,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         if(hrAttribute != null) {
         	leavePlan = hrAttribute.getLeavePlan();
             boolean fmla = hrAttribute.isFmlaEligible();
-            boolean workmansComp = hrAttribute.isWorkmansCompEligible();
+            boolean workmansComp = hrAttribute.isWorkersCompEligible();
         	if (StringUtils.isBlank(leavePlan)) {
         		throw new RuntimeException("No leave plan defined for " + principalId + " in principal hr attributes");
         	}
