@@ -15,6 +15,17 @@
         </span>
 	</c:if>	
 	
+	<c:choose>
+       <c:when test="${calType eq 'payCalendar'}">
+           <c:set var="calendarLocation" value="TimeDetail.do"/>
+       </c:when>
+       <c:when test="${calType eq 'leaveCalendar'}">
+           <c:set var="calendarLocation" value="LeaveCalendar.do"/>
+       </c:when>
+       <c:otherwise>
+      		<c:set var="calendarLocation" value=""/>
+       </c:otherwise>
+     </c:choose>
 	<%-- Add Paging Controls for moving between Calendars --%>
     <table class="cal-header">
         <tbody>
@@ -42,19 +53,19 @@
         <tr>
         	<c:if test="${!Form.onCurrentPeriod}" >
 	        	<td align="center">
-	        		<a href="${KualiForm.backLocation}?methodToCall=gotoCurrentPayPeriod"
+	        		<a href="${calendarLocation}?methodToCall=gotoCurrentPayPeriod"
 	                  	 target="_self" id="cppLink">Go to Current Period</a>
 	        	</td>
         	</c:if>
         </tr>
         <c:if test="${calType eq 'payCalendar'}">
-        <tr>
-            <td align="right">
-                <a href="${KualiForm.backLocation}?methodToCall=actualTimeInquiry&documentId=${Form.documentId}"
-                   target="_blank" id="atiLink">Actual Time Inquiry</a>
-            </td>
-
-        </tr>
+	        <tr>
+	            <td align="right">
+	                <a href="${calendarLocation}?methodToCall=actualTimeInquiry&documentId=${Form.documentId}"
+	                   target="_blank" id="atiLink">Actual Time Inquiry</a>
+	            </td>
+	
+	        </tr>
         </c:if>
     </table>
 
