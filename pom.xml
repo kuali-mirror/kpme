@@ -397,6 +397,7 @@
                             <username>${kr.dataSource.username}</username>
                             <password>${kr.dataSource.password}</password>
                             <dropFirst>${kr.dataSource.dropFirst}</dropFirst>
+                            <clearCheckSums>${kr.dataSource.clearCheckSums}</clearCheckSums>
                             <contexts>${kr.dataSource.contexts}</contexts>
 	                    </configuration>
 	                </execution>
@@ -412,6 +413,7 @@
                             <username>${kpme.dataSource.username}</username>
                             <password>${kpme.dataSource.password}</password>
                             <dropFirst>${kpme.dataSource.dropFirst}</dropFirst>
+                            <clearCheckSums>${kpme.dataSource.clearCheckSums}</clearCheckSums>
                             <contexts>${kpme.dataSource.contexts}</contexts>
                         </configuration>
                     </execution>
@@ -632,6 +634,7 @@
                 <kr.dataSource.username>krtt</kr.dataSource.username>
                 <kr.dataSource.password>krtt</kr.dataSource.password>
                 <kr.dataSource.dropFirst>false</kr.dataSource.dropFirst>
+                <kr.dataSource.clearCheckSums>false</kr.dataSource.clearCheckSums>
                 <kr.dataSource.contexts>rice-server-bootstrap,kpme-server-bootstrap,kpme-server-staging</kr.dataSource.contexts>
             
                 <kpme.dataSource.driver>com.mysql.jdbc.Driver</kpme.dataSource.driver>
@@ -640,6 +643,7 @@
                 <kpme.dataSource.username>tk</kpme.dataSource.username>
                 <kpme.dataSource.password>tk_tk_tk</kpme.dataSource.password>
                 <kpme.dataSource.dropFirst>false</kpme.dataSource.dropFirst>
+                <kpme.dataSource.clearCheckSums>false</kpme.dataSource.clearCheckSums>
                 <kpme.dataSource.contexts>rice-client-bootstrap,kpme-client-bootstrap,kpme-client-staging</kpme.dataSource.contexts>
             </properties>
         </profile>
@@ -652,6 +656,7 @@
                 <kr.dataSource.username>tk</kr.dataSource.username>
                 <kr.dataSource.password>tk_tk_tk</kr.dataSource.password>
                 <kr.dataSource.dropFirst>false</kr.dataSource.dropFirst>
+                <kr.dataSource.clearCheckSums>false</kr.dataSource.clearCheckSums>
                 <kr.dataSource.contexts>rice-server-bootstrap,kpme-server-bootstrap,kpme-server-test</kr.dataSource.contexts>
 
                 <kpme.dataSource.driver>com.mysql.jdbc.Driver</kpme.dataSource.driver>
@@ -660,6 +665,7 @@
                 <kpme.dataSource.username>tk</kpme.dataSource.username>
                 <kpme.dataSource.password>tk_tk_tk</kpme.dataSource.password>
                 <kpme.dataSource.dropFirst>false</kpme.dataSource.dropFirst>
+                <kpme.dataSource.clearCheckSums>false</kpme.dataSource.clearCheckSums>
                 <kpme.dataSource.contexts>kpme-client-bootstrap,kpme-client-test</kpme.dataSource.contexts>
             </properties>
         </profile>
