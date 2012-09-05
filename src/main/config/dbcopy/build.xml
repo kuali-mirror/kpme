@@ -1,0 +1,160 @@
+<project name="DBCopy" default="mysql" basedir=".">
+    
+    <!-- 
+         Welcome to the KPME Database Copy Program.
+         
+         I have defined reasonable defaults for the login information in your local databases.  You may wish to change them based on your environment.  For 
+         example, if you don't have sqlplus or mysql on your system path, you may need to define that location.  If you like to run Ant on the command line, 
+         you can define where mysql/sqlplus sits by defining a JVM argument;
+         
+                                        for mysql:
+                                        
+         ant build.xml mysql-bundled -Dmysql.location=C:\path\to\mysql\BIN\mysql.exe
+         
+                                        or for oracle
+         
+         ant build.xml oracle-bundled -Dsqlplus.location=C:\path\to\oracle\BIN\sqlplus.exe
+
+         If you like to run Ant in an IDE like Eclipse or IntelliJ, you can specify these properties like command-line arguments in your launcher.
+         
+         Enjoy!
+    -->
+
+    <!-- 
+        Global Properties 
+    -->
+    <property name="db.version" value="150"/>
+	<property name="server.schema" value="krtt"/>
+    <property name="server.username" value="krtt"/>
+    <property name="server.password" value="krtt"/>
+	<property name="client.schema" value="tk"/>
+    <property name="client.username" value="tk"/>
+    <property name="client.password" value="tk_tk_tk"/>
+	
+    <!-- 
+        MySQL Properties 
+    -->
+    <property name="mysql.location" value="mysql"/>
+
+    <!-- 
+        Oracle Properties 
+    -->
+    <property name="sqlplus.location" value="sqlplus"/>
+    <property name="db.host" value="localhost"/>
+    <property name="db.sid" value="XE"/>
+
+	<!--
+        MySQL Targets
+    -->
+    <target name="mysql" depends="mysql-init,mysql-server,mysql-client,mysql-clean" description="Updates all MySQL environment databases" />
+	    
+    <target name="mysql-init" description="Initializes the build">
+        <copy todir="." flatten="true">
+            <resources>
+                <url url="http://ci.kpme.kuali.org/public/extracts/mysql_dba${db.version}.zip"/>
+            </resources>
+        </copy>
+	    <unzip src="mysql_dba${db.version}.zip" dest="."/>
+    </target>
+	
+    <target name="mysql-server" description="Updates the server database">
+    	<loadfile property="mysql.server.reset" srcFile="reset_mysql.sql">
+    	    <filterchain>
+    	    	<tokenfilter>
+    	    		  <replaceregex pattern="@schema@" replace="${server.schema}" />
+    	    	</tokenfilter>
+    	    </filterchain>
+    	</loadfile>
+        <exec executable="${mysql.location}" dir="." inputstring="${mysql.server.reset}">
+            <arg value="-b"/>
+            <arg value="-n"/>
+            <arg value="-f"/>
+        	<arg value="-v"/>
+            <arg value="-u${server.username}"/>
+            <arg value="-p${server.password}"/>
+        </exec>
+        <exec executable="${mysql.location}" dir="mysql" input="mysql/mysql_server.sql">
+            <arg value="-b"/>
+            <arg value="-n"/>
+            <arg value="-f"/>
+        	<arg value="-v"/>
+        	<arg value="-D${server.schema}"/>
+            <arg value="-u${server.username}"/>
+            <arg value="-p${server.password}"/>
+        </exec>
+    </target>
+	
+    <target name="mysql-client" description="Updates the client database">
+        <loadfile property="mysql.client.reset" srcFile="reset_mysql.sql">
+             <filterchain>
+                 <tokenfilter>
+                 	<replaceregex pattern="@schema@" replace="${client.schema}" />
+                 </tokenfilter>
+             </filterchain>
+         </loadfile>
+        <exec executable="${mysql.location}" dir="." inputstring="${mysql.client.reset}">
+            <arg value="-b"/>
+            <arg value="-n"/>
+            <arg value="-f"/>
+        	<arg value="-v"/>
+            <arg value="-u${client.username}"/>
+            <arg value="-p${client.password}"/>
+        </exec>
+        <exec executable="${mysql.location}" dir="mysql" input="mysql/mysql_client.sql">
+            <arg value="-b"/>
+            <arg value="-n"/>
+            <arg value="-f"/>
+        	<arg value="-v"/>
+        	<arg value="-D${client.schema}"/>
+            <arg value="-u${client.username}"/>
+            <arg value="-p${client.password}"/>
+        </exec>
+    </target>
+    
+    <target name="mysql-clean" description="deletes build artifacts">
+        <delete dir="mysql"/>
+    	<delete file="mysql_server.sql"/>
+    	<delete file="mysql_client.sql"/>
+        <delete file="mysql_dba${db.version}.zip"/>
+    </target>   
+    
+    <!--
+        Oracle Targets
+    -->
+    <target name="oracle" depends="oracle-server,oracle-client,oracle-clean" description="updates all oracle development databases" />
+    
+    <target name="oracle-init" description="Initializes the build">
+        <copy todir="." flatten="true">
+            <resources>
+                <url url="http://ci.kpme.kuali.org/public/extracts/oracle_dba${db.version}.zip"/>
+            </resources>
+        </copy>
+        <unzip src="oracle_dba${db.version}.zip" dest="."/>
+    </target>
+	
+    <target name="oracle-server" depends="oracle-init" description="updates the embedded server database">
+        <exec executable="${sqlplus.location}" dir=".">
+            <arg line="${server.username}/${server.password}@//${db.host}/${db.sid} @reset_oracle.sql"/>
+        </exec>
+    	<exec executable="${sqlplus.location}" dir="oracle">
+            <arg line="${server.username}/${server.password}@//${db.host}/${db.sid} @oracle_server.sql"/>
+        </exec>
+    </target>
+    
+    <target name="oracle-client" depends="oracle-init" description="updates the embedded client database">
+        <exec executable="${sqlplus.location}" dir=".">
+            <arg line="${client.username}/${client.password}@//${db.host}/${db.sid} @reset_oracle.sql"/>
+        </exec>
+    	<exec executable="${sqlplus.location}" dir="oracle">
+            <arg line="${client.username}/${client.password}@//${db.host}/${db.sid} @oracle_client.sql"/>
+        </exec>
+    </target>
+    
+    <target name="oracle-clean" description="deletes build artifacts">
+        <delete dir="oracle"/>
+        <delete file="oracle_server.sql"/>
+        <delete file="oracle_client.sql"/>
+        <delete file="oracle_dba${db.version}.zip"/>
+    </target>
+    
+</project>
