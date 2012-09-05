@@ -220,8 +220,11 @@ public class TimeCollectionRuleDaoServiceImpl extends PlatformAwareDaoBaseOjb im
         Criteria root = new Criteria();
         Criteria effdt = new Criteria();
         Criteria timestamp = new Criteria();
-
-        effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
+        if (workArea != null) {
+            effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
+        } else {
+            effdt.addIsNull(Criteria.PARENT_QUERY_PREFIX + "workArea");
+        }
         effdt.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
         if (StringUtils.isNotBlank(dept)) {
             effdt.addEqualTo("dept", dept);
@@ -231,8 +234,11 @@ public class TimeCollectionRuleDaoServiceImpl extends PlatformAwareDaoBaseOjb im
         }
         ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(TimeCollectionRule.class, effdt);
         effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-
-        timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
+        if (workArea != null) {
+            timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
+        } else {
+            timestamp.addIsNull(Criteria.PARENT_QUERY_PREFIX + "workArea");
+        }
         timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
         if (StringUtils.isNotBlank(dept)) {
             timestamp.addEqualTo("dept", dept);
@@ -253,8 +259,8 @@ public class TimeCollectionRuleDaoServiceImpl extends PlatformAwareDaoBaseOjb im
         if (StringUtils.isNotBlank(payType)) {
             root.addLike("payType", payType);
         }
-        root.addEqualTo("effectiveDate", effdtSubQuery);
-        root.addEqualTo("timestamp", timestampSubQuery);
+        //root.addEqualTo("effectiveDate", effdtSubQuery);
+        //root.addEqualTo("timestamp", timestampSubQuery);
 
         if (StringUtils.equals(active, "Y")) {
             Criteria activeFilter = new Criteria(); // Inner Join For Activity
