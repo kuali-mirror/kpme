@@ -1,5 +1,6 @@
 package org.kuali.hr.time.accrual.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -18,14 +19,16 @@ public class TimeOffAccrualLookupableHelper extends KualiLookupableHelperService
 
 	@Override
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
+		List<HtmlData> customActionUrls = new ArrayList<HtmlData>();
+		
+		List<HtmlData> defaultCustomActionUrls = super.getCustomActionUrls(businessObject, pkNames);
 		
 		TimeOffAccrual timeOffAccrual = (TimeOffAccrual) businessObject;
 		final String lmAccrualId = timeOffAccrual.getLmAccrualId();
 
-		for (HtmlData customActionUrl : customActionUrls){
-			if (!StringUtils.equals(customActionUrl.getMethodToCall(), "copy")){
-				customActionUrls.add(customActionUrl);
+		for (HtmlData defaultCustomActionUrl : defaultCustomActionUrls){
+			if (!StringUtils.equals(defaultCustomActionUrl.getMethodToCall(), "copy")){
+				customActionUrls.add(defaultCustomActionUrl);
 			}
 		}
 		
