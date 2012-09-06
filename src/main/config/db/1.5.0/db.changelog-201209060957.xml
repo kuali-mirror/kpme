@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>Removing admin as role members</comment>
+        <delete tableName="HR_ROLES_T">
+            <where>PRINCIPAL_ID = 'admin' AND ROLE_NAME = 'TK_ORG_ADMIN'</where>
+        </delete>
+        <delete tableName="HR_ROLES_T">
+            <where>PRINCIPAL_ID = 'admin' AND ROLE_NAME = 'TK_APPROVER'</where>
+        </delete>
+        <delete tableName="HR_ROLES_T">
+            <where>PRINCIPAL_ID = 'admin' AND ROLE_NAME = 'TK_EMPLOYEE'</where>
+        </delete>
+    </changeSet>
+    
+    <changeSet id="2" author="kbtaylor" context="kpme-server-bootstrap">
+        <comment>Removing admin as role members</comment>
+        <delete tableName="KRIM_ROLE_MBR_T">
+            <where>ROLE_ID = (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-WKFLW' AND ROLE_NM = 'TK_ORG_ADMIN') AND MBR_ID = 'admin'</where>
+        </delete>
+        <delete tableName="KRIM_ROLE_MBR_T">
+            <where>ROLE_ID = (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-WKFLW' AND ROLE_NM = 'TK_APPROVER') AND MBR_ID = 'admin'</where>
+        </delete>
+        <delete tableName="KRIM_ROLE_MBR_T">
+            <where>ROLE_ID = (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-WKFLW' AND ROLE_NM = 'TK_EMPLOYEE') AND MBR_ID = 'admin'</where>
+        </delete>
+    </changeSet>
+    
+</databaseChangeLog>

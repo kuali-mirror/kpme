@@ -5,9 +5,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.job.Job;
@@ -21,88 +19,64 @@ import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class TkRoleServiceTest  extends KPMETestCase {
 
+	public static final String ADMIN = "admin";
 	public static final String TEST_USER = "eric";
-	@SuppressWarnings("unused")
-	private static final Logger LOG = Logger.getLogger(TkRoleServiceTest.class);	
-	
-	String posNumber = null;
-	String posRoleId = null;
+	public static final Long WORK_AREA = 999L;
+
+	private String posRoleId = null;
 	
 	@Test
-	public void testGetWorkAreaRoles() throws Exception {
-		TkRoleService trs = TkServiceLocator.getTkRoleService();
-		
-		Long workArea = 999L;
-		
-		// Finds TkConstants.ROLE_TK_APPROVER roles
+	public void testGetAnyWorkAreaRoles() throws Exception {
 		Date asOfDate = new Date((new DateTime(2010, 8, 25, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		List<TkRole> roles = trs.getWorkAreaRoles(workArea, TkConstants.ROLE_TK_APPROVER, asOfDate);
-		Assert.assertNotNull(roles);
-		Assert.assertEquals("Incorrect number of roles.", 2, roles.size());
-		
-		asOfDate = new Date((new DateTime(2010, 8, 25, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		roles = trs.getWorkAreaRoles(workArea, TkConstants.ROLE_TK_APPROVER, asOfDate);
-		Assert.assertNotNull(roles);
-		Assert.assertEquals("Incorrect number of roles.", 2, roles.size());
-
-		asOfDate = new Date((new DateTime(2010, 8, 25, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		roles = trs.getWorkAreaRoles(workArea, TkConstants.ROLE_TK_APPROVER, asOfDate);
-		Assert.assertNotNull(roles);
-		Assert.assertEquals("Incorrect number of roles.", 2, roles.size());
-		for (TkRole role : roles) {
-			Assert.assertTrue("Incorrect values.", role.getHrRolesId().equals("22") || role.getHrRolesId().equals("6"));
-		}
-		
-		// Finds any roles
-		roles=trs.getWorkAreaRoles(workArea, asOfDate);
+		List<TkRole> roles = TkServiceLocator.getTkRoleService().getWorkAreaRoles(WORK_AREA, asOfDate);
 		Assert.assertNotNull(roles);
 		Assert.assertEquals("Incorrect number of roles.", 4, roles.size());
 		for (TkRole role : roles) {
 			Assert.assertTrue("Incorrect values.", 
-					role.getHrRolesId().equals("6")  ||
-					role.getHrRolesId().equals("16") ||
-					role.getHrRolesId().equals("21") ||
-					role.getHrRolesId().equals("22"));
-		}		
+					(role.getPrincipalId().equals(ADMIN) && role.getRoleName().equals(TkConstants.ROLE_TK_LOCATION_ADMIN))
+				 || (role.getPrincipalId().equals(ADMIN) && role.getRoleName().equals(TkConstants.ROLE_TK_APPROVER))
+				 || (role.getPrincipalId().equals(TEST_USER) && role.getRoleName().equals(TkConstants.ROLE_TK_LOCATION_ADMIN))
+				 || (role.getPrincipalId().equals(TEST_USER) && role.getRoleName().equals(TkConstants.ROLE_TK_APPROVER)));
+		}
+	}
+	
+	@Test
+	public void testGetApproverWorkAreaRoles() throws Exception {
+		Date asOfDate = new Date((new DateTime(2010, 8, 25, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		List<TkRole> roles = TkServiceLocator.getTkRoleService().getWorkAreaRoles(WORK_AREA, TkConstants.ROLE_TK_APPROVER, asOfDate);
+		Assert.assertNotNull(roles);
+		Assert.assertEquals("Incorrect number of roles.", 2, roles.size());
+		for (TkRole role : roles) {
+			Assert.assertTrue("Incorrect values.", role.getPrincipalId().equals(ADMIN) || role.getPrincipalId().equals(TEST_USER));
+		}
 	}
 	
 	@Test
 	public void testGetRolesForPrincipal() throws Exception {
-		TkRoleService trs = TkServiceLocator.getTkRoleService();
-		String principalId = TEST_USER;
-		
-		// All Role Names, One User with Specific asOfDate
-		Date asOfDate = new Date((new DateTime(2010, 8, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		List<TkRole> roles = trs.getRoles(principalId, asOfDate);
-		Assert.assertNotNull(roles);
-		Assert.assertEquals("Incorrect number of roles.", 2, roles.size());
-		for (TkRole role: roles) {
-			Assert.assertTrue("Incorrect values.", 
-					role.getHrRolesId().equals("7") ||
-					role.getHrRolesId().equals("17"));
-		}
-		
-		// All Role Names, One User with Specific asOfDate with multiple timestamps
-		asOfDate = new Date((new DateTime(2010, 8, 20, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		roles = trs.getRoles(principalId, asOfDate);
-		Assert.assertNotNull(roles);
-		Assert.assertEquals("Incorrect number of roles.", 2, roles.size());
-		for (TkRole role: roles) {
-			Assert.assertTrue("Incorrect values.", 
-					role.getHrRolesId().equals("21") ||
-					role.getHrRolesId().equals("22"));
-		}
-		
-		// Specific Role Name, Specific User
-		asOfDate = new Date((new DateTime(2010, 8, 21, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		roles = trs.getRoles(principalId, TkConstants.ROLE_TK_APPROVER, asOfDate);
+		Date asOfDate = new Date((new DateTime(2010, 8, 21, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		List<TkRole> roles = TkServiceLocator.getTkRoleService().getRoles(TEST_USER, TkConstants.ROLE_TK_APPROVER, asOfDate);
 		Assert.assertNotNull(roles);
 		Assert.assertEquals("Incorrect number of roles.", 1, roles.size());
 		for (TkRole role: roles) {
 			Assert.assertTrue("Incorrect values.", 
-					role.getHrRolesId().equals("22"));
+				   role.getPrincipalId().equals(TEST_USER) 
+				&& role.getRoleName().equals(TkConstants.ROLE_TK_APPROVER)
+				&& role.getEffectiveDate().before(asOfDate));
 		}
-		
+	}
+	
+	@Test
+	public void testGetEffectiveDateRolesForPrincipal() throws Exception {
+		Date asOfDate = new Date((new DateTime(2010, 8, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		List<TkRole> roles = TkServiceLocator.getTkRoleService().getRoles(TEST_USER, asOfDate);
+		Assert.assertNotNull(roles);
+		Assert.assertEquals("Incorrect number of roles.", 2, roles.size());
+		for (TkRole role: roles) {
+			Assert.assertTrue("Incorrect values.", 
+					role.getPrincipalId().equals(TEST_USER) 
+				&& (role.getRoleName().equals(TkConstants.ROLE_TK_LOCATION_ADMIN) || role.getRoleName().equals(TkConstants.ROLE_TK_APPROVER)
+				&& role.getEffectiveDate().before(asOfDate)));
+		}
 	}
 	
 	@Test
@@ -145,18 +119,18 @@ public class TkRoleServiceTest  extends KPMETestCase {
 		// This is causing all the unit tests to have an error - needs to be looked into later.
 		TkServiceLocator.getJobService().saveOrUpdate(job);
 		
-		 TkRole tkRole = new TkRole();
-		 tkRole.setPrincipalId(null);
-		 tkRole.setRoleName(TkConstants.ROLE_TK_APPROVER);
-		 tkRole.setUserPrincipalId("admin");
-		 tkRole.setWorkArea(1234L);
-		 tkRole.setEffectiveDate(new Date((new DateTime(2010, 8, 20, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis()));
-		 tkRole.setTimestamp(new Timestamp(System.currentTimeMillis()));
-		 tkRole.setActive(true);
-		 tkRole.setPositionNumber(posNumber);
+		TkRole tkRole = new TkRole();
+		tkRole.setPrincipalId(null);
+		tkRole.setRoleName(TkConstants.ROLE_TK_APPROVER);
+		tkRole.setUserPrincipalId("admin");
+		tkRole.setWorkArea(1234L);
+		tkRole.setEffectiveDate(new Date((new DateTime(2010, 8, 20, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis()));
+		tkRole.setTimestamp(new Timestamp(System.currentTimeMillis()));
+		tkRole.setActive(true);
+		tkRole.setPositionNumber(posNumber);
 		 
-		 TkServiceLocator.getTkRoleService().saveOrUpdate(tkRole);
-		 posRoleId = tkRole.getHrRolesId();
+		TkServiceLocator.getTkRoleService().saveOrUpdate(tkRole);
+		posRoleId = tkRole.getHrRolesId();
 	}
 
 	@Override
@@ -166,4 +140,3 @@ public class TkRoleServiceTest  extends KPMETestCase {
 		super.tearDown();
 	}
 }
-
