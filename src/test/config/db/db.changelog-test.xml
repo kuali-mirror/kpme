@@ -116,6 +116,7 @@
         <loadData tableName="tk_system_lunch_rl_t" file="src/test/config/db/test/tk_system_lunch_rl_t.csv" />
         <loadData tableName="tk_task_t" file="src/test/config/db/test/tk_task_t.csv" />
         <loadData tableName="tk_time_collection_rl_t" file="src/test/config/db/test/tk_time_collection_rl_t.csv" />
+        <loadData tableName="tk_user_pref_t" file="src/test/config/db/test/tk_user_pref_t.csv" />
         <loadData tableName="tk_work_area_t" file="src/test/config/db/test/tk_work_area_t.csv" />
     </changeSet>
 
