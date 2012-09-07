@@ -21,7 +21,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class EarnCodeSecurityMaintenanceTest extends KPMETestCase{
-	private static final java.sql.Date TEST_DATE = new Date((new DateTime(2009, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+	private static final java.sql.Date TEST_DATE_OLD = new Date((new DateTime(2009, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+	private static final java.sql.Date TEST_DATE_NEW = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 	private static final String EARN_CODE = "RGN";
 	private static final String DEPT = "TEST-DEPT";
 	private static final String SAL_GROUP = "SD1";
@@ -100,9 +101,11 @@ public class EarnCodeSecurityMaintenanceTest extends KPMETestCase{
 		
 		this.createDuplicateEarnCodeSecurity();
 		deptEarnCodeLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.EARN_CODE_SECURITY_MAINT_URL);
-		this.setFieldValue(deptEarnCodeLookup, "earnCode", "RGH");
-		this.setFieldValue(deptEarnCodeLookup, "dept","TEST-DEPT");
+		this.setFieldValue(deptEarnCodeLookup, "earnCode", EARN_CODE);
+		this.setFieldValue(deptEarnCodeLookup, "dept", DEPT);
 		this.setFieldValue(deptEarnCodeLookup, "effectiveDate", "08/01/2010");
+		this.setFieldValue(deptEarnCodeLookup, "activeYes", "on");
+		this.setFieldValue(deptEarnCodeLookup, "historyYes", "on");
 		
 		deptEarnCodeLookup = HtmlUnitUtil.clickInputContainingText(deptEarnCodeLookup, "search");
 		maintPage = HtmlUnitUtil.clickAnchorContainingText(deptEarnCodeLookup, "edit", "hrEarnCodeSecurityId="+hrDeptEarnCodeId);
@@ -117,11 +120,10 @@ public class EarnCodeSecurityMaintenanceTest extends KPMETestCase{
 		EarnCodeSecurity deptEarnCode = new EarnCodeSecurity();
 		deptEarnCode.setActive(true);
 		deptEarnCode.setEarnCode(EARN_CODE);
-		deptEarnCode.setEffectiveDate(TEST_DATE);
 		deptEarnCode.setDept(DEPT);
 		deptEarnCode.setHrSalGroup(SAL_GROUP);
 		deptEarnCode.setEmployee(false);
-		deptEarnCode.setEffectiveDate(TEST_DATE);
+		deptEarnCode.setEffectiveDate(TEST_DATE_OLD);
 		deptEarnCode.setLocation("test");
 		deptEarnCode.setEarnCodeType("T");
 		deptEarnCode = KRADServiceLocator.getBusinessObjectService().save(deptEarnCode);
@@ -132,11 +134,10 @@ public class EarnCodeSecurityMaintenanceTest extends KPMETestCase{
 		EarnCodeSecurity deptEarnCode = new EarnCodeSecurity();
 		deptEarnCode.setActive(true);
 		deptEarnCode.setEarnCode(EARN_CODE);
-		deptEarnCode.setEffectiveDate(TEST_DATE);
 		deptEarnCode.setDept(DEPT);
 		deptEarnCode.setHrSalGroup(SAL_GROUP);
 		deptEarnCode.setEmployee(false);
-		deptEarnCode.setEffectiveDate(TEST_DATE);
+		deptEarnCode.setEffectiveDate(TEST_DATE_NEW);
 		deptEarnCode.setLocation("test");
 		deptEarnCode.setEarnCodeType("T");
         deptEarnCode = KRADServiceLocator.getBusinessObjectService().save(deptEarnCode);
