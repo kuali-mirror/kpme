@@ -55,7 +55,7 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
             if ( aRole != null ) {
             	if(!StringUtils.isEmpty(aRole.getPrincipalId()) && !StringUtils.isEmpty(aRole.getPositionNumber())) {
             		GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"roles", 
-            				"error.role.principalId.positonNubmer", aRole.getPrincipalId());
+            				"error.role.principalId.positonNumber", aRole.getPrincipalId());
             		return;
             	}
             	if(aRole.getPrincipalId() != null && !aRole.getPrincipalId().isEmpty()) {
