@@ -29,7 +29,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
  */
 public class JobTest extends KPMETestCase {
 
-	private static final String CALENDAR_GROUP = "BW-CAL";
+	private static final String CALENDAR_GROUP = "BWN-CAL";
 	private static Long jobId = 23L;//id entered in the bootstrap SQL
 	private static Long jobNumber = 5L;//number entered in the bootstrap SQL
 	public static final String TEST_USER = "admin";
@@ -38,7 +38,7 @@ public class JobTest extends KPMETestCase {
 	@Test
 	public void testInsertPayCalendar() throws Exception {
 		Calendar payCalendar = new Calendar();
-		payCalendar.setHrCalendarId("1");
+		payCalendar.setHrCalendarId("1001");
 		payCalendar.setCalendarName(CALENDAR_GROUP);
 
 		payCalendar.setFlsaBeginDay("Sun");

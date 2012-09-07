@@ -135,7 +135,9 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 		// Timeblocks
 
 		// August
-		CalendarEntries endOfAugust = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("2");
+		Date beginPeriodDate = new Date(new DateTime(2010, 8, 15, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()).getMillis());
+		Date endPeriodDate = new Date(new DateTime(2010, 9, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()).getMillis());
+		CalendarEntries endOfAugust = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(beginPeriodDate, endPeriodDate);
 		DateTime start = new DateTime(2010, 8, 31, 21, 45, 0, 0, TKUtils.getSystemDateTimeZone());
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfAugust);
@@ -158,9 +160,10 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
         blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusHours(22), 1, new BigDecimal("2"), "RGN", jobNumber, workArea));
         blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusDays(1), 1, new BigDecimal("1"), "RGN", jobNumber, workArea));
 		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusDays(1).plusHours(17), 1, new BigDecimal("6"), "RGN", jobNumber, workArea));
-        setDocumentIdOnBlocks(blocks, "2");
-        // set to arbitrary ID.
+		setDocumentIdOnBlocks(blocks, tdoc.getDocumentId());
+        
 		aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
+		
 		TkTestUtils.verifyAggregateHourSumsFlatList("September Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("RGN", new BigDecimal(20));}},aggregate);
 
 		// Verify carry over and applied PRM bucket
@@ -213,7 +216,9 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 				dayArray);
 
 		// August
-		CalendarEntries endOfAugust = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("2");
+		Date beginPeriodDate = new Date(new DateTime(2010, 8, 15, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()).getMillis());
+		Date endPeriodDate = new Date(new DateTime(2010, 9, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()).getMillis());
+		CalendarEntries endOfAugust = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(beginPeriodDate, endPeriodDate);
 		DateTime start = new DateTime(2010, 8, 31, 22, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfAugust);

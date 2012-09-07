@@ -103,7 +103,7 @@ public class ShiftDifferentialRuleMaintTest extends KPMETestCase{
 		shiftDifferentialRule.setMaxGap(new BigDecimal(2));
 		shiftDifferentialRule.setMinHours(TEST_NO);
 		shiftDifferentialRule.setPayGrade(TEST_CODE);	
-		shiftDifferentialRule.setPyCalendarGroup("BW-CAL1");
+		shiftDifferentialRule.setPyCalendarGroup("BW-CAL");
 		shiftDifferentialRule.setSunday(true);	
 		shiftDifferentialRule.setMonday(true);
 		shiftDifferentialRule.setTuesday(true);

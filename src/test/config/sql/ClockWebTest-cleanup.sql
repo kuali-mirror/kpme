@@ -1,1 +1,1 @@
-delete from hr_calendar_entries_t where hr_calendar_entry_id in ('62', '63', '64', '65');
+delete from hr_calendar_entries_t where hr_calendar_entry_id in ('10000', '10001', '10002', '10003');

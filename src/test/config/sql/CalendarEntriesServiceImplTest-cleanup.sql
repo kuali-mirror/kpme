@@ -1,1 +1,0 @@
-delete from hr_calendar_entries_t where hr_calendar_entry_id in ('59', '60', '61');

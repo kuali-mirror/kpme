@@ -16,7 +16,7 @@ public class LeaveSummaryServiceImplTest extends KPMETestCase {
 	@Test
 	public void testGetLeaveSummary() throws Exception {
 		// selected calendar entry is 03/15/2012 - 04/01/2012
-		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("50001");
+		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("10001");
 		
 		LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary("testUser", ce);
 		Assert.assertTrue("There ytd dates String should be '02/01/2012 - 03/14/2012', not " + ls.getYtdDatesString(), ls.getYtdDatesString().equals("02/01/2012 - 03/14/2012"));
@@ -38,7 +38,7 @@ public class LeaveSummaryServiceImplTest extends KPMETestCase {
 		Assert.assertTrue("FMLA usage for Row should be '2', not " + aRow.getFmlaUsage(), aRow.getFmlaUsage().equals(new BigDecimal(2)));
 		
 		// selected calendar entry is 04/01/2012 - 04/30/2012
-		ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("50002");
+		ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("10002");
 		ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary("testUser", ce);
 		Assert.assertTrue("There ytd dates String should be '02/01/2012 - 03/14/2012', not " + ls.getYtdDatesString(), ls.getYtdDatesString().equals("02/01/2012 - 03/14/2012"));
 		Assert.assertTrue("There pending dates String should be '03/15/2012 - 04/30/2012', not " + ls.getPendingDatesString(), ls.getPendingDatesString().equals("03/15/2012 - 04/30/2012"));
@@ -59,7 +59,7 @@ public class LeaveSummaryServiceImplTest extends KPMETestCase {
 		Assert.assertTrue("FMLA usage for Row should be '2', not " + aRow.getFmlaUsage(), aRow.getFmlaUsage().equals(new BigDecimal(2)));
 		
 		// selected calendar entry is 05/01/2012 - 05/31/2012
-		ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("50003");
+		ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("10003");
 		ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary("testUser", ce);
 		Assert.assertTrue("There ytd dates String should be '01/01/2012 - 03/14/2012', not " + ls.getYtdDatesString(), ls.getYtdDatesString().equals("01/01/2012 - 03/14/2012"));
 		Assert.assertTrue("There pending dates String should be '03/15/2012 - 05/31/2012', not " + ls.getPendingDatesString(), ls.getPendingDatesString().equals("03/15/2012 - 05/31/2012"));
@@ -97,7 +97,7 @@ public class LeaveSummaryServiceImplTest extends KPMETestCase {
 	
 	@Test
 	public void testGetHeaderForSummary() throws Exception {
-		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("50001");
+		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("10001");
 		List<String> headers = TkServiceLocator.getLeaveSummaryService().getHeaderForSummary(ce);
 		
 		Assert.assertTrue("The size of the headers should be 17, not " + headers.size(), headers.size()== 17);

@@ -29,6 +29,6 @@ public class TimezoneTest extends KPMETestCase {
     	// clock out 
     	page = TkTestUtils.clickButton(page, "clockAction");
     	HtmlUnitUtil.createTempFile(page);
-    	Assert.assertTrue("Time zone information is incorrect", page.asText().contains("Central Standard Time"));
+    	Assert.assertTrue("Time zone information is incorrect", page.asText().contains("Central"));
 	}
 }
