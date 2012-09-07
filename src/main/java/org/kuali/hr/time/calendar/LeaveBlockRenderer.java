@@ -6,12 +6,13 @@ import org.kuali.hr.lm.leaveblock.LeaveBlock;
 
 public class LeaveBlockRenderer {
     private LeaveBlock leaveBlock;
+    private String assignmentClass;
     //private boolean readOnly;
 
     public  LeaveBlockRenderer(LeaveBlock leaveBlock) {
         this.leaveBlock = leaveBlock;
     }
-
+ 
     public LeaveBlock getLeaveBlock() {
         return leaveBlock;
     }
@@ -43,5 +44,13 @@ public class LeaveBlockRenderer {
     public boolean getDeletable() {
         return leaveBlock.isDeletable();
     }
+
+	public String getAssignmentClass() {
+		return assignmentClass;
+	}
+
+	public void setAssignmentClass(String assignmentClass) {
+		this.assignmentClass = assignmentClass;
+	}
 
 }

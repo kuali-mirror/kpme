@@ -28,6 +28,7 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 	private TimeSummary timeSummary;
 	private Map<String, String> assignStyleClassMap = new HashMap<String, String>();
     private String timeBlockString;
+    private String leaveBlockString;
     private TkCalendar calendar;
     private String docEditable;
     private String workingOnItsOwn;	// true if the user is working on its own timesheet
@@ -169,5 +170,13 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 
 	public void setWorkingOnItsOwn(String workingOnItsOwn) {
 		this.workingOnItsOwn = workingOnItsOwn;
+	}
+
+	public String getLeaveBlockString() {
+		return leaveBlockString;
+	}
+
+	public void setLeaveBlockString(String leaveBlockString) {
+		this.leaveBlockString = leaveBlockString;
 	}
 }

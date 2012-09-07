@@ -1,6 +1,8 @@
 package org.kuali.hr.time.calendar;
 
 import org.joda.time.DateTime;
+import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.lm.util.LeaveBlockAggregate;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -23,6 +25,61 @@ public class TkCalendar extends CalendarParent {
         super(calendarEntry);
     }
 
+    public static TkCalendar getCalendar(TkTimeBlockAggregate tbAggregate, LeaveBlockAggregate lbAggregate) {
+    	TkCalendar tc = new TkCalendar();
+    	 
+        if (tbAggregate != null && lbAggregate != null) {
+        	if(tbAggregate.getDayTimeBlockList().size() != lbAggregate.getDayLeaveBlockList().size()){
+        		// error
+        	}
+        		
+        	List<CalendarWeek> weeks = new ArrayList<CalendarWeek>();
+	        tc.setPayCalEntry(tbAggregate.getPayCalendarEntry());
+	
+	         int firstDay = 0;
+	         if (tc.getBeginDateTime().getDayOfWeek() != 7) {
+	             firstDay = 0 - tc.getBeginDateTime().getDayOfWeek();   // always render calendar weeks from Sundays
+	         }
+	         for (int i = 0; i < tbAggregate.numberOfAggregatedWeeks(); i++) {
+	             TkCalendarWeek week = new TkCalendarWeek();
+	             List<List<TimeBlock>> weekBlocks = tbAggregate.getWeekTimeBlocks(i);
+	             List<List<LeaveBlock>> weekLeaveBlocks = lbAggregate.getWeekLeaveBlocks(i);
+	             List<CalendarDay> days = new ArrayList<CalendarDay>(7);
+	
+	             for (int j = 0; j < weekBlocks.size(); j++) {
+	                 List<TimeBlock> dayBlocks = weekBlocks.get(j);
+	                 List<LeaveBlock> dayLeaveBlocks = weekLeaveBlocks.get(j);
+	                 // Create the individual days.
+	                 TkCalendarDay day = new TkCalendarDay();
+	                 day.setTimeblocks(dayBlocks);
+	                 day.setLeaveBlocks(dayLeaveBlocks);
+	                 day.setDayNumberString(tc.getDayNumberString(i * 7 + j + firstDay));
+	                 day.setDayNumberDelta(i * 7 + j + firstDay);
+	                 day.setDateString(tc.getDateString(day.getDayNumberDelta()));
+	                 assignDayLunchLabel(day);
+	                 int dayIndex = i * 7 + j + firstDay;
+	                 DateTime beginDateTemp = tc.getBeginDateTime().plusDays(dayIndex);
+	                 day.setGray(false);
+	                 if (beginDateTemp.isBefore(tc.getBeginDateTime().getMillis())
+	                         || beginDateTemp.isAfter(tc.getEndDateTime().getMillis())) {
+	                     day.setGray(true);
+	                 }
+	                 if (tc.getEndDateTime().getHourOfDay() == 0 && beginDateTemp.equals(tc.getEndDateTime())) {
+	                     day.setGray(true);
+	                 }
+	                 days.add(day);
+	             }
+	             week.setDays(days);
+	             weeks.add(week);
+	         }
+	         tc.setWeeks(weeks);
+	     } else {
+	         return null;
+	     }
+
+        return tc;
+    }
+    
     public static TkCalendar getCalendar(TkTimeBlockAggregate aggregate) {
         TkCalendar tc = new TkCalendar();
 
@@ -92,6 +149,7 @@ public class TkCalendar extends CalendarParent {
         }
     }
 
+    
     public void assignAssignmentStyle(Map<String, String> styleMap) {
         for (CalendarWeek aWeek : this.getWeeks()) {
             for (CalendarDay aDay : aWeek.getDays()) {
@@ -103,6 +161,15 @@ public class TkCalendar extends CalendarParent {
                         tbr.setAssignmentClass("");
                     }
                 }
+                for (LeaveBlockRenderer lbr : ((TkCalendarDay)aDay).getLeaveBlockRenderers()) {
+                    String assignmentKey = lbr.getLeaveBlock().getAssignmentKey();
+                    if (assignmentKey != null && styleMap.containsKey(assignmentKey)) {
+                        lbr.setAssignmentClass(styleMap.get(assignmentKey));
+                    } else {
+                        lbr.setAssignmentClass("");
+                    }
+                } 
+                
             }
         }
     }

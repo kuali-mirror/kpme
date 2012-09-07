@@ -1,5 +1,6 @@
 package org.kuali.hr.time.detail.web;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -19,10 +20,14 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
+import org.kuali.hr.lm.LMConstants;
+import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.lm.util.LeaveBlockAggregate;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.TkCalendar;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -72,42 +77,32 @@ public class TimeDetailAction extends TimesheetAction {
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
         tdaf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(TKContext.getCurrentTimesheetDoucment(), false));
 
-        //List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(tdaf.getTimesheetDocument().getDocumentHeader().getDocumentId()));
-        List<TimeBlock> timeBlocks = TKContext.getCurrentTimesheetDoucment().getTimeBlocks();
-
         // Handle User preference / timezone information (pushed up from TkCalendar to avoid duplication)
-        TimeSummary ts = TkServiceLocator.getTimeSummaryService().getTimeSummary(TKContext.getCurrentTimesheetDoucment());
-        tdaf.setAssignStyleClassMap(ActionFormUtils.buildAssignmentStyleClassMap(TKContext.getCurrentTimesheetDoucment().getTimeBlocks()));
-        Map<String, String> aMap = tdaf.getAssignStyleClassMap();
-        // set css classes for each assignment row
-        for (EarnGroupSection earnGroupSection : ts.getSections()) {
-            for (EarnCodeSection section : earnGroupSection.getEarnCodeSections()) {
-                for (AssignmentRow assignRow : section.getAssignmentsRows()) {
-                    if (assignRow.getAssignmentKey() != null && aMap.containsKey(assignRow.getAssignmentKey())) {
-                        assignRow.setCssClass(aMap.get(assignRow.getAssignmentKey()));
-                    } else {
-                        assignRow.setCssClass("");
-                    }
-                }
-            }
-
-        }
-        tdaf.setTimeSummary(ts);
-        ActionFormUtils.validateHourLimit(tdaf);
-        ActionFormUtils.addWarningTextFromEarnGroup(tdaf);
-
         // Set calendar
         CalendarEntries payCalendarEntry = tdaf.getPayCalendarDates();
         Calendar payCalendar = TkServiceLocator.getCalendarService().getCalendar(payCalendarEntry.getHrCalendarId());
-        TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry, payCalendar, true,
+        
+        //List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(tdaf.getTimesheetDocument().getDocumentHeader().getDocumentId()));
+        List<TimeBlock> timeBlocks = TKContext.getCurrentTimesheetDoucment().getTimeBlocks();
+        // get leave blocks
+        List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService()
+        		.getLeaveBlocksForTimesheet(TKContext.getCurrentTimesheetDoucment().getPrincipalId(), payCalendarEntry.getBeginPeriodDate(), payCalendarEntry.getEndPeriodDate());
+        
+        this.assignStypeClassMapForTimeSummary(tdaf,timeBlocks, leaveBlocks);
+        
+        LeaveBlockAggregate lbAggregate = new LeaveBlockAggregate(leaveBlocks, payCalendarEntry);
+        
+        TkTimeBlockAggregate tbAggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry, payCalendar, true,
                 TKUtils.getFullWeekDaySpanForCalendarEntry(payCalendarEntry));
-        TkCalendar cal = TkCalendar.getCalendar(aggregate);
-        cal.assignAssignmentStyle(aMap);
+        // use both time aggregate and leave aggregate to populate the calendar
+        TkCalendar cal = TkCalendar.getCalendar(tbAggregate, lbAggregate);
+        cal.assignAssignmentStyle(tdaf.getAssignStyleClassMap());
         tdaf.setTkCalendar(cal);
      
         this.populateCalendarAndPayPeriodLists(request, tdaf);
 
-        tdaf.setTimeBlockString(ActionFormUtils.getTimeBlocksJson(aggregate.getFlattenedTimeBlockList()));
+        tdaf.setTimeBlockString(ActionFormUtils.getTimeBlocksJson(tbAggregate.getFlattenedTimeBlockList()));
+        tdaf.setLeaveBlockString(ActionFormUtils.getLeaveBlocksJson(lbAggregate.getFlattenedLeaveBlockList()));
 
         tdaf.setOvertimeEarnCodes(TkServiceLocator.getEarnCodeService().getOvertimeEarnCodesStrs(TKContext.getCurrentTimesheetDoucment().getAsOfDate()));
 
@@ -143,6 +138,29 @@ public class TimeDetailAction extends TimesheetAction {
 
         return forward;
     }
+
+    // use lists of time blocks and leave blocks to build the style class map and assign css class to associated summary rows
+	private void assignStypeClassMapForTimeSummary(TimeDetailActionForm tdaf, List<TimeBlock> timeBlocks, List<LeaveBlock> leaveBlocks) throws Exception {
+		TimeSummary ts = TkServiceLocator.getTimeSummaryService().getTimeSummary(TKContext.getCurrentTimesheetDoucment());
+        tdaf.setAssignStyleClassMap(ActionFormUtils.buildAssignmentStyleClassMap(timeBlocks, leaveBlocks));
+        Map<String, String> aMap = tdaf.getAssignStyleClassMap();
+        // set css classes for each assignment row
+        for (EarnGroupSection earnGroupSection : ts.getSections()) {
+            for (EarnCodeSection section : earnGroupSection.getEarnCodeSections()) {
+                for (AssignmentRow assignRow : section.getAssignmentsRows()) {
+                    if (assignRow.getAssignmentKey() != null && aMap.containsKey(assignRow.getAssignmentKey())) {
+                        assignRow.setCssClass(aMap.get(assignRow.getAssignmentKey()));
+                    } else {
+                        assignRow.setCssClass("");
+                    }
+                }
+            }
+
+        }
+        tdaf.setTimeSummary(ts);
+        ActionFormUtils.validateHourLimit(tdaf);
+        ActionFormUtils.addWarningTextFromEarnGroup(tdaf);
+	}
 
 	private void populateCalendarAndPayPeriodLists(HttpServletRequest request, TimeDetailActionForm tdaf) {
 		List<TimesheetDocumentHeader> documentHeaders = (List<TimesheetDocumentHeader>) TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeadersForPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
@@ -234,7 +252,45 @@ public class TimeDetailAction extends TimesheetAction {
      */
     public ActionForward addTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
-        Timestamp overtimeBeginTimestamp = null;
+        if(StringUtils.isNotEmpty(tdaf.getSelectedEarnCode())) {
+        	EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument().getAsOfDate());
+        	if(ec != null && ec.getLeavePlan() != null) {	// leave blocks changes
+        		this.changeLeaveBlocks(tdaf);
+        	} else {	// time blocks changes
+        		this.changeTimeBlocks(tdaf);
+        	}
+        }
+        
+        ActionFormUtils.validateHourLimit(tdaf);
+        ActionFormUtils.addWarningTextFromEarnGroup(tdaf);
+
+        return mapping.findForward("basic");
+    }
+    
+    // add/update leave blocks 
+	private void changeLeaveBlocks(TimeDetailActionForm tdaf) {
+		// if updating an existing leave block, delete the existing leave block first 
+		if (tdaf.getLmLeaveBlockId() != null) {
+			LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(Long.getLong(tdaf.getLmLeaveBlockId()));
+			if (lb != null) {
+                TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(Long.getLong(tdaf.getLmLeaveBlockId()));
+            }
+		}
+		
+		DateTime beginDate = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getStartDate()));
+		DateTime endDate = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getEndDate()));
+		String selectedEarnCode = tdaf.getSelectedEarnCode();
+		BigDecimal hours = tdaf.getHours();
+		String desc = "";	// there's no description field in time calendar pop window
+		String spanningWeeks = tdaf.getSpanningWeeks();
+		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(tdaf.getTimesheetDocument(), tdaf.getSelectedAssignment());
+		TkServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate,
+				endDate,  tdaf.getPayCalendarDates(), selectedEarnCode, hours, desc, assignment, spanningWeeks, LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR);
+	}
+	
+    // add/update time blocks
+	private void changeTimeBlocks(TimeDetailActionForm tdaf) {
+		Timestamp overtimeBeginTimestamp = null;
         Timestamp overtimeEndTimestamp = null;
         
         // This is for updating a timeblock or changing
@@ -305,13 +361,7 @@ public class TimeDetailAction extends TimesheetAction {
 
         TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, tdaf.getPayCalendarDates(), tdaf.getTimesheetDocument(), TKContext.getPrincipalId());
         TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks);
-        //call history service
-
-        ActionFormUtils.validateHourLimit(tdaf);
-        ActionFormUtils.addWarningTextFromEarnGroup(tdaf);
-
-        return mapping.findForward("basic");
-    }
+	}
 
     public ActionForward updateTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -402,5 +452,18 @@ public class TimeDetailAction extends TimesheetAction {
 	  }
 	  return mapping.findForward("basic");
   }
+  
+  public ActionForward deleteLeaveBlock(ActionMapping mapping,ActionForm form, HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+	  TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
+	  String leaveBlockId = tdaf.getLmLeaveBlockId();
+
+      LeaveBlock blockToDelete = TkServiceLocator.getLeaveBlockService().getLeaveBlock(new Long(leaveBlockId));
+      if (blockToDelete != null && TkServiceLocator.getPermissionsService().canDeleteLeaveBlock(blockToDelete)) {
+		    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(Long.parseLong(leaveBlockId));
+      }
+		
+      return mapping.findForward("basic");
+	}
 
 }

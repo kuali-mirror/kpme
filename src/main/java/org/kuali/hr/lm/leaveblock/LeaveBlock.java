@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
+import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -67,14 +68,15 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	private Long workArea;
 	private Long jobNumber;
 	private Long task;
-
+	private String assignmentKey;
+	
 	@Transient
 	private String assignmentTitle;
 	@Transient
 	private Double accrualBalance;
 	@Transient
 	private String calendarId;
-
+   
 	public static class Builder {
 
 		// required parameters for the constructor
@@ -543,4 +545,16 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
     public boolean isDeletable() {
         return TkServiceLocator.getPermissionsService().canDeleteLeaveBlock(this);
     }
+    
+    public String getAssignmentKey() {
+        if (assignmentKey == null) {
+            AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getJobNumber().toString(), this.getWorkArea().toString(), this.getTask().toString());
+            this.setAssignmentKey(adk.toAssignmentKeyString());
+        }
+        return assignmentKey;
+    }
+    public void setAssignmentKey(String assignmentDescription) {
+        this.assignmentKey = assignmentDescription;
+    }
+
 }

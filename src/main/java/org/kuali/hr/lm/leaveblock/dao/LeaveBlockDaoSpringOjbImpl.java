@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -124,6 +125,28 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 	    	leaveBlocks.addAll(c);
 	    }
 		return leaveBlocks;
+	}
+	@Override
+	public List<LeaveBlock> getLeaveBlocksForTimesheet(String principalId, Date beginDate, Date endDate) {
+		List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
+		
+        Criteria root = new Criteria();
+        root.addEqualTo("principalId", principalId);
+        root.addGreaterOrEqualThan("leaveDate", beginDate);
+        root.addLessOrEqualThan("leaveDate", endDate);
+        List<String> typeValues = new ArrayList<String>();
+        typeValues.add(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR);
+        typeValues.add(LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR);
+        root.addIn("leaveBlockType", typeValues);
+
+        Query query = QueryFactory.newQuery(LeaveBlock.class, root);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+        if (c != null) {
+        	leaveBlocks.addAll(c);
+        }
+
+        return leaveBlocks;
 	}
 
 }

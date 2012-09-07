@@ -49,6 +49,21 @@ public class LeaveBlockAggregate {
 		} 
 	}
     
+    public LeaveBlockAggregate(List<LeaveBlock> leaveBlocks, CalendarEntries leaveCalendarEntry) {
+		this.leaveCalendarEntry = leaveCalendarEntry;
+		List<Interval> dayIntervals = TKUtils.getDaySpanForCalendarEntry(leaveCalendarEntry);
+		for(Interval dayInt : dayIntervals){
+			List<LeaveBlock> dayLeaveBlocks = new ArrayList<LeaveBlock>();
+			for(LeaveBlock leaveBlock : leaveBlocks){
+				DateTime dateTime = new DateTime(leaveBlock.getLeaveDate());
+				if(dayInt.contains(dateTime)){
+					dayLeaveBlocks.add(leaveBlock);
+				}
+			}
+			dayLeaveBlockList.add(dayLeaveBlocks);
+		} 
+	}
+    
 	public List<LeaveBlock> getFlattenedLeaveBlockList(){
 		List<LeaveBlock> lstLeaveBlocks = new ArrayList<LeaveBlock>();
 		for(List<LeaveBlock> leaveBlocks : dayLeaveBlockList){

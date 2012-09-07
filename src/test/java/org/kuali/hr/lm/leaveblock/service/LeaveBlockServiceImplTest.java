@@ -40,16 +40,19 @@ public class LeaveBlockServiceImplTest extends KPMETestCase {
 	
 	@Test
 	public void testGetLeaveBlocks(){
+		// 03/01/2012 to 03/02/2012
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(TKUtils.getTimelessDate(null));
+		cal.set(Calendar.YEAR, 2012);
 		cal.set(Calendar.MONTH, 2);
 		cal.set(Calendar.DATE, 1);
 		
 		Date beginDate = cal.getTime();
-		cal.add(Calendar.DATE, 1);
+		cal.add(Calendar.DATE,1);
 		Date endDate = cal.getTime();
 		List<LeaveBlock> leaveBlocks = leaveBlockService.getLeaveBlocks(TEST_USER, beginDate, endDate);
 		Assert.assertNotNull("Leave blocks not found for user ", leaveBlocks);
+		Assert.assertTrue("There should be 2 leave blocks, not " + leaveBlocks.size(), leaveBlocks.size()== 2);
 	}
 	
 	@Test
@@ -79,6 +82,23 @@ public class LeaveBlockServiceImplTest extends KPMETestCase {
 		leaveDate.set(Calendar.MONTH, 2);
 		leaveDate.set(Calendar.DATE, 2);
 		Double sum = leaveBlockService.calculateAccrualbalance(leaveDate.getTime(), "3000", "admin");
+	}
+	
+	@Test
+	public void testGetLeaveblocksForTimesheet() {
+		// 03/01/2012 to 03/06/2012
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(TKUtils.getTimelessDate(null));
+		cal.set(Calendar.YEAR, 2012);
+		cal.set(Calendar.MONTH, 2);
+		cal.set(Calendar.DATE, 1);
+		
+		Date beginDate = cal.getTime();
+		cal.add(Calendar.DATE,5);
+		Date endDate = cal.getTime();
+		List<LeaveBlock> leaveBlocks = leaveBlockService.getLeaveBlocksForTimesheet(TEST_USER, beginDate, endDate);
+		Assert.assertNotNull("Leave blocks not found for user ", leaveBlocks);
+		Assert.assertTrue("There should be 3 leave blocks, not " + leaveBlocks.size(), leaveBlocks.size()== 3);
 	}
 	
 

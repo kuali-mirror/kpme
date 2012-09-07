@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
@@ -64,6 +65,30 @@ public class ActionFormUtils {
 //        return JSONValue.toJSONString(jsonMappedList);
 //    }
 
+    public static Map<String, String> buildAssignmentStyleClassMap(List<TimeBlock> timeBlocks, List<LeaveBlock> leaveBlocks) {
+    	Map<String, String> aMap = new HashMap<String, String>();
+        List<String> assignmentKeys = new ArrayList<String>();
+
+        for (TimeBlock tb : timeBlocks) {
+            if (!assignmentKeys.contains(tb.getAssignmentKey())) {
+                assignmentKeys.add(tb.getAssignmentKey());
+            }
+        }
+        for(LeaveBlock lb : leaveBlocks) {
+        	if (!assignmentKeys.contains(lb.getAssignmentKey())) {
+                assignmentKeys.add(lb.getAssignmentKey());
+            }
+        }
+        Collections.sort(assignmentKeys);
+
+        for (int i = 0; i < assignmentKeys.size(); i++) {
+            // pick a color from a five color palette
+            aMap.put(assignmentKeys.get(i), "assignment" + Integer.toString(i % 5));
+        }
+
+        return aMap;
+    }
+    
     public static Map<String, String> buildAssignmentStyleClassMap(List<TimeBlock> timeBlocks) {
         Map<String, String> aMap = new HashMap<String, String>();
         List<String> assignmentKeys = new ArrayList<String>();
@@ -195,6 +220,30 @@ public class ActionFormUtils {
 //            jsonMappedList.put(id, tbm);
 //        }
         return JSONValue.toJSONString(timeBlockList);
+    }
+    
+    
+    /**
+     * This method will build the leave blocks JSON data structure needed for calendar
+     * manipulation and processing on the client side.
+     *
+     * @param leaveBlocks
+     * @return
+     */
+    public static String getLeaveBlocksJson(List<LeaveBlock> leaveBlocks) {
+    	if (CollectionUtils.isEmpty(leaveBlocks)) {
+            return "";
+        }
+        List<Map<String, Object>> leaveBlockList = new LinkedList<Map<String, Object>>();
+        for (LeaveBlock leaveBlock : leaveBlocks) {
+        	Map<String, Object> leaveBlockMap = new LinkedHashMap<String, Object>();
+        	leaveBlockMap.put("title", leaveBlock.getAssignmentTitle());
+        	leaveBlockMap.put("earnCode", leaveBlock.getEarnCode());
+        	leaveBlockMap.put("lmLeaveBlockId", leaveBlock.getLmLeaveBlockId());
+        	
+        	leaveBlockList.add(leaveBlockMap);
+        }
+    	return JSONValue.toJSONString(leaveBlockList);
     }
     
     public static Map<String, String> getPayPeriodsMap(List<CalendarEntries> payPeriods) {

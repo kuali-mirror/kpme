@@ -144,6 +144,9 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
                     // That's why there is a two step server call to get the id. This might be changed in the future.
              
                     EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCodeById(selectedEarnCode);
+                    if(earnCodeObj == null) {
+                    	earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, new java.sql.Date(beginDate.getMillis()));
+                    }
                     AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), TKUtils.getCurrentDate());
                     String acId = accrualCategory == null ? null : accrualCategory.getLmAccrualCategoryId();
 	                LeaveBlock leaveBlock = new LeaveBlock.Builder(new DateTime(leaveBlockInt.getStartMillis()), docId, princpalId, earnCodeObj.getEarnCode(), hours)
@@ -223,5 +226,9 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 	@Override
 	public List<LeaveBlock> getNotAccrualGeneratedLeaveBlocksForDate(String principalId, Date leaveDate) {
 		return leaveBlockDao.getNotAccrualGeneratedLeaveBlocksForDate(principalId, leaveDate);
+	}
+	@Override
+	public List<LeaveBlock> getLeaveBlocksForTimesheet(String principalId, Date beginDate, Date endDate) {
+		return leaveBlockDao.getLeaveBlocksForTimesheet(principalId, beginDate, endDate); 
 	}
 }

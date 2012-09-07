@@ -107,6 +107,7 @@ $(function () {
             "click div[id*=show]" : "showTimeBlock",
             "click img[id^=timeblockDelete]" : "deleteTimeBlock",
             "click img[id^=lunchDelete]" : "deleteLunchDeduction",
+            "click img[id^=leaveBlockDelete]" : "deleteLeaveBlock",
             // .create is the div that fills up the white sapce and .day-number is the div with the day number on it.
             // <div class="create"></div> is in calendar.tag.
             // We want to trigger the show event on any white space areas.
@@ -409,6 +410,12 @@ $(function () {
             }
         },
 
+        deleteLeaveBlock : function (e) {
+            var key = _(e).parseEventKey();
+        	if (confirm('You are about to delete a leave block. Click OK to confirm the delete.')) {
+        		window.location = "TimeDetail.do?methodToCall=deleteLeaveBlock&lmLeaveBlockId=" + key.id;
+        	}
+        },
 
         fetchEarnCode : function (e, isTimeBlockReadOnly) {
 
