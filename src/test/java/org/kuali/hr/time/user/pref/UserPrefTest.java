@@ -16,7 +16,7 @@ public class UserPrefTest extends KPMETestCase{
 	@Test
 	public void testUserPrefFetch() throws Exception{
 		UserPreferences userPref = TkServiceLocator.getUserPreferenceService().getUserPreferences("admin");
-		Assert.assertTrue("User Pref is valid", userPref!=null && StringUtils.equals(userPref.getTimezone(),"America/Chicago"));
+		Assert.assertTrue("User Pref is valid", userPref!=null && StringUtils.equals(userPref.getTimezone(),"America/Indianapolis"));
 	}
 	
 	@Test
@@ -28,7 +28,7 @@ public class UserPrefTest extends KPMETestCase{
 		List<TimeBlock> tbs = new ArrayList<TimeBlock>();
 		tbs.add(tb);
 		
-		TkServiceLocator.getTimezoneService().translateForTimezone(tbs, "America/Chicago");
+		TkServiceLocator.getTimezoneService().translateForTimezone(tbs, "America/Indianapolis");
 	}
 
 }
