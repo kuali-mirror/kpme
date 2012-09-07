@@ -55,9 +55,9 @@ public class LeaveBlockDisplayAction extends TkAction {
 				if(leaveBlock.getRequestStatus() != null) {
 					leaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS_STRINGS.get(leaveBlock.getRequestStatus()));
 				} else if(leaveBlock.getAccrualGenerated() != null && leaveBlock.getAccrualGenerated()) { // accural generated = A -- Accural
-					leaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.ACCURAL);
+					leaveBlock.setRequestStatus("");
 				} else { // default USAGE
-					leaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.USAGE);
+					leaveBlock.setRequestStatus("");
 					// KPME-1690 : set if usage then amount should be appeared as negative
 					leaveBlock.setLeaveAmount(leaveBlock.getLeaveAmount().multiply(new BigDecimal(-1)));
 				}
