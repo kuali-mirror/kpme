@@ -95,7 +95,8 @@ public class TimeDetailAction extends TimesheetAction {
         TkTimeBlockAggregate tbAggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry, payCalendar, true,
                 TKUtils.getFullWeekDaySpanForCalendarEntry(payCalendarEntry));
         // use both time aggregate and leave aggregate to populate the calendar
-        TkCalendar cal = TkCalendar.getCalendar(tbAggregate, lbAggregate);
+//        TkCalendar cal = TkCalendar.getCalendar(tbAggregate, lbAggregate);
+        TkCalendar cal = TkCalendar.getCalendar(tbAggregate);
         cal.assignAssignmentStyle(tdaf.getAssignStyleClassMap());
         tdaf.setTkCalendar(cal);
      
