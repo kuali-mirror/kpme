@@ -11,6 +11,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements LeaveBlockDao {
@@ -148,5 +149,12 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 
         return leaveBlocks;
 	}
+
+    public void deleteLeaveBlocksForDocumentId(String documentId){
+        Criteria crit = new Criteria();
+        crit.addEqualTo("documentId",documentId);
+        this.getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(LeaveBlock.class, crit));
+
+    }
 
 }

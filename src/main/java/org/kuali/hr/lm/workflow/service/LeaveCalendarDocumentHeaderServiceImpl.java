@@ -68,4 +68,8 @@ public class LeaveCalendarDocumentHeaderServiceImpl implements LeaveCalendarDocu
 	public List<LeaveCalendarDocumentHeader> getAllDelinquentDocumentHeadersForPricipalId(String principalId){
 		return leaveCalendarDocumentHeaderDao.getAllDelinquentDocumentHeadersForPricipalId(principalId);
 	}
+
+    public void deleteLeaveCalendarHeader(String documentId){
+        leaveCalendarDocumentHeaderDao.deleteLeaveCalendarHeader(documentId);
+    }
 }

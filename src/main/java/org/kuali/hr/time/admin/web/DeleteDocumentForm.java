@@ -2,7 +2,7 @@ package org.kuali.hr.time.admin.web;
 
 import org.kuali.hr.time.base.web.TkForm;
 
-public class DeleteTimesheetForm extends TkForm {
+public class DeleteDocumentForm extends TkForm {
 
 	private static final long serialVersionUID = 3121271193055358638L;
 	

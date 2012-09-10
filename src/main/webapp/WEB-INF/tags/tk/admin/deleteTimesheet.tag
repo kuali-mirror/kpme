@@ -15,12 +15,12 @@
 --%>
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
-<channel:portalChannelTop channelTitle="Delete Timesheet" />
+<channel:portalChannelTop channelTitle="Delete Timesheet/Leave Calendar" />
 <div class="body">
     <div id="content">
-        <html:form action="/deleteTimesheet" method="post">
+        <html:form action="/deleteDocument" method="post">
             <html:text property="deleteDocumentId" size="20" />
-            <html:submit property="methodToCall.deleteTimesheet" value="Submit" />
+            <html:submit property="methodToCall.deleteDocument" value="Submit" />
         </html:form>
     </div>
 </div>

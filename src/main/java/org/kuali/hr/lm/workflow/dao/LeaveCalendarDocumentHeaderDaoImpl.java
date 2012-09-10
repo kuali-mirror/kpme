@@ -137,4 +137,9 @@ public class LeaveCalendarDocumentHeaderDaoImpl extends PlatformAwareDaoBaseOjb 
         return lstDocumentHeaders;
     }
 
+    public void deleteLeaveCalendarHeader(String documentId){
+        Criteria crit = new Criteria();
+        crit.addEqualTo("documentId", documentId);
+        this.getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(LeaveCalendarDocumentHeader.class, crit));
+    }
 }

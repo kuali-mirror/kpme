@@ -10,7 +10,7 @@
         <!-- Rice content End -->
         
         <form-bean name="ChangeTargetPersonForm" type="org.kuali.hr.time.admin.web.ChangeTargetPersonForm"/>
-        <form-bean name="DeleteTimesheetForm" type="org.kuali.hr.time.admin.web.DeleteTimesheetForm"/>
+        <form-bean name="DeleteDocumentForm" type="org.kuali.hr.time.admin.web.DeleteDocumentForm"/>
         <form-bean name="CalculateLeaveAccrualsForm" type="org.kuali.hr.time.admin.web.CalculateLeaveAccrualsForm"/>
         <form-bean name="BatchJobActionForm" type="org.kuali.hr.time.batch.web.BatchJobActionForm"/>
         <form-bean name="CalendarEntryActionForm" type="org.kuali.hr.time.calendar.web.CalendarEntryActionForm"/>
@@ -82,7 +82,7 @@
             <forward name="basic" path="/portal.jsp"/>
         </action>
         
-        <action path="/deleteTimesheet" name="DeleteTimesheetForm" type="org.kuali.hr.time.admin.web.DeleteTimesheetAction">
+        <action path="/deleteDocument" name="DeleteDocumentForm" type="org.kuali.hr.time.admin.web.DeleteDocumentAction">
             <forward name="basic" path="/portal.jsp"/>
         </action>
         

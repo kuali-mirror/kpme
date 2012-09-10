@@ -58,7 +58,7 @@ public interface LeaveBlockService {
      * @return sum of leave amount of leave blocks
      */
     public Double calculateAccrualbalance(Date leaveDate, String accrualCategoryId, String principalId);
-    
+
     /*
      * Get list of leave blocks to display on time sheet with given dates and principal id
      * Only get leave blocks with type of leave calendar and time calendar
@@ -68,4 +68,10 @@ public interface LeaveBlockService {
      * @return List of leave blocks
      */
     public List<LeaveBlock> getLeaveBlocksForTimesheet(String principalId, Date beginDate, Date endDate);
+
+    /*
+     *  Delete time blocks for a given document id
+     *  @param documentId
+     */
+    public void deleteLeaveBlocksForDocumentId(String documentId);
 }

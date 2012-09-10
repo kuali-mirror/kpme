@@ -26,5 +26,7 @@ public interface LeaveCalendarDocumentHeaderService {
 	public List<LeaveCalendarDocumentHeader> getAllDocumentHeadersForPricipalId(String principalId);
 	
 	public List<LeaveCalendarDocumentHeader> getAllDelinquentDocumentHeadersForPricipalId(String principalId);
+
+    public void deleteLeaveCalendarHeader(String documentId);
 }
 
