@@ -1,0 +1,1 @@
+delete from tk_clock_log_t;
