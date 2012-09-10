@@ -131,14 +131,12 @@ public class EarnCodeServiceImplTest extends KPMETestCase {
 	
 	@Test
 	public void testGetEarnCodesForDisplay() throws Exception{
-        Date asOfDate = TKUtils.getTimelessDate(null);
         //create the testPrincipal object for the earn code service parm, from the TEST_USER string
         Principal testPrincipal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName("testUser");
         Map<String, String> earnCodesDisplay = earnCodeService.getEarnCodesForDisplay(testPrincipal.getPrincipalId());
 		Assert.assertNotNull("earnCodesDisplay should not be null", earnCodesDisplay);
-//		Assert.assertEquals("There should be 2 earnCode found for principal_id 'testUser', not " + earnCodesDisplay.size(), earnCodesDisplay.size(), 2);
-//		Assert.assertTrue("earnCodesDisplay should contain Key '5000'", earnCodesDisplay.containsKey("5000"));
-//		Assert.assertTrue("earnCodesDisplay should contain Value 'EC1 : test1'", earnCodesDisplay.containsValue("EC1 : test1"));
-		
+		Assert.assertEquals("There should be 2 earnCode found for principal_id 'testUser', not " + earnCodesDisplay.size(), earnCodesDisplay.size(), 2);
+		Assert.assertTrue("earnCodesDisplay should contain Key '5000'", earnCodesDisplay.containsKey("5000"));
+		Assert.assertTrue("earnCodesDisplay should contain Value 'EC1 : test1'", earnCodesDisplay.containsValue("EC1 : test1"));
 	}
 }

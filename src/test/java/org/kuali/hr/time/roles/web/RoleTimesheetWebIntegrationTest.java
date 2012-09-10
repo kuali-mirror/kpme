@@ -216,22 +216,22 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
 
     @Test
     public void testInitiatedTimesheetIsEditableByApprover() throws Exception {
-//        testInitiatedTimesheetEditable("fran");
+        testInitiatedTimesheetEditable("fran");
     }
 
     @Test
     public void testInitiatedTimesheetIsEditableByReviewer() throws Exception {
-//        testInitiatedTimesheetEditable("frank");
+        testInitiatedTimesheetEditable("frank");
     }
 
     @Test
     public void testInitiatedTimesheetIs_NOT_EditableByViewOnly() throws Exception {
-//        testInitiatedTimesheetNotEditable("edna");
+        testInitiatedTimesheetNotEditable("edna");
     }
 
     @Test
     public void testInitiatedTimesheetIs_NOT_EditableByDeptAdmin() throws Exception {
-//        testInitiatedTimesheetNotEditable("testuser6");
+        testInitiatedTimesheetNotEditable("testuser6");
     }
 
 

@@ -105,26 +105,26 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
         String dataText = page.getElementById("timeBlockString").getFirstChild().getNodeValue();
         JSONArray jsonData = (JSONArray)JSONValue.parse(dataText);
         final JSONObject jsonDataObject = (JSONObject) jsonData.get(0);
-//        Assert.assertTrue("TimeBlock Data Missing.", checkJSONValues(new JSONObject() {{ put("outer", jsonDataObject); }},
-//                new ArrayList<Map<String, Object>>() {{
-//                    add(new HashMap<String, Object>() {{
-//                        put("earnCode", "RGN");
-//                        put("hours", "8.0");
-//                        put("amount", null);
-//                    }});
-//                }},
-//                new HashMap<String, Object>() {{
-//                    put("earnCode", "RGN");
-//                    put("startNoTz", "2011-03-02T08:00:00");
-//                    put("endNoTz", "2011-03-02T16:00:00");
-//                    put("title", "SDR1 Work Area");
-//                    put("assignment", "30_30_30");
-//                }}
-//        ));
+        Assert.assertTrue("TimeBlock Data Missing.", checkJSONValues(new JSONObject() {{ put("outer", jsonDataObject); }},
+                new ArrayList<Map<String, Object>>() {{
+                    add(new HashMap<String, Object>() {{
+                        put("earnCode", "RGN");
+                        put("hours", "8.0");
+                        put("amount", null);
+                    }});
+                }},
+                new HashMap<String, Object>() {{
+                    put("earnCode", "RGN");
+                    put("startNoTz", "2011-03-02T08:00:00");
+                    put("endNoTz", "2011-03-02T16:00:00");
+                    put("title", "SDR1 Work Area");
+                    put("assignment", "30_30_30");
+                }}
+        ));
 
         // Check the Display Rendered Text for Time Block, Quick Check
-//        Assert.assertTrue("TimeBlock not Present.", pageAsText.contains("08:00 AM - 04:00 PM"));
-//        Assert.assertTrue("TimeBlock not Present.", pageAsText.contains("RGN - 8.00 hours"));
+        Assert.assertTrue("TimeBlock not Present.", pageAsText.contains("08:00 AM - 04:00 PM"));
+        Assert.assertTrue("TimeBlock not Present.", pageAsText.contains("RGN - 8.00 hours"));
 
         //
         // Route Timesheet
@@ -139,7 +139,7 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
         pageAsText = page.asText();
         // Verify Route Status via UI
         Assert.assertTrue("Wrong Document Loaded.", pageAsText.contains(tdocId));
-//        Assert.assertTrue("Document not routed.", pageAsText.contains("Enroute"));
+        Assert.assertTrue("Document not routed.", pageAsText.contains("Enroute"));
         routeButton = page.getElementById("ts-route-button");
         Assert.assertNull("Route button should not be present.", routeButton);
         HtmlElement approveButton = page.getElementById("ts-approve-button");

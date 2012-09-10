@@ -81,52 +81,52 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
         String dataText = page.getElementById("timeBlockString").getFirstChild().getNodeValue();
         JSONArray jsonData = (JSONArray) JSONValue.parse(dataText);
         final JSONObject jsonDataObject = (JSONObject) jsonData.get(0);
-//        Assert.assertTrue("TimeBlock #1 Data Missing.", checkJSONValues(new JSONObject() {{ put("outer", jsonDataObject); }},
-//                new ArrayList<Map<String, Object>>() {{
-//                    add(new HashMap<String, Object>() {{
-//                        put("earnCode", "RGN");
-//                        put("hours", "8.0");
-//                    }});
-//                    add(new HashMap<String, Object>() {{
-//                        put("earnCode", "OVT");
-//                        put("hours", "2.0");
-//                    }});
-//                }},
-//                new HashMap<String, Object>() {{
-//                    put("earnCode", "RGN");
-//                    put("startNoTz", "2011-03-02T08:00:00");
-//                    put("endNoTz", "2011-03-02T18:00:00");
-//                    put("title", "SDR1 Work Area");
-//                    put("assignment", "30_30_30");
-//                }}
-//        ));
+        Assert.assertTrue("TimeBlock #1 Data Missing.", checkJSONValues(new JSONObject() {{ put("outer", jsonDataObject); }},
+                new ArrayList<Map<String, Object>>() {{
+                    add(new HashMap<String, Object>() {{
+                        put("earnCode", "RGN");
+                        put("hours", "8.0");
+                    }});
+                    add(new HashMap<String, Object>() {{
+                        put("earnCode", "OVT");
+                        put("hours", "2.0");
+                    }});
+                }},
+                new HashMap<String, Object>() {{
+                    put("earnCode", "RGN");
+                    put("startNoTz", "2011-03-02T08:00:00");
+                    put("endNoTz", "2011-03-02T18:00:00");
+                    put("title", "SDR1 Work Area");
+                    put("assignment", "30_30_30");
+                }}
+        ));
         final JSONObject jsonDataObject2 = (JSONObject) jsonData.get(1);
-//        Assert.assertTrue("TimeBlock #2 Data Missing.", checkJSONValues(new JSONObject() {{ put("outer", jsonDataObject2); }},
-//                new ArrayList<Map<String, Object>>() {{
-//                    add(new HashMap<String, Object>() {{
-//                        put("earnCode", "RGN");
-//                        put("hours", "8.0");
-//                    }});
-//                    add(new HashMap<String, Object>() {{
-//                        put("earnCode", "OVT");
-//                        put("hours", "2.0");
-//                    }});
-//                }},
-//                new HashMap<String, Object>() {{
-//                    put("earnCode", "RGN");
-//                    put("startNoTz", "2011-03-03T08:00:00");
-//                    put("endNoTz", "2011-03-03T18:00:00");
-//                    put("title", "SDR1 Work Area");
-//                    put("assignment", "30_30_30");
-//                }}
-//        ));
+        Assert.assertTrue("TimeBlock #2 Data Missing.", checkJSONValues(new JSONObject() {{ put("outer", jsonDataObject2); }},
+                new ArrayList<Map<String, Object>>() {{
+                    add(new HashMap<String, Object>() {{
+                        put("earnCode", "RGN");
+                        put("hours", "8.0");
+                    }});
+                    add(new HashMap<String, Object>() {{
+                        put("earnCode", "OVT");
+                        put("hours", "2.0");
+                    }});
+                }},
+                new HashMap<String, Object>() {{
+                    put("earnCode", "RGN");
+                    put("startNoTz", "2011-03-03T08:00:00");
+                    put("endNoTz", "2011-03-03T18:00:00");
+                    put("title", "SDR1 Work Area");
+                    put("assignment", "30_30_30");
+                }}
+        ));
 
 
         // Check the Display Rendered Text for Time Block, Quick Check
         // Not as accurate as teh checkJSONValues tests above.
-//        Assert.assertTrue("TimeBlock not Present.", pageAsText.contains("08:00 AM - 06:00 PM"));
+        Assert.assertTrue("TimeBlock not Present.", pageAsText.contains("08:00 AM - 06:00 PM"));
         Assert.assertTrue("TimeBlock not Present.", pageAsText.contains("RGN - 8.00 hours"));
-//        Assert.assertTrue("TimeBlock not Present.", pageAsText.contains("OVT - 2.00 hours"));
+        Assert.assertTrue("TimeBlock not Present.", pageAsText.contains("OVT - 2.00 hours"));
     }
 
 }

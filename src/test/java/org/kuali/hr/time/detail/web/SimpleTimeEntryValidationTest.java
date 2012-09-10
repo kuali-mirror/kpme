@@ -123,7 +123,7 @@ public class SimpleTimeEntryValidationTest extends KPMETestCase {
 
         // Verify block present on rendered page.
         pageAsText = page.asText();
-//        Assert.assertTrue("TimeBlock not Present.", pageAsText.contains("08:00 AM - 10:00 AM"));
+        Assert.assertTrue("TimeBlock not Present.", pageAsText.contains("08:00 AM - 10:00 AM"));
         Assert.assertTrue("TimeBlock not Present.", pageAsText.contains("RGN - 2.00 hours"));
     }
 

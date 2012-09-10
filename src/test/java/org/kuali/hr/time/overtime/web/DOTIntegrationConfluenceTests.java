@@ -113,8 +113,8 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
     public void deleteTimesheet(String tdocId) throws Exception {
         HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.PORTAL_URL);
         Assert.assertNotNull(page);
-//        page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.DELETE_TIMESHEET_URL + "?deleteDocumentId="+tdocId);
-//        HtmlUnitUtil.createTempFile(page, "Deleted");
+        page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.DELETE_TIMESHEET_URL + "?deleteDocumentId="+tdocId);
+        HtmlUnitUtil.createTempFile(page, "Deleted");
     }
 
     public String KPME788_789(ArrayList<Map<String, Object>> tb1ThdItems, HashMap<String, Object> tb1Items, ArrayList<Map<String, Object>> tb2ThdItems, HashMap<String, Object> tb2Items) throws Exception {
@@ -134,7 +134,7 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
 
         List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assignment, JAN_AS_OF_DATE);
         EarnCode earnCode = earnCodes.get(0);
-//        Assert.assertEquals("There should be no existing time blocks.", 0, tdoc.getTimeBlocks().size());
+        Assert.assertEquals("There should be no existing time blocks.", 0, tdoc.getTimeBlocks().size());
 
         // 2. Set Timeblock Start and End time
         // 3/02/2011 - 8:00a to 6:00pm
@@ -161,9 +161,9 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
         // Grab the timeblock data from the text area. We can check specifics there
         // to be more fine grained in our validation.
         String dataText = page.getElementById("timeBlockString").getFirstChild().getNodeValue();
-//        JSONObject jsonData = (JSONObject) JSONValue.parse(dataText);
-//        Assert.assertTrue("TimeBlock #1 Data Missing.", checkJSONValues(jsonData, tb1ThdItems, tb1Items));
-//        Assert.assertTrue("TimeBlock #2 Data Missing.", checkJSONValues(jsonData, tb2ThdItems, tb2Items));
+        JSONObject jsonData = (JSONObject) JSONValue.parse(dataText);
+        Assert.assertTrue("TimeBlock #1 Data Missing.", checkJSONValues(jsonData, tb1ThdItems, tb1Items));
+        Assert.assertTrue("TimeBlock #2 Data Missing.", checkJSONValues(jsonData, tb2ThdItems, tb2Items));
 
         return tdocId;
     }
