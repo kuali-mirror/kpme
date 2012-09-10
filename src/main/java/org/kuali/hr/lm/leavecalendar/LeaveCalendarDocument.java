@@ -72,6 +72,10 @@ public class LeaveCalendarDocument {
 	public void setAssignments(List<Assignment> assignments) {
 		this.assignments = assignments;
 	}
+
+    public java.sql.Date getAsOfDate(){
+        return new java.sql.Date(getCalendarEntry().getBeginPeriodDateTime().getTime());
+    }
 	
 	
 }

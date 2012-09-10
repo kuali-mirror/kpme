@@ -1,0 +1,116 @@
+package org.kuali.hr.time.workflow;
+
+import org.apache.cxf.common.util.StringUtils;
+import org.apache.log4j.Logger;
+import org.kuali.hr.job.Job;
+import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
+import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.roles.TkRole;
+import org.kuali.hr.time.roles.service.TkRoleService;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.rice.kew.api.identity.Id;
+import org.kuali.rice.kew.api.identity.PrincipalId;
+import org.kuali.rice.kew.api.rule.RoleName;
+import org.kuali.rice.kew.engine.RouteContext;
+import org.kuali.rice.kew.routeheader.DocumentContent;
+import org.kuali.rice.kew.rule.AbstractRoleAttribute;
+import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+public class TkWorkflowLeaveCalendarAttribute extends AbstractRoleAttribute {
+
+    private static final Logger LOG = Logger.getLogger(TkWorkflowLeaveCalendarAttribute.class);
+
+	@Override
+	public List<String> getQualifiedRoleNames(String roleName, DocumentContent documentContent) {
+		List<String> roles = new ArrayList<String>();
+		String routeHeaderId = documentContent.getRouteContext().getDocument().getDocumentId();
+		LeaveCalendarDocument leaveDocument = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(routeHeaderId);
+
+		if (leaveDocument != null) {
+			List<Assignment> assignments = leaveDocument.getAssignments();
+			for (Assignment assignment : assignments) {
+				String roleStr = roleName + "_" +assignment.getWorkArea();
+				if(!roles.contains(roleStr)){
+					roles.add(roleStr);
+				}
+			}
+		}
+		return roles;
+	}
+
+	/**
+	 * Role name is passed in in the routing rule.
+	 */
+	@Override
+	public ResolvedQualifiedRole resolveQualifiedRole(RouteContext routeContext, String roleName, String qualifiedRole) {
+		ResolvedQualifiedRole rqr = new ResolvedQualifiedRole();
+        Long workAreaNumber = null;
+
+        try {
+            int pos = qualifiedRole.lastIndexOf("_");
+            if (pos > -1) {
+                String subs = qualifiedRole.substring(pos+1, qualifiedRole.length());
+                workAreaNumber = Long.parseLong(subs);
+            }
+        } catch (NumberFormatException nfe) {
+            LOG.error("qualifiedRole did not contain numeric data for work area.");
+        }
+
+        if (workAreaNumber == null) {
+            throw new RuntimeException("Unable to resolve work area during routing.");
+        }
+
+		List<Id> principals = new ArrayList<Id>();
+		String routeHeaderId = routeContext.getDocument().getDocumentId();
+		TkRoleService roleService = TkServiceLocator.getTkRoleService();
+		LeaveCalendarDocument leaveCalendarDocument = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(routeHeaderId);
+		WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, leaveCalendarDocument.getAsOfDate());
+
+        // KPME-1071
+        List<TkRole> approvers = roleService.getWorkAreaRoles(workAreaNumber, roleName, TKUtils.getCurrentDate());
+        List<TkRole> approverDelegates = roleService.getWorkAreaRoles(workAreaNumber, TkConstants.ROLE_TK_APPROVER_DELEGATE, TKUtils.getCurrentDate());
+		List<TkRole> roles = new ArrayList<TkRole>();
+        roles.addAll(approvers);
+        roles.addAll(approverDelegates);
+
+		for (TkRole role : roles) {
+			//Position routing
+			if(StringUtils.isEmpty(role.getPrincipalId())){
+				String positionNumber = role.getPositionNumber();
+				List<Job> lstJobsForPosition = TkServiceLocator.getJobService().getActiveJobsForPosition(positionNumber, leaveCalendarDocument.getCalendarEntry().getEndPeriodDateTime());
+				for(Job job : lstJobsForPosition){
+					PrincipalId pid = new PrincipalId(job.getPrincipalId());
+					if (!principals.contains(pid)) {
+						principals.add(pid);
+					}
+				}
+			} else {
+				PrincipalId pid = new PrincipalId(role.getPrincipalId());
+					if (!principals.contains(pid)) {
+						principals.add(pid);
+					}
+			}
+		}
+
+		if (principals.size() == 0)
+			throw new RuntimeException("No principals to route to. Push to exception routing.");
+
+		rqr.setRecipients(principals);
+		rqr.setAnnotation("Dept: "+ workArea.getDept()+", Work Area: "+workArea.getWorkArea());
+
+		return rqr;
+	}
+
+	@Override
+	public List<RoleName> getRoleNames() {
+        return Collections.EMPTY_LIST;
+	}
+
+}

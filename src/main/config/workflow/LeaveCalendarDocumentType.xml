@@ -9,6 +9,150 @@
             <parent>RiceDocument</parent>
             <docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
             <label>LeaveCalendarDocument</label>
+
+            <routePaths>
+                <routePath>
+                    <start name="adhoc" nextNode="LeaveCalendar Attribute" />
+                    <requests name="LeaveCalendar Attribute" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="adhoc">
+                    <exceptionWorkgroup>KPME-WKFLW:TK_SYSTEM_ADMIN</exceptionWorkgroup>
+                    <activationType>S</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </start>
+                <requests name="LeaveCalendar Attribute">
+                    <exceptionWorkgroup>KPME-WKFLW:TK_SYSTEM_ADMIN</exceptionWorkgroup>
+                    <activationType>S</activationType>
+                    <ruleTemplate>TkWorkflowLeaveCalendarTemplate</ruleTemplate>
+                    <mandatoryRoute>true</mandatoryRoute>
+                    <finalApproval>true</finalApproval>
+                </requests>
+            </routeNodes>
+            <policies>
+                <policy>
+                    <name>INITIATOR_MUST_CANCEL</name>
+                    <value>false</value>
+                </policy>
+                <policy>
+                    <name>INITIATOR_MUST_ROUTE</name>
+                    <value>false</value>
+                </policy>
+            </policies>
         </documentType>
-     </documentTypes>
+    </documentTypes>
+
+    <ruleAttributes xmlns="ns:workflow/RuleAttribute"
+                    xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+        <name>LeaveCalendarWorkareaSearchAttribute</name>
+        <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+        <label>LeaveCalendarWorkareaSearchAttribute</label>
+        <description>LeaveCalendarWorkareaSearchAttribute</description>
+        <type>SearchableXmlAttribute</type>
+        <searchingConfig>
+            <fieldDef name="workarea" title="Work Area">
+                <display>
+                    <type>text</type>
+                </display>
+                <fieldEvaluation>
+                    <xpathexpression>//WORKAREA/@value</xpathexpression>
+                </fieldEvaluation>
+            </fieldDef>
+        </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+        <name>LeaveCalendarDepartmentSearchAttribute</name>
+        <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+        <label>LeaveCalendarDepartmentSearchAttribute</label>
+        <description>LeaveCalendarDepartmentSearchAttribute</description>
+        <type>SearchableXmlAttribute</type>
+        <searchingConfig>
+            <fieldDef name="department" title="Department">
+                <display>
+                    <type>text</type>
+                </display>
+                <fieldEvaluation>
+                    <xpathexpression>//DEPARTMENT/@value</xpathexpression>
+                </fieldEvaluation>
+            </fieldDef>
+        </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+        <name>LeaveCalendarSalGroupSearchAttribute</name>
+        <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+        <label>LeaveCalendarSalGroupSearchAttribute</label>
+        <description>LeaveCalendarSalGroupSearchAttribute</description>
+        <type>SearchableXmlAttribute</type>
+        <searchingConfig>
+            <fieldDef name="salGroup" title="Salary Group">
+                <display>
+                    <type>text</type>
+                </display>
+                <fieldEvaluation>
+                    <xpathexpression>//SALGROUP/@value</xpathexpression>
+                </fieldEvaluation>
+            </fieldDef>
+        </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+        <name>LeaveCalendarPayCalEndSearchAttribute</name>
+        <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+        <label>LeaveCalendarPayCalEndSearchAttribute</label>
+        <description>LeaveCalendarPayCalEndSearchAttribute</description>
+        <type>SearchableXmlAttribute</type>
+        <searchingConfig>
+            <fieldDef name="payCalendarEnd" title="Pay Calendar End Date">
+                <display>
+                    <type>text</type>
+                </display>
+                <fieldEvaluation>
+                    <xpathexpression>//PAYENDDATE/@value</xpathexpression>
+                </fieldEvaluation>
+            </fieldDef>
+        </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+        <name>TkWorkflowLeaveCalendarAttribute</name>
+        <className>org.kuali.hr.time.workflow.TkWorkflowLeaveCalendarAttribute</className>
+        <label>TkWorkflowLeaveCalendarAttribute</label>
+        <description>TkWorkflowLeaveCalendarAttribute</description>
+        <type>RuleAttribute</type>
+    </ruleAttribute>
+    </ruleAttributes>
+
+    <ruleTemplates xmlns="ns:workflow/RuleTemplate"
+                   xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+    <ruleTemplate allowOverwrite="true">
+        <name>TkWorkflowLeaveCalendarTemplate</name>
+        <description>TkWorkflowLeaveCalendarTemplate</description>
+        <attributes>
+            <attribute>
+                <name>TkWorkflowLeaveCalendarAttribute</name>
+                <required>false</required>
+            </attribute>
+        </attributes>
+    </ruleTemplate>
+    </ruleTemplates>
+
+    <rules xmlns="ns:workflow/Rule"
+           xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+    <rule>
+        <name>TkWorkflowLeaveCalendarRule</name>
+        <documentType>LeaveCalendarDocument</documentType>
+        <ruleTemplate>TkWorkflowLeaveCalendarTemplate</ruleTemplate>
+        <description>TkWorkflowLeaveCalendarRule</description>
+        <forceAction>true</forceAction>
+        <responsibilities>
+            <responsibility>
+                <role>org.kuali.hr.time.workflow.TkWorkflowLeaveCalendarAttribute!TK_APPROVER</role>
+                <approvePolicy>F</approvePolicy>
+                <actionRequested>A</actionRequested>
+                <priority>1</priority>
+            </responsibility>
+        </responsibilities>
+    </rule>
+    </rules>
 </data>
