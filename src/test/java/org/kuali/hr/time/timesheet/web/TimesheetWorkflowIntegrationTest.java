@@ -163,14 +163,10 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
         pageAsText = page.asText();
         Assert.assertTrue("Wrong Document Loaded.", pageAsText.contains(tdocId));
         Assert.assertTrue("Login info not present.", pageAsText.contains("Employee Id:"));
-        Assert.assertTrue("Login info not present.", pageAsText.contains("Employee, Eric"));
+        Assert.assertTrue("Login info not present.", pageAsText.contains("eric, eric"));
         Assert.assertTrue("Document not routed.", pageAsText.contains("Final"));
         approveButton = page.getElementById("ts-approve-button");
         Assert.assertNull("Approval button should not be present.", approveButton);
-
-        //Kind of hacky to change this, as it changes for everything.
-        //Change back because other tests may use this.
-        TestAutoLoginFilter.OVERRIDE_ID = "";
     }
 
 }
