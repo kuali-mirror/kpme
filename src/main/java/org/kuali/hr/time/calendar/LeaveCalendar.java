@@ -22,36 +22,27 @@ public class LeaveCalendar extends CalendarParent {
     public LeaveCalendar(String principalId, CalendarEntries calendarEntry) {
         super(calendarEntry);
 
-        DateTime currDateTime = getBeginDateTime();
-        DateTime endDateTime = getEndDateTime();
-        DateTime firstDay = getBeginDateTime();
+        DateTime currentDisplayDateTime = getBeginDateTime();
+        DateTime endDisplayDateTime = getEndDateTime();
 
         // Fill in the days if the first day or end day is in the middle of the week
-        if (currDateTime.getDayOfWeek() != DateTimeConstants.SUNDAY) {
-            currDateTime = currDateTime.minusDays(currDateTime.getDayOfWeek());
-            firstDay = currDateTime;
+        if (currentDisplayDateTime.getDayOfWeek() != DateTimeConstants.SUNDAY) {
+            currentDisplayDateTime = currentDisplayDateTime.minusDays(currentDisplayDateTime.getDayOfWeek());
         }
-        if (endDateTime.getDayOfWeek() != DateTimeConstants.SATURDAY) {
-            endDateTime = endDateTime.plusDays(DateTimeConstants.SATURDAY - endDateTime.getDayOfWeek());
-            if(endDateTime.getHourOfDay() == 0) {
-            	 endDateTime = endDateTime.plusDays(1);
-        	}
+        if (endDisplayDateTime.getDayOfWeek() != DateTimeConstants.SATURDAY) {
+            endDisplayDateTime = endDisplayDateTime.plusDays(DateTimeConstants.SATURDAY - endDisplayDateTime.getDayOfWeek());
         }
 
         LeaveCalendarWeek leaveCalendarWeek = new LeaveCalendarWeek();
-
         Integer dayNumber = 0;
-        while (currDateTime.isBefore(endDateTime)) {
-            //Create weeks
+        
+        while (currentDisplayDateTime.isBefore(endDisplayDateTime) || currentDisplayDateTime.isEqual(endDisplayDateTime)) {
             LeaveCalendarDay leaveCalendarDay = new LeaveCalendarDay();
 
-            leaveCalendarDay.setGray(false);
-            // if the last day time is the beginning of a day, make it gray
-            if(currDateTime.equals(getEndDateTime()) && getEndDateTime().getHourOfDay() == 0) {
-            	leaveCalendarDay.setGray(true);
-            }
-            // If the day is not within the current pay period, mark them as read only (setGray)
-            if (currDateTime.isBefore(getBeginDateTime()) || currDateTime.isAfter(getEndDateTime())) {
+            // If the day is not within the current pay period, mark them as read only (gray)
+            if (currentDisplayDateTime.isBefore(getBeginDateTime()) 
+            		|| currentDisplayDateTime.isEqual(getEndDateTime()) 
+            		|| currentDisplayDateTime.isAfter(getEndDateTime())) {
                 leaveCalendarDay.setGray(true);
             } else {
                 // This is for the div id of the days on the calendar.
@@ -60,24 +51,22 @@ public class LeaveCalendar extends CalendarParent {
 //                leaveCalendarDay.setDayNumberDelta(currDateTime.getDayOfMonth());
                 leaveCalendarDay.setDayNumberDelta(dayNumber);
     
-               java.util.Date leaveDate = TKUtils.getTimelessDate(currDateTime.toDate());
+               java.util.Date leaveDate = TKUtils.getTimelessDate(currentDisplayDateTime.toDate());
                List<LeaveBlock> lbs = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principalId, leaveDate);
                leaveCalendarDay.setLeaveBlocks(lbs); 
-               dayNumber++;  // KPME-1664
+               dayNumber++;
             }
-            leaveCalendarDay.setDayNumberString(currDateTime.dayOfMonth().getAsShortText());
-            leaveCalendarDay.setDateString(currDateTime.toString(TkConstants.DT_BASIC_DATE_FORMAT));
+            leaveCalendarDay.setDayNumberString(currentDisplayDateTime.dayOfMonth().getAsShortText());
+            leaveCalendarDay.setDateString(currentDisplayDateTime.toString(TkConstants.DT_BASIC_DATE_FORMAT));
 
             leaveCalendarWeek.getDays().add(leaveCalendarDay);
-            // cut a week on Sat.
-            if (currDateTime.getDayOfWeek() == 6 && currDateTime != firstDay) {
+            
+            if (leaveCalendarWeek.getDays().size() == DateTimeConstants.DAYS_PER_WEEK) {
                 getWeeks().add(leaveCalendarWeek);
                 leaveCalendarWeek = new LeaveCalendarWeek();
             }
 
-            // KPME-1664 increment dayNumber inside the else condition above to eliminate "grey" days.
-            //dayNumber++;
-            currDateTime = currDateTime.plusDays(1);
+            currentDisplayDateTime = currentDisplayDateTime.plusDays(1);
         }
 
         if (!leaveCalendarWeek.getDays().isEmpty()) {
