@@ -110,7 +110,6 @@
         <loadData tableName="lm_accrual_category_t" file="src/test/config/db/test/lm_accrual_category_t.csv" />
         <loadData tableName="lm_accruals_t" file="src/test/config/db/test/lm_accruals_t.csv" />
         <loadData tableName="tk_assignment_t" file="src/test/config/db/test/tk_assignment_t.csv" />
-        <loadData tableName="tk_clock_log_t" file="src/test/config/db/test/tk_clock_log_t.csv" />
         <loadData tableName="tk_dept_lunch_rl_t" file="src/test/config/db/test/tk_dept_lunch_rl_t.csv" />
         <loadData tableName="tk_grace_period_rl_t" file="/src/test/config/db/test/tk_grace_period_rl_t.csv" />
         <loadData tableName="tk_system_lunch_rl_t" file="src/test/config/db/test/tk_system_lunch_rl_t.csv" />
