@@ -1,10 +1,7 @@
 package org.kuali.hr.time.timesheet.web;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -22,7 +19,6 @@ import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TimeDetailTestUtils;
-import org.kuali.hr.time.util.TkConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -89,9 +85,8 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		// Assignment of user
 		Assignment assToBeSelected = assignmentsOfUser.get(4);
 
-		// retrieving earncode for the assignment
-		List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService()
-				.getEarnCodes(assToBeSelected, TIME_SHEET_DATE);
+        // retrieving earncode for the assignment
+		List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assToBeSelected, TIME_SHEET_DATE);
 		if (earnCodes != null && !earnCodes.isEmpty()) {
 			earnCode = earnCodes.get(0);
 		}
@@ -169,9 +164,8 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		// Assignment
 		Assignment assToBeSelected = assignmentsOfUser.get(4);
 
-		// retrieving earncode for the assignment
-		List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService()
-				.getEarnCodes(assToBeSelected, TIME_SHEET_DATE);
+        // retrieving earncode for the assignment
+		List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assToBeSelected, TIME_SHEET_DATE);
 		if (earnCodes != null && !earnCodes.isEmpty()) {
 			earnCode = earnCodes.get(0);
 		}
@@ -217,9 +211,8 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		// change assignment and time
 		assToBeSelected = assignmentsOfUser.get(3);
 
-		// earn codes relatedd to the assignment
-		earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(
-				assToBeSelected, TIME_SHEET_DATE);
+		// earn codes related to the assignment
+		earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assToBeSelected, TIME_SHEET_DATE);
 		if (earnCodes != null && !earnCodes.isEmpty()) {
 			earnCode = earnCodes.get(0);
 		}
@@ -266,9 +259,8 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		// Assignment of user
 		Assignment assToBeSelected = assignmentsOfUser.get(4);
 
-		// retrieving earncode for the assignment
-		List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService()
-				.getEarnCodes(assToBeSelected, TIME_SHEET_DATE);
+        // retrieving earncode for the assignment
+		List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assToBeSelected, TIME_SHEET_DATE);
 		if (earnCodes != null && !earnCodes.isEmpty()) {
 			earnCode = earnCodes.get(0);
 		}
@@ -345,9 +337,8 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		// Assignment of user
 		Assignment assToBeSelected = assignmentsOfUser.get(4);
 
-		// retrieving earncode for the assignment
-		List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService()
-				.getEarnCodes(assToBeSelected, TIME_SHEET_DATE);
+        // retrieving earncode for the assignment
+		List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assToBeSelected, TIME_SHEET_DATE);
 		if (earnCodes != null && !earnCodes.isEmpty()) {
 			earnCode = earnCodes.get(0);
 		}

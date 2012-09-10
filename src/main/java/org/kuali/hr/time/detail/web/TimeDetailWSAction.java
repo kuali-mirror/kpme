@@ -8,7 +8,6 @@ import org.apache.struts.action.ActionMapping;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.hr.job.Job;
-import org.kuali.hr.lm.earncodesec.EarnCodeType;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.detail.validation.TimeDetailValidationService;
@@ -83,15 +82,10 @@ public class TimeDetailWSAction extends TimesheetAction {
                 if (assignment.getJobNumber().compareTo(key.getJobNumber()) == 0 &&
                         assignment.getWorkArea().compareTo(key.getWorkArea()) == 0 &&
                         assignment.getTask().compareTo(key.getTask()) == 0) {
-                    List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(assignment, tdaf.getTimesheetDocument().getAsOfDate(), EarnCodeType.LEAVE.getCode());
+                    List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assignment, tdaf.getTimesheetDocument().getAsOfDate());
                     for (EarnCode earnCode : earnCodes) {
-                        // TODO: minimize / compress the crazy if logics below
-                        if (earnCode.getEarnCode().equals(TkConstants.HOLIDAY_EARN_CODE)
-                                && !(TKContext.getUser().isSystemAdmin() || TKContext.getUser().isTimesheetApprover())) {
-                            continue;
-                        }
-                        if (!(assignment.getTimeCollectionRule().isClockUserFl() &&
-                                StringUtils.equals(assignment.getJob().getPayTypeObj().getRegEarnCode(), earnCode.getEarnCode()) && StringUtils.equals(TKContext.getPrincipalId(), assignment.getPrincipalId()))) {
+                        //@TODO may not need this IF.
+                        if (assignment.getTimeCollectionRule().isClockUserFl() && StringUtils.equals(TKContext.getPrincipalId(), assignment.getPrincipalId())) {
                             Map<String, Object> earnCodeMap = new HashMap<String, Object>();
                             earnCodeMap.put("assignment", assignment.getAssignmentKey());
                             earnCodeMap.put("earnCode", earnCode.getEarnCode());

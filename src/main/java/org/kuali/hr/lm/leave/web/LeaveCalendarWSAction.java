@@ -17,7 +17,6 @@ import org.apache.struts.action.ActionMapping;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.hr.lm.accrual.AccrualCategory;
-import org.kuali.hr.lm.earncodesec.EarnCodeType;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationService;
@@ -27,13 +26,10 @@ import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.earncode.EarnCode;
-import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 public class LeaveCalendarWSAction extends TkAction {
 
@@ -125,7 +121,7 @@ public class LeaveCalendarWSAction extends TkAction {
                 if (assignment.getJobNumber().compareTo(key.getJobNumber()) == 0 &&
                         assignment.getWorkArea().compareTo(key.getWorkArea()) == 0 &&
                         assignment.getTask().compareTo(key.getTask()) == 0) {
-                    List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(assignment, new java.sql.Date(TKUtils.convertDateStringToTimestamp(lcf.getStartDate()).getTime()), EarnCodeType.LEAVE.getCode());
+                    List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForLeave(assignment, new java.sql.Date(TKUtils.convertDateStringToTimestamp(lcf.getStartDate()).getTime()));
                     for (EarnCode earnCode : earnCodes) {
                         Map<String, Object> earnCodeMap = new HashMap<String, Object>();
                         earnCodeMap.put("assignment", assignment.getAssignmentKey());

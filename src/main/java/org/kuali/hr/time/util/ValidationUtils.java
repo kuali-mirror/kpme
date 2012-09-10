@@ -170,7 +170,7 @@ public class ValidationUtils {
 		
 		if (asOfDate != null) {
 			if(validateAccCategory(accrualCategory, principalId, asOfDate)){
-				List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodes(principalId, asOfDate);
+				List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForPrincipal(principalId, asOfDate);
 				if(earnCodes != null && !earnCodes.isEmpty()) {
 					for(EarnCode earnCodeObj : earnCodes) {
 						if(earnCodeObj.getEarnCode() != null) {

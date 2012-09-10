@@ -64,7 +64,7 @@ public class TimesheetWebTestBase extends KPMETestCase {
         HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getTimesheetDocumentUrl(tdocId));
         TestAutoLoginFilter.OVERRIDE_ID = "";
         Assert.assertNotNull(page);
-        //HtmlUnitUtil.createTempFile(page, "Login-"+principalId);
+        HtmlUnitUtil.createTempFile(page, "Login-"+principalId);
 
         String pageAsText = page.asText();
         if (assertValid) {

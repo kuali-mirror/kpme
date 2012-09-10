@@ -117,6 +117,8 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         if(ce != null) {
         	calBeginDateTime = ce.getBeginLocalDateTime().toDateTime(zone);
         	calEndDateTime = ce.getEndLocalDateTime().toDateTime(zone);
+        } else {
+            throw new RuntimeException("Calendar Entry parameter is null.");
         }
         Interval calendarInterval = new Interval(calBeginDateTime, calEndDateTime);
        
@@ -142,9 +144,10 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
             	} else {
             		 // Currently, we store the accrual category value in the leave code table, but store accrual category id in the leaveBlock.
                     // That's why there is a two step server call to get the id. This might be changed in the future.
-             
-                    EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCodeById(selectedEarnCode);
-                    AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), TKUtils.getCurrentDate());
+
+                    java.sql.Date sqlDate = new java.sql.Date(ce.getEndLocalDateTime().toDateTime().toDate().getTime());
+                    EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, sqlDate);
+                    AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), sqlDate);
                     String acId = accrualCategory == null ? null : accrualCategory.getLmAccrualCategoryId();
 	                LeaveBlock leaveBlock = new LeaveBlock.Builder(new DateTime(leaveBlockInt.getStartMillis()), docId, princpalId, earnCodeObj.getEarnCode(), hours)
 	                        .description(description)
