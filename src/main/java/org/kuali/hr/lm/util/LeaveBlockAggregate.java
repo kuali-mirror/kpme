@@ -1,24 +1,16 @@
 package org.kuali.hr.lm.util;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
-import org.joda.time.LocalDateTime;
-import org.joda.time.LocalTime;
-import org.kuali.hr.time.calendar.Calendar;
+import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.LeaveCalendar;
-import org.kuali.hr.time.flsa.FlsaDay;
-import org.kuali.hr.time.flsa.FlsaWeek;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.lm.leaveblock.LeaveBlock;
 
 public class LeaveBlockAggregate {
 	public List<List<LeaveBlock>> dayLeaveBlockList = new ArrayList<List<LeaveBlock>>();
@@ -63,6 +55,27 @@ public class LeaveBlockAggregate {
 			dayLeaveBlockList.add(dayLeaveBlocks);
 		} 
 	}
+    
+    /**
+     *  build leaveBlockAggregate with given leaveBlocks, calendarEntry and dayIntervals
+     *  dayIntervals with full week span is for Time Calendar
+     * @param LeaveBlocks
+     * @param leaveCalendarEntry
+     * @param dayIntervals
+     */ 
+    public LeaveBlockAggregate(List<LeaveBlock> leaveBlocks, CalendarEntries leaveCalendarEntry, List<Interval> dayIntervals ) {
+    	this.leaveCalendarEntry = leaveCalendarEntry;
+		for(Interval dayInt : dayIntervals){
+			List<LeaveBlock> dayLeaveBlocks = new ArrayList<LeaveBlock>();
+			for(LeaveBlock leaveBlock : leaveBlocks){
+				DateTime dateTime = new DateTime(leaveBlock.getLeaveDate());
+				if(dayInt.contains(dateTime)){
+					dayLeaveBlocks.add(leaveBlock);
+				}
+			}
+			dayLeaveBlockList.add(dayLeaveBlocks);
+		} 
+    }   
     
 	public List<LeaveBlock> getFlattenedLeaveBlockList(){
 		List<LeaveBlock> lstLeaveBlocks = new ArrayList<LeaveBlock>();

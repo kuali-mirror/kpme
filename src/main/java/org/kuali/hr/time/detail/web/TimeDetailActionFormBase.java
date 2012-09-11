@@ -25,6 +25,7 @@ public class TimeDetailActionFormBase extends TimesheetActionForm {
     private String overtimePref;
     private String spanningWeeks; // KPME-1446
     private String lmLeaveBlockId;
+    private BigDecimal leaveAmount; // for leave blocks
 
     public String getSpanningWeeks() {
 		return spanningWeeks;
@@ -128,5 +129,13 @@ public class TimeDetailActionFormBase extends TimesheetActionForm {
 
 	public void setLmLeaveBlockId(String lmLeaveBlockId) {
 		this.lmLeaveBlockId = lmLeaveBlockId;
+	}
+
+	public BigDecimal getLeaveAmount() {
+		return leaveAmount;
+	}
+
+	public void setLeaveAmount(BigDecimal leaveAmount) {
+		this.leaveAmount = leaveAmount;
 	}
 }

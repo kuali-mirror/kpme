@@ -30,7 +30,7 @@ public class TkCalendar extends CalendarParent {
     	 
         if (tbAggregate != null && lbAggregate != null) {
         	if(tbAggregate.getDayTimeBlockList().size() != lbAggregate.getDayLeaveBlockList().size()){
-        		// error
+        		throw new RuntimeException("TimeBlockAggregate and LeaveBlockAggregate should have the same size of Day Blocks List");
         	}
         		
         	List<CalendarWeek> weeks = new ArrayList<CalendarWeek>();

@@ -136,6 +136,12 @@
                                 $ <input id="amount" name="amount"/>
                             </td>
                         </tr>
+                        <tr class="leaveAmountSection" style="display: none;">
+                            <td><label for="leaveAmountField" id="unitOfTime">* Leave Amount</label> : </label></td>
+                            <td>
+                                <input id="leaveAmount" name="leaveAmount" />
+                            </td>
+                        </tr>
                         <tr>
                             <td></td>
                             <td>

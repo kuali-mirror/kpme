@@ -25,6 +25,7 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.detail.web.ActionFormUtils;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
@@ -96,11 +97,7 @@ public class LeaveCalendarWSAction extends TkAction {
     	LeaveCalendarWSForm lcf = (LeaveCalendarWSForm) form;
         LOG.info(lcf.toString());
         EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCodeById(lcf.getSelectedEarnCode());
-        AccrualCategory acObj = null;
-    	if(earnCode.getAccrualCategory() != null) {
-    		acObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCode.getAccrualCategory(), TKUtils.getCurrentDate());
-    	}
-    	String unitTime = (acObj!= null ? acObj.getUnitOfTime() : earnCode.getRecordMethod()) ;
+    	String unitTime = ActionFormUtils.getUnitOfTimeForEarnCode(earnCode);
         Map<String, Object> earnCodeMap = new HashMap<String, Object>();
         earnCodeMap.put("unitOfTime", unitTime);
         earnCodeMap.put("defaultAmountofTime", earnCode.getDefaultAmountofTime());

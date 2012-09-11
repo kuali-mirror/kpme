@@ -20,6 +20,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.util.LeaveBlockAggregate;
@@ -90,13 +91,11 @@ public class TimeDetailAction extends TimesheetAction {
         
         this.assignStypeClassMapForTimeSummary(tdaf,timeBlocks, leaveBlocks);
         
-        LeaveBlockAggregate lbAggregate = new LeaveBlockAggregate(leaveBlocks, payCalendarEntry);
-        
-        TkTimeBlockAggregate tbAggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry, payCalendar, true,
-                TKUtils.getFullWeekDaySpanForCalendarEntry(payCalendarEntry));
+        List<Interval> intervals = TKUtils.getFullWeekDaySpanForCalendarEntry(payCalendarEntry);
+        LeaveBlockAggregate lbAggregate = new LeaveBlockAggregate(leaveBlocks, payCalendarEntry, intervals);
+        TkTimeBlockAggregate tbAggregate = new TkTimeBlockAggregate(timeBlocks, payCalendarEntry, payCalendar, true,intervals);
         // use both time aggregate and leave aggregate to populate the calendar
-//        TkCalendar cal = TkCalendar.getCalendar(tbAggregate, lbAggregate);
-        TkCalendar cal = TkCalendar.getCalendar(tbAggregate);
+        TkCalendar cal = TkCalendar.getCalendar(tbAggregate, lbAggregate);
         cal.assignAssignmentStyle(tdaf.getAssignStyleClassMap());
         tdaf.setTkCalendar(cal);
      
@@ -268,25 +267,48 @@ public class TimeDetailAction extends TimesheetAction {
         return mapping.findForward("basic");
     }
     
+    private void removeOldTimeBlock(TimeDetailActionForm tdaf) {
+	  if (tdaf.getTkTimeBlockId() != null) {
+	      TimeBlock tb = TkServiceLocator.getTimeBlockService().getTimeBlock(tdaf.getTkTimeBlockId());
+	      if (tb != null) {
+	          TimeBlockHistory tbh = new TimeBlockHistory(tb);
+	          TkServiceLocator.getTimeBlockService().deleteTimeBlock(tb);
+	
+	          // mark the original timeblock as deleted in the history table
+			  tbh.setActionHistory(TkConstants.ACTIONS.DELETE_TIME_BLOCK);
+			  TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
+	
+			  // delete the timeblock from the memory
+	          tdaf.getTimesheetDocument().getTimeBlocks().remove(tb);
+	      }
+	  }
+    }
+    
+    
     // add/update leave blocks 
 	private void changeLeaveBlocks(TimeDetailActionForm tdaf) {
+		
+		this.removeOldTimeBlock(tdaf);  // remove time block if tkTimeBlockId is not null
+		//TODO: currently we are not updating leave blocks from either leave calnedar or time calendar
+		// leave blocks can only be added or deleted from calendars
 		// if updating an existing leave block, delete the existing leave block first 
-		if (tdaf.getLmLeaveBlockId() != null) {
-			LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(Long.getLong(tdaf.getLmLeaveBlockId()));
-			if (lb != null) {
-                TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(Long.getLong(tdaf.getLmLeaveBlockId()));
-            }
-		}
+//		if (tdaf.getLmLeaveBlockId() != null) {
+//			LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(Long.getLong(tdaf.getLmLeaveBlockId()));
+//			if (lb != null) {
+//                TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(Long.getLong(tdaf.getLmLeaveBlockId()));
+//            }
+//		}
 		
 		DateTime beginDate = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getStartDate()));
 		DateTime endDate = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getEndDate()));
 		String selectedEarnCode = tdaf.getSelectedEarnCode();
-		BigDecimal hours = tdaf.getHours();
+		BigDecimal leaveAmount = tdaf.getLeaveAmount();
+		
 		String desc = "";	// there's no description field in time calendar pop window
 		String spanningWeeks = tdaf.getSpanningWeeks();
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(tdaf.getTimesheetDocument(), tdaf.getSelectedAssignment());
 		TkServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate,
-				endDate,  tdaf.getPayCalendarDates(), selectedEarnCode, hours, desc, assignment, spanningWeeks, LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR);
+				endDate,  tdaf.getPayCalendarDates(), selectedEarnCode, leaveAmount, desc, assignment, spanningWeeks, LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR);
 	}
 	
     // add/update time blocks
@@ -298,23 +320,11 @@ public class TimeDetailAction extends TimesheetAction {
         // If tkTimeBlockId is not null and the new timeblock is valid, delete the existing timeblock and a new one will be created after submitting the form.
         if (tdaf.getTkTimeBlockId() != null) {
             TimeBlock tb = TkServiceLocator.getTimeBlockService().getTimeBlock(tdaf.getTkTimeBlockId());
-
             if (StringUtils.isNotEmpty(tdaf.getOvertimePref())) {
                 overtimeBeginTimestamp = tb.getBeginTimestamp();
                 overtimeEndTimestamp = tb.getEndTimestamp();
             }
-
-            if (tb != null) {
-                TimeBlockHistory tbh = new TimeBlockHistory(tb);
-                TkServiceLocator.getTimeBlockService().deleteTimeBlock(tb);
-
-                // mark the original timeblock as deleted in the history table
-                tbh.setActionHistory(TkConstants.ACTIONS.DELETE_TIME_BLOCK);
-                TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
-
-                // delete the timeblock from the memory
-                tdaf.getTimesheetDocument().getTimeBlocks().remove(tb);
-            }
+            this.removeOldTimeBlock(tdaf);
         }
 
         Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(tdaf.getTimesheetDocument(), tdaf.getSelectedAssignment());

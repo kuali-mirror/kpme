@@ -8,6 +8,8 @@ import org.junit.Test;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.detail.web.ActionFormUtils;
+import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 
 public class ActionFormUtilsTest extends KPMETestCase {
 	
@@ -34,5 +36,18 @@ public class ActionFormUtilsTest extends KPMETestCase {
 		Assert.assertTrue("Warning message should be 'Test Message'", warning.equals("Test Message"));
 		
 	}
+	@Test
+	public void testGetUnitOfTimeForEarnCode() throws Exception {
+		// earn code with an existing Accrual category
+		EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCodeById("5000");
+		String unitOfTime = ActionFormUtils.getUnitOfTimeForEarnCode(earnCode);
+		Assert.assertTrue("Unit of Time should be 'D', not " + unitOfTime, unitOfTime.equals("D"));
+		// earn code without an existing accrual category
+		earnCode = TkServiceLocator.getEarnCodeService().getEarnCodeById("5002");
+		unitOfTime = ActionFormUtils.getUnitOfTimeForEarnCode(earnCode);
+		Assert.assertTrue("Unit of Time should be 'H', not " + unitOfTime, unitOfTime.equals("H"));
+		
+	}
+	
 
 }

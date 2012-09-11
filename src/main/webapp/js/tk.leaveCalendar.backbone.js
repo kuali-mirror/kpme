@@ -339,10 +339,14 @@ $(function () {
                 			var hoursAr = hours.val().split(".");
                 			if(hoursAr.length > 1) {
                 				fieldLength = hoursAr[1].length;
-                			}
+                			} else {
+    	        				fieldLength = 0;
+    	        			}
                 			if(fractionAr.length > 1) {
                 				fracLength = fractionAr[1].length;
-                			}
+                			} else {
+    	        				fracLength = 0 ;
+    	        			}
                 			if(fieldLength > fracLength) {
                 				isValid = false;
                 				this.displayErrorMessages("Leave Amount field should be in the format of "+fraction);

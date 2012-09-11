@@ -17,6 +17,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.json.simple.JSONValue;
+import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -293,6 +294,15 @@ public class ActionFormUtils {
 	     }
 	    warningMessages.addAll(aSet);
 		return warningMessages;
+    }
+    
+    public static String getUnitOfTimeForEarnCode(EarnCode earnCode) {
+    	AccrualCategory acObj = null;
+    	if(earnCode.getAccrualCategory() != null) {
+    		acObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCode.getAccrualCategory(), TKUtils.getCurrentDate());
+    	}
+    	String unitTime = (acObj!= null ? acObj.getUnitOfTime() : earnCode.getRecordMethod()) ;
+    	return unitTime;
     }
     
 }
