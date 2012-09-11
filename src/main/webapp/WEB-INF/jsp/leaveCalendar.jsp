@@ -90,6 +90,6 @@
 
     <%-- Earn code template --%>
     <script type="text/template" id="earnCode-template">
-        <option value="<@= earnCodeId @>"><@= earnCode + " : " + desc @></option>
+        <option value="<@= earnCode @>"><@= earnCode + " : " + desc @></option>
     </script>
 </tk:tkHeader>

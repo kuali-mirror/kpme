@@ -244,7 +244,7 @@ $(function () {
             // Here we want to fire the ajax call first to grab the earn codes.
             // After that is done, we fill out the form and make the entry field show / hide based on the earn code type.
             var dfd = $.Deferred();
-            dfd.done($("#selectedEarnCode option[value='" + leaveBlock.get("earnCodeId") + "']").attr("selected", "selected"))
+            dfd.done($("#selectedEarnCode option[value='" + leaveBlock.get("earnCode") + "']").attr("selected", "selected"))
             .done(_(leaveBlock).fillInForm());
         },
         
@@ -418,21 +418,21 @@ $(function () {
         
         getEarnCodeUnit : function (earnCodeJson, earnCode) {
             var matchedEarnCode = _.filter(earnCodeJson, function (json) {
-                return json["earnCodeId"] == earnCode
+                return json["earnCode"] == earnCode
             });
             return _.first(matchedEarnCode).unitOfTime;
         },
         
         getEarnCodeDefaultTime : function (earnCodeJson, earnCode) {
         	 var matchedEarnCode = _.filter(earnCodeJson, function (json) {
-                 return json["earnCodeId"] == earnCode
+                 return json["earnCode"] == earnCode
              });
              return _.first(matchedEarnCode).defaultAmountofTime;
         },
         
         getEarnCodeFractionalAllowedTime : function (earnCodeJson, earnCode) {
         	 var matchedEarnCode = _.filter(earnCodeJson, function (json) {
-                 return json["earnCodeId"] == earnCode
+                 return json["earnCode"] == earnCode
              });
              return _.first(matchedEarnCode).fractionalTimeAllowed;
         },
