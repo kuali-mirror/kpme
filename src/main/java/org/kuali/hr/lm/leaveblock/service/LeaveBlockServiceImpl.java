@@ -146,7 +146,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
                     // That's why there is a two step server call to get the id. This might be changed in the future.
 
                     java.sql.Date sqlDate = new java.sql.Date(ce.getEndLocalDateTime().toDateTime().toDate().getTime());
-                    EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, sqlDate);
+                    EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCodeById(selectedEarnCode);
                     AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), sqlDate);
                     String acId = accrualCategory == null ? null : accrualCategory.getLmAccrualCategoryId();
 	                LeaveBlock leaveBlock = new LeaveBlock.Builder(new DateTime(leaveBlockInt.getStartMillis()), docId, princpalId, earnCodeObj.getEarnCode(), hours)
