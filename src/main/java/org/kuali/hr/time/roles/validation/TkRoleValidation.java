@@ -1,6 +1,5 @@
 package org.kuali.hr.time.roles.validation;
 
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.roles.TkRoleGroup;
@@ -13,8 +12,6 @@ public class TkRoleValidation extends MaintenanceDocumentRuleBase{
 
     private static final String ADD_LINE_LOCATION = "add.roles.";
 
-   
-
     protected boolean validateTkRole(TkRole role, String fieldPrefix) {
         boolean valid = true;
 
@@ -23,9 +20,16 @@ public class TkRoleValidation extends MaintenanceDocumentRuleBase{
 
        String rname = role.getRoleName();
        if (StringUtils.equalsIgnoreCase(rname, TkConstants.ROLE_TK_LOCATION_ADMIN) || StringUtils.equalsIgnoreCase(rname, TkConstants.ROLE_TK_LOCATION_VO)) {
-    	   this.putFieldError(fieldPrefix + "chart", "error.role.chart.required");
-           valid = false;
-        } 
+    	   if (StringUtils.isBlank(role.getChart())) {
+	    	   this.putFieldError(fieldPrefix + "chart", "error.role.chart.required");
+	           valid = false;
+    	   }
+        } else {
+        	if (!StringUtils.isBlank(role.getChart())) {
+ 	    	   this.putFieldError(fieldPrefix + "chart", "error.role.chart.disallowed");
+ 	           valid = false;
+     	   }
+        }
        
         return valid;
     }
