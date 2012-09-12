@@ -1,7 +1,6 @@
 package org.kuali.hr.time.userrole;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
@@ -12,15 +11,11 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlSpan;
 
 public class UserRoleMaintenanceDocumentTest extends KPMETestCase {
-
-	@Before
-	public void setUp() throws Exception {
-		super.setUp();
-	}
+	
+	private static final String PRINCIPAL_ID = "fred";
 
 	@Test
 	public void testUserRoleMaintenanceDocumentTest() throws Exception {
-        String user = "admin";
 		String baseUrl = HtmlUnitUtil.getBaseURL()
 				+ "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.roles.TkRoleGroup&returnLocation="
 				+ HtmlUnitUtil.getBaseURL()
@@ -33,11 +28,11 @@ public class UserRoleMaintenanceDocumentTest extends KPMETestCase {
 				.clickInputContainingText(lookUpPage, "search");
 
 		HtmlPage editPage = HtmlUnitUtil.clickAnchorContainingText(lookUpPage,
-				"edit", "principalId=" + user);
+				"edit", "principalId=" + PRINCIPAL_ID);
 
 		// set Description
 		setFieldValue(editPage, "document.documentHeader.documentDescription",
-				"Adding role to user" + user);
+				"Adding role to user" + PRINCIPAL_ID);
 
 		// Click on Add and see errors
 		HtmlElement elementAddRole = HtmlUnitUtil.getInputContainingText(
@@ -48,24 +43,6 @@ public class UserRoleMaintenanceDocumentTest extends KPMETestCase {
 				"page text:\n" + editPage.asText() + "\n does not contain:\n",
 				editPage.asText().contains(
 						"Effective Date (Effective Date) is a required field."));
-
-		// Set Effective date and Role Name
-		setFieldValue(editPage,
-				"document.newMaintainableObject.add.roles.effectiveDate",
-				"01/01/2011");
-		setFieldValue(editPage,
-				"document.newMaintainableObject.add.roles.roleName",
-				TkConstants.ROLE_TK_SYS_ADMIN);
-
-		elementAddRole = HtmlUnitUtil.getInputContainingText(editPage,
-				"methodToCall.addLine.roles");
-
-		// click on add
-		editPage = elementAddRole.click();
-
-		Assert.assertTrue("page text:\n" + editPage.asText()
-				+ "\n does not contain:\n",
-				!editPage.asText().contains("error(s) found on page."));
 
 		// Add Global View Only Role.
 		elementAddRole = HtmlUnitUtil.getInputContainingText(editPage,
@@ -83,7 +60,7 @@ public class UserRoleMaintenanceDocumentTest extends KPMETestCase {
 				+ "\n does not contain:\n",
 				!editPage.asText().contains("error(s) found on page."));
 
-		// Add Location Admin/Location View Only Role.
+		// Add Location Admin View Only Role.
 		elementAddRole = HtmlUnitUtil.getInputContainingText(editPage,
 				"methodToCall.addLine.roles");
 		setFieldValue(editPage,
@@ -91,12 +68,11 @@ public class UserRoleMaintenanceDocumentTest extends KPMETestCase {
 				"01/01/2011");
 		setFieldValue(editPage,
 				"document.newMaintainableObject.add.roles.roleName",
-				TkConstants.ROLE_TK_LOCATION_ADMIN);
+				TkConstants.ROLE_TK_LOCATION_VO);
 
 		editPage = elementAddRole.click();
 
-		// as location is required in case of Location Admin/Location view only
-		// roles
+		// Location is required in case of Location View Only roles
 		Assert.assertTrue("page text:\n" + editPage.asText()
 				+ "\n does not contain:\n",
 				editPage.asText().contains("error(s) found on page."));
@@ -112,12 +88,6 @@ public class UserRoleMaintenanceDocumentTest extends KPMETestCase {
 		Assert.assertTrue("page text:\n" + editPage.asText()
 				+ "\n does not contain:\n",
 				!editPage.asText().contains("error(s) found on page."));
-
-		// Delete Location Admin Role
-		HtmlElement deleteElement = HtmlUnitUtil.getInputContainingText(
-				editPage,
-				"methodToCall.deleteLine.roles.(!!.line2.(:::;61;:::).anchor9");
-		editPage = deleteElement.click();
 
 		// submit
 		HtmlElement submitElement = HtmlUnitUtil.getInputContainingText(
@@ -136,16 +106,10 @@ public class UserRoleMaintenanceDocumentTest extends KPMETestCase {
 		lookUpPage = HtmlUnitUtil
 				.clickInputContainingText(lookUpPage, "search");
 		editPage = HtmlUnitUtil.clickAnchorContainingText(lookUpPage, "edit",
-				"principalId=" + user);
+				"principalId=" + PRINCIPAL_ID);
 
-		// check if this page contains created roles System Admin and Global View Only
+		// check if this page contains created role Global View Only
 		HtmlSpan oldRoleEle = (HtmlSpan) editPage
-				.getElementById("document.oldMaintainableObject.roles[0].roleName.div");
-		Assert.assertTrue("page text:\n" + oldRoleEle.asText()
-				+ "\n does not contain:\n",
-				oldRoleEle.asText().contains("System Admin"));
-
-		oldRoleEle = (HtmlSpan) editPage
 				.getElementById("document.oldMaintainableObject.roles[1].roleName.div");
 		Assert.assertTrue("page text:\n" + oldRoleEle.asText()
 				+ "\n does not contain:\n",
@@ -153,7 +117,7 @@ public class UserRoleMaintenanceDocumentTest extends KPMETestCase {
 
 		// Now update
 		setFieldValue(editPage, "document.documentHeader.documentDescription",
-				"Inactivating department admin role");
+				"Inactivating location admin role");
 		setFieldValue(editPage,
 				"document.newMaintainableObject.roles[1].active", "off");
 
@@ -174,7 +138,7 @@ public class UserRoleMaintenanceDocumentTest extends KPMETestCase {
 		lookUpPage = HtmlUnitUtil
 				.clickInputContainingText(lookUpPage, "search");
 		editPage = HtmlUnitUtil.clickAnchorContainingText(lookUpPage, "edit",
-				"principalId=" + user);
+				"principalId=" + PRINCIPAL_ID);
 
 		editPage = HtmlUnitUtil.clickInputContainingText(editPage,
 				"methodToCall.toggleTab.tabInactivePersonRoles");
