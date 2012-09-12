@@ -465,6 +465,9 @@ $(function () {
         },
 
         showFieldByEarnCodeType : function () {
+  			if($("#selectedEarnCode option:selected").val() == '') {
+  				return;
+  			}
             var earnCodeType = _.getEarnCodeType(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
             var fieldSections = [".clockInSection", ".clockOutSection", ".hourSection", ".amountSection", ".leaveAmountSection"];
             var leavePlan = this.getEarnCodeLeavePlan(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
@@ -783,6 +786,7 @@ $(function () {
         render : function () {
             var self = this;
             $("#selectedEarnCode").html("");
+            $(self.el).append("<option value=''>-- select an earn code --</option>");
             this.collection.each(function (earnCode) {
                 $(self.el).append(self.template(earnCode.toJSON()));
             });

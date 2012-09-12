@@ -405,6 +405,9 @@ $(function () {
         },
                 
         showFieldByEarnCodeType : function () {
+  			if($("#selectedEarnCode option:selected").val() == '') {
+  				return;
+  			}
         	var earnCodeUnit = this.getEarnCodeUnit(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
             if (earnCodeUnit == CONSTANTS.EARNCODE_UNIT.DAY) {
         		$('#unitOfTime').text('* Days');
@@ -590,6 +593,7 @@ $(function () {
         render : function () {
             var self = this;
             $("#selectedEarnCode").html("");
+            $(self.el).append("<option value=''>-- select an earn code --</option>");
             this.collection.each(function (earnCode) {
                 $(self.el).append(self.template(earnCode.toJSON()));
             });
