@@ -54,7 +54,8 @@
 					</display:column>
 					<display:column property="earnCode" title="Earn Code"/>
 					<display:column property="description" title="Description" />
-					<display:column property="requestStatus" title="Status" />
+					<display:column property="requestStatus" title="Planning Status" />
+					<display:column property="documentStatus" title="Document Status" />
 					<display:column property="leaveAmount" title="Amount" />
 					<display:column title="Timestamp">
 						<fmt:formatDate type="both" value="${leaveEntry.timestamp}"
@@ -105,7 +106,8 @@
 						</a>
 					</display:column>
 					<display:column property="earnCode" title="Earn Code" />
-					<display:column property="requestStatus" title="Status" />
+					<display:column property="requestStatus" title="Planning Status" />
+					<display:column property="documentStatus" title="Document Status" />
 					<display:column property="description" title="Description" />
 					<display:column property="leaveAmount" title="Amount" />
 					<display:column title="Timestamp Deleted/Modified">

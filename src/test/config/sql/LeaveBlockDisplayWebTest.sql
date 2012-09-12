@@ -5,6 +5,7 @@ delete from lm_accrual_category_t where lm_accrual_category_id = '3000';
 DELETE FROM `lm_leave_block_t`;
 DELETE FROM `lm_leave_block_hist_t`;
 DELETE FROM `lm_leave_status_hist_t`;
+delete from lm_leave_document_header_t where document_id >= '5000';
 
 /** Update HR_Principal_attribute_t */
 update hr_principal_attributes_t set leave_plan = 'testLP' where principal_id = 'admin';
@@ -15,7 +16,7 @@ insert into lm_sys_schd_timeoff_t values ('3001', 'InactiveLP', 'testAC', 'testL
 insert into lm_accrual_category_t (`lm_accrual_category_id`, `ACCRUAL_CATEGORY`, `LEAVE_PLAN`, `DESCR`, `ACCRUAL_INTERVAL_EARN`, `UNIT_OF_TIME`, `EFFDT`, `OBJ_ID`, `VER_NBR`, `PRORATION`, `DONATION`, `SHOW_ON_GRID`, `ACTIVE`, `TIMESTAMP`, `MIN_PERCENT_WORKED`, `EARN_CODE`, `HAS_RULES`) values('3000', 'testAC', 'testLP', 'test', '', '', '2010-01-01', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', null, null, null, 'Y',now(), '1.5', 'LC-DEFAULT', 'Y');
 
 /** Leave block */
-insert into lm_leave_block_t (`lm_leave_block_id`, `leave_date`,`description`,  `principal_id` , `earn_code` ,`hr_earn_code_id` ,`lm_sys_schd_timeoff_id` ,`lm_accrual_category_id` ,`leave_amount`, `apply_to_ytd_used`, `document_id`, `accrual_generated`, `block_id`,`ver_nbr`, `obj_id`, `timestamp`,`principal_id_modified`, `tk_assignment_id`, `request_status`, `leave_block_type`) values('1000', '2012-03-01', 'Send for Approval', 'admin', 'testLC', '1000','3000', '3000', '8', 'Appy to ytd', '12546', 'A', '0','1','B2991ADA-E866-F28C-7E95-A897AC377D0C', now(), 'admin',  '1100', 'P', 'LC');
+insert into lm_leave_block_t (`lm_leave_block_id`, `leave_date`,`description`,  `principal_id` , `earn_code` ,`hr_earn_code_id` ,`lm_sys_schd_timeoff_id` ,`lm_accrual_category_id` ,`leave_amount`, `apply_to_ytd_used`, `document_id`, `accrual_generated`, `block_id`,`ver_nbr`, `obj_id`, `timestamp`,`principal_id_modified`, `tk_assignment_id`, `request_status`, `leave_block_type`) values('1000', '2012-03-01', 'Send for Approval', 'admin', 'testLC', '1000','3000', '3000', '8', 'Appy to ytd', '5000', 'A', '0','1','B2991ADA-E866-F28C-7E95-A897AC377D0C', now(), 'admin',  '1100', 'P', 'LC');
 insert into lm_leave_block_t (`lm_leave_block_id`, `leave_date`,`description`,  `principal_id` , `earn_code` ,`hr_earn_code_id` ,`lm_sys_schd_timeoff_id` ,`lm_accrual_category_id` ,`leave_amount`, `apply_to_ytd_used`, `document_id`, `accrual_generated`, `block_id`,`ver_nbr`, `obj_id`, `timestamp`,`principal_id_modified`, `tk_assignment_id`, `request_status`, `leave_block_type` ) values('1001', '2012-03-02', 'Send for Approval 1', 'admin', 'testLC', '1000','3000', '3000', '8', 'Appy to ytd', '12546', 'A', '0','1','B2991ADA-E866-F28C-7E95-A897AC377D0C', now(), 'admin',  '1100', 'P', 'LC');
 insert into lm_leave_block_t (`lm_leave_block_id`, `leave_date`,`description`,  `principal_id` , `earn_code` ,`hr_earn_code_id` ,`lm_sys_schd_timeoff_id` ,`lm_accrual_category_id` ,`leave_amount`, `apply_to_ytd_used`, `document_id`, `accrual_generated`, `block_id`,`ver_nbr`, `obj_id`, `timestamp`,`principal_id_modified`, `tk_assignment_id`, `request_status`, `leave_block_type`) values('1002', '2012-03-02', 'Waiting for Approval', 'admin', 'testLC', '1000','3000', '3000', '8', 'Appy to ytd', '12546', 'A', '0','1','B2991ADA-E866-F28C-7E95-A897AC377D0C', now(), 'admin',  '1100', 'R', 'LC');
 
@@ -26,3 +27,6 @@ insert into lm_leave_block_hist_t values ('1002','1002', '2012-03-01', 'Updated 
 
 /** Leave status history */
 insert into lm_leave_status_hist_t values ('2000', '1000', 'D', now(), 'admin', 'Work Load', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1');
+
+/* Leave Calnedar Document */
+INSERT INTO lm_leave_document_header_t (`document_id`,`principal_id`,`begin_date`,`end_date`,`document_status`,`obj_id`,`ver_nbr`) values ('5000', 'testUser', '2012-03-01 00:00:00','2012-03-15 00:00:00', 'F', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '1');

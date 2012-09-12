@@ -50,6 +50,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	private String tkAssignmentId;
 	private String requestStatus;
 	private String leaveBlockType;
+	private String documentStatus;
 	
 	private List<LeaveBlockHistory> leaveBlockHistories = new ArrayList<LeaveBlockHistory>();
 	private EarnCode earnCodeObj;
@@ -556,5 +557,13 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
     public void setAssignmentKey(String assignmentDescription) {
         this.assignmentKey = assignmentDescription;
     }
+
+	public String getDocumentStatus() {
+		return documentStatus;
+	}
+
+	public void setDocumentStatus(String documentStatus) {
+		this.documentStatus = documentStatus;
+	}
 
 }

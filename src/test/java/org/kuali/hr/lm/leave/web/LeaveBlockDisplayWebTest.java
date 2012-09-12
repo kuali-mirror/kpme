@@ -57,6 +57,12 @@ public class LeaveBlockDisplayWebTest extends KPMETestCase {
 		// check Inactive Leave entries
 		Assert.assertTrue("Page does not contain approved leaves ",
 				leaveBlockDisplayPage.asText().contains("Updated by self"));
+		
+		// check page contains Document Status column
+		Assert.assertTrue("Page does not contain Document Status ",
+				leaveBlockDisplayPage.asText().contains("Document Status"));
+		Assert.assertTrue("Page does not contain 'FINAL' Document Status ",
+				leaveBlockDisplayPage.asText().contains("FINAL"));
 
 		// Check for next year
 		HtmlButton nextButton = (HtmlButton) leaveBlockDisplayPage
@@ -66,7 +72,6 @@ public class LeaveBlockDisplayWebTest extends KPMETestCase {
 		// check page contains the next year
 		Assert.assertTrue("Page does not contain planned leave ",
 				leaveBlockDisplayPage.asText().contains("2013"));
-
 	}
 
 }
