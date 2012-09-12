@@ -4,17 +4,7 @@
 <%@ attribute name="docId" required="true" type="java.lang.String" %>
 <%@ attribute name="calType" required="true" type="java.lang.String" %>
 
-<div id="tkCal" class="ui-widget cal ${calType}" style="margin: 20px auto 20px auto; width:95%;">
-
-	<tk:payCalendarSelect />
-	
-	<c:if test="${calType eq 'leaveCalendar'}">
-		<span id="ledger-link">
-        	<a href="LeaveBlockDisplay.do"
-          	 target="_self">Leave Ledger View</a>
-        </span>
-	</c:if>	
-	
+<div id="tkCal" class="ui-widget cal ${calType}" style="margin: 0px auto 0px auto; width:100%;">
 	<c:choose>
        <c:when test="${calType eq 'payCalendar'}">
            <c:set var="calendarLocation" value="TimeDetail.do"/>
@@ -26,47 +16,69 @@
       		<c:set var="calendarLocation" value=""/>
        </c:otherwise>
      </c:choose>
-	<%-- Add Paging Controls for moving between Calendars --%>
     <table class="cal-header">
         <tbody>
         <tr>
-            <td>
+            <%-- Paging controls for moving between calendars --%>
+            <td align="left" width="30%">
+                <tk:payCalendarSelect />
+            </td>
+            <%-- Displayed month and prev/next buttons --%>
+            <td align="center" width="40%">
                 <c:if test="${Form.prevDocumentId ne null || (calType eq 'leaveCalendar' && Form.prevCalEntryId ne null)}">
                     <button id="${calType == 'payCalendar' ? 'nav_prev' : 'nav_prev_lc' }"
                             class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                             role="button" title="Previous">
-                        <span class="ui-button-icon-primary ui-icon ui-icon-circle-triangle-w"></span>
                         <span class="ui-button-text">Previous</span>
                     </button>
                 </c:if>
-                <span class="header-title">${cal.calendarTitle}</span>
+                <span class="header-title-center">${cal.calendarTitle}</span>
                 <c:if test="${Form.nextDocumentId ne null || (calType eq 'leaveCalendar' && Form.nextCalEntryId ne null)}">
                     <button id="${calType == 'payCalendar' ? 'nav_next' : 'nav_next_lc' }"
                             class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
                             role="button" title="Next">
-                        <span class="ui-button-icon-primary ui-icon ui-icon-circle-triangle-e"></span>
                         <span class="ui-button-text">Next</span>
                     </button>
                 </c:if>
             </td>
+            <%-- Links to alternate views --%>
+            <td align="right" width="30%">
+                <table>
+                    <tbody>
+                        <tr>
+                            <td align="right">
+                            <%--<c:if test="${!Form.onCurrentPeriod}" >--%>
+                                <span class="header-title-right">
+	       		                    <a href="${calendarLocation}?methodToCall=gotoCurrentPayPeriod"
+                                        target="_self" id="cpplink">Current Pay Period</a>
+                                </span>
+                            <%--</c:if>--%>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                            <c:if test="${calType eq 'leaveCalendar'}">
+                                <span class="header-title-right">
+         	                        <a href="LeaveBlockDisplay.do"
+                                        target="_self" id="ledger-link">Ledger View</a>
+                                </span>
+                            </c:if>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                            <c:if test="${calType eq 'payCalendar'}">
+                                <span class="header-title-right">
+                                    <a href="${calendarLocation}?methodToCall=actualTimeInquiry&documentId=${Form.documentId}"
+                                        target="_blank" id="atiLink">Actual Time Inquiry</a>
+                                </span>
+                            </c:if>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
         </tr>
-        <tr>
-        	<c:if test="${!Form.onCurrentPeriod}" >
-	        	<td align="center">
-	        		<a href="${calendarLocation}?methodToCall=gotoCurrentPayPeriod"
-	                  	 target="_self" id="cppLink">Go to Current Period</a>
-	        	</td>
-        	</c:if>
-        </tr>
-        <c:if test="${calType eq 'payCalendar'}">
-	        <tr>
-	            <td align="right">
-	                <a href="${calendarLocation}?methodToCall=actualTimeInquiry&documentId=${Form.documentId}"
-	                   target="_blank" id="atiLink">Actual Time Inquiry</a>
-	            </td>
-	
-	        </tr>
-        </c:if>
     </table>
 
     <div class="global-error">

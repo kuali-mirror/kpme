@@ -128,7 +128,7 @@ $(document).ready(function() {
     // create navigation buttons
     $('#nav_prev').button({
         icons: {
-            primary: "ui-icon-circle-triangle-w"
+            primary: "ui-icon-triangle-1-w"
         },
         text: false
     });
@@ -139,7 +139,7 @@ $(document).ready(function() {
 
     $('#nav_next').button({
         icons: {
-            primary: "ui-icon-circle-triangle-e"
+            primary: "ui-icon-triangle-1-e"
         },
         text: false
     });
@@ -155,7 +155,7 @@ $(document).ready(function() {
     
     $('#nav_prev_lc').button({
         icons: {
-            primary: "ui-icon-circle-triangle-w"
+            primary: "ui-icon-triangle-1-w"
         },
         text: false
     });
@@ -166,7 +166,7 @@ $(document).ready(function() {
 
     $('#nav_next_lc').button({
         icons: {
-            primary: "ui-icon-circle-triangle-e"
+            primary: "ui-icon-triangle-1-e"
         },
         text: false
     });
@@ -178,7 +178,7 @@ $(document).ready(function() {
     // create navigation buttons for leave block display
     $('#nav_lb_prev').button({
         icons: {
-            primary: "ui-icon-circle-triangle-w"
+            primary: "ui-icon-triangle-1-w"
         },
         text: false
     });
@@ -186,7 +186,7 @@ $(document).ready(function() {
 
     $('#nav_lb_next').button({
         icons: {
-            primary: "ui-icon-circle-triangle-e"
+            primary: "ui-icon-triangle-1-e"
         },
         text: false
     });
