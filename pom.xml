@@ -17,7 +17,7 @@
     <artifactId>kpme</artifactId>
     <version>1.5-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>Kuali Person Management for the Enterprise</name>
+    <name>Kuali People Management for the Enterprise</name>
     <description>Kuali People Management for the Enterprise (KPME) is an open-source, comprehensive HR/Payroll System built by higher education for higher education.</description>
     <url>http://${kuali.site.hostname}/kpme/${project.version}</url>
  	
