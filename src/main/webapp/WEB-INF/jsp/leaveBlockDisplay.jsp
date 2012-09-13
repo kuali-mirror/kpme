@@ -29,35 +29,61 @@
 		</table>
 
 	</html:form>
-	
+
 	<div class="leave-block-display">
-	
+
 		<div id="leave-block-display-accordion">
 			<h3>
 				<a href="#">Leave Blocks for ${Form.year}</a>
 			</h3>
 			<div>
-				<display:table name="${Form.leaveEntries}" class="datatable-100"
-					cellspacing="0" uid="leaveEntry" sort="external" defaultsort="1" >
-					
-					<display:column title="Date of Leave" sortable="true" sortProperty="leaveDate" >
-						<a href="LeaveCalendar.do?documentId=${leaveEntry.documentId}&calEntryId=${leaveEntry.calendarId}">
-							<fmt:formatDate type="date" value="${leaveEntry.leaveDate}"
-							pattern="MMM-dd-yyyy" />
-						</a>
-					</display:column>
-					<display:column property="earnCode" title="Earn Code"/>
-					<display:column property="description" title="Description" />
-					<display:column property="requestStatus" title="Planning Status" />
-					<display:column property="documentStatus" title="Document Status" />
-					<display:column property="leaveAmount" title="Amount" />
-					<display:column title="Timestamp">
-						<fmt:formatDate type="both" value="${leaveEntry.timestamp}"
-							pattern="MM/dd/yyyy hh:mm a" />
-					</display:column>
-					<display:column property="assignmentTitle" title="Assignment"/>
-					<display:column property="accrualBalance" title="Accrual balances" />
-				</display:table>
+
+				<table class="datatable-100">
+				<tr>
+					<th>Date of Leave</th>
+					<th>Earn Code</th>
+					<th>Description</th>
+					<th>Status</th>
+					<th>Document Status</th>
+					<th>Amount</th>
+					<th>Timestamp</th>
+					<th>Assignment</th>
+					<th colspan="2">
+						Balances
+					</th>
+				</tr>
+					<tr>
+						<th colspan="8"></th>
+						<c:forEach var="accCat" items="${Form.accrualCategoires}">
+							<th>${accCat}</th>
+						</c:forEach>
+					</tr>
+					<tr>
+						<c:forEach var="accBal" items="${leaveEntry.accrualBalances}">
+							<td><c:out value="${accBal.key}" /></td>
+						</c:forEach>
+					</tr>
+
+					<c:forEach var="leaveEntry" items="${Form.leaveEntries}">
+						<tr>
+							<td><a
+								href="LeaveCalendar.do?documentId=${leaveEntry.documentId}&calEntryId=${leaveEntry.calendarId}">
+									<fmt:formatDate type="date" value="${leaveEntry.leaveDate}"
+										pattern="MMM-dd-yyyy" />
+							</a></td>
+							<td>${leaveEntry.earnCode}</td>
+							<td>${leaveEntry.description}</td>
+							<td><c:out value="${leaveEntry.requestStatus}"/></td>
+							<td><c:out value="${leaveEntry.documentStatus}"/></td>
+							<td>${leaveEntry.leaveAmount}</td>
+							<td><fmt:formatDate type="both" value="${leaveEntry.timestamp}" pattern="MM/dd/yyyy hh:mm a" /></td>
+							<td>${leaveEntry.assignmentTitle}</td>
+							<c:forEach var="accBal" items="${leaveEntry.accrualBalances}">
+								<td><c:out value="${accBal.value}" /></td>
+							</c:forEach>
+						</tr>
+					</c:forEach>
+				</table>
 			</div>
 
 			<h3>
@@ -67,10 +93,11 @@
 				<display:table name="${Form.correctedLeaveEntries}"
 					class="datatable-100" cellspacing="0" requestURIcontext="false"
 					uid="correctedEntries">
-					<display:column title="Date of Leave" >
-						<a href="LeaveCalendar.do?documentId=${correctedEntries.documentId}&calEntryId=${correctedEntries.calendarId}">
+					<display:column title="Date of Leave">
+						<a
+							href="LeaveCalendar.do?documentId=${correctedEntries.documentId}&calEntryId=${correctedEntries.calendarId}">
 							<fmt:formatDate type="date" value="${correctedEntries.leaveDate}"
-							pattern="MMM-dd-yyyy" />
+								pattern="MMM-dd-yyyy" />
 						</a>
 					</display:column>
 					<display:column property="earnCode" title="Earn Code" />
@@ -82,7 +109,7 @@
 							pattern="MM/dd/yyyy hh:mm a" />
 					</display:column>
 					<display:column property="leaveAmount" title="Amount" />
-					<display:column property="assignmentTitle" title="Assignment"/>
+					<display:column property="assignmentTitle" title="Assignment" />
 				</display:table>
 			</div>
 
@@ -93,10 +120,11 @@
 				<display:table name="${Form.inActiveLeaveEntries}"
 					class="datatable-100" cellspacing="0" requestURIcontext="false"
 					uid="inActiveEntries">
-					<display:column title="Date of Leave" >
-						<a href="LeaveCalendar.do?documentId=${inActiveEntries.documentId}&calEntryId=${inActiveEntries.calendarId}">
+					<display:column title="Date of Leave">
+						<a
+							href="LeaveCalendar.do?documentId=${inActiveEntries.documentId}&calEntryId=${inActiveEntries.calendarId}">
 							<fmt:formatDate type="date" value="${inActiveEntries.leaveDate}"
-							pattern="MMM-dd-yyyy" />
+								pattern="MMM-dd-yyyy" />
 						</a>
 					</display:column>
 					<display:column property="earnCode" title="Earn Code" />
@@ -110,7 +138,7 @@
 					</display:column>
 					<display:column property="principalIdModified"
 						title="User Deleted/Modified" />
-				    <display:column property="assignmentTitle" title="Assignment"/>
+					<display:column property="assignmentTitle" title="Assignment" />
 				</display:table>
 			</div>
 		</div>

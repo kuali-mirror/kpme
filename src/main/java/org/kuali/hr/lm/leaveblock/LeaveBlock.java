@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Transient;
 
@@ -77,7 +78,9 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	private Double accrualBalance;
 	@Transient
 	private String calendarId;
-   
+	@Transient
+	private Map<String, Double> accrualBalances;
+
 	public static class Builder {
 
 		// required parameters for the constructor
@@ -546,6 +549,14 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
     public boolean isDeletable() {
         return TkServiceLocator.getPermissionsService().canDeleteLeaveBlock(this);
     }
+
+	public Map<String, Double> getAccrualBalances() {
+		return accrualBalances;
+	}
+
+	public void setAccrualBalances(Map<String, Double> accrualBalances) {
+		this.accrualBalances = accrualBalances;
+	}
     
     public String getAssignmentKey() {
         if (assignmentKey == null) {

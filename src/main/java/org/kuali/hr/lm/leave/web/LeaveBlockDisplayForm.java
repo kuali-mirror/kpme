@@ -13,6 +13,7 @@ public class LeaveBlockDisplayForm extends TkForm {
 	private List<LeaveBlock> leaveEntries;
 	private List<LeaveBlockHistory> correctedLeaveEntries;
 	private List<LeaveBlockHistory> inActiveLeaveEntries;
+	private List<String> accrualCategoires;
 	private String targetName;
 	
 	public String getTargetName() {
@@ -63,5 +64,14 @@ public class LeaveBlockDisplayForm extends TkForm {
 	public void setYear(int year) {
 		this.year = year;
 	}
+
+	public List<String> getAccrualCategoires() {
+		return accrualCategoires;
+	}
+
+	public void setAccrualCategoires(List<String> accrualCategoires) {
+		this.accrualCategoires = accrualCategoires;
+	}
+	
 
 }
