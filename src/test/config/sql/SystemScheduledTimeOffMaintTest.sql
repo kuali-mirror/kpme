@@ -3,8 +3,8 @@
 
 delete from hr_earn_code_t where HR_EARN_CODE_ID = '1000';
 delete from hr_earn_code_t where HR_EARN_CODE_ID = '1001';
-insert into hr_earn_code_t values('1000', 'EC', 'test', '2012-02-01', 'Y', 'Y', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1', now(), 'testAC', '1.5', '1.5', 'testLP', 'None', '99', 'T', 'N', 'Y', 'Y', 'Y', 'Y', 'test', null, 'N', 'Hours');
-insert into hr_earn_code_t values('1001', 'TST', 'test', '2012-02-01', 'Y', 'Y', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1', now(), 'testAC', '1.5', '1.5', 'testLP', 'None', '99', 'T', 'N', 'Y', 'Y', 'Y', 'Y', 'test', null, 'N', 'Hours');
+insert into hr_earn_code_t values('1000', 'EC', 'test', '2012-02-01', 'Y', 'Y', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1', now(), 'testAC', '1.5', '1.5', 'testLP', 'None', '99', 'T', 'N', 'Y', 'Y', 'Y', 'Y', 'test', null, 'N', 'Hours', 'I');
+insert into hr_earn_code_t values('1001', 'TST', 'test', '2012-02-01', 'Y', 'Y', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1', now(), 'testAC', '1.5', '1.5', 'testLP', 'None', '99', 'T', 'N', 'Y', 'Y', 'Y', 'Y', 'test', null, 'N', 'Hours', 'I');
 delete from hr_location_t where hr_location_id = '1000';
 INSERT INTO hr_location_t(hr_location_id, location, description, effdt, timestamp, timezone, active, user_principal_id) VALUES('1000', 'CST', 'Central Standard Time', '2010-01-01', '2012-08-21 09:44:28.0', 'America/Chicago', 'Y', NULL);
 delete from hr_principal_attributes_t where principal_id = '111';
