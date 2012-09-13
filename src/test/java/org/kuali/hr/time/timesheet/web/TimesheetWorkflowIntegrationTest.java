@@ -158,7 +158,9 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
         // And Verify
         //
         routeHref = TkTestUtils.getOnClickHref(approveButton);
+        TestAutoLoginFilter.OVERRIDE_ID = "eric";
         page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.BASE_URL + "/" + routeHref);
+        TestAutoLoginFilter.OVERRIDE_ID = "";
         //HtmlUnitUtil.createTempFile(page, "ApproveClicked");
         pageAsText = page.asText();
         Assert.assertTrue("Wrong Document Loaded.", pageAsText.contains(tdocId));
