@@ -15,7 +15,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.kpme</groupId>
     <artifactId>kpme</artifactId>
-    <version>1.5-SNAPSHOT</version>
+    <version>1.5.0-SNAPSHOT</version>
     <packaging>war</packaging>
     <name>Kuali People Management for the Enterprise</name>
     <description>Kuali People Management for the Enterprise (KPME) is an open-source, comprehensive HR/Payroll System built by higher education for higher education.</description>
@@ -361,49 +361,6 @@
 
         <plugins>
             <plugin>
-                <groupId>org.liquibase</groupId>
-                <artifactId>liquibase-maven-plugin</artifactId>
-                <version>2.0.5</version>
-                <configuration>
-                    <changeLogFile>src/main/resources/db.changelog.xml</changeLogFile>
-                    <verbose>true</verbose>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>rice-database-load</id>
-	                    <phase>process-resources</phase>
-	                    <goals>
-	                        <goal>update</goal>
-	                    </goals>
-                        <configuration>
-                            <driver>${kr.dataSource.driver}</driver>
-                            <url>${kr.dataSource.jdbcUrl}</url>
-                            <username>${kr.dataSource.username}</username>
-                            <password>${kr.dataSource.password}</password>
-                            <dropFirst>${kr.dataSource.dropFirst}</dropFirst>
-                            <clearCheckSums>${kr.dataSource.clearCheckSums}</clearCheckSums>
-                            <contexts>${kr.dataSource.contexts}</contexts>
-	                    </configuration>
-	                </execution>
-                    <execution>
-                        <id>kpme-database-load</id>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>update</goal>
-                        </goals>
-                        <configuration>
-                            <driver>${kpme.dataSource.driver}</driver>
-                            <url>${kpme.dataSource.jdbcUrl}</url>
-                            <username>${kpme.dataSource.username}</username>
-                            <password>${kpme.dataSource.password}</password>
-                            <dropFirst>${kpme.dataSource.dropFirst}</dropFirst>
-                            <clearCheckSums>${kpme.dataSource.clearCheckSums}</clearCheckSums>
-                            <contexts>${kpme.dataSource.contexts}</contexts>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
 	            <groupId>org.apache.maven.plugins</groupId>
 	            <artifactId>maven-dependency-plugin</artifactId>
 	            <executions>
@@ -596,6 +553,15 @@
                         </lifecycleMappingMetadata>
                     </configuration>
                 </plugin>
+                <plugin>
+	                <groupId>org.liquibase</groupId>
+	                <artifactId>liquibase-maven-plugin</artifactId>
+	                <version>2.0.5</version>
+	                <configuration>
+	                    <changeLogFile>src/main/resources/db.changelog.xml</changeLogFile>
+	                    <verbose>true</verbose>
+	                </configuration>
+	            </plugin>
             </plugins>
         </pluginManagement>
     </build>
@@ -603,9 +569,6 @@
     <profiles>
         <profile>
             <id>kpme-main</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <properties>
                 <kr.dataSource.driver>com.mysql.jdbc.Driver</kr.dataSource.driver>
                 <kr.dataSource.jdbcUrl>jdbc:mysql://localhost:3306/krtt</kr.dataSource.jdbcUrl>
@@ -625,6 +588,48 @@
                 <kpme.dataSource.clearCheckSums>false</kpme.dataSource.clearCheckSums>
                 <kpme.dataSource.contexts>rice-client-bootstrap,kpme-client-bootstrap,kpme-client-staging</kpme.dataSource.contexts>
             </properties>
+            <build>
+                <plugins>
+                    <plugin>
+		                <groupId>org.liquibase</groupId>
+		                <artifactId>liquibase-maven-plugin</artifactId>
+		                <executions>
+		                    <execution>
+		                        <id>rice-database-load</id>
+		                        <phase>process-resources</phase>
+		                        <goals>
+		                            <goal>update</goal>
+		                        </goals>
+		                        <configuration>
+		                            <driver>${kr.dataSource.driver}</driver>
+		                            <url>${kr.dataSource.jdbcUrl}</url>
+		                            <username>${kr.dataSource.username}</username>
+		                            <password>${kr.dataSource.password}</password>
+		                            <dropFirst>${kr.dataSource.dropFirst}</dropFirst>
+		                            <clearCheckSums>${kr.dataSource.clearCheckSums}</clearCheckSums>
+		                            <contexts>${kr.dataSource.contexts}</contexts>
+		                        </configuration>
+		                    </execution>
+		                    <execution>
+		                        <id>kpme-database-load</id>
+		                        <phase>process-resources</phase>
+		                        <goals>
+		                            <goal>update</goal>
+		                        </goals>
+		                        <configuration>
+		                            <driver>${kpme.dataSource.driver}</driver>
+		                            <url>${kpme.dataSource.jdbcUrl}</url>
+		                            <username>${kpme.dataSource.username}</username>
+		                            <password>${kpme.dataSource.password}</password>
+		                            <dropFirst>${kpme.dataSource.dropFirst}</dropFirst>
+		                            <clearCheckSums>${kpme.dataSource.clearCheckSums}</clearCheckSums>
+		                            <contexts>${kpme.dataSource.contexts}</contexts>
+		                        </configuration>
+		                    </execution>
+		                </executions>
+		            </plugin>
+                </plugins>
+            </build>
         </profile>
         <profile>
             <id>kpme-test</id>
@@ -647,6 +652,48 @@
                 <kpme.dataSource.clearCheckSums>false</kpme.dataSource.clearCheckSums>
                 <kpme.dataSource.contexts>kpme-client-bootstrap,kpme-client-test</kpme.dataSource.contexts>
             </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.liquibase</groupId>
+                        <artifactId>liquibase-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>rice-database-load</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>update</goal>
+                                </goals>
+                                <configuration>
+                                    <driver>${kr.dataSource.driver}</driver>
+                                    <url>${kr.dataSource.jdbcUrl}</url>
+                                    <username>${kr.dataSource.username}</username>
+                                    <password>${kr.dataSource.password}</password>
+                                    <dropFirst>${kr.dataSource.dropFirst}</dropFirst>
+                                    <clearCheckSums>${kr.dataSource.clearCheckSums}</clearCheckSums>
+                                    <contexts>${kr.dataSource.contexts}</contexts>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>kpme-database-load</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>update</goal>
+                                </goals>
+                                <configuration>
+                                    <driver>${kpme.dataSource.driver}</driver>
+                                    <url>${kpme.dataSource.jdbcUrl}</url>
+                                    <username>${kpme.dataSource.username}</username>
+                                    <password>${kpme.dataSource.password}</password>
+                                    <dropFirst>${kpme.dataSource.dropFirst}</dropFirst>
+                                    <clearCheckSums>${kpme.dataSource.clearCheckSums}</clearCheckSums>
+                                    <contexts>${kpme.dataSource.contexts}</contexts>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
     
