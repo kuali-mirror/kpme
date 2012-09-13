@@ -161,7 +161,7 @@ public class AssignmentServiceImpl implements AssignmentService {
         }
 
         //No assignment found so fetch the inactive ones for this payBeginDate
-        Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(desc, timesheetDocument.getPayCalendarEntry().getBeginPeriodDate());
+        Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(desc, timesheetDocument.getCalendarEntry().getBeginPeriodDate());
         if (assign != null) {
             return assign;
         }

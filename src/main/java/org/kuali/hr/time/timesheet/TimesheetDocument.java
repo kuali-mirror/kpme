@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.hr.core.document.calendar.CalendarDocumentContract;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -13,7 +14,7 @@ import org.kuali.hr.time.timesummary.TimeSummary;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 
-public class TimesheetDocument  {
+public class TimesheetDocument implements CalendarDocumentContract {
 
 	public static final String TIMESHEET_DOCUMENT_TYPE = "TimesheetDocument";
 	public static final String TIMESHEET_DOCUMENT_TITLE = "TimesheetDocument";
@@ -22,7 +23,7 @@ public class TimesheetDocument  {
 	private List<Assignment> assignments = new LinkedList<Assignment>();
 	private List<Job> jobs = new LinkedList<Job>();
 	private List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
-	private CalendarEntries payCalendarEntry = null; // Was a Hidden NPE, now more exposed // new PayCalendarEntries();
+	private CalendarEntries calendarEntry = null; // Was a Hidden NPE, now more exposed // new PayCalendarEntries();
 	private TimeSummary timeSummary = new TimeSummary();
 	private Map<Long, Job> jobNumberToJobMap = new HashMap<Long,Job>();
 
@@ -30,6 +31,7 @@ public class TimesheetDocument  {
 		this.documentHeader = documentHeader;
 	}
 
+    @Override
 	public TimesheetDocumentHeader getDocumentHeader() {
 		return documentHeader;
 	}
@@ -38,6 +40,7 @@ public class TimesheetDocument  {
 		this.documentHeader = documentHeader;
 	}
 
+    @Override
 	public List<Assignment> getAssignments() {
 		return assignments;
 	}
@@ -68,12 +71,13 @@ public class TimesheetDocument  {
 		this.timeBlocks = timeBlocks;
 	}
 
-	public CalendarEntries getPayCalendarEntry() {
-		return payCalendarEntry;
+    @Override
+	public CalendarEntries getCalendarEntry() {
+		return calendarEntry;
 	}
 
-	public void setPayCalendarEntry(CalendarEntries payCalendarEntry) {
-		this.payCalendarEntry = payCalendarEntry;
+	public void setCalendarEntry(CalendarEntries calendarEntry) {
+		this.calendarEntry = calendarEntry;
 	}
 
 	public void setTimeSummary(TimeSummary timeSummary) {
@@ -92,8 +96,9 @@ public class TimesheetDocument  {
 		return jobNumberToJobMap.get(jobNumber);
 	}
 
+    @Override
 	public java.sql.Date getAsOfDate(){
-		return new java.sql.Date(getPayCalendarEntry().getBeginPeriodDateTime().getTime());
+		return new java.sql.Date(getCalendarEntry().getBeginPeriodDateTime().getTime());
 	}
 
 	public String getDocumentId(){

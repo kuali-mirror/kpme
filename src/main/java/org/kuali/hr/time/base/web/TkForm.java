@@ -51,7 +51,7 @@ public class TkForm extends KualiForm {
 	}
 
     public String getDocumentStatus() {
-        return TKContext.getCurrentTimesheetDoucment().getDocumentHeader().getDocumentStatus();
+        return TKContext.getCurrentTimesheetDocument().getDocumentHeader().getDocumentStatus();
     }
     
     public boolean getLeaveEnabled() {

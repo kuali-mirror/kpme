@@ -70,7 +70,7 @@ public class TkMobileServiceImpl implements TkMobileService {
 
         // processClockLog is the correct method to use. It creates and persists a clock log and a time block if necessary.
         // buildClockLog just creates a clock log object.
-        TkServiceLocator.getClockLogService().processClockLog(currentTs, assignment, td.getPayCalendarEntry(), ip,
+        TkServiceLocator.getClockLogService().processClockLog(currentTs, assignment, td.getCalendarEntry(), ip,
                 new java.sql.Date(currentTs.getTime()), td, getCurrentClockAction(), principalId);
 
         // TODO: not sure what we want to return for the errorWarningMap

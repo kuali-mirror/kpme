@@ -40,8 +40,8 @@ public class TimesheetDocumentHeaderDaoSpringOjbImpl extends PlatformAwareDaoBas
     public TimesheetDocumentHeader getTimesheetDocumentHeader(String principalId, Date payBeginDate, Date payEndDate) {
         Criteria crit = new Criteria();
         crit.addEqualTo("principalId", principalId);
-        crit.addEqualTo("payEndDate", payEndDate);
-        crit.addEqualTo("payBeginDate", payBeginDate);
+        crit.addEqualTo("endDate", payEndDate);
+        crit.addEqualTo("beginDate", payBeginDate);
 
         return (TimesheetDocumentHeader) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(TimesheetDocumentHeader.class, crit));
     }
@@ -54,7 +54,7 @@ public class TimesheetDocumentHeaderDaoSpringOjbImpl extends PlatformAwareDaoBas
         Criteria crit = new Criteria();
         crit.addEqualTo("principalId", principalId);
         // the pay begin date is the end date of the previous pay period
-        crit.addEqualTo("payEndDate", payBeginDate);
+        crit.addEqualTo("endDate", payBeginDate);
         QueryByCriteria query = new QueryByCriteria(TimesheetDocumentHeader.class, crit);
         query.addOrderByDescending("documentId");
         query.setStartAtIndex(0);
@@ -68,7 +68,7 @@ public class TimesheetDocumentHeaderDaoSpringOjbImpl extends PlatformAwareDaoBas
         Criteria crit = new Criteria();
         crit.addEqualTo("principalId", principalId);
         // the pay end date is the begin date of the next pay period
-        crit.addEqualTo("payBeginDate", payEndDate);
+        crit.addEqualTo("beginDate", payEndDate);
         QueryByCriteria query = new QueryByCriteria(TimesheetDocumentHeader.class, crit);
         query.setStartAtIndex(0);
         query.setEndAtIndex(1);
@@ -80,7 +80,7 @@ public class TimesheetDocumentHeaderDaoSpringOjbImpl extends PlatformAwareDaoBas
         Criteria crit = new Criteria();
         List<TimesheetDocumentHeader> lstDocumentHeaders = new ArrayList<TimesheetDocumentHeader>();
 
-        crit.addEqualTo("payBeginDate", payBeginDate);
+        crit.addEqualTo("beginDate", payBeginDate);
         QueryByCriteria query = new QueryByCriteria(TimesheetDocumentHeader.class, crit);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
         if (c != null) {
@@ -114,8 +114,8 @@ public class TimesheetDocumentHeaderDaoSpringOjbImpl extends PlatformAwareDaoBas
 	    	 String nextYear = Integer.toString((Integer.parseInt(year) + 1));
 	    	 java.util.Date nYear = df.parse(nextYear);
 	    	 
-			crit.addGreaterOrEqualThan("payBeginDate", cYear);
-		    crit.addLessThan("payBeginDate", nYear );
+			crit.addGreaterOrEqualThan("beginDate", cYear);
+		    crit.addLessThan("beginDate", nYear );
 		    QueryByCriteria query = new QueryByCriteria(TimesheetDocumentHeader.class, crit);
 		    Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 		    if (c != null) {

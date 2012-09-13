@@ -9,6 +9,9 @@
     <script src="js/common.calendar.backbone.js"></script>
     <script src="js/tk.leaveCalendar.backbone.js"></script>
     <tk:calendar cal="${Form.leaveCalendar}" docId="${Form.documentId}" calType="leaveCalendar"/>
+
+    <%-- render the calendar buttons --%>
+    <lm:lmLeaveCalendarRouting/>
     
     <lm:leaveSummary leaveSummary="${Form.leaveSummary}" />
     

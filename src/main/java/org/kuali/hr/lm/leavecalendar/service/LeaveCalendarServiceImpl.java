@@ -3,6 +3,7 @@ package org.kuali.hr.lm.leavecalendar.service;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
@@ -11,10 +12,12 @@ import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 
 public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 
@@ -120,11 +123,64 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 		LeaveCalendarDocumentHeader lcdh = new LeaveCalendarDocumentHeader();
 		lcdh.setBeginDate(calendarEntry.getBeginPeriodDateTime());
 		lcdh.setEndDate(calendarEntry.getEndPeriodDateTime());
-		leaveCalendarDocument.setLeaveCalendarDocumentHeader(lcdh);
+		leaveCalendarDocument.setDocumentHeader(lcdh);
 		// Fetching assignments
         List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, calendarEntry);
         leaveCalendarDocument.setAssignments(assignments);
 		return leaveCalendarDocument;
 	}
+
+    @Override
+    public void routeLeaveCalendar(String principalId, LeaveCalendarDocument leaveCalendarDocument) {
+        leaveCalendarDocumentAction(TkConstants.DOCUMENT_ACTIONS.ROUTE, principalId, leaveCalendarDocument);
+    }
+
+    @Override
+    public void approveLeaveCalendar(String principalId, LeaveCalendarDocument leaveCalendarDocument) {
+        leaveCalendarDocumentAction(TkConstants.DOCUMENT_ACTIONS.APPROVE, principalId, leaveCalendarDocument);
+    }
+
+    @Override
+    public void disapproveLeaveCalendar(String principalId, LeaveCalendarDocument leaveCalendarDocument) {
+        leaveCalendarDocumentAction(TkConstants.DOCUMENT_ACTIONS.DISAPPROVE, principalId, leaveCalendarDocument);
+    }
+
+    protected void leaveCalendarDocumentAction(String action, String principalId, LeaveCalendarDocument leaveCalendarDocument) {
+        WorkflowDocument wd = null;
+        if (leaveCalendarDocument != null) {
+            String rhid = leaveCalendarDocument.getDocumentId();
+            wd = WorkflowDocumentFactory.loadDocument(principalId, rhid);
+
+            if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.ROUTE)) {
+                wd.route("Routing for Approval");
+            } else if (StringUtils.equals(action, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE)) {
+                wd.route("Batch job routing for Approval");
+            } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
+                if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin() &&
+                        !TKContext.getUser().getCurrentTargetRoles().isApproverForTimesheet(leaveCalendarDocument)) {
+                    wd.superUserBlanketApprove("Superuser approving timesheet.");
+                } else {
+                    wd.approve("Approving timesheet.");
+                }
+            } else if (StringUtils.equals(action, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE)) {
+                wd.superUserBlanketApprove("Batch job superuser approving timesheet.");
+            } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
+                if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin()
+                        && !TKContext.getUser().getCurrentTargetRoles().isApproverForTimesheet(leaveCalendarDocument)) {
+                    wd.superUserDisapprove("Superuser disapproving timesheet.");
+                } else {
+                    wd.disapprove("Disapproving timesheet.");
+                }
+            }
+
+            String kewStatus = KEWServiceLocator.getRouteHeaderService().getDocumentStatus(leaveCalendarDocument.getDocumentId());
+            if (!kewStatus.equals(leaveCalendarDocument.getDocumentHeader().getDocumentStatus())) {
+                leaveCalendarDocument.getDocumentHeader().setDocumentStatus(kewStatus);
+                TkServiceLocator.getLeaveCalendarDocumentHeaderService().saveOrUpdate(leaveCalendarDocument.getDocumentHeader());
+            }
+
+        }
+    }
+
 }
 

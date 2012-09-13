@@ -31,8 +31,8 @@ public class DocumentHeaderTest extends KPMETestCase {
 		timeHeader.setDocumentId("1");
 		timeHeader.setPrincipalId("admin");
 		timeHeader.setDocumentStatus("F");
-		timeHeader.setPayBeginDate(TkTestUtils.createDate(1, 1, 2011, 0, 0, 0));
-		timeHeader.setPayEndDate(TkTestUtils.createDate(1, 15, 2011, 0, 0, 0));
+		timeHeader.setBeginDate(TkTestUtils.createDate(1, 1, 2011, 0, 0, 0));
+		timeHeader.setEndDate(TkTestUtils.createDate(1, 15, 2011, 0, 0, 0));
 		KRADServiceLocator.getBusinessObjectService().save(timeHeader);
         DateTime dateTime = new DateTime(2011,1,15,0,0,0,0);
 		TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader("admin", new java.util.Date(dateTime.getMillis()));
@@ -54,24 +54,24 @@ public class DocumentHeaderTest extends KPMETestCase {
 		TimesheetDocumentHeader tdh = new TimesheetDocumentHeader();
 		tdh.setDocumentId("1234");
 		tdh.setPrincipalId("admin");
-		tdh.setPayBeginDate(TKUtils.getCurrentDate());
-		tdh.setPayEndDate(TKUtils.getCurrentDate());
+		tdh.setBeginDate(TKUtils.getCurrentDate());
+		tdh.setEndDate(TKUtils.getCurrentDate());
 		
 		KRADServiceLocator.getBusinessObjectService().save(tdh);
 		
 		tdh = new TimesheetDocumentHeader();
 		tdh.setDocumentId("1000");
 		tdh.setPrincipalId("admin");
-		tdh.setPayBeginDate(TKUtils.getCurrentDate());
-		tdh.setPayEndDate(TKUtils.getCurrentDate());
+		tdh.setBeginDate(TKUtils.getCurrentDate());
+		tdh.setEndDate(TKUtils.getCurrentDate());
 		
 		KRADServiceLocator.getBusinessObjectService().save(tdh);
 		
 		tdh = new TimesheetDocumentHeader();
 		tdh.setDocumentId("2345");
 		tdh.setPrincipalId("admin");
-		tdh.setPayBeginDate(TKUtils.getCurrentDate());
-		tdh.setPayEndDate(TKUtils.getCurrentDate());
+		tdh.setBeginDate(TKUtils.getCurrentDate());
+		tdh.setEndDate(TKUtils.getCurrentDate());
 		
 		KRADServiceLocator.getBusinessObjectService().save(tdh);
 	}

@@ -29,7 +29,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 	@Override
 	public void processWeeklyOvertimeRule(TimesheetDocument timesheetDocument, TkTimeBlockAggregate aggregate) {
         DateTimeZone zone = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
-		java.sql.Date asOfDate = TKUtils.getTimelessDate(timesheetDocument.getDocumentHeader().getPayEndDate());
+		java.sql.Date asOfDate = TKUtils.getTimelessDate(timesheetDocument.getDocumentHeader().getEndDate());
 		String principalId = timesheetDocument.getDocumentHeader().getPrincipalId();
 		List<WeeklyOvertimeRule> weeklyOvertimeRules = this.getWeeklyOvertimeRules(asOfDate);
 
@@ -45,11 +45,11 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 
 		// Grab the previous list of FLSA Weeks.
 		if (!firstWeek.isFirstWeekFull()) {
-			 List<TimeBlock> prevBlocks = TkServiceLocator.getTimesheetService().getPrevDocumentTimeBlocks(principalId, timesheetDocument.getDocumentHeader().getPayBeginDate());
+			 List<TimeBlock> prevBlocks = TkServiceLocator.getTimesheetService().getPrevDocumentTimeBlocks(principalId, timesheetDocument.getDocumentHeader().getBeginDate());
 			 if (prevBlocks.size() > 0) {
-				TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(principalId, timesheetDocument.getDocumentHeader().getPayBeginDate());
+				TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(principalId, timesheetDocument.getDocumentHeader().getBeginDate());
 				if (prevTdh != null) {
-					CalendarEntries prevPayCalendarEntry = TkServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(principalId, prevTdh.getPayEndDate(), null);
+					CalendarEntries prevPayCalendarEntry = TkServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(principalId, prevTdh.getEndDate(), null);
 					TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry, prevPayCalendarEntry.getCalendarObj(), true);
 					previousWeeks = prevTimeAggregate.getFlsaWeeks(zone);
 					if (previousWeeks.size() == 0) {

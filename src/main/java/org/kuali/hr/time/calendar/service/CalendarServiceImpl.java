@@ -73,11 +73,11 @@ public class CalendarServiceImpl implements CalendarService {
         Job job = currentJobs.get(0);
 
         if (principalId == null || job == null) {
-            throw new RuntimeException("Null parameters passed to getPayEndDate");
+            throw new RuntimeException("Null parameters passed to getEndDate");
         } else {
             PayType payType = job.getPayTypeObj();
             if (payType == null)
-                throw new RuntimeException("Null pay type on Job in getPayEndDate");
+                throw new RuntimeException("Null pay type on Job in getEndDate");
             PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, date);
             if(principalCalendar == null){
                 throw new RuntimeException("Null principal calendar for principalid "+principalId);

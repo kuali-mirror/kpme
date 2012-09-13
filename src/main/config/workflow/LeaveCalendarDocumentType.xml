@@ -7,9 +7,30 @@
         <documentType>
             <name>LeaveCalendarDocument</name>
             <parent>RiceDocument</parent>
-            <docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+            <superUserWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</superUserWorkgroupName>
+            <blanketApproveWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</blanketApproveWorkgroupName>
+            <defaultExceptionWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</defaultExceptionWorkgroupName>
+            <description>Leave Calendar Document</description>
+            <!--<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>-->
             <label>LeaveCalendarDocument</label>
-
+            <attributes>
+                <attribute>
+                    <name>LeaveCalendarWorkareaSearchAttribute</name>
+                </attribute>
+                <attribute>
+                    <name>LeaveCalendarDepartmentSearchAttribute</name>
+                </attribute>
+                <attribute>
+                    <name>LeaveCalendarSalGroupSearchAttribute</name>
+                </attribute>
+                <attribute>
+                    <name>LeaveCalendarCalEndSearchAttribute</name>
+                </attribute>
+            </attributes>
+            <postProcessorName>org.kuali.hr.lm.workflow.postprocessor.LmPostProcessor</postProcessorName>
+            <docHandler>${kuali.docHandler.url.prefix}/LeaveCalendar.do?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>1</routingVersion>
             <routePaths>
                 <routePath>
                     <start name="adhoc" nextNode="LeaveCalendar Attribute" />
@@ -98,10 +119,10 @@
         </searchingConfig>
     </ruleAttribute>
     <ruleAttribute>
-        <name>LeaveCalendarPayCalEndSearchAttribute</name>
+        <name>LeaveCalendarCalEndSearchAttribute</name>
         <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
-        <label>LeaveCalendarPayCalEndSearchAttribute</label>
-        <description>LeaveCalendarPayCalEndSearchAttribute</description>
+        <label>LeaveCalendarCalEndSearchAttribute</label>
+        <description>LeaveCalendarCalEndSearchAttribute</description>
         <type>SearchableXmlAttribute</type>
         <searchingConfig>
             <fieldDef name="payCalendarEnd" title="Pay Calendar End Date">

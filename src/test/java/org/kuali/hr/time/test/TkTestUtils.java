@@ -161,7 +161,7 @@ public class TkTestUtils {
 	public static TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, int dayInPeriod, int numHours, String earnCode){
 		TimeBlock timeBlock = new TimeBlock();
 		Calendar cal = GregorianCalendar.getInstance();
-		cal.setTimeInMillis(timesheetDocument.getPayCalendarEntry().getBeginPeriodDateTime().getTime());
+		cal.setTimeInMillis(timesheetDocument.getCalendarEntry().getBeginPeriodDateTime().getTime());
 		for(int i = 1; i< dayInPeriod;i++){
 			cal.add(Calendar.DAY_OF_MONTH, 1);
 		}

@@ -43,9 +43,9 @@ public class LeaveCalendarDocumentHeaderServiceImpl implements LeaveCalendarDocu
 		    LeaveCalendarDocument currentLeaveCalendar = TKContext.getCurrentLeaveCalendarDocument();
 	        LeaveCalendarDocumentHeader lcdh;
 	        if (StringUtils.equals(prevOrNext, TkConstants.PREV_TIMESHEET)) {
-	        	lcdh = leaveCalendarDocumentHeaderDao.getPreviousDocumentHeader(principalId, currentLeaveCalendar.getLeaveCalendarDocumentHeader().getBeginDate());
+	        	lcdh = leaveCalendarDocumentHeaderDao.getPreviousDocumentHeader(principalId, currentLeaveCalendar.getDocumentHeader().getBeginDate());
 	        } else {
-	        	lcdh = leaveCalendarDocumentHeaderDao.getNextDocumentHeader(principalId, currentLeaveCalendar.getLeaveCalendarDocumentHeader().getEndDate());
+	        	lcdh = leaveCalendarDocumentHeaderDao.getNextDocumentHeader(principalId, currentLeaveCalendar.getDocumentHeader().getEndDate());
 	        }
 	        return lcdh;
 	}

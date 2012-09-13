@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.hr.core.document.CalendarDocumentHeaderContract;
+import org.kuali.hr.core.document.calendar.CalendarDocumentContract;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -22,7 +24,7 @@ public class TkSearchableAttributeServiceImpl implements
 
     private static final Logger LOG = Logger.getLogger(TkSearchableAttributeServiceImpl.class);
 
-	public void updateSearchableAttribute(TimesheetDocument document, Date asOfDate){
+	public void updateSearchableAttribute(CalendarDocumentContract document, Date asOfDate){
         WorkflowDocument workflowDocument = null;
         //
         // djunk - Need to actually look at why this call is here for every
@@ -31,7 +33,8 @@ public class TkSearchableAttributeServiceImpl implements
         //
         if (!document.getDocumentHeader().getDocumentStatus().equals("F")) {
             try {
-                workflowDocument = WorkflowDocumentFactory.loadDocument(document.getPrincipalId(), document.getDocumentId());
+                CalendarDocumentHeaderContract docHeader = document.getDocumentHeader();
+                workflowDocument = WorkflowDocumentFactory.loadDocument(docHeader.getPrincipalId(), docHeader.getDocumentId());
                 workflowDocument.setApplicationContent(createSearchableAttributeXml(document, asOfDate));
                 workflowDocument.saveDocument("");
                 if (!"I".equals(workflowDocument.getStatus().getCode())) {
@@ -54,7 +57,7 @@ public class TkSearchableAttributeServiceImpl implements
 	}
 
 	@Override
-	public String createSearchableAttributeXml(TimesheetDocument document, Date asOfDate) {
+	public String createSearchableAttributeXml(CalendarDocumentContract document, Date asOfDate) {
 		List<Long> workAreas = new ArrayList<Long>();
 		Map<String,List<Long>> deptToListOfWorkAreas = new HashMap<String,List<Long>>();
 		List<String> salGroups = new ArrayList<String>();
@@ -82,7 +85,8 @@ public class TkSearchableAttributeServiceImpl implements
 			}
 		}
 		StringBuilder sb = new StringBuilder();
-		sb.append("<documentContext><applicationContent><TimesheetDocument>");
+        String className = document.getClass().getSimpleName();
+		sb.append("<documentContext><applicationContent><").append(className).append(">");
 		sb.append("<DEPARTMENTS>");
 		for(String dept : deptToListOfWorkAreas.keySet()){
 			sb.append("<DEPARTMENT value=\""+dept+"\">");
@@ -98,7 +102,7 @@ public class TkSearchableAttributeServiceImpl implements
 		}
 
 		sb.append("<PAYENDDATE value=\""+asOfDate+"\"/>");
-		sb.append("</TimesheetDocument></applicationContent></documentContext>");
+		sb.append("</").append(className).append("></applicationContent></documentContext>");
 
 		return sb.toString();
 	}

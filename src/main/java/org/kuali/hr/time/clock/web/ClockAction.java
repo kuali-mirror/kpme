@@ -52,7 +52,7 @@ public class ClockAction extends TimesheetAction {
 
         TimesheetActionForm taForm = (TimesheetActionForm) form;
         UserRoles roles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
-        TimesheetDocument doc = TKContext.getCurrentTimesheetDoucment();
+        TimesheetDocument doc = TKContext.getCurrentTimesheetDocument();
 
         // Check for write access to Timeblock.
         if (StringUtils.equals(methodToCall, "clockAction") ||

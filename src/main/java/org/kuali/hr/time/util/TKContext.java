@@ -25,7 +25,7 @@ public class TKContext {
 		}
 	};
 
-    public static TimesheetDocument getCurrentTimesheetDoucment() {
+    public static TimesheetDocument getCurrentTimesheetDocument() {
         return (TimesheetDocument)TKContext.getStorageMap().get(TDOC_OBJ_KEY);
     }
 

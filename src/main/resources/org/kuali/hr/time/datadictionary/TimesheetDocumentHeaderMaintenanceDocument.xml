@@ -37,9 +37,9 @@
 					p:required="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="principalId"
 					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="payBeginDate"
+				<bean parent="MaintainableFieldDefinition" p:name="beginDate"
 					p:unconditionallyReadOnly="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="payEndDate"
+				<bean parent="MaintainableFieldDefinition" p:name="endDate"
 					p:unconditionallyReadOnly="true" />
 				<bean parent="MaintainableFieldDefinition" p:name="documentStatus"
 					p:required="true" />

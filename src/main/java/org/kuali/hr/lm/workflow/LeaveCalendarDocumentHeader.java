@@ -1,11 +1,11 @@
 package org.kuali.hr.lm.workflow;
 
 import java.util.Date;
-import java.util.LinkedHashMap;
 
+import org.kuali.hr.core.document.CalendarDocumentHeaderContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class LeaveCalendarDocumentHeader extends PersistableBusinessObjectBase {
+public class LeaveCalendarDocumentHeader extends PersistableBusinessObjectBase implements CalendarDocumentHeaderContract {
 
     private String documentId;
     private String principalId;
@@ -25,6 +25,7 @@ public class LeaveCalendarDocumentHeader extends PersistableBusinessObjectBase {
 		this.documentStatus = documentStatus;
 	}
 
+    @Override
     public String getDocumentId() {
         return documentId;
     }
@@ -33,6 +34,7 @@ public class LeaveCalendarDocumentHeader extends PersistableBusinessObjectBase {
         this.documentId = documentId;
     }
 
+    @Override
     public String getDocumentStatus() {
         return documentStatus;
     }
@@ -41,6 +43,7 @@ public class LeaveCalendarDocumentHeader extends PersistableBusinessObjectBase {
         this.documentStatus = documentStatus;
     }
 
+    @Override
     public Date getBeginDate() {
         return beginDate;
     }
@@ -49,6 +52,7 @@ public class LeaveCalendarDocumentHeader extends PersistableBusinessObjectBase {
         this.beginDate = beginDate;
     }
 
+    @Override
     public Date getEndDate() {
         return endDate;
     }
@@ -57,6 +61,7 @@ public class LeaveCalendarDocumentHeader extends PersistableBusinessObjectBase {
         this.endDate = payEndDate;
     }
 
+    @Override
     public String getPrincipalId() {
         return principalId;
     }

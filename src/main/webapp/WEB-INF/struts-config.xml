@@ -27,6 +27,7 @@
         <form-bean name="HelpActionForm" type="org.kuali.hr.time.help.web.HelpActionForm"/>
         <form-bean name="SessionInvalidateForm" type="org.kuali.hr.time.web.SessionInvalidateForm"/>
 		<form-bean name="LeaveCalendarForm" type="org.kuali.hr.lm.leavecalendar.web.LeaveCalendarForm"/>
+        <form-bean name="LeaveCalendarSubmitForm" type="org.kuali.hr.lm.leavecalendar.web.LeaveCalendarSubmitForm"/>
 		<form-bean name="LeaveBlockDisplayForm" type="org.kuali.hr.lm.leave.web.LeaveBlockDisplayForm"/>
 		<form-bean name="LeaveRequestForm" type="org.kuali.hr.lm.leave.web.LeaveRequestForm"/>
 		<form-bean name="LeaveCalendarWSForm" type="org.kuali.hr.lm.leave.web.LeaveCalendarWSForm"/>
@@ -185,6 +186,13 @@
         <action path="/LeaveCalendar" name="LeaveCalendarForm" scope="request" input="/WEB-INF/jsp/leaveCalendar.jsp"
                 type="org.kuali.hr.lm.leavecalendar.web.LeaveCalendarAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/leaveCalendar.jsp"/>
+        </action>
+
+        <action path="/LeaveCalendarSubmit" name="LeaveCalendarSubmitForm" scope="request"
+                input="/WEB-INF/jsp/leaveCalendar.jsp"
+                type="org.kuali.hr.lm.leavecalendar.web.LeaveCalendarSubmitAction" parameter="methodToCall" validate="false">
+            <forward name="leaveCalendarRedirect" path="/LeaveCalendar.do"/>
+            <forward name="approverRedirect" path="/TimeApproval.do"/>
         </action>
         
         <action path="/LeaveRequest" name="LeaveRequestForm" scope="session" input="/WEB-INF/jsp/leaveRequest.jsp"

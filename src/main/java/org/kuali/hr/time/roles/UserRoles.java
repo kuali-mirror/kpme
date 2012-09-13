@@ -1,5 +1,6 @@
 package org.kuali.hr.time.roles;
 
+import org.kuali.hr.core.document.calendar.CalendarDocumentContract;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 import java.util.Set;
@@ -106,16 +107,16 @@ public interface UserRoles {
      * @param doc The TimesheetDocument in question.
      * @return true if the doc can be approved by the current user.
      */
-    public boolean isApproverForTimesheet(TimesheetDocument doc);
+    public boolean isApproverForTimesheet(CalendarDocumentContract doc);
     public boolean isApproverForTimesheet(String docId);
 
-    public boolean canSubmitTimesheet(TimesheetDocument doc);
+    public boolean canSubmitTimesheet(CalendarDocumentContract doc);
     public boolean canSubmitTimesheet(String docId);
 
-    public boolean isDocumentReadable(TimesheetDocument document);
+    public boolean isDocumentReadable(CalendarDocumentContract document);
     public boolean isDocumentReadable(String documentId);
 
-    public boolean isDocumentWritable(TimesheetDocument document);
+    public boolean isDocumentWritable(CalendarDocumentContract document);
     public boolean isDocumentWritable(String documentId);
     
     public boolean isApproverForPerson(String principalId);

@@ -266,9 +266,9 @@
     <class-descriptor class="org.kuali.hr.time.workflow.TimesheetDocumentHeader" table="TK_DOCUMENT_HEADER_T">
         <field-descriptor name="documentId"     column="DOCUMENT_ID"     jdbc-type="VARCHAR"    length="14" primarykey="true" />
         <field-descriptor name="principalId"    column="PRINCIPAL_ID"    jdbc-type="VARCHAR"    length="40" primarykey="false" />
-        <field-descriptor name="payEndDate"     column="PAY_END_DT"      jdbc-type="TIMESTAMP"  primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="endDate"     column="PAY_END_DT"      jdbc-type="TIMESTAMP"  primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="documentStatus" column="DOCUMENT_STATUS" jdbc-type="VARCHAR"    length="1" primarykey="false" />
-        <field-descriptor name="payBeginDate"   column="PAY_BEGIN_DT"    jdbc-type="TIMESTAMP"  primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="beginDate"   column="PAY_BEGIN_DT"    jdbc-type="TIMESTAMP"  primarykey="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
     </class-descriptor>
 
     <class-descriptor class="org.kuali.hr.time.timesheet.TimeSheetInitiate" table="TK_TIME_SHEET_INIT_T">

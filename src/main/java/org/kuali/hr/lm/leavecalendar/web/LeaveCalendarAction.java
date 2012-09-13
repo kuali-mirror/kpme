@@ -104,7 +104,7 @@ public class LeaveCalendarAction extends TkAction {
 		
 		if (lcd != null) {
 			setupDocumentOnFormContext(lcf, lcd);
-            lcdh = lcd.getLeaveCalendarDocumentHeader();
+            lcdh = lcd.getDocumentHeader();
 		} else {
 			LOG.error("Null leave calendar document in LeaveCalendarAction.");
 		}
@@ -123,7 +123,7 @@ public class LeaveCalendarAction extends TkAction {
 		
 		this.populateCalendarAndPayPeriodLists(request, lcf);
 		// KPME-1447
-		//List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(lcd.getDocumentId());
+		//List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(lcd.getTimesheetDocumentId());
         List<LeaveBlock> leaveBlocks;
         if (lcdh != null && lcdh.getPrincipalId() != null && lcdh.getBeginDate() != null && lcdh.getEndDate() != null) {
             leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(lcdh.getPrincipalId(), lcdh.getBeginDate(), lcdh.getEndDate());
@@ -286,7 +286,7 @@ public class LeaveCalendarAction extends TkAction {
 		LeaveCalendarDocumentHeader nextLdh = null;
 		CalendarEntries futureCalEntry = null;
 		String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
-		if (lcd.getLeaveCalendarDocumentHeader() != null) {
+		if (lcd.getDocumentHeader() != null) {
 			TKContext.setCurrentLeaveCalendarDocumentId(lcd.getDocumentId());
 			leaveForm.setDocumentId(lcd.getDocumentId());
 		}
@@ -297,7 +297,7 @@ public class LeaveCalendarAction extends TkAction {
 				lcd.getCalendarEntry().getBeginPeriodDateTime()) >= 0;
 
 		if (TKContext.getCurrentLeaveCalendarDocument()
-				.getLeaveCalendarDocumentHeader() != null) {
+				.getDocumentHeader() != null) {
 			prevLdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService()
 					.getPrevOrNextDocumentHeader(TkConstants.PREV_TIMESHEET,
 							viewPrincipal);

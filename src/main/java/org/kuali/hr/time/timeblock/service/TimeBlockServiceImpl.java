@@ -11,8 +11,6 @@ import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.paytype.PayType;
-import org.kuali.hr.time.roles.TkUserRoles;
-import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -49,7 +47,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         DateTime endDt = beginDt.toLocalDate().toDateTime((new DateTime(endTimestamp.getTime(), zone)).toLocalTime(), zone);
         if (endDt.isBefore(beginDt)) endDt = endDt.plusDays(1);
     	
-        List<Interval> dayInt = TKUtils.getDaySpanForCalendarEntry(timesheetDocument.getPayCalendarEntry());
+        List<Interval> dayInt = TKUtils.getDaySpanForCalendarEntry(timesheetDocument.getCalendarEntry());
         TimeBlock firstTimeBlock = new TimeBlock();
         List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
         for (Interval dayIn : dayInt) {
@@ -98,7 +96,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         //Create 1 or many timeblocks if the span of timeblocks exceed more than one
         //day that is determined by pay period day(24 hrs + period begin date)
         Interval firstDay = null;
-        List<Interval> dayIntervals = TKUtils.getDaySpanForCalendarEntry(timesheetDocument.getPayCalendarEntry());
+        List<Interval> dayIntervals = TKUtils.getDaySpanForCalendarEntry(timesheetDocument.getCalendarEntry());
         List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
         Timestamp beginTemp = beginTimestamp;
 

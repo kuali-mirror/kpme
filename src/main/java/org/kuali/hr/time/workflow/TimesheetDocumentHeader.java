@@ -2,34 +2,17 @@ package org.kuali.hr.time.workflow;
 
 import java.util.Date;
 
+import org.kuali.hr.core.document.CalendarDocumentHeaderContract;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class TimesheetDocumentHeader extends PersistableBusinessObjectBase {
+public class TimesheetDocumentHeader extends PersistableBusinessObjectBase implements CalendarDocumentHeaderContract {
 
 	private static final long serialVersionUID = 1L;
 	private String documentId;
 	private String principalId;
-	private Date payBeginDate;
-	private Date payEndDate;
+	private Date beginDate;
+	private Date endDate;
 	private String documentStatus;
-	private String objectId;
-	private Long versionNumber;
-	
-	public String getObjectId() {
-		return objectId;
-	}
-
-	public void setObjectId(String objectId) {
-		this.objectId = objectId;
-	}
-
-	public Long getVersionNumber() {
-		return versionNumber;
-	}
-
-	public void setVersionNumber(long versionNumber) {
-		this.versionNumber = versionNumber;
-	}
 
 	public TimesheetDocumentHeader() {
 		
@@ -38,11 +21,12 @@ public class TimesheetDocumentHeader extends PersistableBusinessObjectBase {
 	public TimesheetDocumentHeader(String documentId, String principalId, Date payBeginDate, Date payEndDate, String documentStatus) {
 		this.documentId = documentId;
 		this.principalId = principalId;
-		this.payBeginDate = payBeginDate;
-		this.payEndDate = payEndDate;
+		this.beginDate = payBeginDate;
+		this.endDate = payEndDate;
 		this.documentStatus = documentStatus;
 	}
 
+    @Override
 	public String getDocumentId() {
 		return documentId;
 	}
@@ -51,6 +35,7 @@ public class TimesheetDocumentHeader extends PersistableBusinessObjectBase {
 		this.documentId = documentId;
 	}
 
+    @Override
 	public String getPrincipalId() {
 		return principalId;
 	}
@@ -59,14 +44,16 @@ public class TimesheetDocumentHeader extends PersistableBusinessObjectBase {
 		this.principalId = principalId;
 	}
 
-	public Date getPayEndDate() {
-		return payEndDate;
+    @Override
+	public Date getEndDate() {
+		return endDate;
 	}
 
-	public void setPayEndDate(Date payEndDate) {
-		this.payEndDate = payEndDate;
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 
+    @Override
 	public String getDocumentStatus() {
 		return documentStatus;
 	}
@@ -75,12 +62,13 @@ public class TimesheetDocumentHeader extends PersistableBusinessObjectBase {
 		this.documentStatus = documentStatus;
 	}
 
-	public Date getPayBeginDate() {
-		return payBeginDate;
+    @Override
+	public Date getBeginDate() {
+		return beginDate;
 	}
 
-	public void setPayBeginDate(Date payBeginDate) {
-		this.payBeginDate = payBeginDate;
+	public void setBeginDate(Date beginDate) {
+		this.beginDate = beginDate;
 	}
 
 }

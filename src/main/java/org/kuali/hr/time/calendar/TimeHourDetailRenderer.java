@@ -18,7 +18,7 @@ public class TimeHourDetailRenderer {
 
     public TimeHourDetailRenderer(TimeHourDetail d) {
         this.timeHourDetail = d;
-        List<String> ovtEarnCodes = TkServiceLocator.getEarnCodeService().getOvertimeEarnCodesStrs(TKContext.getCurrentTimesheetDoucment().getAsOfDate());
+        List<String> ovtEarnCodes = TkServiceLocator.getEarnCodeService().getOvertimeEarnCodesStrs(TKContext.getCurrentTimesheetDocument().getAsOfDate());
         setOvertimeEarnCode(ovtEarnCodes.contains(d.getEarnCode()));
     }
 

@@ -5,10 +5,10 @@
 
 <div id="timesheet-routing">
 
-    <c:if test="${tagSupport.displayingRouteButton}">
+    <c:if test="${tagSupport.displayingTimesheetRouteButton}">
         <c:choose>
-            <c:when test="${tagSupport.routeButtonEnabled}">
-                <input id="ts-route-button" type="button" class="button" value="Submit for Approval" name="route" onclick="location.href='TimesheetSubmit.do?action=${tagSupport.routeAction}&documentId=${tagSupport.documentId}&methodToCall=approveTimesheet'"/>
+            <c:when test="${tagSupport.routeTimesheetButtonEnabled}">
+                <input id="ts-route-button" type="button" class="button" value="Submit for Approval" name="route" onclick="location.href='TimesheetSubmit.do?action=${tagSupport.routeAction}&documentId=${tagSupport.timesheetDocumentId}&methodToCall=approveTimesheet'"/>
             </c:when>
             <c:otherwise>
                 <input disabled id="ts-route-button" type="button" class="button" value="Submit for Approval" name="route"/>
@@ -17,11 +17,11 @@
     </c:if>
 
 
-    <c:if test="${tagSupport.displayingApprovalButtons}">
+    <c:if test="${tagSupport.displayingTimesheetApprovalButtons}">
         <c:choose>
-            <c:when test="${tagSupport.approvalButtonsEnabled}">
-                <input type="button" id="ts-approve-button" class="button" value="Approve" name="approve" onclick="location.href='TimesheetSubmit.do?action=${tagSupport.approveAction}&methodToCall=approveTimesheet&documentId=${tagSupport.documentId}'"/>
-                <!--<input type="button" id="ts-disapprove-button" class="button" value="Disapprove" name="disapprove" onclick="location.href='TimesheetSubmit.do?action=${tagSupport.disapproveAction}&documentId=${tagSupport.documentId}'"/>-->
+            <c:when test="${tagSupport.approvalTimesheetButtonsEnabled}">
+                <input type="button" id="ts-approve-button" class="button" value="Approve" name="approve" onclick="location.href='TimesheetSubmit.do?action=${tagSupport.approveAction}&methodToCall=approveTimesheet&documentId=${tagSupport.timesheetDocumentId}'"/>
+                <!--<input type="button" id="ts-disapprove-button" class="button" value="Disapprove" name="disapprove" onclick="location.href='TimesheetSubmit.do?action=${tagSupport.disapproveAction}&documentId=${tagSupport.timesheetDocumentId}'"/>-->
             </c:when>
             <c:otherwise>
                 <input disabled id="ts-approve-button" type="button" class="button" value="Approve" name="approve"/>

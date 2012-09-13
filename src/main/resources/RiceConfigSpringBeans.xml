@@ -85,7 +85,10 @@
 
     <bean id="edlConfigurer" class="org.kuali.rice.edl.impl.config.EDLConfigurer"/>
 
-    <bean id="krmsConfigurer" class="org.kuali.rice.krms.config.KRMSConfigurer"/>
+    <bean id="krmsConfigurer" class="org.kuali.rice.krms.config.KRMSConfigurer">
+        <property name="dataSource" ref="riceDataSource${connection.pool.impl}" />
+        <property name="properties" ref="configProperties" />
+    </bean>
 
     <bean id="locationConfigurer" class="org.kuali.rice.location.impl.config.LocationConfigurer" />
 

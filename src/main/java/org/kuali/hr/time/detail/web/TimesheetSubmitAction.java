@@ -44,16 +44,16 @@ public class TimesheetSubmitAction extends TkAction {
 
         // Switched to grab the target (chain, resolution: target -> backdoor -> actual) user.
         // Approvals still using backdoor > actual
-        if (StringUtils.equals(tsaf.getAction(), TkConstants.TIMESHEET_ACTIONS.ROUTE)) {
+        if (StringUtils.equals(tsaf.getAction(), TkConstants.DOCUMENT_ACTIONS.ROUTE)) {
             if (DocumentStatus.INITIATED.getCode().equals(document.getDocumentHeader().getDocumentStatus())
                     || DocumentStatus.SAVED.getCode().equals(document.getDocumentHeader().getDocumentStatus())) {
                 TkServiceLocator.getTimesheetService().routeTimesheet(TKContext.getTargetPrincipalId(), document);
             }
-        } else if (StringUtils.equals(tsaf.getAction(), TkConstants.TIMESHEET_ACTIONS.APPROVE)) {
+        } else if (StringUtils.equals(tsaf.getAction(), TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
             if (document.getDocumentHeader().getDocumentStatus().equals("R")) {
                 TkServiceLocator.getTimesheetService().approveTimesheet(TKContext.getPrincipalId(), document);
             }
-        } else if (StringUtils.equals(tsaf.getAction(), TkConstants.TIMESHEET_ACTIONS.DISAPPROVE)) {
+        } else if (StringUtils.equals(tsaf.getAction(), TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
             if (document.getDocumentHeader().getDocumentStatus().equals("R")) {
                 TkServiceLocator.getTimesheetService().disapproveTimesheet(TKContext.getPrincipalId(), document);
             }
@@ -72,15 +72,15 @@ public class TimesheetSubmitAction extends TkAction {
 
         // Switched to grab the target (chain, resolution: target -> backdoor -> actual) user.
         // Approvals still using backdoor > actual
-        if (StringUtils.equals(tsaf.getAction(), TkConstants.TIMESHEET_ACTIONS.ROUTE)) {
+        if (StringUtils.equals(tsaf.getAction(), TkConstants.DOCUMENT_ACTIONS.ROUTE)) {
             if (document.getDocumentHeader().getDocumentStatus().equals("I")) {
                 TkServiceLocator.getTimesheetService().routeTimesheet(TKContext.getTargetPrincipalId(), document);
             }
-        } else if (StringUtils.equals(tsaf.getAction(), TkConstants.TIMESHEET_ACTIONS.APPROVE)) {
+        } else if (StringUtils.equals(tsaf.getAction(), TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
             if (document.getDocumentHeader().getDocumentStatus().equals("R")) {
                 TkServiceLocator.getTimesheetService().approveTimesheet(TKContext.getPrincipalId(), document);
             }
-        } else if (StringUtils.equals(tsaf.getAction(), TkConstants.TIMESHEET_ACTIONS.DISAPPROVE)) {
+        } else if (StringUtils.equals(tsaf.getAction(), TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
             if (document.getDocumentHeader().getDocumentStatus().equals("R")) {
                 TkServiceLocator.getTimesheetService().disapproveTimesheet(TKContext.getPrincipalId(), document);
             }

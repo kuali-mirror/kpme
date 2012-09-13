@@ -205,7 +205,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 				if (tdh != null) {
 					String pyCalendarGroup = TkServiceLocator
 							.getPrincipalHRAttributeService()
-							.getPrincipalCalendar(principalId, tdh.getPayBeginDate())
+							.getPrincipalCalendar(principalId, tdh.getBeginDate())
 							.getCalendar().getCalendarName();
 					pcg.add(pyCalendarGroup);
 				}
@@ -834,7 +834,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		}
 		Set<CalendarEntries> payPeriodSet = new HashSet<CalendarEntries>();
 		for(TimesheetDocumentHeader tdh : documentHeaders) {
-    		CalendarEntries pe = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(tdh.getPayBeginDate(), tdh.getPayEndDate());
+    		CalendarEntries pe = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(tdh.getBeginDate(), tdh.getEndDate());
     		if(pe != null) {
     			payPeriodSet.add(pe);
     		}

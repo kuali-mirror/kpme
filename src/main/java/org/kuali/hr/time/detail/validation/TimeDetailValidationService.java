@@ -11,7 +11,6 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
@@ -47,7 +46,7 @@ public class TimeDetailValidationService {
         }
         if (errors.size() > 0) return errors;
 
-        CalendarEntries payCalEntry = timesheetDocument.getPayCalendarEntry();
+        CalendarEntries payCalEntry = timesheetDocument.getCalendarEntry();
         java.sql.Date asOfDate = payCalEntry.getEndPeriodDate();
 
         errors.addAll(TimeDetailValidationService.validateDates(startDateS, endDateS));

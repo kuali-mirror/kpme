@@ -19,6 +19,7 @@ import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 
 public class TkConstants {
     public static final int DEFAULT_CACHE_TIME = 900;
@@ -221,7 +222,7 @@ public class TkConstants {
         CLOCK_ACTION_STRINGS.put(LUNCH_OUT, "Lunch Out"); // Going to Lunch
     }
 
-    public static final class TIMESHEET_ACTIONS {
+    public static final class DOCUMENT_ACTIONS {
         public static final String ROUTE = "R";
         public static final String APPROVE = "A";
         public static final String DISAPPROVE = "D";
@@ -234,11 +235,13 @@ public class TkConstants {
     }
 
     public static final class ROUTE_STATUS {
-        public static final String INITIATED = "I";
-        public static final String ENROUTE = "R";
-        public static final String FINAL = "F";
-        public static final String CANCEL = "X";
-        public static final String SAVED = "S";
+        public static final String INITIATED = DocumentStatus.INITIATED.getCode();
+        public static final String ENROUTE = DocumentStatus.ENROUTE.getCode();
+        public static final String FINAL = DocumentStatus.FINAL.getCode();
+        public static final String CANCEL = DocumentStatus.CANCELED.getCode();
+        public static final String SAVED = DocumentStatus.SAVED.getCode();
+        public static final String DISAPPROVED = DocumentStatus.DISAPPROVED.getCode();
+        public static final String EXCEPTION = DocumentStatus.EXCEPTION.getCode();
     }
 
     public static final Map<String, String> DOC_ROUTE_STATUS = new HashMap<String, String>(8);
