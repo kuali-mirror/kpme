@@ -606,7 +606,7 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-            <properties>   
+            <properties>
                 <kr.dataSource.driver>com.mysql.jdbc.Driver</kr.dataSource.driver>
                 <kr.dataSource.jdbcUrl>jdbc:mysql://localhost:3306/krtt</kr.dataSource.jdbcUrl>
                 <kr.dataSource.database>krtt</kr.dataSource.database>
@@ -656,26 +656,12 @@
             <name>Nexus Repository Manager</name>
             <url>http://nexus.kuali.org/content/groups/public</url>
             <releases>
-                    <enabled>true</enabled>
+                <enabled>true</enabled>
             </releases>
             <snapshots>
-                    <enabled>true</enabled>
+                <enabled>true</enabled>
             </snapshots>
         </repository>
-		<repository>
-			<id>kuali</id>
-			<name>Kuali Repository</name>
-			<url>https://test.kuali.org/maven</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-        <repository>
-            <id>nexus</id>
-            <name>Nexus Repository</name>
-            <url>http://nexus.openqa.org/content/repositories/releases</url>
-        </repository>
-        <!-- for ehcache monitor... don't commit-->
     </repositories>
 
     <scm>
