@@ -14,17 +14,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.kpme</groupId>
-    <artifactId>time-and-attendance</artifactId>
+    <artifactId>kpme</artifactId>
     <packaging>war</packaging>
     <name>KPME Time and Attendance</name>
     <description>KPME Time and Attendance</description>
  	<url>http://kuali.org/kpme</url>
+ 	
+    <parent>
+        <groupId>org.kuali.pom</groupId>
+        <artifactId>kuali-common</artifactId>
+        <version>1.7.3</version>
+    </parent>
+  
 	<organization>
 		<name>The Kuali Foundation</name>
 		<url>http://kuali.org</url>
 	</organization>
 
-   <version>1.5-SNAPSHOT</version>
+    <version>1.5-SNAPSHOT</version>
 
     <licenses>
 		<license>
