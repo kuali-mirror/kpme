@@ -15,9 +15,10 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.kpme</groupId>
     <artifactId>kpme</artifactId>
+    <version>1.5-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>KPME Time and Attendance</name>
-    <description>KPME Time and Attendance</description>
+    <name>Kuali Person Management for the Enterprise</name>
+    <description>Kuali People Management for the Enterprise (KPME) is an open-source, comprehensive HR/Payroll System built by higher education for higher education.</description>
  	<url>http://kuali.org/kpme</url>
  	
     <parent>
@@ -25,24 +26,8 @@
         <artifactId>kuali-common</artifactId>
         <version>1.7.3</version>
     </parent>
-  
-	<organization>
-		<name>The Kuali Foundation</name>
-		<url>http://kuali.org</url>
-	</organization>
-
-    <version>1.5-SNAPSHOT</version>
-
-    <licenses>
-		<license>
-			<name>The Kuali Foundation Educational Community License 2.0</name>
-			<url>http://www.opensource.org/licenses/ecl2.txt</url>
-			<distribution>manual</distribution>
-		</license>
-	</licenses>
 
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <build.environment>dev</build.environment>
         <default.context.path>/kpme-${build.environment}</default.context.path>
         <ehcache.version>2.5.0</ehcache.version>
@@ -376,14 +361,6 @@
 
         <plugins>
             <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
                 <version>2.0.5</version>
@@ -429,7 +406,6 @@
             <plugin>
 	            <groupId>org.apache.maven.plugins</groupId>
 	            <artifactId>maven-dependency-plugin</artifactId>
-	            <version>2.1</version>
 	            <executions>
 	                <execution>
 	                    <id>unpack-rice-web</id>
@@ -489,7 +465,6 @@
 	        <plugin>
 	            <groupId>org.apache.maven.plugins</groupId>
 	            <artifactId>maven-clean-plugin</artifactId>
-	            <version>2.4.1</version>
 	            <executions>
 	                <execution>
 	                    <id>delete-rice-web</id>
@@ -560,7 +535,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.12.1</version>
                 <configuration>
                     <forkMode>once</forkMode>
                     <!--<useSystemClassLoader>false</useSystemClassLoader>-->
@@ -572,12 +546,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.1-alpha-2</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.0</version>
                 <configuration>
                     <tagBase>https://svn.kuali.org/repos/kpme/tags</tagBase>
                 </configuration>
@@ -711,10 +683,5 @@
 		<developerConnection>scm:svn:https://svn.kuali.org/repos/kpme/trunk</developerConnection>
         <url>http://fisheye.kuali.org/browse/kpme</url>
 	</scm>
-
-	<issueManagement>
-		<system>Jira</system>
-		<url>https://test.kuali.org/jira/</url>
-	</issueManagement>
 
 </project>
