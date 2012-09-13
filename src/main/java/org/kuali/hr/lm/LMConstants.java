@@ -123,4 +123,10 @@ public class LMConstants {
 	 }
 	 
 	 public static int DELINQUENT_LEAVE_CALENDARS_LIMIT = 1;
+	 
+	 public static final Map<String, String> EARN_CODE_USAGE_LIMIT_MAP = new LinkedHashMap<String, String>(2);
+	 static {
+		 EARN_CODE_USAGE_LIMIT_MAP.put("I", "Include");
+		 EARN_CODE_USAGE_LIMIT_MAP.put("E", "Exclude");
+	 }
 }

@@ -47,7 +47,16 @@ public class EarnCode extends HrBusinessObject {
 	private String allowNegativeAccrualBalance;
 	private String rollupToEarnCode;
 	private String recordMethod;
+	private String usageLimit;
 	
+	public String getUsageLimit() {
+		return usageLimit;
+	}
+
+	public void setUsageLimit(String usageLimit) {
+		this.usageLimit = usageLimit;
+	}
+
 	public String getRecordMethod() {
 		return recordMethod;
 	}

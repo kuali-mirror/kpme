@@ -303,6 +303,7 @@
         <field-descriptor name="allowNegativeAccrualBalance"    column="ALLOW_NEGATIVE_ACC_BALANCE" jdbc-type="VARCHAR"     length="1" nullable="false" />
         <field-descriptor name="rollupToEarnCode"               column="ROLLUP_TO_EARNCODE"         jdbc-type="VARCHAR"     length="15" nullable="true" />
         <field-descriptor name="recordMethod"                   column="RECORD_METHOD"              jdbc-type="VARCHAR"     length="5" nullable="true" primarykey="false" />
+        <field-descriptor name="usageLimit"                     column="USAGE_LIMIT"              jdbc-type="VARCHAR"     length="5" nullable="true"/>
     </class-descriptor>
 
     <class-descriptor class="org.kuali.hr.time.earncodegroup.EarnCodeGroup" table="HR_EARN_CODE_GROUP_T">

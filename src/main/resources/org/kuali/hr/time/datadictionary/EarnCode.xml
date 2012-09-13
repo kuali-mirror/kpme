@@ -44,6 +44,7 @@
 				<ref bean="EarnCode-allowNegativeAccrualBalance" />
 				<ref bean="EarnCode-rollupToEarnCode" />
 				<ref bean="EarnCode-recordMethod" />
+				<ref bean="EarnCode-usageLimit"/>
 			</list>
 
 
@@ -437,6 +438,19 @@
 		<property name="name" value="recordMethod" />
 		<property name="label" value="Record Method" />
 	</bean>
+	
+	<!--  Usage Limit -->
+	<bean id="EarnCode-usageLimit" parent="EarnCode-usageLimit-parentBean" />
+	<bean id="EarnCode-usageLimit-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Usage Limit" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.lm.util.UsageLimitKeyValueFinder" />
+		</property>
+		<property name="name" value="usageLimit" />
+		<property name="label" value="Usage Limit" />
+	</bean>
+	
 	<!-- Business Object Inquiry Definition -->
 
 
