@@ -11,6 +11,7 @@ import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -72,10 +73,17 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         LeaveCalendarDocumentHeader documentHeader = new LeaveCalendarDocumentHeader(workflowDocument.getDocumentId(), principalId, payBeginDate, payEndDate, status);
 
         documentHeader.setDocumentId(workflowDocument.getDocumentId());
-        documentHeader.setDocumentStatus("I");
+        documentHeader.setDocumentStatus(TkConstants.ROUTE_STATUS.INITIATED);
 
         TkServiceLocator.getLeaveCalendarDocumentHeaderService().saveOrUpdate(documentHeader);
         leaveCalendarDocument = new LeaveCalendarDocument(documentHeader);
+        
+        // update existing leave blocks within that pay period dates with the document id
+        List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, payBeginDate, payEndDate);
+        for(LeaveBlock lb : leaveBlocks) {
+        	lb.setDocumentId(workflowDocument.getDocumentId());
+        }
+        TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(leaveBlocks);
 
         // TODO:
         //TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(leaveCalendarDocument, payEndDate);
