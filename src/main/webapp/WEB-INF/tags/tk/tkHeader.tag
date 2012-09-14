@@ -34,6 +34,10 @@
 			value='<%=org.kuali.hr.time.util.TKUser
 						.getCurrentTargetPerson().getName()%>' />
 	</c:if>
+	
+	<c:set var="systemAdmin" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isSystemAdmin()%>' />
+    <c:set var="locationAdmin" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isLocationAdmin()%>' />
+
 
 	<input type="hidden" id="tabId" value="${tabId}" />
 
