@@ -2,6 +2,7 @@ package org.kuali.hr.lm.leave.web;
 
 import junit.framework.Assert;
 
+import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,13 +40,14 @@ public class LeaveCalendarWebTest extends KPMETestCase {
 	public void testLeaveCalendarPage() throws Exception {
 		// get the page and Login
 		HtmlPage leaveCalendarPage = HtmlUnitUtil
-				.gotoPageAndLogin(TkTestConstants.Urls.LEAVE_CALENDAR_URL);
+				.gotoPageAndLogin(TkTestConstants.Urls.LEAVE_CALENDAR_URL, true);
 		Assert.assertNotNull("Leave Request page not found" ,leaveCalendarPage);
 
 		this.setWebClient(leaveCalendarPage.getWebClient());
 
+        DateTime dt = new DateTime();
 		Assert.assertTrue("Page does not have Current calendar ", leaveCalendarPage
-				.asText().contains(new org.joda.time.DateTime().toString("MMM YYYY")));
+				.asText().contains(dt.monthOfYear().getAsText() + dt.toString(" YYYY")));
 
         // Check for next document
         HtmlButton nextButton = (HtmlButton) leaveCalendarPage

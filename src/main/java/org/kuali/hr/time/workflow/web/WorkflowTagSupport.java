@@ -37,8 +37,9 @@ public class WorkflowTagSupport {
     private boolean isDisplayingRouteButton(CalendarDocumentContract doc) {
         TkUserRoles roles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getActualPerson().getPrincipalId());
         CalendarDocumentHeaderContract docHeader = doc.getDocumentHeader();
-        if(docHeader.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.SAVED)
-                || docHeader.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.INITIATED)){
+        if(StringUtils.isNotBlank(docHeader.getDocumentStatus())
+            && (docHeader.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.SAVED)
+                || docHeader.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.INITIATED))){
             return roles.canSubmitTimesheet(doc);
         }
         return false;
@@ -98,7 +99,7 @@ public class WorkflowTagSupport {
 
     private boolean isApprovalButtonsEnabled(CalendarDocumentContract doc) {
         CalendarDocumentHeaderContract dh = doc.getDocumentHeader();
-        boolean isEnroute = dh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.ENROUTE);
+        boolean isEnroute = StringUtils.isNotBlank(dh.getDocumentStatus()) && dh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.ENROUTE);
         if(isEnroute){
             DocumentRouteHeaderValue routeHeader = KEWServiceLocator.getRouteHeaderService().getRouteHeader(dh.getDocumentId());
             boolean authorized = KEWServiceLocator.getDocumentSecurityService().routeLogAuthorized(TKContext.getPrincipalId(), routeHeader, new SecuritySession(TKContext.getPrincipalId()));
