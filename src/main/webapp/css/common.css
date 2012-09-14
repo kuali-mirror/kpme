@@ -1025,4 +1025,11 @@ label.error {
 #ledger-link a:visited {color: #800080;}
 */
 
+.go-to-portal table {
+    border-collapse: collapse;
+    color: black;
+    font-size: .8em;
+    font-weight: normal;
+}
+
 
