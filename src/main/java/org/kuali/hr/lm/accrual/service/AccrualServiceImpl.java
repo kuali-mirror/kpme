@@ -251,9 +251,6 @@ public class AccrualServiceImpl implements AccrualService {
 						
 						if(noAccrualHours.compareTo(BigDecimal.ZERO) != 0 && totalOfStandardHours.compareTo(BigDecimal.ZERO) != 0) {
 							BigDecimal dayHours = totalOfStandardHours.divide(new BigDecimal(5), 6, BigDecimal.ROUND_HALF_UP);
-							if(noAccrualHours.compareTo(dayHours) > 0) {
-								noAccrualHours = dayHours;	// if the no accrual hours is bigger than the day hours, use day hours as no accurl hours
-							}
 							BigDecimal noAccrualRate = dayRate.multiply(noAccrualHours.divide(dayHours)).negate();	// use negative decimal
 							this.calculateHours(anAC.getLmAccrualCategoryId(), ftePercentage, noAccrualRate, accumulatedAccrualCatToNegativeAccrualAmounts);
 						}
