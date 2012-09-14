@@ -74,15 +74,15 @@ public class EarnCodeServiceImplTest extends KPMETestCase {
 		Assert.assertNotNull("Test assignment not found.", assignment4);
 
         // Testing standard lookup.
-		List<EarnCode> earnCodes = earnCodeService.getEarnCodesForLeaveAndTime(assignment1, asOfDate);
+		List<EarnCode> earnCodes = earnCodeService.getEarnCodesForLeave(assignment1, asOfDate);
 		Assert.assertEquals("Wrong number of earn codes returned.", 8, earnCodes.size());
 
 		// Wildcard on SalGroup
-		earnCodes = earnCodeService.getEarnCodesForLeaveAndTime(assignment2, asOfDate);
+		earnCodes = earnCodeService.getEarnCodesForLeave(assignment2, asOfDate);
 		Assert.assertEquals("Wrong number of earn codes returned.", 3, earnCodes.size());
 
 		// Dual Wildcards
-		earnCodes = earnCodeService.getEarnCodesForLeaveAndTime(assignment3, asOfDate);
+		earnCodes = earnCodeService.getEarnCodesForLeave(assignment3, asOfDate);
 		Assert.assertEquals("Wrong number of earn codes returned.",2, earnCodes.size());
 	}
 
