@@ -220,6 +220,10 @@ public class ClockWebTest extends KPMETestCase {
     }
 
     private HtmlPage clockOut() throws Exception {
+        DateTime dateTime = new DateTime();
+        if (dateTime.getSecondOfMinute() == 0) {
+            Thread.sleep(2000);
+        }
         // Clock out
         HtmlPage page = clockAction(TkConstants.CLOCK_OUT);
 
@@ -239,6 +243,10 @@ public class ClockWebTest extends KPMETestCase {
      * @return HtmlPage page
      */
     private HtmlPage clockAction(String clockAction) throws Exception {
+        DateTime dateTime = new DateTime();
+        if (dateTime.getSecondOfMinute() == 0) {
+            Thread.sleep(2000);
+        }
         String baseUrl = TkTestConstants.Urls.CLOCK_URL;
         String actionUrl = baseUrl + "?methodToCall=clockAction&selectedAssignment=30_30_30&currentClockAction=" + clockAction;
         HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(actionUrl);
@@ -246,5 +254,6 @@ public class ClockWebTest extends KPMETestCase {
         Thread.sleep(3000);
         return page;
     }
+
 
 }
