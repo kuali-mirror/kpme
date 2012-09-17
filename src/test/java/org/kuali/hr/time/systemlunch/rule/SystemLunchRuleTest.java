@@ -42,7 +42,7 @@ public class SystemLunchRuleTest extends KPMETestCase {
 		Assert.assertTrue("System lunch rule is pulled back", systemLunchRule!=null);
 
         String baseUrl = TkTestConstants.Urls.CLOCK_URL;
-    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl, true);
 
 //    	HtmlPage page = HtmlUnitUtil.gotoPageAnBatchJobEntryTestdLogin(TkTestConstants.Urls.CLOCK_URL);
     	Assert.assertNotNull(page);
@@ -61,6 +61,7 @@ public class SystemLunchRuleTest extends KPMETestCase {
     	
     	// the lunch in button should display after clocking in
     	page = TkTestUtils.clickLunchInOrOutButton(page, "LO");
+        System.out.print(page.asXml());
     	Assert.assertTrue("The return from lunch button didn't appear", page.asXml().contains("lunchIn"));
     	Thread.sleep(3000);
     	Assert.assertEquals(TkConstants.LUNCH_OUT, TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getPrincipalId()).getClockAction());
