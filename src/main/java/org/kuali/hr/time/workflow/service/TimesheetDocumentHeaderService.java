@@ -58,6 +58,12 @@ public interface TimesheetDocumentHeaderService {
      * @return List<TimesheetDocumentHeader>
      */
     public List<TimesheetDocumentHeader> getDocumentHeadersForYear(String principalId, String year);
+    /*
+     * Fetch the Timesheet document header that contains asOfDate
+     * @param principalId
+     * @param asOfDate
+     * @return TimesheetDocumentHeader
+     */
+    public TimesheetDocumentHeader getDocumentHeaderForDate(String principalId, Date asOfDate);
     
-
 }

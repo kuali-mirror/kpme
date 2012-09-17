@@ -24,4 +24,6 @@ public interface TimesheetDocumentHeaderDao {
     public List<TimesheetDocumentHeader> getDocumentHeadersForPrincipalId(String principalId);
     
     public List<TimesheetDocumentHeader> getDocumentHeadersForYear(String principalId, String year);
+    
+    public TimesheetDocumentHeader getDocumentHeaderForDate(String principalId, Date asOfDate);
 }

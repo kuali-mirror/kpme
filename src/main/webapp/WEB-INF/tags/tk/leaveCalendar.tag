@@ -2,14 +2,17 @@
 
 <%@ attribute name="day" required="true" type="org.kuali.hr.time.calendar.CalendarDay" %>
 
-<c:forEach var="leaveBlock" items="${day.leaveBlockRenderers}" varStatus="status">
-
+<c:set var="editableClass" value="event-title-false"/>
+<c:if test="${Form.docEditable and day.dayEditable}">
 	<c:set var="editableClass" value="event-title-true"/>
+</c:if>
+
+<c:forEach var="leaveBlock" items="${day.leaveBlockRenderers}" varStatus="status">
 
     <div class="leaveBlock">
     	<div id="leaveblock_${leaveBlock.leaveBlockId}"
 	         class="${editableClass}">
-            <c:if test="${leaveBlock.deletable}">
+            <c:if test="${leaveBlock.deletable and Form.docEditable and day.dayEditable}">
 	            <img id="leaveBlockDelete_${leaveBlock.leaveBlockId}" src='images/delete.png' class="leaveBlock-delete"/>
             </c:if>
             <div id="show_${leaveBlock.leaveBlockId}">${leaveBlock.assignmentTitle}</div>

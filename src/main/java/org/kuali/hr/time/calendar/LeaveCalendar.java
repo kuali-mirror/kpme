@@ -11,6 +11,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -36,9 +37,11 @@ public class LeaveCalendar extends CalendarParent {
         LeaveCalendarWeek leaveCalendarWeek = new LeaveCalendarWeek();
         Integer dayNumber = 0;
         
+        boolean viewFlag = TkServiceLocator.getPermissionsService().canViewLeaveTabsWithNEStatus();
         while (currentDisplayDateTime.isBefore(endDisplayDateTime) || currentDisplayDateTime.isEqual(endDisplayDateTime)) {
             LeaveCalendarDay leaveCalendarDay = new LeaveCalendarDay();
-
+            leaveCalendarDay.setDayEditable(true);
+            
             // If the day is not within the current pay period, mark them as read only (gray)
             if (currentDisplayDateTime.isBefore(getBeginDateTime()) 
             		|| currentDisplayDateTime.isEqual(getEndDateTime()) 
@@ -54,6 +57,12 @@ public class LeaveCalendar extends CalendarParent {
                java.util.Date leaveDate = TKUtils.getTimelessDate(currentDisplayDateTime.toDate());
                List<LeaveBlock> lbs = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principalId, leaveDate);
                leaveCalendarDay.setLeaveBlocks(lbs); 
+               // if there's time sheet document covers this leave date, make the date not editable
+               TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(principalId, leaveDate);
+               if(tdh != null && viewFlag) {
+            	   leaveCalendarDay.setDayEditable(false);
+               }
+               
                dayNumber++;
             }
             leaveCalendarDay.setDayNumberString(currentDisplayDateTime.dayOfMonth().getAsShortText());

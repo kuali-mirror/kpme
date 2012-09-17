@@ -113,7 +113,9 @@
                             <c:set var="dayId" value="gray_day"/>
                             <c:set var="dayClass" value="ui-state-default"/>
                         </c:if>
-
+ 						<c:if test="${not day.dayEditable}">
+ 							<c:set var="dayClass" value="ui-state-default"/>
+ 						</c:if>
 
                         <td id="${dayId}" class="${dayClass}" style="${dayStyle}">
                                 <%-- Day Number --%>

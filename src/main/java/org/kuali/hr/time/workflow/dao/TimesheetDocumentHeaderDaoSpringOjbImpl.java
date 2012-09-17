@@ -127,5 +127,15 @@ public class TimesheetDocumentHeaderDaoSpringOjbImpl extends PlatformAwareDaoBas
 		  }
 		  return lstDocumentHeaders;
    }
+   
+   public TimesheetDocumentHeader getDocumentHeaderForDate(String principalId, Date asOfDate) {
+	   Criteria crit = new Criteria();
+       crit.addEqualTo("principalId", principalId);
+       crit.addLessOrEqualThan("beginDate", asOfDate);
+       crit.addGreaterOrEqualThan("endDate", asOfDate);
+       
+       QueryByCriteria query = new QueryByCriteria(TimesheetDocumentHeader.class, crit);
 
+       return (TimesheetDocumentHeader) this.getPersistenceBrokerTemplate().getObjectByQuery(query); 
+   }
 }

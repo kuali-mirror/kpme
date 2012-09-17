@@ -65,8 +65,12 @@ public class TimesheetDocumentHeaderServiceImpl implements TimesheetDocumentHead
 		return documentHeaderDao.getDocumentHeadersForPrincipalId(principalId);
 	}
 	
-	 public List<TimesheetDocumentHeader> getDocumentHeadersForYear(String principalId, String year) {
-		 return documentHeaderDao.getDocumentHeadersForYear(principalId, year);
-	 }
+	public List<TimesheetDocumentHeader> getDocumentHeadersForYear(String principalId, String year) {
+		return documentHeaderDao.getDocumentHeadersForYear(principalId, year);
+	}
+	
+	public TimesheetDocumentHeader getDocumentHeaderForDate(String principalId, Date asOfDate) {
+		return documentHeaderDao.getDocumentHeaderForDate(principalId, asOfDate);
+	}
 
 }
