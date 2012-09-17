@@ -266,8 +266,8 @@ public class TkUserRoles implements UserRoles {
             for (Assignment assignment : assignments) {
                 String dept = assignment.getDept();
                 Long wa = assignment.getWorkArea();
-
-                writable |= this.orgAdminRolesDept.containsKey(dept);
+                // Dept admins should not have write access
+                //writable |= this.orgAdminRolesDept.containsKey(dept);
                 writable |= this.approverRoles.containsKey(wa);
                 writable |= this.approverDelegateRoles.containsKey(wa);
                 writable |= this.reviewerRoles.containsKey(wa);
