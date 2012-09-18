@@ -45,8 +45,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 
 	private static final String FILE_PREFIX = System.getProperty("user.dir") + "/src/main/config/workflow/";
-	
-	private static final String CONTEXT_NAME = "/kpme-dev";
+
 	private static final String RELATIVE_WEBAPP_ROOT = "/src/main/webapp";
 	
 	private TransactionalLifecycle transactionalLifecycle;
@@ -156,7 +155,7 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 	
 			public void start() throws Exception {
 	            System.setProperty("web.bootstrap.spring.file", "classpath:TestHarnessSpringBeans.xml");
-	            jettyServerLifecycle = new JettyServerLifecycle(HtmlUnitUtil.getPort(), CONTEXT_NAME, RELATIVE_WEBAPP_ROOT);
+	            jettyServerLifecycle = new JettyServerLifecycle(HtmlUnitUtil.getPort(), HtmlUnitUtil.getContext(), RELATIVE_WEBAPP_ROOT);
 	            jettyServerLifecycle.setConfigMode(ConfigMode.OVERRIDE);
 				jettyServerLifecycle.start();
 			}
