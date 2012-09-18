@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.time.util.ValidationUtils;
@@ -273,11 +274,11 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 								valid = false;
 							}
 	
-							if (StringUtils.equals("T",leaveAccrualCategoryRule.getActionAtMaxBalance())) {
+							if (StringUtils.equals(LMConstants.ACTION_AT_MAX_BAL.TRANSFER,leaveAccrualCategoryRule.getActionAtMaxBalance())) {
 								valid &= validateMaxBalAccCat(leaveAccrualCategoryRule.getMaxBalanceTransferToAccrualCategory(),ADD_LINE_LOCATION);
 								valid &= validateMaxBalConvFact(leaveAccrualCategoryRule.getMaxBalanceTransferConversionFactor(),ADD_LINE_LOCATION);
 								valid &= validateMaxBalTransferAmount(leaveAccrualCategoryRule.getMaxTransferAmount(),ADD_LINE_LOCATION);
-							} else if (StringUtils.equals("P",leaveAccrualCategoryRule.getActionAtMaxBalance())) {
+							} else if (StringUtils.equals(LMConstants.ACTION_AT_MAX_BAL.PAYOUT,leaveAccrualCategoryRule.getActionAtMaxBalance())) {
 								valid &= validateMaxPayoutAmount(leaveAccrualCategoryRule.getMaxPayoutAmount(),ADD_LINE_LOCATION);
 								valid &= validateMaxPayoutEarnCode(leaveAccrualCategoryRule.getMaxPayoutEarnCode(),ADD_LINE_LOCATION);
 							}
@@ -286,8 +287,8 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 						if (leaveAccrualCategoryRule != null&& leaveAccrualCategoryRule.getMaxBalFlag().equals("N")) {
 							BigDecimal noMaxBal = new BigDecimal(0);
 							leaveAccrualCategoryRule.setMaxBalance(noMaxBal);
-							leaveAccrualCategoryRule.setMaxBalanceActionFrequency("");
-							leaveAccrualCategoryRule.setActionAtMaxBalance("");
+							leaveAccrualCategoryRule.setMaxBalanceActionFrequency(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END);
+							leaveAccrualCategoryRule.setActionAtMaxBalance(LMConstants.ACTION_AT_MAX_BAL.LOSE);
 	
 						}
 					

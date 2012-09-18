@@ -111,6 +111,17 @@ public class LMConstants {
 		 public static final String DONATION_MAINT = "DM";
 		 public static final String LEAVE_ADJUSTMENT_MAINT = "LAM";
 	 }
+
+    public static final class ACTION_AT_MAX_BAL {
+        public static final String LOSE = "L";
+        public static final String TRANSFER = "T";
+        public static final String PAYOUT = "P";
+    }
+
+    public static final class MAX_BAL_ACTION_FREQ {
+        public static final String LEAVE_APPROVE = "L";
+        public static final String YEAR_END = "Y";
+    }
 	 
 	 public static final String STATUS_CHANGE_EARN_CODE = "Accrual Note";
 	 
