@@ -12,7 +12,7 @@
         <table width="100%" cellpadding="0" cellspacing="0" class="null">
             <tr>
                 <td width="100%">
-                    <iframe src="${Form.workflowUrl}/RouteLog.do?routeHeaderId=${Form.timesheetDocument.documentId}"
+                    <iframe src="${Form.workflowUrl}/RouteLog.do?documentId=${Form.timesheetDocument.documentId}"
                             height="200" width="100%" scrolling="auto"></iframe>
                 </td>
             </tr>
