@@ -22,96 +22,8 @@
 <script src="js/tk.approval.backbone.js"></script>
 
 <div class="approvals">
-<table id="approvals-filter">
-    <tr>
-        <td>
-            Pay Calendar Group:
-            <label for="pay calendar groups">
-                <select id="selectedPayCalendarGroup" name="selectedPayCalendarGroup"
-                        onchange="this.form.methodToCall.value='selectNewPayCalendar'; this.form.submit();">
-                    <c:forEach var="payCalendarGroup" items="${Form.payCalendarGroups}">
-                        <c:choose>
-                            <c:when test="${Form.selectedPayCalendarGroup eq payCalendarGroup}">
-                                <option value="${payCalendarGroup}" selected="selected">${payCalendarGroup}</option>
-                            </c:when>
-                            <c:otherwise>
-                                <option value="${payCalendarGroup}">${payCalendarGroup}</option>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-                </select>
-            </label>
-        </td>
-        <td>
-            Department:
-            <select id="selectedDept" name="selectedDept"
-                    onchange="this.form.methodToCall.value='selectNewDept'; this.form.submit();">
-                <option value="">-- Select a department --</option>
-                <c:forEach var="dept" items="${Form.departments}">
-                    <c:choose>
-                        <c:when test="${Form.selectedDept eq dept}">
-                            <option value="${dept}" selected="selected">${dept}</option>
-                        </c:when>
-                        <c:otherwise>
-                            <option value="${dept}">${dept}</option>
-                        </c:otherwise>
-                    </c:choose>
-                </c:forEach>
-            </select>
-        </td>
-        <td>
-            Work Area:
-            <label for="work areas">
-                <select id="selectedWorkArea" name="selectedWorkArea"
-                        onchange="this.form.methodToCall.value='selectNewWorkArea'; this.form.submit();">
-                    <option value="">Show All</option>
-                    <c:forEach var="deptWorkarea" items="${Form.workAreaDescr}">
-                        <c:choose>
-                            <c:when test="${Form.selectedWorkArea eq deptWorkarea.key}">
-                                <option value="${deptWorkarea.key}" selected="selected">${deptWorkarea.value}</option>
-                            </c:when>
-                            <c:otherwise>
-                                <option value="${deptWorkarea.key}">${deptWorkarea.value}</option>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-                </select>
-            </label>
-        </td>
-        <td>
-        	Approval Type:
-        	 <label for="approval types">
-                <select id="selectedApprovalType" name="selectedApprovalType"
-                        onchange="this.form.methodToCall.value='selectNewApprovalType'; this.form.submit();">
-                        <c:choose>
-                        	<c:when test="${Form.selectedApprovalType == 'all'}">
-                        		<option value="all" selected="selected">Show All</option>
-                        	</c:when>
-                        	<c:otherwise>
-                                <option value="all">Show All</option>
-                            </c:otherwise>
-                        </c:choose>
-                        <c:choose>
-                        	<c:when test="${Form.selectedApprovalType == 'time'}">
-                        		<option value="time" selected="selected">Time Sheet Approval</option>
-                        	</c:when>
-                        	<c:otherwise>
-                                <option value="time">Time Sheet Approval</option>
-                            </c:otherwise>
-                        </c:choose>
-                        <c:choose>
-                        	<c:when test="${Form.selectedApprovalType == 'leave'}">
-                        		<option value="leave" selected="selected">Leave Calendar Approval</option>
-                        	</c:when>
-                        	<c:otherwise>
-                                <option value="leave">Leave Calendar Approval</option>
-                            </c:otherwise>
-                        </c:choose>
-                </select>
-        </td>
-    </tr>
-    
-</table>
+
+<tk:approvalSearchFields />
 
 <table class="navigation">
     <c:if test="${fn:length(Form.approvalRows) != 0}">
@@ -165,12 +77,10 @@
     </c:if>
 </table>
 
-<c:if test="${Form.selectedApprovalType == 'time' || Form.selectedApprovalType == 'all'}">
-	<tk:timeApproval />
+<c:if test="${Form.resultSize > 0}">
+<tk:timeApproval />
 </c:if>
-<c:if test="${Form.selectedApprovalType == 'leave' || Form.selectedApprovalType == 'all'}">
-	<lm:leaveApproval />
-</c:if>
+
 
 <c:if test="${Form.resultSize > 0}">
     <div id="approvals-approve-button">
@@ -215,24 +125,4 @@
         <@ }); @>
     </tr>
     <@ } @>
-</script>
-
-<%-- Leave Calendar detail template --%>
-<script type="text/template" id="leaveDetail-template">
-    <tr class="leaveDetailRow_<@= docId @>">
-		<th colspan="3"/>
-		<@ _.each(section.daysDetail, function() { @>
-               <th/>
-        <@ }); @>
-        <th>Period Usage</th>
-		<th>Available</th>
-    </tr>
-    <tr class="leaveDetailRow_<@= docId @>">
-        <td colspan="3" class="<@= section.cssClass @>"><b><@= section.accrualCategory @></b></td>
-            <@ _.each(section.daysDetail, function(tot) { @>
-                <td><@= tot == 0 ? "" : tot @></td>
-        	<@ }); @>
-		<td><@= section.periodUsage @></td>
-		<td><@= section.availableBalance @></td>
-    </tr>
 </script>

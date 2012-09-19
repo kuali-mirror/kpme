@@ -82,19 +82,5 @@ public class TimeApprovalWSAction extends TkAction {
         taaf.setOutputString(ts.toJsonString());
         return mapping.findForward("ws");
     }
-    
-    public ActionForward getLeaveSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
-    	String docId = taaf.getDocumentId();
-    	LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(docId);
-    	if(lcdh != null) {
-    		List<Map<String, Object>> detailMap = TkServiceLocator.getLeaveApprovalService().getLaveApprovalDetailSectins(lcdh);
-    		 
-    		String jsonString = JSONValue.toJSONString(detailMap);
-    		taaf.setOutputString(jsonString);
-    	}
-    	
-    	return mapping.findForward("ws");
-    }
-    
+        
 }

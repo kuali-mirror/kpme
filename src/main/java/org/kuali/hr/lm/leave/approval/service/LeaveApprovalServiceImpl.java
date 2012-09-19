@@ -5,9 +5,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
@@ -17,13 +20,21 @@ import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.approval.web.ApprovalLeaveSummaryRow;
+import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.person.TKPerson;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
+import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 public class LeaveApprovalServiceImpl implements LeaveApprovalService{
+	public static final int DAYS_WINDOW_DELTA = 31;
 	
 	@Override
 	public List<ApprovalLeaveSummaryRow> getLeaveApprovalSummaryRows(List<TKPerson> persons, CalendarEntries payCalendarEntries, List<String> headers) {
@@ -158,4 +169,52 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		}
 		return acRows;
 	}
+	
+	@Override
+	public List<String> getUniqueLeavePayGroups() {
+		String sql = "SELECT DISTINCT P.leave_calendar FROM hr_principal_attributes_t P WHERE P.active = 'Y'";
+		SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql);
+		List<String> pyGroups = new LinkedList<String>();
+		while (rs.next()) {
+			pyGroups.add(rs.getString("leave_calendar"));
+		}
+		return pyGroups;
+	}
+	
+	@Override
+	public List<CalendarEntries> getAllLeavePayCalendarEntriesForApprover(String principalId, Date currentDate) {
+		TKUser tkUser = TKContext.getUser();
+		Set<String> principals = new HashSet<String>();
+		DateTime minDt = new DateTime(currentDate,
+				TKUtils.getSystemDateTimeZone());
+		minDt = minDt.minusDays(DAYS_WINDOW_DELTA);
+		Set<Long> approverWorkAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
+
+		// Get all of the principals within our window of time.
+		for (Long waNum : approverWorkAreas) {
+			List<Assignment> assignments = TkServiceLocator
+					.getAssignmentService().getActiveAssignmentsForWorkArea(waNum, TKUtils.getTimelessDate(currentDate));
+
+			if (assignments != null) {
+				for (Assignment assignment : assignments) {
+					principals.add(assignment.getPrincipalId());
+				}
+			}
+		}
+		List<LeaveCalendarDocumentHeader> documentHeaders = new ArrayList<LeaveCalendarDocumentHeader>();
+		for(String pid : principals) {
+			documentHeaders.addAll(TkServiceLocator.getLeaveCalendarDocumentHeaderService().getAllDocumentHeadersForPricipalId(pid));
+		}
+		Set<CalendarEntries> payPeriodSet = new HashSet<CalendarEntries>();
+		for(LeaveCalendarDocumentHeader lcdh : documentHeaders) {
+    		CalendarEntries pe = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(lcdh.getBeginDate(), lcdh.getEndDate());
+    		if(pe != null) {
+    			payPeriodSet.add(pe);
+    		}
+        }
+		List<CalendarEntries> ppList = new ArrayList<CalendarEntries>(payPeriodSet);
+        
+		return ppList;
+	}
+
 }

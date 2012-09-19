@@ -3,7 +3,6 @@
 <jsp:useBean id="tagSupport" class="org.kuali.hr.time.util.TagSupport"/>
 
 <div id="time-approval">
-	<span style="font-size: 1.5em; vertical-align: middle;">Time Sheet Approval</span>
 	<display:table name="${Form.approvalRows}" requestURI="TimeApproval.do?methodToCall=loadApprovalTab" excludedParams="*"
 	               pagesize="20" id="row"
 	               class="approvals-table" partialList="true" size="${Form.resultSize}" sort="external" defaultsort="0">
@@ -18,12 +17,12 @@
 	                <span id="showDetailButton_${row.documentId}" class="ui-icon ui-icon-plus rowInfo"></span>
 	            </div>
 	        </c:if>
-	        <a href="Admin.do?${row.timesheetUserTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=TimeApproval.do">${row.name}</a> (${row.principalId})
+	        <a href="changeTargetPerson.do?${row.timesheetUserTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=TimeApproval.do">${row.name}</a> (${row.principalId})
 	        <br/>${row.clockStatusMessage}
 	        <br/>
 	    </display:column>
 	    <display:column title="Document ID" sortable="true" sortName="documentId">
-	        <a href="Admin.do?${row.timesheetUserTargetURLParams}&targetUrl=TimeDetail.do%3FdocumentId=${row.documentId}&returnUrl=TimeApproval.do">${row.documentId}</a>
+	        <a href="changeTargetPerson.do?${row.timesheetUserTargetURLParams}&targetUrl=TimeDetail.do%3FdocumentId=${row.documentId}&returnUrl=TimeApproval.do">${row.documentId}</a>
 	        <c:if test="${fn:length(row.warnings) > 0 }">
 	            <div class="ui-state-default ui-corner-all" style="float:right;">
 	                <span id="approvals-warning" class="ui-icon ui-icon-alert approvals-warning"></span>
@@ -105,7 +104,7 @@
 	        </display:column>
 	    </c:forEach>
 	    <display:column title="Action">
-	        <tk:tkApprovalRowButtons appRow="${row}"/>
+	        <tkApprovalRowButtons appRow="${row}"/>
 	    </display:column>
 	    <display:column title="Select All <input type='checkbox' name='Select' id='checkAllAuto'></input>"
 	                    class="last_column_${row_rowNum}">

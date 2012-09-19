@@ -50,11 +50,6 @@ public class TimeApprovalActionForm extends TkCommonCalendarForm {
     
     private Map<Long,String> workAreaDescr = new HashMap<Long,String>();
 
-    private String selectedApprovalType;
-    private List<ApprovalLeaveSummaryRow> leaveApprovalRows;
-	private List<String> leaveCalendarLabels = new ArrayList<String>();
-
-
 	/**
      * Used for ajax dynamic row updating
      */
@@ -389,30 +384,6 @@ public class TimeApprovalActionForm extends TkCommonCalendarForm {
 
 	public void setWorkAreaDescr(Map<Long,String> workAreaDescr) {
 		this.workAreaDescr = workAreaDescr;
-	}
-
-	public List<ApprovalLeaveSummaryRow> getLeaveApprovalRows() {
-		return leaveApprovalRows;
-	}
-
-	public void setLeaveApprovalRows(List<ApprovalLeaveSummaryRow> leaveApprovalRows) {
-		this.leaveApprovalRows = leaveApprovalRows;
-	}
-
-	public List<String> getLeaveCalendarLabels() {
-		return leaveCalendarLabels;
-	}
-
-	public void setLeaveCalendarLabels(List<String> leaveCalendarLabels) {
-		this.leaveCalendarLabels = leaveCalendarLabels;
-	}
-
-	public String getSelectedApprovalType() {
-		return selectedApprovalType;
-	}
-
-	public void setSelectedApprovalType(String selectedApprovalType) {
-		this.selectedApprovalType = selectedApprovalType;
 	}
 
 }

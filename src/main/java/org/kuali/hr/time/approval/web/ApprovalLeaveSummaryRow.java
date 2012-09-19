@@ -75,11 +75,11 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
     public String getUserTargetURLParams() {
         StringBuffer link = new StringBuffer();
 
-        link.append("methodToCall=changeEmployee");
+        link.append("methodToCall=changeTargetPerson");
         link.append("&documentId=").append(this.getDocumentId());
         Person person = KimApiServiceLocator.getPersonService().getPerson(this.getPrincipalId());
-        link.append("&changeTargetPrincipalName=").append(person.getPrincipalName());
-
+        link.append("&principalName=").append(person.getPrincipalName());
+        
         return link.toString();
     }
 

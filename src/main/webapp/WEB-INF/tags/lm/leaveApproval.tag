@@ -3,8 +3,7 @@
 <jsp:useBean id="tagSupport" class="org.kuali.hr.time.util.TagSupport"/>
 
 <div id="leave-approval">
-	<span style="font-size: 1.5em; vertical-align: middle;">Leave Calendar Approval</span>
-	<display:table name="${Form.leaveApprovalRows}" requestURI="TimeApproval.do?methodToCall=loadApprovalTab" excludedParams="*"
+	<display:table name="${Form.leaveApprovalRows}" requestURI="LeaveApproval.do?methodToCall=loadApprovalTab" excludedParams="*"
 	               pagesize="20" id="row"
 	               class="approvals-table" partialList="true" size="${Form.resultSize}" sort="external" defaultsort="0">
 	    <display:column title="Name" sortable="true" sortName="principalName" style="${row.moreThanOneCalendar ? 'background-color: #F08080;' : ''}">
@@ -14,7 +13,7 @@
 	            </div>
             </c:if>
 	    
-	        <a href="Admin.do?${row.userTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=TimeApproval.do">${row.name}</a> (${row.principalId})
+	        <a href="changeTargetPerson.do?${row.userTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=LeaveApproval.do">${row.name}</a> (${row.principalId})
 	         <br/>${row.lastApproveMessage}
 	    </display:column>
 	    <display:column title="Document ID" sortable="true" sortName="documentId">
@@ -39,7 +38,7 @@
    		</display:column>
    		<display:column title="Select All <input type='checkbox' name='Select' id='checkAllAuto'></input>"
                     class="last_column_${row_rowNum}">
-       		<html:checkbox property="approvalRows[${row_rowNum-1}].selected" disabled="${!row.approvable}"
+       		<html:checkbox property="leaveApprovalRows[${row_rowNum-1}].selected" disabled="${!row.approvable}"
                        styleClass="selectedEmpl"/>
        
         	<div id="leaveDetails_${row.documentId}" style="display: none;"></div>

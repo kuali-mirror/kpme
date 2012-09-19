@@ -82,10 +82,7 @@ public interface TimeApproveService {
      */
     public List<CalendarEntries> getAllPayCalendarEntriesForApprover(String principalId, Date currentDate);
     
-    /*
-     * returns all calendar entries with LeaveCalendarDocument created and can be approved by given principalId
-     */
-    public List<CalendarEntries> getAllLeavePayCalendarEntriesForApprover(String principalId, Date currentDate);
+
     
     public boolean doesApproverHavePrincipalsForCalendarGroup(Date asOfDate, String calGroup);
     public Map<String,CalendarEntries> getPayCalendarEntriesForDept(String dept, Date currentDate);

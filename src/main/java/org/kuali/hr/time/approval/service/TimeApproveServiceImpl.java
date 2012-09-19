@@ -844,44 +844,4 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		return ppList;
 	}
 	
-	@Override
-	public List<CalendarEntries> getAllLeavePayCalendarEntriesForApprover(String principalId, Date currentDate) {
-		TKUser tkUser = TKContext.getUser();
-		Set<String> principals = new HashSet<String>();
-		DateTime minDt = new DateTime(currentDate,
-				TKUtils.getSystemDateTimeZone());
-		minDt = minDt.minusDays(DAYS_WINDOW_DELTA);
-		Set<Long> approverWorkAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
-
-		// Get all of the principals within our window of time.
-		for (Long waNum : approverWorkAreas) {
-			List<Assignment> assignments = TkServiceLocator
-					.getAssignmentService().getActiveAssignmentsForWorkArea(waNum, TKUtils.getTimelessDate(currentDate));
-
-			if (assignments != null) {
-				for (Assignment assignment : assignments) {
-					principals.add(assignment.getPrincipalId());
-				}
-			}
-		}
-		List<LeaveCalendarDocumentHeader> documentHeaders = new ArrayList<LeaveCalendarDocumentHeader>();
-		for(String pid : principals) {
-			documentHeaders.addAll(TkServiceLocator.getLeaveCalendarDocumentHeaderService().getAllDocumentHeadersForPricipalId(pid));
-		}
-		Set<CalendarEntries> payPeriodSet = new HashSet<CalendarEntries>();
-		for(LeaveCalendarDocumentHeader lcdh : documentHeaders) {
-    		CalendarEntries pe = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(lcdh.getBeginDate(), lcdh.getEndDate());
-    		if(pe != null) {
-    			payPeriodSet.add(pe);
-    		}
-        }
-		List<CalendarEntries> ppList = new ArrayList<CalendarEntries>(payPeriodSet);
-        
-		return ppList;
-	}
-	
-	
-
-
-	
 }

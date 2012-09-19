@@ -31,6 +31,8 @@
 		<form-bean name="LeaveBlockDisplayForm" type="org.kuali.hr.lm.leave.web.LeaveBlockDisplayForm"/>
 		<form-bean name="LeaveRequestForm" type="org.kuali.hr.lm.leave.web.LeaveRequestForm"/>
 		<form-bean name="LeaveCalendarWSForm" type="org.kuali.hr.lm.leave.web.LeaveCalendarWSForm"/>
+		<form-bean name="LeaveApprovalActionForm" type="org.kuali.hr.lm.approval.web.LeaveApprovalActionForm"/>
+        <form-bean name="LeaveApprovalWSActionForm" type="org.kuali.hr.lm.approval.web.LeaveApprovalWSActionForm"/>
     </form-beans>
 
     <global-exceptions>
@@ -192,7 +194,7 @@
                 input="/WEB-INF/jsp/leaveCalendar.jsp"
                 type="org.kuali.hr.lm.leavecalendar.web.LeaveCalendarSubmitAction" parameter="methodToCall" validate="false">
             <forward name="leaveCalendarRedirect" path="/LeaveCalendar.do"/>
-            <forward name="approverRedirect" path="/TimeApproval.do"/>
+            <forward name="approverRedirect" path="/LeaveApproval.do"/>
         </action>
         
         <action path="/LeaveRequest" name="LeaveRequestForm" scope="session" input="/WEB-INF/jsp/leaveRequest.jsp"
@@ -207,6 +209,18 @@
 
 		<action path="/LeaveCalendarWS" name="LeaveCalendarWSForm" scope="request" input="/WEB-INF/jsp/webService.jsp"
                 type="org.kuali.hr.lm.leave.web.LeaveCalendarWSAction" parameter="methodToCall" validate="false">
+            <forward name="basic" path="/WEB-INF/jsp/webService.jsp"/>
+            <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
+        </action>
+        
+        <action path="/LeaveApproval" name="LeaveApprovalActionForm" scope="session" input="/WEB-INF/jsp/leaveApproval.jsp"
+                type="org.kuali.hr.lm.approval.web.LeaveApprovalAction" parameter="methodToCall" validate="false">
+            <forward name="basic" path="/WEB-INF/jsp/leaveApproval.jsp"/>
+            <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
+        </action>
+
+        <action path="/LeaveApprovalWS" name="LeaveApprovalWSActionForm" scope="request" input="/WEB-INF/jsp/webService.jsp"
+                type="org.kuali.hr.lm.approval.web.LeaveApprovalWSAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/webService.jsp"/>
             <forward name="ws" path="/WEB-INF/jsp/webService.jsp"/>
         </action>

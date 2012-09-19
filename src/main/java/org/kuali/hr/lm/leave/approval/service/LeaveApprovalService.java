@@ -1,6 +1,7 @@
 package org.kuali.hr.lm.leave.approval.service;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -16,4 +17,11 @@ public interface LeaveApprovalService {
 	public Map<String, Map<String, BigDecimal>> getLeaveHoursToPayDayMap(List<LeaveBlock> leaveBlocks,List<String> headers);
 	
 	public List<Map<String, Object>> getLaveApprovalDetailSectins(LeaveCalendarDocumentHeader lcdh);
+	
+	public List<String> getUniqueLeavePayGroups();
+	
+    /*
+     * returns all calendar entries with LeaveCalendarDocument created and can be approved by given principalId
+     */
+    public List<CalendarEntries> getAllLeavePayCalendarEntriesForApprover(String principalId, Date currentDate);
 }
