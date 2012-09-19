@@ -81,48 +81,53 @@ public class TkRoleGroupServiceImpl implements TkRoleGroupService {
             Person person = KimApiServiceLocator.getPersonService().getPerson(principalId);
             if (person != null && isAuthorizedToEditUserRole(person.getPrincipalId())) {
                 principalIdToQuery = person.getPrincipalId();
+            } else {
+            	principalIdToQuery = principalId;
             }
         } else if (StringUtils.isNotBlank(principalName)) {
             Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(principalName);
             if (person != null && isAuthorizedToEditUserRole(person.getPrincipalId())) {
                 principalIdToQuery = person.getPrincipalId();
+            } else {
+            	principalIdToQuery = null;
             }
         } else {
 
         }
 
         Long workAreaToQuery = StringUtils.isEmpty(workArea) ? null : Long.parseLong(workArea);
-        List<TkRole> tkRoles  = TkServiceLocator.getTkRoleService().getRoles(principalIdToQuery, TKUtils.getCurrentDate(), roleName, workAreaToQuery, dept);
-
-        for (TkRole tkRole : tkRoles) {
-        	if (StringUtils.isEmpty(tkRole.getPositionNumber())) {
-        		TkRoleGroup tkRoleGroup = new TkRoleGroup();
-            	if (isAuthorizedToEditUserRole(tkRole.getPrincipalId())) {
-            		tkRoleGroup.setPerson(tkRole.getPerson());
-                	tkRoleGroup.setPrincipalId(tkRole.getPrincipalId());
-                	tkRoleGroups.add(tkRoleGroup);
-            	}
-            	if (StringUtils.isNotEmpty(principalIdToQuery)) {
-            		break;
-            	}
-        	} else {
-        		List<Job> listRolePositionActiveJobs = TkServiceLocator.getJobService().getActiveJobsForPosition(tkRole.getPositionNumber(), TKUtils.getCurrentDate());
-        		for (Job rolePositionJob : listRolePositionActiveJobs) {
-        			String rolePositionJobPrincipalId = rolePositionJob.getPrincipalId();
-        			TkRoleGroup tkRoleGroup = new TkRoleGroup();
-        			if (isAuthorizedToEditUserRole(rolePositionJobPrincipalId)) {
-        				if (((StringUtils.isNotEmpty(dept) && StringUtils.equals(tkRole.getDepartment(), dept)) || StringUtils.isEmpty(dept)) &&
-            				((StringUtils.isNotEmpty(roleName) && StringUtils.equals(tkRole.getRoleName(), roleName)) || StringUtils.isEmpty(roleName)) &&
-            				((StringUtils.isNotEmpty(workArea) && StringUtils.equals(tkRole.getWorkArea().toString(), workArea)) || StringUtils.isEmpty(workArea)) ) {
-        						tkRoleGroup.setPerson(KimApiServiceLocator.getPersonService().getPerson(rolePositionJobPrincipalId));
-        						tkRoleGroup.setPrincipalId(rolePositionJobPrincipalId);
-        						tkRoleGroups.add(tkRoleGroup);
-        				}
-        			}
-        		}
-        	}
+        if(principalIdToQuery != null) {
+	        List<TkRole> tkRoles  = TkServiceLocator.getTkRoleService().getRoles(principalIdToQuery, TKUtils.getCurrentDate(), roleName, workAreaToQuery, dept);
+	
+	        for (TkRole tkRole : tkRoles) {
+	        	if (StringUtils.isEmpty(tkRole.getPositionNumber())) {
+	        		TkRoleGroup tkRoleGroup = new TkRoleGroup();
+	            	if (isAuthorizedToEditUserRole(tkRole.getPrincipalId())) {
+	            		tkRoleGroup.setPerson(tkRole.getPerson());
+	                	tkRoleGroup.setPrincipalId(tkRole.getPrincipalId());
+	                	tkRoleGroups.add(tkRoleGroup);
+	            	}
+	            	if (StringUtils.isNotEmpty(principalIdToQuery)) {
+	            		break;
+	            	}
+	        	} else {
+	        		List<Job> listRolePositionActiveJobs = TkServiceLocator.getJobService().getActiveJobsForPosition(tkRole.getPositionNumber(), TKUtils.getCurrentDate());
+	        		for (Job rolePositionJob : listRolePositionActiveJobs) {
+	        			String rolePositionJobPrincipalId = rolePositionJob.getPrincipalId();
+	        			TkRoleGroup tkRoleGroup = new TkRoleGroup();
+	        			if (isAuthorizedToEditUserRole(rolePositionJobPrincipalId)) {
+	        				if (((StringUtils.isNotEmpty(dept) && StringUtils.equals(tkRole.getDepartment(), dept)) || StringUtils.isEmpty(dept)) &&
+	            				((StringUtils.isNotEmpty(roleName) && StringUtils.equals(tkRole.getRoleName(), roleName)) || StringUtils.isEmpty(roleName)) &&
+	            				((StringUtils.isNotEmpty(workArea) && StringUtils.equals(tkRole.getWorkArea().toString(), workArea)) || StringUtils.isEmpty(workArea)) ) {
+	        						tkRoleGroup.setPerson(KimApiServiceLocator.getPersonService().getPerson(rolePositionJobPrincipalId));
+	        						tkRoleGroup.setPrincipalId(rolePositionJobPrincipalId);
+	        						tkRoleGroups.add(tkRoleGroup);
+	        				}
+	        			}
+	        		}
+	        	}
+	        }
         }
-
         return tkRoleGroups;
     }
 
