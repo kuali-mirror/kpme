@@ -477,6 +477,7 @@
 							
 							<bean parent="FieldDefinition" p:attributeName="ovtEarnCode" />
 							<bean parent="FieldDefinition" p:attributeName="recordMethod" />
+							<bean parent="FieldDefinition" p:attributeName="usageLimit" />
 							
 							<!-- Commented for KPME-1624 
 							<bean parent="FieldDefinition" p:attributeName="recordTime" />
