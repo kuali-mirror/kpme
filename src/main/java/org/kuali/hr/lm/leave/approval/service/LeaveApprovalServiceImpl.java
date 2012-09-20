@@ -15,6 +15,7 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
+import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -58,7 +59,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 			LeaveCalendarDocumentHeader aDoc = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, payEndDate);
 			if(aDoc != null) {
 				aRow.setDocumentId(aDoc.getDocumentId());
-				aRow.setApprovalStatus(aDoc.getDocumentStatus());
+				aRow.setApprovalStatus(TkConstants.DOC_ROUTE_STATUS.get(aDoc.getDocumentStatus()));
 			}
 			List<LeaveCalendarDocumentHeader> docList = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getAllDelinquentDocumentHeadersForPricipalId(principalId);
 			if(docList.size() > LMConstants.DELINQUENT_LEAVE_CALENDARS_LIMIT ) {
@@ -124,7 +125,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 	}
 	
 	@Override
-	public List<Map<String, Object>> getLaveApprovalDetailSectins(LeaveCalendarDocumentHeader lcdh) {
+	public List<Map<String, Object>> getLaveApprovalDetailSections(LeaveCalendarDocumentHeader lcdh) {
 		
 		List<Map<String, Object>> acRows = new ArrayList<Map<String, Object>>();
 		
@@ -143,9 +144,9 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 			if(pha != null) {
 				List<AccrualCategory> acList = TkServiceLocator.getAccrualCategoryService()
 					.getActiveLeaveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), new java.sql.Date(endDate.getTime()));
-				List<BigDecimal> acDayDetails = new ArrayList<BigDecimal>();
 				
 				for(AccrualCategory ac : acList) {
+					List<BigDecimal> acDayDetails = new ArrayList<BigDecimal>();
 					Map<String, Object> displayMap = new HashMap<String, Object>();
 					BigDecimal totalAmount = BigDecimal.ZERO;
 					displayMap.put("accrualCategory", ac.getAccrualCategory());
@@ -162,6 +163,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 					displayMap.put("periodUsage", totalAmount);
 					displayMap.put("availableBalance", BigDecimal.ZERO);
 					displayMap.put("daysDetail", acDayDetails);
+					displayMap.put("daysSize", acDayDetails.size());
 					acRows.add(displayMap);
 				}
 			}
@@ -215,6 +217,124 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		List<CalendarEntries> ppList = new ArrayList<CalendarEntries>(payPeriodSet);
         
 		return ppList;
+	}
+	@Override
+	public void removeNonLeaveEmployees(List<String> principalIds) {
+		if(CollectionUtils.isNotEmpty(principalIds)) {
+			java.sql.Date asOfDate = TKUtils.getTimelessDate(null);
+			List<String> idList = new ArrayList<String>();
+			idList.addAll(principalIds);
+	     	for(String principalId: idList) {
+	     		boolean leaveFlag = false;
+	     		List<Assignment> activeAssignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
+	     		if(CollectionUtils.isNotEmpty(activeAssignments)) {
+	         		for(Assignment assignment : activeAssignments) {
+	         			if(assignment != null && assignment.getJob() != null && assignment.getJob().isEligibleForLeave()) {
+	         				leaveFlag = true;
+	         				break;
+	         			}
+	         		}
+	         		if(!leaveFlag) {  // employee is not eligible for leave, remove the id from principalIds
+	         			principalIds.remove(principalId);
+	         		}
+	         	}
+	     	}
+		}
+	}
+	
+	@Override
+	public List<String> getPrincipalIdsByDeptWorkAreaRolename(String roleName,
+			String department, String workArea, java.sql.Date payBeginDate,
+			java.sql.Date payEndDate, String calGroup) {
+		List<String> principalIds = getPrincipalIdsWithActiveAssignmentsForCalendarGroupByDeptAndWorkArea(
+				roleName, department, workArea, calGroup, payEndDate,
+				payBeginDate, payEndDate);
+		return principalIds;
+	}
+	
+	protected List<String> getPrincipalIdsWithActiveAssignmentsForCalendarGroupByDeptAndWorkArea(
+		      String roleName, String department, String workArea,
+		      String leaveCalendarGroup, java.sql.Date effdt,
+		      java.sql.Date beginDate, java.sql.Date endDate) {
+	    String sql = null;
+
+      List<Job> jobs = TkServiceLocator.getJobService().getJobs(TKUser.getCurrentTargetPerson().getPrincipalId(), effdt);
+      String jobPositionNumbersList = "'";
+      for (Job job : jobs) {
+                      jobPositionNumbersList += job.getPositionNumber() + "','";
+      }
+      /* the sql statement will enclose this string in single quotes, so we do not want the leading quote, or the trailing quote, comma, and quote. */
+      if (jobPositionNumbersList.length() > 3) {
+          jobPositionNumbersList = jobPositionNumbersList.substring(1, jobPositionNumbersList.length()-3) ;
+      } else {
+          jobPositionNumbersList = jobPositionNumbersList.substring(1);
+      }
+
+	    if (department == null || department.isEmpty()) {
+	      return new ArrayList<String>();
+	    } else {
+	      List<String> principalIds = new ArrayList<String>();
+	      SqlRowSet rs = null;
+        sql = "SELECT DISTINCT A0.PRINCIPAL_ID FROM TK_ASSIGNMENT_T A0, HR_ROLES_T R0, TK_WORK_AREA_T W0, HR_PRINCIPAL_ATTRIBUTES_T P0  WHERE "
+      		  + "((A0.EFFDT =  (SELECT MAX(EFFDT)  FROM TK_ASSIGNMENT_T  WHERE PRINCIPAL_ID = A0.PRINCIPAL_ID  AND EFFDT <= ? AND WORK_AREA = A0.WORK_AREA  AND TASK = A0.TASK AND JOB_NUMBER = A0.JOB_NUMBER) AND "
+                + "A0.TIMESTAMP =  (SELECT MAX(TIMESTAMP)  FROM TK_ASSIGNMENT_T  WHERE PRINCIPAL_ID = A0.PRINCIPAL_ID  AND EFFDT = A0.EFFDT AND WORK_AREA = A0.WORK_AREA AND TASK = A0.TASK AND JOB_NUMBER = A0.JOB_NUMBER) AND "
+                + "A0.ACTIVE = 'Y') OR (A0.ACTIVE = 'N'  AND A0.EFFDT >= ? AND A0.EFFDT <= ?)) AND "
+                + "R0.WORK_AREA = A0.WORK_AREA AND "
+                + "R0.ROLE_NAME IN ('TK_APPROVER', 'TK_APPROVER_DELEGATE', 'TK_REVIEWER') AND "
+                + "R0.ACTIVE = 'Y' AND "
+                + "( (R0.PRINCIPAL_ID = ? AND "
+                + "R0.EFFDT = (SELECT MAX(EFFDT)  FROM HR_ROLES_T  WHERE ROLE_NAME = R0.ROLE_NAME AND PRINCIPAL_ID = R0.PRINCIPAL_ID AND EFFDT <= ? AND WORK_AREA = R0.WORK_AREA) AND "
+                + "R0.TIMESTAMP = (SELECT MAX(TIMESTAMP)  FROM HR_ROLES_T  WHERE ROLE_NAME = R0.ROLE_NAME AND PRINCIPAL_ID = R0.PRINCIPAL_ID AND EFFDT = R0.EFFDT AND WORK_AREA = R0.WORK_AREA) "
+                + ") or ("
+                + "R0.POSITION_NBR in (?) AND "
+                + "R0.EFFDT = (SELECT MAX(EFFDT)  FROM HR_ROLES_T  WHERE ROLE_NAME = R0.ROLE_NAME AND POSITION_NBR = R0.POSITION_NBR AND EFFDT <= ? AND WORK_AREA = R0.WORK_AREA) AND "
+                + "R0.TIMESTAMP = (SELECT MAX(TIMESTAMP)  FROM HR_ROLES_T  WHERE ROLE_NAME = R0.ROLE_NAME AND POSITION_NBR = R0.POSITION_NBR AND EFFDT = R0.EFFDT AND WORK_AREA = R0.WORK_AREA) "
+                + ") ) AND "
+                + "W0.WORK_AREA = A0.WORK_AREA AND "
+                + "W0.DEPT = ? AND "
+                + "W0.EFFDT = (SELECT MAX(EFFDT) FROM TK_WORK_AREA_T WHERE EFFDT <= ? AND WORK_AREA = W0.WORK_AREA) AND "
+                + "W0.TIMESTAMP =  (SELECT MAX(TIMESTAMP)  FROM TK_WORK_AREA_T  WHERE WORK_AREA = W0.WORK_AREA  AND EFFDT = W0.EFFDT) AND "
+                + "W0.ACTIVE = 'Y' AND "
+                + "P0.PRINCIPAL_ID = A0.PRINCIPAL_ID AND "
+                + "P0.LEAVE_CALENDAR = ?";
+
+
+	       int[] params = null;
+	       Object[] values = null;
+	       if (workArea != null) {
+	          sql += " AND A0.WORK_AREA = ? ";
+	          params = new int[] {java.sql.Types.DATE,
+	              java.sql.Types.DATE,
+	              java.sql.Types.DATE,
+	              java.sql.Types.VARCHAR, 
+	              java.sql.Types.DATE,
+                java.sql.Types.VARCHAR,
+                java.sql.Types.DATE,
+	              java.sql.Types.VARCHAR,
+	              java.sql.Types.DATE,
+	              java.sql.Types.VARCHAR,
+	              java.sql.Types.INTEGER };
+	          values = new Object[] {effdt, beginDate, endDate, TKUser.getCurrentTargetPerson().getPrincipalId(), effdt, jobPositionNumbersList, effdt, department, effdt, leaveCalendarGroup, workArea };
+	        }else {
+	          params = new int[] {java.sql.Types.DATE,
+	              java.sql.Types.DATE,
+	              java.sql.Types.DATE,
+	              java.sql.Types.VARCHAR, 
+	              java.sql.Types.DATE,
+                java.sql.Types.VARCHAR,
+                java.sql.Types.DATE,
+	              java.sql.Types.VARCHAR,
+	              java.sql.Types.DATE,
+	              java.sql.Types.VARCHAR};
+	          values = new Object[] {effdt, beginDate, endDate, TKUser.getCurrentTargetPerson().getPrincipalId(), effdt, jobPositionNumbersList, effdt, department, effdt, leaveCalendarGroup};
+	        }
+	        rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(
+	            sql, values, params);
+	      while (rs.next()) {
+	        principalIds.add(rs.getString("principal_id"));
+	      }
+	      return principalIds;
+	    }
 	}
 
 }

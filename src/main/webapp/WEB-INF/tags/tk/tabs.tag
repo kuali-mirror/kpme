@@ -7,7 +7,7 @@
     <c:set var="globalViewOnly" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isGlobalViewOnly()%>' />
     <c:set var="targetSystemAdmin" value='<%=org.kuali.hr.time.util.TKUser.getCurrentTargetRoles().isSystemAdmin()%>' />
     <c:set var="targetTimesheetApprover" value='<%=org.kuali.hr.time.util.TKUser.getCurrentTargetRoles().isTimesheetApprover()%>' />
-    <c:set var="targetTimesheetReviewer" value='<%=org.kuali.hr.time.util.TKUser.getCurrentTargetRoles().isTimesheetReviewer()%>' />
+    <c:set var="targetTimesheetReviewer" value='<%=org.kuali.hr.time.util.TKUser.getCurrentTargetRoles().isTimesheetReviewer()%>' />   
     <c:set var="targetActiveEmployee" value='<%=org.kuali.hr.time.util.TKUser.getCurrentTargetRoles().isActiveEmployee()%>' />
     <c:set var="targetSynchronous" value='<%=org.kuali.hr.time.util.TKUser.getCurrentTargetRoles().isSynchronous()%>' />
 </c:if>
@@ -20,7 +20,11 @@
     <li id="personInfo" class="ui-state-default ui-corner-top"><a href="PersonInfo.do">Person Info</a></li>
     <c:if test="${targetSystemAdmin || targetTimesheetApprover || targetTimesheetReviewer}">
         <li id="approvals" class="ui-state-default ui-corner-top"><a
-                href="TimeApproval.do?methodToCall=loadApprovalTab">Approvals</a></li>
+                href="TimeApproval.do?methodToCall=loadApprovalTab">Time Approval</a></li>
+    </c:if>
+    <c:if test="${targetSystemAdmin || targetTimesheetApprover || targetTimesheetReviewer}">
+    	<li id="leaveApprovals" class="ui-state-default ui-corner-top"><a
+            href="LeaveApproval.do?methodToCall=loadApprovalTab">Leave Approval</a></li>
     </c:if>
     <c:if test="${targetActiveEmployee}">
         <li id="leaveAccrual" class="ui-state-default ui-corner-top"><a href="TimeOffAccrual.do">Leave Accrual</a></li>

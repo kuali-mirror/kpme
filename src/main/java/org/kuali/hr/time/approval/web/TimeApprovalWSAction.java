@@ -16,7 +16,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.json.simple.JSONValue;
-import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.person.TKPerson;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -42,33 +41,36 @@ public class TimeApprovalWSAction extends TkAction {
     public ActionForward searchApprovalRows(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
         List<Map<String, String>> results = new LinkedList<Map<String, String>>();
-        Date beginDate = new SimpleDateFormat("MM/dd/yyyy").parse(taaf.getPayBeginDateForSearch());
-        Date endDate = new SimpleDateFormat("MM/dd/yyyy").parse(taaf.getPayEndDateForSearch());
-        
-        List<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByDeptWorkAreaRolename(taaf.getRoleName(), taaf.getSelectedDept(), taaf.getSelectedWorkArea(), new java.sql.Date(beginDate.getTime()), new java.sql.Date(endDate.getTime()), taaf.getSelectedPayCalendarGroup());
-        List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
-        
-        if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_PRINCIPAL)) {
-            for (String id : principalIds) {
-                if(StringUtils.contains(id, taaf.getSearchTerm())) {
-                    Map<String, String> labelValue = new HashMap<String, String>();
-                    labelValue.put("id", id);
-                    labelValue.put("result", id);
-                    results.add(labelValue);
-                }
-            }
-        } else if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_DOCID)) {
-            Map<String, TimesheetDocumentHeader> principalDocumentHeaders =
-                    TkServiceLocator.getTimeApproveService().getPrincipalDocumehtHeader(persons, beginDate, endDate);
-
-            for (Map.Entry<String,TimesheetDocumentHeader> entry : principalDocumentHeaders.entrySet()) {
-                if (StringUtils.contains(entry.getValue().getDocumentId(), taaf.getSearchTerm())) {
-                    Map<String, String> labelValue = new HashMap<String, String>();
-                    labelValue.put("id", entry.getValue().getDocumentId() + " (" + entry.getValue().getPrincipalId() + ")");
-                    labelValue.put("result", entry.getValue().getPrincipalId());
-                    results.add(labelValue);
-                }
-            }
+        if(StringUtils.isNotEmpty(taaf.getPayBeginDateForSearch()) 
+        		&& StringUtils.isNotEmpty(taaf.getPayEndDateForSearch()) ) {
+	        Date beginDate = new SimpleDateFormat("MM/dd/yyyy").parse(taaf.getPayBeginDateForSearch());
+	        Date endDate = new SimpleDateFormat("MM/dd/yyyy").parse(taaf.getPayEndDateForSearch());
+	        
+	        List<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByDeptWorkAreaRolename(taaf.getRoleName(), taaf.getSelectedDept(), taaf.getSelectedWorkArea(), new java.sql.Date(beginDate.getTime()), new java.sql.Date(endDate.getTime()), taaf.getSelectedPayCalendarGroup());
+	        List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
+	        
+	        if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_PRINCIPAL)) {
+	            for (String id : principalIds) {
+	                if(StringUtils.contains(id, taaf.getSearchTerm())) {
+	                    Map<String, String> labelValue = new HashMap<String, String>();
+	                    labelValue.put("id", id);
+	                    labelValue.put("result", id);
+	                    results.add(labelValue);
+	                }
+	            }
+	        } else if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_DOCID)) {
+	            Map<String, TimesheetDocumentHeader> principalDocumentHeaders =
+	                    TkServiceLocator.getTimeApproveService().getPrincipalDocumehtHeader(persons, beginDate, endDate);
+	
+	            for (Map.Entry<String,TimesheetDocumentHeader> entry : principalDocumentHeaders.entrySet()) {
+	                if (StringUtils.contains(entry.getValue().getDocumentId(), taaf.getSearchTerm())) {
+	                    Map<String, String> labelValue = new HashMap<String, String>();
+	                    labelValue.put("id", entry.getValue().getDocumentId() + " (" + entry.getValue().getPrincipalId() + ")");
+	                    labelValue.put("result", entry.getValue().getPrincipalId());
+	                    results.add(labelValue);
+	                }
+	            }
+	        }
         }
         taaf.setOutputString(JSONValue.toJSONString(results));
         return mapping.findForward("ws");

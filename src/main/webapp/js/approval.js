@@ -110,6 +110,9 @@ $(document).ready(function () {
 //        });
 //    });
 
+    /*
+     * for search on TimeApproval page
+     */
     $('#searchValue').autocomplete({
         source:function (request, response) {
             $('#loading-value').ajaxStart(function () {
@@ -142,6 +145,48 @@ $(document).ready(function () {
             var rows = $('#approvals-table tbody tr').length;
             var isAscending = getParameterByName("ascending");
             window.location = 'TimeApproval.do?methodToCall=searchResult&searchField=principalName&searchTerm=' + data.item.id;
+        },
+        open:function () {
+            $(this).removeClass("ui-corner-all");
+        },
+        close:function () {
+            $(this).removeClass("ui-corner-top");
+        }
+    });
+    
+    /*
+     * for search on LeaveApproval page
+     */
+    $('#leaveSearchValue').autocomplete({
+        source:function (request, response) {
+            $('#loading-value').ajaxStart(function () {
+                $(this).show();
+            });
+            $('#loading-value').ajaxStop(function () {
+                $(this).hide();
+            });
+            var hrPyCalendarEntriesId = $("#pceid").val();
+            var selectedPayCalendarGroup = $("#selectedPayCalendarGroup").val();
+
+            $.ajax({
+                url:'LeaveApprovalWS.do?methodToCall=searchApprovalRows&searchField=' + $('#searchField').val() + '&searchTerm=' + request.term + "&payBeginDateForSearch=" + $("#payBeginDate").html() + "&payEndDateForSearch=" + $("#payEndDate").html() +
+                        '&selectedPayCalendarGroup=' + selectedPayCalendarGroup + '&selectedDept=' + $('#selectedDept').val() + '&selectedWorkArea=' + $('#selectedWorkArea').val(),
+                dataType:"json",
+                success:function (data) {
+                    response($.map(data, function (item) {
+                        return {
+                            value:item.id,
+                            id:item.result
+                        };
+                    }));
+                }
+            });
+        },
+        minLength:3,
+        select:function (event, data) {
+            var rows = $('#approvals-table tbody tr').length;
+            var isAscending = getParameterByName("ascending");
+            window.location = 'LeaveApproval.do?methodToCall=searchResult&searchField=principalName&searchTerm=' + data.item.id;
         },
         open:function () {
             $(this).removeClass("ui-corner-all");
@@ -244,11 +289,17 @@ $(document).ready(function () {
 //            $(this).removeClass('ui-icon-minus').addClass('ui-icon-plus');
 //        }
 //    });
-
+    
+    /* for TimeApproval page */
     $("#refresh").click(function(){
        // location.reload();
         location.replace('TimeApproval.do?methodToCall=loadApprovalTab');
     });
+    
+    /* for LeaveApproval page */
+    $("#leaveRefresh").click(function(){
+         location.replace('LeaveApproval.do?methodToCall=loadApprovalTab');
+     });
 
     // add css styles to the note and warning buttons
 //    $(".rowInfo").hover(function() {

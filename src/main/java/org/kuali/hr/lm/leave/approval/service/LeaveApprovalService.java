@@ -16,7 +16,7 @@ public interface LeaveApprovalService {
 	
 	public Map<String, Map<String, BigDecimal>> getLeaveHoursToPayDayMap(List<LeaveBlock> leaveBlocks,List<String> headers);
 	
-	public List<Map<String, Object>> getLaveApprovalDetailSectins(LeaveCalendarDocumentHeader lcdh);
+	public List<Map<String, Object>> getLaveApprovalDetailSections(LeaveCalendarDocumentHeader lcdh);
 	
 	public List<String> getUniqueLeavePayGroups();
 	
@@ -24,4 +24,24 @@ public interface LeaveApprovalService {
      * returns all calendar entries with LeaveCalendarDocument created and can be approved by given principalId
      */
     public List<CalendarEntries> getAllLeavePayCalendarEntriesForApprover(String principalId, Date currentDate);
+
+    /*
+     * remove the employees with no jobs that are eligible for leave fromt the given list of principal ids
+     * 
+     * @param principalIds
+     * 
+     */
+   public void removeNonLeaveEmployees(List<String> principalIds);
+   
+   /**
+    * Method to get a list of principal ids based on the department work areas.
+    *
+    * @param roleName
+    * @param department
+    * @param workArea
+    * @param payEndDate
+    * @param calGroup
+    * @return A list of the PrincipalIds
+    */
+   List<String> getPrincipalIdsByDeptWorkAreaRolename(String roleName, String department, String workArea, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup);
 }

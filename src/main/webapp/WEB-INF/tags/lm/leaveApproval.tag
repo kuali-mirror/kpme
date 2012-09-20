@@ -17,7 +17,7 @@
 	         <br/>${row.lastApproveMessage}
 	    </display:column>
 	    <display:column title="Document ID" sortable="true" sortName="documentId">
-        	<a href="Admin.do?${row.userTargetURLParams}&targetUrl=TimeDetail.do%3FdocumentId=${row.documentId}&returnUrl=TimeApproval.do">${row.documentId}</a>
+        	<a href="changeTargetPerson.do?${row.userTargetURLParams}&targetUrl=LeaveCalendar.do%3FdocumentId=${row.documentId}&returnUrl=LeaveApproval.do">${row.documentId}</a>
         </display:column>
 	    <display:column title="Status">
 	        <div>
@@ -34,7 +34,7 @@
         	</display:column>
    		</c:forEach>
    		<display:column title="Action">
-        	<lm:lmApprovalRowButtons appRow="${row}"/>
+        	<lmApprovalRowButtons appRow="${row}"/>
    		</display:column>
    		<display:column title="Select All <input type='checkbox' name='Select' id='checkAllAuto'></input>"
                     class="last_column_${row_rowNum}">

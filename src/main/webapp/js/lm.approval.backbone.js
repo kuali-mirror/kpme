@@ -68,17 +68,23 @@ $(function () {
             if ($element.hasClass('ui-icon-plus')) {
                 // This triggerS the ajax call to fetch the leave summary rows.
                 this.fetchLeaveSummary(docId);
-
                 // Here we loop through the colleciton and insert the content to the template
-                AccrualCategorySections.each(function (accrualCetegorySection, index) {
-                    $parent.after(self.template({
-                        // This is the leave summary rows
-                        "section" : accrualCetegorySection.toJSON(),
-                        // This is to give each <tr> in the leave summary section an identifier,
-                        // so when the minus icon is clicked, it will remove the appened html.
-                        "docId" : docId
-                    }));
-                });
+                if(AccrualCategorySections.size() >= 1) {
+	                AccrualCategorySections.each(function (accrualCetegorySection, index) {
+	                	var afterString = self.template({
+	                        "section" : accrualCetegorySection.toJSON(),
+	                        // This is to give each <tr> in the leave summary section an identifier,
+	                        // so when the minus icon is clicked, it will remove the appened html.
+	                        "docId" : docId
+	                    });
+	                    $parent.after(afterString);
+	                });
+	                // add the title row for the detail section
+					var firstMap = AccrualCategorySections.first().toJSON();
+					var daysNumber = firstMap["daysSize"] + 3;
+	                var tempString = "<tr class='leaveDetailRow_" + docId + "'><th colspan='" + daysNumber + "'/><th>Period Usage</th><th>Available</th></tr>"
+	                $parent.after(tempString);
+                }
 
                 // change the icon from - to +
                 $element.removeClass('ui-icon-plus').addClass('ui-icon-minus');
