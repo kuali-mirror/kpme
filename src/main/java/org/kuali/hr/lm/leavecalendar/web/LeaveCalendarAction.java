@@ -145,6 +145,7 @@ public class LeaveCalendarAction extends TkAction {
 //        LeaveCalendar leaveCalender = new LeaveCalendar(viewPrincipal, calendarEntry);
         LeaveBlockAggregate aggregate = new LeaveBlockAggregate(leaveBlocks, calendarEntry, calendar);
         lcf.setLeaveBlockString(LeaveActionFormUtils.getLeaveBlocksJson(aggregate.getFlattenedLeaveBlockList()));
+        //lcf.setLeaveBlockString(ActionFormUtils.getLeaveBlocksJson(aggregate.getFlattenedLeaveBlockList()));
 		
 //        System.out.println("Leave block string : "+lcf.getLeaveBlockString());
 		return forward;
@@ -193,9 +194,9 @@ public class LeaveCalendarAction extends TkAction {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
 		LeaveCalendarDocument lcd = lcf.getLeaveCalendarDocument();
 		DateTime beginDate = new DateTime(
-				TKUtils.convertDateStringToTimestamp(lcf.getStartDate()));
+				TKUtils.convertDateStringToTimestampNoTimezone(lcf.getStartDate()));
 		DateTime endDate = new DateTime(
-				TKUtils.convertDateStringToTimestamp(lcf.getEndDate()));
+				TKUtils.convertDateStringToTimestampNoTimezone(lcf.getEndDate()));
 		String selectedEarnCode = lcf.getSelectedEarnCode();
 		BigDecimal hours = lcf.getLeaveAmount();
 		String desc = lcf.getDescription();

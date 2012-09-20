@@ -32,7 +32,7 @@ public class LeaveBlockAggregate {
 		for(Interval dayInt : dayIntervals){
 			List<LeaveBlock> dayLeaveBlocks = new ArrayList<LeaveBlock>();
 			for(LeaveBlock leaveBlock : leaveBlocks){
-				DateTime dateTime = new DateTime(leaveBlock.getTimestamp());
+				DateTime dateTime = new DateTime(leaveBlock.getLeaveDate());
 				if(dayInt.contains(dateTime)){
 					dayLeaveBlocks.add(leaveBlock);
 				}

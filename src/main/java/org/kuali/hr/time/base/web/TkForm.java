@@ -53,6 +53,10 @@ public class TkForm extends KualiForm {
     public String getDocumentStatus() {
         return TKContext.getCurrentTimesheetDocument().getDocumentHeader().getDocumentStatus();
     }
+
+    public String getLeaveCalendarDocumentStatus() {
+        return TKContext.getCurrentLeaveCalendarDocument().getDocumentHeader().getDocumentStatus();
+    }
     
     public boolean getLeaveEnabled() {
     	boolean canViewLeaveTab= false;

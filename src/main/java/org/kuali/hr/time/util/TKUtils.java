@@ -439,6 +439,31 @@ public class TKUtils {
         return new Timestamp(dateTime.getMillis());
     }
 
+    /**
+     * Creates a Timestamp object using Jodatime as an intermediate data structure
+     * from the provided date and time string. (From the form POST and javascript
+     * formats)
+     *
+     * @param dateStr (the format is 01/01/2011)
+     * @return Timestamp
+     */
+    public static Timestamp convertDateStringToTimestampNoTimezone(String dateStr) {
+        // the date/time format is defined in tk.calendar.js. the format is 11/17/2010
+        String[] date = dateStr.split("/");
+
+        // this is from the jodattime javadoc:
+        // DateTime(int year, int monthOfYear, int dayOfMonth, int hourOfDay, int minuteOfHour, int secondOfMinute, int millisOfSecond, DateTimeZone zone)
+        // Noted that the month value is the actual month which is different than the java date object where the month value is the current month minus 1.
+        // I tried to use the actual month in the code as much as I can to reduce the convertions.
+        DateTime dateTime = new DateTime(
+                Integer.parseInt(date[2]),
+                Integer.parseInt(date[0]),
+                Integer.parseInt(date[1]),
+                0, 0, 0, 0);
+
+        return new Timestamp(dateTime.getMillis());
+    }
+
     
     public static Timestamp getCurrentTimestamp() {
         return new Timestamp(System.currentTimeMillis());

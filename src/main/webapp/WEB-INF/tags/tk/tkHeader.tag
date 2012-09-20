@@ -133,6 +133,12 @@
 								</td>
 								<td>${form.leaveDocumentIdFromContext}</td>
 							</tr>
+                            <tr>
+                                <td align="right">${prefix} <bean:message
+                                        key="time.detail.documentStatus" />:
+                                </td>
+                                <td>${tagSupport.documentStatus[form.leaveCalendarDocumentStatus]}</td>
+                            </tr>
 						</c:if>
 					</table>
 
