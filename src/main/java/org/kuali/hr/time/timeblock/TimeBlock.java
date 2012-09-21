@@ -638,7 +638,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 		}
 		TimeBlock timeBlock = (TimeBlock) obj;
 		return new EqualsBuilder()
-			.append(jobNumber, timeBlock.earnCode)
+			.append(jobNumber, timeBlock.jobNumber)
 			.append(workArea, timeBlock.workArea)
 			.append(task, timeBlock.task)
 			.append(earnCode, timeBlock.earnCode)
