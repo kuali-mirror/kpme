@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTime;
 import org.kuali.hr.time.assignment.Assignment;
@@ -312,32 +313,11 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
         this.timeHourDetails = timeHourDetails;
     }
 
-    public String getAssignString() {
-        return this.jobNumber + "_" + this.workArea + "_" + this.task;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (hashCode() == obj.hashCode()) {
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        StringBuilder key = new StringBuilder(getAssignString() + "_" + getEarnCode() + "_" + "_" + getBeginTimestamp() + "_" + getEndTimestamp() + "_" + getHours());
-        for (TimeHourDetail timeHourDetail : getTimeHourDetails()) {
-            key.append(timeHourDetail.getEarnCode() + "_" + timeHourDetail.getAmount() + "_" + timeHourDetail.getHours());
-        }
-        return HashCodeBuilder.reflectionHashCode(key);
-    }
-
     public Boolean isPushBackward() {
         return pushBackward;
     }
 
-    public void setPushBackward(Boolean pushBackward) {
+	public void setPushBackward(Boolean pushBackward) {
         this.pushBackward = pushBackward;
     }
 
@@ -644,4 +624,43 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 	public void setUser(Person user) {
 		this.user = user;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) { 
+			return false;
+		}
+		if (obj == this) { 
+			return true;
+		}
+		if (obj.getClass() != getClass()) {
+			return false;
+		}
+		TimeBlock timeBlock = (TimeBlock) obj;
+		return new EqualsBuilder()
+			.append(jobNumber, timeBlock.earnCode)
+			.append(workArea, timeBlock.workArea)
+			.append(task, timeBlock.task)
+			.append(earnCode, timeBlock.earnCode)
+			.append(beginTimestamp, timeBlock.beginTimestamp)
+			.append(endTimestamp, timeBlock.endTimestamp)
+			.append(hours, timeBlock.hours)
+			.append(timeHourDetails, timeBlock.timeHourDetails)
+			.isEquals();
+	}
+
+    @Override
+    public int hashCode() {
+    	return new HashCodeBuilder(17, 31)
+    		.append(jobNumber)
+    		.append(workArea)
+    		.append(task)
+    		.append(earnCode)
+    		.append(beginTimestamp)
+    		.append(endTimestamp)
+    		.append(hours)
+    		.append(timeHourDetails)
+    		.toHashCode();
+    }
+    
 }

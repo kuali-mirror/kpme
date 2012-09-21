@@ -2,6 +2,8 @@ package org.kuali.hr.time.timeblock;
 
 import java.math.BigDecimal;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -18,6 +20,20 @@ public class TimeHourDetail extends PersistableBusinessObjectBase{
 	private BigDecimal amount = TkConstants.BIG_DECIMAL_SCALED_ZERO;
 
     public TimeHourDetail() {
+    }
+
+    protected TimeHourDetail(TimeHourDetail t) {
+        // All of the following are Immutable, be aware if new fields
+        // are added.
+        this.tkTimeHourDetailId = t.tkTimeHourDetailId;
+        this.tkTimeBlockId = t.tkTimeBlockId;
+        this.earnCode = t.earnCode;
+        this.hours = t.hours;
+        this.amount = t.amount;
+    }
+
+    public TimeHourDetail copy() {
+        return new TimeHourDetail(this);
     }
 
 	public String getEarnCode() {
@@ -66,18 +82,33 @@ public class TimeHourDetail extends PersistableBusinessObjectBase{
 	public String getTkTimeHourDetailId() {
 		return tkTimeHourDetailId;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) { 
+			return false;
+		}
+		if (obj == this) { 
+			return true;
+		}
+		if (obj.getClass() != getClass()) {
+			return false;
+		}
+		TimeHourDetail timeHourDetail = (TimeHourDetail) obj;
+		return new EqualsBuilder()
+			.append(earnCode, timeHourDetail.earnCode)
+			.append(amount, timeHourDetail.amount)
+			.append(hours, timeHourDetail.hours)
+			.isEquals();
+	}
 
-    protected TimeHourDetail(TimeHourDetail t) {
-        // All of the following are Immutable, be aware if new fields
-        // are added.
-        this.tkTimeHourDetailId = t.tkTimeHourDetailId;
-        this.tkTimeBlockId = t.tkTimeBlockId;
-        this.earnCode = t.earnCode;
-        this.hours = t.hours;
-        this.amount = t.amount;
-    }
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder(17, 31)
+			.append(earnCode)
+			.append(amount)
+			.append(hours)
+			.toHashCode();
+	}
 
-    public TimeHourDetail copy() {
-        return new TimeHourDetail(this);
-    }
 }
