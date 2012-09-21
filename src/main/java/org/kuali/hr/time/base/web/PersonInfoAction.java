@@ -1,5 +1,6 @@
 package org.kuali.hr.time.base.web;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,6 +13,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.accrual.AccrualCategoryRule;
+import org.kuali.hr.lm.accrual.RateRange;
+import org.kuali.hr.lm.accrual.RateRangeAggregate;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.roles.TkRole;
@@ -53,6 +58,36 @@ public class PersonInfoAction extends TkAction {
 			personForm.setServiceDate("");
 		}
 		// KPME-1441
+		
+		//KPME1756
+		List<AccrualCategoryRule> accrualCategoryRules = new ArrayList<AccrualCategoryRule>();
+		if ( principalHRAttributes != null && principalHRAttributes.getLeavePlan() != null ){
+			
+			List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(principalHRAttributes.getLeavePlan(), TKUtils.getCurrentDate());
+			
+			//System.out.println( ">>>>>>> accrualCategories?: " + accrualCategories.size() );
+			if ( accrualCategories != null && accrualCategories.size() > 0 ){
+				for(AccrualCategory accrualCategory : accrualCategories){
+					//System.out.println( ">>>>>>> accrualCategory has rules?: " + accrualCategory.getHasRules() );
+					
+					if ( accrualCategory.getHasRules().equalsIgnoreCase("Y")){
+						RateRangeAggregate rateRangeAggregate = TkServiceLocator.getAccrualService().buildRateRangeAggregate(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate(), TKUtils.getCurrentDate());
+						if (rateRangeAggregate != null ){
+							AccrualCategoryRule currentAccrualCategoryRule = new AccrualCategoryRule();
+							currentAccrualCategoryRule.setLmAccrualCategoryId(accrualCategory.getAccrualCategory() + " - " + accrualCategory.getDescr());
+							currentAccrualCategoryRule.setAccrualRate(rateRangeAggregate.getRateRanges().get(0).getAcRuleList().get(0).getAccrualRate());
+							//System.out.println( ">>>>>>> current rate: " + rateRangeAggregate.getRateRanges().get(0).getAcRuleList().get(0).getAccrualRate() );
+							accrualCategoryRules.add(currentAccrualCategoryRule);
+						}
+					}
+				}
+			}
+			personForm.setAccrualCategoryRules(accrualCategoryRules);
+		
+		} else {
+			personForm.setAccrualCategoryRules(accrualCategoryRules);
+		}
+		//KPME1756
 		
 		setupRolesOnForm(personForm);
 

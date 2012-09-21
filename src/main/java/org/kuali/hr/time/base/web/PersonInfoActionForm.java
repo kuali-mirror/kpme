@@ -1,11 +1,13 @@
 package org.kuali.hr.time.base.web;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.kuali.hr.job.Job;
+import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.rice.kim.api.identity.Person;
@@ -20,8 +22,9 @@ public class PersonInfoActionForm extends TkForm {
     //KPME-1441
     private String serviceDate;
     private String totalFTE;
-    
-       
+    //KPME-1756
+    private List<AccrualCategoryRule> accrualCategoryRules = new ArrayList<AccrualCategoryRule>();
+  
     //KPME-1441
     private List<Job> jobs = new ArrayList<Job>();
     private Map<Long,List<Assignment>> jobNumberToListAssignments = new HashMap<Long,List<Assignment>>();
@@ -55,6 +58,7 @@ public class PersonInfoActionForm extends TkForm {
 	public void setServiceDate(String serviceDate) {
 		this.serviceDate = serviceDate;
 	}
+	
 
 	public Map<Long, List<Assignment>> getJobNumberToListAssignments() {
 		return jobNumberToListAssignments;
@@ -97,6 +101,14 @@ public class PersonInfoActionForm extends TkForm {
 		this.workAreaToApproverPerson = workAreaToApproverPerson;
 	}
 
+	public List<AccrualCategoryRule> getAccrualCategoryRules() {
+		return accrualCategoryRules;
+	}
+
+	public void setAccrualCategoryRules(List<AccrualCategoryRule> accrualCategoryRules) {
+		this.accrualCategoryRules = accrualCategoryRules;
+	}
+	
 	public List<Job> getJobs() {
 		return jobs;
 	}

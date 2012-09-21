@@ -318,6 +318,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 	    return (AccrualCategoryService)CONTEXT.getBean(TK_ACCRUAL_CATEGORY_SERVICE);
 	}
 	
+	public static AccrualService getAccrualService() {
+	    return (AccrualService)CONTEXT.getBean(LM_ACCRUAL_SERVICE);
+	}
+	
 	public static AccrualCategoryRuleService getAccrualCategoryRuleService() {
 	    return (AccrualCategoryRuleService)CONTEXT.getBean(TK_ACCRUAL_CATEGORY_RULE_SERVICE);
 	}

@@ -12,7 +12,7 @@
                         <th>Principal Id</th>
                         <th>Principal Name</th>
                         <th>Name</th>
-                        <th>Service Date</th>  
+                        <th>Service Date</th>
                     </tr>
                     <tr>
                         <td>${Form.principalId}</td>
@@ -20,6 +20,17 @@
                         <td>${Form.name}</td>
                         <td>${Form.serviceDate}</td>
                     </tr>
+                </table>
+                <br>
+                <table>
+                	<tr>
+          				<th>Accrual Category</th>
+          				<th>Current Rate</th>
+          			</tr>
+          			<c:forEach var="accrualCategoryRule" items="${Form.accrualCategoryRules}">
+          				<td>${accrualCategoryRule.lmAccrualCategoryId}</td>
+          				<td>${accrualCategoryRule.accrualRate}</td>
+          			</c:forEach>
                 </table>
             </div>
             
