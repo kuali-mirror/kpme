@@ -17,6 +17,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.json.simple.JSONValue;
 import org.kuali.hr.time.base.web.TkAction;
+import org.kuali.hr.time.base.web.TkApprovalForm;
 import org.kuali.hr.time.person.TKPerson;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
@@ -26,11 +27,6 @@ import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 public class TimeApprovalWSAction extends TkAction {
 
     private static final Logger LOG = Logger.getLogger(TimeApprovalWSAction.class);
-
-    @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return super.execute(mapping, form, request, response);
-    }
 
     /**
      * Action called via AJAX. (ajaj really...)
@@ -49,7 +45,7 @@ public class TimeApprovalWSAction extends TkAction {
 	        List<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByDeptWorkAreaRolename(taaf.getRoleName(), taaf.getSelectedDept(), taaf.getSelectedWorkArea(), new java.sql.Date(beginDate.getTime()), new java.sql.Date(endDate.getTime()), taaf.getSelectedPayCalendarGroup());
 	        List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
 	        
-	        if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_PRINCIPAL)) {
+	        if (StringUtils.equals(taaf.getSearchField(), TkApprovalForm.ORDER_BY_PRINCIPAL)) {
 	            for (String id : principalIds) {
 	                if(StringUtils.contains(id, taaf.getSearchTerm())) {
 	                    Map<String, String> labelValue = new HashMap<String, String>();
@@ -58,7 +54,7 @@ public class TimeApprovalWSAction extends TkAction {
 	                    results.add(labelValue);
 	                }
 	            }
-	        } else if (StringUtils.equals(taaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_DOCID)) {
+	        } else if (StringUtils.equals(taaf.getSearchField(), TkApprovalForm.ORDER_BY_DOCID)) {
 	            Map<String, TimesheetDocumentHeader> principalDocumentHeaders =
 	                    TkServiceLocator.getTimeApproveService().getPrincipalDocumehtHeader(persons, beginDate, endDate);
 	
@@ -72,6 +68,7 @@ public class TimeApprovalWSAction extends TkAction {
 	            }
 	        }
         }
+     
         taaf.setOutputString(JSONValue.toJSONString(results));
         return mapping.findForward("ws");
     }

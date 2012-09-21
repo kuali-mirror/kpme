@@ -336,5 +336,18 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 	      return principalIds;
 	    }
 	}
+	
+	@Override
+	public Map<String, LeaveCalendarDocumentHeader> getPrincipalDocumehtHeader(List<TKPerson> persons, Date payBeginDate, Date payEndDate) {
+		Map<String, LeaveCalendarDocumentHeader> principalDocumentHeader = new LinkedHashMap<String, LeaveCalendarDocumentHeader>();
+		for (TKPerson person : persons) {
+			String principalId = person.getPrincipalId();
+			LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, payEndDate);
+			if(lcdh != null) {
+				principalDocumentHeader.put(principalId, lcdh);	
+			}
+		}
+		return principalDocumentHeader;
+	}
 
 }

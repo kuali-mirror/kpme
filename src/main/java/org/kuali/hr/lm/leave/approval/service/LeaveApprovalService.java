@@ -44,4 +44,14 @@ public interface LeaveApprovalService {
     * @return A list of the PrincipalIds
     */
    List<String> getPrincipalIdsByDeptWorkAreaRolename(String roleName, String department, String workArea, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup);
+   
+   /**
+    * Method to create a map that contains the principal's id and corresponding leave calendar document header.
+    *
+    *@param persons
+    * @param payBeginDate
+    * @param payEndDate
+    * @return A PrincipalId to LeaveCalendarDocumentHeader mapping.
+    */
+   public Map<String, LeaveCalendarDocumentHeader> getPrincipalDocumehtHeader(List<TKPerson> persons, Date payBeginDate, Date payEndDate);
 }

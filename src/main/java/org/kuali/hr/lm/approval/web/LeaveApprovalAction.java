@@ -32,7 +32,6 @@ import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -47,8 +46,8 @@ public class LeaveApprovalAction extends TkAction{
 		String principalId;
 		
         if(StringUtils.equals("documentId", searchField)){
-        	TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(searchTerm);
-        	principalId = tdh.getPrincipalId();
+        	LeaveCalendarDocumentHeader lcd = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(searchTerm);
+        	principalId = lcd.getPrincipalId();
         } else {
         	principalId = searchTerm;
         }
@@ -66,7 +65,7 @@ public class LeaveApprovalAction extends TkAction{
         	this.setApprovalTables(laaf, principalIds, request, payCalendarEntries);
         	
    	        laaf.setPayCalendarEntries(payCalendarEntries);
-   	        laaf.setLeaveCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(payCalendarEntries, new ArrayList<Boolean>()));
+   	        laaf.setLeaveCalendarLabels(TkServiceLocator.getLeaveSummaryService().getHeaderForSummary(payCalendarEntries));
         	
 	        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, payCalendarEntries.getEndPeriodDate());
 	        if(!assignments.isEmpty()){

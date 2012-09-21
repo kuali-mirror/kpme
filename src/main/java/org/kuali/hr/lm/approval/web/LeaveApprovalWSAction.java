@@ -16,11 +16,10 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.json.simple.JSONValue;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
-import org.kuali.hr.time.approval.web.TimeApprovalActionForm;
 import org.kuali.hr.time.base.web.TkAction;
+import org.kuali.hr.time.base.web.TkApprovalForm;
 import org.kuali.hr.time.person.TKPerson;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 public class LeaveApprovalWSAction extends TkAction {
 
@@ -46,10 +45,10 @@ public class LeaveApprovalWSAction extends TkAction {
 		        Date beginDate = new SimpleDateFormat("MM/dd/yyyy").parse(laaf.getPayBeginDateForSearch());
 		        Date endDate = new SimpleDateFormat("MM/dd/yyyy").parse(laaf.getPayEndDateForSearch());
 		        
-		        List<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByDeptWorkAreaRolename(laaf.getRoleName(), laaf.getSelectedDept(), laaf.getSelectedWorkArea(), new java.sql.Date(beginDate.getTime()), new java.sql.Date(endDate.getTime()), laaf.getSelectedPayCalendarGroup());
+		        List<String> principalIds = TkServiceLocator.getLeaveApprovalService().getPrincipalIdsByDeptWorkAreaRolename(laaf.getRoleName(), laaf.getSelectedDept(), laaf.getSelectedWorkArea(), new java.sql.Date(beginDate.getTime()), new java.sql.Date(endDate.getTime()), laaf.getSelectedPayCalendarGroup());
 		        List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
 		        
-		        if (StringUtils.equals(laaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_PRINCIPAL)) {
+		        if (StringUtils.equals(laaf.getSearchField(), TkApprovalForm.ORDER_BY_PRINCIPAL)) {
 		            for (String id : principalIds) {
 		                if(StringUtils.contains(id, laaf.getSearchTerm())) {
 		                    Map<String, String> labelValue = new HashMap<String, String>();
@@ -58,11 +57,11 @@ public class LeaveApprovalWSAction extends TkAction {
 		                    results.add(labelValue);
 		                }
 		            }
-		        } else if (StringUtils.equals(laaf.getSearchField(), TimeApprovalActionForm.ORDER_BY_DOCID)) {
-		            Map<String, TimesheetDocumentHeader> principalDocumentHeaders =
-		                    TkServiceLocator.getTimeApproveService().getPrincipalDocumehtHeader(persons, beginDate, endDate);
+		        } else if (StringUtils.equals(laaf.getSearchField(), TkApprovalForm.ORDER_BY_DOCID)) {
+		            Map<String, LeaveCalendarDocumentHeader> principalDocumentHeaders =
+		                    TkServiceLocator.getLeaveApprovalService().getPrincipalDocumehtHeader(persons, beginDate, endDate);
 	
-		            for (Map.Entry<String,TimesheetDocumentHeader> entry : principalDocumentHeaders.entrySet()) {
+		            for (Map.Entry<String,LeaveCalendarDocumentHeader> entry : principalDocumentHeaders.entrySet()) {
 		                if (StringUtils.contains(entry.getValue().getDocumentId(), laaf.getSearchTerm())) {
 		                    Map<String, String> labelValue = new HashMap<String, String>();
 		                    labelValue.put("id", entry.getValue().getDocumentId() + " (" + entry.getValue().getPrincipalId() + ")");
@@ -72,8 +71,9 @@ public class LeaveApprovalWSAction extends TkAction {
 		            }
 		        }
 	        }
-	        laaf.setOutputString(JSONValue.toJSONString(results));
+		
+	      laaf.setOutputString(JSONValue.toJSONString(results));
 	        
-	        return mapping.findForward("ws");
+	      return mapping.findForward("ws");
 	    }
 }

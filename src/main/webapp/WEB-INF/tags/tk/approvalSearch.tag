@@ -28,9 +28,9 @@ the id is used in approval.js--%>
                         <input type="button" class="prev" value="Previous" name="Previous"
                                onclick="this.form.hrPyCalendarEntriesId.value='${Form.prevPayCalendarId}'; this.form.methodToCall.value='loadApprovalTab'; this.form.submit();"/>
                     </c:if>
-                    <span id="beginDate" style="font-size: 1.5em; vertical-align: middle;"><fmt:formatDate
+                    <span id="payBeginDate" style="font-size: 1.5em; vertical-align: middle;"><fmt:formatDate
                             value="${Form.payBeginDate}" pattern="MM/dd/yyyy"/></span> -
-                    <span id="endDate" style="font-size: 1.5em; vertical-align: middle;"><fmt:formatDate
+                    <span id="payEndDate" style="font-size: 1.5em; vertical-align: middle;"><fmt:formatDate
                             value="${Form.payEndDate}" pattern="MM/dd/yyyy"/></span>
                     <c:if test="${Form.nextPayCalendarId ne null}">
                         <input type="button" class="next" value="Next" name="Next"
