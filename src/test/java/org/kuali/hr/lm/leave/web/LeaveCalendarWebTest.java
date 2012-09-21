@@ -15,6 +15,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlButton;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
+import java.lang.management.MemoryManagerMXBean;
 import java.util.Calendar;
 
 public class LeaveCalendarWebTest extends KPMETestCase {
@@ -29,12 +30,12 @@ public class LeaveCalendarWebTest extends KPMETestCase {
 		super.tearDown();
 	}
 
-	public void setWebClient(WebClient webClient) {
+	/*public void setWebClient(WebClient webClient) {
 		webClient.setJavaScriptEnabled(true);
 		webClient.setThrowExceptionOnScriptError(true);
 		webClient.setAjaxController(new NicelyResynchronizingAjaxController());
 		webClient.waitForBackgroundJavaScript(10000);
-	}
+	}*/
 
 	@Test
 	public void testLeaveCalendarPage() throws Exception {
@@ -43,11 +44,12 @@ public class LeaveCalendarWebTest extends KPMETestCase {
 				.gotoPageAndLogin(TkTestConstants.Urls.LEAVE_CALENDAR_URL, true);
 		Assert.assertNotNull("Leave Request page not found" ,leaveCalendarPage);
 
-		this.setWebClient(leaveCalendarPage.getWebClient());
+		//this.setWebClient(leaveCalendarPage.getWebClient());
 
         DateTime dt = new DateTime();
-		Assert.assertTrue("Page does not have Current calendar ", leaveCalendarPage
-				.asText().contains(dt.monthOfYear().getAsText() + dt.toString(" YYYY")));
+        boolean containsCurrMonth = leaveCalendarPage.asText().contains(dt.monthOfYear().getAsText() + dt.toString(" YYYY"))
+                || leaveCalendarPage.asText().contains(dt.toString("MMM YYYY"));
+		Assert.assertTrue("Page does not have Current calendar ", containsCurrMonth);
 
         // Check for next document
         HtmlButton nextButton = (HtmlButton) leaveCalendarPage
