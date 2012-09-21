@@ -24,17 +24,18 @@
     <parent>
         <groupId>org.kuali.pom</groupId>
         <artifactId>kuali-common</artifactId>
-        <version>1.7.3</version>
+        <version>1.7.8</version>
     </parent>
 
     <properties>
-        <build.environment>dev</build.environment>
-        <default.context.path>/kpme-${build.environment}</default.context.path>
         <ehcache.version>2.5.0</ehcache.version>
         <apache.cxf.version>2.3.8</apache.cxf.version>
         <displaytag.version>1.1.1</displaytag.version>
         <jetty.version>7.5.1.v20110908</jetty.version>
         <rice.version>2.1.1</rice.version>
+        
+        <default.context.path>/kpme-dev</default.context.path>
+        <build.version>NO VERSION</build.version>
     </properties>
 
     <dependencies>
@@ -338,11 +339,15 @@
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>META-INF/kpme-config-build.xml</include>
+                    <include>**/kpme-config-defaults.xml</include>
                 </includes>
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/kpme-config-defaults.xml</exclude>
+                </excludes>
             </resource>
         </resources>
         
@@ -351,11 +356,15 @@
                 <directory>src/test/resources</directory>
                 <filtering>true</filtering>
                 <includes>
-                    <include>META-INF/kpme-test-config.xml</include>
+                    <include>**/kpme-test-config.xml</include>
                 </includes>
             </testResource>
             <testResource>
                 <directory>src/test/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/kpme-test-config.xml</exclude>
+                </excludes>
             </testResource>
         </testResources>
 

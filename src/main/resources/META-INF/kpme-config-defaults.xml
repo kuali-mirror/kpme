@@ -17,14 +17,11 @@
 <!-- This config should not reference other config locations.  It should only contain properties that are specific to KPME or are different from the Rice defaults. -->
 <config>
 	
-	<!-- Defaults for the environment and version.  Setting override to false because these properties might have been set by the build process -->
-	<param name="build.environment" override="false">dev</param>
-	<param name="build.version" override="false">NO VERSION</param>
-	
 	<!-- KPME Defaults -->
 	<param name="module.name">kpme</param>
     <param name="app.code">${module.name}</param>
     <param name="application.id">KPME</param>
+    <param name="version" override="false">${build.version}</param>
     <param name="kpme.version" override="false">${project.version}</param>
     <param name="rice.logging.configure">true</param>
     <param name="kim.show.blank.qualifiers">false</param>
