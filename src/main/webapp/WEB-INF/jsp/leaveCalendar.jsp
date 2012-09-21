@@ -14,6 +14,11 @@
     <lm:lmLeaveCalendarRouting/>
     
     <lm:leaveSummary leaveSummary="${Form.leaveSummary}" />
+            <%-- route logs --%>
+	<lm:routeLog/>
+
+            <%-- notes --%>
+    <lm:note/>
     
     <%-- this is used by the javascript to fetch the leave block json --%>
     <html:textarea property="leaveBlockString" styleId="leaveBlockString" value="${Form.leaveBlockString}"/>
