@@ -13,6 +13,6 @@ insert into hr_job_t (`hr_job_id`, `PRINCIPAL_ID`, `JOB_NUMBER`, `EFFDT`, `dept`
 insert into hr_paytype_t (`hr_paytype_id`, `PAYTYPE`, `DESCR`, `reg_ern_code`, `EFFDT`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`, `ACTIVE`) values ('10000', 'EC1', 'description', 'EC1', '2010-01-01', '2012-01-01 11:00:00', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'Y');
 insert into hr_paytype_t (`hr_paytype_id`, `PAYTYPE`, `DESCR`, `reg_ern_code`, `EFFDT`, `TIMESTAMP`, `OBJ_ID`, `VER_NBR`, `ACTIVE`) values ('10001', 'EC2', 'description', 'EC2', '2010-01-01', '2012-01-01 11:00:00', '8421CD29-E1F4-4B9A-AE33-F3F4752505CE', '1', 'Y');
 # earn code with allow_schd_leave = Y
-insert into hr_earn_code_t values('10000', 'EC1', 'test1', '2012-02-01', 'Y', 'Y', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1', now(), 'testAC', '1.5', '1.5', null, 'None', '99', 'T', 'N', 'Y', 'Y', 'Y', 'Y', 'test', null, 'N', 'Hours', 'I');
+insert into hr_earn_code_t values('10000', 'EC1', 'test1', '2012-02-01', 'Y', 'Y', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1', now(), 'testAC', '1.5', '1.5', 'Hours', null, 'None', '99', 'T', 'N', 'Y', 'Y', 'Y', 'Y', 'test', null, 'N', 'I');
 # earn code with allow_schd_leave = N
-insert into hr_earn_code_t values('10001', 'EC2', 'test2', '2012-02-01', 'Y', 'Y', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1', now(), 'testAC', '1.5', '1.5', null, 'None', '99', 'T', 'N', 'Y', 'Y', 'N', 'Y', 'test', null, 'N', 'Hours', 'I');
+insert into hr_earn_code_t values('10001', 'EC2', 'test2', '2012-02-01', 'Y', 'Y', 'B2991ADA-E866-F28C-7E95-A897AC377D0C', '1', now(), 'testAC', '1.5', '1.5', 'Hours', null, 'None', '99', 'T', 'N', 'Y', 'Y', 'N', 'Y', 'test', null, 'N', 'I');
