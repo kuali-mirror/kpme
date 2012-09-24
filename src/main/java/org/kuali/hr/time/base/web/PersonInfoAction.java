@@ -65,18 +65,18 @@ public class PersonInfoAction extends TkAction {
 			
 			List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(principalHRAttributes.getLeavePlan(), TKUtils.getCurrentDate());
 			
-			//System.out.println( ">>>>>>> accrualCategories?: " + accrualCategories.size() );
 			if ( accrualCategories != null && accrualCategories.size() > 0 ){
 				for(AccrualCategory accrualCategory : accrualCategories){
-					//System.out.println( ">>>>>>> accrualCategory has rules?: " + accrualCategory.getHasRules() );
 					
 					if ( accrualCategory.getHasRules().equalsIgnoreCase("Y")){
 						RateRangeAggregate rateRangeAggregate = TkServiceLocator.getAccrualService().buildRateRangeAggregate(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate(), TKUtils.getCurrentDate());
 						if (rateRangeAggregate != null ){
 							AccrualCategoryRule currentAccrualCategoryRule = new AccrualCategoryRule();
+							// AccrualCategoryRule does not have accrualCategory and unitOfTime. Don't want to create a new object just for displaying. Using 'LmAccrualCategoryId' to hold 'accrualCategory' and 'lmAccrualCategoryRuleId' to hold 'unitOfTime'
 							currentAccrualCategoryRule.setLmAccrualCategoryId(accrualCategory.getAccrualCategory() + " - " + accrualCategory.getDescr());
 							currentAccrualCategoryRule.setAccrualRate(rateRangeAggregate.getRateRanges().get(0).getAcRuleList().get(0).getAccrualRate());
-							//System.out.println( ">>>>>>> current rate: " + rateRangeAggregate.getRateRanges().get(0).getAcRuleList().get(0).getAccrualRate() );
+							currentAccrualCategoryRule.setLmAccrualCategoryRuleId(accrualCategory.getUnitOfTime()); 
+							
 							accrualCategoryRules.add(currentAccrualCategoryRule);
 						}
 					}

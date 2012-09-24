@@ -26,10 +26,12 @@
                 	<tr>
           				<th>Accrual Category</th>
           				<th>Current Rate</th>
+          				<th>Unit of Time</th>
           			</tr>
           			<c:forEach var="accrualCategoryRule" items="${Form.accrualCategoryRules}">
           				<td>${accrualCategoryRule.lmAccrualCategoryId}</td>
           				<td>${accrualCategoryRule.accrualRate}</td>
+          				<td>${accrualCategoryRule.lmAccrualCategoryRuleId}</td>
           			</c:forEach>
                 </table>
             </div>
