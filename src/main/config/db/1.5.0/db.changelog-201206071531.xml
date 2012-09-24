@@ -57,15 +57,6 @@
                 <constraints nullable="false" />
             </column>
         </addColumn>
-        <dropColumn tableName="HR_EARN_CODE_T" columnName="RECORD_TIME" />
-        <dropColumn tableName="HR_EARN_CODE_T" columnName="RECORD_AMOUNT" />
-        <dropColumn tableName="HR_EARN_CODE_T" columnName="RECORD_HOURS" />
-        <addColumn tableName="HR_EARN_CODE_T">
-            <column name="RECORD_METHOD" type="VARCHAR(5)">
-                <constraints nullable="false" />
-            </column>
-        </addColumn>
-        <modifyDataType tableName="HR_EARN_CODE_T" columnName="ACCRUAL_CATEGORY" newDataType="VARCHAR(15)" />
     </changeSet>
     
 </databaseChangeLog>

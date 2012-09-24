@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    
+    <changeSet id="1" author="lee55" context="kpme-client-bootstrap">
+        <comment>another sql file merge</comment>
+        <renameTable oldTableName="HR_PY_CALENDAR_T" newTableName="HR_CALENDAR_T" />
+        <renameColumn tableName="HR_CALENDAR_T" oldColumnName="HR_PY_CALENDAR_ID" newColumnName="HR_CALENDAR_ID" columnDataType="VARCHAR(60) NOT NULL" />
+        <renameColumn tableName="HR_CALENDAR_T" oldColumnName="PY_CALENDAR_GROUP" newColumnName="CALENDAR_NAME" columnDataType="VARCHAR(45) NOT NULL" />
+        <dropNotNullConstraint tableName="HR_CALENDAR_T" columnName="CALENDAR_NAME" columnDataType="VARCHAR(45)" />
+        <modifyDataType tableName="HR_CALENDAR_T" columnName="CALENDAR_NAME" newDataType="VARCHAR(15)" />
+        <addNotNullConstraint tableName="HR_CALENDAR_T" columnName="CALENDAR_NAME" columnDataType="VARCHAR(15)" />
+        <addColumn tableName="HR_CALENDAR_T">
+            <column name="CALENDAR_TYPES" type="VARCHAR(9)" />
+            <column name="CALENDAR_DESCRIPTIONS" type="VARCHAR(50)" />
+        </addColumn>
+        <addNotNullConstraint tableName="HR_CALENDAR_T" columnName="CALENDAR_DESCRIPTIONS" columnDataType="VARCHAR(50) NOT NULL" />
+        <dropColumn tableName="HR_CALENDAR_T" columnName="ACTIVE" />
+
+        <renameTable oldTableName="HR_PY_CALENDAR_ENTRIES_T" newTableName="HR_CALENDAR_ENTRIES_T" />
+        <renameColumn tableName="HR_CALENDAR_ENTRIES_T" oldColumnName="HR_PY_CALENDAR_ENTRY_ID" newColumnName="HR_CALENDAR_ENTRY_ID" columnDataType="VARCHAR(60) NOT NULL" />
+        <renameColumn tableName="HR_CALENDAR_ENTRIES_T" oldColumnName="HR_PY_CALENDAR_ID" newColumnName="HR_CALENDAR_ID" columnDataType="VARCHAR(60)" />
+        <renameColumn tableName="HR_CALENDAR_ENTRIES_T" oldColumnName="PY_CALENDAR_GROUP" newColumnName="CALENDAR_NAME" columnDataType="VARCHAR(45) NOT NULL" />
+        <dropNotNullConstraint tableName="HR_CALENDAR_ENTRIES_T" columnName="CALENDAR_NAME" columnDataType="VARCHAR(45)" />
+        <modifyDataType tableName="HR_CALENDAR_ENTRIES_T" columnName="CALENDAR_NAME" newDataType="VARCHAR(30)" />
+        <addNotNullConstraint tableName="HR_CALENDAR_ENTRIES_T" columnName="CALENDAR_NAME" columnDataType="VARCHAR(30)" />
+    </changeSet>
+    <changeSet id="2-oracle" author="lee55" dbms="oracle" context="kpme-client-bootstrap">
+        <comment>another sql file merge</comment>
+        <sql>
+            RENAME HR_PY_CALENDAR_S TO HR_CALENDAR_S;
+            RENAME HR_PY_CALENDAR_ENTRIES_S TO HR_CALENDAR_ENTRIES_S;
+        </sql>
+    </changeSet>
+    <changeSet id="2-mysql" author="lee55" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>another sql file merge</comment>
+        <renameTable oldTableName="HR_PY_CALENDAR_S" newTableName="HR_CALENDAR_S" />
+        <renameTable oldTableName="HR_PY_CALENDAR_ENTRIES_S" newTableName="HR_CALENDAR_ENTRIES_S" />
+    </changeSet>
+    
+</databaseChangeLog>

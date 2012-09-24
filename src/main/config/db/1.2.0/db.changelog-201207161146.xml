@@ -141,7 +141,6 @@
             <replace replace="SYSDATE" with="NOW()" />
         </modifySql>
     </changeSet>
-    
     <changeSet id="9" author="kbtaylor" context="kpme-server-bootstrap">
         <comment>Adding Rice role bootstrap data</comment>
         <insert tableName="KRIM_ROLE_T">

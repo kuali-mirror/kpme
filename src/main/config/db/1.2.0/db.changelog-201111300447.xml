@@ -3,11 +3,8 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <changeSet id="1" author="henrydfs" context="kpme-client-bootstrap">
-        <comment>KPME-1147</comment>
-        <addColumn tableName="HR_POSITION_T">
-            <column name="WORK_AREA" type="VARCHAR(10)" />
-        </addColumn>
+    <changeSet id="1" author="npadharia" context="kpme-client-bootstrap">
+        <comment>KPME-1170 : npadharia : renamed hr_principal_attributes_t</comment>
+        <renameTable oldTableName="HR_PRINCIPAL_CALENDAR_T" newTableName="HR_PRINCIPAL_ATTRIBUTES_T" />
     </changeSet>
-    
 </databaseChangeLog>

@@ -4,7 +4,7 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
     <changeSet id="1" author="kbtaylor" context="kpme-client-bootstrap">
-        <comment>Adding back Quartz kpme-client-bootstrap data for 1.5</comment>
+        <comment>Adding back Quartz kpme-client-bootstrap data</comment>
 	    <insert tableName="QRTZ_LOCKS">
 	        <column name="LOCK_NAME" value="CALENDAR_ACCESS"/>
 	    </insert>
@@ -21,5 +21,4 @@
 	        <column name="LOCK_NAME" value="TRIGGER_ACCESS"/>
 	    </insert>
     </changeSet>
-
 </databaseChangeLog>  

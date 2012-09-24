@@ -96,13 +96,4 @@
         </sql>
     </changeSet>
     
-    <changeSet id="4" author="lee55" context="kpme-client-bootstrap">
-        <comment>merge sql file changes</comment>
-        <addColumn tableName="HR_PAY_GRADE_T">
-            <column name="SAL_GROUP" type="VARCHAR(20)">
-                <constraints nullable="false" />
-            </column>
-        </addColumn>
-    </changeSet>
-    
 </databaseChangeLog>

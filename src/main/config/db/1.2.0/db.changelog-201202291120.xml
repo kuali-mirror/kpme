@@ -2,10 +2,10 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-
     <changeSet id="1" author="yingzhou" context="kpme-client-bootstrap">
-        <comment>Fixed column name for tk_time_sheet_init_t</comment>
-        <renameColumn tableName="TK_TIME_SHEET_INIT_T" oldColumnName="CALENDAR_GROUP" newColumnName="PY_CALENDAR_GROUP" columnDataType="VARCHAR(30) NOT NULL" />
+        <comment>kpme-1365: added validations for Calendar and fixed db issue, CalendarMaintTest</comment>
+        <dropNotNullConstraint tableName="HR_CALENDAR_T" columnName="FLSA_BEGIN_DAY" columnDataType="VARCHAR(9)" />
+        <dropNotNullConstraint tableName="HR_CALENDAR_T" columnName="FLSA_BEGIN_TIME" columnDataType="TIME" />
     </changeSet>
     
 </databaseChangeLog>

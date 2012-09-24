@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1" author="lee55" context="kpme-client-bootstrap">
+        <comment>reorganized the sql files</comment>
+        <dropNotNullConstraint tableName="TK_ASSIGN_ACCT_T" columnName="TK_ASSIGNMENT_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="TK_ASSIGN_ACCT_T" columnName="TK_ASSIGNMENT_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_ASSIGN_ACCT_T" columnName="TK_ASSIGNMENT_ID" columnDataType="VARCHAR(60)" />
+        
+        <modifyDataType tableName="TK_CLOCK_LOG_T" columnName="HR_JOB_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_CLOCK_LOG_T" columnName="HR_JOB_ID" columnDataType="VARCHAR(60)" />
+        <modifyDataType tableName="TK_CLOCK_LOG_T" columnName="JOB_NUMBER" newDataType="BIGINT" />
+        <modifyDataType tableName="TK_CLOCK_LOG_T" columnName="TK_WORK_AREA_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_CLOCK_LOG_T" columnName="TK_WORK_AREA_ID" columnDataType="VARCHAR(60)" />
+        
+        <addNotNullConstraint tableName="TK_GRACE_PERIOD_RL_T" columnName="TK_GRACE_PERIOD_RULE_ID" columnDataType="VARCHAR(60)" />
+
+        <modifyDataType tableName="TK_TIME_BLOCK_HIST_T" columnName="HR_JOB_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_TIME_BLOCK_HIST_T" columnName="HR_JOB_ID" columnDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_TIME_BLOCK_HIST_T" columnName="TK_TIME_BLOCK_ID" columnDataType="VARCHAR(60)" />
+        
+        <addNotNullConstraint tableName="TK_TIME_BLOCK_T" columnName="TK_WORK_AREA_ID" columnDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_TIME_BLOCK_T" columnName="HR_JOB_ID" columnDataType="VARCHAR(60)" />
+        
+        <dropNotNullConstraint tableName="TK_TIME_SHEET_INIT_T" columnName="PY_CALENDAR_ENTRIES_ID" columnDataType="VARCHAR(60)" />
+        <modifyDataType tableName="TK_TIME_SHEET_INIT_T" columnName="PY_CALENDAR_ENTRIES_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_TIME_SHEET_INIT_T" columnName="PY_CALENDAR_ENTRIES_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    
+    <changeSet id="7" author="lee55" context="kpme-client-bootstrap">
+        <comment>reorganized the sql files</comment>
+        <dropNotNullConstraint tableName="TK_BATCH_JOB_T" columnName="HR_PY_CALENDAR_ENTRY_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="TK_BATCH_JOB_T" columnName="HR_PY_CALENDAR_ENTRY_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_BATCH_JOB_T" columnName="HR_PY_CALENDAR_ENTRY_ID" columnDataType="VARCHAR(60)" />
+        <dropNotNullConstraint tableName="TK_BATCH_JOB_ENTRY_T" columnName="HR_PY_CALENDAR_ENTRY_ID" columnDataType="BIGINT" />
+        <modifyDataType tableName="TK_BATCH_JOB_ENTRY_T" columnName="HR_PY_CALENDAR_ENTRY_ID" newDataType="VARCHAR(60)" />
+        <addNotNullConstraint tableName="TK_BATCH_JOB_ENTRY_T" columnName="HR_PY_CALENDAR_ENTRY_ID" columnDataType="VARCHAR(60)" />
+    </changeSet>
+    
+</databaseChangeLog>
