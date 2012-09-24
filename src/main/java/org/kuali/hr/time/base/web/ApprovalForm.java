@@ -13,7 +13,7 @@ import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class TkApprovalForm extends TkCommonCalendarForm {
+public class ApprovalForm extends TkCommonCalendarForm {
 	public static final String ORDER_BY_PRINCIPAL = "principalName";
     public static final String ORDER_BY_DOCID = "documentId";
     public static final String ORDER_BY_STATUS = "Status";

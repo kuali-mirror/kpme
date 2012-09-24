@@ -17,7 +17,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.json.simple.JSONValue;
 import org.kuali.hr.time.base.web.TkAction;
-import org.kuali.hr.time.base.web.TkApprovalForm;
+import org.kuali.hr.time.base.web.ApprovalForm;
 import org.kuali.hr.time.person.TKPerson;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
@@ -45,7 +45,7 @@ public class TimeApprovalWSAction extends TkAction {
 	        List<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByDeptWorkAreaRolename(taaf.getRoleName(), taaf.getSelectedDept(), taaf.getSelectedWorkArea(), new java.sql.Date(beginDate.getTime()), new java.sql.Date(endDate.getTime()), taaf.getSelectedPayCalendarGroup());
 	        List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
 	        
-	        if (StringUtils.equals(taaf.getSearchField(), TkApprovalForm.ORDER_BY_PRINCIPAL)) {
+	        if (StringUtils.equals(taaf.getSearchField(), ApprovalForm.ORDER_BY_PRINCIPAL)) {
 	            for (String id : principalIds) {
 	                if(StringUtils.contains(id, taaf.getSearchTerm())) {
 	                    Map<String, String> labelValue = new HashMap<String, String>();
@@ -54,7 +54,7 @@ public class TimeApprovalWSAction extends TkAction {
 	                    results.add(labelValue);
 	                }
 	            }
-	        } else if (StringUtils.equals(taaf.getSearchField(), TkApprovalForm.ORDER_BY_DOCID)) {
+	        } else if (StringUtils.equals(taaf.getSearchField(), ApprovalForm.ORDER_BY_DOCID)) {
 	            Map<String, TimesheetDocumentHeader> principalDocumentHeaders =
 	                    TkServiceLocator.getTimeApproveService().getPrincipalDocumehtHeader(persons, beginDate, endDate);
 	

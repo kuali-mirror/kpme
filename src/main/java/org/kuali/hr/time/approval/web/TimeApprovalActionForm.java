@@ -3,9 +3,9 @@ package org.kuali.hr.time.approval.web;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.hr.time.base.web.TkApprovalForm;
+import org.kuali.hr.time.base.web.ApprovalForm;
 
-public class TimeApprovalActionForm extends TkApprovalForm {
+public class TimeApprovalActionForm extends ApprovalForm {
 
 	private static final long serialVersionUID = 339670908525224389L;
 	

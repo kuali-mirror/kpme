@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.hr.time.approval.web.ApprovalLeaveSummaryRow;
-import org.kuali.hr.time.base.web.TkApprovalForm;
+import org.kuali.hr.time.base.web.ApprovalForm;
 
-public class LeaveApprovalActionForm extends TkApprovalForm {
+public class LeaveApprovalActionForm extends ApprovalForm {
 	
 	private static final long serialVersionUID = 1L;
 	

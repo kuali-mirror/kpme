@@ -22,6 +22,8 @@ import org.kuali.hr.time.approval.web.ApprovalLeaveSummaryRow;
 import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.base.web.TkAction;
+import org.kuali.hr.time.base.web.ApprovalAction;
+import org.kuali.hr.time.base.web.ApprovalForm;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.detail.web.ActionFormUtils;
@@ -32,10 +34,8 @@ import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.rice.krad.exception.AuthorizationException;
-import org.kuali.rice.krad.util.GlobalVariables;
 
-public class LeaveApprovalAction extends TkAction{
+public class LeaveApprovalAction extends ApprovalAction{
 	
 	public ActionForward searchResult(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
@@ -118,7 +118,7 @@ public class LeaveApprovalAction extends TkAction{
         	}
         }
 	
-    	List<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByDeptWorkAreaRolename(laaf.getRoleName(), laaf.getSelectedDept(), laaf.getSelectedWorkArea(), new java.sql.Date(laaf.getPayBeginDate().getTime()), new java.sql.Date(laaf.getPayEndDate().getTime()), laaf.getSelectedPayCalendarGroup());
+    	List<String> principalIds = TkServiceLocator.getLeaveApprovalService().getPrincipalIdsByDeptWorkAreaRolename(laaf.getRoleName(), laaf.getSelectedDept(), laaf.getSelectedWorkArea(), new java.sql.Date(laaf.getPayBeginDate().getTime()), new java.sql.Date(laaf.getPayEndDate().getTime()), laaf.getSelectedPayCalendarGroup());
     	this.setApprovalTables(laaf, principalIds, request, payCalendarEntries);
     	
     	this.populateCalendarAndPayPeriodLists(request, laaf);
@@ -135,21 +135,12 @@ public class LeaveApprovalAction extends TkAction{
 	    CalendarEntries payCalendarEntries = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(laaf.getHrPyCalendarEntriesId());
         laaf.setLeaveCalendarLabels(TkServiceLocator.getLeaveSummaryService().getHeaderForSummary(payCalendarEntries));
         
-        List<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByDeptWorkAreaRolename(laaf.getRoleName(), laaf.getSelectedDept(), laaf.getSelectedWorkArea(), new java.sql.Date(laaf.getPayBeginDate().getTime()), new java.sql.Date(laaf.getPayEndDate().getTime()), laaf.getSelectedPayCalendarGroup());
+        List<String> principalIds = TkServiceLocator.getLeaveApprovalService().getPrincipalIdsByDeptWorkAreaRolename(laaf.getRoleName(), laaf.getSelectedDept(), laaf.getSelectedWorkArea(), new java.sql.Date(laaf.getPayBeginDate().getTime()), new java.sql.Date(laaf.getPayEndDate().getTime()), laaf.getSelectedPayCalendarGroup());
         this.setApprovalTables(laaf, principalIds, request, payCalendarEntries);
         
 		return mapping.findForward("basic");
 	}
-	public ActionForward selectNewApprovalType(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		LeaveApprovalActionForm laaf = (LeaveApprovalActionForm)form;
-		laaf.setSearchField(null);
-		laaf.setSearchTerm(null);
-		List<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByDeptWorkAreaRolename(laaf.getRoleName(), laaf.getSelectedDept(), laaf.getSelectedWorkArea(), new java.sql.Date(laaf.getPayBeginDate().getTime()), new java.sql.Date(laaf.getPayEndDate().getTime()), laaf.getSelectedPayCalendarGroup());
-		CalendarEntries payCalendarEntries = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(laaf.getHrPyCalendarEntriesId());
-		this.setApprovalTables(laaf, principalIds, request, payCalendarEntries);
-		return mapping.findForward("basic");
-	}
-	
+		
 	private void setApprovalTables(LeaveApprovalActionForm laaf, List<String> principalIds, HttpServletRequest request, CalendarEntries payCalendarEntries) {
 		if (principalIds.isEmpty()) {
 			laaf.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
@@ -166,11 +157,7 @@ public class LeaveApprovalAction extends TkAction{
 		}
 	}
 	
-	
-	
-	
-	public ActionForward loadApprovalTab(ActionMapping mapping, ActionForm form,
-	HttpServletRequest request, HttpServletResponse response)
+	public ActionForward loadApprovalTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 				throws Exception {
 		ActionForward fwd = mapping.findForward("basic");
 		TKUser user = TKContext.getUser();
@@ -211,7 +198,53 @@ public class LeaveApprovalAction extends TkAction{
         return fwd;
 	}
 
-	private void populateCalendarAndPayPeriodLists(HttpServletRequest request, LeaveApprovalActionForm laaf) {
+	@Override
+	protected void setupDocumentOnFormContext(HttpServletRequest request,ApprovalForm form, CalendarEntries payCalendarEntries, String page) {
+		super.setupDocumentOnFormContext(request, form, payCalendarEntries, page);
+		LeaveApprovalActionForm laaf = (LeaveApprovalActionForm)form;
+		laaf.setLeaveCalendarLabels(TkServiceLocator.getLeaveSummaryService().getHeaderForSummary(payCalendarEntries));
+		List<String> principalIds = new ArrayList<String>();
+		principalIds = TkServiceLocator.getLeaveApprovalService().getPrincipalIdsByDeptWorkAreaRolename(laaf.getRoleName(), laaf.getSelectedDept(), laaf.getSelectedWorkArea(), new java.sql.Date(laaf.getPayBeginDate().getTime()), new java.sql.Date(laaf.getPayEndDate().getTime()), laaf.getSelectedPayCalendarGroup());
+		TkServiceLocator.getLeaveApprovalService().removeNonLeaveEmployees(principalIds);
+     	
+		this.setApprovalTables(laaf, principalIds, request, payCalendarEntries);
+		laaf.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(laaf.getPayCalendarEntries()));
+	}
+	
+	public ActionForward selectNewPayCalendar(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		// resets the common fields for approval pages
+		super.resetMainFields(form);
+		LeaveApprovalActionForm laaf = (LeaveApprovalActionForm)form;
+        // KPME-909
+        laaf.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
+		
+		return loadApprovalTab(mapping, form, request, response);
+	}
+	   
+    protected List<ApprovalLeaveSummaryRow> getApprovalLeaveRows(LeaveApprovalActionForm laaf, List<TKPerson> assignmentPrincipalIds) {
+        return TkServiceLocator.getLeaveApprovalService().getLeaveApprovalSummaryRows
+        	(assignmentPrincipalIds, laaf.getPayCalendarEntries(), laaf.getLeaveCalendarLabels());
+    }
+	
+    public void resetState(ActionForm form, HttpServletRequest request) {
+    	  LeaveApprovalActionForm laaf = (LeaveApprovalActionForm) form;
+ 	      String page = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
+ 	      
+ 	      if (StringUtils.isBlank(page)) {
+ 			  laaf.getDepartments().clear();
+ 			  laaf.getWorkAreaDescr().clear();
+ 			  laaf.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
+ 			  laaf.setSelectedDept(null);
+ 			  laaf.setSearchField(null);
+ 			  laaf.setSearchTerm(null);
+ 	      }
+	}
+    
+    @Override
+    protected void populateCalendarAndPayPeriodLists(HttpServletRequest request, ApprovalForm taf) {
+    	 LeaveApprovalActionForm laaf = (LeaveApprovalActionForm) taf;
 		// set calendar year list
 		Set<String> yearSet = new HashSet<String>();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
@@ -247,166 +280,6 @@ public class LeaveApprovalAction extends TkAction{
 		if(laaf.getPayPeriodsMap().isEmpty()) {
 		    laaf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(pcListForYear));
 		}
-	}
-
-	private void setupDocumentOnFormContext(HttpServletRequest request,LeaveApprovalActionForm laaf, CalendarEntries payCalendarEntries, String page) {
-		if(payCalendarEntries == null) {
-			return;
-		}
-		laaf.setHrPyCalendarId(payCalendarEntries.getHrCalendarId());
-		laaf.setHrPyCalendarEntriesId(payCalendarEntries.getHrCalendarEntriesId());
-		laaf.setPayBeginDate(payCalendarEntries.getBeginPeriodDateTime());
-		laaf.setPayEndDate(payCalendarEntries.getEndPeriodDateTime());
-		
-		CalendarEntries prevPayCalendarEntries = TkServiceLocator.getCalendarEntriesService().getPreviousCalendarEntriesByCalendarId(laaf.getHrPyCalendarId(), payCalendarEntries);
-		if (prevPayCalendarEntries != null) {
-		    laaf.setPrevPayCalendarId(prevPayCalendarEntries.getHrCalendarEntriesId());
-		} else {
-		    laaf.setPrevPayCalendarId(null);
-		}
-		
-		CalendarEntries nextPayCalendarEntries = TkServiceLocator.getCalendarEntriesService().getNextCalendarEntriesByCalendarId(laaf.getHrPyCalendarId(), payCalendarEntries);
-		if (nextPayCalendarEntries != null) {
-		    laaf.setNextPayCalendarId(nextPayCalendarEntries.getHrCalendarEntriesId());
-		} else {
-		    laaf.setNextPayCalendarId(null);
-		}
-		laaf.setLeaveCalendarLabels(TkServiceLocator.getLeaveSummaryService().getHeaderForSummary(payCalendarEntries));
-				
-		if (StringUtils.isBlank(page)) {
-		    List<String> depts = new ArrayList<String>(TKContext.getUser().getReportingApprovalDepartments().keySet());
-		    if ( depts.isEmpty() ) {
-		    	return;
-		    }
-		    Collections.sort(depts);
-		    laaf.setDepartments(depts);
-		    
-		    if (laaf.getDepartments().size() == 1 || laaf.getSelectedDept() != null) {
-		    	if (StringUtils.isEmpty(laaf.getSelectedDept()))
-		    		laaf.setSelectedDept(laaf.getDepartments().get(0));
-		    	
-		    	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(laaf.getSelectedDept(), new java.sql.Date(laaf.getPayBeginDate().getTime()));
-		        for(WorkArea wa : workAreas){
-		        	if (TKContext.getUser().getApproverWorkAreas().contains(wa.getWorkArea())
-		        			|| TKContext.getUser().getReviewerWorkAreas().contains(wa.getWorkArea())) {
-		        		laaf.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
-		        	}
-		        }
-		    }
-		}
-
-		List<String> principalIds = new ArrayList<String>();
-		principalIds = TkServiceLocator.getLeaveApprovalService().getPrincipalIdsByDeptWorkAreaRolename(laaf.getRoleName(), laaf.getSelectedDept(), laaf.getSelectedWorkArea(), new java.sql.Date(laaf.getPayBeginDate().getTime()), new java.sql.Date(laaf.getPayEndDate().getTime()), laaf.getSelectedPayCalendarGroup());
-		TkServiceLocator.getLeaveApprovalService().removeNonLeaveEmployees(principalIds);
-     	
-		this.setApprovalTables(laaf, principalIds, request, payCalendarEntries);
-		laaf.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(laaf.getPayCalendarEntries()));
-	}
-	
-	public ActionForward selectNewPayCalendar(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		LeaveApprovalActionForm laaf = (LeaveApprovalActionForm)form;
-		laaf.setSearchField(null);
-		laaf.setSearchTerm(null);
-		laaf.setSelectedWorkArea(null);
-		laaf.setSelectedDept(null);
-		laaf.setPayBeginDate(null);
-		laaf.setPayEndDate(null);
-		laaf.setHrPyCalendarEntriesId(null);
-        // KPME-909
-        laaf.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
-		
-		return loadApprovalTab(mapping, form, request, response);
-	}
-	   
-    protected List<ApprovalLeaveSummaryRow> getApprovalLeaveRows(LeaveApprovalActionForm laaf, List<TKPerson> assignmentPrincipalIds) {
-        return TkServiceLocator.getLeaveApprovalService().getLeaveApprovalSummaryRows
-        	(assignmentPrincipalIds, laaf.getPayCalendarEntries(), laaf.getLeaveCalendarLabels());
-    }
-	
-    public void resetState(ActionForm form, HttpServletRequest request) {
-    	  LeaveApprovalActionForm laaf = (LeaveApprovalActionForm) form;
- 	      String page = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
- 	      
- 	      if (StringUtils.isBlank(page)) {
- 			  laaf.getDepartments().clear();
- 			  laaf.getWorkAreaDescr().clear();
- 			  laaf.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
- 			  laaf.setSelectedDept(null);
- 			  laaf.setSearchField(null);
- 			  laaf.setSearchTerm(null);
- 	      }
-	}
-    @Override
-    protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-        if (!TKContext.getUser().isTimesheetReviewer() && !TKContext.getUser().isAnyApproverActive() && !TKContext.getUser().isSystemAdmin() 
-        		&& !TKContext.getUser().isLocationAdmin() && !TKContext.getUser().isGlobalViewOnly() && !TKContext.getUser().isDeptViewOnly() 
-        		&& !TKContext.getUser().isDepartmentAdmin()) {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "TimeApprovalAction", "");
-        }
-    }
-    
-    protected String getSortField(HttpServletRequest request) {
-        return request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_SORT)));
-    }
-
-    protected Boolean isAscending(HttpServletRequest request) {
-        // returned value 1 = ascending; 2 = descending
-        String ascending = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_ORDER)));
-        return StringUtils.equals(ascending, "1") ? true : false;
-    }
-
-    // move this to the service layer
-    protected List<TKPerson> getSubListPrincipalIds(HttpServletRequest request, List<TKPerson> assignmentPrincipalIds) {
-        String page = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
-        // The paging index begins from 1, but the sublist index begins from 0.
-        // So the logic below sets the sublist begin index to 0 if the page number is null or equals 1
-        Integer beginIndex = StringUtils.isBlank(page) || StringUtils.equals(page, "1") ? 0 : (Integer.parseInt(page) - 1)*TkConstants.PAGE_SIZE;
-        Integer endIndex = beginIndex + TkConstants.PAGE_SIZE > assignmentPrincipalIds.size() ? assignmentPrincipalIds.size() : beginIndex + TkConstants.PAGE_SIZE;
-
-        return assignmentPrincipalIds.subList(beginIndex, endIndex);
-    } 
-    
-    public ActionForward gotoCurrentPayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	String page = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
-         
-    	LeaveApprovalActionForm laaf = (LeaveApprovalActionForm) form;
-    	Date currentDate = TKUtils.getTimelessDate(null);
-        Calendar currentPayCalendar = TkServiceLocator.getCalendarService().getCalendarByGroup(laaf.getSelectedPayCalendarGroup());
-        CalendarEntries payCalendarEntries = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(currentPayCalendar.getHrCalendarId(), currentDate);
-        laaf.setPayCalendarEntries(payCalendarEntries);
-        laaf.setSelectedCalendarYear(new SimpleDateFormat("yyyy").format(payCalendarEntries.getBeginPeriodDate()));
-        laaf.setSelectedPayPeriod(payCalendarEntries.getHrCalendarEntriesId());
-        populateCalendarAndPayPeriodLists(request, laaf);
-        setupDocumentOnFormContext(request, laaf, payCalendarEntries, page);
-        return mapping.findForward("basic");
-    }
-    
-    // Triggered by changes of calendar year drop down list, reloads the pay period list
-    public ActionForward changeCalendarYear(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	LeaveApprovalActionForm laaf = (LeaveApprovalActionForm) form;
-    	if(!StringUtils.isEmpty(request.getParameter("selectedCY"))) {
-    		laaf.setSelectedCalendarYear(request.getParameter("selectedCY").toString());
-    		populateCalendarAndPayPeriodLists(request, laaf);
-    	}
-    	return mapping.findForward("basic");
-    }
-    
-    // Triggered by changes of pay period drop down list, reloads the whole page based on the selected pay period
-    public ActionForward changePayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-      String page = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
-      LeaveApprovalActionForm laaf = (LeaveApprovalActionForm) form;
-  	  if(!StringUtils.isEmpty(request.getParameter("selectedPP"))) {
-  		  laaf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
-  		  CalendarEntries pce = TkServiceLocator.getCalendarEntriesService()
-  		  	.getCalendarEntries(request.getParameter("selectedPP").toString());
-  		  if(pce != null) {
-  			  laaf.setPayCalendarEntries(pce);
-  			  setupDocumentOnFormContext(request, laaf, pce, page);
-  		  }
-  	  }
-  	  return mapping.findForward("basic");
 	}
 
 }
