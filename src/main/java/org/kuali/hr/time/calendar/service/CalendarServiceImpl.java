@@ -118,11 +118,13 @@ public class CalendarServiceImpl implements CalendarService {
             return pcal;
         } else {
             PayType payType = job.getPayTypeObj();
-            if (payType == null)
-                return pcal;
+            if (payType == null)  {
+                throw new RuntimeException("No paytype setup for "+principalId + " job number: "+job.getJobNumber());
+            }
+
             PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
             if(principalCalendar == null){
-                return pcal;
+                throw new RuntimeException("No principal hr attribute setup for "+principalId);
             }
             if(!findLeaveCal) {
             	pcal = principalCalendar.getCalendar();
