@@ -33,6 +33,7 @@
 		<form-bean name="LeaveCalendarWSForm" type="org.kuali.hr.lm.leave.web.LeaveCalendarWSForm"/>
 		<form-bean name="LeaveApprovalActionForm" type="org.kuali.hr.lm.approval.web.LeaveApprovalActionForm"/>
         <form-bean name="LeaveApprovalWSActionForm" type="org.kuali.hr.lm.approval.web.LeaveApprovalWSActionForm"/>
+        <form-bean name="TkForm" type="org.kuali.hr.time.base.web.TkForm"/>
     </form-beans>
 
     <global-exceptions>
@@ -100,8 +101,8 @@
         <action path="/calendarEntry" name="CalendarEntryActionForm" type="org.kuali.hr.time.calendar.web.CalendarEntryAction">
             <forward name="basic" path="/portal.jsp"/>
         </action>
-        
-        <action path="/DepartmentAdmin" name="KualiForm" type="org.kuali.rice.kns.web.struts.action.KualiSimpleAction">
+
+        <action path="/DepartmentAdmin" name="TkForm" type="org.kuali.hr.time.base.web.TkAction">
             <forward name="basic" path="/WEB-INF/jsp/departmentAdmin.jsp"/>
         </action>
         

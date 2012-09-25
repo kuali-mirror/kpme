@@ -1,7 +1,8 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp" %>
 
-<c:set var="Form" value="${AdminActionForm}" scope="request"/>
-<c:set var="KualiForm" value="${AdminActionForm}" scope="request"/>
+<c:set var="Form" value="${TkForm}" scope="request"/>
+<c:set var="KualiForm" value="${TkForm}" scope="request"/>
+<c:set var="TkForm" value="${TkForm}" scope="request"/>
 
 <tk:tkHeader tabId="departmentAdmin">
     <div id="departmentAdmin">
