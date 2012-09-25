@@ -68,6 +68,14 @@ public class TimeBlockHistory extends TimeBlock {
 		this.modifiedByPrincipalId = modifiedByPrincipalId;
 	}
 
+	public Timestamp getTimestampModified() {
+		return timestampModified;
+	}
+
+	public void setTimestampModified(Timestamp timestampModified) {
+		this.timestampModified = timestampModified;
+	}
+
 	public Person getPrincipal() {
 		return principal;
 	}

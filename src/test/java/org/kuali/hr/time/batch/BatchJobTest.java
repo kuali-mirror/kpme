@@ -24,7 +24,7 @@ public class BatchJobTest extends KPMETestCase {
 		ibj.setBatchJobName(BATCH_JOB_NAME);
 		ibj.setBatchJobStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.SCHEDULED);
 		ibj.setTimeElapsed(new Long(123));
-		ibj.setPayCalendarEntryId("1234");
+		ibj.setHrPyCalendarEntryId("1234");
 
 		bjService.saveBatchJob(ibj);
 

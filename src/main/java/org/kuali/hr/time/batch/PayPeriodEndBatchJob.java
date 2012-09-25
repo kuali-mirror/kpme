@@ -16,12 +16,12 @@ public class PayPeriodEndBatchJob extends BatchJob {
     public PayPeriodEndBatchJob(String hrPyCalendarEntryId) {
         super();
         this.setBatchJobName(TkConstants.BATCH_JOB_NAMES.PAY_PERIOD_END);
-        this.setPayCalendarEntryId(hrPyCalendarEntryId);
+        this.setHrPyCalendarEntryId(hrPyCalendarEntryId);
     }
 
     @Override
     public void doWork() {
-    	CalendarEntries payCalendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(getPayCalendarEntryId());
+    	CalendarEntries payCalendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(getHrPyCalendarEntryId());
     	List<ClockLog> lstOpenClockLogs = TkServiceLocator.getClockLogService().getOpenClockLogs(payCalendarEntry);
     	for(ClockLog cl : lstOpenClockLogs){
     		populateBatchJobEntry(cl);

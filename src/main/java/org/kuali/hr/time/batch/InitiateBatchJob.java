@@ -20,14 +20,14 @@ public class InitiateBatchJob extends BatchJob {
     public InitiateBatchJob(String hrPyCalendarEntryId) {
         super();
         this.setBatchJobName(TkConstants.BATCH_JOB_NAMES.INITIATE);
-        this.setPayCalendarEntryId(hrPyCalendarEntryId);
+        this.setHrPyCalendarEntryId(hrPyCalendarEntryId);
     }
 
 	@Override
 	public void doWork() {
 		Date asOfDate = TKUtils.getCurrentDate();
 		List<Assignment> lstAssignments = TkServiceLocator.getAssignmentService().getActiveAssignments(asOfDate);
-		CalendarEntries payCalendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(this.getPayCalendarEntryId());
+		CalendarEntries payCalendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(this.getHrPyCalendarEntryId());
 		for(Assignment assign : lstAssignments){
 			TimesheetDocumentHeader tkDocHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(assign.getPrincipalId(), payCalendarEntry.getBeginPeriodDateTime(), payCalendarEntry.getEndPeriodDateTime());
 			if(tkDocHeader == null || StringUtils.equals(tkDocHeader.getDocumentStatus(),TkConstants.ROUTE_STATUS.CANCEL)){

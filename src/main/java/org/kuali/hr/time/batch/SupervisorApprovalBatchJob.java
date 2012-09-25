@@ -17,7 +17,7 @@ public class SupervisorApprovalBatchJob extends BatchJob {
     public SupervisorApprovalBatchJob(String hrPyCalendarEntryId) {
         super();
         this.setBatchJobName(TkConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL);
-        this.setPayCalendarEntryId(hrPyCalendarEntryId);
+        this.setHrPyCalendarEntryId(hrPyCalendarEntryId);
         this.payCalendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(hrPyCalendarEntryId);
     }
 

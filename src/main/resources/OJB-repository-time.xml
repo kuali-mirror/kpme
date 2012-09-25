@@ -410,7 +410,7 @@
         <field-descriptor name="finSubObjCd"    column="FIN_SUB_OBJ_CD"     jdbc-type="VARCHAR" length="3" />
         <field-descriptor name="projectCd"      column="PROJECT_CD"         jdbc-type="VARCHAR" length="10" />
         <field-descriptor name="orgRefId"       column="ORG_REF_ID"         jdbc-type="VARCHAR" length="8" />
-        <field-descriptor name="percent"        column="PERCENT "           jdbc-type="DECIMAL" />
+        <field-descriptor name="percent"        column="PERCENT"            jdbc-type="DECIMAL" />
         <field-descriptor name="tkAssignmentId" column="TK_ASSIGNMENT_ID"   jdbc-type="VARCHAR" length="60" nullable="false" />
         <field-descriptor name="objectId"       column="OBJ_ID"             jdbc-type="VARCHAR" index="true" />
         <field-descriptor name="versionNumber"  column="VER_NBR"            jdbc-type="BIGINT"  locking="true" />
