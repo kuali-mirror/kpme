@@ -21,13 +21,13 @@
         <ref bean="TimeBlock-workArea" />
         <ref bean="TimeBlock-task" />
         <ref bean="TimeBlock-earnCode" />
-        <ref bean="TimeBlock-beginTimeStamp" />
-        <ref bean="TimeBlock-endTimeStamp" />
+        <ref bean="TimeBlock-beginTimestamp" />
+        <ref bean="TimeBlock-endTimestamp" />
         <ref bean="TimeBlock-beginDate" />
         <ref bean="TimeBlock-clockLogCreated" />
         <ref bean="TimeBlock-hours" />
         <ref bean="TimeBlock-amount" />
-        <ref bean="TimeBlock-timeStamp" />
+        <ref bean="TimeBlock-timestamp" />
         <ref bean="TimeBlock-userPrincipalId"/>
         <ref bean="TimeBlock-principalId"/>
         <ref bean="TimeBlock-timesheetDocumentHeader.documentStatus" />
@@ -154,8 +154,8 @@
     <property name="description" value="Earn Code" />
   </bean>  
   
-   <bean id="TimeBlock-beginTimeStamp" parent="TimeBlock-beginTimeStamp-parentBean" />
-   <bean id="TimeBlock-beginTimeStamp-parentBean" abstract="true"
+   <bean id="TimeBlock-beginTimestamp" parent="TimeBlock-beginTimestamp-parentBean" />
+   <bean id="TimeBlock-beginTimestamp-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Begin Time" />
 		<property name="maxLength" value="15" />
@@ -168,8 +168,8 @@
 		<property name="label" value=" Begin Time" />
 	</bean>      
 	
-   <bean id="TimeBlock-endTimeStamp" parent="TimeBlock-endTimeStamp-parentBean" />
-   <bean id="TimeBlock-endTimeStamp-parentBean" abstract="true"
+   <bean id="TimeBlock-endTimestamp" parent="TimeBlock-endTimestamp-parentBean" />
+   <bean id="TimeBlock-endTimestamp-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="End Time" />
 		<property name="maxLength" value="15" />
@@ -182,8 +182,8 @@
 		<property name="label" value="End Time" />
 	</bean> 	  
 
-	<bean id="TimeBlock-timeStamp" parent="TimeBlock-timeStamp-parentBean" />
-	<bean id="TimeBlock-timeStamp-parentBean" abstract="true"
+	<bean id="TimeBlock-timestamp" parent="TimeBlock-timestamp-parentBean" />
+	<bean id="TimeBlock-timestamp-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Timestamp" />
 		<property name="maxLength" value="15" />

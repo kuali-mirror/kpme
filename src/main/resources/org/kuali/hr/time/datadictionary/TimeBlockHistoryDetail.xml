@@ -18,14 +18,14 @@
                 <ref bean="TimeBlockHistoryDetail-timeBlockHistory.tkTimeBlockId"/>
                 <ref bean="TimeBlockHistoryDetail-timeBlockHistory.documentId"/>
                 <ref bean="TimeBlockHistoryDetail-earnCode"/>
-                <ref bean="TimeBlockHistoryDetail-timeBlockHistory.beginTimeStamp"/>
-                <ref bean="TimeBlockHistoryDetail-timeBlockHistory.endTimeStamp"/>
+                <ref bean="TimeBlockHistoryDetail-timeBlockHistory.beginTimestamp"/>
+                <ref bean="TimeBlockHistoryDetail-timeBlockHistory.endTimestamp"/>
                 <ref bean="TimeBlockHistoryDetail-timeBlockHistory.workArea"/>
                 <ref bean="TimeBlockHistoryDetail-timeBlockHistory.task"/>
                 <ref bean="TimeBlockHistoryDetail-timeBlockHistory.jobNumber"/>
                 <ref bean="TimeBlockHistoryDetail-hours"/>
                 <ref bean="TimeBlockHistoryDetail-amount"/>
-                <ref bean="TimeBlockHistoryDetail-timeBlockHistory.timeStamp"/>
+                <ref bean="TimeBlockHistoryDetail-timeBlockHistory.timestamp"/>
                 <ref bean="TimeBlockHistoryDetail-timeBlockHistory.userPrincipalId"/>
                 <ref bean="TimeBlockHistoryDetail-timeBlockHistory.principalId"/>
                 <ref bean="TimeBlockHistoryDetail-timeBlockHistory.actionHistory"/>
@@ -106,8 +106,8 @@
         <property name="description" value="Earn Code"/>
     </bean>
 
-    <bean id="TimeBlockHistoryDetail-timeBlockHistory.beginTimeStamp" parent="TimeBlockHistoryDetail-timeBlockHistory.beginTimeStamp-parentBean"/>
-    <bean id="TimeBlockHistoryDetail-timeBlockHistory.beginTimeStamp-parentBean" abstract="true"
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.beginTimestamp" parent="TimeBlockHistoryDetail-timeBlockHistory.beginTimestamp-parentBean"/>
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.beginTimestamp-parentBean" abstract="true"
           parent="AttributeDefinition">
         <property name="shortLabel" value="Begin Time"/>
         <property name="maxLength" value="15"/>
@@ -120,8 +120,8 @@
         <property name="label" value=" Begin Time"/>
     </bean>
 
-    <bean id="TimeBlockHistoryDetail-timeBlockHistory.endTimeStamp" parent="TimeBlockHistoryDetail-timeBlockHistory.endTimeStamp-parentBean"/>
-    <bean id="TimeBlockHistoryDetail-timeBlockHistory.endTimeStamp-parentBean" abstract="true"
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.endTimestamp" parent="TimeBlockHistoryDetail-timeBlockHistory.endTimestamp-parentBean"/>
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.endTimestamp-parentBean" abstract="true"
           parent="AttributeDefinition">
         <property name="shortLabel" value="End Time"/>
         <property name="maxLength" value="15"/>
@@ -184,8 +184,8 @@
 		<property name="label" value="Date" />
 	</bean> 
 
-    <bean id="TimeBlockHistoryDetail-timeBlockHistory.timeStamp" parent="TimeBlockHistoryDetail-timeBlockHistory.timeStamp-parentBean"/>
-    <bean id="TimeBlockHistoryDetail-timeBlockHistory.timeStamp-parentBean" abstract="true"
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.timestamp" parent="TimeBlockHistoryDetail-timeBlockHistory.timestamp-parentBean"/>
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.timestamp-parentBean" abstract="true"
           parent="AttributeDefinition">
         <property name="shortLabel" value="Timestamp"/>
         <property name="maxLength" value="15"/>
