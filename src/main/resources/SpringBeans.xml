@@ -117,6 +117,10 @@
         <property name="serviceName" value="kualiModuleService" />
     </bean>
     
+    <bean id="parameterService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="parameterService" />
+    </bean>
+    
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="properties" value="#{T(org.kuali.rice.core.api.config.property.ConfigContext).getCurrentContextConfig().getProperties()}" />
     </bean>
@@ -157,6 +161,17 @@
     
     <bean id="commonDefaultAdvisorAutoProxyCreator" class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
     
+    <bean id="docHandlerUrlPrefixPublishingService" class="org.kuali.hr.core.service.DocHandlerUrlPrefixPublishingServiceImpl">
+        <property name="parameterApplicationId" value="KUALI" />
+        <property name="parameterNamespaceCode" value="KR-WKFLW" />
+        <property name="parameterTypeCode" value="CONFG" />
+        <property name="parameterComponentCode" value="All" />
+        <property name="parameterName" value="kuali.docHandler.url.prefix" />
+        <property name="parameterValue" value="${application.url}" />
+
+        <property name="parameterService" ref="parameterService" />
+    </bean>
+    
     <bean id="platformAwareDao" class="org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb" abstract="true">
         <property name="jcdAlias" value="kradApplicationDataSource" />
         <property name="dbPlatform" ref="dbPlatform" />
@@ -194,26 +209,6 @@
         <property name="nonTransactionalDataSource" ref="nonTransactionalDataSource"/>
     </bean>
     
-    <!-- oscache -->
-<!--     <bean id="cacheAdministrator" class="com.opensymphony.oscache.general.GeneralCacheAdministrator" -->
-<!--           destroy-method="destroy" depends-on="rice"> -->
-<!--         <constructor-arg index="0"> -->
-<!--             <props> -->
-<!--                 <prop key="cache.memory">true</prop> -->
-<!--                 <prop key="cache.capacity">20000</prop> -->
-<!--                 <prop key="cache.algorithm">com.opensymphony.oscache.base.algorithm.LRUCache</prop> -->
-<!--             </props> -->
-<!--         </constructor-arg> -->
-<!--     </bean> -->
-
-<!--     <bean id="cacheManager" class="org.kuali.hr.time.cache.CacheManagementServiceImpl"> -->
-<!--         <property name="cacheAdministrator"> -->
-<!--             <ref bean="cacheAdministrator"/> -->
-<!--         </property> -->
-<!--     </bean> -->
-
-<!--     <bean id="cacheAspect" class="org.kuali.hr.time.cache.TKCacheAspect"/> -->
-
     <bean name="springContext" class="org.kuali.hr.sys.context.SpringContext" />
     
     <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
@@ -221,11 +216,10 @@
         <property name="serviceNameSpaceURI" value="KPME" />
         <property name="beanNames">
             <set>
+                <value>calendarLookupable</value>
                 <value>timeBlockLookupable</value> 
 				<value>timeBlockHistoryLookupable</value> 
 				<value>timeBlockHistoryDetailLookupable</value> 
-				<!--<value>tkLookupable</value>-->
-				<value>calendarLookupable</value> 
 				<value>jobLookupable</value> 
 				<value>systemLunchRuleLookupable</value> 
 				<value>EarnCodeSecurityLookupable</value> 
