@@ -97,6 +97,20 @@ public interface AssignmentService {
      * @return
      */
     public List<Assignment> getAssignmentsByPayEntry(String principalId, CalendarEntries payCalendarEntry);
+    /**
+     * Get assignments for Time Calendar by calendar entry
+     * @param principalId
+     * @param calendarEntry
+     * @return
+     */
+    public List<Assignment> getAssignmentsByCalEntryForTimeCalendar(String principalId, CalendarEntries calendarEntry);
+    /**
+     * Get assignments for Leave Calendar by calendar entry
+     * @param principalId
+     * @param calendarEntry
+     * @return
+     */
+    public List<Assignment> getAssignmentsByCalEntryForLeaveCalendar(String principalId, CalendarEntries calendarEntry);
     
     /**
 	 * KPME-1129 Kagata

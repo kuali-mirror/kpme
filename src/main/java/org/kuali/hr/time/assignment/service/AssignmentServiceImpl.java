@@ -12,6 +12,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
 
 import java.sql.Date;
 import java.util.*;
@@ -66,7 +67,6 @@ public class AssignmentServiceImpl implements AssignmentService {
         return assignmentDao.searchAssignments(fromEffdt, toEffdt, principalId, jobNumber, dept, workArea, active, showHistory);
     }
 
-
     public List<Assignment> getAssignmentsByPayEntry(String principalId, CalendarEntries payCalendarEntry) {
         List<Assignment> beginPeriodAssign = getAssignments(principalId, payCalendarEntry.getBeginPeriodDate());
         List<Assignment> endPeriodAssign = getAssignments(principalId, payCalendarEntry.getEndPeriodDate());
@@ -98,7 +98,58 @@ public class AssignmentServiceImpl implements AssignmentService {
         return finalAssignments;
 
     }
+    
+    public List<Assignment> getAssignmentsByCalEntryForTimeCalendar(String principalId, CalendarEntries payCalendarEntry){
+    	List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, payCalendarEntry);
+    	List<Assignment> results = filterAssignments(assignments, TkConstants.FLSA_STATUS_NON_EXEMPT, false);
+    	return results;
+    }
+    
+    public List<Assignment> getAssignmentsByCalEntryForLeaveCalendar(String principalId, CalendarEntries payCalendarEntry){
+    	List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, payCalendarEntry);
+    	List<Assignment> results = filterAssignments(assignments, null, true);
+    	return results;
+    }
 
+    /*
+     * Filter given list of Assignments based on passed in flasStatus and checkForLeaveEligible flag
+     */
+    private List<Assignment> filterAssignments(List<Assignment> assignments, String flsaStatus, boolean chkForLeaveEligible) {
+    	List<Assignment> results = new ArrayList<Assignment>();
+    	for(Assignment assignment : assignments) {
+    		boolean flag = false;
+    		if(StringUtils.isNotEmpty(flsaStatus)) {
+    			if(assignment != null 
+		    			&& assignment.getJob() != null 
+		    			&& assignment.getJob().getFlsaStatus() != null 
+		    			&& assignment.getJob().getFlsaStatus().equalsIgnoreCase(flsaStatus)) {    			
+					if(chkForLeaveEligible) {
+						if(assignment.getJob().isEligibleForLeave()) {
+							flag = true;
+						}
+					}else {
+						flag = true;
+					}
+	    		} 
+    		}else {
+    			if(chkForLeaveEligible) {
+    				if(assignment != null && assignment.getJob() != null && assignment.getJob().isEligibleForLeave()) {
+    					flag = true;
+    				}
+    			} else {
+    				flag = true;
+    			}
+    		}
+    		
+			if(flag) {
+				results.add(assignment);
+			}
+    	}
+    	
+    	return results;
+    	
+    }
+    
     @Override
     public AssignmentDescriptionKey getAssignmentDescriptionKey(String assignmentKey) {
         return new AssignmentDescriptionKey(assignmentKey);
