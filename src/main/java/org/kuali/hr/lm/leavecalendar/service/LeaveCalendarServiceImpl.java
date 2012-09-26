@@ -40,7 +40,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         lcd.setLeaveBlocks(leaveBlocks);
 
         // Fetching assignments
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(lcdh.getPrincipalId(), lcd.getCalendarEntry());
+        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByPayEntry(lcdh.getPrincipalId(), lcd.getCalendarEntry());
         lcd.setAssignments(assignments);
         
         return lcd;
@@ -104,7 +104,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     protected void loadLeaveCalendarDocumentData(LeaveCalendarDocument ldoc, String principalId, CalendarEntries calEntry) {
         List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(ldoc.getDocumentId());
         ldoc.setLeaveBlocks(leaveBlocks);
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calEntry);
+        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, calEntry);
         ldoc.setAssignments(assignments);
     }
 
@@ -125,7 +125,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 		lcdh.setEndDate(calendarEntry.getEndPeriodDateTime());
 		leaveCalendarDocument.setDocumentHeader(lcdh);
 		// Fetching assignments
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calendarEntry);
+        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, calendarEntry);
         leaveCalendarDocument.setAssignments(assignments);
 		return leaveCalendarDocument;
 	}
