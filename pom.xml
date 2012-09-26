@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-        Copyright 2008-2009 The Kuali Foundation Licensed under the
-        Educational Community License, Version 2.0 (the "License"); you may
-        not use this file except in compliance with the License. You may
-        obtain a copy of the License at
-        http://www.opensource.org/licenses/ecl2.php Unless required by
-        applicable law or agreed to in writing, software distributed under the
-        License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-        CONDITIONS OF ANY KIND, either express or implied. See the License for
-        the specific language governing permissions and limitations under the
-        License.
-    -->
+
+    Copyright 2004-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.kpme</groupId>
@@ -695,6 +700,65 @@
                                 </configuration>
                             </execution>
                         </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>license</id>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.mycila.maven-license-plugin</groupId>
+                        <artifactId>maven-license-plugin</artifactId>
+                        <configuration>
+                            <aggregate>true</aggregate>
+                            <excludes>
+                                <exclude>**/*.csv</exclude>
+                                <exclude>**/*.pdf</exclude>
+                                <exclude>**/*.tag</exclude>
+                                <exclude>**/jquery*.js</exclude>
+                                <exclude>src/main/config/db/rice/**/*.sql</exclude>
+				                <exclude>src/main/config/launch/**</exclude>
+		                        <exclude>src/main/webapp/acknowledgments.jsp</exclude>
+                                <exclude>src/main/webapp/favicon.ico</exclude>
+                                <exclude>src/main/webapp/portal.jsp</exclude>
+                                <exclude>src/main/webapp/core/</exclude>
+                                <exclude>src/main/webapp/kcb/</exclude>
+                                <exclude>src/main/webapp/ken/</exclude>
+                                <exclude>src/main/webapp/kew/</exclude>
+                                <exclude>src/main/webapp/kim/</exclude>
+                                <exclude>src/main/webapp/kr/</exclude>
+                                <exclude>src/main/webapp/krad/</exclude>
+                                <exclude>src/main/webapp/krms/</exclude>
+                                <exclude>src/main/webapp/ksb/</exclude>
+                                <exclude>src/main/webapp/rice-portal/</exclude>
+                                <exclude>src/main/webapp/WEB-INF/dwr-kew.xml</exclude>
+                                <exclude>src/main/webapp/WEB-INF/dwr-kns.xml</exclude>
+                                <exclude>src/main/webapp/WEB-INF/krad-servlet.xml</exclude>
+                                <exclude>src/main/webapp/WEB-INF/validator-rules.xml</exclude>
+                                <exclude>src/main/webapp/WEB-INF/jsp/dummy_login.jsp</exclude>
+                                <exclude>src/main/webapp/WEB-INF/jsp/moduleLocked.jsp</exclude>
+                                <exclude>src/main/webapp/WEB-INF/jsp/recurseCheckTabHighlight.jsp</exclude>
+                                <exclude>src/main/webapp/WEB-INF/jsp/recurseRowDisplay.jsp</exclude>
+                                <exclude>src/main/webapp/WEB-INF/jsp/recurseTreeNode.jsp</exclude>
+                                <exclude>src/main/webapp/WEB-INF/tags/kew/</exclude>
+                                <exclude>src/main/webapp/WEB-INF/tags/kim/</exclude>
+                                <exclude>src/main/webapp/WEB-INF/tags/kr/</exclude>
+                                <exclude>src/main/webapp/WEB-INF/tags/krad/</exclude>
+                                <exclude>src/main/webapp/WEB-INF/tags/rice-portal/administrationTab.tag</exclude>
+                                <exclude>src/main/webapp/WEB-INF/tags/rice-portal/iframePortletContainer.tag</exclude>
+                                <exclude>src/main/webapp/WEB-INF/tags/rice-portal/immutableBar.tag</exclude>
+                                <exclude>src/main/webapp/WEB-INF/tags/rice-portal/portalBottom.tag</exclude>
+                                <exclude>src/main/webapp/WEB-INF/tags/rice-portal/portalLink.tag</exclude>
+                                <exclude>src/main/webapp/WEB-INF/tags/rice-portal/portalTop.tag</exclude>
+                                <exclude>src/main/webapp/WEB-INF/tags/rice-portal/channel/</exclude>
+                                <exclude>src/main/webapp/WEB-INF/tld/</exclude>
+                            </excludes>
+                        </configuration>
                     </plugin>
                 </plugins>
             </build>
