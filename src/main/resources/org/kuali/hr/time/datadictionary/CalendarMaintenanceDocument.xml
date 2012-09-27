@@ -34,8 +34,8 @@
         <bean parent="MaintainableFieldDefinition" p:name="calendarName" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="calendarDescriptions" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="calendarTypes" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="flsaBeginDay" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="flsaBeginTime" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="flsaBeginDay"/>        
+        <bean parent="MaintainableFieldDefinition" p:name="flsaBeginTime"/>        
       </list>
     </property>
   </bean>
