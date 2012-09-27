@@ -8,9 +8,12 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+
+import java.util.List;
 
 public class DeleteDocumentAction extends TkAction {
 	
@@ -27,7 +30,11 @@ public class DeleteDocumentAction extends TkAction {
                 TkServiceLocator.getTimeBlockService().deleteTimeBlocksAssociatedWithDocumentId(documentId);
     		    TkServiceLocator.getTimesheetService().deleteTimesheet(documentId);
             } else {
-                TkServiceLocator.getLeaveBlockService().deleteLeaveBlocksForDocumentId(documentId);
+                List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(tdh.getPrincipalId(),tdh.getBeginDate(),tdh.getEndDate());
+                for(LeaveBlock leaveBlock : leaveBlocks){
+                    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(Long.parseLong(leaveBlock.getLmLeaveBlockId()));
+                }
+
                 TkServiceLocator.getLeaveCalendarDocumentHeaderService().deleteLeaveCalendarHeader(documentId);
             }
     		LOG.debug("Deleting document: " + documentId);
