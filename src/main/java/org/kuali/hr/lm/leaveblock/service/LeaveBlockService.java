@@ -57,7 +57,7 @@ public interface LeaveBlockService {
      * @param principalId
      * @return sum of leave amount of leave blocks
      */
-    public Double calculateAccrualbalance(Date leaveDate, String accrualCategoryId, String principalId);
+    public Double calculateAccrualBalance(Date leaveDate, String accrualCategoryId, String principalId);
 
     /*
      * Get list of leave blocks to display on time sheet with given dates and principal id

@@ -480,7 +480,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		if(this.accrualCategoryId != null) {
 			AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(this.accrualCategoryId);
 			if(accrualCategory != null && accrualCategory.getShowOnGrid() != null && StringUtils.equals(accrualCategory.getShowOnGrid(), "Y")){
-				accrualBalance = TkServiceLocator.getLeaveBlockService().calculateAccrualbalance(this.timestamp, this.accrualCategoryId, this.principalId);
+				accrualBalance = TkServiceLocator.getLeaveBlockService().calculateAccrualBalance(this.timestamp, this.accrualCategoryId, this.principalId);
 			}
 		}
 		return accrualBalance;

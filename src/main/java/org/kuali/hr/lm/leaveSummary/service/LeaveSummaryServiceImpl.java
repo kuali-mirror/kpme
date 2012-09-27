@@ -1,19 +1,8 @@
 package org.kuali.hr.lm.leaveSummary.service;
 
-import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.LocalDateTime;
@@ -23,6 +12,7 @@ import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.lm.leaveblock.service.LeaveBlockService;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -32,111 +22,141 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
 public class LeaveSummaryServiceImpl implements LeaveSummaryService {
-	
-	@Override
-	public LeaveSummary getLeaveSummary(String principalId, CalendarEntries calendarEntry) throws Exception {
-   	LeaveSummary ls = new LeaveSummary();
-   	List<LeaveSummaryRow> rows = new ArrayList<LeaveSummaryRow>();
-   	
-   	if(StringUtils.isNotEmpty(principalId) && calendarEntry != null) {
-   		
-   		// get principalHrAttributes for begin date of this pay period
-   		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, calendarEntry.getBeginPeriodDate());
-   		// get list of principalHrAttributes that become active during this pay period
-   		List<PrincipalHRAttributes> phaList = TkServiceLocator.getPrincipalHRAttributeService()
-   			.getActivePrincipalHrAttributesForRange(principalId, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
-   		
-   		Set<String> lpStrings = new HashSet<String>();
-   		if(pha != null) {
-   			lpStrings.add(pha.getLeavePlan());
-   		}
-   		if(CollectionUtils.isNotEmpty(phaList)) {
-   			for(PrincipalHRAttributes aPha : phaList) {
-   				lpStrings.add(aPha.getLeavePlan());
-   			}
-   		}
-   		
-   		if(CollectionUtils.isNotEmpty(lpStrings)) {
-   			for(String aLpString : lpStrings) {
-	    			LeavePlan lp = TkServiceLocator.getLeavePlanService().getLeavePlan(aLpString, calendarEntry.getEndPeriodDate());
-	    			if(lp == null) {
-	    				continue;
-	    			}
-	    			
-   				DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-   				// get the latest approved leave calendar
-           		LeaveCalendarDocumentHeader approvedLcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getMaxEndDateApprovedLeaveCalendar(principalId);
-           		List<LeaveBlock> approvedLeaveBlocks = new ArrayList<LeaveBlock> ();
-           		if(approvedLcdh != null) {
-           			Date endApprovedDate = new java.sql.Date(approvedLcdh.getEndDate().getTime());
-           			LocalDateTime aLocalTime = new DateTime(approvedLcdh.getEndDate()).toLocalDateTime();
-           			DateTime endApprovedTime = aLocalTime.toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
-           			if(endApprovedTime.getHourOfDay() == 0) {
-           				endApprovedDate = TKUtils.addDates(endApprovedDate, -1);
-           			}
-       				Date yearStartDate = this.calendarYearStartDate(lp.getCalendarYearStart(), endApprovedDate);
-       				String datesString = formatter.format(yearStartDate) + " - " + formatter.format(endApprovedDate);
-       				ls.setYtdDatesString(datesString);
-       				// get leave blocks from the beginning of this employment to the end date of the latest approved calendar
-           			approvedLeaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, yearStartDate, endApprovedDate);
-           		}
-           		// get the earliest pending leave calendar
-           		LeaveCalendarDocumentHeader pendingLcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getMinBeginDatePendingLeaveCalendar(principalId);
-           		List<LeaveBlock> pendingLeaveBlocks = new ArrayList<LeaveBlock> ();
-           		if(pendingLcdh != null) {
-           			Date pendingStartDate = pendingLcdh.getBeginDate();
-           			Date pendingEndDate = calendarEntry.getEndPeriodDate();
-           			DateTime endDateTime = calendarEntry.getEndLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
-           			if(endDateTime.getHourOfDay() == 0) {
-           				pendingEndDate = TKUtils.addDates(pendingEndDate, -1);
-           			}
-           			
-           			if(!pendingStartDate.after(pendingEndDate)) {
-           				String aString = formatter.format(pendingStartDate) + " - " + formatter.format(pendingEndDate);
-           				ls.setPendingDatesString(aString);
-           				pendingLeaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, pendingStartDate, pendingEndDate);
-           			}
-           		}
-   				List<AccrualCategory> acList = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(lp.getLeavePlan(), calendarEntry.getEndPeriodDate());
-   				if(CollectionUtils.isNotEmpty(acList)) {
-   					for(AccrualCategory ac : acList) {
-   						if(ac.getShowOnGrid().equals("Y")) {
-   							LeaveSummaryRow lsr = new LeaveSummaryRow();
-   							lsr.setAccrualCategory(ac.getAccrualCategory());
-   							AccrualCategoryRule acRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(ac.getLmAccrualCategoryId());
-   							if(acRule != null && acRule.getMaxUsage()!= null) {
-   								lsr.setUsageLimit(new BigDecimal(acRule.getMaxUsage()));
-   							} else {
-   								lsr.setUsageLimit(BigDecimal.ZERO);
-   							}
-   							// assign approved values
-   							this.assignApprovedValuesToRow(lsr, ac, approvedLeaveBlocks);
-   							// assign pending values
-   							this.assignPendingValuesToRow(lsr, ac, pendingLeaveBlocks);
-   							
-   							rows.add(lsr);
-   						}
-   					}
-   				}
-	    			
-   			}
-   		}
-   	}
-   	ls.setLeaveSummaryRows(rows);
-   	return ls;
-   }
+	private LeaveBlockService leaveBlockService;
+
+    @Override
+    public LeaveSummary getLeaveSummary(String principalId, CalendarEntries calendarEntry) throws Exception {
+        LeaveSummary ls = new LeaveSummary();
+        List<LeaveSummaryRow> rows = new ArrayList<LeaveSummaryRow>();
+
+        if(StringUtils.isEmpty(principalId) || calendarEntry == null) {
+            return ls;
+        }
+
+        PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, calendarEntry.getBeginPeriodDate());
+        // get list of principalHrAttributes that become active during this pay period
+        List<PrincipalHRAttributes> phaList = TkServiceLocator.getPrincipalHRAttributeService()
+                .getActivePrincipalHrAttributesForRange(principalId, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
+
+        Set<String> lpStrings = new HashSet<String>();
+        if(pha != null) {
+            lpStrings.add(pha.getLeavePlan());
+        }
+        if(CollectionUtils.isNotEmpty(phaList)) {
+            for(PrincipalHRAttributes aPha : phaList) {
+                lpStrings.add(aPha.getLeavePlan());
+            }
+        }
+
+        if (CollectionUtils.isNotEmpty(lpStrings)) {
+            for(String aLpString : lpStrings) {
+                LeavePlan lp = TkServiceLocator.getLeavePlanService().getLeavePlan(aLpString, calendarEntry.getEndPeriodDate());
+                if(lp == null) {
+                    continue;
+                }
+                DateFormat formatter = new SimpleDateFormat("MMMM d");
+                DateFormat formatter2 = new SimpleDateFormat("MMMM d yyyy");
+                DateTime entryEndDate = calendarEntry.getEndLocalDateTime().toDateTime();
+                if (entryEndDate.getHourOfDay() == 0) {
+                    entryEndDate = entryEndDate.minusDays(1);
+                }
+                String aString = formatter.format(calendarEntry.getBeginPeriodDate()) + " - " + formatter2.format(entryEndDate.toDate());
+                ls.setPendingDatesString(aString);
+
+                LeaveCalendarDocumentHeader approvedLcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getMaxEndDateApprovedLeaveCalendar(principalId);
+                if(approvedLcdh != null) {
+                    Date endApprovedDate = new java.sql.Date(approvedLcdh.getEndDate().getTime());
+                    LocalDateTime aLocalTime = new DateTime(approvedLcdh.getEndDate()).toLocalDateTime();
+                    DateTime endApprovedTime = aLocalTime.toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+                    if(endApprovedTime.getHourOfDay() == 0) {
+                        endApprovedDate = TKUtils.addDates(endApprovedDate, -1);
+                    }
+                    Date yearStartDate = this.calendarYearStartDate(lp.getCalendarYearStart(), endApprovedDate);
+                    String datesString = formatter.format(yearStartDate) + " - " + formatter2.format(endApprovedDate);
+                    ls.setYtdDatesString(datesString);
+                }
+
+                List<LeaveBlock> leaveBlocks = getLeaveBlockService().getLeaveBlocks(principalId, pha.getServiceDate(), calendarEntry.getEndPeriodDateTime());
+                List<LeaveBlock> futureLeaveBlocks = getLeaveBlockService().getLeaveBlocks(principalId, calendarEntry.getEndPeriodDateTime(), calendarEntry.getEndLocalDateTime().toDateTime().plusYears(5).toDate());
+                List<AccrualCategory> acList = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(lp.getLeavePlan(), calendarEntry.getEndPeriodDate());
+                if(CollectionUtils.isNotEmpty(acList)) {
+                    for(AccrualCategory ac : acList) {
+                        if(ac.getShowOnGrid().equals("Y")) {
+                            LeaveSummaryRow lsr = new LeaveSummaryRow();
+                            lsr.setAccrualCategory(ac.getAccrualCategory());
+                            //get max balances
+                            AccrualCategoryRule acRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(ac, calendarEntry.getEndPeriodDateTime(), pha.getServiceDate());
+                            if(acRule != null &&
+                                    (acRule.getMaxBalance()!= null
+                                      || acRule.getMaxUsage() != null)) {
+                                if (acRule.getMaxUsage() != null) {
+                                    lsr.setUsageLimit(new BigDecimal(acRule.getMaxUsage()));
+                                } else {
+                                    lsr.setUsageLimit(acRule.getMaxBalance());
+                                }
+
+                            } else {
+                                lsr.setUsageLimit(BigDecimal.ZERO);
+                            }
+
+                            //handle up to current leave blocks
+                            assignApprovedValuesToRow(lsr, ac, leaveBlocks);
+
+                            //Check for going over max carry over
+                            if (acRule != null
+                                    && acRule.getMaxCarryOver() != null
+                                    && acRule.getMaxCarryOver() < lsr.getCarryOver().longValue()) {
+                                lsr.setCarryOver(new BigDecimal(acRule.getMaxCarryOver()));
+                            }
+
+                            //handle future leave blocks
+                            assignPendingValuesToRow(lsr, ac, futureLeaveBlocks);
+
+                            //compute Leave Balance
+                            BigDecimal leaveBalance = lsr.getAccruedBalance().subtract(lsr.getPendingLeaveRequests());
+                            lsr.setLeaveBalance(leaveBalance.compareTo(lsr.getUsageLimit()) <= 0 ? leaveBalance : lsr.getUsageLimit());
+
+                            rows.add(lsr);
+                        }
+                    }
+                }
+            }
+        }
+        ls.setLeaveSummaryRows(rows);
+        return ls;
+    }
+
+
+
 	
 	private void assignApprovedValuesToRow(LeaveSummaryRow lsr, AccrualCategory ac, List<LeaveBlock> approvedLeaveBlocks ) {
-		BigDecimal accrualedBalance = BigDecimal.ZERO;
+        //List<TimeOffAccrual> timeOffAccruals = TkServiceLocator.getTimeOffAccrualService().getTimeOffAccrualsCalc(principalId, lsr.get)
+		BigDecimal carryOver = BigDecimal.ZERO;
+        BigDecimal accrualedBalance = BigDecimal.ZERO;
 		BigDecimal approvedUsage = BigDecimal.ZERO;
 		BigDecimal fmlaUsage = BigDecimal.ZERO;
+
+        //TODO: probably should get from Leave Plan
+        Timestamp priorYearCutOff = new Timestamp(new DateMidnight().withWeekOfWeekyear(1).withDayOfWeek(1).toDate().getTime());
+
 		for(LeaveBlock aLeaveBlock : approvedLeaveBlocks) {
 			if(aLeaveBlock.getAccrualCategoryId().equals(ac.getLmAccrualCategoryId())) {
 				if(StringUtils.isNotEmpty(aLeaveBlock.getRequestStatus())
 						&& aLeaveBlock.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED)) {
 					if(aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) >= 0) {
-						accrualedBalance = accrualedBalance.add(aLeaveBlock.getLeaveAmount());
+                        if (aLeaveBlock.getLeaveDate().getTime() <= priorYearCutOff.getTime()) {
+                            carryOver = carryOver.add(aLeaveBlock.getLeaveAmount());
+                        } else {
+						    accrualedBalance = accrualedBalance.add(aLeaveBlock.getLeaveAmount());
+                        }
 					} else {
 						approvedUsage = approvedUsage.add(aLeaveBlock.getLeaveAmount());
 						EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(aLeaveBlock.getEarnCode(), aLeaveBlock.getLeaveDate());
@@ -148,10 +168,11 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 				}
 			}
 		}
+        lsr.setCarryOver(carryOver);
 		lsr.setYtdAccruedBalance(accrualedBalance);
 		lsr.setYtdApprovedUsage(approvedUsage.negate());
 		lsr.setFmlaUsage(fmlaUsage.negate());
-		lsr.setLeaveBalance(lsr.getYtdAccruedBalance().subtract(lsr.getYtdApprovedUsage()));
+		//lsr.setLeaveBalance(lsr.getYtdAccruedBalance().add(approvedUsage));
 	}
 	
 	private void assignPendingValuesToRow(LeaveSummaryRow lsr, AccrualCategory ac, List<LeaveBlock> pendingLeaveBlocks ) {
@@ -169,14 +190,6 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 		}
 		lsr.setPendingLeaveAccrual(pendingAccrual);
 		lsr.setPendingLeaveRequests(pendingRequests.negate());
-		BigDecimal pendingBalance = lsr.getLeaveBalance().add(lsr.getPendingLeaveAccrual()).subtract(lsr.getPendingLeaveRequests());
-		lsr.setPendingLeaveBalance(pendingBalance);
-		
-		BigDecimal pendingAvailable = BigDecimal.ZERO;
-		if(lsr.getUsageLimit() != null) {
-			pendingAvailable = lsr.getUsageLimit().subtract(lsr.getYtdApprovedUsage().add(pendingRequests));
-		}
-		lsr.setPendingAvailableUsage(pendingAvailable);
 	}
 	
 	
@@ -214,5 +227,12 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 		 }
 		 return header;
 	}
+
+    protected LeaveBlockService getLeaveBlockService() {
+        if (leaveBlockService == null) {
+            leaveBlockService = TkServiceLocator.getLeaveBlockService();
+        }
+        return leaveBlockService;
+    }
 
 }

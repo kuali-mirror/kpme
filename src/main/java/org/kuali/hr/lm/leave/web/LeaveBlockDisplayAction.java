@@ -97,7 +97,7 @@ public class LeaveBlockDisplayAction extends TkAction {
 				if(accrualCategoryMap != null && !accrualCategoryMap.isEmpty()) {
 					for(String accCatKey : accrualCategoryMap.keySet()){
 						AccrualCategory accCat = accrualCategoryMap.get(accCatKey);
-						Double accrualBalance = TkServiceLocator.getLeaveBlockService().calculateAccrualbalance(leaveBlock.getTimestamp(), accCatKey, principalId);
+						Double accrualBalance = TkServiceLocator.getLeaveBlockService().calculateAccrualBalance(leaveBlock.getTimestamp(), accCatKey, principalId);
 						accrualBalances.put(accCatKey, accrualBalance);
 					}
 				}

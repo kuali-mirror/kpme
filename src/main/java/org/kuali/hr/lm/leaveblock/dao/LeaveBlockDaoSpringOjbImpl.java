@@ -112,6 +112,50 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
         List<LeaveBlock> leaveBlocks = (List<LeaveBlock>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 		return leaveBlocks;
 	}
+
+    @Override
+    public List<LeaveBlock> getLeaveBlocks(String principalId, String accrualCategoryId, Date beginDate, Date endDate) {
+        List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
+        Criteria root = new Criteria();
+        root.addEqualTo("principalId", principalId);
+        root.addGreaterOrEqualThan("leaveDate", beginDate);
+        root.addLessOrEqualThan("leaveDate", endDate);
+        root.addEqualTo("accrualCategoryId", accrualCategoryId);
+//        root.addEqualTo("active", true);
+
+        Query query = QueryFactory.newQuery(LeaveBlock.class, root);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+        if (c != null) {
+            leaveBlocks.addAll(c);
+        }
+
+        return leaveBlocks;
+    }
+
+    @Override
+    public List<LeaveBlock> getFLMALeaveBlocks(String principalId, String accrualCategoryId, Date beginDate, Date endDate) {
+        List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
+        Criteria root = new Criteria();
+        root.addEqualTo("principalId", principalId);
+        root.addGreaterOrEqualThan("leaveDate", beginDate);
+        root.addLessOrEqualThan("leaveDate", endDate);
+        root.addEqualTo("accrualCategoryId", accrualCategoryId);
+        root.addEqualTo("earnCodeObj.fmla", "Y");
+        //Criteria earnCodeSub = new Criteria();
+        //earnCodeSub.addEqualTo("fmla", "Y");
+        //root.add
+//        root.addEqualTo("active", true);
+
+        Query query = QueryFactory.newQuery(LeaveBlock.class, root);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+        if (c != null) {
+            leaveBlocks.addAll(c);
+        }
+
+        return leaveBlocks;
+    }
 	
 	@Override
 	public List<LeaveBlock> getNotAccrualGeneratedLeaveBlocksForDate(String principalId, Date leaveDate) {

@@ -155,7 +155,11 @@
         <field-descriptor name="leaveBlockType"         column="LEAVE_BLOCK_TYPE"       jdbc-type="VARCHAR"     length="5" nullable="false" />
         <field-descriptor name="objectId"               column="OBJ_ID"                 jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"          column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
-        
+
+        <reference-descriptor name="earnCodeObj" class-ref="org.kuali.hr.time.earncode.EarnCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+            <foreignkey field-ref="earnCodeId" target-field-ref="hrEarnCodeId"/>
+        </reference-descriptor>
+
         <collection-descriptor name="leaveBlockHistories" element-class-ref="org.kuali.hr.lm.leaveblock.LeaveBlockHistory" auto-retrieve="true" auto-update="false">
             <inverse-foreignkey field-ref="lmLeaveBlockId" />
         </collection-descriptor>

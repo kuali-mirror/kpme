@@ -81,5 +81,11 @@ public class LeaveSummaryRow {
 	public void setFmlaUsage(BigDecimal fmlaUsage) {
 		this.fmlaUsage = fmlaUsage;
 	}
+    public BigDecimal getAccruedBalance() {
+        BigDecimal carryOver = getCarryOver() == null ? BigDecimal.ZERO : getCarryOver();
+        BigDecimal ytdAccruedBalance = getYtdAccruedBalance() == null ? BigDecimal.ZERO : getYtdAccruedBalance();
+        BigDecimal ytdApproved = getYtdApprovedUsage() == null ? BigDecimal.ZERO : getYtdApprovedUsage();
+        return carryOver.add(ytdAccruedBalance).subtract(ytdApproved);
+    }
 
 }
