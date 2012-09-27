@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,6 +12,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -202,16 +204,42 @@ public class TimeApprovalAction extends ApprovalAction{
 		super.setupDocumentOnFormContext(request, form, payCalendarEntries, page);
 		TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
 		taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(payCalendarEntries, new ArrayList<Boolean>()));
-		List<String> principalIds = new ArrayList<String>();
-		principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByDeptWorkAreaRolename(taaf.getRoleName(), taaf.getSelectedDept(), taaf.getSelectedWorkArea(), new java.sql.Date(taaf.getPayBeginDate().getTime()), new java.sql.Date(taaf.getPayEndDate().getTime()), taaf.getSelectedPayCalendarGroup());
+		
+		List<String> principalIds = TkServiceLocator.getTimeApproveService().getPrincipalIdsByDeptWorkAreaRolename(taaf.getRoleName(), taaf.getSelectedDept(), taaf.getSelectedWorkArea(), new java.sql.Date(taaf.getPayBeginDate().getTime()), new java.sql.Date(taaf.getPayEndDate().getTime()), taaf.getSelectedPayCalendarGroup());
 		if (principalIds.isEmpty()) {
 			taaf.setApprovalRows(new ArrayList<ApprovalTimeSummaryRow>());
 			taaf.setResultSize(0);
-		}
-		else {
+		} else {
 		    List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
-		    Collections.sort(persons);
-		    taaf.setApprovalRows(getApprovalRows(taaf, getSubListPrincipalIds(request, persons)));
+		    List<ApprovalTimeSummaryRow> approvalRows = getApprovalRows(taaf, getSubListPrincipalIds(request, persons));
+		    
+		    final String sortField = request.getParameter("sortField");
+		    final boolean isAscending = Boolean.parseBoolean(request.getParameter("ascending"));
+		    if (StringUtils.equals(sortField, "Name")) {
+		    	Collections.sort(approvalRows, new Comparator<ApprovalTimeSummaryRow>() {
+					@Override
+					public int compare(ApprovalTimeSummaryRow row1, ApprovalTimeSummaryRow row2) {
+						if (isAscending) {
+							return ObjectUtils.compare(row1.getName(), row2.getName());
+						} else {
+							return ObjectUtils.compare(row2.getName(), row1.getName());
+						}
+					}
+		    	});
+		    } else if (StringUtils.equals(sortField, "DocumentID")) {
+		    	Collections.sort(approvalRows, new Comparator<ApprovalTimeSummaryRow>() {
+					@Override
+					public int compare(ApprovalTimeSummaryRow row1, ApprovalTimeSummaryRow row2) {
+						if (isAscending) {
+							return ObjectUtils.compare(row1.getDocumentId(), row2.getDocumentId());
+						} else {
+							return ObjectUtils.compare(row2.getDocumentId(), row1.getDocumentId());
+						}
+					}
+		    	});
+		    }
+		    
+		    taaf.setApprovalRows(approvalRows);
 		    taaf.setResultSize(persons.size());
 		}
 		
