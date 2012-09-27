@@ -75,7 +75,7 @@ public class LeaveCalendarAction extends TkAction {
 			calendarEntry = TkServiceLocator.getCalendarEntriesService()
 					.getCalendarEntries(calendarEntryId);
 			lcd = TkServiceLocator.getLeaveCalendarService()
-					.getLeaveCalendarDocument(viewPrincipal, calendarEntry);
+					.openLeaveCalendarDocument(viewPrincipal, calendarEntry);
 		} else {
 			// Default to whatever is active for "today".
 			Date currentDate = TKUtils.getTimelessDate(null);
@@ -86,6 +86,7 @@ public class LeaveCalendarAction extends TkAction {
 		}
 		
 		lcf.setCalendarEntry(calendarEntry);
+        lcf.setDocumentId(lcd.getDocumentId());
 		if(calendarEntry != null) {
 			lcf.setCalEntryId(calendarEntry.getHrCalendarEntriesId());
 		}
@@ -292,7 +293,9 @@ public class LeaveCalendarAction extends TkAction {
 			leaveForm.setDocumentId(lcd.getDocumentId());
 		}
 		TKContext.setCurrentLeaveCalendarDocument(lcd);
+        TKContext.setCurrentLeaveCalendarDocumentId(lcd.getDocumentId());
 		leaveForm.setLeaveCalendarDocument(lcd);
+        leaveForm.setDocumentId(lcd.getDocumentId());
 		// -- put condition if it is not after current period
 		boolean isFutureDate = TKUtils.getTimelessDate(null).compareTo(
 				lcd.getCalendarEntry().getBeginPeriodDateTime()) >= 0;
