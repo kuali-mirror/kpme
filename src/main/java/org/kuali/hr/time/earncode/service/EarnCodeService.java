@@ -16,7 +16,7 @@ public interface EarnCodeService {
      * @param asOfDate
      * @return
      */
-    @Cacheable(value= EarnCode.CACHE_NAME, key="'{getEarnCodesForLeaveAndTime}' + 'principalId=' + T(org.kuali.hr.time.util.TkContext).principalId() + '|' + 'targetId=' + T(org.kuali.hr.time.util.TkContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1")
+    @Cacheable(value= EarnCode.CACHE_NAME, key="'{getEarnCodesForLeaveAndTime}' + 'principalId=' + T(org.kuali.hr.time.util.TKContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.hr.time.util.TKContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1")
     public List<EarnCode> getEarnCodesForLeaveAndTime(Assignment a, Date asOfDate);
 
     /**
@@ -25,7 +25,7 @@ public interface EarnCodeService {
      * @param asOfDate
      * @return
      */
-    @Cacheable(value= EarnCode.CACHE_NAME, key="'{getEarnCodesForTime}' + 'principalId=' + T(org.kuali.hr.time.util.TkContext).principalId() + '|' + 'targetId=' + T(org.kuali.hr.time.util.TkContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1")
+    @Cacheable(value= EarnCode.CACHE_NAME, key="'{getEarnCodesForTime}' + 'principalId=' + T(org.kuali.hr.time.util.TKContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.hr.time.util.TKContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1")
     public List<EarnCode> getEarnCodesForTime(Assignment a, Date asOfDate);
 
 	/**
@@ -34,7 +34,7 @@ public interface EarnCodeService {
      * @param asOfDate
 	 * @return
 	 */
-    @Cacheable(value= EarnCode.CACHE_NAME, key="'{getEarnCodesForLeave}' + 'principalId=' + T(org.kuali.hr.time.util.TkContext).principalId() + '|' + 'targetId=' + T(org.kuali.hr.time.util.TkContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1")
+    @Cacheable(value= EarnCode.CACHE_NAME, key="'{getEarnCodesForLeave}' + 'principalId=' + T(org.kuali.hr.time.util.TKContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.hr.time.util.TKContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1")
     public List<EarnCode> getEarnCodesForLeave(Assignment a, Date asOfDate);
 
     /**
