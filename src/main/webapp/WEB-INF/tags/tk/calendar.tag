@@ -113,7 +113,7 @@
                             <c:set var="dayId" value="gray_day"/>
                             <c:set var="dayClass" value="ui-state-default"/>
                         </c:if>
- 						<c:if test="${not day.dayEditable}">
+ 						<c:if test="${calType eq 'leaveCalendar' and not day.dayEditable}">
  							<c:set var="dayClass" value="ui-state-default"/>
  						</c:if>
 
