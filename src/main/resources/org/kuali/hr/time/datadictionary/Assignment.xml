@@ -120,14 +120,14 @@
 	<bean id="Assignment-principalId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Principal Id" />
-		<property name="maxLength" value="10" />
+		<property name="maxLength" value="40" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
 				<property name="allowWhitespace" value="false" />
 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
+			<bean parent="TextControlDefinition" p:size="40" />
 		</property>
 		<property name="name" value="principalId" />
 		<property name="label" value="Principal Id" />

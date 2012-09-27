@@ -30,7 +30,7 @@
 	<bean id="MissedPunchDocument-assignment-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="forceUppercase" value="false"/>
 		<property name="shortLabel" value="Assignment" />
-		<property name="maxLength" value="30" />
+		<property name="maxLength" value="20" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
 				<property name="allowWhitespace" value="false" />
@@ -48,7 +48,7 @@
     <bean id="MissedPunchDocument-principalId-parentBean" abstract="true"
         parent="AttributeDefinition">
         <property name="shortLabel" value="Principal Id" />
-        <property name="maxLength" value="20" />
+        <property name="maxLength" value="40" />
         <property name="validationPattern">
             <bean parent="AnyCharacterValidationPattern">
                 <property name="allowWhitespace" value="false" />
@@ -65,7 +65,7 @@
     <bean id="MissedPunchDocument-clockAction-parentBean" abstract="true"
         parent="AttributeDefinition">
         <property name="shortLabel" value="Missed Clock Action" />
-        <property name="maxLength" value="30" />
+        <property name="maxLength" value="20" />
         <property name="validationPattern">
             <bean parent="AnyCharacterValidationPattern">
                 <property name="allowWhitespace" value="false" />

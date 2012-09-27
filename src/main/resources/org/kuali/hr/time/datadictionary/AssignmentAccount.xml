@@ -101,14 +101,14 @@
 	<bean id="AssignmentAccount-finCoaCd-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="COA" />
-		<property name="maxLength" value="10" />
+		<property name="maxLength" value="2" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
 				<property name="allowWhitespace" value="false" />
 			</bean>
 		</property>
 		<property name="control">
-			<bean parent="LookupReadonlyControlDefinition" p:size="10" />
+			<bean parent="LookupReadonlyControlDefinition" p:size="2" />
 		</property>
 		<property name="name" value="finCoaCd" />
 		<property name="label" value="COA" />
