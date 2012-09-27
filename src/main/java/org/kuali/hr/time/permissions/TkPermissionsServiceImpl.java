@@ -88,7 +88,13 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
 
                 if (StringUtils.equals(payType.getRegEarnCode(),
                         tb.getEarnCode())) {
-                    return true;
+                    TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),tb.getWorkArea(),tb.getBeginDate());
+                    if(!tcr.isClockUserFl()){
+                        return true;
+                    }  else{
+                        return false;
+                    }
+
                 }
 
                 List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator

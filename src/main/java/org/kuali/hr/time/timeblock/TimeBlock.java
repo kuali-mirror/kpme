@@ -609,6 +609,10 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
 		return TkServiceLocator.getPermissionsService().canEditRegEarnCode(this);
 	}
 
+    public Boolean getTimeBlockEditable(){
+        return TkServiceLocator.getPermissionsService().canEditTimeBlock(this);
+    }
+
     public boolean isLunchDeleted() {
         return lunchDeleted;
     }
