@@ -162,6 +162,10 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
                     // That's why there is a two step server call to get the id. This might be changed in the future.
 
                     java.sql.Date sqlDate = new java.sql.Date(ce.getEndLocalDateTime().toDateTime().toDate().getTime());
+                    if (leaveBlockType.equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR)
+                            && BigDecimal.ZERO.compareTo(hours) < 0) {
+                        hours = hours.negate();
+                    }
                     EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, sqlDate);
                     AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), sqlDate);
                     String acId = accrualCategory == null ? null : accrualCategory.getLmAccrualCategoryId();
@@ -188,7 +192,12 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     // KPME-1447
     @Override
     public void updateLeaveBlock(LeaveBlock leaveBlock) {
-    	
+    	//verify that if leave block is usage, leave amount is negative
+        if (LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR.equals(leaveBlock.getLeaveBlockType())
+                && BigDecimal.ZERO.compareTo(leaveBlock.getLeaveAmount()) < 0) {
+            leaveBlock.setLeaveAmount(leaveBlock.getLeaveAmount().negate());
+        }
+
         // Make entry into LeaveBlockHistory table
         LeaveBlockHistory leaveBlockHistory = new LeaveBlockHistory(leaveBlock);
         leaveBlockHistory.setPrincipalIdDeleted(TKContext.getPrincipalId());

@@ -39,10 +39,6 @@ public class LeaveCalendarDay extends CalendarDay {
     public void setLeaveBlocks(List<LeaveBlock> leaveBlocks) {
         this.leaveBlocks = leaveBlocks;
         for (LeaveBlock leaveBlock : leaveBlocks) {
-        	// KPME-1690 : set if usage then amount should be appeared as negative.
-        	if(leaveBlock.getRequestStatus() == null || StringUtils.equalsIgnoreCase(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.USAGE)) {
-        		leaveBlock.setLeaveAmount(leaveBlock.getLeaveAmount().multiply(new BigDecimal(-1)));
-        	}
             leaveBlockRenderers.add(new LeaveBlockRenderer(leaveBlock));
         }
     }

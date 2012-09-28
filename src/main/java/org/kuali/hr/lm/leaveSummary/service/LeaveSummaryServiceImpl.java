@@ -164,23 +164,24 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 
 		for(LeaveBlock aLeaveBlock : approvedLeaveBlocks) {
 			if(aLeaveBlock.getAccrualCategoryId().equals(ac.getLmAccrualCategoryId())) {
-				if(StringUtils.isNotEmpty(aLeaveBlock.getRequestStatus())
-						&& aLeaveBlock.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED)) {
-					if(aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) >= 0) {
+                if(aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) >= 0) {
+                    if(StringUtils.isNotEmpty(aLeaveBlock.getRequestStatus())
+                    		&& aLeaveBlock.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED)) {
                         if (aLeaveBlock.getLeaveDate().getTime() <= priorYearCutOff.getTime()) {
                             carryOver = carryOver.add(aLeaveBlock.getLeaveAmount());
                         } else {
-						    accrualedBalance = accrualedBalance.add(aLeaveBlock.getLeaveAmount());
+                            accrualedBalance = accrualedBalance.add(aLeaveBlock.getLeaveAmount());
                         }
-					} else {
-						approvedUsage = approvedUsage.add(aLeaveBlock.getLeaveAmount());
-						EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(aLeaveBlock.getEarnCode(), aLeaveBlock.getLeaveDate());
-				    	if(ec != null && ec.getFmla().equals("Y")) {
-				    		fmlaUsage = fmlaUsage.add(aLeaveBlock.getLeaveAmount());
-				    	}
-					}
+                    }
+                } else {
+                    approvedUsage = approvedUsage.add(aLeaveBlock.getLeaveAmount());
+                    EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(aLeaveBlock.getEarnCode(), aLeaveBlock.getLeaveDate());
+                    if(ec != null && ec.getFmla().equals("Y")) {
+                        fmlaUsage = fmlaUsage.add(aLeaveBlock.getLeaveAmount());
+                    }
+                }
 					
-				}
+				//}
 			}
 		}
         lsr.setCarryOver(carryOver);

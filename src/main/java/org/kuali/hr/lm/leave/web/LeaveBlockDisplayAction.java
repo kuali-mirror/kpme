@@ -103,8 +103,6 @@ public class LeaveBlockDisplayAction extends TkAction {
 					leaveBlock.setRequestStatus("");
 				} else { // default USAGE
 					leaveBlock.setRequestStatus("");
-					// KPME-1690 : set if usage then amount should be appeared as negative
-					leaveBlock.setLeaveAmount(leaveBlock.getLeaveAmount().multiply(new BigDecimal(-1)));
 				}
 				
 				// set accrual balance map for the leaveblock
