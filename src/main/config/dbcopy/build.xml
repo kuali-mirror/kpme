@@ -40,7 +40,7 @@
     <!-- 
         Global Properties 
     -->
-    <property name="db.version" value="150"/>
+    <property name="db.version" value="dba150"/>
 	<property name="server.schema" value="krtt"/>
     <property name="server.username" value="krtt"/>
     <property name="server.password" value="krtt"/>
@@ -68,10 +68,10 @@
     <target name="mysql-init" description="Initializes the build">
         <copy todir="." flatten="true">
             <resources>
-                <url url="http://ci.kpme.kuali.org/public/extracts/mysql_dba${db.version}.zip"/>
+                <url url="http://ci.kpme.kuali.org/public/extracts/mysql_${db.version}.zip"/>
             </resources>
         </copy>
-	    <unzip src="mysql_dba${db.version}.zip" dest="."/>
+	    <unzip src="mysql_${db.version}.zip" dest="."/>
     </target>
 	
     <target name="mysql-server" description="Updates the server database">
@@ -132,7 +132,7 @@
         <delete dir="mysql"/>
     	<delete file="mysql_server.sql"/>
     	<delete file="mysql_client.sql"/>
-        <delete file="mysql_dba${db.version}.zip"/>
+        <delete file="mysql_${db.version}.zip"/>
     </target>   
     
     <!--
@@ -143,10 +143,10 @@
     <target name="oracle-init" description="Initializes the build">
         <copy todir="." flatten="true">
             <resources>
-                <url url="http://ci.kpme.kuali.org/public/extracts/oracle_dba${db.version}.zip"/>
+                <url url="http://ci.kpme.kuali.org/public/extracts/oracle_${db.version}.zip"/>
             </resources>
         </copy>
-        <unzip src="oracle_dba${db.version}.zip" dest="."/>
+        <unzip src="oracle_${db.version}.zip" dest="."/>
     </target>
 	
     <target name="oracle-server" depends="oracle-init" description="updates the embedded server database">
@@ -171,7 +171,7 @@
         <delete dir="oracle"/>
         <delete file="oracle_server.sql"/>
         <delete file="oracle_client.sql"/>
-        <delete file="oracle_dba${db.version}.zip"/>
+        <delete file="oracle_${db.version}.zip"/>
     </target>
     
 </project>
