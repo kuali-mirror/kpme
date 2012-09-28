@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
@@ -27,8 +28,10 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements AssignmentDao {
@@ -371,7 +374,17 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
         }
 
         if (StringUtils.isNotEmpty(dept)) {
-            crit.addLike("dept", dept);
+            Criteria workAreaCriteria = new Criteria();
+            Date asOfDate = toEffdt != null ? toEffdt : TKUtils.getCurrentDate();
+            Collection<WorkArea> workAreasForDept = TkServiceLocator.getWorkAreaService().getWorkAreas(dept,asOfDate);
+            if (CollectionUtils.isNotEmpty(workAreasForDept)) {
+                List<Long> longWorkAreas = new ArrayList<Long>();
+                for(WorkArea cwa : workAreasForDept){
+                    longWorkAreas.add(cwa.getWorkArea());
+                }
+                workAreaCriteria.addIn("workArea", longWorkAreas);
+            }
+            crit.addAndCriteria(workAreaCriteria);
         }
 
         if (StringUtils.isNotEmpty(workArea)) {
