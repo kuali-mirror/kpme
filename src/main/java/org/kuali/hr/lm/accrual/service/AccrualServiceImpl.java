@@ -277,12 +277,13 @@ public class AccrualServiceImpl implements AccrualService {
 					if(this.isDateAtEarnInterval(currentDate, earnIntervalKey)) {
 						BigDecimal acHours = accumulatedAccrualCatToAccrualAmounts.get(anAC.getLmAccrualCategoryId());
 						if(acHours != null) {
-							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, acHours, anAC, null);
+							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, acHours, anAC, null, true);
 							accumulatedAccrualCatToAccrualAmounts.remove(anAC.getLmAccrualCategoryId());	// reset accumulatedAccrualCatToAccrualAmounts
 						}
 						BigDecimal adjustmentHours = accumulatedAccrualCatToNegativeAccrualAmounts.get(anAC.getLmAccrualCategoryId());
 						if(adjustmentHours != null && adjustmentHours.compareTo(BigDecimal.ZERO) != 0) {
-							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, adjustmentHours, anAC, null);
+							// do not create leave block if the ajustment amount is 0
+							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, adjustmentHours, anAC, null, false);
 							accumulatedAccrualCatToNegativeAccrualAmounts.remove(anAC.getLmAccrualCategoryId());	// reset accumulatedAccrualCatToNegativeAccrualAmounts
 						}
 					}			
@@ -297,9 +298,9 @@ public class AccrualServiceImpl implements AccrualService {
 				}
 				BigDecimal hrs = new BigDecimal(ssto.getAmountofTime()).multiply(ftePercentage);
 				// system scheduled time off leave block
-				createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, hrs, anAC, ssto.getLmSystemScheduledTimeOffId());
+				createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, hrs, anAC, ssto.getLmSystemScheduledTimeOffId(), true);
 				// usage leave block with negative amount
-				createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, hrs.negate(), anAC, ssto.getLmSystemScheduledTimeOffId());
+				createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, hrs.negate(), anAC, ssto.getLmSystemScheduledTimeOffId(), true);
 			}
 			// if today is the last day of the employment, create leave blocks if there's any hours available
 			if(endPhra != null && TKUtils.removeTime(currentDate).equals(TKUtils.removeTime(endPhra.getEffectiveDate()))){
@@ -308,7 +309,7 @@ public class AccrualServiceImpl implements AccrualService {
 					for(Map.Entry<String, BigDecimal> entry : accumulatedAccrualCatToAccrualAmounts.entrySet()) {
 						if(entry.getValue() != null && entry.getValue().compareTo(BigDecimal.ZERO) != 0) {
 							AccrualCategory anAC = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(entry.getKey());
-							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, entry.getValue(), anAC, null);
+							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, entry.getValue(), anAC, null, true);
 						}
 					}
 					accumulatedAccrualCatToAccrualAmounts = new HashMap<String,BigDecimal>();	// reset accumulatedAccrualCatToAccrualAmounts
@@ -318,7 +319,7 @@ public class AccrualServiceImpl implements AccrualService {
 					for(Map.Entry<String, BigDecimal> entry : accumulatedAccrualCatToNegativeAccrualAmounts.entrySet()) {
 						if(entry.getValue() != null && entry.getValue().compareTo(BigDecimal.ZERO) != 0) {
 							AccrualCategory anAC = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(entry.getKey());
-							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, entry.getValue(), anAC, null);
+							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, entry.getValue(), anAC, null, true);
 						}
 					}
 					accumulatedAccrualCatToNegativeAccrualAmounts = new HashMap<String,BigDecimal>();	// reset accumulatedAccrualCatToNegativeAccrualAmounts
@@ -367,7 +368,7 @@ public class AccrualServiceImpl implements AccrualService {
 	}
 	
 	private void createLeaveBlock(String principalId, List<LeaveBlock> accrualLeaveBlocks, 
-			java.util.Date currentDate, BigDecimal hrs, AccrualCategory anAC, String sysSchTimeOffId) {
+			java.util.Date currentDate, BigDecimal hrs, AccrualCategory anAC, String sysSchTimeOffId, boolean createZeroLeaveBlock) {
 		// Replacing Leave Code to earn code - KPME 1634
 		EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(anAC.getEarnCode(), anAC.getEffectiveDate());
 		if(ec == null) {
@@ -375,7 +376,7 @@ public class AccrualServiceImpl implements AccrualService {
 		}
 		// use rounding option and fract time allowed of Leave Code to round the leave block hours
 		BigDecimal roundedHours = TkServiceLocator.getEarnCodeService().roundHrsWithEarnCode(hrs, ec);
-		if(roundedHours.compareTo(BigDecimal.ZERO) == 0) {
+		if(!createZeroLeaveBlock && roundedHours.compareTo(BigDecimal.ZERO) == 0) {
 			return;	// do not create leave block with zero amount
 		}
 		LeaveBlock aLeaveBlock = new LeaveBlock();
