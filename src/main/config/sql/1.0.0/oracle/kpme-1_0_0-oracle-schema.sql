@@ -1,3 +1,19 @@
+--
+-- Copyright 2004-2012 The Kuali Foundation
+--
+-- Licensed under the Educational Community License, Version 2.0 (the "License");
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+--
+-- http://www.opensource.org/licenses/ecl2.php
+--
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an "AS IS" BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+--
+
 -- Lock Database
 CREATE TABLE ca_account_t (FIN_COA_CD VARCHAR2(2) DEFAULT '' NOT NULL, ACCOUNT_NBR VARCHAR2(10) DEFAULT '' NOT NULL, OBJ_ID VARCHAR2(36) NOT NULL, VER_NBR DECIMAL(8,0) DEFAULT 1 NOT NULL, ACCOUNT_NM VARCHAR2(40), ORG_CD VARCHAR2(10), ACCT_CREATE_DT TIMESTAMP, ACCT_EFFECT_DT TIMESTAMP, ACCT_EXPIRATION_DT TIMESTAMP, ACCT_CLOSED_IND VARCHAR2(1));
 CREATE TABLE ca_chart_t (FIN_COA_CD VARCHAR2(2) DEFAULT '' NOT NULL, OBJ_ID VARCHAR2(36) NOT NULL, VER_NBR DECIMAL(8,0) DEFAULT 1 NOT NULL, FIN_COA_DESC VARCHAR2(40), FIN_COA_ACTIVE_CD VARCHAR2(1), CONSTRAINT PK_CA_CHART_T PRIMARY KEY (FIN_COA_CD));
