@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -246,9 +247,9 @@ public class TimeApprovalAction extends ApprovalAction{
 					@Override
 					public int compare(ApprovalTimeSummaryRow row1, ApprovalTimeSummaryRow row2) {
 						if (isAscending) {
-							return ObjectUtils.compare(row1.getDocumentId(), row2.getDocumentId());
+							return ObjectUtils.compare(NumberUtils.toInt(row1.getDocumentId()), NumberUtils.toInt(row2.getDocumentId()));
 						} else {
-							return ObjectUtils.compare(row2.getDocumentId(), row1.getDocumentId());
+							return ObjectUtils.compare(NumberUtils.toInt(row2.getDocumentId()), NumberUtils.toInt(row1.getDocumentId()));
 						}
 					}
 		    	});
