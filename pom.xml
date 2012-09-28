@@ -720,7 +720,11 @@
                                 <exclude>**/*.csv</exclude>
                                 <exclude>**/*.pdf</exclude>
                                 <exclude>**/*.tag</exclude>
+                                <exclude>**/backbone*.js</exclude>
+                                <exclude>**/date*.js</exclude>
                                 <exclude>**/jquery*.js</exclude>
+                                <exclude>**/qunit*.js</exclude>
+                                <exclude>**/underscore*.js</exclude>
                                 <exclude>src/main/config/db/rice/**/*.sql</exclude>
 				                <exclude>src/main/config/launch/**</exclude>
 		                        <exclude>src/main/webapp/acknowledgments.jsp</exclude>
