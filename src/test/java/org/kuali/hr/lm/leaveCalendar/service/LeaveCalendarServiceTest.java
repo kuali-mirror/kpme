@@ -28,24 +28,35 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public class LeaveCalendarServiceTest extends KPMETestCase {
-
+	
 	@Test
 	public void testOpenLeaveCalendarDocument() throws WorkflowException {
-		String principalId = "admin";
 		CalendarEntries calEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("5000");
 		Date beginDate = calEntry.getBeginPeriodDate();
 		Date endDate = calEntry.getEndPeriodDate();
 		
-		List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
+		List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", beginDate, endDate);
 		LeaveBlock lb = leaveBlocks.get(0);
 		Assert.assertNull("Leave Block should have null as documentId", lb.getDocumentId());
 		
 		// after leave document created, the existing leave blocks should be assigned with the new document id
-		LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(principalId, calEntry);
+		LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument("admin", calEntry);
 		Assert.assertNotNull("Leave Calendar document should not be null", lcd);
 		
-		leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
+		leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", beginDate, endDate);
 		lb = leaveBlocks.get(0);
 		Assert.assertTrue("Leave Block should have the new leave calendar document's id as document id", lb.getDocumentId().equals(lcd.getDocumentId()));		
+	}
+	
+	@Test
+	public void testShouldCreateLeaveDocument(){
+		// no jobs found for assignment of testUser1 with flsa_status = exempt and leave_eligible = yes
+		CalendarEntries calEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("5001");
+		boolean flag = TkServiceLocator.getLeaveCalendarService().shouldCreateLeaveDocument("testUser1", calEntry);
+		Assert.assertFalse("Should NOT create leave document for 'testUser1'", flag);
+		
+		flag = TkServiceLocator.getLeaveCalendarService().shouldCreateLeaveDocument("testUser2", calEntry);
+		Assert.assertTrue("Should create leave document for 'testUser2'", flag);
+		
 	}
 }

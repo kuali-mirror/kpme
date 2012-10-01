@@ -17,7 +17,6 @@ package org.kuali.hr.lm.leavecalendar.service;
 
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.calendar.CalendarEntries;
-import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface LeaveCalendarService {
@@ -35,4 +34,13 @@ public interface LeaveCalendarService {
     public void approveLeaveCalendar(String principalId, LeaveCalendarDocument leaveCalendarDocument);
 
     public void disapproveLeaveCalendar(String principalId, LeaveCalendarDocument leaveCalendarDocument);
+    
+    /**
+     * Determine if Leave Calendar document should be created for given principalId and calendar entry
+     * Should only create leave calendar document if active jobs were found with flsa elig = no and ben elg = yes
+     * @param principalId
+     * @param calEntry
+     * @return boolean  
+     */
+    public boolean shouldCreateLeaveDocument(String principalId, CalendarEntries calEntry);
 }

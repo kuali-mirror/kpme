@@ -18,6 +18,7 @@ package org.kuali.hr.lm.leavecalendar.service;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -80,7 +81,14 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         // TODO: need to set the summary
         return doc;
     }
-
+    
+    //Should only create leave calendar document if active jobs were found with flsa elig = no and ben elg = yes
+    public boolean shouldCreateLeaveDocument(String principalId, CalendarEntries calEntry){
+    	List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, calEntry);
+    	List<Assignment> results = TkServiceLocator.getAssignmentService().filterAssignments(assignments, TkConstants.FLSA_STATUS_EXEMPT, true);
+    	return CollectionUtils.isNotEmpty(results);
+    }
+    
     protected LeaveCalendarDocument initiateWorkflowDocument(String principalId, Date payBeginDate, Date payEndDate, String documentType, String title) throws WorkflowException {
         LeaveCalendarDocument leaveCalendarDocument = null;
         WorkflowDocument workflowDocument = null;

@@ -116,20 +116,17 @@ public class AssignmentServiceImpl implements AssignmentService {
     
     public List<Assignment> getAssignmentsByCalEntryForTimeCalendar(String principalId, CalendarEntries payCalendarEntry){
     	List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, payCalendarEntry);
-    	List<Assignment> results = filterAssignments(assignments, TkConstants.FLSA_STATUS_NON_EXEMPT, false);
+    	List<Assignment> results = TkServiceLocator.getAssignmentService().filterAssignments(assignments, TkConstants.FLSA_STATUS_NON_EXEMPT, false);
     	return results;
     }
     
     public List<Assignment> getAssignmentsByCalEntryForLeaveCalendar(String principalId, CalendarEntries payCalendarEntry){
     	List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, payCalendarEntry);
-    	List<Assignment> results = filterAssignments(assignments, null, true);
+    	List<Assignment> results = TkServiceLocator.getAssignmentService().filterAssignments(assignments, null, true);
     	return results;
     }
 
-    /*
-     * Filter given list of Assignments based on passed in flasStatus and checkForLeaveEligible flag
-     */
-    private List<Assignment> filterAssignments(List<Assignment> assignments, String flsaStatus, boolean chkForLeaveEligible) {
+    public List<Assignment> filterAssignments(List<Assignment> assignments, String flsaStatus, boolean chkForLeaveEligible) {
     	List<Assignment> results = new ArrayList<Assignment>();
     	for(Assignment assignment : assignments) {
     		boolean flag = false;
@@ -303,20 +300,26 @@ public class AssignmentServiceImpl implements AssignmentService {
             throw new RuntimeException("leave document is null.");
         }
         List<Assignment> assignments = lcd.getAssignments();
-        Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
-        for (Assignment assignment : assignments) {
-                assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
-        }
-        return assignmentDescriptions;
+        return TkServiceLocator.getAssignmentService().getAssignmentDescriptionsForAssignments(assignments);
     }
-
+    
+    public Map<String, String> getAssignmentDescriptionsForAssignments(List<Assignment>  assignments) {
+    	 Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
+         for (Assignment assignment : assignments) {
+                 assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
+         }
+         return assignmentDescriptions;
+    }
 
     @Override
     public Assignment getAssignment(LeaveCalendarDocument leaveCalendarDocument, String assignmentKey) {
         List<Assignment> assignments = leaveCalendarDocument.getAssignments();
+        return TkServiceLocator.getAssignmentService().getAssignment(assignments, assignmentKey, leaveCalendarDocument.getCalendarEntry().getBeginPeriodDate());
+    }
+    
+    public Assignment getAssignment(List<Assignment> assignments, String assignmentKey, Date beginDate) {
         AssignmentDescriptionKey desc = getAssignmentDescriptionKey(assignmentKey);
-
-        if (CollectionUtils.isNotEmpty(assignments)) {
+    	if (CollectionUtils.isNotEmpty(assignments)) {
             for (Assignment assignment : assignments) {
                 if (assignment.getJobNumber().compareTo(desc.getJobNumber()) == 0 &&
                         assignment.getWorkArea().compareTo(desc.getWorkArea()) == 0 &&
@@ -327,7 +330,7 @@ public class AssignmentServiceImpl implements AssignmentService {
         }
 
         //No assignment found so fetch the inactive ones for this payBeginDate
-        Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(desc, leaveCalendarDocument.getCalendarEntry().getBeginPeriodDate());
+        Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(desc, beginDate);
         if (assign != null) {
             return assign;
         }

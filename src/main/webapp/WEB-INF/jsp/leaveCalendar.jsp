@@ -25,21 +25,26 @@
     <script src="js/tk.ui.js"></script>
     <script src="js/common.calendar.backbone.js"></script>
     <script src="js/tk.leaveCalendar.backbone.js"></script>
+    
     <tk:calendar cal="${Form.leaveCalendar}" docId="${Form.documentId}" calType="leaveCalendar"/>
-
-    <%-- render the calendar buttons --%>
-    <lm:lmLeaveCalendarRouting/>
+    
+    <%-- if this leave calendar does not have a leave calendar document, then do not show routing sections --%>
+    <c:if test="${not empty Form.documentId}">
+    	<%-- render the calendar buttons --%>
+   		<lm:lmLeaveCalendarRouting/>
+    </c:if>
     
     <lm:leaveSummary leaveSummary="${Form.leaveSummary}" />
-            <%-- route logs --%>
-	<lm:routeLog/>
-
-            <%-- notes --%>
-    <lm:note/>
+            
+    <c:if test="${not empty Form.documentId}">
+    	<%-- route logs --%>
+		<lm:routeLog/>
+        <%-- notes --%>
+    	<lm:note/>
+    </c:if>
     
     <%-- this is used by the javascript to fetch the leave block json --%>
     <html:textarea property="leaveBlockString" styleId="leaveBlockString" value="${Form.leaveBlockString}"/>
-        
 
     <div id="cal">
  	<html:hidden property="documentId" value="${Form.documentId}" styleId="documentId"/>

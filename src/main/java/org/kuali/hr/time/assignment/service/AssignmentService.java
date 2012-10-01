@@ -150,7 +150,25 @@ public interface AssignmentService {
      */
     public Map<String,String> getAssignmentDescriptions(LeaveCalendarDocument lcd);
     
+    /**
+     * Get all assignment descriptions for given list of Assignments
+     * @param assignments
+     * @return
+     */
+    public Map<String, String> getAssignmentDescriptionsForAssignments(List<Assignment>  assignments);
+    
     public Assignment getAssignment(LeaveCalendarDocument leaveCalendarDocument, String assignmentKey);
     
+    public Assignment getAssignment(List<Assignment> assignments, String assignmentKey, Date beginDate);
+    
     public Assignment getMaxTimestampAssignment(String principalId);
+    
+    /**
+     * Filter the given list of assignments with given criteria
+     * @param assignments
+     * @param flsaStatus
+     * @param chkForLeaveEligible
+     * @return List<Assignment>
+     */
+    public List<Assignment> filterAssignments(List<Assignment> assignments, String flsaStatus, boolean chkForLeaveEligible);
 }

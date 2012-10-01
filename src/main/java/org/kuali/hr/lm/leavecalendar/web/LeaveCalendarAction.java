@@ -89,23 +89,16 @@ public class LeaveCalendarAction extends TkAction {
 			// do further procedure
 			calendarEntry = TkServiceLocator.getCalendarEntriesService()
 					.getCalendarEntries(calendarEntryId);
-			lcd = TkServiceLocator.getLeaveCalendarService()
-					.openLeaveCalendarDocument(viewPrincipal, calendarEntry);
 		} else {
 			// Default to whatever is active for "today".
 			Date currentDate = TKUtils.getTimelessDate(null);
 			calendarEntry = TkServiceLocator.getCalendarService()
 					.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, currentDate);
-			lcd = TkServiceLocator.getLeaveCalendarService()
-					.openLeaveCalendarDocument(viewPrincipal, calendarEntry);
 		}
-		
 		lcf.setCalendarEntry(calendarEntry);
-        lcf.setDocumentId(lcd.getDocumentId());
 		if(calendarEntry != null) {
 			lcf.setCalEntryId(calendarEntry.getHrCalendarEntriesId());
 		}
-		lcf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
 		// check configuration setting for allowing accrual service to be ran from leave calendar
 		String runAccrualFlag = ConfigContext.getCurrentContextConfig().getProperty(LMConstants.RUN_ACCRUAL_FROM_CALENDAR);
 		if(StringUtils.equals(runAccrualFlag, "true")) {
@@ -118,17 +111,23 @@ public class LeaveCalendarAction extends TkAction {
 			}
 		}
 		
+		if(lcd == null) {
+			// use jobs to find out if this leave calendar should have a document created or not
+			boolean createFlag = TkServiceLocator.getLeaveCalendarService().shouldCreateLeaveDocument(viewPrincipal, calendarEntry);
+			if(createFlag) {
+				lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, calendarEntry);
+			}
+		}
+		
 		if (lcd != null) {
-			setupDocumentOnFormContext(lcf, lcd);
+			lcf.setDocumentId(lcd.getDocumentId());
+			lcf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
             lcdh = lcd.getDocumentHeader();
 		} else {
-			LOG.error("Null leave calendar document in LeaveCalendarAction.");
+			List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(viewPrincipal, calendarEntry);
+			lcf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptionsForAssignments(assignments));  
 		}
-
-		// PrincipalHRAttributes principalHRAttributes =
-		// TkServiceLocator.getPrincipalHRAttributesService().getPrincipalCalendar(user.getPrincipalId(),
-		// TKUtils.getCurrentDate());
-
+		setupDocumentOnFormContext(lcf, lcd);
 		ActionForward forward = super.execute(mapping, form, request, response);
 		if (forward.getRedirect()) {
 			return forward;
@@ -217,7 +216,15 @@ public class LeaveCalendarAction extends TkAction {
 		BigDecimal hours = lcf.getLeaveAmount();
 		String desc = lcf.getDescription();
 		String spanningWeeks = lcf.getSpanningWeeks();  // KPME-1446
-		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(lcd, lcf.getSelectedAssignment());
+		Assignment assignment = null;
+		if(lcd != null) {
+			assignment = TkServiceLocator.getAssignmentService().getAssignment(lcd, lcf.getSelectedAssignment());
+		} else {
+			List<Assignment> assignments = TkServiceLocator.getAssignmentService()
+					.getAssignmentsByCalEntryForLeaveCalendar(TKUser.getCurrentTargetPerson().getPrincipalId(), lcf.getCalendarEntry());
+			assignment = TkServiceLocator.getAssignmentService()
+					.getAssignment(assignments, lcf.getSelectedAssignment(), lcf.getCalendarEntry().getBeginPeriodDate());
+		}
 
 		TkServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate,
 				endDate, lcf.getCalendarEntry(), selectedEarnCode, hours, desc, assignment, spanningWeeks, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR); // KPME-1446
@@ -303,91 +310,98 @@ public class LeaveCalendarAction extends TkAction {
 		LeaveCalendarDocumentHeader nextLdh = null;
 		CalendarEntries futureCalEntry = null;
 		String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
-		if (lcd.getDocumentHeader() != null) {
-			TKContext.setCurrentLeaveCalendarDocumentId(lcd.getDocumentId());
-			leaveForm.setDocumentId(lcd.getDocumentId());
-		}
-		TKContext.setCurrentLeaveCalendarDocument(lcd);
-        TKContext.setCurrentLeaveCalendarDocumentId(lcd.getDocumentId());
-		leaveForm.setLeaveCalendarDocument(lcd);
-        leaveForm.setDocumentId(lcd.getDocumentId());
-		// -- put condition if it is not after current period
+		CalendarEntries calEntry = leaveForm.getCalendarEntry();
 		boolean isFutureDate = TKUtils.getTimelessDate(null).compareTo(
-				lcd.getCalendarEntry().getBeginPeriodDateTime()) >= 0;
-
-		if (TKContext.getCurrentLeaveCalendarDocument()
-				.getDocumentHeader() != null) {
-			prevLdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService()
-					.getPrevOrNextDocumentHeader(TkConstants.PREV_TIMESHEET,
-							viewPrincipal);
-			nextLdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService()
-					.getPrevOrNextDocumentHeader(TkConstants.NEXT_TIMESHEET,
-							viewPrincipal);
-		}
-		if (prevLdh != null) {
-			leaveForm.setPrevDocumentId(prevLdh.getDocumentId());
-		} else if (!isFutureDate) { // -- if calendar entry is not before the
-									// current calendar entry
-
-			// fetch previous entry
-			CalendarEntries calNextEntry = TkServiceLocator
-					.getCalendarEntriesService()
-					.getPreviousCalendarEntriesByCalendarId(
-							lcd.getCalendarEntry().getHrCalendarId(),
-							lcd.getCalendarEntry());
-			if (calNextEntry != null) {
-				leaveForm.setPrevCalEntryId(calNextEntry
-						.getHrCalendarEntriesId());
+				calEntry.getBeginPeriodDateTime()) >= 0;
+		// some leave calendar may not have leaveCalendarDocument created based on the jobs status of this employee
+		if(lcd != null) {
+			if (lcd.getDocumentHeader() != null) {
+				TKContext.setCurrentLeaveCalendarDocumentId(lcd.getDocumentId());
+				leaveForm.setDocumentId(lcd.getDocumentId());
 			}
-		}
-		if (nextLdh != null) {
-			leaveForm.setNextDocumentId(nextLdh.getDocumentId());
-		} else {
-			// Fetch planning month's entry
-			int plannningMonths = 0;
-			PrincipalHRAttributes principalHRAttributes = TkServiceLocator
-					.getPrincipalHRAttributeService().getPrincipalCalendar(
-							viewPrincipal, TKUtils.getCurrentDate());
-			if (principalHRAttributes != null
-					&& principalHRAttributes.getLeavePlan() != null) {
-
-				LeavePlan lp = TkServiceLocator.getLeavePlanService()
-						.getLeavePlan(principalHRAttributes.getLeavePlan(),
-								TKUtils.getCurrentDate());
-				// System.out.println("LEave Plan is >>>>>>>>>"+lp);
-
-				if (lp != null && lp.getPlanningMonths() != null) {
-
-					plannningMonths = Integer.parseInt(lp.getPlanningMonths());
-
-					List<CalendarEntries> futureCalEntries = TkServiceLocator
-							.getCalendarEntriesService()
-							.getFutureCalendarEntries(
-									lcd.getCalendarEntry().getHrCalendarId(),
-									TKUtils.getTimelessDate(null),
-									plannningMonths);
-
-					// System.out.println("Future calendar entries >>> "+futureCalEntries);
-					if (futureCalEntries != null && !futureCalEntries.isEmpty()) {
-						futureCalEntry = futureCalEntries.get(futureCalEntries
-								.size() - 1);
-
-						CalendarEntries calNextEntry = TkServiceLocator
+			TKContext.setCurrentLeaveCalendarDocument(lcd);
+	        TKContext.setCurrentLeaveCalendarDocumentId(lcd.getDocumentId());
+			leaveForm.setLeaveCalendarDocument(lcd);
+	        leaveForm.setDocumentId(lcd.getDocumentId());
+	        calEntry = lcd.getCalendarEntry();
+		
+			// -- put condition if it is not after current period
+			isFutureDate = TKUtils.getTimelessDate(null).compareTo(
+					calEntry.getBeginPeriodDateTime()) >= 0;
+	
+			if (TKContext.getCurrentLeaveCalendarDocument()
+					.getDocumentHeader() != null) {
+				prevLdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService()
+						.getPrevOrNextDocumentHeader(TkConstants.PREV_TIMESHEET,
+								viewPrincipal);
+				nextLdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService()
+						.getPrevOrNextDocumentHeader(TkConstants.NEXT_TIMESHEET,
+								viewPrincipal);
+			}
+			if (prevLdh != null) {
+				leaveForm.setPrevDocumentId(prevLdh.getDocumentId());
+			} else if (!isFutureDate) { // -- if calendar entry is not before the
+										// current calendar entry
+	
+				// fetch previous entry
+				CalendarEntries calNextEntry = TkServiceLocator
+						.getCalendarEntriesService()
+						.getPreviousCalendarEntriesByCalendarId(
+								calEntry.getHrCalendarId(),
+								calEntry);
+				if (calNextEntry != null) {
+					leaveForm.setPrevCalEntryId(calNextEntry
+							.getHrCalendarEntriesId());
+				}
+			}
+			if (nextLdh != null) {
+				leaveForm.setNextDocumentId(nextLdh.getDocumentId());
+			} else {
+				// Fetch planning month's entry
+				int plannningMonths = 0;
+				PrincipalHRAttributes principalHRAttributes = TkServiceLocator
+						.getPrincipalHRAttributeService().getPrincipalCalendar(
+								viewPrincipal, TKUtils.getCurrentDate());
+				if (principalHRAttributes != null
+						&& principalHRAttributes.getLeavePlan() != null) {
+	
+					LeavePlan lp = TkServiceLocator.getLeavePlanService()
+							.getLeavePlan(principalHRAttributes.getLeavePlan(),
+									TKUtils.getCurrentDate());
+					// System.out.println("LEave Plan is >>>>>>>>>"+lp);
+	
+					if (lp != null && lp.getPlanningMonths() != null) {
+	
+						plannningMonths = Integer.parseInt(lp.getPlanningMonths());
+	
+						List<CalendarEntries> futureCalEntries = TkServiceLocator
 								.getCalendarEntriesService()
-								.getNextCalendarEntriesByCalendarId(
-										lcd.getCalendarEntry()
-												.getHrCalendarId(),
-										lcd.getCalendarEntry());
-
-						if (calNextEntry != null
-								&& futureCalEntries != null
-								&& calNextEntry
-										.getBeginPeriodDateTime()
-										.compareTo(
-												futureCalEntry
-														.getBeginPeriodDateTime()) <= 0) {
-							leaveForm.setNextCalEntryId(calNextEntry
-									.getHrCalendarEntriesId());
+								.getFutureCalendarEntries(
+										calEntry.getHrCalendarId(),
+										TKUtils.getTimelessDate(null),
+										plannningMonths);
+	
+						// System.out.println("Future calendar entries >>> "+futureCalEntries);
+						if (futureCalEntries != null && !futureCalEntries.isEmpty()) {
+							futureCalEntry = futureCalEntries.get(futureCalEntries
+									.size() - 1);
+	
+							CalendarEntries calNextEntry = TkServiceLocator
+									.getCalendarEntriesService()
+									.getNextCalendarEntriesByCalendarId(
+											calEntry.getHrCalendarId(),
+											calEntry);
+	
+							if (calNextEntry != null
+									&& futureCalEntries != null
+									&& calNextEntry
+											.getBeginPeriodDateTime()
+											.compareTo(
+													futureCalEntry
+															.getBeginPeriodDateTime()) <= 0) {
+								leaveForm.setNextCalEntryId(calNextEntry
+										.getHrCalendarEntriesId());
+							}
 						}
 					}
 				}
@@ -409,11 +423,11 @@ public class LeaveCalendarAction extends TkAction {
 		} else {
 			leaveForm.setDocEditable(true);
 		}
-		leaveForm.setCalendarEntry(lcd.getCalendarEntry());
-		if(lcd.getCalendarEntry() != null) {
-			leaveForm.setCalEntryId(lcd.getCalendarEntry().getHrCalendarEntriesId());
+		leaveForm.setCalendarEntry(calEntry);
+		if(calEntry != null) {
+			leaveForm.setCalEntryId(calEntry.getHrCalendarEntriesId());
 		}
-		leaveForm.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(lcd.getCalendarEntry()));
+		leaveForm.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(calEntry));
 
 	}
 	
@@ -422,16 +436,25 @@ public class LeaveCalendarAction extends TkAction {
 		String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
 		Date currentDate = TKUtils.getTimelessDate(null);
 		CalendarEntries calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, currentDate);
-		LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, calendarEntry);
 		lcf.setCalendarEntry(calendarEntry);
 		if(calendarEntry != null) {
 			lcf.setCalEntryId(calendarEntry.getHrCalendarEntriesId());
 		}
-		lcf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
 		lcf.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(calendarEntry));
-		if (lcd != null) {
-			setupDocumentOnFormContext(lcf, lcd);
+	
+		LeaveCalendarDocument lcd = null;
+		// use jobs to find out if this leave calendar should have a document created or not
+		boolean createFlag = TkServiceLocator.getLeaveCalendarService().shouldCreateLeaveDocument(viewPrincipal, calendarEntry);
+		if(createFlag) {
+			 lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, calendarEntry);
 		}
+		if (lcd != null) {
+			lcf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
+		} else {
+			List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(viewPrincipal, calendarEntry);
+			lcf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptionsForAssignments(assignments));  
+		}
+		setupDocumentOnFormContext(lcf, lcd);
 		return mapping.findForward("basic");
 	  }
 	
@@ -454,8 +477,19 @@ public class LeaveCalendarAction extends TkAction {
 				.getCalendarEntries(request.getParameter("selectedPP").toString());
 			if(ce != null) {
 				String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
-				LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, ce);
 				lcf.setCalEntryId(ce.getHrCalendarEntriesId());
+				LeaveCalendarDocument lcd = null;
+				// use jobs to find out if this leave calendar should have a document created or not
+				boolean createFlag = TkServiceLocator.getLeaveCalendarService().shouldCreateLeaveDocument(viewPrincipal, ce);
+				if(createFlag) {
+					 lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, ce);
+				}
+				if(lcd != null) {
+					lcf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
+				} else {
+					List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(viewPrincipal, ce);
+					lcf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptionsForAssignments(assignments));  
+				}
 				setupDocumentOnFormContext(lcf, lcd);
 			}
 		}
