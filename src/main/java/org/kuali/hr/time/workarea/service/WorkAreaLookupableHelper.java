@@ -139,7 +139,9 @@ public class WorkAreaLookupableHelper extends TkAuthorizedLookupableHelperBase {
 		String active = fieldValues.get("active");
 		String showHist = fieldValues.get("history");
 		
-		
+		if (StringUtils.equals(workArea, "%")) {
+			workArea = "";
+		}
 		return TkServiceLocator.getWorkAreaService().getWorkAreas(dept, workArea, descr, TKUtils.formatDateString(fromEffdt), 
 													TKUtils.formatDateString(toEffdt), active, showHist);
 		
@@ -148,10 +150,7 @@ public class WorkAreaLookupableHelper extends TkAuthorizedLookupableHelperBase {
 //			fieldValues.put("jobNumber", "");
 //		}
 //		
-//		if (fieldValues.containsKey("workArea")
-//				&& StringUtils.equals(fieldValues.get("workArea"), "%")) {
-//			fieldValues.put("workArea", "");
-//		}
+		
 //		if (fieldValues.containsKey("principalId")
 //				&& StringUtils.equals(fieldValues.get("principalId"), "%")) {
 //			fieldValues.put("principalId", "");
