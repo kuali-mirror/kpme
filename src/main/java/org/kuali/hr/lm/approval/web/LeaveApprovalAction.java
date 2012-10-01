@@ -283,6 +283,7 @@ public class LeaveApprovalAction extends ApprovalAction{
 	    }
 	    List<String> yearList = new ArrayList<String>(yearSet);
 	    Collections.sort(yearList);
+	    Collections.reverse(yearList);	// newest on top
 	    laaf.setCalendarYears(yearList);
 		
 		// set pay period list contents

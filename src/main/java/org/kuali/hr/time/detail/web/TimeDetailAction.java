@@ -189,6 +189,7 @@ public class TimeDetailAction extends TimesheetAction {
 	        }
 	        List<String> yearList = new ArrayList<String>(yearSet);
 	        Collections.sort(yearList);
+	        Collections.reverse(yearList);	// newest on top
 	        tdaf.setCalendarYears(yearList);
         }
         // if selected calendar year is passed in

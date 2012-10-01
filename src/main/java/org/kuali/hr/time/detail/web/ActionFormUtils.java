@@ -270,6 +270,7 @@ public class ActionFormUtils {
         }
     	payPeriods.removeAll(Collections.singletonList(null));
     	Collections.sort(payPeriods);  // sort the pay period list by getBeginPeriodDate
+    	Collections.reverse(payPeriods);  // newest on top
     	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         for (CalendarEntries pce : payPeriods) {
         	if(pce != null && pce.getHrCalendarEntriesId()!= null && pce.getBeginPeriodDate() != null && pce.getEndPeriodDate() != null) {
