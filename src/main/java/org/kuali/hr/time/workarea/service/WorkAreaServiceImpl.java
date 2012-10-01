@@ -73,14 +73,12 @@ public class WorkAreaServiceImpl implements WorkAreaService {
             workArea.setRoles(
                     TkServiceLocator.getTkRoleService().getWorkAreaRoles(
                             workArea.getWorkArea(),
-                            TkConstants.ROLE_TK_APPROVER,
                             workArea.getEffectiveDate()
                     )
             );
             workArea.setInactiveRoles(
             		TkServiceLocator.getTkRoleService().getInActiveWorkAreaRoles(
             				workArea.getWorkArea(),
-            				TkConstants.ROLE_TK_APPROVER,
             				workArea.getEffectiveDate()
             		)
             );

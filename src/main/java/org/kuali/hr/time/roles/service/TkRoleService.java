@@ -53,6 +53,14 @@ public interface TkRoleService {
     @Cacheable(value= TkRole.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'roleName=' + #p1 + '|' + 'asOfDate=' + #p2")
 	public List<TkRole> getRoles(String principalId, String roleName, Date asOfDate);
 	/**
+	 * Fetch all Roles for a given Work Area as of a particular date
+	 * @param workArea
+	 * @param asOfDate
+	 * @return
+	 */
+    @Cacheable(value= TkRole.CACHE_NAME, key="'workArea=' + #p0 + '|' + 'asOfDate=' + #p1")
+	public List<TkRole> getWorkAreaRoles(Long workArea, Date asOfDate);
+    /**
 	 * Fetch all Roles for a given work area and role name as of a particular date
 	 * @param workArea
 	 * @param roleName
@@ -62,6 +70,14 @@ public interface TkRoleService {
     @Cacheable(value= TkRole.CACHE_NAME, key="'workArea=' + #p0 + '|' + 'roleName=' + #p1 + '|' + 'asOfDate=' + #p2")
 	public List<TkRole> getWorkAreaRoles(Long workArea, String roleName, Date asOfDate);
 	/**
+	 * Fetch all Inactive Roles for a given work area as of a particular date
+	 * @param workArea
+	 * @param asOfDate
+	 * @return
+	 */
+    @Cacheable(value= TkRole.CACHE_NAME, key="'{getInActiveWorkAreaRoles}' + 'workArea=' + #p0 + '|' + 'asOfDate=' + #p1")
+	public List<TkRole> getInActiveWorkAreaRoles(Long workArea, Date asOfDate);
+    /**
 	 * Fetch all Inactive Roles for a given work area and role name as of a particular date
 	 * @param workArea
 	 * @param roleName
@@ -70,14 +86,6 @@ public interface TkRoleService {
 	 */
     @Cacheable(value= TkRole.CACHE_NAME, key="'{getInActiveWorkAreaRoles}' + 'workArea=' + #p0 + '|' + 'roleName=' + #p1 + '|' + 'asOfDate=' + #p2")
 	public List<TkRole> getInActiveWorkAreaRoles(Long workArea, String roleName, Date asOfDate);
-	/**
-	 * Fetch all Roles for a given Work Area as of a particular date
-	 * @param workArea
-	 * @param asOfDate
-	 * @return
-	 */
-    @Cacheable(value= TkRole.CACHE_NAME, key="'workArea=' + #p0 + '|' + 'asOfDate=' + #p1")
-	public List<TkRole> getWorkAreaRoles(Long workArea, Date asOfDate);
 	/**
 	 * Fetch all Roles for a given Department and Role Name as of a particular date
 	 * @param department

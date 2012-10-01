@@ -61,6 +61,11 @@ public class TkRoleServiceImpl implements TkRoleService {
 	public List<TkRole> getWorkAreaRoles(Long workArea, String roleName, Date asOfDate) {
 		return tkRoleDao.findRoles(null, asOfDate, roleName, workArea, null, null);
 	}
+	
+	@Override
+	public List<TkRole> getInActiveWorkAreaRoles(Long workArea, Date asOfDate) {
+		return tkRoleDao.findInActiveRoles(null, asOfDate, null, workArea, null, null);
+	}
 
 	@Override
 	public List<TkRole> getInActiveWorkAreaRoles(Long workArea, String roleName, Date asOfDate) {
