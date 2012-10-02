@@ -91,15 +91,6 @@ public class LeaveBlockServiceImplTest extends KPMETestCase {
 	}
 	
 	@Test
-	public void testCalculateAccrualBalance() {
-		Calendar leaveDate = Calendar.getInstance();
-		leaveDate.setTime(TKUtils.getTimelessDate(null));
-		leaveDate.set(Calendar.MONTH, 2);
-		leaveDate.set(Calendar.DATE, 2);
-		Double sum = leaveBlockService.calculateAccrualBalance(leaveDate.getTime(), "3000", "admin");
-	}
-	
-	@Test
 	public void testGetLeaveblocksForTimesheet() {
 		// 03/01/2012 to 03/06/2012
 		Calendar cal = Calendar.getInstance();

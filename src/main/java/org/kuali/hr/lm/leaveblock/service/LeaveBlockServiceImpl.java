@@ -39,7 +39,6 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class LeaveBlockServiceImpl implements LeaveBlockService {
@@ -241,20 +240,6 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 	public List<LeaveBlock> getLeaveBlocksForDate(String principalId, Date leaveDate) {
 		return leaveBlockDao.getLeaveBlocksForDate(principalId, leaveDate);
 	}
-	
-	@Override
-	public Double calculateAccrualBalance(Date leaveDate, String accrualCategoryId, String principalId){
-		Double totalAccrualBal = 0.0;
-		List<LeaveBlock> leaveBlocks = leaveBlockDao.getLeaveBlocks(leaveDate, accrualCategoryId, principalId);
-		if(leaveBlocks != null && !leaveBlocks.isEmpty()) {
-			for(LeaveBlock lb : leaveBlocks) {
-				totalAccrualBal += lb.getLeaveAmount().doubleValue();
-			}
-		}
-		return totalAccrualBal;
-				
-	}
-
 
 	@Override
 	public List<LeaveBlock> getNotAccrualGeneratedLeaveBlocksForDate(String principalId, Date leaveDate) {

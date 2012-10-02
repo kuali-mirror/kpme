@@ -15,21 +15,24 @@
  */
 package org.kuali.hr.lm.leave.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
 import org.kuali.hr.time.base.web.TkForm;
 
 public class LeaveBlockDisplayForm extends TkForm {
 
+	private static final long serialVersionUID = 1438955879572170167L;
+	
+	private String targetName;
 	private int year;
 	private String navString;
-	private List<LeaveBlock> leaveEntries;
+	private List<AccrualCategory> accrualCategories = new ArrayList<AccrualCategory>();
+	private List<LeaveBlockDisplay> leaveEntries;
 	private List<LeaveBlockHistory> correctedLeaveEntries;
 	private List<LeaveBlockHistory> inActiveLeaveEntries;
-	private List<String> accrualCategoires;
-	private String targetName;
 	
 	public String getTargetName() {
 		return targetName;
@@ -38,30 +41,13 @@ public class LeaveBlockDisplayForm extends TkForm {
 	public void setTargetName(String targetName) {
 		this.targetName = targetName;
 	}
-
-	public List<LeaveBlockHistory> getInActiveLeaveEntries() {
-		return inActiveLeaveEntries;
+	
+	public int getYear() {
+		return year;
 	}
 
-	public void setInActiveLeaveEntries(List<LeaveBlockHistory> inActiveLeaveEntries) {
-		this.inActiveLeaveEntries = inActiveLeaveEntries;
-	}
-
-	public List<LeaveBlockHistory> getCorrectedLeaveEntries() {
-		return correctedLeaveEntries;
-	}
-
-	public void setCorrectedLeaveEntries(
-			List<LeaveBlockHistory> correctedLeaveEntries) {
-		this.correctedLeaveEntries = correctedLeaveEntries;
-	}
-
-	public List<LeaveBlock> getLeaveEntries() {
-		return leaveEntries;
-	}
-
-	public void setLeaveEntries(List<LeaveBlock> leaveEntries) {
-		this.leaveEntries = leaveEntries;
+	public void setYear(int year) {
+		this.year = year;
 	}
 
 	public String getNavString() {
@@ -71,22 +57,37 @@ public class LeaveBlockDisplayForm extends TkForm {
 	public void setNavString(String navString) {
 		this.navString = navString;
 	}
-
-	public int getYear() {
-		return year;
+	
+	public List<AccrualCategory> getAccrualCategories() {
+		return accrualCategories;
 	}
 
-	public void setYear(int year) {
-		this.year = year;
-	}
-
-	public List<String> getAccrualCategoires() {
-		return accrualCategoires;
-	}
-
-	public void setAccrualCategoires(List<String> accrualCategoires) {
-		this.accrualCategoires = accrualCategoires;
+	public void setAccrualCategories(List<AccrualCategory> accrualCategories) {
+		this.accrualCategories = accrualCategories;
 	}
 	
+	public List<LeaveBlockDisplay> getLeaveEntries() {
+		return leaveEntries;
+	}
 
+	public void setLeaveEntries(List<LeaveBlockDisplay> leaveEntries) {
+		this.leaveEntries = leaveEntries;
+	}
+	
+	public List<LeaveBlockHistory> getCorrectedLeaveEntries() {
+		return correctedLeaveEntries;
+	}
+
+	public void setCorrectedLeaveEntries(List<LeaveBlockHistory> correctedLeaveEntries) {
+		this.correctedLeaveEntries = correctedLeaveEntries;
+	}
+
+	public List<LeaveBlockHistory> getInActiveLeaveEntries() {
+		return inActiveLeaveEntries;
+	}
+
+	public void setInActiveLeaveEntries(List<LeaveBlockHistory> inActiveLeaveEntries) {
+		this.inActiveLeaveEntries = inActiveLeaveEntries;
+	}
+	
 }

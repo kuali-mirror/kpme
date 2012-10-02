@@ -90,11 +90,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	@Transient
 	private String assignmentTitle;
 	@Transient
-	private Double accrualBalance;
-	@Transient
 	private String calendarId;
-	@Transient
-	private Map<String, Double> accrualBalances;
 
 	public static class Builder {
 
@@ -491,20 +487,6 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		this.assignmentTitle = assignmentTitle;
 	}
 
-	public Double getAccrualBalance() {
-		if(this.accrualCategoryId != null) {
-			AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(this.accrualCategoryId);
-			if(accrualCategory != null && accrualCategory.getShowOnGrid() != null && StringUtils.equals(accrualCategory.getShowOnGrid(), "Y")){
-				accrualBalance = TkServiceLocator.getLeaveBlockService().calculateAccrualBalance(this.timestamp, this.accrualCategoryId, this.principalId);
-			}
-		}
-		return accrualBalance;
-	}
-
-	public void setAccrualBalance(Double accrualBalance) {
-		this.accrualBalance = accrualBalance;
-	}
-
 	public String getCalendarId() {
 		PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(this.principalId, TKUtils.getCurrentDate());
 		Calendar pcal= null;
@@ -564,14 +546,6 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
     public boolean isDeletable() {
         return TkServiceLocator.getPermissionsService().canDeleteLeaveBlock(this);
     }
-
-	public Map<String, Double> getAccrualBalances() {
-		return accrualBalances;
-	}
-
-	public void setAccrualBalances(Map<String, Double> accrualBalances) {
-		this.accrualBalances = accrualBalances;
-	}
     
     public String getAssignmentKey() {
         if (assignmentKey == null) {

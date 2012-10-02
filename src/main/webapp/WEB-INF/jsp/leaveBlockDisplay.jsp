@@ -20,87 +20,82 @@
 <c:set var="KualiForm" value="${LeaveBlockDisplayForm}" scope="request" />
 
 <tk:tkHeader tabId="leaveBlockDisplay">
+
 	<html:form action="/LeaveBlockDisplay.do" method="POST">
 		<html:hidden property="navString" styleId="navString" />
 		<html:hidden property="year" styleId="year" value="${Form.year}" />
+		<bean:size id="accrualCategorySize" collection="${Form.accrualCategories}"/>
 		<table align="center" class="leave-block-display">
 			<tbody>
-			<tr>
-				<td align="center">
-					<button id="nav_lb_prev"
-						class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-						role="button" title="Previous"
-						onclick="this.form.navString.value='PREV';this.form.submit();">
-						<span class="ui-button-text">Previous</span>
-					</button>
-                    <span class="header">${Form.year}</span>
-					<button id="nav_lb_next"
-						class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-						role="button" title="Next"
-						onclick="this.form.navString.value='NEXT';this.form.submit();">
-						<span class="ui-button-text">Next</span>
-					</button>
-				</td>
-			</tr>
+                <tr>
+                    <td align="center">
+                        <button id="nav_lb_prev" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+						        role="button" title="Previous" onclick="this.form.navString.value='PREV';this.form.submit();">
+                            <span class="ui-button-text">Previous</span>
+                        </button>
+                        <span class="header">${Form.year}</span>
+                        <button id="nav_lb_next" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                                role="button" title="Next" onclick="this.form.navString.value='NEXT';this.form.submit();">
+                            <span class="ui-button-text">Next</span>
+                        </button>
+                    </td>
+                </tr>
 			</tbody>
 		</table>
-
 	</html:form>
 
 	<div class="leave-block-display">
-
 		<div id="leave-block-display-accordion">
 			<h3>
 				<a href="#">Leave Blocks for ${Form.year}</a>
 			</h3>
 			<div>
-
-				<table class="datatable-100">
-				<tr>
-					<th>Date of Leave</th>
-					<th>Earn Code</th>
-					<th>Description</th>
-					<th>Status</th>
-					<th>Document Status</th>
-					<th>Amount</th>
-					<th>Timestamp</th>
-					<th>Assignment</th>
-					<th colspan="2">
-						Balances
-					</th>
-				</tr>
-					<tr>
-						<th colspan="8"></th>
-						<c:forEach var="accCat" items="${Form.accrualCategoires}">
-							<th>${accCat}</th>
-						</c:forEach>
-					</tr>
-					<tr>
-						<c:forEach var="accBal" items="${leaveEntry.accrualBalances}">
-							<td><c:out value="${accBal.key}" /></td>
-						</c:forEach>
-					</tr>
-
-					<c:forEach var="leaveEntry" items="${Form.leaveEntries}">
-						<tr>
-							<td><a
-								href="LeaveCalendar.do?documentId=${leaveEntry.documentId}&calEntryId=${leaveEntry.calendarId}">
-									<fmt:formatDate type="date" value="${leaveEntry.leaveDate}"
-										pattern="MMM-dd-yyyy" />
-							</a></td>
-							<td>${leaveEntry.earnCode}</td>
-							<td>${leaveEntry.description}</td>
-							<td><c:out value="${leaveEntry.requestStatus}"/></td>
-							<td><c:out value="${leaveEntry.documentStatus}"/></td>
-							<td>${leaveEntry.leaveAmount}</td>
-							<td><fmt:formatDate type="both" value="${leaveEntry.timestamp}" pattern="MM/dd/yyyy hh:mm a" /></td>
-							<td>${leaveEntry.assignmentTitle}</td>
-							<c:forEach var="accBal" items="${leaveEntry.accrualBalances}">
-								<td><c:out value="${accBal.value}" /></td>
-							</c:forEach>
-						</tr>
-					</c:forEach>
-				</table>
+                <c:choose>
+                    <c:when test="${not empty Form.leaveEntries}">
+        				<table class="datatable-100">
+                            <tr>
+        					   <th>Date of Leave</th>
+        					   <th>Earn Code</th>
+        					   <th>Description</th>
+        					   <th>Status</th>
+        					   <th>Document Status</th>
+        					   <th>Amount</th>
+        					   <th>Timestamp</th>
+        					   <th>Assignment</th>
+        					   <th colspan="${accrualCategorySize}">Balances</th>
+                            </tr>
+        					<tr>
+        						<th colspan="8" />
+        						<c:forEach var="accrualCategory" items="${Form.accrualCategories}">
+        							<th>${accrualCategory.accrualCategory}</th>
+        						</c:forEach>
+        					</tr>
+        
+        					<c:forEach var="leaveEntry" items="${Form.leaveEntries}">
+        						<tr>
+        							<td>
+        							    <a href="LeaveCalendar.do?documentId=${leaveEntry.documentId}&calEntryId=${leaveEntry.calendarId}">
+                                            <fmt:formatDate type="date" value="${leaveEntry.leaveDate}" pattern="MMM-dd-yyyy" />
+                                        </a>
+        							</td>
+        							<td>${leaveEntry.earnCode}</td>
+        							<td>${leaveEntry.description}</td>
+        							<td><c:out value="${leaveEntry.requestStatus}"/></td>
+        							<td><c:out value="${leaveEntry.documentStatus}"/></td>
+        							<td>${leaveEntry.leaveAmount}</td>
+        							<td><fmt:formatDate type="both" value="${leaveEntry.timestamp}" pattern="MM/dd/yyyy hh:mm a" /></td>
+        							<td>${leaveEntry.assignmentTitle}</td>
+        							<c:forEach var="accrualBalance" items="${leaveEntry.accrualBalances}">
+        								<td><c:out value="${accrualBalance}" /></td>
+        							</c:forEach>
+        						</tr>
+        					</c:forEach>
+        				</table>
+        			</c:when>
+        			<c:otherwise>
+                        No values match this search.
+                    </c:otherwise>
+                </c:choose>
 			</div>
 
 			<h3>
