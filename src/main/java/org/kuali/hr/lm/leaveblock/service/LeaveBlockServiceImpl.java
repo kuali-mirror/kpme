@@ -49,7 +49,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     private LeaveBlockDao leaveBlockDao;
 
     @Override
-    public LeaveBlock getLeaveBlock(Long leaveBlockId) {
+    public LeaveBlock getLeaveBlock(String leaveBlockId) {
         return leaveBlockDao.getLeaveBlock(leaveBlockId);
     }
 
@@ -83,7 +83,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     }
 
     @Override
-    public void deleteLeaveBlock(long leaveBlockId) {
+    public void deleteLeaveBlock(String leaveBlockId) {
         LeaveBlock leaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
         
 //        leaveBlock.setPrincipalIdModified(TKContext.getTargetPrincipalId());
@@ -166,6 +166,11 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
                             && BigDecimal.ZERO.compareTo(hours) < 0) {
                         hours = hours.negate();
                     }
+                    //if on future calendar entry, mark as PLANNED, otherwise, requested
+                    String requestStatus = LMConstants.REQUEST_STATUS.RECORDED;
+                    if (calBeginDateTime.getMillis() < beginDate.getMillis()) {
+                        requestStatus = LMConstants.REQUEST_STATUS.PLANNED;
+                    }
                     EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, sqlDate);
                     AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), sqlDate);
                     String acId = accrualCategory == null ? null : accrualCategory.getLmAccrualCategoryId();
@@ -179,6 +184,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 	                        .workArea(selectedAssignment.getWorkArea())
 	                        .jobNumber(selectedAssignment.getJobNumber())
 	                        .task(selectedAssignment.getTask())
+                            .requestStatus(requestStatus)
 	                        .leaveBlockType(leaveBlockType)
 	                        .build();
 	                currentLeaveBlocks.add(leaveBlock);

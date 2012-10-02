@@ -34,7 +34,7 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
     private static final Logger LOG = Logger.getLogger(LeaveBlockDaoSpringOjbImpl.class);
 
     @Override
-    public LeaveBlock getLeaveBlock(Long leaveBlockId) {
+    public LeaveBlock getLeaveBlock(String leaveBlockId) {
         Criteria root = new Criteria();
         root.addEqualTo("lmLeaveBlockId", leaveBlockId);
 //        root.addEqualTo("active", true);

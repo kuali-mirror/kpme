@@ -81,7 +81,7 @@ public class LeaveCalendarValidationService {
     public static List<String> validateAvailableLeaveBalance(LeaveCalendarWSForm lcf) {
     	LeaveBlock updatedLeaveBlock = null;
     	if(lcf.getLeaveBlockId() != null) {
-			updatedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(new Long(lcf.getLeaveBlockId()));
+			updatedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lcf.getLeaveBlockId());
     	}
     	return validateAvailableLeaveBalance(lcf.getLeaveSummary(), lcf.getSelectedEarnCode(), lcf.getEndDate(), lcf.getLeaveAmount(), updatedLeaveBlock);
     }

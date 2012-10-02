@@ -25,7 +25,7 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
 
 public interface LeaveBlockService {
-    public LeaveBlock getLeaveBlock(Long leaveBlockId);
+    public LeaveBlock getLeaveBlock(String leaveBlockId);
     public List<LeaveBlock> getLeaveBlocksForDocumentId(String documentId);
     public List<LeaveBlock> getLeaveBlocks(String principalId, Date beginDate, Date endDate);
 
@@ -37,7 +37,7 @@ public interface LeaveBlockService {
      * The deletion marks the leave block inactive instead of removing the row from the database.
      * @param leaveBlockId
      */
-    public void deleteLeaveBlock(long leaveBlockId);
+    public void deleteLeaveBlock(String leaveBlockId);
 
     public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntries ce, String selectedEarnCode, 
     		BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks, String leaveBlockType);

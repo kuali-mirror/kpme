@@ -93,7 +93,7 @@ public class LeaveBlockHistory extends LeaveBlock {
 
 	public String getAssignmentTitle() {
 		StringBuilder b = new StringBuilder();
-		LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(Long.parseLong(super.getLmLeaveBlockId()));
+		LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(super.getLmLeaveBlockId());
 		if(lb != null){
 			if (lb.getWorkArea() != null) {
 				WorkArea wa = TkServiceLocator.getWorkAreaService().getWorkArea(

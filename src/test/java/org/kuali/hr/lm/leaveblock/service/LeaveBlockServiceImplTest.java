@@ -49,7 +49,7 @@ public class LeaveBlockServiceImplTest extends KPMETestCase {
 
 	@Test
 	public void testGetLeaveBlock() {
-		LeaveBlock leaveBlock = leaveBlockService.getLeaveBlock(1000L);
+		LeaveBlock leaveBlock = leaveBlockService.getLeaveBlock("1000");
 		Assert.assertNotNull("Leave Block not found ", leaveBlock);
 	}
 	

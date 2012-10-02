@@ -485,9 +485,9 @@ public class TimeDetailAction extends TimesheetAction {
 	  TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
 	  String leaveBlockId = tdaf.getLmLeaveBlockId();
 
-      LeaveBlock blockToDelete = TkServiceLocator.getLeaveBlockService().getLeaveBlock(new Long(leaveBlockId));
+      LeaveBlock blockToDelete = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
       if (blockToDelete != null && TkServiceLocator.getPermissionsService().canDeleteLeaveBlock(blockToDelete)) {
-		    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(Long.parseLong(leaveBlockId));
+		    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId);
       }
 		
       return mapping.findForward("basic");

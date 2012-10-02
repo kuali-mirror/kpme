@@ -202,6 +202,21 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
                 TkServiceLocator.getLeaveCalendarDocumentHeaderService().saveOrUpdate(leaveCalendarDocument.getDocumentHeader());
             }
 
+            //update leave blocks with appropriate request status
+            List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(leaveCalendarDocument.getDocumentId());
+            for (LeaveBlock lb : leaveBlocks) {
+                if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.ROUTE)) {
+                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
+                } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
+                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+                } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
+                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.DISAPPROVED);
+                } else {
+                    continue;
+                }
+                TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb);
+            }
+
         }
     }
 

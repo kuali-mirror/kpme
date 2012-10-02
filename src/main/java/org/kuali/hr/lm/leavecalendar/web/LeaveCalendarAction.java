@@ -18,11 +18,7 @@ package org.kuali.hr.lm.leavecalendar.web;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -53,6 +49,8 @@ import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class LeaveCalendarAction extends TkAction {
 
@@ -78,7 +76,7 @@ public class LeaveCalendarAction extends TkAction {
 		LeaveCalendarDocumentHeader lcdh = null;
 
 		// By handling the prev/next in the execute method, we are saving one
-		// fetch/construction of a TimesheetDocument. If it were broken out into
+		// fetch/construction of a LeaveCalendarDocument. If it were broken out into
 		// methods, we would first fetch the current document, and then fetch
 		// the next one instead of doing it in the single action.
 		if (StringUtils.isNotBlank(documentId)) {
@@ -138,7 +136,6 @@ public class LeaveCalendarAction extends TkAction {
 		
 		this.populateCalendarAndPayPeriodLists(request, lcf);
 		// KPME-1447
-		//List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(lcd.getTimesheetDocumentId());
         List<LeaveBlock> leaveBlocks;
         if (lcdh != null && lcdh.getPrincipalId() != null && lcdh.getBeginDate() != null && lcdh.getEndDate() != null) {
             leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(lcdh.getPrincipalId(), lcdh.getBeginDate(), lcdh.getEndDate());
@@ -257,11 +254,10 @@ public class LeaveCalendarAction extends TkAction {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
 		String leaveBlockId = lcf.getLeaveBlockId();
 
-        LeaveBlock blockToDelete = TkServiceLocator.getLeaveBlockService().getLeaveBlock(new Long(leaveBlockId));
+        LeaveBlock blockToDelete = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
         if (blockToDelete != null
                 && TkServiceLocator.getPermissionsService().canDeleteLeaveBlock(blockToDelete)) {
-		    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(
-				Long.parseLong(leaveBlockId));
+		    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId);
         }
 		// recalculate summary
 		if(lcf.getCalendarEntry() != null) {
@@ -278,7 +274,7 @@ public class LeaveCalendarAction extends TkAction {
 		String leaveBlockId = lcf.getLeaveBlockId();
 		
 		LeaveBlock updatedLeaveBlock = null;
-		updatedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(new Long(leaveBlockId));
+		updatedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
         if (updatedLeaveBlock.isEditable()) {
             if (StringUtils.isNotBlank(lcf.getDescription())) {
                 updatedLeaveBlock.setDescription(lcf.getDescription().trim());
@@ -410,7 +406,7 @@ public class LeaveCalendarAction extends TkAction {
 		}
 		if(leaveForm.getViewLeaveTabsWithNEStatus()) {
 			if(!isFutureDate) {
-				leaveForm.setDocEditable(true);
+                setDocEditable(leaveForm, lcd);
 			} else {
 				// retrieve current pay calendar date
 				Date currentDate = TKUtils.getTimelessDate(null);
@@ -422,7 +418,7 @@ public class LeaveCalendarAction extends TkAction {
 				}
 			}
 		} else {
-			leaveForm.setDocEditable(true);
+            setDocEditable(leaveForm, lcd);
 		}
 		leaveForm.setCalendarEntry(calEntry);
 		if(calEntry != null) {
@@ -431,6 +427,34 @@ public class LeaveCalendarAction extends TkAction {
 		leaveForm.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(calEntry));
 
 	}
+
+    private void setDocEditable(LeaveCalendarForm leaveForm, LeaveCalendarDocument lcd) {
+        leaveForm.setDocEditable(false);
+        if (TKContext.getUser().isSystemAdmin()) {
+            leaveForm.setDocEditable(true);
+        } else {
+            boolean docFinal = lcd.getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL);
+            if (!docFinal) {
+                if(StringUtils.equals(lcd.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
+                        || TKContext.getUser().isSystemAdmin()
+                        || TKContext.getUser().isLocationAdmin()
+                        || TKContext.getUser().isDepartmentAdmin()
+                        || TKContext.getUser().isReviewer()
+                        || TKContext.getUser().isApprover()) {
+                    leaveForm.setDocEditable(true);
+                }
+
+                //if the leave Calendar has been approved by at least one of the approvers, the employee should not be able to edit it
+                if (StringUtils.equals(lcd.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
+                        && lcd.getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.ENROUTE)) {
+                    Collection actions = KEWServiceLocator.getActionTakenService().findByDocIdAndAction(lcd.getDocumentHeader().getDocumentId(), TkConstants.DOCUMENT_ACTIONS.APPROVE);
+                    if(!actions.isEmpty()) {
+                        leaveForm.setDocEditable(false);
+                    }
+                }
+            }
+        }
+    }
 	
 	public ActionForward gotoCurrentPayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;

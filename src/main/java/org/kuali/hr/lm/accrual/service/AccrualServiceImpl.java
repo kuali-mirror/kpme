@@ -345,7 +345,7 @@ public class AccrualServiceImpl implements AccrualService {
 		List<LeaveBlock> previousLB = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, startDate, endDate);
 		for(LeaveBlock lb : previousLB) {
 			if(lb.getAccrualGenerated()) {
-				TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(new Long(lb.getLmLeaveBlockId()));
+				TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(lb.getLmLeaveBlockId());
 			}
 		}
 	}

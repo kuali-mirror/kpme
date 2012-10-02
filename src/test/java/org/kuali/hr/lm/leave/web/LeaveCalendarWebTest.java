@@ -56,15 +56,13 @@ public class LeaveCalendarWebTest extends KPMETestCase {
 	public void testLeaveCalendarPage() throws Exception {
 		// get the page and Login
 		HtmlPage leaveCalendarPage = HtmlUnitUtil
-				.gotoPageAndLogin(TkTestConstants.Urls.LEAVE_CALENDAR_URL, true);
+				.gotoPageAndLogin(TkTestConstants.Urls.LEAVE_CALENDAR_URL+"?documentId=1000", true);
 		Assert.assertNotNull("Leave Request page not found" ,leaveCalendarPage);
 
 		//this.setWebClient(leaveCalendarPage.getWebClient());
 
         DateTime dt = new DateTime();
-        boolean containsCurrMonth = leaveCalendarPage.asText().contains(dt.monthOfYear().getAsText() + dt.toString(" YYYY"))
-                || leaveCalendarPage.asText().contains(dt.toString("MMM YYYY"));
-		Assert.assertTrue("Page does not have Current calendar ", containsCurrMonth);
+		Assert.assertTrue("Page does not have Current calendar ", leaveCalendarPage.asText().contains("March 2012"));
 
         // Check for next document
         HtmlButton nextButton = (HtmlButton) leaveCalendarPage

@@ -71,7 +71,6 @@ public class TKContext {
 	public static TKUser getUser() {
         //TODO, this method isn't needed if everything in TKUser is accessed in a static fashion...
         return new TKUser();
-		//return (TKUser) GlobalVariables.getUserSession().retrieveObject(USER_KEY);
 	}
 
 	//public static void setUser(TKUser user) {

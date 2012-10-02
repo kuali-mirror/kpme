@@ -324,7 +324,7 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
 
     @Override
     public boolean canDeleteLeaveBlock(LeaveBlock lb) {
-        if (StringUtils.equals(DocumentStatus.FINAL.getCode(), lb.getDocumentStatus()))  {
+        if (StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus()))  {
             return false;
         }
         return canEditLeaveBlock(lb);

@@ -65,11 +65,11 @@ public class TimesheetSubmitAction extends TkAction {
                 TkServiceLocator.getTimesheetService().routeTimesheet(TKContext.getTargetPrincipalId(), document);
             }
         } else if (StringUtils.equals(tsaf.getAction(), TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
-            if (document.getDocumentHeader().getDocumentStatus().equals("R")) {
+            if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.ENROUTE.getCode())) {
                 TkServiceLocator.getTimesheetService().approveTimesheet(TKContext.getPrincipalId(), document);
             }
         } else if (StringUtils.equals(tsaf.getAction(), TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
-            if (document.getDocumentHeader().getDocumentStatus().equals("R")) {
+            if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.ENROUTE.getCode())) {
                 TkServiceLocator.getTimesheetService().disapproveTimesheet(TKContext.getPrincipalId(), document);
             }
         }
@@ -88,15 +88,15 @@ public class TimesheetSubmitAction extends TkAction {
         // Switched to grab the target (chain, resolution: target -> backdoor -> actual) user.
         // Approvals still using backdoor > actual
         if (StringUtils.equals(tsaf.getAction(), TkConstants.DOCUMENT_ACTIONS.ROUTE)) {
-            if (document.getDocumentHeader().getDocumentStatus().equals("I")) {
+            if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.INITIATED.getCode())) {
                 TkServiceLocator.getTimesheetService().routeTimesheet(TKContext.getTargetPrincipalId(), document);
             }
         } else if (StringUtils.equals(tsaf.getAction(), TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
-            if (document.getDocumentHeader().getDocumentStatus().equals("R")) {
+            if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.ENROUTE.getCode())) {
                 TkServiceLocator.getTimesheetService().approveTimesheet(TKContext.getPrincipalId(), document);
             }
         } else if (StringUtils.equals(tsaf.getAction(), TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
-            if (document.getDocumentHeader().getDocumentStatus().equals("R")) {
+            if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.ENROUTE.getCode())) {
                 TkServiceLocator.getTimesheetService().disapproveTimesheet(TKContext.getPrincipalId(), document);
             }
         }
