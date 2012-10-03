@@ -22,7 +22,6 @@ import java.util.Date;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -83,13 +82,7 @@ public class LeaveBlockDisplay {
 	}
 	
 	public BigDecimal getLeaveAmount() {
-		BigDecimal leaveAmount = leaveBlock.getLeaveAmount();
-		
-		if (StringUtils.isBlank(leaveBlock.getRequestStatus()) || StringUtils.equalsIgnoreCase(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.USAGE)) {
-			leaveAmount = leaveAmount.multiply(new BigDecimal(-1));
-		}
-		
-		return leaveAmount;
+		return leaveBlock.getLeaveAmount();
 	}
 	
 	public Timestamp getTimestamp() {
