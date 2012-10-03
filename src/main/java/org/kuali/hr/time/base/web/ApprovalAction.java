@@ -43,6 +43,22 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ApprovalAction extends TkAction{
 
+	@Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        if (form instanceof TkForm) {
+           String methodToCall = ((TkForm)form).getMethodToCall();
+           if(StringUtils.isEmpty(methodToCall)) {
+        	   super.execute(mapping, form, request, response);
+        	   return loadApprovalTab(mapping, form, request, response); 
+           }
+        }
+        return super.execute(mapping, form, request, response);
+    }
+	
+	public ActionForward loadApprovalTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		return mapping.findForward("basic");
+	}
+	
 	protected List<TKPerson> getSubListPrincipalIds(HttpServletRequest request, List<TKPerson> assignmentPrincipalIds) {
 	    String page = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
 	    // The paging index begins from 1, but the sublist index begins from 0.

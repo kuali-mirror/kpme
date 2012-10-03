@@ -198,6 +198,7 @@ public class LeaveApprovalAction extends ApprovalAction{
 		}
 	}
 	
+	@Override
 	public ActionForward loadApprovalTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 				throws Exception {
 		ActionForward fwd = mapping.findForward("basic");
