@@ -94,13 +94,14 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                     if(endApprovedTime.getHourOfDay() == 0) {
                         endApprovedDate = TKUtils.addDates(endApprovedDate, -1);
                     }
-                    Date yearStartDate = this.calendarYearStartDate(lp.getCalendarYearStart(), endApprovedDate);
-                    String datesString = formatter.format(yearStartDate) + " - " + formatter2.format(endApprovedDate);
+                    String datesString = formatter.format(approvedLcdh.getBeginDate()) + " - " + formatter2.format(endApprovedDate);
                     ls.setYtdDatesString(datesString);
                 }
 
                 List<LeaveBlock> leaveBlocks = getLeaveBlockService().getLeaveBlocks(principalId, pha.getServiceDate(), calendarEntry.getEndPeriodDateTime());
                 List<LeaveBlock> futureLeaveBlocks = getLeaveBlockService().getLeaveBlocks(principalId, calendarEntry.getEndPeriodDateTime(), calendarEntry.getEndLocalDateTime().toDateTime().plusYears(5).toDate());
+                Map<String, List<LeaveBlock>> leaveBlockMap = mapLeaveBlocksByAccrualCategory(leaveBlocks);
+                Map<String, List<LeaveBlock>> futureLeaveBlockMap = mapLeaveBlocksByAccrualCategory(futureLeaveBlocks);
                 List<AccrualCategory> acList = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(lp.getLeavePlan(), calendarEntry.getEndPeriodDate());
                 if(CollectionUtils.isNotEmpty(acList)) {
                     for(AccrualCategory ac : acList) {
@@ -119,11 +120,11 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                                 }
 
                             } else {
-                                lsr.setUsageLimit(BigDecimal.ZERO);
+                                lsr.setUsageLimit(BigDecimal.ZERO.setScale(2));
                             }
 
                             //handle up to current leave blocks
-                            assignApprovedValuesToRow(lsr, ac, leaveBlocks);
+                            assignApprovedValuesToRow(lsr, ac, leaveBlockMap.get(ac.getLmAccrualCategoryId()));
 
                             //Check for going over max carry over
                             if (acRule != null
@@ -133,14 +134,34 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                             }
 
                             //handle future leave blocks
-                            assignPendingValuesToRow(lsr, ac, futureLeaveBlocks);
+                            assignPendingValuesToRow(lsr, ac, futureLeaveBlockMap.get(ac.getLmAccrualCategoryId()));
 
                             //compute Leave Balance
                             BigDecimal leaveBalance = lsr.getAccruedBalance().subtract(lsr.getPendingLeaveRequests());
-                            lsr.setLeaveBalance(leaveBalance.compareTo(lsr.getUsageLimit()) <= 0 ? leaveBalance : lsr.getUsageLimit());
+                            if (acRule != null && StringUtils.equals(acRule.getMaxBalFlag(), "Y")) {
+                                lsr.setLeaveBalance(leaveBalance.compareTo(lsr.getUsageLimit()) <= 0 ? leaveBalance : lsr.getUsageLimit());
+                            } else {
+                                lsr.setLeaveBalance(leaveBalance);
+                            }
 
                             rows.add(lsr);
                         }
+                    }
+                    // let's check for 'empty' accrual categories
+                    if (leaveBlockMap.containsKey(null)
+                            || futureLeaveBlockMap.containsKey(null)) {
+                        LeaveSummaryRow otherLeaveSummary = new LeaveSummaryRow();
+                        //otherLeaveSummary.setAccrualCategory("Other");
+                        assignApprovedValuesToRow(otherLeaveSummary, null, leaveBlockMap.get(null));
+                        assignPendingValuesToRow(otherLeaveSummary, null, futureLeaveBlockMap.get(null));
+                        otherLeaveSummary.setAccrualCategory("Other");
+
+                        //compute Leave Balance
+                        otherLeaveSummary.setUsageLimit(BigDecimal.ZERO.setScale(2));
+                        BigDecimal leaveBalance = otherLeaveSummary.getAccruedBalance().subtract(otherLeaveSummary.getPendingLeaveRequests());
+                        otherLeaveSummary.setLeaveBalance(leaveBalance.compareTo(otherLeaveSummary.getUsageLimit()) <= 0 ? leaveBalance : otherLeaveSummary.getUsageLimit());
+
+                        rows.add(otherLeaveSummary);
                     }
                 }
             }
@@ -149,42 +170,58 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
         return ls;
     }
 
+    private Map<String, List<LeaveBlock>> mapLeaveBlocksByAccrualCategory(List<LeaveBlock> leaveBlocks) {
+        Map<String, List<LeaveBlock>> map = new HashMap<String, List<LeaveBlock>>();
+        for (LeaveBlock lb : leaveBlocks) {
+            if (map.containsKey(lb.getAccrualCategoryId())) {
+                map.get(lb.getAccrualCategoryId()).add(lb);
+            } else {
+                List<LeaveBlock> splitLeaveBlocks = new ArrayList<LeaveBlock>();
+                splitLeaveBlocks.add(lb);
+                map.put(lb.getAccrualCategoryId(), splitLeaveBlocks);
+            }
+        }
+        return map;
+    }
 
-
-	
 	private void assignApprovedValuesToRow(LeaveSummaryRow lsr, AccrualCategory ac, List<LeaveBlock> approvedLeaveBlocks ) {
         //List<TimeOffAccrual> timeOffAccruals = TkServiceLocator.getTimeOffAccrualService().getTimeOffAccrualsCalc(principalId, lsr.get)
-		BigDecimal carryOver = BigDecimal.ZERO;
-        BigDecimal accrualedBalance = BigDecimal.ZERO;
-		BigDecimal approvedUsage = BigDecimal.ZERO;
-		BigDecimal fmlaUsage = BigDecimal.ZERO;
+		BigDecimal carryOver = BigDecimal.ZERO.setScale(2);
+        BigDecimal accrualedBalance = BigDecimal.ZERO.setScale(2);
+		BigDecimal approvedUsage = BigDecimal.ZERO.setScale(2);
+		BigDecimal fmlaUsage = BigDecimal.ZERO.setScale(2);
 
         //TODO: probably should get from Leave Plan
         Timestamp priorYearCutOff = new Timestamp(new DateMidnight().withWeekOfWeekyear(1).withDayOfWeek(1).toDate().getTime());
-
-		for(LeaveBlock aLeaveBlock : approvedLeaveBlocks) {
-			if(aLeaveBlock.getAccrualCategoryId() != null
-                    && aLeaveBlock.getAccrualCategoryId().equals(ac.getLmAccrualCategoryId())) {
-                if(aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) >= 0) {
-                    if(StringUtils.isNotEmpty(aLeaveBlock.getRequestStatus())
-                    		&& aLeaveBlock.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED)) {
-                        if (aLeaveBlock.getLeaveDate().getTime() <= priorYearCutOff.getTime()) {
-                            carryOver = carryOver.add(aLeaveBlock.getLeaveAmount());
-                        } else {
-                            accrualedBalance = accrualedBalance.add(aLeaveBlock.getLeaveAmount());
+        String accrualCategoryId = ac == null ? null : ac.getLmAccrualCategoryId();
+        if (CollectionUtils.isNotEmpty(approvedLeaveBlocks)) {
+            for(LeaveBlock aLeaveBlock : approvedLeaveBlocks) {
+                if((ac == null && StringUtils.isBlank(aLeaveBlock.getAccrualCategoryId()))
+                        || (StringUtils.isNotBlank(aLeaveBlock.getAccrualCategoryId())
+                            && StringUtils.equals(aLeaveBlock.getAccrualCategoryId(), accrualCategoryId))) {
+                    if(aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) >= 0
+                            && !aLeaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR)) {
+                        if(StringUtils.isNotEmpty(aLeaveBlock.getRequestStatus())
+                                && aLeaveBlock.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED)) {
+                            if (aLeaveBlock.getLeaveDate().getTime() <= priorYearCutOff.getTime()) {
+                                carryOver = carryOver.add(aLeaveBlock.getLeaveAmount());
+                            } else {
+                                accrualedBalance = accrualedBalance.add(aLeaveBlock.getLeaveAmount());
+                            }
+                        }
+                    } else {
+                        BigDecimal currentLeaveAmount = aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) > 0 ? aLeaveBlock.getLeaveAmount().negate() : aLeaveBlock.getLeaveAmount();
+                        approvedUsage = approvedUsage.add(currentLeaveAmount);
+                        EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(aLeaveBlock.getEarnCode(), aLeaveBlock.getLeaveDate());
+                        if(ec != null && ec.getFmla().equals("Y")) {
+                            fmlaUsage = fmlaUsage.add(aLeaveBlock.getLeaveAmount());
                         }
                     }
-                } else {
-                    approvedUsage = approvedUsage.add(aLeaveBlock.getLeaveAmount());
-                    EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(aLeaveBlock.getEarnCode(), aLeaveBlock.getLeaveDate());
-                    if(ec != null && ec.getFmla().equals("Y")) {
-                        fmlaUsage = fmlaUsage.add(aLeaveBlock.getLeaveAmount());
-                    }
+
+                    //}
                 }
-					
-				//}
-			}
-		}
+            }
+        }
         lsr.setCarryOver(carryOver);
 		lsr.setYtdAccruedBalance(accrualedBalance);
 		lsr.setYtdApprovedUsage(approvedUsage.negate());
@@ -193,18 +230,22 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 	}
 	
 	private void assignPendingValuesToRow(LeaveSummaryRow lsr, AccrualCategory ac, List<LeaveBlock> pendingLeaveBlocks ) {
-		BigDecimal pendingAccrual= BigDecimal.ZERO;
-		BigDecimal pendingRequests = BigDecimal.ZERO;
-		
-		for(LeaveBlock aLeaveBlock : pendingLeaveBlocks) {
-			if(aLeaveBlock.getAccrualCategoryId() != null && aLeaveBlock.getAccrualCategoryId().equals(ac.getLmAccrualCategoryId())) {
-				if(aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) >= 0) {
-					pendingAccrual = pendingAccrual.add(aLeaveBlock.getLeaveAmount());
-				} else {
-					pendingRequests = pendingRequests.add(aLeaveBlock.getLeaveAmount());
-				}
-			}
-		}
+		BigDecimal pendingAccrual= BigDecimal.ZERO.setScale(2);
+		BigDecimal pendingRequests = BigDecimal.ZERO.setScale(2);
+        String accrualCategoryId = ac == null ? null : ac.getLmAccrualCategoryId();
+        if (CollectionUtils.isNotEmpty(pendingLeaveBlocks)) {
+            for(LeaveBlock aLeaveBlock : pendingLeaveBlocks) {
+                if((ac == null && StringUtils.isBlank(aLeaveBlock.getAccrualCategoryId()))
+                        || (StringUtils.isNotBlank(aLeaveBlock.getAccrualCategoryId())
+                            && StringUtils.equals(aLeaveBlock.getAccrualCategoryId(), accrualCategoryId))) {
+                    if(aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) >= 0) {
+                        pendingAccrual = pendingAccrual.add(aLeaveBlock.getLeaveAmount());
+                    } else {
+                        pendingRequests = pendingRequests.add(aLeaveBlock.getLeaveAmount());
+                    }
+                }
+            }
+        }
 		lsr.setPendingLeaveAccrual(pendingAccrual);
 		lsr.setPendingLeaveRequests(pendingRequests.negate());
 	}
