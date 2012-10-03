@@ -163,7 +163,8 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
         Timestamp priorYearCutOff = new Timestamp(new DateMidnight().withWeekOfWeekyear(1).withDayOfWeek(1).toDate().getTime());
 
 		for(LeaveBlock aLeaveBlock : approvedLeaveBlocks) {
-			if(aLeaveBlock.getAccrualCategoryId().equals(ac.getLmAccrualCategoryId())) {
+			if(aLeaveBlock.getAccrualCategoryId() != null
+                    && aLeaveBlock.getAccrualCategoryId().equals(ac.getLmAccrualCategoryId())) {
                 if(aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) >= 0) {
                     if(StringUtils.isNotEmpty(aLeaveBlock.getRequestStatus())
                     		&& aLeaveBlock.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED)) {
