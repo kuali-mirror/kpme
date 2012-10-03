@@ -2,8 +2,8 @@
 
 <div id="routeLog" class="ui-accordion ui-widget ui-helper-reset ui-accordion-icons" role="tablist">
     <h2 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all" role="tab" aria-expanded="false" aria-selected="false" tabindex="0">
-    	<span class="ui-icon ui-icon-triangle-1-e"></span>
-    	<a href="javascript:toggle('routeDiv');">Route Log</a>
+        <a href="javascript:toggle('routeDiv');"><span class="ui-icon ui-icon-triangle-1-e"></span>
+    	Route Log</a>
     </h2>
 
     <div id="routeDiv" 
