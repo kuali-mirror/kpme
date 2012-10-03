@@ -88,7 +88,7 @@ $(function () {
         // The first part is an event and the second part is a jQuery selector.
         // Check out this page for more information about the jQuery selectors : http://api.jquery.com/category/selectors/
         events : {
-        	"click div[id*=show]" : "showTimeBlock", // KPME-1447
+        	"click div[id*=show]" : "showLeaveBlock", // KPME-1447
             "click .create" : "showLeaveBlockEntryDialog",
             "click img[id^=leaveBlockDelete]" : "deleteLeaveBlock",
             "click .leaveBlock" : "doNothing",
@@ -243,7 +243,7 @@ $(function () {
         },
 
 
-        showTimeBlock : function (e) {
+        showLeaveBlock : function (e) {
             var key = _(e).parseEventKey();
             
             // Retrieve the selected leaveblock

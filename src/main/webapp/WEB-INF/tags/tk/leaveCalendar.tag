@@ -3,7 +3,7 @@
 <%@ attribute name="day" required="true" type="org.kuali.hr.time.calendar.CalendarDay" %>
 
 <c:set var="editableClass" value="event-title-false"/>
-<c:if test="${Form.docEditable and day.dayEditable}">
+<c:if test="${day.dayEditable}">
 	<c:set var="editableClass" value="event-title-true"/>
 </c:if>
 
@@ -12,7 +12,7 @@
     <div class="leaveBlock">
     	<div id="leaveblock_${leaveBlock.leaveBlockId}"
 	         class="${editableClass}">
-            <c:if test="${leaveBlock.deletable and Form.docEditable and day.dayEditable}">
+            <c:if test="${leaveBlock.deletable and day.dayEditable}">
 	            <img id="leaveBlockDelete_${leaveBlock.leaveBlockId}" src='images/delete.png' class="leaveBlock-delete"/>
             </c:if>
             <div id="show_${leaveBlock.leaveBlockId}">${leaveBlock.assignmentTitle}</div>

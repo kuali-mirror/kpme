@@ -411,7 +411,7 @@ public class LeaveCalendarAction extends TkAction {
 				// retrieve current pay calendar date
 				Date currentDate = TKUtils.getTimelessDate(null);
 				CalendarEntries calendarEntry = TkServiceLocator.getCalendarService()
-						.getCurrentCalendarDates(viewPrincipal, currentDate);
+						.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, currentDate);
 				if(calendarEntry != null) {
 					leaveForm.setCurrentPayCalStart(calendarEntry.getBeginLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback()));
 					leaveForm.setCurrentPayCalEnd(calendarEntry.getEndLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback()));
