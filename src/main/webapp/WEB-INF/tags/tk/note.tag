@@ -4,8 +4,8 @@
 
 <div id="note" class="ui-accordion ui-widget ui-helper-reset ui-accordion-icons" role="tablist">
     <h2 class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all" role="tab" aria-expanded="false" aria-selected="false" tabindex="0">
-   	 <span class="ui-icon ui-icon-triangle-1-e"></span>
-   	 <a href="javascript:toggle('noteDiv');">Note</a>
+        <a href="javascript:toggle('noteDiv');"><span class="ui-icon ui-icon-triangle-1-e"></span>
+   	 Note</a>
     </h2>
 
     <div style="text-align: center; display:none;" 
