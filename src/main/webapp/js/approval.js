@@ -37,16 +37,15 @@ $(document).ready(function () {
     $('.sortable').click(function() {
         var field = $(this).text().replace(/\s/g, '');
 
-        var rows = $('.approvals-table > tbody > tr').length;
-        var isAscending = getParameterByName("ascending");
+        var ascending = getParameterByName('sort' + field + 'Ascending');
 
-        if (isAscending == "true") {
-            isAscending = false;
+        if (ascending == "true") {
+            ascending = false;
         } else {
-            isAscending = true;
+            ascending = true;
         }
 
-        $('.sortable a').attr('href', $('.sortable a').attr('href') + '&sortField=' + field + '&ascending=' + isAscending);
+        $('.sortable a').attr('href', $('.sortable a').attr('href') + '&sortField=' + field + '&sort' + field + 'Ascending=' + ascending);
     });
 
     /**

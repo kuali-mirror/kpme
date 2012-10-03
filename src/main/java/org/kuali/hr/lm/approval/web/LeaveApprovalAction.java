@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -26,7 +27,9 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -34,9 +37,7 @@ import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.approval.web.ApprovalLeaveSummaryRow;
-import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.base.web.ApprovalAction;
 import org.kuali.hr.time.base.web.ApprovalForm;
 import org.kuali.hr.time.calendar.Calendar;
@@ -157,17 +158,42 @@ public class LeaveApprovalAction extends ApprovalAction{
 	}
 		
 	private void setApprovalTables(LeaveApprovalActionForm laaf, List<String> principalIds, HttpServletRequest request, CalendarEntries payCalendarEntries) {
+		laaf.setLeaveCalendarLabels(TkServiceLocator.getLeaveSummaryService().getHeaderForSummary(payCalendarEntries));
+		
 		if (principalIds.isEmpty()) {
 			laaf.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
 			laaf.setResultSize(0);
-		}
-		else {
+		} else {
 			List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
-		    Collections.sort(persons);
-			List<ApprovalLeaveSummaryRow> leaveRows = new ArrayList<ApprovalLeaveSummaryRow>();
-		    leaveRows = this.getApprovalLeaveRows(laaf, getSubListPrincipalIds(request, persons)); 
-		    laaf.setLeaveApprovalRows(leaveRows);
-		    laaf.setLeaveCalendarLabels(TkServiceLocator.getLeaveSummaryService().getHeaderForSummary(payCalendarEntries));
+			List<ApprovalLeaveSummaryRow> approvalRows = getApprovalLeaveRows(laaf, getSubListPrincipalIds(request, persons)); 
+		    
+			final String sortField = request.getParameter("sortField");		    
+		    if (StringUtils.equals(sortField, "Name")) {
+			    final boolean sortNameAscending = Boolean.parseBoolean(request.getParameter("sortNameAscending"));
+		    	Collections.sort(approvalRows, new Comparator<ApprovalLeaveSummaryRow>() {
+					@Override
+					public int compare(ApprovalLeaveSummaryRow row1, ApprovalLeaveSummaryRow row2) {
+						if (sortNameAscending) {
+							return ObjectUtils.compare(StringUtils.lowerCase(row1.getName()), StringUtils.lowerCase(row2.getName()));
+						} else {
+							return ObjectUtils.compare(StringUtils.lowerCase(row2.getName()), StringUtils.lowerCase(row1.getName()));
+						}
+					}
+		    	});
+		    } else if (StringUtils.equals(sortField, "DocumentID")) {
+			    final boolean sortDocumentIdAscending = Boolean.parseBoolean(request.getParameter("sortDocumentIDAscending"));
+		    	Collections.sort(approvalRows, new Comparator<ApprovalLeaveSummaryRow>() {
+					@Override
+					public int compare(ApprovalLeaveSummaryRow row1, ApprovalLeaveSummaryRow row2) {
+						if (sortDocumentIdAscending) {
+							return ObjectUtils.compare(NumberUtils.toInt(row1.getDocumentId()), NumberUtils.toInt(row2.getDocumentId()));
+						} else {
+							return ObjectUtils.compare(NumberUtils.toInt(row2.getDocumentId()), NumberUtils.toInt(row1.getDocumentId()));
+						}
+					}
+		    	});
+		    }
+			laaf.setLeaveApprovalRows(approvalRows);
 		    laaf.setResultSize(persons.size());
 		}
 	}
@@ -218,8 +244,8 @@ public class LeaveApprovalAction extends ApprovalAction{
 		super.setupDocumentOnFormContext(request, form, payCalendarEntries, page);
 		LeaveApprovalActionForm laaf = (LeaveApprovalActionForm)form;
 		laaf.setLeaveCalendarLabels(TkServiceLocator.getLeaveSummaryService().getHeaderForSummary(payCalendarEntries));
-		List<String> principalIds = new ArrayList<String>();
-		principalIds = TkServiceLocator.getLeaveApprovalService().getPrincipalIdsByDeptWorkAreaRolename(laaf.getRoleName(), laaf.getSelectedDept(), laaf.getSelectedWorkArea(), new java.sql.Date(laaf.getPayBeginDate().getTime()), new java.sql.Date(laaf.getPayEndDate().getTime()), laaf.getSelectedPayCalendarGroup());
+		
+		List<String> principalIds = TkServiceLocator.getLeaveApprovalService().getPrincipalIdsByDeptWorkAreaRolename(laaf.getRoleName(), laaf.getSelectedDept(), laaf.getSelectedWorkArea(), new java.sql.Date(laaf.getPayBeginDate().getTime()), new java.sql.Date(laaf.getPayEndDate().getTime()), laaf.getSelectedPayCalendarGroup());
 		TkServiceLocator.getLeaveApprovalService().removeNonLeaveEmployees(principalIds);
      	
 		this.setApprovalTables(laaf, principalIds, request, payCalendarEntries);
