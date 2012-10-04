@@ -43,12 +43,16 @@
                 	<tr>
           				<th>Accrual Category</th>
           				<th>Current Rate</th>
+          				<th>Accrual Earn Interval</th>
           				<th>Unit of Time</th>
           			</tr>
-          			<c:forEach var="accrualCategoryRule" items="${Form.accrualCategoryRules}">
-          				<td>${accrualCategoryRule.lmAccrualCategoryId}</td>
-          				<td>${accrualCategoryRule.accrualRate}</td>
-          				<td>${accrualCategoryRule.lmAccrualCategoryRuleId}</td>
+          			<c:forEach var="accrualCategory" items="${Form.accrualCategories}">
+          				<tr>
+          					<td>${accrualCategory.accrualCategory}</td>
+          					<td>${accrualCategory.hasRules}</td>
+          					<td>${accrualCategory.accrualEarnInterval}</td>
+          					<td>${accrualCategory.unitOfTime}</td>
+          				</tr>
           			</c:forEach>
                 </table>
             </div>

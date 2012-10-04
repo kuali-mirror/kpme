@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.hr.job.Job;
+import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.roles.TkRole;
@@ -38,7 +39,7 @@ public class PersonInfoActionForm extends TkForm {
     private String serviceDate;
     private String totalFTE;
     //KPME-1756
-    private List<AccrualCategoryRule> accrualCategoryRules = new ArrayList<AccrualCategoryRule>();
+    private List<AccrualCategory> accrualCategories = new ArrayList<AccrualCategory>();
   
     //KPME-1441
     private List<Job> jobs = new ArrayList<Job>();
@@ -116,12 +117,12 @@ public class PersonInfoActionForm extends TkForm {
 		this.workAreaToApproverPerson = workAreaToApproverPerson;
 	}
 
-	public List<AccrualCategoryRule> getAccrualCategoryRules() {
-		return accrualCategoryRules;
+	public List<AccrualCategory> getAccrualCategories() {
+		return accrualCategories;
 	}
 
-	public void setAccrualCategoryRules(List<AccrualCategoryRule> accrualCategoryRules) {
-		this.accrualCategoryRules = accrualCategoryRules;
+	public void setAccrualCategories(List<AccrualCategory> accrualCategories) {
+		this.accrualCategories = accrualCategories;
 	}
 	
 	public List<Job> getJobs() {

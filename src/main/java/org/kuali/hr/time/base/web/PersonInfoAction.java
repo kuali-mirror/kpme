@@ -40,6 +40,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
@@ -75,7 +76,7 @@ public class PersonInfoAction extends TkAction {
 		// KPME-1441
 		
 		//KPME1756
-		List<AccrualCategoryRule> accrualCategoryRules = new ArrayList<AccrualCategoryRule>();
+		List<AccrualCategory> yourAccrualCategories = new ArrayList<AccrualCategory>();
 		if ( principalHRAttributes != null && principalHRAttributes.getLeavePlan() != null ){
 			
 			List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(principalHRAttributes.getLeavePlan(), TKUtils.getCurrentDate());
@@ -86,21 +87,32 @@ public class PersonInfoAction extends TkAction {
 					if ( accrualCategory.getHasRules().equalsIgnoreCase("Y")){
 						RateRangeAggregate rateRangeAggregate = TkServiceLocator.getAccrualService().buildRateRangeAggregate(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate(), TKUtils.getCurrentDate());
 						if (rateRangeAggregate != null ){
-							AccrualCategoryRule currentAccrualCategoryRule = new AccrualCategoryRule();
-							// AccrualCategoryRule does not have accrualCategory and unitOfTime. Don't want to create a new object just for displaying. Using 'LmAccrualCategoryId' to hold 'accrualCategory' and 'lmAccrualCategoryRuleId' to hold 'unitOfTime'
-							currentAccrualCategoryRule.setLmAccrualCategoryId(accrualCategory.getAccrualCategory() + " - " + accrualCategory.getDescr());
-							currentAccrualCategoryRule.setAccrualRate(rateRangeAggregate.getRateRanges().get(0).getAcRuleList().get(0).getAccrualRate());
-							currentAccrualCategoryRule.setLmAccrualCategoryRuleId(accrualCategory.getUnitOfTime()); 
+							AccrualCategory yourAccrualCategory = new AccrualCategory();
 							
-							accrualCategoryRules.add(currentAccrualCategoryRule);
+							yourAccrualCategory.setAccrualCategory(accrualCategory.getAccrualCategory() + " - " + accrualCategory.getDescr());
+							yourAccrualCategory.setHasRules(rateRangeAggregate.getRateRanges().get(0).getAcRuleList().get(0).getAccrualRate().toString()); // AccrualCategory does not have rate. Use hasRules to hold rate.
+							
+							for (Map.Entry entry : TkConstants.ACCRUAL_EARN_INTERVAL.entrySet()) {					            
+					            if ( accrualCategory.getAccrualEarnInterval().equals((String)entry.getKey()) ) {
+					            	yourAccrualCategory.setAccrualEarnInterval((String)entry.getValue());
+					            }
+					        } 
+							
+							for (Map.Entry entry : TkConstants.UNIT_OF_TIME.entrySet()) {					            
+					            if ( accrualCategory.getUnitOfTime().equals((String)entry.getKey()) ){
+					            	yourAccrualCategory.setUnitOfTime((String)entry.getValue()); 
+					            }
+					        } 
+							
+							yourAccrualCategories.add(yourAccrualCategory);
 						}
 					}
 				}
 			}
-			personForm.setAccrualCategoryRules(accrualCategoryRules);
+			personForm.setAccrualCategories(yourAccrualCategories);
 		
 		} else {
-			personForm.setAccrualCategoryRules(accrualCategoryRules);
+			personForm.setAccrualCategories(yourAccrualCategories);
 		}
 		//KPME1756
 		
