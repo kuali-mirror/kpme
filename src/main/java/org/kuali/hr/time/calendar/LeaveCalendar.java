@@ -75,7 +75,13 @@ public class LeaveCalendar extends CalendarParent {
                // if there's time sheet document covers this leave date, make the date not editable
                TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(principalId, leaveDate);
                if(tdh != null && viewFlag) {
-            	   leaveCalendarDay.setDayEditable(false);
+            	   // when the endDate of the timesheet document has 00 as the time, the date should be editable on leave calendar
+            	   DateTime endDt = new DateTime(tdh.getEndDate());
+            	   if(leaveDate.equals(tdh.getEndDate()) && endDt.getHourOfDay() == 0) {
+            		   leaveCalendarDay.setDayEditable(true);
+            	   } else {
+            		   leaveCalendarDay.setDayEditable(false);
+            	   }
                }
                
                dayNumber++;

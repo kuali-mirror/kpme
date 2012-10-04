@@ -186,6 +186,15 @@ public class CalendarEntriesDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
         return ceList;
     }
     
+    public List<CalendarEntries> getAllCalendarEntriesForCalendarIdUpToCutOffTime(String hrCalendarId, Date cutOffTime) {
+    	Criteria root = new Criteria();
+        root.addEqualTo("hrCalendarId", hrCalendarId);
+        root.addLessOrEqualThan("endPeriodDateTime", cutOffTime);
+        Query query = QueryFactory.newQuery(CalendarEntries.class, root);
+        List<CalendarEntries> ceList = new ArrayList<CalendarEntries> (this.getPersistenceBrokerTemplate().getCollectionByQuery(query));
+        return ceList;
+    }
+    
     public List<CalendarEntries> getAllCalendarEntriesForCalendarIdAndYear(String hrCalendarId, String year) {        
         Criteria crit = new Criteria();
         List<CalendarEntries> ceList = new ArrayList<CalendarEntries>();

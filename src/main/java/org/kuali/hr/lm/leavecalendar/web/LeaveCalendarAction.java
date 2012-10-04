@@ -166,7 +166,9 @@ public class LeaveCalendarAction extends TkAction {
 	private void populateCalendarAndPayPeriodLists(HttpServletRequest request, LeaveCalendarForm lcf) {
 		
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
-        List<CalendarEntries> ceList = TkServiceLocator.getCalendarEntriesService().getAllCalendarEntriesForCalendarId(lcf.getCalendarEntry().getHrCalendarId());
+        // find all the calendar entries up to the planning months of this employee
+        List<CalendarEntries> ceList = TkServiceLocator.getCalendarEntriesService()
+        	.getAllCalendarEntriesForCalendarIdUpToPlanningMonths(lcf.getCalendarEntry().getHrCalendarId(), TKUser.getCurrentTargetPerson().getPrincipalId());
         
         if(lcf.getCalendarYears().isEmpty()) {
         	// get calendar year drop down list contents
@@ -188,8 +190,7 @@ public class LeaveCalendarAction extends TkAction {
         	lcf.setSelectedCalendarYear(sdf.format(lcf.getCalendarEntry().getBeginPeriodDate()));
         }
         if(lcf.getPayPeriodsMap().isEmpty()) {
-        	List<CalendarEntries> yearCEList = TkServiceLocator.getCalendarEntriesService()
-        			.getAllCalendarEntriesForCalendarIdAndYear(lcf.getCalendarEntry().getHrCalendarId(), lcf.getSelectedCalendarYear());
+      	List<CalendarEntries> yearCEList = ActionFormUtils.getAllCalendarEntriesForYear(ceList, lcf.getSelectedCalendarYear());
 	        lcf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(yearCEList));
         }
         if(request.getParameter("selectedPP")!= null) {
@@ -303,8 +304,6 @@ public class LeaveCalendarAction extends TkAction {
 
 	protected void setupDocumentOnFormContext(LeaveCalendarForm leaveForm,
 			LeaveCalendarDocument lcd) {
-		LeaveCalendarDocumentHeader prevLdh = null;
-		LeaveCalendarDocumentHeader nextLdh = null;
 		CalendarEntries futureCalEntry = null;
 		String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
 		CalendarEntries calEntry = leaveForm.getCalendarEntry();
@@ -321,86 +320,48 @@ public class LeaveCalendarAction extends TkAction {
 			leaveForm.setLeaveCalendarDocument(lcd);
 	        leaveForm.setDocumentId(lcd.getDocumentId());
 	        calEntry = lcd.getCalendarEntry();
-		
-			// -- put condition if it is not after current period
-			isFutureDate = TKUtils.getTimelessDate(null).compareTo(
-					calEntry.getBeginPeriodDateTime()) >= 0;
-	
-			if (TKContext.getCurrentLeaveCalendarDocument()
-					.getDocumentHeader() != null) {
-				prevLdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService()
-						.getPrevOrNextDocumentHeader(TkConstants.PREV_TIMESHEET,
-								viewPrincipal);
-				nextLdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService()
-						.getPrevOrNextDocumentHeader(TkConstants.NEXT_TIMESHEET,
-								viewPrincipal);
-			}
-			if (prevLdh != null) {
-				leaveForm.setPrevDocumentId(prevLdh.getDocumentId());
-			} else if (!isFutureDate) { // -- if calendar entry is not before the
-										// current calendar entry
-	
-				// fetch previous entry
+		}
+	// -- put condition if it is not after current period
+		isFutureDate = TKUtils.getTimelessDate(null).compareTo(calEntry.getBeginPeriodDateTime()) >= 0;
+
+		// fetch previous entry
+		CalendarEntries calPreEntry = TkServiceLocator
+				.getCalendarEntriesService()
+				.getPreviousCalendarEntriesByCalendarId(
+						calEntry.getHrCalendarId(),
+						calEntry);
+		if (calPreEntry != null) {
+			leaveForm.setPrevCalEntryId(calPreEntry
+					.getHrCalendarEntriesId());
+		}
+		int planningMonths = ActionFormUtils.getPlanningMonthsForEmployee(viewPrincipal);
+		if(planningMonths != 0) {
+			List<CalendarEntries> futureCalEntries = TkServiceLocator
+					.getCalendarEntriesService()
+					.getFutureCalendarEntries(
+							calEntry.getHrCalendarId(),
+							TKUtils.getTimelessDate(null),
+							planningMonths);
+
+			if (futureCalEntries != null && !futureCalEntries.isEmpty()) {
+				futureCalEntry = futureCalEntries.get(futureCalEntries
+						.size() - 1);
+
 				CalendarEntries calNextEntry = TkServiceLocator
 						.getCalendarEntriesService()
-						.getPreviousCalendarEntriesByCalendarId(
+						.getNextCalendarEntriesByCalendarId(
 								calEntry.getHrCalendarId(),
 								calEntry);
-				if (calNextEntry != null) {
-					leaveForm.setPrevCalEntryId(calNextEntry
+
+				if (calNextEntry != null
+						&& futureCalEntries != null
+						&& calNextEntry
+								.getBeginPeriodDateTime()
+								.compareTo(
+										futureCalEntry
+												.getBeginPeriodDateTime()) <= 0) {
+					leaveForm.setNextCalEntryId(calNextEntry
 							.getHrCalendarEntriesId());
-				}
-			}
-			if (nextLdh != null) {
-				leaveForm.setNextDocumentId(nextLdh.getDocumentId());
-			} else {
-				// Fetch planning month's entry
-				int plannningMonths = 0;
-				PrincipalHRAttributes principalHRAttributes = TkServiceLocator
-						.getPrincipalHRAttributeService().getPrincipalCalendar(
-								viewPrincipal, TKUtils.getCurrentDate());
-				if (principalHRAttributes != null
-						&& principalHRAttributes.getLeavePlan() != null) {
-	
-					LeavePlan lp = TkServiceLocator.getLeavePlanService()
-							.getLeavePlan(principalHRAttributes.getLeavePlan(),
-									TKUtils.getCurrentDate());
-					// System.out.println("LEave Plan is >>>>>>>>>"+lp);
-	
-					if (lp != null && lp.getPlanningMonths() != null) {
-	
-						plannningMonths = Integer.parseInt(lp.getPlanningMonths());
-	
-						List<CalendarEntries> futureCalEntries = TkServiceLocator
-								.getCalendarEntriesService()
-								.getFutureCalendarEntries(
-										calEntry.getHrCalendarId(),
-										TKUtils.getTimelessDate(null),
-										plannningMonths);
-	
-						// System.out.println("Future calendar entries >>> "+futureCalEntries);
-						if (futureCalEntries != null && !futureCalEntries.isEmpty()) {
-							futureCalEntry = futureCalEntries.get(futureCalEntries
-									.size() - 1);
-	
-							CalendarEntries calNextEntry = TkServiceLocator
-									.getCalendarEntriesService()
-									.getNextCalendarEntriesByCalendarId(
-											calEntry.getHrCalendarId(),
-											calEntry);
-	
-							if (calNextEntry != null
-									&& futureCalEntries != null
-									&& calNextEntry
-											.getBeginPeriodDateTime()
-											.compareTo(
-													futureCalEntry
-															.getBeginPeriodDateTime()) <= 0) {
-								leaveForm.setNextCalEntryId(calNextEntry
-										.getHrCalendarEntriesId());
-							}
-						}
-					}
 				}
 			}
 		}

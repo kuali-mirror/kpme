@@ -68,4 +68,8 @@ public interface CalendarEntriesService {
     public List<CalendarEntries> getAllCalendarEntriesForCalendarId(String hrCalendarId);
     @Cacheable(value= CalendarEntries.CACHE_NAME, key="'hrCalendarId=' + #p0 + '|' + 'year=' + #p1")
     public List<CalendarEntries> getAllCalendarEntriesForCalendarIdAndYear(String hrCalendarId, String year);
+    
+    public List<CalendarEntries> getAllCalendarEntriesForCalendarIdUpToPlanningMonths(String hrCalendarId, String principalId);
+    
+    public List<CalendarEntries> getAllCalendarEntriesForCalendarIdUpToCutOffTime(String hrCalendarId, Date cutOffTime);
 }

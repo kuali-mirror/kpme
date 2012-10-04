@@ -23,6 +23,9 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.CalendarEntryPeriodType;
 import org.kuali.hr.time.calendar.dao.CalendarEntriesDao;
+import org.kuali.hr.time.detail.web.ActionFormUtils;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 
 public class CalendarEntriesServiceImpl implements CalendarEntriesService {
 
@@ -179,5 +182,27 @@ public class CalendarEntriesServiceImpl implements CalendarEntriesService {
     
     public List<CalendarEntries> getAllCalendarEntriesForCalendarIdAndYear(String hrCalendarId, String year) {
     	return calendarEntriesDao.getAllCalendarEntriesForCalendarIdAndYear(hrCalendarId, year);
+    }
+    
+    public List<CalendarEntries> getAllCalendarEntriesForCalendarIdUpToPlanningMonths(String hrCalendarId, String principalId) {
+    	int planningMonths = ActionFormUtils.getPlanningMonthsForEmployee(principalId);
+    	List<CalendarEntries> futureCalEntries = TkServiceLocator.getCalendarEntriesService().getFutureCalendarEntries(
+    			hrCalendarId,TKUtils.getTimelessDate(null),planningMonths);
+    	CalendarEntries futureCalEntry = null;
+    	if (futureCalEntries != null && !futureCalEntries.isEmpty()) {
+    		futureCalEntry = futureCalEntries.get(futureCalEntries.size() - 1);
+    	}
+    	Date cutOffTime = TKUtils.getTimelessDate(null);
+    	if(futureCalEntry != null) {
+    		cutOffTime = futureCalEntry.getEndPeriodDateTime();
+    	} else {
+	    	CalendarEntries currentCE = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(hrCalendarId, TKUtils.getCurrentDate());
+	    	cutOffTime = currentCE.getEndPeriodDateTime();    	
+    	}
+    	return TkServiceLocator.getCalendarEntriesService().getAllCalendarEntriesForCalendarIdUpToCutOffTime(hrCalendarId, cutOffTime);
+    }
+    
+    public List<CalendarEntries> getAllCalendarEntriesForCalendarIdUpToCutOffTime(String hrCalendarId, Date cutOffTime) {
+    	return calendarEntriesDao.getAllCalendarEntriesForCalendarIdUpToCutOffTime(hrCalendarId, cutOffTime);
     }
 }

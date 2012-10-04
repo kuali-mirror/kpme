@@ -16,6 +16,7 @@
 package org.kuali.hr.time.detail.web;
 
 import java.sql.Date;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,10 +35,12 @@ import org.joda.time.format.ISODateTimeFormat;
 import org.json.simple.JSONValue;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -319,6 +322,35 @@ public class ActionFormUtils {
     	}
     	String unitTime = (acObj!= null ? acObj.getUnitOfTime() : earnCode.getRecordMethod()) ;
     	return unitTime;
+    }
+    
+    public static int getPlanningMonthsForEmployee(String principalid) {
+		int plannningMonths = 0;
+		PrincipalHRAttributes principalHRAttributes = TkServiceLocator
+				.getPrincipalHRAttributeService().getPrincipalCalendar(
+						principalid, TKUtils.getCurrentDate());
+		if (principalHRAttributes != null
+				&& principalHRAttributes.getLeavePlan() != null) {
+			LeavePlan lp = TkServiceLocator.getLeavePlanService()
+					.getLeavePlan(principalHRAttributes.getLeavePlan(),
+							TKUtils.getCurrentDate());
+			if (lp != null && lp.getPlanningMonths() != null) {
+				plannningMonths = Integer.parseInt(lp.getPlanningMonths());
+			}
+		}
+		return plannningMonths;
+    }
+    
+    public static List<CalendarEntries> getAllCalendarEntriesForYear(List<CalendarEntries> entries, String year) {
+    	List<CalendarEntries> results = new ArrayList<CalendarEntries>();
+    	DateFormat df = new SimpleDateFormat("yyyy");
+    	 
+    	for(CalendarEntries ce : entries) {
+    		if(df.format(ce.getBeginPeriodDate()).equals(year)) {
+    			results.add(ce);
+    		}
+    	}
+    	return results;
     }
     
 }
