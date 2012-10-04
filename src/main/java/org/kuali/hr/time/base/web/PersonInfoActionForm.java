@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.accrual.AccrualCategory;
-import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.rice.kim.api.identity.Person;
@@ -38,9 +37,12 @@ public class PersonInfoActionForm extends TkForm {
     //KPME-1441
     private String serviceDate;
     private String totalFTE;
-    //KPME-1756
+    
     private List<AccrualCategory> accrualCategories = new ArrayList<AccrualCategory>();
-  
+    private Map<String, BigDecimal> accrualCategoryRates = new HashMap<String, BigDecimal>();
+    private Map<String, String> accrualEarnIntervals = new HashMap<String, String>();
+    private Map<String, String> unitOfTime = new HashMap<String, String>();
+    
     //KPME-1441
     private List<Job> jobs = new ArrayList<Job>();
     private Map<Long,List<Assignment>> jobNumberToListAssignments = new HashMap<Long,List<Assignment>>();
@@ -125,6 +127,30 @@ public class PersonInfoActionForm extends TkForm {
 		this.accrualCategories = accrualCategories;
 	}
 	
+	public Map<String, BigDecimal> getAccrualCategoryRates() {
+		return accrualCategoryRates;
+	}
+	
+	public void setAccrualCategoryRates(Map<String, BigDecimal> accrualCategoryRates) {
+		this.accrualCategoryRates = accrualCategoryRates;
+	}
+	
+	public Map<String, String> getAccrualEarnIntervals() {
+		return accrualEarnIntervals;
+	}
+
+	public void setAccrualEarnIntervals(Map<String, String> accrualEarnIntervals) {
+		this.accrualEarnIntervals = accrualEarnIntervals;
+	}
+
+	public Map<String, String> getUnitOfTime() {
+		return unitOfTime;
+	}
+
+	public void setUnitOfTime(Map<String, String> unitOfTime) {
+		this.unitOfTime = unitOfTime;
+	}
+
 	public List<Job> getJobs() {
 		return jobs;
 	}

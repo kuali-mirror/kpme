@@ -48,8 +48,8 @@
           			</tr>
           			<c:forEach var="accrualCategory" items="${Form.accrualCategories}">
           				<tr>
-          					<td>${accrualCategory.accrualCategory}</td>
-          					<td>${accrualCategory.hasRules}</td>
+          					<td>${accrualCategory.accrualCategory} - ${accrualCategory.descr}</td>
+          					<td>${Form.accrualCategoryRates[accrualCategory.accrualCategory]}</td>
           					<td>${accrualCategory.accrualEarnInterval}</td>
           					<td>${accrualCategory.unitOfTime}</td>
           				</tr>
