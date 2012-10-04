@@ -40,6 +40,7 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.person.TKPerson;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
+import org.kuali.hr.time.principal.dao.PrincipalHRAttributesDao;
 import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
@@ -51,6 +52,11 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 	public static final int DAYS_WINDOW_DELTA = 31;
+    private PrincipalHRAttributesDao principalHRAttributesDao;
+
+    public void setPrincipalHRAttributesDao(PrincipalHRAttributesDao principalHRAttributesDao) {
+        this.principalHRAttributesDao = principalHRAttributesDao;
+    }
 	
 	@Override
 	public List<ApprovalLeaveSummaryRow> getLeaveApprovalSummaryRows(List<TKPerson> persons, CalendarEntries payCalendarEntries, List<String> headers) {
@@ -197,6 +203,11 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		}
 		return pyGroups;
 	}
+
+    @Override
+    public List<String> getUniqueLeavePayGroupsForPrincipalIds(List<String> principalIds) {
+        return principalHRAttributesDao.getUniqueLeavePayGroupsForPrincipalIds(principalIds);
+    }
 	
 	@Override
 	public List<CalendarEntries> getAllLeavePayCalendarEntriesForApprover(String principalId, Date currentDate) {

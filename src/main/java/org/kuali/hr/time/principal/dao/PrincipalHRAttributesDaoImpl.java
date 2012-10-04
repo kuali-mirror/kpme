@@ -15,12 +15,10 @@
  */
 package org.kuali.hr.time.principal.dao;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -121,6 +119,26 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
         }
 
         return principals;
+    }
+
+    @Override
+    public List<String> getUniqueLeavePayGroupsForPrincipalIds(List<String> principalIds) {
+        List<String> leaveCalendars = new ArrayList<String>();
+        Criteria crit = new Criteria();
+        crit.addEqualTo("active", true);
+        crit.addIn("principalId", principalIds);
+        ReportQueryByCriteria q = QueryFactory.newReportQuery(PrincipalHRAttributes.class, crit, true);
+        q.setDistinct(true);
+        q.setAttributes(new String[] {"leaveCalendar"});
+        Iterator iter = this.getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(q);
+        while (iter.hasNext()) {
+            Object[] values = (Object[]) iter.next();
+            String leaveCalendar = (String)values[0];
+            if (StringUtils.isNotBlank(leaveCalendar)) {
+                leaveCalendars.add(leaveCalendar);
+            }
+        }
+        return leaveCalendars;
     }
 
 //    @Override

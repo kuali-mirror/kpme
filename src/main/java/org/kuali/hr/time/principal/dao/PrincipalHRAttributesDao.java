@@ -51,7 +51,9 @@ public interface PrincipalHRAttributesDao {
 	
 	public PrincipalHRAttributes getMaxTimeStampPrincipalHRAttributes(String principalId);
 	
-	 public List<PrincipalHRAttributes> getActivePrincipalHrAttributesForRange(String principalId, Date startDate, Date endDate);
+	public List<PrincipalHRAttributes> getActivePrincipalHrAttributesForRange(String principalId, Date startDate, Date endDate);
 	 
-	 public List<PrincipalHRAttributes> getInactivePrincipalHRAttributesForRange(String principalId, Date startDate, Date endDate);
+	public List<PrincipalHRAttributes> getInactivePrincipalHRAttributesForRange(String principalId, Date startDate, Date endDate);
+
+    public List<String> getUniqueLeavePayGroupsForPrincipalIds(List<String> principalIds);
 }

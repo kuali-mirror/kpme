@@ -177,7 +177,7 @@ public class TkRoleServiceImpl implements TkRoleService {
 
 
     @Override
-    public Set<String> getActivePrinciaplsForWorkAreas(Set<Long> workAreas, Date asOfDate) {
+    public Set<String> getActivePrincipalsForWorkAreas(Set<Long> workAreas, Date asOfDate) {
         Set<String> principals = new HashSet<String>();
 
         for (Long workArea : workAreas) {

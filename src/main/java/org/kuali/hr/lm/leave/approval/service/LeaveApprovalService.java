@@ -34,6 +34,8 @@ public interface LeaveApprovalService {
 	public List<Map<String, Object>> getLaveApprovalDetailSections(LeaveCalendarDocumentHeader lcdh);
 	
 	public List<String> getUniqueLeavePayGroups();
+
+    public List<String> getUniqueLeavePayGroupsForPrincipalIds(List<String> principalIds);
 	
     /*
      * returns all calendar entries with LeaveCalendarDocument created and can be approved by given principalId

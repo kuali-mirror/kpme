@@ -27,6 +27,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
@@ -208,27 +209,46 @@ public class LeaveApprovalAction extends ApprovalAction{
         CalendarEntries payCalendarEntries = null;
         Calendar currentPayCalendar = null;
         String page = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
-        
+
+
         //reset state
         if(StringUtils.isBlank(laaf.getSelectedDept())){
         	resetState(form, request);
         }
+
+        // Set current pay calendar entries if present. Decide if the current date should be today or the end period date
+        if (laaf.getHrPyCalendarEntriesId() != null) {
+            currentDate = payCalendarEntries.getEndPeriodDate();
+        } else {
+            currentDate = TKUtils.getTimelessDate(null);
+        }
+        Set<Long> workAreas = TkServiceLocator.getTkRoleService().getWorkAreasForApprover(TKContext.getPrincipalId(), currentDate);
+        List<String> principalIds = new ArrayList<String>();
+        for (Long workArea : workAreas) {
+            List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, currentDate);
+            for (Assignment a : assignments) {
+                principalIds.add(a.getPrincipalId());
+            }
+        }
+
         // Set calendar groups
-        List<String> calGroups = TkServiceLocator.getLeaveApprovalService().getUniqueLeavePayGroups();
+        List<String> calGroups = TkServiceLocator.getLeaveApprovalService().getUniqueLeavePayGroupsForPrincipalIds(principalIds);
         laaf.setPayCalendarGroups(calGroups);
 
-        if (StringUtils.isBlank(laaf.getSelectedPayCalendarGroup())) {
+        if (StringUtils.isBlank(laaf.getSelectedPayCalendarGroup())
+                && CollectionUtils.isNotEmpty(calGroups)) {
             laaf.setSelectedPayCalendarGroup(calGroups.get(0));
+
         }
         
         // Set current pay calendar entries if present. Decide if the current date should be today or the end period date
         if (laaf.getHrPyCalendarEntriesId() != null) {
-        	payCalendarEntries = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(laaf.getHrPyCalendarEntriesId());
-            currentDate = payCalendarEntries.getEndPeriodDate();
+            payCalendarEntries = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(laaf.getHrPyCalendarEntriesId());
         } else {
-            currentDate = TKUtils.getTimelessDate(null);
             currentPayCalendar = TkServiceLocator.getCalendarService().getCalendarByGroup(laaf.getSelectedPayCalendarGroup());
-            payCalendarEntries = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(currentPayCalendar.getHrCalendarId(), currentDate);
+            if (currentPayCalendar != null) {
+                payCalendarEntries = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(currentPayCalendar.getHrCalendarId(), currentDate);
+            }
         }
         laaf.setPayCalendarEntries(payCalendarEntries);
         

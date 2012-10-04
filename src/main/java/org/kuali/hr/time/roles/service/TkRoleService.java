@@ -153,7 +153,7 @@ public interface TkRoleService {
      * @param asOfDate effective date
      * @return A Set of String principal IDs.
      */
-    public Set<String> getActivePrinciaplsForWorkAreas(Set<Long> workAreas, Date asOfDate);
+    public Set<String> getActivePrincipalsForWorkAreas(Set<Long> workAreas, Date asOfDate);
     
     /**
      * Fetches Role by primary key
