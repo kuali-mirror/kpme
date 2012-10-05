@@ -148,7 +148,7 @@ public class LMConstants {
 		 public static final String ALL = "all";
 	 }
 	 
-	 public static int DELINQUENT_LEAVE_CALENDARS_LIMIT = 1;
+	 public static int DELINQUENT_LEAVE_CALENDARS_LIMIT = 2;
 	 
 	 public static final Map<String, String> EARN_CODE_USAGE_LIMIT_MAP = new LinkedHashMap<String, String>(2);
 	 static {
