@@ -17,6 +17,7 @@ package org.kuali.hr.time.util;
 
 import java.lang.reflect.Field;
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.kuali.hr.core.cache.CacheUtils;
 import org.kuali.hr.time.HrBusinessObject;
@@ -59,13 +60,22 @@ public abstract class HrBusinessObjectMaintainableImpl extends KualiMaintainable
 
         //cache clearing?!?!
         try {
-            String cacheName = (String)hrObj.getClass().getDeclaredField("CACHE_NAME").get(hrObj);
-            CacheUtils.flushCache(cacheName);
+            List<String> cacheNames = (List<String>)hrObj.getClass().getDeclaredField("CACHE_FLUSH").get(hrObj);
+            CacheUtils.flushCaches(cacheNames);
         } catch (NoSuchFieldException e) {
+            try {
+                String cacheName = (String)hrObj.getClass().getDeclaredField("CACHE_NAME").get(hrObj);
+                CacheUtils.flushCache(cacheName);
+            } catch (NoSuchFieldException ex) {
+                // no cache name found
+                LOG.warn("No cache name found for object: " + hrObj.getClass().getName());
+            } catch (IllegalAccessException ex) {
+                LOG.warn("No cache name found for object: " + hrObj.getClass().getName());
+            }
             // no cache name found
-            LOG.warn("No cache name found for object: " + hrObj.getClass().getName());
+            //LOG.warn("No cache name found for object: " + hrObj.getClass().getName());
         } catch (IllegalAccessException e) {
-            LOG.warn("No cache name found for object: " + hrObj.getClass().getName());
+            LOG.warn("No caches found for object: " + hrObj.getClass().getName());
         }
     }
 	

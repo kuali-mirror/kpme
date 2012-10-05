@@ -17,6 +17,9 @@ package org.kuali.hr.lm.earncodesec;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.job.Job;
@@ -28,6 +31,8 @@ import org.kuali.hr.time.salgroup.SalGroup;
 
 public class EarnCodeSecurity extends HrBusinessObject {
     public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "EarnCodeSecurity";
+    private static final String[] PRIVATE_CACHES_FOR_FLUSH = {EarnCodeSecurity.CACHE_NAME, EarnCode.CACHE_NAME};
+    public static final List<String> CACHE_FLUSH = Collections.unmodifiableList(Arrays.asList(PRIVATE_CACHES_FOR_FLUSH));
 	/**
 	 *
 	 */

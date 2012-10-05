@@ -31,7 +31,7 @@ public interface EarnCodeService {
      * @param asOfDate
      * @return
      */
-    @Cacheable(value= EarnCode.CACHE_NAME, key="'{getEarnCodesForLeaveAndTime}' + 'principalId=' + T(org.kuali.hr.time.util.TKContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.hr.time.util.TKContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1")
+    @Cacheable(value=EarnCode.CACHE_NAME, key="'{getEarnCodesForLeaveAndTime}' + 'principalId=' + T(org.kuali.hr.time.util.TKContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.hr.time.util.TKContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1")
     public List<EarnCode> getEarnCodesForLeaveAndTime(Assignment a, Date asOfDate);
 
     /**
@@ -40,7 +40,7 @@ public interface EarnCodeService {
      * @param asOfDate
      * @return
      */
-    @Cacheable(value= EarnCode.CACHE_NAME, key="'{getEarnCodesForTime}' + 'principalId=' + T(org.kuali.hr.time.util.TKContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.hr.time.util.TKContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1")
+    @Cacheable(value=EarnCode.CACHE_NAME, key="'{getEarnCodesForTime}' + 'principalId=' + T(org.kuali.hr.time.util.TKContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.hr.time.util.TKContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1")
     public List<EarnCode> getEarnCodesForTime(Assignment a, Date asOfDate);
 
 	/**
@@ -49,7 +49,7 @@ public interface EarnCodeService {
      * @param asOfDate
 	 * @return
 	 */
-    @Cacheable(value= EarnCode.CACHE_NAME, key="'{getEarnCodesForLeave}' + 'principalId=' + T(org.kuali.hr.time.util.TKContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.hr.time.util.TKContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1")
+    @Cacheable(value=EarnCode.CACHE_NAME, key="'{getEarnCodesForLeave}' + 'principalId=' + T(org.kuali.hr.time.util.TKContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.hr.time.util.TKContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1")
     public List<EarnCode> getEarnCodesForLeave(Assignment a, Date asOfDate);
 
     /**
@@ -58,7 +58,7 @@ public interface EarnCodeService {
      * @param asOfDate
      * @return
      */
-    @Cacheable(value= EarnCode.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'asOfDate=' + #p1")
+    @Cacheable(value=EarnCode.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'asOfDate=' + #p1")
     public List<EarnCode> getEarnCodesForPrincipal(String principalId, Date asOfDate);
 
     /**
@@ -67,7 +67,7 @@ public interface EarnCodeService {
      * @param asOfDate
      * @return
      */
-    @Cacheable(value= EarnCode.CACHE_NAME, key="'earnCode=' + #p0 + '|' + 'asOfDate=' + #p1")
+    @Cacheable(value=EarnCode.CACHE_NAME, key="'earnCode=' + #p0 + '|' + 'asOfDate=' + #p1")
 	public EarnCode getEarnCode(String earnCode, Date asOfDate);
 
     /**
@@ -76,7 +76,7 @@ public interface EarnCodeService {
      * @param asOfDate
      * @return
      */
-    @Cacheable(value= EarnCode.CACHE_NAME, key="'{getEarnCodeType}' + 'earnCode=' + #p0 + '|' + 'asOfDate=' + #p1")
+    @Cacheable(value=EarnCode.CACHE_NAME, key="'{getEarnCodeType}' + 'earnCode=' + #p0 + '|' + 'asOfDate=' + #p1")
     String getEarnCodeType(String earnCode, Date asOfDate);
     
     /**
@@ -84,7 +84,7 @@ public interface EarnCodeService {
      * @param earnCodeId
      * @return
      */
-    @Cacheable(value= EarnCode.CACHE_NAME, key="'earnCodeId=' + #p0")
+    @Cacheable(value=EarnCode.CACHE_NAME, key="'earnCodeId=' + #p0")
     public EarnCode getEarnCodeById(String earnCodeId);
     
     /**
@@ -92,7 +92,7 @@ public interface EarnCodeService {
      * @param asOfDate
      * @return
      */
-    @Cacheable(value= EarnCode.CACHE_NAME, key="'{getOvertimeEarnCodes}' + 'asOfDate=' + #p0")
+    @Cacheable(value=EarnCode.CACHE_NAME, key="'{getOvertimeEarnCodes}' + 'asOfDate=' + #p0")
     public List<EarnCode> getOvertimeEarnCodes(Date asOfDate);
 
 
@@ -101,7 +101,7 @@ public interface EarnCodeService {
      * @param asOfDate
      * @return
      */
-    @Cacheable(value= EarnCode.CACHE_NAME, key="'{getOvertimeEarnCodesStrs}' + 'asOfDate=' + #p0")
+    @Cacheable(value=EarnCode.CACHE_NAME, key="'{getOvertimeEarnCodesStrs}' + 'asOfDate=' + #p0")
     public List<String> getOvertimeEarnCodesStrs(Date asOfDate);
 
     /**

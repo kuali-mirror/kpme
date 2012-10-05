@@ -21,11 +21,22 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator;
 
+import java.util.List;
+
 public class CacheUtils {
     public static void flushCache(String cacheName) {
         //flush cache
         DistributedCacheManagerDecorator distributedCacheManagerDecorator =
                 TkServiceLocator.getDistributedCacheManager();
         distributedCacheManagerDecorator.getCache(cacheName).clear();
+    }
+
+    public static void flushCaches(List<String> cacheNames) {
+        //flush cache
+        DistributedCacheManagerDecorator distributedCacheManagerDecorator =
+                TkServiceLocator.getDistributedCacheManager();
+        for (String cache : cacheNames) {
+            distributedCacheManagerDecorator.getCache(cache).clear();
+        }
     }
 }
