@@ -27,7 +27,6 @@
             href="LeaveApproval.do?methodToCall=loadApprovalTab">Leave Approval</a></li>
     </c:if>
     <c:if test="${targetActiveEmployee}">
-        <li id="leaveAccrual" class="ui-state-default ui-corner-top"><a href="TimeOffAccrual.do">Leave Accrual</a></li>
         <c:if test="${Form.leaveEnabled}">
             <li id="leaveCalendar" class="ui-state-default ui-corner-top"><a href="LeaveCalendar.do">Leave Calendar</a>
             </li>
