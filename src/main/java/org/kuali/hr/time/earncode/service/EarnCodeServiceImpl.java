@@ -76,23 +76,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
             if (earnTypeCode.equals(dec.getEarnCodeType())
                     || EarnCodeType.BOTH.getCode().equals(dec.getEarnCodeType())) {
 
-                boolean addEarnCode = false;
-                // Check employee flag
-                if (dec.isEmployee() &&
-                        (StringUtils.equals(TKUser.getCurrentTargetPerson().getEmployeeId(), GlobalVariables.getUserSession().getPerson().getEmployeeId()))) {
-                    addEarnCode = true;
-                }
-                // Check approver flag
-                if (!addEarnCode && dec.isApprover()) {
-                    Set<Long> workAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
-                    for (Long wa : workAreas) {
-                        WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(wa, asOfDate);
-                        if (workArea!= null && a.getWorkArea().compareTo(workArea.getWorkArea())==0) {
-                            addEarnCode = true;
-                            break;
-                        }
-                    }
-                }
+                boolean addEarnCode = addEarnCodeBasedOnEmployeeApproverSettings(dec, a, asOfDate);
                 if (addEarnCode) {
                     EarnCode ec = getEarnCode(dec.getEarnCode(), asOfDate);
                     if(ec!=null){
@@ -168,10 +152,13 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 
                                 //if (inPlanningClendar) {
                                     if (ec.getAllowScheduledLeave().equals("Y")) {
-                                        earnCodes.add(ec);
+                                        boolean addEarnCode = addEarnCodeBasedOnEmployeeApproverSettings(dec, a, asOfDate);
+                                        if (addEarnCode) {
+                                            earnCodes.add(ec);
+                                        }
                                     } else {
                                         //  do not add this earn code. Earn code allowed scheduled leave flag=no.
-                                        earnCodes.add(ec); // go ahead and it for now, until the planning calendar aspect to this is fleshed out.
+                                        //earnCodes.add(ec); // go ahead and it for now, until the planning calendar aspect to this is fleshed out.
                                     }
                                 //}
                             } else {
@@ -186,6 +173,26 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         }
 
         return earnCodes;
+    }
+
+    private boolean addEarnCodeBasedOnEmployeeApproverSettings(EarnCodeSecurity security, Assignment a, Date asOfDate) {
+        boolean addEarnCode = false;
+        if (security.isEmployee() &&
+                (StringUtils.equals(TKUser.getCurrentTargetPerson().getEmployeeId(), GlobalVariables.getUserSession().getPerson().getEmployeeId()))) {
+            addEarnCode = true;
+        }
+        // Check approver flag
+        if (!addEarnCode && security.isApprover()) {
+            Set<Long> workAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
+            for (Long wa : workAreas) {
+                WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(wa, asOfDate);
+                if (workArea!= null && a.getWorkArea().compareTo(workArea.getWorkArea())==0) {
+                    addEarnCode = true;
+                    break;
+                }
+            }
+        }
+        return addEarnCode;
     }
 
     @Override
