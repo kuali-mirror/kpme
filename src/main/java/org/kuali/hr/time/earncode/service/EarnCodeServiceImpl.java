@@ -28,6 +28,7 @@ import org.kuali.hr.time.earncode.dao.EarnCodeDao;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -65,11 +66,20 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         List<EarnCode> earnCodes = new LinkedList<EarnCode>();
         String earnTypeCode = EarnCodeType.TIME.getCode();
 
+        boolean isClockUser = a.getTimeCollectionRule().isClockUserFl();
+        boolean isUsersTimesheet = StringUtils.equals(TKContext.getPrincipalId(),a.getPrincipalId());
+
+        // Reg earn codes will typically not be defined in the earn code security table
         EarnCode regularEarnCode = getEarnCode(job.getPayTypeObj().getRegEarnCode(), asOfDate);
         if (regularEarnCode == null) {
             throw new RuntimeException("No regular earn code defined for job pay type.");
         } else {
-            earnCodes.add(regularEarnCode);
+            //  if you are a clock user and this is your timesheet and you are processing the reg earn code, do not add this earn code. Use the clock in/out mechanism.
+            if (isClockUser && isUsersTimesheet) {
+                // do not add reg earn code. use clock.
+            } else {
+                earnCodes.add(regularEarnCode);
+            }
         }
         List<EarnCodeSecurity> decs = TkServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), asOfDate);
         for (EarnCodeSecurity dec : decs) {
@@ -77,6 +87,11 @@ public class EarnCodeServiceImpl implements EarnCodeService {
                     || EarnCodeType.BOTH.getCode().equals(dec.getEarnCodeType())) {
 
                 boolean addEarnCode = addEarnCodeBasedOnEmployeeApproverSettings(dec, a, asOfDate);
+                //  this earn code could possibly be for reg earnings. reg was processed before the earn code security table of earn codes, so it should be skipped here.
+                if ( StringUtils.equals(job.getPayTypeObj().getRegEarnCode(),dec.getEarnCode()) ){
+                    addEarnCode = false;
+                }
+
                 if (addEarnCode) {
                     EarnCode ec = getEarnCode(dec.getEarnCode(), asOfDate);
                     if(ec!=null){
