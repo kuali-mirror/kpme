@@ -27,7 +27,7 @@
 							<td scope="col" title="Accruals through the end of the prior leave calendar">YTD Earned</td>
 							<td scope="col" title="Usage through the end of the displayed leave calendar">YTD Usage</td>
 							<td scope="col" title="As of current leave calendar/usage limit not considered">Accrued Balance</td>
-                            <td scope="col" title="As of current leave calendar/usage limit and future usage considered">Available Balance</td>
+                            <td scope="col" style="border: 3px double #ccc;font-weight: bold" title="As of current leave calendar/usage limit and future usage considered">Available Balance</td>
 							<td scope="col" title="Amount of usage allowed per plan">Usage Limit</td>
                             <td scope="col" title="Total usage on future calendars">Future/Planned Usage</td>
 							<td scope="col" title="Total usage of Family Medical Leave codes">YTD FMLA Usage</td>
@@ -41,7 +41,7 @@
 								<td>${row.ytdAccruedBalance}</td>
 								<td>${row.ytdApprovedUsage}</td>
                                 <td>${row.accruedBalance}</td>
-								<td>${row.leaveBalance}</td>
+								<td style="border: 3px double #ccc;border-bottom-color: gray;">${row.leaveBalance}</td>
 								<td>${row.usageLimit}</td>
                                 <td>${row.pendingLeaveRequests}</td>
 								<td>${row.fmlaUsage}</td>								

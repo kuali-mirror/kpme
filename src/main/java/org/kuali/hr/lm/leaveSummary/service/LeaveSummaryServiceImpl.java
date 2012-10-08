@@ -114,9 +114,9 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                                     (acRule.getMaxBalance()!= null
                                       || acRule.getMaxUsage() != null)) {
                                 if (acRule.getMaxUsage() != null) {
-                                    lsr.setUsageLimit(new BigDecimal(acRule.getMaxUsage()));
+                                    lsr.setUsageLimit(new BigDecimal(acRule.getMaxUsage()).setScale(2));
                                 } else {
-                                    lsr.setUsageLimit(acRule.getMaxBalance());
+                                    lsr.setUsageLimit(acRule.getMaxBalance().setScale(2));
                                 }
 
                             } else {
