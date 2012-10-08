@@ -36,6 +36,7 @@
 		</property>
 		<property name="attributes">
 			<list>
+                <ref bean="EarnCodeSecurity-hrEarnCodeSecurityId" />
 				<ref bean="EarnCodeSecurity-dept" />
 				<ref bean="EarnCodeSecurity-hrSalGroup" />
 				<ref bean="EarnCodeSecurity-earnCode" />
@@ -109,6 +110,23 @@
 	</bean>
 
 	<!-- Attributes  -->
+    <!-- hrEarnCodeSecurityId -->
+    <bean id="EarnCodeSecurity-hrEarnCodeSecurityId" parent="EarnCodeSecurity-hrEarnCodeSecurityId-parentBean" />
+    <bean id="EarnCodeSecurity-hrEarnCodeSecurityId-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="shortLabel" value="Id" />
+        <property name="maxLength" value="60" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="21" />
+        </property>
+        <property name="name" value="hrEarnCodeSecurityId" />
+        <property name="label" value="Earn Code Security Id" />
+    </bean>
 
 	<!-- deptId -->
 	<bean id="EarnCodeSecurity-dept" parent="EarnCodeSecurity-dept-parentBean" />
@@ -321,6 +339,7 @@
 							<bean parent="FieldDefinition" p:attributeName="dept" />
 							<bean parent="FieldDefinition" p:attributeName="hrSalGroup" />
 							<bean parent="FieldDefinition" p:attributeName="earnCode" />
+                            <bean parent="FieldDefinition" p:attributeName="earnCodeType" />
 							<bean parent="FieldDefinition" p:attributeName="location" />
 							<bean parent="FieldDefinition" p:attributeName="employee" />
 							<bean parent="FieldDefinition" p:attributeName="approver" />
