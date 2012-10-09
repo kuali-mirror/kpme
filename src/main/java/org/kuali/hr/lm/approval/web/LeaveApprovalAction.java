@@ -218,6 +218,9 @@ public class LeaveApprovalAction extends ApprovalAction{
 
         // Set current pay calendar entries if present. Decide if the current date should be today or the end period date
         if (laaf.getHrPyCalendarEntriesId() != null) {
+            if(payCalendarEntries == null){
+               payCalendarEntries = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(laaf.getHrPyCalendarEntriesId());
+            }
             currentDate = payCalendarEntries.getEndPeriodDate();
         } else {
             currentDate = TKUtils.getTimelessDate(null);
