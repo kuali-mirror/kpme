@@ -125,7 +125,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 			for(LeaveBlock lb : leaveBlocks) {
 				Map<String, BigDecimal> dayHoursMap =  new LinkedHashMap<String, BigDecimal>();
 				LocalDateTime leaveDate = (new DateTime(lb.getLeaveDate())).toLocalDateTime();
-				String dateString = leaveDate.toString(TkConstants.DT_ABBREV_DATE_FORMAT);
+				String dateString = leaveDate.toString(TkConstants.DT_JUST_DAY_FORMAT);
 				
 				AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategoryId());
 				if(ac != null && ac.getShowOnGrid().equals("Y")) {

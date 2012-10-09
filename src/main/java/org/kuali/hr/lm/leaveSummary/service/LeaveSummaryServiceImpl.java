@@ -281,7 +281,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 	            endDate = endDate.plusDays(1);
 	     }
 		 for (LocalDateTime currentDate = startDate; currentDate.compareTo(endDate) < 0; currentDate = currentDate.plusDays(1)) {
-			 header.add(currentDate.toString(TkConstants.DT_ABBREV_DATE_FORMAT));
+			 header.add(currentDate.toString(TkConstants.DT_JUST_DAY_FORMAT));
 		 }
 		 return header;
 	}
