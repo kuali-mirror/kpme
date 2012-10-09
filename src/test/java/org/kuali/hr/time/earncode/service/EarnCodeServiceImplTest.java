@@ -92,27 +92,27 @@ public class EarnCodeServiceImplTest extends KPMETestCase {
         //  As the testing data gets better, the Time and Leave results should have little to no overlap, and the assertions will need to be correspondingly updated.
         // Testing standard lookup.
 		List<EarnCode> earnCodes1t = earnCodeService.getEarnCodesForTime(assignment1, asOfDate);
-		Assert.assertEquals("Wrong number of earn codes returned.", 8, earnCodes1t.size());
+		Assert.assertEquals("Wrong number of earn codes returned.", 7, earnCodes1t.size());
         List<EarnCode> earnCodes1l = earnCodeService.getEarnCodesForLeave(assignment1, asOfDate);
         Assert.assertEquals("Wrong number of earn codes returned.", 0, earnCodes1l.size());
         List<EarnCode> earnCodes1lt= earnCodeService.getEarnCodesForLeaveAndTime(assignment1, asOfDate);
-        Assert.assertEquals("Wrong number of earn codes returned.", 8, earnCodes1lt.size());
+        Assert.assertEquals("Wrong number of earn codes returned.", 7, earnCodes1lt.size());
 
         // Wildcard on SalGroup
         List<EarnCode> earnCodes2t = earnCodeService.getEarnCodesForTime(assignment2, asOfDate);
-		Assert.assertEquals("Wrong number of earn codes returned.", 3, earnCodes2t.size());
+		Assert.assertEquals("Wrong number of earn codes returned.", 2, earnCodes2t.size());
         List<EarnCode> earnCodes2l = earnCodeService.getEarnCodesForLeave(assignment2, asOfDate);
         Assert.assertEquals("Wrong number of earn codes returned.", 0, earnCodes2l.size());
         List<EarnCode> earnCodes2lt = earnCodeService.getEarnCodesForLeaveAndTime(assignment2, asOfDate);
-        Assert.assertEquals("Wrong number of earn codes returned.", 3, earnCodes2lt.size());
+        Assert.assertEquals("Wrong number of earn codes returned.", 2, earnCodes2lt.size());
 
         // Dual Wildcards
         List<EarnCode> earnCodes3t = earnCodeService.getEarnCodesForTime(assignment3, asOfDate);
-		Assert.assertEquals("Wrong number of earn codes returned.",2, earnCodes3t.size());
+		Assert.assertEquals("Wrong number of earn codes returned.",1, earnCodes3t.size());
         List<EarnCode> earnCodes3l = earnCodeService.getEarnCodesForLeave(assignment3, asOfDate);
         Assert.assertEquals("Wrong number of earn codes returned.",0, earnCodes3l.size());
         List<EarnCode> earnCodes3lt = earnCodeService.getEarnCodesForLeaveAndTime(assignment3, asOfDate);
-        Assert.assertEquals("Wrong number of earn codes returned.",2, earnCodes3lt.size());
+        Assert.assertEquals("Wrong number of earn codes returned.",1, earnCodes3lt.size());
     }
 
 	@Test

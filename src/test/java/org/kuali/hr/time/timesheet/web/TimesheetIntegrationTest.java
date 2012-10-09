@@ -144,7 +144,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 			{
 				add(new HashMap<String, Object>() {
 					{
-						put("earnCode", "RGN");
+						put("earnCode", "XYZ");
 						put("hours", "2.0");
 						put("amount", null);
 					}
@@ -152,7 +152,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 			}
 		}, new HashMap<String, Object>() {
 			{
-				put("earnCode", "RGN");
+				put("earnCode", "XYZ");
 				put("startNoTz", "2011-02-15T09:00:00");
 				put("endNoTz", "2011-02-15T11:00:00");
 				put("assignment", assignmentKey);
@@ -164,7 +164,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		Assert.assertTrue("TimeBlock did not created successfully.", page.asText()
 				.contains("work area description-description 1"));
 		Assert.assertTrue("TimeBlock did not created successfully.", page.asText()
-				.contains("RGN - 2.00 hours"));
+				.contains("XYZ - 2.00 hours"));
 
 	}
 
@@ -213,7 +213,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		Assert.assertTrue("TimeBlock not Present.",
 				page.asText().contains("work area description-description 1"));
 		Assert.assertTrue("TimeBlock not Present.",
-				page.asText().contains("RGN - 2.00 hours"));
+				page.asText().contains("XYZ - 2.00 hours"));
 
 		// now updating the time block
 		timeDoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(
@@ -255,10 +255,10 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		Assert.assertNotNull(page);
 
 		// chk the timesheet contains the changes done with the time block
-		Assert.assertTrue("TimeBlock did not updated properly.", page.asText()
+		Assert.assertTrue("TimeBlock did not get updated properly.", page.asText()
 				.contains("work area description-description 1"));
-		Assert.assertTrue("TimeBlock did not updated properly.", page.asText()
-				.contains("RGN - 3.00 hours"));
+		Assert.assertTrue("TimeBlock did not get updated properly.", page.asText()
+				.contains("RGH - 3.00 hours"));
 
 	}
 
@@ -308,7 +308,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		Assert.assertTrue("TimeBlock did not created successfully.", page.asText()
 				.contains("work area description-description 1"));
 		Assert.assertTrue("TimeBlock did not created successfully.", page.asText()
-				.contains("RGN - 2.00 hours"));
+				.contains("XYZ - 2.00 hours"));
 
 		timeDoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(
 				USER_PRINCIPAL_ID, payCal);
@@ -334,7 +334,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		Assert.assertTrue("TimeBlock did not deleted successfully.", !page.asText()
 				.contains("work area description-description 1"));
 		Assert.assertTrue("TimeBlock did not deleted successfully.", !page.asText()
-				.contains("RGN - 2.00 hours"));
+				.contains("XYZ - 2.00 hours"));
 
 	}
 	
