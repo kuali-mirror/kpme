@@ -34,6 +34,7 @@
 
     <properties>
         <build.version>NO VERSION</build.version>
+        <kuali.release.arguments>-DskipTests</kuali.release.arguments>
         
         <ehcache.version>2.5.0</ehcache.version>
         <apache.cxf.version>2.3.8</apache.cxf.version>
@@ -161,17 +162,6 @@
             	</exclusion>
             </exclusions>
         </dependency>
-        <!--<dependency>
-            <groupId>opensymphony</groupId>
-            <artifactId>oscache</artifactId>
-            <version>2.4.1</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>javax.servlet</groupId>
-                    <artifactId>servlet-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>-->
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-ws-security</artifactId>
@@ -320,21 +310,21 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+            <version>2.9.1</version>
+        </dependency>
+        
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.21</version>
         </dependency>
         <dependency>
-            <groupId>xerces</groupId>
-            <artifactId>xercesImpl</artifactId>
-            <version>2.9.1</version>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
+            <version>1.3</version>
         </dependency>
-
-        <!--<dependency>
-            <groupId>net.bull.javamelody</groupId>
-            <artifactId>javamelody-core</artifactId>
-            <version>1.39.0</version>
-        </dependency>-->
     </dependencies>
 
     <build>
@@ -514,7 +504,6 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <forkMode>once</forkMode>
-                    <!--<useSystemClassLoader>false</useSystemClassLoader>-->
                     <useManifestOnlyJar>false</useManifestOnlyJar>
                     <argLine>-Xms512m -Xmx2048m -XX:MaxPermSize=512m</argLine>
                     <useManifestOnlyJar>false</useManifestOnlyJar>
@@ -648,7 +637,7 @@
                 <kr.dataSource.database>tk-test</kr.dataSource.database>
                 <kr.dataSource.username>tk</kr.dataSource.username>
                 <kr.dataSource.password>tk_tk_tk</kr.dataSource.password>
-                <kr.dataSource.dropFirst>false</kr.dataSource.dropFirst>
+                <kr.dataSource.dropFirst>true</kr.dataSource.dropFirst>
                 <kr.dataSource.clearCheckSums>false</kr.dataSource.clearCheckSums>
                 <kr.dataSource.contexts>rice-server-bootstrap,kpme-server-bootstrap,kpme-server-test</kr.dataSource.contexts>
 
@@ -697,6 +686,121 @@
                                     <dropFirst>${kpme.dataSource.dropFirst}</dropFirst>
                                     <clearCheckSums>${kpme.dataSource.clearCheckSums}</clearCheckSums>
                                     <contexts>${kpme.dataSource.contexts}</contexts>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>kpme-release</id>
+            <properties>
+                <kr.dataSource.driver>com.mysql.jdbc.Driver</kr.dataSource.driver>
+                <kr.dataSource.jdbcUrl>jdbc:mysql://localhost:3306/krtt</kr.dataSource.jdbcUrl>
+                <kr.dataSource.database>krtt</kr.dataSource.database>
+                <kr.dataSource.username>krtt</kr.dataSource.username>
+                <kr.dataSource.password>krtt</kr.dataSource.password>
+                <kr.dataSource.dropFirst>false</kr.dataSource.dropFirst>
+                <kr.dataSource.clearCheckSums>false</kr.dataSource.clearCheckSums>
+                <kr.dataSource.contexts>kpme-server-bootstrap</kr.dataSource.contexts>
+            
+                <kpme.dataSource.driver>com.mysql.jdbc.Driver</kpme.dataSource.driver>
+                <kpme.dataSource.jdbcUrl>jdbc:mysql://localhost:3306/tk</kpme.dataSource.jdbcUrl>
+                <kpme.dataSource.database>tk</kpme.dataSource.database>
+                <kpme.dataSource.username>tk</kpme.dataSource.username>
+                <kpme.dataSource.password>tk_tk_tk</kpme.dataSource.password>
+                <kpme.dataSource.dropFirst>false</kpme.dataSource.dropFirst>
+                <kpme.dataSource.clearCheckSums>false</kpme.dataSource.clearCheckSums>
+                <kpme.dataSource.contexts>kpme-client-bootstrap</kpme.dataSource.contexts>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>1.7</version>
+                        <executions>
+                            <execution>
+	                            <id>regex-version</id>
+	                            <phase>process-resources</phase>
+	                            <configuration>
+	                                <name>project.finalVersion</name>
+	                                <value>${project.version}</value>
+	                                <regex>(\d+)\.(\d+)\.(\d+)(-SNAPSHOT)?</regex>
+	                                <replacement>$1.$2.$3</replacement>
+	                                <failIfNoMatch>false</failIfNoMatch>
+	                            </configuration>
+	                             <goals>
+                                    <goal>regex-property</goal>
+                                </goals>
+	                        </execution>
+	                        <execution>
+                                <id>regex-rice-dbms</id>
+                                <phase>process-resources</phase>
+                                <configuration>
+                                    <name>kr.dataSource.dbms</name>
+                                    <value>${kr.dataSource.jdbcUrl}</value>
+                                    <regex>jdbc:(\w+):.+</regex>
+                                    <replacement>$1</replacement>
+                                    <failIfNoMatch>false</failIfNoMatch>
+                                </configuration>
+                                 <goals>
+                                    <goal>regex-property</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>regex-kpme-dbms</id>
+                                <phase>process-resources</phase>
+                                <configuration>
+                                    <name>kpme.dataSource.dbms</name>
+                                    <value>${kpme.dataSource.jdbcUrl}</value>
+                                    <regex>jdbc:(\w+):.+</regex>
+                                    <replacement>$1</replacement>
+                                    <failIfNoMatch>false</failIfNoMatch>
+                                </configuration>
+                                 <goals>
+                                    <goal>regex-property</goal>
+                                </goals>
+                            </execution>
+	                    </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.liquibase</groupId>
+                        <artifactId>liquibase-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>rice-database-scripts</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>updateSQL</goal>
+                                </goals>
+                                <configuration>
+                                    <driver>${kr.dataSource.driver}</driver>
+                                    <url>${kr.dataSource.jdbcUrl}</url>
+                                    <username>${kr.dataSource.username}</username>
+                                    <password>${kr.dataSource.password}</password>
+                                    <dropFirst>${kr.dataSource.dropFirst}</dropFirst>
+                                    <clearCheckSums>${kr.dataSource.clearCheckSums}</clearCheckSums>
+                                    <contexts>${kr.dataSource.contexts}</contexts>
+                                    <migrationSqlOutputFile>${basedir}/src/main/config/sql/${project.finalVersion}/${kr.dataSource.dbms}/kpme-${project.finalVersion}-${kr.dataSource.dbms}-server.sql</migrationSqlOutputFile>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>kpme-database-scripts</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>updateSQL</goal>
+                                </goals>
+                                <configuration>
+                                    <driver>${kpme.dataSource.driver}</driver>
+                                    <url>${kpme.dataSource.jdbcUrl}</url>
+                                    <username>${kpme.dataSource.username}</username>
+                                    <password>${kpme.dataSource.password}</password>
+                                    <dropFirst>${kpme.dataSource.dropFirst}</dropFirst>
+                                    <clearCheckSums>${kpme.dataSource.clearCheckSums}</clearCheckSums>
+                                    <contexts>${kpme.dataSource.contexts}</contexts>
+                                    <migrationSqlOutputFile>${basedir}/src/main/config/sql/${project.finalVersion}/${kpme.dataSource.dbms}/kpme-${project.finalVersion}-${kpme.dataSource.dbms}-client.sql</migrationSqlOutputFile>
                                 </configuration>
                             </execution>
                         </executions>

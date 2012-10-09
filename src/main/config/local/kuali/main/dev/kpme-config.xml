@@ -17,6 +17,8 @@
 -->
 <config>
 
+    <!-- MySQL -->
+
 	<!-- KPME Client DB -->
 	<param name="datasource.url">jdbc:mysql://localhost:3306/tk</param>
 	<param name="datasource.username">tk</param>
@@ -26,5 +28,27 @@
 	<param name="server.datasource.url">jdbc:mysql://localhost:3306/krtt</param>
 	<param name="server.datasource.username">krtt</param>
 	<param name="server.datasource.password">krtt</param>
+	
+	<!-- Oracle -->
+	
+    <!-- KPME Client DB -->
+    <!--
+    <param name="datasource.ojb.platform">Oracle9i</param>
+    <param name="datasource.driver.name">oracle.jdbc.OracleDriver</param>
+    <param name="datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:XE</param>
+    <param name="datasource.username">tk</param>
+    <param name="datasource.password">tk_tk_tk</param>
+    <param name="datasource.pool.validationQuery">select 1 from dual</param>
+    -->
+
+    <!-- Rice Server DB -->
+    <!--
+    <param name="server.datasource.ojb.platform">Oracle9i</param>
+    <param name="server.datasource.driver.name">oracle.jdbc.OracleDriver</param>
+    <param name="server.datasource.url">jdbc:oracle:thin:@127.0.0.1:1521:XE</param>
+    <param name="server.datasource.username">krtt</param>
+    <param name="server.datasource.password">krtt</param>
+    <param name="server.datasource.pool.validationQuery">select 1 from dual</param>
+    -->
 
 </config>
