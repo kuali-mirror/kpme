@@ -58,7 +58,7 @@ public class LeaveApprovalServiceTest extends KPMETestCase {
 		Map<String, Map<String, BigDecimal>> aMap = TkServiceLocator.getLeaveApprovalService().getLeaveHoursToPayDayMap(lbList, headers);
 		
 		Assert.assertTrue("Map should have 14 entries, not " + aMap.size(), aMap.size() == 14);
-		Map<String, BigDecimal> dayMap = aMap.get("03/05");
+		Map<String, BigDecimal> dayMap = aMap.get("05");
 		Assert.assertTrue("Map on day 03/05 should have 1 entries, not " + dayMap.size(), dayMap.size() == 1);
 		Assert.assertTrue("testAC on day 03/05 should have 8 hours, not " + dayMap.get("testAC"), dayMap.get("testAC").equals(new BigDecimal(8)));
 		
