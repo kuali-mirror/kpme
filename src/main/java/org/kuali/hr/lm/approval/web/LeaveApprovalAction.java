@@ -38,6 +38,7 @@ import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.approval.web.ApprovalLeaveSummaryRow;
+import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.base.web.ApprovalAction;
 import org.kuali.hr.time.base.web.ApprovalForm;
@@ -193,7 +194,20 @@ public class LeaveApprovalAction extends ApprovalAction{
 						}
 					}
 		    	});
+		    } else if (StringUtils.equals(sortField, "Status")) {
+			    final boolean sortStatusIdAscending = Boolean.parseBoolean(request.getParameter("sortStatusAscending"));
+		    	Collections.sort(approvalRows, new Comparator<ApprovalLeaveSummaryRow>() {
+					@Override
+					public int compare(ApprovalLeaveSummaryRow row1, ApprovalLeaveSummaryRow row2) {
+						if (sortStatusIdAscending) {
+							return ObjectUtils.compare(StringUtils.lowerCase(row1.getApprovalStatus()), StringUtils.lowerCase(row2.getApprovalStatus()));
+						} else {
+							return ObjectUtils.compare(StringUtils.lowerCase(row2.getApprovalStatus()), StringUtils.lowerCase(row1.getApprovalStatus()));
+						}
+					}
+		    	});
 		    }
+		    
 			laaf.setLeaveApprovalRows(approvalRows);
 		    laaf.setResultSize(persons.size());
 		}

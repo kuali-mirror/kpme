@@ -10,7 +10,7 @@
 	    <c:if test="${row.clockedInOverThreshold}">
 	        <c:set var="nameStyle" value="background-color: #F08080;"/>
 	    </c:if>
-	    <display:column title="Name" sortable="true" sortName="principalName" style="${nameStyle}">
+	    <display:column title="Name" sortable="true" sortName="name" style="${nameStyle}">
 	        <c:if test="${row.periodTotal > 0}">
 	            <div class="ui-state-default ui-corner-all" style="float:left;">
 	                    <%--<span id="showDetailButton_${row_rowNum-1}" class="ui-icon ui-icon-plus rowInfo"></span>--%>
@@ -85,7 +85,7 @@
 	            </div>
 	        </c:if>
 	    </display:column>
-	    <display:column title="Status">
+	    <display:column title="Status" sortable="true" sortName="status">
 	        <div>
 	            <span id="approvals-status" class="approvals-status">${row.approvalStatus}</span>
 	        </div>

@@ -255,6 +255,18 @@ public class TimeApprovalAction extends ApprovalAction{
 						}
 					}
 		    	});
+		    } else if (StringUtils.equals(sortField, "Status")) {
+			    final boolean sortStatusIdAscending = Boolean.parseBoolean(request.getParameter("sortStatusAscending"));
+		    	Collections.sort(approvalRows, new Comparator<ApprovalTimeSummaryRow>() {
+					@Override
+					public int compare(ApprovalTimeSummaryRow row1, ApprovalTimeSummaryRow row2) {
+						if (sortStatusIdAscending) {
+							return ObjectUtils.compare(StringUtils.lowerCase(row1.getApprovalStatus()), StringUtils.lowerCase(row2.getApprovalStatus()));
+						} else {
+							return ObjectUtils.compare(StringUtils.lowerCase(row2.getApprovalStatus()), StringUtils.lowerCase(row1.getApprovalStatus()));
+						}
+					}
+		    	});
 		    }
 		    
 		    taaf.setApprovalRows(approvalRows);

@@ -6,7 +6,7 @@
 	<display:table name="${Form.leaveApprovalRows}" requestURI="LeaveApproval.do?methodToCall=loadApprovalTab" excludedParams="*"
 	               pagesize="20" id="row"
 	               class="approvals-table" partialList="true" size="${Form.resultSize}" sort="external" defaultsort="0">
-	    <display:column title="Name" sortable="true" sortName="principalName" style="${row.moreThanOneCalendar ? 'background-color: #F08080;' : ''}">
+	    <display:column title="Name" sortable="true" sortName="name" style="${row.moreThanOneCalendar ? 'background-color: #F08080;' : ''}">
 	    	<c:if test="${not empty row.documentId }">
 	            <div class="ui-state-default ui-corner-all" style="float:left;">
 	                <span id="showLeaveDetailButton_${row.documentId}" class="ui-icon ui-icon-plus rowInfo"></span>
@@ -19,7 +19,7 @@
 	    <display:column title="Document ID" sortable="true" sortName="documentId">
         	<a href="changeTargetPerson.do?${row.userTargetURLParams}&targetUrl=LeaveCalendar.do%3FdocumentId=${row.documentId}&returnUrl=LeaveApproval.do">${row.documentId}</a>
         </display:column>
-	    <display:column title="Status">
+	    <display:column title="Status" sortable="true" sortName="status">
 	        <div>
 	            <span id="approvals-status" class="approvals-status">${row.approvalStatus}</span>
 	        </div>
