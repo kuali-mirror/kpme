@@ -16,6 +16,8 @@
 package org.kuali.hr.lm.leaveplan.validation;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -73,6 +75,18 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 	
+	boolean validateCalendarYearStart(String dateString) {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
+		sdf.setLenient(false);
+		try {
+			sdf.parse(dateString);
+		} catch (ParseException e) {
+			this.putFieldError("calendarYearStart", "error.calendar.year.start", "Calendar Year Start");
+			return false;
+		}
+		return true;
+	}
+	
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
@@ -89,7 +103,8 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 				}
 				if(leavePlan.getEffectiveDate() != null) {
 					valid &= this.validateEffectiveDate(leavePlan.getEffectiveDate());
-				}
+				}			
+				valid &= this.validateCalendarYearStart(leavePlan.getCalendarYearStart());
 			}
 		}
 		return valid;
