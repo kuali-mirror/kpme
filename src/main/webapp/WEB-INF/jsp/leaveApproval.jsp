@@ -48,7 +48,7 @@
 
 		<lm:leaveApproval />
 
-		<tk:approvalButtons refreshId="leaveRefresh" />
+		<tk:approvalButtons refreshId="leaveRefresh" approvable="${Form.anyApprovalRowApprovable}" />
 	
 	</c:if>
 

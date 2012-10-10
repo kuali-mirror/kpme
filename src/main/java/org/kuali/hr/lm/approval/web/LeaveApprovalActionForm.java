@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.hr.time.approval.web.ApprovalLeaveSummaryRow;
+import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
 import org.kuali.hr.time.base.web.ApprovalForm;
 
 public class LeaveApprovalActionForm extends ApprovalForm {
@@ -40,4 +41,21 @@ public class LeaveApprovalActionForm extends ApprovalForm {
 	public void setLeaveCalendarLabels(List<String> leaveCalendarLabels) {
 		this.leaveCalendarLabels = leaveCalendarLabels;
 	}
+	
+	public boolean isAnyApprovalRowApprovable() {
+		boolean isAnyApprovalRowApprovable = false;
+		
+		if (leaveApprovalRows != null) {
+			for (ApprovalLeaveSummaryRow approvalRow : leaveApprovalRows) {
+				if (approvalRow.isApprovable()) {
+					isAnyApprovalRowApprovable = true;
+					break;
+				}
+			}
+		}
+		
+		return isAnyApprovalRowApprovable;
+	}
+	
+	
 }

@@ -40,6 +40,20 @@ public class TimeApprovalActionForm extends ApprovalForm {
 		this.approvalRows = approvalRows;
 	}
 	
+	public boolean isAnyApprovalRowApprovable() {
+		boolean isAnyApprovalRowApprovable = false;
+		
+		if (approvalRows != null) {
+			for (ApprovalTimeSummaryRow approvalRow : approvalRows) {
+				if (approvalRow.isApprovable()) {
+					isAnyApprovalRowApprovable = true;
+					break;
+				}
+			}
+		}
+		
+		return isAnyApprovalRowApprovable;
+	}
 	
 
 }
