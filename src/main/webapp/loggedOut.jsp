@@ -32,7 +32,7 @@
             <img src="images/kpme_logo.png" />
             <p>You have logged out of the system.</p>
             <p>
-                <a href="portal.do">Maintenance</a><br/>
+                <a href="portal.do?selectedTab=maintenance">Maintenance</a><br/>
                 <a href="Clock.do">Clock</a><br/>
                 <a href="TimeDetail.do">TimeDetail</a><br/>
                 <a href="TimeApproval.do?methodToCall=loadApprovalTab">Time Approval</a><br/>

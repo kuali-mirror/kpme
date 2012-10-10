@@ -107,6 +107,15 @@ public class ClockAction extends TimesheetAction {
         if (principalId != null) {
             caf.setPrincipalId(principalId);
         }
+
+        //if the timesheet document is enroute aor final, don't allow clock action
+        if(caf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.ENROUTE)
+                || caf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL)) {
+            caf.setErrorMessage("Your current timesheet is already submitted for Approval. Clock action is not allowed on this timesheet.");
+            return mapping.findForward("basic");
+        }
+
+
         this.assignShowDistributeButton(caf);
         // if the time sheet document is final or enroute, do not allow missed punch
         if(caf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.ENROUTE)

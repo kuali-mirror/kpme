@@ -33,7 +33,7 @@
       	<ref bean="TimeHourDetail-amount"/>
    	  </list>
    	</property>
-   	<property name="objectLabel" value="timeHourDetailObj"/>
+   	<property name="objectLabel" value="Time Hour Detail Object"/>
   </bean>
   
   <!-- Attribute Definitions -->

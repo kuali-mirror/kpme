@@ -167,11 +167,15 @@ public class TimeDetailValidationService {
         }
         if (errors.size() > 0) return errors;
 
+
+
         //------------------------
         // check if time blocks overlap with each other. Note that the tkTimeBlockId is used to
         // determine is it's updating an existing time block or adding a new one
         //------------------------
-        errors.addAll(validateOverlap(startTime, endTime, acrossDays, startDateS, endTimeS,startTemp, endTemp, timesheetDocument, timeblockId));
+
+        boolean isRegularEarnCode = StringUtils.equals(assign.getJob().getPayTypeObj().getRegEarnCode(),selectedEarnCode);
+        errors.addAll(validateOverlap(startTime, endTime, acrossDays, startDateS, endTimeS,startTemp, endTemp, timesheetDocument, timeblockId, isRegularEarnCode));
         if (errors.size() > 0) return errors;
 
         // Accrual Hour Limits Validation
@@ -180,7 +184,7 @@ public class TimeDetailValidationService {
         return errors;
     }
 
-    public static List<String> validateOverlap(Long startTime, Long endTime, boolean acrossDays, String startDateS, String endTimeS, DateTime startTemp, DateTime endTemp, TimesheetDocument timesheetDocument, String timeblockId) {
+    public static List<String> validateOverlap(Long startTime, Long endTime, boolean acrossDays, String startDateS, String endTimeS, DateTime startTemp, DateTime endTemp, TimesheetDocument timesheetDocument, String timeblockId, boolean isRegularEarnCode) {
         List<String> errors = new ArrayList<String>();
         Interval addedTimeblockInterval = new Interval(startTime, endTime);
         List<Interval> dayInt = new ArrayList<Interval>();
@@ -199,7 +203,8 @@ public class TimeDetailValidationService {
              DateTime clockWithZone = new DateTime(lastClockTimestamp, zone);
              DateTime currentTime = new DateTime(System.currentTimeMillis(), zone);
              Interval currentClockInInterval = new Interval(clockWithZone.getMillis(), currentTime.getMillis());
-             if (addedTimeblockInterval.overlaps(currentClockInInterval)) {
+       
+            if (isRegularEarnCode && addedTimeblockInterval.overlaps(currentClockInInterval)) {
                  errors.add("The time block you are trying to add overlaps with the current clock action.");
                  return errors;
              }

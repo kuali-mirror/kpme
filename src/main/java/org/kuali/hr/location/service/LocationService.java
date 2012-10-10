@@ -34,7 +34,7 @@ public interface LocationService {
 	 * @param hrLocationId
 	 * @return
 	 */
-    @Cacheable(value= Location.CACHE_NAME, key="'leavePlan=' + #p0")
+    @Cacheable(value= Location.CACHE_NAME, key="'hrLocationId=' + #p0")
 	public Location getLocation(String hrLocationId);
 	/**
 	 * Get location count by location
