@@ -21,6 +21,7 @@ import java.util.List;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.clocklog.ClockLog;
+import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 public interface ClockLogService {
@@ -86,4 +87,18 @@ public interface ClockLogService {
     ClockLog buildClockLog(Timestamp clockTimestamp, Timestamp originalTimestamp, Assignment assignment, TimesheetDocument timesheetDocument, String clockAction, String ip, String userPrincipalId);
 
     ClockLog processClockLog(Timestamp clockTimeStamp, Assignment assignment, CalendarEntries pe, String ip, java.sql.Date asOfDate, TimesheetDocument td, String clockAction, String principalId, String userPrincipalId);
+    
+    /**
+     * Get warning messages for clock actions taken from unapproved IP address on given timesheet document
+     * @param timeBlocks
+     * @return List<String>
+     */
+    public List<String> getUnapprovedIPWarning(List<TimeBlock> timeBlocks);
+    
+    /** 
+     * Build an unapproved IP address warning message for  based on given ClockLog 
+     * @param cl
+     * @return
+     */
+    public String buildUnapprovedIPWarning(ClockLog cl);
 }

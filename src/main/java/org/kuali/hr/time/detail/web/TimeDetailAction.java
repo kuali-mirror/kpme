@@ -175,6 +175,7 @@ public class TimeDetailAction extends TimesheetAction {
         tdaf.setTimeSummary(ts);
         ActionFormUtils.validateHourLimit(tdaf);
         ActionFormUtils.addWarningTextFromEarnGroup(tdaf);
+        ActionFormUtils.addUnapprovedIPWarningFromClockLog(tdaf);
 	}
 
 	private void populateCalendarAndPayPeriodLists(HttpServletRequest request, TimeDetailActionForm tdaf) {

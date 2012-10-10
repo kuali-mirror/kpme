@@ -45,6 +45,7 @@ public class ClockLog extends PersistableBusinessObjectBase {
     private String userPrincipalId;
     private String hrJobId;
     private Timestamp timestamp;
+    private boolean unapprovedIP = false;
     
     private String missedPunchDocumentId;
 
@@ -224,6 +225,14 @@ public class ClockLog extends PersistableBusinessObjectBase {
 
 	public void setMissedPunchDocumentId(String missedPunchDocumentId) {
 		this.missedPunchDocumentId = missedPunchDocumentId;
+	}
+
+	public boolean getUnapprovedIP() {
+		return unapprovedIP;
+	}
+
+	public void setUnapprovedIP(boolean unapprovedIP) {
+		this.unapprovedIP = unapprovedIP;
 	}
 
 }

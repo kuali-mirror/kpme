@@ -119,7 +119,7 @@
 
                                     <%-- Time entry helper with the tooltip effect --%>
                                 <button style="width:20px; height:20px; vertical-align: text-top"
-                                        title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 15:30, 1530"
+                                        title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 15:30"
                                         id="beginTimeHelp" tabindex="999" onclick="return false;">help
                                 </button>
 
@@ -134,7 +134,7 @@
                                     <%-- Time entry helper with the tooltip effect --%>
                                 <button style="width:20px; height:20px; vertical-align: text-top;"
                                         id="startTimeHelp"
-                                        title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 15:30, 1530"
+                                        title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 15:30"
                                         tabindex="999" onclick="return false;">help
                                 </button>
 

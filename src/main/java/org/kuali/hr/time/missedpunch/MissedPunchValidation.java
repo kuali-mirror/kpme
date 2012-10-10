@@ -63,6 +63,7 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
             GlobalVariables.getMessageMap().putError("document.clockAction", "clock.mp.invalid.action");
             valid = false;
         }
+        
         return valid;
     }
 
@@ -81,7 +82,11 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
 
         if (lastClock == null)
             return valid;
-
+        
+        //Missed Action Date and Missed Action Time are required fields. KPME-1853
+        if(mp.getActionTime() == null || mp.getActionDate() == null)
+        	return false;
+        
         DateTime clockLogDateTime = new DateTime(lastClock.getClockTimestamp().getTime());
         DateTime boundaryMax = clockLogDateTime.plusDays(1);
         DateTime nowTime = new DateTime(TKUtils.getCurrentDate());
@@ -114,7 +119,6 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         	return false;
         }
         
-        
         if ( ((!StringUtils.equals(lastClock.getClockAction(), TkConstants.CLOCK_OUT) && actionDateTime.isAfter(boundaryMax)) 
         		|| newDateTime.isBefore(clockLogDateTime)) && StringUtils.equals(mp.getDocumentStatus(),"R")) {
         	GlobalVariables.getMessageMap().putError("document.actionTime", "clock.mp.invalid.datetime");
@@ -124,7 +128,7 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         return valid;
     }
  
-    // do not allow a missed punch is the time sheet document is enroute or final
+    // do not allow a missed punch if the time sheet document is enroute or final
     boolean validateTimeSheet(MissedPunchDocument mp) {
     	boolean valid = true;
     	TimesheetDocument tsd = TkServiceLocator.getTimesheetService().getTimesheetDocument(mp.getTimesheetDocumentId());
@@ -134,6 +138,7 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
     		GlobalVariables.getMessageMap().putError("document.timesheetDocumentId", "clock.mp.invalid.timesheet");
     		valid = false;
     	}
+    	
     	return valid;
     }
 	@Override

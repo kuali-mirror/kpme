@@ -63,6 +63,20 @@ public class ActionFormUtils {
         addUniqueWarningsToForm(tdaf, warningMessages);
     }
 
+    public static void addUnapprovedIPWarningFromClockLog(TimeDetailActionFormBase tdaf) {
+    	List<String> warningMessages = new ArrayList<String>();
+    	Set<String> aSet = new HashSet<String>();
+    	if(tdaf.getTimesheetDocument() != null) {
+	    	List<TimeBlock> tbList = tdaf.getTimesheetDocument().getTimeBlocks();
+	    	if(CollectionUtils.isNotEmpty(tbList)) {
+		    	 aSet.addAll(TkServiceLocator.getClockLogService().getUnapprovedIPWarning(tbList));
+		        
+	    	}
+    	}
+    	warningMessages.addAll(aSet);
+    	addUniqueWarningsToForm(tdaf, warningMessages);
+    }
+    
     public static void addUniqueWarningsToForm(TimeDetailActionFormBase tdaf, List<String> warningMessages) {
         if (!warningMessages.isEmpty()) {
             Set<String> aSet = new HashSet<String>();

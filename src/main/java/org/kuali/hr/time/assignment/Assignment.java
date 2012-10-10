@@ -47,7 +47,7 @@ public class Assignment extends HrBusinessObject {
 	private String hrJobId;
 	private Job job;
 	private Long workArea;
-	private Long tkWorkAreaId;
+	//private Long tkWorkAreaId;
 	private Long task;
 	private String dept;
 	private TimeCollectionRule timeCollectionRule;
@@ -258,13 +258,13 @@ public class Assignment extends HrBusinessObject {
 		this.taskObj = taskObj;
 	}
 
-	public Long getTkWorkAreaId() {
+	/*public Long getTkWorkAreaId() {
 		return tkWorkAreaId;
 	}
 
 	public void setTkWorkAreaId(Long tkWorkAreaId) {
 		this.tkWorkAreaId = tkWorkAreaId;
-	}
+	}*/
 	public Boolean getHistory() {
 		return history;
 	}

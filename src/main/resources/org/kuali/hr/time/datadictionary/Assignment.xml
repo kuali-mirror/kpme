@@ -190,7 +190,7 @@
 	<bean id="Assignment-tkWorkAreaId" parent="Assignment-tkWorkAreaId-parentBean" />
 	<bean id="Assignment-tkWorkAreaId-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="name" value="tkWorkAreaId" />
+		<property name="name" value="workAreaObj.tkWorkAreaId" />
 		<property name="control">
 			<bean parent="HiddenControlDefinition" />
 		</property>
@@ -376,7 +376,7 @@
 				<bean parent="FieldDefinition" p:attributeName="history"
 					p:defaultValue="N" />
 				<bean parent="FieldDefinition" p:attributeName="hrJobId" />
-				<bean parent="FieldDefinition" p:attributeName="tkWorkAreaId" />
+				<bean parent="FieldDefinition" p:attributeName="workAreaObj.tkWorkAreaId" />
 			</list>
 
 		</property>

@@ -47,10 +47,12 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 			String ipAddressClock = clockLog.getIpAddress();
 			for(ClockLocationRuleIpAddress ruleIp : ruleIpAddresses) {
 				if(compareIpAddresses(ruleIp.getIpAddress(), ipAddressClock)){
+					clockLog.setUnapprovedIP(false);
 					return;
 				}
 			}
 		}
+		clockLog.setUnapprovedIP(true);
 		GlobalVariables.getMessageMap().putWarning("property", "ipaddress.invalid.format", clockLog.getIpAddress());
 
 	}

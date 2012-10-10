@@ -17,7 +17,9 @@ package org.kuali.hr.time.workarea.web;
 
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -26,9 +28,21 @@ public class WorkAreaInquirableImpl extends KualiInquirableImpl {
 
 	@Override
 	public BusinessObject getBusinessObject(Map fieldValues) {
-		WorkArea workArea = (WorkArea) super.getBusinessObject(fieldValues);
+        WorkArea workArea = null;
+        if (StringUtils.isNotBlank((String)fieldValues.get("tkWorkAreaId"))) {
+            workArea = TkServiceLocator.getWorkAreaService().getWorkArea((String)fieldValues.get("tkWorkAreaId"));
+        } else if (fieldValues.containsKey("workArea") && fieldValues.containsKey("effectiveDate")) {
+            String workAreaVal = (String)fieldValues.get("workArea");
+            Long wa = workAreaVal != null ? Long.parseLong(workAreaVal) : null;
+            workArea = TkServiceLocator.getWorkAreaService().getWorkArea(wa,
+                    new java.sql.Date(TKUtils.convertDateStringToTimestampNoTimezone((String)fieldValues.get("effectiveDate")).getTime()));
+        } else {
+	    	 workArea = (WorkArea) super.getBusinessObject(fieldValues);
+        }
 
-		TkServiceLocator.getWorkAreaService().populateWorkAreaRoles(workArea);
+        if (workArea != null) {
+		    TkServiceLocator.getWorkAreaService().populateWorkAreaRoles(workArea);
+        }
 
 		return workArea;
 	}

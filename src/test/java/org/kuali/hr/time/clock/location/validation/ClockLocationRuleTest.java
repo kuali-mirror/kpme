@@ -178,7 +178,8 @@ public class ClockLocationRuleTest extends KPMETestCase {
     	TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, new Date(System.currentTimeMillis()));
     	
     	Assert.assertTrue("clock location rule no error",GlobalVariables.getMessageMap().hasNoWarnings());
-    	
+    	Assert.assertFalse("clock log should have 'false' as unapprovedIP.", clockLog.getUnapprovedIP());
+
     	boService.delete(clr);
     	
     	clr = this.createClr(IP_ADDRESS_ONE, 1234L, "1234", 0L);
@@ -194,6 +195,7 @@ public class ClockLocationRuleTest extends KPMETestCase {
     	TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, new Date(System.currentTimeMillis()));
     	
     	Assert.assertTrue("clock location rule no error",GlobalVariables.getMessageMap().hasWarnings());
+    	Assert.assertTrue("clock log should have 'true' as unapprovedIP.", clockLog.getUnapprovedIP());
 
     }
     
@@ -222,6 +224,7 @@ public class ClockLocationRuleTest extends KPMETestCase {
     	ClockLocationRule clr = this.createClr(ipAddress, 1234L, "1234", 0L);
     	TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, new Date(System.currentTimeMillis()));
     	Assert.assertTrue("clock location rule no warning message",GlobalVariables.getMessageMap().hasNoWarnings());
+    	Assert.assertFalse("clock log should have 'false' as unapprovedIP.", clockLog.getUnapprovedIP());
     }
     
     public void processRuleWithIPWithWarning(ClockLog clockLog, String ipAddress) {
@@ -230,6 +233,7 @@ public class ClockLocationRuleTest extends KPMETestCase {
     	TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, new Date(System.currentTimeMillis()));
     	Assert.assertFalse("clock location rule with warning message",GlobalVariables.getMessageMap().hasNoWarnings());
     	Assert.assertTrue("clock location rule with 1 warning message",(GlobalVariables.getMessageMap().getWarningCount()== 1));
+    	Assert.assertTrue("clock log should have 'true' as unapprovedIP.", clockLog.getUnapprovedIP());
     }
 
     @SuppressWarnings("unchecked")

@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.time.warning;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
@@ -47,9 +48,11 @@ public class TkWarningServiceImpl implements TkWarningService {
     @Override
     public List<String> getWarnings(TimesheetDocument td) {
         //Validate accrual hours
-        List<String> warnings;
-        warnings = TkServiceLocator.getTimeOffAccrualService().validateAccrualHoursLimit(td);
-
+        List<String> warnings = TkServiceLocator.getTimeOffAccrualService().validateAccrualHoursLimit(td);
+        // add unapproved IP address warnings
+        if(td != null && CollectionUtils.isNotEmpty(td.getTimeBlocks())) {
+        	warnings.addAll(TkServiceLocator.getClockLogService().getUnapprovedIPWarning(td.getTimeBlocks()));
+        }
         return warnings;
     }
 

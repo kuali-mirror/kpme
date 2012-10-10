@@ -81,7 +81,7 @@
     <cache:annotation-driven cache-manager="kpme.import.globalCacheManager" />
     <!-- end cache setup -->
 
-    <bean id="kpmeModuleService" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
+    <bean id="kpmeModuleService" class="org.kuali.hr.core.service.KpmeModuleService">
         <property name="moduleConfiguration" ref="kpmeModuleConfiguration"/>
         <property name="kualiModuleService" ref="kualiModuleService"/>
     </bean>

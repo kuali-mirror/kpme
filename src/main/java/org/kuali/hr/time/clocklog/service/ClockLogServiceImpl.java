@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.time.clocklog.service;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -30,7 +31,9 @@ import org.kuali.hr.time.util.TkConstants;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ClockLogServiceImpl implements ClockLogService {
 
@@ -174,5 +177,37 @@ public class ClockLogServiceImpl implements ClockLogService {
     public ClockLog getClockLog(String tkClockLogId) {
         return clockLogDao.getClockLog(tkClockLogId);
     }
+
+    public List<String> getUnapprovedIPWarning(List<TimeBlock> timeBlocks) {
+		 List<String> warningMessages = new ArrayList<String>();
+		 if (CollectionUtils.isNotEmpty(timeBlocks)) {
+		     Set<String> aSet = new HashSet<String>();
+		     for(TimeBlock tb : timeBlocks) {
+		    	 if(tb.getClockLogCreated()) {
+		    		 if(StringUtils.isNotEmpty(tb.getClockLogBeginId())){
+		    			 ClockLog cl = TkServiceLocator.getClockLogService().getClockLog(tb.getClockLogBeginId());
+		    			 if(cl.getUnapprovedIP()) {
+		    				 aSet.add(buildUnapprovedIPWarning(cl));
+		    			 }
+		    		 }
+		    		 if(StringUtils.isNotEmpty(tb.getClockLogEndId())){
+		    			 ClockLog cl = TkServiceLocator.getClockLogService().getClockLog(tb.getClockLogEndId());
+		    			 if(cl.getUnapprovedIP()) {
+		    				 aSet.add(buildUnapprovedIPWarning(cl));
+		    			 }
+		    		 }		
+		    	 }
+		     }
+		     warningMessages.addAll(aSet);
+		}
+		
+		return warningMessages;
+    }
+
+	public String buildUnapprovedIPWarning(ClockLog cl) {
+		String warning = "Warning: Action '" + TkConstants.CLOCK_ACTION_STRINGS.get(cl.getClockAction()) + "' taken at " 
+			+ cl.getClockTimestamp() + " was from an unapproved IP address - " + cl.getIpAddress();
+		return warning;
+	}
 
 }

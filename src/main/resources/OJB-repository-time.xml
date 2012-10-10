@@ -146,6 +146,7 @@
         <field-descriptor name="ipAddress"              column="IP_ADDRESS"         jdbc-type="VARCHAR"     length="15" />
         <field-descriptor name="hrJobId"                column="HR_JOB_ID"          jdbc-type="VARCHAR"     length="60" nullable="false" primarykey="false" />
         <field-descriptor name="userPrincipalId"        column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR"     length="40" />
+        <field-descriptor name="unapprovedIP"   		column="UNAPPROVED_IP"		jdbc-type="VARCHAR"    length="1" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="timestamp"              column="TIMESTAMP"          jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
         <field-descriptor name="objectId"               column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"          column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
@@ -175,8 +176,6 @@
         <field-descriptor name="tkClockLocationRuleIpId"    column="TK_CLOCK_LOC_RULE_IP_ID"    jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="TK_CLOCK_LOC_RL_IP_ADDR_S" />
         <field-descriptor name="tkClockLocationRuleId"      column="TK_CLOCK_LOC_RULE_ID"       jdbc-type="VARCHAR" length="60" />
         <field-descriptor name="ipAddress"                  column="IP_ADDRESS"                 jdbc-type="VARCHAR" length="15" nullable="false" primarykey="false" />
-        <field-descriptor name="objectId"                   column="OBJ_ID"                     jdbc-type="VARCHAR" index="true" />
-        <field-descriptor name="versionNumber"              column="VER_NBR"                    jdbc-type="BIGINT"  locking="true" />
     </class-descriptor>
     
     <class-descriptor class="org.kuali.hr.time.department.Department" table="HR_DEPT_T">
@@ -324,8 +323,8 @@
         <field-descriptor name="warningText"        column="WARNING_TEXT"           jdbc-type="VARCHAR"     length="100" nullable="true" primarykey="false" />
         <field-descriptor name="timestamp"          column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
         <field-descriptor name="objectId"       column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
- 	 	<field-descriptor name="versionNumber"  column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
-        
+        <field-descriptor name="versionNumber"  column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
+
         <collection-descriptor name="earnCodeGroups" element-class-ref="org.kuali.hr.time.earncodegroup.EarnCodeGroupDefinition" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="false">
             <inverse-foreignkey field-ref="hrEarnCodeGroupId" />
         </collection-descriptor>
