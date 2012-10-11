@@ -242,9 +242,11 @@ public class TkTestUtils {
 					} catch (Exception e) {
 						select = (HtmlSelect) lookupForm.getElementById(formFieldPrefix  + entry.getKey());
 					}
-
-					resultPage = (HtmlPage) select.getOptionByValue((String)value).setSelected(true);
-				}
+                    //  try to get a useful option, other than the typical blank default, by getting the last option
+                    //  if the size of the options list is zero, then there is a problem. might as well error here with an array out of bounds.
+                    resultPage = (HtmlPage) select.getOption(select.getOptionSize()-1).setSelected(true);
+                    HtmlUnitUtil.createTempFile(resultPage);
+                }
 				// check box
 				else if(key.equals(TkTestConstants.FormElementTypes.CHECKBOX)) {
 					try {
