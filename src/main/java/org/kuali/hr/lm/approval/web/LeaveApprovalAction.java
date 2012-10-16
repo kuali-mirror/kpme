@@ -249,7 +249,10 @@ public class LeaveApprovalAction extends ApprovalAction{
         }
 
         // Set calendar groups
-        List<String> calGroups = TkServiceLocator.getLeaveApprovalService().getUniqueLeavePayGroupsForPrincipalIds(principalIds);
+        List<String> calGroups =  new ArrayList<String>();
+        if (CollectionUtils.isNotEmpty(principalIds)) {
+            calGroups = TkServiceLocator.getLeaveApprovalService().getUniqueLeavePayGroupsForPrincipalIds(principalIds);
+        }
         laaf.setPayCalendarGroups(calGroups);
 
         if (StringUtils.isBlank(laaf.getSelectedPayCalendarGroup())
