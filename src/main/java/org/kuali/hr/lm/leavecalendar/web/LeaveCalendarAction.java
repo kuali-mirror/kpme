@@ -232,7 +232,8 @@ public class LeaveCalendarAction extends TkAction {
 		lcf.setDescription(null);
 		
 		// call accrual service for this pay period if earn code is not eligible for accrual
-		EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCodeById(selectedEarnCode);
+        java.sql.Date sqlDate = new java.sql.Date(endDate.getMillis());
+		EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, sqlDate);
 		if(ec != null && ec.getEligibleForAccrual().equals("N")) {
 			CalendarEntries ce = lcf.getCalendarEntry();
 			if(ce != null && ce.getBeginPeriodDate() != null && ce.getEndPeriodDate() != null) {
@@ -283,7 +284,7 @@ public class LeaveCalendarAction extends TkAction {
             if (!updatedLeaveBlock.getLeaveAmount().equals(lcf.getLeaveAmount())) {
                 updatedLeaveBlock.setLeaveAmount(lcf.getLeaveAmount());
             }
-            EarnCode earnCode =  TkServiceLocator.getEarnCodeService().getEarnCodeById(selectedEarnCode); // selectedEarnCode = hrEarnCodeId
+            EarnCode earnCode =  TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, updatedLeaveBlock.getLeaveDate()); // selectedEarnCode = hrEarnCodeId
             if (!updatedLeaveBlock.getEarnCode().equals(earnCode.getEarnCode())) {
                 updatedLeaveBlock.setEarnCode(earnCode.getEarnCode());
                 // update hr_earn_code_id as well
