@@ -76,6 +76,9 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 	}
 	
 	boolean validateCalendarYearStart(String dateString) {
+        if (StringUtils.isBlank(dateString)) {
+            return false;
+        }
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
 		sdf.setLenient(false);
 		try {
