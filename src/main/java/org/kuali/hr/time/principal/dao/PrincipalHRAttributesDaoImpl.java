@@ -123,6 +123,9 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
 
     @Override
     public List<String> getUniqueLeavePayGroupsForPrincipalIds(List<String> principalIds) {
+        if (CollectionUtils.isEmpty(principalIds)) {
+            return Collections.emptyList();
+        }
         List<String> leaveCalendars = new ArrayList<String>();
         Criteria crit = new Criteria();
         crit.addEqualTo("active", true);
