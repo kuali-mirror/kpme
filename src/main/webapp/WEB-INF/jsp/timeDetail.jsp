@@ -82,7 +82,7 @@
     <div id="cal">
         <div id="dialog-form" class="dialog-form">
             <html:form action="/TimeDetail.do" styleId="time-detail">
-                <p id="validation" class="validation" title="Validation">All form fields are .</p>
+                <p id="validation" class="validation" title="Validation">All form fields are required.</p>
 
                 <html:hidden property="methodToCall" value="" styleId="methodToCall"/>
                 <html:hidden property="documentId" value="${Form.documentId}" styleId="documentId"/>

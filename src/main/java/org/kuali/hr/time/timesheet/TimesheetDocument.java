@@ -115,6 +115,10 @@ public class TimesheetDocument implements CalendarDocumentContract {
 	public java.sql.Date getAsOfDate(){
 		return new java.sql.Date(getCalendarEntry().getBeginPeriodDateTime().getTime());
 	}
+    
+    public java.sql.Date getDocEndDate(){
+		return new java.sql.Date(getCalendarEntry().getEndPeriodDateTime().getTime());
+	}
 
 	public String getDocumentId(){
 		return this.getDocumentHeader().getDocumentId();

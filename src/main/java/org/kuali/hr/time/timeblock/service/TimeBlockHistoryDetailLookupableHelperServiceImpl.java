@@ -29,8 +29,15 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.Interval;
+import org.kuali.hr.job.Job;
+import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.roles.TkRole;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlockHistory;
 import org.kuali.hr.time.timeblock.TimeBlockHistoryDetail;
+import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 
@@ -64,6 +71,8 @@ public class TimeBlockHistoryDetailLookupableHelperServiceImpl extends KualiLook
         Map<String,List<TimeBlockHistoryDetail>> filteredTimeBlockHistoryToDetailMap = new HashMap<String,List<TimeBlockHistoryDetail>>();
         
         if (!objectList.isEmpty()) {
+        	this.filterWithSecurity(objectList);
+        	
         	for(TimeBlockHistoryDetail tbhd : objectList){
         		if(!timeBlockHistoryToDetailMap.containsKey(tbhd.getTkTimeBlockHistoryId())){
         			List<TimeBlockHistoryDetail> thdList = new ArrayList<TimeBlockHistoryDetail>();
@@ -122,6 +131,45 @@ public class TimeBlockHistoryDetailLookupableHelperServiceImpl extends KualiLook
         return lstFinalList;
     }
 
+    private void filterWithSecurity(List<TimeBlockHistoryDetail> objectList) {
+    	Iterator<? extends BusinessObject> itr = objectList.iterator();
+    	List<TkRole> tkRoles = TkServiceLocator.getTkRoleService().getRoles(TKContext.getPrincipalId(), TKUtils.getCurrentDate());
+		while(itr.hasNext()){
+			TimeBlockHistoryDetail tbhd = (TimeBlockHistoryDetail)itr.next();
+			Job job = TkServiceLocator.getJobService().getJob(tbhd.getTimeBlockHistory().getUserPrincipalId(), tbhd.getTimeBlockHistory().getJobNumber(), TKUtils.getCurrentDate(), false);
+			boolean valid = false;
+			for (TkRole tkRole : tkRoles) {
+				if (StringUtils.equals(tkRole.getRoleName(),
+						TkConstants.ROLE_TK_SYS_ADMIN)
+						|| (StringUtils.equals(tkRole.getRoleName(), TkConstants.ROLE_TK_GLOBAL_VO))
+						|| (StringUtils.equals(tkRole.getRoleName(),
+								TkConstants.ROLE_TK_APPROVER) && tbhd.getTimeBlockHistory().getWorkArea().equals(tkRole.getWorkArea()))
+						|| (StringUtils.equals(tkRole.getRoleName(),
+								TkConstants.ROLE_TK_DEPT_ADMIN) && (job != null && (job
+								.getDept().equals(tkRole.getDepartment()))))) {
+					valid = true;
+					break;
+				}
+				if(StringUtils.equals(tkRole.getRoleName(), TkConstants.ROLE_TK_LOCATION_ADMIN) && job != null && tkRole.getLocationObj()!=null){
+					List<Department> departments = TkServiceLocator.getDepartmentService().getDepartmentByLocation(tkRole.getLocationObj().getLocation());
+					for(Department department : departments){
+						if(StringUtils.equals(job.getDept(), department.getDept())){
+							valid = true;
+							break;
+						}
+					}
+					if(valid){
+						break;
+					}
+				}
+			}
+			if (!valid) {
+				itr.remove();
+				continue;
+			}
+		}
+    }
+    
     private void sortByTimeBlockId(List<TimeBlockHistoryDetail> objectList) {
         Collections.sort(objectList, new Comparator<TimeBlockHistoryDetail>() { // Sort the Time Blocks
             @Override

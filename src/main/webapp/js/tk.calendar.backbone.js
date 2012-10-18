@@ -195,8 +195,7 @@ $(function () {
                     title : "Add Time Blocks : ",
                     closeOnEscape : true,
                     autoOpen : true,
-                    height : 'auto',
-                    width : '450',
+					width : '640',
                     modal : true,
                     open : function () {
                         // Set the selected date on start/end time fields
@@ -275,7 +274,7 @@ $(function () {
 
                         }
                     }
-                });
+                }).height("auto");
             }
         },
 

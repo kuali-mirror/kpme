@@ -42,7 +42,7 @@ public class PositionTest extends KPMETestCase {
 		
 		//submit a changed work area
 	  	setFieldValue(positionMaintPage, "document.documentHeader.documentDescription", "Position workArea - test");
-        HtmlInput workAreaText = HtmlUnitUtil.getInputContainingText(positionMaintPage, "id=\"document.newMaintainableObject.workArea\"");
+		HtmlInput workAreaText = HtmlUnitUtil.getInputContainingText(positionMaintPage, "id=\"document.newMaintainableObject.workArea\"");
 		workAreaText.setValueAttribute("30");
 		HtmlPage outputPage = HtmlUnitUtil.clickInputContainingText(positionMaintPage, "submit");
 		HtmlUnitUtil.createTempFile(outputPage);
@@ -62,11 +62,11 @@ public class PositionTest extends KPMETestCase {
 		HtmlPage resultPage = HtmlUnitUtil.clickInputContainingText(positionLookup, "search");
 
 		//test the work area inquiry from the position page note that this returns the first work area in tk_work_area_t in all cases for now -- see KPME-1219
-		HtmlPage workAreaInquiryPage = HtmlUnitUtil.clickAnchorContainingText(resultPage, "workarea", "30");
+		HtmlPage workAreaInquiryPage = HtmlUnitUtil.clickAnchorContainingText(resultPage, "workarea", "1000");
 		HtmlUnitUtil.createTempFile(workAreaInquiryPage);
 		Assert.assertTrue("Inquiry page text contains:\n" + "WorkArea Inquiry", workAreaInquiryPage.asText().contains("WorkArea Inquiry"));
 		//first work area in tk-test -- see comment above for this test
-		Assert.assertTrue("Inquiry page text contains:\n" + "First work area in tk-test", workAreaInquiryPage.asText().contains("30"));
+		Assert.assertTrue("Inquiry page text contains:\n" + "First work area in tk-test", workAreaInquiryPage.asText().contains("1000"));
 		
 	}
 	

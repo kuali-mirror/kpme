@@ -50,8 +50,8 @@
               <property name="objectAttributeName" value="workAreaObj"/>
               <property name="primitiveAttributes">
                 <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate" />
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea" p:targetName="workArea"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate" />
                 </list>
               </property>
             </bean>

@@ -21,7 +21,7 @@
             </c:if>
             <div id="timeblock_${block.timeBlock.tkTimeBlockId}"
                  class="${editableClass}">
-                <c:if test="${Form.docEditable and block.timeBlock.deleteable}">
+                <c:if test="${Form.docEditable && block.timeBlock.timeBlockEditable && block.timeBlock.deleteable}">
                     <div><img id="timeblockDelete_${block.timeBlock.tkTimeBlockId}"
                               class='event-delete'
                               src='images/delete.png'/>

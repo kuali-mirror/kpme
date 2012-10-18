@@ -25,6 +25,7 @@ import org.kuali.hr.time.missedpunch.MissedPunchDocument;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -64,13 +65,28 @@ public class TkClockActionValuesFinder extends KeyValuesBase {
         		}
         	}
         } else {
-        	ClockLog lastClock = TkServiceLocator.getClockLogService().getLastClockLog(TKUser.getCurrentTargetPerson().getPrincipalId());
+            String targetPerson = TKUser.getCurrentTargetPerson().getPrincipalId();
+            ClockLog lastClock = TkServiceLocator.getClockLogService().getLastClockLog(targetPerson);
             Set<String> validEntries = lastClock != null ?
                     TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(lastClock.getClockAction()) :
                     TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(TkConstants.CLOCK_OUT); // Force CLOCK_IN as next valid action.
             for (String entry : validEntries) {
                 keyLabels.add(new ConcreteKeyValue(entry, TkConstants.CLOCK_ACTION_STRINGS.get(entry)));
             } 
+
+            String dept = TkServiceLocator.getJobService().getJob(lastClock.getHrJobId()).getDept();
+            Long workArea = lastClock.getWorkArea();
+            Long jobNumber = lastClock.getJobNumber();
+
+            if (!TkServiceLocator.getSystemLunchRuleService().getSystemLunchRule(TKUtils.getCurrentDate()).getShowLunchButton()) {
+                keyLabels.remove(new ConcreteKeyValue("LO", "Lunch Out"));
+                keyLabels.remove(new ConcreteKeyValue("LI", "Lunch In"));
+            } else {
+                   if (TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(dept, workArea, targetPerson, jobNumber,TKUtils.getCurrentDate()) != null) {
+                       keyLabels.remove(new ConcreteKeyValue("LO", "Lunch Out"));
+                       keyLabels.remove(new ConcreteKeyValue("LI", "Lunch In"));
+                   }
+            }
         }
         
         if(keyLabels.isEmpty()) {		// default is returning all options
