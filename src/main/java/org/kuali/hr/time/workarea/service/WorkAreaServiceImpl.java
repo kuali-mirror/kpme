@@ -15,43 +15,36 @@
  */
 package org.kuali.hr.time.workarea.service;
 
-import org.apache.log4j.Logger;
-import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TkConstants;
-import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.hr.time.workarea.dao.WorkAreaDao;
-
 import java.sql.Date;
 import java.util.List;
 
-public class WorkAreaServiceImpl implements WorkAreaService {
+import org.apache.commons.lang.ObjectUtils;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.hr.time.workarea.dao.WorkAreaDao;
 
-	@SuppressWarnings("unused")
-	private static final Logger LOG = Logger.getLogger(WorkAreaServiceImpl.class);
+public class WorkAreaServiceImpl implements WorkAreaService {
 
 	private WorkAreaDao workAreaDao;
 
-	public WorkAreaServiceImpl() {
-	}
-
     @Override
     public List<WorkArea> getWorkAreas(String department, Date asOfDate) {
-        List<WorkArea> wa = workAreaDao.getWorkArea(department, asOfDate);
+        List<WorkArea> workAreas = workAreaDao.getWorkArea(department, asOfDate);
 
-        // Load Roles
-        // TODO: We may not need to do this, as this method is currently only grabbing WorkArea objects to build role structures for users.
-        //for (WorkArea w : wa) {
-           // populateWorkAreaRoles(w);
-      //  }
+        for (WorkArea workArea : workAreas) {
+        	populateWorkAreaTasks(workArea);
+        	populateWorkAreaRoles(workArea);
+        }
 
-        return wa;
+        return workAreas;
     }
 
     @Override
 	public WorkArea getWorkArea(Long workArea, Date asOfDate) {
-        WorkArea w = workAreaDao.getWorkArea(workArea, asOfDate);
-        populateWorkAreaRoles(w);
-		return w;
+        WorkArea workAreaObj = workAreaDao.getWorkArea(workArea, asOfDate);
+        populateWorkAreaTasks(workAreaObj);
+        populateWorkAreaRoles(workAreaObj);
+		return workAreaObj;
 	}
 
 	@Override
@@ -65,6 +58,21 @@ public class WorkAreaServiceImpl implements WorkAreaService {
 
 	public void setWorkAreaDao(WorkAreaDao workAreaDao) {
 		this.workAreaDao = workAreaDao;
+	}
+	
+	@Override
+	public void populateWorkAreaTasks(WorkArea workArea) {
+		if (workArea != null) {
+			workArea.setTasks(
+					TkServiceLocator.getTaskService().getTasks(
+                            null,
+                            null,
+                            ObjectUtils.toString(workArea.getWorkArea()),
+                            null,
+                            workArea.getEffectiveDate()
+                    )
+            );
+		}
 	}
 
     @Override

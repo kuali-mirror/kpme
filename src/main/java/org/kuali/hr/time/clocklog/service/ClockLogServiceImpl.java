@@ -22,7 +22,6 @@ import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.clocklog.dao.ClockLogDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
@@ -134,22 +133,11 @@ public class ClockLogServiceImpl implements ClockLogService {
         clockLog.setJob(timesheetDocument.getJob(assignment.getJobNumber()));
         clockLog.setJobNumber(assignment.getJobNumber());
         clockLog.setWorkArea(assignment.getWorkArea());
-        clockLog.setTkWorkAreaId(assignment.getWorkAreaObj().getTkWorkAreaId());
-
-        String tkTaskId = null;
-        for (Task task : assignment.getWorkAreaObj().getTasks()) {
-            if (task.getTask().compareTo(assignment.getTask()) == 0) {
-                tkTaskId = task.getTkTaskId();
-                break;
-            }
-        }
         clockLog.setTask(assignment.getTask());
-        clockLog.setTkTaskId(tkTaskId);
         clockLog.setClockTimestampTimezone(TkServiceLocator.getTimezoneService().getUserTimezone());
         clockLog.setClockTimestamp(clockTimestamp);
         clockLog.setClockAction(clockAction);
         clockLog.setIpAddress(ip);
-        clockLog.setHrJobId(assignment.getJob().getHrJobId());
         clockLog.setUserPrincipalId(userPrincipalId);
         // timestamp should be the original time without Grace Period rule applied
         clockLog.setTimestamp(originalTimestamp);

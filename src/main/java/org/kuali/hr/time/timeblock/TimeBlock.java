@@ -48,9 +48,6 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     private Long jobNumber;
     private Long workArea;
     private Long task;
-    private String hrJobId;
-    private String tkWorkAreaId;
-    private String tkTaskId;
     private String earnCode;
     private String earnCodeType;
     private Timestamp beginTimestamp;
@@ -296,30 +293,6 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
         this.task = task;
     }
 
-    public String getHrJobId() {
-        return hrJobId;
-    }
-
-    public void setHrJobId(String hrJobId) {
-        this.hrJobId = hrJobId;
-    }
-
-    public String getTkWorkAreaId() {
-        return tkWorkAreaId;
-    }
-
-    public void setTkWorkAreaId(String tkWorkAreaId) {
-        this.tkWorkAreaId = tkWorkAreaId;
-    }
-
-    public String getTkTaskId() {
-        return tkTaskId;
-    }
-
-    public void setTkTaskId(String tkTaskId) {
-        this.tkTaskId = tkTaskId;
-    }
-
     public List<TimeHourDetail> getTimeHourDetails() {
         return timeHourDetails;
     }
@@ -491,9 +464,6 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
         this.jobNumber = b.jobNumber;
         this.workArea = b.workArea;
         this.task = b.task;
-        this.hrJobId = b.hrJobId;
-        this.tkWorkAreaId = b.tkWorkAreaId;
-        this.tkTaskId = b.tkTaskId;
         this.earnCode = b.earnCode;
         this.beginTimestamp = new Timestamp(b.beginTimestamp.getTime());
         this.endTimestamp = new Timestamp(b.endTimestamp.getTime());

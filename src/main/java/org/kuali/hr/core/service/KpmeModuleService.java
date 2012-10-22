@@ -15,18 +15,26 @@
  */
 package org.kuali.hr.core.service;
 
-import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.rice.krad.service.impl.ModuleServiceBase;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.kuali.hr.time.task.Task;
+import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.rice.krad.service.impl.ModuleServiceBase;
 
 
 public class KpmeModuleService extends ModuleServiceBase {
 
     @Override
     public List<List<String>> listAlternatePrimaryKeyFieldNames(Class businessObjectInterfaceClass) {
-        if (WorkArea.class.isAssignableFrom(businessObjectInterfaceClass)) {
+    	if (Task.class.isAssignableFrom(businessObjectInterfaceClass)) {
+            List<List<String>> retList = new ArrayList<List<String>>();
+            List<String> keyList = new ArrayList<String>();
+            keyList.add("task");
+            keyList.add("effectiveDate");
+            retList.add(keyList);
+            return retList;
+        } else if (WorkArea.class.isAssignableFrom(businessObjectInterfaceClass)) {
             List<List<String>> retList = new ArrayList<List<String>>();
             List<String> keyList = new ArrayList<String>();
             keyList.add("workArea");

@@ -49,6 +49,16 @@ public interface WorkAreaService {
      */
     @CacheEvict(value={WorkArea.CACHE_NAME}, allEntries = true)
     public void saveOrUpdate(WorkArea workArea);
+    
+    /**
+     * A helper method to populate the tasks for the given WorkArea. This
+     * method will be called automatically when calls to getWorkArea() are
+     * made. Functionality is exposed here to allow the Kuali Lookup / Maint
+     * pages to completely populate WorkArea objects.
+     *
+     * @param workArea The WorkArea for which we need roles populated.
+     */
+    public void populateWorkAreaTasks(WorkArea workArea);
 
     /**
      * A helper method to populate the roles for the given WorkArea. This

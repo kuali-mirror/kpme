@@ -74,7 +74,7 @@ public class TkClockActionValuesFinder extends KeyValuesBase {
                 keyLabels.add(new ConcreteKeyValue(entry, TkConstants.CLOCK_ACTION_STRINGS.get(entry)));
             } 
 
-            String dept = TkServiceLocator.getJobService().getJob(lastClock.getHrJobId()).getDept();
+            String dept = TkServiceLocator.getJobService().getJob(targetPerson, lastClock.getJobNumber(), TKUtils.getCurrentDate()).getDept();
             Long workArea = lastClock.getWorkArea();
             Long jobNumber = lastClock.getJobNumber();
 

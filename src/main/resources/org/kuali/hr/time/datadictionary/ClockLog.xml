@@ -34,6 +34,7 @@
 		</property>
 		<property name="attributes">
 			<list>
+                <ref bean="ClockLog-tkClockLogId" />
 				<ref bean="ClockLog-principalId" />
 				<ref bean="ClockLog-jobNumber" />
 				<ref bean="ClockLog-workArea" />
@@ -44,8 +45,6 @@
 				<ref bean="ClockLog-ipAddress" />
 				<ref bean="ClockLog-userPrincipalId" />
 				<ref bean="ClockLog-timestamp" />
-				<ref bean="ClockLog-tkTaskId" />
-				<ref bean="ClockLog-tkWorkAreaId" />
 				<ref bean="ClockLog-missedPunchDocumentId"/>
 			</list>
 		</property>
@@ -58,8 +57,6 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea"
 								p:targetName="workArea" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkWorkAreaId"
-								p:targetName="tkWorkAreaId" />
 						</list>
 					</property>
 				</bean>
@@ -70,8 +67,6 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="task"
 								p:targetName="task" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="tkTaskId"
-								p:targetName="tkTaskId" />
 						</list>
 					</property>
 				</bean>
@@ -92,7 +87,18 @@
 		 
 	</bean>
 
-	<!-- Attribute Defination -->
+	<!-- Attribute Definition -->
+	
+    <bean id="ClockLog-tkClockLogId" parent="ClockLog-tkClockLogId-parentBean" />
+    <bean id="ClockLog-tkClockLogId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="shortLabel" value="Clock Log Id" />
+        <property name="maxLength" value="60" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="60" />
+        </property>
+        <property name="name" value="tkClockLogId" />
+        <property name="label" value="Clock Log Id" />
+    </bean>
 
 	<!-- PrincipalId -->
 	<bean id="ClockLog-principalId" parent="ClockLog-principalId-parentBean" />
@@ -125,7 +131,7 @@
 			<bean parent="TextControlDefinition" p:size="20" />
 		</property>
 		<property name="name" value="jobNumber" />
-		<property name="label" value="Job&#160;Number" />
+		<property name="label" value="Job Number" />
 	</bean>
 
 	<!--workArea  -->
@@ -174,7 +180,7 @@
 		</property>
 		<property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>		
 		<property name="name" value="clockTimestamp" />
-		<property name="label" value="Clock Timestamp (MM/DD/YYYY&#160;HH:MM AM)" />
+		<property name="label" value="Clock Timestamp (MM/DD/YYYY HH:MM AM)" />
 	</bean>
 
 	<!-- clockTimestampTimezone -->
@@ -211,7 +217,7 @@
 			</bean>
 		</property>
 		<property name="name" value="clockAction" />
-		<property name="label" value="Clock&#160;Action" />
+		<property name="label" value="Clock Action" />
 	</bean>	
 
 	<!-- ipAddress -->
@@ -228,7 +234,7 @@
 			<bean parent="TextControlDefinition" p:size="15" />
 		</property>
 		<property name="name" value="ipAddress" />
-		<property name="label" value="IP&#160;Address" />
+		<property name="label" value="IP Address" />
 	</bean>
 
 	<!-- userPrincipalId -->
@@ -246,7 +252,7 @@
 			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
 		</property>
 		<property name="name" value="userPrincipalId" />
-		<property name="label" value="UserPrincipal&#160;Id" />
+		<property name="label" value="User Principal Id" />
 	</bean>
 	 <!-- timestamp -->
 	<bean id="ClockLog-timestamp" parent="ClockLog-timestamp-parentBean" />
@@ -263,24 +269,6 @@
 		 <property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter"/>    
 		<property name="name" value="timestamp" />
 		<property name="label" value="Timestamp" />
-	</bean>
-	
-	<bean id="ClockLog-tkTaskId" parent="ClockLog-tkTaskId-parentBean" />
-	<bean id="ClockLog-tkTaskId-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="tkTaskId" />
-		<property name="control">
-			<bean parent="HiddenControlDefinition" />
-		</property>
-	</bean>
-	
-	<bean id="ClockLog-tkWorkAreaId" parent="ClockLog-tkWorkAreaId-parentBean" />
-	<bean id="ClockLog-tkWorkAreaId-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="tkWorkAreaId" />
-		<property name="control">
-			<bean parent="HiddenControlDefinition" />
-		</property>
 	</bean>
 	
 	<bean id="ClockLog-missedPunchDocumentId" parent="ClockLog-missedPunchDocumentId-parentBean" />
@@ -340,12 +328,10 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
-				<bean parent="FieldDefinition" p:attributeName="workArea" />
-				<bean parent="FieldDefinition" p:attributeName="task" />
+				<bean parent="FieldDefinition" p:attributeName="workArea" p:noDirectInquiry="true" />
+				<bean parent="FieldDefinition" p:attributeName="task" p:noDirectInquiry="true" />
 				<bean parent="FieldDefinition" p:attributeName="ipAddress" />
 				<bean parent="FieldDefinition" p:attributeName="clockTimestamp" />
-				<bean parent="FieldDefinition" p:attributeName="tkWorkAreaId" />
-				<bean parent="FieldDefinition" p:attributeName="tkTaskId" />
 			</list>
 		</property>
 		<property name="resultFields">

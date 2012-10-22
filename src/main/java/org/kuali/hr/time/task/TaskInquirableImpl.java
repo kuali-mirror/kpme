@@ -13,41 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.hr.time.workarea.web;
+package org.kuali.hr.time.task;
 
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 
-public class WorkAreaInquirableImpl extends KualiInquirableImpl {
-
-	private static final long serialVersionUID = -4002061046745019065L;
-
+public class TaskInquirableImpl extends KualiInquirableImpl {
+	
 	@Override
 	public BusinessObject getBusinessObject(Map fieldValues) {
-        WorkArea workArea = null;
-        if (StringUtils.isNotBlank((String)fieldValues.get("tkWorkAreaId"))) {
-            workArea = TkServiceLocator.getWorkAreaService().getWorkArea((String)fieldValues.get("tkWorkAreaId"));
-        } else if (fieldValues.containsKey("workArea") && fieldValues.containsKey("effectiveDate")) {
-            String workAreaVal = (String)fieldValues.get("workArea");
-            Long wa = workAreaVal != null ? Long.parseLong(workAreaVal) : null;
-            workArea = TkServiceLocator.getWorkAreaService().getWorkArea(wa,
+        Task task = null;
+        if (StringUtils.isNotBlank((String)fieldValues.get("tkTaskId"))) {
+        	task = TkServiceLocator.getTaskService().getTask((String) fieldValues.get("tkTaskId"));
+        } else if (fieldValues.containsKey("task") && fieldValues.containsKey("effectiveDate")) {
+            String taskString = (String)fieldValues.get("task");
+            Long taskNumber = taskString != null ? Long.parseLong(taskString) : null;
+            task = TkServiceLocator.getTaskService().getTask(taskNumber,
                     new java.sql.Date(TKUtils.convertDateStringToTimestampNoTimezone((String)fieldValues.get("effectiveDate")).getTime()));
         } else {
-	    	 workArea = (WorkArea) super.getBusinessObject(fieldValues);
+        	task = (Task) super.getBusinessObject(fieldValues);
         }
 
-        if (workArea != null) {
-        	TkServiceLocator.getWorkAreaService().populateWorkAreaTasks(workArea);
-		    TkServiceLocator.getWorkAreaService().populateWorkAreaRoles(workArea);
-        }
-
-		return workArea;
+		return task;
 	}
-	
+
 }

@@ -218,7 +218,6 @@ public class WorkAreaMaintenanceDocumentRule extends
 							task.setTask(maxTaskNumberInTable);
 						}
 						task.setWorkArea(wa.getWorkArea());
-						task.setTkWorkAreaId(wa.getTkWorkAreaId());
 					}
 				}
 			}

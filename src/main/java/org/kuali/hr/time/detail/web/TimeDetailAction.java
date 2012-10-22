@@ -47,7 +47,6 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeBlockHistory;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
@@ -405,16 +404,6 @@ public class TimeDetailAction extends TimesheetAction {
                 tb.setJobNumber(assignment.getJobNumber());
                 tb.setWorkArea(assignment.getWorkArea());
                 tb.setTask(assignment.getTask());
-                tb.setTkWorkAreaId(assignment.getWorkAreaObj().getTkWorkAreaId());
-                tb.setHrJobId(assignment.getJob().getHrJobId());
-                String tkTaskId = "0";
-                for (Task task : assignment.getWorkAreaObj().getTasks()) {
-                    if (task.getTask().compareTo(assignment.getTask()) == 0) {
-                        tkTaskId = task.getTkTaskId();
-                        break;
-                    }
-                }
-                tb.setTkTaskId(tkTaskId);
                 break;
             }
         }

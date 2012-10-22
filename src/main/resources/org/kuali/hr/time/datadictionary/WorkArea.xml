@@ -44,7 +44,6 @@
 				<ref bean="WorkArea-defaultOvertimeEarnCode" />
 				<ref bean="WorkArea-userPrincipalId" />
 				<ref bean="WorkArea-timestamp" />
-				<ref bean="WorkArea-hrDeptId" />
 				<ref bean="WorkArea-history" />
 				<ref bean="WorkArea-ovtEarnCode" />
 			</list>
@@ -58,17 +57,6 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="dept"
 								p:targetName="dept" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="hrDeptId"
-								p:targetName="hrDeptId" />
-						</list>
-					</property>
-				</bean>
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="taskObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="task"
-								p:targetName="task" />
 						</list>
 					</property>
 				</bean>
@@ -224,20 +212,6 @@
 		<property name="description" value="dept" />
 	</bean>
 
-	<bean id="WorkArea-task" parent="WorkArea-task-parentBean" />
-	<bean id="WorkArea-task-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="Task" />
-		<property name="maxLength" value="7" />
-		<property name="validationPattern">
-			<bean parent="AlphaNumericValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="7" />
-		</property>
-		<property name="name" value="task" />
-		<property name="label" value="Task" />
-	</bean>
-
 	<bean id="WorkArea-adminDescr" parent="WorkArea-adminDescr-parentBean" />
 	<bean id="WorkArea-adminDescr-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -281,15 +255,6 @@
 		<property name="name" value="timestamp" />
 		<property name="label" value="Time Stamp" />
 	</bean>
-
-    <bean id="WorkArea-hrDeptId" parent="WorkArea-hrDeptId-parentBean" />
-	<bean id="WorkArea-hrDeptId-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="name" value="hrDeptId" />
-		<property name="control">
-			<bean parent="HiddenControlDefinition" />
-		</property>
-	</bean>
 	
 	<bean id="WorkArea-ovtEarnCode" parent="WorkArea-ovtEarnCode-parentBean" />
 	<bean id="WorkArea-ovtEarnCode-parentBean" abstract="true"
@@ -313,7 +278,7 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
-							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" />
 							<bean parent="FieldDefinition" p:attributeName="workArea" />
 							<bean parent="FieldDefinition" p:attributeName="description" />
 							<bean parent="FieldDefinition" p:attributeName="overtimeEditRole" />
@@ -333,7 +298,7 @@
 								p:businessObjectClass="org.kuali.hr.time.task.Task">
 								<property name="inquiryFields">
 									<list>
-										<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+										<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" />
 										<bean parent="FieldDefinition" p:attributeName="task" />
 										<bean parent="FieldDefinition" p:attributeName="description" />
 										<bean parent="FieldDefinition" p:attributeName="administrativeDescription" />
@@ -351,7 +316,7 @@
 								p:businessObjectClass="org.kuali.hr.time.roles.TkRole">
 								<property name="inquiryFields">
 									<list>
-										<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+										<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" />
 										<bean parent="FieldDefinition" p:attributeName="principalId" />
 										<bean parent="FieldDefinition" p:attributeName="positionNumber" />
 										<bean parent="FieldDefinition" p:attributeName="userName" />
@@ -370,7 +335,7 @@
 								p:businessObjectClass="org.kuali.hr.time.roles.TkRole">
 								<property name="inquiryFields">
 									<list>
-										<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+										<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" />
 										<bean parent="FieldDefinition" p:attributeName="principalId" />
 										<bean parent="FieldDefinition" p:attributeName="positionNumber" />
 										<bean parent="FieldDefinition" p:attributeName="userName" />
@@ -400,24 +365,21 @@
 		<property name="lookupableID" value="workAreaLookupable" />
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="dept" />
+				<bean parent="FieldDefinition" p:attributeName="dept" p:noDirectInquiry="true" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="description" />
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noDirectInquiry="true" p:noLookup="true" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
-				<bean parent="FieldDefinition" p:attributeName="hrDeptId" />
-				<bean parent="FieldDefinition" p:attributeName="history"
-					p:defaultValue="N" />
+				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N" />
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="dept"
-					p:forceInquiry="true" />
+				<bean parent="FieldDefinition" p:attributeName="dept" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="description" />
 				<bean parent="FieldDefinition" p:attributeName="defaultOvertimeEarnCode" />
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>

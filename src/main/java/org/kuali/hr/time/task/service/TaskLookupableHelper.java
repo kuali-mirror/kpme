@@ -31,57 +31,21 @@ import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 
 public class TaskLookupableHelper extends TkAuthorizedLookupableHelperBase {
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
 
-    @SuppressWarnings({"unchecked"})
-    @Override
+	private static final long serialVersionUID = 7525044777337159013L;
+
+	@Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
 
         String task = fieldValues.get("task");
         String description = fieldValues.get("description");
         String workArea = fieldValues.get("workArea");
-        String workAreaDescription = fieldValues.get("workAreaDescription");
         String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
         String toEffdt = StringUtils.isNotBlank(fieldValues.get("effectiveDate")) ? fieldValues.get("effectiveDate").replace("<=", "") : "";
 
-        List<Task> tasks = TkServiceLocator.getTaskService().getTasks(task, description, workArea, workAreaDescription,
-                TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt));
+        List<Task> tasks = TkServiceLocator.getTaskService().getTasks(task, description, workArea, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt));
 
         return tasks;
-//		List finalList = new ArrayList<Task>();
-//		String wad = "";
-//		String wa = "";
-//		List<String> taskFound = new ArrayList<String>();
-//		if (fieldValues.containsKey("workAreaDescription") && !fieldValues.get("workAreaDescription").isEmpty()) {
-//			wad = fieldValues.get("workAreaDescription");
-//			fieldValues.remove("workAreaDescription");
-//		}
-//		if(fieldValues.containsKey("workArea") && !fieldValues.get("workArea").isEmpty()) {
-//			wa = fieldValues.get("workArea");
-//			fieldValues.remove("workArea");
-//		}
-//		List aList = super.getSearchResults(fieldValues);
-//
-//		for(int i = 0; i< aList.size(); i++) {
-//			Task aTask = (Task) aList.get(i);
-//			if(aTask.getTkWorkAreaId() != null) {
-//				WorkArea aWorkArea = TkServiceLocator.getWorkAreaService().getWorkArea(aTask.getTkWorkAreaId());
-//				if(aWorkArea != null) {
-//					if( (StringUtils.isBlank(wa) || aWorkArea.getWorkArea().toString().equals(wa))
-//							|| (StringUtils.isBlank(wad) || aWorkArea.getDescription().equals(wad))) {
-//						if(!taskFound.contains(aWorkArea.getWorkArea() + "_"+aTask.getTask())   ){
-//							finalList.add(aTask);
-//							taskFound.add(aWorkArea.getWorkArea() +"_"+aTask.getTask());
-//						}
-//					}
-//				}
-//			}
-//		}
-
-//        return finalList;
     }
 
     @SuppressWarnings("rawtypes")

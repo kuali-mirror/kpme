@@ -26,24 +26,18 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class ClockLog extends PersistableBusinessObjectBase {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = -2499666820628979901L;
-
-    private String tkClockLogId;
+	private static final long serialVersionUID = -6928657854016622568L;
+	
+	private String tkClockLogId;
     private String principalId;
     private Long jobNumber;
     private Long workArea;
     private Long task;
-    private String tkWorkAreaId;
-    private String tkTaskId;
     private Timestamp clockTimestamp;
     private String clockTimestampTimezone;
     private String clockAction;
     private String ipAddress;
     private String userPrincipalId;
-    private String hrJobId;
     private Timestamp timestamp;
     private boolean unapprovedIP = false;
     
@@ -155,30 +149,6 @@ public class ClockLog extends PersistableBusinessObjectBase {
 
 	public void setTkClockLogId(String tkClockLogId) {
 		this.tkClockLogId = tkClockLogId;
-	}
-
-	public String getTkWorkAreaId() {
-		return tkWorkAreaId;
-	}
-
-	public void setTkWorkAreaId(String tkWorkAreaId) {
-		this.tkWorkAreaId = tkWorkAreaId;
-	}
-
-	public String getTkTaskId() {
-		return tkTaskId;
-	}
-
-	public void setTkTaskId(String tkTaskId) {
-		this.tkTaskId = tkTaskId;
-	}
-
-	public String getHrJobId() {
-		return hrJobId;
-	}
-
-	public void setHrJobId(String hrJobId) {
-		this.hrJobId = hrJobId;
 	}
 
 	public WorkArea getWorkAreaObj() {

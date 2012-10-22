@@ -87,9 +87,6 @@ public class ActualTimeInquiryWebTest extends KPMETestCase {
 		timeBlock.getTimeHourDetails().add(timeHourDetail);
 		timeBlock.setHours(new BigDecimal(2.0));
 		timeBlock.setClockLogCreated(Boolean.TRUE);
-		timeBlock.setTkWorkAreaId("1");
-		timeBlock.setTkTaskId("1");
-		timeBlock.setHrJobId("1");
 		List<TimeBlock> tbList = new ArrayList<TimeBlock>();
 		documentId = this.maxDocumentId().toString();
 		timeBlock.setDocumentId(documentId);

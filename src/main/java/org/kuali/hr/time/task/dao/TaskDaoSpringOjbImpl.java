@@ -30,6 +30,15 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class TaskDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements TaskDao {
+	
+	@Override
+	public Task getTask(String tkTaskId) {
+		Criteria crit = new Criteria();
+		crit.addEqualTo("tkTaskId", tkTaskId);
+		
+		Query query = QueryFactory.newQuery(Task.class, crit);
+		return (Task)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
 
     @Override
     public Task getMaxTask() {
@@ -90,7 +99,7 @@ public class TaskDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements Tas
     }
 
     @Override
-    public List<Task> getTasks(Long task, String description, Long workArea, String workAreaDesc, Date fromEffdt, Date toEffdt) {
+    public List<Task> getTasks(Long task, String description, Long workArea, Date fromEffdt, Date toEffdt) {
         Criteria crit = new Criteria();
         Criteria effdt = new Criteria();
         Criteria timestamp = new Criteria();

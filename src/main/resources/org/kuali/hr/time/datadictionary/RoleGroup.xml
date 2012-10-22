@@ -279,10 +279,10 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
-				<bean parent="FieldDefinition" p:attributeName="workArea" />
-				<bean parent="FieldDefinition" p:attributeName="department" />
+				<bean parent="FieldDefinition" p:attributeName="workArea" p:noDirectInquiry="true" />
+				<bean parent="FieldDefinition" p:attributeName="department" p:noDirectInquiry="true" />
 				<bean parent="FieldDefinition" p:attributeName="principalName" />
-				<bean parent="FieldDefinition" p:attributeName="roleName" />
+				<bean parent="FieldDefinition" p:attributeName="roleName" p:noDirectInquiry="true" />
 			</list>
 		</property>
 		<property name="resultFields">

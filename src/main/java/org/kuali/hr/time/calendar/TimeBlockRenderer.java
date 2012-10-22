@@ -20,6 +20,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 
@@ -66,7 +67,7 @@ public class TimeBlockRenderer {
     public String getTitle() {
         StringBuilder b = new StringBuilder();
 
-        WorkArea wa = TkServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getTkWorkAreaId());
+        WorkArea wa = TkServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), TKUtils.getCurrentDate());
         b.append(wa.getDescription());
         Task task = TkServiceLocator.getTaskService().getTask(timeBlock.getTask(), timeBlock.getBeginDate());
         if(task != null) {

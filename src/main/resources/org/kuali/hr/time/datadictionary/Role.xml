@@ -43,7 +43,6 @@
 				<ref bean="Role-effectiveDate" />
 				<ref bean="Role-userPrincipalId" />
 				<ref bean="Role-active" />
-				<ref bean="Role-tkWorkAreaId"/>
 			</list>
 		</property>
 		<property name="relationships">
@@ -95,22 +94,6 @@
 				</bean>
 			</list>
 		</property>
-	</bean>
-
-	<bean id="Role-tkWorkAreaId" parent="Role-tkWorkAreaId-parentBean" />
-	<bean id="Role-tkWorkAreaId-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="shortLabel" value="WorkArea Id" />
-		<property name="maxLength" value="60" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="60" />
-		</property>
-		<property name="name" value="tkWorkAreaId" />
-		<property name="label" value="WorkArea Id" />
 	</bean>
 
 	<bean id="Role-principalId" parent="Role-principalId-parentBean" />
@@ -279,7 +262,36 @@
 	</bean>
 
 	<!-- Inquiry Definitions -->
+    <bean id="Role-inquiryDefinition" parent="Role-inquiryDefinition-parentBean" />
+    <bean id="Role-inquiryDefinition-parentBean" abstract="true"
+        parent="InquiryDefinition">
+        <property name="inquirySections">
+            <list>
+                <bean parent="InquirySectionDefinition">
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+			                <bean parent="FieldDefinition" p:attributeName="principalId" />
+			                <bean parent="FieldDefinition" p:attributeName="positionNumber" />
+			                <bean parent="FieldDefinition" p:attributeName="userName" />
+			                <bean parent="FieldDefinition" p:attributeName="roleName" />
+			                <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+			                <bean parent="FieldDefinition" p:attributeName="expirationDate" />
+			                <bean parent="FieldDefinition" p:attributeName="workArea" />
+			                <bean parent="FieldDefinition" p:attributeName="department" />
+			                <bean parent="FieldDefinition" p:attributeName="chart" />
+			                <bean parent="FieldDefinition" p:attributeName="active" />
+                        </list>
+                    </property>
+                    <property name="title" value="Role" />
+                </bean>
+            </list>
+        </property>
+        <property name="translateCodes" value="false" />
+        <property name="title" value="Role Inquiry" />
+    </bean>
 
+    <!-- Lookup Definitions -->
 	<bean id="Role-lookupDefinition" parent="Role-lookupDefinition-parentBean" />
 	<bean id="Role-lookupDefinition-parentBean" abstract="true"
 		parent="LookupDefinition">

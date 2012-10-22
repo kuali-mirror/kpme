@@ -25,6 +25,13 @@ import java.util.List;
 
 public interface TaskService {
 	/**
+	 * Fetch Task of a particular id
+	 * @param tkTaskId
+	 * @return
+	 */
+    @Cacheable(value= Task.CACHE_NAME, key="'tkTaskId=' + #p0")
+	public Task getTask(String tkTaskId);
+	/**
 	 * Fetch Task of a particular date
 	 * @param task
 	 * @param asOfDate
@@ -47,7 +54,7 @@ public interface TaskService {
     
 	public Task getMaxTask();
 
-    List<Task> getTasks(String task, String description, String workArea, String workAreaDesc, Date fromEffdt, Date toEffdt);
+    List<Task> getTasks(String task, String description, String workArea, Date fromEffdt, Date toEffdt);
     
     /**
      * get the count of Tasks by given task

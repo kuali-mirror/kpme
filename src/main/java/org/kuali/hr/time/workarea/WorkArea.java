@@ -36,7 +36,6 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
     private Long workArea;
     private String description;
     private String dept;
-    private Long task;
     private String adminDescr;
     private String userPrincipalId;
     private String defaultOvertimeEarnCode;
@@ -44,15 +43,12 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
     private Boolean ovtEarnCode;
     
 	private boolean history;
-    
-    private String hrDeptId;
 
     private List<TkRole> roles = new ArrayList<TkRole>();
     private List<TkRole> inactiveRoles = new ArrayList<TkRole>();
     private List<Task> tasks = new ArrayList<Task>();
 
     private Department department;
-    private Task taskObj;
     private EarnCode defaultOvertimeEarnCodeObj;
 
     public Date getEffectiveDate() {
@@ -173,29 +169,8 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
 		return department;
 	}
 
-
 	public void setDepartment(Department department) {
 		this.department = department;
-	}
-
-
-	public Task getTaskObj() {
-		return taskObj;
-	}
-
-
-	public void setTaskObj(Task taskObj) {
-		this.taskObj = taskObj;
-	}
-
-
-	public Long getTask() {
-		return task;
-	}
-
-
-	public void setTask(Long task) {
-		this.task = task;
 	}
 
     public String getDefaultOvertimeEarnCode() {
@@ -229,15 +204,6 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
 
 	public void setOvtEarnCode(Boolean ovtEarnCode) {
 		this.ovtEarnCode = ovtEarnCode;
-	}
-
-
-	public String getHrDeptId() {
-		return hrDeptId;
-	}
-
-	public void setHrDeptId(String hrDeptId) {
-		this.hrDeptId = hrDeptId;
 	}
 
 
