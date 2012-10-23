@@ -86,33 +86,33 @@ public class LeaveCalendarValidationService {
     	return validateAvailableLeaveBalance(lcf.getLeaveSummary(), lcf.getSelectedEarnCode(), lcf.getEndDate(), lcf.getLeaveAmount(), updatedLeaveBlock);
     }
     
-    public static List<String> validateAvailableLeaveBalance(LeaveSummary ls, String earnCodeId, String leaveEndDateString,
+    public static List<String> validateAvailableLeaveBalance(LeaveSummary ls, String earnCode, String leaveEndDateString,
     		BigDecimal leaveAmount, LeaveBlock updatedLeaveBlock) {
     	List<String> errors = new ArrayList<String>();
-    	String oldEarnCodeId = null;
+    	boolean earnCodeChanged = false;
     	BigDecimal oldAmount = null;
     	if(ls != null && CollectionUtils.isNotEmpty(ls.getLeaveSummaryRows())) {
     		if(updatedLeaveBlock != null) {
-    			if(!updatedLeaveBlock.getEarnCodeId().equals(earnCodeId)) {
-    				oldEarnCodeId = updatedLeaveBlock.getEarnCodeId();
+    			if(!updatedLeaveBlock.getEarnCode().equals(earnCode)) {
+    				earnCodeChanged = true;
     			}
     			if(!updatedLeaveBlock.getLeaveAmount().equals(leaveAmount)) {
     				oldAmount = updatedLeaveBlock.getLeaveAmount();
     			}
     		}
-	    	EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCodeById(earnCodeId);
+    		Date aDate = TKUtils.formatDateString(leaveEndDateString);
+	    	EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, aDate);
 	    	if(earnCodeObj != null && earnCodeObj.getAllowNegativeAccrualBalance().equals("N")) {
-	    		Date aDate = TKUtils.formatDateString(leaveEndDateString);
 	    		AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), aDate);
 	    		if(accrualCategory != null) {
 	    			List<LeaveSummaryRow> rows = ls.getLeaveSummaryRows();
 	    			for(LeaveSummaryRow aRow : rows) {
 	    				if(aRow.getAccrualCategory().equals(accrualCategory.getAccrualCategory())) {
-	    					BigDecimal availableUsage = aRow.getPendingAvailableUsage();
-	    					if(oldEarnCodeId == null && oldAmount != null) {
-	    						availableUsage = availableUsage.subtract(oldAmount);
+	    					BigDecimal availableBalance = aRow.getLeaveBalance();
+	    					if(!earnCodeChanged && oldAmount != null) {
+	    						availableBalance = availableBalance.subtract(oldAmount);
 	    					}
-	    					if(leaveAmount.compareTo(availableUsage) > 0 ) {
+	    					if(leaveAmount.compareTo(availableBalance) > 0 ) {
 	    						errors.add("Requested leave amount is greater than pending available usage.");
 	    					}
 	    				}

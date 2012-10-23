@@ -27,9 +27,9 @@ public interface LeaveBlockDao {
     public void saveOrUpdate(LeaveBlock leaveBlock);
     public List<LeaveBlock> getLeaveBlocks(String principalId, String requestStatus, Date currentDate);
     public List<LeaveBlock> getLeaveBlocksForDate(String principalId, Date leaveDate);
-    public List<LeaveBlock> getLeaveBlocks(Date leaveDate, String accrualCategoryId, String principalId);
-    public List<LeaveBlock> getLeaveBlocks(String principalId, String accrualCategoryId, Date beginDate, Date endDate);
-    public List<LeaveBlock> getFLMALeaveBlocks(String principalId, String accrualCategoryId, Date beginDate, Date endDate);
+    public List<LeaveBlock> getLeaveBlocks(Date leaveDate, String accrualCategory, String principalId);
+    public List<LeaveBlock> getLeaveBlocks(String principalId, String accrualCategory, Date beginDate, Date endDate);
+    public List<LeaveBlock> getFMLALeaveBlocks(String principalId, String accrualCategory, Date beginDate, Date endDate);
     public List<LeaveBlock> getNotAccrualGeneratedLeaveBlocksForDate(String principalId, Date leaveDate);
     public List<LeaveBlock> getLeaveBlocksForTimesheet(String principalId, Date beginDate, Date endDate);
     public void deleteLeaveBlocksForDocumentId(String documentId);

@@ -171,15 +171,12 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
                         requestStatus = LMConstants.REQUEST_STATUS.PLANNED;
                     }
                     EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, sqlDate);
-                    AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), sqlDate);
-                    String acId = accrualCategory == null ? null : accrualCategory.getLmAccrualCategoryId();
-	                LeaveBlock leaveBlock = new LeaveBlock.Builder(new DateTime(leaveBlockInt.getStartMillis()), docId, princpalId, earnCodeObj.getEarnCode(), hours)
+	                LeaveBlock leaveBlock = new LeaveBlock.Builder(new DateTime(leaveBlockInt.getStartMillis()), docId, princpalId, selectedEarnCode, hours)
 	                        .description(description)
 	                        .principalIdModified(princpalId)
 	                        .timestamp(TKUtils.getCurrentTimestamp())
-	                        .earnCodeId(earnCodeObj.getHrEarnCodeId())
 	                        .scheduleTimeOffId("0")
-	                        .accrualCategoryId(acId)
+	                        .accrualCategory(earnCodeObj.getAccrualCategory())
 	                        .workArea(selectedAssignment.getWorkArea())
 	                        .jobNumber(selectedAssignment.getJobNumber())
 	                        .task(selectedAssignment.getTask())

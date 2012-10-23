@@ -20,11 +20,9 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.Transient;
 
-import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
@@ -42,19 +40,15 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class LeaveBlock extends PersistableBusinessObjectBase {
 
-	/**
-     *
-     */
-	private static final long serialVersionUID = 1L;
-	// use java sql date for now
+	private static final long serialVersionUID = -8240826812581295376L;
+	
 	private String lmLeaveBlockId;
 	private Date leaveDate;
 	private String description;
 	private String principalId;
 	private String earnCode;
-	private String earnCodeId;
 	private String scheduleTimeOffId;
-	private String accrualCategoryId;
+	private String accrualCategory;
 	// private Boolean active;
 	private BigDecimal leaveAmount = new BigDecimal("0.0");
 	private String applyToYtdUsed;
@@ -69,7 +63,6 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	private String documentStatus;
 	
 	private List<LeaveBlockHistory> leaveBlockHistories = new ArrayList<LeaveBlockHistory>();
-	private EarnCode earnCodeObj;
 	private SystemScheduledTimeOff systemScheduledTimeOffObj;
 	private AccrualCategory accrualCategoryObj;
 
@@ -107,9 +100,8 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		private Timestamp timestamp = null;
 		private Boolean accrualGenerated = Boolean.FALSE;
 		private Long blockId = 0L;
-		private String earnCodeId;
 		private String scheduleTimeOffId;
-		private String accrualCategoryId;
+		private String accrualCategory;
 		private String tkAssignmentId;
 		private String requestStatus;
 		private Long workArea;
@@ -159,19 +151,14 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 			return this;
 		}
 
-		public Builder earnCodeId(String val) {
-			this.earnCodeId = val;
-			return this;
-		}
-
 		// TODO: need to hook up the objcets to get the real ids
 		public Builder scheduleTimeOffId(String val) {
 			this.scheduleTimeOffId = val;
 			return this;
 		}
 
-		public Builder accrualCategoryId(String val) {
-			this.accrualCategoryId = val;
+		public Builder accrualCategory(String val) {
+			this.accrualCategory = val;
 			return this;
 		}
 
@@ -223,9 +210,8 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		timestamp = builder.timestamp;
 		accrualGenerated = builder.accrualGenerated;
 		blockId = builder.blockId;
-		earnCodeId = builder.earnCodeId;
 		scheduleTimeOffId = builder.scheduleTimeOffId;
-		accrualCategoryId = builder.accrualCategoryId;
+		accrualCategory = builder.accrualCategory;
 		tkAssignmentId = builder.tkAssignmentId;
 		requestStatus = builder.requestStatus;
 		workArea = builder.workArea;
@@ -240,12 +226,12 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 
 	}
 
-	public String getAccrualCategoryId() {
-		return accrualCategoryId;
+	public String getAccrualCategory() {
+		return accrualCategory;
 	}
 
-	public void setAccrualCategoryId(String accrualCategoryId) {
-		this.accrualCategoryId = accrualCategoryId;
+	public void setAccrualCategory(String accrualCategory) {
+		this.accrualCategory = accrualCategory;
 	}
 
 	public Boolean getAccrualGenerated() {
@@ -513,22 +499,6 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 
 	public void setEarnCode(String earnCode) {
 		this.earnCode = earnCode;
-	}
-
-	public String getEarnCodeId() {
-		return earnCodeId;
-	}
-
-	public void setEarnCodeId(String earnCodeId) {
-		this.earnCodeId = earnCodeId;
-	}
-
-	public EarnCode getEarnCodeObj() {
-		return earnCodeObj;
-	}
-
-	public void setEarnCodeObj(EarnCode earnCodeObj) {
-		this.earnCodeObj = earnCodeObj;
 	}
 
 	public String getLeaveBlockType() {

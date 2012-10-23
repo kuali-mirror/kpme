@@ -98,7 +98,7 @@ public class AccrualServiceTest extends KPMETestCase {
 		Assert.assertTrue("Hours of the leave block for date 04/01/2012 should be 0, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(BigDecimal.ZERO));
 		Assert.assertTrue("Leave Code of the leave block for date 04/01/2012 should be " + LMConstants.STATUS_CHANGE_EARN_CODE + ", not " + lb.getEarnCode()
 				, lb.getEarnCode().equals(LMConstants.STATUS_CHANGE_EARN_CODE));
-		Assert.assertNull("lm_accrual_category_id should be null for empty status change leave block", lb.getAccrualCategoryId()); 
+		Assert.assertNull("accrual_category should be null for empty status change leave block", lb.getAccrualCategory()); 
 		Assert.assertTrue("Leave Block Type of leave block should be " + LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE + ", not " + lb.getLeaveBlockType()
 				, lb.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE));
 		Assert.assertTrue("Requst status of leave block should be " + LMConstants.REQUEST_STATUS.APPROVED + ", not " + lb.getRequestStatus()
@@ -217,24 +217,24 @@ public class AccrualServiceTest extends KPMETestCase {
 		 LeaveBlock lb = leaveBlockList.get(0);
 		 Assert.assertTrue("Hours of the leave block on date " + semiMonthlyDate.toString() + " should be 8, not " + lb.getLeaveAmount().toString(), lb.getLeaveAmount().equals(new BigDecimal(8)));
 		 Assert.assertTrue("Leave code of the leave block on date " + semiMonthlyDate.toString() + " should be EC1, not " + lb.getEarnCode(), lb.getEarnCode().equals("EC1"));
-		 Assert.assertTrue("lm_accrual_category of the leave block on date " + semiMonthlyDate.toString() + " should be 5003, not " + lb.getAccrualCategoryId(), lb.getAccrualCategoryId().equals("5003"));
+		 Assert.assertTrue("accrual_category of the leave block on date " + semiMonthlyDate.toString() + " should be testAC3, not " + lb.getAccrualCategory(), lb.getAccrualCategory().equals("testAC3"));
 		
 		
 		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(PRINCIPAL_ID_3, monthlyDate);
 		 Assert.assertTrue("There should be 2 leave block for date " + monthlyDate.toString() + " for emplyee " + PRINCIPAL_ID_3, leaveBlockList.size()==2);
 		 for(LeaveBlock aLeaveBlock : leaveBlockList) {
-			 if(aLeaveBlock.getAccrualCategoryId().equals("5003")) {
-				 Assert.assertTrue("Leave code of the leave block with accrualCategoryId 5003 on date " + monthlyDate.toString() + " should be EC1, not " + aLeaveBlock.getEarnCode()
+			 if(aLeaveBlock.getAccrualCategory().equals("testAC3")) {
+				 Assert.assertTrue("Leave code of the leave block with accrualCategory testAC3 on date " + monthlyDate.toString() + " should be EC1, not " + aLeaveBlock.getEarnCode()
 						 , aLeaveBlock.getEarnCode().equals("EC1")); 
-				 Assert.assertTrue("Hours of the leave block with accrualCategoryId 5003 on date " + monthlyDate.toString() + " should be 8, not " + aLeaveBlock.getLeaveAmount().toString()
+				 Assert.assertTrue("Hours of the leave block with accrualCategory testAC4 on date " + monthlyDate.toString() + " should be 8, not " + aLeaveBlock.getLeaveAmount().toString()
 						 , aLeaveBlock.getLeaveAmount().equals(new BigDecimal(8)));
-			 } else if(aLeaveBlock.getAccrualCategoryId().equals("5004")) {
-				 Assert.assertTrue("Leave code of the leave block with accrualCategoryId 5004 on date " + monthlyDate.toString() + " should be EC2, not " + aLeaveBlock.getEarnCode()
+			 } else if(aLeaveBlock.getAccrualCategory().equals("testAC4")) {
+				 Assert.assertTrue("Leave code of the leave block with accrualCategory testAC4 on date " + monthlyDate.toString() + " should be EC2, not " + aLeaveBlock.getEarnCode()
 						 , aLeaveBlock.getEarnCode().equals("EC2")); 
-				 Assert.assertTrue("Hours of the leave block with accrualCategoryId 5004 on date " + monthlyDate.toString() + " should be 24, not " + aLeaveBlock.getLeaveAmount().toString()
+				 Assert.assertTrue("Hours of the leave block with accrualCategory testAC4 on date " + monthlyDate.toString() + " should be 24, not " + aLeaveBlock.getLeaveAmount().toString()
 						 , aLeaveBlock.getLeaveAmount().equals(new BigDecimal(24)));
 			 } else {
-				 Assert.fail("Leave block on date " + monthlyDate.toString() + " should not have lm_accrual_category_id " + aLeaveBlock.getAccrualCategoryId());
+				 Assert.fail("Leave block on date " + monthlyDate.toString() + " should not have accrual_category " + aLeaveBlock.getAccrualCategory());
 			 }
 		 }
 	}
@@ -259,8 +259,8 @@ public class AccrualServiceTest extends KPMETestCase {
 		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(PRINCIPAL_ID_4, monthlyDate);
 		 Assert.assertTrue("There should be 1 leave block for date " + monthlyDate.toString() + " for emplyee " + PRINCIPAL_ID_4, leaveBlockList.size()==1);
 		 LeaveBlock lb = leaveBlockList.get(0);
-		 Assert.assertTrue("Leave block on date " + monthlyDate.toString() + " should have lm_accrual_category_id 5006, not " + lb.getAccrualCategoryId()
-				 , lb.getAccrualCategoryId().equals("5006"));
+		 Assert.assertTrue("Leave block on date " + monthlyDate.toString() + " should have accrual_category testAC6, not " + lb.getAccrualCategory()
+				 , lb.getAccrualCategory().equals("testAC6"));
 		 Assert.assertTrue("Leave block on date " + monthlyDate.toString() + " should have 7 hours, not " + lb.getLeaveAmount()
 				 , lb.getLeaveAmount().equals(new BigDecimal(7)));
 		
@@ -273,8 +273,8 @@ public class AccrualServiceTest extends KPMETestCase {
 		 leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(PRINCIPAL_ID_4, monthlyDate);
 		 Assert.assertTrue("There should be 1 leave block for date " + monthlyDate.toString() + " for emplyee " + PRINCIPAL_ID_4, leaveBlockList.size()==1);
 		 lb = leaveBlockList.get(0);
-		 Assert.assertTrue("Leave block on date " + monthlyDate.toString() + " should have lm_accrual_category_id 5006, not " + lb.getAccrualCategoryId()
-				 , lb.getAccrualCategoryId().equals("5006"));
+		 Assert.assertTrue("Leave block on date " + monthlyDate.toString() + " should have accrual_category testAC6, not " + lb.getAccrualCategory()
+				 , lb.getAccrualCategory().equals("testAC6"));
 		 Assert.assertTrue("Leave block on date " + monthlyDate.toString() + " should have 4 hours, not " + lb.getLeaveAmount()
 				 , lb.getLeaveAmount().equals(new BigDecimal(4)));
 		 
@@ -435,11 +435,11 @@ public class AccrualServiceTest extends KPMETestCase {
 		 Assert.assertTrue("There should be 2 leave block for date " + intervalDate.toString(), leaveBlockList.size() == 2);
 		 for(LeaveBlock aLeaveBlock : leaveBlockList) {
 			 if(aLeaveBlock.getLeaveAmount().equals(new BigDecimal(-1))) {
-				 Assert.assertTrue("Accrual category of the leave block for date  " + intervalDate.toString() + " should be '5009' , not " + lb.getAccrualCategoryId()
-						 , lb.getAccrualCategoryId().equals("5009")); 
+				 Assert.assertTrue("Accrual category of the leave block for date  " + intervalDate.toString() + " should be 'testAC9' , not " + lb.getAccrualCategory()
+						 , lb.getAccrualCategory().equals("testAC9")); 
 			 } else if(aLeaveBlock.getLeaveAmount().equals(new BigDecimal(32))) {
-				 Assert.assertTrue("Accrual category of the leave block for date  " + intervalDate.toString() + " should be '5009' , not " + lb.getAccrualCategoryId()
-						 , lb.getAccrualCategoryId().equals("5009")); 
+				 Assert.assertTrue("Accrual category of the leave block for date  " + intervalDate.toString() + " should be 'testAC9' , not " + lb.getAccrualCategory()
+						 , lb.getAccrualCategory().equals("testAC9")); 
 			 } else {
 				 Assert.fail("Hours of the leave block for date  " + intervalDate.toString() + " should be either 32 or -1, not " + lb.getLeaveAmount().toString());
 			 }
@@ -451,11 +451,11 @@ public class AccrualServiceTest extends KPMETestCase {
 		 Assert.assertTrue("There should be 2 leave block for date " + intervalDate.toString(), leaveBlockList.size() == 2);
 		 for(LeaveBlock aLeaveBlock : leaveBlockList) {
 			 if(aLeaveBlock.getLeaveAmount().equals(new BigDecimal(-3))) {
-				 Assert.assertTrue("Accrual category of the leave block for date  " + intervalDate.toString() + " should be '5009' , not " + lb.getAccrualCategoryId()
-						 , lb.getAccrualCategoryId().equals("5009")); 
+				 Assert.assertTrue("Accrual category of the leave block for date  " + intervalDate.toString() + " should be 'testAC9' , not " + lb.getAccrualCategory()
+						 , lb.getAccrualCategory().equals("testAC9")); 
 			 } else if(aLeaveBlock.getLeaveAmount().equals(new BigDecimal(32))) {
-				 Assert.assertTrue("Accrual category of the leave block for date  " + intervalDate.toString() + " should be '5009' , not " + lb.getAccrualCategoryId()
-						 , lb.getAccrualCategoryId().equals("5009")); 
+				 Assert.assertTrue("Accrual category of the leave block for date  " + intervalDate.toString() + " should be 'testAC9' , not " + lb.getAccrualCategory()
+						 , lb.getAccrualCategory().equals("testAC9")); 
 			 } else {
 				 Assert.fail("Hours of the leave block for date  " + intervalDate.toString() + " should be either 32 or -3, not " + lb.getLeaveAmount().toString());
 			 }

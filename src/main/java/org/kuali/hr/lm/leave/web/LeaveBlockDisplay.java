@@ -93,8 +93,8 @@ public class LeaveBlockDisplay {
 		return leaveBlock.getAssignmentTitle();
 	}
 	
-	public String getAccrualCategoryId() {
-		return leaveBlock.getAccrualCategoryId();
+	public String getAccrualCategory() {
+		return leaveBlock.getAccrualCategory();
 	}
 	
 	public Collection<BigDecimal> getAccrualBalances() {

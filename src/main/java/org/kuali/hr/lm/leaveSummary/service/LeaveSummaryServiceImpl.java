@@ -124,7 +124,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                             }
 
                             //handle up to current leave blocks
-                            assignApprovedValuesToRow(lsr, ac, leaveBlockMap.get(ac.getLmAccrualCategoryId()));
+                            assignApprovedValuesToRow(lsr, ac.getAccrualCategory(), leaveBlockMap.get(ac.getAccrualCategory()));
 
                             //Check for going over max carry over
                             if (acRule != null
@@ -134,7 +134,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                             }
 
                             //handle future leave blocks
-                            assignPendingValuesToRow(lsr, ac, futureLeaveBlockMap.get(ac.getLmAccrualCategoryId()));
+                            assignPendingValuesToRow(lsr, ac.getAccrualCategory(), futureLeaveBlockMap.get(ac.getAccrualCategory()));
 
                             //compute Leave Balance
                             BigDecimal leaveBalance = lsr.getAccruedBalance().subtract(lsr.getPendingLeaveRequests());
@@ -173,18 +173,18 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
     private Map<String, List<LeaveBlock>> mapLeaveBlocksByAccrualCategory(List<LeaveBlock> leaveBlocks) {
         Map<String, List<LeaveBlock>> map = new HashMap<String, List<LeaveBlock>>();
         for (LeaveBlock lb : leaveBlocks) {
-            if (map.containsKey(lb.getAccrualCategoryId())) {
-                map.get(lb.getAccrualCategoryId()).add(lb);
+            if (map.containsKey(lb.getAccrualCategory())) {
+                map.get(lb.getAccrualCategory()).add(lb);
             } else {
                 List<LeaveBlock> splitLeaveBlocks = new ArrayList<LeaveBlock>();
                 splitLeaveBlocks.add(lb);
-                map.put(lb.getAccrualCategoryId(), splitLeaveBlocks);
+                map.put(lb.getAccrualCategory(), splitLeaveBlocks);
             }
         }
         return map;
     }
 
-	private void assignApprovedValuesToRow(LeaveSummaryRow lsr, AccrualCategory ac, List<LeaveBlock> approvedLeaveBlocks ) {
+	private void assignApprovedValuesToRow(LeaveSummaryRow lsr, String accrualCategory, List<LeaveBlock> approvedLeaveBlocks ) {
         //List<TimeOffAccrual> timeOffAccruals = TkServiceLocator.getTimeOffAccrualService().getTimeOffAccrualsCalc(principalId, lsr.get)
 		BigDecimal carryOver = BigDecimal.ZERO.setScale(2);
         BigDecimal accrualedBalance = BigDecimal.ZERO.setScale(2);
@@ -193,12 +193,11 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 
         //TODO: probably should get from Leave Plan
         Timestamp priorYearCutOff = new Timestamp(new DateMidnight().withWeekOfWeekyear(1).withDayOfWeek(1).toDate().getTime());
-        String accrualCategoryId = ac == null ? null : ac.getLmAccrualCategoryId();
         if (CollectionUtils.isNotEmpty(approvedLeaveBlocks)) {
             for(LeaveBlock aLeaveBlock : approvedLeaveBlocks) {
-                if((ac == null && StringUtils.isBlank(aLeaveBlock.getAccrualCategoryId()))
-                        || (StringUtils.isNotBlank(aLeaveBlock.getAccrualCategoryId())
-                            && StringUtils.equals(aLeaveBlock.getAccrualCategoryId(), accrualCategoryId))) {
+                if((StringUtils.isBlank(accrualCategory) && StringUtils.isBlank(aLeaveBlock.getAccrualCategory()))
+                        || (StringUtils.isNotBlank(aLeaveBlock.getAccrualCategory())
+                            && StringUtils.equals(aLeaveBlock.getAccrualCategory(), accrualCategory))) {
                     if(aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) >= 0
                             && !aLeaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR)) {
                         if(StringUtils.isNotEmpty(aLeaveBlock.getRequestStatus())
@@ -229,15 +228,14 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 		//lsr.setLeaveBalance(lsr.getYtdAccruedBalance().add(approvedUsage));
 	}
 	
-	private void assignPendingValuesToRow(LeaveSummaryRow lsr, AccrualCategory ac, List<LeaveBlock> pendingLeaveBlocks ) {
+	private void assignPendingValuesToRow(LeaveSummaryRow lsr, String accrualCategory, List<LeaveBlock> pendingLeaveBlocks ) {
 		BigDecimal pendingAccrual= BigDecimal.ZERO.setScale(2);
 		BigDecimal pendingRequests = BigDecimal.ZERO.setScale(2);
-        String accrualCategoryId = ac == null ? null : ac.getLmAccrualCategoryId();
         if (CollectionUtils.isNotEmpty(pendingLeaveBlocks)) {
             for(LeaveBlock aLeaveBlock : pendingLeaveBlocks) {
-                if((ac == null && StringUtils.isBlank(aLeaveBlock.getAccrualCategoryId()))
-                        || (StringUtils.isNotBlank(aLeaveBlock.getAccrualCategoryId())
-                            && StringUtils.equals(aLeaveBlock.getAccrualCategoryId(), accrualCategoryId))) {
+                if((StringUtils.isBlank(accrualCategory) && StringUtils.isBlank(aLeaveBlock.getAccrualCategory()))
+                        || (StringUtils.isNotBlank(aLeaveBlock.getAccrualCategory())
+                            && StringUtils.equals(aLeaveBlock.getAccrualCategory(), accrualCategory))) {
                     if(aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) >= 0) {
                         pendingAccrual = pendingAccrual.add(aLeaveBlock.getLeaveAmount());
                     } else {

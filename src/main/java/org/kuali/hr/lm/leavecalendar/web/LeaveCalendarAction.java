@@ -287,8 +287,6 @@ public class LeaveCalendarAction extends TkAction {
             EarnCode earnCode =  TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, updatedLeaveBlock.getLeaveDate()); // selectedEarnCode = hrEarnCodeId
             if (!updatedLeaveBlock.getEarnCode().equals(earnCode.getEarnCode())) {
                 updatedLeaveBlock.setEarnCode(earnCode.getEarnCode());
-                // update hr_earn_code_id as well
-                updatedLeaveBlock.setEarnCodeId(selectedEarnCode);
             }
             TkServiceLocator.getLeaveBlockService().updateLeaveBlock(updatedLeaveBlock);
             lcf.setLeaveAmount(null);

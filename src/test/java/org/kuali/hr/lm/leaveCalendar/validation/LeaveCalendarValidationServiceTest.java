@@ -34,32 +34,32 @@ public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 		LeaveSummary ls = new LeaveSummary();
 		LeaveSummaryRow lsr = new LeaveSummaryRow();
 		lsr.setAccrualCategory("testAC");
-		lsr.setPendingAvailableUsage(new BigDecimal(5));
+		lsr.setLeaveBalance(new BigDecimal(5));
 		List<LeaveSummaryRow> lsrList = new ArrayList<LeaveSummaryRow>();
 		lsrList.add(lsr);
 		ls.setLeaveSummaryRows(lsrList);
 		
 		// adding brand new leave blocks
-		// earn code id "5000" does not allow negative accrual balance
-		List<String> errors = LeaveCalendarValidationService.validateAvailableLeaveBalance(ls, "5000", "02/15/2012", new BigDecimal(8), null);
+		// earn code "EC" does not allow negative accrual balance
+		List<String> errors = LeaveCalendarValidationService.validateAvailableLeaveBalance(ls, "EC", "02/15/2012", new BigDecimal(8), null);
 		Assert.assertTrue("There should be 1 error message" , errors.size()== 1);
 		String anError = errors.get(0);
 		Assert.assertTrue("error message not correct" , anError.equals("Requested leave amount is greater than pending available usage."));
 		
-		// earn code id "5001" allows negative accrual balance
-		errors = LeaveCalendarValidationService.validateAvailableLeaveBalance(ls, "5001", "02/15/2012", new BigDecimal(8), null);
+		// earn code "EC1" allows negative accrual balance
+		errors = LeaveCalendarValidationService.validateAvailableLeaveBalance(ls, "EC1", "02/15/2012", new BigDecimal(8), null);
 		Assert.assertTrue("There should NOT be error message(s)" , errors.isEmpty());
 		
 		//updating an existing leave block
 		LeaveBlock aLeaveBlock = new LeaveBlock();
-		aLeaveBlock.setEarnCodeId("5000");
+		aLeaveBlock.setEarnCode("EC");
 		aLeaveBlock.setLeaveAmount(new BigDecimal(-10));
 		
-		errors = LeaveCalendarValidationService.validateAvailableLeaveBalance(ls, "5000", "02/15/2012", new BigDecimal(3), aLeaveBlock);
+		errors = LeaveCalendarValidationService.validateAvailableLeaveBalance(ls, "EC", "02/15/2012", new BigDecimal(3), aLeaveBlock);
 		Assert.assertTrue("There should NOT be error message(s)" , errors.isEmpty());
 		
 		aLeaveBlock.setLeaveAmount(new BigDecimal(-2));
-		errors = LeaveCalendarValidationService.validateAvailableLeaveBalance(ls, "5000", "02/15/2012", new BigDecimal(10), aLeaveBlock);
+		errors = LeaveCalendarValidationService.validateAvailableLeaveBalance(ls, "EC", "02/15/2012", new BigDecimal(10), aLeaveBlock);
 		Assert.assertTrue("error message not correct" , anError.equals("Requested leave amount is greater than pending available usage."));
 	}
 

@@ -155,8 +155,7 @@ public class LeaveBlockDisplayAction extends TkAction {
 				}
 				BigDecimal currentAccrualBalance = accrualBalances.get(accrualCategory.getAccrualCategory());
 				
-				String leaveEntryAccrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(leaveEntry.getAccrualCategoryId()).getAccrualCategory();
-				if (StringUtils.equals(leaveEntryAccrualCategory, accrualCategory.getAccrualCategory())) {
+				if (StringUtils.equals(leaveEntry.getAccrualCategory(), accrualCategory.getAccrualCategory())) {
 					BigDecimal accruedBalance = currentAccrualBalance.add(leaveEntry.getLeaveAmount());
 					accrualBalances.put(accrualCategory.getAccrualCategory(), accruedBalance);
 				}

@@ -40,12 +40,11 @@ public class LeaveBlockHistory extends LeaveBlock {
 	public LeaveBlockHistory(LeaveBlock lb) {
 		this.setLmLeaveBlockId(lb.getLmLeaveBlockId());
 		this.setDocumentId(lb.getDocumentId());
-		this.setAccrualCategoryId(lb.getAccrualCategoryId());
+		this.setAccrualCategory(lb.getAccrualCategory());
 		this.setAccrualGenerated(lb.getAccrualGenerated());
 		this.setApplyToYtdUsed(lb.getApplyToYtdUsed());
 		this.setDescription(lb.getDescription());
 		this.setLeaveAmount(lb.getLeaveAmount());
-		this.setEarnCodeId(lb.getEarnCodeId());
 		this.setEarnCode(lb.getEarnCode());
 		this.setLeaveDate(lb.getLeaveDate());
 		this.setPrincipalId(lb.getPrincipalId());

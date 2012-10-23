@@ -24,9 +24,10 @@ import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
-import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements LeaveBlockDao {
@@ -118,10 +119,10 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 	}
 
 	@Override
-	public List<LeaveBlock> getLeaveBlocks(Date leaveDate, String accrualCategoryId, String principalId) {
+	public List<LeaveBlock> getLeaveBlocks(Date leaveDate, String accrualCategory, String principalId) {
 		Criteria root = new Criteria();
 		root.addLessOrEqualThan("timestamp", leaveDate);
-		root.addEqualTo("accrualCategoryId", accrualCategoryId);
+		root.addEqualTo("accrualCategory", accrualCategory);
 		root.addEqualTo("principalId", principalId);
 		Query query = QueryFactory.newQuery(LeaveBlock.class, root);
         List<LeaveBlock> leaveBlocks = (List<LeaveBlock>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -129,13 +130,13 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 	}
 
     @Override
-    public List<LeaveBlock> getLeaveBlocks(String principalId, String accrualCategoryId, Date beginDate, Date endDate) {
+    public List<LeaveBlock> getLeaveBlocks(String principalId, String accrualCategory, Date beginDate, Date endDate) {
         List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
         Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
         root.addGreaterOrEqualThan("leaveDate", beginDate);
         root.addLessOrEqualThan("leaveDate", endDate);
-        root.addEqualTo("accrualCategoryId", accrualCategoryId);
+        root.addEqualTo("accrualCategory", accrualCategory);
 //        root.addEqualTo("active", true);
 
         Query query = QueryFactory.newQuery(LeaveBlock.class, root);
@@ -149,16 +150,20 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
     }
 
     @Override
-    public List<LeaveBlock> getFLMALeaveBlocks(String principalId, String accrualCategoryId, Date beginDate, Date endDate) {
+    public List<LeaveBlock> getFMLALeaveBlocks(String principalId, String accrualCategory, Date beginDate, Date endDate) {
         List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
         Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
         root.addGreaterOrEqualThan("leaveDate", beginDate);
         root.addLessOrEqualThan("leaveDate", endDate);
-        root.addEqualTo("accrualCategoryId", accrualCategoryId);
-        root.addEqualTo("earnCodeObj.fmla", "Y");
-        //Criteria earnCodeSub = new Criteria();
-        //earnCodeSub.addEqualTo("fmla", "Y");
+        root.addEqualTo("accrualCategory", accrualCategory);
+        
+        Criteria earnCode = new Criteria();
+        earnCode.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+        earnCode.addEqualTo("fmla", "Y");
+        ReportQueryByCriteria earnCodeSubQuery = QueryFactory.newReportQuery(EarnCode.class, earnCode);
+        root.addEqualTo("earnCode", earnCodeSubQuery);
+        
         //root.add
 //        root.addEqualTo("active", true);
 

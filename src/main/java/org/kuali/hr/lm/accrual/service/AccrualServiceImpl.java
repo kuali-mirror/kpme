@@ -355,8 +355,7 @@ public class AccrualServiceImpl implements AccrualService {
 		// check if there's any manual not-eligible-for-accrual leave blocks, use the hours of the leave block to adjust accrual calculation 
 		List<LeaveBlock> lbs = TkServiceLocator.getLeaveBlockService().getNotAccrualGeneratedLeaveBlocksForDate(principalId, currentDate);
 		for(LeaveBlock lb : lbs) {
-			String earnCodeId = lb.getEarnCodeId();
-			EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCodeById(earnCodeId);
+			EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), currentDate);
 			if(ec == null) {
 				throw new RuntimeException("Cannot find Earn Code for Leave block " + lb.getLmLeaveBlockId());
 			}
@@ -380,11 +379,10 @@ public class AccrualServiceImpl implements AccrualService {
 			return;	// do not create leave block with zero amount
 		}
 		LeaveBlock aLeaveBlock = new LeaveBlock();
-		aLeaveBlock.setAccrualCategoryId(anAC.getLmAccrualCategoryId());
+		aLeaveBlock.setAccrualCategory(anAC.getAccrualCategory());
 		aLeaveBlock.setLeaveDate(new java.sql.Date(currentDate.getTime()));
 		aLeaveBlock.setPrincipalId(principalId);
 		aLeaveBlock.setEarnCode(anAC.getEarnCode());
-		aLeaveBlock.setEarnCodeId(ec.getHrEarnCodeId());
 		aLeaveBlock.setDateAndTime(new Timestamp(currentDate.getTime()));
 		aLeaveBlock.setAccrualGenerated(true);
 		aLeaveBlock.setBlockId(0L);
@@ -399,11 +397,10 @@ public class AccrualServiceImpl implements AccrualService {
 	
 	private void createEmptyLeaveBlockForStatusChange(String principalId, List<LeaveBlock> accrualLeaveBlocks, java.util.Date currentDate) {
 		LeaveBlock aLeaveBlock = new LeaveBlock();
-		aLeaveBlock.setAccrualCategoryId(null);
+		aLeaveBlock.setAccrualCategory(null);
 		aLeaveBlock.setLeaveDate(new java.sql.Date(currentDate.getTime()));
 		aLeaveBlock.setPrincipalId(principalId);
 		aLeaveBlock.setEarnCode(LMConstants.STATUS_CHANGE_EARN_CODE);	// fake leave code
-		aLeaveBlock.setEarnCodeId("000");	// fake leave code id
 		aLeaveBlock.setDateAndTime(new Timestamp(currentDate.getTime()));
 		aLeaveBlock.setAccrualGenerated(true);
 		aLeaveBlock.setBlockId(0L);

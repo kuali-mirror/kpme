@@ -20,11 +20,9 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.LMConstants;
-import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveadjustment.LeaveAdjustment;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.HrBusinessObject;
-import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
@@ -32,8 +30,7 @@ import org.kuali.rice.kns.document.MaintenanceDocument;
 
 public class LeaveAdjustmentMaintainableServiceImpl extends HrBusinessObjectMaintainableImpl{
 
-	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2500485054776792764L;
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
@@ -51,15 +48,7 @@ public class LeaveAdjustmentMaintainableServiceImpl extends HrBusinessObjectMain
 		aLeaveBlock.setPrincipalId(la.getPrincipalId());
 		aLeaveBlock.setLeaveDate(la.getEffectiveDate());
 		aLeaveBlock.setEarnCode(la.getEarnCode());
-		EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(la.getEarnCode(), la.getEffectiveDate());
-		if(ec != null) {
-			aLeaveBlock.setEarnCodeId(ec.getHrEarnCodeId());
-		}
-		AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(la.getAccrualCategory(), la.getEffectiveDate());
-		if(ac != null) {
-			aLeaveBlock.setAccrualCategoryId(ac.getLmAccrualCategoryId());
-		}
-		
+		aLeaveBlock.setAccrualCategory(la.getAccrualCategory());
 		aLeaveBlock.setDescription("Leave Adjustment");
 		aLeaveBlock.setLeaveAmount(la.getAdjustmentAmount());
 		aLeaveBlock.setAccrualGenerated(false);

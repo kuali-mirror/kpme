@@ -127,7 +127,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 				LocalDateTime leaveDate = (new DateTime(lb.getLeaveDate())).toLocalDateTime();
 				String dateString = leaveDate.toString(TkConstants.DT_JUST_DAY_FORMAT);
 				
-				AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategoryId());
+				AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveDate());
 				if(ac != null && ac.getShowOnGrid().equals("Y")) {
 					BigDecimal amount = lb.getLeaveAmount();
 					if(leaveHoursToPayLabelMap.get(dateString) != null ) {
