@@ -42,7 +42,6 @@ import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.LeaveCalendar;
 import org.kuali.hr.time.detail.web.ActionFormUtils;
 import org.kuali.hr.time.earncode.EarnCode;
-import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
@@ -116,13 +115,16 @@ public class LeaveCalendarAction extends TkAction {
 				lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, calendarEntry);
 			}
 		}
-		
+		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(viewPrincipal, calendarEntry);
+		List<String> assignmentKeys = new ArrayList<String>();
+        for(Assignment assign : assignments) {
+        	assignmentKeys.add(assign.getAssignmentKey());
+        }
 		if (lcd != null) {
 			lcf.setDocumentId(lcd.getDocumentId());
 			lcf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(lcd));
             lcdh = lcd.getDocumentHeader();
 		} else {
-			List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(viewPrincipal, calendarEntry);
 			lcf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptionsForAssignments(assignments));  
 		}
 		setupDocumentOnFormContext(lcf, lcd);
@@ -131,19 +133,17 @@ public class LeaveCalendarAction extends TkAction {
 			return forward;
 		}
 
-		LeaveCalendar calendar = new LeaveCalendar(viewPrincipal, calendarEntry);
+		LeaveCalendar calendar = new LeaveCalendar(viewPrincipal, calendarEntry, assignmentKeys);
 		lcf.setLeaveCalendar(calendar);
 		
 		this.populateCalendarAndPayPeriodLists(request, lcf);
 		// KPME-1447
-        List<LeaveBlock> leaveBlocks;
+        List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
         if (lcdh != null && lcdh.getPrincipalId() != null && lcdh.getBeginDate() != null && lcdh.getEndDate() != null) {
-            leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(lcdh.getPrincipalId(), lcdh.getBeginDate(), lcdh.getEndDate());
+            leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForLeaveCalendar(lcdh.getPrincipalId(), lcdh.getBeginDate(), lcdh.getEndDate(), assignmentKeys);
         } else if(calendarEntry != null){
-            leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(viewPrincipal, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
-        } else {
-        	leaveBlocks = Collections.emptyList();
-        }
+            leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForLeaveCalendar(viewPrincipal, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate(), assignmentKeys);
+        } 
         
         // add warning messages based on earn codes of leave blocks
         List<String> warningMes = ActionFormUtils.fmlaWarningTextForLeaveBlocks(leaveBlocks);

@@ -191,8 +191,8 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 	    }
 		return leaveBlocks;
 	}
-	@Override
-	public List<LeaveBlock> getLeaveBlocksForTimesheet(String principalId, Date beginDate, Date endDate) {
+	
+	public List<LeaveBlock> getCalendarLeaveBlocks(String principalId, Date beginDate, Date endDate) {
 		List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
 		
         Criteria root = new Criteria();
@@ -210,10 +210,10 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
         if (c != null) {
         	leaveBlocks.addAll(c);
         }
-
         return leaveBlocks;
-	}
 
+	}
+	
     public void deleteLeaveBlocksForDocumentId(String documentId){
         Criteria crit = new Criteria();
         crit.addEqualTo("documentId",documentId);

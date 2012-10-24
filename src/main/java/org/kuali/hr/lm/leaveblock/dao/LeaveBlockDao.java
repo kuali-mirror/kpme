@@ -31,7 +31,14 @@ public interface LeaveBlockDao {
     public List<LeaveBlock> getLeaveBlocks(String principalId, String accrualCategory, Date beginDate, Date endDate);
     public List<LeaveBlock> getFMLALeaveBlocks(String principalId, String accrualCategory, Date beginDate, Date endDate);
     public List<LeaveBlock> getNotAccrualGeneratedLeaveBlocksForDate(String principalId, Date leaveDate);
-    public List<LeaveBlock> getLeaveBlocksForTimesheet(String principalId, Date beginDate, Date endDate);
+    /**
+     * Get the leave blocks created from time or leave calendars for given pricipalId and calendar period
+     * @param principalId
+     * @param beginDate
+     * @param endDate
+     * @return
+     */
+    public List<LeaveBlock> getCalendarLeaveBlocks(String principalId, Date beginDate, Date endDate);
     public void deleteLeaveBlocksForDocumentId(String documentId);
 }
 

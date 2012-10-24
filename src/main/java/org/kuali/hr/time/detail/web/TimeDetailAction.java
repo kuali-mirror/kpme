@@ -100,8 +100,13 @@ public class TimeDetailAction extends TimesheetAction {
         //List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(tdaf.getTimesheetDocument().getDocumentHeader().getTimesheetDocumentId()));
         List<TimeBlock> timeBlocks = TKContext.getCurrentTimesheetDocument().getTimeBlocks();
         // get leave blocks
-        List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService()
-        		.getLeaveBlocksForTimesheet(TKContext.getCurrentTimesheetDocument().getPrincipalId(), payCalendarEntry.getBeginPeriodDate(), payCalendarEntry.getEndPeriodDate());
+        List<Assignment> timeAssignments = TKContext.getCurrentTimesheetDocument().getAssignments();
+        List<String> tAssignmentKeys = new ArrayList<String>();
+        for(Assignment assign : timeAssignments) {
+        	tAssignmentKeys.add(assign.getAssignmentKey());
+        }
+        List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(TKContext.getCurrentTimesheetDocument().getPrincipalId(), 
+        					payCalendarEntry.getBeginPeriodDate(), payCalendarEntry.getEndPeriodDate(), tAssignmentKeys);
         
         this.assignStypeClassMapForTimeSummary(tdaf,timeBlocks, leaveBlocks);
         

@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -35,7 +36,7 @@ public class LeaveCalendar extends CalendarParent {
 
     private Map<String, String> earnCodeList;
     
-    public LeaveCalendar(String principalId, CalendarEntries calendarEntry) {
+    public LeaveCalendar(String principalId, CalendarEntries calendarEntry, List<String> assignmentKeys) {
         super(calendarEntry);
 
         DateTime currentDisplayDateTime = getBeginDateTime();
@@ -71,7 +72,13 @@ public class LeaveCalendar extends CalendarParent {
     
                java.util.Date leaveDate = TKUtils.getTimelessDate(currentDisplayDateTime.toDate());
                List<LeaveBlock> lbs = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principalId, leaveDate);
-               leaveCalendarDay.setLeaveBlocks(lbs); 
+               // use given assignmentKeys to control leave blocks displayed on the calendar
+               if(CollectionUtils.isNotEmpty(lbs) && CollectionUtils.isNotEmpty(assignmentKeys)) {
+            	   List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().filterLeaveBlocksForLeaveCalendar(lbs, assignmentKeys);
+            	   leaveCalendarDay.setLeaveBlocks(leaveBlocks);
+               } else {
+            	   leaveCalendarDay.setLeaveBlocks(lbs);
+               }
                // if there's time sheet document covers this leave date, make the date not editable
                TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(principalId, leaveDate);
                if(tdh != null && viewFlag) {

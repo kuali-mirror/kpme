@@ -67,12 +67,39 @@ public interface LeaveBlockService {
     /**
      * Get list of leave blocks to display on time sheet with given dates and principal id
      * Only get leave blocks with type of leave calendar and time calendar
+     * the leave blocks should have assignments in the list of assignment keys
      * @param principalId
      * @param beginDate
      * @param endDate
+     * @param assignmentKeys
      * @return List of leave blocks
      */
-    public List<LeaveBlock> getLeaveBlocksForTimesheet(String principalId, Date beginDate, Date endDate);
+    public List<LeaveBlock> getLeaveBlocksForTimeCalendar(String principalId, Date beginDate, Date endDate, List<String> assignmentKeys); 
+    /**
+     * Get list of leave blocks to display on leave calendar with given dates and principal id
+     * the leave blocks created from time calendar should have assignments in the list of assignment keys
+     * @param principalId
+     * @param beginDate
+     * @param endDate
+     * @param assignmentKeys
+     * @return List of leave blocks
+     */    
+    public List<LeaveBlock> getLeaveBlocksForLeaveCalendar(String principalId, Date beginDate, Date endDate, List<String> assignmentKeys); 
+   
+    /**
+     * Filter list of leave blocks with given list of assignmentKeys for Time Calendar
+     * @param lbs
+     * @param assignmentKeys
+     * @return List of leave blocks
+     */
+    public List<LeaveBlock> filterLeaveBlocksForTimeCalendar(List<LeaveBlock> lbs, List<String> assignmentKeys);
+    /**
+     * Filter list of leave blocks with given list of assignmentKeys for Leave Calendar
+     * @param lbs
+     * @param assignmentKeys
+     * @return List of leave blocks
+     */
+    public List<LeaveBlock> filterLeaveBlocksForLeaveCalendar(List<LeaveBlock> lbs, List<String> assignmentKeys);
     /**
      *  Delete time blocks for a given document id
      *  @param documentId

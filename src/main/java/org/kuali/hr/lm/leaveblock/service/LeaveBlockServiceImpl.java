@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -28,7 +29,6 @@ import org.joda.time.DateTimeConstants;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.kuali.hr.lm.LMConstants;
-import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
 import org.kuali.hr.lm.leaveblock.dao.LeaveBlockDao;
@@ -243,10 +243,49 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 		return leaveBlockDao.getNotAccrualGeneratedLeaveBlocksForDate(principalId, leaveDate);
 	}
 
-	@Override
-	public List<LeaveBlock> getLeaveBlocksForTimesheet(String principalId, Date beginDate, Date endDate) {
-		return leaveBlockDao.getLeaveBlocksForTimesheet(principalId, beginDate, endDate);
+	public List<LeaveBlock> getLeaveBlocksForTimeCalendar(String principalId, Date beginDate, Date endDate, List<String> assignmentKeys) {
+		List<LeaveBlock> col = leaveBlockDao.getCalendarLeaveBlocks(principalId, beginDate, endDate);
+		List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().filterLeaveBlocksForTimeCalendar(col, assignmentKeys);
+		return leaveBlocks;
 	}
+	
+	public List<LeaveBlock> getLeaveBlocksForLeaveCalendar(String principalId, Date beginDate, Date endDate, List<String> assignmentKeys) {
+		List<LeaveBlock> col = leaveBlockDao.getLeaveBlocks(principalId, beginDate, endDate);
+		List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().filterLeaveBlocksForLeaveCalendar(col, assignmentKeys);
+		return leaveBlocks;
+	}
+	
+	public List<LeaveBlock> filterLeaveBlocksForTimeCalendar(List<LeaveBlock> lbs, List<String> assignmentKeys) {
+		if(CollectionUtils.isEmpty(assignmentKeys)) {
+			return lbs;
+		}
+    	List<LeaveBlock> results = new ArrayList<LeaveBlock> ();
+    	for(LeaveBlock lb : lbs) {
+    		if(lb != null && StringUtils.isNotEmpty(lb.getAssignmentKey()) && assignmentKeys.contains(lb.getAssignmentKey())) {
+    			results.add(lb);
+    		}
+    	}
+    	return results;
+    }
+	
+	public List<LeaveBlock> filterLeaveBlocksForLeaveCalendar(List<LeaveBlock> lbs, List<String> assignmentKeys) {
+		if(CollectionUtils.isEmpty(assignmentKeys)) {
+			return lbs;
+		}
+		List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
+		for(LeaveBlock lb : lbs) {
+  		   if(lb != null) {
+  			   if(lb.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR)) {
+  				  if(StringUtils.isNotEmpty(lb.getAssignmentKey()) && assignmentKeys.contains(lb.getAssignmentKey())) {
+  					  leaveBlocks.add(lb);
+  				  }
+  			   } else {
+  				   leaveBlocks.add(lb);
+  			   }
+  		   }
+  	   	}
+    	return leaveBlocks;
+    }
 
     @Override
     public void deleteLeaveBlocksForDocumentId(String documentId){
