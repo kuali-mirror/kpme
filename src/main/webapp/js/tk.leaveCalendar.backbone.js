@@ -92,6 +92,8 @@ $(function () {
             "click .create" : "showLeaveBlockEntryDialog",
             "click img[id^=leaveBlockDelete]" : "deleteLeaveBlock",
             "click .leaveBlock" : "doNothing",
+            "mousedown .create" : "tableCellMouseDown",
+            "mouseup .create" : "tableCellMouseUp",
             "change #selectedEarnCode" : "showFieldByEarnCodeType",
             "keypress #selectedEarnCode" : "showFieldByEarnCodeType",
             "change #selectedAssignment" : "changeAssignment",
@@ -272,6 +274,71 @@ $(function () {
             		window.location = "LeaveCalendar.do?methodToCall=deleteLeaveBlock&leaveBlockId=" + key.id + "&calEntryId=" + calId;
             	}
 //            }
+        },
+
+        tableCellMouseDown : function(e) {
+            //alert(this.index);
+            if ($('#docEditable').val() == 'false') {
+                return null;
+            }
+            var key = parseInt(_(e).parseEventKey().id);
+            if (mouseDownIndex == undefined) {
+                mouseDownIndex = key;
+            }
+            var lower;
+            var higher;
+            //grab start location
+            tableCells.bind('mouseenter',function(e){
+                //currentMouseIndex = parseInt(_(e).parseEventKey().id);
+                currentMouseIndex = parseInt(this.id.split("_")[1]);
+                lower = mouseDownIndex < currentMouseIndex ? mouseDownIndex : currentMouseIndex;
+                higher = currentMouseIndex > mouseDownIndex ? currentMouseIndex : mouseDownIndex;
+
+                for (var i=0; i<tableCells.length;i++) {
+                    if (i < lower || i > higher) {
+                        $("#day_"+i).removeClass("ui-selecting");
+                    } else {
+                        $("#day_"+i).addClass("ui-selecting");
+                    }
+                }
+            });
+        },
+
+        tableCellMouseUp : function(e) {
+            tableCells.unbind('mouseenter');
+            tableCells.removeClass("ui-selecting");
+            if ($('#docEditable').val() == 'false') {
+                return null;
+            }
+            if (_(e).parseEventKey().action == "leaveBlockDelete") {
+                return null;
+            }
+
+            var currentDay = new Date(beginPeriodDateTimeObj);
+            var startDay = new Date(currentDay);
+            var endDay = new Date(currentDay);
+
+            var lower = mouseDownIndex < currentMouseIndex ? mouseDownIndex : currentMouseIndex;
+            var higher = currentMouseIndex > mouseDownIndex ? currentMouseIndex : mouseDownIndex;
+            if (lower == undefined) {
+                lower = higher;
+            }
+
+            startDay.addDays(lower);
+            endDay.addDays(higher);
+
+            startDay = Date.parse(startDay).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT);
+            endDay = Date.parse(endDay).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT);
+
+            app.showLeaveBlockEntryDialog(startDay, endDay,null);
+
+            // https://uisapp2.iu.edu/jira-prd/browse/TK-1593
+            if ($("#selectedAssignment").is("input")) {
+                app.fetchEarnCodeAndLoadFields();
+            }
+            mouseDownIndex = null;
+            currentMouseIndex = null;
+
         },
         
         /**
@@ -686,57 +753,19 @@ $(function () {
     });
 
     /**
-     * Make the calendar cell selectable
+     * Setup for making calendar cells selectable
      */
-    // When making a mouse selection, it creates a "lasso" effect which we want to get rid of.
-    // In the future version of jQuery UI, lasso is going to one of the options where it can be enabled / disabled.
-    // For now, the way to disable it is to modify the css.
-    //
-    // .ui-selectable-helper { border:none; }
-    //
-    // This discussion thread on stackoverflow was helpful:
-    // http://bit.ly/fvRW4X
-
-    var selectedDays = [];
-    var selectingDays = [];
+    var mouseDownIndex = null;
+    var currentMouseIndex = null;
     var beginPeriodDateTimeObj = $('#beginPeriodDateTime').val() !== undefined ? new Date($('#beginPeriodDateTime').val()) : d + '/' + m + '/' + y;
-    var endPeriodDateTimeObj = $('#endPeriodDateTime').val() !== undefined ? new Date($('#endPeriodDateTime').val()) : d + '/' + m + '/' + y;
+    var endPeriodDateTimeObj = $('#beginPeriodDateTime').val() !== undefined ? new Date($('#endPeriodDateTime').val()) : d + '/' + m + '/' + y;
+    var tableCells = $('td[id^="day_"]');
+    tableCells.disableSelection();
 
-    $(".cal-table").selectable({
-        filter : "td",
-        distance : 1,
-        selected : function (event, ui) {
-            selectedDays.push(ui.selected.id);
-        },
-        selecting : function (event, ui) {
-            // get the index number of the selected td
-            $(".ui-selecting", this).each(function () {
-                selectingDays.push($(".cal-table td").index(this));
-            });
-
-        },
-
-        stop : function (event, ui) {
-            var currentDay = new Date(beginPeriodDateTimeObj);
-            var startDay = new Date(currentDay);
-            var endDay = new Date(currentDay);
-
-            startDay.addDays(parseInt(_.first(selectedDays).split("_")[1]));
-            endDay.addDays(parseInt(_.last(selectedDays).split("_")[1]));
-
-            startDay = Date.parse(startDay).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT);
-            endDay = Date.parse(endDay).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT);
-            app.showLeaveBlockEntryDialog(startDay, endDay);
-
-            // https://uisapp2.iu.edu/jira-prd/browse/TK-1593
-//            if ($("#selectedAssignment").is("input")) {
-//                app.fetchEarnCodeAndLoadFields();
-//            }
-            
-            selectedDays = [];
-        }
-    });
-
-	
-	
+    if ($('#docEditable').val() == 'false') {
+        $(".cal-table").selectable("destroy");
+        tableCells.unbind("mousedown");
+        tableCells.unbind('mouseenter');
+        tableCells.unbind('mouseup');
+    }
 });
