@@ -71,9 +71,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 
         LeaveCalendarDocumentHeader header = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, begin, end);
         if (header == null) {
-            doc = initiateWorkflowDocument(principalId, begin, end, LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TYPE, LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TITLE);
-            // This will preload the document data.
-            loadLeaveCalendarDocumentData(doc, principalId, calEntry);
+            doc = initiateWorkflowDocument(principalId, begin, end, calEntry, LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TYPE, LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TITLE);
         } else {
             doc = getLeaveCalendarDocument(header.getDocumentId());
         }
@@ -89,7 +87,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     	return CollectionUtils.isNotEmpty(results);
     }
     
-    protected LeaveCalendarDocument initiateWorkflowDocument(String principalId, Date payBeginDate, Date payEndDate, String documentType, String title) throws WorkflowException {
+    protected LeaveCalendarDocument initiateWorkflowDocument(String principalId, Date payBeginDate, Date payEndDate, CalendarEntries calendarEntries, String documentType, String title) throws WorkflowException {
         LeaveCalendarDocument leaveCalendarDocument = null;
         WorkflowDocument workflowDocument = null;
 
@@ -103,7 +101,11 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 
         TkServiceLocator.getLeaveCalendarDocumentHeaderService().saveOrUpdate(documentHeader);
         leaveCalendarDocument = new LeaveCalendarDocument(documentHeader);
-        
+        leaveCalendarDocument.setCalendarEntry(calendarEntries);
+        loadLeaveCalendarDocumentData(leaveCalendarDocument, principalId, calendarEntries);
+        TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(leaveCalendarDocument, payEndDate);
+
+
         // update existing leave blocks within that pay period dates with the document id
         List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, payBeginDate, payEndDate);
         for(LeaveBlock lb : leaveBlocks) {
@@ -111,8 +113,6 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         }
         TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(leaveBlocks);
 
-        // TODO:
-        //TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(leaveCalendarDocument, payEndDate);
 
         return leaveCalendarDocument;
     }
