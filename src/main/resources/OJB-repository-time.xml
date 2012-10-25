@@ -369,29 +369,7 @@
         <field-descriptor name="objectId"           column="OBJ_ID"             jdbc-type="VARCHAR" index="true" />
         <field-descriptor name="versionNumber"      column="VER_NBR"            jdbc-type="BIGINT"  locking="true" />
     </class-descriptor>
-
-    <class-descriptor class="org.kuali.hr.time.holidaycalendar.HolidayCalendarDateEntry" table="HR_HOLIDAY_CALENDAR_DATES_T">
-        <field-descriptor name="hrHolidayCalendarDateId"    column="HR_HOLIDAY_CALENDAR_DATES_ID"   jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="HR_HOLIDAY_CALENDAR_DATES_S" />
-        <field-descriptor name="holidayDate"                column="HOLIDAY_DATE"                   jdbc-type="DATE"    nullable="false" />
-        <field-descriptor name="holidayDescr"               column="HOLIDAY_DESC"                   jdbc-type="VARCHAR" length="30" nullable="false" />
-        <field-descriptor name="hrHolidayCalendarId"        column="HR_HOLIDAY_CALENDAR_ID"         jdbc-type="VARCHAR" length="60" />
-        <field-descriptor name="holidayHours"               column="HOLIDAY_HRS"                    jdbc-type="NUMERIC" />
-        <field-descriptor name="objectId"                   column="OBJ_ID"                         jdbc-type="VARCHAR" index="true" />
-        <field-descriptor name="versionNumber"              column="VER_NBR"                        jdbc-type="BIGINT"  locking="true" />
-    </class-descriptor>
-
-    <class-descriptor class="org.kuali.hr.time.holidaycalendar.HolidayCalendar" table="HR_HOLIDAY_CALENDAR_T">
-        <field-descriptor name="hrHolidayCalendarId"    column="HR_HOLIDAY_CALENDAR_ID" jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="HR_HOLIDAY_CALENDAR_S" />
-        <field-descriptor name="holidayCalendarGroup"   column="HOLIDAY_CALENDAR_GROUP" jdbc-type="VARCHAR" length="3" nullable="false" />
-        <field-descriptor name="descr"                  column="DESCR"                  jdbc-type="VARCHAR" length="30" />
-        <field-descriptor name="objectId"               column="OBJ_ID"                 jdbc-type="VARCHAR" index="true" />
-        <field-descriptor name="versionNumber"          column="VER_NBR"                jdbc-type="BIGINT"  locking="true" />
-
-        <collection-descriptor name="dateEntries" element-class-ref="org.kuali.hr.time.holidaycalendar.HolidayCalendarDateEntry" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="false">
-            <inverse-foreignkey field-ref="hrHolidayCalendarId" />
-        </collection-descriptor>
-    </class-descriptor>
-
+ 
     <!-- Assignment Account -->
     <class-descriptor class="org.kuali.hr.time.assignment.AssignmentAccount" table="TK_ASSIGN_ACCT_T">
         <field-descriptor name="tkAssignAcctId" column="TK_ASSIGN_ACCT_ID"  jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="TK_ASSIGN_ACCT_S" />

@@ -15,8 +15,8 @@
  */
 package org.kuali.hr.time.calendar;
 
-import org.kuali.hr.time.holidaycalendar.HolidayCalendar;
-import org.kuali.hr.time.holidaycalendar.HolidayCalendarDateEntry;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -58,7 +58,6 @@ public class TimeHourDetailRenderer {
     }
     
     public String getHolidayName() {
-		HolidayCalendarDateEntry holidayCalendarDateEntry = null;
 		String holidayDesc = "";
 		TimeBlock timeBlock = TkServiceLocator.getTimeBlockService().getTimeBlock(timeHourDetail.getTkTimeBlockId());
 		
@@ -68,15 +67,10 @@ public class TimeHourDetailRenderer {
 				TimesheetDocumentHeader docHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
 				PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(docHeader.getPrincipalId(), new java.sql.Date(timeBlock.getBeginDate().getTime()));
 				
-				if ( principalCalendar.getHolidayCalendarGroup() != null ){
-					HolidayCalendar holidayCalendar = TkServiceLocator.getHolidayCalendarService().getHolidayCalendarByGroup(principalCalendar.getHolidayCalendarGroup());
-					
-					if ( holidayCalendar != null ){
-						holidayCalendarDateEntry = TkServiceLocator.getHolidayCalendarService().getHolidayCalendarDateEntryByDate(holidayCalendar.getHrHolidayCalendarId(), timeBlock.getBeginDate());
-						
-						if(holidayCalendarDateEntry != null) {
-							holidayDesc = holidayCalendarDateEntry.getHolidayDescr();
-						}
+				if(principalCalendar != null && StringUtils.isNotEmpty(principalCalendar.getLeavePlan())) {
+					SystemScheduledTimeOff ssto = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffByDate(principalCalendar.getLeavePlan(), timeBlock.getBeginDate());
+					if(ssto != null) {
+						holidayDesc = ssto.getDescr();
 					}
 				}
 			}

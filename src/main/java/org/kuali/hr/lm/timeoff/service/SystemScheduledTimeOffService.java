@@ -43,6 +43,12 @@ public interface SystemScheduledTimeOffService {
 	Assignment getAssignmentToApplyHolidays(
 			TimesheetDocument timesheetDocument, java.sql.Date payEndDate);
 
-	BigDecimal calculateHolidayHours(Job job, Long holidayHours);
+	/**
+	 * Calculate System Scheduled Time Off hours based on given hours and fte of job
+	 * @param job
+	 * @param sstoHours
+	 * @return
+	 */
+	public BigDecimal calculateSysSchTimeOffHours(Job job, Long sstoHours);
 	
 }

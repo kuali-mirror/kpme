@@ -240,8 +240,7 @@
 				<value>weeklyOvertimeRuleLookupable</value> 
 				<value>timeCollectionRuleLookupable</value> 
 				<value>assignmentLookupable</value> 
-				<value>clockLogLookupable</value> 
-				<value>holidayCalendarLookupable</value> 
+				<value>clockLogLookupable</value>
 				<value>locationLookupable</value> 
 				<value>calendarEntriesLookupable</value> 
 				<value>payGradeLookupable</value> 
@@ -331,9 +330,7 @@
     <bean id="deptLunchRuleDao" class="org.kuali.hr.time.dept.lunch.dao.DepartmentLunchRuleDaoImpl" parent="platformAwareDao" />
 
     <bean id="principalHRAttributesDao" class="org.kuali.hr.time.principal.dao.PrincipalHRAttributesDaoImpl" parent="platformAwareDao" />
-
-    <bean id="holidayCalendarDao" class="org.kuali.hr.time.holidaycalendar.dao.HolidayCalendarDaoImpl" parent="platformAwareDao" />
-
+    
     <bean id="userPrefDao" class="org.kuali.hr.time.user.pref.dao.UserPreferenceDaoImpl" parent="platformAwareDao" />
 
     <bean id="timeOffAccrualDao" class="org.kuali.hr.time.accrual.dao.TimeOffAccrualkDaoSpringOjbImpl" parent="platformAwareDao" />
@@ -542,10 +539,6 @@
     <bean id="principalHRAttributesService"
           class="org.kuali.hr.time.principal.service.PrincipalHRAttributesServiceImpl">
         <property name="principalHRAttributesDao" ref="principalHRAttributesDao"/>
-    </bean>
-
-    <bean id="holidayCalendarService" class="org.kuali.hr.time.holidaycalendar.service.HolidayCalendarServiceImpl">
-        <property name="holidayCalendarDao" ref="holidayCalendarDao"/>
     </bean>
 
     <bean id="userPrefService" class="org.kuali.hr.time.user.pref.service.UserPreferenceServiceImpl">
@@ -779,11 +772,7 @@
             <bean class="org.kuali.hr.time.clocklog.service.ClockLogLookupableHelper"/>
         </property>
     </bean>
-    <bean id="holidayCalendarLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
-        <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.time.holidaycalendar.service.HolidayCalendarLookupableHelper"/>
-        </property>
-    </bean>
+  
     <bean id="locationLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.hr.location.service.LocationLookupableHelper"/>

@@ -81,9 +81,6 @@ public final class TkTestConstants {
 		public static final String PAYTYPE_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.paytype.PayType&returnLocation="+
 		BASE_URL + "/portal.do&hideReturnLink=true&docFormKey=88888888";
 
-		public static final String HOLIDAY_CALENDAR_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.holidaycalendar.HolidayCalendar&returnLocation="+
-		BASE_URL + "/portal.do&hideReturnLink=true&docFormKey=88888888";
-
 		public static final String TIME_OFF_ACCRUAL_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.accrual.TimeOffAccrual&returnLocation="+
 		BASE_URL + "/portal.do&hideReturnLink=true&docFormKey=88888888";
 
@@ -111,8 +108,6 @@ public final class TkTestConstants {
 		public static final String PAY_CALENDAR_ENTRIES_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.calendar.CalendarEntries&methodToCall=start";
 
 		public static final String ASSIGNMENT_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.assignment.Assignment&methodToCall=start";
-
-		public static final String HOLIDAY_CALENDAR_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.holidaycalendar.HolidayCalendar&methodToCall=start";
 
 		public static final String WORK_AREA_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.workarea.WorkArea&methodToCall=start";
 

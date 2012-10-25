@@ -18,6 +18,7 @@ package org.kuali.hr.time.assignment.service;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
@@ -343,4 +344,14 @@ public class AssignmentServiceImpl implements AssignmentService {
     public Assignment getMaxTimestampAssignment(String principalId) {
     	return assignmentDao.getMaxTimestampAssignment(principalId);
     }
+    
+	public Assignment getAssignmentToApplyScheduledTimeOff(TimesheetDocument timesheetDocument, java.sql.Date payEndDate) {
+		Job primaryJob = TkServiceLocator.getJobService().getPrimaryJob(timesheetDocument.getPrincipalId(), payEndDate);
+		for(Assignment assign : timesheetDocument.getAssignments()){
+			if(assign.getJobNumber().equals(primaryJob.getJobNumber())){
+				return assign;
+			}
+		}
+		return null;
+	}
 }

@@ -171,4 +171,13 @@ public interface AssignmentService {
      * @return List<Assignment>
      */
     public List<Assignment> filterAssignments(List<Assignment> assignments, String flsaStatus, boolean chkForLeaveEligible);
+    
+    /**
+     * Get assignment that applies to primary job of employee
+     * to be used in calculating system scheduled time off
+     * @param timesheetDocument
+     * @param payEndDate
+     * @return
+     */
+	public Assignment getAssignmentToApplyScheduledTimeOff(TimesheetDocument timesheetDocument, java.sql.Date payEndDate);
 }

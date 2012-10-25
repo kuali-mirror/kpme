@@ -37,7 +37,6 @@
     <cache name="KPME/EarnCodeSecurity" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/EarnCode" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/GracePeriodRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
-    <cache name="KPME/HolidayCalendar" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/Job" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/LeaveCode" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/LeaveDonation" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>

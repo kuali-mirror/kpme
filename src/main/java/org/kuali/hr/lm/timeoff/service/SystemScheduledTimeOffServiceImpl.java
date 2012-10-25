@@ -70,9 +70,9 @@ public class SystemScheduledTimeOffServiceImpl implements SystemScheduledTimeOff
 	}
 
 	@Override
-	public BigDecimal calculateHolidayHours(Job job, Long holidayHours) {
+	public BigDecimal calculateSysSchTimeOffHours(Job job, Long sstoHours) {
 		BigDecimal fte = job.getStandardHours().divide(new BigDecimal(40.0),TkConstants.BIG_DECIMAL_SCALE);
-		return fte.multiply(new BigDecimal(holidayHours)).setScale(TkConstants.BIG_DECIMAL_SCALE);
+		return fte.multiply(new BigDecimal(sstoHours)).setScale(TkConstants.BIG_DECIMAL_SCALE);
 	}
    
 }
