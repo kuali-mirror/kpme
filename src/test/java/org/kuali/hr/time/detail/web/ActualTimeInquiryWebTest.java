@@ -73,6 +73,7 @@ public class ActualTimeInquiryWebTest extends KPMETestCase {
 	public void createTB() {
 		timeBlock = new TimeBlock();
 		timeBlock.setUserPrincipalId("admin");
+		timeBlock.setPrincipalId("admin");
 		timeBlock.setJobNumber(2L);
 		timeBlock.setWorkArea(1234L);
 		timeBlock.setTask(1L);
