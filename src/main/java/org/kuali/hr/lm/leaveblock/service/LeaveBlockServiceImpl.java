@@ -126,12 +126,11 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntries ce, String selectedEarnCode, 
     		BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks, String leaveBlockType) {
         String princpalId = TKContext.getTargetPrincipalId();
-        DateTimeZone zone = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
         DateTime calBeginDateTime = beginDate;
     	DateTime calEndDateTime = endDate;
         if(ce != null) {
-        	calBeginDateTime = ce.getBeginLocalDateTime().toDateTime(zone);
-        	calEndDateTime = ce.getEndLocalDateTime().toDateTime(zone);
+        	calBeginDateTime = ce.getBeginLocalDateTime().toDateTime();
+        	calEndDateTime = ce.getEndLocalDateTime().toDateTime();
         } else {
             throw new RuntimeException("Calendar Entry parameter is null.");
         }
@@ -139,7 +138,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
        
         // To create the correct interval by the given begin and end dates,
         // we need to plus one day on the end date to include that date
-        List<Interval> leaveBlockIntervals = TKUtils.createDaySpan(beginDate, endDate.plusDays(1), zone);
+        List<Interval> leaveBlockIntervals = TKUtils.createDaySpan(beginDate, endDate.plusDays(1), TKUtils.getSystemDateTimeZone());
         // need to use beginDate and endDate of the calendar to find all leaveBlocks since LeaveCalendarDocument Id is not always available
         List<LeaveBlock> currentLeaveBlocks =TkServiceLocator.getLeaveBlockService().getLeaveBlocks(princpalId, calBeginDateTime.toDate(), calEndDateTime.toDate());
     
