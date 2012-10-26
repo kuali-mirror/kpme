@@ -24,13 +24,17 @@ import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.accrual.service.AccrualCategoryRuleService;
 import org.kuali.hr.lm.leave.web.LeaveCalendarWSForm;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
+
+import com.google.common.base.Predicate;
 
 public class LeaveCalendarValidationService {
 
@@ -77,6 +81,55 @@ public class LeaveCalendarValidationService {
         }
     	return errors;
     }
+    
+    //begin KPME-1263
+    public static List<String> validateLeaveAccrualRuleMaxUsage(LeaveCalendarWSForm lcf) {
+    	LeaveBlock updatedLeaveBlock = null;
+    	if(lcf.getLeaveBlockId() != null) {
+    		updatedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lcf.getLeaveBlockId());
+    	}
+    	return validateLeaveAccrualRuleMaxUsage(lcf.getLeaveSummary(), lcf.getSelectedEarnCode(), lcf.getStartDate(),
+    			lcf.getEndDate(), lcf.getLeaveAmount(), updatedLeaveBlock);
+    }
+
+	public static List<String> validateLeaveAccrualRuleMaxUsage(LeaveSummary ls, String selectedEarnCode, String leaveStartDateString,
+			String leaveEndDateString, BigDecimal leaveAmount, LeaveBlock updatedLeaveBlock) {
+    	List<String> errors = new ArrayList<String>();
+
+    	if(ls != null && CollectionUtils.isNotEmpty(ls.getLeaveSummaryRows())) {
+    		Date aDate = TKUtils.formatDateString(leaveEndDateString);
+	    	EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, aDate);
+    	
+	    	if(earnCodeObj != null) {
+	    		AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), aDate);
+	    		if(accrualCategory != null) {
+	    			List<LeaveSummaryRow> rows = ls.getLeaveSummaryRows();
+	    			for(LeaveSummaryRow aRow : rows) {
+	    				if(aRow.getAccrualCategory().equals(accrualCategory.getAccrualCategory())) {
+	    					BigDecimal maxUsage = aRow.getUsageLimit();
+	    					BigDecimal ytdUsage = aRow.getYtdApprovedUsage();
+	    					BigDecimal pendingLeaveBalance = aRow.getPendingLeaveRequests();
+	    					BigDecimal desiredUsage = new BigDecimal(0);
+	    					if(pendingLeaveBalance!=null) {
+	    						desiredUsage = ytdUsage.add(pendingLeaveBalance);
+	    					}
+	    					for(int i=0; i <= TKUtils.getDaysBetween(TKUtils.formatDateString(leaveStartDateString), TKUtils.formatDateString(leaveEndDateString)); i++) {
+		    					desiredUsage = desiredUsage.add(leaveAmount);
+	    					}
+	    					if(maxUsage!=null) {
+		    					if(desiredUsage.compareTo(maxUsage) > 0 ) {
+		    						errors.add("This leave request would exceed the usage limit for " + aRow.getAccrualCategory());
+		    					}
+	    					}
+	    					// no usage limit??
+	    				}
+	    			}
+	    		}
+	    	}
+    	}
+    	return errors;
+    }
+	//End KPME-1263
     
     public static List<String> validateAvailableLeaveBalance(LeaveCalendarWSForm lcf) {
     	LeaveBlock updatedLeaveBlock = null;

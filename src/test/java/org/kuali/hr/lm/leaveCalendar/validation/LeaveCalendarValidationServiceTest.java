@@ -62,6 +62,84 @@ public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 		errors = LeaveCalendarValidationService.validateAvailableLeaveBalance(ls, "EC", "02/15/2012", new BigDecimal(10), aLeaveBlock);
 		Assert.assertTrue("error message not correct" , anError.equals("Requested leave amount is greater than pending available usage."));
 	}
+	
+	@Test
+	public void testValidateLeaveSpanMaxUsageRuleExceeded() throws Exception {
+		LeaveSummary ls = new LeaveSummary();
+		LeaveSummaryRow lsr = new LeaveSummaryRow();
+		lsr.setAccrualCategory("testAC");
+		lsr.setUsageLimit(new BigDecimal(10));
+		List<LeaveSummaryRow> lsrList = new ArrayList<LeaveSummaryRow>();
+		lsrList.add(lsr);
+		ls.setLeaveSummaryRows(lsrList);
+		// adding brand new leave blocks
+		List<String> errors = LeaveCalendarValidationService.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/19/2012", new BigDecimal(8), null);
+		Assert.assertTrue("There should be 1 error message" , errors.size()== 1);
+		String anError = errors.get(0);
+		Assert.assertTrue("error message not correct" , anError.equals("This leave request would exceed the usage limit for " + lsr.getAccrualCategory()));
+		}
+	
+	@Test
+	public void testValidateSingleDayLeaveMaxUsageRuleExceeded() throws Exception {
+		LeaveSummary ls = new LeaveSummary();
+		LeaveSummaryRow lsr = new LeaveSummaryRow();
+		lsr.setAccrualCategory("testAC");
+		lsr.setUsageLimit(new BigDecimal(5));
+		List<LeaveSummaryRow> lsrList = new ArrayList<LeaveSummaryRow>();
+		lsrList.add(lsr);
+		ls.setLeaveSummaryRows(lsrList);
+		// adding brand new leave blocks
+		List<String> errors = LeaveCalendarValidationService.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/15/2012", new BigDecimal(8), null);
+		Assert.assertTrue("There should be 1 error message" , errors.size()== 1);
+		String anError = errors.get(0);
+		Assert.assertTrue("error message not correct" , anError.equals("This leave request would exceed the usage limit for " + lsr.getAccrualCategory()));
+	}
+	
+	@Test
+	public void testValidateLeaveMaxUsageRuleReached() throws Exception {
+		LeaveSummary ls = new LeaveSummary();
+		LeaveSummaryRow lsr = new LeaveSummaryRow();
+		lsr.setAccrualCategory("testAC");
+		lsr.setUsageLimit(new BigDecimal(5));
+		List<LeaveSummaryRow> lsrList = new ArrayList<LeaveSummaryRow>();
+		lsrList.add(lsr);
+		ls.setLeaveSummaryRows(lsrList);
+
+		List<String> errors = LeaveCalendarValidationService.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/15/2012", new BigDecimal(5), null);
+		Assert.assertTrue("There should be no error message" , errors.size()== 0);
+
+	}
+	
+	@Test
+	public void testValidateLeaveMaxUsageRuleForExistingBlock() throws Exception {
+		LeaveSummary ls = new LeaveSummary();
+		LeaveSummaryRow lsr = new LeaveSummaryRow();
+		lsr.setAccrualCategory("testAC");
+		lsr.setUsageLimit(new BigDecimal(5));
+		List<LeaveSummaryRow> lsrList = new ArrayList<LeaveSummaryRow>();
+		lsrList.add(lsr);
+		ls.setLeaveSummaryRows(lsrList);
+		
+		//updating an existing leave block
+		LeaveBlock aLeaveBlock = new LeaveBlock();
+		aLeaveBlock.setEarnCode("EC");
+		aLeaveBlock.setLeaveAmount(new BigDecimal(-10)); //block shouldn't even exist - past usage, still exemplary. 
+		List<String> errors = new ArrayList<String>();
+
+		//Already over existing limit (5)...  should bring usage back to par with max usage.
+		errors = LeaveCalendarValidationService.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/15/2012", new BigDecimal(5), aLeaveBlock);
+		Assert.assertTrue("There should be no error message" , errors.size()== 0);
+		
+		//Now update to a value try to validate against a value that will exceed limit.
+		errors = LeaveCalendarValidationService.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/19/2012", new BigDecimal(10), aLeaveBlock);
+		Assert.assertTrue("There should be 1 error message" , errors.size()==1);
+		
+		aLeaveBlock.setLeaveAmount(new BigDecimal(0));
+		errors = LeaveCalendarValidationService.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/15/2012", new BigDecimal(2), aLeaveBlock);
+		Assert.assertTrue("There should be no error message" , errors.size()== 0);
+	}
+	
+	
 
 		
 }

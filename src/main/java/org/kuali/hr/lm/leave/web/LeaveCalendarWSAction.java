@@ -177,7 +177,7 @@ public class LeaveCalendarWSAction extends TkAction {
 
         List<String> errors = LeaveCalendarValidationService.validateLaveEntryDetails(lcf);
         errorMsgList.addAll(errors);
-        
+
         if(errors.isEmpty()) {
         	if(lcf.getLeaveSummary() == null && lcf.getCalendarEntry() != null) {
         		LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), lcf.getCalendarEntry());
@@ -185,6 +185,9 @@ public class LeaveCalendarWSAction extends TkAction {
         	}
         	errors = LeaveCalendarValidationService.validateAvailableLeaveBalance(lcf);
         	errorMsgList.addAll(errors);
+        	//KPME-1263
+            errors = LeaveCalendarValidationService.validateLeaveAccrualRuleMaxUsage(lcf);
+            errorMsgList.addAll(errors);
         }
 
         lcf.setOutputString(JSONValue.toJSONString(errorMsgList));
