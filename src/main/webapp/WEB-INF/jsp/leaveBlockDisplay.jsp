@@ -25,23 +25,32 @@
 		<html:hidden property="navString" styleId="navString" />
 		<html:hidden property="year" styleId="year" value="${Form.year}" />
 		<bean:size id="accrualCategorySize" collection="${Form.accrualCategories}"/>
-		<table align="center" class="leave-block-display">
-			<tbody>
-                <tr>
-                    <td align="center">
-                        <button id="nav_lb_prev" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-						        role="button" title="Previous" onclick="this.form.navString.value='PREV';this.form.submit();">
-                            <span class="ui-button-text">Previous</span>
-                        </button>
-                        <span class="header">${Form.year}</span>
-                        <button id="nav_lb_next" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
-                                role="button" title="Next" onclick="this.form.navString.value='NEXT';this.form.submit();">
-                            <span class="ui-button-text">Next</span>
-                        </button>
-                    </td>
-                </tr>
-			</tbody>
-		</table>
+		<div class="cal">
+    		<table align="center" class="cal-header">
+    			<tbody>
+                    <tr>
+                        <td align="left" width="30%" />
+                        <td align="center" width="40%">
+                            <button id="nav_lb_prev" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+    						        role="button" title="Previous" onclick="this.form.navString.value='PREV';this.form.submit();">
+                                <span class="ui-button-text">Previous</span>
+                            </button>
+                            <span class="header-title-center">${Form.year}</span>
+                            <button id="nav_lb_next" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only"
+                                    role="button" title="Next" onclick="this.form.navString.value='NEXT';this.form.submit();">
+                                <span class="ui-button-text">Next</span>
+                            </button>
+                        </td>
+                        <td align="right" width="30%">
+                            <span class="header-title-right">
+                                <a href="LeaveCalendar.do?methodToCall=gotoCurrentPayPeriod"
+                                   target="_self" id="cpplink">Current Pay Period</a>
+                            </span>
+                        </td>
+                    </tr>
+    			</tbody>
+    		</table>
+		</div>
 	</html:form>
 
 	<div class="leave-block-display">
