@@ -6,7 +6,7 @@
 		<tbody>
 			<tr>
 				<td align="left">
-					<span class="header-title-left">Calendar Year</span>
+					<span class="header-title-left">Year</span>
                 </td>
                 <td align="left">
 	                <select id="selectedCalendarYear" name="selectedCalendarYear">
