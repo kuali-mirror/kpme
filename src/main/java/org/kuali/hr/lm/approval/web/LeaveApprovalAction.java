@@ -284,13 +284,16 @@ public class LeaveApprovalAction extends ApprovalAction{
 	protected void setupDocumentOnFormContext(HttpServletRequest request,ApprovalForm form, CalendarEntries payCalendarEntries, String page) {
 		super.setupDocumentOnFormContext(request, form, payCalendarEntries, page);
 		LeaveApprovalActionForm laaf = (LeaveApprovalActionForm)form;
-		laaf.setLeaveCalendarLabels(TkServiceLocator.getLeaveSummaryService().getHeaderForSummary(payCalendarEntries));
-		
-		List<String> principalIds = TkServiceLocator.getLeaveApprovalService().getPrincipalIdsByDeptWorkAreaRolename(laaf.getRoleName(), laaf.getSelectedDept(), laaf.getSelectedWorkArea(), new java.sql.Date(laaf.getPayBeginDate().getTime()), new java.sql.Date(laaf.getPayEndDate().getTime()), laaf.getSelectedPayCalendarGroup());
-		TkServiceLocator.getLeaveApprovalService().removeNonLeaveEmployees(principalIds);
-     	
-		this.setApprovalTables(laaf, principalIds, request, payCalendarEntries);
-		laaf.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(laaf.getPayCalendarEntries()));
+
+        if (payCalendarEntries != null) {
+		    laaf.setLeaveCalendarLabels(TkServiceLocator.getLeaveSummaryService().getHeaderForSummary(payCalendarEntries));
+
+            List<String> principalIds = TkServiceLocator.getLeaveApprovalService().getPrincipalIdsByDeptWorkAreaRolename(laaf.getRoleName(), laaf.getSelectedDept(), laaf.getSelectedWorkArea(), new java.sql.Date(laaf.getPayBeginDate().getTime()), new java.sql.Date(laaf.getPayEndDate().getTime()), laaf.getSelectedPayCalendarGroup());
+            TkServiceLocator.getLeaveApprovalService().removeNonLeaveEmployees(principalIds);
+
+            this.setApprovalTables(laaf, principalIds, request, payCalendarEntries);
+            laaf.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(laaf.getPayCalendarEntries()));
+        }
 	}
 	
 	public ActionForward selectNewPayCalendar(ActionMapping mapping, ActionForm form,
