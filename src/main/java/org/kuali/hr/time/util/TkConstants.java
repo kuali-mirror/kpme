@@ -94,6 +94,7 @@ public class TkConstants {
     public static final BigDecimal BIG_DECIMAL_1000 = BigDecimal.TEN.multiply(BigDecimal.TEN).multiply(BigDecimal.TEN);
     public static final BigDecimal BIG_DECIMAL_60 = BigDecimal.TEN.multiply(new BigDecimal("6"));
     public static final BigDecimal BIG_DECIMAL_MS_IN_H = BIG_DECIMAL_1000.multiply(BIG_DECIMAL_60).multiply(BIG_DECIMAL_60);
+    public static final BigDecimal BIG_DECIMAL_MS_IN_M = BIG_DECIMAL_1000.multiply(BIG_DECIMAL_60);
     public static final BigDecimal BIG_DECIMAL_HRS_IN_DAY = new BigDecimal(24);
 
     public static final String SUPER_USER = TkConstants.ROLE_TK_SYS_ADMIN;

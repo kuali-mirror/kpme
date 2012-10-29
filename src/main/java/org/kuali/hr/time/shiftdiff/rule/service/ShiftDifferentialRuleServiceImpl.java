@@ -559,7 +559,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 
 	/**
 	 * Does the difference between the previous time blocks clock out time and the
-	 * current time blocks clock in time exceed the max gap?
+	 * current time blocks clock in time exceed the max gap. max gap is in minutes
 	 *
 	 * @param previous
 	 * @param current
@@ -568,9 +568,9 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 	 */
 	boolean exceedsMaxGap(TimeBlock previous, TimeBlock current, BigDecimal maxGap) {
 		long difference = current.getBeginTimestamp().getTime() - previous.getEndTimestamp().getTime();
-		BigDecimal gapHours = TKUtils.convertMillisToHours(difference);
+		BigDecimal gapMinutes = TKUtils.convertMillisToMinutes(difference);
 
-		return (gapHours.compareTo(maxGap) > 0);
+		return (gapMinutes.compareTo(maxGap) > 0);
 	}
 
 	public void setShiftDifferentialRuleDao(ShiftDifferentialRuleDao shiftDifferentialRuleDao) {

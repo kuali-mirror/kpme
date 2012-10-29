@@ -127,7 +127,8 @@ $(function () {
             // <div class="create"></div> is in calendar.tag.
             // We want to trigger the show event on any white space areas.
             "click .event" : "doNothing",
-            "click .create" : "showTimeEntryDialog",
+            "mousedown .create" : "tableCellMouseDown",
+            "mouseup .create" : "tableCellMouseUp",
             "click span[id*=overtime]" : "showOverTimeDialog",
             "blur #startTimeHourMinute, #endTimeHourMinute" : "formatTime",
             // TODO: figure out how to chain the events
@@ -195,7 +196,8 @@ $(function () {
                     title : "Add Time Blocks : ",
                     closeOnEscape : true,
                     autoOpen : true,
-					width : '640',
+                    //KPME-1359 At least a temporary fix - widen box to fit defined largest Assignment Descriptor
+					width : 'inherit',
                     modal : true,
                     open : function () {
                         // Set the selected date on start/end time fields
@@ -218,6 +220,7 @@ $(function () {
                                         .done(self.showFieldByEarnCodeType());
                             }
                         }
+                        //May need a third condition to check if this method was triggered by shortcut.
 
                     },
                     close : function () {
@@ -274,7 +277,7 @@ $(function () {
 
                         }
                     }
-                }).height("auto");
+                }).height("auto");  //KPME-1359 Should cut down on IE creating horizontal scroll bars for quirky reasons.
             }
         },
 
@@ -358,12 +361,12 @@ $(function () {
         checkPermissions : function () {
             var isValid = true;
 
-            // Can't add a new timeblock is the doc is not editable.
+            // Can't add a new timeblock if the doc is not editable.
             if ($('#docEditable').val() == "false") {
                 isValid = false;
             }
 
-            // Can't add / edit / delete a timeblock is canAddTimeBlock is false
+            // Can't add / edit / delete a timeblock if canAddTimeBlock is false
             // This happens when the login user has a view only role, or a dept / location admin
             if ($('#canAddTimeBlock').val() == "false") {
                 isValid = false;
@@ -406,6 +409,7 @@ $(function () {
         },
 
         deleteTimeBlock : function (e) {
+            $("td.create").unbind('mouseup');
             var key = _(e).parseEventKey();
             var timeBlock = timeBlockCollection.get(key.id);
 
@@ -426,11 +430,69 @@ $(function () {
             }
         },
 
-        deleteLeaveBlock : function (e) {
-            var key = _(e).parseEventKey();
-        	if (confirm('You are about to delete a leave block. Click OK to confirm the delete.')) {
-        		window.location = "TimeDetail.do?methodToCall=deleteLeaveBlock&lmLeaveBlockId=" + key.id;
-        	}
+        tableCellMouseDown : function(e) {
+            //alert(this.index);
+            if ($('#docEditable').val() == 'false') {
+                return null;
+            }
+            var key = parseInt(_(e).parseEventKey().id);
+            if (mouseDownIndex == undefined) {
+                mouseDownIndex = key;
+            }
+            var lower;
+            var higher;
+            //grab start location
+            tableCells.bind('mouseenter',function(e){
+                //currentMouseIndex = parseInt(_(e).parseEventKey().id);
+                currentMouseIndex = parseInt(this.id.split("_")[1]);
+                lower = mouseDownIndex < currentMouseIndex ? mouseDownIndex : currentMouseIndex;
+                higher = currentMouseIndex > mouseDownIndex ? currentMouseIndex : mouseDownIndex;
+
+                for (var i=0; i<tableCells.length;i++) {
+                    if (i < lower || i > higher) {
+                        $("#day_"+i).removeClass("ui-selecting");
+                    } else {
+                        $("#day_"+i).addClass("ui-selecting");
+                    }
+                }
+            });
+        },
+
+        tableCellMouseUp : function(e) {
+            tableCells.unbind('mouseenter');
+            tableCells.removeClass("ui-selecting");
+            if ($('#docEditable').val() == 'false') {
+                return null;
+            }
+            if (_(e).parseEventKey().action == "timeblockDelete") {
+                return null;
+            }
+
+            var currentDay = new Date(beginPeriodDateTimeObj);
+            var startDay = new Date(currentDay);
+            var endDay = new Date(currentDay);
+
+            var lower = mouseDownIndex < currentMouseIndex ? mouseDownIndex : currentMouseIndex;
+            var higher = currentMouseIndex > mouseDownIndex ? currentMouseIndex : mouseDownIndex;
+            if (lower == undefined) {
+                lower = higher;
+            }
+
+            startDay.addDays(lower);
+            endDay.addDays(higher);
+
+            startDay = Date.parse(startDay).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT);
+            endDay = Date.parse(endDay).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT);
+
+            app.showTimeEntryDialog(startDay, endDay,null);
+
+            // https://uisapp2.iu.edu/jira-prd/browse/TK-1593
+            if ($("#selectedAssignment").is("input")) {
+                app.fetchEarnCodeAndLoadFields();
+            }
+            mouseDownIndex = null;
+            currentMouseIndex = null;
+
         },
 
         fetchEarnCode : function (e, isTimeBlockReadOnly) {
@@ -442,7 +504,8 @@ $(function () {
             // We want to be able to use this method in creating and editing timeblocks.
             // If assignment is not a string, we'll grab the selected assignment on the form.
             var assignment = _.isString(e) ? e : this.$("#selectedAssignment option:selected").val();
-
+            // We want to remember what the previous selected earn code was.
+			var earnCode = this.$('#selectedEarnCode option:selected').val();
             // Fetch earn codes based on the selected assignment
             // The fetch function is provided by backbone.js which also supports jQuery.ajax options.
             // For more information: http://documentcloud.github.com/backbone/#Collection-fetch
@@ -454,6 +517,13 @@ $(function () {
                     timeBlockReadOnly : isTimeBlockReadOnly
                 }
             });
+            // If there is an earn code in the newly created collection that matches the old
+            // earn code, keep the earn code selected.
+            if(_.contains(EarnCodes.pluck('earnCode'),earnCode)) {
+            	$("#selectedEarnCode option:selected").attr("selected",false);
+            	$("#selectedEarnCode option[value='" + earnCode + "']").attr("selected", "selected");
+            }
+
         },
 
 
@@ -481,9 +551,6 @@ $(function () {
         },
 
         showFieldByEarnCodeType : function () {
-  			if($("#selectedEarnCode option:selected").val() == '') {
-  				return;
-  			}
             var earnCodeType = _.getEarnCodeType(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
             var fieldSections = [".clockInSection", ".clockOutSection", ".hourSection", ".amountSection", ".leaveAmountSection"];
             var leavePlan = this.getEarnCodeLeavePlan(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
@@ -510,23 +577,29 @@ $(function () {
 
             }
             else {
-	            // There might be a better way doing this, but we can revisit this later.
-	            // Currently, the fields variable contains a list of the entry field classes.
-	            // The Underscore.js _.without function returns an array except the ones you speficied.
-	            if (earnCodeType == CONSTANTS.EARNCODE_TYPE.HOUR) {
-	                $(_.without(fieldSections, ".hourSection").join(",")).hide();
-	                $(fieldSections[2]).show();
-	                // TODO: figure out why we had to do something crazy like below...
-	                $('#startTime, #endTime').val("23:59");
-	            } else if (earnCodeType == CONSTANTS.EARNCODE_TYPE.AMOUNT) {
-	                $(_.without(fieldSections, ".amountSection").join(",")).hide();
-	                $(fieldSections[3]).show();
-	                $('#startTime, #endTime').val("23:59");
-	            } 
-	            else {
-	                $(_.without(fieldSections, ".clockInSection", ".clockOutSection").join(",")).hide();
-	                $(fieldSections[0] + "," + fieldSections[1]).show();
-	            }
+                // There might be a better way doing this, but we can revisit this later.
+                // Currently, the fields variable contains a list of the entry field classes.
+                // The Underscore.js _.without function returns an array except the ones you speficied.
+                if (earnCodeType == CONSTANTS.EARNCODE_TYPE.HOUR) {
+                    $(_.without(fieldSections, ".hourSection").join(",")).hide();
+                    $(fieldSections[2]).show();
+                    // TODO: figure out why we had to do something crazy like below...
+                    $('#startTime, #endTime').val("23:59");
+                    // KPME-1793 do not blank hours
+                    $('#startTimeHourMinute, #endTimeHourMinute, #amount').val("");
+                } else if (earnCodeType == CONSTANTS.EARNCODE_TYPE.AMOUNT) {
+                    $(_.without(fieldSections, ".amountSection").join(",")).hide();
+                    $(fieldSections[3]).show();
+                    $('#startTime, #endTime').val("23:59");
+                    // KPME-1793 do not blank amount
+                    $('#startTimeHourMinute, #endTimeHourMinute, #hours').val("");
+                } else {
+                	// earnCodeType == CONSTANTS.EARNCODE_TYPE.TIME
+                    $(_.without(fieldSections, ".clockInSection", ".clockOutSection").join(",")).hide();
+                    $(fieldSections[0] + "," + fieldSections[1]).show();
+                    // KPME-1793 do not blank startTime, endTime, startTimeHourMinute, endTimeHourMinute
+                    $('#hours, #amount').val("");
+                }
             }
         },
 
@@ -535,6 +608,7 @@ $(function () {
         },
 
         fetchEarnCodeAndLoadFields : function () {
+
             var dfd = $.Deferred();
             dfd.done(this.fetchEarnCode(_.getSelectedAssignmentValue()))
                     .done(this.showFieldByEarnCodeType());
@@ -804,7 +878,6 @@ $(function () {
         render : function () {
             var self = this;
             $("#selectedEarnCode").html("");
-            $(self.el).append("<option value=''>-- select an earn code --</option>");
             this.collection.each(function (earnCode) {
                 $(self.el).append(self.template(earnCode.toJSON()));
             });
@@ -835,7 +908,6 @@ $(function () {
             return this;
         }
     });
-
 
     // Initialize the view. This is the kick-off point.
     var app = new TimeBlockView;
@@ -917,59 +989,55 @@ $(function () {
     });
 
     /**
-     * Make the calendar cell selectable
+     * Setup for making calendar cells selectable
      */
-    // When making a mouse selection, it creates a "lasso" effect which we want to get rid of.
-    // In the future version of jQuery UI, lasso is going to one of the options where it can be enabled / disabled.
-    // For now, the way to disable it is to modify the css.
-    //
-    // .ui-selectable-helper { border:none; }
-    //
-    // This discussion thread on stackoverflow was helpful:
-    // http://bit.ly/fvRW4X
-
-    var selectedDays = [];
-    var selectingDays = [];
+    var mouseDownIndex = null;
+    var currentMouseIndex = null;
     var beginPeriodDateTimeObj = $('#beginPeriodDate').val() !== undefined ? new Date($('#beginPeriodDate').val()) : d + '/' + m + '/' + y;
     var endPeriodDateTimeObj = $('#endPeriodDate').val() !== undefined ? new Date($('#endPeriodDate').val()) : d + '/' + m + '/' + y;
+    var tableCells = $('td[id^="day_"]');
+    tableCells.disableSelection();
 
-    $(".cal-table").selectable({
-        filter : "td",
-        distance : 1,
-        selected : function (event, ui) {
-            selectedDays.push(ui.selected.id);
-        },
-        selecting : function (event, ui) {
-            // get the index number of the selected td
-            $(".ui-selecting", this).each(function () {
-                selectingDays.push($(".cal-table td").index(this));
-            });
 
-        },
+    
+	// KPME-1390 Add shortcut to open Time Entry Dialog
+    // use keyboard to open the form
+    var isCtrl,isAlt = false;
 
-        stop : function (event, ui) {
-            var currentDay = new Date(beginPeriodDateTimeObj);
-            var startDay = new Date(currentDay);
-            var endDay = new Date(currentDay);
+    // ctrl+alt+a will open the form
+    $(this).keydown(
+        function(e) {
 
-            startDay.addDays(parseInt(_.first(selectedDays).split("_")[1]));
-            endDay.addDays(parseInt(_.last(selectedDays).split("_")[1]));
-
-            startDay = Date.parse(startDay).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT);
-            endDay = Date.parse(endDay).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT);
-
-            app.showTimeEntryDialog(startDay, endDay,null);
-
-            // https://uisapp2.iu.edu/jira-prd/browse/TK-1593
-            if ($("#selectedAssignment").is("input")) {
-                app.fetchEarnCodeAndLoadFields();
+            if (e.ctrlKey) isCtrl = true;
+            if (e.altKey) isAlt = true;
+            
+			var startDate = new Date();
+			var endDate = new Date();
+			
+			startDate = Date.parse(startDate).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT);
+			endDate = Date.parse(endDate).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT);
+			
+			//Only passing endDate in order to trigger the false branch in showTimeEntryDialog.open(),
+			//thus populating earn codes for a single selected non-editable assignment.
+            if (e.keyCode == 65 && isCtrl && isAlt) {
+                app.showTimeEntryDialog(startDate,endDate,null);
             }
+            
+            // https://uisapp2.iu.edu/jira-prd/browse/TK-1593
+        	if ($("#selectedAssignment").is("input")) {
+           		app.fetchEarnCodeAndLoadFields();
+        	}
 
-            selectedDays = [];
-        }
-    });
+        }).keyup(function(e) {
+            isCtrl = false;
+            isAlt = false;
+        });
+    // End: KPME-1390
 
     if ($('#docEditable').val() == 'false') {
         $(".cal-table").selectable("destroy");
+        tableCells.unbind("mousedown");
+        tableCells.unbind('mouseenter');
+        tableCells.unbind('mouseup');
     }
 });

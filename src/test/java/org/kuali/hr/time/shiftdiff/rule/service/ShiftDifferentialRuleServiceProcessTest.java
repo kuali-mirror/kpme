@@ -291,7 +291,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 				(new DateTime(2010, 3, 29, 16, 0, 0, 0, TKUtils.getSystemDateTimeZone())),
 				(new DateTime(2010, 3, 30, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())),
 				new BigDecimal(4), // minHours
-				new BigDecimal("0.25"), // maxGap
+				new BigDecimal("15"), // maxGap
 				dayArray);
 
 		// Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours total each.
@@ -340,7 +340,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 				(new DateTime(2010, 3, 29, 16, 0, 0, 0, TKUtils.getSystemDateTimeZone())),
 				(new DateTime(2010, 3, 30, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())),
 				new BigDecimal(4), // minHours
-				new BigDecimal("0.25"), // maxGap
+				new BigDecimal("15"), // maxGap
 				dayArray);
 
 		// Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours total each.

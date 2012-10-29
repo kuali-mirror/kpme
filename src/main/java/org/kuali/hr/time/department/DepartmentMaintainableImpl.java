@@ -19,11 +19,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -55,6 +57,7 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
 
         TkServiceLocator.getDepartmentService().populateDepartmentRoles(dOld);
         TkServiceLocator.getDepartmentService().populateDepartmentRoles(dNew);
+        super.processAfterEdit(document, parameters);
     }
 	
 	@Override
@@ -98,16 +101,15 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
 		return TkServiceLocator.getDepartmentService().getDepartment(id);
 	}
 
-	@Override
+    @Override
 	public void customSaveLogic(HrBusinessObject hrObj) {
 		Department dept = (Department)hrObj;
 		List<TkRole> roles = dept.getRoles();
-		List<TkRole> rolesCopy = new ArrayList<TkRole>();
+		//List<TkRole> rolesCopy = new ArrayList<TkRole>();
 		
-		rolesCopy.addAll(roles);
+		//rolesCopy.addAll(roles);
 		
-		if (dept.getInactiveRoles() != null
-				&& dept.getInactiveRoles().size() > 0) {
+		if (CollectionUtils.isNotEmpty(dept.getInactiveRoles())) {
 			for (TkRole role : dept.getInactiveRoles()) {
 				roles.add(role);
 			}

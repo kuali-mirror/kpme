@@ -252,6 +252,10 @@ public class TKUtils {
         return (new BigDecimal(millis)).divide(TkConstants.BIG_DECIMAL_MS_IN_H, TkConstants.MATH_CONTEXT);
     }
 
+    public static BigDecimal convertMillisToMinutes(long millis) {
+        return (new BigDecimal(millis)).divide(TkConstants.BIG_DECIMAL_MS_IN_M, TkConstants.MATH_CONTEXT);
+    }
+    
     public static BigDecimal convertMillisToDays(long millis) {
         BigDecimal hrs = convertMillisToHours(millis);
         return hrs.divide(TkConstants.BIG_DECIMAL_HRS_IN_DAY, TkConstants.MATH_CONTEXT);

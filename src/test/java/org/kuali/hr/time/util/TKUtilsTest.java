@@ -104,6 +104,13 @@ public class TKUtilsTest extends Assert {
 		assertEquals("Last Interval should be 09/03/2011", "09/03/2011", format.format(intervals.get(intervals.size()-1).getStart().toDate()));
 
 	}
-
+	
+	@Test
+	public void testConvertMillisToMinutes() {
+		BigDecimal mins = TKUtils.convertMillisToMinutes(new Long(380000));
+		assertTrue("Minutes should be between 6 and 7",  mins.compareTo(new BigDecimal(6)) > 0  && mins.compareTo(new BigDecimal(7)) < 0);
+		mins = TKUtils.convertMillisToMinutes(new Long(240000));
+		assertTrue("Minutes should be 4",  mins.compareTo(new BigDecimal(4)) == 0);
+	}
 
 }

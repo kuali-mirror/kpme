@@ -37,7 +37,7 @@ public class TaskLookupTest extends KPMETestCase {
     	Assert.assertTrue("Could not find text 'Task:' in page.", StringUtils.contains(page.asText(), "Task:"));
     	Assert.assertTrue("Could not find text 'Description:' in page.", StringUtils.contains(page.asText(), "Description:"));
     	Assert.assertTrue("Could not find text 'Work Area:' in page.", StringUtils.contains(page.asText(), "Work Area:"));
-    	
+
     	HtmlForm form = page.getFormByName("KualiForm");
     	Assert.assertNotNull("Search form was missing from page.", form);
     	HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.search");
@@ -51,6 +51,6 @@ public class TaskLookupTest extends KPMETestCase {
     	HtmlPage searchPage = HtmlUnitUtil.clickInputContainingText(page, "search");
     	Assert.assertTrue("Expected 1 result.", StringUtils.contains(searchPage.asText(), "One item retrieved"));
     	Assert.assertTrue("Could not find text 'SDR1 task' in page.", StringUtils.contains(searchPage.asText(), "SDR1 task"));
-    	
+
    }
 }

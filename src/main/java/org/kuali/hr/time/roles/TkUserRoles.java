@@ -436,16 +436,13 @@ public class TkUserRoles implements UserRoles {
 
     @Override
     public boolean isTimesheetReviewerForPerson(String principalId) {
-        List<TkRole> roles = TkServiceLocator.getTkRoleService().getRoles(principalId, TKUtils.getCurrentDate());
+        List<Assignment> lstAssignment = TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getCurrentDate());
 
-        if (roles.size() > 0) {
-            for (TkRole role : roles) {
-                if (this.getReviewerWorkAreas().contains(role.getWorkArea())) {
-                    return true;
-                }
+        for (Assignment assignment : lstAssignment) {
+            if (getReviewerWorkAreas().contains(assignment.getWorkArea())) {
+                return true;
             }
         }
-
         return false;
     }
 }

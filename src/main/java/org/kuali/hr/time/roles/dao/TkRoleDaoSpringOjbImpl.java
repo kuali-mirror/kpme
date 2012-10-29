@@ -350,7 +350,7 @@ public class TkRoleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements T
 
 
         // Filter by Max(EffDt) / Max(Timestamp)
-        root.addEqualTo("effectiveDate", effdtSubQuery);
+        //root.addEqualTo("effectiveDate", effdtSubQuery);
         root.addEqualTo("timestamp", timestampSubQuery);
 
         // Optional ROOT criteria added :
