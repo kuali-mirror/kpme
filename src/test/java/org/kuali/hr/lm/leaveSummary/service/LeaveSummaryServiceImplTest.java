@@ -16,6 +16,7 @@
 package org.kuali.hr.lm.leaveSummary.service;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Assert;
@@ -113,9 +114,9 @@ public class LeaveSummaryServiceImplTest extends KPMETestCase {
 	@Test
 	public void testGetHeaderForSummary() throws Exception {
 		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("10001");
-		List<String> headers = TkServiceLocator.getLeaveSummaryService().getHeaderForSummary(ce);
+		List<Date> leaveSummaryDates = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		
-		Assert.assertTrue("The size of the headers should be 17, not " + headers.size(), headers.size()== 17);
+		Assert.assertTrue("The number of leave summary dates should be 17, not " + leaveSummaryDates.size(), leaveSummaryDates.size()== 17);
 		
 	}
 }

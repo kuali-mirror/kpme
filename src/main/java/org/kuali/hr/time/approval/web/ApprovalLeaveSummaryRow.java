@@ -17,7 +17,8 @@ package org.kuali.hr.time.approval.web;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,8 +30,8 @@ import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.doctype.SecuritySession;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryRow> {
 	private String name;
@@ -43,7 +44,7 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
 	private Boolean moreThanOneCalendar = Boolean.FALSE;
 	private String lastApproveMessage;
 	private List<LeaveBlock> leaveBlockList = new ArrayList<LeaveBlock>();
-	private Map<String, Map<String, BigDecimal>> earnCodeLeaveHours = new HashMap<String, Map<String, BigDecimal>>();
+	private Map<Date, Map<String, BigDecimal>> earnCodeLeaveHours = new LinkedHashMap<Date, Map<String, BigDecimal>>();
 	
     /**
      * Is this record ready to be approved?
@@ -145,16 +146,13 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
 		this.approvalStatus = approvalStatus;
 	}
 
-
-	public Map<String, Map<String, BigDecimal>> getEarnCodeLeaveHours() {
+	public Map<Date, Map<String, BigDecimal>> getEarnCodeLeaveHours() {
 		return earnCodeLeaveHours;
 	}
 
-
-	public void setEarnCodeLeaveHours(Map<String, Map<String, BigDecimal>> earnCodeLeaveHours) {
+	public void setEarnCodeLeaveHours(Map<Date, Map<String, BigDecimal>> earnCodeLeaveHours) {
 		this.earnCodeLeaveHours = earnCodeLeaveHours;
 	}
-
 
 	public Boolean getMoreThanOneCalendar() {
 		return moreThanOneCalendar;

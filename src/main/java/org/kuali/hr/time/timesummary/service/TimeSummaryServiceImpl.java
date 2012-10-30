@@ -332,12 +332,22 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
      * @return A string appropriate for UI display.
      */
     private String makeHeaderDiplayString(LocalDateTime currentDate, boolean virtualDays) {
-        StringBuilder display = new StringBuilder(currentDate.toString(TkConstants.DT_ABBREV_DATE_FORMAT));
-
+        StringBuilder display = new StringBuilder();
+        
+        display.append(currentDate.toString("E"));
         if (virtualDays) {
-            LocalDateTime nextDay = currentDate.plusDays(1);
+        	LocalDateTime nextDate = currentDate.plusDays(1);
+        	display.append(" - ");
+            display.append(nextDate.toString("E"));
+        }
+        
+        display.append("<br />");
+        
+        display.append(currentDate.toString(TkConstants.DT_ABBREV_DATE_FORMAT));
+        if (virtualDays) {
+            LocalDateTime nextDate = currentDate.plusDays(1);
             display.append(" - ");
-            display.append(nextDay.toString(TkConstants.DT_ABBREV_DATE_FORMAT));
+            display.append(nextDate.toString(TkConstants.DT_ABBREV_DATE_FORMAT));
         }
 
         return display.toString();

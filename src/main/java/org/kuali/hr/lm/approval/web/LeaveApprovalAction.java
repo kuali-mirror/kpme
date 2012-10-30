@@ -84,7 +84,7 @@ public class LeaveApprovalAction extends ApprovalAction{
         	this.setApprovalTables(laaf, principalIds, request, payCalendarEntries);
         	
    	        laaf.setPayCalendarEntries(payCalendarEntries);
-   	        laaf.setLeaveCalendarLabels(TkServiceLocator.getLeaveSummaryService().getHeaderForSummary(payCalendarEntries));
+   	        laaf.setLeaveCalendarDates(TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(payCalendarEntries));
         	
 	        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, payCalendarEntries.getEndPeriodDate());
 	        if(!assignments.isEmpty()){
@@ -126,7 +126,7 @@ public class LeaveApprovalAction extends ApprovalAction{
 
         CalendarEntries payCalendarEntries = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(laaf.getHrPyCalendarEntriesId());
         laaf.setPayCalendarEntries(payCalendarEntries);
-        laaf.setLeaveCalendarLabels(TkServiceLocator.getLeaveSummaryService().getHeaderForSummary(payCalendarEntries));
+        laaf.setLeaveCalendarDates(TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(payCalendarEntries));
 
 		laaf.getWorkAreaDescr().clear();
     	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(laaf.getSelectedDept(), new java.sql.Date(laaf.getPayBeginDate().getTime()));
@@ -152,7 +152,7 @@ public class LeaveApprovalAction extends ApprovalAction{
 		laaf.setSearchTerm(null);
 
 	    CalendarEntries payCalendarEntries = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(laaf.getHrPyCalendarEntriesId());
-        laaf.setLeaveCalendarLabels(TkServiceLocator.getLeaveSummaryService().getHeaderForSummary(payCalendarEntries));
+        laaf.setLeaveCalendarDates(TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(payCalendarEntries));
         
         List<String> principalIds = TkServiceLocator.getLeaveApprovalService().getPrincipalIdsByDeptWorkAreaRolename(laaf.getRoleName(), laaf.getSelectedDept(), laaf.getSelectedWorkArea(), new java.sql.Date(laaf.getPayBeginDate().getTime()), new java.sql.Date(laaf.getPayEndDate().getTime()), laaf.getSelectedPayCalendarGroup());
         this.setApprovalTables(laaf, principalIds, request, payCalendarEntries);
@@ -161,7 +161,7 @@ public class LeaveApprovalAction extends ApprovalAction{
 	}
 		
 	private void setApprovalTables(LeaveApprovalActionForm laaf, List<String> principalIds, HttpServletRequest request, CalendarEntries payCalendarEntries) {
-		laaf.setLeaveCalendarLabels(TkServiceLocator.getLeaveSummaryService().getHeaderForSummary(payCalendarEntries));
+		laaf.setLeaveCalendarDates(TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(payCalendarEntries));
 		
 		if (principalIds.isEmpty()) {
 			laaf.setLeaveApprovalRows(new ArrayList<ApprovalLeaveSummaryRow>());
@@ -287,7 +287,7 @@ public class LeaveApprovalAction extends ApprovalAction{
 		LeaveApprovalActionForm laaf = (LeaveApprovalActionForm)form;
 
         if (payCalendarEntries != null) {
-		    laaf.setLeaveCalendarLabels(TkServiceLocator.getLeaveSummaryService().getHeaderForSummary(payCalendarEntries));
+		    laaf.setLeaveCalendarDates(TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(payCalendarEntries));
 
             List<String> principalIds = TkServiceLocator.getLeaveApprovalService().getPrincipalIdsByDeptWorkAreaRolename(laaf.getRoleName(), laaf.getSelectedDept(), laaf.getSelectedWorkArea(), new java.sql.Date(laaf.getPayBeginDate().getTime()), new java.sql.Date(laaf.getPayEndDate().getTime()), laaf.getSelectedPayCalendarGroup());
             TkServiceLocator.getLeaveApprovalService().removeNonLeaveEmployees(principalIds);
@@ -311,7 +311,7 @@ public class LeaveApprovalAction extends ApprovalAction{
 	   
     protected List<ApprovalLeaveSummaryRow> getApprovalLeaveRows(LeaveApprovalActionForm laaf, List<TKPerson> assignmentPrincipalIds) {
         return TkServiceLocator.getLeaveApprovalService().getLeaveApprovalSummaryRows
-        	(assignmentPrincipalIds, laaf.getPayCalendarEntries(), laaf.getLeaveCalendarLabels());
+        	(assignmentPrincipalIds, laaf.getPayCalendarEntries(), laaf.getLeaveCalendarDates());
     }
 	
     public void resetState(ActionForm form, HttpServletRequest request) {

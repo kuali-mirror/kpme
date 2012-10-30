@@ -15,11 +15,28 @@
  */
 package org.kuali.hr.lm.leaveSummary.service;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeFieldType;
+import org.joda.time.Interval;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -35,14 +52,6 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
-
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 	private LeaveBlockService leaveBlockService;
@@ -270,18 +279,18 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 	}
 	
 	@Override
-	public List<String> getHeaderForSummary(CalendarEntries cal) {
-		 List<String> header = new ArrayList<String>();	
-		 LocalDateTime startDate = cal.getBeginLocalDateTime();
-	     LocalDateTime endDate = cal.getEndLocalDateTime();
-	     if (endDate.get(DateTimeFieldType.hourOfDay()) != 0 || endDate.get(DateTimeFieldType.minuteOfHour()) != 0 ||
-	                endDate.get(DateTimeFieldType.secondOfMinute()) != 0) {
-	            endDate = endDate.plusDays(1);
-	     }
-		 for (LocalDateTime currentDate = startDate; currentDate.compareTo(endDate) < 0; currentDate = currentDate.plusDays(1)) {
-			 header.add(currentDate.toString(TkConstants.DT_JUST_DAY_FORMAT));
-		 }
-		 return header;
+	public List<Date> getLeaveSummaryDates(CalendarEntries calendarEntry) {
+		List<Date> leaveSummaryDates = new ArrayList<Date>();
+
+		DateTime start = calendarEntry.getBeginLocalDateTime().toDateTime();
+		DateTime end = calendarEntry.getEndLocalDateTime().toDateTime();
+        Interval interval = new Interval(start, end);
+
+        for (DateTime day = interval.getStart(); day.isBefore(interval.getEnd()); day = day.plusDays(1)) {
+        	leaveSummaryDates.add(day.toLocalDate().toDateTimeAtStartOfDay().toDate());
+        }
+		 
+		 return leaveSummaryDates;
 	}
 
     protected LeaveBlockService getLeaveBlockService() {

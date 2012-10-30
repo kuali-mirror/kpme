@@ -25,9 +25,11 @@
 	        </div>
    		</display:column>
    		
-   		<c:forEach var="leaveCalLabel" items="${Form.leaveCalendarLabels}">
-        	<display:column title="${leaveCalLabel}">
-        		<c:forEach var="earnCodeMap" items="${row.earnCodeLeaveHours[leaveCalLabel]}" >
+        <c:forEach var="leaveCalendarDate" items="${Form.leaveCalendarDates}">
+            <fmt:formatDate var="leaveCalendarDayName" value="${leaveCalendarDate}" pattern="E"/>
+            <fmt:formatDate var="leaveCalendarDayNumber" value="${leaveCalendarDate}" pattern="dd"/>
+        	<display:column title="${leaveCalendarDayName} </br> ${leaveCalendarDayNumber}">
+        		<c:forEach var="earnCodeMap" items="${row.earnCodeLeaveHours[leaveCalendarDate]}" >
         			${earnCodeMap.key}<br/>
         			${earnCodeMap.value}<br/>
         		</c:forEach>

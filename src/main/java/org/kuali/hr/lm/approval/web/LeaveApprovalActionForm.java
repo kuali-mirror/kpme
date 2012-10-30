@@ -16,10 +16,10 @@
 package org.kuali.hr.lm.approval.web;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.kuali.hr.time.approval.web.ApprovalLeaveSummaryRow;
-import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
 import org.kuali.hr.time.base.web.ApprovalForm;
 
 public class LeaveApprovalActionForm extends ApprovalForm {
@@ -27,7 +27,7 @@ public class LeaveApprovalActionForm extends ApprovalForm {
 	private static final long serialVersionUID = 1L;
 	
 	private List<ApprovalLeaveSummaryRow> leaveApprovalRows;
-	private List<String> leaveCalendarLabels = new ArrayList<String>();
+	private List<Date> leaveCalendarDates = new ArrayList<Date>();
 	
 	public List<ApprovalLeaveSummaryRow> getLeaveApprovalRows() {
 		return leaveApprovalRows;
@@ -35,11 +35,11 @@ public class LeaveApprovalActionForm extends ApprovalForm {
 	public void setLeaveApprovalRows(List<ApprovalLeaveSummaryRow> leaveApprovalRows) {
 		this.leaveApprovalRows = leaveApprovalRows;
 	}
-	public List<String> getLeaveCalendarLabels() {
-		return leaveCalendarLabels;
+	public List<Date> getLeaveCalendarDates() {
+		return leaveCalendarDates;
 	}
-	public void setLeaveCalendarLabels(List<String> leaveCalendarLabels) {
-		this.leaveCalendarLabels = leaveCalendarLabels;
+	public void setLeaveCalendarDates(List<Date> leaveCalendarDates) {
+		this.leaveCalendarDates = leaveCalendarDates;
 	}
 	
 	public boolean isAnyApprovalRowApprovable() {

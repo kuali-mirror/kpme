@@ -59,7 +59,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
     }
 	
 	@Override
-	public List<ApprovalLeaveSummaryRow> getLeaveApprovalSummaryRows(List<TKPerson> persons, CalendarEntries payCalendarEntries, List<String> headers) {
+	public List<ApprovalLeaveSummaryRow> getLeaveApprovalSummaryRows(List<TKPerson> persons, CalendarEntries payCalendarEntries, List<Date> leaveSummaryDates) {
 		Date payBeginDate = payCalendarEntries.getBeginPeriodDate();
 		Date payEndDate = payCalendarEntries.getEndPeriodDate();
 		List<ApprovalLeaveSummaryRow> rowList = new ArrayList<ApprovalLeaveSummaryRow>();		
@@ -89,7 +89,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 			
 			List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, payBeginDate, payEndDate);
 			aRow.setLeaveBlockList(leaveBlocks);
-			Map<String, Map<String, BigDecimal>> earnCodeLeaveHours = TkServiceLocator.getLeaveApprovalService().getEarnCodeLeaveHours(leaveBlocks, headers);
+			Map<Date, Map<String, BigDecimal>> earnCodeLeaveHours = getEarnCodeLeaveHours(leaveBlocks, leaveSummaryDates);
 			aRow.setEarnCodeLeaveHours(earnCodeLeaveHours);
 			
 			rowList.add(aRow);
@@ -99,19 +99,18 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 	}
 	
 	@Override
-	public Map<String, Map<String, BigDecimal>> getEarnCodeLeaveHours(List<LeaveBlock> leaveBlocks, List<String> headers) {
-		Map<String, Map<String, BigDecimal>> earnCodeLeaveHours = new LinkedHashMap<String, Map<String, BigDecimal>>();
+	public Map<Date, Map<String, BigDecimal>> getEarnCodeLeaveHours(List<LeaveBlock> leaveBlocks, List<Date> leaveSummaryDates) {
+		Map<Date, Map<String, BigDecimal>> earnCodeLeaveHours = new LinkedHashMap<Date, Map<String, BigDecimal>>();
 		
-		for (String header : headers) {
-			earnCodeLeaveHours.put(header, new LinkedHashMap<String, BigDecimal>());
+		for (Date leaveSummaryDate : leaveSummaryDates) {
+			earnCodeLeaveHours.put(leaveSummaryDate, new LinkedHashMap<String, BigDecimal>());
 		}
 		
 		for (LeaveBlock lb : leaveBlocks) {
-			LocalDateTime leaveDate = (new DateTime(lb.getLeaveDate())).toLocalDateTime();
-			String dateString = leaveDate.toString(TkConstants.DT_JUST_DAY_FORMAT);
+			DateTime leaveDate = new DateTime(lb.getLeaveDate()).toLocalDate().toDateTimeAtStartOfDay();
 			
-			if (earnCodeLeaveHours.get(dateString) != null) {
-				Map<String, BigDecimal> leaveHours = earnCodeLeaveHours.get(dateString);
+			if (earnCodeLeaveHours.get(leaveDate.toDate()) != null) {
+				Map<String, BigDecimal> leaveHours = earnCodeLeaveHours.get(leaveDate.toDate());
 				
 				BigDecimal amount = lb.getLeaveAmount();
 				if (leaveHours.get(lb.getEarnCode()) != null) {
@@ -151,9 +150,9 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 			Date beginDate = calendarEntry.getBeginPeriodDate();
 			Date endDate = calendarEntry.getEndPeriodDate();
 			
-			List<String> headers = TkServiceLocator.getLeaveSummaryService().getHeaderForSummary(calendarEntry);
+			List<Date> leaveSummaryDates = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(calendarEntry);
 			List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
-			Map<String, Map<String, BigDecimal>> accrualCategoryLeaveHours = TkServiceLocator.getLeaveApprovalService().getAccrualCategoryLeaveHours(leaveBlocks, headers);
+			Map<Date, Map<String, BigDecimal>> accrualCategoryLeaveHours = getAccrualCategoryLeaveHours(leaveBlocks, leaveSummaryDates);
 
 			//get all accrual categories of this employee
 			PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, endDate);
@@ -167,12 +166,15 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 					BigDecimal totalAmount = BigDecimal.ZERO;
 					displayMap.put("accrualCategory", ac.getAccrualCategory());
 					int index = 0;
-					for(String aDateString : headers) {
+					for (Date leaveSummaryDate : leaveSummaryDates) {
 						acDayDetails.add(index, null);
-						if(accrualCategoryLeaveHours.get(aDateString) != null && accrualCategoryLeaveHours.get(aDateString).containsKey(ac.getAccrualCategory())) {
-							BigDecimal amount =  accrualCategoryLeaveHours.get(aDateString).get(ac.getAccrualCategory());
-							totalAmount = totalAmount.add(amount);
-							acDayDetails.set(index, amount);
+						if (accrualCategoryLeaveHours.get(leaveSummaryDate) != null) {
+							Map<String, BigDecimal> leaveHours = accrualCategoryLeaveHours.get(leaveSummaryDate);
+							if (leaveHours.containsKey(ac.getAccrualCategory())) {
+								BigDecimal amount =  leaveHours.get(ac.getAccrualCategory());
+								totalAmount = totalAmount.add(amount);
+								acDayDetails.set(index, amount);
+							}
 						}
 						index++;
 					}
@@ -189,21 +191,20 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 	}
 	
 	@Override
-	public Map<String, Map<String, BigDecimal>> getAccrualCategoryLeaveHours(List<LeaveBlock> leaveBlocks,List<String> headers) {
-		Map<String, Map<String, BigDecimal>> accrualCategoryLeaveHours = new LinkedHashMap<String, Map<String, BigDecimal>>();
+	public Map<Date, Map<String, BigDecimal>> getAccrualCategoryLeaveHours(List<LeaveBlock> leaveBlocks, List<Date> leaveSummaryDates) {
+		Map<Date, Map<String, BigDecimal>> accrualCategoryLeaveHours = new LinkedHashMap<Date, Map<String, BigDecimal>>();
 		
-		for(String header : headers) {
-			accrualCategoryLeaveHours.put(header, new LinkedHashMap<String, BigDecimal>());
+		for (Date leaveSummaryDate : leaveSummaryDates) {
+			accrualCategoryLeaveHours.put(leaveSummaryDate, new LinkedHashMap<String, BigDecimal>());
 		}
 		
-		for(LeaveBlock lb : leaveBlocks) {
-			LocalDateTime leaveDate = (new DateTime(lb.getLeaveDate())).toLocalDateTime();
-			String dateString = leaveDate.toString(TkConstants.DT_JUST_DAY_FORMAT);
+		for (LeaveBlock lb : leaveBlocks) {
+			DateTime leaveDate = new DateTime(lb.getLeaveDate()).toLocalDate().toDateTimeAtStartOfDay();
 			
 			AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveDate());
 			if (ac != null && ac.getShowOnGrid().equals("Y")) {
-				if (accrualCategoryLeaveHours.get(dateString) != null) {
-					Map<String, BigDecimal> leaveHours = accrualCategoryLeaveHours.get(dateString);
+				if (accrualCategoryLeaveHours.get(leaveDate.toDate()) != null) {
+					Map<String, BigDecimal> leaveHours = accrualCategoryLeaveHours.get(leaveDate.toDate());
 					
 					BigDecimal amount = lb.getLeaveAmount();
 					if (leaveHours.get(ac.getAccrualCategory()) != null) {

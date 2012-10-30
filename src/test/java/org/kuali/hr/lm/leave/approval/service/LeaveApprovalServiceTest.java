@@ -16,7 +16,10 @@
 package org.kuali.hr.lm.leave.approval.service;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -32,48 +35,50 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 
 public class LeaveApprovalServiceTest extends KPMETestCase {
 	
+	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yy");
+	
 	@Test
 	public void testGetLeaveApprovalSummaryRows() {
 		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("5000");
-		List<String> headers = TkServiceLocator.getLeaveSummaryService().getHeaderForSummary(ce);
+		List<Date> leaveSummaryDates = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		List<String> ids = new ArrayList<String>();
 		ids.add("admin");
 		List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(ids);
 		
-		List<ApprovalLeaveSummaryRow> rows = TkServiceLocator.getLeaveApprovalService().getLeaveApprovalSummaryRows(persons, ce, headers);
+		List<ApprovalLeaveSummaryRow> rows = TkServiceLocator.getLeaveApprovalService().getLeaveApprovalSummaryRows(persons, ce, leaveSummaryDates);
 		Assert.assertTrue("Rows should not be empty. ", CollectionUtils.isNotEmpty(rows));
 		
 		ApprovalLeaveSummaryRow aRow = rows.get(0);
-		Map<String, Map<String, BigDecimal>> aMap = aRow.getEarnCodeLeaveHours();
+		Map<Date, Map<String, BigDecimal>> aMap = aRow.getEarnCodeLeaveHours();
 		Assert.assertTrue("Leave Approval Summary Rows should have 14 items, not " + aMap.size(), aMap.size() == 14);
 	}
 	
 	@Test
-	public void testGetEarnCodeLeaveHours() {
+	public void testGetEarnCodeLeaveHours() throws Exception {
 		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("5000");
-		List<String> headers = TkServiceLocator.getLeaveSummaryService().getHeaderForSummary(ce);
+		List<Date> leaveSummaryDates = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		
 		List<LeaveBlock> lbList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", ce.getBeginPeriodDateTime(), ce.getEndPeriodDateTime());
 		Assert.assertTrue("Leave Block list should not be empty. ", CollectionUtils.isNotEmpty(lbList));
-		Map<String, Map<String, BigDecimal>> aMap = TkServiceLocator.getLeaveApprovalService().getEarnCodeLeaveHours(lbList, headers);
+		Map<Date, Map<String, BigDecimal>> aMap = TkServiceLocator.getLeaveApprovalService().getEarnCodeLeaveHours(lbList, leaveSummaryDates);
 		
 		Assert.assertTrue("Map should have 14 entries, not " + aMap.size(), aMap.size() == 14);
-		Map<String, BigDecimal> dayMap = aMap.get("05");
+		Map<String, BigDecimal> dayMap = aMap.get(DATE_FORMAT.parse("03/05/2012"));
 		Assert.assertTrue("Map on day 03/05 should have 1 entries, not " + dayMap.size(), dayMap.size() == 1);
 		Assert.assertTrue("EC on day 03/05 should have 8 hours, not " + dayMap.get("EC6"), dayMap.get("EC6").equals(new BigDecimal(8)));
 	}
 	
 	@Test
-	public void testGetAccrualCategoryLeaveHours() {
+	public void testGetAccrualCategoryLeaveHours() throws Exception {
 		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("5000");
-		List<String> headers = TkServiceLocator.getLeaveSummaryService().getHeaderForSummary(ce);
+		List<Date> leaveSummaryDates = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		
 		List<LeaveBlock> lbList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", ce.getBeginPeriodDateTime(), ce.getEndPeriodDateTime());
 		Assert.assertTrue("Leave Block list should not be empty. ", CollectionUtils.isNotEmpty(lbList));
-		Map<String, Map<String, BigDecimal>> aMap = TkServiceLocator.getLeaveApprovalService().getAccrualCategoryLeaveHours(lbList, headers);
+		Map<Date, Map<String, BigDecimal>> aMap = TkServiceLocator.getLeaveApprovalService().getAccrualCategoryLeaveHours(lbList, leaveSummaryDates);
 		
 		Assert.assertTrue("Map should have 14 entries, not " + aMap.size(), aMap.size() == 14);
-		Map<String, BigDecimal> dayMap = aMap.get("05");
+		Map<String, BigDecimal> dayMap = aMap.get(DATE_FORMAT.parse("03/05/2012"));
 		Assert.assertTrue("Map on day 03/05 should have 1 entries, not " + dayMap.size(), dayMap.size() == 1);
 		Assert.assertTrue("testAC on day 03/05 should have 8 hours, not " + dayMap.get("testAC"), dayMap.get("testAC").equals(new BigDecimal(8)));
 	}
