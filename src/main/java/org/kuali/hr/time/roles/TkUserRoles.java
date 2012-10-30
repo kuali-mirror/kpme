@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.document.calendar.CalendarDocumentContract;
 import org.kuali.hr.job.Job;
@@ -75,12 +77,12 @@ public class TkUserRoles implements UserRoles {
 
     @Override
     public boolean isLocationAdmin() {
-        return getOrgAdminCharts().size() > 0;
+        return CollectionUtils.isNotEmpty(getOrgAdminCharts());
     }
 
     @Override
     public boolean isDepartmentAdmin() {
-        return getOrgAdminDepartments().size() > 0;
+        return CollectionUtils.isNotEmpty(getOrgAdminDepartments());
     }
 
     public String getPrincipalId() {
@@ -141,7 +143,7 @@ public class TkUserRoles implements UserRoles {
     }
 
     public boolean isDeptViewOnly() {
-        return deptViewOnlyRoles.size() > 0;
+        return MapUtils.isNotEmpty(deptViewOnlyRoles);
     }
 
     @Override
@@ -150,11 +152,11 @@ public class TkUserRoles implements UserRoles {
     }
     
 	public boolean isReviewer() {
-		return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getReviewerWorkAreas().size() > 0;
+		return CollectionUtils.isNotEmpty(TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getReviewerWorkAreas());
 	}
 
 	public boolean isApprover() {
-		return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas().size() > 0;
+		return CollectionUtils.isNotEmpty(TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas());
 	}
 
     /**
@@ -210,21 +212,21 @@ public class TkUserRoles implements UserRoles {
 
     @Override
     public boolean isActiveEmployee() {
-        return this.activeAssignmentIds.size() > 0;
+        return CollectionUtils.isNotEmpty(this.activeAssignmentIds);
     }
 
     @Override
     public boolean isTimesheetApprover() {
-        return this.isSystemAdmin() || this.approverRoles.size() > 0 || this.approverDelegateRoles.size() > 0 || this.orgAdminRolesDept.size() > 0;
+        return MapUtils.isNotEmpty(this.approverRoles) || MapUtils.isNotEmpty(this.approverDelegateRoles);
     }
 
     public boolean isTimesheetReviewer() {
-        return this.getReviewerWorkAreas().size() > 0;
+        return CollectionUtils.isNotEmpty(this.getReviewerWorkAreas());
     }
 
     @Override
     public boolean isAnyApproverActive() {
-        return this.approverRoles.size() > 0 || this.approverDelegateRoles.size() > 0;
+        return MapUtils.isNotEmpty(this.approverRoles) || MapUtils.isNotEmpty(this.approverDelegateRoles);
     }
 
 
@@ -423,7 +425,7 @@ public class TkUserRoles implements UserRoles {
     public boolean isLocationAdminForPerson(String principalId) {
         List<TkRole> roles = TkServiceLocator.getTkRoleService().getRoles(principalId, TKUtils.getCurrentDate());
 
-        if (roles.size() > 0) {
+        if (CollectionUtils.isNotEmpty(roles)) {
             for (TkRole role : roles) {
                 if (this.getOrgAdminCharts().contains(role.getChart())) {
                     return true;

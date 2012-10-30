@@ -18,11 +18,11 @@
         <li id="departmentAdmin" class="ui-state-default ui-corner-top"><a href="DepartmentAdmin.do">Department Admin</a></li>
     </c:if>
     <li id="personInfo" class="ui-state-default ui-corner-top"><a href="PersonInfo.do">Person Info</a></li>
-    <c:if test="${targetSystemAdmin || targetTimesheetApprover || targetTimesheetReviewer}">
+    <c:if test="${targetTimesheetApprover || targetTimesheetReviewer}">
         <li id="approvals" class="ui-state-default ui-corner-top"><a
                 href="TimeApproval.do?methodToCall=loadApprovalTab">Time Approval</a></li>
     </c:if>
-    <c:if test="${targetSystemAdmin || targetTimesheetApprover || targetTimesheetReviewer}">
+    <c:if test="${targetTimesheetApprover || targetTimesheetReviewer}">
     	<li id="leaveApprovals" class="ui-state-default ui-corner-top"><a
             href="LeaveApproval.do?methodToCall=loadApprovalTab">Leave Approval</a></li>
     </c:if>
