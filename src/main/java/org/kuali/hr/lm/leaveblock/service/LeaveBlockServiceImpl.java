@@ -83,7 +83,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 
     @Override
     public void deleteLeaveBlock(String leaveBlockId) {
-        LeaveBlock leaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
+        LeaveBlock leaveBlock = getLeaveBlock(leaveBlockId);
         
 //        leaveBlock.setPrincipalIdModified(TKContext.getTargetPrincipalId());
 //        leaveBlock.setTimestamp(TKUtils.getCurrentTimestamp());
@@ -140,7 +140,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         // we need to plus one day on the end date to include that date
         List<Interval> leaveBlockIntervals = TKUtils.createDaySpan(beginDate, endDate.plusDays(1), TKUtils.getSystemDateTimeZone());
         // need to use beginDate and endDate of the calendar to find all leaveBlocks since LeaveCalendarDocument Id is not always available
-        List<LeaveBlock> currentLeaveBlocks =TkServiceLocator.getLeaveBlockService().getLeaveBlocks(princpalId, calBeginDateTime.toDate(), calEndDateTime.toDate());
+        List<LeaveBlock> currentLeaveBlocks = getLeaveBlocks(princpalId, calBeginDateTime.toDate(), calEndDateTime.toDate());
     
         // use the current calendar's begin and end date to figure out if this pay period has a leaveDocument
         LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService()
@@ -160,7 +160,8 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
                     // That's why there is a two step server call to get the id. This might be changed in the future.
 
                     java.sql.Date sqlDate = new java.sql.Date(ce.getEndLocalDateTime().toDateTime().toDate().getTime());
-                    if (leaveBlockType.equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR)
+                    if ((leaveBlockType.equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR)
+                                || leaveBlockType.equals((LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR)))
                             && BigDecimal.ZERO.compareTo(hours) < 0) {
                         hours = hours.negate();
                     }
@@ -187,7 +188,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
             }
         }
 
-        TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(currentLeaveBlocks);
+        saveLeaveBlocks(currentLeaveBlocks);
     }
     
     // KPME-1447
@@ -244,13 +245,13 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 
 	public List<LeaveBlock> getLeaveBlocksForTimeCalendar(String principalId, Date beginDate, Date endDate, List<String> assignmentKeys) {
 		List<LeaveBlock> col = leaveBlockDao.getCalendarLeaveBlocks(principalId, beginDate, endDate);
-		List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().filterLeaveBlocksForTimeCalendar(col, assignmentKeys);
+		List<LeaveBlock> leaveBlocks = filterLeaveBlocksForTimeCalendar(col, assignmentKeys);
 		return leaveBlocks;
 	}
 	
 	public List<LeaveBlock> getLeaveBlocksForLeaveCalendar(String principalId, Date beginDate, Date endDate, List<String> assignmentKeys) {
 		List<LeaveBlock> col = leaveBlockDao.getLeaveBlocks(principalId, beginDate, endDate);
-		List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().filterLeaveBlocksForLeaveCalendar(col, assignmentKeys);
+		List<LeaveBlock> leaveBlocks = filterLeaveBlocksForLeaveCalendar(col, assignmentKeys);
 		return leaveBlocks;
 	}
 	

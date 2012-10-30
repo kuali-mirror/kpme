@@ -310,7 +310,7 @@ public class TimeDetailAction extends TimesheetAction {
 	private void changeLeaveBlocks(TimeDetailActionForm tdaf) {
 		
 		this.removeOldTimeBlock(tdaf);  // remove time block if tkTimeBlockId is not null
-		//TODO: currently we are not updating leave blocks from either leave calnedar or time calendar
+		//TODO: currently we are not updating leave blocks from either leave calendar or time calendar
 		// leave blocks can only be added or deleted from calendars
 		// if updating an existing leave block, delete the existing leave block first 
 //		if (tdaf.getLmLeaveBlockId() != null) {
