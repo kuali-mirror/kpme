@@ -195,7 +195,8 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     @Override
     public void updateLeaveBlock(LeaveBlock leaveBlock) {
     	//verify that if leave block is usage, leave amount is negative
-        if (LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR.equals(leaveBlock.getLeaveBlockType())
+        if ((LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR.equals(leaveBlock.getLeaveBlockType())
+                    || LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR.equals(leaveBlock.getLeaveBlockType()))
                 && BigDecimal.ZERO.compareTo(leaveBlock.getLeaveAmount()) < 0) {
             leaveBlock.setLeaveAmount(leaveBlock.getLeaveAmount().negate());
         }
