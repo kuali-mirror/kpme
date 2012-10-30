@@ -430,6 +430,13 @@ $(function () {
             }
         },
 
+        deleteLeaveBlock : function (e) {
+            var key = _(e).parseEventKey();
+            if (confirm('You are about to delete a leave block. Click OK to confirm the delete.')) {
+                window.location = "TimeDetail.do?methodToCall=deleteLeaveBlock&lmLeaveBlockId=" + key.id;
+            }
+        },
+
         tableCellMouseDown : function(e) {
             //alert(this.index);
             if ($('#docEditable').val() == 'false') {
@@ -464,7 +471,10 @@ $(function () {
             if ($('#docEditable').val() == 'false') {
                 return null;
             }
-            if (_(e).parseEventKey().action == "timeblockDelete") {
+            var eventAction = _(e).parseEventKey().action;
+            if (eventAction == "timeblockDelete"
+                 || eventAction == "lunchDelete"
+                 || eventAction == "leaveBlockDelete") {
                 return null;
             }
 
