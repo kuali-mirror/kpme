@@ -23,8 +23,10 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
+import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.service.AccrualCategoryRuleService;
+import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.lm.leave.web.LeaveCalendarWSForm;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
@@ -89,39 +91,92 @@ public class LeaveCalendarValidationService {
     		updatedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lcf.getLeaveBlockId());
     	}
     	return validateLeaveAccrualRuleMaxUsage(lcf.getLeaveSummary(), lcf.getSelectedEarnCode(), lcf.getStartDate(),
-    			lcf.getEndDate(), lcf.getLeaveAmount(), updatedLeaveBlock);
+    			lcf.getEndDate(), lcf.getLeaveAmount(), lcf.getPrincipalId(), updatedLeaveBlock);
     }
 
 	public static List<String> validateLeaveAccrualRuleMaxUsage(LeaveSummary ls, String selectedEarnCode, String leaveStartDateString,
-			String leaveEndDateString, BigDecimal leaveAmount, LeaveBlock updatedLeaveBlock) {
+			String leaveEndDateString, BigDecimal leaveAmount, String principalId, LeaveBlock updatedLeaveBlock) {
     	List<String> errors = new ArrayList<String>();
-
+    	long daysSpan = TKUtils.getDaysBetween(TKUtils.formatDateString(leaveStartDateString), TKUtils.formatDateString(leaveEndDateString));
     	if(ls != null && CollectionUtils.isNotEmpty(ls.getLeaveSummaryRows())) {
+	    	BigDecimal oldLeaveAmount = null;
+	    	boolean earnCodeChanged = false;
+    		if(updatedLeaveBlock != null) {
+    			if(!updatedLeaveBlock.getEarnCode().equals(selectedEarnCode)) {
+    				earnCodeChanged = true;
+    			}
+    			if(!updatedLeaveBlock.getLeaveAmount().equals(leaveAmount)) {
+    				oldLeaveAmount = updatedLeaveBlock.getLeaveAmount();
+    			}
+    		}
     		Date aDate = TKUtils.formatDateString(leaveEndDateString);
 	    	EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, aDate);
-    	
 	    	if(earnCodeObj != null) {
 	    		AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), aDate);
 	    		if(accrualCategory != null) {
 	    			List<LeaveSummaryRow> rows = ls.getLeaveSummaryRows();
 	    			for(LeaveSummaryRow aRow : rows) {
 	    				if(aRow.getAccrualCategory().equals(accrualCategory.getAccrualCategory())) {
+	    					//Does employee have overrides in place?
+	    					List<EmployeeOverride> employeeOverrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId,TKUtils.formatDateString(leaveEndDateString));
+	    					String leavePlan = accrualCategory.getLeavePlan();
 	    					BigDecimal maxUsage = aRow.getUsageLimit();
+	    					for(EmployeeOverride eo : employeeOverrides) {
+	    						if(eo.getLeavePlan().equals(leavePlan) && eo.getAccrualCategory().equals(aRow.getAccrualCategory())) {
+	    							if(eo.getOverrideType().equals("MU") && eo.isActive()) {
+	    								if(eo.getOverrideValue()!=null && !eo.getOverrideValue().equals(""))
+	    									maxUsage = new BigDecimal(eo.getOverrideValue());
+	    								else // no limit flag
+	    									maxUsage = null;
+	    							}
+	    						}
+	    					}
 	    					BigDecimal ytdUsage = aRow.getYtdApprovedUsage();
 	    					BigDecimal pendingLeaveBalance = aRow.getPendingLeaveRequests();
 	    					BigDecimal desiredUsage = new BigDecimal(0);
+	    					BigDecimal adjustedPendingLeaveBalance = null;
 	    					if(pendingLeaveBalance!=null) {
-	    						desiredUsage = ytdUsage.add(pendingLeaveBalance);
+	    						if(oldLeaveAmount!=null) {
+	    							BigDecimal difference = new BigDecimal(0);
+	    							// when adding a new leave block, users enter a positive value, when editing (some) existing blocks, value populates negative.
+	    							// other accrual categories/earn codes show a positive value for leave used. This may not be needed
+	    							// but is added as a security measure.
+	    							if(oldLeaveAmount.signum() <= 0)
+	    								difference = difference.add(leaveAmount.add(oldLeaveAmount));
+	    							else
+	    								difference = difference.add(leaveAmount.subtract(oldLeaveAmount));
+
+	    							if(!earnCodeChanged) {
+	    								//Adjust the pending leave balance by the difference. This takes into account leaveAmount.
+   			    						adjustedPendingLeaveBalance = pendingLeaveBalance.add(difference.multiply(new BigDecimal(daysSpan+1)));
+	    							}
+	    							else if(updatedLeaveBlock.getAccrualCategory().equals(accrualCategory.getAccrualCategory())) {
+	    								//Its possible the earn code has changed, but is still related to the same accrual category.
+   			    						adjustedPendingLeaveBalance = pendingLeaveBalance.add(difference.multiply(new BigDecimal(daysSpan+1)));
+	    							}
+	    							//otherwise there shouldn't be an adjustment to pending leave balance.
+	    						}
+	    						//what if the user changes earn code to one with the same accrual category, but does not
+	    						//change/update the leave amount?? This may pop up as a bug. In which case, the leave amount is
+	    						//already factored into the pending balance, yet adjustedPendingLeaveBalance remains null...
+	    						//so the conditional below would succeed, and leaveAmount would be factored in a second time,
+	    						//producing a max usage limit error, when in fact the employee is below that limit.
+
+	    						if(adjustedPendingLeaveBalance!=null)
+	    							desiredUsage = desiredUsage.add(adjustedPendingLeaveBalance);
+	    						else
+	    							desiredUsage = desiredUsage.add(pendingLeaveBalance);
 	    					}
-	    					for(int i=0; i <= TKUtils.getDaysBetween(TKUtils.formatDateString(leaveStartDateString), TKUtils.formatDateString(leaveEndDateString)); i++) {
-		    					desiredUsage = desiredUsage.add(leaveAmount);
-	    					}
+	    					if(adjustedPendingLeaveBalance==null) //leaveAmount has not been factored in.
+    							desiredUsage = desiredUsage.add(leaveAmount.multiply(new BigDecimal(daysSpan+1)));
+    						if(ytdUsage!=null) {
+    							desiredUsage = desiredUsage.add(ytdUsage);
+    						}
 	    					if(maxUsage!=null) {
 		    					if(desiredUsage.compareTo(maxUsage) > 0 ) {
 		    						errors.add("This leave request would exceed the usage limit for " + aRow.getAccrualCategory());
 		    					}
 	    					}
-	    					// no usage limit??
 	    				}
 	    			}
 	    		}
