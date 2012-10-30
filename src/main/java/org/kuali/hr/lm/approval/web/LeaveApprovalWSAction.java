@@ -43,7 +43,7 @@ public class LeaveApprovalWSAction extends TkAction {
     	String docId = laaf.getDocumentId();
     	LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(docId);
     	if(lcdh != null) {
-    		List<Map<String, Object>> detailMap = TkServiceLocator.getLeaveApprovalService().getLaveApprovalDetailSections(lcdh);
+    		List<Map<String, Object>> detailMap = TkServiceLocator.getLeaveApprovalService().getLeaveApprovalDetailSections(lcdh);
     		
     		String jsonString = JSONValue.toJSONString(detailMap);
     		laaf.setOutputString(jsonString);

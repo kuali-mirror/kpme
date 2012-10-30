@@ -27,7 +27,7 @@
    		
    		<c:forEach var="leaveCalLabel" items="${Form.leaveCalendarLabels}">
         	<display:column title="${leaveCalLabel}">
-        		<c:forEach var="earnCodeMap" items="${row.leaveHoursToPayLabelMap[leaveCalLabel]}" >
+        		<c:forEach var="earnCodeMap" items="${row.earnCodeLeaveHours[leaveCalLabel]}" >
         			${earnCodeMap.key}<br/>
         			${earnCodeMap.value}<br/>
         		</c:forEach>

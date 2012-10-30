@@ -43,8 +43,7 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
 	private Boolean moreThanOneCalendar = Boolean.FALSE;
 	private String lastApproveMessage;
 	private List<LeaveBlock> leaveBlockList = new ArrayList<LeaveBlock>();
-	// Key - date, value - Map with key=AccrualCategory, value = amount
-	Map<String, Map<String, BigDecimal>> leaveHoursToPayLabelMap = new HashMap<String, Map<String, BigDecimal>>();
+	private Map<String, Map<String, BigDecimal>> earnCodeLeaveHours = new HashMap<String, Map<String, BigDecimal>>();
 	
     /**
      * Is this record ready to be approved?
@@ -147,14 +146,13 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
 	}
 
 
-	public Map<String, Map<String, BigDecimal>> getLeaveHoursToPayLabelMap() {
-		return leaveHoursToPayLabelMap;
+	public Map<String, Map<String, BigDecimal>> getEarnCodeLeaveHours() {
+		return earnCodeLeaveHours;
 	}
 
 
-	public void setLeaveHoursToPayLabelMap(
-			Map<String, Map<String, BigDecimal>> leaveHoursToPayLabelMap) {
-		this.leaveHoursToPayLabelMap = leaveHoursToPayLabelMap;
+	public void setEarnCodeLeaveHours(Map<String, Map<String, BigDecimal>> earnCodeLeaveHours) {
+		this.earnCodeLeaveHours = earnCodeLeaveHours;
 	}
 
 

@@ -29,9 +29,11 @@ import org.kuali.hr.time.person.TKPerson;
 public interface LeaveApprovalService {
 	public List<ApprovalLeaveSummaryRow> getLeaveApprovalSummaryRows(List<TKPerson> persons, CalendarEntries payCalendarEntries, List<String> headers);
 	
-	public Map<String, Map<String, BigDecimal>> getLeaveHoursToPayDayMap(List<LeaveBlock> leaveBlocks,List<String> headers);
+	public Map<String, Map<String, BigDecimal>> getEarnCodeLeaveHours(List<LeaveBlock> leaveBlocks,List<String> headers);
 	
-	public List<Map<String, Object>> getLaveApprovalDetailSections(LeaveCalendarDocumentHeader lcdh);
+	public List<Map<String, Object>> getLeaveApprovalDetailSections(LeaveCalendarDocumentHeader lcdh);
+	
+	public Map<String, Map<String, BigDecimal>> getAccrualCategoryLeaveHours(List<LeaveBlock> leaveBlocks,List<String> headers);
 	
 	public List<String> getUniqueLeavePayGroups();
 

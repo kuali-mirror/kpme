@@ -44,24 +44,38 @@ public class LeaveApprovalServiceTest extends KPMETestCase {
 		Assert.assertTrue("Rows should not be empty. ", CollectionUtils.isNotEmpty(rows));
 		
 		ApprovalLeaveSummaryRow aRow = rows.get(0);
-		Map<String, Map<String, BigDecimal>> aMap = aRow.getLeaveHoursToPayLabelMap();
-		Assert.assertTrue("LeaveHoursToPayLabelMap should have 14 items, not " + aMap.size(), aMap.size() == 14);
+		Map<String, Map<String, BigDecimal>> aMap = aRow.getEarnCodeLeaveHours();
+		Assert.assertTrue("Leave Approval Summary Rows should have 14 items, not " + aMap.size(), aMap.size() == 14);
 	}
 	
 	@Test
-	public void testGetLeaveHoursToPayDayMap() {
+	public void testGetEarnCodeLeaveHours() {
 		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("5000");
 		List<String> headers = TkServiceLocator.getLeaveSummaryService().getHeaderForSummary(ce);
 		
 		List<LeaveBlock> lbList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", ce.getBeginPeriodDateTime(), ce.getEndPeriodDateTime());
 		Assert.assertTrue("Leave Block list should not be empty. ", CollectionUtils.isNotEmpty(lbList));
-		Map<String, Map<String, BigDecimal>> aMap = TkServiceLocator.getLeaveApprovalService().getLeaveHoursToPayDayMap(lbList, headers);
+		Map<String, Map<String, BigDecimal>> aMap = TkServiceLocator.getLeaveApprovalService().getEarnCodeLeaveHours(lbList, headers);
+		
+		Assert.assertTrue("Map should have 14 entries, not " + aMap.size(), aMap.size() == 14);
+		Map<String, BigDecimal> dayMap = aMap.get("05");
+		Assert.assertTrue("Map on day 03/05 should have 1 entries, not " + dayMap.size(), dayMap.size() == 1);
+		Assert.assertTrue("EC on day 03/05 should have 8 hours, not " + dayMap.get("EC6"), dayMap.get("EC6").equals(new BigDecimal(8)));
+	}
+	
+	@Test
+	public void testGetAccrualCategoryLeaveHours() {
+		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("5000");
+		List<String> headers = TkServiceLocator.getLeaveSummaryService().getHeaderForSummary(ce);
+		
+		List<LeaveBlock> lbList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", ce.getBeginPeriodDateTime(), ce.getEndPeriodDateTime());
+		Assert.assertTrue("Leave Block list should not be empty. ", CollectionUtils.isNotEmpty(lbList));
+		Map<String, Map<String, BigDecimal>> aMap = TkServiceLocator.getLeaveApprovalService().getAccrualCategoryLeaveHours(lbList, headers);
 		
 		Assert.assertTrue("Map should have 14 entries, not " + aMap.size(), aMap.size() == 14);
 		Map<String, BigDecimal> dayMap = aMap.get("05");
 		Assert.assertTrue("Map on day 03/05 should have 1 entries, not " + dayMap.size(), dayMap.size() == 1);
 		Assert.assertTrue("testAC on day 03/05 should have 8 hours, not " + dayMap.get("testAC"), dayMap.get("testAC").equals(new BigDecimal(8)));
-		
 	}
 
 }
