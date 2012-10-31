@@ -15,9 +15,14 @@
  */
 package org.kuali.hr.lm.accrualcategory.validation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
+import org.kuali.hr.lm.accrual.AccrualCategoryRule;
+import org.kuali.hr.lm.accrual.validation.AccrualCategoryValidation;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
@@ -150,6 +155,30 @@ public class AccrualCategoryValidationTest extends KPMETestCase{
 		maintPage = maintPage.getElementByName("methodToCall.route").click();
 	    HtmlUnitUtil.createTempFile(maintPage);
 	    Assert.assertTrue("page text does not contain:\n" + ERROR_LEAVE_PLAN, maintPage.asText().contains(ERROR_LEAVE_PLAN));
+	}
+	
+	@Test
+	public void testValidateAccrualRules() {
+		List<AccrualCategoryRule> accrualCategoryRules = new ArrayList<AccrualCategoryRule>();
+		AccrualCategoryRule rule1 = new AccrualCategoryRule();
+		rule1.setStart(0L);
+		rule1.setEnd(50L);
+		accrualCategoryRules.add(rule1);
+		AccrualCategoryRule rule2 = new AccrualCategoryRule();
+		rule2.setStart(60L);	// gap
+		rule2.setEnd(999L);
+		accrualCategoryRules.add(rule2);
+		
+		boolean valid = new AccrualCategoryValidation().validateAccrualRules(accrualCategoryRules);
+		Assert.assertFalse("There should be gap error", valid);
+		
+		rule2.setStart(50L);	// correct
+		valid = new AccrualCategoryValidation().validateAccrualRules(accrualCategoryRules);
+		Assert.assertTrue("There should not be any error", valid);
+		
+		rule2.setStart(45L);	//overlap
+		valid = new AccrualCategoryValidation().validateAccrualRules(accrualCategoryRules);
+		Assert.assertFalse("There should be overlap error", valid);
 	}
 	
 }

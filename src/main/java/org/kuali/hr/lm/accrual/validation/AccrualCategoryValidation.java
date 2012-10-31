@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -42,9 +43,7 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 
 		List<AccrualCategoryRule> accrualCategoryRules = accrualCategory.getAccrualCategoryRules();
 		if (accrualCategoryRules != null) {
-			
 			if (StringUtils.isNotBlank(accrualCategory.getHasRules())){
-			
 				if (accrualCategory.getHasRules().equals("N") && accrualCategoryRules.size() == 0) {
 					categoryHasRules = false; //user does not want a rule for this category
 				}else if (accrualCategory.getHasRules().equals("N") && accrualCategoryRules.size() > 0) {
@@ -153,15 +152,42 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 
 			Long previousEndUnit = sortedAccrualCategoryRules.get(sortedAccrualCategoryRules.size()-1).getEnd();
 
-			long decrementedNewRule = newAccrualCategoryRule.getStart() - 1;
-			if (!(previousEndUnit.compareTo(decrementedNewRule)==0)) {
-
+			long decrementedNewRule = newAccrualCategoryRule.getStart();
+			if (previousEndUnit.compareTo(decrementedNewRule)!=0) {
 					this.putFieldError("add.accrualCategoryRules.start", "error.accrualCategoryRule.startEnd");
 					valid = false;
 			}
 		} 
 		
 		return valid;
+	}
+	
+	/**
+	 * Validates if there's any gaps or overlaps between rules
+	 * @param accrualCategoryRules
+	 * @return
+	 */
+	public boolean validateAccrualRules(List<AccrualCategoryRule> accrualCategoryRules) {
+		if (CollectionUtils.isNotEmpty(accrualCategoryRules)) {
+			List<AccrualCategoryRule> tempAccrualCategoryRules = new ArrayList<AccrualCategoryRule>(accrualCategoryRules);
+			// rules should be added in order, sort rules list by start field just in case
+			List<AccrualCategoryRule> sortedAccrualCategoryRules = new ArrayList<AccrualCategoryRule>(tempAccrualCategoryRules);
+			Collections.sort(sortedAccrualCategoryRules, SENIORITY_ORDER);
+
+			for(int i = 0; i < sortedAccrualCategoryRules.size(); i++) {
+				AccrualCategoryRule aRule = sortedAccrualCategoryRules.get(i);
+				if(aRule != null && i > 0) {
+					AccrualCategoryRule previousRule =  sortedAccrualCategoryRules.get(i-1);
+					if(previousRule.getEnd().compareTo(aRule.getStart()) != 0) {	// overlap
+						String[] errors={previousRule.getEnd().toString(), aRule.getStart().toString()};
+						this.putFieldError("accrualCategoryRules[" + i + "].start", "error.accrualCategoryRule.overlapOrGap", errors);
+						return false;
+					}
+					previousRule = aRule;
+				}
+			}
+		}
+		return true;
 	}
 	
 	// KPME-1288. Add a flag to the AccrualCategory Rules table that indicates
@@ -235,6 +261,9 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 				valid = true;
 				valid &= this.doesCategoryHaveRules(leaveAccrualCategory);
 				valid &= this.validateAccrualRulePresent(leaveAccrualCategory.getAccrualCategoryRules());
+				if(valid && CollectionUtils.isNotEmpty(leaveAccrualCategory.getAccrualCategoryRules())) {
+					valid &= this.validateAccrualRules(leaveAccrualCategory.getAccrualCategoryRules());
+				}
 				valid &= this.validateMinPercentWorked(leaveAccrualCategory.getMinPercentWorked(), ADD_LINE_LOCATION);
 				valid &= this.validateLeavePlan(leaveAccrualCategory.getLeavePlan(), leaveAccrualCategory.getEffectiveDate());
 			}
