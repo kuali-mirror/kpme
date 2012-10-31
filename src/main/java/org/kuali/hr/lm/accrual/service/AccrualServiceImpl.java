@@ -778,6 +778,14 @@ public class AccrualServiceImpl implements AccrualService {
 			LeavePlan lp = TkServiceLocator.getLeavePlanService().getLeavePlan(phra.getLeavePlan(), asOfDate);  
 			if(lp != null && StringUtils.isNotEmpty(lp.getPlanningMonths())) {
 				Calendar aCal = Calendar.getInstance();
+				// go back a year 
+				aCal.setTime(asOfDate);
+				aCal.add(Calendar.YEAR, -1);
+				if(aCal.getActualMaximum(Calendar.DAY_OF_MONTH) < aCal.get(Calendar.DATE)) {
+					aCal.set(Calendar.DATE, aCal.getActualMaximum(Calendar.DAY_OF_MONTH));
+				}
+				Date startDate = new java.sql.Date(aCal.getTime().getTime());
+				// go forward using planning months
 				aCal.setTime(asOfDate);
 				aCal.add(Calendar.MONTH, Integer.parseInt(lp.getPlanningMonths()));
 				// max days in months differ, if the date is bigger than the max day, set it to the max day of the month
@@ -785,7 +793,7 @@ public class AccrualServiceImpl implements AccrualService {
 					aCal.set(Calendar.DATE, aCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 				}
 				Date endDate = new java.sql.Date(aCal.getTime().getTime());
-				TkServiceLocator.getLeaveAccrualService().runAccrual(principalId, asOfDate, endDate, true);
+				TkServiceLocator.getLeaveAccrualService().runAccrual(principalId, startDate, endDate, true);
 			}
 		}
 	}

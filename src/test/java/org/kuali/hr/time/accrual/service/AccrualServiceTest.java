@@ -135,19 +135,34 @@ public class AccrualServiceTest extends KPMETestCase {
 	@Test
 	/* testUser's leavePlan "testLP" has planning month of 12
 	 * after calculateFutureAccrualUsingPlanningMonth, try to get leaveBlock for 18 months in the future
-	 * should still get 12 leave blocks
+	 * should still get 12 leave blocks. The accrual service also goes back 1 year for accrual runs.
 	 */
 	public void testCalculateFutureAccrualUsingPlanningMonth() {
 		// the planning month of this leave plan is set to 12
-		Date currentDate = TKUtils.getCurrentDate();
-		TkServiceLocator.getLeaveAccrualService().calculateFutureAccrualUsingPlanningMonth(PRINCIPAL_ID, currentDate);
+		Date currentDate = TKUtils.getCurrentDate();		
+		TkServiceLocator.getLeaveAccrualService().calculateFutureAccrualUsingPlanningMonth(PRINCIPAL_ID, currentDate);		
 		Calendar aCal = Calendar.getInstance();
 		aCal.setTime(currentDate);
 		aCal.add(Calendar.MONTH, 18);
+		Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		// lookup future leave blocks up to 18 months in the future
 		List<LeaveBlock> leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(PRINCIPAL_ID, currentDate, aCal.getTime());
-		Assert.assertFalse("No leave blocks created by calculateFutureAccrualUsingPlanningMonth for princiapl id " + PRINCIPAL_ID, leaveBlockList.isEmpty());
-		Assert.assertTrue("There should be 12 leave blocks for emplyee 'testUser', not " + leaveBlockList.size(), leaveBlockList.size()== 12);
 		
+		int futureSize = 12;
+		int allSize = 17;
+		if(aCal.getActualMaximum(Calendar.DAY_OF_MONTH) == aCal.get(Calendar.DATE)) {
+			futureSize = 13;
+			allSize = 18;
+		}
+		Assert.assertFalse("No leave blocks created by calculateF?utureAccrualUsingPlanningMonth for princiapl id " + PRINCIPAL_ID, leaveBlockList.isEmpty());
+		Assert.assertTrue("There should be " + futureSize + " leave blocks for employee 'testUser', not " + leaveBlockList.size(), leaveBlockList.size()== futureSize);
+		
+		aCal.setTime(currentDate);
+		aCal.add(Calendar.MONTH, -5);
+		Date startDate = new java.sql.Date(aCal.getTime().getTime());
+		// lookup leave blocks including past and future
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(PRINCIPAL_ID, startDate, endDate);
+		Assert.assertTrue("There should be  " + allSize + " leave blocks for employee 'testUser', not " + leaveBlockList.size(), leaveBlockList.size()== allSize);
 	}
 	
 	@Test
