@@ -39,12 +39,13 @@
                         </thead>
                         <tbody>
                         <c:forEach var="note" items="${row.notes}">
+                            <jsp:setProperty name="tagSupport" property="principalId" value="${note.authorPrincipalId}"/>
                             <tr>
-                                <td>${note.noteAuthorFullName}</td>
-                                <td style="width: 30px;">${note.noteCreateDate}</td>
+                                <td>${tagSupport.principalFullName}</td>
+                                <td style="width: 30px;">${note.createDate}</td>
                                 <td>
                                     <div class="warning-note-message">
-                                            ${note.noteText}
+                                            ${note.text}
                                     </div>
                                 </td>
                             </tr>

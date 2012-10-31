@@ -15,21 +15,8 @@
  */
 package org.kuali.hr.lm.leave.approval.service;
 
-import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
-import org.joda.time.LocalDateTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -49,9 +36,12 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.note.Note;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 	public static final int DAYS_WINDOW_DELTA = 31;
@@ -70,7 +60,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		for(TKPerson aPerson : persons) {
 			String principalId = aPerson.getPrincipalId();
 			ApprovalLeaveSummaryRow aRow = new ApprovalLeaveSummaryRow();
-            List<org.kuali.rice.kew.notes.Note> notes = new ArrayList<org.kuali.rice.kew.notes.Note>();
+            List<Note> notes = new ArrayList<Note>();
 			aRow.setName(aPerson.getPrincipalName());
 			aRow.setPrincipalId(aPerson.getPrincipalId());
 			
@@ -85,12 +75,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 			if(aDoc != null) {
 				aRow.setDocumentId(aDoc.getDocumentId());
 				aRow.setApprovalStatus(TkConstants.DOC_ROUTE_STATUS.get(aDoc.getDocumentStatus()));
-                for (Note n : getNotesForDocument(aDoc.getDocumentId())) {
-                    org.kuali.rice.kew.notes.Note noteBo = org.kuali.rice.kew.notes.Note.from(n);
-                    noteBo.setNoteAuthorFullName(KimApiServiceLocator.getPersonService()
-                            .getPerson(noteBo.getNoteAuthorWorkflowId()).getName());
-                    notes.add(noteBo);
-                }
+                notes = getNotesForDocument(aDoc.getDocumentId());
 			}
 			List<LeaveCalendarDocumentHeader> docList = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getAllDelinquentDocumentHeadersForPricipalId(principalId);
 			if(docList.size() > LMConstants.DELINQUENT_LEAVE_CALENDARS_LIMIT ) {

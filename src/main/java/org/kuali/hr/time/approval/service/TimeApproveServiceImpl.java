@@ -236,7 +236,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 						person.getPrincipalId()).getDocumentId();
 			}
 			List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
-			List<org.kuali.rice.kew.notes.Note> notes = new ArrayList<org.kuali.rice.kew.notes.Note>();
+			List<Note> notes = new ArrayList<Note>();
 			List<String> warnings = new ArrayList<String>();
 
 			ApprovalTimeSummaryRow approvalSummaryRow = new ApprovalTimeSummaryRow();
@@ -250,12 +250,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			if (StringUtils.isNotBlank(documentId)) {
 				timeBlocks = TkServiceLocator.getTimeBlockService()
 						.getTimeBlocks(documentId);
-                for (Note n : getNotesForDocument(documentId)) {
-                    org.kuali.rice.kew.notes.Note noteBo = org.kuali.rice.kew.notes.Note.from(n);
-                    noteBo.setNoteAuthorFullName(KimApiServiceLocator.getPersonService()
-					    .getPerson(noteBo.getNoteAuthorWorkflowId()).getName());
-                    notes.add(noteBo);
-                }
+                notes = getNotesForDocument(documentId);
                 TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
 				warnings = TkServiceLocator.getWarningService().getWarnings(td);
 			}

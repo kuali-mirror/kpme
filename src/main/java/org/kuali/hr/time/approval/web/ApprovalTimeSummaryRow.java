@@ -29,7 +29,7 @@ import org.kuali.hr.time.timesummary.TimeSummary;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kew.notes.Note;
+import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kew.doctype.SecuritySession;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
