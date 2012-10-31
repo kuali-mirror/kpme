@@ -28,6 +28,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.doctype.SecuritySession;
+import org.kuali.rice.kew.notes.Note;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
@@ -40,7 +41,8 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
 	private List<String> warnings = new ArrayList<String>();
 	private String selected = "off";
 	private String approvalStatus;
-	
+
+    private List<Note> notes = new ArrayList<Note>();
 	private Boolean moreThanOneCalendar = Boolean.FALSE;
 	private String lastApproveMessage;
 	private List<LeaveBlock> leaveBlockList = new ArrayList<LeaveBlock>();
@@ -129,6 +131,14 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
 	public void setSelected(String selected) {
 		this.selected = selected;
 	}
+
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
+    }
 
 	public String getLastApproveMessage() {
 		return lastApproveMessage;

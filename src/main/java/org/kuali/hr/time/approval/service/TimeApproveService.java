@@ -31,6 +31,7 @@ import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.person.TKPerson;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -75,8 +76,7 @@ public interface TimeApproveService {
      * @param documentNumber
      * @return list of note objects
      */
-    @SuppressWarnings("rawtypes")
-	public List getNotesForDocument(String documentNumber);
+	public List<Note> getNotesForDocument(String documentNumber);
 
     public Map<String, BigDecimal> getHoursToPayDayMap(String principalId, Date payEndDate, List<String> payCalendarLabels, List<TimeBlock> lstTimeBlocks, Long workArea, CalendarEntries payCalendarEntries, Calendar payCalendar, DateTimeZone dateTimeZone, List<Interval> dayIntervals);
 

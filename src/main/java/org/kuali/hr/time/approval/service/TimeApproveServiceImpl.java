@@ -15,32 +15,14 @@
  */
 package org.kuali.hr.time.approval.service;
 
-import java.math.BigDecimal;
-import java.sql.Types;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.joda.time.DateMidnight;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Hours;
-import org.joda.time.Interval;
+import org.joda.time.*;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.hr.job.Job;
-import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
@@ -55,23 +37,21 @@ import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
-import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
-import org.kuali.hr.time.util.TkTimeBlockAggregate;
+import org.kuali.hr.time.util.*;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
-import org.kuali.rice.kew.notes.Note;
+import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import java.math.BigDecimal;
+import java.sql.Types;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class TimeApproveServiceImpl implements TimeApproveService {
 
@@ -256,7 +236,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 						person.getPrincipalId()).getDocumentId();
 			}
 			List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>();
-			List notes = new ArrayList();
+			List<org.kuali.rice.kew.notes.Note> notes = new ArrayList<org.kuali.rice.kew.notes.Note>();
 			List<String> warnings = new ArrayList<String>();
 
 			ApprovalTimeSummaryRow approvalSummaryRow = new ApprovalTimeSummaryRow();
@@ -270,7 +250,12 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			if (StringUtils.isNotBlank(documentId)) {
 				timeBlocks = TkServiceLocator.getTimeBlockService()
 						.getTimeBlocks(documentId);
-				notes = this.getNotesForDocument(documentId);
+                for (Note n : getNotesForDocument(documentId)) {
+                    org.kuali.rice.kew.notes.Note noteBo = org.kuali.rice.kew.notes.Note.from(n);
+                    noteBo.setNoteAuthorFullName(KimApiServiceLocator.getPersonService()
+					    .getPerson(noteBo.getNoteAuthorWorkflowId()).getName());
+                    notes.add(noteBo);
+                }
                 TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
 				warnings = TkServiceLocator.getWarningService().getWarnings(td);
 			}
@@ -618,16 +603,9 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		return false;
 	}
 
-	@SuppressWarnings("rawtypes")
-	public List getNotesForDocument(String documentNumber) {
-        List notes = KewApiServiceLocator.getNoteService().getNotes(documentNumber);
-		// add the user name in the note object
-//		for (Object obj : notes) {
-//			Note note = (Note) obj;
-//			note.setNoteAuthorFullName(KimApiServiceLocator.getPersonService()
-//					.getPerson(note.getNoteAuthorWorkflowId()).getName());
-//		}
-		return notes;
+    @Override
+	public List<Note> getNotesForDocument(String documentNumber) {
+        return KewApiServiceLocator.getNoteService().getNotes(documentNumber);
 	}
 
 	@Override

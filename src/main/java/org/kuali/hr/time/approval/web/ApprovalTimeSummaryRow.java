@@ -29,6 +29,7 @@ import org.kuali.hr.time.timesummary.TimeSummary;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.notes.Note;
 import org.kuali.rice.kew.doctype.SecuritySession;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
@@ -51,7 +52,7 @@ public class ApprovalTimeSummaryRow implements Comparable<ApprovalTimeSummaryRow
 	private Map<String,BigDecimal> hoursToPayLabelMap = new HashMap<String,BigDecimal>();
 	private String clockStatusMessage;
     private String payCalendarGroup;
-    private List notes = new ArrayList();
+    private List<Note> notes = new ArrayList<Note>();
     private List<String> warnings = new ArrayList<String>();
     private Set<String> workAreas;
     private String principalId;
@@ -182,11 +183,11 @@ public class ApprovalTimeSummaryRow implements Comparable<ApprovalTimeSummaryRow
         return link.toString();
     }
 
-    public List getNotes() {
+    public List<Note> getNotes() {
         return notes;
     }
 
-    public void setNotes(List notes) {
+    public void setNotes(List<Note> notes) {
         this.notes = notes;
     }
 

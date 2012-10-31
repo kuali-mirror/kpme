@@ -18,6 +18,41 @@
 	    </display:column>
 	    <display:column title="Document ID" sortable="true" sortName="documentId">
         	<a href="changeTargetPerson.do?${row.userTargetURLParams}&targetUrl=LeaveCalendar.do%3FdocumentId=${row.documentId}&returnUrl=LeaveApproval.do">${row.documentId}</a>
+            <c:if test="${fn:length(row.notes) > 0 }">
+                <div class="ui-state-default ui-corner-all" style="float:right;">
+                    <span id="approvals-note" class="ui-icon ui-icon-note approvals-note"></span>
+                </div>
+                <div id="approvals-note-details" class="approvals-note-details"
+                     style="display:none; float:right; margin-left: 150px;">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th colspan="3" style="font-size: 1.2em; font-weight: bold; text-align: left;">
+                                Notes :
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>Creator</th>
+                            <th>Created Date</th>
+                            <th>Content</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="note" items="${row.notes}">
+                            <tr>
+                                <td>${note.noteAuthorFullName}</td>
+                                <td style="width: 30px;">${note.noteCreateDate}</td>
+                                <td>
+                                    <div class="warning-note-message">
+                                            ${note.noteText}
+                                    </div>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </c:if>
         </display:column>
 	    <display:column title="Status" sortable="true" sortName="status">
 	        <div>

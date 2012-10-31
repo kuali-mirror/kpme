@@ -25,6 +25,7 @@ import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.approval.web.ApprovalLeaveSummaryRow;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.person.TKPerson;
+import org.kuali.rice.kew.api.note.Note;
 
 public interface LeaveApprovalService {
 	public List<ApprovalLeaveSummaryRow> getLeaveApprovalSummaryRows(List<TKPerson> persons, CalendarEntries payCalendarEntries, List<Date> leaveSummaryDates);
@@ -34,7 +35,14 @@ public interface LeaveApprovalService {
 	public List<Map<String, Object>> getLeaveApprovalDetailSections(LeaveCalendarDocumentHeader lcdh);
 	
 	public Map<Date, Map<String, BigDecimal>> getAccrualCategoryLeaveHours(List<LeaveBlock> leaveBlocks, List<Date> leaveSummaryDates);
-	
+
+    /**
+     * Used to determine if there are notes on a document
+     * @param documentNumber
+     * @return list of note objects
+     */
+    public List<Note> getNotesForDocument(String documentNumber);
+
 	public List<String> getUniqueLeavePayGroups();
 
     public List<String> getUniqueLeavePayGroupsForPrincipalIds(List<String> principalIds);
