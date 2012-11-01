@@ -29,7 +29,7 @@ import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 
 public class AccrualCategoryInquirableImplTest extends KPMETestCase {
 
-	private String INQUIRY_URL = "inquiry.do?businessObjectClassName=org.kuali.hr.lm.leaveplan.LeavePlan&lmLeavePlanId=&methodToCall=start&effectiveDate=03%2F04%2F2012&leavePlan=testLeavePlan";
+	private String INQUIRY_URL = "inquiry.do?businessObjectClassName=org.kuali.hr.lm.leaveplan.LeavePlan&lmLeavePlanId=&methodToCall=start&leavePlan=testLeavePlan&effectiveDate=03%2F04%2F2012";
 	@Test
 	public void testGetInquiryUrl() throws Exception {
 		AccrualCategory ac = new AccrualCategory();

@@ -18,6 +18,7 @@ package org.kuali.hr.core.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.krad.service.impl.ModuleServiceBase;
@@ -27,7 +28,14 @@ public class KpmeModuleService extends ModuleServiceBase {
 
     @Override
     public List<List<String>> listAlternatePrimaryKeyFieldNames(Class businessObjectInterfaceClass) {
-    	if (Task.class.isAssignableFrom(businessObjectInterfaceClass)) {
+        if (LeavePlan.class.isAssignableFrom(businessObjectInterfaceClass)) {
+            List<List<String>> retList = new ArrayList<List<String>>();
+            List<String> keyList = new ArrayList<String>();
+            keyList.add("leavePlan");
+            keyList.add("effectiveDate");
+            retList.add(keyList);
+            return retList;
+        } else if (Task.class.isAssignableFrom(businessObjectInterfaceClass)) {
             List<List<String>> retList = new ArrayList<List<String>>();
             List<String> keyList = new ArrayList<String>();
             keyList.add("task");

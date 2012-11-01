@@ -61,6 +61,8 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan"
 								p:targetName="leavePlan" />
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate"
+                                  p:targetName="effectiveDate" />
 						</list>
 					</property>
 				</bean>
@@ -70,7 +72,9 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="earnCode" p:targetName="earnCode" />
-						</list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate"
+                                  p:targetName="effectiveDate" />
+                        </list>
 					</property>
 				</bean>		
 			</list>
@@ -330,7 +334,7 @@
 					<property name="numberOfColumns" value="1" />
 					<property name="inquiryFields">
 						<list>
-							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true"/>
 							<bean parent="FieldDefinition" p:attributeName="leavePlan" />
 							<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 							<bean parent="FieldDefinition" p:attributeName="descr" />
@@ -389,7 +393,7 @@
 		<property name="lookupableID" value="accrualCategoryLookupable"></property>
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true"/>
 				<bean parent="FieldDefinition" p:attributeName="accrualCategory" />
 				<bean parent="FieldDefinition" p:attributeName="descr" />
 				<bean parent="FieldDefinition" p:attributeName="leavePlan" />
@@ -410,7 +414,7 @@
 				<bean parent="FieldDefinition" p:attributeName="unitOfTime" />
 				<bean parent="FieldDefinition" p:attributeName="minPercentWorked" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true"/>
 			</list>
 		</property>
 		<property name="title" value="AccrualCategory Lookup" />
