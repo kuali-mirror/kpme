@@ -1,0 +1,1047 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="setup" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0">    
+    <title>Setup</title>
+    <para>
+        This chapter is designed to provide simple step-by-step instructions on how to set up a KPME server intended for enterprise deployment with an
+        existing Rice server.
+    </para>
+    <para>The steps to install and setup an embedded server with KPME are:</para>
+    <orderedlist>
+        <listitem>
+            <para>Determine your expected load and storage needs and consult the Suggested Server Hardware section for guidance. Install OS.</para>
+        </listitem>
+        <listitem>
+            <para>Install &amp; configure the database management system.</para>
+        </listitem>
+        <listitem>
+            <para>Install &amp; configure required software</para>
+        </listitem>
+        <listitem>
+            <para>Install and configure Tomcat.</para>
+        </listitem>
+        <listitem>
+            <para>Install and configure KPME.</para>
+        </listitem>
+        <listitem>
+            <para>Launch KPME.</para>
+        </listitem>
+    </orderedlist>
+    <note>
+        <para>
+            Rather than install and setup as the root user on systems designed for production, you may want to create a non-privilieged user named something 
+            like 'kpme' to use for this purpose.
+        </para>
+    </note>
+    <section>
+        <title>Suggested Server Hardware</title>
+        <para>
+            Note that hardware needs may vary depending on the amount of expected load, the operating system being used, and the number of applications that 
+            are integrated with KPME. KPME is typically deployed as a client application connected to a separate Rice server, each with their own separate 
+            database deployed on separate database server from either application.
+        </para>
+        <para>The recommended minimum requirements are as follows:</para>
+        <itemizedlist>
+            <listitem>
+                <para>
+                    Two processor cores of a recent CPU architecture along with 2 GB of reserved RAM.  Minimum hardware and settings for the database should be 
+                    based on vendor recommendations, but there should be high bandwidth with low latency between the web application and database as this is a 
+                    database intensive application.
+                </para>
+            </listitem>
+            <listitem>
+                <para>
+                    At least 1 GB of heap space (-Xmx1g) and 256 MB of permanent generation space (-XX:MaxPermSize=256m) reserved for the application to start 
+                    and run. For production use, at least 2 GB of heap and 512 MB of permanent generation space are recommended.
+                </para>
+                <note>
+                    <para>
+                        Other recommended settings are -server (to improve resource utilization for long-running tasks) and -XX:+UseConcMarkSweepGC (to improve 
+                        garbage collection performance).
+                    </para>
+                </note>
+            </listitem>
+            <listitem>
+                <para>100 Mbit/s network card (gigabit preferred)</para>
+            </listitem>
+            <listitem>
+                <para>200 MB of hard disk space (for Tomcat server and web application)</para>
+                <note><para>Additional space needed if storing attachments.</para></note>
+            </listitem>
+        </itemizedlist>
+    </section>
+    <section>
+        <title>Installing and Configuring the Database Management System</title>
+        <para>
+            KPME was developed using two relational database management systems: <emphasis role="bold">MySQL</emphasis> and 
+            <emphasis role="bold">Oracle</emphasis>. The typical production install involves running the KPME application separate from the database server, 
+            however both can be run on the same machine for development purposes.
+        </para>
+        <para>KPME runs, and has been tested with the following versions:</para>
+        <itemizedlist>
+            <listitem>
+                <para>Oracle</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>Oracle Database 10g</para>
+                    </listitem>
+                    <listitem>
+                        <para>Oracle Database 11g</para>
+                    </listitem>
+                    <listitem>
+                        <para>Oracle Express Edition (XE)</para>
+                    </listitem>
+                </itemizedlist>
+                <para>Use the Oracle JDBC Driver to connect to these databases.</para>
+                <para>
+                    Ensure that the Oracle database you intend to use encodes character data in a UTF variant by default. For Oracle XE, this entails 
+                    downloading the "Universal" flavor of the binary, which uses AL32UTF8.
+                </para>
+            </listitem>
+            <listitem>
+                <para>MySQL</para>
+                <itemizedlist>
+                    <listitem>
+                        <para>MySQL 5.1.+</para>
+                    </listitem>
+                </itemizedlist>
+                <para>Use the MySQL Connector/J (5.1.+) to connect to MySQL databases.</para>
+            </listitem>
+        </itemizedlist>
+        <para>
+            You should be able to adapt KPME to other standard relational databases (e.g., Sybase, Microsoft SQL Server, DB2, etc.). However, this Installation 
+            Guide does not provide information for running KPME with these products.
+        </para>
+        <section xml:id="database_software_locations">
+            <title>Locations for Database Software</title>
+            <para>Below are locations from which Oracle and MySQL could be downloaded at the time of release of Rice ${project.version}.</para>
+            <table frame="none">
+                <title>Locations for Database Software</title>
+                <tgroup cols="2">
+                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                    <colspec colname="c2" colnum="2" colwidth="4.11*"/>
+                    <thead>
+                        <row>
+                            <entry>Software</entry>
+                            <entry>Download Location</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>Oracle Standard and Enterprise Editions</entry>
+                            <entry>
+                                <link xlink:href="http://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html">http://www.oracle.com/technetwork/database/enterprise-edition/downloads/index.html</link>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>Oracle Express Edition</entry>
+                            <entry>
+                                <link xlink:href="http://www.oracle.com/technetwork/database/express-edition/downloads/index.html">http://www.oracle.com/technetwork/database/express-edition/downloads/index.html</link>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>Oracle JDBC DB Driver</entry>
+                            <entry>
+                                <link xlink:href="http://www.oracle.com/technetwork/database/features/jdbc/index-091264.html">http://www.oracle.com/technetwork/database/features/jdbc/index-091264.html</link>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>MySQL </entry>
+                            <entry>
+                                <link xlink:href="http://www.mysql.com/downloads/">http://www.mysql.com/downloads/</link>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>MySQL Connector/J JDBC Driver</entry>
+                            <entry>
+                                <link xlink:href="http://www.mysql.com/products/connector/j/">http://www.mysql.com/products/connector/j/</link>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+        </section>
+        <section>
+            <title>MySQL Database Preparation</title>
+            <para>
+                KPME supports both MySQL and Oracle databases. However, MySQL is easier to install than Oracle and uses less machine resources so many 
+                developers prefer to use that when getting started with KPME.
+            </para>
+            <section>
+                <title>Installation</title>
+                <para>
+                    The installation steps for MySQL are going to be different for each platform.  Please download the latest version MySQL Server from the 
+                    location listed in the <link linkend="database_software_locations">Locations for Database Software</link> section of this document and 
+                    follow the installation instructions for your platform.
+                </para>
+                <note>
+                    <para>
+                        You may be required to create an account on the MySQL site in order to download the software.
+                    </para>
+                    <para>
+                        Please be sure to follow the instructions for installing MySQL on your platform very carefully. If downloading for Mac OS X, 
+                        <emphasis role="bold">be careful</emphasis> to download the appropriate version for your platform (32-bit vs. 64-bit and 10.6 vs 10.7)
+                    </para>
+                </note>
+            </section>
+            <section>
+                <title>Configuration</title>
+                <para>
+                    There are a few MySQL database configuration options that are required in order for KPME to work properly. These will need to be set in 
+                    either your <emphasis role="bold">my.cnf</emphasis> or <emphasis role="bold">my.ini</emphasis> file. The location and names of these files 
+                    will differ depending on which platform you are working on. For details on where these files can be found, see the following document:
+                </para>
+                <para>
+                    <link xlink:href="http://dev.mysql.com/doc/refman/5.1/en/option-files.html">http://dev.mysql.com/doc/refman/5.1/en/option-files.html</link>
+                </para>
+                <para>
+                    Once you have located this file, please add the following options, paying special attention to the line that needs to be commented out:
+                </para>
+                <programlisting>[mysqld]
+max_allowed_packet=20M
+transaction-isolation=READ-COMMITTED
+lower_case_table_names=1
+max_connections=1000
+innodb_locks_unsafe_for_binlog=1
+...
+# Be sure to comment this out if it's in the file!!!
+#log-bin=mysql-bin</programlisting>
+                <para>
+                    Note that the <emphasis role="bold">[mysqld]</emphasis> section may already be in your <emphasis role="bold">my.cnf</emphasis> file.  If 
+                    so, you can just add the options listed above underneath that section
+                </para>
+                <caution>
+                    <para>
+                        It is very important that you comment out <emphasis role="bold">log-bin</emphasis>.  Otherwise you will end up with some very bad 
+                        problems later!
+                    </para>
+                </caution>
+            </section>
+            <section>
+                <title>Verification</title>
+                <para>
+                    Before verifying your mysql installation you will need to ensure that MySQL is running. Some of the platform-specific packages will set 
+                    this up automatically (or allow you to install yourself in the case of Mac OS X). If MySQL is not starting automatically you can start it 
+                    using a command like the following example from Mac OS X:
+                </para>
+                <programlisting>sudo /usr/local/mysql/bin/mysqld_safe</programlisting>
+                <para>This will start the MySQL server.</para>
+                <para>To verify that you can actually connect to the server, execute the following at the command line:</para>
+                <programlisting>mysql -u root -p</programlisting>
+                <para>
+                    This should bring you to a command line client interface for the MySQL server.  Type "show databases;" and press return. You should see 
+                    output similar to the following.
+                </para>
+                <programlisting>Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 1
+Server version: 5.1.50-log MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2010, Oracle and/or its affiliates. All rights reserved.
+This software comes with ABSOLUTELY NO WARRANTY. This is free software,
+and you are welcome to modify and redistribute it under the GPL v2 license
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| test               |
++--------------------+
+3 rows in set (0.13 sec)
+
+mysql></programlisting>
+            </section>
+            <section>
+                <title>Install the JDBC Driver</title>
+                <para>
+                    KPME uses the MySQL Connector/J product as the native JDBC driver.  During installation, Maven will automatically download and install this
+                    driver, so no additional action is necessary.
+                </para>
+            </section>
+        </section>    
+        <section>
+            <title>Oracle Database Preparation</title>
+            <section>
+                <title>Installation</title>
+                <para>
+                    The installation steps for Oracle are going to be different for each platform and version of Oracle. Please download from the location 
+                    listed in the <link linkend="database_software_locations">Locations for Database Software</link> section of this document and follow the 
+                    installation instructions for your platform.
+                </para>
+                <para>
+                    To run the database completely on your local machine, we recommend installing Oracle Express (XE). Please refer to the 
+                    <link linkend="database_software_locations">Locations for Database Software</link> section of this Installation Guide to find the download 
+                    location for this software.
+                </para>
+            </section>
+            <section>
+                <title>Configuration</title>
+                <para>
+                    By default, OracleXE registers a web user interface on port 8080. This is the same port that the development version of KPME is 
+                    preconfigured to use. To avoid a port conflict, you must change the port that the OracleXE web user interface uses with the Oracle XE admin 
+                    webapp:
+                    <figure>
+                        <title>Oracle XE admin webapp</title>
+                        <mediaobject>    
+                            <imageobject>
+                                <imagedata fileref="../images/oracle_xe_admin_webapp.png"/>
+                            </imageobject>
+                        </mediaobject>
+                    </figure>
+                </para>
+                <para>
+                    If you prefer, you can use the Oracle SQL tool described here to change the OracleXE web user interface port: 
+                    <link xlink:href="http://daust.blogspot.com/2006/01/xe-changing-default-http-port.html">http://daust.blogspot.com/2006/01/xe-changing-default-http-port.html</link>
+                </para>
+                <para>
+                    Please edit your hosts file with an entry to refer to your Oracle database.  When this Installation Guide refers to the Oracle database 
+                    host server, it will be referred to in the examples as koracle.
+                </para>
+                <para>Now edit the hosts file and add this:</para>
+                <programlisting>&lt;ip address of mysql server&gt; koracle</programlisting>
+            </section>
+            <section>
+                <title>Verification</title>
+                <para>
+                    Before verifying your oracle installation you will need to ensure that Oracle is running. Some of the platform-specific packages will set 
+                    this up automatically.  If Oracle is not starting automatically you can start it using a command like the following example from Ubuntu:
+                </para>
+                <programlisting>sudo /etc/init.d/oracle start</programlisting>
+                <para>This will start the Oracle server.</para>
+                <para>To verify that you can actually connect to the server, execute the following at the command line:</para>
+                <programlisting>sqlplus</programlisting>
+                <para>
+                    This should bring you to a command line client interface for the Oracle server.
+                </para>
+                <programlisting>SQL*Plus: Release 10.2.0.1.0 - Production on Fri Nov 2 12:27:12 2012
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+
+SQL></programlisting>
+            </section>
+            <section>
+                <title>Install the JDBC Driver</title>
+                <para>KPME uses the standard Oracle JDBC driver as the native JDBC driver.</para>
+                <orderedlist>
+                    <listitem>
+                        <para>
+                            Please download this driver from the location specified in the 
+                            <link linkend="database_software_locations">Locations for Database Software</link> section of this Guide.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            If you do not already have Maven 3 installed, install it now using the instructions in the <link linkend="maven">Maven</link> 
+                            section.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Use the <link xlink:href="http://maven.apache.org/plugins/maven-install-plugin">maven-install-plugin</link> to copy ojdbc14.jar 
+                            into your local maven repository.</para>
+                        <programlisting>mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.2.0.3.0 -Dpackaging=jar -Dfile=ojdbc14.jar</programlisting>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            You should see output similar to this if the jar gets installed correctly.
+                        </para>
+                        <programlisting>[INFO] Installing ojdbc14.jar to /.m2/repository/com/oracle/ojdbc14/10.2.0.3.0/ojdbc14-10.2.0.3.0.jar</programlisting>
+                    </listitem>
+                </orderedlist>
+            </section>
+        </section>
+        <section>
+            <title>Suggested SQL Client Software</title>
+            <para>
+                To examine and test your database setup, SQL client software is useful. Any SQL client software that will connect to a MySQL or Oracle database 
+                will work. Two tools used by the development team are the MySQL Workbench and Oracle SQL Developer.
+            </para>
+            <section>
+                <title>MySQL Workbench</title>
+                <para>
+                    MySQL Workbench only works with MySQL and and can be installed to connect to any running MySQL server.  You can download and install it 
+                    from the following URL:
+                </para>
+                <para>
+	                <itemizedlist>
+	                    <listitem>
+	                        <para><link xlink:href="http://www.mysql.com/downloads/workbench/">http://www.mysql.com/downloads/workbench/</link></para>
+	                    </listitem>
+	                </itemizedlist>
+                </para>
+            </section>
+            <section>
+                <title>Oracle SQL Developer</title>
+                <para>
+                    Oracle SQL Developer is a Java-based program mainly used to connect to Oracle databases (but can connect to MySQL databases with a plugin).  
+                    You can download and install it from the following URL:
+                </para>
+                <para>
+                    <itemizedlist>
+                        <listitem>
+                            <para><link xlink:href="http://www.oracle.com/technetwork/developer-tools/sql-developer/overview/index.html">http://www.oracle.com/technetwork/developer-tools/sql-developer/overview/index.html</link></para>
+                        </listitem>
+                    </itemizedlist>
+                </para>
+            </section>
+        </section>
+    </section> 
+    <section>
+        <title>Install and Configure Required Software</title>
+        <section>
+            <title>Overview</title>
+            <para>KPME requires the following software to be setup and configured:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Sun Microsystems Java Development Kit (JDK 1.6.x)</para>
+                        <warning>
+                            <para>
+                                You must use a JDK and not a Java runtime environment (JRE); the JDK you use must be version 1.6.x. Additionally, KPME has not 
+                                been tested on JDKs other than Sun. So alternative implementations like OpenJDK should be used at your own risk.
+                            </para>
+                        </warning>
+                </listitem>
+                <listitem>
+                    <para>Maven 3</para>
+                </listitem>
+            </itemizedlist>
+        </section>
+        <section xml:id="environment_variables">
+            <title>Environment Variables</title>
+            <para>First, some environment variables need to be configured.</para>
+            <section>
+                <title>Mac OS X</title>
+                <para>
+                    Environment variables in Mac OS X can be set in a number of ways, but here we will show how to modify or create the .profile files in 
+                    your user home directory. On OS X your user home directory is typically located at /Users/&lt;username&gt;.
+                </para>
+                <para>An example .profile can be found below:</para>
+                <programlisting>M2_HOME=/usr/local/maven
+MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=768m"
+GROOVY_HOME=/usr/local/groovy
+JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/1.6/Home
+CATALINA_HOME=/usr/local/tomcat
+MYSQL_HOME=/usr/local/mysql
+    
+PATH="$ANT_HOME/bin:$M2_HOME/bin:$GROOVY_HOME/bin:$CATALINA_HOME:$MYSQL_HOME/bin:$PATH"
+export PATH ANT_HOME ANT_OPTS M2_HOME MAVEN_OPTS GROOVY_HOME JAVA_HOME CATALINA_HOME MYSQL_HOME</programlisting>
+                <note><para>It is important to export your environment variables once they are defined as the file above does.</para></note>
+            </section>
+            <section>
+                <title>Windows XP</title>
+                <para>To get to the screen where you can define environment variables on Windows XP follow these steps:</para>
+                <orderedlist>
+                    <listitem>
+                        <para>Click on the "Start" button in the bottom left-hand corner.</para>
+                    </listitem>
+                    <listitem>
+                        <para>On the resulting screen, right click on "My Computer".</para>
+                    </listitem>
+                    <listitem>
+                        <para>In the context menu, click on "Properties".</para>
+                    </listitem>
+                    <listitem>
+                        <para>This will open up the "System Properties" dialog window.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click on the "Advanced" tab.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click on the "Environment Variables" button.</para>
+                    </listitem>
+                    <listitem>
+                        <para>You will see the screen where you can edit existing environment variables or define new ones.</para>
+                    </listitem>
+                </orderedlist>
+                <note>
+                    <para>The windows command line console must be closed and reopened in order for environment variable changes to be effective.</para>
+                </note>
+            </section>
+            <section>
+                <title>Windows Vista and Windows 7</title>
+                <para>To get to the screen where you can define environment variables on Windows Vista or Windows 7 follow these steps:</para>
+                <orderedlist>
+                    <listitem>
+                        <para>Click on the "Start" button in the bottom left-hand corner.</para>
+                    </listitem>
+                    <listitem>
+                        <para>On the resulting screen, right click on "Computer".</para>
+                    </listitem>
+                    <listitem>
+                      <para>In the context menu, click on "Properties".</para>
+                    </listitem>
+                    <listitem>
+                        <para>This will open up the Control Panel "System" dialog.</para>
+                    </listitem>
+                    <listitem>
+                        <para>Click on the "Advanced system settings".</para>
+                    </listitem>
+                    <listitem>
+                        <para>In the resulting window, click on the "Environment Variables..."
+                            button.</para>
+                    </listitem>
+                    <listitem>
+                        <para>You will see the screen where you can edit existing environment variables or define new ones.</para>
+                    </listitem>
+                </orderedlist>
+                <note>
+                    <para>The windows command line console must be closed and reopened in order for environment variable changes to be effective.</para>
+                </note>
+            </section>
+        </section> 
+        <section>
+            <title>Java SDK</title>
+            <section>
+                <title>Installation</title>
+                <para>
+                    You should download and install the latest version of JDK 6. If you are on Windows, you can download it from the following URL: 
+                    <link xlink:href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">http://www.oracle.com/technetwork/java/javase/downloads/index.html</link>.
+                </para>
+                <para>
+                    If you are on a Mac, then Java 6 should alredy be installed if you are up to date with the latest updates from Apple.
+                </para>
+            </section>
+            <section>
+                <title>Configuration</title>
+                <para>
+                    You will also want to set up your <emphasis role="bold">JAVA_HOME</emphasis> environment variable to point to the installation directory of 
+                    your JDK. In both Windows and Mac environments, the <emphasis role="bold">java</emphasis> executable program should already be on your 
+                    path. But if it is not, you will want to include <emphasis role="bold">JAVA_HOME/bin</emphasis> in your 
+                    <emphasis role="bold">PATH</emphasis> environment variable.
+                </para>
+                <para>
+                    If you do not know how to do this, see the <command linkend="environment_variables">Environment Variables</command> section above for your 
+                    platform.
+                </para>
+            </section>
+            <section>
+                <title>Verification</title>
+                <para>
+                    In order to verify that your JDK has been installed successfully, open a command prompt and type the following:
+                </para>
+                <programlisting>java -version</programlisting>
+                <para>You should see output similar to the following:</para>
+                <programlisting>java version "1.6.0_26"
+Java(TM) SE Runtime Environment (build 1.6.0_26-b03-383-11A511)
+Java HotSpot(TM) 64-Bit Server VM (build 20.1-b02-383, mixed mode)</programlisting>
+                <para>
+                    If you receive an error indicating that the "java" command could not be found, please ensure that the java command is on your machine's 
+                    <emphasis role="bold">PATH</emphasis> environment variable.
+                </para>
+                <para>
+                    To prevent potential out of memory errors when running KPME, you should set your <emphasis role="bold">JAVA_OPTS</emphasis> environment to 
+                    a value like the following:
+                </para>
+                <programlisting>JAVA_OPTS="-Xmx1024m -XX:MaxPermSize=768m"</programlisting>
+                <para>
+                    If you do not know how to do this, see the <link linkend="environment_variables">Environment Variables</link> section above for your 
+                    platform.
+                </para>
+            </section>
+        </section>
+        <section xml:id="maven">
+            <title>Maven</title>
+            <para>
+                Maven is the primary build tool used by the Kuali Rice project. Maven is based on a project object model (POM) that defines various standards 
+                and conventions surrounding the organization of a project. This faciliates a set of standard build goals and lifecycle phases (such as compile, 
+                test, package, etc.).
+            </para>
+            <section>
+                <title>Installation</title>
+                <para>
+                    To download version 3 of Maven, use the following link: 
+                    <link xlink:href="http://maven.apache.org/download.html">http://maven.apache.org/download.html</link>
+                </para>
+                <para>Once you have downloaded the zip file, unzip it to a location of your choosing.</para>
+            </section>    
+            <section>
+                <title>Configuration</title>
+                <para>
+                    You will want to set your <emphasis role="bold">M2_HOME</emphasis> environement variable to point to the location where you unzipped Maven.  
+                    You will additionally want to include <emphasis role="bold">M2_HOME/bin</emphasis> in your <emphasis role="bold">PATH</emphasis> 
+                    environment variable so that maven can be executed from the command line without having to specify the full path.
+                </para>
+                <para>
+                    Finally, to prevent potential out of memory errors when compiling KPME with Maven, you should set your 
+                    <emphasis role="bold">MAVEN_OPTS</emphasis> environment to a value like the following:
+                </para>
+                <programlisting>MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=768m"</programlisting>
+                <para>
+                    If you do not know how to do this, see the <link linkend="environment_variables">Environment Variables</link> section above for your 
+                    platform.
+                </para>
+            </section>
+            <section>
+                <title>Verification</title>
+                <para>
+                    In order to verify that Maven has been installed successfully and is available on the path, open a command prompt and type the following:
+                </para>
+                <programlisting>mvn -version</programlisting>
+                <para>You should see output like the following:</para>
+                <programlisting>Apache Maven 3.0.3 (r1075438; 2011-02-28 10:31:09-0700)
+Maven home: /usr/local/maven
+Java version: 1.6.0_26, vendor: Apple Inc.
+Java home: /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home
+Default locale: en_US, platform encoding: MacRoman
+OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programlisting>
+                <para>
+                    If you receive an error indicating hat the "mvn" command could not be found, please ensure that the directory that includes the mvn 
+                    executable (<emphasis role="bold">M2_HOME/bin</emphasis>) is on your machine's <emphasis role="bold">PATH</emphasis> environment variable.
+                </para>
+            </section>
+        </section>
+        <section>
+            <title>Install and Setup Apache Tomcat</title>
+            <para>KPME ${project.version} supports the following Tomcat versions:</para>
+            <itemizedlist>
+                <listitem>
+                    <para>Tomcat 6 (Servlet API 2.5, JSP 2.1) </para>
+                </listitem>
+            </itemizedlist>
+            <para>
+                Please visit the <link xlink:href="http://tomcat.apache.org/">Apache Tomcat site</link> for information on how to install and configure Tomcat.
+            </para>
+            <para>Other servlet containers can be used with KPME, but this guide will focus on Tomcat.</para>
+        </section>
+        <section>
+            <title>Install KPME software from distribution</title>
+            <para>
+                The quickest way to get KPME installed is to download the binary distribution from the 
+                <link xlink:href="http://kuali.org/kpme/download">kuali.org download site</link>. Once downloaded, decompress the software.
+            </para>
+        </section>
+    </section>    
+    <section>
+        <title>Building the KPME Database</title>
+        <section>
+            <title>Load KPME Database</title>
+            <para>
+                The KPME database release scripts contain all the SQL commands needed to install a new schema for version ${project.version} database using 
+                Rice embedded mode with the database objects (tables, constraints, bootstrap data) for the KPME application.
+            </para>
+            <note>
+                <para>
+                    You will need to already have a working instance of a Rice ${rice.version} up and running since you will need to run sql statements against
+                    that Rice database.
+                </para>
+            </note>
+            <section>
+	            <title>Prepare a KPME MySQL Database</title>
+	            <orderedlist>
+	                <listitem>
+	                    <para>
+	                        Create a MySQL user with a username of less than 8 characters.
+	                    </para>
+	                </listitem>
+	                <listitem>
+	                    <para>
+	                        Create a MySQL default schema for the user with the default character set of UTF8.  If a different character set is desired, the 
+	                        scripts will need to be updated to the new character set.
+	                    </para>
+	                </listitem>
+	                <listitem>
+	                    <para>
+	                        Give the new MySQL user the following privileges on the schema:
+	                        <itemizedlist>
+	                            <listitem><para>SELECT</para></listitem>
+								<listitem><para>INSERT</para></listitem>
+								<listitem><para>UPDATE</para></listitem>
+								<listitem><para>DELETE</para></listitem>
+								<listitem><para>CREATE</para></listitem>
+								<listitem><para>DROP</para></listitem>
+								<listitem><para>INDEX</para></listitem>
+								<listitem><para>ALTER</para></listitem>
+								<listitem><para>CREATE_VIEW</para></listitem>
+								<listitem><para>CREATE_ROUTINE</para></listitem>
+								<listitem><para>ALTER_ROUTINE</para></listitem>
+								<listitem><para>CREATE_TMP_TABLE</para></listitem>
+								<listitem><para>LOCK_TABLES</para></listitem>
+	                        </itemizedlist>
+	                    </para>
+	                </listitem>
+	            </orderedlist>
+            </section>
+            <section>
+                <title>Prepare a KPME Oracle Database</title>
+                <orderedlist>
+                    <listitem>
+                        <para>
+                            Create an Oracle user with a username of less than 8 characters.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Give the new Oracle user the following privileges:
+                            <itemizedlist>
+                                <listitem>
+                                    <para>
+                                        DEFAULT TABLESPACE set to &lt;Users Tablespace&gt; (the intended location where the schema database structures and 
+                                        base bootstrap data are stored).
+                                    </para>
+                                </listitem>
+                                <listitem><para>QUOTA UNLIMITED set to &lt;Users Tablespace&gt;</para></listitem>
+                                <listitem><para>CREATE SESSION</para></listitem>
+                                <listitem><para>CREATE SYNONYM</para></listitem>
+                                <listitem><para>CREATE PROCEDURE</para></listitem>
+                                <listitem><para>CREATE TRIGGER</para></listitem>
+                                <listitem><para>CREATE TABLE</para></listitem>
+                                <listitem><para>CREATE TYPE</para></listitem>
+                                <listitem><para>CREATE VIEW</para></listitem>
+                                <listitem><para>CREATE SEQUENCE</para></listitem>
+                            </itemizedlist>
+                        </para>
+                        <note>
+                            <para>
+                                A user’s DEFAULT TABLESPACE is set with the CREATE USER statement or ALTER USER statement. The TABLESPACE should not be the 
+                                SYSTEM tablespace.
+                            </para>
+                        </note>
+                    </listitem>
+                </orderedlist>
+            </section>
+            <section>
+                <title>Populate the KPME Database</title>
+                <orderedlist>
+                    <listitem>
+                        <para>
+                            Change to the directory <emphasis role="bold">src/main/config/sql</emphasis>.  Go to the appropriate folder for the version of KPME 
+                            you are installing and your database type.
+                        </para>
+                    </listitem>
+                    <listitem>
+                        <para>
+                            Install the <emphasis role="bold">client.sql</emphasis> file on your KPME database and the 
+                            <emphasis role="bold">server.sql</emphasis> file on your Rice database.
+                        </para>
+                    </listitem>
+                </orderedlist>
+            </section>
+	        <section>
+	            <title>Verifying your Database Installation</title>
+	            <para>
+	               At this point, your KPME database should be successfully installed.  To verify this, log into your database and verify that tables exist.
+                </para>
+	        </section>
+        </section>
+    </section>    
+    <section>
+        <title>Configure KPME</title>
+        <section>
+            <title>Deploying the WAR file</title>
+            <orderedlist>
+                <listitem>
+                    <para>
+                        Copy the kpme-web.war file from the base directory of the distribution to the directory that contains web applications in your
+                        servlet container. For Tomcat, this is <emphasis role="bold">&lt;Tomcat-root-directory&gt;/webapps</emphasis>.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Copy the database-specific JDBC driver to the &lt;Tomcat-root-directory&gt;/lib.</para>
+                </listitem>
+                <listitem>
+                    <para>
+	                     Place <emphasis role="bold">src/main/config/local/kuali/*</emphasis> in the <emphasis role="bold">&lt;userhome&gt;/kuali</emphasis> 
+	                     directory.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Configure the <emphasis role="bold">kpme-config.xml</emphasis> file and edit parameters as desired.</para>
+                    <itemizedlist>
+                        <listitem>
+	                        <para>
+	                             You will at least need to fill in the parameters listed in the <link linkend="configuration_parameters">Parameters</link> 
+	                             section.
+	                         </para>
+                        </listitem>
+                        <listitem>
+                            <para>
+	                             Other commonly changed parameters are inherited from Rice and are normally changed to reflect the local settings for KPME: 
+	                             <emphasis role="bold">application.url</emphasis>, <emphasis role="bold">app.context.name</emphasis>, 
+	                             <emphasis role="bold">log4j.settings.path</emphasis>, <emphasis role="bold">log4j.settings.reloadInterval</emphasis>, 
+	                             <emphasis role="bold">keystore.alias</emphasis>, <emphasis role="bold">keystore.file</emphasis>, 
+	                             <emphasis role="bold">keystore.password</emphasis>, and <emphasis role="bold">encryption.key</emphasis>.  Please see the Rice
+	                             documentation for more information.
+                            </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+	            <listitem>
+	                <para>Startup Tomcat to deploy KPME.  Watch the logs to ensure that it started up successfully.</para>
+	            </listitem>
+	            <listitem>
+	                <para>
+	                     The KPME application should now be accessible at <emphasis role="bold">http://localhost:8080/kpme-dev</emphasis>.
+	                 </para>
+	            </listitem>
+	            <listitem>
+	                <para>Login as 'admin.'  Ingest the KPME KEW documents.</para>
+	                <itemizedlist>
+	                    <listitem>
+	                        <para>
+	                            Click the System Admin tab and then select XML Ingester from the Workflow pane.
+	                        </para>
+	                    </listitem>
+	                    <listitem>
+	                        <para>
+	                            Ingest all files in <emphasis role="bold">src/main/config/workflow/*</emphasis>.  Ingestion can take several minutes, 
+	                            during which time the activity indicator on your browser will just stay animated.
+	                        </para>
+	                    </listitem>
+	                </itemizedlist>
+	            </listitem>
+            </orderedlist>
+        </section>
+	    <section xml:id="configuration_parameters"> 
+	        <title>Parameters</title>
+	        <para>
+	            The tables below have the basic set of parameters for <emphasis role="bold">kpme-config.xml</emphasis> that you need to get an instance of KPME 
+	            running.  Please use these tables as a beginning reference to modify your <emphasis role="bold">kpme-config.xml</emphasis> file.
+	        </para>
+	        <table frame="none">
+                <title>Embedded Mode</title>
+                <tgroup cols="3">
+                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                    <colspec colname="c2" colnum="2" colwidth="1.55*"/>
+                    <colspec colname="c3" colnum="3" colwidth="2.34*"/>
+                    <thead>
+                        <row>
+                            <entry>Parameter</entry>
+                            <entry>Description</entry>
+                            <entry>Examples or Values</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>rice.server.url</entry>
+                            <entry>The external URL used to access the Rice instance.</entry>
+                            <entry>http://localhost:9080/kr-dev</entry>
+                        </row>
+                        <row>
+                            <entry>dev.mode</entry>
+                            <entry>Whether or not the server is running in development mode.  Use false for production.</entry>
+                            <entry>false</entry>
+                        </row>
+                        <row>
+                            <entry>kim.mode</entry>
+                            <entry>The mode that KIM is running in.  Use EMBEDDED for embedded mode.</entry>
+                            <entry>EMBEDDED</entry>
+                        </row>
+                        <row>
+                            <entry>kcb.mode</entry>
+                            <entry>The mode that KCB is running in.  Use EMBEDDED for embedded mode.</entry>
+                            <entry>EMBEDDED</entry>
+                        </row>
+                        <row>
+                            <entry>kew.mode</entry>
+                            <entry>The mode that KEW is running in.  Use EMBEDDED for embedded mode.</entry>
+                            <entry>EMBEDDED</entry>
+                        </row>
+                        <row>
+                            <entry>ken.mode</entry>
+                            <entry>The mode that KIM is running in.  Use REMOTE for embedded mode.</entry>
+                            <entry>REMOTE</entry>
+                        </row>
+                        <row>
+                            <entry>ksb.mode</entry>
+                            <entry>The mode that KSB is running in.  Use REMOTE for embedded mode.</entry>
+                            <entry>REMOTE</entry>
+                        </row>
+                        <row>
+                            <entry>kns.mode</entry>
+                            <entry>The mode that KNS is running in.  Use LOCAL even in embedded mode.</entry>
+                            <entry>LOCAL</entry>
+                        </row>
+                        <row>
+                            <entry>krms.mode</entry>
+                            <entry>The mode that KRMS is running in.  Use REMOTE for embedded mode.</entry>
+                            <entry>REMOTE</entry>
+                        </row>
+                        <row>
+                            <entry>coreservice.mode</entry>
+                            <entry>The mode that the core service is running in.  Use REMOTE for embedded mode.</entry>
+                            <entry>REMOTE</entry>
+                        </row>
+                        <row>
+                            <entry>location.mode</entry>
+                            <entry>The mode that the location module is running in.  Use REMOTE for embedded mode.</entry>
+                            <entry>REMOTE</entry>
+                        </row>
+                        <row>
+                            <entry>core.mode</entry>
+                            <entry>The mode that the core application is running in.  Use LOCAL even in embedded mode.</entry>
+                            <entry>LOCAL</entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+	        <table frame="none">
+	            <title>KPME Database</title>
+	            <tgroup cols="3">
+	                <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+	                <colspec colname="c2" colnum="2" colwidth="1.55*"/>
+	                <colspec colname="c3" colnum="3" colwidth="2.34*"/>
+	                <thead>
+	                    <row>
+	                        <entry>Parameter</entry>
+	                        <entry>Description</entry>
+	                        <entry>Examples or Values</entry>
+	                    </row>
+	                </thead>
+	                <tbody>
+	                    <row>
+	                        <entry>datasource.ojb.platform</entry>
+	                        <entry>Name of OJB platform to use for the KPME database</entry>
+	                        <entry>Oracle9i or MySQL</entry>
+	                    </row>
+	                    <row>
+	                        <entry>datasource.platform</entry>
+	                        <entry>Rice platform implementation for the KPME database</entry>
+	                        <entry>
+	                            <itemizedlist>
+	                                <listitem>
+	                                    <para>org.kuali.rice.core.database.platform.MySQLPlatform</para>
+	                                </listitem>
+	                                <listitem>
+	                                    <para>org.kuali.rice.core.database.platform.OraclePlatform</para>
+	                                </listitem>
+	                            </itemizedlist>
+	                        </entry>
+	                    </row>
+	                    <row>
+	                        <entry>datasource.driver.name</entry>
+	                        <entry>JDBC driver for the KPME database</entry>
+	                        <entry>
+	                            <itemizedlist>
+	                                <listitem>
+	                                    <para>com.mysql.jdbc.Driver</para>
+	                                </listitem>
+	                                <listitem>
+	                                    <para>oracle.jdbc.driver.OracleDriver</para>
+	                                </listitem>
+	                            </itemizedlist>
+	                        </entry>
+	                    </row>
+	                    <row>
+	                        <entry>datasource.username</entry>
+	                        <entry>User name for connecting to the KPME database</entry>
+	                        <entry/>
+	                    </row>
+	                    <row>
+	                        <entry>datasource.password</entry>
+	                        <entry>Password for connecting to the KPME database</entry>
+	                        <entry/>
+	                    </row>
+	                    <row>
+	                        <entry>datasource.url </entry>
+	                        <entry>JDBC URL of the KPME database to connect to</entry>
+	                        <entry>
+	                            <itemizedlist>
+	                                <listitem>
+                                        <para>jdbc:mysql://localhost:3306/kuldemo</para>
+                                    </listitem>
+	                                <listitem>
+	                                    <para>jdbc:oracle:thin:@localhost:1521:XE</para>
+	                                </listitem>
+	                            </itemizedlist>
+	                        </entry>
+	                    </row>
+	                </tbody>
+	            </tgroup>
+	        </table>
+	        <table frame="none">
+                <title>Rice Database</title>
+                <tgroup cols="3">
+                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                    <colspec colname="c2" colnum="2" colwidth="1.55*"/>
+                    <colspec colname="c3" colnum="3" colwidth="2.34*"/>
+                    <thead>
+                        <row>
+                            <entry>Parameter</entry>
+                            <entry>Description</entry>
+                            <entry>Examples or Values</entry>
+                        </row>
+                    </thead>
+                    <tbody>
+                        <row>
+                            <entry>server.datasource.ojb.platform</entry>
+                            <entry>Name of OJB platform to use for the Rice database</entry>
+                            <entry>Oracle9i or MySQL</entry>
+                        </row>
+                        <row>
+                            <entry>server.datasource.platform</entry>
+                            <entry>Rice platform implementation for the Rice database</entry>
+                            <entry>
+                                <itemizedlist>
+                                    <listitem>
+                                        <para>org.kuali.rice.core.database.platform.MySQLPlatform</para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>org.kuali.rice.core.database.platform.OraclePlatform</para>
+                                    </listitem>
+                                </itemizedlist>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>server.datasource.driver.name</entry>
+                            <entry>JDBC driver for the Rice database</entry>
+                            <entry>
+                                <itemizedlist>
+                                    <listitem>
+                                        <para>com.mysql.jdbc.Driver</para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>oracle.jdbc.driver.OracleDriver</para>
+                                    </listitem>
+                                </itemizedlist>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry>server.datasource.username</entry>
+                            <entry>User name for connecting to the Rice database</entry>
+                            <entry/>
+                        </row>
+                        <row>
+                            <entry>server.datasource.password</entry>
+                            <entry>Password for connecting to the Rice database</entry>
+                            <entry/>
+                        </row>
+                        <row>
+                            <entry>server.datasource.url </entry>
+                            <entry>JDBC URL of the Rice database to connect to</entry>
+                            <entry>
+                                <itemizedlist>
+                                    <listitem>
+                                        <para>jdbc:mysql://localhost:3306/kuldemo</para>
+                                    </listitem>
+                                    <listitem>
+                                        <para>jdbc:oracle:thin:@localhost:1521:XE</para>
+                                    </listitem>
+                                </itemizedlist>
+                            </entry>
+                        </row>
+                    </tbody>
+                </tgroup>
+            </table>
+	    </section>
+	</section>
+</chapter>

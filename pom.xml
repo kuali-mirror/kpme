@@ -21,6 +21,7 @@
     <groupId>org.kuali.kpme</groupId>
     <artifactId>kpme-web</artifactId>
     <version>1.5.0-SNAPSHOT</version>
+    
     <packaging>war</packaging>
     <name>Kuali People Management for the Enterprise</name>
     <description>Kuali People Management for the Enterprise (KPME) is an open-source, comprehensive HR/Payroll System built by higher education for higher education.</description>
@@ -34,6 +35,9 @@
 
     <properties>
         <build.version>NO VERSION</build.version>
+        <docbook.src>${basedir}/src/site/docbook</docbook.src>
+        <docbook.filtered>${project.build.directory}/docbook-filtered</docbook.filtered>
+        <docbook.dest>${project.build.directory}/site/reference</docbook.dest>
         <kuali.release.arguments>-DskipTests</kuali.release.arguments>
         
         <ehcache.version>2.5.0</ehcache.version>
@@ -509,10 +513,135 @@
                     <useManifestOnlyJar>false</useManifestOnlyJar>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>filter-documentation-source</id>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <phase>pre-site</phase>
+                        <configuration>
+                            <outputDirectory>${docbook.filtered}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${docbook.src}</directory>
+                                    <filtering>true</filtering>
+                                    <includes>
+					                    <include>**/*.xml</include>
+					                    <include>**/*.css</include>
+					                    <include>**/*.xsl</include>
+                                    </includes>
+                                </resource>
+                                <resource>
+                                    <directory>${docbook.src}</directory>
+                                    <filtering>false</filtering>
+                                    <excludes>
+					                    <exclude>**/*.xml</exclude>
+					                    <exclude>**/*.css</exclude>
+					                    <exclude>**/*.xsl</exclude>
+                                    </excludes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-documentation-resources</id>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <phase>pre-site</phase>
+                        <configuration>
+                            <outputDirectory>${docbook.dest}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${docbook.filtered}</directory>
+                                    <filtering>false</filtering>
+                                    <excludes>
+					                    <exclude>**/*.xml</exclude>
+					                    <exclude>**/*.xsl</exclude>
+                                    </excludes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.agilejava.docbkx</groupId>
+                <artifactId>docbkx-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>generate-html-docs</id>
+                        <goals>
+                            <goal>generate-html</goal>
+                        </goals>
+                        <phase>pre-site</phase>
+                        <configuration>
+                            <htmlStylesheet>../css/stylesheet.css</htmlStylesheet>
+                            <targetDirectory>${docbook.dest}/html</targetDirectory>
+                            <tableBordersWithCss>true</tableBordersWithCss>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-pdf-docs</id>
+                        <goals>
+                            <goal>generate-pdf</goal>
+                        </goals>
+                        <phase>pre-site</phase>
+                        <configuration>
+                            <foCustomization>${docbook.filtered}/stylesheets/fo-stylesheet.xsl</foCustomization>
+                            <targetDirectory>${docbook.dest}/pdf</targetDirectory>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-multi-page-html-docs</id>
+                        <goals>
+                            <goal>generate-html</goal>
+                        </goals>
+                        <phase>pre-site</phase>
+                        <configuration>
+                             <chunkedOutput>true</chunkedOutput>
+                                <htmlStylesheet>../../css/stylesheet.css</htmlStylesheet>
+                                <targetDirectory>${docbook.dest}/html-multi</targetDirectory>
+                                <imgSrcPath>../</imgSrcPath>
+                                <tableBordersWithCss>true</tableBordersWithCss>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
         
         <pluginManagement>
             <plugins>
+	            <plugin>
+	                <groupId>com.agilejava.docbkx</groupId>
+	                <artifactId>docbkx-maven-plugin</artifactId>
+	                <version>2.0.14</version>
+	                <configuration>
+	                    <sourceDirectory>${docbook.filtered}/books</sourceDirectory>
+	                    <xincludeSupported>true</xincludeSupported>
+	                </configuration>
+	                <dependencies>
+	                    <dependency>
+	                        <groupId>org.docbook</groupId>
+	                        <artifactId>docbook-xml</artifactId>
+	                        <version>4.4</version>
+	                        <scope>runtime</scope>
+	                    </dependency>
+	                </dependencies>
+	            </plugin>
+	            <plugin>
+                    <groupId>org.liquibase</groupId>
+                    <artifactId>liquibase-maven-plugin</artifactId>
+                    <version>2.0.5</version>
+                    <configuration>
+                        <changeLogFile>src/main/resources/db.changelog.xml</changeLogFile>
+                        <verbose>true</verbose>
+                    </configuration>
+                </plugin>
                 <plugin>
                     <groupId>org.eclipse.m2e</groupId>
                     <artifactId>lifecycle-mapping</artifactId>
@@ -551,15 +680,6 @@
                         </lifecycleMappingMetadata>
                     </configuration>
                 </plugin>
-                <plugin>
-	                <groupId>org.liquibase</groupId>
-	                <artifactId>liquibase-maven-plugin</artifactId>
-	                <version>2.0.5</version>
-	                <configuration>
-	                    <changeLogFile>src/main/resources/db.changelog.xml</changeLogFile>
-	                    <verbose>true</verbose>
-	                </configuration>
-	            </plugin>
             </plugins>
         </pluginManagement>
     </build>

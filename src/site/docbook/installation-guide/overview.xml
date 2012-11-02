@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<!--
+
+    Copyright 2005-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<chapter xml:id="overview" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Overview</title>
+    <para>
+        KPME has the potential to run on most platforms that support a Java development environment (not simply a runtime environment), a servlet container, 
+        and an Oracle or MySQL relational database management system (RDBMS).
+    </para>
+    <note>
+        <para>
+            Only platforms and configurations that have been tested and are known to work with KPME are described within this guide. Other platforms and 
+            configurations may work, but have not been tested.
+        </para>
+    </note>
+    <section>
+        <title>Suggested Operating Systems</title>
+        <para>
+            Since KPME is written in Java, it should in theory be able to run on any operating system that supports the required version of the Java 
+            runtime. However, it has been most actively tested on:
+            <itemizedlist>
+                <listitem>
+                    <para>Windows (XP and 7)</para>
+                </listitem>
+                <listitem>
+                    <para>Mac OS X (10.6 and 10.7)</para>
+                </listitem>
+                <listitem>
+                    <para>Linux (Ubuntu)</para>
+                </listitem>
+            </itemizedlist></para>
+        <para>
+            Note that while Ubuntu Linux is the distribution most frequently used for testing, other Linux distributions such as Fedora, Red Hat Enterprise 
+            Linux, CentOS, Gentoo, and others should also be able to run KPME.
+        </para>
+        <para>
+            Additionally, KPME will likely work on other Unix operating systems such as Sun Microsystems Solaris and IBM AIX, although the software has not 
+            been tested here.
+        </para>
+    </section>
+    <section>
+        <title>Obtaining the Software</title>
+        <para>
+            <orderedlist>
+                <listitem>
+                    <para>
+                        <emphasis role="bold">Download</emphasis>: The KPME software can be downloaded from 
+                        <link xlink:href="http://kuali.org/kpme/download">http://kuali.org/kpme/download</link>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <emphasis role="bold">Maven Repository</emphasis> - 
+                        <link xlink:href="http://nexus.kuali.org/content/groups/public/">http://nexus.kuali.org/content/groups/public/</link>
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>
+                        <emphasis role="bold">Subversion Repository</emphasis> - 
+                        <link xlink:href="http://svn.kuali.org/repos/kpme/tags/${project.artifactId}-${project.version}">http://svn.kuali.org/repos/kpme/tags/${project.artifactId}-${project.version}</link>
+                    </para>
+                </listitem>
+            </orderedlist>
+        </para>
+    </section>
+    <section>
+        <title>Installation Steps</title>
+        <para>
+            All KPME ${project.version} installations follow the same core steps:
+            <orderedlist>
+                <listitem>
+                    <para>Install a database and JDBC drivers. </para>
+                </listitem>
+                <listitem>
+                    <para>Install and configure a JDK and other required software.</para>
+                </listitem>
+                <listitem>
+                    <para>Create the database schema and populate it.</para>
+                </listitem>
+                <listitem>
+                    <para>Configure KPME software.</para>
+                </listitem>
+                <listitem>
+                    <para>Test the installation</para>
+                </listitem>
+            </orderedlist>
+        </para>
+        <para>
+            This Guide will provide installation instructions for the KPME server.
+        </para>
+    </section>
+</chapter>
