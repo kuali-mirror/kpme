@@ -561,12 +561,13 @@ $(function () {
         },
 
         showFieldByEarnCodeType : function () {
+  			if($("#selectedEarnCode option:selected").val() == '') {
+  				return;
+  			}
             var earnCodeType = _.getEarnCodeType(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
             var fieldSections = [".clockInSection", ".clockOutSection", ".hourSection", ".amountSection", ".leaveAmountSection"];
             var leavePlan = this.getEarnCodeLeavePlan(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
 
-            // reset values every time the earn code is changed
-            $("#startTimeHourMinute, #startTime, #endTimeHourMinute, #endTime, #hours, #amount, #leaveAmount").val("");
             if(typeof leavePlan != 'undefined' && leavePlan != '' && leavePlan != null && leavePlan != 'undefined') {  // for leave block earn codes
             	var earnCodeUnit = this.getEarnCodeUnit(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
  				if(typeof earnCodeUnit == 'undefined' || earnCodeUnit == '' || earnCodeUnit == null || earnCodeUnit == 'undefined') {
