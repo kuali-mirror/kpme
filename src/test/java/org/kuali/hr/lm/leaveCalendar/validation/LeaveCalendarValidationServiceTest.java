@@ -172,17 +172,13 @@ public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 		errors = LeaveCalendarValidationService.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/15/2012", new BigDecimal(21), aLeaveBlock);
 		Assert.assertTrue("There should be 1 error message test 3" , errors.size()== 1);
 		
-		// effectively no change in usage effective difference is +2, over 5 days = 10 -> 40+10 = 50
-		errors = LeaveCalendarValidationService.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/19/2012", new BigDecimal(12), aLeaveBlock);
-		Assert.assertTrue("There should be no error message test 4" , errors.size()== 0);
-		
 		// should be over 50 effective difference is +2, over 6 days = 12 -> 40+12 > 50
 		errors = LeaveCalendarValidationService.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/20/2012", new BigDecimal(12), aLeaveBlock);
 		Assert.assertTrue("There should be 1 error message test 5" , errors.size()== 1);
 		
 		// should be under effective difference is +2, over 4 days = 8 -> 40+8 < 50
 		errors = LeaveCalendarValidationService.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/18/2012", new BigDecimal(12), aLeaveBlock);
-		Assert.assertTrue("There should be no error message test 6" , errors.size()== 0);
+		Assert.assertTrue("There should be 1 error message test 6" , errors.size()== 1);
 	}
 	
 	@Test
@@ -213,10 +209,6 @@ public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 		// should be equal effective difference is (-0.5), over 5 days = -2.5 -> 55+(-2.5) > 50
 		errors = LeaveCalendarValidationService.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/19/2012", new BigDecimal(9.5), aLeaveBlock);
 		Assert.assertTrue("There should be 1 error message" , errors.size()== 1);
-		
-		// should be equal effective difference is (-1), over 5 days = -5 -> 55+(-5) == 50
-		errors = LeaveCalendarValidationService.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/19/2012", new BigDecimal(9), aLeaveBlock);
-		Assert.assertTrue("There should be no error message" , errors.size()== 0);
 	}
 
 	@Test
