@@ -32,6 +32,8 @@ import org.apache.struts.action.ActionMapping;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.lm.leaveSummary.LeaveSummary;
+import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationService;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
@@ -73,6 +75,13 @@ public class TimeDetailWSAction extends TimesheetAction {
     	EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument().getAsOfDate());
     	if(ec != null && ec.getLeavePlan() != null) {	// leave blocks changes
     		errors = LeaveCalendarValidationService.validateLeaveEntryDetails(tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getSpanningWeeks().equalsIgnoreCase("y"));
+
+    		//Validate leave block does not exceed max usage. Leave Calendar Validators at this point rely on a leave summary.
+    		LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), tdaf.getPayCalendarDates());
+    		LeaveBlock updatedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(tdaf.getLmLeaveBlockId());
+    		errors.addAll(LeaveCalendarValidationService.validateLeaveAccrualRuleMaxUsage(leaveSummary, tdaf.getSelectedEarnCode(), tdaf.getStartDate(),
+        			tdaf.getEndDate(), tdaf.getLeaveAmount(), updatedLeaveBlock));
+
     	} else {	// time blocks changes
     		errors = TimeDetailValidationService.validateTimeEntryDetails(tdaf);
     	}
