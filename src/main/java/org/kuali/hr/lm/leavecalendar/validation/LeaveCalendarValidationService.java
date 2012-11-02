@@ -122,36 +122,21 @@ public class LeaveCalendarValidationService {
 	    					BigDecimal ytdUsage = aRow.getYtdApprovedUsage();
 	    					BigDecimal pendingLeaveBalance = aRow.getPendingLeaveRequests();
 	    					BigDecimal desiredUsage = new BigDecimal(0);
-	    					BigDecimal adjustedPendingLeaveBalance = null;
 	    					if(pendingLeaveBalance!=null) {
 	    						if(oldLeaveAmount!=null) {
-	    							BigDecimal difference = new BigDecimal(0);
-	    							//no principal id is available, plus if there is an override
-	    							//in place for max_usage, that value should be reflected in the form
-	    							//field for usage - so need only check that value, which, if unlimited, should be blank(null).
-	    							if(oldLeaveAmount.signum() <= 0)
-	    								difference = difference.add(leaveAmount.add(oldLeaveAmount));
-	    							else
-	    								difference = difference.add(leaveAmount.subtract(oldLeaveAmount));
-
-	    							if(!earnCodeChanged) {
-   			    						adjustedPendingLeaveBalance = pendingLeaveBalance.add(difference.multiply(new BigDecimal(daysSpan+1)));
-	    							}
-	    							else if(updatedLeaveBlock.getAccrualCategory().equals(accrualCategory.getAccrualCategory())) {
-	    								//if the earn code has changed and the accrual category for that earn code is the same,
-	    								//there's no need to worry about a unit conversion between record methods.
-   			    						adjustedPendingLeaveBalance = pendingLeaveBalance.add(difference.multiply(new BigDecimal(daysSpan+1)));
+	    							
+	    							if(!earnCodeChanged || 
+	    									updatedLeaveBlock.getAccrualCategory().equals(accrualCategory.getAccrualCategory())) {
+   			    						pendingLeaveBalance = pendingLeaveBalance.subtract(oldLeaveAmount.abs());
 	    							}
 	    						}
-
-	    						if(adjustedPendingLeaveBalance!=null) //leave amount may not have changed, i.e. no adjustment necessary.
-	    							desiredUsage = desiredUsage.add(adjustedPendingLeaveBalance);
-	    						else
-	    							desiredUsage = desiredUsage.add(pendingLeaveBalance);
+ 
+    							desiredUsage = desiredUsage.add(pendingLeaveBalance);
 	    					}
-	    					if(adjustedPendingLeaveBalance==null) //leaveAmount has not been factored in.
-    							desiredUsage = desiredUsage.add(leaveAmount.multiply(new BigDecimal(daysSpan+1)));
-    						if(ytdUsage!=null) {
+   							
+	    					desiredUsage = desiredUsage.add(leaveAmount.multiply(new BigDecimal(daysSpan+1)));
+
+   							if(ytdUsage!=null) {
     							desiredUsage = desiredUsage.add(ytdUsage);
     						}
 	    					if(maxUsage!=null) {
@@ -175,9 +160,7 @@ public class LeaveCalendarValidationService {
     	}
     	return validateAvailableLeaveBalance(lcf.getLeaveSummary(), lcf.getSelectedEarnCode(), lcf.getStartDate(), lcf.getEndDate(), lcf.getLeaveAmount(), updatedLeaveBlock);
     }
-    //this validator was not taking into consideration days in a span. Its been updated to include
-    //the start date in its signature so that the leave amount can be multiplied by the days in span.
-    //It now provides an accurate check against available usage.
+
     public static List<String> validateAvailableLeaveBalance(LeaveSummary ls, String earnCode, String leaveStartDateString, String leaveEndDateString,
     		BigDecimal leaveAmount, LeaveBlock updatedLeaveBlock) {
     	List<String> errors = new ArrayList<String>();
@@ -192,22 +175,30 @@ public class LeaveCalendarValidationService {
     				oldAmount = updatedLeaveBlock.getLeaveAmount();
     			}
     		}
-    		Date aDate = TKUtils.formatDateString(leaveEndDateString);
-	    	EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, aDate);
+			Date startDate = TKUtils.formatDateString(leaveStartDateString);
+			Date endDate = TKUtils.formatDateString(leaveEndDateString);
+			long daysSpan = TKUtils.getDaysBetween(startDate,endDate);
+	    	EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, endDate);
 	    	if(earnCodeObj != null && earnCodeObj.getAllowNegativeAccrualBalance().equals("N")) {
-	    		AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), aDate);
+	    		AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), endDate);
 	    		if(accrualCategory != null) {
 	    			List<LeaveSummaryRow> rows = ls.getLeaveSummaryRows();
 	    			for(LeaveSummaryRow aRow : rows) {
 	    				if(aRow.getAccrualCategory().equals(accrualCategory.getAccrualCategory())) {
 	    					BigDecimal availableBalance = aRow.getLeaveBalance();
-	    					if(!earnCodeChanged && oldAmount != null) {
-	    						availableBalance = availableBalance.subtract(oldAmount);
-	    					}
-	    					Date startDate = TKUtils.formatDateString(leaveStartDateString);
-	    					Date endDate = TKUtils.formatDateString(leaveEndDateString);
-	    					
-	    					if(availableBalance.compareTo(leaveAmount.multiply(new BigDecimal(TKUtils.getDaysBetween(startDate,endDate)+1))) < 0 ) {
+
+							if(oldAmount!=null) {
+
+		    					if(!earnCodeChanged ||
+		    							updatedLeaveBlock.getAccrualCategory().equals(accrualCategory.getAccrualCategory())) {
+									availableBalance = availableBalance.add(oldAmount.abs());
+		    					}
+
+							}
+							//multiply by days in span in case the user has also edited the start/end dates.
+	    					BigDecimal desiredUsage = leaveAmount.multiply(new BigDecimal(daysSpan+1));
+
+	    					if(desiredUsage.compareTo(availableBalance) >  0 ) {
 	    						errors.add("Requested leave amount is greater than pending available usage.");
 	    					}
 	    				}
