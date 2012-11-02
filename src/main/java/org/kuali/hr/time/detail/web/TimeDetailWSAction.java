@@ -74,14 +74,7 @@ public class TimeDetailWSAction extends TimesheetAction {
         
     	EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument().getAsOfDate());
     	if(ec != null && ec.getLeavePlan() != null) {	// leave blocks changes
-    		errors = LeaveCalendarValidationService.validateLeaveEntryDetails(tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getSpanningWeeks().equalsIgnoreCase("y"));
-
-    		//Validate leave block does not exceed max usage. Leave Calendar Validators at this point rely on a leave summary.
-    		LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), tdaf.getPayCalendarDates());
-    		LeaveBlock updatedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(tdaf.getLmLeaveBlockId());
-    		errors.addAll(LeaveCalendarValidationService.validateLeaveAccrualRuleMaxUsage(leaveSummary, tdaf.getSelectedEarnCode(), tdaf.getStartDate(),
-        			tdaf.getEndDate(), tdaf.getLeaveAmount(), updatedLeaveBlock));
-
+    		errors = this.validateLeaveEntry(tdaf);
     	} else {	// time blocks changes
     		errors = TimeDetailValidationService.validateTimeEntryDetails(tdaf);
     	}
@@ -93,6 +86,29 @@ public class TimeDetailWSAction extends TimesheetAction {
         return mapping.findForward("ws");
     }
 
+    public List<String> validateLeaveEntry(TimeDetailActionFormBase tdaf) throws Exception {
+    	List<String> errorMsgList = new ArrayList<String>();
+    	errorMsgList = LeaveCalendarValidationService.validateLeaveEntryDetails(tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getSpanningWeeks().equalsIgnoreCase("y"));
+		if(errorMsgList.isEmpty()) {
+			if(tdaf.getPayCalendarDates() != null) {
+				LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), tdaf.getPayCalendarDates());
+				LeaveBlock lb = null;
+				if(StringUtils.isNotEmpty(tdaf.getLmLeaveBlockId())) {
+					lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(tdaf.getLmLeaveBlockId());
+				}
+				List<String> errors = LeaveCalendarValidationService.validateAvailableLeaveBalance(ls, tdaf.getSelectedEarnCode(), tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb);
+				errorMsgList.addAll(errors);
+				//Validate leave block does not exceed max usage. Leave Calendar Validators at this point rely on a leave summary.
+		        errors = LeaveCalendarValidationService.validateLeaveAccrualRuleMaxUsage(ls, tdaf.getSelectedEarnCode(), 
+		        	 tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb);
+		        errorMsgList.addAll(errors);
+				
+			}
+	     }
+		return errorMsgList;
+    }
+    
+    
     //this is an ajax call for the assignment maintenance page
     public ActionForward getDepartmentForJobNumber(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiMaintenanceForm kualiForm = (KualiMaintenanceForm) form;

@@ -115,7 +115,7 @@
 	            </div>
 	        </c:if>
 	
-	        <div id="show_${block.leaveBlockId}">${block.assignmentTitle}</div>
+	        <div id="leaveShow_${block.leaveBlockId}">${block.assignmentTitle}</div>
 	    </div>
 	    ${block.earnCode} (${block.hours})	
     </div>

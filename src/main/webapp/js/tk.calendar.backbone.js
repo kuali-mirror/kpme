@@ -76,6 +76,23 @@ $(function () {
     var timeBlockCollection = new TimeBlockCollection(timeBlockJson);
 
     /**
+     * Leave block
+     */
+        // Create a leave block model
+    LeaveBlock = Backbone.Model;
+
+
+    // Create a leave block collection that holds multiple leave blocks. This is essentially a list of hashmaps.
+    LeaveBlockCollection = Backbone.Collection.extend({
+        model : LeaveBlock
+    });
+
+    // Convert the leave block json string to a json object
+    var leaveBlockJson = jQuery.parseJSON($("#leaveBlockString").val());
+    // Cass in the json object to create a Backbone leave block collection
+    var leaveBlockCollection = new LeaveBlockCollection(leaveBlockJson);
+    
+    /**
      * Earn Code
      */
         // Create an earn code model
@@ -120,6 +137,7 @@ $(function () {
         // Check out this page for more information about the jQuery selectors : http://api.jquery.com/category/selectors/
         events : {
             "click div[id*=show]" : "showTimeBlock",
+            "click div[id*=leaveShow]" : "showLeaveBlock",	
             "click img[id^=timeblockDelete]" : "deleteTimeBlock",
             "click img[id^=lunchDelete]" : "deleteLunchDeduction",
             "click img[id^=leaveBlockDelete]" : "deleteLeaveBlock",
@@ -186,8 +204,9 @@ $(function () {
             $("#" + id.split("Hour")[0]).val(dateTime.toString(CONSTANTS.TIME_FORMAT.TIME_FOR_SYSTEM));
         },
 
+        // use leave or time block to populate the entry dialog
         showTimeEntryDialog : function (startDate, endDate, timeBlock) {
-            // check user permmissions before opening the dialog.
+            // check user permissions before opening the dialog.
             var isValid = this.checkPermissions();
 
             var self = this;
@@ -353,6 +372,36 @@ $(function () {
                     .done(this.showFieldByEarnCodeType())
                     .done(_(timeBlock).fillInForm())
                     .done(this.applyRules(timeBlock));
+        },
+        
+        showLeaveBlock : function (e) {
+            var key = _(e).parseEventKey();
+            // Retrieve the selected leaveBlock
+            var leaveBlock = leaveBlockCollection.get(key.id);
+            this.showTimeEntryDialog(leaveBlock.get("leaveDate"), leaveBlock.get("leaveDate"),leaveBlock);
+            _.replaceDialogButtonText("Add", "Update");
+
+            // Deferred is a jQuery method which makes sure things happen in the order you want.
+            // For more informaiton : http://api.jquery.com/category/deferred-object/
+            // Here we want to fire the ajax call first to grab the earn codes.
+            // After that is done, we fill out the form and make the entry field show / hide based on the earn code type.
+            var dfd = $.Deferred();
+
+            // https://uisapp2.iu.edu/jira-prd/browse/TK-1577
+            // A sync user can't change the RGH earncode on a sync timeblock but there is a special case.
+            // When the timeblock is readonly, which means the user can only change the assignment,
+            // the user should be able to _see_ the RGH earn code.
+            var isLeaveBlockReadOnly = leaveBlock.get("canEditTBAssgOnly") ? true : false;
+            // to update a leave block, should show earn codes for leave only
+			// make assignment and earn code readonly, only hours editable
+
+			$("#startDate").val(leaveBlock.get("leaveDate"));
+			$("#endDate").val(leaveBlock.get("leaveDate"));
+			dfd.done()
+				.done(this.fetchEarnCode(leaveBlock.get("assignment"), isLeaveBlockReadOnly))
+				.done($("#selectedEarnCode option[value='" + leaveBlock.get("earnCode") + "']").attr("selected", "selected"))
+				.done(this.showFieldByEarnCodeType())
+				.done(_(leaveBlock).leaveBlockFillInForm());
         },
         /**
          * Check user permissions.
@@ -646,7 +695,6 @@ $(function () {
                 params['endTime'] = $('#endTime').val();
                 params['hours'] = $('#hours').val();
                 params['amount'] = $('#amount').val();
-                params['leaveAmount'] = $('#leaveAmount').val();
                 params['selectedAssignment'] = _.getSelectedAssignmentValue();
                 params['selectedEarnCode'] = $('#selectedEarnCode option:selected').val();
                 if ($("#overtimePref") != undefined) {
@@ -656,6 +704,10 @@ $(function () {
                 params['spanningWeeks'] = $('#spanningWeeks').is(':checked') ? 'y' : 'n'; // KPME-1446
                 params['tkTimeBlockId'] = $('#tkTimeBlockId').val();
 
+                // leave block parameters
+                params['lmLeaveBlockId'] = $('#lmLeaveBlockId').val();
+                params['leaveAmount'] = $('#leaveAmount').val();
+                
                 // validate timeblocks
                 $.ajax({
                     async : false,
@@ -965,6 +1017,13 @@ $(function () {
             }
 
         },
+        leaveBlockFillInForm : function (leaveBlock) {
+            $("#selectedAssignment option[value='" + leaveBlock.get("assignment") + "']").attr("selected", "selected");
+            $("#selectedEarnCode option[value='" + leaveBlock.get("earnCode") + "']").attr("selected", "selected");
+            $('#lmLeaveBlockId').val(leaveBlock.get("lmLeaveBlockId"));
+            $('#leaveAmount').val(leaveBlock.get("leaveAmount"));
+        },
+        
         /**
          * This method takes an earn code json, find the matched earn code, and returns the earn code type.
          * @param earnCodeJson

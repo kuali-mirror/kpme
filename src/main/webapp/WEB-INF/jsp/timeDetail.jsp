@@ -57,9 +57,11 @@
         </c:forEach>
          -->
 
-            <%-- this is used by the javascript to fetch the time block json --%>
+        <%-- this is used by the javascript to fetch the time block json --%>
         <html:textarea property="timeBlockString" styleId="timeBlockString" value="${Form.timeBlockString}"/>
-
+        
+        <%-- this is used by the javascript to fetch the leave block json --%>
+		<html:textarea property="leaveBlockString" styleId="leaveBlockString" value="${Form.leaveBlockString}"/>
             <%-- render the calendar --%>
         <tk:calendar cal="${Form.tkCalendar}" docId="${Form.documentId}" calType="payCalendar"/>
 
@@ -88,6 +90,7 @@
                 <html:hidden property="documentId" value="${Form.documentId}" styleId="documentId"/>
                 <html:hidden property="tkTimeBlockId" value="" styleId="tkTimeBlockId"/>
                 <html:hidden property="lunchDeleted" value="" styleId="lunchDeleted"/>
+                <html:hidden property="lmLeaveBlockId" value="" styleId="lmLeaveBlockId"/>
 
                 <div class="ui-widget timesheet-panel" id="timesheet-panel">
                     <table>

@@ -268,11 +268,20 @@ public class TimeDetailAction extends TimesheetAction {
     /**
      * This method involves creating an object-copy of every TimeBlock on the
      * time sheet for overtime re-calculation.
+     * Based on the form's timeBlockId or leaveBlockId, existing Time/Leave blocks will be deleted and new ones created
      *
      * @throws Exception
      */
     public ActionForward addTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
+        
+        if(StringUtils.isNotEmpty(tdaf.getTkTimeBlockId())) {
+        	// the user is changing an existing time block, so need to delete this time block
+        	this.removeOldTimeBlock(tdaf);
+        } else if(StringUtils.isNotEmpty(tdaf.getLmLeaveBlockId())) {
+        	// the user is changing an existing leave block, so need to delete this leave block
+        	this.removeOldLeaveBlock(tdaf.getLmLeaveBlockId());
+        }
         if(StringUtils.isNotEmpty(tdaf.getSelectedEarnCode())) {
         	EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument().getAsOfDate());
         	if(ec != null && ec.getLeavePlan() != null) {	// leave blocks changes
@@ -305,21 +314,17 @@ public class TimeDetailAction extends TimesheetAction {
 	  }
     }
     
+    private void removeOldLeaveBlock(String lbId) {
+  	  if (lbId != null) {
+  	      LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lbId);
+  	      if (lb != null) {
+  	          TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(lbId);
+  	      }
+  	  }
+    }
     
     // add/update leave blocks 
 	private void changeLeaveBlocks(TimeDetailActionForm tdaf) {
-		
-		this.removeOldTimeBlock(tdaf);  // remove time block if tkTimeBlockId is not null
-		//TODO: currently we are not updating leave blocks from either leave calendar or time calendar
-		// leave blocks can only be added or deleted from calendars
-		// if updating an existing leave block, delete the existing leave block first 
-//		if (tdaf.getLmLeaveBlockId() != null) {
-//			LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(Long.getLong(tdaf.getLmLeaveBlockId()));
-//			if (lb != null) {
-//                TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(Long.getLong(tdaf.getLmLeaveBlockId()));
-//            }
-//		}
-		
 		DateTime beginDate = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getStartDate()));
 		DateTime endDate = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getEndDate()));
 		String selectedEarnCode = tdaf.getSelectedEarnCode();
@@ -345,7 +350,8 @@ public class TimeDetailAction extends TimesheetAction {
                 overtimeBeginTimestamp = tb.getBeginTimestamp();
                 overtimeEndTimestamp = tb.getEndTimestamp();
             }
-            this.removeOldTimeBlock(tdaf);
+            // old time block is deleted from addTimeBlock method
+            // this.removeOldTimeBlock(tdaf);
         }
 
         Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(tdaf.getTimesheetDocument(), tdaf.getSelectedAssignment());

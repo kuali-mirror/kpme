@@ -15,9 +15,12 @@
  */
 package org.kuali.hr.time.util;
 
+import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -61,6 +64,25 @@ public class ActionFormUtilsTest extends KPMETestCase {
 		earnCode = TkServiceLocator.getEarnCodeService().getEarnCodeById("5002");
 		unitOfTime = ActionFormUtils.getUnitOfTimeForEarnCode(earnCode);
 		Assert.assertTrue("Unit of Time should be 'H', not " + unitOfTime, unitOfTime.equals("H"));
+		
+	}
+	
+	@Test
+	public void testGetLeaveBlocksJson() {
+		List<LeaveBlock> lbList = new ArrayList<LeaveBlock>();
+		LeaveBlock lb = new LeaveBlock();
+		lb.setAssignmentTitle("testAssignment");
+		lb.setAssignmentKey("0-123-0");
+		lb.setEarnCode("EarnCode");
+		lb.setLmLeaveBlockId("1111");
+		lb.setLeaveAmount(new BigDecimal(3));
+		lb.setLeaveDate(new Date((new DateTime(2012, 2, 20, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis()));	
+		lbList.add(lb);
+		
+		String jsonString = ActionFormUtils.getLeaveBlocksJson(lbList);
+		String expectedString = "[{\"title\":\"\",\"assignment\":\"0-123-0\",\"earnCode\":\"EarnCode\",\"lmLeaveBlockId\":\"1111\",\"leaveAmount\":\"3\",\"leaveDate\":\"02\\/20\\/2012\",\"id\":\"1111\"}]";
+		Assert.assertTrue("Leave Block Json should include assignment", jsonString.equals(expectedString));
+		
 		
 	}
 	

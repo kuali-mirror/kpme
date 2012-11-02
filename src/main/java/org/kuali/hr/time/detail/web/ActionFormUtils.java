@@ -272,8 +272,14 @@ public class ActionFormUtils {
         for (LeaveBlock leaveBlock : leaveBlocks) {
         	Map<String, Object> leaveBlockMap = new LinkedHashMap<String, Object>();
         	leaveBlockMap.put("title", leaveBlock.getAssignmentTitle());
+        	leaveBlockMap.put("assignment", leaveBlock.getAssignmentKey());
         	leaveBlockMap.put("earnCode", leaveBlock.getEarnCode());
         	leaveBlockMap.put("lmLeaveBlockId", leaveBlock.getLmLeaveBlockId());
+        	leaveBlockMap.put("leaveAmount", leaveBlock.getLeaveAmount().toString());
+        	DateTime leaveDate = new DateTime(leaveBlock.getLeaveDate());
+        	leaveBlockMap.put("leaveDate", leaveDate.toString(TkConstants.DT_BASIC_DATE_FORMAT));
+        	leaveBlockMap.put("id", leaveBlock.getLmLeaveBlockId());
+        	
         	
         	leaveBlockList.add(leaveBlockMap);
         }
