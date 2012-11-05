@@ -93,9 +93,7 @@ public class LeaveCalendarWorkflowIntegrationTest extends LeaveCalendarWebTestBa
         // Build an action form - we're using it as a POJO, it ties into the
         // existing TK validation setup
         LeaveCalendarWSForm tdaf = (LeaveCalendarWSForm)LeaveCalendarTestUtils.buildLeaveCalendarForm(tdoc, assignment, earnCode, start, end, null, true);
-        List<String> errors = LeaveCalendarTestUtils.setTimeBlockFormDetails(form, tdaf);
-        // Check for errors
-        Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
+        LeaveCalendarTestUtils.setTimeBlockFormDetails(form, tdaf);
 
         page = LeaveCalendarTestUtils.submitLeaveCalendar(getLeaveCalendarUrl(tdocId), tdaf);
         Assert.assertNotNull(page);

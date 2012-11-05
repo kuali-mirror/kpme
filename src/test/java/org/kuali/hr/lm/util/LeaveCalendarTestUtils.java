@@ -113,35 +113,25 @@ public class LeaveCalendarTestUtils {
      *
      * @param form The HtmlForm to populate.
      * @param tdaf The ActionForm with values we will use to populate.
-     *
-     * @return A list of string error messages from the validation call.
      */
-    public static List<String> setTimeBlockFormDetails(HtmlForm form, LeaveCalendarWSForm tdaf) {
-        // Validation -- the same call the WS makes. (should already be valid...)
-        List<String> errors = LeaveCalendarValidationService.validateLaveEntryDetails(tdaf);
+    public static void setTimeBlockFormDetails(HtmlForm form, LeaveCalendarWSForm tdaf) {
+        //if (tdaf.getTkTimeBlockId() != null) {
+        //    form.setAttribute("tkTimeBlockId", tdaf.getTkTimeBlockId().toString());
+        //}
+        form.setAttribute("startDate", tdaf.getStartDate());
+        form.setAttribute("endDate", tdaf.getEndDate());
 
-        // If validation passes, we can add the time block.
-        if (errors.size() == 0) {
-            //if (tdaf.getTkTimeBlockId() != null) {
-            //    form.setAttribute("tkTimeBlockId", tdaf.getTkTimeBlockId().toString());
-            //}
+        if (tdaf.getLeaveAmount() != null) {
+            form.setAttribute("leaveAmount", tdaf.getLeaveAmount().toString());
+        } else {
             form.setAttribute("startDate", tdaf.getStartDate());
             form.setAttribute("endDate", tdaf.getEndDate());
-
-            if (tdaf.getLeaveAmount() != null) {
-                form.setAttribute("leaveAmount", tdaf.getLeaveAmount().toString());
-            } else {
-                form.setAttribute("startDate", tdaf.getStartDate());
-                form.setAttribute("endDate", tdaf.getEndDate());
-            }
-
-            form.setAttribute("selectedEarnCode", tdaf.getSelectedEarnCode());
-            form.setAttribute("selectedAssignment", tdaf.getSelectedAssignment());
-            //form.setAttribute("acrossDays", tdaf.getAcrossDays());
-            form.setAttribute("methodToCall", tdaf.getMethodToCall());
         }
 
-        return errors;
+        form.setAttribute("selectedEarnCode", tdaf.getSelectedEarnCode());
+        form.setAttribute("selectedAssignment", tdaf.getSelectedAssignment());
+        //form.setAttribute("acrossDays", tdaf.getAcrossDays());
+        form.setAttribute("methodToCall", tdaf.getMethodToCall());
     }
 
     /**

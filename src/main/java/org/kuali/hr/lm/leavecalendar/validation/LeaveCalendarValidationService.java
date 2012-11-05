@@ -39,50 +39,6 @@ import org.kuali.hr.time.util.TKUtils;
 import com.google.common.base.Predicate;
 
 public class LeaveCalendarValidationService {
-
-    /**
-     * Convenience method for handling validation directly from the form object.
-     * @param tdaf The populated form.
-     *
-     * @return A list of error strings.
-     */
-    public static List<String> validateLaveEntryDetails(LeaveCalendarWSForm lcf) {
-        return LeaveCalendarValidationService.validateLeaveEntryDetails(
-        		lcf.getStartDate(), lcf.getEndDate(), lcf.getSpanningWeeks().equalsIgnoreCase("y")
-        );
-    }
-
-    public static List<String> validateLeaveEntryDetails(String startDateS, String endDateS, boolean spanningWeeks) {
-        List<String> errors = new ArrayList<String>();
-        DateTime startTemp = new DateTime(TKUtils.convertDateStringToTimestamp(startDateS, "00:00:00"));
-        DateTime endTemp = new DateTime(TKUtils.convertDateStringToTimestamp(endDateS, "00:00:00"));
-                
-        // KPME-1446 
-        // -------------------------------
-        // check if there is a weekend day when the include weekends flag is checked
-        //--------------------------------
-        errors.addAll(validateSpanningWeeks(spanningWeeks, startTemp, endTemp));
-        if (errors.size() > 0) return errors;
-
-        return errors;
-    }
-
-    public static List<String> validateSpanningWeeks(boolean spanningWeeks, DateTime startTemp, DateTime endTemp) {
-    	List<String> errors = new ArrayList<String>();
-    	boolean valid = true;
-    	
-        while ((startTemp.isBefore(endTemp) || startTemp.isEqual(endTemp)) && valid) {
-        	if (!spanningWeeks && 
-        		(startTemp.getDayOfWeek() == DateTimeConstants.SATURDAY || startTemp.getDayOfWeek() == DateTimeConstants.SUNDAY)) {
-        		valid = false;
-        	}
-        	startTemp = startTemp.plusDays(1);
-        }
-        if (!valid) {
-        	errors.add("Weekend day is selected, but include weekends checkbox is not checked");
-        }
-    	return errors;
-    }
     
     //begin KPME-1263
     public static List<String> validateLeaveAccrualRuleMaxUsage(LeaveCalendarWSForm lcf) {

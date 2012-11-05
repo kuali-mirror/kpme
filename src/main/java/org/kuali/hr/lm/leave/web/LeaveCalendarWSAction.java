@@ -108,7 +108,6 @@ public class LeaveCalendarWSAction extends TkAction {
 
         
     public ActionForward getEarnCodeInfo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	//System.out.println("Leave code info called >>>>>>>>>>>>>>>");
     	LeaveCalendarWSForm lcf = (LeaveCalendarWSForm) form;
         LOG.info(lcf.toString());
         EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCodeById(lcf.getSelectedEarnCode());
@@ -173,22 +172,15 @@ public class LeaveCalendarWSAction extends TkAction {
     @SuppressWarnings("unchecked")
     public ActionForward validateLeaveEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	LeaveCalendarWSForm lcf = (LeaveCalendarWSForm) form;
-        JSONArray errorMsgList = new JSONArray();
+    	JSONArray errorMsgList = new JSONArray();
 
-        List<String> errors = LeaveCalendarValidationService.validateLaveEntryDetails(lcf);
-        errorMsgList.addAll(errors);
-
-        if(errors.isEmpty()) {
-        	if(lcf.getLeaveSummary() == null && lcf.getCalendarEntry() != null) {
-        		LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), lcf.getCalendarEntry());
-    		    lcf.setLeaveSummary(ls);
-        	}
-        	errors = LeaveCalendarValidationService.validateAvailableLeaveBalance(lcf);
-        	errorMsgList.addAll(errors);
-        	//KPME-1263
-            errors = LeaveCalendarValidationService.validateLeaveAccrualRuleMaxUsage(lcf);
-            errorMsgList.addAll(errors);
-        }
+    	if(lcf.getLeaveSummary() == null && lcf.getCalendarEntry() != null) {
+    		LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), lcf.getCalendarEntry());
+		    lcf.setLeaveSummary(ls);
+    	}
+    	errorMsgList.addAll(LeaveCalendarValidationService.validateAvailableLeaveBalance(lcf));
+    	//KPME-1263
+        errorMsgList.addAll(LeaveCalendarValidationService.validateLeaveAccrualRuleMaxUsage(lcf));
 
         lcf.setOutputString(JSONValue.toJSONString(errorMsgList));
         

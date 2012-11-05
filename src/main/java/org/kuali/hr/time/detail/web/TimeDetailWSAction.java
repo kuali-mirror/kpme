@@ -88,23 +88,18 @@ public class TimeDetailWSAction extends TimesheetAction {
 
     public List<String> validateLeaveEntry(TimeDetailActionFormBase tdaf) throws Exception {
     	List<String> errorMsgList = new ArrayList<String>();
-    	errorMsgList = LeaveCalendarValidationService.validateLeaveEntryDetails(tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getSpanningWeeks().equalsIgnoreCase("y"));
-		if(errorMsgList.isEmpty()) {
-			if(tdaf.getPayCalendarDates() != null) {
-				LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), tdaf.getPayCalendarDates());
-				LeaveBlock lb = null;
-				if(StringUtils.isNotEmpty(tdaf.getLmLeaveBlockId())) {
-					lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(tdaf.getLmLeaveBlockId());
-				}
-				List<String> errors = LeaveCalendarValidationService.validateAvailableLeaveBalance(ls, tdaf.getSelectedEarnCode(), tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb);
-				errorMsgList.addAll(errors);
-				//Validate leave block does not exceed max usage. Leave Calendar Validators at this point rely on a leave summary.
-		        errors = LeaveCalendarValidationService.validateLeaveAccrualRuleMaxUsage(ls, tdaf.getSelectedEarnCode(), 
-		        	 tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb);
-		        errorMsgList.addAll(errors);
-				
+    	if(tdaf.getPayCalendarDates() != null) {
+			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), tdaf.getPayCalendarDates());
+			LeaveBlock lb = null;
+			if(StringUtils.isNotEmpty(tdaf.getLmLeaveBlockId())) {
+				lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(tdaf.getLmLeaveBlockId());
 			}
-	     }
+			errorMsgList.addAll(LeaveCalendarValidationService.validateAvailableLeaveBalance(ls, tdaf.getSelectedEarnCode(), 
+					tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
+			//Validate leave block does not exceed max usage. Leave Calendar Validators at this point rely on a leave summary.
+	        errorMsgList.addAll(LeaveCalendarValidationService.validateLeaveAccrualRuleMaxUsage(ls, tdaf.getSelectedEarnCode(), 
+	        		tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
+		}
 		return errorMsgList;
     }
     

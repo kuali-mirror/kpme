@@ -240,7 +240,19 @@ $(function () {
                             }
                         }
                         //May need a third condition to check if this method was triggered by shortcut.
-
+                        
+                        var startSpanDate = Date.parse($("#startDate").val()).clearTime();
+                        var endSpanDate = Date.parse($("#endDate").val()).clearTime();
+                        var spanningWeeks = false;
+                        for (var currentSpanDate = startSpanDate; currentSpanDate.isBefore(endSpanDate) || currentSpanDate.equals(endSpanDate); currentSpanDate.addDays(1)) {
+                            if (currentSpanDate.is().saturday() || currentSpanDate.is().sunday()) {
+                               spanningWeeks = true;
+                            } else {
+                                spanningWeeks = false;
+                                break;
+                            }
+                        }
+                        $("#spanningWeeks").prop("checked", spanningWeeks);
                     },
                     close : function () {
                         // reset values on the form
