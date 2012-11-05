@@ -1,38 +1,4 @@
-<!--
-
-    Copyright 2004-2012 The Kuali Foundation
-
-    Licensed under the Educational Community License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-    http://www.opensource.org/licenses/ecl2.php
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
--->
 <?xml version='1.0' encoding='UTF-8'?> 
-<!--
-
-    Copyright 2005-2012 The Kuali Foundation
-
-    Licensed under the Educational Community License, Version 2.0 (the "License");
-    you may not use this file except in compliance with the License.
-    You may obtain a copy of the License at
-
-    http://www.opensource.org/licenses/ecl2.php
-
-    Unless required by applicable law or agreed to in writing, software
-    distributed under the License is distributed on an "AS IS" BASIS,
-    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-    See the License for the specific language governing permissions and
-    limitations under the License.
-
--->
 <chapter xml:id="setup" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0">    
     <title>Setup</title>
     <para>
@@ -320,7 +286,7 @@ mysql></programlisting>
                         <title>Oracle XE admin webapp</title>
                         <mediaobject>    
                             <imageobject>
-                                <imagedata fileref="../images/oracle_xe_admin_webapp.png"/>
+                                <imagedata fileref="../images/oracle_xe_admin_webapp.png" width="5.75in"/>
                             </imageobject>
                         </mediaobject>
                     </figure>
@@ -376,13 +342,9 @@ SQL></programlisting>
                         <para>
                             Use the <link xlink:href="http://maven.apache.org/plugins/maven-install-plugin">maven-install-plugin</link> to copy ojdbc14.jar 
                             into your local maven repository.</para>
-                        <programlisting>mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.2.0.3.0 -Dpackaging=jar -Dfile=ojdbc14.jar</programlisting>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            You should see output similar to this if the jar gets installed correctly.
-                        </para>
-                        <programlisting>[INFO] Installing ojdbc14.jar to /.m2/repository/com/oracle/ojdbc14/10.2.0.3.0/ojdbc14-10.2.0.3.0.jar</programlisting>
+                        <programlisting>mvn install:install-file -DgroupId=com.oracle -DartifactId=ojdbc14 \
+                         -Dversion=10.2.0.3.0 -Dpackaging=jar \
+                         -Dfile=ojdbc14.jar</programlisting>
                     </listitem>
                 </orderedlist>
             </section>
@@ -455,13 +417,12 @@ SQL></programlisting>
                 <para>An example .profile can be found below:</para>
                 <programlisting>M2_HOME=/usr/local/maven
 MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=768m"
-GROOVY_HOME=/usr/local/groovy
 JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/1.6/Home
 CATALINA_HOME=/usr/local/tomcat
 MYSQL_HOME=/usr/local/mysql
     
-PATH="$ANT_HOME/bin:$M2_HOME/bin:$GROOVY_HOME/bin:$CATALINA_HOME:$MYSQL_HOME/bin:$PATH"
-export PATH ANT_HOME ANT_OPTS M2_HOME MAVEN_OPTS GROOVY_HOME JAVA_HOME CATALINA_HOME MYSQL_HOME</programlisting>
+PATH="$M2_HOME/bin:$CATALINA_HOME:$MYSQL_HOME/bin:$PATH"
+export PATH M2_HOME MAVEN_OPTS JAVA_HOME CATALINA_HOME MYSQL_HOME</programlisting>
                 <note><para>It is important to export your environment variables once they are defined as the file above does.</para></note>
             </section>
             <section>
@@ -837,9 +798,9 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
 	        <table frame="none">
                 <title>Embedded Mode</title>
                 <tgroup cols="3">
-                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
-                    <colspec colname="c2" colnum="2" colwidth="1.55*"/>
-                    <colspec colname="c3" colnum="3" colwidth="2.34*"/>
+                    <colspec colname="c1" colnum="1" colwidth="1.5*"/>
+                    <colspec colname="c2" colnum="2" colwidth="3.0*"/>
+                    <colspec colname="c3" colnum="3" colwidth="1.5*"/>
                     <thead>
                         <row>
                             <entry>Parameter</entry>
@@ -914,7 +875,7 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
 	        <table frame="none">
 	            <title>KPME Database</title>
 	            <tgroup cols="3">
-	                <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+	                <colspec colname="c1" colnum="1" colwidth="1.75*"/>
 	                <colspec colname="c2" colnum="2" colwidth="1.55*"/>
 	                <colspec colname="c3" colnum="3" colwidth="2.34*"/>
 	                <thead>
@@ -927,12 +888,12 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
 	                <tbody>
 	                    <row>
 	                        <entry>datasource.ojb.platform</entry>
-	                        <entry>Name of OJB platform to use for the KPME database</entry>
+	                        <entry>OJB platform name</entry>
 	                        <entry>Oracle9i or MySQL</entry>
 	                    </row>
 	                    <row>
 	                        <entry>datasource.platform</entry>
-	                        <entry>Rice platform implementation for the KPME database</entry>
+	                        <entry>Rice platform class name</entry>
 	                        <entry>
 	                            <itemizedlist>
 	                                <listitem>
@@ -946,7 +907,7 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
 	                    </row>
 	                    <row>
 	                        <entry>datasource.driver.name</entry>
-	                        <entry>JDBC driver for the KPME database</entry>
+	                        <entry>JDBC driver class name</entry>
 	                        <entry>
 	                            <itemizedlist>
 	                                <listitem>
@@ -960,21 +921,21 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
 	                    </row>
 	                    <row>
 	                        <entry>datasource.username</entry>
-	                        <entry>User name for connecting to the KPME database</entry>
+	                        <entry>Username for the database</entry>
 	                        <entry/>
 	                    </row>
 	                    <row>
 	                        <entry>datasource.password</entry>
-	                        <entry>Password for connecting to the KPME database</entry>
+	                        <entry>Password for the database</entry>
 	                        <entry/>
 	                    </row>
 	                    <row>
 	                        <entry>datasource.url </entry>
-	                        <entry>JDBC URL of the KPME database to connect to</entry>
+	                        <entry>JDBC URL to the database</entry>
 	                        <entry>
 	                            <itemizedlist>
 	                                <listitem>
-                                        <para>jdbc:mysql://localhost:3306/kuldemo</para>
+                                        <para>jdbc:mysql://localhost:3306/kpmedev</para>
                                     </listitem>
 	                                <listitem>
 	                                    <para>jdbc:oracle:thin:@localhost:1521:XE</para>
@@ -988,7 +949,7 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
 	        <table frame="none">
                 <title>Rice Database</title>
                 <tgroup cols="3">
-                    <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+                    <colspec colname="c1" colnum="1" colwidth="1.75*"/>
                     <colspec colname="c2" colnum="2" colwidth="1.55*"/>
                     <colspec colname="c3" colnum="3" colwidth="2.34*"/>
                     <thead>
@@ -1001,12 +962,12 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
                     <tbody>
                         <row>
                             <entry>server.datasource.ojb.platform</entry>
-                            <entry>Name of OJB platform to use for the Rice database</entry>
+                            <entry>OJB platform name</entry>
                             <entry>Oracle9i or MySQL</entry>
                         </row>
                         <row>
                             <entry>server.datasource.platform</entry>
-                            <entry>Rice platform implementation for the Rice database</entry>
+                            <entry>Rice platform class name</entry>
                             <entry>
                                 <itemizedlist>
                                     <listitem>
@@ -1020,7 +981,7 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
                         </row>
                         <row>
                             <entry>server.datasource.driver.name</entry>
-                            <entry>JDBC driver for the Rice database</entry>
+                            <entry>JDBC driver class name</entry>
                             <entry>
                                 <itemizedlist>
                                     <listitem>
@@ -1034,21 +995,21 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
                         </row>
                         <row>
                             <entry>server.datasource.username</entry>
-                            <entry>User name for connecting to the Rice database</entry>
+                            <entry>Username for the database</entry>
                             <entry/>
                         </row>
                         <row>
                             <entry>server.datasource.password</entry>
-                            <entry>Password for connecting to the Rice database</entry>
+                            <entry>Password for the database</entry>
                             <entry/>
                         </row>
                         <row>
                             <entry>server.datasource.url </entry>
-                            <entry>JDBC URL of the Rice database to connect to</entry>
+                            <entry>JDBC URL to the database</entry>
                             <entry>
                                 <itemizedlist>
                                     <listitem>
-                                        <para>jdbc:mysql://localhost:3306/kuldemo</para>
+                                        <para>jdbc:mysql://localhost:3306/krdev</para>
                                     </listitem>
                                     <listitem>
                                         <para>jdbc:oracle:thin:@localhost:1521:XE</para>

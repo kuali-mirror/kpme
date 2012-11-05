@@ -985,6 +985,7 @@
                                 <exclude>src/main/webapp/WEB-INF/tags/rice-portal/portalTop.tag</exclude>
                                 <exclude>src/main/webapp/WEB-INF/tags/rice-portal/channel/</exclude>
                                 <exclude>src/main/webapp/WEB-INF/tld/</exclude>
+                                <exclude>src/site/docbook/**</exclude>
                             </excludes>
                         </configuration>
                     </plugin>
