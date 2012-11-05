@@ -25,6 +25,7 @@ import org.json.simple.JSONValue;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -84,11 +85,8 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
         HtmlPage page = loginAndGetTimeDetailsHtmlPage("admin", tdocId, true);
 
         // 1. Obtain User Data
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getPrincipalId(), JAN_AS_OF_DATE);
-        Assignment assignment = assignments.get(0);
-
-        List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assignment, JAN_AS_OF_DATE);
-        EarnCode earnCode = earnCodes.get(0);
+        Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(TKContext.getPrincipalId(), new AssignmentDescriptionKey("30_30_30"), JAN_AS_OF_DATE);
+        EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode("RGN", JAN_AS_OF_DATE);
 
         // 2. Set Timeblock Start and End time
         // 3/02/2011 - 8:00a to 4:00pm

@@ -51,46 +51,48 @@ public class BatchJobManagerThread extends Thread {
 
         while (true) {
             Date asOfDate = TKUtils.getCurrentDate();
-            List<CalendarEntries> payCalendarEntries = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntryNeedsScheduled(numOfDaysToPoll, asOfDate);
+            List<CalendarEntries> calendarEntries = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntryNeedsScheduled(numOfDaysToPoll, asOfDate);
 
-            LOG.info("Scanning for batch jobs to run: ("+asOfDate.toString()+")");
+            LOG.info("Scanning for batch jobs to run: (" + asOfDate.toString() + ")");
 
-            List<BatchJob> jobsToRun = new ArrayList<BatchJob>();
-            for(CalendarEntries payCalendarEntry: payCalendarEntries){
+            List<BatchJob> batchJobs = new ArrayList<BatchJob>();
+            for (CalendarEntries calendarEntry : calendarEntries) {
+                List<BatchJob> existingBatchJobs = TkServiceLocator.getBatchJobService().getBatchJobs(calendarEntry.getHrCalendarEntriesId());
 
-                List<BatchJob> batchJobs = TkServiceLocator.getBatchJobService().getBatchJobs(payCalendarEntry.getHrCalendarEntriesId());
-
-//                batchJobs.clear();
-//                DumbJob dj = new DumbJob();
-//                jobsToRun.add(dj);
-                if ((payCalendarEntry.getBatchInitiateDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.INITIATE)) ) {
-                    BatchJob job = new InitiateBatchJob(payCalendarEntry.getHrCalendarEntriesId());
+                if (calendarEntry.getBeginPeriodDateTime() != null && calendarEntry.getEndPeriodDateTime() != null && !jobExists(existingBatchJobs, TkConstants.BATCH_JOB_NAMES.BATCH_APPROVE_MISSED_PUNCH)) {
+                    BatchJob job = new BatchApproveMissedPunchJob(calendarEntry);
                     TkServiceLocator.getBatchJobService().saveBatchJob(job);
                     batchJobs.add(job);
-                    jobsToRun.add(job);
                 }
-//
-//                if ((payCalendarEntry.getBatchEmployeeApprovalDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.APPROVE)) ) {
-//                    BatchJob job = new EmployeeApprovalBatchJob(payCalendarEntry);
+                
+                if (calendarEntry.getBatchInitiateDate() != null && !jobExists(existingBatchJobs, TkConstants.BATCH_JOB_NAMES.INITIATE)) {
+                    BatchJob job = new InitiateBatchJob(calendarEntry);
+                    TkServiceLocator.getBatchJobService().saveBatchJob(job);
+                    batchJobs.add(job);
+                }
+                
+                if (calendarEntry.getBatchEndPayPeriodDate() != null && !jobExists(existingBatchJobs, TkConstants.BATCH_JOB_NAMES.PAY_PERIOD_END)) {
+                    BatchJob job = new PayPeriodEndBatchJob(calendarEntry);
+                    TkServiceLocator.getBatchJobService().saveBatchJob(job);
+                    batchJobs.add(job);
+                }
+
+// TODO: Batch jobs going to exception status
+//                if (calendarEntry.getBatchEmployeeApprovalDate() != null && !jobExists(existingBatchJobs, TkConstants.BATCH_JOB_NAMES.APPROVE)) {
+//                    BatchJob job = new EmployeeApprovalBatchJob(calendarEntry);
 //                    TkServiceLocator.getBatchJobService().saveBatchJob(job);
 //                    batchJobs.add(job);
 //                }
 //
-//                if ((payCalendarEntry.getBatchEndPayPeriodDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.PAY_PERIOD_END)) ) {
-//                    BatchJob job = new PayPeriodEndBatchJob(payCalendarEntry.getHrPyCalendarEntriesId());
-//                    TkServiceLocator.getBatchJobService().saveBatchJob(job);
-//                    batchJobs.add(job);
-//                }
-//
-//                if ((payCalendarEntry.getBatchSupervisorApprovalDate() != null) && (!jobPresentInJobsList(batchJobs, TkConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL)) ) {
-//                    BatchJob job = new SupervisorApprovalBatchJob(payCalendarEntry.getHrPyCalendarEntriesId());
+//                if (calendarEntry.getBatchSupervisorApprovalDate() != null && !jobExists(existingBatchJobs, TkConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL)) {
+//                    BatchJob job = new SupervisorApprovalBatchJob(calendarEntry);
 //                    TkServiceLocator.getBatchJobService().saveBatchJob(job);
 //                    batchJobs.add(job);
 //                }
             }
 
-            for (BatchJob job : jobsToRun) {
-                job.runJob();
+            for (BatchJob batchJob : batchJobs) {
+            	batchJob.runJob();
             }
 
             try {
@@ -101,7 +103,7 @@ public class BatchJobManagerThread extends Thread {
         }
 	}
 
-    private boolean jobPresentInJobsList(List<BatchJob> batchJobs, String batchJobName) {
+    private boolean jobExists(List<BatchJob> batchJobs, String batchJobName) {
         for (BatchJob batchJob : batchJobs) {
             if (StringUtils.equals(batchJob.getBatchJobName(), batchJobName)) {
                 return true;

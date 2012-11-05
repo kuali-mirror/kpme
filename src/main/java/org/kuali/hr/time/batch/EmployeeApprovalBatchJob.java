@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.batch;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -28,22 +27,21 @@ import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 public class EmployeeApprovalBatchJob extends BatchJob {
 	private Logger LOG = Logger.getLogger(EmployeeApprovalBatchJob.class);
-    private CalendarEntries payCalendarEntry;
+    private CalendarEntries calendarEntry;
 
-    public EmployeeApprovalBatchJob(CalendarEntries payCalendarEntry) {
-        this.payCalendarEntry = payCalendarEntry;
-        setBatchJobName(TkConstants.BATCH_JOB_NAMES.APPROVE);
+    public EmployeeApprovalBatchJob(CalendarEntries calendarEntry) {
+        this.setBatchJobName(TkConstants.BATCH_JOB_NAMES.APPROVE);
+        this.setHrPyCalendarEntryId(calendarEntry.getHrCalendarEntriesId());
+        this.calendarEntry = calendarEntry;
     }
 
-	@Override
-	public void doWork() {
-		Date payBeginDate = payCalendarEntry.getBatchEmployeeApprovalDate();
-		//TODO populate pay begin date here
-		List<TimesheetDocumentHeader> documentHeaders = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaders(payBeginDate);
-		for(TimesheetDocumentHeader timesheetDocumentHeader : documentHeaders){
-			populateBatchJobEntry(timesheetDocumentHeader);
-		}
-	}
+    @Override
+    public void doWork() {
+        List<TimesheetDocumentHeader> documentHeaders = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaders(calendarEntry.getBatchEmployeeApprovalDate());
+        for(TimesheetDocumentHeader timesheetDocumentHeader : documentHeaders){
+            populateBatchJobEntry(timesheetDocumentHeader);
+        }
+    }
 
 	@Override
 	protected void populateBatchJobEntry(Object o) {

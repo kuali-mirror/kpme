@@ -60,7 +60,7 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
         effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
         effdt.addLessOrEqualThan("effectiveDate", payPeriodEndDate);
         ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Job.class, effdt);
-        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+        effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
 
         timestamp.addEqualTo("principalId", principalId);
         timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
@@ -94,7 +94,7 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
         effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
         effdt.addLessOrEqualThan("effectiveDate", payPeriodEndDate);
         ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Job.class, effdt);
-        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+        effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
 
         timestamp.addEqualTo("principalId", principalId);
         timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
@@ -131,7 +131,7 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
         effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
         effdt.addLessOrEqualThan("effectiveDate", asOfDate);
         ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Job.class, effdt);
-        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+        effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
 
         timestamp.addEqualTo("principalId", principalId);
         timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
@@ -164,7 +164,7 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
         effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
         effdt.addLessOrEqualThan("effectiveDate", asOfDate);
         ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Job.class, effdt);
-        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+        effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
 
         // OJB's awesome sub query setup part 2
         timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
@@ -196,7 +196,7 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
         effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
         effdt.addLessOrEqualThan("effectiveDate", asOfDate);
         ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Job.class, effdt);
-        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+        effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
 
         // OJB's awesome sub query setup part 2
         timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
@@ -243,7 +243,7 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
 
     @Override
     public List<Job> getJobs(String principalId, String jobNumber,
-                             String dept, String positionNbr, String payType,
+                             String dept, String positionNumber, String hrPayType,
                              java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory) {
 
         List<Job> results = new ArrayList<Job>();
@@ -274,19 +274,19 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
             crit.addLike("dept", dept);
         }
 
-        if (StringUtils.isNotEmpty(positionNbr)) {
-            crit.addLike("positionNbr", positionNbr);
+        if (StringUtils.isNotEmpty(positionNumber)) {
+            crit.addLike("positionNumber", positionNumber);
         }
 
-        if (StringUtils.isNotEmpty(payType)) {
-            crit.addLike("payType", payType);
+        if (StringUtils.isNotEmpty(hrPayType)) {
+            crit.addLike("hrPayType", hrPayType);
         }
 
         if (StringUtils.isEmpty(active) && StringUtils.equals(showHistory, "Y")) {
             effdtCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
             effdtCrit.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
             ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Job.class, effdtCrit);
-            effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+            effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
 
             timestampCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
             timestampCrit.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
@@ -303,7 +303,7 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
             effdtCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
             effdtCrit.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
             ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Job.class, effdtCrit);
-            effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+            effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
 
             timestampCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
             timestampCrit.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
@@ -320,7 +320,7 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
             effdtCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
             effdtCrit.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
             ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Job.class, effdtCrit);
-            effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+            effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
 
             timestampCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
             timestampCrit.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
@@ -374,7 +374,7 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
             effdtCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
             effdtCrit.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
             ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Job.class, effdtCrit);
-            effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+            effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
 
             timestampCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
             timestampCrit.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");

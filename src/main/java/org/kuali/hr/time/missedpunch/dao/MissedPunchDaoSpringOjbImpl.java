@@ -82,4 +82,16 @@ public class MissedPunchDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb impleme
     	return results;
     }
     
+    @Override
+    public List<MissedPunchDocument> getMissedPunchDocsByTimesheetDocumentId(String timesheetDocumentId) {
+    	List<MissedPunchDocument> missedPunchDocuments = new ArrayList<MissedPunchDocument>();
+
+        Criteria root = new Criteria();
+        root.addEqualTo("timesheetDocumentId", timesheetDocumentId);
+        Query query = QueryFactory.newQuery(MissedPunchDocument.class, root);
+        missedPunchDocuments.addAll(this.getPersistenceBrokerTemplate().getCollectionByQuery(query));
+
+        return missedPunchDocuments;
+    }
+    
 }

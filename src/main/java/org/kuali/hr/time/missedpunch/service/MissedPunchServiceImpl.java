@@ -238,14 +238,16 @@ public class MissedPunchServiceImpl implements MissedPunchService {
             String rhid = document.getDocumentNumber();
             WorkflowDocument wd = WorkflowDocumentFactory.loadDocument(TkConstants.BATCH_JOB_USER_PRINCIPAL_ID, rhid);
             wd.superUserBlanketApprove("Batch job superuser approving missed punch document.");
-
-            document.setDocumentStatus(TkConstants.ROUTE_STATUS.FINAL);
-            KRADServiceLocator.getBusinessObjectService().save(document);
     }
 
     @Override
     public List<MissedPunchDocument> getMissedPunchDocsByBatchJobEntry(BatchJobEntry batchJobEntry) {
         return missedPunchDao.getMissedPunchDocsByBatchJobEntry(batchJobEntry);
+    }
+    
+    @Override
+    public List<MissedPunchDocument> getMissedPunchDocsByTimesheetDocumentId(String timesheetDocumentId) {
+        return missedPunchDao.getMissedPunchDocsByTimesheetDocumentId(timesheetDocumentId);
     }
 
 }

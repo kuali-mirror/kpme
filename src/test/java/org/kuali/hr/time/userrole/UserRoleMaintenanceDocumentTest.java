@@ -125,16 +125,16 @@ public class UserRoleMaintenanceDocumentTest extends KPMETestCase {
 
 		// check if this page contains created role Global View Only
 		HtmlSpan oldRoleEle = (HtmlSpan) editPage
-				.getElementById("document.oldMaintainableObject.roles[1].roleName.div");
+				.getElementById("document.oldMaintainableObject.roles[0].roleName.div");
 		Assert.assertTrue("page text:\n" + oldRoleEle.asText()
 				+ "\n does not contain:\n",
 				oldRoleEle.asText().contains("Global View Only"));
 
 		// Now update
 		setFieldValue(editPage, "document.documentHeader.documentDescription",
-				"Inactivating location admin role");
+				"Inactivating global view only role");
 		setFieldValue(editPage,
-				"document.newMaintainableObject.roles[1].active", "off");
+				"document.newMaintainableObject.roles[0].active", "off");
 
 		submitElement = HtmlUnitUtil.getInputContainingText(editPage,
 				"methodToCall.route");

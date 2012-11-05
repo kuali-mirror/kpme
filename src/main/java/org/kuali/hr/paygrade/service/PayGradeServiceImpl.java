@@ -19,6 +19,7 @@ import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.paygrade.dao.PayGradeDao;
 
 import java.sql.Date;
+import java.util.List;
 
 public class PayGradeServiceImpl implements PayGradeService{
 
@@ -40,4 +41,9 @@ public class PayGradeServiceImpl implements PayGradeService{
 	public int getPayGradeCount(String payGrade) {
 		return payGradeDao.getPayGradeCount(payGrade);
 	}
+
+    @Override
+    public List<PayGrade> getPayGrades(String payGrade, String payGradeDescr, String active) {
+        return payGradeDao.getPayGrades(payGrade, payGradeDescr, active);
+    }
 }

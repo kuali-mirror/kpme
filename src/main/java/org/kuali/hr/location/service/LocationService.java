@@ -19,6 +19,7 @@ import org.kuali.hr.location.Location;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.sql.Date;
+import java.util.List;
 
 public interface LocationService {
 	/**
@@ -42,4 +43,6 @@ public interface LocationService {
 	 * @return
 	 */
 	public int getLocationCount(String location);
+
+    List<Location> searchLocations(String location, String locationDescr, String active, String showHistory);
 }

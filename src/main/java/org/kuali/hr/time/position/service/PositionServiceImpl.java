@@ -18,6 +18,9 @@ package org.kuali.hr.time.position.service;
 import org.kuali.hr.time.position.Position;
 import org.kuali.hr.time.position.dao.PositionDao;
 
+import java.sql.Date;
+import java.util.List;
+
 public class PositionServiceImpl implements PositionService {
 
 	private PositionDao positionDao;
@@ -26,7 +29,13 @@ public class PositionServiceImpl implements PositionService {
 	public Position getPosition(String hrPositionId) {
 		return positionDao.getPosition(hrPositionId);
 	}
-	
+
+    @Override
+    public List<Position> getPositions(String positionNum, String workArea,
+                                       String positionDescr, Date fromEffdt, Date toEffdt, String active, String showHistory) {
+        return positionDao.getPositions(positionNum, workArea, positionDescr, fromEffdt, toEffdt, active, showHistory);
+    }
+
 	@Override
 	public Position getPositionByPositionNumber(String hrPositionNbr) {
 		return positionDao.getPositionByPositionNumber(hrPositionNbr);

@@ -16,7 +16,10 @@
 package org.kuali.hr.time.timesheet.web;
 
 import java.sql.Date;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -26,6 +29,7 @@ import org.json.simple.JSONValue;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -89,53 +93,35 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 
 	@Test
 	public void testAddTimeBlock() throws Exception {
-
-		EarnCode earnCode = null;
-		HtmlPage page = loginAndGetTimeDetailsHtmlPage(USER_PRINCIPAL_ID,
-				tdocId, true);
+		HtmlPage page = loginAndGetTimeDetailsHtmlPage(USER_PRINCIPAL_ID, tdocId, true);
 
 		HtmlForm form = page.getFormByName("TimeDetailActionForm");
 		Assert.assertNotNull(form);
 
-		// Assignment of user
-		Assignment assToBeSelected = assignmentsOfUser.get(4);
+		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, new AssignmentDescriptionKey("4_1234_1"), TIME_SHEET_DATE);
+		EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode("RGN", TIME_SHEET_DATE);
 
-        // retrieving earncode for the assignment
-		List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assToBeSelected, TIME_SHEET_DATE);
-		if (earnCodes != null && !earnCodes.isEmpty()) {
-			earnCode = earnCodes.get(0);
-		}
-
-		DateTime startTime = new DateTime(2011, 2, 15, 9, 0, 0, 0,
-				TKUtils.getSystemDateTimeZone());
-		DateTime endTime = new DateTime(2011, 2, 15, 11, 0, 0, 0,
-				TKUtils.getSystemDateTimeZone());
+		DateTime startTime = new DateTime(2011, 2, 15, 9, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime endTime = new DateTime(2011, 2, 15, 11, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 
 		// Setup TimeDetailActionForm
-		TimeDetailActionFormBase addTB = TimeDetailTestUtils
-				.buildDetailActionForm(timeDoc, assToBeSelected, earnCode,
-						startTime, endTime, null, true, null, true);
-		List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form,
-				addTB);
+		TimeDetailActionFormBase addTB = TimeDetailTestUtils.buildDetailActionForm(timeDoc, assignment, earnCode, startTime, endTime, null, true, null, true);
+		List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, addTB);
 
 		// Check for errors
-		Assert.assertEquals(
-				"There should be no errors in this time detail submission", 0,
-				errors.size());
+		Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
 
 		// submit the details of Timeblock to be added.
-		page = TimeDetailTestUtils.submitTimeDetails(
-				TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), addTB);
+		page = TimeDetailTestUtils.submitTimeDetails(TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), addTB);
 		Assert.assertNotNull(page);
 
 		// get Timeblocks objects from Timeblock string
-		String dataText = page.getElementById("timeBlockString")
-				.getFirstChild().getNodeValue();
+		String dataText = page.getElementById("timeBlockString").getFirstChild().getNodeValue();
 
 		// check the values in timeblockString
 		JSONArray jsonData = (JSONArray) JSONValue.parse(dataText);
 		final JSONObject jsonDataObject = (JSONObject) jsonData.get(0);
-		final String assignmentKey = assToBeSelected.getAssignmentKey();
+		final String assignmentKey = assignment.getAssignmentKey();
 		Assert.assertTrue("TimeBlock Data Missing.", checkJSONValues(new JSONObject() {
 			{
 				put("outer", jsonDataObject);
@@ -170,148 +156,89 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 
 	@Test
 	public void testEditTimeBlock() throws Exception {
-		EarnCode earnCode = null;
+		HtmlPage page = loginAndGetTimeDetailsHtmlPage(USER_PRINCIPAL_ID, tdocId, true);
 
-		// login
-		HtmlPage page = loginAndGetTimeDetailsHtmlPage(USER_PRINCIPAL_ID,
-				tdocId, true);
+		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, new AssignmentDescriptionKey("4_1234_1"), TIME_SHEET_DATE);
+		EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode("RGN", TIME_SHEET_DATE);
 
-		// Assignment
-		Assignment assToBeSelected = assignmentsOfUser.get(4);
-
-        // retrieving earncode for the assignment
-		List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assToBeSelected, TIME_SHEET_DATE);
-		if (earnCodes != null && !earnCodes.isEmpty()) {
-			earnCode = earnCodes.get(0);
-		}
-
-		DateTime startTime = new DateTime(2011, 2, 15, 9, 0, 0, 0,
-				TKUtils.getSystemDateTimeZone());
-		DateTime endTime = new DateTime(2011, 2, 15, 11, 0, 0, 0,
-				TKUtils.getSystemDateTimeZone());
+		DateTime startTime = new DateTime(2011, 2, 15, 9, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime endTime = new DateTime(2011, 2, 15, 11, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 
 		HtmlForm form = page.getFormByName("TimeDetailActionForm");
 		Assert.assertNotNull(form);
 
 		// Setup TimeDetailActionForm for adding time block
-		TimeDetailActionFormBase addTB = TimeDetailTestUtils
-				.buildDetailActionForm(timeDoc, assToBeSelected, earnCode,
-						startTime, endTime, null, true, null, true);
-		List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form,
-				addTB);
+		TimeDetailActionFormBase addTB = TimeDetailTestUtils.buildDetailActionForm(timeDoc, assignment, earnCode, startTime, endTime, null, true, null, true);
+		List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, addTB);
 
 		// Check for errors
-		Assert.assertEquals(
-				"There should be no errors in this time detail submission", 0,
-				errors.size());
+		Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
 
-		page = TimeDetailTestUtils.submitTimeDetails(
-				TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), addTB);
+		page = TimeDetailTestUtils.submitTimeDetails(TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), addTB);
 		Assert.assertNotNull(page);
 
 		// chk if the page contains the created time block.
-		Assert.assertTrue("TimeBlock not Present.",
-				page.asText().contains("work area description-description 1"));
-		Assert.assertTrue("TimeBlock not Present.",
-				page.asText().contains("XYZ - 2.00 hours"));
+		Assert.assertTrue("TimeBlock not Present.", page.asText().contains("work area description-description 1"));
+		Assert.assertTrue("TimeBlock not Present.", page.asText().contains("RGN - 2.00 hours"));
 
 		// now updating the time block
-		timeDoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(
-				USER_PRINCIPAL_ID, payCal);
+		timeDoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(USER_PRINCIPAL_ID, payCal);
 
 		String createdTBId = timeDoc.getTimeBlocks().get(0).getTkTimeBlockId();
 
 		HtmlUnitUtil.createTempFile(page);
 
-		// change assignment and time
-		assToBeSelected = assignmentsOfUser.get(3);
+		Assignment newAssignment = TkServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, new AssignmentDescriptionKey("1_1234_1"), TIME_SHEET_DATE);
 
-		// earn codes related to the assignment
-		earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assToBeSelected, TIME_SHEET_DATE);
-		if (earnCodes != null && !earnCodes.isEmpty()) {
-			earnCode = earnCodes.get(0);
-		}
-
-		DateTime startTime1 = new DateTime(2011, 2, 15, 14, 0, 0, 0,
-				TKUtils.getSystemDateTimeZone());
-		DateTime endTime1 = new DateTime(2011, 2, 15, 17, 0, 0, 0,
-				TKUtils.getSystemDateTimeZone());
+		DateTime startTime1 = new DateTime(2011, 2, 15, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime endTime1 = new DateTime(2011, 2, 15, 17, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 
 		form = page.getFormByName("TimeDetailActionForm");
 
-		TimeDetailActionFormBase updateTB = TimeDetailTestUtils
-				.buildDetailActionForm(timeDoc, assToBeSelected, earnCode,
-						startTime1, endTime1, null, true, createdTBId, true);
+		TimeDetailActionFormBase updateTB = TimeDetailTestUtils.buildDetailActionForm(timeDoc, newAssignment, earnCode, startTime1, endTime1, null, true, createdTBId, true);
 
 		// validation of time block
 		errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, updateTB);
-		Assert.assertEquals(
-				"There should be no errors in this time detail submission", 0,
-				errors.size());
+		Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
 
 		// update it
-		page = TimeDetailTestUtils.submitTimeDetails(
-				TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), updateTB);
+		page = TimeDetailTestUtils.submitTimeDetails(TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), updateTB);
 		Assert.assertNotNull(page);
 
 		// chk the timesheet contains the changes done with the time block
-		Assert.assertTrue("TimeBlock did not get updated properly.", page.asText()
-				.contains("work area description-description 1"));
-		Assert.assertTrue("TimeBlock did not get updated properly.", page.asText()
-				.contains("RGH - 3.00 hours"));
+		Assert.assertTrue("TimeBlock did not updated properly.", page.asText().contains("work area description-description 1"));
+		Assert.assertTrue("TimeBlock did not updated properly.", page.asText().contains("RGN - 3.00 hours"));
 
 	}
 
 	@Test
 	public void testDeleteTimeBlock() throws Exception {
+		HtmlPage page = loginAndGetTimeDetailsHtmlPage(USER_PRINCIPAL_ID,tdocId, true);
 
-		EarnCode earnCode = null;
+		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, new AssignmentDescriptionKey("4_1234_1"), TIME_SHEET_DATE);
+		EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode("RGN", TIME_SHEET_DATE);
 
-		// login
-		HtmlPage page = loginAndGetTimeDetailsHtmlPage(USER_PRINCIPAL_ID,
-				tdocId, true);
-
-		// Assignment of user
-		Assignment assToBeSelected = assignmentsOfUser.get(4);
-
-        // retrieving earncode for the assignment
-		List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForTime(assToBeSelected, TIME_SHEET_DATE);
-		if (earnCodes != null && !earnCodes.isEmpty()) {
-			earnCode = earnCodes.get(0);
-		}
-
-		DateTime startTime = new DateTime(2011, 2, 15, 9, 0, 0, 0,
-				TKUtils.getSystemDateTimeZone());
-		DateTime endTime = new DateTime(2011, 2, 15, 11, 0, 0, 0,
-				TKUtils.getSystemDateTimeZone());
+		DateTime startTime = new DateTime(2011, 2, 15, 9, 0, 0, 0, TKUtils.getSystemDateTimeZone());
+		DateTime endTime = new DateTime(2011, 2, 15, 11, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 
 		HtmlForm form = page.getFormByName("TimeDetailActionForm");
 		Assert.assertNotNull(form);
 
 		// Setup TimeDetailActionForm
-		TimeDetailActionFormBase addTB = TimeDetailTestUtils
-				.buildDetailActionForm(timeDoc, assToBeSelected, earnCode,
-						startTime, endTime, null, true, null, true);
-		List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form,
-				addTB);
+		TimeDetailActionFormBase addTB = TimeDetailTestUtils.buildDetailActionForm(timeDoc, assignment, earnCode, startTime, endTime, null, true, null, true);
+		List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, addTB);
 
 		// Check for errors
-		Assert.assertEquals(
-				"There should be no errors in this time detail submission", 0,
-				errors.size());
+		Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
 
-		page = TimeDetailTestUtils.submitTimeDetails(
-				TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), addTB);
+		page = TimeDetailTestUtils.submitTimeDetails(TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), addTB);
 		Assert.assertNotNull(page);
 
 		// chk the page must contain the created time block
-		Assert.assertTrue("TimeBlock did not created successfully.", page.asText()
-				.contains("work area description-description 1"));
-		Assert.assertTrue("TimeBlock did not created successfully.", page.asText()
-				.contains("XYZ - 2.00 hours"));
+		Assert.assertTrue("TimeBlock did not created successfully.", page.asText().contains("work area description-description 1"));
+		Assert.assertTrue("TimeBlock did not created successfully.", page.asText().contains("RGN - 2.00 hours"));
 
-		timeDoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(
-				USER_PRINCIPAL_ID, payCal);
+		timeDoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(USER_PRINCIPAL_ID, payCal);
 
 		// Delete the timeblock
 		String createTBId = timeDoc.getTimeBlocks().get(0).getTkTimeBlockId();
@@ -320,22 +247,16 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		Assert.assertNotNull(form);
 
 		// set detail for deleting time block
-		TimeDetailActionFormBase deleteTB = TimeDetailTestUtils
-				.buildDetailActionForm(timeDoc, assToBeSelected, earnCode,
-						startTime, endTime, null, true, createTBId, true);
+		TimeDetailActionFormBase deleteTB = TimeDetailTestUtils.buildDetailActionForm(timeDoc, assignment, earnCode, startTime, endTime, null, true, createTBId, true);
 		deleteTB.setMethodToCall("deleteTimeBlock");
 
 		// submitting the page
-		page = TimeDetailTestUtils.submitTimeDetails(
-				TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), deleteTB);
+		page = TimeDetailTestUtils.submitTimeDetails(TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), deleteTB);
 		Assert.assertNotNull(page);
 
 		// chk the timesheet does not contain the time block
-		Assert.assertTrue("TimeBlock did not deleted successfully.", !page.asText()
-				.contains("work area description-description 1"));
-		Assert.assertTrue("TimeBlock did not deleted successfully.", !page.asText()
-				.contains("XYZ - 2.00 hours"));
-
+		Assert.assertTrue("TimeBlock did not deleted successfully.", !page.asText().contains("work area description-description 1"));
+		Assert.assertTrue("TimeBlock did not deleted successfully.", !page.asText().contains("RGN - 2.00 hours"));
 	}
 	
 	// KPME-1446

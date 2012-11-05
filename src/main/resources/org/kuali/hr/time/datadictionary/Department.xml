@@ -66,6 +66,8 @@
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="org"
 								p:targetName="organizationCode" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="chart"
+                                p:targetName="chartOfAccountsCode" />
 						</list>
 					</property>
 				</bean>
@@ -311,6 +313,7 @@
         <bean parent="FieldDefinition" p:attributeName="location" />
         <bean parent="FieldDefinition" p:attributeName="description" />
         <bean parent="FieldDefinition" p:attributeName="timestamp" />
+        <bean parent="FieldDefinition" p:attributeName="active" />
       </list>
     </property>
     <property name="title" value="Department Lookup" />

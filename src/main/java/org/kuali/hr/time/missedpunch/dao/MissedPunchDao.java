@@ -24,4 +24,5 @@ public interface MissedPunchDao {
     public MissedPunchDocument getMissedPunchByRouteHeader(String headerId);
     public MissedPunchDocument getMissedPunchByClockLogId(String clockLogId);
     public List<MissedPunchDocument> getMissedPunchDocsByBatchJobEntry(BatchJobEntry batchJobEntry);
+    public List<MissedPunchDocument> getMissedPunchDocsByTimesheetDocumentId(String timesheetDocumentId);
 }

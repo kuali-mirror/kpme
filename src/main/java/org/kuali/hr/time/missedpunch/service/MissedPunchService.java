@@ -63,4 +63,10 @@ public interface MissedPunchService {
      * @return
      */
     public List<MissedPunchDocument> getMissedPunchDocsByBatchJobEntry(BatchJobEntry batchJobEntry);
+    /**
+     * Get missed punch documents by timesheetDocumentId
+     * @param timesheetDocumentId
+     * @return
+     */
+    public List<MissedPunchDocument> getMissedPunchDocsByTimesheetDocumentId(String timesheetDocumentId);
 }

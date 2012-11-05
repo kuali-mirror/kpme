@@ -19,6 +19,7 @@ import org.kuali.hr.location.Location;
 import org.kuali.hr.location.dao.LocationDao;
 
 import java.sql.Date;
+import java.util.List;
 
 /**
  * Represents an implementation of {@link LocationService}
@@ -46,4 +47,8 @@ public class LocationServiceImpl implements LocationService {
 		return locationDao.getLocationCount(location);
 	}
 
+    @Override
+    public List<Location> searchLocations(String location, String locationDescr, String active, String showHistory) {
+        return locationDao.searchLocations(location, locationDescr, active, showHistory);
+    }
 }

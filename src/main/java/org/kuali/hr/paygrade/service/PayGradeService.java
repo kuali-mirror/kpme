@@ -19,6 +19,7 @@ import org.kuali.hr.paygrade.PayGrade;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.sql.Date;
+import java.util.List;
 
 public interface PayGradeService {
 	/**
@@ -42,4 +43,5 @@ public interface PayGradeService {
 	 * @return int
 	 */
 	public int getPayGradeCount(String payGrade);
+    List<PayGrade> getPayGrades(String payGrade, String payGradeDescr, String active);
 }

@@ -26,18 +26,17 @@ import org.kuali.hr.time.util.TkConstants;
 
 public class PayPeriodEndBatchJob extends BatchJob {
     private Logger LOG = Logger.getLogger(PayPeriodEndBatchJob.class);
+    private CalendarEntries calendarEntry;
 
-
-    public PayPeriodEndBatchJob(String hrPyCalendarEntryId) {
-        super();
+    public PayPeriodEndBatchJob(CalendarEntries calendarEntry) {
         this.setBatchJobName(TkConstants.BATCH_JOB_NAMES.PAY_PERIOD_END);
-        this.setHrPyCalendarEntryId(hrPyCalendarEntryId);
+        this.setHrPyCalendarEntryId(calendarEntry.getHrCalendarEntriesId());
+        this.calendarEntry = calendarEntry;
     }
 
     @Override
     public void doWork() {
-    	CalendarEntries payCalendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(getHrPyCalendarEntryId());
-    	List<ClockLog> lstOpenClockLogs = TkServiceLocator.getClockLogService().getOpenClockLogs(payCalendarEntry);
+    	List<ClockLog> lstOpenClockLogs = TkServiceLocator.getClockLogService().getOpenClockLogs(calendarEntry);
     	for(ClockLog cl : lstOpenClockLogs){
     		populateBatchJobEntry(cl);
     	}

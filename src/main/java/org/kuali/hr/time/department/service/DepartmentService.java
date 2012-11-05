@@ -72,4 +72,6 @@ public interface DepartmentService {
 	 * @return int
 	 */
 	public int getDepartmentCount(String department);
+
+    List<Department> getDepartments(String department, String location, String descr, String active);
 }

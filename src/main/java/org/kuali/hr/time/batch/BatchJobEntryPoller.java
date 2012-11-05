@@ -58,7 +58,10 @@ public class BatchJobEntryPoller extends Thread  {
 
 	        	//Add jobs to the manager
                 for (BatchJobEntry entry : entries) {
-                    manager.pool.submit(getRunnable(entry));
+                	BatchJobEntryRunnable batchJobEntryRunnable = getRunnable(entry);
+                	if (batchJobEntryRunnable != null) {
+                		manager.pool.submit(batchJobEntryRunnable);
+                	}
                 }
                 Thread.sleep(1000 * secondsToSleep);
             } catch (Exception e) {
@@ -77,14 +80,13 @@ public class BatchJobEntryPoller extends Thread  {
             LOG.debug("Creating PayPeriodEndBatchJobRunnable.");
             bjer = new PayPeriodEndBatchJobRunnable(entry);
         } else if (StringUtils.equals(entry.getBatchJobName(), TkConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL)) {
-            LOG.debug("Creating SupervisorApprovalBatchJobRunnabble.");
+            LOG.debug("Creating SupervisorApprovalBatchJobRunnable.");
             bjer = new SupervisorApprovalBatchJobRunnable(entry);
         } else if (StringUtils.equals(entry.getBatchJobName(), TkConstants.BATCH_JOB_NAMES.INITIATE)) {
             LOG.debug("Creating InitiateBatchJobRunnable.");
             bjer = new InitiateBatchJobRunnable(entry);
         } else if(StringUtils.equals(entry.getBatchJobName(), TkConstants.BATCH_JOB_NAMES.BATCH_APPROVE_MISSED_PUNCH)) {
-        	LOG.debug("Creating BatchApproveMissedPunchJobRunnable.");
-            bjer = new BatchApproveMissedPunchJobRunnable(entry);
+            LOG.debug("BatchApproveMissedPunchJobRunnable is not run on a regular basis, skipping...");
         } else {
             LOG.warn("Unknown BatchJobEntryRunnable found in BatchJobEntry table. Unable to create Runnable.");
         }

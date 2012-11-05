@@ -30,21 +30,20 @@ import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 public class InitiateBatchJob extends BatchJob {
 	private Logger LOG = Logger.getLogger(InitiateBatchJob.class);
+    private CalendarEntries calendarEntry;
 
-
-    public InitiateBatchJob(String hrPyCalendarEntryId) {
-        super();
+    public InitiateBatchJob(CalendarEntries calendarEntry) {
         this.setBatchJobName(TkConstants.BATCH_JOB_NAMES.INITIATE);
-        this.setHrPyCalendarEntryId(hrPyCalendarEntryId);
+        this.setHrPyCalendarEntryId(calendarEntry.getHrCalendarEntriesId());
+        this.calendarEntry = calendarEntry;
     }
 
 	@Override
 	public void doWork() {
 		Date asOfDate = TKUtils.getCurrentDate();
 		List<Assignment> lstAssignments = TkServiceLocator.getAssignmentService().getActiveAssignments(asOfDate);
-		CalendarEntries payCalendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(this.getHrPyCalendarEntryId());
 		for(Assignment assign : lstAssignments){
-			TimesheetDocumentHeader tkDocHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(assign.getPrincipalId(), payCalendarEntry.getBeginPeriodDateTime(), payCalendarEntry.getEndPeriodDateTime());
+			TimesheetDocumentHeader tkDocHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(assign.getPrincipalId(), calendarEntry.getBeginPeriodDateTime(), calendarEntry.getEndPeriodDateTime());
 			if(tkDocHeader == null || StringUtils.equals(tkDocHeader.getDocumentStatus(),TkConstants.ROUTE_STATUS.CANCEL)){
 				populateBatchJobEntry(assign);
 			}

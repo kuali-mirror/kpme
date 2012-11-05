@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2004-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>KPME-1893: Adding indexes for performance enhancement</comment>
+        
+        <createIndex indexName="HR_EARN_CODE_SECURITY_IDX1" tableName="HR_EARN_CODE_SECURITY_T" unique="true">
+            <column name="DEPT" />
+            <column name="HR_SAL_GROUP" />
+            <column name="LOCATION" />
+            <column name="EARN_CODE" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+        
+        <createIndex indexName="HR_ROLES_IDX1" tableName="HR_ROLES_T" unique="true">
+            <column name="PRINCIPAL_ID" />
+            <column name="ROLE_NAME" />
+            <column name="WORK_AREA" />
+            <column name="DEPT" />
+            <column name="CHART" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+        <createIndex indexName="HR_ROLES_IDX2" tableName="HR_ROLES_T" unique="false">
+            <column name="POSITION_NBR" />
+            <column name="ROLE_NAME" />
+            <column name="WORK_AREA" />
+            <column name="DEPT" />
+            <column name="CHART" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>        
+        
+        <createIndex indexName="TK_ASSIGNMENT_IDX1" tableName="TK_ASSIGNMENT_T" unique="true">
+            <column name="PRINCIPAL_ID" />
+            <column name="JOB_NUMBER" />
+            <column name="WORK_AREA" />
+            <column name="TASK" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+        <createIndex indexName="TK_ASSIGNMENT_IDX2" tableName="TK_ASSIGNMENT_T" unique="true">
+            <column name="PRINCIPAL_ID" />
+            <column name="JOB_NUMBER" />
+            <column name="WORK_AREA" />
+            <column name="TASK" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+            <column name="ACTIVE" />
+        </createIndex>
+        <createIndex indexName="TK_ASSIGN_ACCT_IDX1" tableName="TK_ASSIGN_ACCT_T" unique="false">
+            <column name="TK_ASSIGNMENT_ID" />
+        </createIndex>
+        
+        <createIndex indexName="TK_CLOCK_LOG_IDX1" tableName="TK_CLOCK_LOG_T" unique="true">
+            <column name="PRINCIPAL_ID" />
+            <column name="JOB_NUMBER" />
+            <column name="WORK_AREA" />
+            <column name="TASK" />
+            <column name="CLOCK_TS" />
+            <column name="CLOCK_TS_TZ" />
+            <column name="CLOCK_ACTION" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+        
+        <createIndex indexName="TK_DOCUMENT_HEADER_IDX1" tableName="TK_DOCUMENT_HEADER_T" unique="false">
+            <column name="PRINCIPAL_ID" />
+            <column name="PAY_END_DT" />
+            <column name="PAY_BEGIN_DT" />
+        </createIndex>
+        
+        <createIndex indexName="TK_GRACE_PERIOD_RL_IDX1" tableName="TK_GRACE_PERIOD_RL_T" unique="true">
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+        
+        <createIndex indexName="TK_HOUR_DETAIL_IDX1" tableName="TK_HOUR_DETAIL_T" unique="false">
+            <column name="TK_TIME_BLOCK_ID" />
+        </createIndex>
+        
+        <createIndex indexName="TK_SHIFT_DIFFERENTIAL_RL_IDX1" tableName="TK_SHIFT_DIFFERENTIAL_RL_T" unique="false">
+            <column name="LOCATION" />
+            <column name="HR_SAL_GROUP" />
+            <column name="PAY_GRADE" />
+            <column name="EARN_CODE" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+        
+        <createIndex indexName="TK_SYSTEM_LUNCH_RL_IDX1" tableName="TK_SYSTEM_LUNCH_RL_T" unique="true">
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+        
+        <createIndex indexName="TK_TASK_IDX1" tableName="TK_TASK_T" unique="true">
+            <column name="TASK" />
+            <column name="WORK_AREA" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+        <createIndex indexName="TK_TASK_IDX2" tableName="TK_TASK_T" unique="true">
+            <column name="TASK" />
+            <column name="WORK_AREA" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+            <column name="ACTIVE" />
+        </createIndex>
+        
+        <createIndex indexName="TK_TIME_BLOCK_IDX1" tableName="TK_TIME_BLOCK_T" unique="true">
+            <column name="DOCUMENT_ID" />
+            <column name="JOB_NUMBER" />
+            <column name="WORK_AREA" />
+            <column name="TASK" />
+            <column name="EARN_CODE" />
+            <column name="BEGIN_TS" />
+            <column name="END_TS" />
+            <column name="TIMESTAMP" />
+            <column name="CLOCK_LOG_CREATED" />
+        </createIndex>
+        <createIndex indexName="TK_TIME_BLOCK_IDX2" tableName="TK_TIME_BLOCK_T" unique="false">
+            <column name="PRINCIPAL_ID" />
+        </createIndex>
+        <createIndex indexName="TK_TIME_BLOCK_IDX3" tableName="TK_TIME_BLOCK_T" unique="false">
+            <column name="END_TS" />
+        </createIndex>
+        
+        <createIndex indexName="TK_TIME_BLOCK_HIST_IDX1" tableName="TK_TIME_BLOCK_HIST_T" unique="false">
+            <column name="TK_TIME_BLOCK_ID" />
+        </createIndex>
+        <createIndex indexName="TK_TIME_BLOCK_HIST_IDX2" tableName="TK_TIME_BLOCK_HIST_T" unique="false">
+            <column name="DOCUMENT_ID" />
+        </createIndex>
+        <createIndex indexName="TK_TIME_BLOCK_HIST_DETAIL_IDX1" tableName="TK_TIME_BLOCK_HIST_DETAIL_T" unique="false">
+            <column name="TK_TIME_BLOCK_HIST_ID" />
+        </createIndex>
+
+        <createIndex indexName="TK_TIME_COLLECTION_RL_IDX1" tableName="TK_TIME_COLLECTION_RL_T" unique="true">
+            <column name="DEPT" />
+            <column name="WORK_AREA" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+        
+        <createIndex indexName="TK_WORK_AREA_IDX1" tableName="TK_WORK_AREA_T" unique="true">
+            <column name="WORK_AREA" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+        <createIndex indexName="TK_WORK_AREA_IDX2" tableName="TK_WORK_AREA_T" unique="true">
+            <column name="WORK_AREA" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+            <column name="ACTIVE" />
+        </createIndex>
+
+    </changeSet>
+    
+</databaseChangeLog>

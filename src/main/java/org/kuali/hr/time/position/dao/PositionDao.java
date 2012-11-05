@@ -16,6 +16,9 @@
 package org.kuali.hr.time.position.dao;
 
 import org.kuali.hr.time.position.Position;
+
+import java.sql.Date;
+import java.util.List;
 //import org.kuali.hr.time.position.PositionNumber;
 
 public interface PositionDao {
@@ -24,4 +27,6 @@ public interface PositionDao {
     //public PositionNumber getNextUniquePositionNumber();
 
     //void saveOrUpdate(PositionNumber positionNumber);
+
+    public List<Position> getPositions(String positionNum, String workArea, String positionDescr, Date fromEffdt, Date toEffdt, String active, String showHistory);
 }

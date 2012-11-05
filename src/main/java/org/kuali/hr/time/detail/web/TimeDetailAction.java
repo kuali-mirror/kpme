@@ -441,8 +441,14 @@ public class TimeDetailAction extends TimesheetAction {
         TkServiceLocator.getTimeBlockService().deleteLunchDeduction(timeHourDetailId);
 
         List<TimeBlock> newTimeBlocks = tdaf.getTimesheetDocument().getTimeBlocks();
+        
         TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks);
-
+        
+        // KPME-1340
+        TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, tdaf.getPayCalendarDates(), tdaf.getTimesheetDocument(), TKContext.getPrincipalId());
+        TkServiceLocator.getTimeBlockService().saveTimeBlocks(newTimeBlocks);
+        TKContext.getCurrentTimesheetDocument().setTimeBlocks(newTimeBlocks);
+        
         return mapping.findForward("basic");
     }
       

@@ -29,6 +29,7 @@ import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
@@ -61,7 +62,7 @@ public class TimeBlockLookupableHelperServiceImpl extends KualiLookupableHelperS
 				fieldValues.remove(BEGIN_DATE_ID);
 			}
         
-        List<? extends BusinessObject> objectList = super.getSearchResults(fieldValues);
+        List<TimeBlock> objectList = (List<TimeBlock>) super.getSearchResults(fieldValues);
       
         if(!objectList.isEmpty()) {
         	Iterator<? extends BusinessObject> itr = objectList.iterator();
@@ -129,7 +130,28 @@ public class TimeBlockLookupableHelperServiceImpl extends KualiLookupableHelperS
 					}
 				}				
 			}
+			
+			// Fetch list from time hour detail and convert it into TimeBlock
+			if(!objectList.isEmpty()) {
+				List<TimeBlock> timeBlocks = new ArrayList<TimeBlock>(objectList);
+				for(TimeBlock tb: timeBlocks) {
+					List<TimeHourDetail> timeHourDetails = tb.getTimeHourDetails();
+					for(TimeHourDetail thd : timeHourDetails) {
+					  if(!thd.getEarnCode().equalsIgnoreCase(tb.getEarnCode())) {
+						  TimeBlock timeBlock = new TimeBlock();
+						  timeBlock = tb.copy();
+						  timeBlock.setEarnCode(thd.getEarnCode());
+						  timeBlock.setHours(thd.getHours());
+						  timeBlock.setAmount(thd.getAmount());
+						  objectList.add(timeBlock);
+					  }
+					} // inner for ends
+				} // outer for ends
+			} // if ends
+			
         }
+        
+     
         return objectList;
 	 }
 	 

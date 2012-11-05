@@ -18,6 +18,7 @@ package org.kuali.hr.location.dao;
 import org.kuali.hr.location.Location;
 
 import java.sql.Date;
+import java.util.List;
 
 public interface LocationDao {
 	/**
@@ -35,4 +36,6 @@ public interface LocationDao {
 	public Location getLocation(String hrLocationId);
 	
 	public int getLocationCount(String location);
+
+    List<Location> searchLocations(String location, String locationDescr, String active, String showHistory);
 }

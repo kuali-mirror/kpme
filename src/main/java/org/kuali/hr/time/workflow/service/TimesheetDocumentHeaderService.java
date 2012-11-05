@@ -54,8 +54,19 @@ public interface TimesheetDocumentHeaderService {
      * @return
      */
     TimesheetDocumentHeader getPrevOrNextDocumentHeader(String prevOrNext, String principalId);
-
+	/**
+	 * Fetch document headers for a given pay period begin date
+	 * @param payBeginDate
+	 * @return
+	 */
     public List<TimesheetDocumentHeader> getDocumentHeaders(Date payBeginDate);
+	/**
+	 * Fetch document headers for a given pay period begin date and end date
+	 * @param payBeginDate
+	 * @param payEndDate
+	 * @return
+	 */
+	public List<TimesheetDocumentHeader> getDocumentHeaders(Date payBeginDate, Date payEndDate);
 
     public void deleteTimesheetHeader(String documentId);
     

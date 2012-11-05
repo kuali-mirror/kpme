@@ -15,16 +15,22 @@
  */
 package org.kuali.hr.time.batch;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.batch.service.BatchJobService;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 
 public class BatchJobTest extends KPMETestCase {
 
+	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yy");
 	private static final String BATCH_JOB_NAME = "testJob";
 	private Long ibjId;
 	private BatchJobService bjService;
@@ -34,12 +40,15 @@ public class BatchJobTest extends KPMETestCase {
     	super.setUp();
     	bjService = TkServiceLocator.getBatchJobService();
     }
-	private void creatAndSaveBatchJob(){
-		InitiateBatchJob ibj = new InitiateBatchJob("5");
+	
+	private void creatAndSaveBatchJob() throws Exception{
+		Date beginPeriodDate = DATE_FORMAT.parse("04/01/2011");
+		Date endPeriodDate = DATE_FORMAT.parse("04/15/2011");
+		CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(beginPeriodDate, endPeriodDate);
+		InitiateBatchJob ibj = new InitiateBatchJob(calendarEntry);
 		ibj.setBatchJobName(BATCH_JOB_NAME);
 		ibj.setBatchJobStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.SCHEDULED);
 		ibj.setTimeElapsed(new Long(123));
-		ibj.setHrPyCalendarEntryId("1234");
 
 		bjService.saveBatchJob(ibj);
 

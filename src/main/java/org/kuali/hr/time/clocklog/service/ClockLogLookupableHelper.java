@@ -16,6 +16,7 @@
 package org.kuali.hr.time.clocklog.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,8 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+import org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderService;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -83,9 +86,42 @@ public class ClockLogLookupableHelper extends KualiLookupableHelperServiceImpl {
 	@Override
 	public List<? extends BusinessObject> getSearchResults(
 			Map<String, String> fieldValues) {
-		List<? extends BusinessObject> objectList = super
-				.getSearchResults(fieldValues);
-
+		List<? extends BusinessObject> objectList = new ArrayList<BusinessObject>();
+				
+		
+		// search if documentid is given for search critria.
+		String documentId =fieldValues.get("documentId");
+		if(documentId != null && StringUtils.isNotEmpty(documentId)) {
+			fieldValues.remove("documentId");
+			
+			
+			TimesheetDocumentHeaderService timesheetDocumentHeaderService = TkServiceLocator.getTimesheetDocumentHeaderService();
+			TimesheetDocumentHeader timesheetDocumentHeader = timesheetDocumentHeaderService.getDocumentHeader(documentId);
+			if(timesheetDocumentHeader == null) {
+				objectList = new ArrayList<BusinessObject>();
+			} else {
+				String timesheetUserId = timesheetDocumentHeader.getPrincipalId();
+				Date beginDate =  timesheetDocumentHeader.getBeginDate();
+				Date endDate =  timesheetDocumentHeader.getEndDate();
+				objectList = super.getSearchResults(fieldValues);
+				Iterator itr = objectList.iterator();
+				while (itr.hasNext()) {
+					ClockLog cl = (ClockLog) itr.next();
+					if(cl.getPrincipalId().equalsIgnoreCase(timesheetUserId)) {
+						if(new Date(cl.getClockTimestamp().getTime()).compareTo(beginDate) >= 0 && new Date(cl.getClockTimestamp().getTime()).compareTo(endDate) <= 0) {
+							continue;
+						} else {
+							itr.remove();
+						}
+					} else {
+						itr.remove();
+					}
+				}
+			}
+		} else {
+			objectList = super.getSearchResults(fieldValues);
+		}
+		
 		if (!objectList.isEmpty()) {
 			Iterator itr = objectList.iterator();
 			while (itr.hasNext()) {

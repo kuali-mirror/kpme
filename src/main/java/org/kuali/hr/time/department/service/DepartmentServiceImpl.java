@@ -111,4 +111,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 	public int getDepartmentCount(String department) {
 		return departmentDao.getDepartmentCount(department);
 	}
+
+    @Override
+    public List<Department> getDepartments(String department, String location, String descr, String active) {
+        return departmentDao.getDepartments(department, location, descr, active);
+    }
 }

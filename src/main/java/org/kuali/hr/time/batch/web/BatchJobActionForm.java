@@ -27,8 +27,9 @@ public class BatchJobActionForm extends TkForm {
 
     private static final long serialVersionUID = 385904747462568474L;
     
-    private List<String> batchJobNames = new ArrayList<String>();
-    private List<String> batchJobStatuses = new ArrayList<String>();
+    private static final List<String> BATCH_JOB_NAMES = new ArrayList<String>();
+    private static final List<String> BATCH_JOB_STATUSES = new ArrayList<String>();
+    
     private List<BatchJobEntry> batchJobEntries = new LinkedList<BatchJobEntry>();
     private String batchJobId;
     private String documentId;
@@ -40,31 +41,25 @@ public class BatchJobActionForm extends TkForm {
     private String tkBatchJobEntryId;
     private String ipToChange;
     private String selectedBatchJob;
-
-    public List<String> getBatchJobNames() {
-        batchJobNames.add(TkConstants.BATCH_JOB_NAMES.INITIATE);
-        batchJobNames.add(TkConstants.BATCH_JOB_NAMES.APPROVE);
-        batchJobNames.add(TkConstants.BATCH_JOB_NAMES.PAY_PERIOD_END);
-        batchJobNames.add(TkConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL);
-        batchJobNames.add(TkConstants.BATCH_JOB_NAMES.BATCH_APPROVE_MISSED_PUNCH);
-
-        return batchJobNames;
+    
+    static {
+    	BATCH_JOB_NAMES.add(TkConstants.BATCH_JOB_NAMES.INITIATE);
+    	BATCH_JOB_NAMES.add(TkConstants.BATCH_JOB_NAMES.APPROVE);
+    	BATCH_JOB_NAMES.add(TkConstants.BATCH_JOB_NAMES.PAY_PERIOD_END);
+    	BATCH_JOB_NAMES.add(TkConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL);
+    	BATCH_JOB_NAMES.add(TkConstants.BATCH_JOB_NAMES.BATCH_APPROVE_MISSED_PUNCH);
+    	
+    	BATCH_JOB_STATUSES.add(TkConstants.BATCH_JOB_ENTRY_STATUS.RUNNING);
+    	BATCH_JOB_STATUSES.add(TkConstants.BATCH_JOB_ENTRY_STATUS.SCHEDULED);
+    	BATCH_JOB_STATUSES.add(TkConstants.BATCH_JOB_ENTRY_STATUS.FINISHED);
     }
 
-    public void setBatchJobNames(List<String> batchJobs) {
-        this.batchJobNames = batchJobs;
+    public List<String> getBatchJobNames() {
+        return BATCH_JOB_NAMES;
     }
 
     public List<String> getBatchJobStatuses() {
-        batchJobStatuses.add(TkConstants.BATCH_JOB_ENTRY_STATUS.RUNNING);
-        batchJobStatuses.add(TkConstants.BATCH_JOB_ENTRY_STATUS.SCHEDULED);
-        batchJobStatuses.add(TkConstants.BATCH_JOB_ENTRY_STATUS.FINISHED);
-
-        return batchJobStatuses;
-    }
-
-    public void setBatchJobStatuses(List<String> batchJobStatuses) {
-        this.batchJobStatuses = batchJobStatuses;
+        return BATCH_JOB_STATUSES;
     }
 
     public String getBatchJobId() {

@@ -77,47 +77,42 @@ public class BatchJobAction extends TkAction {
 
         List<BatchJobEntry> batchJobEntries = TkServiceLocator.getBatchJobEntryService().getBatchJobEntries(searchCrit);
 
-        if (batchJobEntries.size() > 0) {
+        for (BatchJobEntry entry : batchJobEntries) {
+            long startTime = System.currentTimeMillis();
+            LOG.debug("Before run.");
+            entry.setBatchJobEntryStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.RUNNING);
+            TkServiceLocator.getBatchJobEntryService().saveBatchJobEntry(entry);
 
-            for (BatchJobEntry entry : batchJobEntries) {
-
-                long startTime = System.currentTimeMillis();
-                LOG.debug("Before run.");
-                entry.setBatchJobEntryStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.RUNNING);
-                TkServiceLocator.getBatchJobEntryService().saveBatchJobEntry(entry);
-
-                if (StringUtils.equals(entry.getBatchJobName(), TkConstants.BATCH_JOB_NAMES.APPROVE)) {
-                    LOG.debug("Creating EmployeeApprovalBatchJobRunnable.");
-                    new EmployeeApprovalBatchJobRunnable(entry).doWork();
-                } else if (StringUtils.equals(entry.getBatchJobName(), TkConstants.BATCH_JOB_NAMES.PAY_PERIOD_END)) {
-                    LOG.debug("Creating PayPeriodEndBatchJobRunnable.");
-                    new PayPeriodEndBatchJobRunnable(entry).doWork();
-                } else if (StringUtils.equals(entry.getBatchJobName(), TkConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL)) {
-                    LOG.debug("Creating SupervisorApprovalBatchJobRunnabble.");
-                    new SupervisorApprovalBatchJobRunnable(entry).doWork();
-                } else if (StringUtils.equals(entry.getBatchJobName(), TkConstants.BATCH_JOB_NAMES.INITIATE)) {
-                    LOG.debug("Creating InitiateBatchJobRunnable.");
-                    new InitiateBatchJobRunnable(entry).doWork();
-                } else if (StringUtils.equals(entry.getBatchJobName(), TkConstants.BATCH_JOB_NAMES.BATCH_APPROVE_MISSED_PUNCH)) {
-                    LOG.debug("Creating BatchApproveMissedPunchJobRunnable.");
-                    new BatchApproveMissedPunchJobRunnable(entry).doWork();
-                } else {
-                    LOG.warn("Unknown BatchJobEntryRunnable found in BatchJobEntry table. Unable to create Runnable.");
-                }
-
-                long endTime = System.currentTimeMillis();
-                long runtime = endTime - startTime;
-                runtime = (runtime > 0) ? runtime : 1; // hack around 0 length job... just in case.
-                LOG.debug("Job finished in " + runtime / 1000 + " seconds.");
-
-                if (StringUtils.isEmpty(entry.getBatchJobException())) {
-                    entry.setBatchJobEntryStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.FINISHED);
-                } else {
-                    entry.setBatchJobEntryStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.EXCEPTION);
-                }
-                TkServiceLocator.getBatchJobEntryService().saveBatchJobEntry(entry);
+            if (StringUtils.equals(entry.getBatchJobName(), TkConstants.BATCH_JOB_NAMES.APPROVE)) {
+                LOG.debug("Creating EmployeeApprovalBatchJobRunnable.");
+                new EmployeeApprovalBatchJobRunnable(entry).doWork();
+            } else if (StringUtils.equals(entry.getBatchJobName(), TkConstants.BATCH_JOB_NAMES.PAY_PERIOD_END)) {
+                LOG.debug("Creating PayPeriodEndBatchJobRunnable.");
+                new PayPeriodEndBatchJobRunnable(entry).doWork();
+            } else if (StringUtils.equals(entry.getBatchJobName(), TkConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL)) {
+                LOG.debug("Creating SupervisorApprovalBatchJobRunnabble.");
+                new SupervisorApprovalBatchJobRunnable(entry).doWork();
+            } else if (StringUtils.equals(entry.getBatchJobName(), TkConstants.BATCH_JOB_NAMES.INITIATE)) {
+                LOG.debug("Creating InitiateBatchJobRunnable.");
+                new InitiateBatchJobRunnable(entry).doWork();
+            } else if (StringUtils.equals(entry.getBatchJobName(), TkConstants.BATCH_JOB_NAMES.BATCH_APPROVE_MISSED_PUNCH)) {
+                LOG.debug("Creating BatchApproveMissedPunchJobRunnable.");
+                new BatchApproveMissedPunchJobRunnable(entry).doWork();
+            } else {
+                LOG.warn("Unknown BatchJobEntryRunnable found in BatchJobEntry table. Unable to create Runnable.");
             }
 
+            long endTime = System.currentTimeMillis();
+            long runtime = endTime - startTime;
+            runtime = (runtime > 0) ? runtime : 1; // hack around 0 length job... just in case.
+            LOG.debug("Job finished in " + runtime / 1000 + " seconds.");
+
+            if (StringUtils.isEmpty(entry.getBatchJobException())) {
+                entry.setBatchJobEntryStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.FINISHED);
+            } else {
+                entry.setBatchJobEntryStatus(TkConstants.BATCH_JOB_ENTRY_STATUS.EXCEPTION);
+            }
+            TkServiceLocator.getBatchJobEntryService().saveBatchJobEntry(entry);
         }
         return mapping.findForward("basic");
     }

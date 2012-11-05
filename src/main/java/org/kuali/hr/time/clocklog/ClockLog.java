@@ -17,6 +17,8 @@ package org.kuali.hr.time.clocklog;
 
 import java.sql.Timestamp;
 
+import javax.persistence.Transient;
+
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.TkConstants;
@@ -40,6 +42,8 @@ public class ClockLog extends PersistableBusinessObjectBase {
     private String userPrincipalId;
     private Timestamp timestamp;
     private boolean unapprovedIP = false;
+    @Transient
+    private String documentId;
     
     private String missedPunchDocumentId;
 
@@ -205,4 +209,12 @@ public class ClockLog extends PersistableBusinessObjectBase {
 		this.unapprovedIP = unapprovedIP;
 	}
 
+	public String getDocumentId() {
+		return documentId;
+	}
+
+	public void setDocumentId(String documentId) {
+		this.documentId = documentId;
+	}
+	
 }

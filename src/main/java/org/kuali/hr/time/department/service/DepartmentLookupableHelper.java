@@ -17,6 +17,7 @@ package org.kuali.hr.time.department.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
@@ -73,4 +74,16 @@ public class DepartmentLookupableHelper extends HrEffectiveDateActiveLookupableH
 		return customActionUrls;
 	}
 
+    @SuppressWarnings({"unchecked"})
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        String department = fieldValues.get("department");
+        String location = fieldValues.get("location");
+        String descr = fieldValues.get("description");
+        String active = fieldValues.get("active");
+
+        List<Department> departments = TkServiceLocator.getDepartmentService().getDepartments(department, location, descr, active);
+
+        return departments;
+    }
 }

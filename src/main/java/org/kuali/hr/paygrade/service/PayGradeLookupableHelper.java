@@ -16,10 +16,12 @@
 package org.kuali.hr.paygrade.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -49,4 +51,16 @@ public class PayGradeLookupableHelper extends HrEffectiveDateActiveLookupableHel
 		return customActionUrls;
 	}
 
+    @SuppressWarnings({"unchecked"})
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+
+        String payGrade = fieldValues.get("payGrade");
+        String descr = fieldValues.get("description");
+        String active = fieldValues.get("active");
+
+        List<PayGrade> payGrades = TkServiceLocator.getPayGradeService().getPayGrades(payGrade, descr, active);
+
+        return payGrades;
+    }
 }

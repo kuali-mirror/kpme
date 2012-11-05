@@ -16,12 +16,19 @@
 package org.kuali.hr.location.dao;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.location.Location;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class LocationDaoSpringObjImpl extends PlatformAwareDaoBaseOjb implements LocationDao {
@@ -80,5 +87,65 @@ public class LocationDaoSpringObjImpl extends PlatformAwareDaoBaseOjb implements
 		Query query = QueryFactory.newQuery(Location.class, crit);
 		return this.getPersistenceBrokerTemplate().getCount(query);
 	}
+
+    @Override
+    public List<Location> searchLocations(String location, String locationDescr, String active, String showHistory) {
+        Criteria crit = new Criteria();
+       // Criteria effdt = new Criteria();
+
+        List<Location> results = new ArrayList<Location>();
+
+        if(StringUtils.isNotBlank(location) && StringUtils.isNotEmpty(location)){
+            crit.addLike("location", location);
+        }
+        if(StringUtils.isNotBlank(locationDescr)){
+            crit.addLike("description", locationDescr);
+        }
+        if (StringUtils.isEmpty(active) && StringUtils.equals(showHistory, "Y")) {
+            Query query = QueryFactory.newQuery(Location.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+        } else if (StringUtils.isEmpty(active) && StringUtils.equals(showHistory, "N")) {
+            Query query = QueryFactory.newQuery(Location.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+        } else if (StringUtils.equals(active, "Y") && StringUtils.equals("N", showHistory)) {
+            Criteria activeFilter = new Criteria(); // Inner Join For Activity
+            activeFilter.addEqualTo("active", true);
+            crit.addAndCriteria(activeFilter);
+            Query query = QueryFactory.newQuery(Location.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+        } //return all active records from the database
+        else if (StringUtils.equals(active, "Y") && StringUtils.equals("Y", showHistory)) {
+            Criteria activeFilter = new Criteria(); // Inner Join For Activity
+            activeFilter.addEqualTo("active", true);
+            crit.addAndCriteria(activeFilter);
+            Query query = QueryFactory.newQuery(Location.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+        }
+        //return all inactive records in the database
+        else if (StringUtils.equals(active, "N") && StringUtils.equals(showHistory, "Y")) {
+            Criteria activeFilter = new Criteria(); // Inner Join For Activity
+            activeFilter.addEqualTo("active", false);
+            crit.addAndCriteria(activeFilter);
+            Query query = QueryFactory.newQuery(Location.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+        }
+
+        //return the most effective inactive rows if there are no active rows <= the curr date
+        else if (StringUtils.equals(active, "N") && StringUtils.equals(showHistory, "N")) {
+            Criteria activeFilter = new Criteria(); // Inner Join For Activity
+            activeFilter.addEqualTo("active", false);
+            crit.addAndCriteria(activeFilter);
+            Query query = QueryFactory.newQuery(Location.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+
+        }
+        return results;
+    }
 
 }

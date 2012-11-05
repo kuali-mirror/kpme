@@ -46,6 +46,7 @@
 				<ref bean="ClockLog-userPrincipalId" />
 				<ref bean="ClockLog-timestamp" />
 				<ref bean="ClockLog-missedPunchDocumentId"/>
+				<ref bean="ClockLog-documentId"/>
 			</list>
 		</property>
 		 
@@ -89,6 +90,9 @@
 
 	<!-- Attribute Definition -->
 	
+	<bean id="ClockLog-documentId" parent="ClockLog-documentId-parentBean"/>
+    <bean id="ClockLog-documentId-parentBean" abstract="true" parent="TimesheetDocumentHeader-documentId"/>
+  
     <bean id="ClockLog-tkClockLogId" parent="ClockLog-tkClockLogId-parentBean" />
     <bean id="ClockLog-tkClockLogId-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="shortLabel" value="Clock Log Id" />
@@ -173,7 +177,7 @@
 		<property name="shortLabel" value="Clock Timestamp" />
 		<property name="maxLength" value="20" />
 		<property name="control">
-			<bean parent="TextControlDefinition" p:size="21" />
+			<bean parent="TextControlDefinition" p:size="21" p:datePicker="true" p:ranged="true"/>
 		</property>
 		<property name="validationPattern">
 			<bean parent="TimestampValidationPattern" />
@@ -309,6 +313,7 @@
 							<bean parent="FieldDefinition" p:attributeName="userPrincipalId" />
 							<bean parent="FieldDefinition" p:attributeName="timestamp" />
 							<bean parent="FieldDefinition" p:attributeName="missedPunchDocumentId" />
+							
 						</list>
 					</property>
 					<property name="title" value="ClockLog" />
@@ -327,6 +332,7 @@
 		<property name="lookupableID" value="clockLogLookupable"></property>
 		<property name="lookupFields">
 			<list>
+				<bean parent="FieldDefinition" p:attributeName="documentId" />
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" p:noDirectInquiry="true" />
 				<bean parent="FieldDefinition" p:attributeName="task" p:noDirectInquiry="true" />

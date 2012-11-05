@@ -477,6 +477,7 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
         this.pushBackward = b.pushBackward;
         this.clockLogBeginId = b.clockLogBeginId;
         this.clockLogEndId = b.clockLogEndId;
+        this.principalId = b.principalId;
 
         // We just set the reference for this object, since splitting the
         // TimeBlock would be abnormal behavior.

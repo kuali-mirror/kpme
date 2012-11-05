@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -97,6 +98,43 @@ public class DepartmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
         d.addAll(c);
 
 		return d;
+    }
+
+    @Override
+    public List<Department> getDepartments(String department, String location, String departmentDescr, String active) {
+        Criteria crit = new Criteria();
+
+        List<Department> results = new ArrayList<Department>();
+
+        if(StringUtils.isNotBlank(department) && StringUtils.isNotEmpty(department)){
+            crit.addLike("department", department);
+        }
+        if(StringUtils.isNotBlank(location) && StringUtils.isNotEmpty(location)){
+            crit.addLike("location", location);
+        }
+        if(StringUtils.isNotBlank(departmentDescr)){
+            crit.addLike("description", departmentDescr);
+        }
+        if (StringUtils.isEmpty(active)) {
+            Query query = QueryFactory.newQuery(Department.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+        } else if (StringUtils.equals(active, "Y")) {
+            Criteria activeFilter = new Criteria(); // Inner Join For Activity
+            activeFilter.addEqualTo("active", true);
+            crit.addAndCriteria(activeFilter);
+            Query query = QueryFactory.newQuery(Department.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+        } else if (StringUtils.equals(active, "N")) {
+            Criteria activeFilter = new Criteria(); // Inner Join For Activity
+            activeFilter.addEqualTo("active", false);
+            crit.addAndCriteria(activeFilter);
+            Query query = QueryFactory.newQuery(Department.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+        }
+        return results;
     }
 
 	@Override

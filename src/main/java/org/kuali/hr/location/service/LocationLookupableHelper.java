@@ -17,12 +17,15 @@ package org.kuali.hr.location.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -67,5 +70,19 @@ public class LocationLookupableHelper extends HrEffectiveDateActiveLookupableHel
 		
 		return customActionUrls;
 	}
-	
+
+    @SuppressWarnings({"unchecked"})
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+//        String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
+//        String toEffdt = StringUtils.isNotBlank(fieldValues.get("effectiveDate")) ? fieldValues.get("effectiveDate").replace("<=", "") : "";
+        String location = fieldValues.get("location");
+        String descr = fieldValues.get("description");
+        String active = fieldValues.get("active");
+        String showHist = fieldValues.get("history");
+
+        List<Location> locations = TkServiceLocator.getLocationService().searchLocations(location, descr, active, showHist);
+
+        return locations;
+    }
 }
