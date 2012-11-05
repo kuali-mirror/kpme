@@ -31,6 +31,7 @@ import org.kuali.hr.lm.leavecalendar.web.LeaveCalendarAction;
 import org.kuali.hr.lm.leavecalendar.web.LeaveCalendarForm;
 import org.kuali.hr.lm.util.LeaveCalendarTestUtils;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -78,11 +79,8 @@ public class LeaveCalendarWorkflowIntegrationTest extends LeaveCalendarWebTestBa
         HtmlPage page = loginAndGetLeaveCalendarHtmlPage("admin", tdocId, true);
 
         // 1. Obtain User Data
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getPrincipalId(), JAN_AS_OF_DATE);
-        Assignment assignment = assignments.get(0);
-
-        List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForLeave(assignment, JAN_AS_OF_DATE);
-        EarnCode earnCode = earnCodes.get(0);
+        Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, new AssignmentDescriptionKey("30_30_30"), asOfDate);
+		EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode("VAC", asOfDate);
 
         // 2. Set Timeblock Start and End time
         // 3/02/2011 - 8:00a to 4:00pm
