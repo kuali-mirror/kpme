@@ -111,8 +111,8 @@ public class TimesheetDocumentHeaderDaoSpringOjbImpl extends PlatformAwareDaoBas
         Criteria crit = new Criteria();
         List<TimesheetDocumentHeader> lstDocumentHeaders = new ArrayList<TimesheetDocumentHeader>();
         
-        crit.addEqualTo("payEndDate", payEndDate);
-        crit.addEqualTo("payBeginDate", payBeginDate);
+        crit.addEqualTo("endDate", payEndDate);
+        crit.addEqualTo("beginDate", payBeginDate);
         QueryByCriteria query = new QueryByCriteria(TimesheetDocumentHeader.class, crit);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
         if (c != null) {
