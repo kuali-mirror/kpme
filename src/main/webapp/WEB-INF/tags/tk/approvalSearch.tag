@@ -1,5 +1,6 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
+<%@ attribute name="calType" required="true" type="java.lang.String" %>
 <%-- for time approval, set searchId to searchValue, for leave Approval, set searchId to leaveSearchValue 
 the id is used in approval.js--%>
 <%@ attribute name="searchId" required="true" type="java.lang.String" %>
@@ -39,7 +40,7 @@ the id is used in approval.js--%>
                 </div>
             </td>
             <td>
-            	<tk:payCalendarSelect />
+            	<tk:payCalendarSelect calType="${calType}" />
             </td>
             <td></td>
         </tr>

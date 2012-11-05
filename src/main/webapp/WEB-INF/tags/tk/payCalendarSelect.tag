@@ -1,5 +1,7 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
+<%@ attribute name="calType" required="true" type="java.lang.String" %>
+
 <div id="calendar-payPeriod">
 
     <table class="cal-header">
@@ -25,7 +27,16 @@
             </tr>
             <tr>
                 <td align="left">
-          			<span class="header-title-left">Pay Period</span>
+          			<span class="header-title-left">
+                        <c:choose>
+                            <c:when test="${calType eq 'payCalendar'}">
+                                Current Pay Period
+                            </c:when>
+                            <c:when test="${calType eq 'leaveCalendar'}">
+                                Current Leave Period
+                            </c:when>
+                        </c:choose>
+                    </span>
                 </td>
                 <td align="left">
                     <select id="selectedPayPeriod" name="selectedPayPeriod">

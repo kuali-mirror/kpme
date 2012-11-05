@@ -21,7 +21,7 @@
         <tr>
             <%-- Paging controls for moving between calendars --%>
             <td align="left" width="30%">
-                <tk:payCalendarSelect />
+                <tk:payCalendarSelect calType="${calType}" />
             </td>
             <%-- Displayed month and prev/next buttons --%>
             <td align="center" width="40%">
@@ -50,7 +50,16 @@
                             <%--<c:if test="${!Form.onCurrentPeriod}" >--%>
                                 <span class="header-title-right">
 	       		                    <a href="${calendarLocation}?methodToCall=gotoCurrentPayPeriod"
-                                        target="_self" id="cpplink">Current Pay Period</a>
+                                        target="_self" id="cpplink">
+                                        <c:choose>
+                                            <c:when test="${calType eq 'payCalendar'}">
+                                                Current Pay Period
+                                            </c:when>
+                                            <c:when test="${calType eq 'leaveCalendar'}">
+                                                Current Leave Period
+                                            </c:when>
+                                        </c:choose>
+                                    </a>
                                 </span>
                             <%--</c:if>--%>
                             </td>

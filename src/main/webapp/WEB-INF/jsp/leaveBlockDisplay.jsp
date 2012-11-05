@@ -44,7 +44,7 @@
                         <td align="right" width="30%">
                             <span class="header-title-right">
                                 <a href="LeaveCalendar.do?methodToCall=gotoCurrentPayPeriod"
-                                   target="_self" id="cpplink">Current Pay Period</a>
+                                   target="_self" id="cpplink">Current Leave Period</a>
                             </span>
                         </td>
                     </tr>

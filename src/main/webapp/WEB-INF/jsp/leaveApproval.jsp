@@ -44,7 +44,7 @@
 	
 	<c:if test="${fn:length(Form.leaveApprovalRows) != 0}">
 	
-		<tk:approvalSearch searchId="leaveSearchValue" />
+		<tk:approvalSearch calType="leaveCalendar" searchId="leaveSearchValue" />
 
 		<lm:leaveApproval />
 
