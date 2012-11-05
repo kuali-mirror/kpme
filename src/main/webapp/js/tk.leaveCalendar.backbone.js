@@ -272,8 +272,10 @@ $(function () {
             // Here we want to fire the ajax call first to grab the earn codes.
             // After that is done, we fill out the form and make the entry field show / hide based on the earn code type.
             var dfd = $.Deferred();
-            dfd.done($("#selectedEarnCode option[value='" + leaveBlock.get("earnCode") + "']").attr("selected", "selected"))
-            .done(_(leaveBlock).fillInForm());
+            dfd.done(_(leaveBlock).fillInForm())
+               .done(this.fetchEarnCode(_.getSelectedAssignmentValue()))
+               .done(this.showFieldByEarnCodeType())
+               .done($("#selectedEarnCode option[value='" + leaveBlock.get("earnCode") + "']").attr("selected", "selected"));
         },
         
         deleteLeaveBlock : function (e) {
