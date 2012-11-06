@@ -32,7 +32,6 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
 import org.joda.time.Interval;
 import org.joda.time.Period;
-import org.kuali.hr.location.service.TimezoneKeyValueFinder;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -586,5 +585,38 @@ public class TKUtils {
 		gc.setTime(aDate);
 		gc.add(Calendar.DAY_OF_YEAR, aNumber);
 		return gc.getTime();
+    }
+    
+    /**
+     * returns effectiveDate "to" date that's passed in through dateString
+     * dateString is generated from date lookup fields
+     * dateString is in "fromDate..toDate", "<=toDate" or ">=toDate" format
+     * fromDate and toDate are in MM/dd/yyyy or M/d/yyyy format
+     * @param dateString
+     * @return
+     */
+    public static String getToDateString(String dateString) {
+    	if(StringUtils.isNotBlank(dateString)) {
+    		if(dateString.indexOf("..") == 10) {
+    			return dateString.substring(12, dateString.length());
+    		} else {
+    			return dateString.substring(2, dateString.length());
+    		}
+    	}
+    	return "";
+    }
+    /**
+     * returns effectiveDate "to" date that's passed in through dateString
+	 * dateString is generated from date lookup fields
+     * dateString is in "fromDate..toDate", "<=toDate" or ">=toDate" format
+     * fromDate and toDate are in MM/dd/yyyy or M/d/yyyy format
+     * @param dateString
+     * @return
+     */
+    public static String getFromDateString(String dateString) {
+    	if(StringUtils.isNotBlank(dateString) && dateString.indexOf("..") == 10) {
+			return dateString.substring(0, 10);
+    	}
+    	return "";
     }
 }

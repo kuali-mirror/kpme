@@ -15,14 +15,13 @@
  */
 package org.kuali.hr.lm.accrual.dao;
 
+import org.kuali.hr.lm.accrual.AccrualCategory;
+
 import java.sql.Date;
 import java.util.List;
 
-import org.kuali.hr.lm.accrual.AccrualCategory;
-
-
 public interface AccrualCategoryDao {
-	
+
 	/**
 	 * Fetch accrual category as of a particular date
 	 * @param accrualCategory
@@ -30,7 +29,7 @@ public interface AccrualCategoryDao {
 	 * @return
 	 */
     public AccrualCategory getAccrualCategory(String accrualCategory, Date asOfDate);
-    //public void saveOrUpdate(AccrualCategory accrualCategory);
+    public void saveOrUpdate(AccrualCategory accrualCategory);
     /**
      * Fetch accrual category by a unique id
      * @param lmAccrualCategoryId
@@ -43,7 +42,9 @@ public interface AccrualCategoryDao {
      * @return
      */
     public List<AccrualCategory> getActiveAccrualCategories(Date asOfDate);
-    
+
+    List<AccrualCategory> getAccrualCategories(String accrualCategory, String accrualCatDescr, Date fromEffdt, Date toEffdt, String active, String showHistory);
+
     /**
      * 
      * @param leavePlan
@@ -56,4 +57,5 @@ public interface AccrualCategoryDao {
 	
     
     public List <AccrualCategory> getInActiveLeaveAccrualCategoriesForLeavePlan(String leavePlan, Date asOfDate);
+
 }

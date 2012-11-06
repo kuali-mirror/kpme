@@ -112,5 +112,26 @@ public class TKUtilsTest extends Assert {
 		mins = TKUtils.convertMillisToMinutes(new Long(240000));
 		assertTrue("Minutes should be 4",  mins.compareTo(new BigDecimal(4)) == 0);
 	}
+	
+	@Test
+	public void testFromAndToDateString() {
+		String dateString = "01/01/2012..12/20/2012";
+		String fromDateString = TKUtils.getFromDateString(dateString);
+		assertTrue("FromDateString should be 01/01/2012, not " + fromDateString, fromDateString.equals("01/01/2012"));
+		assertNotNull(TKUtils.formatDateString(fromDateString));
+		String toDateString = TKUtils.getToDateString(dateString);
+		assertTrue("toDateString should be 12/20/2012, not " + toDateString, toDateString.equals("12/20/2012"));
+		assertNotNull(TKUtils.formatDateString(toDateString));
+		
+		dateString = "<=2/1/2012";
+		toDateString = TKUtils.getToDateString(dateString);
+		assertTrue("toDateString should be 2/1/2012, not " + toDateString, toDateString.equals("2/1/2012"));
+		assertNotNull(TKUtils.formatDateString(toDateString));
+		
+		dateString = ">=3/01/2012";
+		toDateString = TKUtils.getToDateString(dateString);
+		assertTrue("toDateString should be 3/01/2012, not " + toDateString, toDateString.equals("3/01/2012"));
+		assertNotNull(TKUtils.formatDateString(toDateString));
+	}
 
 }

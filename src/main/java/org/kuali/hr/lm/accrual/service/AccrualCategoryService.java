@@ -15,14 +15,14 @@
  */
 package org.kuali.hr.lm.accrual.service;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.springframework.cache.annotation.Cacheable;
 
+import java.sql.Date;
+import java.util.List;
+
 public interface AccrualCategoryService {
-    
+
 	/**
 	 * Get an AccrualCategory as of a particular date
 	 * @param accrualCategory
@@ -35,7 +35,7 @@ public interface AccrualCategoryService {
      * Save or Update an accrual category
      * @param accrualCategory
      */
-   // public void saveOrUpdate(AccrualCategory accrualCategory);
+    public void saveOrUpdate(AccrualCategory accrualCategory);
     
     /**
      * Fetch accrual category by unique id
@@ -52,6 +52,8 @@ public interface AccrualCategoryService {
      */
     @Cacheable(value= AccrualCategory.CACHE_NAME, key="'asOfDate=' + #p0")
     public List <AccrualCategory> getActiveAccrualCategories(Date asOfDate);
+
+    List <AccrualCategory> getAccrualCategories(String accrualCategory, String accrualCatDescr, Date fromEffdt, Date toEffdt, String active, String showHistory);
     
     /**
      * Fetch list of active accrual categories with given leavePlan and date

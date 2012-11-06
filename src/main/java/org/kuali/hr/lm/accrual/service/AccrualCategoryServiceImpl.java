@@ -15,9 +15,6 @@
  */
 package org.kuali.hr.lm.accrual.service;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.lm.LMConstants;
@@ -31,23 +28,26 @@ import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 
+import java.sql.Date;
+import java.util.List;
+
 public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 
+	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(AccrualCategoryServiceImpl.class);
 	private AccrualCategoryDao accrualCategoryDao;
 	public AccrualCategoryServiceImpl() {
 	}
 
-	@Override
 	public AccrualCategory getAccrualCategory(String accrualCategory, Date asOfDate) {
 		return accrualCategoryDao.getAccrualCategory(accrualCategory, asOfDate);
 	}
-/*
+
 	@Override
 	public void saveOrUpdate(AccrualCategory accrualCategory) {
 		accrualCategoryDao.saveOrUpdate(accrualCategory);
 	}
-*/
+
 	public AccrualCategoryDao getAccrualCategoryDao() {
 		return accrualCategoryDao;
 	}
@@ -61,10 +61,15 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 		return accrualCategoryDao.getAccrualCategory(lmAccrualCategoryId);
 	}
 
-	@Override	
+	@Override
 	public List <AccrualCategory> getActiveAccrualCategories(Date asOfDate){
 		return accrualCategoryDao.getActiveAccrualCategories(asOfDate);
 	}
+
+    @Override
+    public List<AccrualCategory> getAccrualCategories(String accrualCategory, String accrualCatDescr, Date fromEffdt, Date toEffdt, String active, String showHistory) {
+        return accrualCategoryDao.getAccrualCategories(accrualCategory, accrualCatDescr, fromEffdt, toEffdt, active, showHistory);
+    }
    
 
 	public void runAccrual(String principalId, Date asOfDate){
