@@ -231,16 +231,11 @@ public class LeaveCalendarAction extends TkAction {
 		lcf.setLeaveAmount(null);
 		lcf.setDescription(null);
 		
-		// call accrual service for this pay period if earn code is not eligible for accrual
-        java.sql.Date sqlDate = new java.sql.Date(endDate.getMillis());
-		EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, sqlDate);
-		if(ec != null && ec.getEligibleForAccrual().equals("N")) {
-			CalendarEntries ce = lcf.getCalendarEntry();
-			if(ce != null && ce.getBeginPeriodDate() != null && ce.getEndPeriodDate() != null) {
-				// since we are only recalculation accrual for this single pay period, we do not record the accrual run data
-				TkServiceLocator.getLeaveAccrualService().runAccrual(TKContext.getTargetPrincipalId(), ce.getBeginPeriodDate(), ce.getEndPeriodDate(), false);
-			}
-		}
+		// call accrual service if earn code is not eligible for accrual
+		if(lcf.getCalendarEntry() != null) {
+			java.sql.Date sqlDate = new java.sql.Date(endDate.getMillis());
+			this.rerunAccrualForNotEligibleForAccrualChanges(selectedEarnCode, sqlDate, lcf.getCalendarEntry().getBeginPeriodDate());
+		 }
 		// recalculate summary
 		if(lcf.getCalendarEntry() != null) {
 			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), lcf.getCalendarEntry());
@@ -260,6 +255,11 @@ public class LeaveCalendarAction extends TkAction {
         if (blockToDelete != null
                 && TkServiceLocator.getPermissionsService().canDeleteLeaveBlock(blockToDelete)) {
 		    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId);
+			 // recalculate accruals
+		    if(lcf.getCalendarEntry() != null) {
+		    	this.rerunAccrualForNotEligibleForAccrualChanges(blockToDelete.getEarnCode(), blockToDelete.getLeaveDate(), 
+		    		lcf.getCalendarEntry().getBeginPeriodDate());
+		    }	
         }
 		// recalculate summary
 		if(lcf.getCalendarEntry() != null) {
@@ -267,6 +267,25 @@ public class LeaveCalendarAction extends TkAction {
 		    lcf.setLeaveSummary(ls);
 		}
 		return mapping.findForward("basic");
+	}
+	
+	/**
+	 * Recalculate accrual when a leave block with not-eligible-for-accrual earn code is added or deleted
+	 * calculate accrual starting from the begin date of the affected calendar entry up to planningMonths in the future
+	 * @param earnCode
+	 * @param asOfDate
+	 * @param startDate
+	 */
+	private void rerunAccrualForNotEligibleForAccrualChanges(String earnCode, Date asOfDate, Date startDate) {
+		EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
+		if(ec != null && ec.getEligibleForAccrual().equals("N")) {
+			if(startDate != null) {
+				int planningMonth = ActionFormUtils.getPlanningMonthsForEmployee(TKContext.getTargetPrincipalId());
+				Date endDate = new java.sql.Date(TKUtils.addMonths(TKUtils.getCurrentDate(), planningMonth).getTime());
+				// since we are only recalculation accrual for this pay period and future, we do not record the accrual run data
+				TkServiceLocator.getLeaveAccrualService().runAccrual(TKContext.getTargetPrincipalId(), startDate, endDate, false);
+			}
+		}
 	}
 	
 	// KPME-1447

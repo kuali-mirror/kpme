@@ -50,7 +50,7 @@ public class LeaveAdjustmentMaintainableServiceImpl extends HrBusinessObjectMain
 		aLeaveBlock.setEarnCode(la.getEarnCode());
 		aLeaveBlock.setAccrualCategory(la.getAccrualCategory());
 		aLeaveBlock.setDescription("Leave Adjustment");
-		aLeaveBlock.setLeaveAmount(la.getAdjustmentAmount());
+		aLeaveBlock.setLeaveAmount(la.getAdjustmentAmount().negate());	// leave adjustment should be saved as negative
 		aLeaveBlock.setAccrualGenerated(false);
 		aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_ADJUSTMENT_MAINT);
 		aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);

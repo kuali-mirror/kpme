@@ -587,6 +587,17 @@ public class TKUtils {
 		return gc.getTime();
     }
     
+    public static java.util.Date addMonths(java.util.Date aDate, int aNumber) {
+    	Calendar gc = new GregorianCalendar();
+		gc.setTime(aDate);
+		gc.add(Calendar.MONTH, aNumber);
+		if(gc.getActualMaximum(Calendar.DAY_OF_MONTH) < gc.get(Calendar.DATE)) {
+			gc.set(Calendar.DATE, gc.getActualMaximum(Calendar.DAY_OF_MONTH));
+		}
+		
+		return gc.getTime();
+    }
+    
     /**
      * returns effectiveDate "to" date that's passed in through dateString
      * dateString is generated from date lookup fields

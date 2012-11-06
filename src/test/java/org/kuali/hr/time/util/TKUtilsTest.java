@@ -114,6 +114,21 @@ public class TKUtilsTest extends Assert {
 	}
 	
 	@Test
+	public void testAddMonths() {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		java.util.Date aDate = new java.util.Date(new DateTime(2011,1,15,0,0,0,0).getMillis());
+		int aNumber = -1;
+		java.util.Date resultDate = TKUtils.addMonths(aDate, aNumber);
+		assertTrue("ResultDate should be 12/15/2010, not " + sdf.format(resultDate), sdf.format(resultDate).equals("12/15/2010"));
+		
+		aDate = new java.util.Date(new DateTime(2012,1,31,0,0,0,0).getMillis());
+		aNumber = 3;
+		resultDate = TKUtils.addMonths(aDate, aNumber);
+		assertTrue("ResultDate should be 04/30/2012, not " + sdf.format(resultDate), sdf.format(resultDate).equals("04/30/2012"));
+		
+	}
+	
+	@Test
 	public void testFromAndToDateString() {
 		String dateString = "01/01/2012..12/20/2012";
 		String fromDateString = TKUtils.getFromDateString(dateString);
