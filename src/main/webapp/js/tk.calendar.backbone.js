@@ -137,7 +137,8 @@ $(function () {
         // Check out this page for more information about the jQuery selectors : http://api.jquery.com/category/selectors/
         events : {
             "click div[id*=show]" : "showTimeBlock",
-            "click div[id*=leaveShow]" : "showLeaveBlock",	
+            "click div[id^=doNotShow]" : "doNothing",
+            "click div[id^=leaveShow]" : "showLeaveBlock",	
             "click img[id^=timeblockDelete]" : "deleteTimeBlock",
             "click img[id^=lunchDelete]" : "deleteLunchDeduction",
             "click img[id^=leaveBlockDelete]" : "deleteLeaveBlock",
@@ -147,6 +148,9 @@ $(function () {
             "click .event" : "doNothing",
             "mousedown .create" : "tableCellMouseDown",
             "mouseup .create" : "tableCellMouseUp",
+            // doNotShow is the prefix of readonly blocks, mouse down and up should not trigger any event 
+            "mousedown div[id^=doNotShow]" : "doNothing",
+            "mouseup div[id^=doNotShow]" : "doNothing",
             "click span[id*=overtime]" : "showOverTimeDialog",
             "blur #startTimeHourMinute, #endTimeHourMinute" : "formatTime",
             // TODO: figure out how to chain the events
@@ -535,7 +539,8 @@ $(function () {
             var eventAction = _(e).parseEventKey().action;
             if (eventAction == "timeblockDelete"
                  || eventAction == "lunchDelete"
-                 || eventAction == "leaveBlockDelete") {
+                 || eventAction == "leaveBlockDelete"
+                 || eventAction == "doNotShow") {
                 return null;
             }
 

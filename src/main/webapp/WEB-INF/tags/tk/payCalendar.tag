@@ -14,13 +14,16 @@
             </c:otherwise>
         </c:choose>
 
-        <div class="event ${last} ${block.assignmentClass}">
-            <c:set var="editableClass" value="event-title-false"/>
-            <c:if test="${Form.docEditable && block.timeBlock.timeBlockEditable}">
-                <c:set var="editableClass" value="event-title-true"/>
-            </c:if>
-            <div id="timeblock_${block.timeBlock.tkTimeBlockId}"
-                 class="${editableClass}">
+ 		<c:set var="editableClass" value="event-title-false"/>
+        <c:set var="timeBlockDivId" value="doNotShow_${block.timeBlock.tkTimeBlockId}" />
+        <c:if test="${Form.docEditable && block.timeBlock.timeBlockEditable}">
+        	<c:set var="editableClass" value="event-title-true"/>
+            <c:set var="timeBlockDivId" value=""/>
+        </c:if>
+
+        <div id="${timeBlockDivId}" class="event ${last} ${block.assignmentClass}">
+            <div id="timeblock_${block.timeBlock.tkTimeBlockId}" 
+            	 class="${editableClass}">
                 <c:if test="${Form.docEditable && block.timeBlock.timeBlockEditable && block.timeBlock.deleteable}">
                     <div><img id="timeblockDelete_${block.timeBlock.tkTimeBlockId}"
                               class='event-delete'
