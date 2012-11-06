@@ -129,7 +129,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                                 }
 
                             } else {
-                                lsr.setUsageLimit(BigDecimal.ZERO.setScale(2));
+                                lsr.setUsageLimit(null);
                             }
 
                             //handle up to current leave blocks
