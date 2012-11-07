@@ -201,9 +201,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 			//get all accrual categories of this employee
 			PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, endDate);
 			if(pha != null) {
-				List<AccrualCategory> acList = TkServiceLocator.getAccrualCategoryService()
-					.getActiveLeaveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), new java.sql.Date(endDate.getTime()));
-				
+				List<AccrualCategory> acList = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), new java.sql.Date(endDate.getTime()));
 				for(AccrualCategory ac : acList) {
 					List<BigDecimal> acDayDetails = new ArrayList<BigDecimal>();
 					Map<String, Object> displayMap = new HashMap<String, Object>();

@@ -112,7 +112,7 @@ public class LeaveBlockDisplayAction extends TkAction {
 	private List<AccrualCategory> getAccrualCategories(String leavePlan) {
 		List<AccrualCategory> accrualCategories = new ArrayList<AccrualCategory>();
 		
-		List<AccrualCategory> allAccrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(leavePlan, TKUtils.getCurrentDate());
+		List<AccrualCategory> allAccrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(leavePlan, TKUtils.getCurrentDate());
 		if (allAccrualCategories != null) {
 			for (AccrualCategory ac : allAccrualCategories) {
 				if (StringUtils.equalsIgnoreCase(ac.getShowOnGrid(), "Y")) {
