@@ -154,8 +154,8 @@ public class LeaveCalendarValidationService {
 							//multiply by days in span in case the user has also edited the start/end dates.
 	    					BigDecimal desiredUsage = leaveAmount.multiply(new BigDecimal(daysSpan+1));
 
-	    					if(desiredUsage.compareTo(availableBalance) >  0 ) {
-	    						errors.add("Requested leave amount is greater than pending available usage.");
+	    					if (desiredUsage.compareTo(availableBalance) >  0) {
+	    						errors.add("Requested leave amount is greater than available leave balance.");
 	    					}
 	    				}
 	    			}

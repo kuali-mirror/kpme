@@ -46,7 +46,7 @@ public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 		List<String> errors = LeaveCalendarValidationService.validateAvailableLeaveBalance(ls, "EC", "02/15/2012", "02/15/2012", new BigDecimal(8), null);
 		Assert.assertTrue("There should be 1 error message" , errors.size()== 1);
 		String anError = errors.get(0);
-		Assert.assertTrue("error message not correct" , anError.equals("Requested leave amount is greater than pending available usage."));
+		Assert.assertTrue("error message not correct" , anError.equals("Requested leave amount is greater than available leave balance."));
 		
 		// earn code "EC1" allows negative accrual balance
 		errors = LeaveCalendarValidationService.validateAvailableLeaveBalance(ls, "EC1", "02/15/2012", "02/15/2012", new BigDecimal(8), null);
@@ -62,7 +62,7 @@ public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 		
 		aLeaveBlock.setLeaveAmount(new BigDecimal(-2));
 		errors = LeaveCalendarValidationService.validateAvailableLeaveBalance(ls, "EC", "02/15/2012", "02/15/2012", new BigDecimal(10), aLeaveBlock);
-		Assert.assertTrue("error message not correct" , anError.equals("Requested leave amount is greater than pending available usage."));
+		Assert.assertTrue("error message not correct" , anError.equals("Requested leave amount is greater than available leave balance."));
 	}
 	
 	@Test
