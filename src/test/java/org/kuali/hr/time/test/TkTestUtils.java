@@ -191,6 +191,7 @@ public class TkTestUtils {
 		timeBlock.setEarnCode(earnCode);
 		timeBlock.setJobNumber(1L);
 		timeBlock.setWorkArea(1234L);
+		timeBlock.setTask(1L);
 		timeBlock.setHours((new BigDecimal(numHours)).setScale(TkConstants.BIG_DECIMAL_SCALE, TkConstants.BIG_DECIMAL_SCALE_ROUNDING));
 		cal.add(Calendar.HOUR, numHours);
 		timeBlock.setEndTimestamp(new Timestamp(cal.getTimeInMillis()));

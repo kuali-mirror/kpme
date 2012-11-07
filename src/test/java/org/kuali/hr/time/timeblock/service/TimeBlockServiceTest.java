@@ -15,62 +15,60 @@
  */
 package org.kuali.hr.time.timeblock.service;
 
-import java.sql.Date;
-import java.util.Map;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
-import org.joda.time.DateTime;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.detail.web.ActionFormUtils;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.timeblock.TimeBlock;
-import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
-@Ignore
+import org.kuali.rice.krad.util.GlobalVariables;
+
 public class TimeBlockServiceTest extends KPMETestCase {
-	@Test
-	public void testBuildAssignmentStyleClassMap() {
-		Date aDate = new Date((new DateTime(2011, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		TimesheetDocument doc = TkTestUtils.populateTimesheetDocument(aDate);
-		Map<String, String> aMap = ActionFormUtils.buildAssignmentStyleClassMap(doc.getTimeBlocks());
-		Assert.assertEquals("Wrong number of classes in style class map", 8, aMap.size());
-		Assert.assertEquals("Wrong key for class assignment0", "assignment0", aMap.get("1_1234_1"));
-		Assert.assertEquals("Wrong key for class assignment7", "assignment7", aMap.get("6_1100_5"));
-	}
+	
+	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yy");
 
 	@Test
-	public void testIsTimeBlockEditable() {
-		// creator and user are the same person
+	public void testIsTimeBlockEditableAdmin() throws Exception {
 		TimeBlock tb = new TimeBlock();
-		tb.setClockLogCreated(false);
 		tb.setJobNumber(new Long(30));
-		tb.setUserPrincipalId("admin");
+		tb.setBeginDate(new java.sql.Date(DATE_FORMAT.parse("01/01/2010").getTime()));
+		tb.setEndDate(new java.sql.Date(DATE_FORMAT.parse("01/01/2010").getTime()));
 		
-		Boolean editable = TkServiceLocator.getTimeBlockService().isTimeBlockEditable(tb);
+		GlobalVariables.getUserSession().setBackdoorUser("admin");
+		
+		tb.setUserPrincipalId("admin");
+		boolean editable = TkServiceLocator.getTimeBlockService().isTimeBlockEditable(tb);
 		Assert.assertEquals("TimeBlock created by admin should be editable by admin", true, editable);
 
-		// creator and user are different, but user is a system admin
-		tb.setUserPrincipalId("fran");
+		tb.setUserPrincipalId("eric");
 		editable = TkServiceLocator.getTimeBlockService().isTimeBlockEditable(tb);
-		Assert.assertEquals("TimeBlock created by fran should be editable by admin", true, editable);
-
-		// login as fran
-//		user = TkServiceLocator.getUserService().buildTkUser("fran", TKUtils.getCurrentDate());
-//		TKContext.setUser(user);
-//		// creator and user are different, user is not a system admin
-//		tb.setUserPrincipalId("admin");
-//		editable = TkServiceLocator.getTimeBlockService().isTimeBlockEditable(tb);
-//		assertEquals("TimeBlock created by admin should NOT be editable by fran", false, editable);
-		
-		tb.setUserPrincipalId("fran");
+		Assert.assertEquals("TimeBlock created by eric should be editable by admin", true, editable);
+	
+		tb.setUserPrincipalId("eric");
 		tb.setClockLogCreated(true);
 		editable = TkServiceLocator.getTimeBlockService().isTimeBlockEditable(tb);
-		Assert.assertEquals("TimeBlock created by Clock in/out should NOT be editable by fran", false, editable);
+		Assert.assertEquals("TimeBlock created by Clock in/out should be editable by admin", true, editable);
+	}
+	
+	@Test
+	public void testIsTimeBlockEditableUser() throws Exception {
+		TimeBlock tb = new TimeBlock();
+		tb.setJobNumber(new Long(1));
+		tb.setBeginDate(new java.sql.Date(DATE_FORMAT.parse("08/12/2010").getTime()));
+		tb.setEndDate(new java.sql.Date(DATE_FORMAT.parse("08/12/2010").getTime()));
 		
+		GlobalVariables.getUserSession().setBackdoorUser("eric");
+		
+		tb.setUserPrincipalId("admin");
+		boolean editable = TkServiceLocator.getTimeBlockService().isTimeBlockEditable(tb);
+		Assert.assertEquals("TimeBlock created by admin should NOT be editable by eric", false, editable);
+		
+		tb.setUserPrincipalId("eric");
+		tb.setClockLogCreated(true);
+		editable = TkServiceLocator.getTimeBlockService().isTimeBlockEditable(tb);
+		Assert.assertEquals("TimeBlock created by Clock in/out should NOT be editable by eric", false, editable);
 	}
 
 }

@@ -17,6 +17,7 @@ package org.kuali.hr.time.util;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,8 +29,19 @@ import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.detail.web.ActionFormUtils;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.test.TkTestUtils;
+import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 public class ActionFormUtilsTest extends KPMETestCase {
+	
+	@Test
+	public void testBuildAssignmentStyleClassMap() {
+		Date aDate = new Date((new DateTime(2011, 7, 7, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		TimesheetDocument doc = TkTestUtils.populateTimesheetDocument(aDate);
+		Map<String, String> aMap = ActionFormUtils.buildAssignmentStyleClassMap(doc.getTimeBlocks());
+		Assert.assertEquals("Wrong number of classes in style class map", 1, aMap.size());
+		Assert.assertEquals("Wrong key for class assignment0", "assignment0", aMap.get("1_1234_1"));
+	}
 	
 	@Test
 	public void testFmlaWarningTextForLeaveBlocks() throws Exception {
