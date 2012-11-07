@@ -462,6 +462,8 @@ $(function () {
             // We want to be able to use this method in creating and editing timeblocks.
             // If assignment is not a string, we'll grab the selected assignment on the form.
             var assignment = _.isString(e) ? e : this.$("#selectedAssignment option:selected").val();
+            // We want to remember what the previous selected earn code was.
+            var earnCode = this.$('#selectedEarnCode option:selected').val();
             var startDate = this.$("#startDate").val();
 
             // Fetch earn codes based on the selected assignment
@@ -476,6 +478,12 @@ $(function () {
                     timeBlockReadOnly : isTimeBlockReadOnly
                 }
             });
+            // If there is an earn code in the newly created collection that matches the old
+            // earn code, keep the earn code selected.
+            if(_.contains(EarnCodes.pluck('earnCode'),earnCode)) {
+                $("#selectedEarnCode option:selected").attr("selected",false);
+                $("#selectedEarnCode option[value='" + earnCode + "']").attr("selected", "selected");
+            }
         },
 
 
