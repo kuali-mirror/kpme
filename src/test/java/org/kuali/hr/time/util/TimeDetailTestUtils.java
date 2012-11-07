@@ -24,7 +24,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
-import org.kuali.hr.time.detail.validation.TimeDetailValidationService;
+import org.kuali.hr.time.detail.validation.TimeDetailValidationUtil;
 import org.kuali.hr.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.test.HtmlUnitUtil;
@@ -113,7 +113,7 @@ public class TimeDetailTestUtils {
      */
     public static List<String> setTimeBlockFormDetails(HtmlForm form, TimeDetailActionFormBase tdaf) {
         // Validation -- the same call the WS makes. (should already be valid...)
-        List<String> errors = TimeDetailValidationService.validateTimeEntryDetails(tdaf);
+        List<String> errors = TimeDetailValidationUtil.validateTimeEntryDetails(tdaf);
 
         // If validation passes, we can add the time block.
         if (errors.size() == 0) {

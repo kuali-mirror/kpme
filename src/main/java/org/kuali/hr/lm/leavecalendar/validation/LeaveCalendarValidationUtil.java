@@ -18,9 +18,12 @@ package org.kuali.hr.lm.leavecalendar.validation;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.kuali.hr.lm.LMConstants;
@@ -33,12 +36,13 @@ import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 
 import com.google.common.base.Predicate;
 
-public class LeaveCalendarValidationService {
+public class LeaveCalendarValidationUtil {
     
     //begin KPME-1263
     public static List<String> validateLeaveAccrualRuleMaxUsage(LeaveCalendarWSForm lcf) {
@@ -108,7 +112,25 @@ public class LeaveCalendarValidationService {
     	return errors;
     }
 	//End KPME-1263
-    
+
+    public static List<String> getAbsentLeaveWarningMessages(List<LeaveBlock> leaveBlocks) {
+        List<String> warningMessages = new ArrayList<String>();
+        Set<String> aSet = new HashSet<String>();
+        if (CollectionUtils.isNotEmpty(leaveBlocks)) {
+            for(LeaveBlock lb : leaveBlocks) {
+                EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), lb.getLeaveDate());
+                if(ec != null && ec.getFmla().equals("Y")) {
+                    EarnCodeGroup eg = TkServiceLocator.getEarnCodeGroupService().getEarnCodeGroupForEarnCode(lb.getEarnCode(), lb.getLeaveDate());
+                    if(eg != null && !StringUtils.isEmpty(eg.getWarningText())) {
+                        aSet.add(eg.getWarningText());
+                    }
+                }
+            }
+        }
+        warningMessages.addAll(aSet);
+        return warningMessages;
+    }
+
     public static List<String> validateAvailableLeaveBalance(LeaveCalendarWSForm lcf) {
     	LeaveBlock updatedLeaveBlock = null;
     	if(lcf.getLeaveBlockId() != null) {
@@ -154,7 +176,7 @@ public class LeaveCalendarValidationService {
 							//multiply by days in span in case the user has also edited the start/end dates.
 	    					BigDecimal desiredUsage = leaveAmount.multiply(new BigDecimal(daysSpan+1));
 
-	    					if (desiredUsage.compareTo(availableBalance) >  0) {
+	    					if(desiredUsage.compareTo(availableBalance) >  0 ) {
 	    						errors.add("Requested leave amount is greater than available leave balance.");
 	    					}
 	    				}

@@ -36,6 +36,7 @@ import org.joda.time.format.ISODateTimeFormat;
 import org.json.simple.JSONValue;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -320,22 +321,7 @@ public class ActionFormUtils {
     }
     
     public static List<String> fmlaWarningTextForLeaveBlocks(List<LeaveBlock> leaveBlocks) {
-    	List<String> warningMessages = new ArrayList<String>();
-	    if (leaveBlocks.isEmpty()) {
-	        return warningMessages;
-	    }
-	    Set<String> aSet = new HashSet<String>();
-	    for(LeaveBlock lb : leaveBlocks) {
-	    	EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), lb.getLeaveDate());
-	    	if(ec != null && ec.getFmla().equals("Y")) {
-		    	EarnCodeGroup eg = TkServiceLocator.getEarnCodeGroupService().getEarnCodeGroupForEarnCode(lb.getEarnCode(), lb.getLeaveDate());
-		    	if(eg != null && !StringUtils.isEmpty(eg.getWarningText())) {
-		    		aSet.add(eg.getWarningText());
-		    	}
-	    	}
-	     }
-	    warningMessages.addAll(aSet);
-		return warningMessages;
+    	return LeaveCalendarValidationUtil.getAbsentLeaveWarningMessages(leaveBlocks);
     }
     
     public static String getUnitOfTimeForEarnCode(EarnCode earnCode) {

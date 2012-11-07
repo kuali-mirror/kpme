@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.lm.util;
 
-import com.gargoylesoftware.htmlunit.html.HtmlButton;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.apache.log4j.Logger;
@@ -23,22 +22,14 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.hr.lm.leave.web.LeaveCalendarWSForm;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
-import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationService;
-import org.kuali.hr.lm.leavecalendar.web.LeaveCalendarAction;
-import org.kuali.hr.lm.leavecalendar.web.LeaveCalendarForm;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
-import org.kuali.hr.time.detail.validation.TimeDetailValidationService;
-import org.kuali.hr.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.util.filter.TestAutoLoginFilter;
 
 import java.math.BigDecimal;
 import java.net.URLEncoder;
-import java.util.List;
 
 public class LeaveCalendarTestUtils {
 

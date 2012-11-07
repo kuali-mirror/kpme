@@ -36,7 +36,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TimeDetailValidationService {
+public class TimeDetailValidationUtil {
 
     /**
      * Convenience method for handling validation directly from the form object.
@@ -45,7 +45,7 @@ public class TimeDetailValidationService {
      * @return A list of error strings.
      */
     public static List<String> validateTimeEntryDetails(TimeDetailActionFormBase tdaf) {
-        return TimeDetailValidationService.validateTimeEntryDetails(
+        return TimeDetailValidationUtil.validateTimeEntryDetails(
                 tdaf.getHours(), tdaf.getAmount(), tdaf.getStartTime(), tdaf.getEndTime(),
                 tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getTimesheetDocument(),
                 tdaf.getSelectedEarnCode(), tdaf.getSelectedAssignment(),
@@ -64,8 +64,8 @@ public class TimeDetailValidationService {
         CalendarEntries payCalEntry = timesheetDocument.getCalendarEntry();
         java.sql.Date asOfDate = payCalEntry.getEndPeriodDate();
 
-        errors.addAll(TimeDetailValidationService.validateDates(startDateS, endDateS));
-        errors.addAll(TimeDetailValidationService.validateTimes(startTimeS, endTimeS));
+        errors.addAll(TimeDetailValidationUtil.validateDates(startDateS, endDateS));
+        errors.addAll(TimeDetailValidationUtil.validateTimes(startTimeS, endTimeS));
         if (errors.size() > 0) return errors;
         // These methods use the UserTimeZone.
         Long startTime = TKUtils.convertDateStringToTimestamp(startDateS, startTimeS).getTime();

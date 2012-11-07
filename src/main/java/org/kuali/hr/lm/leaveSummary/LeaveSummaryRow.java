@@ -19,6 +19,9 @@ import java.math.BigDecimal;
 
 public class LeaveSummaryRow {
 	private String accrualCategory;
+    //adding this to have a very simple means of getting the Accrual Category object
+    private String accrualCategoryId;
+    private String accrualCategoryRuleId;
 	private BigDecimal carryOver;
 	private BigDecimal ytdAccruedBalance;
 	private BigDecimal ytdApprovedUsage;
@@ -36,6 +39,19 @@ public class LeaveSummaryRow {
 	public void setAccrualCategory(String accrualCategory) {
 		this.accrualCategory = accrualCategory;
 	}
+    public String getAccrualCategoryId() {
+        return accrualCategoryId;
+    }
+    public void setAccrualCategoryId(String accrualCategoryId) {
+        this.accrualCategoryId = accrualCategoryId;
+    }
+    public String getAccrualCategoryRuleId() {
+        return accrualCategoryRuleId;
+    }
+
+    public void setAccrualCategoryRuleId(String accrualCategoryRuleId) {
+        this.accrualCategoryRuleId = accrualCategoryRuleId;
+    }
 	public BigDecimal getCarryOver() {
 		return carryOver;
 	}

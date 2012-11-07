@@ -34,10 +34,10 @@ import org.json.simple.JSONValue;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
-import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationService;
+import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
-import org.kuali.hr.time.detail.validation.TimeDetailValidationService;
+import org.kuali.hr.time.detail.validation.TimeDetailValidationUtil;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
@@ -76,7 +76,7 @@ public class TimeDetailWSAction extends TimesheetAction {
     	if(ec != null && ec.getLeavePlan() != null) {	// leave blocks changes
     		errors = this.validateLeaveEntry(tdaf);
     	} else {	// time blocks changes
-    		errors = TimeDetailValidationService.validateTimeEntryDetails(tdaf);
+    		errors = TimeDetailValidationUtil.validateTimeEntryDetails(tdaf);
     	}
         
 //        List<String> errors = TimeDetailValidationService.validateTimeEntryDetails(tdaf);
@@ -94,11 +94,11 @@ public class TimeDetailWSAction extends TimesheetAction {
 			if(StringUtils.isNotEmpty(tdaf.getLmLeaveBlockId())) {
 				lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(tdaf.getLmLeaveBlockId());
 			}
-			errorMsgList.addAll(LeaveCalendarValidationService.validateAvailableLeaveBalance(ls, tdaf.getSelectedEarnCode(), 
-					tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
+			errorMsgList.addAll(LeaveCalendarValidationUtil.validateAvailableLeaveBalance(ls, tdaf.getSelectedEarnCode(),
+                    tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
 			//Validate leave block does not exceed max usage. Leave Calendar Validators at this point rely on a leave summary.
-	        errorMsgList.addAll(LeaveCalendarValidationService.validateLeaveAccrualRuleMaxUsage(ls, tdaf.getSelectedEarnCode(), 
-	        		tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
+	        errorMsgList.addAll(LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, tdaf.getSelectedEarnCode(),
+                    tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
 		}
 		return errorMsgList;
     }

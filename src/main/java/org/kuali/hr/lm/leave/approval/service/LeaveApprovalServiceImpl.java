@@ -20,11 +20,16 @@ import org.joda.time.DateTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.accrual.AccrualCategoryRule;
+import org.kuali.hr.lm.leaveSummary.LeaveSummary;
+import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.approval.web.ApprovalLeaveSummaryRow;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.detail.web.ActionFormUtils;
 import org.kuali.hr.time.person.TKPerson;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.principal.dao.PrincipalHRAttributesDao;
@@ -61,6 +66,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 			String principalId = aPerson.getPrincipalId();
 			ApprovalLeaveSummaryRow aRow = new ApprovalLeaveSummaryRow();
             List<Note> notes = new ArrayList<Note>();
+            List<String> warnings = new ArrayList<String>();
 			aRow.setName(aPerson.getPrincipalName());
 			aRow.setPrincipalId(aPerson.getPrincipalId());
 			
@@ -83,16 +89,53 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 			}
 			
 			List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, payBeginDate, payEndDate);
-			aRow.setLeaveBlockList(leaveBlocks);
+			warnings = findWarnings(aDoc, payCalendarEntries, leaveBlocks);
+            aRow.setLeaveBlockList(leaveBlocks);
 			Map<Date, Map<String, BigDecimal>> earnCodeLeaveHours = getEarnCodeLeaveHours(leaveBlocks, leaveSummaryDates);
 			aRow.setEarnCodeLeaveHours(earnCodeLeaveHours);
             aRow.setNotes(notes);
+            aRow.setWarnings(warnings);
 			
 			rowList.add(aRow);
 		}
 		
 		return rowList;
 	}
+
+    private List<String> findWarnings(LeaveCalendarDocumentHeader doc, CalendarEntries calendarEntry, List<LeaveBlock> leaveBlocks) {
+        List<String> warnings = LeaveCalendarValidationUtil.getAbsentLeaveWarningMessages(leaveBlocks);
+
+        //get LeaveSummary and check for warnings
+        if (doc != null) {
+            LeaveSummary leaveSummary;
+            try {
+                leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(doc.getPrincipalId(), calendarEntry);
+            } catch (Exception e) {
+                leaveSummary = null;
+            }
+            if (leaveSummary != null) {
+                for (LeaveSummaryRow lsr : leaveSummary.getLeaveSummaryRows()) {
+                    AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(lsr.getAccrualCategoryId());
+                    AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lsr.getAccrualCategoryRuleId());
+                    if (rule != null) {
+                        if (rule.getMaxBalanceActionFrequency().equals(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)
+                                && rule.getMaxBalFlag().equals("Y")
+                                && rule.getMaxBalance().compareTo(lsr.getLeaveBalance()) == 0) {
+                            if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.TRANSFER)
+                                    || rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.PAYOUT)) {
+                                //Todo: add link to balance transfer
+                                warnings.add("Accrual Category '" + lsr.getAccrualCategory() + "' is at the maximum balance, transfer or payout must be done.");
+                            } else if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
+                                //Todo: compute and display amount of time lost.
+                                warnings.add("Accrual Category '" + lsr.getAccrualCategory() + "' is at the maximum balance, additional accrual will be lost.");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return warnings;
+    }
 	
 	@Override
 	public Map<Date, Map<String, BigDecimal>> getEarnCodeLeaveHours(List<LeaveBlock> leaveBlocks, List<Date> leaveSummaryDates) {
@@ -120,7 +163,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		return earnCodeLeaveHours;
 	}
 
-	public Map<String, LeaveCalendarDocumentHeader> getLeaveDocumehtHeaderMap(List<TKPerson> persons, Date payBeginDate, Date payEndDate) {
+	public Map<String, LeaveCalendarDocumentHeader> getLeaveDocumentHeaderMap(List<TKPerson> persons, Date payBeginDate, Date payEndDate) {
 		Map<String, LeaveCalendarDocumentHeader> leaveDocumentHeaderMap = new LinkedHashMap<String, LeaveCalendarDocumentHeader>();
 		if (CollectionUtils.isNotEmpty(persons)) {
 			for (TKPerson person : persons) {
@@ -136,7 +179,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 	}
 	
 	@Override
-	public List<Map<String, Object>> getLeaveApprovalDetailSections(LeaveCalendarDocumentHeader lcdh) {
+	public List<Map<String, Object>> getLeaveApprovalDetailSections(LeaveCalendarDocumentHeader lcdh)  {
 		
 		List<Map<String, Object>> acRows = new ArrayList<Map<String, Object>>();
 		
@@ -145,9 +188,14 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		if(calendarEntry != null) {
 			Date beginDate = calendarEntry.getBeginPeriodDate();
 			Date endDate = calendarEntry.getEndPeriodDate();
-			
+			LeaveSummary leaveSummary;
 			List<Date> leaveSummaryDates = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(calendarEntry);
-			List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
+            try {
+                leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, calendarEntry);
+            } catch (Exception e) {
+                leaveSummary = null;
+            }
+            List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
 			Map<Date, Map<String, BigDecimal>> accrualCategoryLeaveHours = getAccrualCategoryLeaveHours(leaveBlocks, leaveSummaryDates);
 
 			//get all accrual categories of this employee
@@ -174,8 +222,10 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 						}
 						index++;
 					}
+                    LeaveSummaryRow lsr = leaveSummary == null ? null : leaveSummary.getLeaveSummaryRowForAccrualCtgy(ac.getAccrualCategory());
 					displayMap.put("periodUsage", totalAmount);
 					displayMap.put("availableBalance", BigDecimal.ZERO);
+                    displayMap.put("availableBalance", lsr == null ? BigDecimal.ZERO : lsr.getLeaveBalance());
 					displayMap.put("daysDetail", acDayDetails);
 					displayMap.put("daysSize", acDayDetails.size());
 					acRows.add(displayMap);

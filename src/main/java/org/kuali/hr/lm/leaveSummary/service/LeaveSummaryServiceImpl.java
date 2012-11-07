@@ -117,8 +117,10 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                         if(ac.getShowOnGrid().equals("Y")) {
                             LeaveSummaryRow lsr = new LeaveSummaryRow();
                             lsr.setAccrualCategory(ac.getAccrualCategory());
+                            lsr.setAccrualCategoryId(ac.getLmAccrualCategoryId());
                             //get max balances
                             AccrualCategoryRule acRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(ac, calendarEntry.getEndPeriodDateTime(), pha.getServiceDate());
+                            lsr.setAccrualCategoryRuleId(acRule == null ? null : acRule.getLmAccrualCategoryRuleId());
                             if(acRule != null &&
                                     (acRule.getMaxBalance()!= null
                                       || acRule.getMaxUsage() != null)) {

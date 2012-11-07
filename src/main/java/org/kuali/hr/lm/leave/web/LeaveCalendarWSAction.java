@@ -34,7 +34,7 @@ import org.json.simple.JSONValue;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
-import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationService;
+import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.hr.lm.leavecalendar.web.LeaveCalendarForm;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
@@ -178,9 +178,9 @@ public class LeaveCalendarWSAction extends TkAction {
     		LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), lcf.getCalendarEntry());
 		    lcf.setLeaveSummary(ls);
     	}
-    	errorMsgList.addAll(LeaveCalendarValidationService.validateAvailableLeaveBalance(lcf));
+    	errorMsgList.addAll(LeaveCalendarValidationUtil.validateAvailableLeaveBalance(lcf));
     	//KPME-1263
-        errorMsgList.addAll(LeaveCalendarValidationService.validateLeaveAccrualRuleMaxUsage(lcf));
+        errorMsgList.addAll(LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(lcf));
 
         lcf.setOutputString(JSONValue.toJSONString(errorMsgList));
         

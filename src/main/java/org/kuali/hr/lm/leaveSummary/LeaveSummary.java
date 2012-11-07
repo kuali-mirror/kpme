@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONValue;
 
 public class LeaveSummary {
@@ -31,6 +32,15 @@ public class LeaveSummary {
 	public List<LeaveSummaryRow> getLeaveSummaryRows() {
 		return leaveSummaryRows;
 	}
+
+    public LeaveSummaryRow getLeaveSummaryRowForAccrualCtgy(String accrualCategory) {
+        for (LeaveSummaryRow row : getLeaveSummaryRows()) {
+            if (StringUtils.equals(row.getAccrualCategory(), accrualCategory)) {
+                return row;
+            }
+        }
+        return null;
+    }
 
 	public void setLeaveSummaryRows(List<LeaveSummaryRow> leaveSummaryRows) {
 		this.leaveSummaryRows = leaveSummaryRows;

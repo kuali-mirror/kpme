@@ -18,6 +18,32 @@
 	    </display:column>
 	    <display:column title="Document ID" sortable="true" sortName="documentId">
         	<a href="changeTargetPerson.do?${row.userTargetURLParams}&targetUrl=LeaveCalendar.do%3FdocumentId=${row.documentId}&returnUrl=LeaveApproval.do">${row.documentId}</a>
+            <c:if test="${fn:length(row.warnings) > 0 }">
+                <div class="ui-state-default ui-corner-all" style="float:right;">
+                    <span id="approvals-warning" class="ui-icon ui-icon-alert approvals-warning"></span>
+                </div>
+                <div id="approvals-warning-details" class="approvals-warning-details"
+                     style="display:none; float:right; width: 600px; margin-left: 200px;">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th style="font-size: 1.2em; font-weight: bold; text-align: left;">Warnings:</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach var="warning" items="${row.warnings}">
+                            <tr>
+                                <td>
+                                    <div class="warning-note-message">
+                                            ${warning}
+                                    </div>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
+            </c:if>
             <c:if test="${fn:length(row.notes) > 0 }">
                 <div class="ui-state-default ui-corner-all" style="float:right;">
                     <span id="approvals-note" class="ui-icon ui-icon-note approvals-note"></span>
