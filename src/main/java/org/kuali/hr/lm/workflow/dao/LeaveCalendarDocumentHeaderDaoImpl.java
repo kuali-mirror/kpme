@@ -144,6 +144,7 @@ public class LeaveCalendarDocumentHeaderDaoImpl extends PlatformAwareDaoBaseOjb 
 
         crit.addEqualTo("principalId", principalId);
         crit.addNotEqualTo("documentStatus", TkConstants.ROUTE_STATUS.FINAL);
+        crit.addNotEqualTo("documentStatus", TkConstants.ROUTE_STATUS.INITIATED);
         QueryByCriteria query = new QueryByCriteria(LeaveCalendarDocumentHeader.class, crit);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
         if (c != null) {
