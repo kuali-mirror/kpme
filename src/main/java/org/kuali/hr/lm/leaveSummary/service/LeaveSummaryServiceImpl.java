@@ -127,7 +127,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                                 if (acRule.getMaxUsage() != null) {
                                     lsr.setUsageLimit(new BigDecimal(acRule.getMaxUsage()).setScale(2));
                                 } else {
-                                    lsr.setUsageLimit(acRule.getMaxBalance().setScale(2));
+                                    lsr.setUsageLimit(null);
                                 }
 
                             } else {
@@ -150,7 +150,10 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                             //compute Leave Balance
                             BigDecimal leaveBalance = lsr.getAccruedBalance().subtract(lsr.getPendingLeaveRequests());
                             if (acRule != null && StringUtils.equals(acRule.getMaxBalFlag(), "Y")) {
-                                lsr.setLeaveBalance(leaveBalance.compareTo(lsr.getUsageLimit()) <= 0 ? leaveBalance : lsr.getUsageLimit());
+                            	if(lsr.getUsageLimit()!=null)
+                            		lsr.setLeaveBalance(lsr.getUsageLimit());
+                            	else
+                            		lsr.setLeaveBalance(leaveBalance);
                             } else {
                                 lsr.setLeaveBalance(leaveBalance);
                             }
@@ -168,9 +171,9 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                         otherLeaveSummary.setAccrualCategory("Other");
 
                         //compute Leave Balance
-                        otherLeaveSummary.setUsageLimit(BigDecimal.ZERO.setScale(2));
-                        BigDecimal leaveBalance = otherLeaveSummary.getAccruedBalance().subtract(otherLeaveSummary.getPendingLeaveRequests());
-                        otherLeaveSummary.setLeaveBalance(leaveBalance.compareTo(otherLeaveSummary.getUsageLimit()) <= 0 ? leaveBalance : otherLeaveSummary.getUsageLimit());
+                        // blank the avail
+                        otherLeaveSummary.setUsageLimit(null);
+                      	otherLeaveSummary.setLeaveBalance(null);
 
                         rows.add(otherLeaveSummary);
                     }
