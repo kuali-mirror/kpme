@@ -450,13 +450,13 @@ public class AccrualServiceTest extends KPMETestCase {
 		 Assert.assertTrue("There should be 2 leave block for date " + intervalDate.toString(), leaveBlockList.size() == 2);
 		 for(LeaveBlock aLeaveBlock : leaveBlockList) {
 			 if(aLeaveBlock.getLeaveAmount().equals(new BigDecimal(-1))) {
-				 Assert.assertTrue("Accrual category of the leave block for date  " + intervalDate.toString() + " should be 'testAC9' , not " + lb.getAccrualCategory()
-						 , lb.getAccrualCategory().equals("testAC9")); 
+				 Assert.assertTrue("Accrual category of the leave block for date  " + intervalDate.toString() + " should be 'testAC9' , not " + aLeaveBlock.getAccrualCategory()
+						 , aLeaveBlock.getAccrualCategory().equals("testAC9")); 
 			 } else if(aLeaveBlock.getLeaveAmount().equals(new BigDecimal(32))) {
-				 Assert.assertTrue("Accrual category of the leave block for date  " + intervalDate.toString() + " should be 'testAC9' , not " + lb.getAccrualCategory()
-						 , lb.getAccrualCategory().equals("testAC9")); 
+				 Assert.assertTrue("Accrual category of the leave block for date  " + intervalDate.toString() + " should be 'testAC9' , not " + aLeaveBlock.getAccrualCategory()
+						 , aLeaveBlock.getAccrualCategory().equals("testAC9")); 
 			 } else {
-				 Assert.fail("Hours of the leave block for date  " + intervalDate.toString() + " should be either 32 or -1, not " + lb.getLeaveAmount().toString());
+				 Assert.fail("Hours of the leave block for date  " + intervalDate.toString() + " should be either 32 or -1, not " + aLeaveBlock.getLeaveAmount().toString());
 			 }
 		 }
 		 
