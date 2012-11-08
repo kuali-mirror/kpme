@@ -70,6 +70,10 @@ public class AccrualCategoryLookupableHelper extends
         String accrualCatDescr = fieldValues.get("descr");
         String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
+        String leavePlan = fieldValues.get("leavePlan");
+        String accrualEarnInterval = fieldValues.get("accrualEarnInterval");
+        String unitOfTime = fieldValues.get("unitOfTime");
+        String minPercentWorked = fieldValues.get("minPercentWorked");
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
 
@@ -78,7 +82,8 @@ public class AccrualCategoryLookupableHelper extends
         }
 
         List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getAccrualCategories(accrualCategory, accrualCatDescr,
-                TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist);
+                leavePlan, accrualEarnInterval, unitOfTime, minPercentWorked, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, 
+                showHist);
 
         return accrualCategories;
     }

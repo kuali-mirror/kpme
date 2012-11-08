@@ -93,8 +93,9 @@ public class AccrualCategoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
 		return accrualCategories;
     }
 
-    public List<AccrualCategory> getAccrualCategories(String accrualCategory, String accrualCatDescr,
-                                                      Date fromEffdt, Date toEffdt, String active, String showHistory){
+    public List<AccrualCategory> getAccrualCategories(String accrualCategory, String accrualCatDescr, String leavePlan, String accrualEarnInterval, 
+    											      String unitOfTime, String minPercentWorked, Date fromEffdt, Date toEffdt, String active, 
+    											      String showHistory) {
         Criteria crit = new Criteria();
         Criteria effdt = new Criteria();
         Criteria timestamp = new Criteria();
@@ -106,6 +107,18 @@ public class AccrualCategoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
         }
         if(StringUtils.isNotBlank(accrualCatDescr)){
             crit.addLike("descr", accrualCatDescr);
+        }
+        if(StringUtils.isNotBlank(leavePlan)){
+            crit.addLike("leavePlan", leavePlan);
+        }
+        if(StringUtils.isNotBlank(accrualEarnInterval)){
+            crit.addLike("accrualEarnInterval", accrualEarnInterval);
+        }
+        if(StringUtils.isNotBlank(unitOfTime)){
+            crit.addLike("unitOfTime", unitOfTime);
+        }
+        if(StringUtils.isNotBlank(minPercentWorked)){
+            crit.addLike("minPercentWorked", minPercentWorked);
         }
         if(fromEffdt != null){
             crit.addGreaterOrEqualThan("effectiveDate", fromEffdt);

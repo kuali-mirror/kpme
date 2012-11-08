@@ -53,7 +53,7 @@ public interface AccrualCategoryService {
     @Cacheable(value= AccrualCategory.CACHE_NAME, key="'asOfDate=' + #p0")
     public List <AccrualCategory> getActiveAccrualCategories(Date asOfDate);
 
-    List <AccrualCategory> getAccrualCategories(String accrualCategory, String accrualCatDescr, Date fromEffdt, Date toEffdt, String active, String showHistory);
+    List <AccrualCategory> getAccrualCategories(String accrualCategory, String accrualCatDescr, String leavePlan, String accrualEarnInterval, String unitOfTime, String minPercentWorked, Date fromEffdt, Date toEffdt, String active, String showHistory);
     
     /**
      * Fetch list of active accrual categories with given leavePlan and date

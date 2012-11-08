@@ -43,7 +43,7 @@ public interface AccrualCategoryDao {
      */
     public List<AccrualCategory> getActiveAccrualCategories(Date asOfDate);
 
-    List<AccrualCategory> getAccrualCategories(String accrualCategory, String accrualCatDescr, Date fromEffdt, Date toEffdt, String active, String showHistory);
+    List<AccrualCategory> getAccrualCategories(String accrualCategory, String accrualCatDescr, String leavePlan, String accrualEarnInterval, String unitOfTime, String minPercentWorked, Date fromEffdt, Date toEffdt, String active, String showHistory);
 
     /**
      * 

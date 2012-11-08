@@ -67,8 +67,8 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 	}
 
     @Override
-    public List<AccrualCategory> getAccrualCategories(String accrualCategory, String accrualCatDescr, Date fromEffdt, Date toEffdt, String active, String showHistory) {
-        return accrualCategoryDao.getAccrualCategories(accrualCategory, accrualCatDescr, fromEffdt, toEffdt, active, showHistory);
+    public List<AccrualCategory> getAccrualCategories(String accrualCategory, String accrualCatDescr, String leavePlan, String accrualEarnInterval, String unitOfTime, String minPercentWorked, Date fromEffdt, Date toEffdt, String active, String showHistory) {
+        return accrualCategoryDao.getAccrualCategories(accrualCategory, accrualCatDescr, leavePlan, accrualEarnInterval, unitOfTime, minPercentWorked, fromEffdt, toEffdt, active, showHistory);
     }
    
 
