@@ -72,7 +72,7 @@ public class LMConstants {
 		public static final String RECORDED = "C";
 		public static final String DISAPPROVED = "D";
 		public static final String DEFERRED="F";
-		public static final String ACCURAL = "Accural";
+		public static final String ACCRUAL = "Accrual";
 		public static final String USAGE = "USAGE";
 	}
 	
