@@ -76,6 +76,16 @@ public class TKUtils {
         return DateTimeZone.forID(TKUtils.getSystemTimeZone());
     }
 
+    public static final Date END_OF_TIME;
+
+    static
+    {
+        TimeZone tz = TimeZone.getTimeZone("UTC");
+        final Calendar c = new GregorianCalendar(tz);
+        c.setTime(new Date(Long.MAX_VALUE));
+        END_OF_TIME = new java.sql.Date(c.getTime().getTime());
+    }
+
     /**
      * Returns a enforced timeless version of the provided date, if the date is
      * null the current date is returned.
