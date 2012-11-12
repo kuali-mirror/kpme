@@ -20,9 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.core.cache.CacheUtils;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.position.Position;
 import org.kuali.hr.time.roles.TkRole;
@@ -30,14 +28,12 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
@@ -140,24 +136,67 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
     @Override
     public void customSaveLogic(HrBusinessObject hrObj) {
         WorkArea workArea = (WorkArea) hrObj;
-        List<TkRole> roles = workArea.getRoles();
-        //List<TkRole> rolesCopy = new ArrayList<TkRole>();
-        //rolesCopy.addAll(roles);
-        if (CollectionUtils.isNotEmpty(workArea.getInactiveRoles())) {
-            roles.addAll(workArea.getInactiveRoles());
+        
+        List<TkRole> roles = new ArrayList<TkRole>();
+        roles.addAll(workArea.getRoles());
+        roles.addAll(workArea.getInactiveRoles());
+        roles.addAll(createInactiveRoles(workArea.getRoles()));
+        
+        for (TkRole role : roles) {
+            role.setWorkAreaObj(workArea);
+            role.setUserPrincipalId(TKContext.getPrincipalId());
         }
+        workArea.setRoles(roles);
+        
+        TkServiceLocator.getTkRoleService().saveOrUpdate(roles);
+        
         List<Task> tasks = workArea.getTasks();
         for (Task task : tasks) {
             task.setTkTaskId(null);
             task.setTimestamp(new Timestamp(System.currentTimeMillis()));
         }
         workArea.setTasks(tasks);
-        workArea.setRoles(roles);
-        for (TkRole role : roles) {
-            role.setWorkAreaObj(workArea);
-            role.setUserPrincipalId(TKContext.getPrincipalId());
+    }
+    
+    private List<TkRole> createInactiveRoles(List<TkRole> activeRoles) {
+    	List<TkRole> inactiveRoles = new ArrayList<TkRole>();
+    	
+        List<TkRole> oldRoles = new ArrayList<TkRole>();
+        List<TkRole> newRoles = new ArrayList<TkRole>();
+        for (TkRole activeRole : activeRoles) {
+		  	if (!StringUtils.isEmpty(activeRole.getHrRolesId())) {
+		  		oldRoles.add(activeRole);
+		  	} else {
+		  		newRoles.add(activeRole);
+		  	}
         }
-        TkServiceLocator.getTkRoleService().saveOrUpdate(roles);
+        
+        for (TkRole newRole : newRoles) {
+        	for (TkRole oldRole : oldRoles) {
+			  	if (StringUtils.equals(newRole.getRoleName(), oldRole.getRoleName()) 
+			  	 && StringUtils.equals(newRole.getPrincipalId(), oldRole.getPrincipalId()) 
+			  	 && StringUtils.equals(newRole.getPositionNumber(), oldRole.getPositionNumber())) {
+			  	
+			  		TkRole newInactiveRole = new TkRole();
+			  		newInactiveRole.setPrincipalId(oldRole.getPrincipalId());
+			  		newInactiveRole.setRoleName(oldRole.getRoleName());
+			  		newInactiveRole.setWorkArea(oldRole.getWorkArea());
+			  		newInactiveRole.setDepartment(oldRole.getDepartment());
+			  		newInactiveRole.setChart(oldRole.getChart());
+			  		newInactiveRole.setHrDeptId(oldRole.getHrDeptId());
+			  		newInactiveRole.setPositionNumber(oldRole.getPositionNumber());
+			  		newInactiveRole.setExpirationDate(oldRole.getExpirationDate());
+			  		newInactiveRole.setEffectiveDate(newRole.getEffectiveDate());
+			  		newInactiveRole.setTimestamp(new Timestamp(System.currentTimeMillis()));
+			  		newInactiveRole.setUserPrincipalId(TKContext.getPrincipalId());
+			  		newInactiveRole.setActive(false);
+  
+			  		inactiveRoles.add(newInactiveRole);
+			  	}
+        	}
+        }
+        
+        return inactiveRoles;
     }
 
     @Override

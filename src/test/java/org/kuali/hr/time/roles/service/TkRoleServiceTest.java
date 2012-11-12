@@ -42,10 +42,9 @@ public class TkRoleServiceTest  extends KPMETestCase {
 	
 	@Test
 	public void testGetAnyWorkAreaRoles() throws Exception {
-		Date asOfDate = new Date((new DateTime(2010, 8, 25, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		List<TkRole> roles = TkServiceLocator.getTkRoleService().getWorkAreaRoles(WORK_AREA, asOfDate);
+		List<TkRole> roles = TkServiceLocator.getTkRoleService().getWorkAreaRoles(WORK_AREA);
 		Assert.assertNotNull(roles);
-		Assert.assertEquals("Incorrect number of roles.", 4, roles.size());
+		Assert.assertEquals("Incorrect number of roles.", 6, roles.size());
 		for (TkRole role : roles) {
 			Assert.assertTrue("Incorrect values.", 
 					(role.getPrincipalId().equals(ADMIN) && role.getRoleName().equals(TkConstants.ROLE_TK_LOCATION_ADMIN))

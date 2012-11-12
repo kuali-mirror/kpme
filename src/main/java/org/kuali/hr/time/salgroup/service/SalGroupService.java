@@ -19,6 +19,7 @@ import org.kuali.hr.time.salgroup.SalGroup;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.sql.Date;
+import java.util.List;
 
 public interface SalGroupService {
 	/**
@@ -34,4 +35,6 @@ public interface SalGroupService {
 	public SalGroup getSalGroup(String hrSalGroupId);
 	
 	public int getSalGroupCount(String salGroup);
+
+    List<SalGroup> getSalGroups(String salGroup, String descr, Date fromEffdt, Date toEffdt, String active, String showHist);
 }

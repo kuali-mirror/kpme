@@ -17,12 +17,15 @@ package org.kuali.hr.time.earncode.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -68,5 +71,19 @@ public class EarnCodeLookupableHelper extends HrEffectiveDateActiveLookupableHel
 		
 		return customActionUrls;
 	}
-	
+
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+
+        String earnCode = fieldValues.get("earnCode");
+        String ovtEarnCode = fieldValues.get("ovtEarnCode");
+        String descr = fieldValues.get("description");
+        String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
+        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
+        String active = fieldValues.get("active");
+        String showHist = fieldValues.get("history");
+
+        return TkServiceLocator.getEarnCodeService().getEarnCodes(earnCode, ovtEarnCode, descr, TKUtils.formatDateString(fromEffdt),
+                TKUtils.formatDateString(toEffdt), active, showHist);
+    }
 }

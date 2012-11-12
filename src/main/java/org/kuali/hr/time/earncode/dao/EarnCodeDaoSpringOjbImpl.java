@@ -20,12 +20,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class EarnCodeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements EarnCodeDao {
@@ -186,4 +188,121 @@ public class EarnCodeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
 		}	
 		return earnCodes;
 	}
+
+    @Override
+    public List<EarnCode> getEarnCodes(String earnCode, String ovtEarnCode, String descr, Date fromEffdt, Date toEffdt, String active, String showHistory) {
+        Criteria crit = new Criteria();
+        Criteria effdt = new Criteria();
+        Criteria timestamp = new Criteria();
+
+        List<EarnCode> results = new ArrayList<EarnCode>();
+        if(StringUtils.isNotBlank(ovtEarnCode)){
+            crit.addEqualTo("ovtEarnCode", ovtEarnCode);
+        }
+        if(StringUtils.isNotBlank(earnCode) && StringUtils.isNotEmpty(earnCode)){
+            crit.addLike("earnCode", earnCode);
+        }
+        if(StringUtils.isNotBlank(descr)){
+            crit.addLike("description", descr);
+        }
+        if(fromEffdt != null){
+            crit.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+        }
+        if(toEffdt != null){
+            crit.addLessOrEqualThan("effectiveDate", toEffdt);
+        } else {
+            crit.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+        }
+
+        if(StringUtils.isEmpty(active) && StringUtils.equals(showHistory,"Y")){
+            Query query = QueryFactory.newQuery(EarnCode.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+        }
+        else if(StringUtils.isEmpty(active) && StringUtils.equals(showHistory, "N")){
+            effdt.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+            if(toEffdt != null){
+                effdt.addLessOrEqualThan("effectiveDate", toEffdt);
+            }
+            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(EarnCode.class, effdt);
+            effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+
+            timestamp.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+            timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EarnCode.class, timestamp);
+            timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+            crit.addEqualTo("effectiveDate", effdtSubQuery);
+            crit.addEqualTo("timestamp", timestampSubQuery);
+
+            Query query = QueryFactory.newQuery(EarnCode.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+        }
+
+        else if(StringUtils.equals(active, "Y") && StringUtils.equals("N", showHistory)){
+            effdt.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+            if(toEffdt != null){
+                effdt.addLessOrEqualThan("effectiveDate", toEffdt);
+            }
+            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(EarnCode.class, effdt);
+            effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+
+            timestamp.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+            timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EarnCode.class, timestamp);
+            timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+            crit.addEqualTo("effectiveDate", effdtSubQuery);
+            crit.addEqualTo("timestamp", timestampSubQuery);
+
+            Criteria activeFilter = new Criteria(); // Inner Join For Activity
+            activeFilter.addEqualTo("active", true);
+            crit.addAndCriteria(activeFilter);
+            Query query = QueryFactory.newQuery(EarnCode.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+        } //return all active records from the database
+        else if(StringUtils.equals(active, "Y") && StringUtils.equals("Y", showHistory)){
+            Criteria activeFilter = new Criteria(); // Inner Join For Activity
+            activeFilter.addEqualTo("active", true);
+            crit.addAndCriteria(activeFilter);
+            Query query = QueryFactory.newQuery(EarnCode.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+        }
+        //return all inactive records in the database
+        else if(StringUtils.equals(active, "N") && StringUtils.equals(showHistory, "Y")){
+            Criteria activeFilter = new Criteria(); // Inner Join For Activity
+            activeFilter.addEqualTo("active", false);
+            crit.addAndCriteria(activeFilter);
+            Query query = QueryFactory.newQuery(EarnCode.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+        }
+
+        //return the most effective inactive rows if there are no active rows <= the curr date
+        else if(StringUtils.equals(active, "N") && StringUtils.equals(showHistory, "N")){
+            effdt.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+            if(toEffdt != null){
+                effdt.addLessOrEqualThan("effectiveDate", toEffdt);
+            }
+            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(EarnCode.class, effdt);
+            effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+
+            timestamp.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+            timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EarnCode.class, timestamp);
+            timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+            crit.addEqualTo("effectiveDate", effdtSubQuery);
+            crit.addEqualTo("timestamp", timestampSubQuery);
+
+            Criteria activeFilter = new Criteria(); // Inner Join For Activity
+            activeFilter.addEqualTo("active", false);
+            crit.addAndCriteria(activeFilter);
+            Query query = QueryFactory.newQuery(EarnCode.class, crit);
+            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+            results.addAll(c);
+
+        }
+        return results;
+    }
 }

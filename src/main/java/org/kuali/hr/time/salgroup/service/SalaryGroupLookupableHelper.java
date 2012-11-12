@@ -16,10 +16,14 @@
 package org.kuali.hr.time.salgroup.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.salgroup.SalGroup;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -49,4 +53,21 @@ public class SalaryGroupLookupableHelper extends HrEffectiveDateActiveLookupable
 		return customActionUrls;
 	}
 	
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues){
+
+        String hrSalGroup = fieldValues.get("hrSalGroup");
+        String descr = fieldValues.get("descr");
+        String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
+        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
+        String active = fieldValues.get("active");
+        String showHist = fieldValues.get("history");
+
+        if (StringUtils.equals(hrSalGroup, "%")) {
+            hrSalGroup = "";
+        }
+        return TkServiceLocator.getSalGroupService().getSalGroups(hrSalGroup, descr, TKUtils.formatDateString(fromEffdt),
+                TKUtils.formatDateString(toEffdt), active, showHist);
+    }
+
 }

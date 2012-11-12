@@ -15,7 +15,9 @@
  */
 package org.kuali.hr.time.calendar.service;
 
+import java.sql.Time;
 import java.util.Date;
+import java.util.List;
 
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -86,5 +88,7 @@ public interface CalendarService {
 	 */
     @Cacheable(value= Calendar.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'currentDate=' + #p1")
 	public CalendarEntries getCurrentCalendarDatesForLeaveCalendar(String principalId, Date currentDate);
+
+    public List<Calendar> getCalendars(String calendarName, String calendarTypes, String flsaBeginDay, String flsaBeginTime);
 
 }

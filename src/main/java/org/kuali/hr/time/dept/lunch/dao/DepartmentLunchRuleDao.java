@@ -16,10 +16,13 @@
 package org.kuali.hr.time.dept.lunch.dao;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.kuali.hr.time.dept.lunch.DeptLunchRule;
 
 public interface DepartmentLunchRuleDao {
 	public DeptLunchRule getDepartmentLunchRule(String dept, Long workArea, String principalId, Long jobNumber, Date asOfDate);
 	public DeptLunchRule getDepartmentLunchRule(String tkDeptLunchRuleId);
+
+    List<DeptLunchRule> getDepartmentLunchRules(String dept, String workArea, String principalId, String jobNumber, String active);
 }

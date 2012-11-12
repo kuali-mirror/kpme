@@ -32,4 +32,5 @@ public interface PayTypeDao {
 	
 	public int getPayTypeCount(String payType);
 
+    public List<PayType> getPayTypes(String payType, String regEarnCode, String descr, Date fromEffdt, Date toEffdt, String active, String showHist);
 }

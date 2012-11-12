@@ -21,6 +21,7 @@ import org.kuali.hr.time.syslunch.rule.SystemLunchRule;
 import org.kuali.hr.time.util.TKUtils;
 
 import java.sql.Date;
+import java.util.List;
 
 public class SystemLunchRuleServiceImpl implements SystemLunchRuleService {
 	public SystemLunchRuleDao systemLunchRuleDao;
@@ -55,4 +56,8 @@ public class SystemLunchRuleServiceImpl implements SystemLunchRuleService {
 		return systemLunchRuleDao.getSystemLunchRule(tkSystemLunchRuleId);
 	}
 
+    @Override
+    public List<SystemLunchRule> getSystemLunchRules(Date fromEffdt, Date toEffdt, String active, String showHist){
+        return systemLunchRuleDao.getSystemLunchRules(fromEffdt, toEffdt, active, showHist);
+    }
 }

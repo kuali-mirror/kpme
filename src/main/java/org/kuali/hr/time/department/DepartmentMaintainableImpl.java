@@ -15,17 +15,17 @@
  */
 package org.kuali.hr.time.department;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -103,23 +103,59 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
 
     @Override
 	public void customSaveLogic(HrBusinessObject hrObj) {
-		Department dept = (Department)hrObj;
-		List<TkRole> roles = dept.getRoles();
-		//List<TkRole> rolesCopy = new ArrayList<TkRole>();
+		Department department = (Department) hrObj;
 		
-		//rolesCopy.addAll(roles);
-		
-		if (CollectionUtils.isNotEmpty(dept.getInactiveRoles())) {
-			for (TkRole role : dept.getInactiveRoles()) {
-				roles.add(role);
-			}
-		}
+		List<TkRole> roles = new ArrayList<TkRole>();
+		roles.addAll(department.getRoles());
+		roles.addAll(department.getInactiveRoles());
+		roles.addAll(createInactiveRoles(department.getRoles()));
 
-		dept.setRoles(roles);
 		for (TkRole role : roles) {
-			role.setDepartmentObj(dept);
+			role.setDepartmentObj(department);
 			role.setUserPrincipalId(TKContext.getPrincipalId());
 		}
+		department.setRoles(roles);
+		
 		TkServiceLocator.getTkRoleService().saveOrUpdate(roles);
 	}
+    
+    private List<TkRole> createInactiveRoles(List<TkRole> activeRoles) {
+    	List<TkRole> inactiveRoles = new ArrayList<TkRole>();
+    	
+        List<TkRole> oldRoles = new ArrayList<TkRole>();
+        List<TkRole> newRoles = new ArrayList<TkRole>();
+        
+        for (TkRole activeRole : activeRoles) {
+		  	if (!StringUtils.isEmpty(activeRole.getHrRolesId())) {
+		  		oldRoles.add(activeRole);
+		  	} else {
+		  		newRoles.add(activeRole);
+		  	}
+        }
+        
+        for (TkRole newRole : newRoles) {
+        	for (TkRole oldRole : oldRoles) {
+        		if (StringUtils.equals(newRole.getRoleName(), oldRole.getRoleName()) 
+       	      	 && StringUtils.equals(newRole.getPrincipalId(), oldRole.getPrincipalId())) {
+        			TkRole newInactiveRole = new TkRole();
+        			newInactiveRole.setPrincipalId(oldRole.getPrincipalId());
+        			newInactiveRole.setRoleName(oldRole.getRoleName());
+        			newInactiveRole.setWorkArea(oldRole.getWorkArea());
+        			newInactiveRole.setDepartment(oldRole.getDepartment());
+        			newInactiveRole.setChart(oldRole.getChart());
+        			newInactiveRole.setHrDeptId(oldRole.getHrDeptId());
+        			newInactiveRole.setPositionNumber(oldRole.getPositionNumber());
+        			newInactiveRole.setExpirationDate(oldRole.getExpirationDate());
+        			newInactiveRole.setEffectiveDate(newRole.getEffectiveDate());
+        			newInactiveRole.setTimestamp(new Timestamp(System.currentTimeMillis()));
+			  		newInactiveRole.setUserPrincipalId(TKContext.getPrincipalId());
+        			newInactiveRole.setActive(false);
+        			
+        			inactiveRoles.add(newInactiveRole);
+        		}
+        	}
+        }
+        
+        return inactiveRoles;
+    }
 }

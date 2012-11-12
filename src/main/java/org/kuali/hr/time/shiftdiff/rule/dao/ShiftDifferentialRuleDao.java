@@ -26,4 +26,6 @@ public interface ShiftDifferentialRuleDao {
 	public ShiftDifferentialRule findShiftDifferentialRule(String id);
 	public void saveOrUpdate(ShiftDifferentialRule shiftDifferentialRule);
 	public void saveOrUpdate(List<ShiftDifferentialRule> shiftDifferentialRules);
+
+    public List<ShiftDifferentialRule> getShiftDifferentialRules(String location, String hrSalGroup, String payGrade, Date fromEffdt, Date toEffdt, String active, String showHist);
 }

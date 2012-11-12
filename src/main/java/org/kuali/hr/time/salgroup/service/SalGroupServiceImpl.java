@@ -19,6 +19,7 @@ import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.hr.time.salgroup.dao.SalGroupDao;
 
 import java.sql.Date;
+import java.util.List;
 
 public class SalGroupServiceImpl implements SalGroupService {
 	
@@ -43,4 +44,8 @@ public class SalGroupServiceImpl implements SalGroupService {
 		return salGroupDao.getSalGroupCount(salGroup);
 	}
 
+    @Override
+    public List<SalGroup> getSalGroups(String salGroup, String descr, Date fromEffdt, Date toEffdt, String active, String showHist) {
+        return salGroupDao.getSalGroups(salGroup, descr, fromEffdt, toEffdt, active, showHist);
+    }
 }

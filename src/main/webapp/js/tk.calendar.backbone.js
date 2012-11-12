@@ -508,7 +508,7 @@ $(function () {
                 return null;
             }
             var key = parseInt(_(e).parseEventKey().id);
-            if (mouseDownIndex == undefined) {
+            if (mouseDownIndex == undefined || isNaN(mouseDownIndex)) {
                 mouseDownIndex = key;
             }
             var lower;
@@ -547,7 +547,15 @@ $(function () {
             var currentDay = new Date(beginPeriodDateTimeObj);
             var startDay = new Date(currentDay);
             var endDay = new Date(currentDay);
-
+            // if mouseDownIndex is not valid, do not show the time block pop up window
+            // this handles the dates error when user clicks a time block area other than title link.
+            // In a time block area, only the title link has id "show_tiemblockId" which triggers
+            // showTimeBlock function and populates the dialog with correct information
+			if((mouseDownIndex == undefined || isNaN(mouseDownIndex))
+					&& (currentMouseIndex == undefined || isNaN(currentMouseIndex))) {
+				return;
+			}
+			
             var lower = mouseDownIndex < currentMouseIndex ? mouseDownIndex : currentMouseIndex;
             var higher = currentMouseIndex > mouseDownIndex ? currentMouseIndex : mouseDownIndex;
             if (lower == undefined) {

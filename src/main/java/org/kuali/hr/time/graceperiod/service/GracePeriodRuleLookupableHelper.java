@@ -17,11 +17,13 @@ package org.kuali.hr.time.graceperiod.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.graceperiod.rule.GracePeriodRule;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -65,5 +67,13 @@ public class GracePeriodRuleLookupableHelper extends HrEffectiveDateActiveLookup
 		
 		return customActionUrls;
 	}
-	
+
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues){
+
+        String hourFactor = fieldValues.get("hourFactor");
+        String active = fieldValues.get("active");
+
+        return TkServiceLocator.getGracePeriodService().getGracePeriodRules(hourFactor,active);
+    }
 }

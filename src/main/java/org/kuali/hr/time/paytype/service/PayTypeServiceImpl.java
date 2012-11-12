@@ -54,4 +54,9 @@ public class PayTypeServiceImpl implements PayTypeService {
 		return payTypeDao.getPayTypeCount(payType);
 	}
 
+    @Override
+    public List<PayType> getPayTypes(String payType, String regEarnCode, String descr, Date fromEffdt, Date toEffdt, String active, String showHist) {
+        return payTypeDao.getPayTypes(payType, regEarnCode, descr, fromEffdt, toEffdt, active, showHist);
+    }
+
 }

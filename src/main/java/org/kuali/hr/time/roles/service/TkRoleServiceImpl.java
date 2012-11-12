@@ -38,8 +38,13 @@ public class TkRoleServiceImpl implements TkRoleService {
 	private TkRoleDao tkRoleDao;
 
 	@Override
-	public List<TkRole> getDepartmentRoles(String department, Date asOfDate) {
-		return tkRoleDao.findRoles(null, asOfDate, null, null, department, null);
+	public List<TkRole> getDepartmentRoles(String department) {
+		List<TkRole> departmentRoles = new ArrayList<TkRole>();
+		departmentRoles.addAll(tkRoleDao.findRoles(null, null, TkConstants.ROLE_TK_DEPT_ADMIN, null, department, null));
+		departmentRoles.addAll(tkRoleDao.findRoles(null, null, TkConstants.ROLE_TK_DEPT_VO, null, department, null));
+		departmentRoles.addAll(tkRoleDao.findRoles(null, null, TkConstants.ROLE_LV_DEPT_ADMIN, null, department, null));
+		departmentRoles.addAll(tkRoleDao.findRoles(null, null, TkConstants.ROLE_LV_DEPT_VO, null, department, null));
+		return departmentRoles;
 	}
 
 	@Override
@@ -48,13 +53,23 @@ public class TkRoleServiceImpl implements TkRoleService {
 	}
 	
 	@Override
+	public List<TkRole> getDepartmentInactiveRoles(String department) {
+		List<TkRole> departmentRoles = new ArrayList<TkRole>();
+		departmentRoles.addAll(tkRoleDao.findInActiveRoles(null, null, TkConstants.ROLE_TK_DEPT_ADMIN, null, department, null));
+		departmentRoles.addAll(tkRoleDao.findInActiveRoles(null, null, TkConstants.ROLE_TK_DEPT_VO, null, department, null));
+		departmentRoles.addAll(tkRoleDao.findInActiveRoles(null, null, TkConstants.ROLE_LV_DEPT_ADMIN, null, department, null));
+		departmentRoles.addAll(tkRoleDao.findInActiveRoles(null, null, TkConstants.ROLE_LV_DEPT_VO, null, department, null));
+		return departmentRoles;
+	}
+	
+	@Override
 	public List<TkRole> getDepartmentInactiveRoles(String department, String roleName, Date asOfDate) {
 		return tkRoleDao.findInActiveRoles(null, asOfDate, roleName, null, department, null);
 	}
 
 	@Override
-	public List<TkRole> getWorkAreaRoles(Long workArea, Date asOfDate) {
-		return tkRoleDao.findRoles(null, asOfDate, null, workArea, null, null);
+	public List<TkRole> getWorkAreaRoles(Long workArea) {
+		return tkRoleDao.findRoles(null, null, null, workArea, null, null);
 	}
 
 	@Override
@@ -63,8 +78,8 @@ public class TkRoleServiceImpl implements TkRoleService {
 	}
 	
 	@Override
-	public List<TkRole> getInActiveWorkAreaRoles(Long workArea, Date asOfDate) {
-		return tkRoleDao.findInActiveRoles(null, asOfDate, null, workArea, null, null);
+	public List<TkRole> getInActiveWorkAreaRoles(Long workArea) {
+		return tkRoleDao.findInActiveRoles(null, null, null, workArea, null, null);
 	}
 
 	@Override

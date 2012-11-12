@@ -17,10 +17,12 @@ package org.kuali.hr.time.accrual.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.accrual.TimeOffAccrual;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -58,4 +60,16 @@ public class TimeOffAccrualLookupableHelper extends KualiLookupableHelperService
 		
 		return customActionUrls;
 	}
+
+    @SuppressWarnings({"unchecked"})
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+
+        String principalId = fieldValues.get("principalId");
+        String accrualCategory = fieldValues.get("accrualCategory");
+
+        List<TimeOffAccrual> timeOffAccruals = TkServiceLocator.getTimeOffAccrualService().getTimeOffAccruals(principalId, accrualCategory);
+
+        return timeOffAccruals;
+    }
 }

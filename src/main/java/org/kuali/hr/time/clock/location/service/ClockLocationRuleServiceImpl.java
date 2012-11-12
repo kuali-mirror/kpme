@@ -143,4 +143,9 @@ public class ClockLocationRuleServiceImpl implements ClockLocationRuleService {
 		clockLocationDao.populateIPAddressesForCLR(clr);
 	}
 
+    public List<ClockLocationRule> getClockLocationRules(Date fromEffdt, Date toEffdt, String principalId, String jobNumber,
+                                                         String dept, String workArea, String active, String showHistory){
+        return clockLocationDao.getClockLocationRules(fromEffdt, toEffdt, principalId, jobNumber, dept, workArea, active, showHistory);
+
+    }
 }

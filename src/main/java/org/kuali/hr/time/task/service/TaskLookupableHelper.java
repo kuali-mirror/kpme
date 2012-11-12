@@ -41,7 +41,7 @@ public class TaskLookupableHelper extends TkAuthorizedLookupableHelperBase {
         String description = fieldValues.get("description");
         String workArea = fieldValues.get("workArea");
         String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
-        String toEffdt = StringUtils.isNotBlank(fieldValues.get("effectiveDate")) ? fieldValues.get("effectiveDate").replace("<=", "") : "";
+        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
 
         List<Task> tasks = TkServiceLocator.getTaskService().getTasks(task, description, workArea, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt));
 

@@ -15,16 +15,12 @@
  */
 package org.kuali.hr.time.calendar.service;
 
-import java.sql.Time;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.calendar.Calendar;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -56,30 +52,35 @@ public class CalendarLookupableHelper extends KualiLookupableHelperServiceImpl {
 	}
 	
 	@Override
-	public List<? extends BusinessObject> getSearchResults(
-			Map<String, String> fieldValues) {
-		String flsaTime = null;
-		if(fieldValues.containsKey("flsaBeginTime")){
-			flsaTime = fieldValues.get("flsaBeginTime");
-			fieldValues.remove("flsaBeginTime");
-		}
-		List<? extends BusinessObject> objectList = super.getSearchResults(fieldValues);
-		if(!objectList.isEmpty()  && flsaTime != null && StringUtils.isNotBlank(flsaTime)){
-			SimpleDateFormat sdFormat = new SimpleDateFormat("hh:mm aa");
-			Time flsaBeginTime = null;
-			try {
-				flsaBeginTime = new Time(sdFormat.parse(flsaTime).getTime());
-				Iterator itr = objectList.iterator();
-				while(itr.hasNext()){
-					Calendar pc = (Calendar)itr.next();
-					if(pc.getFlsaBeginTime()!= null && !pc.getFlsaBeginTime().equals(flsaBeginTime)){
-						itr.remove();
-					}
-				}
-			} catch (ParseException e) {
-			}	
-		}
-		return objectList;
+	public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+		String calendarName = fieldValues.get("calendarName");
+		String calendarTypes = fieldValues.get("calendarTypes");
+        String flsaBeginDay = fieldValues.get("flsaBeginDay");
+        String flsaBeginTime = fieldValues.get("flsaBeginTime");
+
+        return TkServiceLocator.getCalendarService().getCalendars(calendarName, calendarTypes, flsaBeginDay, flsaBeginTime);
+//        String flsaTime = null;
+//		if(fieldValues.containsKey("flsaBeginTime")){
+//			flsaTime = fieldValues.get("flsaBeginTime");
+//			fieldValues.remove("flsaBeginTime");
+//		}
+//		List<? extends BusinessObject> objectList = super.getSearchResults(fieldValues);
+//		if(!objectList.isEmpty()  && flsaTime != null && StringUtils.isNotBlank(flsaTime)){
+//			SimpleDateFormat sdFormat = new SimpleDateFormat("hh:mm aa");
+//			Time flsaBeginTime = null;
+//			try {
+//				flsaBeginTime = new Time(sdFormat.parse(flsaTime).getTime());
+//				Iterator itr = objectList.iterator();
+//				while(itr.hasNext()){
+//					Calendar pc = (Calendar)itr.next();
+//					if(pc.getFlsaBeginTime()!= null && !pc.getFlsaBeginTime().equals(flsaBeginTime)){
+//						itr.remove();
+//					}
+//				}
+//			} catch (ParseException e) {
+//			}
+//		}
+//		return objectList;
 	}
 
 }

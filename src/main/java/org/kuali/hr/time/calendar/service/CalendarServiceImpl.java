@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.time.calendar.service;
 
+import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
@@ -173,5 +174,10 @@ public class CalendarServiceImpl implements CalendarService {
         }
 		return pcd;
 	}
+
+    @Override
+    public List<Calendar> getCalendars(String calendarName, String calendarTypes, String flsaBeginDay, String flsaBeginTime) {
+        return  calendarDao.getCalendars(calendarName, calendarTypes, flsaBeginDay, flsaBeginTime);
+    }
 
 }

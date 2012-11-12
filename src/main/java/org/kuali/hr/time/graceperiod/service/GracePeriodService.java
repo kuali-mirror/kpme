@@ -17,6 +17,7 @@ package org.kuali.hr.time.graceperiod.service;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.kuali.hr.time.graceperiod.rule.GracePeriodRule;
 import org.springframework.cache.annotation.Cacheable;
@@ -44,4 +45,6 @@ public interface GracePeriodService {
 	 */
     @Cacheable(value= GracePeriodRule.CACHE_NAME, key="'tkGracePeriodId=' + #p0")
 	public GracePeriodRule getGracePeriodRule(String tkGracePeriodId);
+
+    List<GracePeriodRule> getGracePeriodRules(String hourFactor, String active);
 }

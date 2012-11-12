@@ -68,4 +68,7 @@ public interface ShiftDifferentialRuleService {
 	 */
 	public void processShiftDifferentialRules(TimesheetDocument timesheetDocument, TkTimeBlockAggregate aggregate);
 
+    List<ShiftDifferentialRule> getShiftDifferentialRules(String location, String hrSalGroup, String payGrade, Date fromEffdt,
+     Date toEffdt, String active, String showHist);
+
 }

@@ -53,13 +53,12 @@ public interface TkRoleService {
     @Cacheable(value= TkRole.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'roleName=' + #p1 + '|' + 'asOfDate=' + #p2")
 	public List<TkRole> getRoles(String principalId, String roleName, Date asOfDate);
 	/**
-	 * Fetch all Roles for a given Work Area as of a particular date
+	 * Fetch all Roles for a given Work Area
 	 * @param workArea
-	 * @param asOfDate
 	 * @return
 	 */
-    @Cacheable(value= TkRole.CACHE_NAME, key="'workArea=' + #p0 + '|' + 'asOfDate=' + #p1")
-	public List<TkRole> getWorkAreaRoles(Long workArea, Date asOfDate);
+    @Cacheable(value= TkRole.CACHE_NAME, key="'workArea=' + #p0")
+	public List<TkRole> getWorkAreaRoles(Long workArea);
     /**
 	 * Fetch all Roles for a given work area and role name as of a particular date
 	 * @param workArea
@@ -70,13 +69,12 @@ public interface TkRoleService {
     @Cacheable(value= TkRole.CACHE_NAME, key="'workArea=' + #p0 + '|' + 'roleName=' + #p1 + '|' + 'asOfDate=' + #p2")
 	public List<TkRole> getWorkAreaRoles(Long workArea, String roleName, Date asOfDate);
 	/**
-	 * Fetch all Inactive Roles for a given work area as of a particular date
+	 * Fetch all Inactive Roles for a given work area
 	 * @param workArea
-	 * @param asOfDate
 	 * @return
 	 */
-    @Cacheable(value= TkRole.CACHE_NAME, key="'{getInActiveWorkAreaRoles}' + 'workArea=' + #p0 + '|' + 'asOfDate=' + #p1")
-	public List<TkRole> getInActiveWorkAreaRoles(Long workArea, Date asOfDate);
+    @Cacheable(value= TkRole.CACHE_NAME, key="'{getInActiveWorkAreaRoles}' + 'workArea=' + #p0")
+	public List<TkRole> getInActiveWorkAreaRoles(Long workArea);
     /**
 	 * Fetch all Inactive Roles for a given work area and role name as of a particular date
 	 * @param workArea
@@ -106,13 +104,19 @@ public interface TkRoleService {
     @Cacheable(value= TkRole.CACHE_NAME, key="'{getDepartmentInactiveRoles}' + 'department=' + #p0 + '|' + 'roleName=' + #p1 + '|' + 'asOfDate=' + #p2")
 	public List<TkRole> getDepartmentInactiveRoles(String department, String roleName, Date asOfDate);
 	/**
-	 * Fetch all Roles for a given Department of a particular date
+	 * Fetch all Roles for a given Department
 	 * @param department
-	 * @param asOfDate
 	 * @return
 	 */
-    @Cacheable(value= TkRole.CACHE_NAME, key="'department=' + #p0 + '|' + 'asOfDate=' + #p1")
-	public List<TkRole> getDepartmentRoles(String department, Date asOfDate);
+    @Cacheable(value= TkRole.CACHE_NAME, key="'department=' + #p0")
+	public List<TkRole> getDepartmentRoles(String department);
+	/**
+	 * Fetch all Inactive Roles for a given Department
+	 * @param department
+	 * @return
+	 */
+    @Cacheable(value= TkRole.CACHE_NAME, key="'{getDepartmentInactiveRoles}' + 'department=' + #p0")
+	public List<TkRole> getDepartmentInactiveRoles(String department);
 	/**
 	 * Save or Update a given TkRole
 	 * @param role

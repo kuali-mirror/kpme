@@ -115,4 +115,8 @@ public class DepartmentLunchRuleServiceImpl implements DepartmentLunchRuleServic
 		return deptLunchRuleDao.getDepartmentLunchRule(tkDeptLunchRuleId);
 	}
 
+    @Override
+    public List<DeptLunchRule> getDepartmentLunchRules(String dept, String workArea, String principalId, String jobNumber, String active) {
+        return deptLunchRuleDao.getDepartmentLunchRules(dept, workArea, principalId, jobNumber, active);
+    }
 }

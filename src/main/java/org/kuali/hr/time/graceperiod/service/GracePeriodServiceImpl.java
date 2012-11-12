@@ -21,6 +21,7 @@ import org.kuali.hr.time.graceperiod.rule.GracePeriodRule;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
 
 public class GracePeriodServiceImpl implements GracePeriodService {
 	private GracePeriodDao gracePeriodDao;
@@ -69,4 +70,9 @@ public class GracePeriodServiceImpl implements GracePeriodService {
 	public GracePeriodRule getGracePeriodRule(String tkGracePeriodId) {
 		return gracePeriodDao.getGracePeriodRule(tkGracePeriodId);
 	}
+
+    @Override
+    public List<GracePeriodRule> getGracePeriodRules(String hourFactor, String active) {
+        return gracePeriodDao.getGracePeriodRules(hourFactor, active);
+    }
 }

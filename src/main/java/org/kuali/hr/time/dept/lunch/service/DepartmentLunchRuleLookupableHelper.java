@@ -17,6 +17,7 @@ package org.kuali.hr.time.dept.lunch.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
@@ -96,4 +97,20 @@ public class DepartmentLunchRuleLookupableHelper extends TkAuthorizedLookupableH
 					attributeValue);
 		}
 	}
+
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        String principalId = fieldValues.get("principalId");
+        String jobNumber = fieldValues.get("jobNumber");
+        String dept = fieldValues.get("dept");
+        String workArea = fieldValues.get("workArea");
+        String active = fieldValues.get("active");
+
+        if (StringUtils.equals(workArea,"%") || StringUtils.equals(workArea,"*")){
+            workArea = "";
+        }
+        List<DeptLunchRule> departmentLunchRules = TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRules(dept,
+                workArea, principalId, jobNumber, active);
+        return departmentLunchRules;
+    }
 }

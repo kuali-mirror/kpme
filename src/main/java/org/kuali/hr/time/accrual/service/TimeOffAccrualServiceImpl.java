@@ -251,4 +251,9 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 	public int getTimeOffAccrualCount(String accrualCategory, Date effectiveDate, String principalId, String lmAccrualId) {
 		return timeOffAccrualDao.getTimeOffAccrualCount(accrualCategory, effectiveDate, principalId, lmAccrualId);
 	}
+
+    @Override
+    public  List<TimeOffAccrual> getTimeOffAccruals(String principalId, String accrualCategory){
+        return timeOffAccrualDao.getTimeOffAccruals(principalId, accrualCategory);
+    }
 }

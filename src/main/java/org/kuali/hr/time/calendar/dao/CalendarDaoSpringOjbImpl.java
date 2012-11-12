@@ -15,15 +15,22 @@
  */
 package org.kuali.hr.time.calendar.dao;
 
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
+import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+import java.text.ParseException;
 
 public class CalendarDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb  implements CalendarDao {
 
@@ -64,4 +71,38 @@ public class CalendarDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb  implement
         return (CalendarEntries) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(CalendarEntries.class,payEndDateCriteria));
         
 	}
+
+    @Override
+    public List<Calendar> getCalendars(String calendarName, String calendarTypes, String flsaBeginDay, String flsaBeginTime) {
+        Criteria crit = new Criteria();
+
+        List<Calendar> results = new ArrayList<Calendar>();
+
+        if(StringUtils.isNotBlank(calendarName) && StringUtils.isNotEmpty(calendarName)){
+            crit.addLike("calendarName", calendarName);
+        }
+        if(StringUtils.isNotBlank(calendarTypes) && StringUtils.isNotEmpty(calendarTypes)){
+            crit.addLike("calendarTypes", calendarTypes);
+        }
+        if(StringUtils.isNotBlank(flsaBeginDay) && StringUtils.isNotEmpty(flsaBeginDay)){
+            crit.addLike("flsaBeginDay", flsaBeginDay);
+        }
+        if(flsaBeginTime != null){
+            SimpleDateFormat sdFormat = new SimpleDateFormat("hh:mm aa");
+            try {
+                Time flsaTime = new Time(sdFormat.parse(flsaBeginTime).getTime());
+                crit.addLike("flsaBeginTime", flsaTime);
+            } catch (ParseException e)  {
+
+            }
+        }
+        Query query = QueryFactory.newQuery(Calendar.class, crit);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        results.addAll(c);
+
+        return results;
+    }
+
+
+
 }

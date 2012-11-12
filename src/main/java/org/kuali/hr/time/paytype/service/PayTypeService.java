@@ -16,6 +16,7 @@
 package org.kuali.hr.time.paytype.service;
 
 import org.kuali.hr.time.paytype.PayType;
+import org.kuali.hr.time.util.TKUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -53,4 +54,7 @@ public interface PayTypeService {
 	 * @return int
 	 */
 	public int getPayTypeCount(String payType);
+
+    List<PayType> getPayTypes(String payType, String regEarnCode, String descr, Date fromEffdt,
+     Date toEffdt, String active, String showHist);
 }

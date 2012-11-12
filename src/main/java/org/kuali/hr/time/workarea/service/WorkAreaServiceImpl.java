@@ -78,18 +78,8 @@ public class WorkAreaServiceImpl implements WorkAreaService {
     @Override
     public void populateWorkAreaRoles(WorkArea workArea) {
         if (workArea != null) {
-            workArea.setRoles(
-                    TkServiceLocator.getTkRoleService().getWorkAreaRoles(
-                            workArea.getWorkArea(),
-                            workArea.getEffectiveDate()
-                    )
-            );
-            workArea.setInactiveRoles(
-            		TkServiceLocator.getTkRoleService().getInActiveWorkAreaRoles(
-            				workArea.getWorkArea(),
-            				workArea.getEffectiveDate()
-            		)
-            );
+            workArea.setRoles(TkServiceLocator.getTkRoleService().getWorkAreaRoles(workArea.getWorkArea()));
+            workArea.setInactiveRoles(TkServiceLocator.getTkRoleService().getInActiveWorkAreaRoles(workArea.getWorkArea()));
         }
     }
 

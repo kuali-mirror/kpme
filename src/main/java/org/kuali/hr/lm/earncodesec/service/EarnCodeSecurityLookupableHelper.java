@@ -15,11 +15,6 @@
  */
 package org.kuali.hr.lm.earncodesec.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
@@ -31,6 +26,11 @@ import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 public class EarnCodeSecurityLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
 
@@ -81,7 +81,7 @@ public class EarnCodeSecurityLookupableHelper extends HrEffectiveDateActiveLooku
         String earnCode = fieldValues.get("earnCode");
         String location = fieldValues.get("location");
         String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
-        String toEffdt = StringUtils.isNotBlank(fieldValues.get("effectiveDate")) ? fieldValues.get("effectiveDate").replace("<=", "") : "";
+        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
         System.out.println("field value map is >>> "+fieldValues);

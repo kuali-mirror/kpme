@@ -16,6 +16,7 @@
 package org.kuali.hr.time.syslunch.service;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.kuali.hr.time.syslunch.rule.SystemLunchRule;
 import org.springframework.cache.annotation.Cacheable;
@@ -36,4 +37,6 @@ public interface SystemLunchRuleService {
 
     @Cacheable(value= SystemLunchRule.CACHE_NAME, key="'tkSystemLunchRuleId=' + #p0")
 	public SystemLunchRule getSystemLunchRule(String tkSystemLunchRuleId);
+
+    List<SystemLunchRule> getSystemLunchRules(Date fromEffdt, Date toEffdt, String active, String showHist);
 }

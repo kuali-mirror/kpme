@@ -93,9 +93,9 @@ public class PositionDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
             timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
             ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Position.class, timestamp);
             timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-            if(StringUtils.isNotBlank(positionNum)){
-                crit.addEqualTo("positionNumber", positionNum);
-            }
+//            if(StringUtils.isNotBlank(positionNum)){
+//                crit.addEqualTo("positionNumber", positionNum);
+//            }
             crit.addEqualTo("effectiveDate", effdtSubQuery);
             crit.addEqualTo("timestamp", timestampSubQuery);
 
@@ -116,9 +116,9 @@ public class PositionDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
             timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
             ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Position.class, timestamp);
             timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-            if(StringUtils.isNotBlank(positionNum)){
-                crit.addEqualTo("positionNumber", positionNum);
-            }
+//            if(StringUtils.isNotBlank(positionNum)){
+//                crit.addEqualTo("positionNumber", positionNum);
+//            }
             crit.addEqualTo("effectiveDate", effdtSubQuery);
             crit.addEqualTo("timestamp", timestampSubQuery);
 
@@ -160,9 +160,9 @@ public class PositionDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
             timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
             ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Position.class, timestamp);
             timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-            if(StringUtils.isNotBlank(positionNum)){
-                crit.addEqualTo("positionNumber", positionNum);
-            }
+//            if(StringUtils.isNotBlank(positionNum)){
+//                crit.addEqualTo("positionNumber", positionNum);
+//            }
             crit.addEqualTo("effectiveDate", effdtSubQuery);
             crit.addEqualTo("timestamp", timestampSubQuery);
 

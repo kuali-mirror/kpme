@@ -79,7 +79,7 @@ public class AssignmentLookupableHelper extends HrEffectiveDateActiveLookupableH
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
-        String toEffdt = StringUtils.isNotBlank(fieldValues.get("effectiveDate")) ? fieldValues.get("effectiveDate").replace("<=", "") : "";
+        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
         String principalId = fieldValues.get("principalId");
         String jobNumber = fieldValues.get("jobNumber");
         String dept = fieldValues.get("dept");

@@ -92,7 +92,7 @@ public class JobLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
         String positionNumber = fieldValues.get("positionNumber");
         String hrPayType = fieldValues.get("hrPayType");
         String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
-        String toEffdt = StringUtils.isNotBlank(fieldValues.get("effectiveDate")) ? fieldValues.get("effectiveDate").replace("<=", "") : "";
+        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
 

@@ -17,12 +17,15 @@ package org.kuali.hr.time.shiftdiff.rule.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -65,5 +68,20 @@ List<HtmlData> customActionUrls = new ArrayList<HtmlData>();
 		
 		return customActionUrls;
 	}
-	
+
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues){
+
+        String location = fieldValues.get("location");
+        String payGrade = fieldValues.get("payGrade");
+        String hrSalGroup = fieldValues.get("hrSalGroup");
+        String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
+        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
+        String active = fieldValues.get("active");
+        String showHist = fieldValues.get("history");
+
+        return TkServiceLocator.getShiftDifferentialRuleService().getShiftDifferentialRules(location, hrSalGroup, payGrade, TKUtils.formatDateString(fromEffdt),
+                TKUtils.formatDateString(toEffdt), active, showHist);
+    }
+
 }

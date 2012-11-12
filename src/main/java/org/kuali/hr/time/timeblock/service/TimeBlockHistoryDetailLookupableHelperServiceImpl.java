@@ -179,17 +179,13 @@ public class TimeBlockHistoryDetailLookupableHelperServiceImpl extends KualiLook
         });
     }
     
-	 public boolean inDateRange(Date asOfDate, String dateString) {
+    public boolean inDateRange(Date asOfDate, String dateString) {
 		try {
 			DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-			Date dateFrom;
-			Date dateTo;
-			String subDateString;
+			java.util.Date dateFrom = df.parse(TKUtils.getFromDateString(dateString));
+			java.util.Date dateTo = df.parse(TKUtils.getToDateString(dateString));;
+			
 			if(dateString.indexOf("..") == 10) {
-				subDateString= dateString.substring(0, 10);
-				dateFrom = df.parse(subDateString);
-				subDateString= dateString.substring(12, dateString.length());
-				dateTo = df.parse(subDateString);
 				if(asOfDate != null) {
 					Interval range = new Interval(dateFrom.getTime(),dateTo.getTime());
 					return range.contains(asOfDate.getTime());
@@ -197,8 +193,6 @@ public class TimeBlockHistoryDetailLookupableHelperServiceImpl extends KualiLook
 					return false;
 				}
 			} else{
-				subDateString= dateString.substring(2, dateString.length());
-				dateTo = df.parse(subDateString);
 				if(asOfDate != null) {
 					if( (dateString.startsWith(">=") && asOfDate.before(dateTo))
 							|| (dateString.startsWith("<=") && asOfDate.after(dateTo))) {

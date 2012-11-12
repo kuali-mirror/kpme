@@ -16,10 +16,12 @@
 package org.kuali.hr.time.accrual.dao;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -28,10 +30,10 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.accrual.TimeOffAccrual;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-public class TimeOffAccrualkDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements TimeOffAccrualDao {
+public class TimeOffAccrualDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements TimeOffAccrualDao {
 
 	@SuppressWarnings("unused")
-	private static final Logger LOG = Logger.getLogger(TimeOffAccrualkDaoSpringOjbImpl.class);
+	private static final Logger LOG = Logger.getLogger(TimeOffAccrualDaoSpringOjbImpl.class);
 
 	public void saveOrUpdate(TimeOffAccrual timeOffAccrual) {
 		this.getPersistenceBrokerTemplate().store(timeOffAccrual);
@@ -120,4 +122,24 @@ public class TimeOffAccrualkDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
 		Query query = QueryFactory.newQuery(TimeOffAccrual.class, crit);
 		return this.getPersistenceBrokerTemplate().getCount(query);
 	}
+
+    @Override
+    public List<TimeOffAccrual> getTimeOffAccruals(String principalId, String accrualCategory) {
+        Criteria crit = new Criteria();
+
+        List<TimeOffAccrual> results = new ArrayList<TimeOffAccrual>();
+
+        if(StringUtils.isNotBlank(principalId) && StringUtils.isNotEmpty(principalId)){
+            crit.addLike("principalId", principalId);
+        }
+        if(StringUtils.isNotBlank(accrualCategory)){
+            crit.addLike("accrualCategory", accrualCategory);
+        }
+
+        Query query = QueryFactory.newQuery(TimeOffAccrual.class, crit);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        results.addAll(c);
+
+        return results;
+    }
 }

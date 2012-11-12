@@ -141,4 +141,6 @@ public interface EarnCodeService {
      */
     @Cacheable(value= EarnCode.CACHE_NAME, key="'{getEarnCodesForDisplayWithEffectiveDate}' + 'principalId=' + #p0 + '|' + 'asOfDate=' + #p1")
     public Map<String, String> getEarnCodesForDisplayWithEffectiveDate(String principalId, Date asOfDate);
+
+    List<EarnCode> getEarnCodes(String earnCode, String ovtEarnCode, String descr, Date fromEffdt, Date toEffdt, String active, String showHist);
 }

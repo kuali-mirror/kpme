@@ -286,6 +286,10 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 	}
 
     @Override
+    public List<EarnCode> getEarnCodes(String earnCode, String ovtEarnCode, String descr, Date fromEffdt, Date toEffdt, String active, String showHist) {
+        return earnCodeDao.getEarnCodes(earnCode, ovtEarnCode, descr, fromEffdt, toEffdt, active, showHist);
+    }
+
     public Map<String, String> getEarnCodesForDisplayWithEffectiveDate(String principalId, Date asOfDate) {
         List<EarnCode> earnCodes = this.getEarnCodesForPrincipal(principalId, asOfDate);
 

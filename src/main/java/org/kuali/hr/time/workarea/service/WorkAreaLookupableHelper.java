@@ -135,7 +135,8 @@ public class WorkAreaLookupableHelper extends TkAuthorizedLookupableHelperBase {
 		String workArea = fieldValues.get("workArea");
 		String descr = fieldValues.get("description");
 		String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
-		String toEffdt = StringUtils.isNotBlank(fieldValues.get("effectiveDate")) ? fieldValues.get("effectiveDate").replace("<=", "") : "";
+		String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
+		
 		String active = fieldValues.get("active");
 		String showHist = fieldValues.get("history");
 		

@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.time.calendar.dao;
 
+import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
@@ -32,5 +33,7 @@ public interface CalendarDao {
 	public Calendar getCalendarByGroup(String pyCalendarGroup);
 	
 	public CalendarEntries getPreviousCalendarEntry(String tkCalendarId, Date beginDateCurrentCalendar);
+
+    public List<Calendar> getCalendars(String calendarName, String calendarTypes, String flsaBeginDay, String flsaBeginTime);
 
 }
