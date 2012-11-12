@@ -78,7 +78,11 @@ public class LeaveBlockDisplayWebTest extends KPMETestCase {
 				leaveBlockDisplayPage.asText().contains("Document Status"));
 		Assert.assertTrue("Page does not contain 'FINAL' Document Status ",
 				leaveBlockDisplayPage.asText().contains("FINAL"));
-
+		
+		// check page contains Planning Status column
+		Assert.assertTrue("Page does not contain Planning Status ",
+				leaveBlockDisplayPage.asText().contains("Planning Status"));
+		
 		// Check for next year
 		HtmlButton nextButton = (HtmlButton) leaveBlockDisplayPage
 				.getElementById("nav_lb_next");

@@ -66,7 +66,7 @@
         					   <th>Date of Leave</th>
         					   <th>Earn Code</th>
         					   <th>Description</th>
-        					   <th>Status</th>
+        					   <th>Planning Status</th>
         					   <th>Document Status</th>
         					   <th>Amount</th>
         					   <th>Timestamp</th>
