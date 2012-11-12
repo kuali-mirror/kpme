@@ -234,7 +234,7 @@ public class LeaveCalendarAction extends TkAction {
 		// call accrual service if earn code is not eligible for accrual
 		if(lcf.getCalendarEntry() != null) {
 			java.sql.Date sqlDate = new java.sql.Date(endDate.getMillis());
-			this.rerunAccrualForNotEligibleForAccrualChanges(selectedEarnCode, sqlDate, lcf.getCalendarEntry().getBeginPeriodDate());
+			this.rerunAccrualForNotEligibleForAccrualChanges(selectedEarnCode, sqlDate, lcf.getCalendarEntry().getBeginPeriodDate(), lcf.getCalendarEntry().getEndPeriodDate());
 		 }
 		// recalculate summary
 		if(lcf.getCalendarEntry() != null) {
@@ -258,7 +258,7 @@ public class LeaveCalendarAction extends TkAction {
 			 // recalculate accruals
 		    if(lcf.getCalendarEntry() != null) {
 		    	this.rerunAccrualForNotEligibleForAccrualChanges(blockToDelete.getEarnCode(), blockToDelete.getLeaveDate(), 
-		    		lcf.getCalendarEntry().getBeginPeriodDate());
+		    		lcf.getCalendarEntry().getBeginPeriodDate(), lcf.getCalendarEntry().getEndPeriodDate());
 		    }	
         }
 		// recalculate summary
@@ -271,18 +271,17 @@ public class LeaveCalendarAction extends TkAction {
 	
 	/**
 	 * Recalculate accrual when a leave block with not-eligible-for-accrual earn code is added or deleted
-	 * calculate accrual starting from the begin date of the affected calendar entry up to planningMonths in the future
+	 * calculate accrual only for the calendar entry period
 	 * @param earnCode
 	 * @param asOfDate
 	 * @param startDate
+	 * @param endDate
 	 */
-	private void rerunAccrualForNotEligibleForAccrualChanges(String earnCode, Date asOfDate, Date startDate) {
+	private void rerunAccrualForNotEligibleForAccrualChanges(String earnCode, Date asOfDate, Date startDate, Date endDate) {
 		EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
 		if(ec != null && ec.getEligibleForAccrual().equals("N")) {
-			if(startDate != null) {
-				int planningMonth = ActionFormUtils.getPlanningMonthsForEmployee(TKContext.getTargetPrincipalId());
-				Date endDate = new java.sql.Date(TKUtils.addMonths(TKUtils.getCurrentDate(), planningMonth).getTime());
-				// since we are only recalculation accrual for this pay period and future, we do not record the accrual run data
+			if(startDate != null && endDate != null) {
+				// since we are only recalculating accrual for this pay period, we use "false" to not record the accrual run data
 				TkServiceLocator.getLeaveAccrualService().runAccrual(TKContext.getTargetPrincipalId(), startDate, endDate, false);
 			}
 		}
