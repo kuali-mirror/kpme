@@ -37,5 +37,5 @@ public interface EarnCodeDao {
 	
 	public List<EarnCode> getEarnCodes(String leavePlan, Date asOfDate);
 
-    List<EarnCode> getEarnCodes(String earnCode, String ovtEarnCode, String descr, Date fromEffdt, Date toEffdt, String active, String showHist);
+    List<EarnCode> getEarnCodes(String earnCode, String ovtEarnCode, String descr, String leavePlan, String accrualCategory, Date fromEffdt, Date toEffdt, String active, String showHist);
 }

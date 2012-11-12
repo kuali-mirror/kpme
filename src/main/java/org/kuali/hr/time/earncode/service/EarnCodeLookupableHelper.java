@@ -78,12 +78,14 @@ public class EarnCodeLookupableHelper extends HrEffectiveDateActiveLookupableHel
         String earnCode = fieldValues.get("earnCode");
         String ovtEarnCode = fieldValues.get("ovtEarnCode");
         String descr = fieldValues.get("description");
+        String leavePlan = fieldValues.get("leavePlan");
+		String accrualCategory = fieldValues.get("accrualCategory");
         String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
 
-        return TkServiceLocator.getEarnCodeService().getEarnCodes(earnCode, ovtEarnCode, descr, TKUtils.formatDateString(fromEffdt),
+        return TkServiceLocator.getEarnCodeService().getEarnCodes(earnCode, ovtEarnCode, descr, leavePlan, accrualCategory, TKUtils.formatDateString(fromEffdt),
                 TKUtils.formatDateString(toEffdt), active, showHist);
     }
 }

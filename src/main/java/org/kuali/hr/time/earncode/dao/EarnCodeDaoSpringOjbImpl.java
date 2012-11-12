@@ -190,7 +190,7 @@ public class EarnCodeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
 	}
 
     @Override
-    public List<EarnCode> getEarnCodes(String earnCode, String ovtEarnCode, String descr, Date fromEffdt, Date toEffdt, String active, String showHistory) {
+    public List<EarnCode> getEarnCodes(String earnCode, String ovtEarnCode, String descr, String leavePlan, String accrualCategory, Date fromEffdt, Date toEffdt, String active, String showHistory) {
         Criteria crit = new Criteria();
         Criteria effdt = new Criteria();
         Criteria timestamp = new Criteria();
@@ -204,6 +204,12 @@ public class EarnCodeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
         }
         if(StringUtils.isNotBlank(descr)){
             crit.addLike("description", descr);
+        }
+        if(StringUtils.isNotBlank(leavePlan)){
+            crit.addLike("leavePlan", leavePlan);
+        }
+        if(StringUtils.isNotBlank(accrualCategory)){
+            crit.addLike("accrualCategory", accrualCategory);
         }
         if(fromEffdt != null){
             crit.addGreaterOrEqualThan("effectiveDate", fromEffdt);
