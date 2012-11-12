@@ -88,11 +88,12 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
     }
 
 	@Override
-	public List<LeaveBlock> getLeaveBlocks(String principalId, String requestStatus, Date currentDate) {
+	public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, Date currentDate) {
 	    List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
 	    Criteria root = new Criteria();
-	    root.addEqualTo("requestStatus", requestStatus);
 	    root.addEqualTo("principalId", principalId);
+	    root.addEqualTo("leaveBlockType", leaveBlockType);
+	    root.addEqualTo("requestStatus", requestStatus);
 	    if(currentDate != null) {
 	    	root.addGreaterThan("leaveDate", currentDate);
 	    }

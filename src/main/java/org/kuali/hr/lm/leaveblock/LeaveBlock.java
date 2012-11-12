@@ -67,8 +67,6 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	private AccrualCategory accrualCategoryObj;
 
 	@Transient
-	private String earnCodeString;
-	@Transient
 	private boolean submit;
 	@Transient
 	private String reason;
@@ -388,23 +386,6 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		this.leaveBlockHistories = leaveBlockHistories;
 	}
 
-	public String getEarnCodeString() {
-		try {
-			System.out.println("Fetching code >>");
-			EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCodeById(this.earnCode);
-					
-			earnCodeString = earnCode.getDescription();
-		} catch (Exception ex) {
-			System.out
-					.println("error came while fetching leave code String >>>>>>");
-		}
-		return earnCodeString;
-	}
-
-	public void setEarnCodeString(String earnCodeString) {
-		this.earnCodeString = earnCodeString;
-	}
-
 	public String getReason() {
 		return reason;
 	}
@@ -499,6 +480,17 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 
 	public void setEarnCode(String earnCode) {
 		this.earnCode = earnCode;
+	}
+	
+	public String getEarnCodeDescription() {
+		String earnCodeDescription = "";
+		
+		EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, leaveDate);
+		if (earnCodeObj != null) {
+			earnCodeDescription = earnCodeObj.getDescription();
+		}
+		
+		return earnCodeDescription;
 	}
 
 	public String getLeaveBlockType() {

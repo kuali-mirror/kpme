@@ -45,11 +45,12 @@ public interface LeaveBlockService {
     /**
      * 
      * @param principalId
+     * @param leaveblockType
      * @param requestStatus
      * @param currentDate currentDate to get the records for the future date, pass null when not required
      * @return List of LeaveBlocks
      */
-    public List<LeaveBlock> getLeaveBlocks(String principalId, String requestStatus, Date currentDate);
+    public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, Date currentDate);
     /**
      * Get the list of leave blocks from the given leaveDate for the principalId
      * @param principalId

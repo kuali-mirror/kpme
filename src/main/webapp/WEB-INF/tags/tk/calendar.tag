@@ -84,6 +84,16 @@
                             </c:if>
                             </td>
                         </tr>
+                        <tr>
+                            <td align="right">
+                            <c:if test="${calType eq 'leaveCalendar'}">
+                                <span class="header-title-right">
+                                    <a href="LeaveRequest.do"
+                                        target="_self" id="lrlink">Leave Request</a>
+                                </span>
+                            </c:if>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </td>

@@ -81,7 +81,7 @@ public class LeaveBlockServiceImplTest extends KPMETestCase {
 	public void testGetLeaveBlocksByLeaveRequestStatus(){
 		String requestStatus = LMConstants.REQUEST_STATUS.PLANNED;
 		Date currentDate = TKUtils.getTimelessDate(new Date());
-		List<LeaveBlock> leaveBlocks = leaveBlockService.getLeaveBlocks(TEST_USER, requestStatus, currentDate);
+		List<LeaveBlock> leaveBlocks = leaveBlockService.getLeaveBlocks(TEST_USER, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, requestStatus, currentDate);
 		Assert.assertNotNull("Leave Blocks not found of Request status", leaveBlocks);
 	}
 	@Test

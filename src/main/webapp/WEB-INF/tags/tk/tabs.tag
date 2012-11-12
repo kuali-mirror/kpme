@@ -28,7 +28,6 @@
     </c:if>
     <c:if test="${targetActiveEmployee}">
         <c:if test="${Form.leaveEnabled}">
-            <li id="leaveRequest" class="ui-state-default ui-corner-top"><a href="LeaveRequest.do">Leave Request</a></li>
             <li id="leaveCalendar" class="ui-state-default ui-corner-top"><a href="LeaveCalendar.do">Leave Calendar</a></li>
         </c:if>
         <c:if test="${Form.timeEnabled}">

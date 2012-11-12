@@ -47,7 +47,7 @@
 									<td><fmt:formatDate value="${plannedLeave.leaveDate}"
 											pattern="MM/dd/yyyy" />
 									</td>
-									<td>${plannedLeave.earnCodeString}(${plannedLeave.earnCode})</td>
+									<td>${plannedLeave.earnCodeDescription} (${plannedLeave.earnCode})</td>
 									<td>${plannedLeave.leaveAmount}</td>
 									<td>${plannedLeave.description}</td>
 									<td><html:checkbox property="plannedLeaves[${index}].submit" value="true" name="Form" /></td>
@@ -81,7 +81,7 @@
 									<td><fmt:formatDate value="${pendingLeave.leaveDate}"
 											pattern="MM/dd/yyyy" />
 									</td>
-									<td>${pendingLeave.earnCodeString}(${pendingLeave.earnCode})</td>
+									<td>${pendingLeave.earnCodeDescription} (${pendingLeave.earnCode})</td>
 									<td>${pendingLeave.leaveAmount}</td>
 									<td>${pendingLeave.description}</td>
 									<td><fmt:formatDate type="both"
@@ -113,7 +113,7 @@
 									<td><fmt:formatDate value="${approvedLeave.leaveDate}"
 											pattern="MM/dd/yyyy" />
 									</td>
-									<td>${approvedLeave.earnCodeString}(${approvedLeave.earnCode})</td>
+									<td>${approvedLeave.earnCodeDescription} (${approvedLeave.earnCode})</td>
 									<td>${approvedLeave.leaveAmount}</td>
 									<td>${approvedLeave.description}</td>
 									<td><fmt:formatDate type="both"
@@ -149,7 +149,7 @@
 									<td><fmt:formatDate value="${disaprovedLeave.leaveDate}"
 											pattern="MM/dd/yyyy" />
 									</td>
-									<td>${disaprovedLeave.earnCodeString}(${disaprovedLeave.earnCode})</td>
+									<td>${disaprovedLeave.earnCodeDescription} (${disaprovedLeave.earnCode})</td>
 									<td>${disaprovedLeave.leaveAmount}</td>
 									<td>${disaprovedLeave.requestStatus == 'D' ? 'Disapprove'
 										: 'Defer'}</td>

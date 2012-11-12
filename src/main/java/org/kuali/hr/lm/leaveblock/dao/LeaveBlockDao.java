@@ -25,7 +25,7 @@ public interface LeaveBlockDao {
     public List<LeaveBlock> getLeaveBlocksForDocumentId(String documentId);
     public List<LeaveBlock> getLeaveBlocks(String principalId, Date beginDate, Date endDate);
     public void saveOrUpdate(LeaveBlock leaveBlock);
-    public List<LeaveBlock> getLeaveBlocks(String principalId, String requestStatus, Date currentDate);
+    public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, Date currentDate);
     public List<LeaveBlock> getLeaveBlocksForDate(String principalId, Date leaveDate);
     public List<LeaveBlock> getLeaveBlocks(Date leaveDate, String accrualCategory, String principalId);
     public List<LeaveBlock> getLeaveBlocks(String principalId, String accrualCategory, Date beginDate, Date endDate);
