@@ -1,12 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?> 
 <book xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
-  <info>
-    <title>
-      ${project.name} ${project.version} Installation Guide 
-    </title>
-  </info>
-    
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../installation-guide/overview.xml"/> 
-  <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../installation-guide/setup.xml"/> 
-
+    <info>
+        <title>
+            <para>
+                <inlinemediaobject>
+                    <imageobject>
+                        <imagedata fileref="../images/kpme_logo.png" width="4.5in"/>
+                    </imageobject>
+                </inlinemediaobject>
+            </para>
+            <para>${project.name} ${project.version} Installation Guide</para>
+        </title>
+        <titleabbrev>Installation Guide</titleabbrev>
+    </info>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../installation-guide/overview.xml"/> 
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="../installation-guide/setup.xml"/> 
 </book>

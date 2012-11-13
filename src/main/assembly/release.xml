@@ -1,0 +1,55 @@
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2" 
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+    <id>release</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <files>
+        <file>
+            <source>${project.build.directory}/site/reference/pdf/installation-guide.pdf</source>
+            <destName>KPME ${project.version} Installation Guide.pdf</destName>
+        </file>
+        <file>
+            <source>${project.build.directory}/site/reference/pdf/known-issues.pdf</source>
+            <destName>KPME ${project.version} Known Issues.pdf</destName>
+        </file>
+        <file>
+            <source>${project.build.directory}/${project.artifactId}-${project.version}.war</source>
+            <outputDirectory>binary</outputDirectory>
+        </file>
+        <file>
+            <source>${project.basedir}/src/main/config/local/kuali/main/dev/kpme-config.xml</source>
+            <outputDirectory>binary</outputDirectory>
+        </file>
+        <file>
+            <source>${project.basedir}/src/main/config/local/kuali/test/dev/kpme-test-config.xml</source>
+            <outputDirectory>binary</outputDirectory>
+        </file>
+    </files>
+    <fileSets>
+        <fileSet>
+            <directory>${project.basedir}/src/main/config/sql</directory>
+            <outputDirectory>db-scripts</outputDirectory>
+            <excludes>
+                <exclude>1.0.0/**</exclude>
+                <exclude>1.1.0/**</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}</directory>
+            <outputDirectory>kpme-project</outputDirectory>
+            <excludes>
+                <exclude>.apt_generated/**</exclude>
+                <exclude>.classpath</exclude>
+                <exclude>.project</exclude>
+                <exclude>target/**</exclude>
+            </excludes>
+        </fileSet>
+        <fileSet>
+            <directory>${project.basedir}/src/license</directory>
+            <outputDirectory>licenses</outputDirectory>
+        </fileSet>
+    </fileSets>
+</assembly>

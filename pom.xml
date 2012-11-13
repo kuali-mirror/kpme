@@ -38,6 +38,8 @@
         <docbook.src>${basedir}/src/site/docbook</docbook.src>
         <docbook.filtered>${project.build.directory}/docbook-filtered</docbook.filtered>
         <docbook.dest>${project.build.directory}/site/reference</docbook.dest>
+        
+        <kuali.release.goals>pre-site deploy</kuali.release.goals>
         <kuali.release.arguments>-DskipTests</kuali.release.arguments>
         
         <ehcache.version>2.5.0</ehcache.version>
@@ -616,6 +618,11 @@
         
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>2.3</version>
+                </plugin>
 	            <plugin>
 	                <groupId>com.agilejava.docbkx</groupId>
 	                <artifactId>docbkx-maven-plugin</artifactId>
@@ -949,6 +956,8 @@
                                 <exclude>**/jquery*.js</exclude>
                                 <exclude>**/qunit*.js</exclude>
                                 <exclude>**/underscore*.js</exclude>
+                                <exclude>src/license/**</exclude>
+                                <exclude>src/main/assembly/**</exclude>
                                 <exclude>src/main/config/db/rice/**/*.sql</exclude>
 				                <exclude>src/main/config/launch/**</exclude>
 		                        <exclude>src/main/webapp/acknowledgments.jsp</exclude>
@@ -997,6 +1006,28 @@
             <properties>
                 <build.version>${project.name} :: ${project.version}-${svn.revision} :: ${kuali.build.timestamp}</build.version>
             </properties>
+            <build>
+                <plugins>
+                    <plugin>
+		                <groupId>org.apache.maven.plugins</groupId>
+		                <artifactId>maven-assembly-plugin</artifactId>
+		                <executions>
+		                    <execution>
+		                        <id>release</id>
+		                        <phase>package</phase>
+		                        <goals>
+		                            <goal>single</goal>
+		                        </goals>
+		                        <configuration>
+		                            <descriptors>
+		                                <descriptor>src/main/assembly/release.xml</descriptor>
+		                            </descriptors>
+		                        </configuration>
+		                    </execution>
+		                </executions>
+		            </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
     

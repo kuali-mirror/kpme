@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<section xml:id="listing" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"  version="5.0">    
+    <title>Issues</title>
+    <table frame="none">
+        <tgroup cols="2">
+            <colspec colname="c1" colnum="1" colwidth="1.0*"/>
+            <colspec colname="c2" colnum="2" colwidth="5.0*"/>
+            <thead>
+                <row>
+                    <entry>JIRA</entry>
+                    <entry>Issue Summary</entry>
+                </row>
+            </thead>
+            <tbody>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1855">KPME-1855</link></entry>
+                    <entry>1.2 All Approve buttons should be inactive during pay period while timesheet in saved status</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1853">KPME-1853</link></entry>
+                    <entry>Missed Punch Validation stack trace</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1851">KPME-1851</link></entry>
+                    <entry>Remove Org_admin from HR_EARN_CODE_SECURITY_t</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1848">KPME-1848</link></entry>
+                    <entry>OBJ_ID not populated on hr_earn_code_t</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1847">KPME-1847</link></entry>
+                    <entry>Grace Period Rule - Investigate which column needs deleted</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1829">KPME-1829</link></entry>
+                    <entry>Roles inactivating the old row causing problems</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1828">KPME-1828</link></entry>
+                    <entry>1.2 Reviewer can't "target" ees from approver tab</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1827">KPME-1827</link></entry>
+                    <entry>1.2 Shift Pay issues</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1825">KPME-1825</link></entry>
+                    <entry>Update Assignment on Regular earnings timeblocks needs to update earncode</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1820">KPME-1820</link></entry>
+                    <entry>1.2 Clock tab error when TS is final</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1807">KPME-1807</link></entry>
+                    <entry>1.2 Time Block Inquiry- time hrs detail missing</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1794">KPME-1794</link></entry>
+                    <entry>1.2 timeblock editing- clock entry</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1793">KPME-1793</link></entry>
+                    <entry>1.2 timeblock editing- do not blank fields</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1788">KPME-1788</link></entry>
+                    <entry>Missed Punch- Lunch in/out in drop down</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1657">KPME-1657</link></entry>
+                    <entry>Time Entry Widget: Remove 1530 from ex of valid time format</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1490">KPME-1490</link></entry>
+                    <entry>Verify current state of schema and confirm tables/id/soft reference fields make sense</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1461">KPME-1461</link></entry>
+                    <entry>MySQL instances blow up with a connection reset after going idle</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1458">KPME-1458</link></entry>
+                    <entry>Time Detail- Adding time as employee when that ee has other roles</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1424">KPME-1424</link></entry>
+                    <entry>Clock Log- add flag for "unapproved location warning"</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1391">KPME-1391</link></entry>
+                    <entry>Clock Log:Search attributes</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1390">KPME-1390</link></entry>
+                    <entry>Add keyboard shortcut to launch time entry widget</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1359">KPME-1359</link></entry>
+                    <entry>Make time entry widget bigger per assign drop down</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1342">KPME-1342</link></entry>
+                    <entry>Timesheet Editable by Department Administrator, but should not be.</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1341">KPME-1341</link></entry>
+                    <entry>Modify Lookups to use custom database logic</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1306">KPME-1306</link></entry>
+                    <entry>Approver Tab: Make status field sortable</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1305">KPME-1305</link></entry>
+                    <entry>WA OverTime Edit role if timeblock is not overtime editable due to work area role it should not draw link</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1301">KPME-1301</link></entry>
+                    <entry>TimeDetail: Assignment not showing up in the summary</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1300">KPME-1300</link></entry>
+                    <entry>Dept Maint: Add inactive roles section</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1299">KPME-1299</link></entry>
+                    <entry>Filter results for TimeBlock History Detail Inquiry to only return results for the appropriate admin(location, dept,workarea)</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1202">KPME-1202</link></entry>
+                    <entry>Clicking the Work Area field within a document loads the first Work Area, regardless of the Work Area clicked.</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1055">KPME-1055</link></entry>
+                    <entry>Batch Job to Approve Outstanding missed punches</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1043">KPME-1043</link></entry>
+                    <entry>Overtime: Overtime rule is not being applied when FLSA work week spans two pay periods</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-1000">KPME-1000</link></entry>
+                    <entry>Approver tab: warning for clock location shld also trigger icon</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-991">KPME-991</link></entry>
+                    <entry>Timesheet:timeblock display of shift &amp; ot decimal places</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-938">KPME-938</link></entry>
+                    <entry>View Link on all maint pages</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-903">KPME-903</link></entry>
+                    <entry>WeeklyOvertimeRuleMaintenanceDocument: Error message incorrect</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-850">KPME-850</link></entry>
+                    <entry>Time Entry: Multiple day select not working as desired</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-615">KPME-615</link></entry>
+                    <entry>Department: Selected Org should populate Chart field</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-76">KPME-76</link></entry>
+                    <entry>Employee Notifications/Reminders</entry>
+                </row>
+	        </tbody>
+	    </tgroup>
+	</table>
+</section>

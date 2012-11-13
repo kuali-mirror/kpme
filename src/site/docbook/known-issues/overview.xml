@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?> 
+<section xml:id="overview" xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns="http://docbook.org/ns/docbook" version="5.0">
+    <title>Statement Regarding Known Issues</title>
+    <para>
+        As an open source community based software project, KPME wishes to be transparent about known issues with the software at each release.  Publically 
+        providing an exhaustive list of known issues is a deviation from common practice for commercially provided software.  We believe it important to allow 
+        our colleagues who might consider adopting the software to make as fully informed decision as possible, to limit surprises that would be encountered 
+        during implementation and to eliminate the expenditure of unnecessary time discovering and confirming issues that are already known.  Those known 
+        issues will be attended to in future patches and releases.
+    </para>
+</section>
