@@ -324,8 +324,7 @@ public class LeaveCalendarAction extends TkAction {
 		CalendarEntries futureCalEntry = null;
 		String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
 		CalendarEntries calEntry = leaveForm.getCalendarEntry();
-		boolean isFutureDate = TKUtils.getTimelessDate(null).compareTo(
-				calEntry.getBeginPeriodDateTime()) >= 0;
+
 		// some leave calendar may not have leaveCalendarDocument created based on the jobs status of this employee
 		if(lcd != null) {
 			if (lcd.getDocumentHeader() != null) {
@@ -338,9 +337,9 @@ public class LeaveCalendarAction extends TkAction {
 	        leaveForm.setDocumentId(lcd.getDocumentId());
 	        calEntry = lcd.getCalendarEntry();
 		}
-	// -- put condition if it is not after current period
-		isFutureDate = TKUtils.getTimelessDate(null).compareTo(calEntry.getBeginPeriodDateTime()) >= 0;
-
+	// -- put condition if it is after current period
+		boolean isFutureDate = TKUtils.getTimelessDate(null).compareTo(calEntry.getEndPeriodDateTime()) <= 0;
+		
 		// fetch previous entry
 		CalendarEntries calPreEntry = TkServiceLocator
 				.getCalendarEntriesService()
@@ -383,7 +382,7 @@ public class LeaveCalendarAction extends TkAction {
 			}
 		}
 		if(leaveForm.getViewLeaveTabsWithNEStatus()) {
-			if(!isFutureDate) {
+			if(isFutureDate) {
                 setDocEditable(leaveForm, lcd);
 			} else {
 				// retrieve current pay calendar date
@@ -407,31 +406,46 @@ public class LeaveCalendarAction extends TkAction {
 	}
 
     private void setDocEditable(LeaveCalendarForm leaveForm, LeaveCalendarDocument lcd) {
-        leaveForm.setDocEditable(false);
-        if (TKContext.getUser().isSystemAdmin()) {
-            leaveForm.setDocEditable(true);
-        } else {
-            boolean docFinal = lcd.getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL);
-            if (!docFinal) {
-                if(StringUtils.equals(lcd.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
-                        || TKContext.getUser().isSystemAdmin()
-                        || TKContext.getUser().isLocationAdmin()
-                        || TKContext.getUser().isDepartmentAdmin()
-                        || TKContext.getUser().isReviewer()
-                        || TKContext.getUser().isApprover()) {
-                    leaveForm.setDocEditable(true);
-                }
-
-                //if the leave Calendar has been approved by at least one of the approvers, the employee should not be able to edit it
-                if (StringUtils.equals(lcd.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
-                        && lcd.getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.ENROUTE)) {
-                    Collection actions = KEWServiceLocator.getActionTakenService().findByDocIdAndAction(lcd.getDocumentHeader().getDocumentId(), TkConstants.DOCUMENT_ACTIONS.APPROVE);
-                    if(!actions.isEmpty()) {
-                        leaveForm.setDocEditable(false);
-                    }
-                }
-            }
-        }
+    	leaveForm.setDocEditable(false);
+    	if(lcd == null) {
+    		// working on own calendar
+    		 if(TKUser.getCurrentTargetPerson().getPrincipalId().equals(GlobalVariables.getUserSession().getPrincipalId())) {
+    			 leaveForm.setDocEditable(true); 
+    		 } else {
+    			 if(TKContext.getUser().isSystemAdmin()
+                     || TKContext.getUser().isLocationAdmin()
+                     || TKContext.getUser().isDepartmentAdmin()
+                     || TKContext.getUser().isReviewer()
+                     || TKContext.getUser().isApprover()) {
+    				 	leaveForm.setDocEditable(true);
+    			 }
+             }
+    	} else {
+	        if (TKContext.getUser().isSystemAdmin() && !StringUtils.equals(lcd.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())) {
+	            leaveForm.setDocEditable(true);
+	        } else {
+	            boolean docFinal = lcd.getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL);
+	            if (!docFinal) {
+	                if(StringUtils.equals(lcd.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
+	                        || TKContext.getUser().isSystemAdmin()
+	                        || TKContext.getUser().isLocationAdmin()
+	                        || TKContext.getUser().isDepartmentAdmin()
+	                        || TKContext.getUser().isReviewer()
+	                        || TKContext.getUser().isApprover()) {
+	                    leaveForm.setDocEditable(true);
+	                }
+	
+	                //if the leave Calendar has been approved by at least one of the approvers, the employee should not be able to edit it
+	                if (StringUtils.equals(lcd.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
+	                        && lcd.getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.ENROUTE)) {
+	                    Collection actions = KEWServiceLocator.getActionTakenService().findByDocIdAndAction(lcd.getDocumentHeader().getDocumentId(), TkConstants.DOCUMENT_ACTIONS.APPROVE);
+	                    if(!actions.isEmpty()) {
+	                        leaveForm.setDocEditable(false);
+	                    }
+	                }
+	            }
+	        }
+    	}
     }
 	
 	public ActionForward gotoCurrentPayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
