@@ -46,6 +46,7 @@
 				<value>workArea</value>
 			</list>
 		</property>
+		<property name="promptBeforeValidationClass" value="org.kuali.hr.time.workflow.validation.WorkAreaEffectiveDatePrompt"/>
 	</bean>
 
 	<bean id="WorkAreaMaintenanceDocument-WorkAreaMaintenance"

@@ -41,6 +41,7 @@
 			</list>
 		</property>
 		<property name="documentTypeName" value="SalGroupDocumentType" />
+		<property name="promptBeforeValidationClass" value="org.kuali.hr.time.salgroup.validation.SalGroupEffectiveDatePrompt"/>
 	</bean>
 
 	<!-- Maintenance Section Definitions -->

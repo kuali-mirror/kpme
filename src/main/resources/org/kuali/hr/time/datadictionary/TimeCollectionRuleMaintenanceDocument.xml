@@ -43,6 +43,7 @@
       </list>
     </property>
     <property name="documentTypeName" value="TimeCollectionRuleDocumentType"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.hr.time.timecollection.rule.validation.TimeCollectionRuleEffectiveDatePrompt"/>
   </bean>
 
   <!-- Maintenance Section Definitions -->
