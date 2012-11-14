@@ -20,12 +20,14 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecalendar.dao.LeaveCalendarDao;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
@@ -218,6 +220,34 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
             }
 
         }
+    }
+
+    public boolean isLeavePlanningCalendar(String principalId, Date beginDate, Date endDate) {
+        Date today = new Date();
+
+        List<Job> jobs = TkServiceLocator.getJobService().getJobs(principalId, endDate);
+        for (Job job : jobs) {
+            //  Check for Leave eligibility.
+            if (job.isEligibleForLeave()) {
+                //  Check for Time (FLSA nonexempt) jobs. If one exists, then the Leave Calendar is always a Leave Planning Calendar
+                if (job.getFlsaStatus().equalsIgnoreCase(TkConstants.FLSA_STATUS_NON_EXEMPT)) {
+                    return true;
+                } else {
+                    //  If leave eligible and FLSA exempt, then report leave in the Leave Calendar. Use the date to determine Planning vs Recording Calendars.
+                    if ( beginDate.after(today) ) {
+                        //  future period, this is a Planning Calendar.
+                        return true;
+                    } else {
+                        //  not a future period, this is a Reporting Calendar.
+                        return false;
+                    }
+                }
+            } else {
+            //  not leave eligible
+                return false;
+            }
+        }
+        return false;
     }
 
 }

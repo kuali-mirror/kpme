@@ -29,10 +29,11 @@ public interface EarnCodeService {
      * Fetch a list of earn codes for Leave usage and Time usage, for a particular assignment as of a particular date
      * @param a
      * @param asOfDate
+     * @param isLeavePlanningCalendar
      * @return
      */
-    @Cacheable(value=EarnCode.CACHE_NAME, key="'{getEarnCodesForLeaveAndTime}' + 'principalId=' + T(org.kuali.hr.time.util.TKContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.hr.time.util.TKContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1")
-    public List<EarnCode> getEarnCodesForLeaveAndTime(Assignment a, Date asOfDate);
+    @Cacheable(value=EarnCode.CACHE_NAME, key="'{getEarnCodesForLeaveAndTime}' + 'principalId=' + T(org.kuali.hr.time.util.TKContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.hr.time.util.TKContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1 + '|' + 'isLeavePlanningCalendar=' +#p2")
+    public List<EarnCode> getEarnCodesForLeaveAndTime(Assignment a, Date asOfDate, boolean isLeavePlanningCalendar);
 
     /**
      * Fetch a list of earn codes for Time usage, for a particular assignment as of a particular date
@@ -47,19 +48,21 @@ public interface EarnCodeService {
 	 * Fetch a list of earn codes for Leave usage, for a particular assignment as of a particular date
      * @param a
      * @param asOfDate
+     * @param isLeavePlanningCalendar
 	 * @return
 	 */
-    @Cacheable(value=EarnCode.CACHE_NAME, key="'{getEarnCodesForLeave}' + 'principalId=' + T(org.kuali.hr.time.util.TKContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.hr.time.util.TKContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1")
-    public List<EarnCode> getEarnCodesForLeave(Assignment a, Date asOfDate);
+    @Cacheable(value=EarnCode.CACHE_NAME, key="'{getEarnCodesForLeave}' + 'principalId=' + T(org.kuali.hr.time.util.TKContext).getPrincipalId() + '|' + 'targetId=' + T(org.kuali.hr.time.util.TKContext).getTargetPrincipalId() + '|' + 'a=' + #p0.getTkAssignmentId() + '|' + 'asOfDate=' + #p1 + '|' + 'isLeavePlanningCalendar=' +#p2")
+    public List<EarnCode> getEarnCodesForLeave(Assignment a, Date asOfDate, boolean isLeavePlanningCalendar);
 
     /**
      * Fetch a list of earn codes based on principal ID as of a particular date
      * @param principalId
      * @param asOfDate
+     * @param isLeavePlanningCalendar
      * @return
      */
-    @Cacheable(value=EarnCode.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'asOfDate=' + #p1")
-    public List<EarnCode> getEarnCodesForPrincipal(String principalId, Date asOfDate);
+    @Cacheable(value=EarnCode.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'asOfDate=' + #p1 + '|' + 'isLeavePlanningCalendar=' +#p2")
+    public List<EarnCode> getEarnCodesForPrincipal(String principalId, Date asOfDate, boolean isLeavePlanningCalendar);
 
     /**
      * Fetch an EarnCode as of a particular date
@@ -129,18 +132,19 @@ public interface EarnCodeService {
 
     /**
      * @param principalId
+     * @param isLeavePlanningCalendar
      * @return
      */
-    @Cacheable(value= EarnCode.CACHE_NAME, key="'{getEarnCodesForDisplay}' + 'principalId=' + #p0")
-    public Map<String, String> getEarnCodesForDisplay(String principalId);
+    @Cacheable(value= EarnCode.CACHE_NAME, key="'{getEarnCodesForDisplay}' + 'principalId=' + #p0 + '|' + 'isLeavePlanningCalendar=' +#p1")
+    public Map<String, String> getEarnCodesForDisplay(String principalId, boolean isLeavePlanningCalendar);
 
     /**
      * @param principalId
      * @param asOfDate
      * @return
      */
-    @Cacheable(value= EarnCode.CACHE_NAME, key="'{getEarnCodesForDisplayWithEffectiveDate}' + 'principalId=' + #p0 + '|' + 'asOfDate=' + #p1")
-    public Map<String, String> getEarnCodesForDisplayWithEffectiveDate(String principalId, Date asOfDate);
+    @Cacheable(value= EarnCode.CACHE_NAME, key="'{getEarnCodesForDisplayWithEffectiveDate}' + 'principalId=' + #p0 + '|' + 'asOfDate=' + #p1 + '|' + 'isLeavePlanningCalendar=' +#p2")
+    public Map<String, String> getEarnCodesForDisplayWithEffectiveDate(String principalId, Date asOfDate, boolean isLeavePlanningCalendar);
 
     List<EarnCode> getEarnCodes(String earnCode, String ovtEarnCode, String leavePlan, String accrualCategory, String descr, Date fromEffdt, Date toEffdt, String active, String showHist);
 }

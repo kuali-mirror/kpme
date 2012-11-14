@@ -185,8 +185,10 @@ public class ValidationUtils {
 		
 		if (asOfDate != null) {
 			if(validateAccCategory(accrualCategory, principalId, asOfDate)){
-				List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForPrincipal(principalId, asOfDate);
-				if(earnCodes != null && !earnCodes.isEmpty()) {
+				List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForPrincipal(principalId, asOfDate, true);
+                earnCodes.removeAll(TkServiceLocator.getEarnCodeService().getEarnCodesForPrincipal(principalId, asOfDate, false));
+                earnCodes.addAll(TkServiceLocator.getEarnCodeService().getEarnCodesForPrincipal(principalId, asOfDate, false));
+                if(earnCodes != null && !earnCodes.isEmpty()) {
 					for(EarnCode earnCodeObj : earnCodes) {
 						if(earnCodeObj.getEarnCode() != null) {
 							if(StringUtils.equals(earnCodeObj.getEarnCode().trim(), earnCode.trim()) && StringUtils.equals(earnCodeObj.getAccrualCategory(), accrualCategory)){

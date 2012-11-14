@@ -123,6 +123,17 @@ public class LeaveCalendarWSAction extends TkAction {
     public ActionForward getEarnCodeJson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         //TODO: copied from TimeDetailWSAction.  Need to reduce code duplication
         LeaveCalendarWSForm lcf = (LeaveCalendarWSForm) form;
+        CalendarEntries ce = new CalendarEntries();
+
+        if(request.getParameter("selectedPayPeriod") != null) {
+            lcf.setSelectedPayPeriod(request.getParameter("selectedPayPeriod"));
+            ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(request.getParameter("selectedPayPeriod"));
+            lcf.setCalendarEntry(ce);
+        }
+        lcf.setPrincipalId(TKUser.getCurrentTargetPerson().getPrincipalId());
+        boolean isPlanningCal = TkServiceLocator.getLeaveCalendarService().isLeavePlanningCalendar(lcf.getPrincipalId(), lcf.getCalendarEntry().getBeginPeriodDateTime(), lcf.getCalendarEntry().getEndPeriodDateTime());
+        lcf.setLeavePlanningCalendar(isPlanningCal);
+
         List<Map<String, Object>> earnCodeList = new LinkedList<Map<String, Object>>();
 
         if (StringUtils.isNotBlank(lcf.getSelectedAssignment())) {
@@ -132,7 +143,7 @@ public class LeaveCalendarWSAction extends TkAction {
                 if (assignment.getJobNumber().compareTo(key.getJobNumber()) == 0 &&
                         assignment.getWorkArea().compareTo(key.getWorkArea()) == 0 &&
                         assignment.getTask().compareTo(key.getTask()) == 0) {
-                    List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForLeave(assignment, new java.sql.Date(TKUtils.convertDateStringToTimestamp(lcf.getStartDate()).getTime()));
+                    List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForLeave(assignment, new java.sql.Date(TKUtils.convertDateStringToTimestamp(lcf.getStartDate()).getTime()), lcf.isLeavePlanningCalendar());
                     for (EarnCode earnCode : earnCodes) {
                         Map<String, Object> earnCodeMap = new HashMap<String, Object>();
                         earnCodeMap.put("assignment", assignment.getAssignmentKey());

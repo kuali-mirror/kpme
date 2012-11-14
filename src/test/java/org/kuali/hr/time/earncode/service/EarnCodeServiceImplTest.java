@@ -93,25 +93,25 @@ public class EarnCodeServiceImplTest extends KPMETestCase {
         // Testing standard lookup.
 		List<EarnCode> earnCodes1t = earnCodeService.getEarnCodesForTime(assignment1, asOfDate);
 		Assert.assertEquals("Wrong number of earn codes returned.", 7, earnCodes1t.size());
-        List<EarnCode> earnCodes1l = earnCodeService.getEarnCodesForLeave(assignment1, asOfDate);
+        List<EarnCode> earnCodes1l = earnCodeService.getEarnCodesForLeave(assignment1, asOfDate, false);
         Assert.assertEquals("Wrong number of earn codes returned.", 0, earnCodes1l.size());
-        List<EarnCode> earnCodes1lt= earnCodeService.getEarnCodesForLeaveAndTime(assignment1, asOfDate);
+        List<EarnCode> earnCodes1lt= earnCodeService.getEarnCodesForLeaveAndTime(assignment1, asOfDate, false);
         Assert.assertEquals("Wrong number of earn codes returned.", 7, earnCodes1lt.size());
 
         // Wildcard on SalGroup
         List<EarnCode> earnCodes2t = earnCodeService.getEarnCodesForTime(assignment2, asOfDate);
 		Assert.assertEquals("Wrong number of earn codes returned.", 2, earnCodes2t.size());
-        List<EarnCode> earnCodes2l = earnCodeService.getEarnCodesForLeave(assignment2, asOfDate);
+        List<EarnCode> earnCodes2l = earnCodeService.getEarnCodesForLeave(assignment2, asOfDate, false);
         Assert.assertEquals("Wrong number of earn codes returned.", 0, earnCodes2l.size());
-        List<EarnCode> earnCodes2lt = earnCodeService.getEarnCodesForLeaveAndTime(assignment2, asOfDate);
+        List<EarnCode> earnCodes2lt = earnCodeService.getEarnCodesForLeaveAndTime(assignment2, asOfDate, false);
         Assert.assertEquals("Wrong number of earn codes returned.", 2, earnCodes2lt.size());
 
         // Dual Wildcards
         List<EarnCode> earnCodes3t = earnCodeService.getEarnCodesForTime(assignment3, asOfDate);
 		Assert.assertEquals("Wrong number of earn codes returned.",1, earnCodes3t.size());
-        List<EarnCode> earnCodes3l = earnCodeService.getEarnCodesForLeave(assignment3, asOfDate);
+        List<EarnCode> earnCodes3l = earnCodeService.getEarnCodesForLeave(assignment3, asOfDate, false);
         Assert.assertEquals("Wrong number of earn codes returned.",0, earnCodes3l.size());
-        List<EarnCode> earnCodes3lt = earnCodeService.getEarnCodesForLeaveAndTime(assignment3, asOfDate);
+        List<EarnCode> earnCodes3lt = earnCodeService.getEarnCodesForLeaveAndTime(assignment3, asOfDate, false);
         Assert.assertEquals("Wrong number of earn codes returned.",1, earnCodes3lt.size());
     }
 
@@ -162,7 +162,7 @@ public class EarnCodeServiceImplTest extends KPMETestCase {
 	public void testGetEarnCodesForDisplay() throws Exception{
         //create the testPrincipal object for the earn code service parm, from the TEST_USER string
         Principal testPrincipal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName("testUser");
-        Map<String, String> earnCodesDisplay = earnCodeService.getEarnCodesForDisplay(testPrincipal.getPrincipalId());
+        Map<String, String> earnCodesDisplay = earnCodeService.getEarnCodesForDisplay(testPrincipal.getPrincipalId(), false);
 //  assertions commented out until earn code service finished. 20120918tv
 //		Assert.assertNotNull("earnCodesDisplay should not be null", earnCodesDisplay);
 //		Assert.assertEquals("There should be 2 earnCode found for principal_id 'testUser', not " + earnCodesDisplay.size(), earnCodesDisplay.size(), 2);

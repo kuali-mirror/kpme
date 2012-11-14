@@ -64,6 +64,7 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
 	private DateTime currentPayCalStart;
 	private DateTime currentPayCalEnd;
 	private LeaveSummary leaveSummary;
+    private boolean leavePlanningCalendar;
 	
 	public DateTime getCurrentPayCalStart() {
 		return currentPayCalStart;
@@ -113,7 +114,15 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
 		this.isDocEditable = isDocEditable;
 	}
 
-	public String getLeaveBlockString() {
+    public boolean isLeavePlanningCalendar() {
+        return leavePlanningCalendar;
+    }
+
+    public void setLeavePlanningCalendar(boolean leavePlanningCalendar) {
+        this.leavePlanningCalendar = leavePlanningCalendar;
+    }
+
+    public String getLeaveBlockString() {
 		return leaveBlockString;
 	}
 

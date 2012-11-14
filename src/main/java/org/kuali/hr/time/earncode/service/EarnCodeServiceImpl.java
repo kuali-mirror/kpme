@@ -46,11 +46,11 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 		this.earnCodeDao = earnCodeDao;
 	}
 
-    public List<EarnCode> getEarnCodesForLeaveAndTime(Assignment a, Date asOfDate) {
+    public List<EarnCode> getEarnCodesForLeaveAndTime(Assignment a, Date asOfDate, boolean isLeavePlanningCalendar) {
         //  This method combining both leave calendar and timesheet calendar earn codes may never be used, but it is available.
         //  It was specified in kpme-1745, "Implement getEarnCodesForLeaveAndTime and call both of the above methods and return in one collection."
         List<EarnCode> earnCodes = getEarnCodesForTime(a, asOfDate);
-        List<EarnCode> leaveEarnCodes = getEarnCodesForLeave(a, asOfDate);
+        List<EarnCode> leaveEarnCodes = getEarnCodesForLeave(a, asOfDate, isLeavePlanningCalendar);
         //  the following list processing does work as hoped, comparing the objects' data, rather than their references to memory structures.
         earnCodes.removeAll(leaveEarnCodes); //ensures no overlap during the addAll
         earnCodes.addAll(leaveEarnCodes);
@@ -105,7 +105,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
     }
 
 
-    public List<EarnCode> getEarnCodesForLeave(Assignment a, Date asOfDate) {
+    public List<EarnCode> getEarnCodesForLeave(Assignment a, Date asOfDate, boolean isLeavePlanningCalendar) {
         if (a == null) throw new RuntimeException("No assignment parameter.");
         Job job = a.getJob();
         if (job == null || job.getPayTypeObj() == null) throw new RuntimeException("Null job or null job pay type on assignment.");
@@ -121,8 +121,9 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(job.getPrincipalId(), asOfDate);
         boolean fmlaEligible = principalHRAttributes.isFmlaEligible();
         boolean workersCompEligible = principalHRAttributes.isWorkersCompEligible();
+
         String leavePlan = principalHRAttributes.getLeavePlan();
-        if(leavePlan != null){
+        if (leavePlan != null) {
             for (AccrualCategory accrualCategories : TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(leavePlan, asOfDate)) {
                 accrualCategory = accrualCategories.getAccrualCategory();
                 if(accrualCategory != null) {
@@ -135,57 +136,71 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         List<EarnCodeSecurity> decs = TkServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), asOfDate);
         for (EarnCodeSecurity dec : decs) {
 
-            //  allow types Leave AND Both
-            if (earnTypeCode.equals(dec.getEarnCodeType()) || EarnCodeType.BOTH.getCode().equals(dec.getEarnCodeType())) {
-                EarnCode ec = getEarnCode(dec.getEarnCode(), asOfDate);
-                if(ec!=null){
+            boolean addEarnCode = addEarnCodeBasedOnEmployeeApproverSettings(dec, a, asOfDate);
+            if (addEarnCode) {
 
-                    //  now that we have a list of security earn codes, compare their accrual categories to the user's accrual category list.
-                    //  we also allow earn codes that have no accrual category assigned.
-                    if (listAccrualCategories.contains(ec.getAccrualCategory()) || ec.getAccrualCategory() == null) {
+                //  allow types Leave AND Both
+                if (earnTypeCode.equals(dec.getEarnCodeType()) || EarnCodeType.BOTH.getCode().equals(dec.getEarnCodeType())) {
+                    EarnCode ec = getEarnCode(dec.getEarnCode(), asOfDate);
 
-                        //  if the user's fmla flag is Yes, that means we are not restricting codes based on this flag, so any code is shown.
-                        //    if the fmla flag on a code is yes they can see it.    (allow)
-                        //    if the fmla flag on a code is no they should see it.  (allow)
-                        //  if the user's fmla flag is No,
-                        //    they can see any codes which are fmla=no.             (allow)
-                        //    they can not see codes with fmla=yes.                 (exclude earn code)
-                        //  the fmla earn codes=no do not require any exclusion
-                        //  the only action required is if the fmla user flag=no: exclude those codes with fmla=yes.
+                    //  make sure we got something back from the earn code dao
+                    if (ec != null) {
 
-                        if ( (fmlaEligible || ec.getFmla().equals("N")) ) {
-                            // go on, we are allowing these three combinations: YY, YN, NN
+                        //  now that we have a list of security earn codes, compare their accrual categories to the user's accrual category list.
+                        //  we also allow earn codes that have no accrual category assigned.
+                        if (listAccrualCategories.contains(ec.getAccrualCategory()) || ec.getAccrualCategory() == null) {
 
-                            //  Apply the same logic as FMLA to the Worker Compensation flags.
+                            //  if the user's fmla flag is Yes, that means we are not restricting codes based on this flag, so any code is shown.
+                            //    if the fmla flag on a code is yes they can see it.    (allow)
+                            //    if the fmla flag on a code is no they should see it.  (allow)
+                            //  if the user's fmla flag is No,
+                            //    they can see any codes which are fmla=no.             (allow)
+                            //    they can not see codes with fmla=yes.                 (exclude earn code)
+                            //  the fmla earn codes=no do not require any exclusion
+                            //  the only action required is if the fmla user flag=no: exclude those codes with fmla=yes.
 
-                            if ( (workersCompEligible || ec.getWorkmansComp().equals("N")) ){
-                                // go on, we are allowing these three combinations: YY, YN, NN.
+                            if ( (fmlaEligible || ec.getFmla().equals("N")) ) {
+                                // go on, we are allowing these three combinations: YY, YN, NN
 
-                                //  now process the scheduled leave flag, but only for the Planning Calendar, not for the Recording Calendar.
-                                //  determine if the the planning calendar is in effect. This might only be appropriate in a different layer.
-                                //  if the allow_schd_leave flag=yes, continue towards adding to the earn code list, otherwise, exclude the earn code.
+                                //  Apply the same logic as FMLA to the Worker Compensation flags.
+                                if ( (workersCompEligible || ec.getWorkmansComp().equals("N")) ) {
+                                    // go on, we are allowing these three combinations: YY, YN, NN.
 
-                                //if (inPlanningClendar) {
-                                    if (ec.getAllowScheduledLeave().equals("Y")) {
-                                        boolean addEarnCode = addEarnCodeBasedOnEmployeeApproverSettings(dec, a, asOfDate);
-                                        if (addEarnCode) {
+                                    //  now process the scheduled leave flag, but only for the Planning Calendar, not for the Reporting Calendar.
+                                    //  determine if the planning calendar is in effect.
+                                    if (isLeavePlanningCalendar) {
+
+                                        //  if the allow_schd_leave flag=yes, add the earn code
+                                        if (ec.getAllowScheduledLeave().equals("Y")) {
                                             earnCodes.add(ec);
+                                        } else {
+                                            //  do not add this earn code. Earn code allowed scheduled leave flag=no.
                                         }
+
                                     } else {
-                                        //  do not add this earn code. Earn code allowed scheduled leave flag=no.
-                                        //earnCodes.add(ec); // go ahead and it for now, until the planning calendar aspect to this is fleshed out.
+                                        //  this is a reporting calendar, so ignore scheduled leave flag, and add this earn code.
+                                        earnCodes.add(ec);
                                     }
-                                //}
+
+                                } else {
+                                    //  do not add this earn code. User WC flag=no and earn code WC flag=yes.
+                                }
                             } else {
-                                //  do not add this earn code. User WC flag=no and earn code WC flag=yes.
+                                //  do not add this earn code. User FMLA flag=no and earn code FMLA flag=yes.
                             }
                         } else {
-                            //  do not add this earn code. User FMLA flag=no and earn code FMLA flag=yes.
+                            //  do not add this earn code. accrual category does not allow.
                         }
+                    } else {
+                        //  skip null earn code
                     }
+                } else {
+                    //  do not add this earn code. the leave type does not allow.
                 }
+            } else {
+                // do not add this earn code. user and approver settings disallow.
             }
-        }
+        }   //  end of decs loop
 
         return earnCodes;
     }
@@ -211,11 +226,11 @@ public class EarnCodeServiceImpl implements EarnCodeService {
     }
 
     @Override
-    public List<EarnCode> getEarnCodesForPrincipal(String principalId, Date asOfDate) {
+    public List<EarnCode> getEarnCodesForPrincipal(String principalId, Date asOfDate, boolean isLeavePlanningCalendar) {
         List<EarnCode> earnCodes = new LinkedList<EarnCode>();
         List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
         for (Assignment assignment : assignments) {
-            List<EarnCode> assignmentEarnCodes = getEarnCodesForLeave(assignment, asOfDate);
+            List<EarnCode> assignmentEarnCodes = getEarnCodesForLeave(assignment, asOfDate, isLeavePlanningCalendar);
             //  the following list processing does work as hoped, comparing the objects' data, rather than their references to memory structures.
             earnCodes.removeAll(assignmentEarnCodes); //ensures no overlap during the addAll
             earnCodes.addAll(assignmentEarnCodes);
@@ -238,11 +253,11 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 	public EarnCode getEarnCodeById(String earnCodeId) {
 		return earnCodeDao.getEarnCodeById(earnCodeId);
 	}
-	
+
 	public List<EarnCode> getOvertimeEarnCodes(Date asOfDate){
 		return earnCodeDao.getOvertimeEarnCodes(asOfDate);
 	}
-	
+
 	public List<String> getOvertimeEarnCodesStrs(Date asOfDate){
 		List<String> ovtEarnCodeStrs = new ArrayList<String>();
 		List<EarnCode> ovtEarnCodes = getOvertimeEarnCodes(asOfDate);
@@ -253,12 +268,12 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 		}
 		return ovtEarnCodeStrs;
 	}
-	
+
 	@Override
 	public int getEarnCodeCount(String earnCode) {
 		return earnCodeDao.getEarnCodeCount(earnCode);
 	}
-	
+
 	@Override
 	public int getNewerEarnCodeCount(String earnCode, Date effdt) {
 		return earnCodeDao.getNewerEarnCodeCount(earnCode, effdt);
@@ -279,19 +294,19 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 		}
 		return roundedHours;
 	}
-	
+
 	@Override
-	public Map<String, String> getEarnCodesForDisplay(String principalId) {
-		return getEarnCodesForDisplayWithEffectiveDate(principalId, TKUtils.getCurrentDate());
+	public Map<String, String> getEarnCodesForDisplay(String principalId, boolean isLeavePlanningCalendar) {
+		return getEarnCodesForDisplayWithEffectiveDate(principalId, TKUtils.getCurrentDate(), isLeavePlanningCalendar);
 	}
 
-    @Override
     public List<EarnCode> getEarnCodes(String earnCode, String ovtEarnCode, String descr, String leavePlan, String accrualCategory, Date fromEffdt, Date toEffdt, String active, String showHist) {
         return earnCodeDao.getEarnCodes(earnCode, ovtEarnCode, descr, leavePlan, accrualCategory, fromEffdt, toEffdt, active, showHist);
     }
 
-    public Map<String, String> getEarnCodesForDisplayWithEffectiveDate(String principalId, Date asOfDate) {
-        List<EarnCode> earnCodes = this.getEarnCodesForPrincipal(principalId, asOfDate);
+    @Override
+    public Map<String, String> getEarnCodesForDisplayWithEffectiveDate(String principalId, Date asOfDate, boolean isLeavePlanningCalendar) {
+        List<EarnCode> earnCodes = this.getEarnCodesForPrincipal(principalId, asOfDate, isLeavePlanningCalendar);
 
         Date currentDate = TKUtils.getCurrentDate();
         boolean futureDate = asOfDate.after(currentDate);

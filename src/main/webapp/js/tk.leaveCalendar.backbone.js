@@ -63,10 +63,12 @@ $(function () {
         // Create an earn code model
     EarnCode = Backbone.Model;
 
+    var selectedPP = $("#selectedPayPeriod option:selected").val();
     // Create a collection for earn codes
     EarnCodeCollection = Backbone.Collection.extend({
         model : EarnCode,
-        url : "LeaveCalendarWS.do?methodToCall=getEarnCodeJson"
+//        url : "LeaveCalendarWS.do?methodToCall=getEarnCodeJson"
+        url : "LeaveCalendarWS.do?methodToCall=getEarnCodeJson&selectedPayPeriod=" + selectedPP
     });
 
     var EarnCodes = new EarnCodeCollection;
