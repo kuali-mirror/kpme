@@ -38,6 +38,7 @@
       </list>
     </property>
     <property name="documentTypeName" value="JobMaintenanceDocumentType"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.hr.job.validation.JobEffectiveDatePrompt"/>
   </bean>
 
   <!-- Maintenance Section Definitions -->

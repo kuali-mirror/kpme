@@ -44,6 +44,7 @@
       		</list>
     	</property>
 		<property name="documentTypeName" value="AccrualCategoryDocumentType" />
+        <property name="promptBeforeValidationClass" value="org.kuali.hr.lm.accrual.validation.AccrualCategoryEffectiveDatePrompt"/>
 	</bean>
 
 	<!-- Maintenance Section Definitions -->

@@ -45,6 +45,7 @@
       		</list>
     	</property>
     <property name="documentTypeName" value="DepartmentMaintenanceDocumentType"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.hr.time.department.validation.DepartmentEffectiveDatePrompt"/>
   </bean>
 
   <!-- Maintenance Section Definitions -->

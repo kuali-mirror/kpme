@@ -39,6 +39,7 @@
       </list>
     </property>
     <property name="documentTypeName" value="ClockLocationRuleDocumentType"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.hr.time.clock.location.validation.ClockLocationRuleEffectiveDatePrompt"/>
   </bean>
 
   <!-- Maintenance Section Definitions -->

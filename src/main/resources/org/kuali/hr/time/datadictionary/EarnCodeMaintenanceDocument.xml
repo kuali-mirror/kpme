@@ -42,6 +42,7 @@
 			</list>
 		</property>
     <property name="documentTypeName" value="EarnCodeMaintenanceDocumentType"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.hr.time.earncode.validation.EarnCodeEffectiveDatePrompt"/>
   </bean>
 
   <!-- Maintenance Section Definitions -->

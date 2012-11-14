@@ -42,6 +42,7 @@
 			</list>
 		</property>
 		<property name="documentTypeName" value="DailyOvertimeRuleDocumentType" />
+        <property name="promptBeforeValidationClass" value="org.kuali.hr.time.overtime.daily.rule.validation.DailyOvertimeRuleEffectiveDatePrompt"/>
 	</bean>
 
 	<!-- Maintenance Section Definitions -->	

@@ -42,6 +42,7 @@
 			</list>
 		</property>
 		<property name="documentTypeName" value="EarnCodeSecurityDocumentType" />
+        <property name="promptBeforeValidationClass" value="org.kuali.hr.lm.earncodesec.validation.EarnCodeSecurityEffectiveDatePrompt"/>
 	</bean>
 
 	<!-- Maintenance Section Definitions -->

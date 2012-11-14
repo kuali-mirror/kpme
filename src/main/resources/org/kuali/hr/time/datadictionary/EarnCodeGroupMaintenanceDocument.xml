@@ -44,6 +44,7 @@
 			</list>
 		</property>
 		<property name="documentTypeName" value="EarnCodeGroupDocumentType" />
+        <property name="promptBeforeValidationClass" value="org.kuali.hr.time.earncodegroup.validation.EarnCodeGroupEffectiveDatePrompt"/>
 	</bean>
 
 	<!-- Maintenance Section Definitions -->
