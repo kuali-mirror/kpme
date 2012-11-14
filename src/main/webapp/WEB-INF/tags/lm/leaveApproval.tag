@@ -99,7 +99,7 @@
         	</display:column>
    		</c:forEach>
    		<display:column title="Action">
-        	<lmApprovalRowButtons appRow="${row}"/>
+        	<lm:lmApprovalRowButtons appRow="${row}"/>
    		</display:column>
    		<display:column title="Select All <input type='checkbox' name='Select' id='checkAllAuto'></input>"
                     class="last_column_${row_rowNum}">
