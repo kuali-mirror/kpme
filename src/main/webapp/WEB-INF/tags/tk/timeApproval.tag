@@ -21,7 +21,7 @@
 	        <br/>${row.clockStatusMessage}
 	        <br/>
 	    </display:column>
-	    <display:column title="Document ID" sortable="true" sortName="documentId">
+        <display:column title="Document ID <br/>&amp; Status" sortable="true" sortName="documentId">
 	        <a href="changeTargetPerson.do?${row.timesheetUserTargetURLParams}&targetUrl=TimeDetail.do%3FdocumentId=${row.documentId}&returnUrl=TimeApproval.do">${row.documentId}</a>
 	        <c:if test="${fn:length(row.warnings) > 0 }">
 	            <div class="ui-state-default ui-corner-all" style="float:right;">
@@ -86,11 +86,12 @@
 	            </div>
 	        </c:if>
 	    </display:column>
-	    <display:column title="Status" sortable="true" sortName="status">
-	        <div>
+	    <%--<display:column title="Status" sortable="true" sortName="status">--%>
+	    <br/>
+        <div>
 	            <span id="approvals-status" class="approvals-status">${row.approvalStatus}</span>
 	        </div>
-	    </display:column>
+	    <%--</display:column>--%>
 	
 	    <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
 	        <display:column title="${payCalLabel}">
