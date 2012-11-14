@@ -43,6 +43,7 @@
         </list>
     </property>
     <property name="documentTypeName" value="PositionMaintenanceDocumentType"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.hr.time.position.validation.PositionEffectiveDatePrompt"/>
   </bean>
 
   <!-- Maintenance Section Definitions -->

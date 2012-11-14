@@ -23,7 +23,7 @@ import java.util.List;
 
 public interface PositionDao {
 	public Position getPosition(String hrPositionId);
-	public Position getPositionByPositionNumber(String hrPositionNbr);
+    public Position getPosition(String positionNumber, Date effectiveDate);
     //public PositionNumber getNextUniquePositionNumber();
 
     //void saveOrUpdate(PositionNumber positionNumber);

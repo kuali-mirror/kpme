@@ -22,6 +22,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.position.Position;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import java.sql.Date;
@@ -42,11 +43,30 @@ public class PositionDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
 
 
     @Override
-    public Position getPositionByPositionNumber(String hrPositionNbr) {
-        Criteria crit = new Criteria();
-        crit.addEqualTo("position_nbr", hrPositionNbr);
+    public Position getPosition(String positionNumber, Date effectiveDate) {
+        Criteria root = new Criteria();
+        Criteria effdt = new Criteria();
+        Criteria timestamp = new Criteria();
 
-        Query query = QueryFactory.newQuery(Position.class, crit);
+        effdt.addEqualToField("positionNumber", Criteria.PARENT_QUERY_PREFIX + "positionNumber");
+        effdt.addLessOrEqualThan("effectiveDate", effectiveDate);
+        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Position.class, effdt);
+        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+
+        timestamp.addEqualToField("positionNumber", Criteria.PARENT_QUERY_PREFIX + "positionNumber");
+        timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Position.class, timestamp);
+        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+
+        root.addEqualTo("positionNumber", positionNumber);
+        root.addEqualTo("effectiveDate", effdtSubQuery);
+        root.addEqualTo("timestamp", timestampSubQuery);
+
+        Criteria activeFilter = new Criteria(); // Inner Join For Activity
+        activeFilter.addEqualTo("active", true);
+        root.addAndCriteria(activeFilter);
+
+        Query query = QueryFactory.newQuery(Position.class, root);
         return (Position) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
 

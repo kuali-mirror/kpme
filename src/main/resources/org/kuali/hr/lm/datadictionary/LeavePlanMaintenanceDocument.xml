@@ -38,6 +38,7 @@
       </list>
     </property>
     <property name="documentTypeName" value="LeavePlanDocumentType"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.hr.lm.leaveplan.validation.LeavePlanEffectiveDatePrompt"/>
   </bean>
 
   <!-- Maintenance Section Definitions -->

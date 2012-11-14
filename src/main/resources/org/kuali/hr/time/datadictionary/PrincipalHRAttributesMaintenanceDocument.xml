@@ -42,6 +42,7 @@
 			</list>
 		</property>
 		<property name="documentTypeName" value="PrincipalHRAttributesMaintenanceDocumentType" />
+        <property name="promptBeforeValidationClass" value="org.kuali.hr.time.principal.validation.PrincipalHRAttributesEffectiveDatePrompt"/>
 	</bean>
 
 	<!-- Maintenance Section Definitions -->

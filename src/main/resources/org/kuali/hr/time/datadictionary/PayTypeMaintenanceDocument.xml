@@ -42,6 +42,7 @@
 			</list>
 		</property>
 		<property name="documentTypeName" value="PayTypeDocumentType" />
+        <property name="promptBeforeValidationClass" value="org.kuali.hr.time.paytype.validation.PayTypeEffectiveDatePrompt"/>
 	</bean>
 
 	<!-- Maintenance Section Definitions -->

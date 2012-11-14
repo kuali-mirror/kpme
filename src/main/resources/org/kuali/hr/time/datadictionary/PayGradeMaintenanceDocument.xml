@@ -43,6 +43,7 @@
         </list>
     </property>
     <property name="documentTypeName" value="PayGradeMaintenanceDocumentType"/>
+    <property name="promptBeforeValidationClass" value="org.kuali.hr.paygrade.validation.PayGradeEffectiveDatePrompt"/>
   </bean>
 
   <!-- Maintenance Section Definitions -->

@@ -31,15 +31,16 @@ public class PositionServiceImpl implements PositionService {
 	}
 
     @Override
+    public Position getPosition(String hrPositionNbr, Date effectiveDate) {
+        return positionDao.getPosition(hrPositionNbr, effectiveDate);
+    }
+
+    @Override
     public List<Position> getPositions(String positionNum, String workArea,
                                        String positionDescr, Date fromEffdt, Date toEffdt, String active, String showHistory) {
         return positionDao.getPositions(positionNum, workArea, positionDescr, fromEffdt, toEffdt, active, showHistory);
     }
 
-	@Override
-	public Position getPositionByPositionNumber(String hrPositionNbr) {
-		return positionDao.getPositionByPositionNumber(hrPositionNbr);
-	}
 
     public PositionDao getPositionDao() {
 		return positionDao;
