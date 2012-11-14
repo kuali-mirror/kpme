@@ -92,8 +92,11 @@ public class EarnCodeMaintenaceTest extends KPMETestCase {
 		text.setValueAttribute("test");
 		HtmlElement element = maintPage.getElementByName("methodToCall.route");
         HtmlPage finalPage = element.click();
-        
-        Assert.assertTrue("Maintenance Page contains error messages", finalPage.asText().contains("There is a newer version of this Earn Code."));	
+
+        Assert.assertTrue("Maintenance Page doesn't return warning about later effective date", finalPage.asText().contains("A record for this object exists with a later effective date"));
+        HtmlElement yesButton = finalPage.getElementByName("methodToCall.processAnswer.button0");
+        finalPage = yesButton.click();
+        Assert.assertTrue("Maintenance Page contains error messages", finalPage.asText().contains("There is a newer version of this Earn Code."));
 	}
 	
 }
