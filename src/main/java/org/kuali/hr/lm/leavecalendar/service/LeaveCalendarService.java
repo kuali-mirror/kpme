@@ -15,11 +15,11 @@
  */
 package org.kuali.hr.lm.leavecalendar.service;
 
+import java.util.Date;
+
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-
-import java.util.Date;
 
 public interface LeaveCalendarService {
     public LeaveCalendarDocument openLeaveCalendarDocument(String principalId, CalendarEntries calEntry) throws WorkflowException;
@@ -54,4 +54,8 @@ public interface LeaveCalendarService {
      * @return boolean
      */
     public boolean isLeavePlanningCalendar(String principalId, Date beginDate, Date endDate);
+    
+    void approveLeaveCalendar(String principalId, LeaveCalendarDocument leaveCalendarDocument, String action);
+
+    void routeLeaveCalendar(String principalId, LeaveCalendarDocument leaveCalendarDocument, String action);
 }

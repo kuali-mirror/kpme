@@ -50,11 +50,11 @@ public class TimesheetServiceImpl implements TimesheetService {
 
     @Override
     public void routeTimesheet(String principalId, TimesheetDocument timesheetDocument) {
-        routeTimesheet(TkConstants.DOCUMENT_ACTIONS.ROUTE, principalId, timesheetDocument);
+        routeTimesheet(principalId, timesheetDocument, TkConstants.DOCUMENT_ACTIONS.ROUTE);
     }
 
     @Override
-    public void routeTimesheet(String action, String principalId, TimesheetDocument timesheetDocument) {
+    public void routeTimesheet(String principalId, TimesheetDocument timesheetDocument, String action) {
         timesheetAction(action, principalId, timesheetDocument);
     }
 

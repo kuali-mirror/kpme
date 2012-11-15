@@ -82,5 +82,5 @@ public interface TimesheetService {
 
     void approveTimesheet(String principalId, TimesheetDocument timesheetDocument, String action);
 
-    void routeTimesheet(String action, String principalId, TimesheetDocument timesheetDocument);
+    void routeTimesheet(String principalId, TimesheetDocument timesheetDocument, String action);
 }

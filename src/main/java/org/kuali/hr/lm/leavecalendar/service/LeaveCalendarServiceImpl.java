@@ -159,10 +159,20 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     public void routeLeaveCalendar(String principalId, LeaveCalendarDocument leaveCalendarDocument) {
         leaveCalendarDocumentAction(TkConstants.DOCUMENT_ACTIONS.ROUTE, principalId, leaveCalendarDocument);
     }
+    
+    @Override
+    public void routeLeaveCalendar(String principalId, LeaveCalendarDocument leaveCalendarDocument, String action) {
+        leaveCalendarDocumentAction(action, principalId, leaveCalendarDocument);
+    }
 
     @Override
     public void approveLeaveCalendar(String principalId, LeaveCalendarDocument leaveCalendarDocument) {
         leaveCalendarDocumentAction(TkConstants.DOCUMENT_ACTIONS.APPROVE, principalId, leaveCalendarDocument);
+    }
+    
+    @Override
+    public void approveLeaveCalendar(String principalId, LeaveCalendarDocument leaveCalendarDocument, String action) {
+        leaveCalendarDocumentAction(action, principalId, leaveCalendarDocument);
     }
 
     @Override

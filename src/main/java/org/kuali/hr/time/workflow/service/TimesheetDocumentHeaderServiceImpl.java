@@ -64,11 +64,6 @@ public class TimesheetDocumentHeaderServiceImpl implements TimesheetDocumentHead
         }
         return tsdh;
     }
-
-    @Override
-    public List<TimesheetDocumentHeader> getDocumentHeaders(Date payBeginDate) {
-        return documentHeaderDao.getDocumentHeaders(payBeginDate);
-    }
     
     @Override
     public List<TimesheetDocumentHeader> getDocumentHeaders(Date payBeginDate, Date payEndDate) {

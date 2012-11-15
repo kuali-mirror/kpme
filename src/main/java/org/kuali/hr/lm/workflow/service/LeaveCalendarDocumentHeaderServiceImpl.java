@@ -66,6 +66,11 @@ public class LeaveCalendarDocumentHeaderServiceImpl implements LeaveCalendarDocu
 	}
 	
 	@Override
+    public List<LeaveCalendarDocumentHeader> getDocumentHeaders(Date beginDate, Date endDate) {
+        return leaveCalendarDocumentHeaderDao.getDocumentHeaders(beginDate, endDate);
+    }
+	
+	@Override
 	public LeaveCalendarDocumentHeader getMaxEndDateApprovedLeaveCalendar(String principalId) {
 		return leaveCalendarDocumentHeaderDao.getMaxEndDateApprovedLeaveCalendar(principalId);
 	}

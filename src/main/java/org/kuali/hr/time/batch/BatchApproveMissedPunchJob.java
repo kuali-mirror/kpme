@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.time.batch;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -30,36 +31,38 @@ public class BatchApproveMissedPunchJob extends BatchJob {
 	private Logger LOG = Logger.getLogger(BatchApproveMissedPunchJob.class);
 	private CalendarEntries calendarEntry;
 	
-   public BatchApproveMissedPunchJob(CalendarEntries calendarEntry) {
-        this.setBatchJobName(TkConstants.BATCH_JOB_NAMES.BATCH_APPROVE_MISSED_PUNCH);
+	public BatchApproveMissedPunchJob(CalendarEntries calendarEntry) {
+		this.setBatchJobName(TkConstants.BATCH_JOB_NAMES.BATCH_APPROVE_MISSED_PUNCH);
         this.setHrPyCalendarEntryId(calendarEntry.getHrCalendarEntriesId());
         this.calendarEntry = calendarEntry;
-    }
+	}
    
-   @Override
-   public void doWork() {
-	   List<TimesheetDocumentHeader> timesheetDocumentHeaders = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaders(calendarEntry.getBeginPeriodDateTime(), calendarEntry.getEndPeriodDateTime());
-       for (TimesheetDocumentHeader timesheetDocumentHeader : timesheetDocumentHeaders) {
-		   List<MissedPunchDocument> missedPunchDocuments = TkServiceLocator.getMissedPunchService().getMissedPunchDocsByTimesheetDocumentId(timesheetDocumentHeader.getDocumentId());
-	       for (MissedPunchDocument missedPunchDocument : missedPunchDocuments) {
-	    	   if (StringUtils.equals(missedPunchDocument.getDocumentStatus(), DocumentStatus.ENROUTE.getCode())) {
-	    		   populateBatchJobEntry(missedPunchDocument);
-	    	   }
-	       }
-       }
-   }
+	@Override
+	public void doWork() {
+		Date beginDate = calendarEntry.getBeginPeriodDateTime();
+		Date endDate = calendarEntry.getEndPeriodDateTime();
+   	
+		List<TimesheetDocumentHeader> timesheetDocumentHeaders = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
+		for (TimesheetDocumentHeader timesheetDocumentHeader : timesheetDocumentHeaders) {
+			List<MissedPunchDocument> missedPunchDocuments = TkServiceLocator.getMissedPunchService().getMissedPunchDocsByTimesheetDocumentId(timesheetDocumentHeader.getDocumentId());
+			for (MissedPunchDocument missedPunchDocument : missedPunchDocuments) {
+				if (StringUtils.equals(missedPunchDocument.getDocumentStatus(), DocumentStatus.ENROUTE.getCode())) {
+					populateBatchJobEntry(missedPunchDocument);
+				}
+			}
+		}
+	}
    
-   @Override
-   protected void populateBatchJobEntry(Object o) {
-       MissedPunchDocument mp = (MissedPunchDocument)o;
-       String ip = this.getNextIpAddressInCluster();
-       if(StringUtils.isNotBlank(ip)){
-           //insert a batch job entry here
-           BatchJobEntry entry = this.createBatchJobEntry(this.getBatchJobName(), ip, mp.getPrincipalId(), null, null);
-           TkServiceLocator.getBatchJobEntryService().saveBatchJobEntry(entry);
-       } else {
-           LOG.info("No ip found in cluster to assign batch jobs");
-       }
-   }
+	@Override
+	protected void populateBatchJobEntry(Object o) {
+		MissedPunchDocument mp = (MissedPunchDocument) o;
+		String ip = getNextIpAddressInCluster();
+		if (StringUtils.isNotBlank(ip)) {
+			BatchJobEntry entry = createBatchJobEntry(getBatchJobName(), ip, mp.getPrincipalId(), null, null);
+			TkServiceLocator.getBatchJobEntryService().saveBatchJobEntry(entry);
+		} else {
+			LOG.info("No ip found in cluster to assign batch jobs");
+		}
+	}
 
 }

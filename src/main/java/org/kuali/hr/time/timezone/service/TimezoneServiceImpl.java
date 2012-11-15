@@ -17,6 +17,7 @@ package org.kuali.hr.time.timezone.service;
 
 import java.util.List;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -27,7 +28,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TimezoneServiceImpl implements TimezoneService {
 
@@ -55,7 +56,11 @@ public class TimezoneServiceImpl implements TimezoneService {
 	 */
 	@Override
 	public String getUserTimezone() {
-        return getUserTimezone(TKContext.getPrincipalId());
+		String timezone = "";
+		if (GlobalVariables.getUserSession() != null) {
+			timezone = getUserTimezone(GlobalVariables.getUserSession().getPrincipalId());
+		}
+        return timezone;
 	}
 
     @Override
@@ -74,23 +79,23 @@ public class TimezoneServiceImpl implements TimezoneService {
 	 * @param timezone
 	 * @return timeblock list modified with times offset for timezone
 	 */
-	public List<TimeBlock> translateForTimezone(List<TimeBlock> timeBlocks, String timezone){
+	public List<TimeBlock> translateForTimezone(List<TimeBlock> timeBlocks, DateTimeZone timezone){
 		for(TimeBlock tb : timeBlocks){
 			//No need for translation if it matches the current timezone
-			if(StringUtils.equals(timezone, TKUtils.getSystemTimeZone())){
+			if(ObjectUtils.equals(timezone, TKUtils.getSystemDateTimeZone())){
 				tb.setBeginTimeDisplay(new DateTime(tb.getBeginTimestamp()));
 				tb.setEndTimeDisplay(new DateTime(tb.getEndTimestamp()));
 			}
 			else {
-				tb.setBeginTimeDisplay(new DateTime(tb.getBeginTimestamp(),DateTimeZone.forID(timezone)));
-				tb.setEndTimeDisplay(new DateTime(tb.getEndTimestamp(), DateTimeZone.forID(timezone)));
+				tb.setBeginTimeDisplay(new DateTime(tb.getBeginTimestamp(), timezone));
+				tb.setEndTimeDisplay(new DateTime(tb.getEndTimestamp(), timezone));
 			}
 		}
 		return timeBlocks;
 	}
 
     public void translateForTimezone(List<TimeBlock> timeBlocks) {
-        translateForTimezone(timeBlocks, getUserTimezone());
+        translateForTimezone(timeBlocks, getUserTimezoneWithFallback());
     }
 
 	@Override

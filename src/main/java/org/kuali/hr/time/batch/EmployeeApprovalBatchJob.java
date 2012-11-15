@@ -15,15 +15,18 @@
  */
 package org.kuali.hr.time.batch;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.hr.core.document.CalendarDocumentHeaderContract;
+import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
+import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
-
 
 public class EmployeeApprovalBatchJob extends BatchJob {
 	private Logger LOG = Logger.getLogger(EmployeeApprovalBatchJob.class);
@@ -37,19 +40,29 @@ public class EmployeeApprovalBatchJob extends BatchJob {
 
     @Override
     public void doWork() {
-        List<TimesheetDocumentHeader> documentHeaders = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaders(calendarEntry.getBatchEmployeeApprovalDate());
-        for(TimesheetDocumentHeader timesheetDocumentHeader : documentHeaders){
-            populateBatchJobEntry(timesheetDocumentHeader);
-        }
+    	Date beginDate = calendarEntry.getBeginPeriodDateTime();
+    	Date endDate = calendarEntry.getEndPeriodDateTime();
+    	Calendar calendar = TkServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+    	
+    	if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
+	        List<TimesheetDocumentHeader> timesheetDocumentHeaders = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
+	        for (TimesheetDocumentHeader timesheetDocumentHeader : timesheetDocumentHeaders) {
+	            populateBatchJobEntry(timesheetDocumentHeader);
+	        }
+    	} else if (StringUtils.equals(calendar.getCalendarTypes(), "Leave")) {
+	        List<LeaveCalendarDocumentHeader> leaveCalendarDocumentHeaders = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
+	        for (LeaveCalendarDocumentHeader leaveCalendarDocumentHeader : leaveCalendarDocumentHeaders) {
+	            populateBatchJobEntry(leaveCalendarDocumentHeader);
+	        }
+    	}
     }
 
 	@Override
 	protected void populateBatchJobEntry(Object o) {
-		TimesheetDocumentHeader timesheetDocumentHeader = (TimesheetDocumentHeader)o;
-		String ip = this.getNextIpAddressInCluster();
-		if(StringUtils.isNotBlank(ip)){
-            //insert a batch job entry here
-            BatchJobEntry entry = this.createBatchJobEntry(this.getBatchJobName(), ip, timesheetDocumentHeader.getPrincipalId(), timesheetDocumentHeader.getDocumentId(),null);
+		CalendarDocumentHeaderContract calendarDocumentHeaderContract = (CalendarDocumentHeaderContract) o;
+		String ip = getNextIpAddressInCluster();
+		if (StringUtils.isNotBlank(ip)){
+            BatchJobEntry entry = createBatchJobEntry(getBatchJobName(), ip, calendarDocumentHeaderContract.getPrincipalId(), calendarDocumentHeaderContract.getDocumentId(), null);
             TkServiceLocator.getBatchJobEntryService().saveBatchJobEntry(entry);
 		} else {
 			LOG.info("No ip found in cluster to assign batch jobs");

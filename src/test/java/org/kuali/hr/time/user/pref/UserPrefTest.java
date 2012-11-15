@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTimeZone;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
@@ -43,7 +44,7 @@ public class UserPrefTest extends KPMETestCase{
 		List<TimeBlock> tbs = new ArrayList<TimeBlock>();
 		tbs.add(tb);
 		
-		TkServiceLocator.getTimezoneService().translateForTimezone(tbs, "America/Indianapolis");
+		TkServiceLocator.getTimezoneService().translateForTimezone(tbs, DateTimeZone.forID("America/Indianapolis"));
 	}
 
 }

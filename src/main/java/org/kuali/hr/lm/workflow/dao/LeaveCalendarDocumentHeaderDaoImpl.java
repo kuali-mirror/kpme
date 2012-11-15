@@ -28,6 +28,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class LeaveCalendarDocumentHeaderDaoImpl extends PlatformAwareDaoBaseOjb implements LeaveCalendarDocumentHeaderDao {
@@ -83,6 +84,22 @@ public class LeaveCalendarDocumentHeaderDaoImpl extends PlatformAwareDaoBaseOjb 
         query.setEndAtIndex(1);
 
         return (LeaveCalendarDocumentHeader) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+    }
+    
+    @Override
+    public List<LeaveCalendarDocumentHeader> getDocumentHeaders(Date beginDate, Date endDate) {
+        Criteria crit = new Criteria();
+        List<LeaveCalendarDocumentHeader> lstDocumentHeaders = new ArrayList<LeaveCalendarDocumentHeader>();
+
+        crit.addEqualTo("beginDate", beginDate);
+        crit.addEqualTo("endDate", endDate);
+        QueryByCriteria query = new QueryByCriteria(LeaveCalendarDocumentHeader.class, crit);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        if (c != null) {
+            lstDocumentHeaders.addAll(c);
+        }
+        
+        return lstDocumentHeaders;
     }
     
     @Override

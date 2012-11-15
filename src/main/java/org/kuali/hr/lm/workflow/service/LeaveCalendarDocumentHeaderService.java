@@ -26,6 +26,7 @@ public interface LeaveCalendarDocumentHeaderService {
     void saveOrUpdate(LeaveCalendarDocumentHeader leaveCalendarDocumentHeader);
     LeaveCalendarDocumentHeader getPrevOrNextDocumentHeader(String prevOrNext, String principalId);
     
+    public List<LeaveCalendarDocumentHeader> getDocumentHeaders(Date beginDate, Date endDate);
     /*
      * return the latest approved leave calendar for given principalId
      */

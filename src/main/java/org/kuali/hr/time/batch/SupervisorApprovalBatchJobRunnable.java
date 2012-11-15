@@ -15,24 +15,48 @@
  */
 package org.kuali.hr.time.batch;
 
-import org.apache.log4j.Logger;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
+import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
+import org.kuali.hr.time.calendar.Calendar;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 
 public class SupervisorApprovalBatchJobRunnable extends BatchJobEntryRunnable  {
 
     public SupervisorApprovalBatchJobRunnable(BatchJobEntry entry) {
 		super(entry);
 	}
-
-	private static final Logger LOG = Logger.getLogger(SupervisorApprovalBatchJobRunnable.class);
-
+    
     @Override
     public void doWork() throws Exception {
-		String principalId = TkConstants.BATCH_JOB_USER_PRINCIPAL_ID;
-		String documentId = batchJobEntry.getDocumentId();
-		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
-		TkServiceLocator.getTimesheetService().approveTimesheet(principalId, timesheetDocument, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
+    	BatchJobEntry employeeApprovalBatchJobEntry = TkServiceLocator.getBatchJobEntryService().getBatchJobEntry(getTkBatchJobEntryId());
+    	String principalId = TkConstants.BATCH_JOB_USER_PRINCIPAL_ID;
+		String documentId = employeeApprovalBatchJobEntry.getDocumentId();
+		String hrPyCalendarId = employeeApprovalBatchJobEntry.getHrPyCalendarEntryId();
+		CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(hrPyCalendarId);
+		Calendar calendar = TkServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+		
+		if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
+			TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
+			if (timesheetDocumentHeader != null) {
+				TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
+				if (DocumentStatus.ENROUTE.getCode().equals(timesheetDocument.getDocumentHeader().getDocumentStatus())) {
+					TkServiceLocator.getTimesheetService().approveTimesheet(principalId, timesheetDocument, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
+				}
+			}
+		} else if (StringUtils.equals(calendar.getCalendarTypes(), "Leave")) {
+			LeaveCalendarDocumentHeader leaveCalendarDocumentHeader = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
+			if (leaveCalendarDocumentHeader != null) {
+				LeaveCalendarDocument leaveCalendarDocument = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
+				if (DocumentStatus.ENROUTE.getCode().equals(leaveCalendarDocument.getDocumentHeader().getDocumentStatus())) {
+					TkServiceLocator.getLeaveCalendarService().approveLeaveCalendar(principalId, leaveCalendarDocument, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE);
+				}
+			}
+		}
     }
 }

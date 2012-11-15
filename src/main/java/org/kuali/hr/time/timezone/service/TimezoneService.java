@@ -57,7 +57,7 @@ public interface TimezoneService {
 	 * @param timezone
 	 * @return
 	 */
-	public List<TimeBlock> translateForTimezone(List<TimeBlock> timeBlocks, String timezone);
+	public List<TimeBlock> translateForTimezone(List<TimeBlock> timeBlocks, DateTimeZone timezone);
 
     public void translateForTimezone(List<TimeBlock> timeBlocks);
 

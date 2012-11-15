@@ -31,8 +31,6 @@ public interface TimesheetDocumentHeaderDao {
 	public TimesheetDocumentHeader getPreviousDocumentHeader(String principalId, Date payBegindate);
 
     public TimesheetDocumentHeader getNextDocumentHeader(String principalId, Date payEndDate);
-
-    public List<TimesheetDocumentHeader> getDocumentHeaders(Date payBeginDate);
     
     public List<TimesheetDocumentHeader> getDocumentHeaders(Date payBeginDate, Date payEndDate);
     
