@@ -89,6 +89,12 @@ public class BatchJobManagerThread extends Thread {
 //                    TkServiceLocator.getBatchJobService().saveBatchJob(job);
 //                    batchJobs.add(job);
 //                }
+                
+                if (!jobExists(existingBatchJobs, TkConstants.BATCH_JOB_NAMES.ACCRUAL)) {
+                    BatchJob job = new AccrualBatchJob(calendarEntry);
+                    TkServiceLocator.getBatchJobService().saveBatchJob(job);
+                    batchJobs.add(job);
+                }
             }
 
             for (BatchJob batchJob : batchJobs) {

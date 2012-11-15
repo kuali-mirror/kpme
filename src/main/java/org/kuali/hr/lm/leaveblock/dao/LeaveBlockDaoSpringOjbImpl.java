@@ -215,6 +215,12 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 
 	}
 	
+    public void deleteLeaveBlock(String leaveBlockId) {
+        Criteria crit = new Criteria();
+        crit.addEqualTo("lmLeaveBlockId",leaveBlockId);
+        this.getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(LeaveBlock.class, crit));
+    }
+	
     public void deleteLeaveBlocksForDocumentId(String documentId){
         Criteria crit = new Criteria();
         crit.addEqualTo("documentId",documentId);

@@ -39,6 +39,7 @@ public interface LeaveBlockDao {
      * @return
      */
     public List<LeaveBlock> getCalendarLeaveBlocks(String principalId, Date beginDate, Date endDate);
+    public void deleteLeaveBlock(String leaveBlockId);
     public void deleteLeaveBlocksForDocumentId(String documentId);
 }
 

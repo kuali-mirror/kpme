@@ -254,7 +254,7 @@ public class LeaveCalendarAction extends TkAction {
         LeaveBlock blockToDelete = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
         if (blockToDelete != null
                 && TkServiceLocator.getPermissionsService().canDeleteLeaveBlock(blockToDelete)) {
-		    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId);
+		    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId, TKContext.getPrincipalId());
 			 // recalculate accruals
 		    if(lcf.getCalendarEntry() != null) {
 		    	this.rerunAccrualForNotEligibleForAccrualChanges(blockToDelete.getEarnCode(), blockToDelete.getLeaveDate(), 

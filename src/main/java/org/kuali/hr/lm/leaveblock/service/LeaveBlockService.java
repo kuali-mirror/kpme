@@ -36,8 +36,9 @@ public interface LeaveBlockService {
     /**
      * The deletion marks the leave block inactive instead of removing the row from the database.
      * @param leaveBlockId
+     * @param principalIdDeleted
      */
-    public void deleteLeaveBlock(String leaveBlockId);
+    public void deleteLeaveBlock(String leaveBlockId, String principalIdDeleted);
 
     public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntries ce, String selectedEarnCode, 
     		BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks, String leaveBlockType);

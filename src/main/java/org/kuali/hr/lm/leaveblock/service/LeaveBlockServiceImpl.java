@@ -82,7 +82,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     }
 
     @Override
-    public void deleteLeaveBlock(String leaveBlockId) {
+    public void deleteLeaveBlock(String leaveBlockId, String principalIdDeleted) {
         LeaveBlock leaveBlock = getLeaveBlock(leaveBlockId);
         
 //        leaveBlock.setPrincipalIdModified(TKContext.getTargetPrincipalId());
@@ -90,15 +90,15 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         
         // Make entry into LeaveBlockHistory table
         LeaveBlockHistory leaveBlockHistory = new LeaveBlockHistory(leaveBlock);
-        leaveBlockHistory.setPrincipalIdDeleted(TKContext.getPrincipalId());
+        leaveBlockHistory.setPrincipalIdDeleted(principalIdDeleted);
         leaveBlockHistory.setTimestampDeleted(new Timestamp(System.currentTimeMillis()));
         leaveBlockHistory.setAction(LMConstants.ACTION.DELETE);
 
         // deleting leaveblock
-        KRADServiceLocator.getBusinessObjectService().delete(leaveBlock);
+        leaveBlockDao.deleteLeaveBlock(leaveBlockId);
         
         // creating history
-        KRADServiceLocator.getBusinessObjectService().save(leaveBlockHistory); 
+        TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(leaveBlockHistory);
         
         
     }

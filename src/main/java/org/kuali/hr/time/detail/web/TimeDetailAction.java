@@ -318,7 +318,7 @@ public class TimeDetailAction extends TimesheetAction {
   	  if (lbId != null) {
   	      LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lbId);
   	      if (lb != null) {
-  	          TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(lbId);
+  	          TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(lbId, TKContext.getPrincipalId());
   	      }
   	  }
     }
@@ -494,7 +494,7 @@ public class TimeDetailAction extends TimesheetAction {
 
       LeaveBlock blockToDelete = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
       if (blockToDelete != null && TkServiceLocator.getPermissionsService().canDeleteLeaveBlock(blockToDelete)) {
-		    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId);
+		    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId, TKContext.getPrincipalId());
       }
 		
       return mapping.findForward("basic");

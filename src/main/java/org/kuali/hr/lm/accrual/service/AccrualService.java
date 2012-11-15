@@ -29,6 +29,7 @@ public interface AccrualService {
 	 * If recordRanData is true, record the timestamp of this run in database 
 	 */
 	public void runAccrual(String principalId, Date startDate, Date endDate, boolean recordRanData);
+	public void runAccrual(String principalId, Date startDate, Date endDate, boolean recordRanData, String runAsPrincipalId);
 	public void runAccrual(List<String> principalIds);
 	
 	

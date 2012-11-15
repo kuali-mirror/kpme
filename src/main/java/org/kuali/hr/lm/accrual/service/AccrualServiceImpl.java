@@ -45,6 +45,7 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
@@ -60,10 +61,15 @@ public class AccrualServiceImpl implements AccrualService {
 		runAccrual(principalId,startDate,endDate, true);
 		
 	}
+	
+	@Override
+	public void runAccrual(String principalId, Date startDate, Date endDate, boolean recordRanData) {
+		runAccrual(principalId, startDate, endDate, recordRanData, TKContext.getPrincipalId());
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public void runAccrual(String principalId, Date startDate, Date endDate, boolean recordRanData) {
+	public void runAccrual(String principalId, Date startDate, Date endDate, boolean recordRanData, String runAsPrincipalId) {
 		List<LeaveBlock> accrualLeaveBlocks = new ArrayList<LeaveBlock>();
 		Map<String, BigDecimal> accumulatedAccrualCatToAccrualAmounts = new HashMap<String,BigDecimal>();
 		Map<String, BigDecimal> accumulatedAccrualCatToNegativeAccrualAmounts = new HashMap<String,BigDecimal>();
@@ -75,7 +81,7 @@ public class AccrualServiceImpl implements AccrualService {
 			throw new RuntimeException("Start Date " + startDate.toString() + " should not be later than End Date " + endDate.toString());
 		}
 		//Inactivate all previous accrual-generated entries for this span of time
-		inactivateOldAccruals(principalId, startDate, endDate);
+		inactivateOldAccruals(principalId, startDate, endDate, runAsPrincipalId);
 		
 		//Build a rate range aggregate with appropriate information for this period of time detailing Rate Ranges for job
 		//entries for this range of time
@@ -341,11 +347,11 @@ public class AccrualServiceImpl implements AccrualService {
 		
 	}
 	
-	private void inactivateOldAccruals(String principalId, Date startDate, Date endDate) {
+	private void inactivateOldAccruals(String principalId, Date startDate, Date endDate, String runAsPrincipalId) {
 		List<LeaveBlock> previousLB = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, startDate, endDate);
 		for(LeaveBlock lb : previousLB) {
 			if(lb.getAccrualGenerated()) {
-				TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(lb.getLmLeaveBlockId());
+				TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(lb.getLmLeaveBlockId(), runAsPrincipalId);
 			}
 		}
 	}

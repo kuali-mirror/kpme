@@ -60,6 +60,7 @@ public abstract class BatchJobEntryRunnable implements Runnable{
 						doAfterRun();
 					}  catch (Throwable t) {
 			            LOG.warn("BatchJobEntry: " + batchJobEntry.getTkBatchJobEntryId() + " in Exception status.");
+			            t.printStackTrace();
 			            batchJobEntry.setBatchJobException(t.getStackTrace().toString());
 			        }
 				};
