@@ -33,6 +33,7 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TkSearchableAttributeServiceImpl implements
 		TkSearchableAttributeService {
@@ -54,12 +55,12 @@ public class TkSearchableAttributeServiceImpl implements
                 workflowDocument.saveDocument("");
                 if (!"I".equals(workflowDocument.getStatus().getCode())) {
                     //updateWorkflowTitle(document,workflowDocument);
-                    if(workflowDocument.getInitiatorPrincipalId().equals(TKContext.getPrincipalId())){
+                    if (GlobalVariables.getUserSession() != null && workflowDocument.getInitiatorPrincipalId().equals(GlobalVariables.getUserSession().getPrincipalId())) {
                         workflowDocument.saveDocument("");
-                    }else{
+                    } else{
                     	workflowDocument.saveDocumentData();
                     }
-                }else{
+                } else{
                     workflowDocument.saveDocument("");
                 }
 

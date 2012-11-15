@@ -20,7 +20,10 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.hr.job.Job;
+import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
@@ -41,11 +44,29 @@ public class InitiateBatchJob extends BatchJob {
 	@Override
 	public void doWork() {
 		Date asOfDate = TKUtils.getCurrentDate();
-		List<Assignment> lstAssignments = TkServiceLocator.getAssignmentService().getActiveAssignments(asOfDate);
-		for(Assignment assign : lstAssignments){
-			TimesheetDocumentHeader tkDocHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(assign.getPrincipalId(), calendarEntry.getBeginPeriodDateTime(), calendarEntry.getEndPeriodDateTime());
-			if(tkDocHeader == null || StringUtils.equals(tkDocHeader.getDocumentStatus(),TkConstants.ROUTE_STATUS.CANCEL)){
-				populateBatchJobEntry(assign);
+		Calendar calendar = TkServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+		String calendarTypes = calendar.getCalendarTypes();
+		java.util.Date beginDate = calendarEntry.getBeginPeriodDateTime();
+		java.util.Date endDate = calendarEntry.getEndPeriodDateTime();
+		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignments(asOfDate);
+		
+		for (Assignment assignment : assignments) {
+			Job job = assignment.getJob();
+			String principalId = assignment.getPrincipalId();
+			if (StringUtils.equals(calendarTypes, "Pay")) {
+				if (StringUtils.equalsIgnoreCase(job.getFlsaStatus(), TkConstants.FLSA_STATUS_EXEMPT)) {
+					TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, beginDate, endDate);
+					if (timesheetDocumentHeader == null || StringUtils.equals(timesheetDocumentHeader.getDocumentStatus(), TkConstants.ROUTE_STATUS.CANCEL)) {
+						populateBatchJobEntry(assignment);
+					}
+				}	
+			} else if (StringUtils.equals(calendarTypes, "Leave")) {
+				if (job.isEligibleForLeave() && StringUtils.equalsIgnoreCase(job.getFlsaStatus(), TkConstants.FLSA_STATUS_NON_EXEMPT)) {
+					LeaveCalendarDocumentHeader leaveCalendarDocumentHeader = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, beginDate, endDate);
+					if (leaveCalendarDocumentHeader == null || StringUtils.equals(leaveCalendarDocumentHeader.getDocumentStatus(), TkConstants.ROUTE_STATUS.CANCEL)) {
+						populateBatchJobEntry(assignment);
+					}
+				}
 			}
 		}
 	}
@@ -53,11 +74,10 @@ public class InitiateBatchJob extends BatchJob {
 
 	@Override
 	protected void populateBatchJobEntry(Object o) {
-		Assignment assign = (Assignment)o;
+		Assignment assign = (Assignment) o;
 		String ip = this.getNextIpAddressInCluster();
-		if(StringUtils.isNotBlank(ip)){
-			//insert a batch job entry here
-            BatchJobEntry entry = this.createBatchJobEntry(this.getBatchJobName(), ip, assign.getPrincipalId(), null,null);
+		if (StringUtils.isNotBlank(ip)) {
+            BatchJobEntry entry = createBatchJobEntry(getBatchJobName(), ip, assign.getPrincipalId(), null, null);
             TkServiceLocator.getBatchJobEntryService().saveBatchJobEntry(entry);
 		} else {
 			LOG.info("No ip found in cluster to assign batch jobs");
