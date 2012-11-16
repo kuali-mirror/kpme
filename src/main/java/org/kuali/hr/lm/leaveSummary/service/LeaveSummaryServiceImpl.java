@@ -64,8 +64,10 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
         if(StringUtils.isEmpty(principalId) || calendarEntry == null) {
             return ls;
         }
-
         PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, calendarEntry.getBeginPeriodDate());
+        if(pha == null) {	// principal hr attributes does not exist at the beginning of this calendar entry
+        	pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, calendarEntry.getEndPeriodDate());
+        }
         // get list of principalHrAttributes that become active during this pay period
         List<PrincipalHRAttributes> phaList = TkServiceLocator.getPrincipalHRAttributeService()
                 .getActivePrincipalHrAttributesForRange(principalId, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());

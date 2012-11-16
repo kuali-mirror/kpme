@@ -109,6 +109,13 @@ public class LeaveSummaryServiceImplTest extends KPMETestCase {
 				Assert.fail("Accrual category for Row should either be 'testAC' or 'testAC1', not " + lsRow.getAccrualCategory());
 			}
 		}
+		// selected calendar entry is 02/01/2012 - 03/01/2012
+		// principal HR attribute does not exist on 02/01/2012, it becomes active on 02/05/2012
+		// this is testing null principalHrAttributes with beginning date of Calendar entry
+		ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("10004");
+		ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary("testUser", ce);
+		rows = ls.getLeaveSummaryRows();
+		Assert.assertTrue("There should be 1 leave summary rows for emplyee 'testUser', not " + rows.size(), rows.size()== 1);
 	}
 	
 	@Test
