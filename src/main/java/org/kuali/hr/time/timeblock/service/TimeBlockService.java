@@ -53,14 +53,14 @@ public interface TimeBlockService {
 	 */
 	public List<TimeBlock> buildTimeBlocks(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument,
 											Timestamp beginTimestamp, Timestamp endTimestamp, BigDecimal hours, BigDecimal amount,
-                                            Boolean isClockLogCreated, Boolean isLunchDeleted);
+                                            Boolean isClockLogCreated, Boolean isLunchDeleted, String userPrincipalId);
 	/**
 	 * Save a list of new TimeBlocks
 	 * does a comparison for the old versus the new and only saves changed/new/deleted TimeBlocks
 	 * @param oldTimeBlocks
 	 * @param newTimeBlocks
 	 */
-	public void saveTimeBlocks(List<TimeBlock> oldTimeBlocks, List<TimeBlock> newTimeBlocks);
+	public void saveTimeBlocks(List<TimeBlock> oldTimeBlocks, List<TimeBlock> newTimeBlocks, String userPrincipalId);
 
 	/**
 	 * Save a list of new TimeBlocks
@@ -100,7 +100,7 @@ public interface TimeBlockService {
 	 */
 	public List<TimeBlock> buildTimeBlocksSpanDates(Assignment assignment, String earnCode, TimesheetDocument timesheetDocument,
 												Timestamp beginTimestamp, Timestamp endTimestamp, BigDecimal hours, BigDecimal amount,
-                                                Boolean isClockLogCreated, Boolean isLunchDeleted, String spanningWeeks);
+                                                Boolean isClockLogCreated, Boolean isLunchDeleted, String spanningWeeks, String userPrincipalId);
 	/**
 	 * Create a TimeBlock for the given criteria
 	 * @param timesheetDocument
@@ -116,7 +116,7 @@ public interface TimeBlockService {
 	 */
 	public TimeBlock createTimeBlock(TimesheetDocument timesheetDocument, Timestamp beginTime, Timestamp endTime,
 										Assignment assignment, String earnCode, BigDecimal hours, BigDecimal amount,
-                                        Boolean isClockLogCreated, Boolean isLunchDeleted);
+                                        Boolean isClockLogCreated, Boolean isLunchDeleted, String userPrincipalId);
 
 	public void deleteTimeBlocksAssociatedWithDocumentId(String documentId);
 

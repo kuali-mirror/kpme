@@ -44,6 +44,18 @@ public interface ClockLogService {
      * @return
      */
     public ClockLog getLastClockLog(String principalId, String clockAction);
+    
+	/**
+	 * Fetch last clock log for principal id, assignment details, and calendar entry
+	 * @param principalId
+	 * @param jobNumber
+	 * @param workArea
+	 * @param task
+	 * @param calendarEntry
+	 * @return
+	 */
+	public ClockLog getLastClockLog(String principalId, String jobNumber, String workArea, String task, CalendarEntries calendarEntry);
+
     /**
      * Build ClockLog based on criteria passed in
      * @param clockTimestamp  -- timestamp with grace rule applied if there is one
@@ -56,13 +68,6 @@ public interface ClockLogService {
      */
 	public ClockLog buildClockLog(Timestamp clockTimestamp, Timestamp originalTimestamp, Assignment assignment, TimesheetDocument timesheetDocument, String clockAction, String ip);
 	
-	/**
-	 * Fetch open clock logs by pay calendar entry
-	 * @param payCalendarEntry
-	 * @return
-	 */
-	public List<ClockLog> getOpenClockLogs(CalendarEntries payCalendarEntry);
-
 	/**
 	 * Process clock log created
 	 * @param clockTimestamp

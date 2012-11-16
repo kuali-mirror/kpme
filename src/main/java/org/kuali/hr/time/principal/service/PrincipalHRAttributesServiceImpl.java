@@ -38,6 +38,10 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
 		return pc;
 	}
 	
+    public List<PrincipalHRAttributes> getActiveEmployeesForPayCalendar(String payCalendarName, Date asOfDate) {
+    	return principalHRAttributesDao.getActiveEmployeesForPayCalendar(payCalendarName, asOfDate);
+    }
+	
 	/**
      * KPME-1250 Kagata
      * Get a list of active employees based on leave plan and as of a particular date

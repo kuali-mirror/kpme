@@ -269,7 +269,7 @@ public class ClockAction extends TimesheetAction {
             referenceTimeBlocks.add(tb.copy());
         }
         //call persist method that only saves added/deleted/changed timeblocks
-        TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks);
+        TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, TKContext.getPrincipalId());
 
         ActionForward forward = mapping.findForward("et");
 
@@ -300,7 +300,7 @@ public class ClockAction extends TimesheetAction {
 			
 			TimesheetDocument tsDoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocId);
 			
-			tb = TkServiceLocator.getTimeBlockService().createTimeBlock(tsDoc, beginTS, endTS, assignment, earnCode, hours,BigDecimal.ZERO, false, false);
+			tb = TkServiceLocator.getTimeBlockService().createTimeBlock(tsDoc, beginTS, endTS, assignment, earnCode, hours,BigDecimal.ZERO, false, false, TKContext.getPrincipalId());
 			newTbList.add(tb);
 		}
 		TkServiceLocator.getTimeBlockService().resetTimeHourDetail(newTbList);

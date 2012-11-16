@@ -80,6 +80,39 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
 		}
 		
 	}
+
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public List<PrincipalHRAttributes> getActiveEmployeesForPayCalendar(String payCalendarName, Date asOfDate) {
+        List<PrincipalHRAttributes> principalHRAttributes = new ArrayList<PrincipalHRAttributes>();
+        Criteria root = new Criteria();
+        
+        root.addEqualTo("payCalendar", payCalendarName);
+
+        Criteria effdt = new Criteria();
+        effdt.addEqualToField("payCalendar", Criteria.PARENT_QUERY_PREFIX + "payCalendar");
+        effdt.addLessOrEqualThan("effectiveDate", asOfDate);
+        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(PrincipalHRAttributes.class, effdt);
+        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+
+        Criteria timestamp = new Criteria();
+        timestamp.addEqualToField("payCalendar", Criteria.PARENT_QUERY_PREFIX + "payCalendar");
+        timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(PrincipalHRAttributes.class, timestamp);
+        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+
+        Criteria activeFilter = new Criteria();
+        activeFilter.addEqualTo("active", true);
+        root.addAndCriteria(activeFilter);
+
+        Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, root);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+        if (c != null) {
+        	principalHRAttributes.addAll(c);
+        }
+
+        return principalHRAttributes;
+    }
 	
     // KPME-1250 Kagata
     @SuppressWarnings({"rawtypes", "unchecked"})

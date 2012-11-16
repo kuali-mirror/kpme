@@ -403,7 +403,7 @@ public class TkTestUtils {
 			Timestamp tsin = new Timestamp(ci.getMillis());
 			Timestamp tsout = new Timestamp(co.getMillis());
 
-			blocks.addAll(service.buildTimeBlocks(assignment, earnCode, timesheetDocument, tsin, tsout, hours, amount, false, false));
+			blocks.addAll(service.buildTimeBlocks(assignment, earnCode, timesheetDocument, tsin, tsout, hours, amount, false, false, TKContext.getPrincipalId()));
 		}
 
 		return blocks;

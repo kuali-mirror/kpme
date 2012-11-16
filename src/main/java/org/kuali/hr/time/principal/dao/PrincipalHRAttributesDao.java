@@ -27,6 +27,8 @@ public interface PrincipalHRAttributesDao {
 
 	public PrincipalHRAttributes getPrincipalCalendar(String principalId, Date asOfDate);
 	
+	public List<PrincipalHRAttributes> getActiveEmployeesForPayCalendar(String payCalendarName, Date asOfDate);
+
 	/**
 	 * KPME-1250 Kagata
 	 * Get a list of active employees based on leave plan and as of a particular date 

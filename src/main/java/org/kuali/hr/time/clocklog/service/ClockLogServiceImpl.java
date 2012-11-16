@@ -60,7 +60,7 @@ public class ClockLogServiceImpl implements ClockLogService {
 
         // If the clock action is clock out or lunch out, create a time block besides the clock log
         if (StringUtils.equals(clockAction, TkConstants.CLOCK_OUT) || StringUtils.equals(clockAction, TkConstants.LUNCH_OUT)) {
-            processTimeBlock(clockLog, assignment, pe, td, clockAction, principalId);
+            processTimeBlock(clockLog, assignment, pe, td, clockAction, principalId, userPrincipalId);
         } else {
             //Save current clock log to get id for timeblock building
             TkServiceLocator.getClockLogService().saveClockLog(clockLog);
@@ -69,7 +69,7 @@ public class ClockLogServiceImpl implements ClockLogService {
         return clockLog;
     }
 
-    private void processTimeBlock(ClockLog clockLog, Assignment assignment, CalendarEntries pe, TimesheetDocument td, String clockAction, String principalId) {
+    private void processTimeBlock(ClockLog clockLog, Assignment assignment, CalendarEntries pe, TimesheetDocument td, String clockAction, String principalId, String userPrincipalId) {
         ClockLog lastLog = null;
         Timestamp lastClockTimestamp = null;
         String beginClockLogId = null;
@@ -100,7 +100,7 @@ public class ClockLogServiceImpl implements ClockLogService {
         }
 
         // Add TimeBlocks after we store our reference object!
-        List<TimeBlock> aList = TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment, assignment.getJob().getPayTypeObj().getRegEarnCode(), td, beginTimestamp, endTimestamp, BigDecimal.ZERO, BigDecimal.ZERO, true, false);
+        List<TimeBlock> aList = TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment, assignment.getJob().getPayTypeObj().getRegEarnCode(), td, beginTimestamp, endTimestamp, BigDecimal.ZERO, BigDecimal.ZERO, true, false, TkConstants.BATCH_JOB_USER_PRINCIPAL_ID);
         for (TimeBlock tb : aList) {
             tb.setClockLogBeginId(beginClockLogId);
             tb.setClockLogEndId(endClockLogId);
@@ -114,7 +114,7 @@ public class ClockLogServiceImpl implements ClockLogService {
         TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.CLOCK_OUT, newTimeBlocks, pe, td, principalId);
 
         //call persist method that only saves added/deleted/changed timeblocks
-        TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks);
+        TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, userPrincipalId);
     }
 
     @Override
@@ -157,8 +157,8 @@ public class ClockLogServiceImpl implements ClockLogService {
         return clockLogDao.getLastClockLog(principalId, clockAction);
     }
 
-    public List<ClockLog> getOpenClockLogs(  CalendarEntries payCalendarEntry) {
-        return clockLogDao.getOpenClockLogs(payCalendarEntry);
+    public ClockLog getLastClockLog(String principalId, String jobNumber, String workArea, String task, CalendarEntries calendarEntry) {
+        return clockLogDao.getLastClockLog(principalId, jobNumber, workArea, task, calendarEntry);
     }
 
     @Override

@@ -259,29 +259,23 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 
     public List<Assignment> getActiveAssignments(Date asOfDate) {
         List<Assignment> assignments = new ArrayList<Assignment>();
+        
         Criteria root = new Criteria();
-        Criteria effdt = new Criteria();
+        root.addLessOrEqualThan("effectiveDate", asOfDate);
+
         Criteria timestamp = new Criteria();
-
-        // OJB's awesome sub query setup part 1
-        effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-        effdt.addEqualTo("active", true);
-        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Assignment.class, effdt);
-        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-
-        // OJB's awesome sub query setup part 2
+        timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+        timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+        timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
+        timestamp.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
         timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-        timestamp.addEqualTo("active", true);
         ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Assignment.class, timestamp);
         timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-
-        root.addEqualTo("effectiveDate", effdtSubQuery);
         root.addEqualTo("timestamp", timestampSubQuery);
-        root.addEqualTo("active", true);
-
-        Criteria activeFilter = new Criteria(); // Inner Join For Activity
-        activeFilter.addEqualTo("active", true);
-        root.addAndCriteria(activeFilter);
+        
+		Criteria activeFilter = new Criteria();
+		activeFilter.addEqualTo("active", true);
+		root.addAndCriteria(activeFilter);
 
         Query query = QueryFactory.newQuery(Assignment.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);

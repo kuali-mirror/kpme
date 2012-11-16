@@ -29,6 +29,7 @@ import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
@@ -41,8 +42,8 @@ public class TimeBlockHistoryTest extends KPMETestCase {
     @Test
     public void testTimeBlockHistory() throws Exception {
         TimesheetDocument td = TkTestUtils.populateBlankTimesheetDocument(DEFAULT_EFFDT);
-        List<TimeBlock> tbs = TkServiceLocator.getTimeBlockService().buildTimeBlocks(td.getAssignments().get(0), "RGH", td, beginTimestamp, endTimestamp, new BigDecimal("8"), BigDecimal.ZERO, true, false);
-        TkServiceLocator.getTimeBlockService().saveTimeBlocks(td.getTimeBlocks(), tbs);
+        List<TimeBlock> tbs = TkServiceLocator.getTimeBlockService().buildTimeBlocks(td.getAssignments().get(0), "RGH", td, beginTimestamp, endTimestamp, new BigDecimal("8"), BigDecimal.ZERO, true, false, TKContext.getPrincipalId());
+        TkServiceLocator.getTimeBlockService().saveTimeBlocks(td.getTimeBlocks(), tbs, TKContext.getPrincipalId());
 
         List<TimeBlockHistory> tbhs = new ArrayList<TimeBlockHistory>();
         for(TimeBlock tb : td.getTimeBlocks()) {

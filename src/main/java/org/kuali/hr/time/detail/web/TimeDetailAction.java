@@ -260,7 +260,7 @@ public class TimeDetailAction extends TimesheetAction {
         //reset time block
         TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks);
         TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, tdaf.getPayCalendarDates(), tdaf.getTimesheetDocument(), TKContext.getPrincipalId());
-        TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks);
+        TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, TKContext.getPrincipalId());
 
         return mapping.findForward("basic");
     }
@@ -379,11 +379,11 @@ public class TimeDetailAction extends TimesheetAction {
                 && endTemp.getHourOfDay() == 0)) {
             newTimeBlocks.addAll(TkServiceLocator.getTimeBlockService().buildTimeBlocksSpanDates(assignment,
                     tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(), startTime,
-                    endTime, tdaf.getHours(), tdaf.getAmount(), false, Boolean.parseBoolean(tdaf.getLunchDeleted()), tdaf.getSpanningWeeks()));
+                    endTime, tdaf.getHours(), tdaf.getAmount(), false, Boolean.parseBoolean(tdaf.getLunchDeleted()), tdaf.getSpanningWeeks(), TKContext.getPrincipalId()));
         } else {
             newTimeBlocks.addAll(TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment,
                     tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(), startTime,
-                    endTime, tdaf.getHours(), tdaf.getAmount(), false, Boolean.parseBoolean(tdaf.getLunchDeleted())));
+                    endTime, tdaf.getHours(), tdaf.getAmount(), false, Boolean.parseBoolean(tdaf.getLunchDeleted()), TKContext.getPrincipalId()));
         }
 
         //reset time block
@@ -398,7 +398,7 @@ public class TimeDetailAction extends TimesheetAction {
         }
 
         TkServiceLocator.getTkRuleControllerService().applyRules(TkConstants.ACTIONS.ADD_TIME_BLOCK, newTimeBlocks, tdaf.getPayCalendarDates(), tdaf.getTimesheetDocument(), TKContext.getPrincipalId());
-        TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks);
+        TkServiceLocator.getTimeBlockService().saveTimeBlocks(referenceTimeBlocks, newTimeBlocks, TKContext.getPrincipalId());
 	}
 
     public ActionForward updateTimeBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {

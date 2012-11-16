@@ -15,13 +15,17 @@
  */
 package org.kuali.hr.time.batch;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.clocklog.ClockLog;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
 public class PayPeriodEndBatchJob extends BatchJob {
@@ -36,23 +40,34 @@ public class PayPeriodEndBatchJob extends BatchJob {
 
     @Override
     public void doWork() {
-    	List<ClockLog> lstOpenClockLogs = TkServiceLocator.getClockLogService().getOpenClockLogs(calendarEntry);
-    	for(ClockLog cl : lstOpenClockLogs){
-    		populateBatchJobEntry(cl);
-    	}
-    	
+    	String calendarName = calendarEntry.getCalendarName();
+    	Date asOfDate = TKUtils.getCurrentDate();
+		    	
+    	List<PrincipalHRAttributes> principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getActiveEmployeesForPayCalendar(calendarName, asOfDate);
+        for (PrincipalHRAttributes principalHRAttribute : principalHRAttributes) {
+        	String principalId = principalHRAttribute.getPrincipalId();
+            
+        	List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, calendarEntry);
+    		for (Assignment assignment : assignments) {
+    			String jobNumber = String.valueOf(assignment.getJobNumber());
+    			String workArea = String.valueOf(assignment.getWorkArea());
+    			String task = String.valueOf(assignment.getTask());
+    			
+    			ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(principalId, jobNumber, workArea, task, calendarEntry);
+		    	if (lastClockLog != null && TkConstants.ON_THE_CLOCK_CODES.contains(lastClockLog.getClockAction())) {
+		    		populateBatchJobEntry(lastClockLog);
+		    	}
+    		}
+        }
     }
-
 
     @Override
     protected void populateBatchJobEntry(Object o) {
-    	ClockLog cl = (ClockLog)o;
-        String ip = this.getNextIpAddressInCluster();
-        if(StringUtils.isNotBlank(ip)){
-            //insert a batch job entry here
-        	//TODO finish this
-//            BatchJobEntry entry = this.createBatchJobEntry(this.getBatchJobName(), ip, cl.getPrincipalId(), null);
-//            TkServiceLocator.getBatchJobEntryService().saveBatchJobEntry(entry);
+    	ClockLog clockLog = (ClockLog) o;
+        String ip = getNextIpAddressInCluster();
+        if (StringUtils.isNotBlank(ip)) {
+        	BatchJobEntry entry = createBatchJobEntry(getBatchJobName(), ip, clockLog.getPrincipalId(), null, clockLog.getTkClockLogId());
+        	TkServiceLocator.getBatchJobEntryService().saveBatchJobEntry(entry);
         } else {
             LOG.info("No ip found in cluster to assign batch jobs");
         }

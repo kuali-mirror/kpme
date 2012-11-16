@@ -31,6 +31,15 @@ public interface PrincipalHRAttributesService {
 	public PrincipalHRAttributes getPrincipalCalendar(String principalId, Date asOfDate);
 	
 	/**
+	 * Get a list of active employees based on pay calendar and as of a particular date 
+	 * @param payCalendarName
+	 * @param asOfDate
+	 * @return
+	 */
+    @Cacheable(value= PrincipalHRAttributes.CACHE_NAME, key="'payCalendarName=' + #p0 + '|' + 'asOfDate=' + #p1")
+    public List<PrincipalHRAttributes> getActiveEmployeesForPayCalendar(String payCalendarName, Date asOfDate);
+    
+	/**
 	 * KPME-1250 Kagata
 	 * Get a list of active employees based on leave plan and as of a particular date 
 	 * @param leavePlan
