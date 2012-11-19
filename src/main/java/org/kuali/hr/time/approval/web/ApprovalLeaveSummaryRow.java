@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kew.doctype.SecuritySession;
@@ -47,6 +48,7 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
 	private String lastApproveMessage;
 	private List<LeaveBlock> leaveBlockList = new ArrayList<LeaveBlock>();
 	private Map<Date, Map<String, BigDecimal>> earnCodeLeaveHours = new LinkedHashMap<Date, Map<String, BigDecimal>>();
+	private Boolean exemptEmployee;
 	
     /**
      * Is this record ready to be approved?
@@ -172,4 +174,19 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
 	public void setMoreThanOneCalendar(Boolean moreThanOneCalendar) {
 		this.moreThanOneCalendar = moreThanOneCalendar;
 	}
+
+
+	public Boolean getExemptEmployee() {
+		if(this.exemptEmployee == null) {
+			this.exemptEmployee = TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(this.principalId,TkConstants.FLSA_STATUS_EXEMPT, true);
+		}
+		return exemptEmployee;
+	}
+
+
+	public void setExemptEmployee(Boolean exemptEmployee) {
+		this.exemptEmployee = exemptEmployee;
+	}
+	
+	
 }

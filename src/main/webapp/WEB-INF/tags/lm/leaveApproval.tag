@@ -16,8 +16,16 @@
 	        <a href="changeTargetPerson.do?${row.userTargetURLParams}&targetUrl=PersonInfo.do&returnUrl=LeaveApproval.do">${row.name}</a> (${row.principalId})
 	         <br/>${row.lastApproveMessage}
 	    </display:column>
+	  
         <display:column title="Document ID <br/>&amp; Status" sortable="true" sortName="documentId">
-        	<a href="changeTargetPerson.do?${row.userTargetURLParams}&targetUrl=LeaveCalendar.do%3FdocumentId=${row.documentId}&returnUrl=LeaveApproval.do">${row.documentId}</a>
+        <c:choose>
+	         <c:when test="${row.exemptEmployee}">
+	        	 <a href="changeTargetPerson.do?${row.userTargetURLParams}&targetUrl=LeaveCalendar.do%3FdocumentId=${row.documentId}&returnUrl=LeaveApproval.do">${row.documentId}</a>
+	         </c:when>
+	         <c:otherwise>
+	         	<c:out value="Non-Exempt Employee"/>
+	         </c:otherwise>
+        </c:choose>
             <c:if test="${fn:length(row.warnings) > 0 }">
                 <div class="ui-state-default ui-corner-all" style="float:right;">
                     <span id="approvals-warning" class="ui-icon ui-icon-alert approvals-warning"></span>
@@ -103,9 +111,10 @@
    		</display:column>
    		<display:column title="Select All <input type='checkbox' name='Select' id='checkAllAuto'></input>"
                     class="last_column_${row_rowNum}">
-       		<html:checkbox property="leaveApprovalRows[${row_rowNum-1}].selected" disabled="${!row.approvable}"
-                       styleClass="selectedEmpl"/>
-       
+            <c:if test="${row.exemptEmployee}">
+	       		<html:checkbox property="leaveApprovalRows[${row_rowNum-1}].selected" disabled="${!row.approvable}"
+	                       styleClass="selectedEmpl"/>
+       		</c:if>
         	<div id="leaveDetails_${row.documentId}" style="display: none;"></div>
    		</display:column>
 	    

@@ -81,4 +81,13 @@ public interface LeaveApprovalService {
     * @return A PrincipalId to LeaveCalendarDocumentHeader mapping.
     */
    public Map<String, LeaveCalendarDocumentHeader> getPrincipalDocumehtHeader(List<TKPerson> persons, Date payBeginDate, Date payEndDate);
+   
+   /**
+    * 
+    * @param principalId
+    * @param flsaStatus
+    * @param chkForLeaveEligible
+    * @return
+    */
+   public boolean isActiveAssignmentFoundOnJobFlsaStatus(String principalId, String flsaStatus, boolean chkForLeaveEligible);
 }
