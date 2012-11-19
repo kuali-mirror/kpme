@@ -183,7 +183,7 @@ public class TimeDetailAction extends TimesheetAction {
 	}
 
 	private void populateCalendarAndPayPeriodLists(HttpServletRequest request, TimeDetailActionForm tdaf) {
-		List<TimesheetDocumentHeader> documentHeaders = (List<TimesheetDocumentHeader>) TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeadersForPrincipalId(GlobalVariables.getUserSession().getPrincipalId());
+		List<TimesheetDocumentHeader> documentHeaders = (List<TimesheetDocumentHeader>) TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeadersForPrincipalId(TKContext.getTargetPrincipalId());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         if(tdaf.getCalendarYears().isEmpty()) {
         	// get calendar year drop down list contents
