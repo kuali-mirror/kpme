@@ -19,14 +19,15 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.cache.CacheUtils;
+import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 
-public class PrincipalHRAttributesMaintainableImpl extends KualiMaintainableImpl {
+public class PrincipalHRAttributesMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 	private static final long serialVersionUID = 1L;
 
 	@SuppressWarnings("rawtypes")
@@ -49,10 +50,13 @@ public class PrincipalHRAttributesMaintainableImpl extends KualiMaintainableImpl
 
 	@Override
 	public void saveBusinessObject() {
-		PrincipalHRAttributes principalHRAttr = (PrincipalHRAttributes) this.getBusinessObject();
-		principalHRAttr.setTimestamp(null);
-		KRADServiceLocator.getBusinessObjectService().save(principalHRAttr);
-        CacheUtils.flushCache(PrincipalHRAttributes.CACHE_NAME);
+		super.saveBusinessObject();
+		CacheUtils.flushCache(PrincipalHRAttributes.CACHE_NAME);
+	}
+
+	@Override
+	public HrBusinessObject getObjectById(String id) {
+		return TkServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes(id);
 	}
 	
 	

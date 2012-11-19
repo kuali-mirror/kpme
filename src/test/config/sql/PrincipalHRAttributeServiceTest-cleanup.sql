@@ -1,0 +1,1 @@
+delete from hr_principal_attributes_t where principal_id like('testUser%');

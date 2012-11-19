@@ -77,4 +77,14 @@ public interface PrincipalHRAttributesService {
      * Fetch list of PrincipalHRAttributes that become inactive for given principalId and date range
      */
     public List<PrincipalHRAttributes> getInactivePrincipalHRAttributesForRange(String principalId, Date startDate, Date endDate);
+    /**
+     * Fetch list of PrincipalHRAttributes using given parameters
+     * @param principalId
+     * @param fromEffdt
+     * @param toEffdt
+     * @param active
+     * @param showHistory
+     * @return
+     */
+    public List<PrincipalHRAttributes> getPrincipalHrAtributes(String principalId, java.sql.Date fromEffdt, java.sql.Date toEffdt,String active, String showHistory);
 }

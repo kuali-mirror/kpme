@@ -40,6 +40,7 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 	private boolean fmlaEligible;
 	private boolean workersCompEligible;
 	private String timezone;
+	private Boolean history;
 	// KPME-1268 Kagata added recordTime and recordLeave variables
 	// KPME-1676 
 //	private String recordTime;
@@ -179,13 +180,12 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 	}
 
 	@Override
-	public void setId(String id) {
-	}
-
-	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.getHrPrincipalAttributeId();
+	}
+	@Override
+	public void setId(String id) {
+		setHrPrincipalAttributeId(id);
 	}
 
 	public Calendar getLeaveCalObj() {
@@ -202,5 +202,13 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 
 	public void setHrPrincipalAttributeId(String hrPrincipalAttributeId) {
 		this.hrPrincipalAttributeId = hrPrincipalAttributeId;
+	}
+
+	public Boolean getHistory() {
+		return history;
+	}
+
+	public void setHistory(Boolean history) {
+		this.history = history;
 	}
 }

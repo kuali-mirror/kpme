@@ -89,4 +89,9 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
     public List<PrincipalHRAttributes> getInactivePrincipalHRAttributesForRange(String principalId, Date startDate, Date endDate) {
     	return this.principalHRAttributesDao.getInactivePrincipalHRAttributesForRange(principalId, startDate, endDate);
     }
+    @Override
+    public List<PrincipalHRAttributes> getPrincipalHrAtributes(String principalId, 
+    		java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory) {
+    	return this.principalHRAttributesDao.getPrincipalHrAtributes(principalId, fromEffdt, toEffdt, active, showHistory);
+    }
 }

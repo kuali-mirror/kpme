@@ -50,6 +50,7 @@
 				<ref bean="PrincipalHRAttributes-effectiveDate" />
 				<ref bean="PrincipalHRAttributes-timestamp" />
 				<ref bean="PrincipalHRAttributes-active"/>
+				<ref bean="PrincipalHRAttributes-history" />
 			</list>
 		</property>
 		<property name="relationships">
@@ -242,6 +243,18 @@
     	<property name="label" value="Active"/>
     	<property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
   	</bean>
+  	
+  	<bean id="PrincipalHRAttributes-history" parent="PrincipalHRAttributes-history-parentBean" />
+	<bean id="PrincipalHRAttributes-history-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Show History" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.time.util.TkHistoryKeyValueFinder">
+			</bean>
+		</property>
+		<property name="name" value="history" />
+		<property name="label" value="Show History" />
+	</bean>
 	
  	<bean id="PrincipalHRAttributes-fmlaEligible" parent="PrincipalHRAttributes-fmlaEligible-parentBean"/>
   	<bean id="PrincipalHRAttributes-fmlaEligible-parentBean" abstract="true" parent="AttributeDefinition">
@@ -331,6 +344,10 @@
 		<property name="lookupFields">
 			<list>				
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate"
+					p:noInquiry="true" p:noLookup="true" />
+				<bean parent="FieldDefinition" p:attributeName="active" />
+				<bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N" />
 			</list>
 		</property>
 		<property name="resultFields">

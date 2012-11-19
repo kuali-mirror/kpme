@@ -15,7 +15,11 @@
  */
 package org.kuali.hr.time.principal.dao;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -30,7 +34,7 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
 
 	@Override
 	public PrincipalHRAttributes getPrincipalCalendar(String principalId,
-			Date asOfDate) {
+			java.util.Date asOfDate) {
 		PrincipalHRAttributes pc = null;
 
 		Criteria root = new Criteria();
@@ -82,7 +86,7 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
 	}
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public List<PrincipalHRAttributes> getActiveEmployeesForPayCalendar(String payCalendarName, Date asOfDate) {
+    public List<PrincipalHRAttributes> getActiveEmployeesForPayCalendar(String payCalendarName, java.util.Date asOfDate) {
         List<PrincipalHRAttributes> principalHRAttributes = new ArrayList<PrincipalHRAttributes>();
         Criteria root = new Criteria();
         
@@ -116,7 +120,7 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
 	
     // KPME-1250 Kagata
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public List<PrincipalHRAttributes> getActiveEmployeesForLeavePlan(String leavePlan, Date asOfDate) {
+    public List<PrincipalHRAttributes> getActiveEmployeesForLeavePlan(String leavePlan, java.util.Date asOfDate) {
 
         List<PrincipalHRAttributes> principals = new ArrayList<PrincipalHRAttributes>();
         Criteria root = new Criteria();
@@ -186,7 +190,7 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
 //	}
     
     @Override
-    public PrincipalHRAttributes getInactivePrincipalHRAttributes(String principalId, Date asOfDate) {
+    public PrincipalHRAttributes getInactivePrincipalHRAttributes(String principalId, java.util.Date asOfDate) {
     	PrincipalHRAttributes pc = null;
 
 		Criteria root = new Criteria();
@@ -231,7 +235,7 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
     }
     
     @Override
-    public List<PrincipalHRAttributes> getAllActivePrincipalHrAttributesForPrincipalId(String principalId, Date asOfDate) {
+    public List<PrincipalHRAttributes> getAllActivePrincipalHrAttributesForPrincipalId(String principalId, java.util.Date asOfDate) {
     	
     	List<PrincipalHRAttributes> phaList = new ArrayList<PrincipalHRAttributes>();
     	Criteria root = new Criteria();
@@ -247,7 +251,7 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
     }
     
     @Override
-    public List<PrincipalHRAttributes> getAllInActivePrincipalHrAttributesForPrincipalId(String principalId, Date asOfDate) {
+    public List<PrincipalHRAttributes> getAllInActivePrincipalHrAttributesForPrincipalId(String principalId, java.util.Date asOfDate) {
     	List<PrincipalHRAttributes> phaList = new ArrayList<PrincipalHRAttributes>();
     	Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
@@ -278,7 +282,7 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
     }
     
     @Override
-    public List<PrincipalHRAttributes> getActivePrincipalHrAttributesForRange(String principalId, Date startDate, Date endDate) {
+    public List<PrincipalHRAttributes> getActivePrincipalHrAttributesForRange(String principalId, java.util.Date startDate, java.util.Date endDate) {
     	List<PrincipalHRAttributes> activeList = new ArrayList<PrincipalHRAttributes>();
     	Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
@@ -307,7 +311,7 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
     }
     
     @Override
-    public List<PrincipalHRAttributes> getInactivePrincipalHRAttributesForRange(String principalId, Date startDate, Date endDate) {
+    public List<PrincipalHRAttributes> getInactivePrincipalHRAttributesForRange(String principalId, java.util.Date startDate, java.util.Date endDate) {
     	List<PrincipalHRAttributes> inactiveList = new ArrayList<PrincipalHRAttributes>();
     	Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
@@ -321,4 +325,45 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
         }
         return inactiveList;
     }
+   
+    @Override
+    public List<PrincipalHRAttributes> getPrincipalHrAtributes(String principalId, java.sql.Date fromEffdt, 
+    			java.sql.Date toEffdt,String active, String showHistory) {
+    	
+    	List<PrincipalHRAttributes> phraList = new ArrayList<PrincipalHRAttributes>();
+        Criteria crit = new Criteria();
+        if (fromEffdt != null) {
+            crit.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+        }
+        if (toEffdt != null) {
+            crit.addLessOrEqualThan("effectiveDate", toEffdt);
+        }
+        if (StringUtils.isNotEmpty(principalId)) {
+            crit.addLike("principalId", principalId);
+        }
+       
+        if(StringUtils.isNotEmpty(active)) {
+        	Criteria activeFilter = new Criteria();
+        	if(active.equals("Y")) {	 // show active rows only
+		        activeFilter.addEqualTo("active", true);
+		        crit.addAndCriteria(activeFilter);	
+        	} else if (active.equals("N")) {
+        		activeFilter.addEqualTo("active", false);
+		        crit.addAndCriteria(activeFilter);	
+        	}
+        }
+        // if do not show history, only return the rows with the max timestamp for a principalId
+        if(StringUtils.isNotEmpty(showHistory)&& showHistory.equals("N")) {
+            Criteria timestampCrit = new Criteria();
+       		timestampCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+       		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(PrincipalHRAttributes.class, timestampCrit);
+       		timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+       		crit.addEqualTo("timestamp", timestampSubQuery);
+       }
+       Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, crit);
+       Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+       phraList.addAll(c);
+       return phraList;
+    }
+
 }
