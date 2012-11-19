@@ -18,6 +18,7 @@ package org.kuali.hr.time.approval.service;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.*;
 import org.joda.time.format.DateTimeFormat;
@@ -716,7 +717,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		for (TKPerson person : persons) {
 			String principalId = person.getPrincipalId();
 			
-			TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, payEndDate);
+			TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, DateUtils.addMilliseconds(payEndDate, 1));
 			if(tdh != null) {
 				principalDocumentHeader.put(principalId, tdh);	
 			}

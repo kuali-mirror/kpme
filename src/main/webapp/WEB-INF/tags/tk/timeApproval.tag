@@ -85,14 +85,14 @@
 	                </table>
 	            </div>
 	        </c:if>
-	    </display:column>
+
 	    <%--<display:column title="Status" sortable="true" sortName="status">--%>
 	    <br/>
         <div>
 	            <span id="approvals-status" class="approvals-status">${row.approvalStatus}</span>
 	        </div>
 	    <%--</display:column>--%>
-	
+        </display:column>
 	    <c:forEach var="payCalLabel" items="${Form.payCalendarLabels}">
 	        <display:column title="${payCalLabel}">
 	            <c:choose>

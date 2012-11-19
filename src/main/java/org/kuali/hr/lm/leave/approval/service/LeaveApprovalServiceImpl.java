@@ -16,6 +16,7 @@
 package org.kuali.hr.lm.leave.approval.service;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.joda.time.DateTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
@@ -443,7 +444,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		Map<String, LeaveCalendarDocumentHeader> principalDocumentHeader = new LinkedHashMap<String, LeaveCalendarDocumentHeader>();
 		for (TKPerson person : persons) {
 			String principalId = person.getPrincipalId();
-			LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, payEndDate);
+			LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, DateUtils.addMilliseconds(payEndDate, 1));
 			if(lcdh != null) {
 				principalDocumentHeader.put(principalId, lcdh);	
 			}
