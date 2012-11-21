@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.lm.leavecalendar.service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
@@ -58,4 +59,6 @@ public interface LeaveCalendarService {
     void approveLeaveCalendar(String principalId, LeaveCalendarDocument leaveCalendarDocument, String action);
 
     void routeLeaveCalendar(String principalId, LeaveCalendarDocument leaveCalendarDocument, String action);
+    
+    public BigDecimal getCarryOverForCurrentCalendar(String principalId);
 }

@@ -154,6 +154,16 @@ public class JobServiceImpl implements JobService {
     	
     }
     
+	@Override
+	public BigDecimal getFteSumForAllActiveLeaveEligibleJobs(String principalId, Date asOfDate) {
+		BigDecimal fteSum = new BigDecimal(0);
+		List<Job> lmEligibleJobs = jobDao.getAllActiveLeaveJobs(principalId, asOfDate);
+		for(Job job : lmEligibleJobs) {
+			fteSum = fteSum.add(job.getFte());
+		}
+		return fteSum;
+	}
+    
     @Override
     public BigDecimal getStandardHoursSumForJobs(List<Job> jobs) {
     	BigDecimal hoursSum = new BigDecimal(0);

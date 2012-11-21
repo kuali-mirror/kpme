@@ -118,4 +118,5 @@ public interface AccrualService {
 	public int getWorkDaysInAccrualInterval(String earnInterval, Date aDate);
 	
 	public boolean statusChangedSinceLastRun(String principalId);
+	
 }

@@ -264,6 +264,7 @@
 				<value>accrualCategoryLookupable</value> 
 				<value>leaveAdjustmentLookupable</value> 
 				<value>employeeOverrideLookupable</value>
+				<value>balanceTransferLookupable</value>
             </set>      
         </property>
     </bean>
@@ -352,6 +353,8 @@
   	<bean id="accrualCategoryDao" class="org.kuali.hr.lm.accrual.dao.AccrualCategoryDaoSpringOjbImpl" parent="platformAwareDao" />
   	
     <bean id="accrualCategoryRuleDao" class="org.kuali.hr.lm.accrual.dao.AccrualCategoryRuleDaoSpringOjbImpl" parent="platformAwareDao" />
+    
+    <bean id="balanceTransferDao" class="org.kuali.hr.lm.balancetransfer.dao.BalanceTransferDaoSpringOjbImpl" parent="platformAwareDao" />
 
     <bean id="leaveCodeDao" class="org.kuali.hr.lm.leavecode.dao.LeaveCodeDaoSpringOjbImpl" parent="platformAwareDao" />
 
@@ -572,6 +575,11 @@
     </bean>
     <bean id="accrualService" class="org.kuali.hr.lm.accrual.service.AccrualServiceImpl">
     </bean>
+    
+    <bean id="balanceTransferService" class="org.kuali.hr.lm.balancetransfer.service.BalanceTransferServiceImpl">
+    	<property name="balanceTransferDao" ref="balanceTransferDao"/>
+    </bean>
+    
     <bean id="leaveCodeService" class="org.kuali.hr.lm.leavecode.service.LeaveCodeServiceImpl">
         <property name="leaveCodeDao" ref="leaveCodeDao"/>
     </bean>
@@ -669,6 +677,11 @@
             <!--<bean class="org.kuali.hr.time.TkLookupableHelper"/>-->
         <!--</property>-->
     <!--</bean>-->
+    <bean id="balanceTransferLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
+    	<property name="lookupableHelperService">
+    		<bean class="org.kuali.hr.lm.balancetransfer.service.BalanceTransferLookupableHelper"/>
+    	</property>    
+    </bean>
     <bean id="calendarLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.hr.time.calendar.service.CalendarLookupableHelper"/>

@@ -36,7 +36,26 @@
 			    	<tbody>
 			    		<c:forEach items="${leaveSummary.leaveSummaryRows}" var="row">
 							<tr style="border-bottom-style: double; font-weight: bold;">
-								<td>${row.accrualCategory}</td>	
+								<td>${row.accrualCategory}<c:if test="${row.transferable || row.payoutable}"><br/></c:if>
+								<c:choose>
+        							<c:when test="${row.transferable}">
+                						<input type="button" id="lm-transfer-button" class="button" value="Transfer" name="transfer" 
+                							<%--onclick="location.href='Admin.do?${appRow.userTargetURLParams}&targetUrl=leaveCalendarSubmit.do%3Faction=${tagSupport.transferAction}%26documentId=${row.documentId}%26methodToCall=approveApprovalTab'"--%>/>
+        							</c:when>
+        							<c:otherwise>
+        							<%--<input disabled id="lm-transfer-button" type="button" class="button" value="Transfer" name="transfer"/>--%>
+        							</c:otherwise>
+        						</c:choose>
+								<c:choose>
+        							<c:when test="${row.payoutable}">
+                						<input type="button" id="lm-payout-button" class="button" value="Payout" name="payout" 
+                							<%--onclick="location.href='Admin.do?${appRow.userTargetURLParams}&targetUrl=leaveCalendarSubmit.do%3Faction=${tagSupport.payoutAction}%26documentId=${row.documentId}%26methodToCall=approveApprovalTab'"--%>/>
+        							</c:when>
+        							<c:otherwise>
+        							<%--<input disabled id="lm-payout-button" type="button" class="button" value="Payout" name="payout"/>--%>
+        							</c:otherwise>
+        						</c:choose>
+								</td>	
 								<td>${row.carryOver}</td>
 								<td>${row.ytdAccruedBalance}</td>
 								<td>${row.ytdApprovedUsage}</td>

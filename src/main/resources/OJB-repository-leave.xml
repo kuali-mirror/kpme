@@ -80,6 +80,19 @@
         <field-descriptor name="objectId"                               column="OBJ_ID"                         jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"                          column="VER_NBR"                        jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
+    
+    <!-- Balance Transfer -->
+    <class-descriptor class="org.kuali.hr.lm.balancetransfer.BalanceTransfer" table="LM_BALANCE_TRANSFER_T">
+        <field-descriptor name="balanceTransferId"      column="LM_BALANCE_TRANSFER_ID"   		jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_BALANCE_TRANSFER_S" />
+        <field-descriptor name="accrualCategoryRule"	column="LM_ACCRUAL_CATEGORY_RULES_ID"	jdbc-type="VARCHAR"		length="60"	/>
+        <field-descriptor name="principalId"      		column="PRINCIPAL_ID"					jdbc-type="VARCHAR"     length="50" nullable="false"/>
+        <field-descriptor name="transferAmount"     	column="TRANSFER_AMOUNT"    			jdbc-type="DECIMAL"     length="20" nullable="false" />
+        <field-descriptor name="fromAccrualCategory"    column="DEBITED_ACCRUAL_CATEGORY"		jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="toAccrualCategory"  	column="CREDITED_ACCRUAL_CATEGORY"		jdbc-type="VARCHAR"     length="15" />
+        <field-descriptor name="forfeitedAmount"        column="FORFEITED_AMOUNT"          		jdbc-type="DECIMAL"   	length="20" />
+        <field-descriptor name="effectiveDate"          column="EFFECTIVE_DATE"         		jdbc-type="DATE"        nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+		<field-descriptor name="toEarnCode"				column="PAYOUT_EARN_CODE"				jdbc-type="VARCHAR"		length="15" />
+    </class-descriptor>
 
     <!-- Leave Code -->
     <class-descriptor class="org.kuali.hr.lm.leavecode.LeaveCode" table="LM_LEAVE_CODE_T">

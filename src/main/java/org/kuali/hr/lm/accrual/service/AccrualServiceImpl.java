@@ -67,6 +67,13 @@ public class AccrualServiceImpl implements AccrualService {
 		runAccrual(principalId, startDate, endDate, recordRanData, TKContext.getPrincipalId());
 	}
 
+	/**
+	 * Must be updated to look for balance transfer entries marked "transfer" ( not payout )...
+	 *  
+	 * For balance transfer entries to be included, those entries must exist in the database for the
+	 * given accrual category rule + balance. For those entries to exist, the balance transfer document
+	 * must be approved/final?
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public void runAccrual(String principalId, Date startDate, Date endDate, boolean recordRanData, String runAsPrincipalId) {
@@ -388,6 +395,7 @@ public class AccrualServiceImpl implements AccrualService {
 		aLeaveBlock.setAccrualCategory(anAC.getAccrualCategory());
 		aLeaveBlock.setLeaveDate(new java.sql.Date(currentDate.getTime()));
 		aLeaveBlock.setPrincipalId(principalId);
+		//More than one earn code can be associated with an accrual category. Which one does this get?
 		aLeaveBlock.setEarnCode(anAC.getEarnCode());
 		aLeaveBlock.setDateAndTime(new Timestamp(currentDate.getTime()));
 		aLeaveBlock.setAccrualGenerated(true);

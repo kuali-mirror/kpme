@@ -122,6 +122,8 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                             lsr.setAccrualCategoryId(ac.getLmAccrualCategoryId());
                             //get max balances
                             AccrualCategoryRule acRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(ac, calendarEntry.getEndPeriodDateTime(), pha.getServiceDate());
+                            //accrual category rule id set on a leave summary row will be useful in generating a relevant balance transfer
+                            //document from the leave calendar display. Could put this id in the request for balance transfer document.
                             lsr.setAccrualCategoryRuleId(acRule == null ? null : acRule.getLmAccrualCategoryRuleId());
                             if(acRule != null &&
                                     (acRule.getMaxBalance()!= null
@@ -159,7 +161,8 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                             } else {
                                 lsr.setLeaveBalance(leaveBalance);
                             }
-
+                            determineTransferable(lsr,acRule);
+                            determinePayoutable(lsr,acRule);
                             rows.add(lsr);
                         }
                     }
@@ -200,6 +203,12 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
         return map;
     }
 
+    private void determineTransferable(LeaveSummaryRow lsr, AccrualCategoryRule accrualCategoryRule) {
+    }
+    
+    private void determinePayoutable(LeaveSummaryRow lsr, AccrualCategoryRule accrualCategoryRule) {
+    }
+    
 	private void assignApprovedValuesToRow(LeaveSummaryRow lsr, String accrualCategory, List<LeaveBlock> approvedLeaveBlocks ) {
         //List<TimeOffAccrual> timeOffAccruals = TkServiceLocator.getTimeOffAccrualService().getTimeOffAccrualsCalc(principalId, lsr.get)
 		BigDecimal carryOver = BigDecimal.ZERO.setScale(2);

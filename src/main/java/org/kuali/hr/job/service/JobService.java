@@ -131,6 +131,13 @@ public interface JobService {
 	 * @return
 	 */
     public BigDecimal getFteSumForJobs(List<Job> jobs);
+    
+    /**
+     * Returns FTE for all active LM eligible jobs.
+     * @param PrincipalId
+     * @return
+     */
+    public BigDecimal getFteSumForAllActiveLeaveEligibleJobs(String PrincipalId, Date asOfDate);
     /**
 	 * Get sum of standard hours of given jobs
 	 * @param jobs

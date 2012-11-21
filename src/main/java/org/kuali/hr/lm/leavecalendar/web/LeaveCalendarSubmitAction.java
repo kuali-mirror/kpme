@@ -49,9 +49,6 @@ public class LeaveCalendarSubmitAction extends TkAction {
         }
     }
 
-
-
-
     public ActionForward approveLeaveCalendar(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LeaveCalendarSubmitForm lcf = (LeaveCalendarSubmitForm)form;
         LeaveCalendarDocument document = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(lcf.getDocumentId());

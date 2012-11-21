@@ -32,6 +32,10 @@ public class LeaveSummaryRow {
 	private BigDecimal pendingAvailableUsage;
 	private BigDecimal usageLimit;
 	private BigDecimal fmlaUsage;
+	//Preparing to integrate balance transfer and payout funtions.
+	//These fields will lose their static final nature upon full feature implementation.
+	private boolean transferable;
+	private boolean payoutable;
 	
 	public String getAccrualCategory() {
 		return accrualCategory;
@@ -118,5 +122,16 @@ public class LeaveSummaryRow {
         BigDecimal ytdApproved = getYtdApprovedUsage() == null ? BigDecimal.ZERO : getYtdApprovedUsage();
         return carryOver.add(ytdAccruedBalance).subtract(ytdApproved);
     }
-
+	public boolean isTransferable() {
+		return transferable;
+	}
+	public void setTransferable(boolean transferable) {
+		this.transferable = transferable;
+	}
+	public boolean isPayoutable() {
+		return payoutable;
+	}
+	public void setPayoutable(boolean payoutable) {
+		this.payoutable = payoutable;
+	}
 }

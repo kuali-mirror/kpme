@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.lm.leavecalendar.service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -259,6 +260,12 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         }
         return false;
     }
+
+	@Override
+	public BigDecimal getCarryOverForCurrentCalendar(String principalId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
 

@@ -99,7 +99,9 @@ $(function () {
             "change #selectedEarnCode" : "showFieldByEarnCodeType",
             "keypress #selectedEarnCode" : "showFieldByEarnCodeType",
             "change #selectedAssignment" : "changeAssignment",
-            "keypress #selectedAssignment" : "changeAssignment"
+            "keypress #selectedAssignment" : "changeAssignment",
+            "click #lm-transfer-button" : "showBalanceTransferDialog",
+            "click #lm-payout-button" : "showBalancePayoutDialog"
         },
 
         initialize : function () {
@@ -159,8 +161,7 @@ $(function () {
                 title : "Add Leave Blocks : ",
                 closeOnEscape : true,
                 autoOpen : true,
-                height : 'auto',
-                width : '450',
+                width : 'inherit',
                 modal : true,
                 open : function () {
                     // Set the selected date on start/end time fields
@@ -253,7 +254,7 @@ $(function () {
 
                     }
                 }
-             });
+             }).height("auto");
             }
         },
 
@@ -289,6 +290,55 @@ $(function () {
             		window.location = "LeaveCalendar.do?methodToCall=deleteLeaveBlock&leaveBlockId=" + key.id + "&calEntryId=" + calId;
             	}
 //            }
+        },
+        
+        // Button for iFrame show/hide to show the missed punch items
+        // The iFrame is added to the missed-punch-dialog as a child element.
+        // tdocid is a variable that is set from the form value in 'clock.jsp'
+        showBalanceTransferDialog : function (accrualCategory) {
+            $('#lm-transfer-empty').empty();
+            $('#lm-transfer-dialog').append('<iframe width="800" height="600" src="balancetransfer.do?methodToCall=balanceTransfer&command=initiate&frequency=ondemand&docTypeName=BalanceTransferDocumentType&tdocid=' + tdocid + '"></iframe>');
+
+            $('#lm-transfer-dialog').dialog({
+                autoOpen: true,
+                height: 'auto',
+                width: 'auto',
+                modal: true,
+                buttons: {
+                    //"test" : function() {
+                    //}
+                },
+                beforeClose: function(event, ui) {
+                    var URL = unescape(window.parent.location.pathname);
+                    window.parent.location.href = URL;
+                    window.close();
+                }
+            });
+        },
+        
+        // Button for iFrame show/hide to show the missed punch items
+        // The iFrame is added to the missed-punch-dialog as a child element.
+        // tdocid is a variable that is set from the form value in 'clock.jsp'
+        showBalancePayoutDialog : function (accrualCategory) {
+
+            $('#lm-payout-empty').empty();
+            $('#lm-payout-dialog').append('<iframe width="800" height="600" src="balancetransfer.do?methodToCall=balancePayout&command=initiate&&frequency=ondemand&docTypeName=BalanceTransferDocumentType&tdocid=' + tdocid + '"></iframe>');
+
+            $('#lm-payout-dialog').dialog({
+                autoOpen: true,
+                height: 'auto',
+                width: 'auto',
+                modal: true,
+                buttons: {
+                    //"test" : function() {
+                    //}
+                },
+                beforeClose: function(event, ui) {
+                    var URL = unescape(window.parent.location.pathname);
+                    window.parent.location.href = URL;
+                    window.close();
+                }
+            });
         },
 
         tableCellMouseDown : function(e) {
@@ -785,6 +835,33 @@ $(function () {
     var tableCells = $('td[id^="day_"]');
     tableCells.disableSelection();
 
+	// KPME-1390 Requested shortcut for 1.5 Leave Calendar
+    // use keyboard to open the form
+    var isCtrl,isAlt = false;
+	
+	// ctrl+alt+a will open the form
+    $(this).keydown(
+        function(e) {
+
+            if (e.ctrlKey) isCtrl = true;
+            if (e.altKey) isAlt = true;
+            
+			var startDate = new Date();
+			var endDate = new Date();
+			
+			startDate = Date.parse(startDate).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT);
+			endDate = Date.parse(endDate).toString(CONSTANTS.TIME_FORMAT.DATE_FOR_OUTPUT);
+			
+            if (e.keyCode == 65 && isCtrl && isAlt) {
+                app.showLeaveBlockEntryDialog(startDate,endDate);
+            }
+
+        }).keyup(function(e) {
+            isCtrl = false;
+            isAlt = false;
+        });
+    // End: KPME-1390
+    
     if ($('#docEditable').val() == 'false') {
         $(".cal-table").selectable("destroy");
         tableCells.unbind("mousedown");
