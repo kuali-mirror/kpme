@@ -113,13 +113,14 @@ public class LeaveCalendarValidationUtil {
     }
 	//End KPME-1263
 
-    public static List<String> getAbsentLeaveWarningMessages(List<LeaveBlock> leaveBlocks) {
+    // get warning messages associated with earn codes of leave blocks
+    public static List<String> getWarningMessagesForLeaveBlocks(List<LeaveBlock> leaveBlocks) {
         List<String> warningMessages = new ArrayList<String>();
         Set<String> aSet = new HashSet<String>();
         if (CollectionUtils.isNotEmpty(leaveBlocks)) {
             for(LeaveBlock lb : leaveBlocks) {
                 EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), lb.getLeaveDate());
-                if(ec != null && ec.getFmla().equals("Y")) {
+                if(ec != null) {
                     EarnCodeGroup eg = TkServiceLocator.getEarnCodeGroupService().getEarnCodeGroupForEarnCode(lb.getEarnCode(), lb.getLeaveDate());
                     if(eg != null && !StringUtils.isEmpty(eg.getWarningText())) {
                         aSet.add(eg.getWarningText());

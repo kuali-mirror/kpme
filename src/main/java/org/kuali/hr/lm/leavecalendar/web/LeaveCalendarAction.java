@@ -34,7 +34,7 @@ import org.kuali.hr.lm.balancetransfer.web.BalanceTransferForm;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
-import org.kuali.hr.lm.leaveplan.LeavePlan;
+import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.hr.lm.util.LeaveBlockAggregate;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.assignment.Assignment;
@@ -147,7 +147,7 @@ public class LeaveCalendarAction extends TkAction {
         } 
         
         // add warning messages based on earn codes of leave blocks
-        List<String> warningMes = ActionFormUtils.fmlaWarningTextForLeaveBlocks(leaveBlocks);
+        List<String> warningMes = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
         lcf.setWarnings(warningMes);
         
         // leave summary 

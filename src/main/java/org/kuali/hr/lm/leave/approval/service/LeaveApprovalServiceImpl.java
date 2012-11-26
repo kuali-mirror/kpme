@@ -104,7 +104,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 	}
 
     private List<String> findWarnings(LeaveCalendarDocumentHeader doc, CalendarEntries calendarEntry, List<LeaveBlock> leaveBlocks) {
-        List<String> warnings = LeaveCalendarValidationUtil.getAbsentLeaveWarningMessages(leaveBlocks);
+        List<String> warnings = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
 
         //get LeaveSummary and check for warnings
         if (doc != null) {

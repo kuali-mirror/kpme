@@ -42,30 +42,7 @@ public class ActionFormUtilsTest extends KPMETestCase {
 		Assert.assertEquals("Wrong number of classes in style class map", 1, aMap.size());
 		Assert.assertEquals("Wrong key for class assignment0", "assignment0", aMap.get("1_1234_1"));
 	}
-	
-	@Test
-	public void testFmlaWarningTextForLeaveBlocks() throws Exception {
-		// create two leave blocks with two different earn codes
-		// earn code "ECA" has fmla=Y
-		// earn Code "ECB" has fmla = N
-		
-		List<LeaveBlock> leaveBlocs = new ArrayList<LeaveBlock>();
-		LeaveBlock lbA = new LeaveBlock();
-		lbA.setEarnCode("ECA");
-		lbA.setLeaveDate(TKUtils.getCurrentDate());
-		leaveBlocs.add(lbA);
-		
-		LeaveBlock lbB = new LeaveBlock();
-		lbB.setEarnCode("ECB");
-		lbA.setLeaveDate(TKUtils.getCurrentDate());
-		leaveBlocs.add(lbB);
-		
-		List<String> warningMess = ActionFormUtils.fmlaWarningTextForLeaveBlocks(leaveBlocs);
-		Assert.assertTrue("There should be 1 warning message ", warningMess.size()== 1);
-		String warning = warningMess.get(0);
-		Assert.assertTrue("Warning message should be 'Test Message'", warning.equals("Test Message"));
-		
-	}
+
 	@Test
 	public void testGetUnitOfTimeForEarnCode() throws Exception {
 		// earn code with an existing Accrual category

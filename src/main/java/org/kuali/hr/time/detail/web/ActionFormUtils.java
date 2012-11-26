@@ -319,11 +319,7 @@ public class ActionFormUtils {
     	}
     	return false;
     }
-    
-    public static List<String> fmlaWarningTextForLeaveBlocks(List<LeaveBlock> leaveBlocks) {
-    	return LeaveCalendarValidationUtil.getAbsentLeaveWarningMessages(leaveBlocks);
-    }
-    
+     
     public static String getUnitOfTimeForEarnCode(EarnCode earnCode) {
     	AccrualCategory acObj = null;
     	if(earnCode.getAccrualCategory() != null) {

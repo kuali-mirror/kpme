@@ -26,6 +26,7 @@ import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.hr.test.KPMETestCase;
+import org.kuali.hr.time.util.TKUtils;
 
 public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 	
@@ -269,6 +270,35 @@ public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 		errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC2", "02/15/2012", "02/25/2012", new BigDecimal(1), aLeaveBlock);
 		Assert.assertTrue("There should be 1 error message, there were " + errors.size() + " errors" , errors.size()== 1);
 				
+	}
+	@Test
+	public void testGetWarningTextForLeaveBlocks() throws Exception {
+		// create two leave blocks with two different earn codes
+		// earn code "ECA" has fmla=Y, has earn code group with warning messages
+		// earn Code "ECB" has fmla = N, has earn code group with warning messages
+		// earn code "ECC" does not have earn code group with warning messages		
+		
+		List<LeaveBlock> leaveBlocs = new ArrayList<LeaveBlock>();
+		LeaveBlock lbA = new LeaveBlock();
+		lbA.setEarnCode("ECA");
+		lbA.setLeaveDate(TKUtils.getCurrentDate());
+		leaveBlocs.add(lbA);
+		
+		LeaveBlock lbB = new LeaveBlock();
+		lbB.setEarnCode("ECB");
+		lbB.setLeaveDate(TKUtils.getCurrentDate());
+		leaveBlocs.add(lbB);
+		
+		LeaveBlock lbC = new LeaveBlock();
+		lbC.setEarnCode("ECC");
+		lbC.setLeaveDate(TKUtils.getCurrentDate());
+		leaveBlocs.add(lbC);
+		
+		List<String> warningMess = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocs);
+		Assert.assertTrue("There should be 2 warning messages, not " + warningMess.size(), warningMess.size()== 2);
+		for(String warning : warningMess) {
+			Assert.assertTrue("Warning message should be 'Test Message' or 'Test Message1'", warning.equals("Test Message") || warning.equals("Test Message1"));
+		}
 	}
 		
 }
