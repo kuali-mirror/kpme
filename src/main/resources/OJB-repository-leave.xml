@@ -51,7 +51,7 @@
         <field-descriptor name="objectId"             column="OBJ_ID"                 jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"        column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
         
-        <collection-descriptor name="accrualCategoryRules" element-class-ref="org.kuali.hr.lm.accrual.AccrualCategoryRule" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="accrualCategoryRules" element-class-ref="org.kuali.hr.lm.accrual.AccrualCategoryRule" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
             <inverse-foreignkey field-ref="lmAccrualCategoryId" />
         </collection-descriptor>
     </class-descriptor>
