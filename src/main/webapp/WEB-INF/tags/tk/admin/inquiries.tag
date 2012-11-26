@@ -24,7 +24,7 @@
         </li>
         <li>
             <portal:portalLink displayTitle="true" title="Missed Punch"
-                               url="${ConfigProperties.kew.url}/DocumentSearch.do?docTypeFullName=MissedPunchDocumentType" />
+                               url="${ConfigProperties.kew.url}/DocumentSearch.do?documentTypeName=MissedPunchDocumentType" />
         </li>
         <li>
             <portal:portalLink displayTitle="true" title="Time Block History Inquiry"

@@ -138,6 +138,8 @@ $(document).ready(function() {
     var docId = $('#documentId').val();
     var prevDocId = $('#prevDocumentId').val();
     var nextDocId = $('#nextDocumentId').val();
+    var prevPayCalendarId = $('input[name=prevPayCalendarId]').val();
+    var nextPayCalendarId = $('input[name=nextPayCalendarId]').val();
 
 
     // create navigation buttons
@@ -189,7 +191,35 @@ $(document).ready(function() {
     $('#nav_next_lc').click(function() {
         window.location = 'LeaveCalendar.do?documentId=' + nextDocId+'&calEntryId='+nextCalId;
     });
-    
+
+    //create navigation for approval tab
+   $('#nav_prev_ac').button({
+        icons: {
+            primary: "ui-icon-triangle-1-w"
+        },
+        text: false
+    });
+
+    $('#nav_prev_ac').click(function() {
+        this.form.hrPyCalendarEntriesId.value = prevPayCalendarId;
+        this.form.methodToCall.value='loadApprovalTab';
+        this.form.submit();
+    });
+
+    $('#nav_next_ac').button({
+        icons: {
+            primary: "ui-icon-triangle-1-e"
+        },
+        text: false
+    });
+
+    $('#nav_next_ac').click(function() {
+        this.form.hrPyCalendarEntriesId.value = nextPayCalendarId;
+        this.form.methodToCall.value='loadApprovalTab';
+        this.form.submit();
+    });
+
+
     // create navigation buttons for leave block display
     $('#nav_lb_prev').button({
         icons: {

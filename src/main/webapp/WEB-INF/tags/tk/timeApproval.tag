@@ -21,7 +21,7 @@
 	        <br/>${row.clockStatusMessage}
 	        <br/>
 	    </display:column>
-        <display:column title="Document ID <br/>&amp; Status" sortable="true" sortName="documentId">
+	    <display:column title="Document ID <br/>&amp; Status" sortable="true" sortName="documentId">
 	        <a href="changeTargetPerson.do?${row.timesheetUserTargetURLParams}&targetUrl=TimeDetail.do%3FdocumentId=${row.documentId}&returnUrl=TimeApproval.do">${row.documentId}</a>
 	        <c:if test="${fn:length(row.warnings) > 0 }">
 	            <div class="ui-state-default ui-corner-all" style="float:right;">
