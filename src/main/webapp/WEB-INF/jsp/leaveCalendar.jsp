@@ -25,6 +25,23 @@
     <script src="js/tk.ui.js"></script>
     <script src="js/common.calendar.backbone.js"></script>
     <script src="js/tk.leaveCalendar.backbone.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function()
+        {
+            var d = new Date();
+            d = d.getTime();
+            if (jQuery('#reloadValue').val().length == 0)
+            {
+                jQuery('#reloadValue').val(d);
+                jQuery('body').show();
+            }
+            else
+            {
+                jQuery('#reloadValue').val('');
+                location.reload();
+            }
+        });
+    </script>
     
     <tk:calendar cal="${Form.leaveCalendar}" docId="${Form.documentId}" calType="leaveCalendar"/>
     
@@ -47,6 +64,7 @@
     <html:textarea property="leaveBlockString" styleId="leaveBlockString" value="${Form.leaveBlockString}"/>
 
     <div id="cal">
+    <html:hidden property="reloadValue" value="" styleId="reloadValue"/>
  	<html:hidden property="documentId" value="${Form.documentId}" styleId="documentId"/>
     <html:hidden property="prevDocumentId" value="${Form.prevDocumentId}" styleId="prevDocumentId"/>
     <html:hidden property="nextDocumentId" value="${Form.nextDocumentId}" styleId="nextDocumentId"/>

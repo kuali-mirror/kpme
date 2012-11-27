@@ -23,6 +23,7 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
@@ -527,5 +528,32 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	public void setDocumentStatus(String documentStatus) {
 		this.documentStatus = documentStatus;
 	}
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
+        LeaveBlock leaveBlock = (LeaveBlock) obj;
+        return new EqualsBuilder()
+                .append(principalId, leaveBlock.principalId)
+                .append(jobNumber, leaveBlock.jobNumber)
+                .append(workArea, leaveBlock.workArea)
+                .append(task, leaveBlock.task)
+                .append(earnCode, leaveBlock.earnCode)
+                .append(leaveDate, leaveBlock.leaveDate)
+                .append(leaveAmount, leaveBlock.leaveAmount)
+                .append(accrualCategory, leaveBlock.accrualCategory)
+                .append(earnCode, leaveBlock.earnCode)
+                .append(description, leaveBlock.description)
+                .append(leaveBlockType, leaveBlock.leaveBlockType)
+                .isEquals();
+    }
 
 }

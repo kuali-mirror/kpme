@@ -183,7 +183,9 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
                             .requestStatus(requestStatus)
 	                        .leaveBlockType(leaveBlockType)
 	                        .build();
-	                currentLeaveBlocks.add(leaveBlock);
+                    if (!currentLeaveBlocks.contains(leaveBlock)) {
+                        currentLeaveBlocks.add(leaveBlock);
+                    }
             	}
             }
         }
