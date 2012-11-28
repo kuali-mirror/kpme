@@ -46,7 +46,7 @@
         <apache.cxf.version>2.3.8</apache.cxf.version>
         <displaytag.version>1.1.1</displaytag.version>
         <jetty.version>7.5.1.v20110908</jetty.version>
-        <rice.version>2.1.1</rice.version>
+        <rice.version>2.1.2</rice.version>
     </properties>
 
     <dependencies>
