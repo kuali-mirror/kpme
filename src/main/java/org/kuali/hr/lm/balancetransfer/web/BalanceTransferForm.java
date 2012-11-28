@@ -27,5 +27,4 @@ public class BalanceTransferForm extends TkForm {
 		super.addRequiredNonEditableProperties();
 	}
 
-
 }

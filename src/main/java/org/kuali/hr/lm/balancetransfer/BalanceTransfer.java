@@ -40,11 +40,9 @@ public class BalanceTransfer extends HrBusinessObject {
 	private String fromAccrualCategory;
 	private BigDecimal transferAmount;
 	private BigDecimal forfeitedAmount;
-	private String toEarnCode; //for payout through earn code - payroll module integration
 	private Date effectiveDate;
 	
 	private Person principal;
-	private EarnCode payoutEarnCode;
 	private AccrualCategory creditedAccrualCategory;
 	private AccrualCategory debitedAccrualCategory;
 
@@ -111,14 +109,6 @@ public class BalanceTransfer extends HrBusinessObject {
 	public void setAccrualCategoryRule(String accrualCategoryRule) {
 		this.accrualCategoryRule = accrualCategoryRule;
 	}
-	
-	public String getToEarnCode() {
-		return toEarnCode;
-	}
-
-	public void setToEarnCode(String toEarnCode) {
-		this.toEarnCode = toEarnCode;
-	}
 
 	@Override
 	protected String getUniqueKey() {
@@ -144,14 +134,6 @@ public class BalanceTransfer extends HrBusinessObject {
 
 	public void setPrincipal(Person principal) {
 		this.principal = principal;
-	}
-
-	public EarnCode getPayoutEarnCode() {
-		return payoutEarnCode;
-	}
-
-	public void setPayoutEarnCode(EarnCode payoutEarnCode) {
-		this.payoutEarnCode = payoutEarnCode;
 	}
 
 	public AccrualCategory getCreditedAccrualCategory() {

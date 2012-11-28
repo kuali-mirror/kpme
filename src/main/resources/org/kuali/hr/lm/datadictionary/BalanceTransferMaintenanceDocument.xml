@@ -48,13 +48,13 @@
     <property name="maintainableItems">
       <list>
      		<bean parent="MaintainableFieldDefinition" p:name="balanceTransferId" />
+			<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true"/>
-			<bean parent="MaintainableFieldDefinition" p:name="transferAmount" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="fromAccrualCategory" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="toAccrualCategory" p:required="true"/>
-			<bean parent="MaintainableFieldDefinition" p:name="toEarnCode" />
+			<bean parent="MaintainableFieldDefinition" p:name="transferAmount" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="forfeitedAmount"/>
-			<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
+
       </list>
     </property>
   </bean>

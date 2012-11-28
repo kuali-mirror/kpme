@@ -19,8 +19,6 @@ import java.sql.Date;
 import java.util.List;
 
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
-import org.kuali.hr.lm.leavedonation.LeaveDonation;
-import org.springframework.cache.annotation.Cacheable;
 
 public interface BalanceTransferService {
 

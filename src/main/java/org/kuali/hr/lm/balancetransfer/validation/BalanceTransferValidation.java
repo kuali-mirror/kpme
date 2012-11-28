@@ -20,6 +20,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
@@ -46,31 +47,86 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 	protected boolean processCustomSaveDocumentBusinessRules(
 			MaintenanceDocument document) {
 		boolean isValid = true;
-		LOG.debug("entering custom validation for Leave Accrual");
+		LOG.debug("entering custom validation for Balance Transfer");
 		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
 		if(pbo instanceof BalanceTransfer) {
-			BalanceTransfer balanceTransfer = (BalanceTransfer) pbo;
-			AccrualCategory toAccrualCategory = balanceTransfer.getCreditedAccrualCategory();
-			BigDecimal transferAmount = balanceTransfer.getTransferAmount();
-			EarnCode payoutEarnCode = balanceTransfer.getPayoutEarnCode();
-			AccrualCategory fromAccrualCategory = balanceTransfer.getDebitedAccrualCategory();
 			
+			BalanceTransfer balanceTransfer = (BalanceTransfer) pbo;
+
 			if(isValid) {
-				isValid = isMaxCarryOverConditionMet(balanceTransfer);
-				isValid = isMaxPayoutConditionMet(balanceTransfer);
-				isValid = isTransferAmountUnderMaxLimit(balanceTransfer);
+
+				/**
+				 * Validation is basically governed by accrual category rules. Get accrual category
+				 * rules for both the "To" and "From" accrual categories, pass to validators along with the
+				 * values needing to be validated.
+				 * 
+				 * Balance transfers initiated from the leave calendar display should already have all values
+				 * populated, thus validated, including the accrual category rule for the "From" accrual category.
+				 * 
+				 * Balance transfers initiated via the Maintenance tab will have no values populated.
+				 */
+				
+				isValid &= validateEffectiveDate(balanceTransfer); // Institutionally dependent policy
+				isValid &= validateTransferFromAccrualCategory(balanceTransfer); // Global rule.
+				isValid &= validateTransferToAccrualCategory(balanceTransfer);
+				isValid &= validateTransferAmount(balanceTransfer);
+				isValid &= validatePrincipal(balanceTransfer);
+
 			}
 		}
 		return isValid; 
 	}
+	
+	//Employee Overrides???
 
-	private boolean isTransferAmountUnderMaxLimit(
-			BalanceTransfer balanceTransfer) {
-		// TODO Auto-generated method stub
+	/**
+	 * Are there any rules in place for effective date? i.e. not more than one year in advance...
+	 * @param balanceTransfer
+	 * @return
+	 */
+	private boolean validateEffectiveDate(BalanceTransfer balanceTransfer) {
+		//Limit on future dates?
+		return true;
+	}
+	
+	/**
+	 * Transfer amount must be validated against several variables, including max transfer amount,
+	 * max carry over ( for the converted amount deposited into the "to" accrual category, max usage
+	 * ( if transfers count as usage ).
+	 * @param balanceTransfer
+	 * @return
+	 */
+	private boolean validateTransferAmount(BalanceTransfer balanceTransfer) {
+		//transfer amount should be less than or equal to the maximumm allowed transfer amount
+		boolean isValid = true;
+		isValid &= isTransferAmountUnderMaxLimit(balanceTransfer);
+		isValid &= isMaxCarryOverConditionMet(balanceTransfer);
+		return isValid;
+	}
+	
+	/**
+	 * Is the "From" accrual category required to be over its maximum balance before a transfer can take place?
+	 * The "From" accrual category must be defined in an accrual category rule as having a max bal rule.
+	 * @param balanceTransfer
+	 * @return
+	 */
+	private boolean validateTransferFromAccrualCategory(BalanceTransfer balanceTransfer) {
+		//accrual category should have a valid rule for use with max balance transfers
+		return true;
+	}
+	
+	/**
+	 * The "To" accrual category must be one for which the applicable accrual category rule specifies
+	 * as the accrual category marked for transfer
+	 * @param balanceTransfer
+	 * @return
+	 */
+	private boolean validateTransferToAccrualCategory(BalanceTransfer balanceTransfer) {
+		//to accrual category should be allowed to accept transfers
 		return true;
 	}
 
-	private boolean isMaxPayoutConditionMet(BalanceTransfer btd) {
+	private boolean validatePrincipal(BalanceTransfer balanceTransfer) {
 		// TODO Auto-generated method stub
 		return true;
 	}
@@ -86,47 +142,71 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 	 */
 	private boolean isMaxCarryOverConditionMet(BalanceTransfer btd) {
 		String principalId = btd.getPrincipalId();
-		System.out.println("****************************");
-		System.out.println("principalID: " + principalId);
-		System.out.println("****************************");
 		Date date = btd.getEffectiveDate();
 		BigDecimal transferAmount = btd.getTransferAmount();
 		String toAccrualCategory = btd.getToAccrualCategory();
-		System.out.println("****************************");
-		System.out.println("To Accrual Cat: " + toAccrualCategory);
-		System.out.println("****************************");
 		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, date);
-		System.out.println("****************************");
-		System.out.println("PHA Service Date: " + pha.getServiceDate());
-		System.out.println("****************************");
 		Date serviceDate = pha.getServiceDate();
 		AccrualCategory debitedAccrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory,date);
-		//need to set this elsewhere.
+		
+		//need to set this elsewhere. This is also using the "to" accrual category to set the accrual category rule
+		//same statement can be found in the validation of max transfer limit. Could use that or put it in its own method
+		//prior to running all of the validations.
 		btd.setAccrualCategoryRule(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(debitedAccrualCategory, TKUtils.getCurrentDate(), serviceDate).getLmAccrualCategoryRuleId());
-		//This is the rule for the "From" accrual category... should also provide the rule for "To" accrual categoroy.
-		//There is no accrual category rule that has been attached to the balance transfer document at this state.
-		//It should be checked, however, that the "To and/or From Accrual Categories have been supplied". If this data is validated
-		//then the accrual category rule id can be queried by the accrual category rule service.
-		//In a "process(Custom)SaveDocument method, the accrual category rule ID, as well as the balance trasnfer rule id - if applicable -
-		//can be attached to the balance transfer document prior to saving/submitting, etc/...
+
+		//Accrual Category rule can only be defined on a balance transfer prior to saving if initiated via the leave calendar display.
+		//For payout on termination/retirement, no rule will yet be defined.
 		AccrualCategoryRule acr = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(btd.getAccrualCategoryRule());
 		if(ObjectUtils.isNotNull(acr.getMaxCarryOver())) {
+			//TkServiceLocator.getAccrualCategoryService().getCurrentCarryOverTotalForPrincipalId(principalId,btd.getFromAccrualCategory());
 			//BigDecimal currentCarryOver = TkServiceLocator.getCalendarEntriesService().
 			BigDecimal maxCarryOver = new BigDecimal(acr.getMaxCarryOver());
 			BigDecimal fteSum = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, date);
 			BigDecimal adjustedTransferAmount = acr.getMaxBalanceTransferConversionFactor().multiply(transferAmount);
-			//TkServiceLocator.getAccrualCategoryService().getCurrentCarryOverTotalForPrincipalId(principalId,btd.getFromAccrualCategory());
 			/*
 			 * TODO: Sum adjustedTransferAmount with credited accrual category's current
 			 * carry over amount, use result to compare with max carryover percentage.
+			 *
+			 * replace the augden with the carry over for the current pay calendar.
 			 */
-			//replace the augden with with the carry over for the current pay calendar.
+			//If transfer would take the credited accrual category over its max carry over limit, fail unless
+			//there is an employee override in place.
 			if(adjustedTransferAmount.add(BigDecimal.ZERO).compareTo(fteSum.multiply(maxCarryOver)) > 0) {
+				GlobalVariables.getMessageMap().putError("document.transferAmount", "balanceTransfer.exceeds.maxCarryOver");
 				return false;
 			}
 		}
 		
 		return true;
 	}
+	
+
+	private boolean isTransferAmountUnderMaxLimit(
+			BalanceTransfer balanceTransfer) {
+		BigDecimal transferAmount = balanceTransfer.getTransferAmount();
+	
+		//Accrual Category rule can only be defined on a balance transfer prior to saving if initiated via the leave calendar display.
+		//For payout on termination/retirement, no rule will yet be defined.
+		
+		AccrualCategoryRule acr = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(balanceTransfer.getAccrualCategoryRule());
+		
+		if(ObjectUtils.isNotNull(acr)) {
+			//TkServiceLocator.getAccrualCategoryService().getCurrentCarryOverTotalForPrincipalId(principalId,btd.getFromAccrualCategory());
+			//BigDecimal currentCarryOver = TkServiceLocator.getCalendarEntriesService().
+			BigDecimal maxTransferAmount = null;
+			if(ObjectUtils.isNotNull(acr.getMaxTransferAmount())) {
+				maxTransferAmount = new BigDecimal(acr.getMaxTransferAmount());
+			}
+			//Can't transfer more than the maximum amount defined by the accrual category rule.
+			//unless there is an employee override in effect.
+			if(ObjectUtils.isNotNull(maxTransferAmount)) {
+				if(transferAmount.compareTo(maxTransferAmount) > 0) {
+					GlobalVariables.getMessageMap().putError("document.transferAmount","balanceTransfer.exceeds.transferLimit");
+					return false;
+				}
+			}
+		}
+		return true;
+	}	
 
 }
