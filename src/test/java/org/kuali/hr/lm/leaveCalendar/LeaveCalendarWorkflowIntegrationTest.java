@@ -27,25 +27,19 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.lm.leave.web.LeaveCalendarWSForm;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
-import org.kuali.hr.lm.leavecalendar.web.LeaveCalendarAction;
-import org.kuali.hr.lm.leavecalendar.web.LeaveCalendarForm;
 import org.kuali.hr.lm.util.LeaveCalendarTestUtils;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.CalendarEntries;
-import org.kuali.hr.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.test.TkTestUtils;
-import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.timesheet.web.TimesheetWebTestBase;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.util.filter.TestAutoLoginFilter;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,11 +72,8 @@ public class LeaveCalendarWorkflowIntegrationTest extends LeaveCalendarWebTestBa
         HtmlPage page = loginAndGetLeaveCalendarHtmlPage("admin", tdocId, true);
 
         // 1. Obtain User Data
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getPrincipalId(), JAN_AS_OF_DATE);
-        Assignment assignment = assignments.get(0);
-
-        List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForLeave(assignment, JAN_AS_OF_DATE, false);
-        EarnCode earnCode = earnCodes.get(0);
+        Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(TKContext.getPrincipalId(), new AssignmentDescriptionKey("30_30_30"), JAN_AS_OF_DATE);
+        EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode("VAC", JAN_AS_OF_DATE);
 
         // 2. Set Timeblock Start and End time
         // 3/02/2011 - 8:00a to 4:00pm
@@ -94,14 +85,11 @@ public class LeaveCalendarWorkflowIntegrationTest extends LeaveCalendarWebTestBa
 
         // Build an action form - we're using it as a POJO, it ties into the
         // existing TK validation setup
-        LeaveCalendarWSForm tdaf = (LeaveCalendarWSForm)LeaveCalendarTestUtils.buildLeaveCalendarForm(tdoc, assignment, earnCode, start, end, null, true);
-//@TODO -fix:        List<String> errors = LeaveCalendarTestUtils.setTimeBlockFormDetails(form, tdaf);
-        // Check for errors
-//@TODO -uncomment after above fix       Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
-
+        LeaveCalendarWSForm tdaf = LeaveCalendarTestUtils.buildLeaveCalendarForm(tdoc, assignment, earnCode, start, end, null, true);
+        LeaveCalendarTestUtils.setTimeBlockFormDetails(form, tdaf);
         page = LeaveCalendarTestUtils.submitLeaveCalendar(getLeaveCalendarUrl(tdocId), tdaf);
         Assert.assertNotNull(page);
-        //HtmlUnitUtil.createTempFile(page, "TimeBlockPresent");
+        HtmlUnitUtil.createTempFile(page, "LeaveBlockPresent");
 
         // Verify block present on rendered page.
         String pageAsText = page.asText();
@@ -109,12 +97,12 @@ public class LeaveCalendarWorkflowIntegrationTest extends LeaveCalendarWebTestBa
         // JSON
         //
         //
-        // Grab the timeblock data from the text area. We can check specifics there
+        // Grab the leaveBlock data from the text area. We can check specifics there
         // to be more fine grained in our validation.
         String dataText = page.getElementById("leaveBlockString").getFirstChild().getNodeValue();
         JSONArray jsonData = (JSONArray)JSONValue.parse(dataText);
         final JSONObject jsonDataObject = (JSONObject) jsonData.get(0);
-        Assert.assertTrue("LeaveBlock Data Missing.", checkJSONValues(new JSONObject() {{ put("outer", jsonDataObject); }},
+        Assert.assertTrue("leaveBlock Data Missing.", checkJSONValues(new JSONObject() {{ put("outer", jsonDataObject); }},
                 new ArrayList<Map<String, Object>>() {{
                     add(new HashMap<String, Object>() {{
                         put("earnCode", "VAC");

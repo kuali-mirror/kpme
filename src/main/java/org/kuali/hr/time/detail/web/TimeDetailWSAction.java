@@ -152,7 +152,7 @@ public class TimeDetailWSAction extends TimesheetAction {
     }
 
     private boolean shouldAddEarnCode(Assignment assignment, EarnCode earnCode, boolean isTimeBlockReadOnly) {
-
+        //TODO - this was written prior to the earn code and isPlanningCalendar services getting fleshed out. It is not used anywhere, and may be obsolete, or its remaining logic needs to move out of this view layer. 20121127tv
         Boolean shouldAddEarnCode;
 
         shouldAddEarnCode = earnCode.getEarnCode().equals(TkConstants.HOLIDAY_EARN_CODE)

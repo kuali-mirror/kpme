@@ -100,23 +100,20 @@ public class LeaveCalendarTestUtils {
 
     /**
      * Set the attributes on the provided html form to the values found in the provided
-     * ActionForm. Errors are returned in the List<String> object.
+     * ActionForm. Returns void, not a List<String> of errors.
      *
      * @param form The HtmlForm to populate.
      * @param tdaf The ActionForm with values we will use to populate.
      */
     public static void setTimeBlockFormDetails(HtmlForm form, LeaveCalendarWSForm tdaf) {
-        //if (tdaf.getTkTimeBlockId() != null) {
-        //    form.setAttribute("tkTimeBlockId", tdaf.getTkTimeBlockId().toString());
+        //if (tdaf.getLeaveBlockId() != null) {
+        //    form.setAttribute("leaveBlockId", tdaf.getLeaveBlockId().toString());
         //}
         form.setAttribute("startDate", tdaf.getStartDate());
         form.setAttribute("endDate", tdaf.getEndDate());
 
         if (tdaf.getLeaveAmount() != null) {
             form.setAttribute("leaveAmount", tdaf.getLeaveAmount().toString());
-        } else {
-            form.setAttribute("startDate", tdaf.getStartDate());
-            form.setAttribute("endDate", tdaf.getEndDate());
         }
 
         form.setAttribute("selectedEarnCode", tdaf.getSelectedEarnCode());
@@ -181,8 +178,8 @@ public class LeaveCalendarTestUtils {
 
     /**
      * A method to wrap the submission of the time details.
-     * @param baseUrl
-     * @param tdaf
+     * @param       //baseUrl
+     * @param       //tdaf
      * @return
      */
     /*public static HtmlPage submitTimeDetails(String principalId, String baseUrl, TimeDetailActionFormBase tdaf) {
