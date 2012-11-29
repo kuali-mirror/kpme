@@ -89,13 +89,16 @@ public class TimeDetailAction extends TimesheetAction {
         if (forward.getRedirect()) {
             return forward;
         }
+        if (TKContext.getCurrentTimesheetDocument() == null) {
+            return forward;
+        }
         TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
         tdaf.setAssignmentDescriptions(TkServiceLocator.getAssignmentService().getAssignmentDescriptions(TKContext.getCurrentTimesheetDocument(), false));
 
         // Handle User preference / timezone information (pushed up from TkCalendar to avoid duplication)
         // Set calendar
         CalendarEntries payCalendarEntry = tdaf.getPayCalendarDates();
-        Calendar payCalendar = TkServiceLocator.getCalendarService().getCalendar(payCalendarEntry.getHrCalendarId());
+        Calendar payCalendar = TkServiceLocator.getCalendarService().getCalendar(payCalendarEntry != null ? payCalendarEntry.getHrCalendarId() : null);
         
         //List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(Long.parseLong(tdaf.getTimesheetDocument().getDocumentHeader().getTimesheetDocumentId()));
         List<TimeBlock> timeBlocks = TKContext.getCurrentTimesheetDocument().getTimeBlocks();

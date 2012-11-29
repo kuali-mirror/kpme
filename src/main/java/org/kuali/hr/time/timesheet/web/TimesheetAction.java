@@ -53,7 +53,7 @@ public class TimesheetAction extends TkAction {
         TimesheetDocument doc = TKContext.getCurrentTimesheetDocument();
 
         if (!roles.isDocumentReadable(doc)) {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "TimesheetAction: docid: " + doc.getDocumentId(), "");
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "TimesheetAction: docid: " + (doc == null ? "" : doc.getDocumentId()), "");
         }
     }
 

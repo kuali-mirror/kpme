@@ -97,9 +97,11 @@ public class ClockAction extends TimesheetAction {
 
             // Check for presence of department lunch rule.
             Map<String, Boolean> assignmentDeptLunchRuleMap = new HashMap<String, Boolean>();
-            for (Assignment a : caf.getTimesheetDocument().getAssignments()) {
-                String key = AssignmentDescriptionKey.getAssignmentKeyString(a);
-                assignmentDeptLunchRuleMap.put(key, a.getDeptLunchRule() != null);
+            if (caf.getTimesheetDocument() != null) {
+                for (Assignment a : caf.getTimesheetDocument().getAssignments()) {
+                    String key = AssignmentDescriptionKey.getAssignmentKeyString(a);
+                    assignmentDeptLunchRuleMap.put(key, a.getDeptLunchRule() != null);
+                }
             }
             caf.setAssignmentLunchMap(assignmentDeptLunchRuleMap);
         }
@@ -108,6 +110,11 @@ public class ClockAction extends TimesheetAction {
             caf.setPrincipalId(principalId);
         }
 
+        //if there is no timesheet
+        if(caf.getTimesheetDocument() == null) {
+            caf.setErrorMessage("You do not currently have a timesheet. Clock action is not allowed.");
+            return mapping.findForward("basic");
+        }
         //if the timesheet document is enroute aor final, don't allow clock action
         if(caf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.ENROUTE)
                 || caf.getTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL)) {

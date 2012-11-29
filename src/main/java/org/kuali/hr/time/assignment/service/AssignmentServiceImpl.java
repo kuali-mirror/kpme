@@ -171,7 +171,8 @@ public class AssignmentServiceImpl implements AssignmentService {
     @Override
     public Map<String, String> getAssignmentDescriptions(TimesheetDocument td, boolean clockOnlyAssignments) {
         if (td == null) {
-            throw new RuntimeException("timesheet document is null.");
+            //throw new RuntimeException("timesheet document is null.");
+            return Collections.emptyMap();
         }
         List<Assignment> assignments = td.getAssignments();
 //		if(assignments.size() < 1) {
