@@ -109,7 +109,8 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                     ls.setYtdDatesString(datesString);
                 }
 
-                List<LeaveBlock> leaveBlocks = getLeaveBlockService().getLeaveBlocks(principalId, pha.getServiceDate(), calendarEntry.getEndPeriodDateTime());
+//                List<LeaveBlock> leaveBlocks = getLeaveBlockService().getLeaveBlocks(principalId, pha.getServiceDate(), calendarEntry.getEndPeriodDateTime());
+                List<LeaveBlock> leaveBlocks = getLeaveBlockService().getLeaveBlocks(principalId, this.getLeavePlanCalendarYearStart(lp, calendarEntry), calendarEntry.getEndPeriodDateTime());
                 List<LeaveBlock> futureLeaveBlocks = getLeaveBlockService().getLeaveBlocks(principalId, calendarEntry.getEndPeriodDateTime(), calendarEntry.getEndLocalDateTime().toDateTime().plusYears(5).toDate());
                 Map<String, List<LeaveBlock>> leaveBlockMap = mapLeaveBlocksByAccrualCategory(leaveBlocks);
                 Map<String, List<LeaveBlock>> futureLeaveBlockMap = mapLeaveBlocksByAccrualCategory(futureLeaveBlocks);
@@ -209,7 +210,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
     private void determinePayoutable(LeaveSummaryRow lsr, AccrualCategoryRule accrualCategoryRule) {
     }
     
-	private void assignApprovedValuesToRow(LeaveSummaryRow lsr, String accrualCategory, List<LeaveBlock> approvedLeaveBlocks ) {
+	private void assignApprovedValuesToRow(LeaveSummaryRow lsr, String accrualCategory, List<LeaveBlock> approvedLeaveBlocks) {
         //List<TimeOffAccrual> timeOffAccruals = TkServiceLocator.getTimeOffAccrualService().getTimeOffAccrualsCalc(principalId, lsr.get)
 		BigDecimal carryOver = BigDecimal.ZERO.setScale(2);
         BigDecimal accrualedBalance = BigDecimal.ZERO.setScale(2);
@@ -250,6 +251,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 		lsr.setYtdAccruedBalance(accrualedBalance);
 		lsr.setYtdApprovedUsage(approvedUsage.negate());
 		lsr.setFmlaUsage(fmlaUsage.negate());
+		
 		//lsr.setLeaveBalance(lsr.getYtdAccruedBalance().add(approvedUsage));
 	}
 	
@@ -316,4 +318,61 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
         return leaveBlockService;
     }
 
+    
+    private boolean ifCalendarYearStartForLeavePlan(LeavePlan leavePlan, CalendarEntries leaveCalEntries) {
+
+    	boolean flag = true;
+		// check if Calendar entry is first entry of the year start the make accrued balance and approved usage zero
+		String calendarYearStartStr = leavePlan.getCalendarYearStart();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
+		sdf.setLenient(false);
+		Date calYearStart = null;
+		try {
+			calYearStart = sdf.parse(calendarYearStartStr);
+		} catch (ParseException e) {
+		}
+		System.out.println("Leave Plan is >> "+leavePlan.getLeavePlan());
+		System.out.println("Leave Cal Entry is  >> "+leaveCalEntries);
+		Calendar lpYearStart = Calendar.getInstance();
+		lpYearStart.setTime(calYearStart);
+		lpYearStart.set(Calendar.HOUR_OF_DAY, 0);
+		lpYearStart.set(Calendar.MINUTE, 0);
+		lpYearStart.set(Calendar.SECOND, 0);
+		lpYearStart.set(Calendar.MILLISECOND, 0);
+		lpYearStart.set(Calendar.YEAR, leaveCalEntries.getBeginLocalDateTime().getYear());
+		if(lpYearStart.getTime() != null) {
+			if((lpYearStart.getTime().compareTo(leaveCalEntries.getBeginPeriodDateTime()) >=0) && (lpYearStart.getTime().compareTo(leaveCalEntries.getEndPeriodDateTime()) <=0)){
+				flag = true;
+			}
+		}
+		return flag;
+    }
+    
+    private Date getLeavePlanCalendarYearStart(LeavePlan leavePlan, CalendarEntries leaveCalEntries) {
+    	boolean flag = true;
+		// check if Calendar entry is first entry of the year start the make accrued balance and approved usage zero
+		String calendarYearStartStr = leavePlan.getCalendarYearStart();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
+		sdf.setLenient(false);
+		Date calYearStart = null;
+		try {
+			calYearStart = sdf.parse(calendarYearStartStr);
+		} catch (ParseException e) {
+		}
+		Calendar lpYearStart = Calendar.getInstance();
+		lpYearStart.setTime(calYearStart);
+		lpYearStart.set(Calendar.HOUR_OF_DAY, 0);
+		lpYearStart.set(Calendar.MINUTE, 0);
+		lpYearStart.set(Calendar.SECOND, 0);
+		lpYearStart.set(Calendar.MILLISECOND, 0);
+		lpYearStart.set(Calendar.YEAR, leaveCalEntries.getBeginLocalDateTime().getYear());
+		if(lpYearStart.getTime() != null) {
+			if((lpYearStart.getTime().compareTo(leaveCalEntries.getBeginPeriodDateTime()) >=0) && (lpYearStart.getTime().compareTo(leaveCalEntries.getEndPeriodDateTime()) <=0)){
+				flag = true;
+			}
+		}
+		return lpYearStart.getTime();
+    }
 }
