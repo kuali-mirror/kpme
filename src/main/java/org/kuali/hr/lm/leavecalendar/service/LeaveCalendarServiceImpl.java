@@ -16,6 +16,7 @@
 package org.kuali.hr.lm.leavecalendar.service;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +29,6 @@ import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecalendar.dao.LeaveCalendarDao;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
@@ -36,7 +36,9 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.notes.Note;
 import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 
@@ -102,12 +104,12 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         documentHeader.setDocumentId(workflowDocument.getDocumentId());
         documentHeader.setDocumentStatus(TkConstants.ROUTE_STATUS.INITIATED);
 
-        TkServiceLocator.getLeaveCalendarDocumentHeaderService().saveOrUpdate(documentHeader);
+        KRADServiceLocator.getBusinessObjectService().save(documentHeader);
+        
         leaveCalendarDocument = new LeaveCalendarDocument(documentHeader);
         leaveCalendarDocument.setCalendarEntry(calendarEntries);
         loadLeaveCalendarDocumentData(leaveCalendarDocument, principalId, calendarEntries);
         TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(leaveCalendarDocument, payEndDate);
-
 
         // update existing leave blocks within that pay period dates with the document id
         List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, payBeginDate, payEndDate);
@@ -190,7 +192,14 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
             if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.ROUTE)) {
                 wd.route("Routing for Approval");
             } else if (StringUtils.equals(action, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE)) {
-                wd.route("Batch job routing for Approval");
+                Note note = new Note();
+                note.setDocumentId(rhid);
+                note.setNoteCreateDate(new Timestamp((new Date()).getTime()));
+                note.setNoteAuthorWorkflowId(principalId);
+                note.setNoteText("Routed via Employee Approval batch job");
+            	KEWServiceLocator.getNoteService().saveNote(note);
+            	
+            	wd.route("Batch job routing leave calendar");
             } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
                 if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin() &&
                         !TKContext.getUser().getCurrentTargetRoles().isApproverForTimesheet(leaveCalendarDocument)) {
@@ -199,7 +208,14 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
                     wd.approve("Approving timesheet.");
                 }
             } else if (StringUtils.equals(action, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE)) {
-                wd.superUserBlanketApprove("Batch job superuser approving timesheet.");
+                Note note = new Note();
+                note.setDocumentId(rhid);
+                note.setNoteCreateDate(new Timestamp((new Date()).getTime()));
+                note.setNoteAuthorWorkflowId(principalId);
+                note.setNoteText("Approved via Supervisor Approval batch job");
+            	KEWServiceLocator.getNoteService().saveNote(note);
+            	
+            	wd.superUserBlanketApprove("Batch job approving leave calendar");
             } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
                 if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin()
                         && !TKContext.getUser().getCurrentTargetRoles().isApproverForTimesheet(leaveCalendarDocument)) {
@@ -207,12 +223,6 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
                 } else {
                     wd.disapprove("Disapproving timesheet.");
                 }
-            }
-
-            String kewStatus = KEWServiceLocator.getRouteHeaderService().getDocumentStatus(leaveCalendarDocument.getDocumentId());
-            if (!kewStatus.equals(leaveCalendarDocument.getDocumentHeader().getDocumentStatus())) {
-                leaveCalendarDocument.getDocumentHeader().setDocumentStatus(kewStatus);
-                TkServiceLocator.getLeaveCalendarDocumentHeaderService().saveOrUpdate(leaveCalendarDocument.getDocumentHeader());
             }
 
             //update leave blocks with appropriate request status

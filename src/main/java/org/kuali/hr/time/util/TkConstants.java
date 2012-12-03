@@ -274,20 +274,12 @@ public class TkConstants {
         DOC_ROUTE_STATUS.put(KewApiConstants.ROUTE_HEADER_SAVED_CD, KewApiConstants.ROUTE_HEADER_SAVED_LABEL);
     }
 
-    public static final class BATCH_JOB_ENTRY_STATUS {
-        public static final String SCHEDULED = "S";
-        public static final String RUNNING = "R";
-        public static final String FINISHED = "F";
-        public static final String EXCEPTION = "E";
-    }
-
     public static final class BATCH_JOB_NAMES {
         public static final String INITIATE = "Initiate";
-        public static final String APPROVE = "Approve";
-        public static final String PAY_PERIOD_END = "Pay Period End";
+        public static final String END_PAY_PERIOD = "End Pay Period";
+        public static final String EMPLOYEE_APPROVAL = "Employee Approval";
+        public static final String MISSED_PUNCH_APPROVAL = "Missed Punch Approval";
         public static final String SUPERVISOR_APPROVAL = "Supervisor Approval";
-        public static final String BATCH_APPROVE_MISSED_PUNCH = "Batch Approve Missed Punch";
-        public static final String ACCRUAL = "Accrual";
     }
 
     public static final String BATCH_JOB_USER_PRINCIPAL_ID = "admin";
@@ -443,4 +435,6 @@ public class TkConstants {
 
     public static final String FLSA_STATUS_NON_EXEMPT ="NE";
     public static final String FLSA_STATUS_EXEMPT ="E";
+    
+    public static final String PAY_CALENDAR_TYPE = "payCalendar";
 }

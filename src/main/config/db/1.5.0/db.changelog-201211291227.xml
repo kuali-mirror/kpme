@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2004-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    
+	<changeSet id="1" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>KPME-1939: Removing old batch tables</comment>
+		<dropTable tableName="TK_BATCH_JOB_ENTRY_T" />
+		<dropTable tableName="TK_BATCH_JOB_T" />
+	</changeSet>
+	
+	<changeSet id="2" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>KPME-1939: Merging date and time columns for batch calendar entries</comment>
+        <addColumn tableName="HR_CALENDAR_ENTRIES_T">
+            <column name="BATCH_INITIATE_DATE" type="DATETIME" />
+        </addColumn>
+        <addColumn tableName="HR_CALENDAR_ENTRIES_T">
+            <column name="BATCH_END_PAY_PERIOD_DATE" type="DATETIME" />
+        </addColumn>
+        <addColumn tableName="HR_CALENDAR_ENTRIES_T">
+            <column name="BATCH_EMPLOYEE_APPROVAL_DATE" type="DATETIME" />
+        </addColumn>
+        <addColumn tableName="HR_CALENDAR_ENTRIES_T">
+            <column name="BATCH_SUPERVISOR_APPROVAL_DATE" type="DATETIME" />
+        </addColumn>
+    </changeSet>
+    
+    <changeSet id="3-oracle" author="kbtaylor" dbms="oracle" context="kpme-client-bootstrap">
+        <comment>KPME-1939: Merging date and time columns for batch calendar entries</comment>
+        <update tableName="HR_CALENDAR_ENTRIES_T">
+            <column name="BATCH_INITIATE_DATE" valueComputed="TO_DATE(TO_CHAR(INITIATE_DATE, 'MM/DD/YYYY ') || TO_CHAR(INITIATE_TIME, 'HH24:MI:SS'), 'MM/DD/YYYY HH24:MI:SS')" />
+            <column name="BATCH_END_PAY_PERIOD_DATE" valueComputed="TO_DATE(TO_CHAR(END_PAY_PERIOD_DATE, 'MM/DD/YYYY ') || TO_CHAR(END_PAY_PERIOD_TIME, 'HH24:MI:SS'), 'MM/DD/YYYY HH24:MI:SS')" />
+            <column name="BATCH_EMPLOYEE_APPROVAL_DATE" valueComputed="TO_DATE(TO_CHAR(EMPLOYEE_APPROVAL_DATE, 'MM/DD/YYYY ') || TO_CHAR(EMPLOYEE_APPROVAL_TIME, 'HH24:MI:SS'), 'MM/DD/YYYY HH24:MI:SS')" />
+            <column name="BATCH_SUPERVISOR_APPROVAL_DATE" valueComputed="TO_DATE(TO_CHAR(SUPERVISOR_APPROVAL_DATE, 'MM/DD/YYYY ') || TO_CHAR(SUPERVISOR_APPROVAL_TIME, 'HH24:MI:SS'), 'MM/DD/YYYY HH24:MI:SS')" />
+        </update>
+    </changeSet>
+	
+    <changeSet id="3-mysql" author="kbtaylor" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>KPME-1939: Merging date and time columns for batch calendar entries</comment>
+        <update tableName="HR_CALENDAR_ENTRIES_T">
+            <column name="BATCH_INITIATE_DATE" valueComputed="TIMESTAMP(INITIATE_DATE, INITIATE_TIME)" />
+            <column name="BATCH_END_PAY_PERIOD_DATE" valueComputed="TIMESTAMP(END_PAY_PERIOD_DATE, END_PAY_PERIOD_TIME)" />
+            <column name="BATCH_EMPLOYEE_APPROVAL_DATE" valueComputed="TIMESTAMP(EMPLOYEE_APPROVAL_DATE, EMPLOYEE_APPROVAL_TIME)" />
+            <column name="BATCH_SUPERVISOR_APPROVAL_DATE" valueComputed="TIMESTAMP(SUPERVISOR_APPROVAL_DATE, SUPERVISOR_APPROVAL_TIME)" />
+        </update>
+    </changeSet>
+    
+    <changeSet id="4" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>KPME-1939: Merging date and time columns for batch calendar entries</comment>
+        <dropColumn tableName="HR_CALENDAR_ENTRIES_T" columnName="INITIATE_DATE" />
+        <dropColumn tableName="HR_CALENDAR_ENTRIES_T" columnName="INITIATE_TIME" />
+        <dropColumn tableName="HR_CALENDAR_ENTRIES_T" columnName="END_PAY_PERIOD_DATE" />
+        <dropColumn tableName="HR_CALENDAR_ENTRIES_T" columnName="END_PAY_PERIOD_TIME" />
+        <dropColumn tableName="HR_CALENDAR_ENTRIES_T" columnName="EMPLOYEE_APPROVAL_DATE" />
+        <dropColumn tableName="HR_CALENDAR_ENTRIES_T" columnName="EMPLOYEE_APPROVAL_TIME" />
+        <dropColumn tableName="HR_CALENDAR_ENTRIES_T" columnName="SUPERVISOR_APPROVAL_DATE" />
+        <dropColumn tableName="HR_CALENDAR_ENTRIES_T" columnName="SUPERVISOR_APPROVAL_TIME" />
+    </changeSet>
+    
+</databaseChangeLog>

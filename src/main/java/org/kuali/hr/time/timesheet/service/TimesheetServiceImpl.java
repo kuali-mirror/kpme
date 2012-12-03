@@ -41,7 +41,9 @@ import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kew.notes.Note;
 import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class TimesheetServiceImpl implements TimesheetService {
 
@@ -76,37 +78,44 @@ public class TimesheetServiceImpl implements TimesheetService {
     protected void timesheetAction(String action, String principalId, TimesheetDocument timesheetDocument) {
         WorkflowDocument wd = null;
         if (timesheetDocument != null) {
-                String rhid = timesheetDocument.getDocumentId();
-                wd = WorkflowDocumentFactory.loadDocument(principalId, rhid);
+            String rhid = timesheetDocument.getDocumentId();
+            wd = WorkflowDocumentFactory.loadDocument(principalId, rhid);
 
-                if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.ROUTE)) {
-                    wd.route("Routing for Approval");
-                } else if (StringUtils.equals(action, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE)) {
-                    wd.route("Batch job routing for Approval");
-                } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
-                    if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin() &&
-                            !TKContext.getUser().getCurrentTargetRoles().isApproverForTimesheet(timesheetDocument)) {
-                        wd.superUserBlanketApprove("Superuser approving timesheet.");
-                    } else {
-                        wd.approve("Approving timesheet.");
-                    }
-                } else if (StringUtils.equals(action, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE)) {
-                    wd.superUserBlanketApprove("Batch job superuser approving timesheet.");
-                } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
-                    if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin()
-                            && !TKContext.getUser().getCurrentTargetRoles().isApproverForTimesheet(timesheetDocument)) {
-                        wd.superUserDisapprove("Superuser disapproving timesheet.");
-                    } else {
-                        wd.disapprove("Disapproving timesheet.");
-                    }
+            if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.ROUTE)) {
+                wd.route("Routing for Approval");
+            } else if (StringUtils.equals(action, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE)) {
+                Note note = new Note();
+                note.setDocumentId(rhid);
+                note.setNoteCreateDate(new Timestamp((new Date()).getTime()));
+                note.setNoteAuthorWorkflowId(principalId);
+                note.setNoteText("Routed via Employee Approval batch job");
+            	KEWServiceLocator.getNoteService().saveNote(note);
+            	
+            	wd.route("Batch job routing timesheet");
+            } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
+                if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin() &&
+                        !TKContext.getUser().getCurrentTargetRoles().isApproverForTimesheet(timesheetDocument)) {
+                    wd.superUserBlanketApprove("Superuser approving timesheet.");
+                } else {
+                    wd.approve("Approving timesheet.");
                 }
-
-                String kewStatus = KEWServiceLocator.getRouteHeaderService().getDocumentStatus(timesheetDocument.getDocumentId());                		
-                if (!kewStatus.equals(timesheetDocument.getDocumentHeader().getDocumentStatus())) {
-                    timesheetDocument.getDocumentHeader().setDocumentStatus(kewStatus);
-                    TkServiceLocator.getTimesheetDocumentHeaderService().saveOrUpdate(timesheetDocument.getDocumentHeader());
+            } else if (StringUtils.equals(action, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE)) {
+                Note note = new Note();
+                note.setDocumentId(rhid);
+                note.setNoteCreateDate(new Timestamp((new Date()).getTime()));
+                note.setNoteAuthorWorkflowId(principalId);
+                note.setNoteText("Approved via Supervisor Approval batch job");
+            	KEWServiceLocator.getNoteService().saveNote(note);
+            	
+            	wd.superUserBlanketApprove("Batch job approving timesheet.");
+            } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
+                if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin()
+                        && !TKContext.getUser().getCurrentTargetRoles().isApproverForTimesheet(timesheetDocument)) {
+                    wd.superUserDisapprove("Superuser disapproving timesheet.");
+                } else {
+                    wd.disapprove("Disapproving timesheet.");
                 }
-                
+            }
         }
     }
 
@@ -198,7 +207,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 
         if (tdh != null) {
             timesheetDocument = new TimesheetDocument(tdh);
-            CalendarEntries pce = TkServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(tdh.getPrincipalId(), tdh.getEndDate(), null);
+            CalendarEntries pce = TkServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(tdh.getPrincipalId(), tdh.getEndDate(), TkConstants.PAY_CALENDAR_TYPE);
             loadTimesheetDocumentData(timesheetDocument, tdh.getPrincipalId(), pce);
 
             timesheetDocument.setCalendarEntry(pce);

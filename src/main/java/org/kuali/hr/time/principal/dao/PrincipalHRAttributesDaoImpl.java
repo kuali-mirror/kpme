@@ -18,6 +18,7 @@ package org.kuali.hr.time.principal.dao;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -100,6 +101,39 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
 
         Criteria timestamp = new Criteria();
         timestamp.addEqualToField("payCalendar", Criteria.PARENT_QUERY_PREFIX + "payCalendar");
+        timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(PrincipalHRAttributes.class, timestamp);
+        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+
+        Criteria activeFilter = new Criteria();
+        activeFilter.addEqualTo("active", true);
+        root.addAndCriteria(activeFilter);
+
+        Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, root);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+        if (c != null) {
+        	principalHRAttributes.addAll(c);
+        }
+
+        return principalHRAttributes;
+    }
+    
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public List<PrincipalHRAttributes> getActiveEmployeesForLeaveCalendar(String leaveCalendarName, Date asOfDate) {
+        List<PrincipalHRAttributes> principalHRAttributes = new ArrayList<PrincipalHRAttributes>();
+        Criteria root = new Criteria();
+        
+        root.addEqualTo("leaveCalendar", leaveCalendarName);
+
+        Criteria effdt = new Criteria();
+        effdt.addEqualToField("leaveCalendar", Criteria.PARENT_QUERY_PREFIX + "leaveCalendar");
+        effdt.addLessOrEqualThan("effectiveDate", asOfDate);
+        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(PrincipalHRAttributes.class, effdt);
+        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+
+        Criteria timestamp = new Criteria();
+        timestamp.addEqualToField("leaveCalendar", Criteria.PARENT_QUERY_PREFIX + "leaveCalendar");
         timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
         ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(PrincipalHRAttributes.class, timestamp);
         timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});

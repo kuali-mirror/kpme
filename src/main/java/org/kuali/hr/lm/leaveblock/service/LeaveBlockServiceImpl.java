@@ -72,13 +72,16 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 
     @Override
     public void saveLeaveBlocks(List<LeaveBlock> leaveBlocks) {
+    	KRADServiceLocator.getBusinessObjectService().save(leaveBlocks);
+    	
+    	List<LeaveBlockHistory> leaveBlockHistories = new ArrayList<LeaveBlockHistory>();
         for (LeaveBlock leaveBlock : leaveBlocks) {
-        	leaveBlockDao.saveOrUpdate(leaveBlock);
-        	// create leaveblock history
         	LeaveBlockHistory lbh = new LeaveBlockHistory(leaveBlock);
         	lbh.setAction(LMConstants.ACTION.ADD);
-        	TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
+        	leaveBlockHistories.add(lbh);
         }
+        
+        KRADServiceLocator.getBusinessObjectService().save(leaveBlockHistories);
     }
 
     @Override

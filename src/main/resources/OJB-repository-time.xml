@@ -549,19 +549,15 @@
     
     <!--  Calendar -->
     <class-descriptor class="org.kuali.hr.time.calendar.CalendarEntries" table="HR_CALENDAR_ENTRIES_T">
-        <field-descriptor name="hrCalendarEntriesId"            column="HR_CALENDAR_ENTRY_ID"       jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="HR_CALENDAR_ENTRIES_S" />/>
-        <field-descriptor name="hrCalendarId"                   column="HR_CALENDAR_ID"             jdbc-type="VARCHAR"     length="60" />
-        <field-descriptor name="calendarName"                   column="CALENDAR_NAME"              jdbc-type="VARCHAR"     length="30" nullable="true" primarykey="true" />
-        <field-descriptor name="beginPeriodDateTime"            column="BEGIN_PERIOD_DATE"          jdbc-type="TIMESTAMP"   conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
-        <field-descriptor name="endPeriodDateTime"              column="END_PERIOD_DATE"            jdbc-type="TIMESTAMP"   conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
-        <field-descriptor name="batchInitiateDate"              column="INITIATE_DATE"              jdbc-type="DATE" />
-        <field-descriptor name="batchInitiateTime"              column="INITIATE_TIME"              jdbc-type="TIME" />
-        <field-descriptor name="batchEndPayPeriodDate"          column="END_PAY_PERIOD_DATE"        jdbc-type="DATE" />
-        <field-descriptor name="batchEndPayPeriodTime"          column="END_PAY_PERIOD_TIME"        jdbc-type="TIME" />
-        <field-descriptor name="batchEmployeeApprovalDate"      column="EMPLOYEE_APPROVAL_DATE"     jdbc-type="DATE" />
-        <field-descriptor name="batchEmployeeApprovalTime"      column="EMPLOYEE_APPROVAL_TIME"     jdbc-type="TIME" />
-        <field-descriptor name="batchSupervisorApprovalDate"    column="SUPERVISOR_APPROVAL_DATE"   jdbc-type="DATE" />
-        <field-descriptor name="batchSupervisorApprovalTime"    column="SUPERVISOR_APPROVAL_TIME"   jdbc-type="TIME" />
+        <field-descriptor name="hrCalendarEntriesId"                column="HR_CALENDAR_ENTRY_ID"           jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="HR_CALENDAR_ENTRIES_S" />/>
+        <field-descriptor name="hrCalendarId"                       column="HR_CALENDAR_ID"                 jdbc-type="VARCHAR"     length="60" />
+        <field-descriptor name="calendarName"                       column="CALENDAR_NAME"                  jdbc-type="VARCHAR"     length="30" nullable="true" primarykey="true" />
+        <field-descriptor name="beginPeriodDateTime"                column="BEGIN_PERIOD_DATE"              jdbc-type="TIMESTAMP"   conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="endPeriodDateTime"                  column="END_PERIOD_DATE"                jdbc-type="TIMESTAMP"   conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="batchInitiateDateTime"              column="BATCH_INITIATE_DATE"            jdbc-type="TIMESTAMP"   conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="batchEndPayPeriodDateTime"          column="BATCH_END_PAY_PERIOD_DATE"      jdbc-type="TIMESTAMP"   conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="batchEmployeeApprovalDateTime"      column="BATCH_EMPLOYEE_APPROVAL_DATE"   jdbc-type="TIMESTAMP"   conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="batchSupervisorApprovalDateTime"    column="BATCH_SUPERVISOR_APPROVAL_DATE" jdbc-type="TIMESTAMP"   conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
     </class-descriptor>
 
     <class-descriptor class="org.kuali.hr.time.calendar.Calendar" table="HR_CALENDAR_T">
@@ -621,7 +617,6 @@
         <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR"     length="27" nullable="false" />
     </class-descriptor>
 
-
     <class-descriptor class="org.kuali.hr.paygrade.PayGrade" table="HR_PAY_GRADE_T">
         <field-descriptor name="hrPayGradeId"       column="HR_PAY_GRADE_ID"    jdbc-type="VARCHAR"     length="60" nullable="false" autoincrement="true" primarykey="true" sequence-name="HR_PAY_GRADE_S" />
         <field-descriptor name="payGrade"           column="PAY_GRADE"          jdbc-type="VARCHAR"     length="20" />
@@ -631,28 +626,6 @@
         <field-descriptor name="timestamp"          column="TIMESTAMP"          jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
         <field-descriptor name="active"             column="ACTIVE"             jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="userPrincipalId"    column="USER_PRINCIPAL_ID"  jdbc-type="VARCHAR"     length="27" nullable="false" />
-    </class-descriptor>
-
-    <class-descriptor class="org.kuali.hr.time.batch.BatchJob" table="TK_BATCH_JOB_T">
-        <field-descriptor name="tkBatchJobId"           column="TK_BATCH_JOB_ID"            jdbc-type="BIGINT"      length="20" nullable="false" autoincrement="true" primarykey="true" sequence-name="TK_BATCH_JOB_S" />
-        <field-descriptor name="batchJobName"           column="BATCH_JOB_NAME"             jdbc-type="VARCHAR"     length="40" />
-        <field-descriptor name="batchJobStatus"         column="BATCH_JOB_STATUS"           jdbc-type="VARCHAR"     length="1" />
-        <field-descriptor name="hrPyCalendarEntryId"    column="HR_PY_CALENDAR_ENTRY_ID"    jdbc-type="VARCHAR" />
-        <field-descriptor name="timestamp"              column="TIMESTAMP"                  jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
-        <field-descriptor name="timeElapsed"            column="TIME_ELAPSED"               jdbc-type="BIGINT" />
-    </class-descriptor>
-
-    <class-descriptor class="org.kuali.hr.time.batch.BatchJobEntry" table="TK_BATCH_JOB_ENTRY_T">
-        <field-descriptor name="tkBatchJobEntryId"      column="TK_BATCH_JOB_ENTRY_ID"      jdbc-type="BIGINT"  length="20" nullable="false" autoincrement="true" primarykey="true" sequence-name="TK_BATCH_JOB_ENTRY_S" />
-        <field-descriptor name="tkBatchJobId"           column="TK_BATCH_JOB_ID"            jdbc-type="BIGINT" />
-        <field-descriptor name="hrPyCalendarEntryId"    column="HR_PY_CALENDAR_ENTRY_ID"    jdbc-type="VARCHAR" />
-        <field-descriptor name="documentId"             column="DOCUMENT_ID"                jdbc-type="VARCHAR" length="40" />
-        <field-descriptor name="principalId"            column="PRINCIPAL_ID"               jdbc-type="VARCHAR" length="40" nullable="false" />
-        <field-descriptor name="batchJobEntryStatus"    column="BATCH_JOB_ENTRY_STATUS"     jdbc-type="VARCHAR" length="1" />
-        <field-descriptor name="batchJobException"      column="BATCH_JOB_EXCEPTION"        jdbc-type="VARCHAR" length="100" />
-        <field-descriptor name="ipAddress"              column="IP_ADDRESS"                 jdbc-type="VARCHAR" length="20" />
-        <field-descriptor name="batchJobName"           column="BATCH_JOB_NAME"             jdbc-type="VARCHAR" length="40" />
-        <field-descriptor name="clockLogId"             column="CLOCK_LOG_ID"               jdbc-type="VARCHAR" length="20" />
     </class-descriptor>
 
     <class-descriptor class="org.kuali.hr.time.position.Position" table="HR_POSITION_T">

@@ -15,6 +15,14 @@
  */
 package org.kuali.hr.time.overtime.weekly.rule.service;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTimeZone;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -32,10 +40,6 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.*;
 
 public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService {
 
@@ -64,7 +68,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 			 if (prevBlocks.size() > 0) {
 				TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPreviousDocumentHeader(principalId, timesheetDocument.getDocumentHeader().getBeginDate());
 				if (prevTdh != null) {
-					CalendarEntries prevPayCalendarEntry = TkServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(principalId, prevTdh.getEndDate(), null);
+					CalendarEntries prevPayCalendarEntry = TkServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(principalId, prevTdh.getEndDate(), TkConstants.PAY_CALENDAR_TYPE);
 					TkTimeBlockAggregate prevTimeAggregate = new TkTimeBlockAggregate(prevBlocks, prevPayCalendarEntry, prevPayCalendarEntry.getCalendarObj(), true);
 					previousWeeks = prevTimeAggregate.getFlsaWeeks(zone);
 					if (previousWeeks.size() == 0) {

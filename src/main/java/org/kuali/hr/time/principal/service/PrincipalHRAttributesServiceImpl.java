@@ -41,6 +41,10 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
     public List<PrincipalHRAttributes> getActiveEmployeesForPayCalendar(String payCalendarName, Date asOfDate) {
     	return principalHRAttributesDao.getActiveEmployeesForPayCalendar(payCalendarName, asOfDate);
     }
+    
+    public List<PrincipalHRAttributes> getActiveEmployeesForLeaveCalendar(String leaveCalendarName, Date asOfDate) {
+    	return principalHRAttributesDao.getActiveEmployeesForLeaveCalendar(leaveCalendarName, asOfDate);
+    }
 	
 	/**
      * KPME-1250 Kagata

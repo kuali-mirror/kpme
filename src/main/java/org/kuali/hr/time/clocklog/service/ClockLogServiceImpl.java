@@ -15,6 +15,13 @@
  */
 package org.kuali.hr.time.clocklog.service;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.assignment.Assignment;
@@ -26,13 +33,7 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
-
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class ClockLogServiceImpl implements ClockLogService {
 
@@ -55,7 +56,7 @@ public class ClockLogServiceImpl implements ClockLogService {
         // process rules
         Timestamp roundedClockTimestamp = TkServiceLocator.getGracePeriodService().processGracePeriodRule(clockTimeStamp, new java.sql.Date(pe.getBeginPeriodDateTime().getTime()));
 
-        ClockLog clockLog = TkServiceLocator.getClockLogService().buildClockLog(roundedClockTimestamp, new Timestamp(System.currentTimeMillis()), assignment, td, clockAction, ip, userPrincipalId);
+        ClockLog clockLog = buildClockLog(roundedClockTimestamp, new Timestamp(System.currentTimeMillis()), assignment, td, clockAction, ip, userPrincipalId);
         TkServiceLocator.getClockLocationRuleService().processClockLocationRule(clockLog, asOfDate);
 
         // If the clock action is clock out or lunch out, create a time block besides the clock log
@@ -63,7 +64,7 @@ public class ClockLogServiceImpl implements ClockLogService {
             processTimeBlock(clockLog, assignment, pe, td, clockAction, principalId, userPrincipalId);
         } else {
             //Save current clock log to get id for timeblock building
-            TkServiceLocator.getClockLogService().saveClockLog(clockLog);
+            KRADServiceLocator.getBusinessObjectService().save(clockLog);
         }
 
         return clockLog;
@@ -85,7 +86,7 @@ public class ClockLogServiceImpl implements ClockLogService {
             beginClockLogId = lastLog.getTkClockLogId();
         }
         //Save current clock log to get id for timeblock building
-        TkServiceLocator.getClockLogService().saveClockLog(clockLog);
+        KRADServiceLocator.getBusinessObjectService().save(clockLog);
         endClockLogId = clockLog.getTkClockLogId();
 
         long beginTime = lastClockTimestamp.getTime();
@@ -134,7 +135,7 @@ public class ClockLogServiceImpl implements ClockLogService {
         clockLog.setJobNumber(assignment.getJobNumber());
         clockLog.setWorkArea(assignment.getWorkArea());
         clockLog.setTask(assignment.getTask());
-        clockLog.setClockTimestampTimezone(TkServiceLocator.getTimezoneService().getUserTimezone());
+        clockLog.setClockTimestampTimezone(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback().getID());
         clockLog.setClockTimestamp(clockTimestamp);
         clockLog.setClockAction(clockAction);
         clockLog.setIpAddress(ip);

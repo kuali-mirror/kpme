@@ -71,11 +71,7 @@ public class CalendarEntriesServiceImpl implements CalendarEntriesService {
         newEntry.setCalendarName(calendarEntries.getCalendarName());
         newEntry.setHrCalendarId(calendarEntries.getHrCalendarId());
         newEntry.setCalendarObj(calendarEntries.getCalendarObj());
-        newEntry.setBatchInitiateTime(calendarEntries.getBatchInitiateTime());
-        newEntry.setBatchEndPayPeriodTime(calendarEntries.getBatchEndPayPeriodTime());
-        newEntry.setBatchEmployeeApprovalTime(calendarEntries.getBatchEmployeeApprovalTime());
-        newEntry.setBatchSupervisorApprovalTime(calendarEntries.getBatchSupervisorApprovalTime());
-
+        
         if (type == null) {
             type = CalendarEntryPeriodType.BI_WEEKLY;
         }
@@ -87,24 +83,24 @@ public class CalendarEntriesServiceImpl implements CalendarEntriesService {
             }
             newEntry.setBeginPeriodDateTime(DateUtils.addWeeks(calendarEntries.getBeginPeriodDateTime(), weekly_multiplier));
             newEntry.setEndPeriodDateTime(DateUtils.addWeeks(calendarEntries.getEndPeriodDateTime(), weekly_multiplier));
-            newEntry.setBatchInitiateDate(new java.sql.Date(DateUtils.addWeeks(calendarEntries.getBatchInitiateDate(), weekly_multiplier).getTime()));
-            newEntry.setBatchEndPayPeriodDate(new java.sql.Date(DateUtils.addWeeks(calendarEntries.getBatchEndPayPeriodDate(), weekly_multiplier).getTime()));
-            newEntry.setBatchEmployeeApprovalDate(new java.sql.Date(DateUtils.addWeeks(calendarEntries.getBatchEmployeeApprovalDate(), weekly_multiplier).getTime()));
-            newEntry.setBatchSupervisorApprovalDate(new java.sql.Date(DateUtils.addWeeks(calendarEntries.getBatchSupervisorApprovalDate(), weekly_multiplier).getTime()));
+            newEntry.setBatchInitiateDateTime(DateUtils.addWeeks(calendarEntries.getBatchInitiateDateTime(), weekly_multiplier));
+            newEntry.setBatchEndPayPeriodDateTime(DateUtils.addWeeks(calendarEntries.getBatchEndPayPeriodDateTime(), weekly_multiplier));
+            newEntry.setBatchEmployeeApprovalDateTime(DateUtils.addWeeks(calendarEntries.getBatchEmployeeApprovalDateTime(), weekly_multiplier));
+            newEntry.setBatchSupervisorApprovalDateTime(DateUtils.addWeeks(calendarEntries.getBatchSupervisorApprovalDateTime(), weekly_multiplier));
         } else if (CalendarEntryPeriodType.MONTHLY.equals(type)) {
             newEntry.setBeginPeriodDateTime(addMonthToDate(calendarEntries.getBeginPeriodDateTime()));
             newEntry.setEndPeriodDateTime(addMonthToDate(calendarEntries.getEndPeriodDateTime()));
-            newEntry.setBatchInitiateDate(new java.sql.Date(addMonthToDate(calendarEntries.getBatchInitiateDate()).getTime()));
-            newEntry.setBatchEndPayPeriodDate(new java.sql.Date(addMonthToDate(calendarEntries.getBatchEndPayPeriodDate()).getTime()));
-            newEntry.setBatchEmployeeApprovalDate(new java.sql.Date(addMonthToDate(calendarEntries.getBatchEmployeeApprovalDate()).getTime()));
-            newEntry.setBatchSupervisorApprovalDate(new java.sql.Date(addMonthToDate(calendarEntries.getBatchSupervisorApprovalDate()).getTime()));
+            newEntry.setBatchInitiateDateTime(addMonthToDate(calendarEntries.getBatchInitiateDateTime()));
+            newEntry.setBatchEndPayPeriodDateTime(addMonthToDate(calendarEntries.getBatchEndPayPeriodDateTime()));
+            newEntry.setBatchEmployeeApprovalDateTime(addMonthToDate(calendarEntries.getBatchEmployeeApprovalDateTime()));
+            newEntry.setBatchSupervisorApprovalDateTime(addMonthToDate(calendarEntries.getBatchSupervisorApprovalDateTime()));
         } else if (CalendarEntryPeriodType.SEMI_MONTHLY.equals(type)) {
             newEntry.setBeginPeriodDateTime(addSemiMonthToDate(calendarEntries.getBeginPeriodDateTime()));
             newEntry.setEndPeriodDateTime(addSemiMonthToDate(calendarEntries.getEndPeriodDateTime()));
-            newEntry.setBatchInitiateDate(new java.sql.Date(addSemiMonthToDate(calendarEntries.getBatchInitiateDate()).getTime()));
-            newEntry.setBatchEndPayPeriodDate(new java.sql.Date(addSemiMonthToDate(calendarEntries.getBatchEndPayPeriodDate()).getTime()));
-            newEntry.setBatchEmployeeApprovalDate(new java.sql.Date(addSemiMonthToDate(calendarEntries.getBatchEmployeeApprovalDate()).getTime()));
-            newEntry.setBatchSupervisorApprovalDate(new java.sql.Date(addSemiMonthToDate(calendarEntries.getBatchSupervisorApprovalDate()).getTime()));
+            newEntry.setBatchInitiateDateTime(addSemiMonthToDate(calendarEntries.getBatchInitiateDateTime()));
+            newEntry.setBatchEndPayPeriodDateTime(addSemiMonthToDate(calendarEntries.getBatchEndPayPeriodDateTime()));
+            newEntry.setBatchEmployeeApprovalDateTime(addSemiMonthToDate(calendarEntries.getBatchEmployeeApprovalDateTime()));
+            newEntry.setBatchSupervisorApprovalDateTime(addSemiMonthToDate(calendarEntries.getBatchSupervisorApprovalDateTime()));
         }
         calendarEntriesDao.saveOrUpdate(newEntry);
         return getNextCalendarEntriesByCalendarId(calendarEntries.getHrCalendarId(), calendarEntries);

@@ -17,7 +17,6 @@ package org.kuali.hr.time.missedpunch.service;
 
 import java.util.List;
 
-import org.kuali.hr.time.batch.BatchJobEntry;
 import org.kuali.hr.time.missedpunch.MissedPunchDocument;
 
 
@@ -57,12 +56,6 @@ public interface MissedPunchService {
      * @return
      */
     public void approveMissedPunch(MissedPunchDocument document);
-    /**
-     * Get missed punch documents by batchJobEntry
-     * @param batchJobEntry
-     * @return
-     */
-    public List<MissedPunchDocument> getMissedPunchDocsByBatchJobEntry(BatchJobEntry batchJobEntry);
     /**
      * Get missed punch documents by timesheetDocumentId
      * @param timesheetDocumentId

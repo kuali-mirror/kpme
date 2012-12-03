@@ -15,35 +15,333 @@
  */
 package org.kuali.hr.time.batch.service;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.kuali.hr.time.batch.BatchJob;
-import org.kuali.hr.time.batch.dao.BatchJobDao;
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.kuali.hr.core.document.CalendarDocumentHeaderContract;
+import org.kuali.hr.job.Job;
+import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
+import org.kuali.hr.lm.workflow.service.LeaveCalendarDocumentHeaderService;
+import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.assignment.service.AssignmentService;
+import org.kuali.hr.time.batch.BatchJobUtil;
+import org.kuali.hr.time.batch.EmployeeApprovalJob;
+import org.kuali.hr.time.batch.EndPayPeriodJob;
+import org.kuali.hr.time.batch.InitiateJob;
+import org.kuali.hr.time.batch.MissedPunchApprovalJob;
+import org.kuali.hr.time.batch.SupervisorApprovalJob;
+import org.kuali.hr.time.calendar.Calendar;
+import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.service.CalendarService;
+import org.kuali.hr.time.clocklog.ClockLog;
+import org.kuali.hr.time.clocklog.service.ClockLogService;
+import org.kuali.hr.time.missedpunch.MissedPunchDocument;
+import org.kuali.hr.time.missedpunch.service.MissedPunchService;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
+import org.kuali.hr.time.principal.service.PrincipalHRAttributesService;
+import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+import org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderService;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.quartz.JobDataMap;
+import org.quartz.JobDetail;
+import org.quartz.Scheduler;
+import org.quartz.SchedulerException;
+import org.quartz.SimpleTrigger;
+import org.quartz.Trigger;
 
 public class BatchJobServiceImpl implements BatchJobService {
-    private BatchJobDao batchJobDao;
-
-    public void setBatchJobDao(BatchJobDao batchJobDao) {
-        this.batchJobDao = batchJobDao;
-    }
-
-    public BatchJob getBatchJob(Long batchJobId){
-        return batchJobDao.getBatchJob(batchJobId);
-    }
+	
+	private static final Logger LOG = Logger.getLogger(BatchJobServiceImpl.class);
+	
+	private Scheduler scheduler;
+	
+	private AssignmentService assignmentService;
+	private CalendarService calendarService;
+	private ClockLogService clockLogService;
+	private LeaveCalendarDocumentHeaderService leaveCalendarDocumentHeaderService;
+	private MissedPunchService missedPunchService;
+	private PrincipalHRAttributesService principalHRAttributesService;
+	private TimesheetDocumentHeaderService timesheetDocumentHeaderService;
+	
+	@Override
+	public boolean jobsScheduledForGroup(Class<?> jobClass, Date jobDate) throws SchedulerException {
+		String groupName = BatchJobUtil.getGroupName(jobClass, jobDate);
+    	String[] jobNames = getScheduler().getJobNames(groupName);
+    	return ArrayUtils.isNotEmpty(jobNames);
+	}
+	
+	@Override
+	public void scheduleInitiateJobs(CalendarEntries calendarEntry) throws SchedulerException {
+		scheduleInitiateJobs(calendarEntry, calendarEntry.getBatchInitiateDateTime());
+	}
 
     @Override
-    public List<BatchJob> getBatchJobs(String hrPyCalendarEntryId) {
-        return batchJobDao.getBatchJobs(hrPyCalendarEntryId);
-    }
-
-    @Override
-    public List<BatchJob> getBatchJobs(String hrPyCalendarEntryId, String batchJobStatus) {
-        return batchJobDao.getPayCalendarEntries(hrPyCalendarEntryId, batchJobStatus);
+    public void scheduleInitiateJobs(CalendarEntries calendarEntry, Date scheduleDate) throws SchedulerException {
+    	Date asOfDate = calendarEntry.getBatchInitiateDateTime();
+		Calendar calendar = getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+		String calendarTypes = calendar.getCalendarTypes();
+		String calendarName = calendar.getCalendarName();
+		java.util.Date beginDate = calendarEntry.getBeginPeriodDateTime();
+		java.util.Date endDate = calendarEntry.getEndPeriodDateTime();
+		
+		if (StringUtils.equals(calendarTypes, "Pay")) {
+			List<PrincipalHRAttributes> principalHRAttributes = getPrincipalHRAttributesService().getActiveEmployeesForPayCalendar(calendarName, asOfDate);
+			
+			for (PrincipalHRAttributes principalHRAttribute : principalHRAttributes) {
+				String principalId = principalHRAttribute.getPrincipalId();
+				List<Assignment> assignments = getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, calendarEntry);
+				
+				for (Assignment assignment : assignments) {
+					Job job = assignment.getJob();
+					
+					if (StringUtils.equalsIgnoreCase(job.getFlsaStatus(), TkConstants.FLSA_STATUS_EXEMPT)) {
+						TimesheetDocumentHeader timesheetDocumentHeader = getTimesheetDocumentHeaderService().getDocumentHeader(principalId, beginDate, endDate);
+						if (timesheetDocumentHeader == null || StringUtils.equals(timesheetDocumentHeader.getDocumentStatus(), TkConstants.ROUTE_STATUS.CANCEL)) {
+							scheduleInitiateJob(calendarEntry, scheduleDate, assignment.getPrincipalId());
+						}
+					}
+				}
+			}
+		} else if (StringUtils.equals(calendarTypes, "Leave")) {
+			List<PrincipalHRAttributes> principalHRAttributes = getPrincipalHRAttributesService().getActiveEmployeesForLeaveCalendar(calendarName, asOfDate);
+			
+			for (PrincipalHRAttributes principalHRAttribute : principalHRAttributes) {
+				String principalId = principalHRAttribute.getPrincipalId();
+				List<Assignment> assignments = getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calendarEntry);
+				
+				for (Assignment assignment : assignments) {
+					Job job = assignment.getJob();
+					
+					if (job.isEligibleForLeave() && StringUtils.equalsIgnoreCase(job.getFlsaStatus(), TkConstants.FLSA_STATUS_NON_EXEMPT)) {
+						LeaveCalendarDocumentHeader leaveCalendarDocumentHeader = getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, beginDate, endDate);
+						if (leaveCalendarDocumentHeader == null || StringUtils.equals(leaveCalendarDocumentHeader.getDocumentStatus(), TkConstants.ROUTE_STATUS.CANCEL)) {
+							scheduleInitiateJob(calendarEntry, scheduleDate, assignment.getPrincipalId());
+						}
+					}
+				}
+			}
+		}
     }
     
-    @Override
-    public void saveBatchJob(BatchJob batchJob) {
-    	this.batchJobDao.saveOrUpdate(batchJob);
-    }
+	private void scheduleInitiateJob(CalendarEntries calendarEntry, Date scheduleDate, String principalId) throws SchedulerException {
+        Map<String, String> jobDataMap = new HashMap<String, String>();
+        jobDataMap.put("hrCalendarEntriesId", calendarEntry.getHrCalendarEntriesId());
+        jobDataMap.put("principalId", principalId);
+		scheduleJob(InitiateJob.class, scheduleDate, jobDataMap);
+	}
+	
+	@Override
+	public void scheduleEndPayPeriodJobs(CalendarEntries calendarEntry) throws SchedulerException {
+		scheduleEndPayPeriodJobs(calendarEntry, calendarEntry.getBatchEndPayPeriodDateTime());
+	}
+	
+	@Override
+	public void scheduleEndPayPeriodJobs(CalendarEntries calendarEntry, Date scheduleDate) throws SchedulerException {
+		Date asOfDate = calendarEntry.getBatchEndPayPeriodDateTime();
+		String calendarName = calendarEntry.getCalendarName();
+		    	
+    	List<PrincipalHRAttributes> principalHRAttributes = getPrincipalHRAttributesService().getActiveEmployeesForPayCalendar(calendarName, asOfDate);
+        for (PrincipalHRAttributes principalHRAttribute : principalHRAttributes) {
+        	String principalId = principalHRAttribute.getPrincipalId();
+            
+        	List<Assignment> assignments = getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, calendarEntry);
+    		for (Assignment assignment : assignments) {
+    			String jobNumber = String.valueOf(assignment.getJobNumber());
+    			String workArea = String.valueOf(assignment.getWorkArea());
+    			String task = String.valueOf(assignment.getTask());
+    			
+    			ClockLog lastClockLog = getClockLogService().getLastClockLog(principalId, jobNumber, workArea, task, calendarEntry);
+		    	if (lastClockLog != null && TkConstants.ON_THE_CLOCK_CODES.contains(lastClockLog.getClockAction())) {
+		    		scheduleEndPayPeriodJob(calendarEntry, scheduleDate, lastClockLog);
+		    	}
+    		}
+        }
+	}
+	
+	private void scheduleEndPayPeriodJob(CalendarEntries calendarEntry, Date scheduleDate, ClockLog clockLog) throws SchedulerException {
+        Map<String, String> jobDataMap = new HashMap<String, String>();
+        jobDataMap.put("hrCalendarEntriesId", calendarEntry.getHrCalendarEntriesId());
+        jobDataMap.put("tkClockLogId", clockLog.getTkClockLogId());
+		scheduleJob(EndPayPeriodJob.class, scheduleDate, jobDataMap);
+	}
+	
+	@Override
+	public void scheduleEmployeeApprovalJobs(CalendarEntries calendarEntry) throws SchedulerException {
+		scheduleEmployeeApprovalJobs(calendarEntry, calendarEntry.getBatchEmployeeApprovalDateTime());
+	}
+	
+	@Override
+	public void scheduleEmployeeApprovalJobs(CalendarEntries calendarEntry, Date scheduleDate) throws SchedulerException {
+    	java.util.Date beginDate = calendarEntry.getBeginPeriodDateTime();
+    	java.util.Date endDate = calendarEntry.getEndPeriodDateTime();
+    	Calendar calendar = getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+    	
+    	if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
+	        List<TimesheetDocumentHeader> timesheetDocumentHeaders = getTimesheetDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
+	        for (TimesheetDocumentHeader timesheetDocumentHeader : timesheetDocumentHeaders) {
+	        	scheduleEmployeeApprovalJob(calendarEntry, scheduleDate, timesheetDocumentHeader);
+	        }
+    	} else if (StringUtils.equals(calendar.getCalendarTypes(), "Leave")) {
+	        List<LeaveCalendarDocumentHeader> leaveCalendarDocumentHeaders = getLeaveCalendarDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
+	        for (LeaveCalendarDocumentHeader leaveCalendarDocumentHeader : leaveCalendarDocumentHeaders) {
+	        	scheduleEmployeeApprovalJob(calendarEntry, scheduleDate, leaveCalendarDocumentHeader);
+	        }
+    	}
+	}
+	
+	private void scheduleEmployeeApprovalJob(CalendarEntries calendarEntry, Date scheduleDate, CalendarDocumentHeaderContract calendarDocumentHeaderContract) throws SchedulerException {
+        Map<String, String> jobDataMap = new HashMap<String, String>();
+        jobDataMap.put("hrCalendarEntriesId", calendarEntry.getHrCalendarEntriesId());
+        jobDataMap.put("documentId", calendarDocumentHeaderContract.getDocumentId());
+		scheduleJob(EmployeeApprovalJob.class, scheduleDate, jobDataMap);
+	}
+	
+	@Override
+	public void scheduleMissedPunchApprovalJobs(CalendarEntries calendarEntry) throws SchedulerException {
+		scheduleMissedPunchApprovalJobs(calendarEntry, calendarEntry.getBatchSupervisorApprovalDateTime());
+	}
+
+	@Override
+	public void scheduleMissedPunchApprovalJobs(CalendarEntries calendarEntry, Date scheduleDate) throws SchedulerException {
+		java.util.Date beginDate = calendarEntry.getBeginPeriodDateTime();
+		java.util.Date endDate = calendarEntry.getEndPeriodDateTime();
+   	
+		List<TimesheetDocumentHeader> timesheetDocumentHeaders = getTimesheetDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
+		for (TimesheetDocumentHeader timesheetDocumentHeader : timesheetDocumentHeaders) {
+			List<MissedPunchDocument> missedPunchDocuments = getMissedPunchService().getMissedPunchDocsByTimesheetDocumentId(timesheetDocumentHeader.getDocumentId());
+			for (MissedPunchDocument missedPunchDocument : missedPunchDocuments) {
+				if (StringUtils.equals(missedPunchDocument.getDocumentStatus(), DocumentStatus.ENROUTE.getCode())) {
+					scheduleMissedPunchApprovalJob(calendarEntry, scheduleDate, missedPunchDocument);
+				}
+			}
+		}
+	}
+	
+	private void scheduleMissedPunchApprovalJob(CalendarEntries calendarEntry, Date scheduleDate, MissedPunchDocument missedPunchDocument) throws SchedulerException {
+        Map<String, String> jobDataMap = new HashMap<String, String>();
+        jobDataMap.put("hrCalendarEntriesId", calendarEntry.getHrCalendarEntriesId());
+        jobDataMap.put("principalId", missedPunchDocument.getPrincipalId());
+		scheduleJob(MissedPunchApprovalJob.class, scheduleDate, jobDataMap);
+	}
+	
+	@Override
+	public void scheduleSupervisorApprovalJobs(CalendarEntries calendarEntry) throws SchedulerException {
+		scheduleSupervisorApprovalJobs(calendarEntry, calendarEntry.getBatchSupervisorApprovalDateTime());
+	}
+	
+	@Override
+	public void scheduleSupervisorApprovalJobs(CalendarEntries calendarEntry, Date scheduleDate) throws SchedulerException {
+    	java.util.Date beginDate = calendarEntry.getBeginPeriodDateTime();
+    	java.util.Date endDate = calendarEntry.getEndPeriodDateTime();
+    	Calendar calendar = getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+
+    	if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {
+	        List<TimesheetDocumentHeader> timesheetDocumentHeaders = getTimesheetDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
+	        for (TimesheetDocumentHeader timesheetDocumentHeader : timesheetDocumentHeaders) {
+	        	scheduleSupervisorApprovalJob(calendarEntry, scheduleDate, timesheetDocumentHeader);
+	        }
+    	} else if (StringUtils.equals(calendar.getCalendarTypes(), "Leave")) {
+	        List<LeaveCalendarDocumentHeader> leaveCalendarDocumentHeaders = getLeaveCalendarDocumentHeaderService().getDocumentHeaders(beginDate, endDate);
+	        for (LeaveCalendarDocumentHeader leaveCalendarDocumentHeader : leaveCalendarDocumentHeaders) {
+	        	scheduleSupervisorApprovalJob(calendarEntry, scheduleDate, leaveCalendarDocumentHeader);
+	        }
+    	}
+	}
+	
+	private void scheduleSupervisorApprovalJob(CalendarEntries calendarEntry, Date scheduleDate, CalendarDocumentHeaderContract calendarDocumentHeaderContract) throws SchedulerException {
+        Map<String, String> jobDataMap = new HashMap<String, String>();
+        jobDataMap.put("hrCalendarEntriesId", calendarEntry.getHrCalendarEntriesId());
+        jobDataMap.put("documentId", calendarDocumentHeaderContract.getDocumentId());
+		scheduleJob(SupervisorApprovalJob.class, scheduleDate, jobDataMap);
+	}
+	
+	private void scheduleJob(Class<?> jobClass, Date jobDate, Map<String, String> jobDataMap) throws SchedulerException {
+		String groupName = BatchJobUtil.getGroupName(jobClass, jobDate);
+    	String[] jobNames = getScheduler().getJobNames(groupName);
+    	if (ArrayUtils.isEmpty(jobNames)) {
+    		String jobName = BatchJobUtil.getJobName(jobClass, jobDataMap);
+    		JobDetail jobDetail = new JobDetail(jobName, groupName, jobClass, false, true, false);
+    		jobDetail.setJobDataMap(new JobDataMap(jobDataMap));
+    		
+	        String triggerName = BatchJobUtil.getTriggerName(jobClass, jobDate);
+	        Trigger trigger = new SimpleTrigger(triggerName, groupName, jobDate);
+	        trigger.setJobName(jobName);
+	        trigger.setJobGroup(groupName);
+	        
+	        LOG.info("Scheduing " + jobDetail.getFullName() + " to be run on " + jobDate);
+	        
+	        getScheduler().scheduleJob(jobDetail, trigger);
+    	}
+	}
+
+	public Scheduler getScheduler() {
+		return scheduler;
+	}
+
+	public void setScheduler(Scheduler scheduler) {
+		this.scheduler = scheduler;
+	}
+
+	public AssignmentService getAssignmentService() {
+		return assignmentService;
+	}
+
+	public void setAssignmentService(AssignmentService assignmentService) {
+		this.assignmentService = assignmentService;
+	}
+
+	public CalendarService getCalendarService() {
+		return calendarService;
+	}
+
+	public void setCalendarService(CalendarService calendarService) {
+		this.calendarService = calendarService;
+	}
+
+	public ClockLogService getClockLogService() {
+		return clockLogService;
+	}
+
+	public void setClockLogService(ClockLogService clockLogService) {
+		this.clockLogService = clockLogService;
+	}
+
+	public LeaveCalendarDocumentHeaderService getLeaveCalendarDocumentHeaderService() {
+		return leaveCalendarDocumentHeaderService;
+	}
+
+	public void setLeaveCalendarDocumentHeaderService(LeaveCalendarDocumentHeaderService leaveCalendarDocumentHeaderService) {
+		this.leaveCalendarDocumentHeaderService = leaveCalendarDocumentHeaderService;
+	}
+
+	public MissedPunchService getMissedPunchService() {
+		return missedPunchService;
+	}
+
+	public void setMissedPunchService(MissedPunchService missedPunchService) {
+		this.missedPunchService = missedPunchService;
+	}
+
+	public PrincipalHRAttributesService getPrincipalHRAttributesService() {
+		return principalHRAttributesService;
+	}
+
+	public void setPrincipalHRAttributesService(PrincipalHRAttributesService principalHRAttributesService) {
+		this.principalHRAttributesService = principalHRAttributesService;
+	}
+
+	public TimesheetDocumentHeaderService getTimesheetDocumentHeaderService() {
+		return timesheetDocumentHeaderService;
+	}
+
+	public void setTimesheetDocumentHeaderService(TimesheetDocumentHeaderService timesheetDocumentHeaderService) {
+		this.timesheetDocumentHeaderService = timesheetDocumentHeaderService;
+	}
 
 }

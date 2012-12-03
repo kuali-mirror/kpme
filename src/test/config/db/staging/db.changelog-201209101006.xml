@@ -25,14 +25,10 @@
         <loadData tableName="HR_CALENDAR_ENTRIES_T" file="src/test/config/db/staging/db.changelog-201209101006/hr_calendar_entries_t.csv">
             <column name="BEGIN_PERIOD_DATE" header="BEGIN_PERIOD_DATE" type="DATETIME" />
             <column name="END_PERIOD_DATE" header="END_PERIOD_DATE" type="DATETIME" />
-            <column name="INITIATE_DATE" header="INITIATE_DATE" type="DATE" />
-            <column name="INITIATE_TIME" header="INITIATE_TIME" type="TIME" />
-            <column name="END_PAY_PERIOD_DATE" header="END_PAY_PERIOD_DATE" type="DATE" />
-            <column name="END_PAY_PERIOD_TIME" header="END_PAY_PERIOD_TIME" type="TIME" />
-            <column name="EMPLOYEE_APPROVAL_DATE" header="EMPLOYEE_APPROVAL_DATE" type="DATE" />
-            <column name="EMPLOYEE_APPROVAL_TIME" header="EMPLOYEE_APPROVAL_TIME" type="TIME" />
-            <column name="SUPERVISOR_APPROVAL_DATE" header="SUPERVISOR_APPROVAL_DATE" type="DATE" />
-            <column name="SUPERVISOR_APPROVAL_TIME" header="SUPERVISOR_APPROVAL_TIME" type="TIME" />
+            <column name="BATCH_INITIATE_DATE" header="BATCH_INITIATE_DATE" type="DATETIME" />
+            <column name="BATCH_END_PAY_PERIOD_DATE" header="BATCH_END_PAY_PERIOD_DATE" type="DATETIME" />
+            <column name="BATCH_EMPLOYEE_APPROVAL_DATE" header="BATCH_EMPLOYEE_APPROVAL_DATE" type="DATETIME" />
+            <column name="BATCH_SUPERVISOR_APPROVAL_DATE" header="BATCH_SUPERVISOR_APPROVAL_DATE" type="DATETIME" />
         </loadData>
     </changeSet>
 

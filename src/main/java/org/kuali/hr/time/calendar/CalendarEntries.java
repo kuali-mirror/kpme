@@ -15,13 +15,12 @@
  */
 package org.kuali.hr.time.calendar;
 
-import java.sql.Date;
-import java.sql.Time;
-
-import javax.persistence.Transient;
+import java.util.Date;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
+import org.joda.time.LocalTime;
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -48,65 +47,23 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  *
  */
 public class CalendarEntries extends PersistableBusinessObjectBase implements Comparable<CalendarEntries>{
-    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "CalendarEntries";
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = -1977756526579659122L;
+
+	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "CalendarEntries";
 
     private String hrCalendarEntriesId;
     private String hrCalendarId;
     private String calendarName;
 
-    private java.util.Date beginPeriodDateTime;
-
-    private java.util.Date endPeriodDateTime;
-
-    @Transient
-    private java.sql.Date beginPeriodDate;
-    @Transient
-    private java.sql.Date endPeriodDate;
-    @Transient
-    private Time beginPeriodTime;
-    @Transient
-    private Time endPeriodTime;
-
-    private Date batchInitiateDate;
-    private Time batchInitiateTime;
-
-    //this property is for the batch job
-    //that runs at the end of pay period
-    private Date batchEndPayPeriodDate;
-    private Time batchEndPayPeriodTime;
-
-    private Date batchEmployeeApprovalDate;
-    private Time batchEmployeeApprovalTime;
-
-    private Date batchSupervisorApprovalDate;
-    private Time batchSupervisorApprovalTime;
+    private Date beginPeriodDateTime;
+    private Date endPeriodDateTime;
+    private Date batchInitiateDateTime;
+    private Date batchEndPayPeriodDateTime;
+    private Date batchEmployeeApprovalDateTime;
+    private Date batchSupervisorApprovalDateTime;
 
     private Calendar calendarObj;
-
-
-    /**
-     * Provides the Begin Period time without timezone information, used
-     * for relative calculations.
-     *
-     * @return A LocalDateTime representation of the begin period date/time.
-     */
-    public LocalDateTime getBeginLocalDateTime() {
-        return (new DateTime(this.getBeginPeriodDateTime())).toLocalDateTime();
-    }
-
-    /**
-     * Provides the End Period time without timezone information, used
-     * for relative calculations.
-     *
-     * @return A LocalDateTime representation of the end period date/time.
-     */
-    public LocalDateTime getEndLocalDateTime() {
-        return (new DateTime(this.getEndPeriodDateTime())).toLocalDateTime();
-    }
 
     public String getHrCalendarId() {
         calendarObj = TkServiceLocator.getCalendarService().getCalendarByGroup(this.getCalendarName());
@@ -135,131 +92,275 @@ public class CalendarEntries extends PersistableBusinessObjectBase implements Co
 	public void setCalendarName(String calendarName) {
 		this.calendarName = calendarName;
 	}
-
-	public java.util.Date getBeginPeriodDateTime() {
+	
+	public Date getBeginPeriodDateTime() {
         return beginPeriodDateTime;
     }
 
-    public void setBeginPeriodDateTime(java.util.Date beginPeriodDateTime) {
+    public void setBeginPeriodDateTime(Date beginPeriodDateTime) {
         this.beginPeriodDateTime = beginPeriodDateTime;
-        if (beginPeriodDateTime != null) {
-            setBeginPeriodDate(new java.sql.Date(beginPeriodDateTime.getTime()));
-            setBeginPeriodTime(new java.sql.Time(beginPeriodDateTime.getTime()));
-        }
+    }
+    
+    /**
+     * Provides the Begin Period time without timezone information, used for relative calculations.
+     *
+     * @return A LocalDateTime representation of the begin period date/time.
+     */
+    public LocalDateTime getBeginLocalDateTime() {
+        return new DateTime(beginPeriodDateTime).toLocalDateTime();
     }
 
+    public java.sql.Date getBeginPeriodDate() {
+    	java.sql.Date beginPeriodDate = null;
+    	
+    	if (beginPeriodDateTime != null) {
+    		beginPeriodDate = new java.sql.Date(beginPeriodDateTime.getTime());
+    	}
+    	
+    	return beginPeriodDate;
+    }
+    
+    public void setBeginPeriodDate(java.sql.Date beginPeriodDate) {
+    	DateTime dateTime = new DateTime(beginPeriodDateTime);
+    	LocalDate localDate = new LocalDate(beginPeriodDate);
+    	LocalTime localTime = new LocalTime(beginPeriodDateTime);
+    	beginPeriodDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
+    }
+    
+    public java.sql.Time getBeginPeriodTime() {
+    	java.sql.Time beginPeriodTime = null;
+    	
+    	if (beginPeriodDateTime != null) {
+    		beginPeriodTime = new java.sql.Time(beginPeriodDateTime.getTime());
+    	}
+    	
+    	return beginPeriodTime;
+    }
+    
+    public void setBeginPeriodTime(java.sql.Time beginPeriodTime) {
+    	DateTime dateTime = new DateTime(beginPeriodDateTime);
+    	LocalDate localDate = new LocalDate(beginPeriodDateTime);
+    	LocalTime localTime = new LocalTime(beginPeriodTime);
+    	beginPeriodDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
+    }
+    
     public java.util.Date getEndPeriodDateTime() {
         return endPeriodDateTime;
     }
 
-    public void setEndPeriodDateTime(java.util.Date endPeriodDateTime) {
+    public void setEndPeriodDateTime(Date endPeriodDateTime) {
         this.endPeriodDateTime = endPeriodDateTime;
-        if (endPeriodDateTime != null) {
-            setEndPeriodDate(new java.sql.Date(endPeriodDateTime.getTime()));
-            setEndPeriodTime(new java.sql.Time(endPeriodDateTime.getTime()));
-        }
     }
 
-    public java.sql.Date getBeginPeriodDate() {
-    	if(beginPeriodDate == null && this.getBeginPeriodDateTime() != null) {
-    		setBeginPeriodDate(new java.sql.Date(this.getBeginPeriodDateTime().getTime()));
-    	}
-        return beginPeriodDate;
-    }
-
-    public void setBeginPeriodDate(java.sql.Date beginPeriodDate) {
-        this.beginPeriodDate = beginPeriodDate;
+    /**
+     * Provides the End Period time without timezone information, used for relative calculations.
+     *
+     * @return A LocalDateTime representation of the end period date/time.
+     */
+    public LocalDateTime getEndLocalDateTime() {
+        return new DateTime(endPeriodDateTime).toLocalDateTime();
     }
 
     public java.sql.Date getEndPeriodDate() {
-    	if(endPeriodDate == null && this.getEndPeriodDateTime() != null) {
-    		setEndPeriodDate(new java.sql.Date(this.getEndPeriodDateTime().getTime()));
+    	java.sql.Date endPeriodDate = null;
+    	
+    	if (endPeriodDateTime != null) {
+    		endPeriodDate = new java.sql.Date(endPeriodDateTime.getTime());
     	}
-        return endPeriodDate;
+    	
+    	return endPeriodDate;
     }
-
+    
     public void setEndPeriodDate(java.sql.Date endPeriodDate) {
-        this.endPeriodDate = endPeriodDate;
+    	DateTime dateTime = new DateTime(endPeriodDateTime);
+    	LocalDate localDate = new LocalDate(endPeriodDate);
+    	LocalTime localTime = new LocalTime(endPeriodDateTime);
+    	endPeriodDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
     }
 
-    public Time getBeginPeriodTime() {
-        return beginPeriodTime;
+    public java.sql.Time getEndPeriodTime() {
+    	java.sql.Time endPeriodTime = null;
+    	
+    	if (endPeriodDateTime != null) {
+    		endPeriodTime = new java.sql.Time(endPeriodDateTime.getTime());
+    	}
+    	
+    	return endPeriodTime;
+    }
+    
+    public void setEndPeriodTime(java.sql.Time endPeriodDate) {
+    	DateTime dateTime = new DateTime(endPeriodDateTime);
+    	LocalDate localDate = new LocalDate(endPeriodDateTime);
+    	LocalTime localTime = new LocalTime(endPeriodDate);
+    	endPeriodDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
     }
 
-    public void setBeginPeriodTime(Time beginPeriodTime) {
-        this.beginPeriodTime = beginPeriodTime;
+    public Date getBatchInitiateDateTime() {
+        return batchInitiateDateTime;
+    }
+    
+    public void setBatchInitiateDateTime(Date batchInitiateDateTime) {
+        this.batchInitiateDateTime = batchInitiateDateTime;
+    }
+    
+    public java.sql.Date getBatchInitiateDate() {
+    	java.sql.Date batchInitiateDate = null;
+    	
+    	if (batchInitiateDateTime != null) {
+    		batchInitiateDate = new java.sql.Date(batchInitiateDateTime.getTime());
+    	}
+    	
+    	return batchInitiateDate;
+    }
+    
+    public void setBatchInitiateDate(java.sql.Date batchInitiateDate) {
+    	DateTime dateTime = new DateTime(batchInitiateDateTime);
+    	LocalDate localDate = new LocalDate(batchInitiateDate);
+    	LocalTime localTime = new LocalTime(batchInitiateDateTime);
+    	batchInitiateDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
     }
 
-    public Time getEndPeriodTime() {
-        return endPeriodTime;
+    public java.sql.Time getBatchInitiateTime() {
+    	java.sql.Time batchInitiateTime = null;
+    	
+    	if (batchInitiateDateTime != null) {
+    		batchInitiateTime = new java.sql.Time(batchInitiateDateTime.getTime());
+    	}
+    	
+    	return batchInitiateTime;
+    }
+    
+    public void setBatchInitiateTime(java.sql.Time batchInitiateDate) {
+    	DateTime dateTime = new DateTime(batchInitiateDateTime);
+    	LocalDate localDate = new LocalDate(batchInitiateDateTime);
+    	LocalTime localTime = new LocalTime(batchInitiateDate);
+    	batchInitiateDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
     }
 
-    public void setEndPeriodTime(Time endPeriodTime) {
-        this.endPeriodTime = endPeriodTime;
+    public Date getBatchEndPayPeriodDateTime() {
+        return batchEndPayPeriodDateTime;
     }
 
-    public Date getBatchInitiateDate() {
-        return batchInitiateDate;
+    public void setBatchEndPayPeriodDateTime(Date batchEndPayPeriodDateTime) {
+        this.batchEndPayPeriodDateTime = batchEndPayPeriodDateTime;
+    }
+    
+    public java.sql.Date getBatchEndPayPeriodDate() {
+    	java.sql.Date batchEndPayPeriodDate = null;
+    	
+    	if (batchEndPayPeriodDateTime != null) {
+    		batchEndPayPeriodDate = new java.sql.Date(batchEndPayPeriodDateTime.getTime());
+    	}
+    	
+    	return batchEndPayPeriodDate;
+    }
+    
+    public void setBatchEndPayPeriodDate(java.sql.Date batchEndPayPeriodDate) {
+    	DateTime dateTime = new DateTime(batchEndPayPeriodDateTime);
+    	LocalDate localDate = new LocalDate(batchEndPayPeriodDate);
+    	LocalTime localTime = new LocalTime(batchEndPayPeriodDateTime);
+    	batchEndPayPeriodDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
     }
 
-    public void setBatchInitiateDate(Date batchInitiateDate) {
-        this.batchInitiateDate = batchInitiateDate;
+    public java.sql.Time getBatchEndPayPeriodTime() {
+    	java.sql.Time batchEndPayPeriodTime = null;
+    	
+    	if (batchEndPayPeriodDateTime != null) {
+    		batchEndPayPeriodTime = new java.sql.Time(batchEndPayPeriodDateTime.getTime());
+    	}
+    	
+    	return batchEndPayPeriodTime;
+    }
+    
+    public void setBatchEndPayPeriodTime(java.sql.Time batchEndPayPeriodDate) {
+    	DateTime dateTime = new DateTime(batchEndPayPeriodDateTime);
+    	LocalDate localDate = new LocalDate(batchEndPayPeriodDateTime);
+    	LocalTime localTime = new LocalTime(batchEndPayPeriodDate);
+    	batchEndPayPeriodDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
     }
 
-    public Time getBatchInitiateTime() {
-        return batchInitiateTime;
+    public Date getBatchEmployeeApprovalDateTime() {
+        return batchEmployeeApprovalDateTime;
     }
 
-    public void setBatchInitiateTime(Time batchInitiateTime) {
-        this.batchInitiateTime = batchInitiateTime;
+    public void setBatchEmployeeApprovalDateTime(Date batchEmployeeApprovalDateTime) {
+        this.batchEmployeeApprovalDateTime = batchEmployeeApprovalDateTime;
+    }
+    
+    public java.sql.Date getBatchEmployeeApprovalDate() {
+    	java.sql.Date batchEmployeeApprovalDate = null;
+    	
+    	if (batchEmployeeApprovalDateTime != null) {
+    		batchEmployeeApprovalDate = new java.sql.Date(batchEmployeeApprovalDateTime.getTime());
+    	}
+    	
+    	return batchEmployeeApprovalDate;
+    }
+    
+    public void setBatchEmployeeApprovalDate(java.sql.Date batchEmployeeApprovalDate) {
+    	DateTime dateTime = new DateTime(batchEmployeeApprovalDateTime);
+    	LocalDate localDate = new LocalDate(batchEmployeeApprovalDate);
+    	LocalTime localTime = new LocalTime(batchEmployeeApprovalDateTime);
+    	batchEmployeeApprovalDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
     }
 
-    public Date getBatchEndPayPeriodDate() {
-        return batchEndPayPeriodDate;
+    public java.sql.Time getBatchEmployeeApprovalTime() {
+    	java.sql.Time batchEmployeeApprovalTime = null;
+    	
+    	if (batchEmployeeApprovalDateTime != null) {
+    		batchEmployeeApprovalTime = new java.sql.Time(batchEmployeeApprovalDateTime.getTime());
+    	}
+    	
+    	return batchEmployeeApprovalTime;
+    }
+    
+    public void setBatchEmployeeApprovalTime(java.sql.Time batchEmployeeApprovalDate) {
+    	DateTime dateTime = new DateTime(batchEmployeeApprovalDateTime);
+    	LocalDate localDate = new LocalDate(batchEmployeeApprovalDateTime);
+    	LocalTime localTime = new LocalTime(batchEmployeeApprovalDate);
+    	batchEmployeeApprovalDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
     }
 
-    public void setBatchEndPayPeriodDate(Date batchEndPayPeriodDate) {
-        this.batchEndPayPeriodDate = batchEndPayPeriodDate;
+    public Date getBatchSupervisorApprovalDateTime() {
+        return batchSupervisorApprovalDateTime;
     }
 
-    public Time getBatchEndPayPeriodTime() {
-        return batchEndPayPeriodTime;
+    public void setBatchSupervisorApprovalDateTime(Date batchSupervisorApprovalDateTime) {
+        this.batchSupervisorApprovalDateTime = batchSupervisorApprovalDateTime;
+    }
+    
+    public java.sql.Date getBatchSupervisorApprovalDate() {
+    	java.sql.Date batchSupervisorApprovalDate = null;
+    	
+    	if (batchSupervisorApprovalDateTime != null) {
+    		batchSupervisorApprovalDate = new java.sql.Date(batchSupervisorApprovalDateTime.getTime());
+    	}
+    	
+    	return batchSupervisorApprovalDate;
+    }
+    
+    public void setBatchSupervisorApprovalDate(java.sql.Date batchSupervisorApprovalDate) {
+    	DateTime dateTime = new DateTime(batchSupervisorApprovalDateTime);
+    	LocalDate localDate = new LocalDate(batchSupervisorApprovalDate);
+    	LocalTime localTime = new LocalTime(batchSupervisorApprovalDateTime);
+    	batchSupervisorApprovalDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
     }
 
-    public void setBatchEndPayPeriodTime(Time batchEndPayPeriodTime) {
-        this.batchEndPayPeriodTime = batchEndPayPeriodTime;
+    public java.sql.Time getBatchSupervisorApprovalTime() {
+    	java.sql.Time batchSupervisorApprovalTime = null;
+    	
+    	if (batchSupervisorApprovalDateTime != null) {
+    		batchSupervisorApprovalTime = new java.sql.Time(batchSupervisorApprovalDateTime.getTime());
+    	}
+    	
+    	return batchSupervisorApprovalTime;
     }
-
-    public Date getBatchEmployeeApprovalDate() {
-        return batchEmployeeApprovalDate;
-    }
-
-    public void setBatchEmployeeApprovalDate(Date batchEmployeeApprovalDate) {
-        this.batchEmployeeApprovalDate = batchEmployeeApprovalDate;
-    }
-
-    public Time getBatchEmployeeApprovalTime() {
-        return batchEmployeeApprovalTime;
-    }
-
-    public void setBatchEmployeeApprovalTime(Time batchEmployeeApprovalTime) {
-        this.batchEmployeeApprovalTime = batchEmployeeApprovalTime;
-    }
-
-    public Date getBatchSupervisorApprovalDate() {
-        return batchSupervisorApprovalDate;
-    }
-
-    public void setBatchSupervisorApprovalDate(Date batchSupervisorApprovalDate) {
-        this.batchSupervisorApprovalDate = batchSupervisorApprovalDate;
-    }
-
-    public Time getBatchSupervisorApprovalTime() {
-        return batchSupervisorApprovalTime;
-    }
-
-    public void setBatchSupervisorApprovalTime(Time batchSupervisorApprovalTime) {
-        this.batchSupervisorApprovalTime = batchSupervisorApprovalTime;
+    
+    public void setBatchSupervisorApprovalTime(java.sql.Time batchSupervisorApprovalDate) {
+    	DateTime dateTime = new DateTime(batchSupervisorApprovalDateTime);
+    	LocalDate localDate = new LocalDate(batchSupervisorApprovalDateTime);
+    	LocalTime localTime = new LocalTime(batchSupervisorApprovalDate);
+    	batchSupervisorApprovalDateTime = localDate.toDateTime(localTime, dateTime.getZone()).toDate();
     }
 
 	public Calendar getCalendarObj() {

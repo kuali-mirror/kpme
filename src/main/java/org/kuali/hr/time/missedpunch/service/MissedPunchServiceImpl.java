@@ -25,7 +25,6 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalTime;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.batch.BatchJobEntry;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.missedpunch.MissedPunchDocument;
 import org.kuali.hr.time.missedpunch.dao.MissedPunchDao;
@@ -238,11 +237,6 @@ public class MissedPunchServiceImpl implements MissedPunchService {
             String rhid = document.getDocumentNumber();
             WorkflowDocument wd = WorkflowDocumentFactory.loadDocument(TkConstants.BATCH_JOB_USER_PRINCIPAL_ID, rhid);
             wd.superUserBlanketApprove("Batch job superuser approving missed punch document.");
-    }
-
-    @Override
-    public List<MissedPunchDocument> getMissedPunchDocsByBatchJobEntry(BatchJobEntry batchJobEntry) {
-        return missedPunchDao.getMissedPunchDocsByBatchJobEntry(batchJobEntry);
     }
     
     @Override

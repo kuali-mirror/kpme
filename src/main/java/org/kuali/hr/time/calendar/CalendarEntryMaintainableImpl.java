@@ -15,8 +15,6 @@
  */
 package org.kuali.hr.time.calendar;
 
-import org.joda.time.DateTime;
-import org.joda.time.LocalTime;
 import org.kuali.hr.core.cache.CacheUtils;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
@@ -24,49 +22,55 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class CalendarEntryMaintainableImpl extends KualiMaintainableImpl {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -5910605947104384549L;
 
 	@Override
 	public PersistableBusinessObject getBusinessObject() {
-		//used to setup the divided time/date fields
-		CalendarEntries payEntry = (CalendarEntries)super.getBusinessObject();
-		if(payEntry.getBeginPeriodTime()==null){
-			payEntry.setBeginPeriodDateTime(payEntry.getBeginPeriodDateTime());
-			payEntry.setEndPeriodDateTime(payEntry.getEndPeriodDateTime());
+		CalendarEntries calendarEntry = (CalendarEntries) super.getBusinessObject();
+		
+		if (calendarEntry.getBeginPeriodDateTime() != null) {
+			calendarEntry.setBeginPeriodDate(new java.sql.Date(calendarEntry.getBeginPeriodDateTime().getTime()));
+			calendarEntry.setBeginPeriodTime(new java.sql.Time(calendarEntry.getBeginPeriodDateTime().getTime()));
 		}
-		return payEntry;
+		
+		if (calendarEntry.getEndPeriodDateTime() != null) {
+			calendarEntry.setEndPeriodDate(new java.sql.Date(calendarEntry.getEndPeriodDateTime().getTime()));
+			calendarEntry.setEndPeriodTime(new java.sql.Time(calendarEntry.getEndPeriodDateTime().getTime()));
+		}
+		
+		if (calendarEntry.getBatchInitiateDateTime() != null) {
+			calendarEntry.setBatchInitiateDate(new java.sql.Date(calendarEntry.getBatchInitiateDateTime().getTime()));
+			calendarEntry.setBatchInitiateTime(new java.sql.Time(calendarEntry.getBatchInitiateDateTime().getTime()));
+		}
+		
+		if (calendarEntry.getBatchEndPayPeriodDateTime() != null) {
+			calendarEntry.setBatchEndPayPeriodDate(new java.sql.Date(calendarEntry.getBatchEndPayPeriodDateTime().getTime()));
+			calendarEntry.setBatchEndPayPeriodTime(new java.sql.Time(calendarEntry.getBatchEndPayPeriodDateTime().getTime()));
+		}
+		
+		if (calendarEntry.getBatchEmployeeApprovalDateTime() != null) {
+			calendarEntry.setBatchEmployeeApprovalDate(new java.sql.Date(calendarEntry.getBatchEmployeeApprovalDateTime().getTime()));
+			calendarEntry.setBatchEmployeeApprovalTime(new java.sql.Time(calendarEntry.getBatchEmployeeApprovalDateTime().getTime()));
+		}
+		
+		if (calendarEntry.getBatchSupervisorApprovalDateTime() != null) {
+			calendarEntry.setBatchSupervisorApprovalDate(new java.sql.Date(calendarEntry.getBatchSupervisorApprovalDateTime().getTime()));
+			calendarEntry.setBatchSupervisorApprovalTime(new java.sql.Time(calendarEntry.getBatchSupervisorApprovalDateTime().getTime()));
+		}
+		
+		return calendarEntry;
 	}
 
 	@Override
 	public void saveBusinessObject() {
-		CalendarEntries payEntry = (CalendarEntries)super.getBusinessObject();
-		Calendar calendar = TkServiceLocator.getCalendarService().getCalendarByGroup(payEntry.getCalendarName());
-		payEntry.setHrCalendarId(calendar.getHrCalendarId());
+		CalendarEntries calendarEntry = (CalendarEntries) super.getBusinessObject();
 		
-		java.sql.Date beginDate = payEntry.getBeginPeriodDate();
-		java.sql.Time beginTime = payEntry.getBeginPeriodTime();
-		LocalTime beginTimeLocal = new LocalTime(beginTime.getTime());
-		DateTime beginDateTime = new DateTime(beginDate.getTime());
-		beginDateTime = beginDateTime.plus(beginTimeLocal.getMillisOfDay());
-		payEntry.setBeginPeriodDateTime(new java.util.Date(beginDateTime.getMillis()));
-
-		java.sql.Date endDate = payEntry.getEndPeriodDate();
-		java.sql.Time endTime = payEntry.getEndPeriodTime();
-		LocalTime endTimeLocal = new LocalTime(endTime.getTime());
-		DateTime endDateTime = new DateTime(endDate.getTime());
-		endDateTime = endDateTime.plus(endTimeLocal.getMillisOfDay());
-		payEntry.setEndPeriodDateTime(new java.util.Date(endDateTime.getMillis()));
+		Calendar calendar = TkServiceLocator.getCalendarService().getCalendarByGroup(calendarEntry.getCalendarName());
+		calendarEntry.setHrCalendarId(calendar.getHrCalendarId());
 		
 		super.saveBusinessObject();
+		
         CacheUtils.flushCache(CalendarEntries.CACHE_NAME);
 	}
-
-
-
-
-
 
 }
