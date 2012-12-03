@@ -21,6 +21,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
@@ -39,9 +40,24 @@ public class AccrualCategoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
     public AccrualCategory getAccrualCategory(String accrualCategory, Date asOfDate) {
     	AccrualCategory accrlCategory = null;
 		Criteria root = new Criteria();
+        Criteria effdt = new Criteria();
+        Criteria timestamp = new Criteria();
+        
 		root.addEqualTo("accrualCategory", accrualCategory);
 		root.addLessOrEqualThan("effectiveDate", asOfDate);
+        effdt.addEqualToField("accrualCategory", Criteria.PARENT_QUERY_PREFIX + "accrualCategory");
+        effdt.addLessOrEqualThan("effectiveDate", asOfDate);
+        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(AccrualCategory.class, effdt);
+        effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
+
+        timestamp.addEqualToField("accrualCategory", Criteria.PARENT_QUERY_PREFIX + "accrualCategory");
+        timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(AccrualCategory.class, timestamp);
+        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+        
 		root.addEqualTo("active",true);
+        root.addEqualTo("effectiveDate", effdtSubQuery);
+        root.addEqualTo("timestamp", timestampSubQuery);
 		
 		Query query = QueryFactory.newQuery(AccrualCategory.class, root);
 		Object obj = this.getPersistenceBrokerTemplate().getObjectByQuery(query);
