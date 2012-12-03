@@ -24,4 +24,5 @@
         <comment>KPME-1170 : npadharia : renamed hr_principal_attributes_t</comment>
         <renameTable oldTableName="HR_PRINCIPAL_CALENDAR_T" newTableName="HR_PRINCIPAL_ATTRIBUTES_T" />
     </changeSet>
+    
 </databaseChangeLog>

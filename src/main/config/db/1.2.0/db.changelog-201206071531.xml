@@ -32,4 +32,5 @@
         </addColumn>
         <modifyDataType tableName="HR_EARN_CODE_T" columnName="ACCRUAL_CATEGORY" newDataType="VARCHAR(15)" />
     </changeSet>
+    
 </databaseChangeLog>

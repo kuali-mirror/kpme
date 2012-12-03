@@ -244,6 +244,9 @@ public class TimeDetailAction extends TimesheetAction {
                 break;
             }
         }
+        if (deletedTimeBlock == null) {
+            return mapping.findForward("basic");
+        }
         //Remove from the list of timeblocks
         List<TimeBlock> referenceTimeBlocks = new ArrayList<TimeBlock>(tdaf.getTimesheetDocument().getTimeBlocks().size());
         for (TimeBlock b : tdaf.getTimesheetDocument().getTimeBlocks()) {
@@ -380,13 +383,23 @@ public class TimeDetailAction extends TimesheetAction {
         if (StringUtils.equals(tdaf.getAcrossDays(), "y")
                 && !(endTemp.getDayOfYear() - startTemp.getDayOfYear() <= 1
                 && endTemp.getHourOfDay() == 0)) {
-            newTimeBlocks.addAll(TkServiceLocator.getTimeBlockService().buildTimeBlocksSpanDates(assignment,
+            List<TimeBlock> timeBlocksToAdd = TkServiceLocator.getTimeBlockService().buildTimeBlocksSpanDates(assignment,
                     tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(), startTime,
-                    endTime, tdaf.getHours(), tdaf.getAmount(), false, Boolean.parseBoolean(tdaf.getLunchDeleted()), tdaf.getSpanningWeeks(), TKContext.getPrincipalId()));
+                    endTime, tdaf.getHours(), tdaf.getAmount(), false, Boolean.parseBoolean(tdaf.getLunchDeleted()), tdaf.getSpanningWeeks(), TKContext.getPrincipalId());
+            for (TimeBlock tb : timeBlocksToAdd) {
+                if (!newTimeBlocks.contains(tb)) {
+                    newTimeBlocks.add(tb);
+                }
+            }
         } else {
-            newTimeBlocks.addAll(TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment,
+            List<TimeBlock> timeBlocksToAdd = TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment,
                     tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(), startTime,
-                    endTime, tdaf.getHours(), tdaf.getAmount(), false, Boolean.parseBoolean(tdaf.getLunchDeleted()), TKContext.getPrincipalId()));
+                    endTime, tdaf.getHours(), tdaf.getAmount(), false, Boolean.parseBoolean(tdaf.getLunchDeleted()), TKContext.getPrincipalId());
+            for (TimeBlock tb : timeBlocksToAdd) {
+                if (!newTimeBlocks.contains(tb)) {
+                    newTimeBlocks.add(tb);
+                }
+            }
         }
 
         //reset time block

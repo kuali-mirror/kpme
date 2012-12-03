@@ -266,7 +266,8 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 								Interval previousBlockInterval = new Interval(new DateTime(firstBlockOfPreviousDay.getEndTimestamp(), zone), new DateTime(firstBlockOfCurrentDay.getBeginTimestamp(), zone));
 								Duration blockGapDuration = previousBlockInterval.toDuration();
 								BigDecimal bgdHours = TKUtils.convertMillisToHours(blockGapDuration.getMillis());
-								if (bgdHours.compareTo(rule.getMaxGap()) <= 0) {
+								// if maxGap is 0, ignore gaps and assign shift to time blocks within the hours
+								if (rule.getMaxGap().compareTo(BigDecimal.ZERO) == 0 || bgdHours.compareTo(rule.getMaxGap()) <= 0) {
 									// If we are here, we know we have at least one valid time block to pull some hours forward from.
 
 
@@ -282,8 +283,8 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 												bgdHours = TKUtils.convertMillisToHours(blockGapDuration.getMillis());
 											}
 
-											// Check Gap, if good, sum hours
-											if (bgdHours.compareTo(rule.getMaxGap()) <= 0) {
+											// Check Gap, if good, sum hours, if maxGap is 0, ignore gaps
+											if (rule.getMaxGap().compareTo(BigDecimal.ZERO) == 0 || bgdHours.compareTo(rule.getMaxGap()) <= 0) {
 												// Calculate Overlap and add it to hours before virtual day bucket.
 												if (blockInterval.overlaps(previousDayShiftInterval)) {
 													BigDecimal hrs = TKUtils.convertMillisToHours(blockInterval.overlap(previousDayShiftInterval).toDurationMillis());
@@ -399,7 +400,8 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 						if (overlap != null) {
 							// There IS overlap.
 							if (previous != null) {
-								if (exceedsMaxGap(previous, current, rule.getMaxGap())) {
+								// only check max gap if max gap of rule is not 0
+								if (rule.getMaxGap().compareTo(BigDecimal.ZERO) != 0 && exceedsMaxGap(previous, current, rule.getMaxGap())) {
 									BigDecimal accumHours = TKUtils.convertMillisToHours(accumulatedMillis);
                                     this.applyAccumulatedWrapper(accumHours, evalInterval, accumulatedBlockIntervals, accumulatedBlocks, previousBlocksFiltered, hoursToApplyPrevious, hoursToApply, rule);
                                     accumulatedMillis = 0L; // reset accumulated hours..

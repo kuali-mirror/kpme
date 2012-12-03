@@ -26,4 +26,5 @@
             <column name="WORK_AREA" type="VARCHAR(10)" />
         </addColumn>
     </changeSet>
+    
 </databaseChangeLog>

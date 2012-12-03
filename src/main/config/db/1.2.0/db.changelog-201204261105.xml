@@ -24,4 +24,5 @@
         <comment>KPME-1465. Added FET on Job Maint. page. FTE is derived from standardHour/40.</comment>
         <dropColumn tableName="HR_JOB_T" columnName="FTE" />
     </changeSet>
+    
 </databaseChangeLog>

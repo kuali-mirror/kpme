@@ -22,9 +22,9 @@
 
     <changeSet id="1" author="jjhanso" context="kpme-client-bootstrap">
         <comment>Adding missing primary keys</comment>
-        <addPrimaryKey tableName="TK_CLOCK_LOCATION_RL_T" columnNames="TK_CLOCK_LOC_RULE_ID" constraintName="PRIMARY"/>
-        <addPrimaryKey tableName="TK_GRACE_PERIOD_RL_T" columnNames="TK_GRACE_PERIOD_RULE_ID" constraintName="PRIMARY"/>
-        <addPrimaryKey tableName="TK_HOUR_DETAIL_HIST_T" columnNames="TK_HOUR_DETAIL_HIST_ID" constraintName="PRIMARY"/>
+        <addPrimaryKey tableName="TK_CLOCK_LOCATION_RL_T" columnNames="TK_CLOCK_LOC_RULE_ID" constraintName="PK_TK_CLOCK_LOCATION_RL_T"/>
+        <addPrimaryKey tableName="TK_GRACE_PERIOD_RL_T" columnNames="TK_GRACE_PERIOD_RULE_ID" constraintName="PK_TK_GRACE_PERIOD_RL_T"/>
+        <addPrimaryKey tableName="TK_HOUR_DETAIL_HIST_T" columnNames="TK_HOUR_DETAIL_HIST_ID" constraintName="PK_TK_HOUR_DETAIL_HIST_T"/>
     </changeSet>
 
 </databaseChangeLog>

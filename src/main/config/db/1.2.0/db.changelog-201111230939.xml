@@ -43,6 +43,7 @@
         <modifyDataType tableName="HR_CALENDAR_ENTRIES_T" columnName="CALENDAR_NAME" newDataType="VARCHAR(30)" />
         <addNotNullConstraint tableName="HR_CALENDAR_ENTRIES_T" columnName="CALENDAR_NAME" columnDataType="VARCHAR(30)" />
     </changeSet>
+    
     <changeSet id="2-oracle" author="lee55" dbms="oracle" context="kpme-client-bootstrap">
         <comment>another sql file merge</comment>
         <sql>

@@ -38,4 +38,5 @@
 	        <column name="LOCK_NAME" value="TRIGGER_ACCESS"/>
 	    </insert>
     </changeSet>
+
 </databaseChangeLog>  

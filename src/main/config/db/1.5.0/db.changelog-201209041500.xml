@@ -22,7 +22,7 @@
 
     <changeSet id="1" author="jjhanso" context="kpme-client-bootstrap">
         <comment>Adding missing primary keys</comment>
-        <addPrimaryKey tableName="LM_LEAVE_DOCUMENT_HEADER_T" columnNames="DOCUMENT_ID" constraintName="PRIMARY"/>
+        <addPrimaryKey tableName="LM_LEAVE_DOCUMENT_HEADER_T" columnNames="DOCUMENT_ID" constraintName="PK_LM_LEAVE_DOCUMENT_HEADER_T"/>
     </changeSet>
 
 </databaseChangeLog>

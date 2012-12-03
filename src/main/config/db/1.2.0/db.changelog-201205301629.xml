@@ -26,4 +26,5 @@
             <column name="FLSA_STATUS" type="VARCHAR(15)" />
         </addColumn>
     </changeSet>
+    
 </databaseChangeLog>

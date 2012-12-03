@@ -24,4 +24,5 @@
         <comment>Fixed column name for tk_time_sheet_init_t</comment>
         <renameColumn tableName="TK_TIME_SHEET_INIT_T" oldColumnName="CALENDAR_GROUP" newColumnName="PY_CALENDAR_GROUP" columnDataType="VARCHAR(30) NOT NULL" />
     </changeSet>
+    
 </databaseChangeLog>

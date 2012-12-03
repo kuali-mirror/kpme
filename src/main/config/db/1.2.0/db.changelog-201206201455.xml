@@ -19,6 +19,7 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
     <changeSet id="1" author="jkakkad" context="kpme-client-bootstrap">
         <comment>Earn Code length changed from 3 to 15</comment>
         <dropNotNullConstraint tableName="HR_EARN_CODE_T" columnName="EARN_CODE" columnDataType="VARCHAR(3)" />

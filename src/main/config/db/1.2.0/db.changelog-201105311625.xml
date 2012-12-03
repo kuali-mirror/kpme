@@ -24,4 +24,5 @@
         <comment>kpme-564: added validation for max value of Shift Hours, changed db schema, added new test to DepartmentLunchRuleMaintTest</comment>
         <modifyDataType tableName="TK_DEPT_LUNCH_RL_T" columnName="SHIFT_HOURS" newDataType="DECIMAL(3,1)" />
     </changeSet>
+    
 </databaseChangeLog>
