@@ -16,12 +16,12 @@
 package org.kuali.hr.lm.leavecalendar.service;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -33,11 +33,11 @@ import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.notes.Note;
-import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class LeaveCalendarServiceImpl implements LeaveCalendarService {
@@ -192,12 +192,10 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
             if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.ROUTE)) {
                 wd.route("Routing for Approval");
             } else if (StringUtils.equals(action, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_ROUTE)) {
-                Note note = new Note();
-                note.setDocumentId(rhid);
-                note.setNoteCreateDate(new Timestamp((new Date()).getTime()));
-                note.setNoteAuthorWorkflowId(principalId);
-                note.setNoteText("Routed via Employee Approval batch job");
-            	KEWServiceLocator.getNoteService().saveNote(note);
+                Note.Builder builder = Note.Builder.create(rhid, principalId);
+                builder.setCreateDate(new DateTime());
+                builder.setText("Routed via Employee Approval batch job");
+            	KewApiServiceLocator.getNoteService().createNote(builder.build());
             	
             	wd.route("Batch job routing leave calendar");
             } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
@@ -208,12 +206,10 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
                     wd.approve("Approving timesheet.");
                 }
             } else if (StringUtils.equals(action, TkConstants.BATCH_JOB_ACTIONS.BATCH_JOB_APPROVE)) {
-                Note note = new Note();
-                note.setDocumentId(rhid);
-                note.setNoteCreateDate(new Timestamp((new Date()).getTime()));
-                note.setNoteAuthorWorkflowId(principalId);
-                note.setNoteText("Approved via Supervisor Approval batch job");
-            	KEWServiceLocator.getNoteService().saveNote(note);
+            	 Note.Builder builder = Note.Builder.create(rhid, principalId);
+            	 builder.setCreateDate(new DateTime());
+            	 builder.setText("Approved via Supervisor Approval batch job");
+            	 KewApiServiceLocator.getNoteService().createNote(builder.build());
             	
             	wd.superUserBlanketApprove("Batch job approving leave calendar");
             } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
