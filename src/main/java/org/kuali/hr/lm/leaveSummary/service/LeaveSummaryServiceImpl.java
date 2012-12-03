@@ -41,6 +41,7 @@ import org.joda.time.LocalDateTime;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
+import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -72,7 +73,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
         List<PrincipalHRAttributes> phaList = TkServiceLocator.getPrincipalHRAttributeService()
                 .getActivePrincipalHrAttributesForRange(principalId, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
 
-        Set<String> lpStrings = new HashSet<String>();
+        Set<String> lpStrings = new HashSet<String>();     //
         if(pha != null) {
             lpStrings.add(pha.getLeavePlan());
         }
@@ -137,6 +138,18 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 
                             } else {
                                 lsr.setUsageLimit(null);
+                            }
+
+                            List<EmployeeOverride> employeeOverrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId,TKUtils.getCurrentDate()); //current date ok?
+                            for(EmployeeOverride eo : employeeOverrides) {
+                                if(eo.getLeavePlan().equals(lp.getLeavePlan()) && eo.getAccrualCategory().equals(ac.getAccrualCategory())) {
+                                    if(eo.getOverrideType().equals("MU") && eo.isActive()) {
+                                        if(eo.getOverrideValue()!=null && !eo.getOverrideValue().equals(""))
+                                            lsr.setUsageLimit(new BigDecimal(eo.getOverrideValue()));
+                                        else // no limit flag
+                                            lsr.setUsageLimit(null);
+                                    }
+                                }
                             }
 
                             //handle up to current leave blocks

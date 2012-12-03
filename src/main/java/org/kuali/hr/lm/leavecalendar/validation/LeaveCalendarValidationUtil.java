@@ -38,6 +38,7 @@ import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 
 import com.google.common.base.Predicate;
@@ -57,6 +58,7 @@ public class LeaveCalendarValidationUtil {
 	public static List<String> validateLeaveAccrualRuleMaxUsage(LeaveSummary ls, String selectedEarnCode, String leaveStartDateString,
 			String leaveEndDateString, BigDecimal leaveAmount, LeaveBlock updatedLeaveBlock) {
     	List<String> errors = new ArrayList<String>();
+        String principalId = TKContext.getTargetPrincipalId();
     	long daysSpan = TKUtils.getDaysBetween(TKUtils.formatDateString(leaveStartDateString), TKUtils.formatDateString(leaveEndDateString));
     	if(ls != null && CollectionUtils.isNotEmpty(ls.getLeaveSummaryRows())) {
 	    	BigDecimal oldLeaveAmount = null;
@@ -78,7 +80,19 @@ public class LeaveCalendarValidationUtil {
 	    			for(LeaveSummaryRow aRow : rows) {
 	    				if(aRow.getAccrualCategory().equals(accrualCategory.getAccrualCategory())) {
 	    					//Does employee have overrides in place?
+	    					List<EmployeeOverride> employeeOverrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId,TKUtils.formatDateString(leaveEndDateString));
+	    					String leavePlan = accrualCategory.getLeavePlan();
 	    					BigDecimal maxUsage = aRow.getUsageLimit();
+	    					for(EmployeeOverride eo : employeeOverrides) {
+	    						if(eo.getLeavePlan().equals(leavePlan) && eo.getAccrualCategory().equals(aRow.getAccrualCategory())) {
+	    							if(eo.getOverrideType().equals("MU") && eo.isActive()) {
+	    								if(eo.getOverrideValue()!=null && !eo.getOverrideValue().equals(""))
+	    									maxUsage = new BigDecimal(eo.getOverrideValue());
+	    								else // no limit flag
+	    									maxUsage = null;
+	    							}
+	    						}
+	    					}
 	    					BigDecimal ytdUsage = aRow.getYtdApprovedUsage();
 	    					BigDecimal pendingLeaveBalance = aRow.getPendingLeaveRequests();
 	    					BigDecimal desiredUsage = new BigDecimal(0);
