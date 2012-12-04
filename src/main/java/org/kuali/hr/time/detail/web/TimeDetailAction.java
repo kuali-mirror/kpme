@@ -339,8 +339,8 @@ public class TimeDetailAction extends TimesheetAction {
 		String desc = "";	// there's no description field in time calendar pop window
 		String spanningWeeks = tdaf.getSpanningWeeks();
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(tdaf.getTimesheetDocument(), tdaf.getSelectedAssignment());
-		TkServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate,
-				endDate,  tdaf.getPayCalendarDates(), selectedEarnCode, leaveAmount, desc, assignment, spanningWeeks, LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR);
+		TkServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, tdaf.getPayCalendarDates(), selectedEarnCode, leaveAmount, desc, assignment, 
+				spanningWeeks, LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR, TKContext.getTargetPrincipalId());
 	}
 	
     // add/update time blocks

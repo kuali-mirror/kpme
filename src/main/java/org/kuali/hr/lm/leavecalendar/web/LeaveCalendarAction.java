@@ -18,7 +18,12 @@ package org.kuali.hr.lm.leavecalendar.web;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,7 +35,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
-import org.kuali.hr.lm.balancetransfer.web.BalanceTransferForm;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
@@ -50,6 +54,8 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class LeaveCalendarAction extends TkAction {
@@ -225,8 +231,10 @@ public class LeaveCalendarAction extends TkAction {
 					.getAssignment(assignments, lcf.getSelectedAssignment(), lcf.getCalendarEntry().getBeginPeriodDate());
 		}
 
-		TkServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate,
-				endDate, lcf.getCalendarEntry(), selectedEarnCode, hours, desc, assignment, spanningWeeks, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR); // KPME-1446
+		TkServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, lcf.getCalendarEntry(), selectedEarnCode, hours, desc, assignment, 
+				spanningWeeks, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, TKContext.getTargetPrincipalId());
+		generateLeaveCalendarChangedNotification();
+		
 		// after adding the leave block, set the fields of this form to null for future new leave blocks
 		lcf.setLeaveAmount(null);
 		lcf.setDescription(null);
@@ -255,7 +263,9 @@ public class LeaveCalendarAction extends TkAction {
         if (blockToDelete != null
                 && TkServiceLocator.getPermissionsService().canDeleteLeaveBlock(blockToDelete)) {
 		    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId, TKContext.getPrincipalId());
-			 // recalculate accruals
+		    generateLeaveCalendarChangedNotification();
+		    
+		    // recalculate accruals
 		    if(lcf.getCalendarEntry() != null) {
 		    	this.rerunAccrualForNotEligibleForAccrualChanges(blockToDelete.getEarnCode(), blockToDelete.getLeaveDate(), 
 		    		lcf.getCalendarEntry().getBeginPeriodDate(), lcf.getCalendarEntry().getEndPeriodDate());
@@ -306,7 +316,9 @@ public class LeaveCalendarAction extends TkAction {
             if (!updatedLeaveBlock.getEarnCode().equals(earnCode.getEarnCode())) {
                 updatedLeaveBlock.setEarnCode(earnCode.getEarnCode());
             }
-            TkServiceLocator.getLeaveBlockService().updateLeaveBlock(updatedLeaveBlock);
+            TkServiceLocator.getLeaveBlockService().updateLeaveBlock(updatedLeaveBlock, TKContext.getPrincipalId());
+            generateLeaveCalendarChangedNotification();
+            
             lcf.setLeaveAmount(null);
             lcf.setDescription(null);
             lcf.setSelectedEarnCode(null);
@@ -511,6 +523,17 @@ public class LeaveCalendarAction extends TkAction {
 			}
 		}
 		return mapping.findForward("basic");
+	}
+	
+	private void generateLeaveCalendarChangedNotification() {
+		if (!StringUtils.equals(TKContext.getTargetPrincipalId(), TKContext.getPrincipalId())) {
+			Person person = KimApiServiceLocator.getPersonService().getPerson(TKContext.getPrincipalId());
+			if (person != null) {
+				String subject = "Leave Calendar Modification Notice";
+				String message = "Your leave calendar was changed by " + person.getNameUnmasked() + " on your behalf.";
+				TkServiceLocator.getKPMENotificationService().sendNotification(subject, message, TKContext.getTargetPrincipalId());
+			}
+		}
 	}
 	
 	/**

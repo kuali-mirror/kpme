@@ -233,7 +233,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
                 } else {
                     continue;
                 }
-                TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb);
+                TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, TKContext.getPrincipalId());
             }
 
         }

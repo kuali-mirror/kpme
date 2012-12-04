@@ -31,18 +31,19 @@ public interface LeaveBlockService {
 
     public void saveLeaveBlocks(List<LeaveBlock> leaveBlocks);
 
-    public void saveLeaveBlock(LeaveBlock leaveBlock);
+    public void saveLeaveBlock(LeaveBlock leaveBlock, String principalId);
 
     /**
      * The deletion marks the leave block inactive instead of removing the row from the database.
      * @param leaveBlockId
-     * @param principalIdDeleted
+     * @param principalId
      */
-    public void deleteLeaveBlock(String leaveBlockId, String principalIdDeleted);
+    public void deleteLeaveBlock(String leaveBlockId, String principalId);
 
     public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntries ce, String selectedEarnCode, 
-    		BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks, String leaveBlockType);
-    public void updateLeaveBlock(LeaveBlock leaveBlock);  // KPME-1447
+    		BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks, String leaveBlockType, String principalId);
+    
+    public void updateLeaveBlock(LeaveBlock leaveBlock, String principalId);
     /**
      * 
      * @param principalId

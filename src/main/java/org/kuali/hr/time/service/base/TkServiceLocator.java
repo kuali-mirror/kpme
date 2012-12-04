@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.time.service.base;
 
+import org.kuali.hr.core.notification.service.KPMENotificationService;
 import org.kuali.hr.job.service.JobService;
 import org.kuali.hr.lm.accrual.service.AccrualCategoryRuleService;
 import org.kuali.hr.lm.accrual.service.AccrualCategoryService;
@@ -164,6 +165,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String LM_LEAVE_APPROVAL_SERVICE = "leaveApprovalService";
     public static final String LM_BALANCE_TRANSFER_SERVICE = "balanceTransferService";
 	public static final String KPME_DISTRIBUTED_CACHE_MANAGER = "kpmeDistributedCacheManager";
+    public static final String KPME_NOTIFICATION_SERVICE = "kpmeNotificationService";
     
     public static MissedPunchService getMissedPunchService() {
         return (MissedPunchService) CONTEXT.getBean(TK_MISSED_PUNCH_SERVICE);
@@ -454,6 +456,9 @@ public class TkServiceLocator implements ApplicationContextAware {
 	}
     public static BalanceTransferService getBalanceTransferService() {
     	return (BalanceTransferService) CONTEXT.getBean(LM_BALANCE_TRANSFER_SERVICE);
+    }
+    public static KPMENotificationService getKPMENotificationService() {
+    	return (KPMENotificationService) CONTEXT.getBean(KPME_NOTIFICATION_SERVICE);
     }
 	
 	@Override

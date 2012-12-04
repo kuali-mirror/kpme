@@ -119,6 +119,14 @@
         <property name="serviceName" value="kualiModuleService" />
     </bean>
     
+    <bean id="mailer" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="mailer" />
+    </bean>
+    
+    <bean id="personService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="personService" />
+    </bean>
+    
     <bean id="parameterService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="parameterService" />
     </bean>
@@ -635,6 +643,12 @@
     
     <bean id="leaveApprovalService" class="org.kuali.hr.lm.leave.approval.service.LeaveApprovalServiceImpl">
         <property name="principalHRAttributesDao" ref="principalHRAttributesDao"/>
+    </bean>
+    
+    <bean id="kpmeNotificationService" class="org.kuali.hr.core.notification.service.KPMENotificationServiceImpl">
+        <property name="mailer" ref="mailer" />
+        <property name="parameterService" ref="parameterService" />
+        <property name="personService" ref="personService" />
     </bean>
      
     

@@ -20,19 +20,17 @@ import java.sql.Date;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.hr.core.cache.CacheUtils;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
-import org.kuali.hr.lm.leavedonation.LeaveDonation;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class BalanceTransferMaintainableServiceImpl extends
@@ -74,7 +72,7 @@ public class BalanceTransferMaintainableServiceImpl extends
 		aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
 		aLeaveBlock.setBlockId(0L);
 		
-		TkServiceLocator.getLeaveBlockService().saveLeaveBlock(aLeaveBlock);
+		TkServiceLocator.getLeaveBlockService().saveLeaveBlock(aLeaveBlock, TKContext.getPrincipalId());
 		
 		//member debitedAccrualCategory in class BalanceTransfer, at this time, is not being instantiated/populated with
 		//the relevant object. Perhaps it's a caching issue, or a bean property that needs to be defined.
@@ -93,7 +91,7 @@ public class BalanceTransferMaintainableServiceImpl extends
 		aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
 		aLeaveBlock.setBlockId(0L);
 		
-		TkServiceLocator.getLeaveBlockService().saveLeaveBlock(aLeaveBlock);
+		TkServiceLocator.getLeaveBlockService().saveLeaveBlock(aLeaveBlock, TKContext.getPrincipalId());
 		
 		if(btd.getForfeitedAmount()!=null) {
 			if(btd.getForfeitedAmount().compareTo(BigDecimal.ZERO) > 0) {
@@ -111,7 +109,7 @@ public class BalanceTransferMaintainableServiceImpl extends
 				aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
 				aLeaveBlock.setBlockId(0L);
 				
-				TkServiceLocator.getLeaveBlockService().saveLeaveBlock(aLeaveBlock);
+				TkServiceLocator.getLeaveBlockService().saveLeaveBlock(aLeaveBlock, TKContext.getPrincipalId());
 			}
 		}
 		

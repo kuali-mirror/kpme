@@ -85,7 +85,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     }
 
     @Override
-    public void deleteLeaveBlock(String leaveBlockId, String principalIdDeleted) {
+    public void deleteLeaveBlock(String leaveBlockId, String principalId) {
         LeaveBlock leaveBlock = getLeaveBlock(leaveBlockId);
         
 //        leaveBlock.setPrincipalIdModified(TKContext.getTargetPrincipalId());
@@ -93,7 +93,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         
         // Make entry into LeaveBlockHistory table
         LeaveBlockHistory leaveBlockHistory = new LeaveBlockHistory(leaveBlock);
-        leaveBlockHistory.setPrincipalIdDeleted(principalIdDeleted);
+        leaveBlockHistory.setPrincipalIdDeleted(principalId);
         leaveBlockHistory.setTimestampDeleted(new Timestamp(System.currentTimeMillis()));
         leaveBlockHistory.setAction(LMConstants.ACTION.DELETE);
 
@@ -107,7 +107,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     }
 
     @Override
-    public void saveLeaveBlock(LeaveBlock leaveBlock) {
+    public void saveLeaveBlock(LeaveBlock leaveBlock, String principalId) {
 
     	// first delete and create new entry in the database
     	KRADServiceLocator.getBusinessObjectService().delete(leaveBlock);
@@ -115,7 +115,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     	// create new 
         leaveBlock.setLmLeaveBlockId(null);
     	leaveBlock.setTimestamp(new Timestamp(System.currentTimeMillis()));
-    	leaveBlock.setPrincipalIdModified(TKContext.getPrincipalId());
+    	leaveBlock.setPrincipalIdModified(principalId);
     	KRADServiceLocator.getBusinessObjectService().save(leaveBlock);
 
         // save history
@@ -127,8 +127,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 
     @Override
     public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntries ce, String selectedEarnCode, 
-    		BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks, String leaveBlockType) {
-        String princpalId = TKContext.getTargetPrincipalId();
+    		BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks, String leaveBlockType, String principalId) {
         DateTime calBeginDateTime = beginDate;
     	DateTime calEndDateTime = endDate;
         if(ce != null) {
@@ -143,11 +142,11 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         // we need to plus one day on the end date to include that date
         List<Interval> leaveBlockIntervals = TKUtils.createDaySpan(beginDate, endDate.plusDays(1), TKUtils.getSystemDateTimeZone());
         // need to use beginDate and endDate of the calendar to find all leaveBlocks since LeaveCalendarDocument Id is not always available
-        List<LeaveBlock> currentLeaveBlocks = getLeaveBlocks(princpalId, calBeginDateTime.toDate(), calEndDateTime.toDate());
+        List<LeaveBlock> currentLeaveBlocks = getLeaveBlocks(principalId, calBeginDateTime.toDate(), calEndDateTime.toDate());
     
         // use the current calendar's begin and end date to figure out if this pay period has a leaveDocument
         LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService()
-        		.getDocumentHeader(princpalId, ce.getBeginLocalDateTime().toDateTime().toDate(), ce.getEndLocalDateTime().toDateTime().toDate());
+        		.getDocumentHeader(principalId, ce.getBeginLocalDateTime().toDateTime().toDate(), ce.getEndLocalDateTime().toDateTime().toDate());
         String docId = lcdh == null ? null : lcdh.getDocumentId();
         
         // TODO: need to integrate with the scheduled timeoff.
@@ -174,9 +173,9 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
                         requestStatus = LMConstants.REQUEST_STATUS.PLANNED;
                     }
                     EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, sqlDate);
-	                LeaveBlock leaveBlock = new LeaveBlock.Builder(new DateTime(leaveBlockInt.getStartMillis()), docId, princpalId, selectedEarnCode, hours)
+	                LeaveBlock leaveBlock = new LeaveBlock.Builder(new DateTime(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours)
 	                        .description(description)
-	                        .principalIdModified(princpalId)
+	                        .principalIdModified(principalId)
 	                        .timestamp(TKUtils.getCurrentTimestamp())
 	                        .scheduleTimeOffId("0")
 	                        .accrualCategory(earnCodeObj.getAccrualCategory())
@@ -198,7 +197,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     
     // KPME-1447
     @Override
-    public void updateLeaveBlock(LeaveBlock leaveBlock) {
+    public void updateLeaveBlock(LeaveBlock leaveBlock, String principalId) {
     	//verify that if leave block is usage, leave amount is negative
         if ((LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR.equals(leaveBlock.getLeaveBlockType())
                     || LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR.equals(leaveBlock.getLeaveBlockType()))
@@ -208,7 +207,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 
         // Make entry into LeaveBlockHistory table
         LeaveBlockHistory leaveBlockHistory = new LeaveBlockHistory(leaveBlock);
-        leaveBlockHistory.setPrincipalIdDeleted(TKContext.getPrincipalId());
+        leaveBlockHistory.setPrincipalIdDeleted(principalId);
         leaveBlockHistory.setTimestampDeleted(new Timestamp(System.currentTimeMillis()));
         leaveBlockHistory.setAction(LMConstants.ACTION.MODIFIED);
 

@@ -34,6 +34,7 @@ import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
 import org.kuali.hr.lm.leaveblock.LeaveStatusHistory;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 
@@ -138,7 +139,7 @@ public class LeaveRequestAction extends TkAction {
 			  if(leaveBlock.getSubmit()) {
 				  // update its status as 'R'
 				  leaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
-				  TkServiceLocator.getLeaveBlockService().saveLeaveBlock(leaveBlock);
+				  TkServiceLocator.getLeaveBlockService().saveLeaveBlock(leaveBlock, TKContext.getPrincipalId());
 				  // make entry into leave status history...
 				  LeaveStatusHistory leaveStatusHistory = new LeaveStatusHistory();
 				  leaveStatusHistory.setLmLeaveBlockId(leaveBlock.getLmLeaveBlockId());
