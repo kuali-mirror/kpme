@@ -74,5 +74,10 @@ public class SystemScheduledTimeOffServiceImpl implements SystemScheduledTimeOff
 		BigDecimal fte = job.getStandardHours().divide(new BigDecimal(40.0),TkConstants.BIG_DECIMAL_SCALE);
 		return fte.multiply(new BigDecimal(sstoHours)).setScale(TkConstants.BIG_DECIMAL_SCALE);
 	}
-   
+
+    @Override
+    public List<SystemScheduledTimeOff> getSystemScheduledTimeOffs(Date fromEffdt, Date toEffdt, String earnCode, String fromAccruedDate, String toAccruedDate, String fromSchTimeOffDate, String toSchTimeOffDate, String active, String showHist) {
+        return systemScheduledTimeOffDao.getSystemScheduledTimeOffs(fromEffdt, toEffdt, earnCode, fromAccruedDate, toAccruedDate, fromSchTimeOffDate, toSchTimeOffDate, active, showHist);
+    }
+
 }

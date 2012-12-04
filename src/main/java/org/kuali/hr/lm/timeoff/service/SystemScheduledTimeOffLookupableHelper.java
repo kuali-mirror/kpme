@@ -17,12 +17,15 @@ package org.kuali.hr.lm.timeoff.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -68,4 +71,22 @@ public class SystemScheduledTimeOffLookupableHelper extends HrEffectiveDateActiv
 		return customActionUrls;
 	}
 
+    @SuppressWarnings({"unchecked"})
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
+        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
+        String earnCode = fieldValues.get("earnCode");
+        String fromAccruedDate = fieldValues.get("rangeLowerBoundKeyPrefix_accruedDate");
+        String toAccruedDate = TKUtils.getToDateString(fieldValues.get("accruedDate"));
+        String fromSchTimeOffDate = fieldValues.get("rangeLowerBoundKeyPrefix_scheduledTimeOffDate");
+        String toSchTimeOffDate = TKUtils.getToDateString(fieldValues.get("scheduledTimeOffDate"));
+        String active = fieldValues.get("active");
+        String showHist = fieldValues.get("history");
+
+        List<SystemScheduledTimeOff> sysSchTimeOffs = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffs(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), earnCode,
+                fromAccruedDate, toAccruedDate, fromSchTimeOffDate, toSchTimeOffDate, active, showHist);
+
+        return sysSchTimeOffs;
+    }
 }

@@ -50,5 +50,7 @@ public interface SystemScheduledTimeOffService {
 	 * @return
 	 */
 	public BigDecimal calculateSysSchTimeOffHours(Job job, Long sstoHours);
-	
+
+    List<SystemScheduledTimeOff> getSystemScheduledTimeOffs(Date fromEffdt, Date toEffdt, String earnCode, String fromAccruedDate,
+                                                            String toAccruedDate, String fromSchTimeOffDate, String toSchTimeOffDate, String active, String showHist);
 }
