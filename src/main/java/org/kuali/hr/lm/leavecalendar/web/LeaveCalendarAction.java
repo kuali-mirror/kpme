@@ -23,12 +23,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.SystemUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -57,6 +59,7 @@ import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.UrlFactory;
 
 public class LeaveCalendarAction extends TkAction {
 
@@ -233,7 +236,7 @@ public class LeaveCalendarAction extends TkAction {
 
 		TkServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, lcf.getCalendarEntry(), selectedEarnCode, hours, desc, assignment, 
 				spanningWeeks, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, TKContext.getTargetPrincipalId());
-		generateLeaveCalendarChangedNotification();
+		generateLeaveCalendarChangedNotification(TKContext.getPrincipalId(), TKContext.getTargetPrincipalId(), lcd.getDocumentId(), lcf.getCalendarEntry().getHrCalendarEntriesId());
 		
 		// after adding the leave block, set the fields of this form to null for future new leave blocks
 		lcf.setLeaveAmount(null);
@@ -257,13 +260,14 @@ public class LeaveCalendarAction extends TkAction {
 			ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
+		LeaveCalendarDocument lcd = lcf.getLeaveCalendarDocument();
 		String leaveBlockId = lcf.getLeaveBlockId();
 
         LeaveBlock blockToDelete = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
         if (blockToDelete != null
                 && TkServiceLocator.getPermissionsService().canDeleteLeaveBlock(blockToDelete)) {
 		    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId, TKContext.getPrincipalId());
-		    generateLeaveCalendarChangedNotification();
+		    generateLeaveCalendarChangedNotification(TKContext.getPrincipalId(), TKContext.getTargetPrincipalId(), lcd.getDocumentId(), lcf.getCalendarEntry().getHrCalendarEntriesId());
 		    
 		    // recalculate accruals
 		    if(lcf.getCalendarEntry() != null) {
@@ -300,6 +304,7 @@ public class LeaveCalendarAction extends TkAction {
 	// KPME-1447
 	public ActionForward updateLeaveBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
+		LeaveCalendarDocument lcd = lcf.getLeaveCalendarDocument();
 		String selectedEarnCode = lcf.getSelectedEarnCode();
 		String leaveBlockId = lcf.getLeaveBlockId();
 		
@@ -317,7 +322,7 @@ public class LeaveCalendarAction extends TkAction {
                 updatedLeaveBlock.setEarnCode(earnCode.getEarnCode());
             }
             TkServiceLocator.getLeaveBlockService().updateLeaveBlock(updatedLeaveBlock, TKContext.getPrincipalId());
-            generateLeaveCalendarChangedNotification();
+            generateLeaveCalendarChangedNotification(TKContext.getPrincipalId(), TKContext.getTargetPrincipalId(), lcd.getDocumentId(), lcf.getCalendarEntry().getHrCalendarEntriesId());
             
             lcf.setLeaveAmount(null);
             lcf.setDescription(null);
@@ -525,15 +530,29 @@ public class LeaveCalendarAction extends TkAction {
 		return mapping.findForward("basic");
 	}
 	
-	private void generateLeaveCalendarChangedNotification() {
-		if (!StringUtils.equals(TKContext.getTargetPrincipalId(), TKContext.getPrincipalId())) {
-			Person person = KimApiServiceLocator.getPersonService().getPerson(TKContext.getPrincipalId());
+	private void generateLeaveCalendarChangedNotification(String principalId, String targetPrincipalId, String documentId, String hrCalendarEntryId) {
+		if (!StringUtils.equals(principalId, targetPrincipalId)) {
+			Person person = KimApiServiceLocator.getPersonService().getPerson(principalId);
 			if (person != null) {
 				String subject = "Leave Calendar Modification Notice";
-				String message = "Your leave calendar was changed by " + person.getNameUnmasked() + " on your behalf.";
-				TkServiceLocator.getKPMENotificationService().sendNotification(subject, message, TKContext.getTargetPrincipalId());
+				StringBuilder message = new StringBuilder();
+				message.append("Your leave calendar was changed by ");
+				message.append(person.getNameUnmasked());
+				message.append(" on your behalf.");
+				message.append(SystemUtils.LINE_SEPARATOR);
+				message.append(getLeaveCalendarURL(documentId, hrCalendarEntryId));
+				
+				TkServiceLocator.getKPMENotificationService().sendNotification(subject, message.toString(), targetPrincipalId);
 			}
 		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	private String getLeaveCalendarURL(String documentId, String hrCalendarEntryId) {
+		Properties params = new Properties();
+		params.put("documentId", documentId);
+		params.put("calEntryId", hrCalendarEntryId);
+		return UrlFactory.parameterizeUrl(getApplicationBaseUrl() + "/LeaveCalendar.do", params);
 	}
 	
 	/**

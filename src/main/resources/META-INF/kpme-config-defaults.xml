@@ -149,6 +149,9 @@
     <param name="rice.portal.logout.redirectUrl">${application.url}/loggedOut.jsp</param>
 	<param name="rice.portal.allowed.regex">^(${application.url}|${rice.server.url})(/.*|)</param>
 
+    <!-- KPME Email Notifications -->
+    <param name="kpme.notifications.enabled">false</param>
+    
     <!-- KPME Batch Processing -->
     <param name="kpme.org.quartz.threadPool.threadCount">5</param>
     <param name="kpme.batch.startDelay.milliseconds">300000</param>

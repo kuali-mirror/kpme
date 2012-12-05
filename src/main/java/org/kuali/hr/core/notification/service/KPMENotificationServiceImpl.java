@@ -17,6 +17,7 @@ package org.kuali.hr.core.notification.service;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.mail.EmailBody;
 import org.kuali.rice.core.api.mail.EmailFrom;
 import org.kuali.rice.core.api.mail.EmailSubject;
@@ -32,6 +33,7 @@ public class KPMENotificationServiceImpl implements KPMENotificationService {
 	
 	private static final Logger LOG = Logger.getLogger(KPMENotificationServiceImpl.class);
 	
+	private static final String KPME_NOTIFICATIONS_ENABLED = "kpme.notifications.enabled";
     private static final String DEFAULT_EMAIL_FROM_ADDRESS = "admin@localhost";
 	
 	private Mailer mailer;
@@ -64,13 +66,12 @@ public class KPMENotificationServiceImpl implements KPMENotificationService {
 				}
 			}
 		} else {
-			LOG.info("Not sending message due to parameter " + KewApiConstants.ACTION_LIST_SEND_EMAIL_NOTIFICATION_IND + " indicating emails should not be sent");
+			LOG.info("Not sending message due to config parameter " + KPME_NOTIFICATIONS_ENABLED + " indicating emails should not be sent");
 		}
 	}
 	
     private boolean sendEmailNotification() {
-        return KewApiConstants.ACTION_LIST_SEND_EMAIL_NOTIFICATION_VALUE.equals(getParameterService().getParameterValueAsString(KewApiConstants.KEW_NAMESPACE, 
-        		KRADConstants.DetailTypes.ACTION_LIST_DETAIL_TYPE, KewApiConstants.ACTION_LIST_SEND_EMAIL_NOTIFICATION_IND));
+        return ConfigContext.getCurrentContextConfig().getBooleanProperty(KPME_NOTIFICATIONS_ENABLED, false);
     }
 	
     private String getApplicationEmailAddress() {
