@@ -97,6 +97,7 @@ public class AccrualServiceImpl implements AccrualService {
 		PrincipalHRAttributes endPhra = null;
 		LeavePlan lp = null;
 		List<AccrualCategory> accrCatList = null;
+		BigDecimal wholeFTEForRuleChange = null;	// for tracking whole fte to use for Accrual category rule changes
 		
 		//Iterate over every day in span 
 		Calendar aCal = Calendar.getInstance();
@@ -166,27 +167,26 @@ public class AccrualServiceImpl implements AccrualService {
 						if(previousAcRule != null && !previousAcRule.getLmAccrualCategoryRuleId().equals(currentAcRule.getLmAccrualCategoryRuleId())) {
 							if(TKUtils.removeTime(currentDate).compareTo(TKUtils.removeTime(previousIntervalDay)) >= 0 
 									&& TKUtils.removeTime(currentDate).compareTo(TKUtils.removeTime(nextIntervalDay)) <= 0) {
-								
-								boolean minReachedFlag = minimumPercentageReachedForPayPeriod(anAC.getMinPercentWorked(), anAC.getAccrualEarnInterval(), ruleStartSqlDate, nextIntervalDay);
-								if(!prorationFlag) {
-									if(!minReachedFlag) {
-										//if minimum percentage is not reached, proration = false, rule changes, use previousRule for the whole pay period
-										if(previousAcRule != null) {
-											currentAcRule = previousAcRule;
-										} else {
-											//min not reached, proration=false, no rule change, then no calculation for this pay period
-											continue;	
-										}
+								int workDaysInBetween = TKUtils.getWorkDays(ruleStartSqlDate, nextIntervalDay);
+								boolean minReachedFlag = minimumPercentageReachedForPayPeriod(anAC.getMinPercentWorked(), 
+												anAC.getAccrualEarnInterval(), workDaysInBetween, new java.sql.Date(nextIntervalDay.getTime()));
+								if(prorationFlag) {
+									if(minReachedFlag) {
+										// min reached, proration=true, rule changed, then use actual work days of currentRule for calculation
+										// so nothing special needs to be done here								
 									} else {
-										// min reached, proration=false, use currentRule for the whole pay period
-										// if current date is the currentRule start date, recalculate the existing hrs for this pay period
-										if(previousAcRule != null && TKUtils.removeTime(currentDate).compareTo(TKUtils.removeTime(ruleStartDate)) == 0 ) {
-											BigDecimal hrs = accumulatedAccrualCatToAccrualAmounts.get(anAC.getLmAccrualCategoryId());
-											if(hrs != null && hrs.compareTo(BigDecimal.ZERO) > 0) {
-												BigDecimal newHrs = (hrs.divide(previousAcRule.getAccrualRate())).multiply(currentAcRule.getAccrualRate());
-												accumulatedAccrualCatToAccrualAmounts.put(anAC.getLmAccrualCategoryId(), newHrs);
-											}
-										}
+										//minimum percentage NOT reached, proration = true, rule changed, then use previousRule for the whole pay period
+										currentAcRule = previousAcRule;
+									}
+								} else {
+									if(minReachedFlag) {
+										// min reached, proration = false, rule changed, then accrual the whole fte of the new rule for this pay interval
+										wholeFTEForRuleChange = currentAcRule.getAccrualRate();
+										accumulatedAccrualCatToAccrualAmounts.put(anAC.getLmAccrualCategoryId(), wholeFTEForRuleChange);
+									} else {
+										//min NOT reached, proration = false, rule changed, then accrual the whole fte of the previous rule for this pay interval
+										wholeFTEForRuleChange = previousAcRule.getAccrualRate();
+										accumulatedAccrualCatToAccrualAmounts.put(anAC.getLmAccrualCategoryId(), wholeFTEForRuleChange);
 									}
 								}
 							}
@@ -197,64 +197,53 @@ public class AccrualServiceImpl implements AccrualService {
 					java.util.Date firstIntervalDate = getNextAccrualIntervalDate(anAC.getAccrualEarnInterval(),  phra.getEffectiveDate());
 					if(!TKUtils.removeTime(currentDate).before(TKUtils.removeTime(phra.getEffectiveDate())) 
 							&& !TKUtils.removeTime(currentDate).after(TKUtils.removeTime(firstIntervalDate))) {
-						java.util.Date previousIntervalDate = this.getPreviousAccrualIntervalDate(anAC.getAccrualEarnInterval(), new java.sql.Date(currentDate.getTime()));
-						RateRange previousRange = rrAggregate.getRateOnDate(previousIntervalDate);
-						AccrualCategoryRule previousAcRule = null;
-						if(previousRange != null) {
-							previousAcRule = this.getRuleForAccrualCategory(previousRange.getAcRuleList(), anAC);
-						}
-						boolean minReachedFlag = minimumPercentageReachedForPayPeriod(anAC.getMinPercentWorked(), anAC.getAccrualEarnInterval(), phra.getEffectiveDate(), firstIntervalDate);
+						int workDaysInBetween = TKUtils.getWorkDays(phra.getEffectiveDate(), firstIntervalDate);
+						boolean minReachedFlag = minimumPercentageReachedForPayPeriod(anAC.getMinPercentWorked(),  anAC.getAccrualEarnInterval(), workDaysInBetween, new java.sql.Date(firstIntervalDate.getTime()));
 						
-						if(!prorationFlag) {
-							if(!minReachedFlag) {
-								//if minimum percentage is not reached, proration applies, rule changes, use previousRule for the whole pay period
-								if(previousAcRule != null && !previousAcRule.getLmAccrualCategoryRuleId().equals(currentAcRule.getLmAccrualCategoryRuleId())) {
-									currentAcRule = previousAcRule;
-								} else {
-									//min not reached, proration applies, no rule change, then no calculation for this pay period
-									continue;	
-								}
+						if(prorationFlag) {
+							if(minReachedFlag) {
+								// minimum reached, proration = true, first pay period, then use actual work days of currentRule for calculation
+								// so nothing special needs to be done here
 							} else {
-								// min reached, proration applies, use currentRule for the whole pay period
-								// recalculate the existing hrs in this pay period
-								if(previousAcRule != null && !previousAcRule.getLmAccrualCategoryRuleId().equals(currentAcRule.getLmAccrualCategoryRuleId())) {
-									BigDecimal hrs = accumulatedAccrualCatToAccrualAmounts.get(anAC.getLmAccrualCategoryId());
-									if(hrs != null && hrs.compareTo(BigDecimal.ZERO) > 0) {
-										BigDecimal newHrs = (hrs.divide(previousAcRule.getAccrualRate())).multiply(currentAcRule.getAccrualRate());
-										accumulatedAccrualCatToAccrualAmounts.put(anAC.getLmAccrualCategoryId(), newHrs);
-									}
-								}
+								// min NOT reached, proration = true, first pay period, then no accrual for this pay period
+								continue;
+							}
+						} else {
+							if(minReachedFlag) {
+								//  minimum reached, proration = false, first pay period, then accrual the whole fte of current AC rule for this pay interval
+								wholeFTEForRuleChange = currentAcRule.getAccrualRate();
+								accumulatedAccrualCatToAccrualAmounts.put(anAC.getLmAccrualCategoryId(), wholeFTEForRuleChange);
+							} else {
+								// min NOT reached, proration = false, first pay period, then no accrual for this pay period
+								continue;
 							}
 						}
 					}
 					// last accrual interval
 					if(endPhra != null) {	// the employment is going to end on the effectiveDate of enPhra
-						java.util.Date lastIntervalDate = getPreviousAccrualIntervalDate(anAC.getAccrualEarnInterval(), endPhra.getEffectiveDate());
+						java.util.Date previousIntervalDate = getPreviousAccrualIntervalDate(anAC.getAccrualEarnInterval(), endPhra.getEffectiveDate());
+						// currentDate is between the end date and the last interval date, so we are in the last interval
 						if(!TKUtils.removeTime(currentDate).after(TKUtils.removeTime(endPhra.getEffectiveDate())) 
-								&& TKUtils.removeTime(currentDate).after(TKUtils.removeTime(lastIntervalDate))) {
-							java.util.Date previousIntervalDate = this.getPreviousAccrualIntervalDate(anAC.getAccrualEarnInterval(), new java.sql.Date(currentDate.getTime()));
-							RateRange previousRange = rrAggregate.getRateOnDate(previousIntervalDate);
-							AccrualCategoryRule previousAcRule = this.getRuleForAccrualCategory(previousRange.getAcRuleList(), anAC);
-							boolean minReachedFlag = minimumPercentageReachedForPayPeriod(anAC.getMinPercentWorked(), anAC.getAccrualEarnInterval(), endPhra.getEffectiveDate(), lastIntervalDate);
-							if(!prorationFlag) {
-								if(!minReachedFlag) {//if minimum percentage is not reached, proration applies, rule changes, use previousRule for the whole pay period
-									if(previousAcRule != null && !previousAcRule.getLmAccrualCategoryRuleId().equals(currentAcRule.getLmAccrualCategoryRuleId())) {
-										currentAcRule = previousAcRule;
-									} else {
-										//min not reached, proration applies, no rule change, then no calculation for this pay period
-										continue;	
-									}
+								&& TKUtils.removeTime(currentDate).after(TKUtils.removeTime(previousIntervalDate))) {
+							java.util.Date lastIntervalDate = getNextAccrualIntervalDate(anAC.getAccrualEarnInterval(),  endPhra.getEffectiveDate());
+							int workDaysInBetween = TKUtils.getWorkDays(previousIntervalDate, endPhra.getEffectiveDate());
+							boolean minReachedFlag = minimumPercentageReachedForPayPeriod(anAC.getMinPercentWorked(),  anAC.getAccrualEarnInterval(), workDaysInBetween, new java.sql.Date(lastIntervalDate.getTime()));
+							if(prorationFlag) {
+								if(minReachedFlag) {
+									// minimum reached, proration = true, first pay period, then use actual work days of currentRule for calculation
+									// so nothing special needs to be done here
 								} else {
-									// min reached, proration applies, use currentRule for the whole pay period
-									// recalculate the existing hrs in this pay period
-									if(previousAcRule != null && !previousAcRule.getLmAccrualCategoryRuleId().equals(currentAcRule.getLmAccrualCategoryRuleId())) {
-										BigDecimal hrs = accumulatedAccrualCatToAccrualAmounts.get(anAC.getLmAccrualCategoryId());
-										if(hrs != null && hrs.compareTo(BigDecimal.ZERO) > 0) {
-											BigDecimal newHrs = (hrs.divide(previousAcRule.getAccrualRate())).multiply(currentAcRule.getAccrualRate());
-											accumulatedAccrualCatToAccrualAmounts.put(anAC.getLmAccrualCategoryId(), newHrs);
-										}
-									}
-									
+									// min NOT reached, proration = true, first pay period, then no accrual for this pay period
+									continue;
+								}
+							} else {
+								if(minReachedFlag) {
+									//  minimum reached, proration = false, first pay period, then accrual the whole fte of current AC rule for this pay interval
+									wholeFTEForRuleChange = currentAcRule.getAccrualRate();
+									accumulatedAccrualCatToAccrualAmounts.put(anAC.getLmAccrualCategoryId(), wholeFTEForRuleChange);
+								} else {
+									// min NOT reached, proration = false, first pay period, then no accrual for this pay period
+									continue;
 								}
 							}
 						}
@@ -288,11 +277,16 @@ public class AccrualServiceImpl implements AccrualService {
 					String earnIntervalKey = anAC.getAccrualEarnInterval(); 
 					
 					if(this.isDateAtEarnInterval(currentDate, earnIntervalKey)) {
-						BigDecimal acHours = accumulatedAccrualCatToAccrualAmounts.get(anAC.getLmAccrualCategoryId());
+						// if there is a whole fte to be used due to AC rule changes, then use it instead of what is accumulated
+						BigDecimal acHours = wholeFTEForRuleChange != null ? 
+								wholeFTEForRuleChange : accumulatedAccrualCatToAccrualAmounts.get(anAC.getLmAccrualCategoryId());
+						
 						if(acHours != null) {
 							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, acHours, anAC, null, true);
 							accumulatedAccrualCatToAccrualAmounts.remove(anAC.getLmAccrualCategoryId());	// reset accumulatedAccrualCatToAccrualAmounts
+							wholeFTEForRuleChange = null; // reset whole fte
 						}
+						
 						BigDecimal adjustmentHours = accumulatedAccrualCatToNegativeAccrualAmounts.get(anAC.getLmAccrualCategoryId());
 						if(adjustmentHours != null && adjustmentHours.compareTo(BigDecimal.ZERO) != 0) {
 							// do not create leave block if the ajustment amount is 0
@@ -459,29 +453,29 @@ public class AccrualServiceImpl implements AccrualService {
 			Calendar aCal = Calendar.getInstance();
 			aCal.setTime(aDate);
 			
-			if(intervalValue == "Daily") {
+			if(intervalValue.equals("Daily")) {
 				atEarnInterval = true;
-			} else if(intervalValue == "Weekly") {
+			} else if(intervalValue.equals("Weekly")) {
 				// figure out if the day is a Saturday
 				if(aCal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
 					atEarnInterval = true;
 				}
-			} else if (intervalValue == "Semi-Monthly") {
+			} else if (intervalValue.equals("Semi-Monthly")) {
 				// either the 15th or the last day of the month
 				if(aCal.get(Calendar.DAY_OF_MONTH) == 15 || aCal.get(Calendar.DAY_OF_MONTH) == aCal.getActualMaximum(Calendar.DAY_OF_MONTH)) {
 					atEarnInterval = true;
 				}
-			} else if (intervalValue == "Monthly") {
+			} else if (intervalValue.equals("Monthly")) {
 				// the last day of the month
 				if(aCal.get(Calendar.DAY_OF_MONTH) == aCal.getActualMaximum(Calendar.DAY_OF_MONTH)) {
 					atEarnInterval = true;
 				}
-			} else if (intervalValue == "Yearly") {
+			} else if (intervalValue.equals("Yearly")) {
 				// the last day of the year
 				if(aCal.get(Calendar.DAY_OF_YEAR) == aCal.getActualMaximum(Calendar.DAY_OF_YEAR)) {
 					atEarnInterval = true;
 				}
-			}else if (intervalValue == "No Accrual") {
+			}else if (intervalValue.equals("No Accrual")) {
 				// no calculation
 			}
 		}
@@ -813,16 +807,15 @@ public class AccrualServiceImpl implements AccrualService {
 	}
 	
 	@Override
-	public boolean minimumPercentageReachedForPayPeriod(BigDecimal min, String earnInterval, Date jobDate, java.util.Date intervalDate) {
+	public boolean minimumPercentageReachedForPayPeriod(BigDecimal min, String earnInterval, int workDays, Date intervalDate) {
 		if(min == null || min.compareTo(BigDecimal.ZERO) == 0) {
 			return true;
 		}
-		int daysInFirstInterval = getWorkDaysInAccrualInterval(earnInterval, jobDate);
-		if(daysInFirstInterval == 0) {
+		int daysInInterval = getWorkDaysInAccrualInterval(earnInterval, intervalDate);
+		if(daysInInterval == 0) {
 			return true;
 		}
-		int workDaysInBetween = TKUtils.getWorkDays(jobDate, intervalDate);
-		BigDecimal actualPercentage =  new BigDecimal(workDaysInBetween).divide(new BigDecimal(daysInFirstInterval), 2, BigDecimal.ROUND_HALF_EVEN);
+		BigDecimal actualPercentage =  new BigDecimal(workDays).divide(new BigDecimal(daysInInterval), 2, BigDecimal.ROUND_HALF_EVEN);
 		if(actualPercentage.compareTo(min) >= 0) {
 			return true;
 		}
@@ -836,25 +829,25 @@ public class AccrualServiceImpl implements AccrualService {
 		aCal.setTime(aDate);
 		String intervalValue = TkConstants.ACCRUAL_EARN_INTERVAL.get(earnInterval);
 		
-		if(intervalValue == "Daily") {
+		if(intervalValue.equals("Daily")) {
 			// no change to calendar
-		} else if(intervalValue == "Weekly") {
+		} else if(intervalValue.equals("Weekly")) {
 			aCal.add(Calendar.WEEK_OF_YEAR, -1);
 			aCal.set(Calendar.DAY_OF_WEEK, 7);	// set to the Saturday of previous week
-		} else if (intervalValue == "Semi-Monthly") {
+		} else if (intervalValue.equals("Semi-Monthly")) {
 			aCal.add(Calendar.DAY_OF_YEAR, -15);
 			if(aCal.get(Calendar.DAY_OF_MONTH) <=15) {
 				aCal.set(Calendar.DAY_OF_MONTH, 15);
 			} else {
 				aCal.set(Calendar.DAY_OF_MONTH, aCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 			}
-		} else if (intervalValue == "Monthly") {
+		} else if (intervalValue.equals("Monthly")) {
 			aCal.add(Calendar.MONTH, -1);
 			aCal.set(Calendar.DAY_OF_MONTH, aCal.getActualMaximum(Calendar.DAY_OF_MONTH));
-		} else if (intervalValue == "Yearly") {
+		} else if (intervalValue.equals("Yearly")) {
 			aCal.add(Calendar.YEAR, -1);
 			aCal.set(Calendar.DAY_OF_YEAR, aCal.getActualMaximum(Calendar.DAY_OF_YEAR));
-		}else if (intervalValue == "No Accrual") {
+		}else if (intervalValue.equals("No Accrual")) {
 			// no change to calendar
 		}
 		return aCal.getTime();
@@ -874,21 +867,21 @@ public class AccrualServiceImpl implements AccrualService {
 		aCal.setTime(aDate);
 		String intervalValue = TkConstants.ACCRUAL_EARN_INTERVAL.get(earnInterval);
 		
-		if(intervalValue == "Daily") {
+		if(intervalValue.equals("Daily")) {
 			// no change to calendar
-		} else if(intervalValue == "Weekly") {
+		} else if(intervalValue.equals("Weekly")) {
 			aCal.set(Calendar.DAY_OF_WEEK, 7);
-		} else if (intervalValue == "Semi-Monthly") {
+		} else if (intervalValue.equals("Semi-Monthly")) {
 			if(aCal.get(Calendar.DAY_OF_MONTH) <=15) {
 				aCal.set(Calendar.DAY_OF_MONTH, 15);
 			} else {
 				aCal.set(Calendar.DAY_OF_MONTH, aCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 			}
-		} else if (intervalValue == "Monthly") {
+		} else if (intervalValue.equals("Monthly")) {
 			aCal.set(Calendar.DAY_OF_MONTH, aCal.getActualMaximum(Calendar.DAY_OF_MONTH));
-		} else if (intervalValue == "Yearly") {
+		} else if (intervalValue.equals("Yearly")) {
 			aCal.set(Calendar.DAY_OF_YEAR, aCal.getActualMaximum(Calendar.DAY_OF_YEAR));
-		}else if (intervalValue == "No Accrual") {
+		}else if (intervalValue.equals("No Accrual")) {
 			// no change to calendar
 		}
 		return aCal.getTime();
@@ -900,22 +893,22 @@ public class AccrualServiceImpl implements AccrualService {
 		aCal.setTime(aDate);
 		String intervalValue = TkConstants.ACCRUAL_EARN_INTERVAL.get(earnInterval);
 		
-		if(intervalValue == "Daily") {
+		if(intervalValue.equals("Daily")) {
 			return 1;
-		} else if(intervalValue == "Weekly") {
+		} else if(intervalValue.equals("Weekly")) {
 			return 7;	
-		} else if (intervalValue == "Semi-Monthly") {
+		} else if (intervalValue.equals("Semi-Monthly")) {
 			if(aCal.get(Calendar.DAY_OF_MONTH) <= 15) {
 				return 15;		
 			} else {
 				int max = aCal.getActualMaximum(Calendar.DAY_OF_MONTH);
 				return max - 15;
 			}
-		} else if (intervalValue == "Monthly") {
+		} else if (intervalValue.equals("Monthly")) {
 			return aCal.getActualMaximum(Calendar.DAY_OF_MONTH);
-		} else if (intervalValue == "Yearly") {
+		} else if (intervalValue.equals("Yearly")) {
 			return aCal.getActualMaximum(Calendar.DAY_OF_YEAR);
-		}else if (intervalValue == "No Accrual") {
+		}else if (intervalValue.equals("No Accrual")) {
 			return 0;
 		}
 		return 0;
@@ -927,11 +920,11 @@ public class AccrualServiceImpl implements AccrualService {
 		aCal.setTime(aDate);
 		String intervalValue = TkConstants.ACCRUAL_EARN_INTERVAL.get(earnInterval);
 		// TODO: need to verify if we still need daily
-		if(intervalValue == "Daily") {
+		if(intervalValue.equals("Daily")) {
 			return 1;
-		} else if(intervalValue == "Weekly") {
+		} else if(intervalValue.equals("Weekly")) {
 			return 5;	
-		} else if (intervalValue == "Semi-Monthly") {
+		} else if (intervalValue.equals("Semi-Monthly")) {
 			if(aCal.get(Calendar.DAY_OF_MONTH) <= 15) {
 				aCal.set(Calendar.DAY_OF_MONTH, 1);
 				java.util.Date start = aCal.getTime();
@@ -945,19 +938,19 @@ public class AccrualServiceImpl implements AccrualService {
 				java.util.Date end = aCal.getTime();
 				return TKUtils.getWorkDays(start, end);
 			}
-		} else if (intervalValue == "Monthly") {
+		} else if (intervalValue.equals("Monthly")) {
 			aCal.set(Calendar.DAY_OF_MONTH, 1);
 			java.util.Date start = aCal.getTime();
 			aCal.set(Calendar.DAY_OF_MONTH, aCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 			java.util.Date end = aCal.getTime();
 			return TKUtils.getWorkDays(start, end);
-		} else if (intervalValue == "Yearly") {
+		} else if (intervalValue.equals("Yearly")) {
 			aCal.set(Calendar.DAY_OF_YEAR, 1);
 			java.util.Date start = aCal.getTime();
 			aCal.set(Calendar.DAY_OF_YEAR, aCal.getActualMaximum(Calendar.DAY_OF_YEAR));
 			java.util.Date end = aCal.getTime();
 			return TKUtils.getWorkDays(start, end);
-		}else if (intervalValue == "No Accrual") {
+		}else if (intervalValue.equals("No Accrual")) {
 			return 0;
 		}		
 		return 0;
@@ -969,12 +962,12 @@ public class AccrualServiceImpl implements AccrualService {
 		String intervalValue = TkConstants.SERVICE_UNIT_OF_TIME.get(earnInterval);
 		int startInt = startAcc.intValue();
 		
-		if (intervalValue == "Months") {
+		if (intervalValue.equals("Months")) {
 			aCal.add(Calendar.MONTH, startInt);
 			if(aCal.get(Calendar.DAY_OF_MONTH) > aCal.getActualMaximum(Calendar.DAY_OF_MONTH)) {
 				aCal.set(Calendar.DAY_OF_MONTH, aCal.getActualMaximum(Calendar.DAY_OF_MONTH));
 			}
-		} else if (intervalValue == "Years") {
+		} else if (intervalValue.equals("Years")) {
 			aCal.set(Calendar.YEAR, startInt);
 		}else {
 			// no change to calendar
@@ -986,7 +979,7 @@ public class AccrualServiceImpl implements AccrualService {
 		if(proration == null) {
 			return true;
 		}
-		return proration == "Y" ? true : false;
+		return proration.equals("Y") ? true : false;
 	}
 	
 	@Override

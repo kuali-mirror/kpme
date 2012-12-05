@@ -71,12 +71,12 @@ public interface AccrualService {
 	 * determine if minimumPercentage has been reached with given parameters
 	 * @param min
 	 * @param earnInterval
-	 * @param jobDate
+	 * @param daysInBetween
 	 * @param intervalDate
 	 * @return boolean, 
-	 * true then no accrual will be accrual for the given interval which could be the first or the last accrual interval of an employment
+	 * the given intervalDate could be the first or the last accrual interval of an employment
 	 */
-	public boolean minimumPercentageReachedForPayPeriod(BigDecimal min, String earnInterval, Date jobDate, java.util.Date intervalDate);
+	public boolean minimumPercentageReachedForPayPeriod(BigDecimal min, String earnInterval, int daysInBetween, Date intervalDate);
 	
 	/**
 	 * get the accrual interval date of the previous accrual period with given parameters
