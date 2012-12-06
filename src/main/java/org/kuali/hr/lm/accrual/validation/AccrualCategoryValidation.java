@@ -27,6 +27,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
+import org.kuali.hr.lm.leaveplan.LeavePlan;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -256,9 +259,11 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
 		if (pbo instanceof AccrualCategory) {
 			AccrualCategory leaveAccrualCategory = (AccrualCategory) pbo;
+			
 			if (leaveAccrualCategory != null) {
 				
 				valid = true;
+				valid &= this.validateEffectiveDate(leaveAccrualCategory.getEffectiveDate());
 				valid &= this.doesCategoryHaveRules(leaveAccrualCategory);
 				valid &= this.validateAccrualRulePresent(leaveAccrualCategory.getAccrualCategoryRules());
 				if(valid && CollectionUtils.isNotEmpty(leaveAccrualCategory.getAccrualCategoryRules())) {
@@ -268,6 +273,15 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 				valid &= this.validateLeavePlan(leaveAccrualCategory.getLeavePlan(), leaveAccrualCategory.getEffectiveDate());
 			}
 		}
+		return valid;
+	}
+	
+	boolean validateEffectiveDate(Date effectiveDate) {
+		boolean valid = true;
+		valid = ValidationUtils.validateOneYearFutureEffectiveDate(effectiveDate);
+		if(!valid) {
+			this.putFieldError("effectiveDate", "error.date.exceed.year", "Effective Date");
+		} 
 		return valid;
 	}
 	
@@ -282,6 +296,8 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 		AccrualCategoryRule leaveAccrualCategoryRule = (AccrualCategoryRule) pbo;
 		
 		if(pboAccrualCategory instanceof AccrualCategory){
+			
+			
 			
 			if (StringUtils.isNotBlank(((AccrualCategory) pboAccrualCategory).getHasRules()) && ((AccrualCategory) pboAccrualCategory).getHasRules().equalsIgnoreCase("Y")){
 				if ( pbo instanceof AccrualCategoryRule ) {
