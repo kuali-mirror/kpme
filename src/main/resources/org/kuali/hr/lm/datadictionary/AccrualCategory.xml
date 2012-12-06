@@ -140,7 +140,7 @@
 	<bean id="AccrualCategory-descr-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="shortLabel" value="Desc" />
-		<property name="maxLength" value="30" />
+		<property name="maxLength" value="50" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
 				<property name="allowWhitespace" value="true" />
