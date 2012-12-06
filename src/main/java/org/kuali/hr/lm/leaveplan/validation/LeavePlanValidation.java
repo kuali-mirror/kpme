@@ -74,7 +74,7 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
-	boolean validateEffectiveDate(Date effectiveDate, String leavePlan) {
+	boolean validateEffectiveDate(Date effectiveDate, String leavePlan, String leavePlanId) {
 		boolean valid = true;
 		valid = ValidationUtils.validateOneYearFutureEffectiveDate(effectiveDate);
 		if(!valid) {
@@ -82,7 +82,7 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 		} else {
 			if(leavePlan != null && StringUtils.isNotEmpty(leavePlan.trim())) {
 		        LeavePlan lastLeavePlan = TkServiceLocator.getLeavePlanService().getLeavePlan(leavePlan,effectiveDate);
-		        if(lastLeavePlan != null) {
+		        if(lastLeavePlan != null && !lastLeavePlan.getLmLeavePlanId().equals(leavePlanId)) {
 			        if(TKUtils.getTimelessDate(lastLeavePlan.getEffectiveDate()).compareTo(TKUtils.getTimelessDate(effectiveDate)) <= 0){
 			        	valid = false;
 			        	this.putFieldError("effectiveDate", "error.leavePlan.effectiveDate.newr.exists", "Effective Date");
@@ -128,7 +128,7 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 				if (leavePlan.getEffectiveDate() != null) {
 					valid &= this.validateEffectiveDate(
 							leavePlan.getEffectiveDate(),
-							leavePlan.getLeavePlan());
+							leavePlan.getLeavePlan(), leavePlan.getLmLeavePlanId());
 				}
 				valid &= this.validateCalendarYearStart(leavePlan
 						.getCalendarYearStart());
