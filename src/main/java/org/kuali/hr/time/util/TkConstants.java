@@ -277,6 +277,7 @@ public class TkConstants {
     public static final class BATCH_JOB_NAMES {
         public static final String INITIATE = "Initiate";
         public static final String END_PAY_PERIOD = "End Pay Period";
+        public static final String END_REPORTING_PERIOD = "End Reporting Period";
         public static final String EMPLOYEE_APPROVAL = "Employee Approval";
         public static final String MISSED_PUNCH_APPROVAL = "Missed Punch Approval";
         public static final String SUPERVISOR_APPROVAL = "Supervisor Approval";

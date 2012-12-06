@@ -18,9 +18,6 @@ package org.kuali.hr.time.batch;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Interval;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.Calendar;
@@ -47,26 +44,22 @@ public class EndPayPeriodJob implements Job {
         Calendar calendar = TkServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
         calendarEntry.setCalendarObj(calendar);
         
-        Date beginDate = calendarEntry.getBeginPeriodDate();
-        Date endDate = calendarEntry.getEndPeriodDate();
+        Date beginPeriodDateTime = calendarEntry.getBeginPeriodDateTime();
+        Date endPeriodDateTime = calendarEntry.getEndPeriodDateTime();
         ClockLog openClockLog = TkServiceLocator.getClockLogService().getClockLog(tkClockLogId);
         String ipAddress = openClockLog.getIpAddress();
         String principalId = openClockLog.getPrincipalId();
-        
-        DateTime openClockLogDateTime = new DateTime(openClockLog.getClockTimestamp().getTime(), DateTimeZone.forID(openClockLog.getClockTimestampTimezone()));
-        DateTime endPeriodDateTime = new DateTime(calendarEntry.getEndPeriodDateTime().getTime(), DateTimeZone.forID(openClockLog.getClockTimestampTimezone()));
-        Interval interval = new Interval(openClockLogDateTime, endPeriodDateTime);
 
-        TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, beginDate, endDate);
+        TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, beginPeriodDateTime, endPeriodDateTime);
         if (timesheetDocumentHeader != null) {
             TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentHeader.getDocumentId());
             String assignmentKey = new AssignmentDescriptionKey(openClockLog.getJobNumber(), openClockLog.getWorkArea(), openClockLog.getTask()).toAssignmentKeyString();
             Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(timesheetDocument, assignmentKey);
 
-            TkServiceLocator.getClockLogService().processClockLog(new Timestamp(interval.getEndMillis()), assignment, calendarEntry, ipAddress, 
-            		new java.sql.Date(endPeriodDateTime.getMillis()), timesheetDocument, TkConstants.CLOCK_OUT, principalId, TkConstants.BATCH_JOB_USER_PRINCIPAL_ID);
-            TkServiceLocator.getClockLogService().processClockLog(new Timestamp(endPeriodDateTime.getMillis()), assignment, calendarEntry, ipAddress, 
-            		new java.sql.Date(endPeriodDateTime.getMillis()), timesheetDocument, TkConstants.CLOCK_IN, principalId, TkConstants.BATCH_JOB_USER_PRINCIPAL_ID);
+            TkServiceLocator.getClockLogService().processClockLog(new Timestamp(endPeriodDateTime.getTime()), assignment, calendarEntry, ipAddress, 
+            		new java.sql.Date(endPeriodDateTime.getTime()), timesheetDocument, TkConstants.CLOCK_OUT, principalId, TkConstants.BATCH_JOB_USER_PRINCIPAL_ID);
+            TkServiceLocator.getClockLogService().processClockLog(new Timestamp(beginPeriodDateTime.getTime()), assignment, calendarEntry, ipAddress, 
+            		new java.sql.Date(beginPeriodDateTime.getTime()), timesheetDocument, TkConstants.CLOCK_IN, principalId, TkConstants.BATCH_JOB_USER_PRINCIPAL_ID);
         }
 	}
 

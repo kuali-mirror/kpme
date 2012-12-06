@@ -39,35 +39,29 @@ public class CalendarEntrySchedulerJob extends QuartzJobBean {
         List<CalendarEntries> calendarEntries = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntryNeedsScheduled(getCalendarEntriesPollingWindow(), asOfDate);
 
         try {
-	        for (CalendarEntries calendarEntry : calendarEntries) {	
+	        for (CalendarEntries calendarEntry : calendarEntries) {
+	            if (calendarEntry.getEndPeriodDateTime() != null) {
+	            	getBatchJobService().scheduleEndReportingPeriodJobs(calendarEntry);
+	            }
+	        	
 	            if (calendarEntry.getBatchInitiateDateTime() != null) {
-	            	if (!getBatchJobService().jobsScheduledForGroup(InitiateJob.class, calendarEntry.getBatchInitiateDateTime())) {
-	            		getBatchJobService().scheduleInitiateJobs(calendarEntry);
-	            	}
+	            	getBatchJobService().scheduleInitiateJobs(calendarEntry);
 	            }
 	            
 	            if (calendarEntry.getBatchEndPayPeriodDateTime() != null) {
-	            	if (!getBatchJobService().jobsScheduledForGroup(EndPayPeriodJob.class, calendarEntry.getBatchEndPayPeriodDateTime())) {
-	            		getBatchJobService().scheduleEndPayPeriodJobs(calendarEntry);
-	            	}
+	            	getBatchJobService().scheduleEndPayPeriodJobs(calendarEntry);
 	            }
 	            
 	            if (calendarEntry.getBatchEmployeeApprovalDateTime() != null) {
-	            	if (!getBatchJobService().jobsScheduledForGroup(EmployeeApprovalJob.class, calendarEntry.getBatchEmployeeApprovalDateTime())) {
-	            		getBatchJobService().scheduleEmployeeApprovalJobs(calendarEntry);
-	            	}
+	            	getBatchJobService().scheduleEmployeeApprovalJobs(calendarEntry);
 	            }
 	            
 	            if (calendarEntry.getBatchSupervisorApprovalDateTime() != null) {
-	            	if (!getBatchJobService().jobsScheduledForGroup(MissedPunchApprovalJob.class, calendarEntry.getBatchSupervisorApprovalDateTime())) {
-	            		getBatchJobService().scheduleMissedPunchApprovalJobs(calendarEntry);
-	            	}
+	            	getBatchJobService().scheduleMissedPunchApprovalJobs(calendarEntry);
 	            }
 	            
 	            if (calendarEntry.getBatchSupervisorApprovalDateTime() != null) {
-	            	if (!getBatchJobService().jobsScheduledForGroup(SupervisorApprovalJob.class, calendarEntry.getBatchSupervisorApprovalDateTime())) {
-	            		getBatchJobService().scheduleSupervisorApprovalJobs(calendarEntry);
-	            	}
+	            	getBatchJobService().scheduleSupervisorApprovalJobs(calendarEntry);
 	            }
 	        }
         } catch (SchedulerException se) {

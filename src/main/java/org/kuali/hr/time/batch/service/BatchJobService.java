@@ -21,8 +21,10 @@ import org.kuali.hr.time.calendar.CalendarEntries;
 import org.quartz.SchedulerException;
 
 public interface BatchJobService {
-	
-	boolean jobsScheduledForGroup(Class<?> jobClass, Date jobDate) throws SchedulerException;
+    
+    void scheduleEndReportingPeriodJobs(CalendarEntries calendarEntry) throws SchedulerException;
+    
+    void scheduleEndReportingPeriodJobs(CalendarEntries calendarEntry, Date scheduleDate) throws SchedulerException;
     
     void scheduleInitiateJobs(CalendarEntries calendarEntry) throws SchedulerException;
     
@@ -31,7 +33,7 @@ public interface BatchJobService {
     void scheduleEndPayPeriodJobs(CalendarEntries calendarEntry) throws SchedulerException;
     
     void scheduleEndPayPeriodJobs(CalendarEntries calendarEntry, Date scheduleDate) throws SchedulerException;
-    
+
     void scheduleEmployeeApprovalJobs(CalendarEntries calendarEntry) throws SchedulerException;
     
     void scheduleEmployeeApprovalJobs(CalendarEntries calendarEntry, Date scheduleDate) throws SchedulerException;

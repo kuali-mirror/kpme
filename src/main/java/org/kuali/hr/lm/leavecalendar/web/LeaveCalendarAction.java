@@ -548,7 +548,7 @@ public class LeaveCalendarAction extends TkAction {
 			if (person != null) {
 				String subject = "Leave Calendar Modification Notice";
 				StringBuilder message = new StringBuilder();
-				message.append("Your leave calendar was changed by ");
+				message.append("Your Leave Calendar was changed by ");
 				message.append(person.getNameUnmasked());
 				message.append(" on your behalf.");
 				message.append(SystemUtils.LINE_SEPARATOR);

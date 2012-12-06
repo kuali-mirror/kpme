@@ -117,8 +117,7 @@ public class SupervisorApprovalJob implements Job {
 			
 			Date newStartTime = new DateTime().plusMinutes(5).toDate();
 			String newTriggerName = BatchJobUtil.getTriggerName(SupervisorApprovalJob.class, newStartTime);
-			String newGroupName = BatchJobUtil.getGroupName(SupervisorApprovalJob.class, newStartTime);
-			Trigger newTrigger = new SimpleTrigger(newTriggerName, newGroupName, newStartTime);
+			Trigger newTrigger = new SimpleTrigger(newTriggerName, oldTrigger.getGroup(), newStartTime);
 			newTrigger.setJobName(oldTrigger.getJobName());
 			newTrigger.setJobGroup(oldTrigger.getJobGroup());
 			

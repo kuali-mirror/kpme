@@ -46,6 +46,10 @@ public class BatchJobAction extends TkAction {
         	TkServiceLocator.getBatchJobService().scheduleEndPayPeriodJobs(calendarEntry, scheduleDate);
         }
         
+        if (StringUtils.equals(batchJobName, TkConstants.BATCH_JOB_NAMES.END_REPORTING_PERIOD)) {
+        	TkServiceLocator.getBatchJobService().scheduleEndReportingPeriodJobs(calendarEntry, scheduleDate);
+        }
+        
         if (StringUtils.equals(batchJobName, TkConstants.BATCH_JOB_NAMES.EMPLOYEE_APPROVAL)) {
         	TkServiceLocator.getBatchJobService().scheduleEmployeeApprovalJobs(calendarEntry, scheduleDate);
         }

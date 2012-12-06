@@ -27,21 +27,29 @@ import org.apache.commons.lang.StringUtils;
 public class BatchJobUtil {
 	
 	private static final DateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-	
-	public static String getGroupName(Class<?> jobClass, Date jobDate) {
-		return jobClass.getSimpleName() + "-Group-" + "date=" + FORMAT.format(jobDate);
+
+	public static String getJobGroupName(Class<?> jobClass, Map<String, String> jobGroupDataMap) {
+		return jobClass.getSimpleName() + "-JobGroup-" + getDataMapString(jobGroupDataMap);
 	}
 	
 	public static String getJobName(Class<?> jobClass, Map<String, String> jobDataMap) {
-		List<String> jobDataMapPairs = new ArrayList<String>();
-		for (Map.Entry<String, String> jobDataMapEntry : jobDataMap.entrySet()) {
-			jobDataMapPairs.add(jobDataMapEntry.getKey() + "=" + jobDataMapEntry.getValue());
-		}
-		return jobClass.getSimpleName() + "-" + StringUtils.join(jobDataMapPairs, "&");
+		return jobClass.getSimpleName() + "-Job-" + getDataMapString(jobDataMap);
+	}
+	
+	public static String getTriggerGroupName(Class<?> jobClass, Map<String, String> triggerDataMap) {
+        return jobClass.getSimpleName() + "-TriggerGroup-" + getDataMapString(triggerDataMap);
 	}
 	
 	public static String getTriggerName(Class<?> jobClass, Date jobDate) {
-        return jobClass.getSimpleName() + "-Trigger-" + "date=" + FORMAT.format(jobDate);
+		return jobClass.getSimpleName() + "-Trigger-" + "date=" + FORMAT.format(jobDate);
+	}
+	
+	private static String getDataMapString(Map<String, String> dataMap) {
+		List<String> dataMapPairs = new ArrayList<String>();
+		for (Map.Entry<String, String> dataMapEntry : dataMap.entrySet()) {
+			dataMapPairs.add(dataMapEntry.getKey() + "=" + dataMapEntry.getValue());
+		}
+		return StringUtils.join(dataMapPairs, "&");
 	}
 
 }
