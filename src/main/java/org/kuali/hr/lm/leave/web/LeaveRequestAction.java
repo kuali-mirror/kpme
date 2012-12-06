@@ -15,15 +15,7 @@
  */
 package org.kuali.hr.lm.leave.web;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import edu.emory.mathcs.backport.java.util.Collections;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -31,14 +23,19 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
-import org.kuali.hr.lm.leaveblock.LeaveStatusHistory;
+import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 
-import edu.emory.mathcs.backport.java.util.Collections;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Date;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 public class LeaveRequestAction extends TkAction {
 
@@ -72,14 +69,7 @@ public class LeaveRequestAction extends TkAction {
 	  
 	private List<LeaveBlock> getPendingLeaves(String principalId, Date currentDate) {
 		List<LeaveBlock> pendingLeaves  = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, LMConstants.REQUEST_STATUS.REQUESTED, currentDate);
-		  
-		for (LeaveBlock pendingLeave : pendingLeaves) {
-			LeaveStatusHistory leaveStatusHistory = TkServiceLocator.getLeaveStatusHistoryService().getLeaveStatusHistoryByLmLeaveBlockIdAndRequestStatus(pendingLeave.getLmLeaveBlockId(), Arrays.asList(new String[] {LMConstants.REQUEST_STATUS.REQUESTED}));
-			if (leaveStatusHistory != null) {
-				pendingLeave.setDateAndTime(leaveStatusHistory.getTimestamp());
-			}
-		}
-		
+
 		Collections.sort(pendingLeaves, new Comparator<LeaveBlock>() {
 			@Override
 			public int compare(LeaveBlock leaveBlock1, LeaveBlock leaveBlock2) {
@@ -93,13 +83,6 @@ public class LeaveRequestAction extends TkAction {
 	private List<LeaveBlock> getApprovedLeaves(String principalId) {
 		List<LeaveBlock> approvedLeaves  = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, LMConstants.REQUEST_STATUS.APPROVED, null);
 		
-		for (LeaveBlock approvedLeave : approvedLeaves) {
-			LeaveStatusHistory leaveStatusHistory = TkServiceLocator.getLeaveStatusHistoryService().getLeaveStatusHistoryByLmLeaveBlockIdAndRequestStatus(approvedLeave.getLmLeaveBlockId(), Arrays.asList(new String[] {LMConstants.REQUEST_STATUS.APPROVED}));
-			if (leaveStatusHistory != null) {
-				approvedLeave.setDateAndTime(leaveStatusHistory.getTimestamp());
-    		}
-		}
-		
 		Collections.sort(approvedLeaves, new Comparator<LeaveBlock>() {
 			@Override
 			public int compare(LeaveBlock leaveBlock1, LeaveBlock leaveBlock2) {
@@ -112,14 +95,6 @@ public class LeaveRequestAction extends TkAction {
 	
 	private List<LeaveBlockHistory> getDisapprovedLeaves(String principalId) {
 		List<LeaveBlockHistory> disapprovedLeaves = TkServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistories(principalId, Arrays.asList(new String[] {LMConstants.REQUEST_STATUS.DEFERRED, LMConstants.REQUEST_STATUS.DISAPPROVED}));
-    	
-		for (LeaveBlock leaveBlock : disapprovedLeaves) {
-    		LeaveStatusHistory leaveStatusHistory = TkServiceLocator.getLeaveStatusHistoryService().getLeaveStatusHistoryByLmLeaveBlockIdAndRequestStatus(leaveBlock.getLmLeaveBlockId(), Arrays.asList(new String[] {LMConstants.REQUEST_STATUS.DEFERRED, LMConstants.REQUEST_STATUS.DISAPPROVED}));
-    		if (leaveStatusHistory != null) {
-    			leaveBlock.setReason(leaveStatusHistory.getReason());
-    			leaveBlock.setDateAndTime(leaveStatusHistory.getTimestamp());
-    		}
-    	}
 		
 		Collections.sort(disapprovedLeaves, new Comparator<LeaveBlockHistory>() {
 			@Override
@@ -135,18 +110,11 @@ public class LeaveRequestAction extends TkAction {
 		  LeaveRequestForm lf = (LeaveRequestForm) form;
 		  for(LeaveBlock leaveBlock : lf.getPlannedLeaves()) {
 			  // check if check box is checked
-			  System.out.println("Leave block submit is :: >>>>"+leaveBlock.getSubmit());
+			  //System.out.println("Leave block submit is :: >>>>"+leaveBlock.getSubmit());
 			  if(leaveBlock.getSubmit()) {
 				  // update its status as 'R'
-				  leaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
-				  TkServiceLocator.getLeaveBlockService().saveLeaveBlock(leaveBlock, TKContext.getPrincipalId());
-				  // make entry into leave status history...
-				  LeaveStatusHistory leaveStatusHistory = new LeaveStatusHistory();
-				  leaveStatusHistory.setLmLeaveBlockId(leaveBlock.getLmLeaveBlockId());
-				  leaveStatusHistory.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
-				  leaveStatusHistory.setPrincipalIdModified(TKUser.getCurrentTargetPerson().getPrincipalId());
-				  leaveStatusHistory.setTimestamp(new Timestamp(System.currentTimeMillis()));
-				  TkServiceLocator.getLeaveStatusHistoryService().saveLeaveStatusHistory(leaveStatusHistory);
+                  LeaveRequestDocument lrd = TkServiceLocator.getLeaveRequestDocumentService().createLeaveRequestDocument(leaveBlock.getLmLeaveBlockId());
+                  lrd.getDocumentHeader().getWorkflowDocument().route("");
 			  }
 		  }
 		  return mapping.findForward("basic");

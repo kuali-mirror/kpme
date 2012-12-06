@@ -209,7 +209,7 @@
 				<value>timeBlockHistoryDetailLookupable</value> 
 				<value>jobLookupable</value> 
 				<value>systemLunchRuleLookupable</value> 
-				<value>EarnCodeSecurityLookupable</value> 
+				<value>earnCodeSecurityLookupable</value>
 				<value>earnCodeLookupable</value> 
 				<value>earnCodeGroupLookupable</value> 
 				<value>payTypeLookupable</value> 
@@ -349,8 +349,6 @@
     
     <bean id="leaveBlockHistoryDao" class="org.kuali.hr.lm.leaveblock.dao.LeaveBlockHistoryDaoSpringOjbImpl" parent="platformAwareDao" />
     
-    <bean id="leaveStatusHistoryDao" class="org.kuali.hr.lm.leaveblock.dao.LeaveStatusHistoryDaoSpringOjbImpl" parent="platformAwareDao" />
-
     <bean id="leaveCalendarDocumentHeaderDao" class="org.kuali.hr.lm.workflow.dao.LeaveCalendarDocumentHeaderDaoImpl" parent="platformAwareDao" />
 
     <bean id="leaveCalendarDao" class="org.kuali.hr.lm.leavecalendar.dao.LeaveCalendarDaoImpl" parent="platformAwareDao" />
@@ -360,6 +358,8 @@
     <bean id="leaveAdjustmentDao" class="org.kuali.hr.lm.leaveadjustment.dao.LeaveAdjustmentDaoSpringOjbImpl" parent="platformAwareDao" />
     
     <bean id="principalAccrualRanDao" class="org.kuali.hr.lm.accrual.dao.PrincipalAccrualRanDaoSpringOjbImpl" parent="platformAwareDao" />
+
+    <bean id="leaveRequestDocumentDao" class="org.kuali.hr.lm.leaverequest.dao.LeaveRequestDocumentDaoOjbImpl" parent="platformAwareDao" />
     
     <!-- Time Services for Business Logic -->
     <bean id="missedPunchService" class="org.kuali.hr.time.missedpunch.service.MissedPunchServiceImpl">
@@ -578,10 +578,6 @@
         <property name="leaveBlockHistoryDao" ref="leaveBlockHistoryDao"/>
     </bean>
     
-     <bean id="leaveStatusHistoryService" class="org.kuali.hr.lm.leaveblock.service.LeaveStatusHistoryServiceImpl">
-        <property name="leaveStatusHistoryDao" ref="leaveStatusHistoryDao"/>
-    </bean>
-
     <bean id="leaveCalendarService" class="org.kuali.hr.lm.leavecalendar.service.LeaveCalendarServiceImpl">
         <property name="leaveCalendarDao" ref="leaveCalendarDao"/>
     </bean>
@@ -650,6 +646,10 @@
         <property name="parameterService" ref="parameterService" />
         <property name="personService" ref="personService" />
     </bean>
+
+    <bean id="leaveRequestDocumentService" class="org.kuali.hr.lm.leaverequest.service.LeaveRequestDocumentServiceImpl">
+        <property name="leaveRequestDocumentDao" ref="leaveRequestDocumentDao"/>
+    </bean>
      
     
     <!--<bean id="tkLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">-->
@@ -678,7 +678,7 @@
         </property>
     </bean>
 
-    <bean id="EarnCodeSecurityLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="earnCodeSecurityLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.hr.lm.earncodesec.service.EarnCodeSecurityLookupableHelper"/>
         </property>

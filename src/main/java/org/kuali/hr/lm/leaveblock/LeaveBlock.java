@@ -66,6 +66,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	private List<LeaveBlockHistory> leaveBlockHistories = new ArrayList<LeaveBlockHistory>();
 	private SystemScheduledTimeOff systemScheduledTimeOffObj;
 	private AccrualCategory accrualCategoryObj;
+    private String leaveRequestDocumentId;
 
 	@Transient
 	private boolean submit;
@@ -528,6 +529,14 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	public void setDocumentStatus(String documentStatus) {
 		this.documentStatus = documentStatus;
 	}
+
+    public String getLeaveRequestDocumentId() {
+        return leaveRequestDocumentId;
+    }
+
+    public void setLeaveRequestDocumentId(String leaveRequestDocumentId) {
+        this.leaveRequestDocumentId = leaveRequestDocumentId;
+    }
 
     @Override
     public boolean equals(Object obj) {

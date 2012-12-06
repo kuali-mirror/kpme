@@ -116,12 +116,20 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
     
     public List<Assignment> getAssignmentsByCalEntryForTimeCalendar(String principalId, CalendarEntries payCalendarEntry){
-    	List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, payCalendarEntry);
+        if (StringUtils.isEmpty(principalId)
+                || payCalendarEntry == null) {
+            return Collections.emptyList();
+        }
+        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, payCalendarEntry);
     	List<Assignment> results = TkServiceLocator.getAssignmentService().filterAssignments(assignments, TkConstants.FLSA_STATUS_NON_EXEMPT, false);
     	return results;
     }
     
     public List<Assignment> getAssignmentsByCalEntryForLeaveCalendar(String principalId, CalendarEntries payCalendarEntry){
+        if (StringUtils.isEmpty(principalId)
+                || payCalendarEntry == null) {
+            return Collections.emptyList();
+        }
     	List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByPayEntry(principalId, payCalendarEntry);
     	List<Assignment> results = TkServiceLocator.getAssignmentService().filterAssignments(assignments, null, true);
     	return results;

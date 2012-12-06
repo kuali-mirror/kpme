@@ -1,0 +1,196 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+
+    Copyright 2004-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<data xmlns="ns:workflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <documentTypes xmlns="ns:workflow/DocumentType"
+                   xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+        <documentType>
+            <name>LeaveRequestDocument</name>
+            <parent>RiceDocument</parent>
+            <superUserWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</superUserWorkgroupName>
+            <blanketApproveWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</blanketApproveWorkgroupName>
+            <defaultExceptionWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</defaultExceptionWorkgroupName>
+            <description>Leave Request Document</description>
+            <!--<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>-->
+            <label>LeaveRequestDocument</label>
+            <attributes>
+                <attribute>
+                    <name>LeaveRequestWorkareaSearchAttribute</name>
+                </attribute>
+                <attribute>
+                    <name>LeaveRequestDepartmentSearchAttribute</name>
+                </attribute>
+                <attribute>
+                    <name>LeaveRequestSalGroupSearchAttribute</name>
+                </attribute>
+                <attribute>
+                    <name>LeaveRequestCalEndSearchAttribute</name>
+                </attribute>
+            </attributes>
+            <postProcessorName>org.kuali.hr.lm.workflow.postprocessor.LeaveRequestPostProcessor</postProcessorName>
+            <docHandler>${kuali.docHandler.url.prefix}/LeaveApproval.do?methodToCall=docHandler</docHandler>
+            <active>true</active>
+            <routingVersion>1</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="adhoc" nextNode="LeaveRequest Attribute" />
+                    <requests name="LeaveRequest Attribute" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="adhoc">
+                    <exceptionWorkgroup>KPME-WKFLW:TK_SYSTEM_ADMIN</exceptionWorkgroup>
+                    <activationType>S</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </start>
+                <requests name="LeaveRequest Attribute">
+                    <exceptionWorkgroup>KPME-WKFLW:TK_SYSTEM_ADMIN</exceptionWorkgroup>
+                    <activationType>S</activationType>
+                    <ruleTemplate>LeaveRequestWorkflowTemplate</ruleTemplate>
+                    <mandatoryRoute>true</mandatoryRoute>
+                    <finalApproval>true</finalApproval>
+                </requests>
+            </routeNodes>
+            <policies>
+                <policy>
+                    <name>INITIATOR_MUST_CANCEL</name>
+                    <value>false</value>
+                </policy>
+                <policy>
+                    <name>INITIATOR_MUST_ROUTE</name>
+                    <value>false</value>
+                </policy>
+            </policies>
+        </documentType>
+    </documentTypes>
+
+    <ruleAttributes xmlns="ns:workflow/RuleAttribute"
+                    xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+    <ruleAttribute>
+        <name>LeaveRequestWorkareaSearchAttribute</name>
+        <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+        <label>LeaveRequestWorkareaSearchAttribute</label>
+        <description>LeaveRequestWorkareaSearchAttribute</description>
+        <type>SearchableXmlAttribute</type>
+        <searchingConfig>
+            <fieldDef name="workarea" title="Work Area">
+                <display>
+                    <type>text</type>
+                </display>
+                <fieldEvaluation>
+                    <xpathexpression>//WORKAREA/@value</xpathexpression>
+                </fieldEvaluation>
+            </fieldDef>
+        </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+        <name>LeaveRequestDepartmentSearchAttribute</name>
+        <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+        <label>LeaveRequestDepartmentSearchAttribute</label>
+        <description>LeaveRequestDepartmentSearchAttribute</description>
+        <type>SearchableXmlAttribute</type>
+        <searchingConfig>
+            <fieldDef name="department" title="Department">
+                <display>
+                    <type>text</type>
+                </display>
+                <fieldEvaluation>
+                    <xpathexpression>//DEPARTMENT/@value</xpathexpression>
+                </fieldEvaluation>
+            </fieldDef>
+        </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+        <name>LeaveRequestSalGroupSearchAttribute</name>
+        <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+        <label>LeaveRequestSalGroupSearchAttribute</label>
+        <description>LeaveRequestSalGroupSearchAttribute</description>
+        <type>SearchableXmlAttribute</type>
+        <searchingConfig>
+            <fieldDef name="salGroup" title="Salary Group">
+                <display>
+                    <type>text</type>
+                </display>
+                <fieldEvaluation>
+                    <xpathexpression>//SALGROUP/@value</xpathexpression>
+                </fieldEvaluation>
+            </fieldDef>
+        </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+        <name>LeaveRequestCalEndSearchAttribute</name>
+        <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+        <label>LeaveRequestCalEndSearchAttribute</label>
+        <description>LeaveRequestCalEndSearchAttribute</description>
+        <type>SearchableXmlAttribute</type>
+        <searchingConfig>
+            <fieldDef name="payCalendarEnd" title="Pay Calendar End Date">
+                <display>
+                    <type>text</type>
+                </display>
+                <fieldEvaluation>
+                    <xpathexpression>//PAYENDDATE/@value</xpathexpression>
+                </fieldEvaluation>
+            </fieldDef>
+        </searchingConfig>
+    </ruleAttribute>
+    <ruleAttribute>
+        <name>LeaveRequestWorkflowAttribute</name>
+        <className>org.kuali.hr.lm.workflow.LeaveRequestWorkflowAttribute</className>
+        <label>LeaveRequestWorkflowAttribute</label>
+        <description>LeaveRequestWorkflowAttribute</description>
+        <type>RuleAttribute</type>
+    </ruleAttribute>
+    </ruleAttributes>
+
+    <ruleTemplates xmlns="ns:workflow/RuleTemplate"
+                   xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+    <ruleTemplate allowOverwrite="true">
+        <name>LeaveRequestWorkflowTemplate</name>
+        <description>LeaveRequestWorkflowTemplate</description>
+        <attributes>
+            <attribute>
+                <name>LeaveRequestWorkflowAttribute</name>
+                <required>false</required>
+            </attribute>
+        </attributes>
+    </ruleTemplate>
+    </ruleTemplates>
+
+    <rules xmlns="ns:workflow/Rule"
+           xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+    <rule>
+        <name>LeaveRequestWorkflowtRule</name>
+        <documentType>LeaveRequestDocument</documentType>
+        <ruleTemplate>LeaveRequestWorkflowTemplate</ruleTemplate>
+        <description>LeaveRequestWorkflowRule</description>
+        <forceAction>true</forceAction>
+        <responsibilities>
+            <responsibility>
+                <role>org.kuali.hr.lm.workflow.LeaveRequestWorkflowAttribute!TK_APPROVER</role>
+                <approvePolicy>F</approvePolicy>
+                <actionRequested>A</actionRequested>
+                <priority>1</priority>
+            </responsibility>
+        </responsibilities>
+    </rule>
+    </rules>
+</data>

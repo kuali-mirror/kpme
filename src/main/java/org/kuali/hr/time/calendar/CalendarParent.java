@@ -29,8 +29,10 @@ public abstract class CalendarParent {
 
     public CalendarParent(CalendarEntries calendarEntry) {
         this.calendarEntry = calendarEntry;
-        this.beginDateTime = calendarEntry.getBeginLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
-        this.endDateTime = calendarEntry.getEndLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+        if (calendarEntry != null) {
+            this.beginDateTime = calendarEntry.getBeginLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+            this.endDateTime = calendarEntry.getEndLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+        }
     }
 
     protected CalendarParent() {

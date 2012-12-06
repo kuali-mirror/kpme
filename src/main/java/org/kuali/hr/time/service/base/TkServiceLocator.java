@@ -29,11 +29,11 @@ import org.kuali.hr.lm.leaveSummary.service.LeaveSummaryService;
 import org.kuali.hr.lm.leaveadjustment.service.LeaveAdjustmentService;
 import org.kuali.hr.lm.leaveblock.service.LeaveBlockHistoryService;
 import org.kuali.hr.lm.leaveblock.service.LeaveBlockService;
-import org.kuali.hr.lm.leaveblock.service.LeaveStatusHistoryService;
 import org.kuali.hr.lm.leavecalendar.service.LeaveCalendarService;
 import org.kuali.hr.lm.leavecode.service.LeaveCodeService;
 import org.kuali.hr.lm.leavedonation.service.LeaveDonationService;
 import org.kuali.hr.lm.leaveplan.service.LeavePlanService;
+import org.kuali.hr.lm.leaverequest.service.LeaveRequestDocumentService;
 import org.kuali.hr.lm.timeoff.service.SystemScheduledTimeOffService;
 import org.kuali.hr.lm.workflow.service.LeaveCalendarDocumentHeaderService;
 import org.kuali.hr.location.service.LocationService;
@@ -159,11 +159,11 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_PRINCIPAL_HR_ATTRIBUTES_SERVICE = "principalHRAttributesService";
 	public static final String LM_LEAVE_ADJUSTMENT_SERVICE = "leaveAdjustmentService";
 	public static final String LM_LEAVE_BLOCK_HISTORY_SERVICE = "leaveBlockHistoryService";
-	public static final String LM_LEAVE_STATUS_HISTORY_SERVICE = "leaveStatusHistoryService";
 	public static final String LM_PRINCIPAL_ACCRUAL_RAN_SERVICE = "principalAccrualRanService";
 	public static final String LM_LEAVE_SUMMARY_SERVICE = "leaveSummaryService";
 	public static final String LM_LEAVE_APPROVAL_SERVICE = "leaveApprovalService";
     public static final String LM_BALANCE_TRANSFER_SERVICE = "balanceTransferService";
+    public static final String LM_LEAVE_REQUEST_DOC_SERVICE = "leaveRequestDocumentService";
 	public static final String KPME_DISTRIBUTED_CACHE_MANAGER = "kpmeDistributedCacheManager";
     public static final String KPME_NOTIFICATION_SERVICE = "kpmeNotificationService";
     
@@ -412,10 +412,6 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static LeaveBlockHistoryService getLeaveBlockHistoryService(){
 		return (LeaveBlockHistoryService)CONTEXT.getBean(LM_LEAVE_BLOCK_HISTORY_SERVICE);
 	}
-
-    public static LeaveStatusHistoryService getLeaveStatusHistoryService(){
-		return (LeaveStatusHistoryService)CONTEXT.getBean(LM_LEAVE_STATUS_HISTORY_SERVICE);
-	}
     
     public static LeaveCalendarService getLeaveCalendarService(){
 		return (LeaveCalendarService)CONTEXT.getBean(LM_LEAVE_CALENDAR_SERVICE);
@@ -459,6 +455,9 @@ public class TkServiceLocator implements ApplicationContextAware {
     }
     public static KPMENotificationService getKPMENotificationService() {
     	return (KPMENotificationService) CONTEXT.getBean(KPME_NOTIFICATION_SERVICE);
+    }
+    public static LeaveRequestDocumentService getLeaveRequestDocumentService() {
+        return (LeaveRequestDocumentService) CONTEXT.getBean(LM_LEAVE_REQUEST_DOC_SERVICE);
     }
 	
 	@Override

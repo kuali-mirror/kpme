@@ -143,8 +143,11 @@ public class LeaveCalendarAction extends TkAction {
 			return forward;
 		}
 
-		LeaveCalendar calendar = new LeaveCalendar(viewPrincipal, calendarEntry, assignmentKeys);
-		lcf.setLeaveCalendar(calendar);
+        LeaveCalendar calendar = null;
+        if (calendarEntry != null) {
+            calendar = new LeaveCalendar(viewPrincipal, calendarEntry, assignmentKeys);
+            lcf.setLeaveCalendar(calendar);
+        }
 		
 		this.populateCalendarAndPayPeriodLists(request, lcf);
 		// KPME-1447
@@ -159,14 +162,18 @@ public class LeaveCalendarAction extends TkAction {
         List<String> warningMes = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
         lcf.setWarnings(warningMes);
         
-        // leave summary 
-        LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(viewPrincipal, calendarEntry);
-        lcf.setLeaveSummary(ls);
+        // leave summary
+        if (calendarEntry != null) {
+            LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(viewPrincipal, calendarEntry);
+            lcf.setLeaveSummary(ls);
+        }
         
 		// KPME-1690
 //        LeaveCalendar leaveCalender = new LeaveCalendar(viewPrincipal, calendarEntry);
-        LeaveBlockAggregate aggregate = new LeaveBlockAggregate(leaveBlocks, calendarEntry, calendar);
-        lcf.setLeaveBlockString(LeaveActionFormUtils.getLeaveBlocksJson(aggregate.getFlattenedLeaveBlockList()));
+        if (calendarEntry != null) {
+            LeaveBlockAggregate aggregate = new LeaveBlockAggregate(leaveBlocks, calendarEntry, calendar);
+            lcf.setLeaveBlockString(LeaveActionFormUtils.getLeaveBlocksJson(aggregate.getFlattenedLeaveBlockList()));
+        }
         //lcf.setLeaveBlockString(ActionFormUtils.getLeaveBlocksJson(aggregate.getFlattenedLeaveBlockList()));
 		
 //        System.out.println("Leave block string : "+lcf.getLeaveBlockString());
@@ -177,7 +184,7 @@ public class LeaveCalendarAction extends TkAction {
 		
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         // find all the calendar entries up to the planning months of this employee
-        List<CalendarEntries> ceList = TkServiceLocator.getCalendarEntriesService()
+        List<CalendarEntries> ceList = lcf.getCalendarEntry() == null ? new ArrayList<CalendarEntries>() : TkServiceLocator.getCalendarEntriesService()
         	.getAllCalendarEntriesForCalendarIdUpToPlanningMonths(lcf.getCalendarEntry().getHrCalendarId(), TKUser.getCurrentTargetPerson().getPrincipalId());
         
         if(lcf.getCalendarYears().isEmpty()) {
@@ -196,7 +203,8 @@ public class LeaveCalendarAction extends TkAction {
         	lcf.setSelectedCalendarYear(request.getParameter("selectedCY").toString());
         }
         // if there is no selected calendr year, use the year of current pay calendar entry
-        if(StringUtils.isEmpty(lcf.getSelectedCalendarYear())) {
+        if(StringUtils.isEmpty(lcf.getSelectedCalendarYear())
+                && lcf.getCalendarEntry() != null) {
         	lcf.setSelectedCalendarYear(sdf.format(lcf.getCalendarEntry().getBeginPeriodDate()));
         }
         if(lcf.getPayPeriodsMap().isEmpty()) {
@@ -206,7 +214,8 @@ public class LeaveCalendarAction extends TkAction {
         if(request.getParameter("selectedPP")!= null) {
         	lcf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
         }
-        if(StringUtils.isEmpty(lcf.getSelectedPayPeriod())) {
+        if(StringUtils.isEmpty(lcf.getSelectedPayPeriod())
+                && lcf.getCalendarEntry() != null) {
         	lcf.setSelectedPayPeriod(lcf.getCalendarEntry().getHrCalendarEntriesId());
         }
 	}	
@@ -355,49 +364,52 @@ public class LeaveCalendarAction extends TkAction {
 	        calEntry = lcd.getCalendarEntry();
 		}
 	// -- put condition if it is after current period
-		boolean isFutureDate = TKUtils.getTimelessDate(null).compareTo(calEntry.getEndPeriodDateTime()) <= 0;
+		boolean isFutureDate = calEntry != null && TKUtils.getTimelessDate(null).compareTo(calEntry.getEndPeriodDateTime()) <= 0;
 		
 		// fetch previous entry
-		CalendarEntries calPreEntry = TkServiceLocator
-				.getCalendarEntriesService()
-				.getPreviousCalendarEntriesByCalendarId(
-						calEntry.getHrCalendarId(),
-						calEntry);
-		if (calPreEntry != null) {
-			leaveForm.setPrevCalEntryId(calPreEntry
-					.getHrCalendarEntriesId());
-		}
-		int planningMonths = ActionFormUtils.getPlanningMonthsForEmployee(viewPrincipal);
-		if(planningMonths != 0) {
-			List<CalendarEntries> futureCalEntries = TkServiceLocator
-					.getCalendarEntriesService()
-					.getFutureCalendarEntries(
-							calEntry.getHrCalendarId(),
-							TKUtils.getTimelessDate(null),
-							planningMonths);
+        if (calEntry != null) {
+            CalendarEntries calPreEntry = TkServiceLocator
+                    .getCalendarEntriesService()
+                    .getPreviousCalendarEntriesByCalendarId(
+                            calEntry.getHrCalendarId(),
+                            calEntry);
+            if (calPreEntry != null) {
+                leaveForm.setPrevCalEntryId(calPreEntry
+                        .getHrCalendarEntriesId());
+            }
 
-			if (futureCalEntries != null && !futureCalEntries.isEmpty()) {
-				futureCalEntry = futureCalEntries.get(futureCalEntries
-						.size() - 1);
+            int planningMonths = ActionFormUtils.getPlanningMonthsForEmployee(viewPrincipal);
+            if(planningMonths != 0) {
+                List<CalendarEntries> futureCalEntries = TkServiceLocator
+                        .getCalendarEntriesService()
+                        .getFutureCalendarEntries(
+                                calEntry.getHrCalendarId(),
+                                TKUtils.getTimelessDate(null),
+                                planningMonths);
 
-				CalendarEntries calNextEntry = TkServiceLocator
-						.getCalendarEntriesService()
-						.getNextCalendarEntriesByCalendarId(
-								calEntry.getHrCalendarId(),
-								calEntry);
+                if (futureCalEntries != null && !futureCalEntries.isEmpty()) {
+                    futureCalEntry = futureCalEntries.get(futureCalEntries
+                            .size() - 1);
 
-				if (calNextEntry != null
-						&& futureCalEntries != null
-						&& calNextEntry
-								.getBeginPeriodDateTime()
-								.compareTo(
-										futureCalEntry
-												.getBeginPeriodDateTime()) <= 0) {
-					leaveForm.setNextCalEntryId(calNextEntry
-							.getHrCalendarEntriesId());
-				}
-			}
-		}
+                    CalendarEntries calNextEntry = TkServiceLocator
+                            .getCalendarEntriesService()
+                            .getNextCalendarEntriesByCalendarId(
+                                    calEntry.getHrCalendarId(),
+                                    calEntry);
+
+                    if (calNextEntry != null
+                            && futureCalEntries != null
+                            && calNextEntry
+                                    .getBeginPeriodDateTime()
+                                    .compareTo(
+                                            futureCalEntry
+                                                    .getBeginPeriodDateTime()) <= 0) {
+                        leaveForm.setNextCalEntryId(calNextEntry
+                                .getHrCalendarEntriesId());
+                    }
+                }
+            }
+        }
 		if(leaveForm.getViewLeaveTabsWithNEStatus()) {
 			if(isFutureDate) {
                 setDocEditable(leaveForm, lcd);

@@ -19,6 +19,7 @@ import junit.framework.Assert;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
@@ -50,6 +51,7 @@ public class LeaveRequestWebTest extends KPMETestCase {
 	}
 
 	@Test
+    @Ignore
 	public void testLeaveRequestPage() throws Exception {
 		// get the page and Login
 		HtmlPage leaveRequestPage = HtmlUnitUtil

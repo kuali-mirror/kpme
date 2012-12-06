@@ -359,7 +359,7 @@
 	<bean id="EarnCodeSecurity-lookupDefinition" parent="EarnCodeSecurity-lookupDefinition-parentBean" />
 	<bean id="EarnCodeSecurity-lookupDefinition-parentBean"
 		abstract="true" parent="LookupDefinition">
-		<property name="lookupableID" value="EarnCodeSecurityLookupable"></property>
+		<property name="lookupableID" value="earnCodeSecurityLookupable"></property>
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="dept" />
