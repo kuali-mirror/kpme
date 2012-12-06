@@ -57,7 +57,7 @@ public class LeaveRequestPostProcessor extends DefaultPostProcessor {
                         lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
                     }
                 }
-                TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb);
+                TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, document.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId());
 			}
 		}
 		

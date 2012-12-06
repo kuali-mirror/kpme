@@ -15,15 +15,13 @@
  */
 package org.kuali.hr.time.util;
 
-import java.lang.reflect.Field;
-import java.sql.Timestamp;
-import java.util.List;
-
 import org.kuali.hr.core.cache.CacheUtils;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.rice.kns.maintenance.KualiMaintainableImpl;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-import sun.util.LocaleServiceProviderPool;
+
+import java.sql.Timestamp;
+import java.util.List;
 
 public abstract class HrBusinessObjectMaintainableImpl extends KualiMaintainableImpl {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(HrBusinessObjectMaintainableImpl.class);
