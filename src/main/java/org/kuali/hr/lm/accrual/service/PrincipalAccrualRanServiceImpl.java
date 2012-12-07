@@ -17,6 +17,8 @@ package org.kuali.hr.lm.accrual.service;
 
 import org.kuali.hr.lm.accrual.PrincipalAccrualRan;
 import org.kuali.hr.lm.accrual.dao.PrincipalAccrualRanDao;
+import org.kuali.hr.time.util.TKUtils;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class PrincipalAccrualRanServiceImpl implements PrincipalAccrualRanService{
 
@@ -29,7 +31,16 @@ public class PrincipalAccrualRanServiceImpl implements PrincipalAccrualRanServic
 	
 	@Override
 	public void updatePrincipalAccrualRanInfo(String principalId) {
-		principalAccrualRanDao.updatePrincipalAccrualRanInfo(principalId);
+		PrincipalAccrualRan par = this.getLastPrincipalAccrualRan(principalId);
+		if(par == null) { // no data for last ran
+			par = new PrincipalAccrualRan();
+			par.setPrincipalId(principalId);
+			par.setLastRanTs(TKUtils.getCurrentTimestamp());
+		} else {
+			par.setLastRanTs(TKUtils.getCurrentTimestamp());
+		}
+		
+		KRADServiceLocator.getBusinessObjectService().save(par);
 	}
 
 	public PrincipalAccrualRanDao getPrincipalAccrualRanDao() {

@@ -918,6 +918,8 @@
         <property name="timesheetDocumentHeaderService" ref="timesheetDocumentHeaderService" />
     </bean>
     
+    <bean id="timeBlockSerializerService" class="org.kuali.hr.time.scheduler.TimeBlockSerializerService" />
+    
     <bean id="kpmeScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" destroy-method="stop">
         <property name="overwriteExistingJobs" value="true" />
         <property name="waitForJobsToCompleteOnShutdown" value="false" />
@@ -941,12 +943,13 @@
             <list>
                 <ref bean="accrualTrigger" />
                 <ref bean="calendarEntrySchedulerTrigger" />
+                <ref bean="leaveCalendarDelinquencyTrigger" />
                 <ref bean="serializerTrigger" />
             </list>
         </property>
     </bean>
     
-    <bean id="accrualJob" class="org.kuali.hr.time.batch.AccrualJob">
+    <bean id="accrualJob" class="org.kuali.hr.time.batch.AccrualJob" scope="singleton">
         <property name="accrualService" ref="accrualService" />
         <property name="assignmentService" ref="assignmentService" />
         <property name="leavePlanService" ref="leavePlanService" />
@@ -972,8 +975,22 @@
         <property name="startDelay" value="${kpme.batch.startDelay.milliseconds}" />
         <property name="repeatInterval" value="${kpme.batch.repeatInterval.milliseconds}" />
     </bean>
+    
+    <bean id="leaveCalendarDelinquencyJob" class="org.kuali.hr.time.batch.LeaveCalendarDelinquencyJob" scope="singleton">
+        <property name="calendarEntriesPollingWindow" value="${kpme.batch.calendarEntriesPollingWindow.days}" />
+        <property name="calendarEntriesService" ref="calendarEntriesService" />
+        <property name="kpmeNotificationService" ref="kpmeNotificationService" />
+        <property name="leaveCalendarDocumentHeaderService" ref="leaveCalendarDocumentHeaderService" />
+        <property name="principalHRAttributesService" ref="principalHRAttributesService" />
+    </bean>
+    <bean id="leaveCalendarDelinquencyJobBean" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="org.kuali.hr.time.batch.LeaveCalendarDelinquencyJob" />
+    </bean>
+    <bean id="leaveCalendarDelinquencyTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="leaveCalendarDelinquencyJobBean" />
+        <property name="cronExpression" value="${kpme.batch.leaveCalendarDelinquency.cronExpression}" />
+    </bean>
 
-    <bean id="timeBlockSerializerService" class="org.kuali.hr.time.scheduler.TimeBlockSerializerService" />
     <bean id="timeBlockSerializerJobBean" class="org.kuali.hr.time.scheduler.TimeBlockSerializerJobBean" scope="singleton">
         <property name="timeBlockSerializerService" ref="timeBlockSerializerService"/>
     </bean>

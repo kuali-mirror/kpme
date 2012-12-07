@@ -17,10 +17,13 @@ package org.kuali.hr.lm.accrual;
 
 import java.sql.Timestamp;
 
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
-public class PrincipalAccrualRan extends Object {
 
-	private static final long serialVersionUID = 1L;
+public class PrincipalAccrualRan extends PersistableBusinessObjectBase {
+
+	private static final long serialVersionUID = -8102955197478338957L;
+	
 	private String principalId;
 	private Timestamp lastRanTs;
 

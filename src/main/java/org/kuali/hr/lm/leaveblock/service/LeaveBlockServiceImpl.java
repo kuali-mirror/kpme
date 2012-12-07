@@ -98,10 +98,10 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         leaveBlockHistory.setAction(LMConstants.ACTION.DELETE);
 
         // deleting leaveblock
-        leaveBlockDao.deleteLeaveBlock(leaveBlockId);
+        KRADServiceLocator.getBusinessObjectService().delete(leaveBlock);
         
         // creating history
-        TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(leaveBlockHistory);
+        KRADServiceLocator.getBusinessObjectService().save(leaveBlockHistory);
         
         
     }

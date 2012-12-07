@@ -72,60 +72,6 @@ public class BatchJobServiceImpl implements BatchJobService {
 	private TimesheetDocumentHeaderService timesheetDocumentHeaderService;
 	
 	@Override
-	public void scheduleEndReportingPeriodJobs(CalendarEntries calendarEntry) throws SchedulerException {
-		scheduleEndReportingPeriodJobs(calendarEntry, calendarEntry.getEndPeriodDateTime());
-	}
-	
-	@Override
-	public void scheduleEndReportingPeriodJobs(CalendarEntries calendarEntry, Date scheduleDate) throws SchedulerException {
-    	Calendar calendar = getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
-    	String calendarTypes = calendar.getCalendarTypes();
-    	String calendarName = calendar.getCalendarName();
-    	
-		if (StringUtils.equals(calendarTypes, "Pay")) {
-			List<PrincipalHRAttributes> principalHRAttributes = getPrincipalHRAttributesService().getActiveEmployeesForPayCalendar(calendarName, scheduleDate);
-			
-			for (PrincipalHRAttributes principalHRAttribute : principalHRAttributes) {
-				String principalId = principalHRAttribute.getPrincipalId();
-				List<Assignment> assignments = getAssignmentService().getAssignmentsByCalEntryForTimeCalendar(principalId, calendarEntry);
-				
-				for (Assignment assignment : assignments) {
-					Job job = assignment.getJob();
-					
-					if (StringUtils.equalsIgnoreCase(job.getFlsaStatus(), TkConstants.FLSA_STATUS_EXEMPT)) {
-						scheduleEndReportingPeriodJob(calendarEntry, scheduleDate, principalId);
-					}
-				}
-			}
-		} else if (StringUtils.equals(calendarTypes, "Leave")) {
-			List<PrincipalHRAttributes> principalHRAttributes = getPrincipalHRAttributesService().getActiveEmployeesForLeaveCalendar(calendarName, scheduleDate);
-			
-			for (PrincipalHRAttributes principalHRAttribute : principalHRAttributes) {
-				String principalId = principalHRAttribute.getPrincipalId();
-				List<Assignment> assignments = getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calendarEntry);
-				
-				for (Assignment assignment : assignments) {
-					Job job = assignment.getJob();
-					
-					if (job.isEligibleForLeave() && StringUtils.equalsIgnoreCase(job.getFlsaStatus(), TkConstants.FLSA_STATUS_NON_EXEMPT)) {
-						scheduleEndReportingPeriodJob(calendarEntry, scheduleDate, principalId);
-					}
-				}
-			}
-		}
-	}
-	
-	private void scheduleEndReportingPeriodJob(CalendarEntries calendarEntry, Date scheduleDate, String principalId) throws SchedulerException {
-        Map<String, String> jobGroupDataMap = new HashMap<String, String>();
-        jobGroupDataMap.put("hrCalendarEntriesId", calendarEntry.getHrCalendarEntriesId());
-
-		Map<String, String> jobDataMap = new HashMap<String, String>();
-        jobDataMap.put("principalId", principalId);
-        
-		scheduleJob(EndReportingPeriodJob.class, scheduleDate, jobGroupDataMap, jobDataMap);
-	}
-	
-	@Override
 	public void scheduleInitiateJobs(CalendarEntries calendarEntry) throws SchedulerException {
 		scheduleInitiateJobs(calendarEntry, calendarEntry.getBatchInitiateDateTime());
 	}
@@ -185,6 +131,54 @@ public class BatchJobServiceImpl implements BatchJobService {
         jobDataMap.put("principalId", principalId);
         
 		scheduleJob(InitiateJob.class, scheduleDate, jobGroupDataMap, jobDataMap);
+	}
+	
+	@Override
+	public void scheduleEndReportingPeriodJobs(CalendarEntries calendarEntry) throws SchedulerException {
+		scheduleEndReportingPeriodJobs(calendarEntry, calendarEntry.getEndPeriodDateTime());
+	}
+	
+	@Override
+	public void scheduleEndReportingPeriodJobs(CalendarEntries calendarEntry, Date scheduleDate) throws SchedulerException {
+    	Calendar calendar = getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
+    	String calendarTypes = calendar.getCalendarTypes();
+    	String calendarName = calendar.getCalendarName();
+		java.util.Date beginDate = calendarEntry.getBeginPeriodDateTime();
+		java.util.Date endDate = calendarEntry.getEndPeriodDateTime();
+    	
+		if (StringUtils.equals(calendarTypes, "Pay")) {
+			List<PrincipalHRAttributes> principalHRAttributes = getPrincipalHRAttributesService().getActiveEmployeesForPayCalendar(calendarName, scheduleDate);
+			
+			for (PrincipalHRAttributes principalHRAttribute : principalHRAttributes) {
+				String principalId = principalHRAttribute.getPrincipalId();
+				TimesheetDocumentHeader timesheetDocumentHeader = getTimesheetDocumentHeaderService().getDocumentHeader(principalId, beginDate, endDate);
+				
+				if (timesheetDocumentHeader != null) {
+					scheduleEndReportingPeriodJob(calendarEntry, scheduleDate, principalId);
+				}
+			}
+		} else if (StringUtils.equals(calendarTypes, "Leave")) {
+			List<PrincipalHRAttributes> principalHRAttributes = getPrincipalHRAttributesService().getActiveEmployeesForLeaveCalendar(calendarName, scheduleDate);
+			
+			for (PrincipalHRAttributes principalHRAttribute : principalHRAttributes) {
+				String principalId = principalHRAttribute.getPrincipalId();
+				LeaveCalendarDocumentHeader leaveCalendarDocumentHeader = getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, beginDate, endDate);
+				
+				if (leaveCalendarDocumentHeader != null) {
+					scheduleEndReportingPeriodJob(calendarEntry, scheduleDate, principalId);
+				}
+			}
+		}
+	}
+	
+	private void scheduleEndReportingPeriodJob(CalendarEntries calendarEntry, Date scheduleDate, String principalId) throws SchedulerException {
+        Map<String, String> jobGroupDataMap = new HashMap<String, String>();
+        jobGroupDataMap.put("hrCalendarEntriesId", calendarEntry.getHrCalendarEntriesId());
+
+		Map<String, String> jobDataMap = new HashMap<String, String>();
+        jobDataMap.put("principalId", principalId);
+        
+		scheduleJob(EndReportingPeriodJob.class, scheduleDate, jobGroupDataMap, jobDataMap);
 	}
 	
 	@Override

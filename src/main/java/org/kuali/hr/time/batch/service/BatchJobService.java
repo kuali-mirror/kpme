@@ -22,13 +22,13 @@ import org.quartz.SchedulerException;
 
 public interface BatchJobService {
     
-    void scheduleEndReportingPeriodJobs(CalendarEntries calendarEntry) throws SchedulerException;
-    
-    void scheduleEndReportingPeriodJobs(CalendarEntries calendarEntry, Date scheduleDate) throws SchedulerException;
-    
     void scheduleInitiateJobs(CalendarEntries calendarEntry) throws SchedulerException;
     
     void scheduleInitiateJobs(CalendarEntries calendarEntry, Date scheduleDate) throws SchedulerException;
+    
+    void scheduleEndReportingPeriodJobs(CalendarEntries calendarEntry) throws SchedulerException;
+    
+    void scheduleEndReportingPeriodJobs(CalendarEntries calendarEntry, Date scheduleDate) throws SchedulerException;
     
     void scheduleEndPayPeriodJobs(CalendarEntries calendarEntry) throws SchedulerException;
     

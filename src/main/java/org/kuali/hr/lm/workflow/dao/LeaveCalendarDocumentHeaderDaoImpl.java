@@ -28,7 +28,6 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class LeaveCalendarDocumentHeaderDaoImpl extends PlatformAwareDaoBaseOjb implements LeaveCalendarDocumentHeaderDao {
@@ -154,14 +153,33 @@ public class LeaveCalendarDocumentHeaderDaoImpl extends PlatformAwareDaoBaseOjb 
         }
         return lstDocumentHeaders;
     }
+    
     @Override
-    public List<LeaveCalendarDocumentHeader> getAllDelinquentDocumentHeadersForPricipalId(String principalId) {
+    public List<LeaveCalendarDocumentHeader> getSubmissionDelinquentDocumentHeaders(String principalId, Date beforeDate) {
     	Criteria crit = new Criteria();
         List<LeaveCalendarDocumentHeader> lstDocumentHeaders = new ArrayList<LeaveCalendarDocumentHeader>();
 
         crit.addEqualTo("principalId", principalId);
-        crit.addNotEqualTo("documentStatus", TkConstants.ROUTE_STATUS.FINAL);
+        crit.addLessThan("endDate", beforeDate);
         crit.addNotEqualTo("documentStatus", TkConstants.ROUTE_STATUS.INITIATED);
+        crit.addNotEqualTo("documentStatus", TkConstants.ROUTE_STATUS.ENROUTE);
+        crit.addNotEqualTo("documentStatus", TkConstants.ROUTE_STATUS.FINAL);
+        QueryByCriteria query = new QueryByCriteria(LeaveCalendarDocumentHeader.class, crit);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        if (c != null) {
+            lstDocumentHeaders.addAll(c);
+        }
+        return lstDocumentHeaders;
+    }
+    
+    @Override
+    public List<LeaveCalendarDocumentHeader> getApprovalDelinquentDocumentHeaders(String principalId) {
+    	Criteria crit = new Criteria();
+        List<LeaveCalendarDocumentHeader> lstDocumentHeaders = new ArrayList<LeaveCalendarDocumentHeader>();
+
+        crit.addEqualTo("principalId", principalId);
+        crit.addNotEqualTo("documentStatus", TkConstants.ROUTE_STATUS.INITIATED);
+        crit.addNotEqualTo("documentStatus", TkConstants.ROUTE_STATUS.FINAL);
         QueryByCriteria query = new QueryByCriteria(LeaveCalendarDocumentHeader.class, crit);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
         if (c != null) {

@@ -41,7 +41,9 @@ public interface LeaveCalendarDocumentHeaderService {
      */
 	public List<LeaveCalendarDocumentHeader> getAllDocumentHeadersForPricipalId(String principalId);
 	
-	public List<LeaveCalendarDocumentHeader> getAllDelinquentDocumentHeadersForPricipalId(String principalId);
+	public List<LeaveCalendarDocumentHeader> getSubmissionDelinquentDocumentHeaders(String principalId, Date beforeDate);
+	
+	public List<LeaveCalendarDocumentHeader> getApprovalDelinquentDocumentHeaders(String principalId);
 
     public void deleteLeaveCalendarHeader(String documentId);
 }

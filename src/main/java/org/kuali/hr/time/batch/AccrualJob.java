@@ -34,10 +34,10 @@ import org.quartz.JobExecutionException;
 
 public class AccrualJob implements Job {
 
-	private AccrualService accrualService;
-	private AssignmentService assignmentService;
-	private LeavePlanService leavePlanService;
-	private PrincipalHRAttributesService principalHRAttributesService;
+	private static AccrualService ACCRUAL_SERVICE;
+	private static AssignmentService ASSIGNMENT_SERVICE;
+	private static LeavePlanService LEAVE_PLAN_SERVICE;
+	private static PrincipalHRAttributesService PRINCIPAL_HR_ATTRIBUTES_SERVICE;
 	
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
@@ -60,36 +60,36 @@ public class AccrualJob implements Job {
 		}
 	}
 
-	public AccrualService getAccrualService() {
-		return accrualService;
+	public static AccrualService getAccrualService() {
+		return ACCRUAL_SERVICE;
 	}
 
-	public void setAccrualService(AccrualService accrualService) {
-		this.accrualService = accrualService;
+	public static void setAccrualService(AccrualService accrualService) {
+		ACCRUAL_SERVICE = accrualService;
 	}
 
-	public AssignmentService getAssignmentService() {
-		return assignmentService;
+	public static AssignmentService getAssignmentService() {
+		return ASSIGNMENT_SERVICE;
 	}
 
-	public void setAssignmentService(AssignmentService assignmentService) {
-		this.assignmentService = assignmentService;
+	public static void setAssignmentService(AssignmentService assignmentService) {
+		ASSIGNMENT_SERVICE = assignmentService;
 	}
 
-	public LeavePlanService getLeavePlanService() {
-		return leavePlanService;
+	public static LeavePlanService getLeavePlanService() {
+		return LEAVE_PLAN_SERVICE;
 	}
 
-	public void setLeavePlanService(LeavePlanService leavePlanService) {
-		this.leavePlanService = leavePlanService;
+	public static void setLeavePlanService(LeavePlanService leavePlanService) {
+		LEAVE_PLAN_SERVICE = leavePlanService;
 	}
 
-	public PrincipalHRAttributesService getPrincipalHRAttributesService() {
-		return principalHRAttributesService;
+	public static PrincipalHRAttributesService getPrincipalHRAttributesService() {
+		return PRINCIPAL_HR_ATTRIBUTES_SERVICE;
 	}
 
-	public void setPrincipalHRAttributesService(PrincipalHRAttributesService principalHRAttributesService) {
-		this.principalHRAttributesService = principalHRAttributesService;
+	public static void setPrincipalHRAttributesService(PrincipalHRAttributesService principalHRAttributesService) {
+		PRINCIPAL_HR_ATTRIBUTES_SERVICE = principalHRAttributesService;
 	}
 
 }

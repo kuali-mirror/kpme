@@ -158,6 +158,7 @@
     <param name="kpme.batch.repeatInterval.milliseconds">300000</param>
     <param name="kpme.batch.calendarEntriesPollingWindow.days">30</param>
     <param name="kpme.batch.accrual.cronExpression">0 0 1 1 * ? 2099</param>
+    <param name="kpme.batch.leaveCalendarDelinquency.cronExpression">0 0 1 1 * ? 2099</param>
     <param name="kpme.batch.serializer.cronExpression">0 0 1 1 * ? 2099</param>
     
     <!-- run.accrual.from.calendar controls if the application allows user to run accrual service by looking at leave calendars
