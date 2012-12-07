@@ -74,22 +74,12 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 		return valid;
 	}
 
-	boolean validateEffectiveDate(Date effectiveDate, String leavePlan, String leavePlanId) {
+	boolean validateEffectiveDate(Date effectiveDate) {
 		boolean valid = true;
 		valid = ValidationUtils.validateOneYearFutureEffectiveDate(effectiveDate);
 		if(!valid) {
 			this.putFieldError("effectiveDate", "error.date.exceed.year", "Effective Date");
-		} else {
-			if(leavePlan != null && StringUtils.isNotEmpty(leavePlan.trim())) {
-		        LeavePlan lastLeavePlan = TkServiceLocator.getLeavePlanService().getLeavePlan(leavePlan,effectiveDate);
-		        if(lastLeavePlan != null && !lastLeavePlan.getLmLeavePlanId().equals(leavePlanId)) {
-			        if(TKUtils.getTimelessDate(lastLeavePlan.getEffectiveDate()).compareTo(TKUtils.getTimelessDate(effectiveDate)) <= 0){
-			        	valid = false;
-			        	this.putFieldError("effectiveDate", "error.leavePlan.effectiveDate.newr.exists", "Effective Date");
-			        }
-		        }
-			}
-		}
+		} 
 		return valid;
 	}
 
@@ -108,6 +98,22 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 		}
 		return true;
 	}
+	
+	boolean validateExistingLeavePlan(String leavePlan, String leavePlanId, boolean isActive) {
+		boolean valid = true;
+		if(leavePlan != null && StringUtils.isNotBlank(leavePlan)) {
+			List<LeavePlan> leavePlans = TkServiceLocator.getLeavePlanService().getAllActiveLeavePlan(leavePlan, TKUtils.END_OF_TIME);
+//			LeavePlan lastLeavePlan = TkServiceLocator.getLeavePlanService().getLeavePlan(leavePlan, TKUtils.END_OF_TIME);
+			if(leavePlans != null && !leavePlans.isEmpty()) {
+				LeavePlan lastLeavePlan = leavePlans.get(0); 
+				if(lastLeavePlan != null && !lastLeavePlan.getLmLeavePlanId().equals(leavePlanId) && isActive) {
+					valid = false;
+		        	this.putFieldError("leavePlan", "error.leavePlan.effectiveDate.newr.exists", "Leave Plan");
+				} 
+			}
+		}
+		return valid;
+	}
 
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
@@ -121,14 +127,16 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 			if (leavePlan != null) {
 				valid = true;
 				valid &= this.validateInactivation(leavePlan);
+				if(leavePlan.getLeavePlan() != null && StringUtils.isNotEmpty(leavePlan.getLeavePlan())) {
+					valid &= this.validateExistingLeavePlan(leavePlan.getLeavePlan(), leavePlan.getLmLeavePlanId(), leavePlan.isActive());
+				}
 				if (StringUtils.isNotEmpty(leavePlan.getPlanningMonths())) {
 					valid &= this.validatePlanningMonths(leavePlan
 							.getPlanningMonths());
 				}
 				if (leavePlan.getEffectiveDate() != null) {
 					valid &= this.validateEffectiveDate(
-							leavePlan.getEffectiveDate(),
-							leavePlan.getLeavePlan(), leavePlan.getLmLeavePlanId());
+							leavePlan.getEffectiveDate());
 				}
 				valid &= this.validateCalendarYearStart(leavePlan
 						.getCalendarYearStart());
