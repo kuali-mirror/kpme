@@ -121,12 +121,10 @@ public class TimesheetAction extends TkAction {
 	    taForm.setDocumentId(td.getDocumentId());
         TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.PREV_TIMESHEET, viewPrincipal);
         TimesheetDocumentHeader nextTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.NEXT_TIMESHEET, viewPrincipal);
-        if( prevTdh != null ) {
-            taForm.setPrevDocumentId(prevTdh.getDocumentId());
-        }
-        if( nextTdh != null) {
-            taForm.setNextDocumentId(nextTdh.getDocumentId());
-        }
+       
+        taForm.setPrevDocumentId(prevTdh != null ? prevTdh.getDocumentId() : null);
+        taForm.setNextDocumentId(nextTdh != null ? nextTdh.getDocumentId() : null);
+      
         taForm.setPayCalendarDates(td.getCalendarEntry());
         taForm.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(taForm.getPayCalendarDates()));
     }

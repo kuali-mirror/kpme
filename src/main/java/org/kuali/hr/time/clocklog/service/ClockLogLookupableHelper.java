@@ -89,13 +89,13 @@ public class ClockLogLookupableHelper extends KualiLookupableHelperServiceImpl {
 		List<? extends BusinessObject> objectList = new ArrayList<BusinessObject>();
 				
 		
+		TimesheetDocumentHeaderService timesheetDocumentHeaderService = TkServiceLocator.getTimesheetDocumentHeaderService();
+		
 		// search if documentid is given for search critria.
 		String documentId =fieldValues.get("documentId");
 		if(documentId != null && StringUtils.isNotEmpty(documentId)) {
 			fieldValues.remove("documentId");
-			
-			
-			TimesheetDocumentHeaderService timesheetDocumentHeaderService = TkServiceLocator.getTimesheetDocumentHeaderService();
+
 			TimesheetDocumentHeader timesheetDocumentHeader = timesheetDocumentHeaderService.getDocumentHeader(documentId);
 			if(timesheetDocumentHeader == null) {
 				objectList = new ArrayList<BusinessObject>();
@@ -103,10 +103,11 @@ public class ClockLogLookupableHelper extends KualiLookupableHelperServiceImpl {
 				String timesheetUserId = timesheetDocumentHeader.getPrincipalId();
 				Date beginDate =  timesheetDocumentHeader.getBeginDate();
 				Date endDate =  timesheetDocumentHeader.getEndDate();
-				objectList = super.getSearchResults(fieldValues);
+				objectList = super.getSearchResultsUnbounded(fieldValues);
 				Iterator itr = objectList.iterator();
 				while (itr.hasNext()) {
 					ClockLog cl = (ClockLog) itr.next();
+					cl.setDocumentId(timesheetUserId);
 					if(cl.getPrincipalId().equalsIgnoreCase(timesheetUserId)) {
 						if(new Date(cl.getClockTimestamp().getTime()).compareTo(beginDate) >= 0 && new Date(cl.getClockTimestamp().getTime()).compareTo(endDate) <= 0) {
 							continue;
@@ -126,6 +127,15 @@ public class ClockLogLookupableHelper extends KualiLookupableHelperServiceImpl {
 			Iterator itr = objectList.iterator();
 			while (itr.hasNext()) {
 				ClockLog cl = (ClockLog) itr.next();
+				
+				// Set Document Id 
+				if(cl.getDocumentId() == null) {
+					TimesheetDocumentHeader tsdh = timesheetDocumentHeaderService.getDocumentHeaderForDate(cl.getPrincipalId(), cl.getClockTimestamp());
+					if(tsdh != null) {
+						cl.setDocumentId(tsdh.getDocumentId());
+					}
+				}
+				
 				List<TkRole> tkRoles = TkServiceLocator.getTkRoleService()
 						.getRoles(TKContext.getPrincipalId(),
 								TKUtils.getCurrentDate());

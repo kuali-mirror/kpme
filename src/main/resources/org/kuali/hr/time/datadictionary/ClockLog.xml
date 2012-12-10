@@ -342,6 +342,7 @@
 		</property>
 		<property name="resultFields">
 			<list>
+				<bean parent="FieldDefinition" p:attributeName="documentId" />
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="task" />
