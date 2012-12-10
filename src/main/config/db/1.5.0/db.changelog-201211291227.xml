@@ -26,6 +26,18 @@
 		<dropTable tableName="TK_BATCH_JOB_T" />
 	</changeSet>
 	
+    <changeSet id="1-oracle" author="kbtaylor" dbms="oracle" context="kpme-client-bootstrap">
+        <comment>KPME-1939: Removing old batch tables</comment>
+        <dropSequence sequenceName="TK_BATCH_JOB_ENTRY_S" />
+        <dropSequence sequenceName="TK_BATCH_JOB_S" />
+    </changeSet>
+    
+    <changeSet id="1-mysql" author="kbtaylor" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>KPME-1939: Removing old batch tables</comment>
+        <dropTable tableName="TK_BATCH_JOB_ENTRY_S" />
+        <dropTable tableName="TK_BATCH_JOB_S" />
+    </changeSet>
+	
 	<changeSet id="2" author="kbtaylor" context="kpme-client-bootstrap">
         <comment>KPME-1939: Merging date and time columns for batch calendar entries</comment>
         <addColumn tableName="HR_CALENDAR_ENTRIES_T">
