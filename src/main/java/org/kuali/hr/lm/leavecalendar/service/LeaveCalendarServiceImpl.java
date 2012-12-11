@@ -28,11 +28,13 @@ import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecalendar.dao.LeaveCalendarDao;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
+import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
@@ -119,16 +121,45 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         leaveCalendarDocument.setCalendarEntry(calendarEntries);
         loadLeaveCalendarDocumentData(leaveCalendarDocument, principalId, calendarEntries);
         TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(leaveCalendarDocument, payEndDate);
-
-        // update existing leave blocks within that pay period dates with the document id
-        List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, payBeginDate, payEndDate);
-        for(LeaveBlock lb : leaveBlocks) {
-        	lb.setDocumentId(workflowDocument.getDocumentId());
-        }
-        TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(leaveBlocks);
-
+        
+        updateLeaveBlockDocumentIds(principalId, payBeginDate, payEndDate, workflowDocument.getDocumentId());
+        
+        updatePlannedLeaveBlocks(principalId, payBeginDate, payEndDate);
 
         return leaveCalendarDocument;
+    }
+    
+    private void updateLeaveBlockDocumentIds(String principalId, Date beginDate, Date endDate, String documentId) {
+        List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
+        
+        for (LeaveBlock leaveBlock : leaveBlocks) {
+        	leaveBlock.setDocumentId(documentId);
+        }
+        
+        TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(leaveBlocks);
+    }
+    
+    private void updatePlannedLeaveBlocks(String principalId, Date beginDate, Date endDate) {
+        List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
+
+    	for (LeaveBlock leaveBlock : leaveBlocks) {
+    		if (StringUtils.equals(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.PLANNED)) {
+    			TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlock.getLmLeaveBlockId(), TkConstants.BATCH_JOB_USER_PRINCIPAL_ID);
+    		} else if (StringUtils.equals(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.REQUESTED)) {
+    	        if (StringUtils.equals(getInitiateLeaveRequestAction(), LMConstants.INITIATE_LEAVE_REQUEST_ACTION_OPTIONS.DELETE)) {
+    	        	TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlock.getLmLeaveBlockId(), TkConstants.BATCH_JOB_USER_PRINCIPAL_ID);
+    	        } else if (StringUtils.equals(getInitiateLeaveRequestAction(), LMConstants.INITIATE_LEAVE_REQUEST_ACTION_OPTIONS.APPROVE)) {
+    	        	List<LeaveRequestDocument> leaveRequestDocuments = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(leaveBlock.getLmLeaveBlockId());
+    	        	for (LeaveRequestDocument leaveRequestDocument : leaveRequestDocuments) {
+    	        		TkServiceLocator.getLeaveRequestDocumentService().approveLeave(leaveRequestDocument.getDocumentNumber(), TkConstants.BATCH_JOB_USER_PRINCIPAL_ID);
+    	        	}
+    	        }
+    		}
+    	}
+    }
+    
+    private String getInitiateLeaveRequestAction() {
+    	return ConfigContext.getCurrentContextConfig().getProperty(LMConstants.INITIATE_LEAVE_REQUEST_ACTION);
     }
 
     /**

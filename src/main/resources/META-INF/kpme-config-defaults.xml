@@ -161,8 +161,18 @@
     <param name="kpme.batch.leaveCalendarDelinquency.cronExpression">0 0 1 1 * ? 2099</param>
     <param name="kpme.batch.serializer.cronExpression">0 0 1 1 * ? 2099</param>
     
-    <!-- run.accrual.from.calendar controls if the application allows user to run accrual service by looking at leave calendars
-      if only run accrual service via commands then set run.accrual.from.calendar to false  -->
+    <!-- 
+        Specifies whether the application allows the user to run the Accrual service by looking at leave calendars.  Options are:
+            true: (Default) Run via leave calendar entries
+            false: Run via commands only
+    -->
     <param name="run.accrual.from.calendar">true</param>
+    
+    <!--
+        Specifies the action to take on existing planned leave requests when initiating a new Leave Calendar.  Options are:
+            DELETE: (Default) Delete all leave blocks on the initiated planning calendar and move them to history.
+            APPROVE: Approve all leave blocks on the initiated planning calendar.
+    -->
+    <param name="kpme.lm.leaveCalendar.initiate.leaveRequest.action">DELETE</param>
 
 </config>

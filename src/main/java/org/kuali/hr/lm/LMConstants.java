@@ -140,6 +140,12 @@ public class LMConstants {
 	 
 	 public static final String RUN_ACCRUAL_FROM_CALENDAR = "run.accrual.from.calendar";   // controls if accrual should be ran from Leave calendar
 	 
+	 public static final String INITIATE_LEAVE_REQUEST_ACTION = "kpme.lm.leaveCalendar.initiate.leaveRequest.action";
+	 public static final class INITIATE_LEAVE_REQUEST_ACTION_OPTIONS {
+	        public static final String DELETE = "DELETE";
+	        public static final String APPROVE = "APPROVE";
+	 }
+	 
 	 public static final class TIME_APPROVAL_TYPE {
 		 public static final String TIME = "time";
 		 public static final String LEAVE = "leave";
