@@ -69,11 +69,9 @@ public class LMConstants {
 		public static final String PLANNED="P";
 		public static final String REQUESTED="R";
 		public static final String APPROVED="A";
-		public static final String RECORDED = "C";
 		public static final String DISAPPROVED = "D";
 		public static final String DEFERRED="F";
-		//public static final String ACCRUAL = "Accrual";
-		//public static final String USAGE = "USAGE";
+		public static final String USAGE = "U";
 	}
 	
 	 public static final Map<String, String> REQUEST_STATUS_STRINGS = new HashMap<String, String>(6);
@@ -82,9 +80,9 @@ public class LMConstants {
 	    	REQUEST_STATUS_STRINGS.put(REQUEST_STATUS.PLANNED, "Planned");
 	    	REQUEST_STATUS_STRINGS.put(REQUEST_STATUS.REQUESTED, "Requested");
 	    	REQUEST_STATUS_STRINGS.put(REQUEST_STATUS.APPROVED, "Approved"); 
-	    	REQUEST_STATUS_STRINGS.put(REQUEST_STATUS.RECORDED, "Recorded"); 
 	    	REQUEST_STATUS_STRINGS.put(REQUEST_STATUS.DISAPPROVED, "Disapproved");
-	    	REQUEST_STATUS_STRINGS.put(REQUEST_STATUS.DEFERRED, "Deferred"); 
+	    	REQUEST_STATUS_STRINGS.put(REQUEST_STATUS.DEFERRED, "Deferred");
+	    	REQUEST_STATUS_STRINGS.put(REQUEST_STATUS.DEFERRED, "Usage");
 	    }
 	    
 	 public static final Map<String, String> ROUND_OPTION_MAP = new HashMap<String, String>(2);

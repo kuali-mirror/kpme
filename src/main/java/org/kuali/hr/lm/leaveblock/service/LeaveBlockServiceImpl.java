@@ -167,8 +167,8 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
                             && BigDecimal.ZERO.compareTo(hours) < 0) {
                         hours = hours.negate();
                     }
-                    //if on future calendar entry, mark as PLANNED, otherwise, requested
-                    String requestStatus = LMConstants.REQUEST_STATUS.RECORDED;
+                    //if on future calendar entry, mark as PLANNED, otherwise USAGE
+                    String requestStatus = LMConstants.REQUEST_STATUS.USAGE;
                     if (calBeginDateTime.getMillis() < beginDate.getMillis()) {
                         requestStatus = LMConstants.REQUEST_STATUS.PLANNED;
                     }
