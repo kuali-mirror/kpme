@@ -220,45 +220,48 @@ public class LeaveCalendarAction extends TkAction {
         }
 	}	
 
-	public ActionForward addLeaveBlock(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	public ActionForward addLeaveBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
 		LeaveCalendarDocument lcd = lcf.getLeaveCalendarDocument();
-		DateTime beginDate = new DateTime(
-				TKUtils.convertDateStringToTimestampNoTimezone(lcf.getStartDate()));
-		DateTime endDate = new DateTime(
-				TKUtils.convertDateStringToTimestampNoTimezone(lcf.getEndDate()));
+		
+		String principalId = TKContext.getPrincipalId();
+		String targetPrincipalId = TKContext.getTargetPrincipalId();
+		CalendarEntries calendarEntry = lcf.getCalendarEntry();
+		String selectedAssignment = lcf.getSelectedAssignment();
+		DateTime beginDate = new DateTime(TKUtils.convertDateStringToTimestampNoTimezone(lcf.getStartDate()));
+		DateTime endDate = new DateTime(TKUtils.convertDateStringToTimestampNoTimezone(lcf.getEndDate()));
 		String selectedEarnCode = lcf.getSelectedEarnCode();
 		BigDecimal hours = lcf.getLeaveAmount();
 		String desc = lcf.getDescription();
 		String spanningWeeks = lcf.getSpanningWeeks();  // KPME-1446
+		
+		String documentId = lcd != null ? lcd.getDocumentId() : "";
+		
 		Assignment assignment = null;
 		if(lcd != null) {
-			assignment = TkServiceLocator.getAssignmentService().getAssignment(lcd, lcf.getSelectedAssignment());
+			assignment = TkServiceLocator.getAssignmentService().getAssignment(lcd, selectedAssignment);
 		} else {
-			List<Assignment> assignments = TkServiceLocator.getAssignmentService()
-					.getAssignmentsByCalEntryForLeaveCalendar(TKUser.getCurrentTargetPerson().getPrincipalId(), lcf.getCalendarEntry());
-			assignment = TkServiceLocator.getAssignmentService()
-					.getAssignment(assignments, lcf.getSelectedAssignment(), lcf.getCalendarEntry().getBeginPeriodDate());
+			List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(targetPrincipalId, calendarEntry);
+			assignment = TkServiceLocator.getAssignmentService().getAssignment(assignments, selectedAssignment, calendarEntry.getBeginPeriodDate());
 		}
 
-		TkServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, lcf.getCalendarEntry(), selectedEarnCode, hours, desc, assignment, 
-				spanningWeeks, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, TKContext.getTargetPrincipalId());
-		generateLeaveCalendarChangedNotification(TKContext.getPrincipalId(), TKContext.getTargetPrincipalId(), lcd.getDocumentId(), lcf.getCalendarEntry().getHrCalendarEntriesId());
+		TkServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, calendarEntry, selectedEarnCode, hours, desc, assignment, spanningWeeks, 
+				LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, targetPrincipalId);
+
+		generateLeaveCalendarChangedNotification(principalId, targetPrincipalId, documentId, calendarEntry.getHrCalendarEntriesId());
 		
 		// after adding the leave block, set the fields of this form to null for future new leave blocks
 		lcf.setLeaveAmount(null);
 		lcf.setDescription(null);
 		
 		// call accrual service if earn code is not eligible for accrual
-		if(lcf.getCalendarEntry() != null) {
+		if(calendarEntry != null) {
 			java.sql.Date sqlDate = new java.sql.Date(endDate.getMillis());
-			this.rerunAccrualForNotEligibleForAccrualChanges(selectedEarnCode, sqlDate, lcf.getCalendarEntry().getBeginPeriodDate(), lcf.getCalendarEntry().getEndPeriodDate());
+			this.rerunAccrualForNotEligibleForAccrualChanges(selectedEarnCode, sqlDate, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
 		 }
 		// recalculate summary
-		if(lcf.getCalendarEntry() != null) {
-			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), lcf.getCalendarEntry());
+		if (calendarEntry != null) {
+			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(targetPrincipalId, calendarEntry);
 		    lcf.setLeaveSummary(ls);
 		}
 		
