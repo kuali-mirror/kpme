@@ -17,6 +17,7 @@ package org.kuali.hr.lm.workflow.postprocessor;
 
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.lm.leaverequest.LeaveRequestActionValue;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -47,15 +48,16 @@ public class LeaveRequestPostProcessor extends DefaultPostProcessor {
 			if (!status.getCode().equals(statusChangeEvent.getNewRouteStatus())) {
 
                 DocumentStatus newDocumentStatus = DocumentStatus.fromCode(statusChangeEvent.getNewRouteStatus());
-                if (lb != null) {
-                    if (DocumentStatus.ENROUTE.equals(newDocumentStatus)) {
-                        lb.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
-                    } else if (DocumentStatus.DISAPPROVED.equals(newDocumentStatus)) {
-                        lb.setRequestStatus(LMConstants.REQUEST_STATUS.DISAPPROVED);
-                    } else if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
-                        //TODO : handle defered values
-                        lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
-                    }
+                LeaveRequestActionValue lrAction = LeaveRequestActionValue.fromCode(document.getActionCode());
+                if (DocumentStatus.ENROUTE.equals(newDocumentStatus)) {
+                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
+                } else if (DocumentStatus.DISAPPROVED.equals(newDocumentStatus)) {
+                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.DISAPPROVED);
+                } else if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
+                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+                } else if (DocumentStatus.CANCELED.equals(newDocumentStatus)) {
+                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.DEFERRED);
+                    lb.setLeaveRequestDocumentId("");
                 }
                 TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, document.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId());
 			}
@@ -63,5 +65,7 @@ public class LeaveRequestPostProcessor extends DefaultPostProcessor {
 		
 		return pdr;
 	}
+
+
 
 }

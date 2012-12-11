@@ -18,11 +18,19 @@ package org.kuali.hr.lm.leaverequest.service;
 
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 
+import java.util.List;
+
 public interface LeaveRequestDocumentService {
     LeaveRequestDocument getLeaveRequestDocument(String documentId);
 
-    LeaveRequestDocument getLeaveRequestDocumentByLeaveBlockId(String leaveBlockId);
-
+    List<LeaveRequestDocument> getLeaveRequestDocumentsByLeaveBlockId(String leaveBlockId);
+    LeaveRequestDocument saveLeaveRequestDocument(LeaveRequestDocument leaveRequestDocument);
     LeaveRequestDocument createLeaveRequestDocument(String leaveBlockId);
+
+    void requestLeave(String documentId);
+    void approveLeave(String documentId, String principalId);
+    void disapproveLeave(String documentId, String principalId);
+    void deferLeave(String documentId, String principalId);
+
 
 }

@@ -46,65 +46,30 @@ public class LeaveRequestAction extends TkAction {
 		String principalId = TKUser.getCurrentTargetPerson().getPrincipalId();
 		Date currentDate = TKUtils.getTimelessDate(null);
 
-		leaveForm.setPlannedLeaves(getPlannedLeaves(principalId, currentDate));
-		leaveForm.setPendingLeaves(getPendingLeaves(principalId, currentDate));
-		leaveForm.setApprovedLeaves(getApprovedLeaves(principalId));
-		leaveForm.setDisapprovedLeaves(getDisapprovedLeaves(principalId));
+        List<LeaveBlock> plannedLeaves = getLeaveBlocksWithRequestStatus(principalId, currentDate, LMConstants.REQUEST_STATUS.PLANNED);
+        plannedLeaves.addAll(getLeaveBlocksWithRequestStatus(principalId, currentDate, LMConstants.REQUEST_STATUS.DEFERRED));
+		leaveForm.setPlannedLeaves(plannedLeaves);
+		leaveForm.setPendingLeaves(getLeaveBlocksWithRequestStatus(principalId, currentDate, LMConstants.REQUEST_STATUS.REQUESTED));
+		leaveForm.setApprovedLeaves(getLeaveBlocksWithRequestStatus(principalId, currentDate, LMConstants.REQUEST_STATUS.APPROVED));
+		leaveForm.setDisapprovedLeaves(getLeaveBlocksWithRequestStatus(principalId, currentDate, LMConstants.REQUEST_STATUS.DISAPPROVED));
 		
 		return forward;
 	}
-	  
-	private List<LeaveBlock> getPlannedLeaves(String principalId, Date currentDate) {
-		List<LeaveBlock> plannedLeaves = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, LMConstants.REQUEST_STATUS.PLANNED, currentDate);
-	
-		Collections.sort(plannedLeaves, new Comparator<LeaveBlock>() {
-			@Override
-			public int compare(LeaveBlock leaveBlock1, LeaveBlock leaveBlock2) {
-				return ObjectUtils.compare(leaveBlock1.getLeaveDate(), leaveBlock2.getLeaveDate());
-			}
-		});
-		
-		return plannedLeaves;
-	}
-	  
-	private List<LeaveBlock> getPendingLeaves(String principalId, Date currentDate) {
-		List<LeaveBlock> pendingLeaves  = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, LMConstants.REQUEST_STATUS.REQUESTED, currentDate);
 
-		Collections.sort(pendingLeaves, new Comparator<LeaveBlock>() {
-			@Override
-			public int compare(LeaveBlock leaveBlock1, LeaveBlock leaveBlock2) {
-				return ObjectUtils.compare(leaveBlock1.getLeaveDate(), leaveBlock2.getLeaveDate());
-			}
-		});
-		  
-		return pendingLeaves;
-	}
-	  
-	private List<LeaveBlock> getApprovedLeaves(String principalId) {
-		List<LeaveBlock> approvedLeaves  = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, LMConstants.REQUEST_STATUS.APPROVED, null);
-		
-		Collections.sort(approvedLeaves, new Comparator<LeaveBlock>() {
-			@Override
-			public int compare(LeaveBlock leaveBlock1, LeaveBlock leaveBlock2) {
-				return ObjectUtils.compare(leaveBlock1.getLeaveDate(), leaveBlock2.getLeaveDate());
-			}
-		});
-		
-		return approvedLeaves;
-	}
-	
-	private List<LeaveBlockHistory> getDisapprovedLeaves(String principalId) {
-		List<LeaveBlockHistory> disapprovedLeaves = TkServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistories(principalId, Arrays.asList(new String[] {LMConstants.REQUEST_STATUS.DEFERRED, LMConstants.REQUEST_STATUS.DISAPPROVED}));
-		
-		Collections.sort(disapprovedLeaves, new Comparator<LeaveBlockHistory>() {
-			@Override
-			public int compare(LeaveBlockHistory leaveBlockHistory1, LeaveBlockHistory leaveBlockHistory2) {
-				return ObjectUtils.compare(leaveBlockHistory1.getLeaveDate(), leaveBlockHistory2.getLeaveDate());
-			}
-		});
-		
-		return disapprovedLeaves;
-	}
+
+    private List<LeaveBlock> getLeaveBlocksWithRequestStatus(String principalId, Date currentDate, String requestStatus) {
+        List<LeaveBlock> plannedLeaves = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, requestStatus, currentDate);
+
+        Collections.sort(plannedLeaves, new Comparator<LeaveBlock>() {
+            @Override
+            public int compare(LeaveBlock leaveBlock1, LeaveBlock leaveBlock2) {
+                return ObjectUtils.compare(leaveBlock1.getLeaveDate(), leaveBlock2.getLeaveDate());
+            }
+        });
+
+        return plannedLeaves;
+    }
+
 	  
 	  public ActionForward submitForApproval(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		  LeaveRequestForm lf = (LeaveRequestForm) form;
@@ -112,9 +77,8 @@ public class LeaveRequestAction extends TkAction {
 			  // check if check box is checked
 			  //System.out.println("Leave block submit is :: >>>>"+leaveBlock.getSubmit());
 			  if(leaveBlock.getSubmit()) {
-				  // update its status as 'R'
                   LeaveRequestDocument lrd = TkServiceLocator.getLeaveRequestDocumentService().createLeaveRequestDocument(leaveBlock.getLmLeaveBlockId());
-                  lrd.getDocumentHeader().getWorkflowDocument().route("");
+                  TkServiceLocator.getLeaveRequestDocumentService().requestLeave(lrd.getDocumentNumber());
 			  }
 		  }
 		  return mapping.findForward("basic");

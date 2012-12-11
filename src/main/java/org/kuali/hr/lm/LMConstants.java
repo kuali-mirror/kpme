@@ -72,8 +72,8 @@ public class LMConstants {
 		public static final String RECORDED = "C";
 		public static final String DISAPPROVED = "D";
 		public static final String DEFERRED="F";
-		public static final String ACCRUAL = "Accrual";
-		public static final String USAGE = "USAGE";
+		//public static final String ACCRUAL = "Accrual";
+		//public static final String USAGE = "USAGE";
 	}
 	
 	 public static final Map<String, String> REQUEST_STATUS_STRINGS = new HashMap<String, String>(6);

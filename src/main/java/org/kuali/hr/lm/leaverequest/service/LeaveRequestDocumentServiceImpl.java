@@ -27,8 +27,12 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
+import org.kuali.rice.kew.api.action.ActionType;
+import org.kuali.rice.kew.api.action.ValidActions;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -50,23 +54,69 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
     }
 
     @Override
-    public LeaveRequestDocument getLeaveRequestDocumentByLeaveBlockId(String leaveBlockId) {
-        return getLeaveRequestDocumentDao().getLeaveRequestDocumentByLeaveBlockId(leaveBlockId);
+    public List<LeaveRequestDocument> getLeaveRequestDocumentsByLeaveBlockId(String leaveBlockId) {
+        return getLeaveRequestDocumentDao().getLeaveRequestDocumentsByLeaveBlockId(leaveBlockId);
     }
 
     @Override
-    public LeaveRequestDocument createLeaveRequestDocument(String leaveBlockId) {
-        LeaveRequestDocument lrd = initiateLeaveRequestDocument(TKContext.getTargetPrincipalId(), leaveBlockId);
-        //anything we need to do here?
-        // ...
-
+    public LeaveRequestDocument saveLeaveRequestDocument(LeaveRequestDocument document) {
+        LeaveRequestDocument lrd = null;
         try {
-            KRADServiceLocatorWeb.getDocumentService().saveDocument(lrd);
+            lrd = (LeaveRequestDocument)KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
         } catch (WorkflowException e) {
             LOG.error(e.getStackTrace());
             return null;
         }
         return lrd;
+    }
+
+    @Override
+    public LeaveRequestDocument createLeaveRequestDocument(String leaveBlockId) {
+        LeaveRequestDocument lrd = initiateLeaveRequestDocument(TKContext.getTargetPrincipalId(), leaveBlockId);
+
+        return saveLeaveRequestDocument(lrd);
+    }
+
+    @Override
+    public void requestLeave(String documentId) {
+        LeaveRequestDocument doc = getLeaveRequestDocument(documentId);
+        doc.getDocumentHeader().getWorkflowDocument().route("");
+
+    }
+
+    @Override
+    public void approveLeave(String documentId, String principalId) {
+        //verify principal has an action item to approve...
+        //KewApiServiceLocator.
+        LeaveRequestDocument doc = getLeaveRequestDocument(documentId);
+        //do we need to switch ids?
+        doc.getDocumentHeader().getWorkflowDocument().switchPrincipal(principalId);
+        ValidActions validActions = doc.getDocumentHeader().getWorkflowDocument().getValidActions();
+        if (validActions.getValidActions().contains(ActionType.APPROVE)) {
+            doc.getDocumentHeader().getWorkflowDocument().route("");
+        }
+    }
+
+    @Override
+    public void disapproveLeave(String documentId, String principalId) {
+        LeaveRequestDocument doc = getLeaveRequestDocument(documentId);
+        ValidActions validActions = doc.getDocumentHeader().getWorkflowDocument().getValidActions();
+        doc.getDocumentHeader().getWorkflowDocument().switchPrincipal(principalId);
+        if (validActions.getValidActions().contains(ActionType.DISAPPROVE)) {
+            doc.getDocumentHeader().getWorkflowDocument().route("");
+        }
+        doc.getDocumentHeader().getWorkflowDocument().disapprove("");
+    }
+
+    @Override
+    public void deferLeave(String documentId, String principalId) {
+        LeaveRequestDocument doc = getLeaveRequestDocument(documentId);
+        ValidActions validActions = doc.getDocumentHeader().getWorkflowDocument().getValidActions();
+        doc.getDocumentHeader().getWorkflowDocument().switchPrincipal(principalId);
+        if (validActions.getValidActions().contains(ActionType.CANCEL)) {
+            doc.getDocumentHeader().getWorkflowDocument().route("");
+        }
+        doc.getDocumentHeader().getWorkflowDocument().cancel("");
     }
 
     public LeaveRequestDocumentDao getLeaveRequestDocumentDao() {

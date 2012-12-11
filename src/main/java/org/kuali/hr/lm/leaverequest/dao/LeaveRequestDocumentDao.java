@@ -17,8 +17,10 @@ package org.kuali.hr.lm.leaverequest.dao;
 
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 
+import java.util.List;
+
 
 public interface LeaveRequestDocumentDao {
     LeaveRequestDocument getLeaveRequestDocument(String documentNumber);
-    LeaveRequestDocument getLeaveRequestDocumentByLeaveBlockId(String leaveBlockId);
+    List<LeaveRequestDocument> getLeaveRequestDocumentsByLeaveBlockId(String leaveBlockId);
 }
