@@ -89,42 +89,33 @@ public class SystemScheduledTimeOffDaoSpringOjbImpl extends PlatformAwareDaoBase
         }
         if (toAccruedDate != null && StringUtils.isNotBlank(toAccruedDate)) {
             crit.addLessOrEqualThan("accruedDate", toAccruedDate);
-        } //else {
-//            crit.addLessOrEqualThan("accruedDate", TKUtils.getCurrentDate());
-//        }
+        }
         // Scheduled Time Off Date Criteria
         if (fromSchTimeOffDate != null && StringUtils.isNotBlank(fromSchTimeOffDate)) {
             crit.addGreaterOrEqualThan("scheduledTimeOffDate", fromSchTimeOffDate);
         }
         if (toSchTimeOffDate != null && StringUtils.isNotBlank(toSchTimeOffDate)) {
             crit.addLessOrEqualThan("scheduledTimeOffDate", toSchTimeOffDate);
-        } //else {
-//            crit.addLessOrEqualThan("scheduledTimeOffDate", TKUtils.getCurrentDate());
-//        }
-
+        }
+        // Here begins the fun. Uniqueness is based on earnCode, accrualCategory, leavePlan, and accruedDate. (KPME-1944)
         if (StringUtils.isEmpty(active) && StringUtils.equals(showHistory, "Y")) {
-
-//            effdtCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
-//            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(SystemScheduledTimeOff.class, effdtCrit);
-//            effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
-//
-//            timestampCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
-//            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(SystemScheduledTimeOff.class, timestampCrit);
-//            timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-//
-//            crit.addEqualTo("effectiveDate", effdtSubQuery);
-//            crit.addEqualTo("timestamp", timestampSubQuery);
-
             Query query = QueryFactory.newQuery(SystemScheduledTimeOff.class, crit);
             Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
             results.addAll(c);
-        } else if (StringUtils.isEmpty(active) && StringUtils.equals(showHistory, "N")) {
+        }
+        else if (StringUtils.isEmpty(active) && StringUtils.equals(showHistory, "N")) {
 
             effdtCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+            effdtCrit.addEqualToField("accruedDate", Criteria.PARENT_QUERY_PREFIX + "accruedDate");
+            effdtCrit.addEqualToField("accrualCategory", Criteria.PARENT_QUERY_PREFIX + "accrualCategory");
+            effdtCrit.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
             ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(SystemScheduledTimeOff.class, effdtCrit);
             effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
 
             timestampCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+            timestampCrit.addEqualToField("accruedDate", Criteria.PARENT_QUERY_PREFIX + "accruedDate");
+            timestampCrit.addEqualToField("accrualCategory", Criteria.PARENT_QUERY_PREFIX + "accrualCategory");
+            timestampCrit.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
             ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(SystemScheduledTimeOff.class, timestampCrit);
             timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 
@@ -134,12 +125,19 @@ public class SystemScheduledTimeOffDaoSpringOjbImpl extends PlatformAwareDaoBase
             Query query = QueryFactory.newQuery(SystemScheduledTimeOff.class, crit);
             Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
             results.addAll(c);
-        } else if (StringUtils.equals(active, "Y") && StringUtils.equals("N", showHistory)) {
+        }
+        else if (StringUtils.equals(active, "Y") && StringUtils.equals("N", showHistory)) {
             effdtCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+            effdtCrit.addEqualToField("accruedDate", Criteria.PARENT_QUERY_PREFIX + "accruedDate");
+            effdtCrit.addEqualToField("accrualCategory", Criteria.PARENT_QUERY_PREFIX + "accrualCategory");
+            effdtCrit.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
             ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(SystemScheduledTimeOff.class, effdtCrit);
             effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
 
             timestampCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+            timestampCrit.addEqualToField("accruedDate", Criteria.PARENT_QUERY_PREFIX + "accruedDate");
+            timestampCrit.addEqualToField("accrualCategory", Criteria.PARENT_QUERY_PREFIX + "accrualCategory");
+            timestampCrit.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
             ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(SystemScheduledTimeOff.class, timestampCrit);
             timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 
@@ -164,17 +162,6 @@ public class SystemScheduledTimeOffDaoSpringOjbImpl extends PlatformAwareDaoBase
         }
         //return all inactive records in the database
         else if (StringUtils.equals(active, "N") && StringUtils.equals(showHistory, "Y")) {
-            effdtCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(SystemScheduledTimeOff.class, effdtCrit);
-            effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
-
-            timestampCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
-            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(SystemScheduledTimeOff.class, timestampCrit);
-            timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-
-            crit.addEqualTo("effectiveDate", effdtSubQuery);
-            crit.addEqualTo("timestamp", timestampSubQuery);
-
             Criteria activeFilter = new Criteria(); // Inner Join For Activity
             activeFilter.addEqualTo("active", false);
             crit.addAndCriteria(activeFilter);
@@ -186,10 +173,16 @@ public class SystemScheduledTimeOffDaoSpringOjbImpl extends PlatformAwareDaoBase
         //return the most effective inactive rows if there are no active rows <= the curr date
         else if (StringUtils.equals(active, "N") && StringUtils.equals(showHistory, "N")) {
             effdtCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+            effdtCrit.addEqualToField("accruedDate", Criteria.PARENT_QUERY_PREFIX + "accruedDate");
+            effdtCrit.addEqualToField("accrualCategory", Criteria.PARENT_QUERY_PREFIX + "accrualCategory");
+            effdtCrit.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
             ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(SystemScheduledTimeOff.class, effdtCrit);
             effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
 
             timestampCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+            timestampCrit.addEqualToField("accruedDate", Criteria.PARENT_QUERY_PREFIX + "accruedDate");
+            timestampCrit.addEqualToField("accrualCategory", Criteria.PARENT_QUERY_PREFIX + "accrualCategory");
+            timestampCrit.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
             ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(SystemScheduledTimeOff.class, timestampCrit);
             timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 
@@ -199,7 +192,6 @@ public class SystemScheduledTimeOffDaoSpringOjbImpl extends PlatformAwareDaoBase
             Query query = QueryFactory.newQuery(SystemScheduledTimeOff.class, crit);
             Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
             results.addAll(c);
-
         }
         return results;
     }
