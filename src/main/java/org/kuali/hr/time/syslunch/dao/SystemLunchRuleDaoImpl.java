@@ -17,7 +17,6 @@ package org.kuali.hr.time.syslunch.dao;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -68,116 +67,50 @@ public class SystemLunchRuleDaoImpl  extends PlatformAwareDaoBaseOjb implements 
 		return (SystemLunchRule)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 
-    @Override
+	@Override
+    @SuppressWarnings("unchecked")
     public List<SystemLunchRule> getSystemLunchRules(Date fromEffdt, Date toEffdt, String active, String showHistory) {
-
-        Criteria crit = new Criteria();
-        Criteria effdt = new Criteria();
-        Criteria timestamp = new Criteria();
-
         List<SystemLunchRule> results = new ArrayList<SystemLunchRule>();
+        
+        Criteria root = new Criteria();
 
-        if(fromEffdt != null){
-            crit.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+        if (fromEffdt != null) {
+            root.addGreaterOrEqualThan("effectiveDate", fromEffdt);
         }
-        if(toEffdt != null){
-            crit.addLessOrEqualThan("effectiveDate", toEffdt);
+        
+        if (toEffdt != null) {
+            root.addLessOrEqualThan("effectiveDate", toEffdt);
         } else {
-            crit.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            root.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+        }
+        
+        if (StringUtils.isNotBlank(active)) {
+        	Criteria activeFilter = new Criteria();
+            if (StringUtils.equals(active, "Y")) {
+                activeFilter.addEqualTo("active", true);
+            } else if (StringUtils.equals(active, "N")) {
+                activeFilter.addEqualTo("active", false);
+            }
+            root.addAndCriteria(activeFilter);
         }
 
-        if(StringUtils.isEmpty(active) && StringUtils.equals(showHistory,"Y")){
-            Query query = QueryFactory.newQuery(SystemLunchRule.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-        }
-        // $$$
-        else if(StringUtils.isEmpty(active) && StringUtils.equals(showHistory, "N")){
-//            effdt.addEqualToField("tkShiftDiffRuleId", Criteria.PARENT_QUERY_PREFIX + "tkShiftDiffRuleId");
-            if(toEffdt != null){
-                effdt.addLessOrEqualThan("effectiveDate", toEffdt);
-            }
+        if (StringUtils.equals(showHistory, "N")) {
+            Criteria effdt = new Criteria();
             ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(SystemLunchRule.class, effdt);
             effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-
-            timestamp.addEqualToField("tkSystemLunchRuleId", Criteria.PARENT_QUERY_PREFIX + "tkSystemLunchRuleId");
+            root.addEqualTo("effectiveDate", effdtSubQuery);
+            
+            Criteria timestamp = new Criteria();
             timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
             ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(SystemLunchRule.class, timestamp);
             timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-            crit.addEqualTo("effectiveDate", effdtSubQuery);
-            crit.addEqualTo("timestamp", timestampSubQuery);
-
-            Query query = QueryFactory.newQuery(SystemLunchRule.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
+            root.addEqualTo("timestamp", timestampSubQuery);
         }
+        
+        Query query = QueryFactory.newQuery(SystemLunchRule.class, root);
+        results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
 
-        else if(StringUtils.equals(active, "Y") && StringUtils.equals("N", showHistory)){
-            effdt.addEqualToField("tkSystemLunchRuleId", Criteria.PARENT_QUERY_PREFIX + "tkSystemLunchRuleId");
-            if(toEffdt != null){
-                effdt.addLessOrEqualThan("effectiveDate", toEffdt);
-            }
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(SystemLunchRule.class, effdt);
-            effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-
-            timestamp.addEqualToField("tkSystemLunchRuleId", Criteria.PARENT_QUERY_PREFIX + "tkSystemLunchRuleId");
-            timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(SystemLunchRule.class, timestamp);
-            timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-            crit.addEqualTo("effectiveDate", effdtSubQuery);
-            crit.addEqualTo("timestamp", timestampSubQuery);
-
-            Criteria activeFilter = new Criteria(); // Inner Join For Activity
-            activeFilter.addEqualTo("active", true);
-            crit.addAndCriteria(activeFilter);
-            Query query = QueryFactory.newQuery(SystemLunchRule.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-        } //return all active records from the database
-        else if(StringUtils.equals(active, "Y") && StringUtils.equals("Y", showHistory)){
-            Criteria activeFilter = new Criteria(); // Inner Join For Activity
-            activeFilter.addEqualTo("active", true);
-            crit.addAndCriteria(activeFilter);
-            Query query = QueryFactory.newQuery(SystemLunchRule.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-        }
-        //return all inactive records in the database
-        else if(StringUtils.equals(active, "N") && StringUtils.equals(showHistory, "Y")){
-            Criteria activeFilter = new Criteria(); // Inner Join For Activity
-            activeFilter.addEqualTo("active", false);
-            crit.addAndCriteria(activeFilter);
-            Query query = QueryFactory.newQuery(SystemLunchRule.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-        }
-
-        //return the most effective inactive rows if there are no active rows <= the curr date
-        else if(StringUtils.equals(active, "N") && StringUtils.equals(showHistory, "N")){
-            effdt.addEqualToField("tkSystemLunchRuleId", Criteria.PARENT_QUERY_PREFIX + "tkSystemLunchRuleId");
-            if(toEffdt != null){
-                effdt.addLessOrEqualThan("effectiveDate", toEffdt);
-            }
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(SystemLunchRule.class, effdt);
-            effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-
-            timestamp.addEqualToField("tkSystemLunchRuleId", Criteria.PARENT_QUERY_PREFIX + "tkSystemLunchRuleId");
-            timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(SystemLunchRule.class, timestamp);
-            timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-            crit.addEqualTo("effectiveDate", effdtSubQuery);
-            crit.addEqualTo("timestamp", timestampSubQuery);
-
-            Criteria activeFilter = new Criteria(); // Inner Join For Activity
-            activeFilter.addEqualTo("active", false);
-            crit.addAndCriteria(activeFilter);
-            Query query = QueryFactory.newQuery(SystemLunchRule.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-
-        }
         return results;
-
     }
 
 }

@@ -17,7 +17,6 @@ package org.kuali.hr.paygrade.dao;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -80,37 +79,34 @@ public class PayGradeDaoSpringObjImpl  extends PlatformAwareDaoBaseOjb implement
 		return this.getPersistenceBrokerTemplate().getCount(query);
 	}
 
-    @Override
+	@Override
+    @SuppressWarnings("unchecked")
     public List<PayGrade> getPayGrades(String payGrade, String payGradeDescr, String active) {
-        Criteria crit = new Criteria();
-
         List<PayGrade> results = new ArrayList<PayGrade>();
+    	
+    	Criteria root = new Criteria();
 
-        if(StringUtils.isNotBlank(payGrade) && StringUtils.isNotEmpty(payGrade)){
-            crit.addLike("payGrade", payGrade);
+        if (StringUtils.isNotBlank(payGrade)) {
+            root.addLike("payGrade", payGrade);
         }
-        if(StringUtils.isNotBlank(payGradeDescr)){
-            crit.addLike("description", payGradeDescr);
+        
+        if (StringUtils.isNotBlank(payGradeDescr)) {
+            root.addLike("description", payGradeDescr);
         }
-        if (StringUtils.isEmpty(active)) {
-            Query query = QueryFactory.newQuery(PayGrade.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-        } else if (StringUtils.equals(active, "Y")) {
-            Criteria activeFilter = new Criteria(); // Inner Join For Activity
-            activeFilter.addEqualTo("active", true);
-            crit.addAndCriteria(activeFilter);
-            Query query = QueryFactory.newQuery(PayGrade.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-        } else if (StringUtils.equals(active, "N")) {
-            Criteria activeFilter = new Criteria(); // Inner Join For Activity
-            activeFilter.addEqualTo("active", false);
-            crit.addAndCriteria(activeFilter);
-            Query query = QueryFactory.newQuery(PayGrade.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
+        
+        if (StringUtils.isNotBlank(active)) {
+        	Criteria activeFilter = new Criteria();
+            if (StringUtils.equals(active, "Y")) {
+                activeFilter.addEqualTo("active", true);
+            } else if (StringUtils.equals(active, "N")) {
+                activeFilter.addEqualTo("active", false);
+            }
+            root.addAndCriteria(activeFilter);
         }
+        
+        Query query = QueryFactory.newQuery(PayGrade.class, root);
+        results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
+
         return results;
     }
 

@@ -94,122 +94,64 @@ public class ShiftDifferentialRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseO
 		}
 	}
 
-    @Override
+	@Override
+    @SuppressWarnings("unchecked")
     public List<ShiftDifferentialRule> getShiftDifferentialRules(String location, String hrSalGroup, String payGrade, Date fromEffdt, Date toEffdt, String active, String showHistory) {
-        Criteria crit = new Criteria();
-        Criteria effdt = new Criteria();
-        Criteria timestamp = new Criteria();
+    	List<ShiftDifferentialRule> results = new ArrayList<ShiftDifferentialRule>();
+    	
+    	Criteria root = new Criteria();
 
-        List<ShiftDifferentialRule> results = new ArrayList<ShiftDifferentialRule>();
+        if (StringUtils.isNotBlank(location)) {
+            root.addLike("location", location);
+        }
+        
+        if (StringUtils.isNotBlank(hrSalGroup)) {
+            root.addLike("hrSalGroup", hrSalGroup);
+        }
+        
+        if (StringUtils.isNotBlank(payGrade)) {
+            root.addLike("payGrade", payGrade);
+        }
 
-        if(StringUtils.isNotBlank(location)){
-            crit.addLike("location", location);
+        if (fromEffdt != null) {
+            root.addGreaterOrEqualThan("effectiveDate", fromEffdt);
         }
-        if(StringUtils.isNotBlank(payGrade) && StringUtils.isNotEmpty(payGrade)){
-            crit.addLike("payGrade", payGrade);
-        }
-        if(StringUtils.isNotBlank(hrSalGroup) && StringUtils.isNotEmpty(hrSalGroup)){
-            crit.addLike("hrSalGroup", hrSalGroup);
-        }
-        if(fromEffdt != null){
-            crit.addGreaterOrEqualThan("effectiveDate", fromEffdt);
-        }
-        if(toEffdt != null){
-            crit.addLessOrEqualThan("effectiveDate", toEffdt);
+        if (toEffdt != null) {
+            root.addLessOrEqualThan("effectiveDate", toEffdt);
         } else {
-            crit.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            root.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
         }
-
-        if(StringUtils.isEmpty(active) && StringUtils.equals(showHistory,"Y")){
-            Query query = QueryFactory.newQuery(ShiftDifferentialRule.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-        }
-        // $$$
-        else if(StringUtils.isEmpty(active) && StringUtils.equals(showHistory, "N")){
-            effdt.addEqualToField("tkShiftDiffRuleId", Criteria.PARENT_QUERY_PREFIX + "tkShiftDiffRuleId");
-            if(toEffdt != null){
-                effdt.addLessOrEqualThan("effectiveDate", toEffdt);
+        
+        if (StringUtils.isNotBlank(active)) {
+        	Criteria activeFilter = new Criteria();
+            if (StringUtils.equals(active, "Y")) {
+                activeFilter.addEqualTo("active", true);
+            } else if (StringUtils.equals(active, "N")) {
+                activeFilter.addEqualTo("active", false);
             }
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(ShiftDifferentialRule.class, effdt);
-            effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-
-            timestamp.addEqualToField("tkShiftDiffRuleId", Criteria.PARENT_QUERY_PREFIX + "tkShiftDiffRuleId");
-            timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(ShiftDifferentialRule.class, timestamp);
-            timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-            crit.addEqualTo("effectiveDate", effdtSubQuery);
-            crit.addEqualTo("timestamp", timestampSubQuery);
-
-            Query query = QueryFactory.newQuery(ShiftDifferentialRule.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
+            root.addAndCriteria(activeFilter);
         }
 
-        else if(StringUtils.equals(active, "Y") && StringUtils.equals("N", showHistory)){
-            effdt.addEqualToField("tkShiftDiffRuleId", Criteria.PARENT_QUERY_PREFIX + "tkShiftDiffRuleId");
-            if(toEffdt != null){
-                effdt.addLessOrEqualThan("effectiveDate", toEffdt);
-            }
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(ShiftDifferentialRule.class, effdt);
-            effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+        if (StringUtils.equals(showHistory, "N")) {
+    		Criteria effdt = new Criteria();
+    		effdt.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
+    		effdt.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
+    		effdt.addEqualToField("payGrade", Criteria.PARENT_QUERY_PREFIX + "payGrade");
+    		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(ShiftDifferentialRule.class, effdt);
+    		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
 
-            timestamp.addEqualToField("tkShiftDiffRuleId", Criteria.PARENT_QUERY_PREFIX + "tkShiftDiffRuleId");
-            timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(ShiftDifferentialRule.class, timestamp);
-            timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-            crit.addEqualTo("effectiveDate", effdtSubQuery);
-            crit.addEqualTo("timestamp", timestampSubQuery);
-
-            Criteria activeFilter = new Criteria(); // Inner Join For Activity
-            activeFilter.addEqualTo("active", true);
-            crit.addAndCriteria(activeFilter);
-            Query query = QueryFactory.newQuery(ShiftDifferentialRule.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-        } //return all active records from the database
-        else if(StringUtils.equals(active, "Y") && StringUtils.equals("Y", showHistory)){
-            Criteria activeFilter = new Criteria(); // Inner Join For Activity
-            activeFilter.addEqualTo("active", true);
-            crit.addAndCriteria(activeFilter);
-            Query query = QueryFactory.newQuery(ShiftDifferentialRule.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
+    		Criteria timestamp = new Criteria();
+    		timestamp.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
+    		timestamp.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
+    		timestamp.addEqualToField("payGrade", Criteria.PARENT_QUERY_PREFIX + "payGrade");
+    		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+    		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(ShiftDifferentialRule.class, timestamp);
+    		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
         }
-        //return all inactive records in the database
-        else if(StringUtils.equals(active, "N") && StringUtils.equals(showHistory, "Y")){
-            Criteria activeFilter = new Criteria(); // Inner Join For Activity
-            activeFilter.addEqualTo("active", false);
-            crit.addAndCriteria(activeFilter);
-            Query query = QueryFactory.newQuery(ShiftDifferentialRule.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-        }
+        
+        Query query = QueryFactory.newQuery(ShiftDifferentialRule.class, root);
+        results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
 
-        //return the most effective inactive rows if there are no active rows <= the curr date
-        else if(StringUtils.equals(active, "N") && StringUtils.equals(showHistory, "N")){
-            effdt.addEqualToField("tkShiftDiffRuleId", Criteria.PARENT_QUERY_PREFIX + "tkShiftDiffRuleId");
-            if(toEffdt != null){
-                effdt.addLessOrEqualThan("effectiveDate", toEffdt);
-            }
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(ShiftDifferentialRule.class, effdt);
-            effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-
-            timestamp.addEqualToField("tkShiftDiffRuleId", Criteria.PARENT_QUERY_PREFIX + "tkShiftDiffRuleId");
-            timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(ShiftDifferentialRule.class, timestamp);
-            timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-            crit.addEqualTo("effectiveDate", effdtSubQuery);
-            crit.addEqualTo("timestamp", timestampSubQuery);
-
-            Criteria activeFilter = new Criteria(); // Inner Join For Activity
-            activeFilter.addEqualTo("active", false);
-            crit.addAndCriteria(activeFilter);
-            Query query = QueryFactory.newQuery(ShiftDifferentialRule.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-
-        }
         return results;
     }
 

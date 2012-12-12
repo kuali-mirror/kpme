@@ -242,152 +242,79 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
     }
 
     @Override
-    public List<Job> getJobs(String principalId, String jobNumber,
-                             String dept, String positionNumber, String hrPayType,
-                             java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory) {
+    @SuppressWarnings("unchecked")
+    public List<Job> getJobs(String principalId, String jobNumber, String dept, String positionNumber, String hrPayType, 
+    						 java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory) {
 
         List<Job> results = new ArrayList<Job>();
 
-        Criteria crit = new Criteria();
-        Criteria effdtCrit = new Criteria();
-        Criteria timestampCrit = new Criteria();
+        Criteria root = new Criteria();
+        
+        if (StringUtils.isNotBlank(principalId)) {
+            root.addLike("principalId", principalId);
+        }
+
+        if (StringUtils.isNotBlank(jobNumber)) {
+            root.addLike("jobNumber", jobNumber);
+        }
+
+        if (StringUtils.isNotBlank(dept)) {
+            root.addLike("dept", dept);
+        }
+
+        if (StringUtils.isNotBlank(positionNumber)) {
+            root.addLike("positionNumber", positionNumber);
+        }
+
+        if (StringUtils.isNotBlank(hrPayType)) {
+            root.addLike("hrPayType", hrPayType);
+        }
 
         if (fromEffdt != null) {
-            crit.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            root.addGreaterOrEqualThan("effectiveDate", fromEffdt);
         }
 
         if (toEffdt != null) {
-            crit.addLessOrEqualThan("effectiveDate", toEffdt);
+            root.addLessOrEqualThan("effectiveDate", toEffdt);
         } else {
-            crit.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            root.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+        }
+        
+        if (StringUtils.isNotBlank(active)) {
+        	Criteria activeFilter = new Criteria();
+            if (StringUtils.equals(active, "Y")) {
+                activeFilter.addEqualTo("active", true);
+            } else if (StringUtils.equals(active, "N")) {
+                activeFilter.addEqualTo("active", false);
+            }
+            root.addAndCriteria(activeFilter);
         }
 
-        if (StringUtils.isNotEmpty(jobNumber)) {
-            crit.addLike("jobNumber", jobNumber);
-        }
-
-        if (StringUtils.isNotEmpty(principalId)) {
-            crit.addLike("principalId", principalId);
-        }
-
-        if (StringUtils.isNotEmpty(dept)) {
-            crit.addLike("dept", dept);
-        }
-
-        if (StringUtils.isNotEmpty(positionNumber)) {
-            crit.addLike("positionNumber", positionNumber);
-        }
-
-        if (StringUtils.isNotEmpty(hrPayType)) {
-            crit.addLike("hrPayType", hrPayType);
-        }
-
-        if (StringUtils.isEmpty(active) && StringUtils.equals(showHistory, "Y")) {
-            effdtCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-            effdtCrit.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Job.class, effdtCrit);
+        if (StringUtils.equals(showHistory, "N")) {
+            Criteria effdt = new Criteria();
+            effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+            effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+            effdt.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
+            effdt.addEqualToField("positionNumber", Criteria.PARENT_QUERY_PREFIX + "positionNumber");
+            effdt.addEqualToField("hrPayType", Criteria.PARENT_QUERY_PREFIX + "hrPayType");
+            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Job.class, effdt);
             effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
+            root.addEqualTo("effectiveDate", effdtSubQuery);
 
-            timestampCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-            timestampCrit.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
-            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Job.class, timestampCrit);
+            Criteria timestamp = new Criteria();
+            timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+            timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+            timestamp.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
+            timestamp.addEqualToField("positionNumber", Criteria.PARENT_QUERY_PREFIX + "positionNumber");
+            timestamp.addEqualToField("hrPayType", Criteria.PARENT_QUERY_PREFIX + "hrPayType");
+            timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Job.class, timestamp);
             timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-
-            crit.addEqualTo("effectiveDate", effdtSubQuery);
-            crit.addEqualTo("timestamp", timestampSubQuery);
-
-            Query query = QueryFactory.newQuery(Job.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-        } else if (StringUtils.isEmpty(active) && StringUtils.equals(showHistory, "N")) {
-            effdtCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-            effdtCrit.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Job.class, effdtCrit);
-            effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
-
-            timestampCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-            timestampCrit.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
-            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Job.class, timestampCrit);
-            timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-
-            crit.addEqualTo("effectiveDate", effdtSubQuery);
-            crit.addEqualTo("timestamp", timestampSubQuery);
-
-            Query query = QueryFactory.newQuery(Job.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-        } else if (StringUtils.equals(active, "Y") && StringUtils.equals("N", showHistory)) {
-            effdtCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-            effdtCrit.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Job.class, effdtCrit);
-            effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
-
-            timestampCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-            timestampCrit.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
-            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Job.class, timestampCrit);
-            timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-
-            crit.addEqualTo("effectiveDate", effdtSubQuery);
-            crit.addEqualTo("timestamp", timestampSubQuery);
-
-            Criteria activeFilter = new Criteria(); // Inner Join For Activity
-            activeFilter.addEqualTo("active", true);
-            crit.addAndCriteria(activeFilter);
-
-            Query query = QueryFactory.newQuery(Job.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-        } //return all active records from the database
-        else if (StringUtils.equals(active, "Y") && StringUtils.equals("Y", showHistory)) {
-            Criteria activeFilter = new Criteria(); // Inner Join For Activity
-            activeFilter.addEqualTo("active", true);
-            crit.addAndCriteria(activeFilter);
-            Query query = QueryFactory.newQuery(Job.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
+            root.addEqualTo("timestamp", timestampSubQuery);
         }
-        //return all inactive records in the database
-        else if (StringUtils.equals(active, "N") && StringUtils.equals(showHistory, "Y")) {
-            effdtCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-            effdtCrit.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Job.class, effdtCrit);
-            effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-
-            timestampCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-            timestampCrit.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
-            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Job.class, timestampCrit);
-            timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-
-            crit.addEqualTo("effectiveDate", effdtSubQuery);
-            crit.addEqualTo("timestamp", timestampSubQuery);
-
-            Criteria activeFilter = new Criteria(); // Inner Join For Activity
-            activeFilter.addEqualTo("active", false);
-            crit.addAndCriteria(activeFilter);
-            Query query = QueryFactory.newQuery(Job.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-        }
-
-        //return the most effective inactive rows if there are no active rows <= the curr date
-        else if (StringUtils.equals(active, "N") && StringUtils.equals(showHistory, "N")) {
-            effdtCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-            effdtCrit.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Job.class, effdtCrit);
-            effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
-
-            timestampCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-            timestampCrit.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
-            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Job.class, timestampCrit);
-            timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-
-            Criteria activeFilter = new Criteria(); // Inner Join For Activity
-            activeFilter.addEqualTo("active", false);
-            crit.addAndCriteria(activeFilter);
-            Query query = QueryFactory.newQuery(Job.class, crit);
-            Collection c =this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-        }
+        
+        Query query = QueryFactory.newQuery(Job.class, root);
+        results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
 
         return results;
     }

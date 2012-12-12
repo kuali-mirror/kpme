@@ -360,44 +360,54 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
         return inactiveList;
     }
    
-    @Override
-    public List<PrincipalHRAttributes> getPrincipalHrAtributes(String principalId, java.sql.Date fromEffdt, 
-    			java.sql.Date toEffdt,String active, String showHistory) {
+	@Override
+    @SuppressWarnings("unchecked")
+    public List<PrincipalHRAttributes> getPrincipalHrAtributes(String principalId, java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory) {
+    	List<PrincipalHRAttributes> results = new ArrayList<PrincipalHRAttributes>();
+        
+    	Criteria root = new Criteria();
     	
-    	List<PrincipalHRAttributes> phraList = new ArrayList<PrincipalHRAttributes>();
-        Criteria crit = new Criteria();
-        if (fromEffdt != null) {
-            crit.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+        if (StringUtils.isNotBlank(principalId)) {
+            root.addLike("principalId", principalId);
         }
+        
+    	if (fromEffdt != null) {
+            root.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+        }
+    	
         if (toEffdt != null) {
-            crit.addLessOrEqualThan("effectiveDate", toEffdt);
+            root.addLessOrEqualThan("effectiveDate", toEffdt);
         }
-        if (StringUtils.isNotEmpty(principalId)) {
-            crit.addLike("principalId", principalId);
-        }
-       
-        if(StringUtils.isNotEmpty(active)) {
+
+        if (StringUtils.isNotBlank(active)) {
         	Criteria activeFilter = new Criteria();
-        	if(active.equals("Y")) {	 // show active rows only
-		        activeFilter.addEqualTo("active", true);
-		        crit.addAndCriteria(activeFilter);	
-        	} else if (active.equals("N")) {
-        		activeFilter.addEqualTo("active", false);
-		        crit.addAndCriteria(activeFilter);	
-        	}
+            if (StringUtils.equals(active, "Y")) {
+                activeFilter.addEqualTo("active", true);
+            } else if (StringUtils.equals(active, "N")) {
+                activeFilter.addEqualTo("active", false);
+            }
+            root.addAndCriteria(activeFilter);
         }
-        // if do not show history, only return the rows with the max timestamp for a principalId
-        if(StringUtils.isNotEmpty(showHistory)&& showHistory.equals("N")) {
-            Criteria timestampCrit = new Criteria();
-       		timestampCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-       		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(PrincipalHRAttributes.class, timestampCrit);
+        
+        if (StringUtils.equals(showHistory, "N")) {
+            Criteria effdt = new Criteria();
+        	effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(PrincipalHRAttributes.class, effdt);
+            effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
+            root.addEqualTo("effectiveDate", effdtSubQuery);
+            
+            Criteria timestamp = new Criteria();
+       		timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+       		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+       		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(PrincipalHRAttributes.class, timestamp);
        		timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-       		crit.addEqualTo("timestamp", timestampSubQuery);
+       		root.addEqualTo("timestamp", timestampSubQuery);
        }
-       Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, crit);
-       Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-       phraList.addAll(c);
-       return phraList;
+        
+       Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, root);
+       results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
+       
+       return results;
     }
 
 }

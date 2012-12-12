@@ -87,22 +87,26 @@ public class DepartmentLunchRuleDaoImpl  extends PlatformAwareDaoBaseOjb impleme
 		return (DeptLunchRule)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 
-    @Override
+	@Override
+    @SuppressWarnings("unchecked")
     public List<DeptLunchRule> getDepartmentLunchRules(String dept, String workArea, String principalId, String jobNumber, String active) {
-
-        Criteria crit = new Criteria();
         List<DeptLunchRule> results = new ArrayList<DeptLunchRule>();
+        
+        Criteria root = new Criteria();
 
-        if(StringUtils.isNotBlank(dept) && StringUtils.isNotEmpty(dept)){
-            crit.addLike("dept", dept);
+        if (StringUtils.isNotBlank(dept)) {
+            root.addLike("dept", dept);
         }
-        if (StringUtils.isNotEmpty(principalId)) {
-            crit.addLike("principalId", principalId);
+        
+        if (StringUtils.isNotBlank(principalId)) {
+            root.addLike("principalId", principalId);
         }
-        if (StringUtils.isNotEmpty(jobNumber)) {
-            crit.addLike("jobNumber", jobNumber);
+        
+        if (StringUtils.isNotBlank(jobNumber)) {
+            root.addLike("jobNumber", jobNumber);
         }
-        if (StringUtils.isNotEmpty(dept)) {
+        
+        if (StringUtils.isNotBlank(dept)) {
             Criteria workAreaCriteria = new Criteria();
             Date asOfDate = TKUtils.getCurrentDate();
             Collection<WorkArea> workAreasForDept = TkServiceLocator.getWorkAreaService().getWorkAreas(dept,asOfDate);
@@ -113,30 +117,25 @@ public class DepartmentLunchRuleDaoImpl  extends PlatformAwareDaoBaseOjb impleme
                 }
                 workAreaCriteria.addIn("workArea", longWorkAreas);
             }
-            crit.addAndCriteria(workAreaCriteria);
+            root.addAndCriteria(workAreaCriteria);
         }
-        if (StringUtils.isNotEmpty(workArea)) {
-            crit.addLike("workArea", workArea);
+        
+        if (StringUtils.isNotBlank(workArea)) {
+            root.addLike("workArea", workArea);
         }
-        if (StringUtils.isEmpty(active)) {
-            Query query = QueryFactory.newQuery(DeptLunchRule.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-        } else if (StringUtils.equals(active, "Y")) {
-            Criteria activeFilter = new Criteria(); // Inner Join For Activity
-            activeFilter.addEqualTo("active", true);
-            crit.addAndCriteria(activeFilter);
-            Query query = QueryFactory.newQuery(DeptLunchRule.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-        } else if (StringUtils.equals(active, "N")) {
-            Criteria activeFilter = new Criteria(); // Inner Join For Activity
-            activeFilter.addEqualTo("active", false);
-            crit.addAndCriteria(activeFilter);
-            Query query = QueryFactory.newQuery(DeptLunchRule.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
+        
+        if (StringUtils.isNotBlank(active)) {
+        	Criteria activeFilter = new Criteria();
+            if (StringUtils.equals(active, "Y")) {
+                activeFilter.addEqualTo("active", true);
+            } else if (StringUtils.equals(active, "N")) {
+                activeFilter.addEqualTo("active", false);
+            }
+            root.addAndCriteria(activeFilter);
         }
+        
+        Query query = QueryFactory.newQuery(DeptLunchRule.class, root);
+        results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
 
         return results;
     }

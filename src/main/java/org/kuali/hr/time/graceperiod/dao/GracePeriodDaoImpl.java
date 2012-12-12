@@ -17,7 +17,6 @@ package org.kuali.hr.time.graceperiod.dao;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -75,34 +74,31 @@ public class GracePeriodDaoImpl extends PlatformAwareDaoBaseOjb implements Grace
 		return (GracePeriodRule)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
 
-    @Override
+	@Override
+    @SuppressWarnings("unchecked")
     public List<GracePeriodRule> getGracePeriodRules(String hourFactor, String active) {
-
-        Criteria crit = new Criteria();
         List<GracePeriodRule> results = new ArrayList<GracePeriodRule>();
+        
+        Criteria root = new Criteria();
 
-        if(StringUtils.isNotBlank(hourFactor) && StringUtils.isNotEmpty(hourFactor)){
-            crit.addLike("hourFactor", hourFactor);
+        if (StringUtils.isNotBlank(hourFactor)) {
+            root.addLike("hourFactor", hourFactor);
         }
-        if (StringUtils.isEmpty(active)) {
-            Query query = QueryFactory.newQuery(GracePeriodRule.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-        } else if (StringUtils.equals(active, "Y")) {
-            Criteria activeFilter = new Criteria(); // Inner Join For Activity
-            activeFilter.addEqualTo("active", true);
-            crit.addAndCriteria(activeFilter);
-            Query query = QueryFactory.newQuery(GracePeriodRule.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-        } else if (StringUtils.equals(active, "N")) {
-            Criteria activeFilter = new Criteria(); // Inner Join For Activity
-            activeFilter.addEqualTo("active", false);
-            crit.addAndCriteria(activeFilter);
-            Query query = QueryFactory.newQuery(GracePeriodRule.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
+        
+        if (StringUtils.isNotBlank(active)) {
+        	Criteria activeFilter = new Criteria();
+            if (StringUtils.equals(active, "Y")) {
+                activeFilter.addEqualTo("active", true);
+            } else if (StringUtils.equals(active, "N")) {
+                activeFilter.addEqualTo("active", false);
+            }
+            root.addAndCriteria(activeFilter);
         }
+        
+        Query query = QueryFactory.newQuery(GracePeriodRule.class, root);
+        results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
+        
         return results;
     }
+	
 }

@@ -73,6 +73,12 @@
         <insert tableName="hr_paytype_s">
             <column name="id" value="2" />
         </insert>
+        <insert tableName="hr_position_id_s">
+            <column name="id" value="1" />
+        </insert>
+        <insert tableName="hr_position_s">
+            <column name="id" value="1" />
+        </insert>
         <insert tableName="hr_principal_attribute_s">
             <column name="id" value="2" />
         </insert>
@@ -122,6 +128,7 @@
         <loadData tableName="hr_job_t" file="src/test/config/db/test/hr_job_t.csv" />
         <loadData tableName="hr_paytype_t" file="src/test/config/db/test/hr_paytype_t.csv" />
         <loadData tableName="hr_principal_attributes_t" file="src/test/config/db/test/hr_principal_attributes_t.csv" />
+        <loadData tableName="hr_position_t" file="src/test/config/db/test/hr_position_t.csv" />
         <loadData tableName="hr_roles_t" file="src/test/config/db/test/hr_roles_t.csv" />
         <loadData tableName="hr_sal_group_t" file="src/test/config/db/test/hr_sal_group_t.csv" />
         <loadData tableName="lm_accrual_category_t" file="src/test/config/db/test/lm_accrual_category_t.csv" />

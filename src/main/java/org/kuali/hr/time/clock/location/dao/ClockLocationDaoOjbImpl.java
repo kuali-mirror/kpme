@@ -132,38 +132,38 @@ public class ClockLocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
 		clr.setIpAddresses(ipAddresses);
 	}
 
-    @Override
-    public List<ClockLocationRule> getClockLocationRules(Date fromEffdt, Date toEffdt, String principalId,
-                                                         String jobNumber, String dept, String workArea, String active, String showHistory){
-
-        Criteria crit = new Criteria();
-//        Criteria effdt = new Criteria();
+	@Override
+    @SuppressWarnings("unchecked")
+    public List<ClockLocationRule> getClockLocationRules(Date fromEffdt, Date toEffdt, String principalId, String jobNumber, String dept, String workArea, 
+    													 String active, String showHistory) {
 
         List<ClockLocationRule> results = new ArrayList<ClockLocationRule>();
+        
+        Criteria root = new Criteria();
 
         if (fromEffdt != null) {
-            crit.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            root.addGreaterOrEqualThan("effectiveDate", fromEffdt);
         }
 
         if (toEffdt != null) {
-            crit.addLessOrEqualThan("effectiveDate", toEffdt);
+            root.addLessOrEqualThan("effectiveDate", toEffdt);
         } else {
-            crit.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            root.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
         }
 
-        if (StringUtils.isNotEmpty(principalId)) {
-            crit.addLike("principalId", principalId);
+        if (StringUtils.isNotBlank(principalId)) {
+            root.addLike("principalId", principalId);
         }
 
-        if (StringUtils.isNotEmpty(dept)) {
-            crit.addLike("dept", dept);
+        if (StringUtils.isNotBlank(dept)) {
+            root.addLike("dept", dept);
         }
 
-        if (StringUtils.isNotEmpty(jobNumber)) {
-            crit.addLike("jobNumber", jobNumber);
+        if (StringUtils.isNotBlank(jobNumber)) {
+            root.addLike("jobNumber", jobNumber);
         }
 
-        if (StringUtils.isNotEmpty(dept)) {
+        if (StringUtils.isNotBlank(dept)) {
             Criteria workAreaCriteria = new Criteria();
             Date asOfDate = toEffdt != null ? toEffdt : TKUtils.getCurrentDate();
             Collection<WorkArea> workAreasForDept = TkServiceLocator.getWorkAreaService().getWorkAreas(dept,asOfDate);
@@ -174,60 +174,48 @@ public class ClockLocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
                 }
                 workAreaCriteria.addIn("workArea", longWorkAreas);
             }
-            crit.addAndCriteria(workAreaCriteria);
+            root.addAndCriteria(workAreaCriteria);
         }
 
-        if (StringUtils.isNotEmpty(workArea)) {
-            crit.addLike("workArea", workArea);
+        if (StringUtils.isNotBlank(workArea)) {
+            root.addLike("workArea", workArea);
+        }
+        
+        if (StringUtils.isNotBlank(active)) {
+        	Criteria activeFilter = new Criteria();
+            if (StringUtils.equals(active, "Y")) {
+                activeFilter.addEqualTo("active", true);
+            } else if (StringUtils.equals(active, "N")) {
+                activeFilter.addEqualTo("active", false);
+            }
+            root.addAndCriteria(activeFilter);
         }
 
-
-        if (StringUtils.isEmpty(active) && StringUtils.equals(showHistory, "Y")) {
-            Query query = QueryFactory.newQuery(ClockLocationRule.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-        } else if (StringUtils.isEmpty(active) && StringUtils.equals(showHistory, "N")) {
-            Query query = QueryFactory.newQuery(ClockLocationRule.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-        } else if (StringUtils.equals(active, "Y") && StringUtils.equals("N", showHistory)) {
-            Criteria activeFilter = new Criteria(); // Inner Join For Activity
-            activeFilter.addEqualTo("active", true);
-            crit.addAndCriteria(activeFilter);
-            Query query = QueryFactory.newQuery(ClockLocationRule.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-        } //return all active records from the database
-        else if (StringUtils.equals(active, "Y") && StringUtils.equals("Y", showHistory)) {
-            Criteria activeFilter = new Criteria(); // Inner Join For Activity
-            activeFilter.addEqualTo("active", true);
-            crit.addAndCriteria(activeFilter);
-            Query query = QueryFactory.newQuery(ClockLocationRule.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
+        if (StringUtils.equals(showHistory, "N")) {
+        	Criteria effdt = new Criteria();
+    		effdt.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
+    		effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
+    		effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+    		effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+    		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(ClockLocationRule.class, effdt);
+    		effdtSubQuery.setAttributes(new String[] { "max(effectiveDate)" });
+    		root.addEqualTo("effectiveDate", effdtSubQuery);
+    		
+    		Criteria timestamp = new Criteria();
+    		timestamp.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
+    		timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
+    		timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+    		timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+    		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+    		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(ClockLocationRule.class, timestamp);
+    		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
+    		root.addEqualTo("timestamp", timestampSubQuery);
         }
-        //return all inactive records in the database
-        else if (StringUtils.equals(active, "N") && StringUtils.equals(showHistory, "Y")) {
-            Criteria activeFilter = new Criteria(); // Inner Join For Activity
-            activeFilter.addEqualTo("active", false);
-            crit.addAndCriteria(activeFilter);
-            Query query = QueryFactory.newQuery(ClockLocationRule.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-        }
-
-        //return the most effective inactive rows if there are no active rows <= the curr date
-        else if (StringUtils.equals(active, "N") && StringUtils.equals(showHistory, "N")) {
-            Criteria activeFilter = new Criteria(); // Inner Join For Activity
-            activeFilter.addEqualTo("active", false);
-            crit.addAndCriteria(activeFilter);
-            Query query = QueryFactory.newQuery(ClockLocationRule.class, crit);
-            Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-            results.addAll(c);
-
-        }
+        
+        Query query = QueryFactory.newQuery(ClockLocationRule.class, root);
+        results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
+        
         return results;
-
     }
 
 }

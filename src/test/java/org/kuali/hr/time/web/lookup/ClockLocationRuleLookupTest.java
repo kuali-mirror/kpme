@@ -15,21 +15,11 @@
  */
 package org.kuali.hr.time.web.lookup;
 
-import java.sql.Date;
-import java.util.HashMap;
-
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.clock.location.ClockLocationRule;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.util.TKUtils;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
@@ -37,28 +27,6 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class ClockLocationRuleLookupTest extends KPMETestCase {
 
-    private static BusinessObjectService boService = null;
-    
-    /**
-     * Load some data to find for all of the tests in this test collection.
-     */
-    
-    @Before
-    public void setUp() throws Exception {
-    	super.setUp();
-    	boService = KRADServiceLocator.getBusinessObjectService();
-    	clearBusinessObjects(ClockLocationRule.class);
-    	
-    	ClockLocationRule clr = new ClockLocationRule();
-    	clr.setActive(true);
-    	clr.setDept("12345");
-    	Date asOfDate = new Date((new DateTime(2010, 8, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-    	clr.setEffectiveDate(asOfDate);
-    	boService.save(clr);
-    }
-    
-    
-    
     @Test
     public void testLookup() throws Exception{
     	String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/lookup.do?__login_user=admin&methodToCall=start&businessObjectClassName=org.kuali.hr.time.clock.location.ClockLocationRule&returnLocation=" + HtmlUnitUtil.getBaseURL() + "/portal.do&hideReturnLink=true&docFormKey=88888888";
@@ -87,16 +55,4 @@ public class ClockLocationRuleLookupTest extends KPMETestCase {
     	Assert.assertTrue("Expected zero results.", StringUtils.contains(page.asText(), "No values match this search."));
     }
 
-    @SuppressWarnings("unchecked")
-    public static void clearBusinessObjects(Class clazz) {
-	boService.deleteMatching(clazz, new HashMap());
-    }
-
-
-
-	@Override
-	public void tearDown() throws Exception {
-		clearBusinessObjects(ClockLocationRule.class);
-		super.tearDown();
-	}
 }
