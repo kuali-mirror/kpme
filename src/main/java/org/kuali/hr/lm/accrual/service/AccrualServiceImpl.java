@@ -97,7 +97,6 @@ public class AccrualServiceImpl implements AccrualService {
 		PrincipalHRAttributes endPhra = null;
 		LeavePlan lp = null;
 		List<AccrualCategory> accrCatList = null;
-		BigDecimal wholeFTEForRuleChange = null;	// for tracking whole fte to use for Accrual category rule changes
 		
 		//Iterate over every day in span 
 		Calendar aCal = Calendar.getInstance();
@@ -181,12 +180,10 @@ public class AccrualServiceImpl implements AccrualService {
 								} else {
 									if(minReachedFlag) {
 										// min reached, proration = false, rule changed, then accrual the whole fte of the new rule for this pay interval
-										wholeFTEForRuleChange = currentAcRule.getAccrualRate();
-										accumulatedAccrualCatToAccrualAmounts.put(anAC.getLmAccrualCategoryId(), wholeFTEForRuleChange);
+										accumulatedAccrualCatToAccrualAmounts.put(anAC.getLmAccrualCategoryId(), currentAcRule.getAccrualRate());
 									} else {
 										//min NOT reached, proration = false, rule changed, then accrual the whole fte of the previous rule for this pay interval
-										wholeFTEForRuleChange = previousAcRule.getAccrualRate();
-										accumulatedAccrualCatToAccrualAmounts.put(anAC.getLmAccrualCategoryId(), wholeFTEForRuleChange);
+										accumulatedAccrualCatToAccrualAmounts.put(anAC.getLmAccrualCategoryId(), previousAcRule.getAccrualRate());
 									}
 								}
 							}
@@ -206,15 +203,18 @@ public class AccrualServiceImpl implements AccrualService {
 								// so nothing special needs to be done here
 							} else {
 								// min NOT reached, proration = true, first pay period, then no accrual for this pay period
+								accumulatedAccrualCatToAccrualAmounts.remove(anAC.getLmAccrualCategoryId());
+								accumulatedAccrualCatToNegativeAccrualAmounts.remove(anAC.getLmAccrualCategoryId());
 								continue;
 							}
 						} else {
 							if(minReachedFlag) {
 								//  minimum reached, proration = false, first pay period, then accrual the whole fte of current AC rule for this pay interval
-								wholeFTEForRuleChange = currentAcRule.getAccrualRate();
-								accumulatedAccrualCatToAccrualAmounts.put(anAC.getLmAccrualCategoryId(), wholeFTEForRuleChange);
+								accumulatedAccrualCatToAccrualAmounts.put(anAC.getLmAccrualCategoryId(), currentAcRule.getAccrualRate());
 							} else {
 								// min NOT reached, proration = false, first pay period, then no accrual for this pay period
+								accumulatedAccrualCatToAccrualAmounts.remove(anAC.getLmAccrualCategoryId());
+								accumulatedAccrualCatToNegativeAccrualAmounts.remove(anAC.getLmAccrualCategoryId());
 								continue;
 							}
 						}
@@ -234,15 +234,18 @@ public class AccrualServiceImpl implements AccrualService {
 									// so nothing special needs to be done here
 								} else {
 									// min NOT reached, proration = true, first pay period, then no accrual for this pay period
+									accumulatedAccrualCatToAccrualAmounts.remove(anAC.getLmAccrualCategoryId());
+									accumulatedAccrualCatToNegativeAccrualAmounts.remove(anAC.getLmAccrualCategoryId());
 									continue;
 								}
 							} else {
 								if(minReachedFlag) {
 									//  minimum reached, proration = false, first pay period, then accrual the whole fte of current AC rule for this pay interval
-									wholeFTEForRuleChange = currentAcRule.getAccrualRate();
-									accumulatedAccrualCatToAccrualAmounts.put(anAC.getLmAccrualCategoryId(), wholeFTEForRuleChange);
+									accumulatedAccrualCatToAccrualAmounts.put(anAC.getLmAccrualCategoryId(), currentAcRule.getAccrualRate());
 								} else {
 									// min NOT reached, proration = false, first pay period, then no accrual for this pay period
+									accumulatedAccrualCatToAccrualAmounts.remove(anAC.getLmAccrualCategoryId());
+									accumulatedAccrualCatToNegativeAccrualAmounts.remove(anAC.getLmAccrualCategoryId());
 									continue;
 								}
 							}
@@ -250,6 +253,8 @@ public class AccrualServiceImpl implements AccrualService {
 					}
 										
 					if(currentAcRule == null) {
+						accumulatedAccrualCatToAccrualAmounts.remove(anAC.getLmAccrualCategoryId());
+						accumulatedAccrualCatToNegativeAccrualAmounts.remove(anAC.getLmAccrualCategoryId());
 						continue;
 					}
 					
@@ -277,14 +282,11 @@ public class AccrualServiceImpl implements AccrualService {
 					String earnIntervalKey = anAC.getAccrualEarnInterval(); 
 					
 					if(this.isDateAtEarnInterval(currentDate, earnIntervalKey)) {
-						// if there is a whole fte to be used due to AC rule changes, then use it instead of what is accumulated
-						BigDecimal acHours = wholeFTEForRuleChange != null ? 
-								wholeFTEForRuleChange : accumulatedAccrualCatToAccrualAmounts.get(anAC.getLmAccrualCategoryId());
+						BigDecimal acHours = accumulatedAccrualCatToAccrualAmounts.get(anAC.getLmAccrualCategoryId());
 						
 						if(acHours != null) {
 							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, acHours, anAC, null, true);
 							accumulatedAccrualCatToAccrualAmounts.remove(anAC.getLmAccrualCategoryId());	// reset accumulatedAccrualCatToAccrualAmounts
-							wholeFTEForRuleChange = null; // reset whole fte
 						}
 						
 						BigDecimal adjustmentHours = accumulatedAccrualCatToNegativeAccrualAmounts.get(anAC.getLmAccrualCategoryId());
