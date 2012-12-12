@@ -55,6 +55,9 @@ public class LeaveBlockDisplay {
 	}
 	
 	public String getDescription() {
+		if(leaveBlock.getDescription() == null || leaveBlock.getDescription().trim().isEmpty()) {
+			return retrieveDescriptionAccordingToLeaveType(leaveBlock.getLeaveBlockType());
+		}
 		return leaveBlock.getDescription();
 	}
 	
@@ -107,6 +110,12 @@ public class LeaveBlockDisplay {
 
 	public void setAccrualBalance(String accrualCategory, BigDecimal accrualBalance) {
 		this.accrualBalances.put(accrualCategory, accrualBalance);
+	}
+	
+	private String retrieveDescriptionAccordingToLeaveType(String leaveType) {
+		String description = null;
+		description = LMConstants.LEAVE_BLOCK_TYPE_MAP.get(leaveType);
+		return description;
 	}
 
 }

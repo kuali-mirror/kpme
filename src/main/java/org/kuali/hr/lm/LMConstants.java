@@ -125,6 +125,14 @@ public class LMConstants {
 		 public static final String LEAVE_ADJUSTMENT_MAINT = "LAM";
 	 }
 
+	 public static final Map<String, String> LEAVE_BLOCK_TYPE_MAP = new HashMap<String, String>(4);
+	 static {
+	    	LEAVE_BLOCK_TYPE_MAP.put(LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE, "Accrual Service");
+	    	LEAVE_BLOCK_TYPE_MAP.put(LEAVE_BLOCK_TYPE.BALANCE_TRANSFER, "Balance Transfer");
+	    	LEAVE_BLOCK_TYPE_MAP.put(LEAVE_BLOCK_TYPE.DONATION_MAINT, "Donation");
+	    	LEAVE_BLOCK_TYPE_MAP.put(LEAVE_BLOCK_TYPE.LEAVE_ADJUSTMENT_MAINT, "Leave Adjustment");
+	 }
+	    
     public static final class ACTION_AT_MAX_BAL {
         public static final String LOSE = "L";
         public static final String TRANSFER = "T";
