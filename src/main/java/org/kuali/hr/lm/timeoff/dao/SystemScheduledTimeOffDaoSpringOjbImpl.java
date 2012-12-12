@@ -91,8 +91,19 @@ public class SystemScheduledTimeOffDaoSpringOjbImpl extends PlatformAwareDaoBase
         if (StringUtils.isNotBlank(fromSchTimeOffDate)) {
             root.addGreaterOrEqualThan("scheduledTimeOffDate", fromSchTimeOffDate);
         }
+        
         if (StringUtils.isNotBlank(toSchTimeOffDate)) {
             root.addLessOrEqualThan("scheduledTimeOffDate", toSchTimeOffDate);
+        }
+        
+        if (StringUtils.isNotBlank(active)) {
+        	Criteria activeFilter = new Criteria();
+            if (StringUtils.equals(active, "Y")) {
+                activeFilter.addEqualTo("active", true);
+            } else if (StringUtils.equals(active, "N")) {
+                activeFilter.addEqualTo("active", false);
+            }
+            root.addAndCriteria(activeFilter);
         }
         
         if (StringUtils.equals(showHistory, "N")) {
