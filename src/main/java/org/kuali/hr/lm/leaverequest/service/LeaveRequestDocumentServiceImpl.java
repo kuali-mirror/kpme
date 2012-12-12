@@ -16,6 +16,7 @@
 package org.kuali.hr.lm.leaverequest.service;
 
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -85,38 +86,49 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
     }
 
     @Override
-    public void approveLeave(String documentId, String principalId) {
+    public void approveLeave(String documentId, String principalId, String reason) {
         //verify principal has an action item to approve...
         //KewApiServiceLocator.
         LeaveRequestDocument doc = getLeaveRequestDocument(documentId);
+        if(StringUtils.isNotEmpty(reason)) {
+	        doc.setDescription(reason);
+	        saveLeaveRequestDocument(doc);
+        }
         //do we need to switch ids?
         doc.getDocumentHeader().getWorkflowDocument().switchPrincipal(principalId);
         ValidActions validActions = doc.getDocumentHeader().getWorkflowDocument().getValidActions();
         if (validActions.getValidActions().contains(ActionType.APPROVE)) {
-            doc.getDocumentHeader().getWorkflowDocument().route("");
+            doc.getDocumentHeader().getWorkflowDocument().approve("");
         }
     }
 
     @Override
-    public void disapproveLeave(String documentId, String principalId) {
+    public void disapproveLeave(String documentId, String principalId, String reason) {
         LeaveRequestDocument doc = getLeaveRequestDocument(documentId);
+        if(StringUtils.isNotEmpty(reason)) {
+	        doc.setDescription(reason);
+	        saveLeaveRequestDocument(doc);
+        }
         ValidActions validActions = doc.getDocumentHeader().getWorkflowDocument().getValidActions();
         doc.getDocumentHeader().getWorkflowDocument().switchPrincipal(principalId);
         if (validActions.getValidActions().contains(ActionType.DISAPPROVE)) {
-            doc.getDocumentHeader().getWorkflowDocument().route("");
+            doc.getDocumentHeader().getWorkflowDocument().disapprove("");
         }
-        doc.getDocumentHeader().getWorkflowDocument().disapprove("");
     }
 
     @Override
-    public void deferLeave(String documentId, String principalId) {
+    public void deferLeave(String documentId, String principalId, String reason) {
         LeaveRequestDocument doc = getLeaveRequestDocument(documentId);
+        if(StringUtils.isNotEmpty(reason)) {
+	        doc.setDescription(reason);
+	        saveLeaveRequestDocument(doc);
+        }
         ValidActions validActions = doc.getDocumentHeader().getWorkflowDocument().getValidActions();
         doc.getDocumentHeader().getWorkflowDocument().switchPrincipal(principalId);
         if (validActions.getValidActions().contains(ActionType.CANCEL)) {
-            doc.getDocumentHeader().getWorkflowDocument().route("");
+        	doc.getDocumentHeader().getWorkflowDocument().cancel("");
         }
-        doc.getDocumentHeader().getWorkflowDocument().cancel("");
+        
     }
 
     public LeaveRequestDocumentDao getLeaveRequestDocumentDao() {

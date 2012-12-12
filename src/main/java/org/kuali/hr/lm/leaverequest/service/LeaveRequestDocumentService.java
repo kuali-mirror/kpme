@@ -28,9 +28,9 @@ public interface LeaveRequestDocumentService {
     LeaveRequestDocument createLeaveRequestDocument(String leaveBlockId);
 
     void requestLeave(String documentId);
-    void approveLeave(String documentId, String principalId);
-    void disapproveLeave(String documentId, String principalId);
-    void deferLeave(String documentId, String principalId);
+    void approveLeave(String documentId, String principalId, String reason);
+    void disapproveLeave(String documentId, String principalId, String reason);
+    void deferLeave(String documentId, String principalId, String reason);
 
 
 }
