@@ -13,4 +13,5 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 --
+
 DELETE FROM TK_CLOCK_LOCATION_RL_T WHERE TK_CLOCK_LOC_RULE_ID = '10000';
