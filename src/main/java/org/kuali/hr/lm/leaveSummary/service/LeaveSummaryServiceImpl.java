@@ -58,7 +58,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 	private LeaveBlockService leaveBlockService;
 
     @Override
-    public LeaveSummary getLeaveSummary(String principalId, CalendarEntries calendarEntry) throws Exception {
+    public LeaveSummary getLeaveSummary(String principalId, CalendarEntries calendarEntry) {
         LeaveSummary ls = new LeaveSummary();
         List<LeaveSummaryRow> rows = new ArrayList<LeaveSummaryRow>();
 
@@ -123,7 +123,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                             lsr.setAccrualCategory(ac.getAccrualCategory());
                             lsr.setAccrualCategoryId(ac.getLmAccrualCategoryId());
                             //get max balances
-                            AccrualCategoryRule acRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(ac, calendarEntry.getEndPeriodDateTime(), pha.getServiceDate());
+                            AccrualCategoryRule acRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(ac, TKUtils.getCurrentDate(), pha.getServiceDate());
                             //accrual category rule id set on a leave summary row will be useful in generating a relevant balance transfer
                             //document from the leave calendar display. Could put this id in the request for balance transfer document.
                             lsr.setAccrualCategoryRuleId(acRule == null ? null : acRule.getLmAccrualCategoryRuleId());
@@ -167,14 +167,27 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 
                             //compute Leave Balance
                             BigDecimal leaveBalance = lsr.getAccruedBalance().subtract(lsr.getPendingLeaveRequests());
-                            if (acRule != null && StringUtils.equals(acRule.getMaxBalFlag(), "Y")) {
-                            	if(lsr.getUsageLimit()!=null)
-                            		lsr.setLeaveBalance(lsr.getUsageLimit());
-                            	else
+                            //if leave balance is set 
+                            //Employee overrides have already been taken into consideration and the appropriate values
+                            //for usage have been set by this point.
+//                            if (acRule != null && StringUtils.equals(acRule.getMaxBalFlag(), "Y")) {
+                            	//there exists an accrual category rule with max balance limit imposed.
+                            	//max bal flag = 'Y' has no precedence here with max-bal / balance transfers implemented.
+                            	//unless institutions are not required to define a max balance limit for action_at_max_bal = LOSE.
+                            	//Possibly preferable to procure forfeiture blocks through balance transfer
+                            	if(lsr.getUsageLimit()!=null) { //should not set leave balance to usage limit simply because it's not null.
+                            		BigDecimal availableUsage = lsr.getUsageLimit().subtract(lsr.getYtdApprovedUsage().add(lsr.getPendingLeaveRequests()));
+                            		if(leaveBalance.compareTo( availableUsage ) > 0)
+                            			lsr.setLeaveBalance(availableUsage);
+                            		else
+                            			lsr.setLeaveBalance(leaveBalance);
+                            	}
+                            	else//no usage limit
                             		lsr.setLeaveBalance(leaveBalance);
-                            } else {
-                                lsr.setLeaveBalance(leaveBalance);
-                            }
+//                            } else {
+//                            	//accrual rule is undefined for accrual category, or max bal flag is "N"
+//                                lsr.setLeaveBalance(leaveBalance);
+//                            }
                             determineTransferable(lsr,acRule);
                             determinePayoutable(lsr,acRule);
                             rows.add(lsr);
@@ -217,10 +230,28 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
         return map;
     }
 
+    /**
+     * Use with button display for balance transfers available On-Demand.
+     * @param lsr
+     * @param accrualCategoryRule
+     */
     private void determineTransferable(LeaveSummaryRow lsr, AccrualCategoryRule accrualCategoryRule) {
+    	//return type must be changed to boolean, or an associated field element must be created for decision
+    	//purposes.
+    	//an accrual category's balance is transferable if max_bal_action_frequency is ON-DEMAND
+    	//and action_at_max_balance is TRANSFER
     }
     
+    /**
+     * Use with button display for balance transfer payouts available On-Demand.
+     * @param lsr
+     * @param accrualCategoryRule 
+     */
     private void determinePayoutable(LeaveSummaryRow lsr, AccrualCategoryRule accrualCategoryRule) {
+    	//return type must be changed to boolean, or an associated field element must be created for decision
+    	//purposes.
+    	//an accrual category's balance is transferable if max_bal_action_frequency is ON-DEMAND
+    	//and action_at_max_balance is PAYOUT
     }
     
 	private void assignApprovedValuesToRow(LeaveSummaryRow lsr, String accrualCategory, List<LeaveBlock> approvedLeaveBlocks) {
@@ -248,6 +279,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                             }
                         }
                     } else {
+                    	//LEAVE_BLOCK_TYPE.BALANCE_TRANSFER should not count as usage.
                         BigDecimal currentLeaveAmount = aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) > 0 ? aLeaveBlock.getLeaveAmount().negate() : aLeaveBlock.getLeaveAmount();
                         approvedUsage = approvedUsage.add(currentLeaveAmount);
                         EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(aLeaveBlock.getEarnCode(), aLeaveBlock.getLeaveDate());
