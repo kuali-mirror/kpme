@@ -16,10 +16,13 @@
 package org.kuali.hr.lm.leaveplan.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -49,4 +52,19 @@ public class LeavePlanLookupableHelper extends HrEffectiveDateActiveLookupableHe
 		return customActionUrls;
 	}
 
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues){
+
+        String leavePlan = fieldValues.get("leavePlan");
+        String calendarYearStart = fieldValues.get("calendarYearStart");
+        String descr = fieldValues.get("descr");
+        String planningMonths = fieldValues.get("planningMonths");
+        String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
+        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
+        String active = fieldValues.get("active");
+        String showHistory = fieldValues.get("history");
+
+        return TkServiceLocator.getLeavePlanService().getLeavePlans(leavePlan, calendarYearStart, descr, planningMonths, TKUtils.formatDateString(fromEffdt),
+                TKUtils.formatDateString(toEffdt), active, showHistory);
+    }
 }

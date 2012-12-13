@@ -39,4 +39,7 @@ public interface LeavePlanService {
     public List<LeavePlan> getAllActiveLeavePlan(String leavePlan, Date asOfDate);
     
     public List<LeavePlan> getAllInActiveLeavePlan(String leavePlan, Date asOfDate);
+
+    List<LeavePlan> getLeavePlans(String leavePlan, String calendarYearStart, String descr, String planningMonths,
+                                  Date fromEffdt, Date toEffdt, String active, String showHistory);
 }

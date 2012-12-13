@@ -16,10 +16,13 @@
 package org.kuali.hr.lm.employeeoverride.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -48,5 +51,20 @@ public class EmployeeOverrideLookupableHelper extends HrEffectiveDateActiveLooku
 		
 		return customActionUrls;
 	}
+
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues){
+
+        String principalId = fieldValues.get("principalId");
+        String leavePlan = fieldValues.get("leavePlan");
+        String accrualCategory = fieldValues.get("accrualCategory");
+        String overrideType = fieldValues.get("overrideType");
+        String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
+        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
+        String active = fieldValues.get("active");
+
+        return TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, leavePlan, accrualCategory, overrideType, TKUtils.formatDateString(fromEffdt),
+                TKUtils.formatDateString(toEffdt), active);
+    }
 	
 }

@@ -25,4 +25,6 @@ public interface EmployeeOverrideDao {
 	public List<EmployeeOverride> getEmployeeOverrides(String principalId, Date asOfDate);
 	
 	public EmployeeOverride getEmployeeOverride(String lmEmployeeOverrideId);
+
+    List<EmployeeOverride> getEmployeeOverrides(String principalId, String leavePlan, String accrualCategory, String overrideType, Date fromEffdt, Date toEffdt, String active);
 }

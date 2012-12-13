@@ -64,4 +64,9 @@ public class LeavePlanServiceImpl implements LeavePlanService {
 	public List<LeavePlan> getAllInActiveLeavePlan(String leavePlan, Date asOfDate) {
 		 return leavePlanDao.getAllInActiveLeavePlan(leavePlan, asOfDate);
 	 }
+
+    @Override
+    public List<LeavePlan> getLeavePlans(String leavePlan, String calendarYearStart, String descr, String planningMonths, Date fromEffdt, Date toEffdt, String active, String showHistory) {
+        return leavePlanDao.getLeavePlans(leavePlan, calendarYearStart, descr, planningMonths, fromEffdt, toEffdt, active, showHistory);
+    }
 }
