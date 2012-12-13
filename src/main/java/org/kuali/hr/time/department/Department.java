@@ -15,8 +15,6 @@
  */
 package org.kuali.hr.time.department;
 
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,8 +27,10 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 
 public class Department extends HrBusinessObject {
-    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "Department";
-    private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = -7856741688212725536L;
+
+	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "Department";
 
     private String hrDeptId;
     private String dept;
@@ -84,30 +84,6 @@ public class Department extends HrBusinessObject {
 
 	public void setDept(String dept) {
 		this.dept = dept;
-	}
-
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
-
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
-
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
-	}
-
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
 	}
 
 	public Chart getChartObj() {

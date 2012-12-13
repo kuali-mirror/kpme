@@ -16,7 +16,6 @@
 package org.kuali.hr.time.overtime.weekly.rule;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -24,11 +23,11 @@ import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.rule.TkRule;
 
 public class WeeklyOvertimeRule extends TkRule {
-    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "WeeklyOvertimeRule";
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 5229797885418317405L;
+
+	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "WeeklyOvertimeRule";
+
 	private String tkWeeklyOvertimeRuleId;
 	private String maxHoursEarnGroup;
 	private String convertFromEarnGroup;
@@ -69,22 +68,12 @@ public class WeeklyOvertimeRule extends TkRule {
 		this.convertFromEarnGroup = convertFromEarnGroup;
 	}
 
-	 
-
 	public String getConvertToEarnCode() {
 		return convertToEarnCode;
 	}
 
 	public void setConvertToEarnCode(String convertToEarnCode) {
 		this.convertToEarnCode = convertToEarnCode;
-	}
-
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
-
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
 	}
 
 	public BigDecimal getStep() {

@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.clock.location;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +28,10 @@ import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.api.identity.Person;
 
 public class ClockLocationRule extends TkRule implements DepartmentalRule {
-	private static final long serialVersionUID = 1L;
-    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "ClockLocationRule";
+
+	private static final long serialVersionUID = 959554402289679184L;
+
+	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "ClockLocationRule";
 
 	private String tkClockLocationRuleId;
 
@@ -46,7 +47,6 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 
 	private List<ClockLocationRuleIpAddress> ipAddresses = new ArrayList<ClockLocationRuleIpAddress>();
 	private String userPrincipalId;
-	private Timestamp timestamp;
 	private Boolean history;
 
 	private WorkArea workAreaObj;
@@ -67,14 +67,6 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 
 	public void setPrincipalId(String principalId) {
 		this.principalId = principalId;
-	}
-
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
 	}
 
 	public String getUserPrincipalId() {

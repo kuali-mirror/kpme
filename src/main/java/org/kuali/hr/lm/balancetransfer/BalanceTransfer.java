@@ -16,22 +16,16 @@
 package org.kuali.hr.lm.balancetransfer;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 
-import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.HrBusinessObject;
-import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.krad.document.TransactionalDocumentBase;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
-
 
 public class BalanceTransfer extends HrBusinessObject {
 
+	private static final long serialVersionUID = 6948695780968441016L;
+	
     //public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "BalanceTransfer";
-
-	private static final long serialVersionUID = 1L;
 
 	private String balanceTransferId;
 	private String accrualCategoryRule;
@@ -40,19 +34,10 @@ public class BalanceTransfer extends HrBusinessObject {
 	private String fromAccrualCategory;
 	private BigDecimal transferAmount;
 	private BigDecimal forfeitedAmount;
-	private Date effectiveDate;
 	
 	private Person principal;
 	private AccrualCategory creditedAccrualCategory;
 	private AccrualCategory debitedAccrualCategory;
-
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
-
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
 	
 	public String getPrincipalId() {
 		return principalId;

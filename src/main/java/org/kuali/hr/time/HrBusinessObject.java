@@ -22,20 +22,17 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public abstract class HrBusinessObject extends PersistableBusinessObjectBase{
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
+	private static final long serialVersionUID = -5743717258128864335L;
 	
-	protected abstract String getUniqueKey();
-	protected Date effectiveDate;
-	protected boolean active;
-	protected Timestamp timestamp;
+	private Date effectiveDate;
+	private boolean active;
+	private Timestamp timestamp;
 	
 	public abstract String getId();
 	
 	public abstract void setId(String id);
+	
+	protected abstract String getUniqueKey();
 	
 	public Date getEffectiveDate() {
 		return effectiveDate;

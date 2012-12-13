@@ -16,9 +16,12 @@
 package org.kuali.hr.time.earncode;
 
 import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -28,13 +31,12 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class EarnCode extends HrBusinessObject {
-    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "EarnCode";
+
+	private static final long serialVersionUID = -1470603919624794932L;
+	
+	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "EarnCode";
     private static final String[] PRIVATE_CACHES_FOR_FLUSH = {EarnCodeSecurity.CACHE_NAME, EarnCode.CACHE_NAME};
     public static final List<String> CACHE_FLUSH = Collections.unmodifiableList(Arrays.asList(PRIVATE_CACHES_FOR_FLUSH));
-	/**
-     *
-     */
-	private static final long serialVersionUID = 1L;
 
 	private String hrEarnCodeId;
 	private String earnCode;
@@ -100,7 +102,7 @@ public class EarnCode extends HrBusinessObject {
 	public String getLeavePlan() {
 		AccrualCategory myAccrualCategoryObj = new AccrualCategory();
 		if(this.accrualCategory != null) {
-			myAccrualCategoryObj =  TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, this.effectiveDate);
+			myAccrualCategoryObj =  TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, getEffectiveDate());
 	    }
 		this.leavePlan =(myAccrualCategoryObj != null) ? myAccrualCategoryObj.getLeavePlan() : ""; 
 	    return leavePlan;
@@ -207,14 +209,6 @@ public class EarnCode extends HrBusinessObject {
 		this.description = description;
 	}
 
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
-
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
-
 	public boolean isHistory() {
 		return history;
 	}
@@ -223,28 +217,12 @@ public class EarnCode extends HrBusinessObject {
 		this.history = history;
 	}
 
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
-	}
-
 	public String getHrEarnCodeId() {
 		return hrEarnCodeId;
 	}
 
 	public void setHrEarnCodeId(String hrEarnCodeId) {
 		this.hrEarnCodeId = hrEarnCodeId;
-	}
-
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
 	}
 
 	public String getAccrualCategory() {

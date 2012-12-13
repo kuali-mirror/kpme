@@ -15,22 +15,15 @@
  */
 package org.kuali.hr.location;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.time.HrBusinessObject;
-/**
- * Represents a Location object
- * 
- *
- */
+
 public class Location extends HrBusinessObject {
-    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "Location";
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 9015089510044249197L;
+
+	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "Location";
+
 	private String hrLocationId;
 	private String location;
 	private String timezone;
@@ -68,30 +61,6 @@ public class Location extends HrBusinessObject {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
-
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
-
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
-	}
-
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
 	}
 
 	public String getUserPrincipalId() {

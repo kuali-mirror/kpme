@@ -16,7 +16,6 @@
 package org.kuali.hr.time.overtime.daily.rule;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.location.Location;
@@ -28,10 +27,12 @@ import org.kuali.hr.time.rule.TkRule;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.workarea.WorkArea;
 
-
 public class DailyOvertimeRule extends TkRule {
-    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "DailyOvertimeRule";
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 2064326101630818390L;
+
+	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "DailyOvertimeRule";
+
 	private String tkDailyOvertimeRuleId;
 
 	private String fromEarnGroup;
@@ -85,28 +86,12 @@ public class DailyOvertimeRule extends TkRule {
 		this.maxGap = maxGap;
 	}
 
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
-
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
-
 	public String getUserPrincipalId() {
 		return userPrincipalId;
 	}
 
 	public void setUserPrincipalId(String userPrincipalId) {
 		this.userPrincipalId = userPrincipalId;
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
 	}
 
 	public Department getDepartmentObj() {

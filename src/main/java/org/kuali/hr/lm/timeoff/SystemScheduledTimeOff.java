@@ -28,8 +28,11 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 
 public class SystemScheduledTimeOff extends HrBusinessObject {
-    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "SystemScheduledTimeOff";
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 6660625335629574993L;
+
+	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "SystemScheduledTimeOff";
+
 	private String lmSystemScheduledTimeOffId;
 	private String leavePlan;
 	private String accrualCategory;
@@ -64,8 +67,8 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 			return leavePlan;
 		}
 		if (this.earnCodeObj == null && 
-				(!StringUtils.isEmpty(this.earnCode) && this.effectiveDate != null)) {		
-			earnCodeObj =  TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, this.effectiveDate);
+				(!StringUtils.isEmpty(this.earnCode) && getEffectiveDate() != null)) {		
+			earnCodeObj =  TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, getEffectiveDate());
 		}
 		leavePlan = (earnCodeObj != null) ? earnCodeObj.getLeavePlan() : "";
 		return leavePlan;
@@ -80,8 +83,8 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
             return accrualCategory;
         }
 		if (this.earnCodeObj == null &&
-				(!StringUtils.isEmpty(this.earnCode) && this.effectiveDate != null)) {
-			earnCodeObj =  TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, this.effectiveDate);
+				(!StringUtils.isEmpty(this.earnCode) && getEffectiveDate() != null)) {
+			earnCodeObj =  TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, getEffectiveDate());
 		}
 		accrualCategory = (earnCodeObj != null) ? earnCodeObj.getAccrualCategory() : "";
 		return accrualCategory;

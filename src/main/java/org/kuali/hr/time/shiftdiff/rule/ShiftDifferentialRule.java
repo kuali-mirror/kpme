@@ -16,7 +16,6 @@
 package org.kuali.hr.time.shiftdiff.rule;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Time;
 
 import org.kuali.hr.core.KPMEConstants;
@@ -29,11 +28,11 @@ import org.kuali.hr.time.rule.TkRule;
 import org.kuali.hr.time.salgroup.SalGroup;
 
 public class ShiftDifferentialRule extends TkRule {
-    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "ShiftDifferentialRule";
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = -3990672795815968915L;
+
+	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "ShiftDifferentialRule";
+
 	private String tkShiftDiffRuleId;
 	private String location;
 	private String hrSalGroup;
@@ -91,14 +90,6 @@ public class ShiftDifferentialRule extends TkRule {
 		this.payGrade = payGrade;
 	}
 
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
-
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
-
 	public String getEarnCode() {
 		return earnCode;
 	}
@@ -136,14 +127,6 @@ public class ShiftDifferentialRule extends TkRule {
 
 	public void setUserPrincipalId(String userPrincipalId) {
 		this.userPrincipalId = userPrincipalId;
-	}
-
-	public boolean isActive() {
-		return active;
-	}
-
-	public void setActive(boolean active) {
-		this.active = active;
 	}
 
 	public String getHrSalGroup() {

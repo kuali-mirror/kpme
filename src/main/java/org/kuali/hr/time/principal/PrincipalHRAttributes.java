@@ -16,7 +16,6 @@
 package org.kuali.hr.time.principal;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
@@ -26,11 +25,11 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 public class PrincipalHRAttributes extends HrBusinessObject {
-    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "PrincipalHRAttributes";
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 6843318899816055301L;
+
+	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "PrincipalHRAttributes";
+
 	private String hrPrincipalAttributeId;
 	private String principalId;
 	private String leaveCalendar;
@@ -108,22 +107,6 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 		this.workersCompEligible = workersCompEligible;
 	}
 
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
-
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
-
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
-	}
-
 	public String getTimezone() {
 		return timezone;
 	}
@@ -156,20 +139,11 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 		this.leavePlanObj = leavePlanObj;
 	}
 
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
-
 	@Override
 	protected String getUniqueKey() {
 		return principalId + "_" + payCalendar == null ? "" : payCalendar + "_"
 				+ leaveCalendar == null ? "" : leaveCalendar;
 	}
-
 
 	public String getLeaveCalendar() {
 		return leaveCalendar;

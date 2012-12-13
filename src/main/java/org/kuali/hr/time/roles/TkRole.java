@@ -16,7 +16,6 @@
 package org.kuali.hr.time.roles;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.location.Location;
@@ -31,11 +30,11 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 public class TkRole extends HrBusinessObject {
-    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "TkRole";
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = -2123815189941339343L;
+
+	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "TkRole";
+
 	private String hrRolesId;
 	private String principalId;
 	private String roleName;
@@ -96,68 +95,64 @@ public class TkRole extends HrBusinessObject {
     public String getHrRolesId() {
 		return hrRolesId;
 	}
+    
 	public void setHrRolesId(String hrRolesId) {
 		this.hrRolesId = hrRolesId;
 	}
+	
 	public String getPrincipalId() {
 		return principalId;
 	}
+	
 	public void setPrincipalId(String principalId) {
 		this.principalId = principalId;
         setPerson(KimApiServiceLocator.getPersonService().getPerson(this.principalId));
 	}
+	
 	public String getRoleName() {
 		return roleName;
 	}
+	
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
 	}
+	
 	public String getUserPrincipalId() {
 		return userPrincipalId;
 	}
+	
 	public void setUserPrincipalId(String userPrincipalId) {
 		this.userPrincipalId = userPrincipalId;
 	}
+	
 	public Long getWorkArea() {
 		return workArea;
 	}
+	
 	public void setWorkArea(Long workArea) {
 		this.workArea = workArea;
 	}
+	
 	public String getDepartment() {
 		return department;
 	}
+	
 	public void setDepartment(String department) {
 		this.department = department;
 	}
-	
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-	public void setTimestamp(Timestamp timestamp) {
-		this.timestamp = timestamp;
-	}
-	public boolean isActive() {
-		return active;
-	}
-	public void setActive(boolean active) {
-		this.active = active;
-	}
+
 	public Person getPerson() {
 		return person;
 	}
+	
 	public void setPerson(Person person) {
 		this.person = person;
 	}
+	
 	public Long getHrDeptId() {
 		return hrDeptId;
 	}
+	
 	public void setHrDeptId(Long hrDeptId) {
 		this.hrDeptId = hrDeptId;
 	}

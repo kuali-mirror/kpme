@@ -15,8 +15,6 @@
  */
 package org.kuali.hr.time.workarea;
 
-import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +27,10 @@ import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.task.Task;
 
 public class WorkArea extends HrBusinessObject implements DepartmentalRule {
-    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "WorkArea";
-    private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = 307144025705246544L;
+
+	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "WorkArea";
 
     private String tkWorkAreaId;
     private Long workArea;
@@ -51,47 +51,17 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
     private Department department;
     private EarnCode defaultOvertimeEarnCodeObj;
 
-    public Date getEffectiveDate() {
-        return effectiveDate;
-    }
-
-
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
-
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-
     public String getAdminDescr() {
         return adminDescr;
     }
-
 
     public void setAdminDescr(String adminDescr) {
         this.adminDescr = adminDescr;
     }
 
-    public Timestamp getTimestamp() {
-        return timestamp;
-    }
-
-
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
-    }
-
     public String getUserPrincipalId() {
         return userPrincipalId;
     }
-
 
     public void setUserPrincipalId(String userPrincipalId) {
         this.userPrincipalId = userPrincipalId;
@@ -101,61 +71,49 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
         return description;
     }
 
-
     public void setDescription(String description) {
         this.description = description;
     }
-
 
 	public List<Task> getTasks() {
 	    return tasks;
 	}
 
-
 	public void setTasks(List<Task> tasks) {
 	    this.tasks = tasks;
 	}
-
 
 	public String getTkWorkAreaId() {
 		return tkWorkAreaId;
 	}
 
-
 	public void setTkWorkAreaId(String tkWorkAreaId) {
 		this.tkWorkAreaId = tkWorkAreaId;
 	}
-
 
 	public Long getWorkArea() {
 		return workArea;
 	}
 
-
 	public void setWorkArea(Long workArea) {
 		this.workArea = workArea;
 	}
-
 
 	public String getDept() {
 		return dept;
 	}
 
-
 	public void setDept(String dept) {
 		this.dept = dept;
 	}
-
 
 	public List<TkRole> getInactiveRoles() {
 		return inactiveRoles;
 	}
 
-
 	public void setInactiveRoles(List<TkRole> inactiveRoles) {
 		this.inactiveRoles = inactiveRoles;
 	}
-
 
 	public List<TkRole> getRoles() {
 		return roles;
@@ -201,34 +159,28 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
 		return ovtEarnCode;
 	}
 
-
 	public void setOvtEarnCode(Boolean ovtEarnCode) {
 		this.ovtEarnCode = ovtEarnCode;
 	}
-
 
 	@Override
 	public String getUniqueKey() {
 		return workArea != null ? workArea.toString() : "" +"_"+dept;
 	}
 
-
 	@Override
 	public String getId() {
 		return getTkWorkAreaId();
 	}
-
 
 	@Override
 	public void setId(String id) {
 		setTkWorkAreaId(id);
 	}
 
-
 	public boolean isHistory() {
 		return history;
 	}
-
 
 	public void setHistory(boolean history) {
 		this.history = history;

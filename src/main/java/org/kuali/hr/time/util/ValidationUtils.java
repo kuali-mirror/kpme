@@ -483,12 +483,12 @@ public class ValidationUtils {
 	   boolean valid = false;
 	   int count = TkServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityCount
                (deptEarnCode.getDept(), deptEarnCode.getHrSalGroup(), deptEarnCode.getEarnCode(), deptEarnCode.isEmployee() ? "1" : "0",
-                       deptEarnCode.isApprover() ? "1" : "0", deptEarnCode.getLocation(), deptEarnCode.getActive() ? "Y" : "N", deptEarnCode.getEffectiveDate(), null);
+                       deptEarnCode.isApprover() ? "1" : "0", deptEarnCode.getLocation(), deptEarnCode.isActive() ? "Y" : "N", deptEarnCode.getEffectiveDate(), null);
        if(count == 1) {
     	   valid = true;
     	   count = TkServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurityCount
                    (deptEarnCode.getDept(), deptEarnCode.getHrSalGroup(), deptEarnCode.getEarnCode(), deptEarnCode.isEmployee() ? "1" : "0",
-                           deptEarnCode.isApprover() ? "1" : "0", deptEarnCode.getLocation(), deptEarnCode.getActive() ? "Y" : "N", deptEarnCode.getEffectiveDate(), deptEarnCode.getHrEarnCodeSecurityId());
+                           deptEarnCode.isApprover() ? "1" : "0", deptEarnCode.getLocation(), deptEarnCode.isActive() ? "Y" : "N", deptEarnCode.getEffectiveDate(), deptEarnCode.getHrEarnCodeSecurityId());
     	   if(count == 1) {
     		   valid = false;
     	   }

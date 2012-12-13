@@ -15,8 +15,6 @@
  */
 package org.kuali.hr.lm.leavecode;
 
-import java.util.LinkedHashMap;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -24,14 +22,13 @@ import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
 
 public class LeaveCode extends HrBusinessObject {
-    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "LeaveCode";
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+
+	private static final long serialVersionUID = -759700327943760962L;
+
+	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "LeaveCode";
+
 	private String lmLeaveCodeId;
 	private String leavePlan;
 	private String eligibleForAccrual;
@@ -103,9 +100,9 @@ public class LeaveCode extends HrBusinessObject {
 			return leavePlan;
 		}else{ 
 			AccrualCategory myAccrualCategoryObj =  new AccrualCategory();
-			if (!StringUtils.isEmpty(this.accrualCategory) && this.effectiveDate != null) {	
+			if (!StringUtils.isEmpty(this.accrualCategory) && getEffectiveDate() != null) {	
 				
-				myAccrualCategoryObj =  TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, this.effectiveDate);
+				myAccrualCategoryObj =  TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, getEffectiveDate());
 				
 			}
 			return (myAccrualCategoryObj != null) ? myAccrualCategoryObj.getLeavePlan() : "";
