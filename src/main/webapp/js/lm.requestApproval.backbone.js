@@ -59,11 +59,10 @@ $(function () {
 	     * If you need to make changes to the name or id of any fields in the jsp, make sure they are changed in these functions too 
 	     */
          takeActionOnEmployee : function (e) {
-        	// reset all error fields
-        	this.resetErrorFields();
+        	
         	var key = _(e).parseActionKey();
         	var principalId = key.principalId;	// get the principalId from the id of the "take action" button
-        	var tableId = 'approvalTable_' + principalId;
+//        	var tableId = 'approvalTable_' + principalId;
         	
         	// get all the checked leave request, build multiple lists and submit them to action
         	var approveList = '';
@@ -74,6 +73,9 @@ $(function () {
         	var docSeparator = "----";  // separater doc actions
         	var idSeparator = "____";	// four "_", separator for for documentId and reason string
         	var errors = "";
+        	// reset all error fields
+        	this.resetErrorFields(principalId);
+        	
         	// client side validation
         	radioCells.each(function() {
         		if($(this).attr('checked') == "checked") {
@@ -120,60 +122,46 @@ $(function () {
             params['principalId'] = principalId;	// may not be needed
             params['approveList'] = approveList;
             params['disapproveList'] = disapproveList;
-            params['deferList'] = deferList;
-            
-        	$.ajax({
-                  url: "LeaveRequestApproval.do?methodToCall=takeActionOnEmployee",
-                  data: params,
-                  cache: false,
-                  type : "post",
-                  async : false,
-                  success : function(data) {
-                      // successful
-                      return false;
-                  },
-                  error : function() {
-                	  self.updateValidation(validationEle, "Error occurred. Please try again.");
-                      return false;
-                  }
+            params['deferList'] = deferList;       
+
+            var errorMsgs = "";
+            $.ajax({
+                url: "LeaveRequestApproval.do?methodToCall=validateActions",
+                data: params,
+                cache: false,
+                async : false,
+                success: function(data) {
+                    var json = jQuery.parseJSON(data);
+                    // if there is no error message, submit the form and save the new time blocks
+                    if (json == null || json.length == 0) {
+                    	$.ajax({
+                            url: "LeaveRequestApproval.do?methodToCall=takeActionOnEmployee",
+                            data: params,
+                            cache: false,
+                            async : false,
+                            success : function(data) {
+                                // successful
+                                return;
+                            },
+                            error : function() {
+                          	  self.updateValidation(validationEle, "Error occurred. Please try again.");
+                                return false;
+                            }
+                      }); 
+                    } else {
+                    	 var json = jQuery.parseJSON(data);
+                         $.each(json, function (index) {
+                             errorMsgs += "Error : " + json[index] + "\n";
+                         }); 
+                         return false;
+                    }
+            	}
             })
-            
-//            $.ajax({
-//                url: "LeaveRequestApproval.do?methodToCall=validateActions",
-//                data: params,
-//                cache: false,
-//                success: function(data) {
-//                    var json = jQuery.parseJSON(data);
-//                    // if there is no error message, submit the form and save the new time blocks
-//                    if (json == null || json.length == 0) {
-//			        	$.ajax({
-//			                  url: "LeaveRequestApproval.do?methodToCall=takeActionOnEmployee",
-//			                  data: params,
-//			                  cache: false,
-//			                  type : "post",
-//			                  async : false,
-//			                  success : function(data) {
-//			                      // successful
-//			                      return false;
-//			                  },
-//			                  error : function() {
-//			                	  self.updateValidation(validationEle, "Error occurred. Please try again.");
-//			                      return false;
-//			                  }
-//			            }); 
-//                    } else {
-//              console.log("in else");
-//                    	 var json = jQuery.parseJSON(data);
-//                         $.each(json, function (index) {
-//                             errorMsgs += "Error : " + json[index] + "\n";
-//                         });
-//              console.log("errorMsgs is " + errorMsgs);
-//                         self.updateValidation(validationEle, errorMsgs);
-//                         return false;
-//                    }
-//            	}
-//            })
-	        return false;
+            if(errorMsgs != 0 ) {
+            	this.updateValidation(validationEle, errorMsgs);
+                return false;
+            }
+	        return;
 	     },
          
          approveAllForEmployee : function (e) {
@@ -204,7 +192,7 @@ $(function () {
                       async : false,
                       success : function(data) {
                           // save is successful
-                          return false;
+                          return;
                       },
                       error : function() {
                     	  self.updateValidation(validationEle, "Error occurred. Please try again.");
@@ -215,7 +203,7 @@ $(function () {
         		return false;
         	}
 
-            
+          return;  
             
             
          }, 
@@ -223,13 +211,16 @@ $(function () {
 //       update the validation field for this empolyee table
          updateValidation : function(e, t) {
         	    e.text(t)
-//        	            .addClass('ui-state-error')
         	            .css({'color':'red','font-weight':'bold','font-size': '0.8em','text-align':'center'});
          }, 
-         resetErrorFields : function() {
-        	 	$('#validation')
+         resetErrorFields : function(t) {
+        	 $("#validation_" + t)
 		            .text('')
 		            .removeClass('ui-state-error');
+        	 var reasonCells = $('input:text[id^="reason_" + t]');
+        	 reasonCells.each(function() {
+        		 $(this).removeClass('ui-state-error');
+        	 });
          }
     
     });

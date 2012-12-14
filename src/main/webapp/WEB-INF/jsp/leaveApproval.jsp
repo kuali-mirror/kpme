@@ -39,16 +39,25 @@
 <script src="js/lm.approval.backbone.js"></script>
 
 <div class="approvals">
-	<%-- Leave Request Approval page --%>
-	<span class="header-title-right">
-        <a href="LeaveRequestApproval.do" target="_self" id="lraLink">Leave Request Approval</a>
-    </span>
-	<%-- pay calendar group, department and work area filters --%>
-	<tk:approvalFilter />
+    <table class="navigation">
+       	<tbody>
+       	<tr>
+       		<td>
+				<%-- pay calendar group, department and work area filters --%>
+				<tk:approvalFilter />
+			</td>
+			
+			<td align="right">
+				<%-- Leave Request Approval page --%>
+				<a href="LeaveRequestApproval.do" target="_self" id="lraLink">Leave Request Approval</a>
+			</td>
+		</tr>
+		</tbody>
+     </table>
 	
 	<c:if test="${fn:length(Form.leaveApprovalRows) != 0}">
-	
-		<tk:approvalSearch calType="leaveCalendar" searchId="leaveSearchValue" />
+		
+       	<tk:approvalSearch calType="leaveCalendar" searchId="leaveSearchValue" />
 
 		<lm:leaveApproval />
 
