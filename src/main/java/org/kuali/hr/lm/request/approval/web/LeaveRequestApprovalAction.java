@@ -205,6 +205,7 @@ public class LeaveRequestApprovalAction  extends TkAction {
 				return null;
 			}
 			LeaveRequestApprovalRow aRow = new LeaveRequestApprovalRow();
+			aRow.setLeaveRequestDocId(lrd.getDocumentNumber());
 			aRow.setLeaveCode(lb.getEarnCode());
 			aRow.setLeaveBlockId(lb.getLmLeaveBlockId());
 			aRow.setRequestedDate(TKUtils.formatDate(lb.getLeaveDate()));

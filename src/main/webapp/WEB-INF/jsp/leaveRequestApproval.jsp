@@ -77,10 +77,8 @@
 			            	<td>${requestRow.leaveCode}</td>
 			            	<td>${requestRow.submittedTime}</td>
 	<%-- TODO: need to review the requestId, depends on the logic defined in leave request submission --%>
-			         <%--   	<c:set var="requestId" value="${employeeRow.principalId}_${requestRow.leaveRequestDocId}" />
-			          --%>
-			          	<c:set var="requestId" value="${employeeRow.principalId}_${requestRow.leaveBlockId}" />
-			          
+			            	<c:set var="requestId" value="${employeeRow.principalId}_${requestRow.leaveRequestDocId}" />
+			         
 			             <%-- radio buttons --%>
 			            	<td><input type="radio" name="action_${requestId}" id="action_${requestId}" value="approve"></td>
 			            	<td><input type="radio" name="action_${requestId}" id="action_${requestId}" value="disapprove"></td>
