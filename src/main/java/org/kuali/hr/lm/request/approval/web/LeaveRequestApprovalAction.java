@@ -23,6 +23,7 @@ import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -73,7 +74,7 @@ public class LeaveRequestApprovalAction  extends TkAction {
 				String[] fields = eachAction.split(ID_SEPARATOR);
 				String docId = fields[0];	// leave request document id
 				String reasonString = fields.length > 1 ? fields[1] : ""; 	// approve reason text, could be empty
-				TkServiceLocator.getLeaveRequestDocumentService().approveLeave(docId, principalId, reasonString);
+				TkServiceLocator.getLeaveRequestDocumentService().approveLeave(docId, TKContext.getPrincipalId(), reasonString);
 				// leave block's status is changed to "approved" in postProcessor of LeaveRequestDocument
 			}
 		}
@@ -83,17 +84,17 @@ public class LeaveRequestApprovalAction  extends TkAction {
 				String[] fields = eachAction.split(ID_SEPARATOR);
 				String docId = fields[0];	// leave request document id
 				String reasonString = fields.length > 1 ? fields[1] : ""; 	// disapprove reason
-				TkServiceLocator.getLeaveRequestDocumentService().disapproveLeave(docId, principalId, reasonString);
+				TkServiceLocator.getLeaveRequestDocumentService().disapproveLeave(docId, TKContext.getPrincipalId(), reasonString);
 				// leave block's status is changed to "disapproved" in postProcessor of LeaveRequestDocument	
 			}
 		}
-		if(StringUtils.isNotEmpty(lraaForm.getDisapproveList())) {
+		if(StringUtils.isNotEmpty(lraaForm.getDeferList())) {
 			String[] deferList = lraaForm.getDeferList().split(DOC_SEPARATOR);
 			for(String eachAction : deferList){
 				String[] fields = eachAction.split(ID_SEPARATOR);
 				String docId = fields[0];	// leave request document id
 				String reasonString =  fields.length > 1 ? fields[1] : ""; 	// defer reason
-				TkServiceLocator.getLeaveRequestDocumentService().disapproveLeave(docId, principalId, reasonString);
+				TkServiceLocator.getLeaveRequestDocumentService().deferLeave(docId, TKContext.getPrincipalId(), reasonString);
 				// leave block's status is changed to "planning" in postProcessor of LeaveRequestDocument	
 			}
 		}
@@ -113,7 +114,7 @@ public class LeaveRequestApprovalAction  extends TkAction {
 				String[] fields = eachAction.split(ID_SEPARATOR);
 				String docId = fields[0];	// leave request document id
 				String reasonString = fields.length > 1 ? fields[1] : ""; 	// approve reason text, can be empty
-				TkServiceLocator.getLeaveRequestDocumentService().approveLeave(docId, principalId, reasonString);
+				TkServiceLocator.getLeaveRequestDocumentService().approveLeave(docId, TKContext.getPrincipalId(), reasonString);
 			}
 		}
 		

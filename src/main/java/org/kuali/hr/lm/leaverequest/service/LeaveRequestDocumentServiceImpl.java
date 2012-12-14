@@ -52,7 +52,13 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
 
     @Override
     public LeaveRequestDocument getLeaveRequestDocument(String documentId) {
-        return getLeaveRequestDocumentDao().getLeaveRequestDocument(documentId);
+        LeaveRequestDocument document = null;
+        try {
+            document = (LeaveRequestDocument)KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(documentId);
+        } catch (WorkflowException e) {
+            LOG.error("Document with documentId: " + documentId + " does not exist");
+        }
+        return document;
     }
 
     @Override

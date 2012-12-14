@@ -45,7 +45,7 @@ public class LeaveRequestPostProcessor extends DefaultPostProcessor {
                 lb.setLeaveRequestDocumentId(document.getDocumentNumber());
             }
 			// Only update the status if it's different.
-			if (!status.getCode().equals(statusChangeEvent.getNewRouteStatus())) {
+			if (!statusChangeEvent.getOldRouteStatus().equals(statusChangeEvent.getNewRouteStatus())) {
 
                 DocumentStatus newDocumentStatus = DocumentStatus.fromCode(statusChangeEvent.getNewRouteStatus());
                 LeaveRequestActionValue lrAction = LeaveRequestActionValue.fromCode(document.getActionCode());
