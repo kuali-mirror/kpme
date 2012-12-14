@@ -41,7 +41,7 @@ public class SystemScheduledTimeOffMaintTest extends KPMETestCase{
 	private static final String PREMIUM_HOLIDAY_REQUIRED = "Premium Holiday (Premium Holiday) is a required field.";
 	private static final String ACCRUED_DATE_PAST_ERROR = "'Accrued Date' needs to be a future date.";
 	private static final String SCHEDULED_TO_DATE_PAST_ERROR = "'Scheduled Time Off Date' needs to be a future date.";
-	private static final String EXPIRATION_DATE_FUTURE_ERROR = "must be a future date that is NOT more than a year away from Accrued Date..";
+	private static final String EXPIRATION_DATE_FUTURE_ERROR = "must be a future date that is NOT more than a year away from Accrued Date.";
 	private static final String SUCCESS_MESSAGE = "Document was successfully submitted.";
 	private static final String ERROR_LEAVE_CODE = "The specified earnCode 'testLCL' does not exist";
 	
