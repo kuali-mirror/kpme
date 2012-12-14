@@ -108,6 +108,9 @@ public class LeaveBlockDisplayAction extends TkAction {
 					if(leaveBlockHistory.getDescription() == null || leaveBlockHistory.getDescription().trim().isEmpty()) {
 						leaveBlockHistory.setDescription(this.retrieveDescriptionAccordingToLeaveType(leaveBlockHistory.getLeaveBlockType()));
 					}
+					if (StringUtils.isNotBlank(leaveBlockHistory.getRequestStatus())) {
+						leaveBlockHistory.setRequestStatus(LMConstants.REQUEST_STATUS_STRINGS.get(leaveBlockHistory.getRequestStatus()));
+					}
 					leaveEntries.add(leaveBlockHistory);
 				}
 			}

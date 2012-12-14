@@ -64,7 +64,7 @@ public class LeaveBlockDisplay {
 	public String getRequestStatus() {
 		String requestStatus = null;
 		
-		if (StringUtils.isNotBlank(leaveBlock.getDocumentStatus())) {
+		if (StringUtils.isNotBlank(leaveBlock.getRequestStatus())) {
 			requestStatus = LMConstants.REQUEST_STATUS_STRINGS.get(leaveBlock.getRequestStatus());
 		}
 		
