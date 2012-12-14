@@ -1047,4 +1047,37 @@ label.error {
     font-weight: normal;
 }
 
+/* Leave Request Approval page
+*/
+
+#leave-req-app {
+    margin: 10px auto 20px auto;
+}
+#leave-req-app table {
+    font-size: .7em;
+    text-align: center;
+    border-collapse: collapse;
+    width: 100%
+}
+#leave-req-app thead {
+	border: 1px solid #ccc;
+    font-weight: bold;
+    font-size: 1.0em;
+    background: #e6EEEE;
+    padding-bottom: 20px;
+}
+
+#leave-req-app table tr td {
+    border: 1px solid #ccc;
+    padding: 3px;
+}
+#leave-req-app table tr.noborder td {
+    border: 0;
+    padding: 3px;
+}
+#leave-req-app table tr.noborder td.withborder {
+    border: 1px solid #ccc;
+    padding: 3px;
+}
+
 

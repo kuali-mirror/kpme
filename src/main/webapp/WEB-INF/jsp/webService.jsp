@@ -20,7 +20,9 @@
 <c:set var="TimeApprovalWSForm" value="${TimeApprovalWSActionForm}" scope="request"/>
 <c:set var="LeaveCalendarWSForm" value="${LeaveCalendarWSForm}" scope="request"/>
 <c:set var="LeaveApprovalWSForm" value="${LeaveApprovalWSActionForm}" scope="request"/>
+<c:set var="LeaveRequestApprovalActionForm" value="${LeaveRequestApprovalActionForm}" scope="request"/>
 ${Form.outputString}
 ${TimeApprovalWSForm.outputString}
 ${LeaveCalendarWSForm.outputString}
 ${LeaveApprovalWSForm.outputString}
+${LeaveRequestApprovalActionForm.outputString}

@@ -20,7 +20,7 @@ public enum LeaveRequestActionValue {
     DEFER("W", "Defer"),
     APPROVE("A", "Approve"),
     DISAPPROVE("D", "Disapprove"),
-    NO_ACTION(" ", "No Action");
+    NO_ACTION("", "No Action");
 
     public final String code;
     public final String label;

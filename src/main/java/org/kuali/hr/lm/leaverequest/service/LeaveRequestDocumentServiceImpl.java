@@ -20,6 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.lm.leaverequest.LeaveRequestActionValue;
 import org.kuali.hr.lm.leaverequest.dao.LeaveRequestDocumentDao;
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.assignment.Assignment;
@@ -151,7 +152,7 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
         leaveRequestDocument.setLmLeaveBlockId(leaveBlockId);
         leaveRequestDocument.getDocumentHeader().setDocumentDescription("Leave Request for LeaveBlock " + leaveBlockId);
         leaveRequestDocument.setDescription("");
-        leaveRequestDocument.setActionCode("");
+        leaveRequestDocument.setActionCode(LeaveRequestActionValue.NO_ACTION.getCode());
         initiateSearchableAttributes(leaveRequestDocument);
 
         return leaveRequestDocument;

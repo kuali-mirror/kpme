@@ -39,6 +39,10 @@
 <script src="js/lm.approval.backbone.js"></script>
 
 <div class="approvals">
+	<%-- Leave Request Approval page --%>
+	<span class="header-title-right">
+        <a href="LeaveRequestApproval.do" target="_self" id="lraLink">Leave Request Approval</a>
+    </span>
 	<%-- pay calendar group, department and work area filters --%>
 	<tk:approvalFilter />
 	
