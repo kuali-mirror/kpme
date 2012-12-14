@@ -36,10 +36,10 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 		return valid;
 	}
 	
-	boolean validateExpirationDate(Date expirationDate) {
+	boolean validateExpirationDate(Date expirationDate, Date accruedDate) {
 		boolean valid = true;
-		if (expirationDate != null && !ValidationUtils.validateOneYearFutureDate(expirationDate)) {
-			this.putFieldError("expirationDate", "error.date.exceed.year", "Expiration Date");
+		if (accruedDate != null && expirationDate != null && !ValidationUtils.validateOneYearFutureDateFromAccrualDate(expirationDate, accruedDate)) {
+			this.putFieldError("expirationDate", "error.date.exceed.year.accruedDate", "Expiration Date");
 			valid = false;
 		}
 		return valid;
@@ -115,8 +115,8 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 			if (sysSchTimeOff != null) {
 				valid = true;
 				valid &= this.validateEffectiveDate(sysSchTimeOff.getEffectiveDate());
-				valid &= this.validateExpirationDate(sysSchTimeOff.getExpirationDate());
 				valid &= this.validateAccruedDate(sysSchTimeOff.getAccruedDate());
+				valid &= this.validateExpirationDate(sysSchTimeOff.getExpirationDate(), sysSchTimeOff.getAccruedDate());
 				valid &= this.validateScheduledTimeOffDate(sysSchTimeOff.getScheduledTimeOffDate());
 				if(StringUtils.equals("T", sysSchTimeOff.getUnusedTime())){
 					valid &= this.validateTransfertoEarnCode(sysSchTimeOff.getTransfertoEarnCode());

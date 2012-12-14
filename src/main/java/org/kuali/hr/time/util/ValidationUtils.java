@@ -517,6 +517,25 @@ public class ValidationUtils {
    }
 
    /**
+    * Checks for date not more than one year in the future from accrualDAte
+    * 
+    */
+
+   public static boolean validateOneYearFutureDateFromAccrualDate(Date date, Date accrualDate){
+	   java.util.Calendar startDate = java.util.Calendar.getInstance();
+	   startDate.setTime(accrualDate);
+	   startDate.add(java.util.Calendar.DATE, -1);
+	   startDate.set(java.util.Calendar.SECOND, 0);
+	   startDate.set(java.util.Calendar.MINUTE, 0);
+	   startDate.set(java.util.Calendar.HOUR_OF_DAY, 0);
+	   java.util.Calendar endDate = java.util.Calendar.getInstance();
+	   endDate.setTime(accrualDate);
+	   endDate.add(java.util.Calendar.YEAR, 1); // One year after the current date
+	   return date.compareTo(startDate.getTime()) * date.compareTo(endDate.getTime()) <= 0;
+   }
+   
+   
+   /**
     * Checks for date not more than one year in the future or current date
     * 
     */
