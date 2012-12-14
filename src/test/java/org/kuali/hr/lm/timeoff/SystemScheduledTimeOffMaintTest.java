@@ -100,7 +100,7 @@ public class SystemScheduledTimeOffMaintTest extends KPMETestCase{
 	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", "04/01/2011");
 	    setFieldValue(page, "document.newMaintainableObject.accruedDate", "04/01/2011");
 	    setFieldValue(page, "document.newMaintainableObject.scheduledTimeOffDate", "04/01/2011");
-	    setFieldValue(page, "document.newMaintainableObject.expirationDate", "04/01/2011");
+	    setFieldValue(page, "document.newMaintainableObject.expirationDate", "04/01/2010");
 
 	  	
 	  	HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
