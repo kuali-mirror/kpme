@@ -28,7 +28,6 @@
             <blanketApproveWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</blanketApproveWorkgroupName>
             <defaultExceptionWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</defaultExceptionWorkgroupName>
             <description>Leave Request Document</description>
-            <!--<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>-->
             <label>LeaveRequestDocument</label>
             <attributes>
                 <attribute>
@@ -45,7 +44,7 @@
                 </attribute>
             </attributes>
             <postProcessorName>org.kuali.hr.lm.workflow.postprocessor.LeaveRequestPostProcessor</postProcessorName>
-            <docHandler>${kuali.docHandler.url.prefix}/LeaveApproval.do?methodToCall=docHandler</docHandler>
+            <docHandler>${kuali.docHandler.url.prefix}/LeaveRequestApproval.do</docHandler>
             <active>true</active>
             <routingVersion>1</routingVersion>
             <routePaths>
