@@ -268,28 +268,30 @@ public class LeaveCalendarAction extends TkAction {
 		return mapping.findForward("basic");
 	}
 
-	public ActionForward deleteLeaveBlock(ActionMapping mapping,
-			ActionForm form, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
+	public ActionForward deleteLeaveBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
 		LeaveCalendarDocument lcd = lcf.getLeaveCalendarDocument();
+
+		String principalId = TKContext.getPrincipalId();
+		String targetPrincipalId = TKContext.getTargetPrincipalId();
+		CalendarEntries calendarEntry = lcf.getCalendarEntry();
 		String leaveBlockId = lcf.getLeaveBlockId();
+		
+		String documentId = lcd != null ? lcd.getDocumentId() : "";
 
         LeaveBlock blockToDelete = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
-        if (blockToDelete != null
-                && TkServiceLocator.getPermissionsService().canDeleteLeaveBlock(blockToDelete)) {
-		    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId, TKContext.getPrincipalId());
-		    generateLeaveCalendarChangedNotification(TKContext.getPrincipalId(), TKContext.getTargetPrincipalId(), lcd.getDocumentId(), lcf.getCalendarEntry().getHrCalendarEntriesId());
+        if (blockToDelete != null && TkServiceLocator.getPermissionsService().canDeleteLeaveBlock(blockToDelete)) {
+		    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId, principalId);
+		    generateLeaveCalendarChangedNotification(principalId, targetPrincipalId, documentId, calendarEntry.getHrCalendarEntriesId());
 		    
 		    // recalculate accruals
 		    if(lcf.getCalendarEntry() != null) {
-		    	this.rerunAccrualForNotEligibleForAccrualChanges(blockToDelete.getEarnCode(), blockToDelete.getLeaveDate(), 
-		    		lcf.getCalendarEntry().getBeginPeriodDate(), lcf.getCalendarEntry().getEndPeriodDate());
+		    	rerunAccrualForNotEligibleForAccrualChanges(blockToDelete.getEarnCode(), blockToDelete.getLeaveDate(), calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
 		    }	
         }
 		// recalculate summary
 		if(lcf.getCalendarEntry() != null) {
-			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), lcf.getCalendarEntry());
+			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(targetPrincipalId, calendarEntry);
 		    lcf.setLeaveSummary(ls);
 		}
 		return mapping.findForward("basic");
@@ -317,8 +319,14 @@ public class LeaveCalendarAction extends TkAction {
 	public ActionForward updateLeaveBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
 		LeaveCalendarDocument lcd = lcf.getLeaveCalendarDocument();
+		
+		String principalId = TKContext.getPrincipalId();
+		String targetPrincipalId = TKContext.getTargetPrincipalId();
+		CalendarEntries calendarEntry = lcf.getCalendarEntry();
 		String selectedEarnCode = lcf.getSelectedEarnCode();
 		String leaveBlockId = lcf.getLeaveBlockId();
+		
+		String documentId = lcd != null ? lcd.getDocumentId() : "";
 		
 		LeaveBlock updatedLeaveBlock = null;
 		updatedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
@@ -333,15 +341,15 @@ public class LeaveCalendarAction extends TkAction {
             if (!updatedLeaveBlock.getEarnCode().equals(earnCode.getEarnCode())) {
                 updatedLeaveBlock.setEarnCode(earnCode.getEarnCode());
             }
-            TkServiceLocator.getLeaveBlockService().updateLeaveBlock(updatedLeaveBlock, TKContext.getPrincipalId());
-            generateLeaveCalendarChangedNotification(TKContext.getPrincipalId(), TKContext.getTargetPrincipalId(), lcd.getDocumentId(), lcf.getCalendarEntry().getHrCalendarEntriesId());
+            TkServiceLocator.getLeaveBlockService().updateLeaveBlock(updatedLeaveBlock, principalId);
+            generateLeaveCalendarChangedNotification(principalId, targetPrincipalId, documentId, calendarEntry.getHrCalendarEntriesId());
             
             lcf.setLeaveAmount(null);
             lcf.setDescription(null);
             lcf.setSelectedEarnCode(null);
     		// recalculate summary
     		if(lcf.getCalendarEntry() != null) {
-    			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), lcf.getCalendarEntry());
+    			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(targetPrincipalId, calendarEntry);
     		    lcf.setLeaveSummary(ls);
     		}
         }
