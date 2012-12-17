@@ -31,14 +31,12 @@
         {
             var d = new Date();
             d = d.getTime();
-            if (jQuery('#reloadValue').val().length == 0)
-            {
-                jQuery('#reloadValue').val(d);
-                jQuery('body').show();
-            }
-            else
-            {
-                jQuery('#reloadValue').val('');
+            var reloadVal = $('#reloadValue');
+            if (reloadVal.val().length == 0) {
+                reloadVal.val(d);
+                $('body').show();
+            } else {
+                reloadVal.val('');
                 location.reload();
             }
         });
