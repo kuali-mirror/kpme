@@ -105,7 +105,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 				if (timesheetDocumentHeader != null) { 
 					List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(timesheetDocumentHeader.getDocumentId());
 					if (CollectionUtils.isNotEmpty(timeBlocks)) {
-						CalendarEntries calendarEntry = TkServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(principalId, timesheetDocumentHeader.getEndDate(), null);
+						CalendarEntries calendarEntry = TkServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(principalId, timesheetDocumentHeader.getEndDate(), TkConstants.PAY_CALENDAR_TYPE);
 						TkTimeBlockAggregate previousAggregate = new TkTimeBlockAggregate(timeBlocks, calendarEntry, calendarEntry.getCalendarObj(), true);
 						List<FlsaWeek> previousWeek = previousAggregate.getFlsaWeeks(zone);
 						if (CollectionUtils.isNotEmpty(previousWeek)) {
@@ -122,7 +122,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 				if (timesheetDocumentHeader != null) { 
 					List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(timesheetDocumentHeader.getDocumentId());
 					if (CollectionUtils.isNotEmpty(timeBlocks)) {
-						CalendarEntries calendarEntry = TkServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(principalId, timesheetDocumentHeader.getEndDate(), null);
+						CalendarEntries calendarEntry = TkServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(principalId, timesheetDocumentHeader.getEndDate(), TkConstants.PAY_CALENDAR_TYPE);
 						TkTimeBlockAggregate nextAggregate = new TkTimeBlockAggregate(timeBlocks, calendarEntry, calendarEntry.getCalendarObj(), true);
 						List<FlsaWeek> nextWeek = nextAggregate.getFlsaWeeks(zone);
 						if (CollectionUtils.isNotEmpty(nextWeek)) {
