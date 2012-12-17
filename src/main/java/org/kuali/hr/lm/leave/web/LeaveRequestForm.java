@@ -16,9 +16,11 @@
 package org.kuali.hr.lm.leave.web;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
+import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.base.web.TkForm;
 
 public class LeaveRequestForm extends TkForm {
@@ -27,6 +29,7 @@ public class LeaveRequestForm extends TkForm {
 	private List<LeaveBlock> pendingLeaves;
 	private List<LeaveBlock> approvedLeaves;
 	private List<LeaveBlock> disapprovedLeaves;
+    private Map<String, LeaveRequestDocument> documents;
 
 	public List<LeaveBlock> getPlannedLeaves() {
 		return plannedLeaves;
@@ -60,6 +63,12 @@ public class LeaveRequestForm extends TkForm {
 		this.disapprovedLeaves = disapprovedLeaves;
 	}
 
-	
+    public Map<String, LeaveRequestDocument> getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(Map<String, LeaveRequestDocument> documents) {
+        this.documents = documents;
+    }
 
 }

@@ -84,9 +84,8 @@
 									<td>${pendingLeave.earnCodeDescription} (${pendingLeave.earnCode})</td>
 									<td>${pendingLeave.leaveAmount}</td>
 									<td>${pendingLeave.description}</td>
-									<td><fmt:formatDate type="both"
-											value="${pendingLeave.dateAndTime}"
-											pattern="MM/dd/yyyy hh:mm a" />
+									<td><joda:format value="${Form.documents[pendingLeave.lmLeaveBlockId].documentHeader.workflowDocument.dateLastModified}"
+                                                     pattern="MM/dd/yyyy hh:mm a"  />
 									</td>
 								</tr>
 							</c:forEach>
@@ -116,9 +115,8 @@
 									<td>${approvedLeave.earnCodeDescription} (${approvedLeave.earnCode})</td>
 									<td>${approvedLeave.leaveAmount}</td>
 									<td>${approvedLeave.description}</td>
-									<td><fmt:formatDate type="both"
-											value="${approvedLeave.dateAndTime}"
-											pattern="MM/dd/yyyy hh:mm a" />
+									<td><joda:format value="${Form.documents[approvedLeave.lmLeaveBlockId].documentHeader.workflowDocument.dateFinalized}"
+                                                     pattern="MM/dd/yyyy hh:mm a"  />
 									</td>
 								</tr>
 
@@ -129,7 +127,7 @@
 			</div>
 			<div id="leave-disapproved-request">
 				<h3>
-					<a href="#"> Leave Requests Not Approved</a>
+					<a href="#">Disapproved Leave Requests</a>
 				</h3>
 				<div>
 					<table>
@@ -137,7 +135,7 @@
 							<th>Date</th>
 							<th>Leave Code</th>
 							<th>Hours</th>
-							<th>Status</th>
+                            <th>Description</th>
 							<th>Reason</th>
 							<th>Date/Time Disapproved</th>
 
@@ -151,12 +149,10 @@
 									</td>
 									<td>${disaprovedLeave.earnCodeDescription} (${disaprovedLeave.earnCode})</td>
 									<td>${disaprovedLeave.leaveAmount}</td>
-									<td>${disaprovedLeave.requestStatus == 'D' ? 'Disapprove'
-										: 'Defer'}</td>
-									<td>${disaprovedLeave.reason}</td>
-									<td><fmt:formatDate type="both"
-											value="${disaprovedLeave.dateAndTime}"
-											pattern="MM/dd/yyyy hh:mm a" />
+                                    <td>${disaprovedLeave.description}</td>
+									<td>${Form.documents[approvedLeave.lmLeaveBlockId].description}</td>
+									<td><joda:format value="${Form.documents[approvedLeave.lmLeaveBlockId].documentHeader.workflowDocument.dateFinalized}"
+                                                     pattern="MM/dd/yyyy hh:mm a"  />
 									</td>
 								</tr>
 							</c:forEach>

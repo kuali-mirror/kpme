@@ -23,6 +23,7 @@ import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
+import org.kuali.hr.lm.leaverequest.service.LeaveRequestDocumentService;
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -33,11 +34,10 @@ import org.kuali.hr.time.util.TKUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class LeaveRequestAction extends TkAction {
+    LeaveRequestDocumentService leaveRequestDocumentService;
 
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -52,7 +52,8 @@ public class LeaveRequestAction extends TkAction {
 		leaveForm.setPendingLeaves(getLeaveBlocksWithRequestStatus(principalId, currentDate, LMConstants.REQUEST_STATUS.REQUESTED));
 		leaveForm.setApprovedLeaves(getLeaveBlocksWithRequestStatus(principalId, currentDate, LMConstants.REQUEST_STATUS.APPROVED));
 		leaveForm.setDisapprovedLeaves(getLeaveBlocksWithRequestStatus(principalId, currentDate, LMConstants.REQUEST_STATUS.DISAPPROVED));
-		
+
+        leaveForm.setDocuments(getLeaveRequestDocuments(leaveForm));
 		return forward;
 	}
 
@@ -71,18 +72,43 @@ public class LeaveRequestAction extends TkAction {
     }
 
 	  
-	  public ActionForward submitForApproval(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		  LeaveRequestForm lf = (LeaveRequestForm) form;
-		  for(LeaveBlock leaveBlock : lf.getPlannedLeaves()) {
-			  // check if check box is checked
-			  //System.out.println("Leave block submit is :: >>>>"+leaveBlock.getSubmit());
-			  if(leaveBlock.getSubmit()) {
-                  LeaveRequestDocument lrd = TkServiceLocator.getLeaveRequestDocumentService().createLeaveRequestDocument(leaveBlock.getLmLeaveBlockId());
-                  TkServiceLocator.getLeaveRequestDocumentService().requestLeave(lrd.getDocumentNumber());
-			  }
-		  }
-		  return mapping.findForward("basic");
-	  }
-	  
+	public ActionForward submitForApproval(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+		LeaveRequestForm lf = (LeaveRequestForm) form;
+		for(LeaveBlock leaveBlock : lf.getPlannedLeaves()) {
+			// check if check box is checked
+			//System.out.println("Leave block submit is :: >>>>"+leaveBlock.getSubmit());
+			if(leaveBlock.getSubmit()) {
+                LeaveRequestDocument lrd = TkServiceLocator.getLeaveRequestDocumentService().createLeaveRequestDocument(leaveBlock.getLmLeaveBlockId());
+                TkServiceLocator.getLeaveRequestDocumentService().requestLeave(lrd.getDocumentNumber());
+		    }
+		}
+	    return mapping.findForward("basic");
+	}
+
+    private Map<String, LeaveRequestDocument> getLeaveRequestDocuments(LeaveRequestForm form) {
+        Map<String, LeaveRequestDocument> docs = new HashMap<String, LeaveRequestDocument>();
+
+        if (form == null) {
+            return docs;
+        }
+
+        for (LeaveBlock leaveBlock : form.getPendingLeaves()) {
+            docs.put(leaveBlock.getLmLeaveBlockId(), getLeaveRequestDocumentService().getLeaveRequestDocument(leaveBlock.getLeaveRequestDocumentId()));
+        }
+        for (LeaveBlock leaveBlock : form.getApprovedLeaves()) {
+            docs.put(leaveBlock.getLmLeaveBlockId(), getLeaveRequestDocumentService().getLeaveRequestDocument(leaveBlock.getLeaveRequestDocumentId()));
+        }
+        for (LeaveBlock leaveBlock : form.getDisapprovedLeaves()) {
+            docs.put(leaveBlock.getLmLeaveBlockId(), getLeaveRequestDocumentService().getLeaveRequestDocument(leaveBlock.getLeaveRequestDocumentId()));
+        }
+        return docs;
+    }
+
+    private LeaveRequestDocumentService getLeaveRequestDocumentService() {
+        if (leaveRequestDocumentService == null) {
+            leaveRequestDocumentService = TkServiceLocator.getLeaveRequestDocumentService();
+        }
+        return leaveRequestDocumentService;
+    }
 	  
 }
