@@ -48,9 +48,12 @@ public class TimesheetDocumentHeaderServiceImpl implements TimesheetDocumentHead
         return documentHeaderDao.getTimesheetDocumentHeader(principalId, payBeginDate, payEndDate);
     }
 
-    // this is used by the overtime rules
     public TimesheetDocumentHeader getPreviousDocumentHeader(String principalId, Date payBeginDate) {
         return documentHeaderDao.getPreviousDocumentHeader(principalId, payBeginDate);
+    }
+    
+    public TimesheetDocumentHeader getNextDocumentHeader(String principalId, Date payEndDate) {
+        return documentHeaderDao.getNextDocumentHeader(principalId, payEndDate);
     }
 
     @Override

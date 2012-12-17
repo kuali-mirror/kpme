@@ -61,6 +61,23 @@ public class FlsaWeek {
 		}
 	}
 	
+	/**
+	 * Check to see if the last week is Full or not.
+	 * 
+	 * If the last week of a pay period has an FLSA starting time that is after
+	 * the "Virtual Day" pay period start time, part of the time required for this
+	 * last day will be in the next pay period even if we have 7 days.
+	 * 
+	 * @return
+	 */
+	public boolean isLastWeekFull() {
+		if (flsaDays.size() == 7) {
+			return (flsaTime.isAfter(payPeriodBeginTime)) ? false : true;
+		} else {
+			return false;
+		}
+	}
+	
 	public int getFlsaDayConstant() {
 		return flsaDayConstant;
 	}

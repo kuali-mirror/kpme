@@ -4,13 +4,10 @@
 <jsp:useBean id="tagSupport" class="org.kuali.hr.time.util.TagSupport" />
 <jsp:useBean id="form" class="org.kuali.hr.time.base.web.TkForm" />
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE HTML>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="cache-control" content="public">
-<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
-<title>Kuali Time</title>
+<title>Kuali People Management for the Enterprise</title>
 <tk:tkInclude />
 <tk:tkJsInclude />
 </head>
