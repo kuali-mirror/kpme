@@ -1,15 +1,27 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
 <%@ attribute name="tabId" required="false"%>
+<%@ attribute name="nocache" required="false"%>
 <jsp:useBean id="tagSupport" class="org.kuali.hr.time.util.TagSupport" />
 <jsp:useBean id="form" class="org.kuali.hr.time.base.web.TkForm" />
 
+<c:if test="${nocache == 'true'}">
+    <%
+      response.setHeader("Cache-Control","no-cache");
+      response.setHeader("Pragma","no-cache");
+      response.setDateHeader ("Expires", -1);
+    %>
+</c:if>
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
 <title>Kuali People Management for the Enterprise</title>
 <tk:tkInclude />
 <tk:tkJsInclude />
+<c:if test="${nocache == 'true'}">
+    <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+    <META HTTP-EQUIV="Expires" CONTENT="-1">
+</c:if>
 </head>
 <body>
 	<c:if test="${!empty UserSession.loggedInUserPrincipalName}">

@@ -19,7 +19,7 @@
 <c:set var="Form" value="${TimeDetailActionForm}" scope="request"/>
 
 
-<tk:tkHeader tabId="timeDetail">
+<tk:tkHeader tabId="timeDetail" nocache="true">
     <script src="js/underscore-1.3.1.min.js"></script>
     <%--<script src="js/underscore.string-2.0.0.js"></script>--%>
     <script src="js/backbone-0.9.1.min.js"></script>
