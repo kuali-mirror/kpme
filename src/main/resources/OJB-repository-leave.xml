@@ -131,7 +131,7 @@
         <field-descriptor name="scheduledTimeOffDate"         column="SCH_TIME_OFF_DT"        jdbc-type="DATE"        nullable="true" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="location"                     column="LOCATION"               jdbc-type="VARCHAR"     length="15" nullable="false" />
         <field-descriptor name="descr"                        column="DESCR"                  jdbc-type="VARCHAR"     length="50" nullable="false" />
-        <field-descriptor name="amountofTime"                 column="AMOUNT_OF_TIME"         jdbc-type="BIGINT"      length="20" nullable="false" />
+        <field-descriptor name="amountofTime"                 column="AMOUNT_OF_TIME"         jdbc-type="DECIMAL"      length="20" nullable="false" />
         <field-descriptor name="unusedTime"                   column="UNUSED_TIME"            jdbc-type="VARCHAR"     length="5" nullable="false" />
         <field-descriptor name="transferConversionFactor"     column="TRANS_CONV_FACTOR"      jdbc-type="DECIMAL"     length="12" nullable="false" />
         <field-descriptor name="transfertoEarnCode"           column="TRANSFER_TO_EARN_CODE"  jdbc-type="VARCHAR"     length="15" nullable="false" />

@@ -20,6 +20,8 @@ import java.sql.Date;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
+import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -76,7 +78,7 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 		return valid;
 	}
 	
-	boolean validateUnsusedTimeForScheduledTimeOffDate(Date scheduledTimeOffDate, String unusedTime) {
+	boolean validateUnusedTimeForScheduledTimeOffDate(Date scheduledTimeOffDate, String unusedTime) {
 		boolean valid = true;
 		if (scheduledTimeOffDate == null && (StringUtils.isEmpty(unusedTime) || StringUtils.equals("T", unusedTime) || StringUtils.equals("NUTA", unusedTime))) {
 			this.putFieldError("unusedTime", "error.unusedtime.bank.required", "Unused Time");			
@@ -112,7 +114,23 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 		}
 		return valid;
 	}
-	
+
+    private boolean validateFraction(String earnCode, BigDecimal amount, Date asOfDate, String fieldName) {
+        boolean valid = true;
+        if (!ValidationUtils.validateEarnCodeFraction(earnCode, amount, asOfDate)) {
+            EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, asOfDate);
+            if(ec != null && ec.getFractionalTimeAllowed() != null) {
+                BigDecimal fracAllowed = new BigDecimal(ec.getFractionalTimeAllowed());
+                String[] parameters = new String[2];
+                parameters[0] = earnCode;
+                parameters[1] = Integer.toString(fracAllowed.scale());
+                this.putFieldError(fieldName, "error.amount.fraction", parameters);
+                valid = false;
+            }
+        }
+        return valid;
+    }
+
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
 			MaintenanceDocument document) {
@@ -127,7 +145,8 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 				valid &= this.validateAccruedDate(sysSchTimeOff.getAccruedDate());
 				valid &= this.validateExpirationDate(sysSchTimeOff.getExpirationDate(), sysSchTimeOff.getAccruedDate());
 				valid &= this.validateScheduledTimeOffDate(sysSchTimeOff.getScheduledTimeOffDate());
-				valid &= this.validateUnsusedTimeForScheduledTimeOffDate(sysSchTimeOff.getScheduledTimeOffDate(), sysSchTimeOff.getUnusedTime());
+                valid &= this.validateFraction(sysSchTimeOff.getEarnCode(),sysSchTimeOff.getAmountofTime(),sysSchTimeOff.getEffectiveDate(),"amountofTime");
+				valid &= this.validateUnusedTimeForScheduledTimeOffDate(sysSchTimeOff.getScheduledTimeOffDate(), sysSchTimeOff.getUnusedTime());
 				valid &= this.validateLocation(sysSchTimeOff.getLocation());
 				valid &= this.validateEarnCode(sysSchTimeOff.getEarnCode(), sysSchTimeOff.getEffectiveDate());
 			}

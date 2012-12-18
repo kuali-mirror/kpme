@@ -41,7 +41,7 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 	private Date scheduledTimeOffDate;
 	private String location;
 	private String descr;
-	private Long amountofTime;
+	private BigDecimal amountofTime;
 	private String unusedTime;
 	private BigDecimal transferConversionFactor;
 	private String transfertoEarnCode;
@@ -126,11 +126,11 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 		this.descr = descr;
 	}
 
-	public Long getAmountofTime() {
+	public BigDecimal getAmountofTime() {
 		return amountofTime;
 	}
 
-	public void setAmountofTime(Long amountofTime) {
+	public void setAmountofTime(BigDecimal amountofTime) {
 		this.amountofTime = amountofTime;
 	}
 

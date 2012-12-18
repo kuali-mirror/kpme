@@ -305,7 +305,7 @@ public class AccrualServiceImpl implements AccrualService {
 				if(anAC == null) {
 					throw new RuntimeException("Cannot find Accrual Category for system scheduled time off " + ssto.getLmSystemScheduledTimeOffId());
 				}
-				BigDecimal hrs = new BigDecimal(ssto.getAmountofTime()).multiply(ftePercentage);
+				BigDecimal hrs = ssto.getAmountofTime().multiply(ftePercentage);
 				// system scheduled time off leave block
 				createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, hrs, anAC, ssto.getLmSystemScheduledTimeOffId(), true);
 				// usage leave block with negative amount

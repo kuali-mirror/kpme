@@ -239,7 +239,10 @@
 		<property name="shortLabel" value="Amount of Time" />
 		<property name="maxLength" value="20" />
 	   	<property name="validationPattern">
-				<bean parent="NumericValidationPattern" />
+               <bean parent="RegexValidationPattern">
+                   <property name="pattern" value="(([0-9]{1,9}(\.[0-9]{1,2})?))()"></property>
+                   <property name="validationErrorMessageKey" value="error.bigDecimal"></property>
+               </bean>
 		</property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
