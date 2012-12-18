@@ -143,7 +143,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
 
     	for (LeaveBlock leaveBlock : leaveBlocks) {
-    		if (StringUtils.equals(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.PLANNED)) {
+    		if (StringUtils.equals(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.PLANNED) 
+    				|| StringUtils.equals(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.DEFERRED)) {
     			TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlock.getLmLeaveBlockId(), TkConstants.BATCH_JOB_USER_PRINCIPAL_ID);
     		} else if (StringUtils.equals(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.REQUESTED)) {
     	        if (StringUtils.equals(getInitiateLeaveRequestAction(), LMConstants.INITIATE_LEAVE_REQUEST_ACTION_OPTIONS.DELETE)) {
