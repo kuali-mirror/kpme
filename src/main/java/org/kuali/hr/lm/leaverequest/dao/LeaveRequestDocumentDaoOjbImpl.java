@@ -22,6 +22,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LeaveRequestDocumentDaoOjbImpl extends PlatformAwareDaoBaseOjb implements LeaveRequestDocumentDao{
@@ -44,7 +45,7 @@ public class LeaveRequestDocumentDaoOjbImpl extends PlatformAwareDaoBaseOjb impl
         Criteria root = new Criteria();
         root.addEqualTo("lmLeaveBlockId", leaveBlockId);
         Query query = QueryFactory.newQuery(LeaveRequestDocument.class, root);
-        lrd = (List<LeaveRequestDocument>)this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        lrd = new ArrayList<LeaveRequestDocument>(this.getPersistenceBrokerTemplate().getCollectionByQuery(query));
 
         return lrd;
     }
