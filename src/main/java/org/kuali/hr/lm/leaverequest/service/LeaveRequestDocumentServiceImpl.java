@@ -34,7 +34,9 @@ import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.action.ActionType;
+import org.kuali.rice.kew.api.action.DocumentActionParameters;
 import org.kuali.rice.kew.api.action.ValidActions;
+import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.krad.bo.DocumentHeader;
@@ -136,6 +138,18 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
         	doc.getDocumentHeader().getWorkflowDocument().cancel("");
         }
         
+    }
+
+    @Override
+    public void suBlanketApproveLeave(String documentId, String principalId, String reason) {
+        LeaveRequestDocument doc = getLeaveRequestDocument(documentId);
+        WorkflowDocumentActionsService docActionService = KewApiServiceLocator.getWorkflowDocumentActionsService();
+        DocumentActionParameters parameters = DocumentActionParameters.create(documentId, principalId, reason);
+        if(StringUtils.isNotEmpty(reason)) {
+            doc.setDescription(reason);
+            saveLeaveRequestDocument(doc);
+        }
+        docActionService.superUserBlanketApprove(parameters, true);
     }
 
     public LeaveRequestDocumentDao getLeaveRequestDocumentDao() {
