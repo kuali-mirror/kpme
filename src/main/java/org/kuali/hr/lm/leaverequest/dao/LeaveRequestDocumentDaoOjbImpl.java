@@ -44,7 +44,7 @@ public class LeaveRequestDocumentDaoOjbImpl extends PlatformAwareDaoBaseOjb impl
         Criteria root = new Criteria();
         root.addEqualTo("lmLeaveBlockId", leaveBlockId);
         Query query = QueryFactory.newQuery(LeaveRequestDocument.class, root);
-        lrd = (List<LeaveRequestDocument>)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+        lrd = (List<LeaveRequestDocument>)this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         return lrd;
     }
