@@ -1,3 +1,4 @@
+
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp" %>
 
 <%@ attribute name="day" required="true" type="org.kuali.hr.time.calendar.CalendarDay" %>
@@ -8,8 +9,7 @@
 </c:if>
 
 <c:forEach var="leaveBlock" items="${day.leaveBlockRenderers}" varStatus="status">
-
-    <div class="leaveBlock">
+    <div class="leaveBlock ${fn:toLowerCase(leaveBlock.requestStatusClass)}">
     	<div id="leaveblock_${leaveBlock.leaveBlockId}"
 	         class="${editableClass}">
             <c:if test="${leaveBlock.deletable and day.dayEditable}">

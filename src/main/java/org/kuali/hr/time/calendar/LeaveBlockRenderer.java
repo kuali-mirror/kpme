@@ -68,4 +68,8 @@ public class LeaveBlockRenderer {
 		this.assignmentClass = assignmentClass;
 	}
 
+    public String getRequestStatusClass() {
+        return this.leaveBlock.getRequestStatusString().toLowerCase();
+    }
+
 }

@@ -30,3 +30,27 @@
     cursor: pointer;
     float: right;
 }
+
+.approved {
+    background-color: #006600;
+}
+
+.planned {
+    background-color: #000066;
+}
+
+.requested {
+    background-color: #666600;
+}
+
+.disapproved {
+    background-color: #660000;
+}
+
+.deferred {
+    background-color: #333333;
+}
+
+.usage {
+    background-color: #98a386;
+}

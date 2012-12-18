@@ -25,6 +25,7 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.joda.time.DateTime;
+import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
@@ -378,6 +379,11 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	public void setRequestStatus(String requestStatus) {
 		this.requestStatus = requestStatus;
 	}
+
+    public String getRequestStatusString() {
+        String status = LMConstants.REQUEST_STATUS_STRINGS.get(getRequestStatus());
+        return status == null ? "usage" : status;
+    }
 
 	public List<LeaveBlockHistory> getLeaveBlockHistories() {
 		return leaveBlockHistories;
