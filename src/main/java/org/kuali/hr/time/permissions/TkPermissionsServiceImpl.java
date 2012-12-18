@@ -328,6 +328,11 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
         
         if (userId != null) {
             String blockType = lb.getLeaveBlockType();
+            String requestStatus = lb.getRequestStatus();
+            if (StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, requestStatus)
+                    || StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, requestStatus)) {
+                return false;
+            }
             if (StringUtils.isBlank(blockType)
                     || StringUtils.equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, blockType)
                     || StringUtils.equals(LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR, blockType)) {
@@ -358,7 +363,8 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
 
     @Override
     public boolean canDeleteLeaveBlock(LeaveBlock lb) {
-        if (StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus()))  {
+        if (StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus())
+                || StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, lb.getRequestStatus()))  {
             return false;
         }
         return canEditLeaveBlock(lb);
