@@ -1052,9 +1052,10 @@ label.error {
 
 #leave-req-app {
     margin: 10px auto 20px auto;
+    font-size: .7em;
 }
 #leave-req-app table {
-    font-size: .7em;
+	font-size: 1.0em;
     text-align: center;
     border-collapse: collapse;
     width: 100%
@@ -1066,7 +1067,6 @@ label.error {
     background: #e6EEEE;
     padding-bottom: 20px;
 }
-
 #leave-req-app table tr td {
     border: 1px solid #ccc;
     padding: 3px;

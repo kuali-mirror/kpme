@@ -17,20 +17,18 @@ package org.kuali.hr.lm.request.approval.web;
 
 import java.util.List;
 
-import org.kuali.hr.time.base.web.TkForm;
+import org.kuali.hr.time.base.web.ApprovalForm;
 
-public class LeaveRequestApprovalActionForm extends TkForm {
+public class LeaveRequestApprovalActionForm extends ApprovalForm {
 	
 	private static final long serialVersionUID = 1L;
-	private List<LeaveRequestApprovalEmployeeRow> employeeRows;
 	
+	private List<LeaveRequestApprovalEmployeeRow> employeeRows;
 	private String approveList;
 	private String disapproveList;
 	private String deferList;
 	private String reasonList;
-	private String principalId;
-    private String outputString;		// for displaying error messages
-    private String selectedDept;
+	private String principalId;     
 	
 	public List<LeaveRequestApprovalEmployeeRow> getEmployeeRows() {
 		return employeeRows;
@@ -68,19 +66,5 @@ public class LeaveRequestApprovalActionForm extends TkForm {
 	public void setPrincipalId(String principalId) {
 		this.principalId = principalId;
 	}
-	public String getOutputString() {
-		return outputString;
-	}
-	public void setOutputString(String outputString) {
-		this.outputString = outputString;
-	}
-	public String getSelectedDept() {
-		return selectedDept;
-	}
-	public void setSelectedDept(String selectedDept) {
-		this.selectedDept = selectedDept;
-	}
-	
-	
 	
 }

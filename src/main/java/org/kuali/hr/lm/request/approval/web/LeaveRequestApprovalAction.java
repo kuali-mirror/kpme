@@ -15,12 +15,16 @@
  */
 package org.kuali.hr.lm.request.approval.web;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,53 +40,194 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
-import org.kuali.hr.time.base.web.TkAction;
+import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.base.web.ApprovalAction;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionItem;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-public class LeaveRequestApprovalAction  extends TkAction {
+public class LeaveRequestApprovalAction  extends ApprovalAction {
 	
     private static final Logger LOG = Logger.getLogger(LeaveRequestApprovalAction.class);
     public static final String DOC_SEPARATOR = "----";	// separator for documents
     public static final String ID_SEPARATOR = "____";	// separator for documentId and reason string
+    public static final String DOC_NOT_FOUND = "Leave request document not found with id ";
+    public static final String LEAVE_BLOCK_NOT_FOUND = "Leave Block not found for Leave request document ";
     
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = super.execute(mapping, form, request, response);
 		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
 		
+		Date currentDate = TKUtils.getCurrentDate();
+		Set<Long> workAreas = TkServiceLocator.getTkRoleService().getWorkAreasForApprover(TKContext.getPrincipalId(), currentDate);
+		List<String> principalIds = new ArrayList<String>();
+        for (Long workArea : workAreas) {
+            List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, currentDate);
+            for (Assignment a : assignments) {
+                principalIds.add(a.getPrincipalId());
+            }
+        }
+
+        // Set calendar groups
+        List<String> calGroups =  new ArrayList<String>();
+        if (CollectionUtils.isNotEmpty(principalIds)) {
+            calGroups = TkServiceLocator.getLeaveApprovalService().getUniqueLeavePayGroupsForPrincipalIds(principalIds);
+        }
+        lraaForm.setPayCalendarGroups(calGroups);		
+		
+		List<String> depts = new ArrayList<String>(TKContext.getUser().getReportingApprovalDepartments().keySet());
+		Collections.sort(depts);
+	    lraaForm.setDepartments(depts);
+		
 		// build employee rows to display on the page
-		List<LeaveRequestApprovalEmployeeRow> rowList = this.getEmployeeRows();
-		lraaForm.setEmployeeRows(rowList);		
+	    List<ActionItem> items = filterActionsWithSeletedParameters(lraaForm.getSelectedPayCalendarGroup(),
+				lraaForm.getSelectedDept(), lraaForm.getSelectedWorkArea());
+		List<LeaveRequestApprovalEmployeeRow> rowList = this.getEmployeeRows(items);
+		lraaForm.setEmployeeRows(rowList);
 		return forward;
 	}
 	
-//	public ActionForward loadApprovalTab(ActionMapping mapping, ActionForm form,
-//			HttpServletRequest request, HttpServletResponse response) throws Exception {
-//		ActionForward fwd = mapping.findForward("basic");
-//		TKUser user = TKContext.getUser();
-//		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
-//        Date currentDate = null;
-//        
-//        //reset state
-//        if(StringUtils.isBlank(lraaForm.getSelectedDept())){
-//        	resetState(form, request);
-//        }
-//      
-//        setupDocumentOnFormContext(request,taaf,payCalendarEntries, page);
-//        return fwd;
-//	}
+	public ActionForward loadApprovalTab(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		ActionForward fwd = mapping.findForward("basic");
+		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
+        Date currentDate = TKUtils.getCurrentDate();
+        
+        //reset state
+        if(StringUtils.isEmpty(lraaForm.getSelectedDept())) {
+        	resetState(form, request);
+        
+	        Set<Long> workAreas = TkServiceLocator.getTkRoleService().getWorkAreasForApprover(TKContext.getPrincipalId(), currentDate);
+	        List<String> principalIds = new ArrayList<String>();
+	        for (Long workArea : workAreas) {
+	            List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, currentDate);
+	            for (Assignment a : assignments) {
+	                principalIds.add(a.getPrincipalId());
+	            }
+	        }
+	        // Set calendar groups
+	        List<String> calGroups =  new ArrayList<String>();
+	        if (CollectionUtils.isNotEmpty(principalIds)) {
+	            calGroups = TkServiceLocator.getLeaveApprovalService().getUniqueLeavePayGroupsForPrincipalIds(principalIds);
+	        }
+	        lraaForm.setPayCalendarGroups(calGroups);
+	        if (StringUtils.isBlank(lraaForm.getSelectedPayCalendarGroup())
+	                && CollectionUtils.isNotEmpty(calGroups)) {
+	        	lraaForm.setSelectedPayCalendarGroup(calGroups.get(0));
+	        }
+	        // set departments
+			List<String> depts = new ArrayList<String>(TKContext.getUser().getReportingApprovalDepartments().keySet());
+			Collections.sort(depts);
+		    lraaForm.setDepartments(depts);
+        }
+        
+        // build employee rows to display on the page
+        List<ActionItem> items = filterActionsWithSeletedParameters(lraaForm.getSelectedPayCalendarGroup(),
+				lraaForm.getSelectedDept(), lraaForm.getSelectedWorkArea());
+        List<LeaveRequestApprovalEmployeeRow> rowList = this.getEmployeeRows(items);
+        lraaForm.setEmployeeRows(rowList);	     
+        
+        return fwd;
+	}
+	
+	public ActionForward selectNewPayCalendar(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		// resets the common fields for approval pages
+		super.resetMainFields(form);
+		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
+		lraaForm.setEmployeeRows(new ArrayList<LeaveRequestApprovalEmployeeRow>());
+		
+		return loadApprovalTab(mapping, form, request, response);
+	}	
+	
+	public ActionForward selectNewDept(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
+		
+		Date currentDate = TKUtils.getCurrentDate();
+		
+		lraaForm.getWorkAreaDescr().clear();
+    	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(lraaForm.getSelectedDept(), currentDate);
+        for(WorkArea wa : workAreas){
+        	if (TKContext.getUser().getApproverWorkAreas().contains(wa.getWorkArea())
+        			|| TKContext.getUser().getReviewerWorkAreas().contains(wa.getWorkArea())) {
+        		lraaForm.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
+        	}
+        }
+    	// filter actions with selected calendarGroup, Dept and workarea
+    	List<ActionItem> items = filterActionsWithSeletedParameters(lraaForm.getSelectedPayCalendarGroup(),
+    				lraaForm.getSelectedDept(), lraaForm.getSelectedWorkArea());
+    	List<LeaveRequestApprovalEmployeeRow> rowList = this.getEmployeeRows(items);
+		lraaForm.setEmployeeRows(rowList);	
+ 	
+		return mapping.findForward("basic");
+	}
+	
+	public ActionForward selectNewWorkArea(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
+		    
+		// filter actions with selected calendarGroup, Dept and workarea
+    	List<ActionItem> items = filterActionsWithSeletedParameters(lraaForm.getSelectedPayCalendarGroup(),
+    				lraaForm.getSelectedDept(), lraaForm.getSelectedWorkArea());
+    	List<LeaveRequestApprovalEmployeeRow> rowList = this.getEmployeeRows(items);
+		lraaForm.setEmployeeRows(rowList);
+        
+		return mapping.findForward("basic");
+	}
+	
+	private List<ActionItem> filterActionsWithSeletedParameters(String calGroup, String dept, String workArea) {
+		String principalId = TKUser.getCurrentTargetPerson().getPrincipalId();
+		List<ActionItem> actionList = KewApiServiceLocator.getActionListService().getActionItemsForPrincipal(principalId);
+		List<ActionItem> resultsList = new ArrayList<ActionItem>();
+
+		Date currentDate = TKUtils.getCurrentDate();
+		List<String> principalIds = TkServiceLocator.getLeaveApprovalService()
+			.getPrincipalIdsByDeptWorkAreaRolename(null, dept, workArea, currentDate, currentDate, calGroup);
+		
+		if(CollectionUtils.isNotEmpty(principalIds)) {
+			for(ActionItem anAction : actionList) {
+				String docId = anAction.getDocumentId();
+				if(anAction.getDocName().equals(LeaveRequestDocument.LEAVE_REQUEST_DOCUMENT_TYPE)) {
+					LeaveRequestDocument lrd = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(docId);
+					if(lrd != null) {
+						LeaveBlock lb = lrd.getLeaveBlock();
+						if(lb != null) {
+							if(principalIds.contains(lb.getPrincipalId())) {
+								resultsList.add(anAction);
+							}
+						}
+					}
+				}
+			}
+		}
+        
+        return resultsList;
+	}
+	
+	public void resetState(ActionForm form, HttpServletRequest request) {
+		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
+    	lraaForm.getDepartments().clear();
+    	lraaForm.getWorkAreaDescr().clear();
+    	lraaForm.setEmployeeRows(new ArrayList<LeaveRequestApprovalEmployeeRow>());
+    	lraaForm.setSelectedDept(null);
+    	lraaForm.setSearchField(null);
+    	lraaForm.setSearchTerm(null);
+	}
 	
 	public ActionForward takeActionOnEmployee(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
 		
-		String principalId = lraaForm.getPrincipalId();	// may not be needed
 		if(StringUtils.isNotEmpty(lraaForm.getApproveList())) {
 			String[] approveList = lraaForm.getApproveList().split(DOC_SEPARATOR);
 			for(String eachAction : approveList){
@@ -113,15 +258,11 @@ public class LeaveRequestApprovalAction  extends TkAction {
 				// leave block's status is changed to "planning" in postProcessor of LeaveRequestDocument	
 			}
 		}
-		
 		return mapping.findForward("basic");
 	}
 	
 	public ActionForward approveAllForEmployee(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
-		String principalId = lraaForm.getPrincipalId();
-//		JSONArray errorMsgList = new JSONArray();
-//		List<String> errors = new ArrayList<String>();
 		
 		if(StringUtils.isNotEmpty(lraaForm.getApproveList())) {
 			String[] approveList = lraaForm.getApproveList().split(DOC_SEPARATOR);
@@ -131,44 +272,15 @@ public class LeaveRequestApprovalAction  extends TkAction {
 				String reasonString = fields.length > 1 ? fields[1] : ""; 	// approve reason text, can be empty
 				TkServiceLocator.getLeaveRequestDocumentService().approveLeave(docId, TKContext.getPrincipalId(), reasonString);
 			}
-		}
-		
-//		for(LeaveRequestApprovalEmployeeRow employeeRow :lraaForm.getEmployeeRows()) {
-//			if(employeeRow.getPrincipalId().equals(principalId)) {
-//				for(LeaveRequestApprovalRow requestRow : employeeRow.getLeaveRequestList()) {
-//					String docId = requestRow.getLeaveRequestDocId();
-//					LeaveRequestDocument lrd = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(docId);
-//					try {
-//						// who should be receiving the email notification???? argument 3 is the the adhoc receipient list
-//			            KRADServiceLocatorWeb.getDocumentService().approveDocument(lrd, "", null);
-//			         // change status of leave block to "approved"
-//						LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lrd.getLmLeaveBlockId());
-//						lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
-//			        } catch (WorkflowException e) {
-//			            LOG.error(e.getStackTrace());
-//			            errors.add("Error occurred when approving leave request. Please try again.");
-//			            errorMsgList.addAll(errors);
-//			            lraaForm.setOutputString(JSONValue.toJSONString(errorMsgList));
-//			            return mapping.findForward("basic");
-//			        }
-//				}
-//			}
-//		}
-		
+		}		
 		return mapping.findForward("basic");
 	}
 	
-	private List<LeaveRequestApprovalEmployeeRow> getEmployeeRows() {
-		
+	private List<LeaveRequestApprovalEmployeeRow> getEmployeeRows(List<ActionItem> actionList) {
 		List<LeaveRequestApprovalEmployeeRow> empRowList = new ArrayList<LeaveRequestApprovalEmployeeRow>();
-		// currently just use the principalId of current employee
-		String principalId = TKUser.getCurrentTargetPerson().getPrincipalId();
-
-//		Map<String, List<String>> docMap = new HashMap<String, List<String>>();
 		Map<String, List<LeaveRequestDocument>> docMap = new HashMap<String, List<LeaveRequestDocument>>();
-		List<ActionItem> actionList = KewApiServiceLocator.getActionListService().getActionItemsForPrincipal(principalId);
 		for(ActionItem action : actionList) {
-			if(action.getDocName().equals("LeaveRequestDocument")) {
+			if(action.getDocName().equals(LeaveRequestDocument.LEAVE_REQUEST_DOCUMENT_TYPE)) {
 				String docId = action.getDocumentId();
 				LeaveRequestDocument lrd = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(docId);
 				if(lrd != null) {
@@ -195,7 +307,7 @@ public class LeaveRequestApprovalAction  extends TkAction {
 			public int compare(LeaveRequestApprovalEmployeeRow row1, LeaveRequestApprovalEmployeeRow row2) {
 				return ObjectUtils.compare(row1.getEmployeeName(), row2.getEmployeeName());
 			}
-    	});
+    	});		
 		
 		return empRowList;
 	}
@@ -226,8 +338,8 @@ public class LeaveRequestApprovalAction  extends TkAction {
 			aRow.setLeaveBlockId(lb.getLmLeaveBlockId());
 			aRow.setRequestedDate(TKUtils.formatDate(lb.getLeaveDate()));
 			aRow.setRequestedHours(lb.getLeaveAmount().toString());
-			aRow.setSubmittedTime("test");
-//			aRow.setSubmittedTime(lrd.getDocumentHeader().getWorkflowDocument().getDateCreated().toString());
+			DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+			aRow.setSubmittedTime(df.format( new Date(lrd.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis())));
 			rowList.add(aRow);
 		}
 		// sort list by date
@@ -260,11 +372,13 @@ public class LeaveRequestApprovalAction  extends TkAction {
 					String docId = fields[0];	// leave request document id
 					LeaveRequestDocument lrd = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(docId);
 					if(lrd == null) {
-						errors.add("Leave request document not founded with id " + docId);
-					}else {
+						errors.add(DOC_NOT_FOUND + docId);
+						break;
+					} else {
 						LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lrd.getLmLeaveBlockId());
 						if(lb == null) {
-							errors.add("Leave Block not founded for Leave request document " + docId);
+							errors.add(LEAVE_BLOCK_NOT_FOUND + docId);
+							break;
 						}
 					}
 				}
@@ -276,17 +390,17 @@ public class LeaveRequestApprovalAction  extends TkAction {
 					String docId = fields[0];	// leave request document id
 					String reasonString = fields.length > 1 ? fields[1] : ""; 	// disapprove reason
 					if(StringUtils.isEmpty(reasonString)) {
-						errors.add("Reason is required for disapprove action");
+						errors.add("Reason is required for Disapprove action");
 						break;
 					} else {
 						LeaveRequestDocument lrd = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(docId);
 						if(lrd == null) {
-							errors.add("Leave request document not found with id " + docId);
+							errors.add(DOC_NOT_FOUND + docId);
 							break;
 						}else {
 							LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lrd.getLmLeaveBlockId());
 							if(lb == null) {
-								errors.add("Leave Block not found for Leave request document " + docId);
+								errors.add(LEAVE_BLOCK_NOT_FOUND + docId);
 								break;
 							}
 						}
@@ -300,17 +414,17 @@ public class LeaveRequestApprovalAction  extends TkAction {
 					String docId = fields[0];	// leave request document id
 					String reasonString =  fields.length > 1 ? fields[1] : ""; 	// defer reason
 					if(StringUtils.isEmpty(reasonString)) {
-						errors.add("Reason is required for defer action");
+						errors.add("Reason is required for Defer action");
 						break;
 					} else {
 						LeaveRequestDocument lrd = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(docId);
 						if(lrd == null) {
-							errors.add("Leave request document not found with id " + docId);
+							errors.add(DOC_NOT_FOUND + docId);
 							break;
 						}else {
 							LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lrd.getLmLeaveBlockId());
 							if(lb == null) {
-								errors.add("Leave Block not found for Leave request document " + docId);
+								errors.add(LEAVE_BLOCK_NOT_FOUND + docId);
 								break;
 							}
 						}
@@ -319,9 +433,7 @@ public class LeaveRequestApprovalAction  extends TkAction {
 			}
         }
         errorMsgList.addAll(errors);
-
         lraaForm.setOutputString(JSONValue.toJSONString(errorMsgList));
         return mapping.findForward("ws");
-    }
-	
+    }	
 }
