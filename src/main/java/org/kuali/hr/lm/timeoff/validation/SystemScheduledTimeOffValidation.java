@@ -76,6 +76,15 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 		return valid;
 	}
 	
+	boolean validateUnsusedTimeForScheduledTimeOffDate(Date scheduledTimeOffDate, String unusedTime) {
+		boolean valid = true;
+		if (scheduledTimeOffDate == null && (StringUtils.isEmpty(unusedTime) || StringUtils.equals("T", unusedTime) || StringUtils.equals("NUTA", unusedTime))) {
+			this.putFieldError("unusedTime", "error.unusedtime.bank.required", "Unused Time");			
+			valid = false;
+		}		
+		return valid;
+	}
+		
 	boolean validateTransfertoEarnCode(String transfertoEarnCode) {
 		boolean valid = true;
 		if (StringUtils.isEmpty(transfertoEarnCode)) {
@@ -118,10 +127,7 @@ public class SystemScheduledTimeOffValidation extends MaintenanceDocumentRuleBas
 				valid &= this.validateAccruedDate(sysSchTimeOff.getAccruedDate());
 				valid &= this.validateExpirationDate(sysSchTimeOff.getExpirationDate(), sysSchTimeOff.getAccruedDate());
 				valid &= this.validateScheduledTimeOffDate(sysSchTimeOff.getScheduledTimeOffDate());
-				if(StringUtils.equals("T", sysSchTimeOff.getUnusedTime())){
-					valid &= this.validateTransfertoEarnCode(sysSchTimeOff.getTransfertoEarnCode());
-					valid &= this.validateTransferConversionFactor(sysSchTimeOff.getTransferConversionFactor());
-				}
+				valid &= this.validateUnsusedTimeForScheduledTimeOffDate(sysSchTimeOff.getScheduledTimeOffDate(), sysSchTimeOff.getUnusedTime());
 				valid &= this.validateLocation(sysSchTimeOff.getLocation());
 				valid &= this.validateEarnCode(sysSchTimeOff.getEarnCode(), sysSchTimeOff.getEffectiveDate());
 			}
