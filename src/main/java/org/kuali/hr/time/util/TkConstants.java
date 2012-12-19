@@ -283,8 +283,6 @@ public class TkConstants {
         public static final String SUPERVISOR_APPROVAL = "Supervisor Approval";
     }
 
-    public static final String BATCH_JOB_USER_PRINCIPAL_ID = "admin";
-
     public static final String ASSIGNMENT_KEY_DELIMITER = "_";
     public static final String HOLIDAY_EARN_CODE = "HOL";
     // Special System earn code to represent lunch deductions.
@@ -442,4 +440,6 @@ public class TkConstants {
     // Calendar Types
     public static final String CALENDAR_TYPE_PAY = "Pay";
     public static final String CALENDAR_TYPE_LEAVE = "Leave";
+    
+    public static final String BATCH_USER_PRINCIPAL_NAME = "kpme.batch.user.principalName";
 }

@@ -15,6 +15,12 @@
  */
 package org.kuali.hr.time.timeblock.service;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -27,7 +33,6 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeBlockHistory;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
@@ -36,13 +41,8 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TimeBlockServiceImpl implements TimeBlockService {
 
@@ -164,18 +164,18 @@ public class TimeBlockServiceImpl implements TimeBlockService {
                 alteredTimeBlocks.add(tb);
             }
         }
-        for (TimeBlock tb : alteredTimeBlocks) {
-            TkServiceLocator.getTimeHourDetailService().removeTimeHourDetails(tb.getTkTimeBlockId());
-            tb.setUserPrincipalId(userPrincipalId);
-
-            timeBlockDao.saveOrUpdate(tb);
-            tb.setTimeBlockHistories(TkServiceLocator.getTimeBlockService().createTimeBlockHistories(tb, TkConstants.ACTIONS.ADD_TIME_BLOCK));
-	         for(TimeBlockHistory tbh : tb.getTimeBlockHistories()){
-	        	 TkServiceLocator.getTimeBlockHistoryService().saveTimeBlockHistory(tbh);
-	         }
-
+        
+        for (TimeBlock timeBlock : alteredTimeBlocks) {
+            TkServiceLocator.getTimeHourDetailService().removeTimeHourDetails(timeBlock.getTkTimeBlockId());
+            timeBlock.setUserPrincipalId(userPrincipalId);
         }
-
+        
+        List<TimeBlock> savedTimeBlocks = (List<TimeBlock>) KRADServiceLocator.getBusinessObjectService().save(alteredTimeBlocks);
+        
+        for (TimeBlock timeBlock : savedTimeBlocks) {
+            timeBlock.setTimeBlockHistories(createTimeBlockHistories(timeBlock, TkConstants.ACTIONS.ADD_TIME_BLOCK));
+            KRADServiceLocator.getBusinessObjectService().save(timeBlock.getTimeBlockHistories());
+        }
     }
 
     public void saveTimeBlocks(List<TimeBlock> tbList) {

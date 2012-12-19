@@ -154,6 +154,7 @@
     
     <!-- KPME Batch Processing -->
     <param name="kpme.org.quartz.threadPool.threadCount">5</param>
+    <param name="kpme.batch.user.principalName">admin</param>
     <param name="kpme.batch.startDelay.milliseconds">300000</param>
     <param name="kpme.batch.repeatInterval.milliseconds">300000</param>
     <param name="kpme.batch.calendarEntriesPollingWindow.days">30</param>

@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
@@ -40,9 +41,13 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.api.note.Note;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class LeaveCalendarServiceImpl implements LeaveCalendarService {
+	
+	private static final Logger LOG = Logger.getLogger(LeaveCalendarServiceImpl.class);
 
     private LeaveCalendarDao leaveCalendarDao;
 
@@ -140,23 +145,42 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     }
     
     private void updatePlannedLeaveBlocks(String principalId, Date beginDate, Date endDate) {
-        List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
-
-    	for (LeaveBlock leaveBlock : leaveBlocks) {
-    		if (StringUtils.equals(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.PLANNED) 
-    				|| StringUtils.equals(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.DEFERRED)) {
-    			TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlock.getLmLeaveBlockId(), TkConstants.BATCH_JOB_USER_PRINCIPAL_ID);
-    		} else if (StringUtils.equals(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.REQUESTED)) {
-    	        if (StringUtils.equals(getInitiateLeaveRequestAction(), LMConstants.INITIATE_LEAVE_REQUEST_ACTION_OPTIONS.DELETE)) {
-    	        	TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlock.getLmLeaveBlockId(), TkConstants.BATCH_JOB_USER_PRINCIPAL_ID);
-    	        } else if (StringUtils.equals(getInitiateLeaveRequestAction(), LMConstants.INITIATE_LEAVE_REQUEST_ACTION_OPTIONS.APPROVE)) {
-    	        	List<LeaveRequestDocument> leaveRequestDocuments = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(leaveBlock.getLmLeaveBlockId());
-    	        	for (LeaveRequestDocument leaveRequestDocument : leaveRequestDocuments) {
-    	        		TkServiceLocator.getLeaveRequestDocumentService().suBlanketApproveLeave(leaveRequestDocument.getDocumentNumber(), TkConstants.BATCH_JOB_USER_PRINCIPAL_ID);
-    	        	}
-    	        }
-    		}
-    	}
+        String batchUserPrincipalId = getBatchUserPrincipalId();
+        
+        if (batchUserPrincipalId != null) {
+	    	List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
+	
+	    	for (LeaveBlock leaveBlock : leaveBlocks) {
+	    		if (StringUtils.equals(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.PLANNED) 
+	    				|| StringUtils.equals(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.DEFERRED)) {
+	    			TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlock.getLmLeaveBlockId(), batchUserPrincipalId);
+	    		} else if (StringUtils.equals(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.REQUESTED)) {
+	    	        if (StringUtils.equals(getInitiateLeaveRequestAction(), LMConstants.INITIATE_LEAVE_REQUEST_ACTION_OPTIONS.DELETE)) {
+	    	        	TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlock.getLmLeaveBlockId(), batchUserPrincipalId);
+	    	        } else if (StringUtils.equals(getInitiateLeaveRequestAction(), LMConstants.INITIATE_LEAVE_REQUEST_ACTION_OPTIONS.APPROVE)) {
+	    	        	List<LeaveRequestDocument> leaveRequestDocuments = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(leaveBlock.getLmLeaveBlockId());
+	    	        	for (LeaveRequestDocument leaveRequestDocument : leaveRequestDocuments) {
+	    	        		TkServiceLocator.getLeaveRequestDocumentService().suBlanketApproveLeave(leaveRequestDocument.getDocumentNumber(), batchUserPrincipalId);
+	    	        	}
+	    	        }
+	    		}
+	    	}
+        } else {
+        	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
+        	LOG.error("Could not update leave request blocks due to missing batch user " + principalName);
+        }
+    }
+    
+    private String getBatchUserPrincipalId() {
+    	String principalId = null;
+    	
+    	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
+        Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(principalName);
+        if (person != null) {
+        	principalId = person.getPrincipalId();
+        }
+        
+        return principalId;
     }
     
     private String getInitiateLeaveRequestAction() {

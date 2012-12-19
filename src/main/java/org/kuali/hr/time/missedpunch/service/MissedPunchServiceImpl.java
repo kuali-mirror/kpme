@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalTime;
@@ -34,12 +35,18 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class MissedPunchServiceImpl implements MissedPunchService {
+	
+	private static final Logger LOG = Logger.getLogger(MissedPunchServiceImpl.class);
 
     MissedPunchDao missedPunchDao;
 
@@ -234,9 +241,28 @@ public class MissedPunchServiceImpl implements MissedPunchService {
 
     @Override
     public void approveMissedPunch(MissedPunchDocument document) {
-            String rhid = document.getDocumentNumber();
-            WorkflowDocument wd = WorkflowDocumentFactory.loadDocument(TkConstants.BATCH_JOB_USER_PRINCIPAL_ID, rhid);
-            wd.superUserBlanketApprove("Batch job superuser approving missed punch document.");
+    	String batchUserPrincipalId = getBatchUserPrincipalId();
+        
+        if (batchUserPrincipalId != null) {
+	        String rhid = document.getDocumentNumber();
+	        WorkflowDocument wd = WorkflowDocumentFactory.loadDocument(batchUserPrincipalId, rhid);
+	        wd.superUserBlanketApprove("Batch job superuser approving missed punch document.");
+        } else {
+        	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
+        	LOG.error("Could not approve missed punch document due to missing batch user " + principalName);
+        }
+    }
+    
+    private String getBatchUserPrincipalId() {
+    	String principalId = null;
+    	
+    	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
+        Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(principalName);
+        if (person != null) {
+        	principalId = person.getPrincipalId();
+        }
+        
+        return principalId;
     }
     
     @Override
