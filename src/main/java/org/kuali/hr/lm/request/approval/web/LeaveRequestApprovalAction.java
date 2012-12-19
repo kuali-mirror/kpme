@@ -255,7 +255,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 				String docId = fields[0];	// leave request document id
 				String reasonString =  fields.length > 1 ? fields[1] : ""; 	// defer reason
 				TkServiceLocator.getLeaveRequestDocumentService().deferLeave(docId, TKContext.getPrincipalId(), reasonString);
-				// leave block's status is changed to "planning" in postProcessor of LeaveRequestDocument	
+				// leave block's status is changed to "deferred" in postProcessor of LeaveRequestDocument	
 			}
 		}
 		return mapping.findForward("basic");
@@ -335,7 +335,6 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 			LeaveRequestApprovalRow aRow = new LeaveRequestApprovalRow();
 			aRow.setLeaveRequestDocId(lrd.getDocumentNumber());
 			aRow.setLeaveCode(lb.getEarnCode());
-			aRow.setLeaveBlockId(lb.getLmLeaveBlockId());
 			aRow.setRequestedDate(TKUtils.formatDate(lb.getLeaveDate()));
 			aRow.setRequestedHours(lb.getLeaveAmount().toString());
 			DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");

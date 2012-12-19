@@ -27,7 +27,6 @@ public class LeaveRequestApprovalActionForm extends ApprovalForm {
 	private String approveList;
 	private String disapproveList;
 	private String deferList;
-	private String reasonList;
 	private String principalId;     
 	
 	public List<LeaveRequestApprovalEmployeeRow> getEmployeeRows() {
@@ -53,12 +52,6 @@ public class LeaveRequestApprovalActionForm extends ApprovalForm {
 	}
 	public void setDeferList(String deferList) {
 		this.deferList = deferList;
-	}
-	public String getReasonList() {
-		return reasonList;
-	}
-	public void setReasonList(String reasonList) {
-		this.reasonList = reasonList;
 	}
 	public String getPrincipalId() {
 		return principalId;
