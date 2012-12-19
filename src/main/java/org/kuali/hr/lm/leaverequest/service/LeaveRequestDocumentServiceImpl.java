@@ -141,14 +141,9 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
     }
 
     @Override
-    public void suBlanketApproveLeave(String documentId, String principalId, String reason) {
-        LeaveRequestDocument doc = getLeaveRequestDocument(documentId);
+    public void suBlanketApproveLeave(String documentId, String principalId) {
         WorkflowDocumentActionsService docActionService = KewApiServiceLocator.getWorkflowDocumentActionsService();
-        DocumentActionParameters parameters = DocumentActionParameters.create(documentId, principalId, reason);
-        if(StringUtils.isNotEmpty(reason)) {
-            doc.setDescription(reason);
-            saveLeaveRequestDocument(doc);
-        }
+        DocumentActionParameters parameters = DocumentActionParameters.create(documentId, principalId);
         docActionService.superUserBlanketApprove(parameters, true);
     }
 

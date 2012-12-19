@@ -31,7 +31,7 @@ public interface LeaveRequestDocumentService {
     void approveLeave(String documentId, String principalId, String reason);
     void disapproveLeave(String documentId, String principalId, String reason);
     void deferLeave(String documentId, String principalId, String reason);
-    void suBlanketApproveLeave(String documentId, String principalId, String reason);
+    void suBlanketApproveLeave(String documentId, String principalId);
 
 
 }

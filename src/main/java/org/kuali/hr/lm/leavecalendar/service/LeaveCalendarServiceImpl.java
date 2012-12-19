@@ -152,7 +152,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     	        } else if (StringUtils.equals(getInitiateLeaveRequestAction(), LMConstants.INITIATE_LEAVE_REQUEST_ACTION_OPTIONS.APPROVE)) {
     	        	List<LeaveRequestDocument> leaveRequestDocuments = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(leaveBlock.getLmLeaveBlockId());
     	        	for (LeaveRequestDocument leaveRequestDocument : leaveRequestDocuments) {
-    	        		TkServiceLocator.getLeaveRequestDocumentService().approveLeave(leaveRequestDocument.getDocumentNumber(), TkConstants.BATCH_JOB_USER_PRINCIPAL_ID, "");
+    	        		TkServiceLocator.getLeaveRequestDocumentService().suBlanketApproveLeave(leaveRequestDocument.getDocumentNumber(), TkConstants.BATCH_JOB_USER_PRINCIPAL_ID);
     	        	}
     	        }
     		}
