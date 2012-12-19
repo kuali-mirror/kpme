@@ -267,7 +267,14 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     	List<LeaveBlock> results = new ArrayList<LeaveBlock> ();
     	for(LeaveBlock lb : lbs) {
     		if(lb != null && StringUtils.isNotEmpty(lb.getAssignmentKey()) && assignmentKeys.contains(lb.getAssignmentKey())) {
-    			results.add(lb);
+    			if(lb.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR)) {
+    				// only add approved leave blocks that are created from leave calendar
+    				if(lb.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED)) {	
+    					results.add(lb);
+    				}
+    			} else {
+    				results.add(lb);
+    			}
     		}
     	}
     	return results;

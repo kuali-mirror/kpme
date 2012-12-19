@@ -111,7 +111,14 @@ public class LeaveBlockServiceImplTest extends KPMETestCase {
 		assignmentKeys.add("0_12345_0");
 		leaveBlocks = leaveBlockService.getLeaveBlocksForTimeCalendar(TEST_USER, beginDate, endDate, assignmentKeys);
 		Assert.assertNotNull("Leave blocks not found for user ", leaveBlocks);
+		Assert.assertTrue("There should be 1 leave blocks, not " + leaveBlocks.size(), leaveBlocks.size()== 1);
+		
+		LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock("1001");
+		lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+		TkServiceLocator.getLeaveBlockService().saveLeaveBlock(lb, TEST_USER);
+		leaveBlocks = leaveBlockService.getLeaveBlocksForTimeCalendar(TEST_USER, beginDate, endDate, assignmentKeys);
 		Assert.assertTrue("There should be 2 leave blocks, not " + leaveBlocks.size(), leaveBlocks.size()== 2);
+		Assert.assertTrue("Approved leave block should be in the list", leaveBlocks.contains(lb));
 	}
 	
 	@Test
