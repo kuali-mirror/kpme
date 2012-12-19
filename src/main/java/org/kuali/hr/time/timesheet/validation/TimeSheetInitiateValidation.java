@@ -20,6 +20,7 @@ import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimeSheetInitiate;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -33,6 +34,11 @@ public class TimeSheetInitiateValidation extends MaintenanceDocumentRuleBase {
         if(pc == null) {
         	this.putFieldError("pyCalendarGroup", "timeSheetInit.payCalendar.Invalid");
         	valid = false;
+        } else {
+        	if(pc.getCalendarTypes() != null && !pc.getCalendarTypes().equalsIgnoreCase(TkConstants.CALENDAR_TYPE_PAY)) {
+        		this.putFieldError("pyCalendarGroup", "timeSheetInit.payCalendar.Invalid");
+            	valid = false;
+        	}
         }
         
     	CalendarEntries pce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(timeInit.getHrPyCalendarEntriesId());

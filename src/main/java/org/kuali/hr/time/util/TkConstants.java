@@ -438,4 +438,8 @@ public class TkConstants {
     public static final String FLSA_STATUS_EXEMPT ="E";
     
     public static final String PAY_CALENDAR_TYPE = "payCalendar";
+    
+    // Calendar Types
+    public static final String CALENDAR_TYPE_PAY = "Pay";
+    public static final String CALENDAR_TYPE_LEAVE = "Leave";
 }

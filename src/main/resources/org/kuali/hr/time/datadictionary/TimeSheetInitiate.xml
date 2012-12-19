@@ -38,6 +38,7 @@
         <ref bean="TimeSheetInitiate-pyCalendarGroup"/>
         <ref bean="TimeSheetInitiate-documentId"/>
         <ref bean="TimeSheetInitiate-beginAndEndDateTime"/>
+        <ref bean="TimeSheetInitiate-calendarTypes"/>
         
       </list>
     </property>
@@ -56,6 +57,7 @@
               <property name="primitiveAttributes">
                 <list>
                   <bean parent="PrimitiveAttributeDefinition" p:sourceName="pyCalendarGroup" p:targetName="calendarName"/>
+                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="calendarTypes" p:targetName="calendarTypes"/>
                 </list>
               </property>
             </bean>
@@ -163,7 +165,11 @@
 	    <property name="name" value="documentId"/>
 	    <property name="label" value="Document Id"/>
 	  </bean>
-	 
+
+ <bean id="TimeSheetInitiate-calendarTypes" parent="TimeSheetInitiate-calendarTypes-parentBean"/>
+ <bean id="TimeSheetInitiate-calendarTypes-parentBean" abstract="true" parent="Calendar-calendarTypes">
+ </bean>
+  
   <!-- Lookup Definition: -->
 
   <bean id="TimeSheetInitiate-lookupDefinition" parent="TimeSheetInitiate-lookupDefinition-parentBean"/>
@@ -179,6 +185,7 @@
         <bean parent="FieldDefinition" p:attributeName="principalId"/>
         <bean parent="FieldDefinition" p:attributeName="hrPyCalendarEntriesId"/>
         <bean parent="FieldDefinition" p:attributeName="pyCalendarGroup"/>
+        <bean parent="FieldDefinition" p:attributeName="calendarTypes" p:hidden="true"/>
        </list>
     </property>
     <property name="resultFields">

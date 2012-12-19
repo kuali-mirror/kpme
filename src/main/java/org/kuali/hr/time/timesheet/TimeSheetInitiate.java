@@ -18,6 +18,7 @@ package org.kuali.hr.time.timesheet;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
@@ -32,6 +33,8 @@ public class TimeSheetInitiate extends PersistableBusinessObjectBase {
 	private String hrPyCalendarEntriesId;
 	private String pyCalendarGroup;
 	private String documentId;
+	
+	private String calendarTypes = TkConstants.CALENDAR_TYPE_PAY;
 	
 	private Person principal;
 	private Calendar payCalendarObj;
@@ -114,4 +117,12 @@ public class TimeSheetInitiate extends PersistableBusinessObjectBase {
 	    		payCalendarEntriesObj.getBeginPeriodDateTime().toString() + " - "+ payCalendarEntriesObj.getEndPeriodDateTime().toString() : "";
 	}
 
+	public String getCalendarTypes() {
+		return calendarTypes;
+	}
+
+	public void setCalendarTypes(String calendarTypes) {
+		this.calendarTypes = calendarTypes;
+	}
+	
 }
