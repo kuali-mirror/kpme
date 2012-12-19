@@ -301,6 +301,9 @@
 		</property>
 		<property name="name" value="minPercentWorked" />
 		<property name="label" value="Min Percent Worked to Earn Accrual" />
+		<property name="validationPattern">
+			<bean parent="FixedPointValidationPattern"  p:precision="3" p:scale="2"  />				 
+		</property>
 	</bean>
 	
 	<!-- KPME-1347 Kagata -->

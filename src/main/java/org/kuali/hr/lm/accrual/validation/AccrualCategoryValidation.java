@@ -278,8 +278,7 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 	
 	boolean validateEffectiveDate(Date effectiveDate) {
 		boolean valid = true;
-		valid = ValidationUtils.validateOneYearFutureEffectiveDate(effectiveDate);
-		if(!valid) {
+		if(effectiveDate != null && !ValidationUtils.validateOneYearFutureEffectiveDate(effectiveDate)) {
 			this.putFieldError("effectiveDate", "error.date.exceed.year", "Effective Date");
 		} 
 		return valid;
