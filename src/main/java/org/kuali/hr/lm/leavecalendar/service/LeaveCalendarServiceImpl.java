@@ -289,16 +289,30 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
             //update leave blocks with appropriate request status
             List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(leaveCalendarDocument.getDocumentId());
             for (LeaveBlock lb : leaveBlocks) {
+                boolean lbChanged = false;
                 if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.ROUTE)) {
-                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
+                    if (!lb.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED)
+                            && !lb.getRequestStatus().equals(LMConstants.REQUEST_STATUS.DISAPPROVED)
+                            && !lb.getRequestStatus().equals(LMConstants.REQUEST_STATUS.REQUESTED)) {
+                        lb.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
+                        lbChanged = true;
+                    }
                 } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
-                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+                    if (!lb.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED)
+                            && !lb.getRequestStatus().equals(LMConstants.REQUEST_STATUS.DISAPPROVED)) {
+                        lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+                        lbChanged = true;
+                    }
                 } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
-                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.DISAPPROVED);
-                } else {
-                    continue;
+                    if (!lb.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED)
+                            && !lb.getRequestStatus().equals(LMConstants.REQUEST_STATUS.DISAPPROVED)) {
+                        lb.setRequestStatus(LMConstants.REQUEST_STATUS.DISAPPROVED);
+                        lbChanged = true;
+                    }
                 }
-                TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, TKContext.getPrincipalId());
+                if (lbChanged) {
+                    TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, TKContext.getPrincipalId());
+                }
             }
 
         }

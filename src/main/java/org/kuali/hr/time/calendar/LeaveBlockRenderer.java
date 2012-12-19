@@ -17,6 +17,7 @@ package org.kuali.hr.time.calendar;
 
 import java.math.BigDecimal;
 
+import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 
 public class LeaveBlockRenderer {
@@ -70,6 +71,16 @@ public class LeaveBlockRenderer {
 
     public String getRequestStatusClass() {
         return this.leaveBlock.getRequestStatusString().toLowerCase();
+    }
+
+    public String getLeaveBlockDetails() {
+        if (this.leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE)) {
+            return "accrual";
+        }
+        if (!this.leaveBlock.getRequestStatus().equals(LMConstants.REQUEST_STATUS.USAGE)) {
+            return getRequestStatusClass();
+        }
+        return "";
     }
 
 }

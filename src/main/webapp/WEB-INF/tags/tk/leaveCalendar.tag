@@ -18,6 +18,8 @@
             <div id="show_${leaveBlock.leaveBlockId}">${leaveBlock.assignmentTitle}</div>
 	       
 	    </div>
-        ${leaveBlock.earnCode} (${leaveBlock.hours})	
+            ${leaveBlock.leaveBlockDetails} - ${leaveBlock.earnCode} (${leaveBlock.hours})
+
+
     </div>
 </c:forEach>
