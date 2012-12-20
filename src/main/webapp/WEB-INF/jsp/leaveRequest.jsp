@@ -34,7 +34,7 @@
 				<div>
 					<table>
 						<tr>
-							<th>Date</th>
+							<th>Requested Date</th>
 							<th>Leave Code</th>
 							<th>Hours</th>
 							<th>Description</th>
@@ -55,7 +55,7 @@
 							</logic:iterate>
 							<tr>
 								<td colspan="5" align="right"><input type="submit"
-									class="approve" value="Submit" name="Submit" />
+									class="approve" value="Submit Request for Approval" name="Submit" />
 								</td>
 							</tr>
 						</c:if>
@@ -69,7 +69,7 @@
 				<div>
 					<table>
 						<tr>
-							<th>Date</th>
+							<th>Requested Date</th>
 							<th>Leave Code</th>
 							<th>Hours</th>
 							<th>Description</th>
@@ -100,7 +100,7 @@
 				<div>
 					<table>
 						<tr>
-							<th>Date</th>
+							<th>Requested Date</th>
 							<th>Leave Code</th>
 							<th>Hours</th>
 							<th>Description</th>
@@ -132,7 +132,7 @@
 				<div>
 					<table>
 						<tr>
-							<th>Date</th>
+							<th>Requested Date</th>
 							<th>Leave Code</th>
 							<th>Hours</th>
                             <th>Description</th>

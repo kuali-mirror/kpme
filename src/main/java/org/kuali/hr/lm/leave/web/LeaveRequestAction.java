@@ -22,12 +22,11 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
-import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
 import org.kuali.hr.lm.leaverequest.service.LeaveRequestDocumentService;
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.base.web.TkAction;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 
@@ -46,6 +45,15 @@ public class LeaveRequestAction extends TkAction {
 		String principalId = TKUser.getCurrentTargetPerson().getPrincipalId();
 		Date currentDate = TKUtils.getTimelessDate(null);
 
+		CalendarEntries calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(principalId, currentDate);
+		if(calendarEntry != null) {
+			if(calendarEntry.getEndLocalDateTime().getMillisOfDay() == 0) {
+				// if the time of the end date is the beginning of a day, subtract one day from the end date
+				currentDate = new java.sql.Date(TKUtils.addDates(calendarEntry.getEndPeriodDate(), -1).getTime());
+			} else {
+				currentDate = calendarEntry.getEndPeriodDate();	// only show leave requests from planning calendars on leave request page
+			}
+		}
         List<LeaveBlock> plannedLeaves = getLeaveBlocksWithRequestStatus(principalId, currentDate, LMConstants.REQUEST_STATUS.PLANNED);
         plannedLeaves.addAll(getLeaveBlocksWithRequestStatus(principalId, currentDate, LMConstants.REQUEST_STATUS.DEFERRED));
 		leaveForm.setPlannedLeaves(plannedLeaves);
