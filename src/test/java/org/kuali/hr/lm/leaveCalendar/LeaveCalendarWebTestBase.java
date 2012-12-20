@@ -66,7 +66,7 @@ public class LeaveCalendarWebTestBase extends KPMETestCase {
         TestAutoLoginFilter.OVERRIDE_ID = "";
         Assert.assertNotNull(page);
         HtmlUnitUtil.createTempFile(page, "Login-"+principalId);
-
+        System.out.println(page.asText());
         String pageAsText = page.asText();
         if (assertValid) {
             Assert.assertTrue("Login info not present.", pageAsText.contains("Employee Id:"));
@@ -77,6 +77,23 @@ public class LeaveCalendarWebTestBase extends KPMETestCase {
         return page;
     }
 
+    /**
+     * Uses an ID hack to manipulate the current Test user Login.
+     *
+     */
+    public synchronized HtmlPage login(String principalId, String tdocId, boolean assertValid) throws Exception {
+
+        Person person = KimApiServiceLocator.getPersonService().getPerson(principalId);
+        Assert.assertNotNull(person);
+        Assert.assertEquals(person.getPrincipalId(), principalId);
+        TestAutoLoginFilter.OVERRIDE_ID = principalId;
+        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getLeaveCalendarUrl(tdocId));
+        TestAutoLoginFilter.OVERRIDE_ID = "";
+        Assert.assertNotNull(page);
+
+        return page;
+    }
+    
     public String getBaseDetailURL() {
         return baseDetailURL;
     }

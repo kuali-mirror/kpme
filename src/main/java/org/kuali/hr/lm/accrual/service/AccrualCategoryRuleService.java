@@ -15,11 +15,13 @@
  */
 package org.kuali.hr.lm.accrual.service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
+import org.kuali.hr.time.earncode.EarnCode;
 
 public interface AccrualCategoryRuleService {
 	
@@ -45,4 +47,26 @@ public interface AccrualCategoryRuleService {
     public List <AccrualCategoryRule> getActiveRulesForAccrualCategoryId(String accrualCategoryId, Date asOfDate);
     
     public List <AccrualCategoryRule> getInActiveRulesForAccrualCategoryId(String accrualCategoryId, Date asOfDate);
+/*    *//**
+     * 
+     * @param accrualCategory
+     * @return
+     *//*
+    public int compareMaxCarryOverTo(BigDecimal carryOver, String accrualCategoryRuleId);
+    
+    public int compareMaxUsageTo(BigDecimal usage, String accrualCategoryRuleId);
+    
+    public int compareMaxTransferAmountTo(BigDecimal transferAmount, String accrualCategoryRuleId);
+    
+    public int compareMaxPayoutAmountTo(BigDecimal payoutAmount, String accrualCategoryRuleId);
+    
+    public AccrualCategory getMaxBalanceTransferAccrualCategory(String accrualCategoryRuleId);
+    
+    public BigDecimal getMaxBalanceTransferConversionFactor(String accrualCategoryRuleId);
+    
+    public BigDecimal runMaxBalanceTransferConversionOnAmount(BigDecimal transferAmount, String accrualCategoryRuleId);
+    
+    public int compareMaxBalanceTo(BigDecimal balance, String accrualCategoryRuleId);
+    
+    public EarnCode getMaxPayoutEarnCode(String accrualCategoryRuleId);*/
 }

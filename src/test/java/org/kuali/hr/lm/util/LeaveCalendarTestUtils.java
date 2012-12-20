@@ -20,13 +20,17 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leave.web.LeaveCalendarWSForm;
+import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
+import org.kuali.hr.lm.leavecalendar.web.LeaveCalendarSubmitForm;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
 
 import java.math.BigDecimal;
 import java.net.URLEncoder;
@@ -38,7 +42,7 @@ public class LeaveCalendarTestUtils {
     /**
      * From the provided set of parameters, build an action form suitable for
      * submitting to the TimeDetailAction servlet. In our case, we are mostly
-     * using it in a mock type of situation.
+     * using it in a mock type of situation, the situation of leave block addition.
      *
      * @param leaveCalendarDocument
      * @param assignment
@@ -97,6 +101,29 @@ public class LeaveCalendarTestUtils {
 
         return lcf;
     }
+    
+    /**
+     * Builds a simple "mock" leave calendar form primed for action "approveLeaveCalendar".
+     * Suitable for testing logic LeaveCalendarSubmitAction actions.
+     *
+     * @param leaveCalendarDocument
+     * @param assignment
+     * @param earnCode
+     * @param start
+     * @param end
+     * @param amount
+     *
+     * @return A populated TimeDetailActionFormBase object.
+     */
+    public static LeaveCalendarWSForm buildLeaveCalendarFormForSubmission(LeaveCalendarDocument leaveCalendarDocument, LeaveSummary leaveSummary) {
+        LeaveCalendarWSForm lcf = new LeaveCalendarWSForm();
+
+        lcf.setMethodToCall("approveLeaveCalendar");
+        lcf.setLeaveSummary(leaveSummary);
+
+        return lcf;
+    }
+    
 
     /**
      * Set the attributes on the provided html form to the values found in the provided
@@ -175,6 +202,30 @@ public class LeaveCalendarTestUtils {
 
         return page;
     }
+    
+    /**
+     * A method to wrap the submission of the time details.
+     * @param baseUrl
+     * @param tdaf
+     * @return
+     */
+    public static HtmlPage submitLeaveCalendar2(String baseUrl, LeaveCalendarWSForm tdaf) {
+        // For now, until a more HtmlUnit based click method can be found
+        // workable, we're building a url-encoded string to directly
+        // post to the servlet.
+
+        String url = baseUrl + buildPostActionRequested(tdaf);
+        
+        HtmlPage page = null;
+
+        try {
+            page = HtmlUnitUtil.gotoPageAndLogin(url);
+        } catch (Exception e) {
+            LOG.error("Error while submitting form", e);
+        }
+
+        return page;
+    }
 
     /**
      * A method to wrap the submission of the time details.
@@ -201,6 +252,11 @@ public class LeaveCalendarTestUtils {
         return page;
     }*/
 
+    /**
+     * This will build a form post for the addition of leave blocks on the current leave calendar.
+     * @param tdaf
+     * @return
+     */
     private static String buildPostFromFormParams(LeaveCalendarWSForm tdaf) {
         StringBuilder builder = new StringBuilder();
 
@@ -221,6 +277,20 @@ public class LeaveCalendarTestUtils {
             //if (tdaf.getTkTimeBlockId() != null) {
             //    builder.append("&tkTimeBlockId=").append(URLEncoder.encode(tdaf.getTkTimeBlockId().toString(), "UTF-8"));
             //}
+        } catch (Exception e) {
+            LOG.error("Exception building Post String", e);
+        }
+
+        return builder.toString();
+    }
+    
+    private static String buildPostActionRequested(LeaveCalendarWSForm tdaf) {
+        StringBuilder builder = new StringBuilder();
+
+        try {
+        	builder.append("&action=").append(URLEncoder.encode(TkConstants.DOCUMENT_ACTIONS.ROUTE,"UTF-8"));
+            builder.append("&methodToCall=").append(URLEncoder.encode(tdaf.getMethodToCall(), "UTF-8"));
+            //add more post params.
         } catch (Exception e) {
             LOG.error("Exception building Post String", e);
         }

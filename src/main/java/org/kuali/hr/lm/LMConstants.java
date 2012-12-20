@@ -140,7 +140,7 @@ public class LMConstants {
     }
 
     public static final class MAX_BAL_ACTION_FREQ {
-        public static final String LEAVE_APPROVE = "L";
+        public static final String LEAVE_APPROVE = "LA";
         public static final String YEAR_END = "Y";
     }
 	 

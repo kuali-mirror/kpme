@@ -100,8 +100,8 @@ $(function () {
             "keypress #selectedEarnCode" : "showFieldByEarnCodeType",
             "change #selectedAssignment" : "changeAssignment",
             "keypress #selectedAssignment" : "changeAssignment",
-            "click #lm-transfer-button" : "showBalanceTransferDialog",
-            "click #lm-payout-button" : "showBalancePayoutDialog"
+            "click #lm-transfer-button" : "showOnDemandBalanceTransferDialog",
+            "click #lm-payout-button" : "showOnDemandBalancePayoutDialog"
         },
 
         initialize : function () {
@@ -295,7 +295,7 @@ $(function () {
         // Button for iFrame show/hide to show the missed punch items
         // The iFrame is added to the missed-punch-dialog as a child element.
         // tdocid is a variable that is set from the form value in 'clock.jsp'
-        showBalanceTransferDialog : function (accrualCategory) {
+        showOnDemandBalanceTransferDialog : function (e) {
             $('#lm-transfer-empty').empty();
             $('#lm-transfer-dialog').append('<iframe width="800" height="600" src="balancetransfer.do?methodToCall=balanceTransfer&command=initiate&frequency=ondemand&docTypeName=BalanceTransferDocumentType&tdocid=' + tdocid + '"></iframe>');
 
@@ -319,7 +319,7 @@ $(function () {
         // Button for iFrame show/hide to show the missed punch items
         // The iFrame is added to the missed-punch-dialog as a child element.
         // tdocid is a variable that is set from the form value in 'clock.jsp'
-        showBalancePayoutDialog : function (accrualCategory) {
+        showOnDemandBalancePayoutDialog : function (e) {
 
             $('#lm-payout-empty').empty();
             $('#lm-payout-dialog').append('<iframe width="800" height="600" src="balancetransfer.do?methodToCall=balancePayout&command=initiate&&frequency=ondemand&docTypeName=BalanceTransferDocumentType&tdocid=' + tdocid + '"></iframe>');

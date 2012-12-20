@@ -40,7 +40,7 @@
 								<c:choose>
         							<c:when test="${row.transferable}">
                 						<input type="button" id="lm-transfer-button" class="button" value="Transfer" name="transfer" 
-                							<%--onclick="location.href='Admin.do?${appRow.userTargetURLParams}&targetUrl=leaveCalendarSubmit.do%3Faction=${tagSupport.transferAction}%26documentId=${row.documentId}%26methodToCall=approveApprovalTab'"--%>/>
+                							onclick="location.href='Admin.do?${appRow.userTargetURLParams}&targetUrl=leaveCalendar.do%3FaccrualCategoryId=${row.accrualCategoryId}%26documentId=${row.documentId}%26methodToCall=initiateOnDemandBalanceTransfer'"/>
         							</c:when>
         							<c:otherwise>
         							<%--<input disabled id="lm-transfer-button" type="button" class="button" value="Transfer" name="transfer"/>--%>
@@ -49,7 +49,7 @@
 								<c:choose>
         							<c:when test="${row.payoutable}">
                 						<input type="button" id="lm-payout-button" class="button" value="Payout" name="payout" 
-                							<%--onclick="location.href='Admin.do?${appRow.userTargetURLParams}&targetUrl=leaveCalendarSubmit.do%3Faction=${tagSupport.payoutAction}%26documentId=${row.documentId}%26methodToCall=approveApprovalTab'"--%>/>
+                							<%--onclick="location.href='Admin.do?${appRow.userTargetURLParams}&targetUrl=leaveCalendarSubmit.do%3FaccrualCategoryId=${row.accrualCategoryId}%26documentId=${row.documentId}%26methodToCall=initiateOnDemandBalancePayout'"--%>/>
         							</c:when>
         							<c:otherwise>
         							<%--<input disabled id="lm-payout-button" type="button" class="button" value="Payout" name="payout"/>--%>

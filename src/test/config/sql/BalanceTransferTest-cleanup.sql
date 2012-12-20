@@ -15,6 +15,8 @@
 --
 
 delete from lm_balance_transfer_t where lm_balance_transfer_id >= '10000';
+delete from lm_leave_block_t where lm_leave_block_id >= '10000';
+delete from lm_leave_block_hist_t where lm_leave_block_id >= '10000';
 delete from lm_accrual_category_rules_t where lm_accrual_category_rules_id >= '3000';
 delete from lm_accrual_category_t where lm_accrual_category_id >= '10055';
 delete from hr_earn_code_t where hr_earn_code_id >= '5000';

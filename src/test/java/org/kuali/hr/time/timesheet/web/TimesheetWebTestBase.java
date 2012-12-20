@@ -80,7 +80,7 @@ public class TimesheetWebTestBase extends KPMETestCase {
         TestAutoLoginFilter.OVERRIDE_ID = "";
         Assert.assertNotNull(page);
         HtmlUnitUtil.createTempFile(page, "Login-"+principalId);
-
+        System.out.println(page.asText());
         String pageAsText = page.asText();
         if (assertValid) {
         	Assert.assertTrue("Login info not present.", pageAsText.contains("Employee Id:"));

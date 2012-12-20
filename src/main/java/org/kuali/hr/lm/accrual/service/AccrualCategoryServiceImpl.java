@@ -22,12 +22,14 @@ import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.accrual.RateRangeAggregate;
 import org.kuali.hr.lm.accrual.dao.AccrualCategoryDao;
+import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
@@ -144,4 +146,14 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
     public List <AccrualCategory> getInActiveLeaveAccrualCategoriesForLeavePlan(String leavePlan, Date asOfDate) {
     	return accrualCategoryDao.getInActiveLeaveAccrualCategoriesForLeavePlan(leavePlan, asOfDate);
     }
+
+    @Override
+	public BigDecimal getCurrentBalanceForPrincipal(String principalId,
+			AccrualCategory accrualCategory, Date asOfDate) {
+
+//		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
+//		CalendarEntries entries = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(pha.getCalendar().getHrCalendarId(), asOfDate);
+//		LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, entries);
+		return new BigDecimal(0);
+	}
 }

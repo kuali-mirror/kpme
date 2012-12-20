@@ -18,6 +18,7 @@ package org.kuali.hr.lm.accrual.service;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.springframework.cache.annotation.Cacheable;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
@@ -67,4 +68,14 @@ public interface AccrualCategoryService {
 
     
     public List <AccrualCategory> getInActiveLeaveAccrualCategoriesForLeavePlan(String leavePlan, Date asOfDate);
+    
+    /**
+     * Retreives the principal's balance on the current calendar for the given accrual category through the date supplied.
+     * @param principalId The id of the principal 
+     * @param accrualCategory The accrual category the balance is being requested of
+     * @param asOfDate 
+     * @return
+     * @throws Exception 
+     */
+	public BigDecimal getCurrentBalanceForPrincipal(String principalId, AccrualCategory accrualCategory, Date asOfDate) throws Exception;
 }

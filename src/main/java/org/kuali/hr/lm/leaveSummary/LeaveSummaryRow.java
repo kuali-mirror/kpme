@@ -17,6 +17,11 @@ package org.kuali.hr.lm.leaveSummary;
 
 import java.math.BigDecimal;
 
+import org.kuali.hr.lm.accrual.AccrualCategoryRule;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.krad.util.ObjectUtils;
+
 public class LeaveSummaryRow {
 	private String accrualCategory;
     //adding this to have a very simple means of getting the Accrual Category object
@@ -123,6 +128,11 @@ public class LeaveSummaryRow {
         return carryOver.add(ytdAccruedBalance).subtract(ytdApproved);
     }
 	public boolean isTransferable() {
+		//Leave summary row has all the necessary information to answer the question
+		//"Is my accrued balance eligible for transfer?". Should implement this method
+		//to check for rule presence, max balance flag = Y, action at max bal = T
+		//essentially move logic from BalanceTransferService.getAccrualCategoryRuleIdsForEligibleTransfers.
+		//having this implemented might be less costly to call on.
 		return transferable;
 	}
 	public void setTransferable(boolean transferable) {

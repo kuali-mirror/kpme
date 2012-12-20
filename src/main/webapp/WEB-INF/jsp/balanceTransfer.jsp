@@ -16,26 +16,17 @@
 
 --%>
 <%@include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
-
 <c:set var="Form" value="${BalanceTransferForm}" scope="request"/>
-<c:set var="KualiForm" value="${BalanceTransferForm}" scope="request"/>
 
-<kul:documentPage showDocumentInfo="true"
-      documentTypeName="BalanceTransferDocumentType"
-      htmlFormAction="balanceTransfer"
-      renderMultipart="true"
-      showTabButtons="true">
+<kul:page
+	showDocumentInfo="true"
+    htmlFormAction="BalanceTransfer"
+    renderMultipart="false"
+    docTitle="Balance Transfer"
+    transactionalDocument="false"
+    showTabButtons="false">
 <div class="tab-container" align=center>
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
-	<tk:balanceTransferDoc editingMode="${KualiForm.editingMode}"/>
-
-	<kul:notes />
-
-	<kul:routeLog/>
+	<lm:balanceTransfer balanceTransfer="${Form.balanceTransfer}"/>
 	<kul:panelFooter />
-	
 
-	<kul:documentControls transactionalDocument="true" />
-
-</kul:documentPage>
-
+</kul:page>

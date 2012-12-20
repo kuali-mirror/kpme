@@ -16,9 +16,10 @@
 package org.kuali.hr.lm.balancetransfer;
 
 import java.math.BigDecimal;
-
+import java.sql.Date;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 
 public class BalanceTransfer extends HrBusinessObject {
@@ -34,10 +35,21 @@ public class BalanceTransfer extends HrBusinessObject {
 	private String fromAccrualCategory;
 	private BigDecimal transferAmount;
 	private BigDecimal forfeitedAmount;
+	private Date effectiveDate;
+	private String leaveCalendarDocumentId;
 	
 	private Person principal;
 	private AccrualCategory creditedAccrualCategory;
 	private AccrualCategory debitedAccrualCategory;
+	private boolean transferRuleOverride;
+
+	public Date getEffectiveDate() {
+		return effectiveDate;
+	}
+
+	public void setEffectiveDate(Date effectiveDate) {
+		this.effectiveDate = effectiveDate;
+	}
 	
 	public String getPrincipalId() {
 		return principalId;
@@ -97,19 +109,16 @@ public class BalanceTransfer extends HrBusinessObject {
 
 	@Override
 	protected String getUniqueKey() {
-		// TODO Auto-generated method stub
 		return balanceTransferId;
 	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
 		return getBalanceTransferId();
 	}
 
 	@Override
 	public void setId(String id) {
-		// TODO Auto-generated method stub
 		setBalanceTransferId(id);
 	}
 
@@ -122,7 +131,7 @@ public class BalanceTransfer extends HrBusinessObject {
 	}
 
 	public AccrualCategory getCreditedAccrualCategory() {
-		return creditedAccrualCategory;
+		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, effectiveDate);
 	}
 
 	public void setCreditedAccrualCategory(AccrualCategory creditedAccrualCategory) {
@@ -130,11 +139,30 @@ public class BalanceTransfer extends HrBusinessObject {
 	}
 
 	public AccrualCategory getDebitedAccrualCategory() {
-		return debitedAccrualCategory;
+		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
 	}
 
 	public void setDebitedAccrualCategory(AccrualCategory debitedAccrualCategory) {
 		this.debitedAccrualCategory = debitedAccrualCategory;
 	}
+
+	public boolean isTransferRuleOverride() {
+		return transferRuleOverride;
+	}
+
+	public void setTransferRuleOverride(boolean transferRuleOverride) {
+		this.transferRuleOverride = transferRuleOverride;
+	}
+
+	public String getLeaveCalendarDocumentId() {
+		return leaveCalendarDocumentId;
+	}
+
+	public void setLeaveCalendarDocumentId(String leaveCalendarDocumentId) {
+		this.leaveCalendarDocumentId = leaveCalendarDocumentId;
+	}
+	
+	//Comparable for order handling of more than one transfer occurring during the same
+	//action frequency interval?
 	
 }

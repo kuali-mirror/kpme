@@ -194,10 +194,12 @@
             <forward name="basic" path="/WEB-INF/jsp/missedPunch.jsp"/>
         </action>
         
-        <action path="/balanceTransfer" name="BalanceTransferForm" input="/WEB-INF/jsp/balanceTransfer.jsp"
-                type="org.kuali.hr.lm.balanceTransfer.web.BalanceTransferAction"
-                scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
+        <action path="/BalanceTransfer" name="BalanceTransferForm" scope="request" input="/WEB-INF/jsp/balanceTransfer.jsp"
+                type="org.kuali.hr.lm.balancetransfer.web.BalanceTransferAction" parameter="methodToCall"
+                validate="true" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/balanceTransfer.jsp"/>
+            <forward name="success" path="/LeaveCalendarSubmit.do"/>
+            <forward name="cancel" path="/LeaveCalendar.do"/>
         </action>
 
         <action path="/Help" name="HelpActionForm" scope="request" input="/WEB-INF/jsp/help.jsp"
@@ -221,6 +223,7 @@
                 type="org.kuali.hr.lm.leavecalendar.web.LeaveCalendarSubmitAction" parameter="methodToCall" validate="false">
             <forward name="leaveCalendarRedirect" path="/LeaveCalendar.do"/>
             <forward name="approverRedirect" path="/LeaveApproval.do"/>
+            <forward name="transfer" path="/BalanceTransfer.do"/>
         </action>
         
         <action path="/LeaveRequest" name="LeaveRequestForm" scope="session" input="/WEB-INF/jsp/leaveRequest.jsp"

@@ -238,8 +238,8 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
     private void determineTransferable(LeaveSummaryRow lsr, AccrualCategoryRule accrualCategoryRule) {
     	//return type must be changed to boolean, or an associated field element must be created for decision
     	//purposes.
-    	//an accrual category's balance is transferable if max_bal_action_frequency is ON-DEMAND
-    	//and action_at_max_balance is TRANSFER
+    	//an accrual category's balance is transferable if the accrued balance is 
+    	//greater than the maximum balance allowed for the accrual category. action_at_max_balance must be TRANSFER
     }
     
     /**

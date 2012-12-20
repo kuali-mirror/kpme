@@ -82,6 +82,16 @@ public class LeaveSummary {
 	public void setApprovalHeaders(List<String> approvalHeaders) {
 		this.approvalHeaders = approvalHeaders;
 	}
+
+	public LeaveSummaryRow getLeaveSummaryRowForAccrualCategory(
+			String accrualCategoryId) {
+		for(LeaveSummaryRow lsr : leaveSummaryRows) {
+			if(StringUtils.equals(lsr.getAccrualCategoryId(),accrualCategoryId)) {
+				return lsr;
+			}
+		}
+		return null;
+	}
 	
 	
 	

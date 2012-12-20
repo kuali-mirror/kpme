@@ -19,7 +19,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
@@ -29,6 +31,16 @@ import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.util.TKUtils;
 
 public class LeaveCalendarValidationServiceTest extends KPMETestCase {
+	
+	@Before
+	public void setUp() throws Exception {
+		super.setUp();
+	}
+	
+	@After
+	public void tearDown() throws Exception {
+		super.tearDown();
+	}
 	
 	@Test
 	public void testValidateAvailableLeaveBalance() throws Exception {
