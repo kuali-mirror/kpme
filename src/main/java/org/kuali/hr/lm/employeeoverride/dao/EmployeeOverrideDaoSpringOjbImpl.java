@@ -65,6 +65,43 @@ public class EmployeeOverrideDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb im
         }
         return employeeOverrides;
     }
+	
+	@Override
+	public EmployeeOverride getEmployeeOverride(String principalId, String leavePlan, String accrualCategory, String overrideType, Date asOfDate) {
+        Criteria root = new Criteria();
+
+        root.addEqualTo("principalId", principalId);
+        root.addEqualTo("leavePlan", leavePlan);
+        root.addEqualTo("accrualCategory", accrualCategory);
+        root.addEqualTo("overrideType", overrideType);
+
+        Criteria effdt = new Criteria();
+        effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+        effdt.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
+        effdt.addEqualToField("accrualCategory", Criteria.PARENT_QUERY_PREFIX + "accrualCategory");
+        effdt.addEqualToField("overrideType", Criteria.PARENT_QUERY_PREFIX + "overrideType");
+        effdt.addLessOrEqualThan("effectiveDate", asOfDate);
+        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(EmployeeOverride.class, effdt);
+        effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
+        root.addEqualTo("effectiveDate", effdtSubQuery);
+        
+        Criteria timestamp = new Criteria();
+        timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+        timestamp.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
+        timestamp.addEqualToField("accrualCategory", Criteria.PARENT_QUERY_PREFIX + "accrualCategory");
+        timestamp.addEqualToField("overrideType", Criteria.PARENT_QUERY_PREFIX + "overrideType");
+        timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EmployeeOverride.class, timestamp);
+        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+        root.addEqualTo("timestamp", timestampSubQuery);
+
+        Criteria activeFilter = new Criteria();
+        activeFilter.addEqualTo("active", true);
+        root.addAndCriteria(activeFilter);
+
+        Query query = QueryFactory.newQuery(EmployeeOverride.class, root);
+        return (EmployeeOverride) getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
 
 	@Override
 	public EmployeeOverride getEmployeeOverride(String lmEmployeeOverrideId) {

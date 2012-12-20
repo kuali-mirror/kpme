@@ -29,6 +29,11 @@ public class EmployeeOverrideServiceImpl implements EmployeeOverrideService {
 	public List<EmployeeOverride> getEmployeeOverrides(String principalId, Date asOfDate) {
 		return employeeOverrideDao.getEmployeeOverrides(principalId, asOfDate);
 	}
+	
+	@Override
+	public EmployeeOverride getEmployeeOverride(String principalId, String leavePlan, String accrualCategory, String overrideType, Date asOfDate) {
+		return employeeOverrideDao.getEmployeeOverride(principalId, leavePlan, accrualCategory, overrideType, asOfDate);
+	}
 
 	@Override
 	public EmployeeOverride getEmployeeOverride(String lmEmployeeOverrideId) {
