@@ -353,10 +353,12 @@ public class TimeDetailAction extends TimesheetAction {
         // If tkTimeBlockId is not null and the new timeblock is valid, delete the existing timeblock and a new one will be created after submitting the form.
         if (tdaf.getTkTimeBlockId() != null) {
             TimeBlock tb = TkServiceLocator.getTimeBlockService().getTimeBlock(tdaf.getTkTimeBlockId());
-            isClockLogCreated = tb.getClockLogCreated();
-            if (StringUtils.isNotEmpty(tdaf.getOvertimePref())) {
-                overtimeBeginTimestamp = tb.getBeginTimestamp();
-                overtimeEndTimestamp = tb.getEndTimestamp();
+            if (tb != null) {
+	            isClockLogCreated = tb.getClockLogCreated();
+	            if (StringUtils.isNotEmpty(tdaf.getOvertimePref())) {
+	                overtimeBeginTimestamp = tb.getBeginTimestamp();
+	                overtimeEndTimestamp = tb.getEndTimestamp();
+	            }
             }
             // old time block is deleted from addTimeBlock method
             // this.removeOldTimeBlock(tdaf);
