@@ -347,11 +347,13 @@ public class TimeDetailAction extends TimesheetAction {
 	private void changeTimeBlocks(TimeDetailActionForm tdaf) {
 		Timestamp overtimeBeginTimestamp = null;
         Timestamp overtimeEndTimestamp = null;
+        boolean isClockLogCreated = false;
         
         // This is for updating a timeblock or changing
         // If tkTimeBlockId is not null and the new timeblock is valid, delete the existing timeblock and a new one will be created after submitting the form.
         if (tdaf.getTkTimeBlockId() != null) {
             TimeBlock tb = TkServiceLocator.getTimeBlockService().getTimeBlock(tdaf.getTkTimeBlockId());
+            isClockLogCreated = tb.getClockLogCreated();
             if (StringUtils.isNotEmpty(tdaf.getOvertimePref())) {
                 overtimeBeginTimestamp = tb.getBeginTimestamp();
                 overtimeEndTimestamp = tb.getEndTimestamp();
@@ -385,7 +387,7 @@ public class TimeDetailAction extends TimesheetAction {
                 && endTemp.getHourOfDay() == 0)) {
             List<TimeBlock> timeBlocksToAdd = TkServiceLocator.getTimeBlockService().buildTimeBlocksSpanDates(assignment,
                     tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(), startTime,
-                    endTime, tdaf.getHours(), tdaf.getAmount(), false, Boolean.parseBoolean(tdaf.getLunchDeleted()), tdaf.getSpanningWeeks(), TKContext.getPrincipalId());
+                    endTime, tdaf.getHours(), tdaf.getAmount(), isClockLogCreated, Boolean.parseBoolean(tdaf.getLunchDeleted()), tdaf.getSpanningWeeks(), TKContext.getPrincipalId());
             for (TimeBlock tb : timeBlocksToAdd) {
                 if (!newTimeBlocks.contains(tb)) {
                     newTimeBlocks.add(tb);
@@ -394,7 +396,7 @@ public class TimeDetailAction extends TimesheetAction {
         } else {
             List<TimeBlock> timeBlocksToAdd = TkServiceLocator.getTimeBlockService().buildTimeBlocks(assignment,
                     tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument(), startTime,
-                    endTime, tdaf.getHours(), tdaf.getAmount(), false, Boolean.parseBoolean(tdaf.getLunchDeleted()), TKContext.getPrincipalId());
+                    endTime, tdaf.getHours(), tdaf.getAmount(), isClockLogCreated, Boolean.parseBoolean(tdaf.getLunchDeleted()), TKContext.getPrincipalId());
             for (TimeBlock tb : timeBlocksToAdd) {
                 if (!newTimeBlocks.contains(tb)) {
                     newTimeBlocks.add(tb);

@@ -20,7 +20,6 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
 
-    <include file="src/main/config/db/db.changelog-main-base.xml" />
-    <include file="src/main/config/db/db.changelog-main-upgrade.xml" />
+    <include file="src/main/config/db/db.changelog-1.5.0.xml" />
     
 </databaseChangeLog>

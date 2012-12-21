@@ -830,7 +830,7 @@
                 <kr.dataSource.password>krtt</kr.dataSource.password>
                 <kr.dataSource.dropFirst>false</kr.dataSource.dropFirst>
                 <kr.dataSource.clearCheckSums>false</kr.dataSource.clearCheckSums>
-                <kr.dataSource.contexts>kpme-server-bootstrap</kr.dataSource.contexts>
+                <kr.dataSource.contexts>rice-server-bootstrap,kpme-server-bootstrap</kr.dataSource.contexts>
             
                 <kpme.dataSource.driver>com.mysql.jdbc.Driver</kpme.dataSource.driver>
                 <kpme.dataSource.jdbcUrl>jdbc:mysql://localhost:3306/tk</kpme.dataSource.jdbcUrl>
@@ -839,7 +839,7 @@
                 <kpme.dataSource.password>tk_tk_tk</kpme.dataSource.password>
                 <kpme.dataSource.dropFirst>false</kpme.dataSource.dropFirst>
                 <kpme.dataSource.clearCheckSums>false</kpme.dataSource.clearCheckSums>
-                <kpme.dataSource.contexts>kpme-client-bootstrap</kpme.dataSource.contexts>
+                <kpme.dataSource.contexts>rice-client-bootstrap,kpme-client-bootstrap</kpme.dataSource.contexts>
             </properties>
             <build>
                 <plugins>
@@ -897,7 +897,33 @@
                         <artifactId>liquibase-maven-plugin</artifactId>
                         <executions>
                             <execution>
-                                <id>rice-database-scripts</id>
+                                <id>rice-database-drop-all-scripts</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>dropAll</goal>
+                                </goals>
+                                <configuration>
+                                    <driver>${kr.dataSource.driver}</driver>
+                                    <url>${kr.dataSource.jdbcUrl}</url>
+                                    <username>${kr.dataSource.username}</username>
+                                    <password>${kr.dataSource.password}</password>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>kpme-database-drop-all-scripts</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>dropAll</goal>
+                                </goals>
+                                <configuration>
+                                    <driver>${kpme.dataSource.driver}</driver>
+                                    <url>${kpme.dataSource.jdbcUrl}</url>
+                                    <username>${kpme.dataSource.username}</username>
+                                    <password>${kpme.dataSource.password}</password>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>rice-database-install-main-scripts</id>
                                 <phase>process-resources</phase>
                                 <goals>
                                     <goal>updateSQL</goal>
@@ -907,14 +933,14 @@
                                     <url>${kr.dataSource.jdbcUrl}</url>
                                     <username>${kr.dataSource.username}</username>
                                     <password>${kr.dataSource.password}</password>
-                                    <dropFirst>${kr.dataSource.dropFirst}</dropFirst>
-                                    <clearCheckSums>${kr.dataSource.clearCheckSums}</clearCheckSums>
-                                    <contexts>${kr.dataSource.contexts}</contexts>
-                                    <migrationSqlOutputFile>${basedir}/src/main/config/sql/${project.finalVersion}/${kr.dataSource.dbms}/kpme-${project.finalVersion}-${kr.dataSource.dbms}-server.sql</migrationSqlOutputFile>
+                                    <dropFirst>true</dropFirst>
+                                    <clearCheckSums>false</clearCheckSums>
+                                    <contexts>kpme-server-bootstrap</contexts>
+                                    <migrationSqlOutputFile>${basedir}/src/main/config/sql/${project.finalVersion}/${kr.dataSource.dbms}/kpme-${project.finalVersion}-${kr.dataSource.dbms}-server-install.sql</migrationSqlOutputFile>
                                 </configuration>
                             </execution>
                             <execution>
-                                <id>kpme-database-scripts</id>
+                                <id>kpme-database-install-main-scripts</id>
                                 <phase>process-resources</phase>
                                 <goals>
                                     <goal>updateSQL</goal>
@@ -924,10 +950,80 @@
                                     <url>${kpme.dataSource.jdbcUrl}</url>
                                     <username>${kpme.dataSource.username}</username>
                                     <password>${kpme.dataSource.password}</password>
-                                    <dropFirst>${kpme.dataSource.dropFirst}</dropFirst>
-                                    <clearCheckSums>${kpme.dataSource.clearCheckSums}</clearCheckSums>
-                                    <contexts>${kpme.dataSource.contexts}</contexts>
-                                    <migrationSqlOutputFile>${basedir}/src/main/config/sql/${project.finalVersion}/${kpme.dataSource.dbms}/kpme-${project.finalVersion}-${kpme.dataSource.dbms}-client.sql</migrationSqlOutputFile>
+                                    <dropFirst>true</dropFirst>
+                                    <clearCheckSums>false</clearCheckSums>
+                                    <contexts>kpme-client-bootstrap</contexts>
+                                    <migrationSqlOutputFile>${basedir}/src/main/config/sql/${project.finalVersion}/${kpme.dataSource.dbms}/kpme-${project.finalVersion}-${kpme.dataSource.dbms}-client-install.sql</migrationSqlOutputFile>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>rice-database-install-base-scripts</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>update</goal>
+                                </goals>
+                                <configuration>
+                                    <driver>${kr.dataSource.driver}</driver>
+                                    <url>${kr.dataSource.jdbcUrl}</url>
+                                    <username>${kr.dataSource.username}</username>
+                                    <password>${kr.dataSource.password}</password>
+                                    <dropFirst>true</dropFirst>
+                                    <clearCheckSums>false</clearCheckSums>
+                                    <changeLogFile>src/main/config/db/db.changelog-main-base.xml</changeLogFile>
+                                    <contexts>rice-server-bootstrap,kpme-server-bootstrap</contexts>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>kpme-database-install-base-scripts</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>update</goal>
+                                </goals>
+                                <configuration>
+                                    <driver>${kpme.dataSource.driver}</driver>
+                                    <url>${kpme.dataSource.jdbcUrl}</url>
+                                    <username>${kpme.dataSource.username}</username>
+                                    <password>${kpme.dataSource.password}</password>
+                                    <dropFirst>true</dropFirst>
+                                    <clearCheckSums>false</clearCheckSums>
+                                    <changeLogFile>src/main/config/db/db.changelog-main-base.xml</changeLogFile>
+                                    <contexts>rice-client-bootstrap,kpme-client-bootstrap</contexts>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>rice-database-install-upgrade-scripts</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>updateSQL</goal>
+                                </goals>
+                                <configuration>
+                                    <driver>${kr.dataSource.driver}</driver>
+                                    <url>${kr.dataSource.jdbcUrl}</url>
+                                    <username>${kr.dataSource.username}</username>
+                                    <password>${kr.dataSource.password}</password>
+                                    <dropFirst>false</dropFirst>
+                                    <clearCheckSums>false</clearCheckSums>
+                                    <changeLogFile>src/main/config/db/db.changelog-main-upgrade.xml</changeLogFile>
+                                    <contexts>kpme-server-bootstrap</contexts>
+                                    <migrationSqlOutputFile>${basedir}/src/main/config/sql/${project.finalVersion}/${kr.dataSource.dbms}/kpme-${project.finalVersion}-${kr.dataSource.dbms}-server-upgrade.sql</migrationSqlOutputFile>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>kpme-database-install-upgrade-scripts</id>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>updateSQL</goal>
+                                </goals>
+                                <configuration>
+                                    <driver>${kpme.dataSource.driver}</driver>
+                                    <url>${kpme.dataSource.jdbcUrl}</url>
+                                    <username>${kpme.dataSource.username}</username>
+                                    <password>${kpme.dataSource.password}</password>
+                                    <dropFirst>false</dropFirst>
+                                    <clearCheckSums>false</clearCheckSums>
+                                    <changeLogFile>src/main/config/db/db.changelog-main-upgrade.xml</changeLogFile>
+                                    <contexts>kpme-client-bootstrap</contexts>
+                                    <migrationSqlOutputFile>${basedir}/src/main/config/sql/${project.finalVersion}/${kpme.dataSource.dbms}/kpme-${project.finalVersion}-${kpme.dataSource.dbms}-client-upgrade.sql</migrationSqlOutputFile>
                                 </configuration>
                             </execution>
                         </executions>
