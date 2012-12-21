@@ -56,7 +56,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="earnCode" 		p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="description"     p:required="true"/>
         
-        <bean parent="MaintainableFieldDefinition" p:name="leavePlan" p:noLookup="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="leavePlan"/>
         
         <bean parent="MaintainableFieldDefinition" p:name="accrualCategory" p:required="false"/>
         

@@ -453,7 +453,7 @@
 	<bean id="EarnCode-recordMethod" parent="EarnCode-recordMethod-parentBean" />
 	<bean id="EarnCode-recordMethod-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Allow Negative Accrual Balance" />
+		<property name="shortLabel" value="Record Method" />
 		<property name="control">
 			<bean parent="SelectControlDefinition" p:valuesFinderClass="org.kuali.hr.lm.util.RecordMethodKeyValueFinder" />
 		</property>

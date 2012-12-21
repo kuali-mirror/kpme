@@ -100,11 +100,11 @@ public class EarnCode extends HrBusinessObject {
 	}
 
 	public String getLeavePlan() {
-		AccrualCategory myAccrualCategoryObj = new AccrualCategory();
-		if(this.accrualCategory != null) {
-			myAccrualCategoryObj =  TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, getEffectiveDate());
-	    }
-		this.leavePlan =(myAccrualCategoryObj != null) ? myAccrualCategoryObj.getLeavePlan() : ""; 
+//		AccrualCategory myAccrualCategoryObj = new AccrualCategory();
+//		if(this.accrualCategory != null) {
+//			myAccrualCategoryObj =  TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, getEffectiveDate());
+//	    }
+//		this.leavePlan =(myAccrualCategoryObj != null) ? myAccrualCategoryObj.getLeavePlan() : ""; 
 	    return leavePlan;
 	}
 
