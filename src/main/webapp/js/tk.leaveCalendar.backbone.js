@@ -534,7 +534,8 @@ $(function () {
             // earn code, keep the earn code selected.
             if(_.contains(EarnCodes.pluck('earnCode'),earnCode)) {
                 $("#selectedEarnCode option:selected").attr("selected",false);
-                $("#selectedEarnCode option[value='" + earnCode + "']").attr("selected", "selected");
+//              $("#selectedEarnCode option[value='" + earnCode + "']").attr("selected", "selected");
+                $("#selectedEarnCode option:first").attr("selected", "selected");
             }
         },
 
