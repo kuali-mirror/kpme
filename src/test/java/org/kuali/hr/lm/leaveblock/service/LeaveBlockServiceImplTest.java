@@ -106,18 +106,18 @@ public class LeaveBlockServiceImplTest extends KPMETestCase {
 		List<String> assignmentKeys = new ArrayList<String>();
 		List<LeaveBlock> leaveBlocks = leaveBlockService.getLeaveBlocksForTimeCalendar(TEST_USER, beginDate, endDate, assignmentKeys);
 		Assert.assertNotNull("Leave blocks not found for user ", leaveBlocks);
-		Assert.assertTrue("There should be 4 leave blocks, not " + leaveBlocks.size(), leaveBlocks.size()== 4);
+		Assert.assertTrue("There should be 6 leave blocks, not " + leaveBlocks.size(), leaveBlocks.size()== 6);
 		
 		assignmentKeys.add("0_12345_0");
 		leaveBlocks = leaveBlockService.getLeaveBlocksForTimeCalendar(TEST_USER, beginDate, endDate, assignmentKeys);
 		Assert.assertNotNull("Leave blocks not found for user ", leaveBlocks);
-		Assert.assertTrue("There should be 1 leave blocks, not " + leaveBlocks.size(), leaveBlocks.size()== 1);
+		Assert.assertTrue("There should be 2 leave blocks, not " + leaveBlocks.size(), leaveBlocks.size()== 2);
 		
 		LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock("1001");
 		lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
 		TkServiceLocator.getLeaveBlockService().saveLeaveBlock(lb, TEST_USER);
 		leaveBlocks = leaveBlockService.getLeaveBlocksForTimeCalendar(TEST_USER, beginDate, endDate, assignmentKeys);
-		Assert.assertTrue("There should be 2 leave blocks, not " + leaveBlocks.size(), leaveBlocks.size()== 2);
+		Assert.assertTrue("There should be 3 leave blocks, not " + leaveBlocks.size(), leaveBlocks.size()== 3);
 		Assert.assertTrue("Approved leave block should be in the list", leaveBlocks.contains(lb));
 	}
 	
@@ -136,17 +136,17 @@ public class LeaveBlockServiceImplTest extends KPMETestCase {
 		List<String> assignmentKeys = new ArrayList<String>();
 		List<LeaveBlock> leaveBlocks = leaveBlockService.getLeaveBlocksForLeaveCalendar(TEST_USER, beginDate, endDate, assignmentKeys);
 		Assert.assertNotNull("Leave blocks not found for user ", leaveBlocks);
-		Assert.assertTrue("There should be 5 leave blocks, not " + leaveBlocks.size(), leaveBlocks.size()== 5);
+		Assert.assertTrue("There should be 6 leave blocks, not " + leaveBlocks.size(), leaveBlocks.size()== 6);
 		
 		assignmentKeys.add("0_12345_0");
 		leaveBlocks = leaveBlockService.getLeaveBlocksForLeaveCalendar(TEST_USER, beginDate, endDate, assignmentKeys);
 		Assert.assertNotNull("Leave blocks not found for user ", leaveBlocks);
-		Assert.assertTrue("There should be 4 leave blocks, not " + leaveBlocks.size(), leaveBlocks.size()== 4);
+		Assert.assertTrue("There should be 5 leave blocks, not " + leaveBlocks.size(), leaveBlocks.size()== 5);
 		
 		assignmentKeys.add("1_12345_0");
 		leaveBlocks = leaveBlockService.getLeaveBlocksForLeaveCalendar(TEST_USER, beginDate, endDate, assignmentKeys);
 		Assert.assertNotNull("Leave blocks not found for user ", leaveBlocks);
-		Assert.assertTrue("There should be 5 leave blocks, not " + leaveBlocks.size(), leaveBlocks.size()== 5);
+		Assert.assertTrue("There should be 6 leave blocks, not " + leaveBlocks.size(), leaveBlocks.size()== 6);
 	}
 
 }

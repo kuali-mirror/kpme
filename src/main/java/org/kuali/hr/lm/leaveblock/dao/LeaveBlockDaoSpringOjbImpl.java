@@ -203,6 +203,7 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
         List<String> typeValues = new ArrayList<String>();
         typeValues.add(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR);
         typeValues.add(LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR);
+        typeValues.add(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE);
         root.addIn("leaveBlockType", typeValues);
 
         Query query = QueryFactory.newQuery(LeaveBlock.class, root);
