@@ -72,6 +72,15 @@ public class LeaveCalendarSubmitAction extends TkAction {
             	//Waterfall transfers? What order do transfers occur?
             	if(!accrualRuleIds.isEmpty()) {
             		//There exist accrual categories that have exceeded their maximum balance
+            		//It is required that if a max balance limit exists for any particular accrual category with frequency LEAVE_APPROVE
+            		//and if the balance for such an accrual category exceeds that limit at the time this function
+            		//is called, the balance on that accrual category MUST be brought back to, AT MOST, its limit.
+            		//This conditional need not append every accrual category over max balance to its request string.
+            		//If there exists more than one accrual category that triggers a transfer on LEAVE_APPROVE
+            		//Each one shall be handled in its own redirect to BalanceTransfer.do.
+            		//Should it be the case that the transfer fails, or is otherwise prevented from executing,
+            		//as it currently stands, an infinite redirect loop could occur.
+            		//More work needs to be done in order to ensure or at least reduce the likely hood of this occurring.
             		StringBuilder sb = new StringBuilder();
             		int categoryCounter = 0;
             		ActionRedirect redirect = new ActionRedirect();

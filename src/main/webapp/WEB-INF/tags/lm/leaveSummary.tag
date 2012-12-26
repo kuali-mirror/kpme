@@ -36,11 +36,14 @@
 			    	<tbody>
 			    		<c:forEach items="${leaveSummary.leaveSummaryRows}" var="row">
 							<tr style="border-bottom-style: double; font-weight: bold;">
-								<td>${row.accrualCategory}<c:if test="${row.transferable || row.payoutable}"><br/></c:if>
+								<td>${row.accrualCategory}</td>	
+								<td>${row.carryOver}</td>
+								<td>${row.ytdAccruedBalance}</td>
+								<td>${row.ytdApprovedUsage}</td>
+                                <td>${row.accruedBalance}<c:if test="${row.transferable || row.payoutable}"><br/></c:if>
 								<c:choose>
         							<c:when test="${row.transferable}">
-                						<input type="button" id="lm-transfer-button" class="button" value="Transfer" name="transfer" 
-                							onclick="location.href='Admin.do?${appRow.userTargetURLParams}&targetUrl=leaveCalendar.do%3FaccrualCategoryId=${row.accrualCategoryId}%26documentId=${row.documentId}%26methodToCall=initiateOnDemandBalanceTransfer'"/>
+                						<input type="button" id="lm-transfer-button_${row.accrualCategoryRuleId}" class="button" value="Transfer" name="transfer"/>
         							</c:when>
         							<c:otherwise>
         							<%--<input disabled id="lm-transfer-button" type="button" class="button" value="Transfer" name="transfer"/>--%>
@@ -48,18 +51,13 @@
         						</c:choose>
 								<c:choose>
         							<c:when test="${row.payoutable}">
-                						<input type="button" id="lm-payout-button" class="button" value="Payout" name="payout" 
-                							<%--onclick="location.href='Admin.do?${appRow.userTargetURLParams}&targetUrl=leaveCalendarSubmit.do%3FaccrualCategoryId=${row.accrualCategoryId}%26documentId=${row.documentId}%26methodToCall=initiateOnDemandBalancePayout'"--%>/>
+                						<input type="button" id="lm-payout-button" class="button" value="Payout" name="payout" onclick="showOnDemandBalancePayoutDialog()"/>
         							</c:when>
         							<c:otherwise>
         							<%--<input disabled id="lm-payout-button" type="button" class="button" value="Payout" name="payout"/>--%>
         							</c:otherwise>
         						</c:choose>
-								</td>	
-								<td>${row.carryOver}</td>
-								<td>${row.ytdAccruedBalance}</td>
-								<td>${row.ytdApprovedUsage}</td>
-                                <td>${row.accruedBalance}</td>
+        						</td>
 								<td style="border: 3px double #ccc;border-bottom-color: gray;">${row.leaveBalance}</td>
 								<td>${row.usageLimit}</td>
                                 <td>${row.pendingLeaveRequests}</td>

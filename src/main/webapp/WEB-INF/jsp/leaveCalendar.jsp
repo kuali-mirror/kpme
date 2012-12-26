@@ -138,4 +138,9 @@
     <script type="text/template" id="earnCode-template">
         <option value="<@= earnCode @>"><@= earnCode + " : " + desc @></option>
     </script>
+    
+    <div id="lm-transfer-dialog" title="Balance Transfer" style="display:none;">
+
+	</div>
+	
 </tk:tkHeader>

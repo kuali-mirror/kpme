@@ -52,7 +52,9 @@ import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 	private LeaveBlockService leaveBlockService;
@@ -240,6 +242,20 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
     	//purposes.
     	//an accrual category's balance is transferable if the accrued balance is 
     	//greater than the maximum balance allowed for the accrual category. action_at_max_balance must be TRANSFER
+    	boolean transferable = false;
+    	if(ObjectUtils.isNotNull(accrualCategoryRule)) {
+    		if(ObjectUtils.isNotNull(accrualCategoryRule.getMaxBalance())) {
+    			BigDecimal maxBalance = accrualCategoryRule.getMaxBalance();
+    			BigDecimal fte = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate());
+    			BigDecimal adjustedMaxBalance = maxBalance.multiply(fte);
+    			if(adjustedMaxBalance.compareTo(lsr.getAccruedBalance()) < 0) {
+    				if(StringUtils.equals(accrualCategoryRule.getActionAtMaxBalance(), LMConstants.ACTION_AT_MAX_BAL.TRANSFER) &&
+    						StringUtils.equals(accrualCategoryRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
+    					transferable = true;
+    			}
+    		}
+    	}
+    	lsr.setTransferable(transferable);
     }
     
     /**
@@ -252,6 +268,20 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
     	//purposes.
     	//an accrual category's balance is transferable if max_bal_action_frequency is ON-DEMAND
     	//and action_at_max_balance is PAYOUT
+    	boolean transferable = false;
+    	if(ObjectUtils.isNotNull(accrualCategoryRule)) {
+    		if(ObjectUtils.isNotNull(accrualCategoryRule.getMaxBalance())) {
+    			BigDecimal maxBalance = accrualCategoryRule.getMaxBalance();
+    			BigDecimal fte = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate());
+    			BigDecimal adjustedMaxBalance = maxBalance.multiply(fte);
+    			if(adjustedMaxBalance.compareTo(lsr.getAccruedBalance()) < 0) {
+    				if(StringUtils.equals(accrualCategoryRule.getActionAtMaxBalance(), LMConstants.ACTION_AT_MAX_BAL.PAYOUT) &&
+    						StringUtils.equals(accrualCategoryRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
+    					transferable = true;
+    			}
+    		}
+    	}
+    	lsr.setPayoutable(transferable);
     }
     
 	private void assignApprovedValuesToRow(LeaveSummaryRow lsr, String accrualCategory, List<LeaveBlock> approvedLeaveBlocks) {

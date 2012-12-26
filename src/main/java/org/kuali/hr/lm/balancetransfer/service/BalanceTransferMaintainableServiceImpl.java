@@ -57,7 +57,6 @@ public class BalanceTransferMaintainableServiceImpl extends
 	
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		// TODO Auto-generated method stub
 		return TkServiceLocator.getBalanceTransferService().getBalanceTransferById(id);
 	}
 
@@ -67,15 +66,14 @@ public class BalanceTransferMaintainableServiceImpl extends
 	@Override
 	public Map populateBusinessObject(Map<String, String> fieldValues,
 			MaintenanceDocument maintenanceDocument, String methodToCall) {
-		// TODO Auto-generated method stub
+		BalanceTransfer bt = (BalanceTransfer) this.getBusinessObject();
 		if(StringUtils.equals(getMaintenanceAction(), "New")) {
-
+			if(fieldValues.containsKey("effectiveDate")	&& StringUtils.isBlank(fieldValues.get("effectiveDate")))
+				bt.setEffectiveDate(TKUtils.getCurrentDate());
 			if(fieldValues.containsKey("principalId")
-					&& StringUtils.isNotBlank(fieldValues.get("principalId"))
-					&& fieldValues.containsKey("effectiveDate")
-					&& StringUtils.isNotBlank(fieldValues.get("effectiveDate"))) {
+					&& StringUtils.isNotBlank(fieldValues.get("principalId"))) {
 				//Once principal and effective date have been gathered
-				BalanceTransfer bt = (BalanceTransfer) this.getBusinessObject();
+
 				
 				Date effectiveDate = TKUtils.formatDateString(fieldValues.get("effectiveDate"));
 				String principalId = fieldValues.get("principalId");
@@ -84,38 +82,22 @@ public class BalanceTransferMaintainableServiceImpl extends
 					String fromAccrualCategory = fieldValues.get("fromAccrualCategory");
 
 					AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
-	
-					//attempt to set the related object.
-					//bt.setDebitedAccrualCategory(ac);
-					System.out.println("*******************************************************************");
-					System.out.println(" Populated Business Object With : " + ac.getAccrualCategory());
-					System.out.println("*******************************************************************");
 					
 					PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, effectiveDate);
 					AccrualCategoryRule acr = null;
 					if(ObjectUtils.isNotNull(pha))
 						acr = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(ac, effectiveDate, pha.getServiceDate());
 					if(acr!=null) {
-						bt.setAccrualCategoryRule(acr.getLmAccrualCategoryRuleId());
-						System.out.println("***************************");
-						System.out.println(" Populate Business Object Set ACR to : " + acr.getLmAccrualCategoryRuleId());
-						System.out.println("***************************");
+						//bt.setAccrualCategoryRule(acr.getLmAccrualCategoryRuleId());
+						//Don't set the rule, and transfer conversion factor issue will dissolve.
+						//n.t.s. that balance transfers initiated via maintenance tab are for specific use cases
+						//that do not conform to rules set forth by accrual category. i.e. 1-1 transfers between leave plans
+						//when employee shifts positions.
+						//If payout were still part of balance transfer, rule would be needed for conversion factor.
 					}
-				}
-				if(fieldValues.containsKey("toAccrualCategory")	&& StringUtils.isNotBlank(fieldValues.get("toAccrualCategory"))) {
-					//once "to" accrual category has been entered
-					String toAccrualCategory = fieldValues.get("toAccrualCategory");
-					
-					AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, effectiveDate);
-					//attempt to set the related object.
-					//bt.setCreditedAccrualCategory(ac);
 				}
 			}
 		}
-		
-		System.out.println("***************************");
-		System.out.println(" Populate Business Object: " + getMaintenanceAction());
-		System.out.println("***************************");
 		return super.populateBusinessObject(fieldValues, maintenanceDocument,
 				methodToCall);
 	}

@@ -37,6 +37,7 @@ public class BalanceTransfer extends HrBusinessObject {
 	private BigDecimal forfeitedAmount;
 	private Date effectiveDate;
 	private String leaveCalendarDocumentId;
+	private String balanceTransferType;
 	
 	private Person principal;
 	private AccrualCategory creditedAccrualCategory;
@@ -160,6 +161,14 @@ public class BalanceTransfer extends HrBusinessObject {
 
 	public void setLeaveCalendarDocumentId(String leaveCalendarDocumentId) {
 		this.leaveCalendarDocumentId = leaveCalendarDocumentId;
+	}
+
+	public String getBalanceTransferType() {
+		return balanceTransferType;
+	}
+
+	public void setBalanceTransferType(String balanceTransferType) {
+		this.balanceTransferType = balanceTransferType;
 	}
 	
 	//Comparable for order handling of more than one transfer occurring during the same

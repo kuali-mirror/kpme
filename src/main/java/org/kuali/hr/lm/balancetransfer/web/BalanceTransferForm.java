@@ -21,6 +21,7 @@ import java.sql.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
@@ -31,8 +32,9 @@ import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
+import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
 
-public class BalanceTransferForm extends KualiDocumentFormBase {
+public class BalanceTransferForm extends KualiTransactionalDocumentFormBase {
 
 	/**
 	 * 
@@ -48,7 +50,9 @@ public class BalanceTransferForm extends KualiDocumentFormBase {
 	private BigDecimal forfeitedAmount;
 	private Date effectiveDate;
 	private String leaveCalendarDocumentId;
-
+	private String type;
+	private boolean onLeaveApproval;
+	
 	public Date getEffectiveDate() {
 		return effectiveDate;
 	}
@@ -159,6 +163,27 @@ public class BalanceTransferForm extends KualiDocumentFormBase {
 
 	public void setLeaveCalendarDocumentId(String leaveCalendarDocId) {
 		this.leaveCalendarDocumentId = leaveCalendarDocId;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public boolean isOnLeaveApproval() {
+		if(StringUtils.equals(type, LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE))
+			return true;
+		else
+			return false;
+		//Will return false if MAX_BAL_ACTION_FREQ is YEAR_END, but for purposes of the leave calendar, YEAR_END is not
+		//transferable.
+	}
+
+	public void setOnLeaveApproval(boolean onLeaveApproval) {
+		this.onLeaveApproval = onLeaveApproval;
 	}
 
 }

@@ -100,7 +100,7 @@ $(function () {
             "keypress #selectedEarnCode" : "showFieldByEarnCodeType",
             "change #selectedAssignment" : "changeAssignment",
             "keypress #selectedAssignment" : "changeAssignment",
-            "click #lm-transfer-button" : "showOnDemandBalanceTransferDialog",
+            "click input[id^=lm-transfer-button]" : "showOnDemandBalanceTransferDialog",
             "click #lm-payout-button" : "showOnDemandBalancePayoutDialog"
         },
 
@@ -296,8 +296,10 @@ $(function () {
         // The iFrame is added to the missed-punch-dialog as a child element.
         // tdocid is a variable that is set from the form value in 'clock.jsp'
         showOnDemandBalanceTransferDialog : function (e) {
+        	var docId = $('#documentId').val();
+        	var accrualRuleId = _(e).parseEventKey().id;
             $('#lm-transfer-empty').empty();
-            $('#lm-transfer-dialog').append('<iframe width="800" height="600" src="balancetransfer.do?methodToCall=balanceTransfer&command=initiate&frequency=ondemand&docTypeName=BalanceTransferDocumentType&tdocid=' + tdocid + '"></iframe>');
+            $('#lm-transfer-dialog').append('<iframe width="800" height="600" src="BalanceTransfer.do?methodToCall=balanceTransferOnDemand&docTypeName=BalanceTransferDocumentType&accrualRuleId='+ accrualRuleId +'&documentId='+docId+'"></iframe>');
 
             $('#lm-transfer-dialog').dialog({
                 autoOpen: true,
@@ -322,7 +324,7 @@ $(function () {
         showOnDemandBalancePayoutDialog : function (e) {
 
             $('#lm-payout-empty').empty();
-            $('#lm-payout-dialog').append('<iframe width="800" height="600" src="balancetransfer.do?methodToCall=balancePayout&command=initiate&&frequency=ondemand&docTypeName=BalanceTransferDocumentType&tdocid=' + tdocid + '"></iframe>');
+            $('#lm-payout-dialog').append('<iframe width="800" height="600" src="BalanceTransfer.do?methodToCall=balancePayout&command=initiate&docTypeName=BalanceTransferDocumentType&documentId="></iframe>');
 
             $('#lm-payout-dialog').dialog({
                 autoOpen: true,

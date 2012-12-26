@@ -99,7 +99,14 @@
 			</table>
 			<input type="hidden" name="forfeitedAmount" id="forfeitedAmount" value=""/>
 			<input type="hidden" name="leaveCalendarDocumentId" id="leaveCalendarDocumentId" value=""/>
-			<html:image property="methodToCall.balanceTransferOnLeaveApproval" src='${ConfigProperties.kew.externalizable.images.url}buttonsmall_submit.gif' styleClass="tinybutton"/>
+			<c:choose>
+				<c:when test="${balanceTransfer.onLeaveApproval}">
+					<html:image property="methodToCall.balanceTransferOnLeaveApproval" src='${ConfigProperties.kew.externalizable.images.url}buttonsmall_submit.gif' styleClass="tinybutton"/>
+        		</c:when>
+        		<c:otherwise>
+					<html:image property="methodToCall.balanceTransferOnLeaveApproval" src='${ConfigProperties.kew.externalizable.images.url}buttonsmall_submit.gif' styleClass="tinybutton"/>
+				</c:otherwise>
+			</c:choose>
 			<html:image property="methodToCall.cancel" src='${ConfigProperties.kew.externalizable.images.url}buttonsmall_cancel.gif' styleClass="tinybutton"/>
 			
 	</html:form>

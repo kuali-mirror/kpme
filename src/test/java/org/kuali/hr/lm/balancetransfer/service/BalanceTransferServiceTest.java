@@ -28,7 +28,22 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 	}
 	
 	@Test
-	public void testGetEligibleLeaveApproveTransfers() {
+	public void testTransferOnLeaveApprove() {
+		assertNull(null);
+	}
+	
+	@Test
+	public void testTransfer() {
+		assertNull(null);
+	}
+	
+	@Test
+	public void testGetAccrualCategoryRuleIdsForEligibleTransfersWithEmployeeOverride() {
+		assertNull(null);
+	}
+	
+	@Test
+	public void testGetAccrualCategoryRuleIdsForEligibleTransfers() {
 		assertNull(null);
 	}
 	

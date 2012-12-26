@@ -140,8 +140,12 @@ public class LMConstants {
     }
 
     public static final class MAX_BAL_ACTION_FREQ {
+    	//As of revision 3882, constant LEAVE_APPROVE given value LA to remove discrepancy for value
+    	//being set in LM_ACCRUAL_CATEGORY_RULES_T.MAX_BAL_ACTION_FREQ. Constant was defined as "L"
+    	//table value being set is "LA"
         public static final String LEAVE_APPROVE = "LA";
         public static final String YEAR_END = "Y";
+		public static final String ON_DEMAND = "O";
     }
 	 
 	 public static final String STATUS_CHANGE_EARN_CODE = "Accrual Note";
@@ -166,5 +170,13 @@ public class LMConstants {
 	 static {
 		 EARN_CODE_USAGE_LIMIT_MAP.put("I", "Include");
 		 EARN_CODE_USAGE_LIMIT_MAP.put("E", "Exclude");
+	 }
+	 
+	 public static final class BALANCE_TRANSFER_TYPE {
+		 public static final String LEAVE_APPROVE = "LA";
+		 public static final String YEAR_END = "Y";
+		 public static final String ON_DEMAND = "O";
+		 public static final String MAINTENANCE = "M";
+		 public static final String CARRY_OVER = "C";
 	 }
 }

@@ -89,7 +89,6 @@ public interface BalanceTransferService {
 	 * Consumes a BalanceTransfer object, creating up to three leave blocks.
 	 * @param balanceTransfer The BalanceTransfer object to use for transfer.
 	 */
-	//Should probably protect this.
 	public void transfer(BalanceTransfer balanceTransfer);
 	
 	/**

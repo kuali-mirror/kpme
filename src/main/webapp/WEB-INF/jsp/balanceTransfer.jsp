@@ -17,16 +17,16 @@
 --%>
 <%@include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 <c:set var="Form" value="${BalanceTransferForm}" scope="request"/>
-
-<kul:page
+<link type="text/css" href="css/ui-iu/jquery-ui-1.8.5.custom.css" rel="stylesheet" />
+<link type="text/css" href="css/tk.css?v=1.1" rel="stylesheet" />
+<kul:documentPage
 	showDocumentInfo="true"
     htmlFormAction="BalanceTransfer"
+    documentTypeName="BalanceTransferDocumentType"
     renderMultipart="false"
     docTitle="Balance Transfer"
-    transactionalDocument="false"
     showTabButtons="false">
 <div class="tab-container" align=center>
 	<lm:balanceTransfer balanceTransfer="${Form.balanceTransfer}"/>
-	<kul:panelFooter />
-
-</kul:page>
+	<kul:documentControls transactionalDocument="false" />
+</kul:documentPage>

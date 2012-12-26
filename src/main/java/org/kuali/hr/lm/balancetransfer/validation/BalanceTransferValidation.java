@@ -243,16 +243,11 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 	public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 		LOG.debug("entering custom validation for Balance Transfer");
-		System.out.println("***********************");
-		System.out.println(" Custom Route Doc Rule *");
-		System.out.println("***********************");
 
 		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
 
 		if(pbo instanceof BalanceTransfer) {
-			System.out.println("***********************");
-			System.out.println(" instanceof BalanceTr *");
-			System.out.println("***********************");
+
 			BalanceTransfer balanceTransfer = (BalanceTransfer) pbo;
 
 			if(isValid) {

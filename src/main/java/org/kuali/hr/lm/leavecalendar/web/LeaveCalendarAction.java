@@ -37,6 +37,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
+import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
+import org.kuali.hr.lm.balancetransfer.web.BalanceTransferForm;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -141,6 +143,7 @@ public class LeaveCalendarAction extends TkAction {
 		}
 		setupDocumentOnFormContext(lcf, lcd);
 		ActionForward forward = super.execute(mapping, form, request, response);
+		//no window exists if mapping->forward = closeBalanceTransferDoc.
 		if (forward.getRedirect()) {
 			return forward;
 		}
@@ -579,46 +582,6 @@ public class LeaveCalendarAction extends TkAction {
 		params.put("calEntryId", hrCalendarEntryId);
 		return UrlFactory.parameterizeUrl(getApplicationBaseUrl() + "/LeaveCalendar.do", params);
 	}
-	
-	/**
-	 * Handles the TRANSFER action of balance transfers issued from the leave calendar with frequency "on demand".
-	 * 
-	 * This action should be triggered after the user clicks a "TRANSFER" button on a leave calendar's leave approval row.
-	 * This button should only be displayed if, for the current pay period, a max balance has been reached
-	 * and the max balance action frequency is set to "On-Demand". The prompt must allow the user to edit the transfer amount.
-	 * It may or may not need to show the "to" and "from" accrual categories in the initial prompt, but could on a confirmation
-	 * prompt - along with the transfer amount adjusted by the max balance conversion factor.
-	 * 
-	 * Balance transfers with frequency of leave approval should be handled during the submission of the
-	 * leave calendar document for approval and should be automated.
-	 * 
-	 * 
-	 * @param mapping
-	 * @param form
-	 * @param request
-	 * @param response
-	 * @return
-	 */
-    public ActionForward initiateOnDemandBalanceTransfer(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response){
-        /**
-         * TODO: create two new leave blocks, one for the credited accrual category and one for the forfeited amount ( if any ).
-         * Creating a leave block for the debited accrual category would fudge leave summary numbers, which should not happen.
-         * 
-         * Balance transfer should create two accrual service entries; one for credited accrual category and one for forfeited amount, if any.
-         */
-    	LeaveCalendarForm lcf = (LeaveCalendarForm) form;
-    	String accrualCategoryId = request.getParameter("accrualCategoryId");
-
-    	LeaveSummaryRow leaveSummaryRow = lcf.getLeaveSummary().getLeaveSummaryRowForAccrualCategory(accrualCategoryId);
-    	if(ObjectUtils.isNull(leaveSummaryRow)) {
-    		//balance transfer can't be initiated.
-    	}
-    	else {
-	    	BigDecimal leaveBalance = leaveSummaryRow.getLeaveBalance();
-
-    	}
-		return mapping.findForward("basic");
-    }
     
     /**
 	 * Handles the PAYOUT action of balance transfers issued from the leave calendar with frequency "on demand".
@@ -648,5 +611,4 @@ public class LeaveCalendarAction extends TkAction {
     	
     	return mapping.findForward("basic");
     }
-	
 }
