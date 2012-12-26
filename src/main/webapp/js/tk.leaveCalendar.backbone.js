@@ -270,6 +270,14 @@ $(function () {
             this.showLeaveBlockEntryDialog(leaveBlock.get("leaveDate"), leaveBlock.get("leaveDate"));
             _.replaceDialogButtonText("Add", "Update");
             
+            // for pending leave request blocks, show dates as read only
+            if(leaveBlock.get("requestStatus") == "R") {
+		         $('#startDate').attr('disabled', 'disabled');
+		         $('#startDate').datepicker("destroy");
+		         $('#endDate').attr('disabled', 'disabled');
+		         $('#endDate').datepicker("destroy");
+            }
+            
             // Deferred is a jQuery method which makes sure things happen in the order you want.
             // For more informaiton : http://api.jquery.com/category/deferred-object/
             // Here we want to fire the ajax call first to grab the earn codes.

@@ -73,6 +73,7 @@ public class LeaveActionFormUtils {
             LeaveBlockMap.put("description", leaveBlock.getDescription());
             LeaveBlockMap.put("leaveBlockType", leaveBlock.getLeaveBlockType());
             LeaveBlockMap.put("editable", leaveBlock.isEditable());
+            LeaveBlockMap.put("requestStatus", leaveBlock.getRequestStatus());
             leaveBlockList.add(LeaveBlockMap);
         }
 
