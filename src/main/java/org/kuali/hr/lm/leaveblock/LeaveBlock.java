@@ -23,11 +23,14 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
+import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -38,6 +41,8 @@ import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 
 public class LeaveBlock extends PersistableBusinessObjectBase {
@@ -85,6 +90,8 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	private String assignmentTitle;
 	@Transient
 	private String calendarId;
+	@Transient
+	private String planningDescription;
 
 	public static class Builder {
 
@@ -570,5 +577,32 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
                 .append(leaveBlockType, leaveBlock.leaveBlockType)
                 .isEquals();
     }
+    
+    public String getPlanningDescription() {
+    	if(this.getRequestStatus().equals(LMConstants.REQUEST_STATUS.DEFERRED)) {
+    		List<LeaveRequestDocument> lrdList = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(this.getLmLeaveBlockId());
+    		if(CollectionUtils.isNotEmpty(lrdList)) {
+    			for(LeaveRequestDocument lrd : lrdList) {    				
+    				DocumentStatus status = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(lrd.getDocumentNumber());
+    				if(status != null && DocumentStatus.CANCELED.getCode().equals(status.getCode())) {
+	    				String requestDescription = "";
+						if(StringUtils.isNotEmpty(this.getDescription())) {
+							requestDescription = this.getDescription() + " <br/>";
+						}
+						String actionDateString = TKUtils.formatDate(new Date(lrd.getDocumentHeader().getWorkflowDocument().getDateFinalized().getMillis()));
+						requestDescription += "Approval deferred on " + actionDateString + ". Reason: " + lrd.getDescription();
+			    		this.setPlanningDescription(requestDescription);
+						return planningDescription;
+    				}
+    			}
+    		}
+    	}
+    	this.setPlanningDescription(this.getDescription());
+    	return planningDescription;
+    }
+
+	public void setPlanningDescription(String planningDescription) {
+		this.planningDescription = planningDescription;
+	}
 
 }

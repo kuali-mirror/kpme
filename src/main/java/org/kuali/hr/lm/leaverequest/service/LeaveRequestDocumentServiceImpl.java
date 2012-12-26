@@ -65,7 +65,12 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
 
     @Override
     public List<LeaveRequestDocument> getLeaveRequestDocumentsByLeaveBlockId(String leaveBlockId) {
-        return getLeaveRequestDocumentDao().getLeaveRequestDocumentsByLeaveBlockId(leaveBlockId);
+    	List<LeaveRequestDocument> docList = getLeaveRequestDocumentDao().getLeaveRequestDocumentsByLeaveBlockId(leaveBlockId);
+    	List<LeaveRequestDocument> results = new ArrayList<LeaveRequestDocument>();
+    	for(LeaveRequestDocument aDoc : docList) {
+    		results.add(this.getLeaveRequestDocument(aDoc.getDocumentNumber()));
+    	}
+    	return results;
     }
 
     @Override

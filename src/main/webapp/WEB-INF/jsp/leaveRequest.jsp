@@ -49,7 +49,7 @@
 									</td>
 									<td>${plannedLeave.earnCodeDescription} (${plannedLeave.earnCode})</td>
 									<td>${plannedLeave.leaveAmount}</td>
-									<td>${plannedLeave.description}</td>
+									<td>${plannedLeave.planningDescription}</td>									
 									<td><html:checkbox property="plannedLeaves[${index}].submit" value="true" name="Form" /></td>
 								</tr>
 							</logic:iterate>
