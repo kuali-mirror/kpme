@@ -37,20 +37,22 @@ public interface BalanceTransferService {
 	
 	//Use-Case specific service providers. Could be combined if max carry over applies to all use cases.
 	/**
-	 * For balance transfers triggered by accrual categories that have exceeded a max balance, and
-	 * whose max balance action frequency is Leave Approve.
-	 * @param principalId
-	 * @param accrualCategoryRule
-	 * @param leaveSummary
-	 * @return A BalanceTransfer object pre-populated according to the supplied parameters if one exists.
+	 * A service that instantiates and returns BalanceTransfer objects that follow the given accrual category rule.
+	 * 
+	 * @param principalId	The principal this transfer pertains to.
+	 * @param accrualCategoryRule	The accrual category rule that contains the max balance information.
+	 * @param leaveSummary	Holds balance information needed for transfer.
+	 * @return A BalanceTransfer object conforming to @param accrualCategoryRule, if one exists. Null otherwise.
 	 * 
 	 * The transfer amount will be the minimum of:
 	 *  
-	 *  	1.) the accrual category rule's maximum transfer amount
-	 *  	2.) the number of units exceeding the maximum balance
+	 *  	1.) the accrual category rule's maximum transfer amount, adjusted for the employees FTE.
+	 *  	2.) the number of time units exceeding the maximum balance
+	 *
+	 * 
 	 *
 	 */
-	public BalanceTransfer getTransferOnLeaveApprove(String principalId, String accrualCategoryRule, LeaveSummary leaveSummary);
+	public BalanceTransfer initializeAccrualGeneratedBalanceTransfer(String principalId, String accrualCategoryRule, LeaveSummary leaveSummary);
 	
 	/**
 	 * For balance transfers triggered by accrual categories that have exceeded their max balance, and
@@ -68,22 +70,6 @@ public interface BalanceTransferService {
 	 *
 	 */
 	public BalanceTransfer initiateBalanceTransferOnYearEnd(String principalId, BigDecimal transferAmount, AccrualCategory fromAcc, AccrualCategory toAcc);
-	
-	/**
-	 * For balance transfers triggered by accrual categories that have exceeded their max balance, and
-	 * whose max balance action frequency is On-Demand.
-	 * @param principalId	The principal who initiated the transfer.
-	 * @param leaveSummaryRow	The LeaveSummaryRow the user clicked to initiate the transfer
-	 * @param accrualCategoryRule	The accrualCategoryRule governing the transfering accrual category
-	 * @return A BalanceTransfer object pre-populated according to the supplied parameters if one exists.
-	 * 
-	 * The transfer amount will be the minimum of:
-	 *  
-	 *  	1.) the accrual category rule's maximum transfer amount
-	 *  	2.) the number of units exceeding the maximum balance
-	 *
-	 */
-	public BalanceTransfer initiateBalanceTransferOnDemand(String principalId, LeaveSummaryRow leaveSummaryRow, String accrualCategoryRule);
 	
 	/**
 	 * Consumes a BalanceTransfer object, creating up to three leave blocks.

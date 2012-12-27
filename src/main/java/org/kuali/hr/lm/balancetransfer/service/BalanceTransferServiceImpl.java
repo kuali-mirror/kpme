@@ -64,11 +64,6 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 	public BalanceTransfer getBalanceTransferById(String balanceTransferId) {
 		return balanceTransferDao.getBalanceTransferById(balanceTransferId);
 	}
-
-	@Override
-	public BalanceTransfer initiateBalanceTransferOnDemand(String principalId, LeaveSummaryRow leaveSummaryRow, String accrualCategoryRule) {
-		return null;
-	}
 	
 	/**
 	 * change to "get/initiateAccrualGeneratedBalanceTransfer".
@@ -85,14 +80,14 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 	 * 
 	 */
 	@Override
-	public BalanceTransfer getTransferOnLeaveApprove(String principalId, String accrualCategoryRule, LeaveSummary leaveSummary) {
+	public BalanceTransfer initializeAccrualGeneratedBalanceTransfer(String principalId, String accrualCategoryRule, LeaveSummary leaveSummary) {
 		//Initially, principals may be allowed to edit the transfer amount when prompted to submit this balance transfer, however,
 		//a base transfer amount together with a forfeited amount is calculated to bring the balance back to its limit in accordance
 		//with transfer limits.
 		BalanceTransfer bt = null;
 		AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRule);
 		/**
-		 * Balance transfers triggered by an accrual category rule require the following elements:
+		 * Balance transfers triggered by an accrual category rule require at least the following elements:
 		 * 
 		 * AccrualCategoryRule:
 		 * 
@@ -124,6 +119,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			BigDecimal fullTimeEngagement = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, TKUtils.getCurrentDate());
 			BigDecimal adjustedMaxBalance = maxBalance.multiply(fullTimeEngagement);
 			BigDecimal maxTransferAmount = new BigDecimal(accrualRule.getMaxTransferAmount());
+			BigDecimal adjustedMaxTransferAmount = maxTransferAmount.multiply(fullTimeEngagement);
 			
 			List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, TKUtils.getCurrentDate());
 			for(EmployeeOverride override : overrides) {
@@ -132,32 +128,33 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 						adjustedMaxBalance = new BigDecimal(override.getOverrideValue());
 					//override values are not pro-rated.
 					if(StringUtils.equals(override.getOverrideType(),"MTA"))
-						maxTransferAmount = new BigDecimal(override.getOverrideValue());
+						adjustedMaxTransferAmount = new BigDecimal(override.getOverrideValue());
 				}
 			}
 			
 			BigDecimal transferAmount = balanceInformation.getAccruedBalance().subtract(adjustedMaxBalance);
+			
 			if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
+				//Move all time in excess of employee's fte adjusted max balance to forfeiture.
 				bt.setForfeitedAmount(transferAmount);
+				//There is no transfer to another accrual category.
 				transferAmount = BigDecimal.ZERO;
 			}
 			else {
 
-				if(transferAmount.compareTo(maxTransferAmount) > 0) {
+				if(transferAmount.compareTo(adjustedMaxTransferAmount) > 0) {
 					//there's forfeiture
-					BigDecimal forfeiture = (balanceInformation.getAccruedBalance().subtract(maxTransferAmount)).subtract(adjustedMaxBalance);
+					BigDecimal forfeiture = (balanceInformation.getAccruedBalance().subtract(adjustedMaxTransferAmount)).subtract(adjustedMaxBalance);
 					bt.setForfeitedAmount(forfeiture);
-					//forfeiture, together with the maximum transfer amount, will bring the balance back to its
-					//maximum limit.
 					//TODO: Ensure that precision/rounding does not inhibit leave calendar submission due to balance being; i.e. 0.000000001 above max balance.
-					bt.setTransferAmount(maxTransferAmount);
+					bt.setTransferAmount(adjustedMaxTransferAmount);
 				}
 				else {
 					bt.setTransferAmount(transferAmount);
 					bt.setForfeitedAmount(BigDecimal.ZERO);
 				}
 			}
-			//transfers triggered by accrual category rules are effective now.
+			//transfers triggered by accrual category rules are effective as of the date this method is called.
 			bt.setEffectiveDate(TKUtils.getCurrentDate());
 			bt.setAccrualCategoryRule(accrualCategoryRule);
 			bt.setFromAccrualCategory(fromAccrualCategory.getAccrualCategory());

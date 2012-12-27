@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.lm.balancetransfer.web;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,19 +27,14 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.kuali.hr.lm.LMConstants;
-import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.balancetransfer.validation.BalanceTransferValidationUtils;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
-import org.kuali.hr.lm.leavecalendar.web.LeaveCalendarSubmitForm;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
@@ -66,6 +60,8 @@ public class BalanceTransferAction extends TkAction {
 	 */
 	//rename to "transfer"
 	//TODO: Route Balance Transfer Document, save document for records keeping, etc.
+	//TODO: When user changes transfer amount derived during object creation, update forfeiture if applicable.
+	//TODO: Write tests.
 	public ActionForward balanceTransferOnLeaveApproval(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) {
 
@@ -74,6 +70,10 @@ public class BalanceTransferAction extends TkAction {
 
 		BalanceTransfer balanceTransfer = btf.getBalanceTransfer();
 		boolean valid = BalanceTransferValidationUtils.validateTransfer(balanceTransfer);
+		
+		//if transfer amount has changed, and the resulting change produces forfeiture
+		//or changes the forfeiture amount, prompt for confirmation with the amount of
+		//forfeiture that the entered amount would produce.
 
 		if(valid) {
 			String accrualRuleId = balanceTransfer.getAccrualCategoryRule();
@@ -99,25 +99,30 @@ public class BalanceTransferAction extends TkAction {
 			else
 				return mapping.findForward("closeBalanceTransferDoc");
 		}
-		
-		return mapping.findForward("basic");
+		else
+			return mapping.findForward("basic");
 	}
 	
 	public ActionForward cancel(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		BalanceTransferForm btf = (BalanceTransferForm) form;
-
-		if(!btf.isOnLeaveApproval())
+		BalanceTransfer bt = btf.getBalanceTransfer();
+		String accrualCategoryRuleId = bt.getAccrualCategoryRule();
+		AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
+		String actionFrequency = accrualRule.getMaxBalanceActionFrequency();
+		if(StringUtils.equals(actionFrequency,LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
 			return mapping.findForward("closeBalanceTransferDoc");
-		else {
+		else 
+			if(StringUtils.equals(actionFrequency, LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)) {
+				ActionRedirect redirect = new ActionRedirect();
+				redirect.setPath(mapping.findForward("cancel").getPath());
+				redirect.addParameter("documentId", btf.getLeaveCalendarDocumentId());
 		
-		ActionRedirect redirect = new ActionRedirect();
-		redirect.setPath(mapping.findForward("cancel").getPath());
-		redirect.addParameter("documentId", btf.getLeaveCalendarDocumentId());
-
-		return redirect;
-		}
+				return redirect;
+			}
+			else
+				throw new RuntimeException("Action should only be reachable through triggers with frequency ON_DEMAND or LEAVE_APPROVE");
 	}
 	
 	public ActionForward balanceTransferOnDemand(ActionMapping mapping, ActionForm form,
@@ -133,19 +138,19 @@ public class BalanceTransferAction extends TkAction {
 			if(ObjectUtils.isNotNull(aRule)) {
 				//should somewhat safegaurd against url fabrication.
 				if(!StringUtils.equals(aRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
-					throw new RuntimeException("cannot initiate on demand transfer this way");
+					throw new RuntimeException("attempted to execute on-demand balance transfer for accrual category with action frequency " + aRule.getMaxBalanceActionFrequency());
 			}
 			else
 				throw new RuntimeException("No rule for this accrual category could be found");
 		}
 		else
 			throw new RuntimeException("No accrual category rule id has been sent in the request.");
+		
 		LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(leaveCalendarDocumentId);
 		LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(lcd.getPrincipalId(), lcd.getCalendarEntry());
-		//Bad.... User must be prompted for each transfer that needs to be made.
-		//For now, assuming not more than one accrual category is eligible for transfer.
-		BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().getTransferOnLeaveApprove(lcd.getPrincipalId(), accrualRuleId, ls);
-		btf.setType(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND);
+
+		BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeAccrualGeneratedBalanceTransfer(lcd.getPrincipalId(), accrualRuleId, ls);
+
 		btf.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
 		if(ObjectUtils.isNotNull(balanceTransfer)) {
 			balanceTransfer.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
@@ -160,43 +165,8 @@ public class BalanceTransferAction extends TkAction {
 
 		return mapping.findForward("basic");
 	}
-	
-	/*	
-	@Override
-	public ActionForward promptBeforeValidation(ActionMapping mapping,
-			ActionForm form, HttpServletRequest request,
-			HttpServletResponse response, String methodToCall) throws Exception {
-		// TODO Auto-generated method stub
-		// Need to prompt user for any reason?
-		// Accrual Category Max Balance triggers a warning message on leave calendar, and provides a button "Transfer"
-		// to user. All values except for transfer amount are read-only and can be derived from the accrual category rule.
-		// User clicks button, and is prompted "Transfer X from Y to Z?" Confirm -> Action transfer. No -> Exit. Edit -> Action Edit
-		// Transfer Amount. On submit, if applicable, "N hours have been forfeited".
-		return mapping.findForward("confirmationPrompt");
-	}*/
 
-/*	@Override
-	public ActionForward save(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		// TODO Auto-generated method stub
-		System.out.println("***********************");
-		System.out.println("* Action Forward Save *");
-		System.out.println("***********************");
-		return super.save(mapping, form, request, response);
-	}
-
-	@Override
-	public ActionForward route(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		// TODO Auto-generated method stub
-		System.out.println("************************");
-		System.out.println("* Action Forward Route *");
-		System.out.println("************************");
-		return super.route(mapping, form, request, response);
-	}*/
-
+	//TODO: Rename method to differentiate from ActionForward with same name in LeaveCalendarSubmit.
 	public ActionForward approveLeaveCalendar(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
@@ -219,9 +189,8 @@ public class BalanceTransferAction extends TkAction {
 		//For now, assuming not more than one accrual category is eligible for transfer.
 		if(!transferableAccrualCategoryRules.isEmpty()) {
 			accrualRuleId = transferableAccrualCategoryRules.get(0);
-			BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().getTransferOnLeaveApprove(lcd.getPrincipalId(), accrualRuleId, ls);
+			BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeAccrualGeneratedBalanceTransfer(lcd.getPrincipalId(), accrualRuleId, ls);
 			btf.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
-			btf.setType(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE);
 			if(ObjectUtils.isNotNull(balanceTransfer)) {
 				balanceTransfer.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
 				btf.setBalanceTransfer(balanceTransfer);
@@ -237,25 +206,10 @@ public class BalanceTransferAction extends TkAction {
 		return mapping.findForward("basic");
 	}
 	
-	@Override
-	public ActionForward execute(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		ActionForward forward = super.execute(mapping, form, request, response);
-
-		return forward;
-		//request.setAttribute("methodToCall", "balanceTransferOnLeaveApproval");
-		//Form for initial transfer is in place.
-		//return super.execute(mapping, form, request, response);
-	}
-	
 	public ActionForward closeBalanceTransferDoc(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		return mapping.findForward("closeBalanceTransferDoc");
-		//request.setAttribute("methodToCall", "balanceTransferOnLeaveApproval");
-		//Form for initial transfer is in place.
-		//return super.execute(mapping, form, request, response);
 	}
 
 }
