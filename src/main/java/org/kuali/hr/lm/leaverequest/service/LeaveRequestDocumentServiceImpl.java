@@ -104,28 +104,29 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
         //verify principal has an action item to approve...
         //KewApiServiceLocator.
         LeaveRequestDocument doc = getLeaveRequestDocument(documentId);
-        if(StringUtils.isNotEmpty(reason)) {
-	        doc.setDescription(reason);
-	        saveLeaveRequestDocument(doc);
-        }
+        
         //do we need to switch ids?
         doc.getDocumentHeader().getWorkflowDocument().switchPrincipal(principalId);
         ValidActions validActions = doc.getDocumentHeader().getWorkflowDocument().getValidActions();
         if (validActions.getValidActions().contains(ActionType.APPROVE)) {
+        	if(StringUtils.isNotEmpty(reason)) {
+    	        doc.setDescription(reason);
+    	        saveLeaveRequestDocument(doc);
+            }
             doc.getDocumentHeader().getWorkflowDocument().approve("");
         }
     }
 
     @Override
     public void disapproveLeave(String documentId, String principalId, String reason) {
-        LeaveRequestDocument doc = getLeaveRequestDocument(documentId);
-        if(StringUtils.isNotEmpty(reason)) {
-	        doc.setDescription(reason);
-	        saveLeaveRequestDocument(doc);
-        }
-        ValidActions validActions = doc.getDocumentHeader().getWorkflowDocument().getValidActions();
+        LeaveRequestDocument doc = getLeaveRequestDocument(documentId);        
         doc.getDocumentHeader().getWorkflowDocument().switchPrincipal(principalId);
+        ValidActions validActions = doc.getDocumentHeader().getWorkflowDocument().getValidActions();        
         if (validActions.getValidActions().contains(ActionType.DISAPPROVE)) {
+        	if(StringUtils.isNotEmpty(reason)) {
+    	        doc.setDescription(reason);
+    	        saveLeaveRequestDocument(doc);
+            }
             doc.getDocumentHeader().getWorkflowDocument().disapprove("");
         }
     }
@@ -133,16 +134,28 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
     @Override
     public void deferLeave(String documentId, String principalId, String reason) {
         LeaveRequestDocument doc = getLeaveRequestDocument(documentId);
-        if(StringUtils.isNotEmpty(reason)) {
-	        doc.setDescription(reason);
-	        saveLeaveRequestDocument(doc);
-        }
-        ValidActions validActions = doc.getDocumentHeader().getWorkflowDocument().getValidActions();
         doc.getDocumentHeader().getWorkflowDocument().switchPrincipal(principalId);
+        ValidActions validActions = doc.getDocumentHeader().getWorkflowDocument().getValidActions();       
         if (validActions.getValidActions().contains(ActionType.CANCEL)) {
+        	 if(StringUtils.isNotEmpty(reason)) {
+     	        doc.setDescription(reason);
+     	        saveLeaveRequestDocument(doc);
+             }
         	doc.getDocumentHeader().getWorkflowDocument().cancel("");
         }
-        
+    }
+    
+    @Override
+    public void recallAndCancelLeave(String documentId, String principalId, String reason) {
+        LeaveRequestDocument doc = getLeaveRequestDocument(documentId);
+        if (principalId.equals(doc.getDocumentHeader().getWorkflowDocument().getInitiatorPrincipalId())) {
+            doc.getDocumentHeader().getWorkflowDocument().switchPrincipal(principalId);
+            if(StringUtils.isNotEmpty(reason)) {
+     	        doc.setDescription(reason);
+     	        saveLeaveRequestDocument(doc);
+             }
+            doc.getDocumentHeader().getWorkflowDocument().recall("", true);
+        }
     }
 
     @Override
@@ -151,7 +164,7 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
         DocumentActionParameters parameters = DocumentActionParameters.create(documentId, principalId);
         docActionService.superUserBlanketApprove(parameters, true);
     }
-
+   
     public LeaveRequestDocumentDao getLeaveRequestDocumentDao() {
         return leaveRequestDocumentDao;
     }

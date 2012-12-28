@@ -17,7 +17,6 @@ package org.kuali.hr.lm.leaverequest.service;
 
 
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
-
 import java.util.List;
 
 public interface LeaveRequestDocumentService {
@@ -31,7 +30,6 @@ public interface LeaveRequestDocumentService {
     void approveLeave(String documentId, String principalId, String reason);
     void disapproveLeave(String documentId, String principalId, String reason);
     void deferLeave(String documentId, String principalId, String reason);
-    void suBlanketApproveLeave(String documentId, String principalId);
-
-
+    void suBlanketApproveLeave(String documentId, String principalId);    
+    void recallAndCancelLeave(String documentId, String principalId, String reason);    
 }

@@ -77,6 +77,10 @@
                     <name>INITIATOR_MUST_ROUTE</name>
                     <value>false</value>
                 </policy>
+                <policy>
+				    <name>NOTIFY_COMPLETED_ON_RETURN</name>
+				    <value>true</value>
+				</policy>
             </policies>
         </documentType>
     </documentTypes>

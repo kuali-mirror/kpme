@@ -29,6 +29,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
 import org.apache.log4j.Logger;
@@ -37,15 +38,13 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
-import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
-import org.kuali.hr.lm.balancetransfer.web.BalanceTransferForm;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
-import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.hr.lm.util.LeaveBlockAggregate;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
+import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -62,7 +61,6 @@ import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
 
 public class LeaveCalendarAction extends TkAction {
@@ -289,6 +287,18 @@ public class LeaveCalendarAction extends TkAction {
 		    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId, principalId);
 		    generateLeaveCalendarChangedNotification(principalId, targetPrincipalId, documentId, calendarEntry.getHrCalendarEntriesId());
 		    
+        	//if leave block is a pending leave request, cancel the leave request document
+        	if(blockToDelete.getRequestStatus().equals(LMConstants.REQUEST_STATUS.REQUESTED)) {
+        		List<LeaveRequestDocument> lrdList = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(blockToDelete.getLmLeaveBlockId());
+        		if(CollectionUtils.isNotEmpty(lrdList)) {
+        			for(LeaveRequestDocument lrd : lrdList) {    
+        				if(!lrd.getDocumentHeader().getWorkflowDocument().isFinal()) {
+        					// cancel the leave request document as the employee.
+        					TkServiceLocator.getLeaveRequestDocumentService().recallAndCancelLeave(lrd.getDocumentNumber(), targetPrincipalId, "Leave block deleted by user " + principalId);
+        				}
+        			}
+        		}
+        	}
 		    // recalculate accruals
 		    if(lcf.getCalendarEntry() != null) {
 		    	rerunAccrualForNotEligibleForAccrualChanges(blockToDelete.getEarnCode(), blockToDelete.getLeaveDate(), calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());

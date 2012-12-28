@@ -41,26 +41,28 @@ public class LeaveRequestPostProcessor extends DefaultPostProcessor {
 		if (document != null) {
 			pdr = super.doRouteStatusChange(statusChangeEvent);
             LeaveBlock lb = document.getLeaveBlock();
-            if (!document.getDocumentNumber().equals(lb.getLeaveRequestDocumentId())) {
-                lb.setLeaveRequestDocumentId(document.getDocumentNumber());
-            }
-			// Only update the status if it's different.
-			if (!statusChangeEvent.getOldRouteStatus().equals(statusChangeEvent.getNewRouteStatus())) {
-
-                DocumentStatus newDocumentStatus = DocumentStatus.fromCode(statusChangeEvent.getNewRouteStatus());
-                LeaveRequestActionValue lrAction = LeaveRequestActionValue.fromCode(document.getActionCode());
-                if (DocumentStatus.ENROUTE.equals(newDocumentStatus)) {
-                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
-                } else if (DocumentStatus.DISAPPROVED.equals(newDocumentStatus)) {
-                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.DISAPPROVED);
-                } else if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
-                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
-                } else if (DocumentStatus.CANCELED.equals(newDocumentStatus)) {
-                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.DEFERRED);
-                    lb.setLeaveRequestDocumentId("");
-                }
-                TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, document.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId());
-			}
+	        if(lb != null) {
+	            if (!document.getDocumentNumber().equals(lb.getLeaveRequestDocumentId())) {
+	                lb.setLeaveRequestDocumentId(document.getDocumentNumber());
+	            }
+				// Only update the status if it's different.
+				if (!statusChangeEvent.getOldRouteStatus().equals(statusChangeEvent.getNewRouteStatus())) {
+	
+	                DocumentStatus newDocumentStatus = DocumentStatus.fromCode(statusChangeEvent.getNewRouteStatus());
+	                LeaveRequestActionValue lrAction = LeaveRequestActionValue.fromCode(document.getActionCode());
+	                if (DocumentStatus.ENROUTE.equals(newDocumentStatus)) {
+	                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
+	                } else if (DocumentStatus.DISAPPROVED.equals(newDocumentStatus)) {
+	                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.DISAPPROVED);
+	                } else if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
+	                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+	                } else if (DocumentStatus.CANCELED.equals(newDocumentStatus)) {
+	                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.DEFERRED);
+	                    lb.setLeaveRequestDocumentId("");
+	                }
+	                TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, document.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId());
+				}
+	       }
 		}
 		
 		return pdr;
