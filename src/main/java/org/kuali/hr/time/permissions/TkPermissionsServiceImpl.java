@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
@@ -27,7 +26,6 @@ import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
-import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.authorization.DepartmentalRule;
@@ -47,6 +45,7 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.doctype.SecuritySession;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
@@ -330,14 +329,9 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
         if (userId != null) {
             String blockType = lb.getLeaveBlockType();
             String requestStatus = lb.getRequestStatus();
-            if (StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, requestStatus)) {
+            if (StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, requestStatus)
+                    || StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, requestStatus)) {
                 return false;
-            }
-            if (StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, requestStatus)) {
-            	List<LeaveRequestDocument> docList= TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(lb.getLmLeaveBlockId());
-            	if(CollectionUtils.isEmpty(docList)) {
-            		return false;	// not a leave request. if this is a leave request, do further checking on it
-            	}            	
             }
             if (StringUtils.isBlank(blockType)
                     || StringUtils.equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, blockType)
@@ -369,17 +363,10 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
 
     @Override
     public boolean canDeleteLeaveBlock(LeaveBlock lb) {
-    	 if(StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, lb.getRequestStatus()))  {
-             return false;
-         }
-        if (StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus())) {
-        	List<LeaveRequestDocument> docList= TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(lb.getLmLeaveBlockId());
-        	if(CollectionUtils.isEmpty(docList)) {
-        		return false;	// not a leave request
-        	}
-        	// if this is a leave request, do further checking on it
+        if (StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus())
+                || StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, lb.getRequestStatus()))  {
+            return false;
         }
-       
         return canEditLeaveBlock(lb);
     }
 
