@@ -15,6 +15,8 @@
  */
 package org.kuali.hr.lm.leave.web;
 
+import java.util.Calendar;
+
 import junit.framework.Assert;
 
 import org.junit.After;
@@ -23,6 +25,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
+import org.kuali.hr.time.util.TKUtils;
 
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -51,6 +54,7 @@ public class LeaveBlockDisplayWebTest extends KPMETestCase {
 	@Test
 	public void testLeaveBlockDisplayPage() throws Exception {
 		// get the page and Login
+		Calendar currentCalendar = Calendar.getInstance();
 		HtmlPage leaveBlockDisplayPage = HtmlUnitUtil
 				.gotoPageAndLogin(TkTestConstants.Urls.LEAVE_BLOCK_DISPLAY_URL);
 		Assert.assertNotNull("Leave Request page not found" + leaveBlockDisplayPage);
@@ -58,10 +62,11 @@ public class LeaveBlockDisplayWebTest extends KPMETestCase {
 		this.setWebClient(leaveBlockDisplayPage.getWebClient());
 
 		// check page contains the current year
-		Assert.assertTrue("Page does not contain planned leave ",
-				leaveBlockDisplayPage.asText().contains("2012"));
+		Assert.assertTrue("Page is not current year ",
+				leaveBlockDisplayPage.asText().contains(Integer.toString(currentCalendar.get(Calendar.YEAR))));
 
 		// Check Main section
+		// depends on injection of test data for current year.
 		Assert.assertTrue("Page does not contain planned leave ",
 				leaveBlockDisplayPage.asText().contains("Send for Approval"));
 
@@ -89,8 +94,8 @@ public class LeaveBlockDisplayWebTest extends KPMETestCase {
 		leaveBlockDisplayPage = nextButton.click();
 
 		// check page contains the next year
-		Assert.assertTrue("Page does not contain planned leave ",
-				leaveBlockDisplayPage.asText().contains("2013"));
+		Assert.assertTrue("Page does not contain next year ",
+				leaveBlockDisplayPage.asText().contains(Integer.toString(currentCalendar.get(Calendar.YEAR)+1)));
 	}
 
 }
