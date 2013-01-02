@@ -80,7 +80,7 @@ public class LeaveCalendarSubmitAction extends TkAction {
             		//Each one shall be handled in its own redirect to BalanceTransfer.do.
             		//Should it be the case that the transfer fails, or is otherwise prevented from executing,
             		//as it currently stands, an infinite redirect loop could occur.
-            		//More work needs to be done in order to ensure or at least reduce the likely hood of this occurring.
+            		//More work needs to be done in order to ensure or at least increase the likely hood that this doesn't occur.
             		StringBuilder sb = new StringBuilder();
             		int categoryCounter = 0;
             		ActionRedirect redirect = new ActionRedirect();

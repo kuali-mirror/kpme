@@ -47,9 +47,7 @@ public interface BalanceTransferService {
 	 * The transfer amount will be the minimum of:
 	 *  
 	 *  	1.) the accrual category rule's maximum transfer amount, adjusted for the employees FTE.
-	 *  	2.) the number of time units exceeding the maximum balance
-	 *
-	 * 
+	 *  	2.) the number of time units exceeding the maximum balance 
 	 *
 	 */
 	public BalanceTransfer initializeAccrualGeneratedBalanceTransfer(String principalId, String accrualCategoryRule, LeaveSummary leaveSummary);
@@ -82,10 +80,12 @@ public interface BalanceTransferService {
 	 */
 	
 	/**
+	 * Determines which accrual categories for the given leave calendar document, are TRANSFERABLE for the given action frequency.
 	 * 
 	 * @param document The LeaveCalendarDocument to use in gathering transfer eligible accrual categories.
 	 * @param actionFrequency One of LMConstants.MAX_BAL_ACTION_FREQ
-	 * @return A List of accrualCategoryRuleId's for which the associated accrual categories in document.LeaveSummary are eligible for transfer.
+	 * @return A List of accrualCategoryRuleId's in {@param document}'s leave summary that have ACTION_AT_MAX_BALANCE = TRANSFER,
+	 * 	and with MAX_BAL_ACTION_FREQUENCY = {@param actionFrequency} 
 	 * @throws Exception
 	 */
 	public List<String> getAccrualCategoryRuleIdsForEligibleTransfers(LeaveCalendarDocument document, String actionFrequency) throws Exception;

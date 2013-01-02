@@ -163,6 +163,15 @@ public class LeaveCalendarAction extends TkAction {
         
         // add warning messages based on earn codes of leave blocks
         List<String> warningMes = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
+        
+        // add warning message for accrual categories that have exceeded max balance.
+        List<String> transfers = new ArrayList<String>();
+        transfers.addAll(TkServiceLocator.getBalanceTransferService().getAccrualCategoryRuleIdsForEligibleTransfers(lcd, LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE));
+        transfers.addAll(TkServiceLocator.getBalanceTransferService().getAccrualCategoryRuleIdsForEligibleTransfers(lcd, LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND));
+        if(!transfers.isEmpty()) {
+        	warningMes.add("You have exceeded the balance limit for one or more accrual categories within your leave plan.");
+        	warningMes.add("Depending upon the rules of your institution, you may lose any hours over this limit.");
+        }
         lcf.setWarnings(warningMes);
         
         // leave summary

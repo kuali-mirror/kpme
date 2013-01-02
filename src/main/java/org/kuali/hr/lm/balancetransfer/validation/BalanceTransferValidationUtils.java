@@ -113,13 +113,18 @@ public class BalanceTransferValidationUtils {
 		//it cannot be negative.
 		boolean isValid = true;
 		BigDecimal maxTransferAmount = new BigDecimal(accrualRule.getMaxTransferAmount());
+
 		String fromUnitOfTime = TkConstants.UNIT_OF_TIME.get(fromCat.getUnitOfTime());
 		if(ObjectUtils.isNotNull(maxTransferAmount)) {
-			if(transferAmount.compareTo(maxTransferAmount) > 0) {
+			BigDecimal fullTimeEngagement = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, effectiveDate);
+			BigDecimal adjustedMaxTransferAmount = maxTransferAmount.multiply(fullTimeEngagement);
+			if(transferAmount.compareTo(adjustedMaxTransferAmount) > 0) {
 				isValid &= false;
-				GlobalVariables.getMessageMap().putError("balanceTransfer.transferAmount","balanceTransfer.transferAmount.maxTransferAmount",maxTransferAmount.toString(),fromUnitOfTime);
+				GlobalVariables.getMessageMap().putError("balanceTransfer.transferAmount","balanceTransfer.transferAmount.maxTransferAmount",adjustedMaxTransferAmount.toString(),fromUnitOfTime);
 			}
 		}
+		else
+		{/*no limit to transfer amount???*/}
 		if(transferAmount.compareTo(BigDecimal.ZERO) < 0 ) {
 			isValid &= false;
 			GlobalVariables.getMessageMap().putError("balanceTransfer.transferAmount","balanceTransfer.transferAmount.negative");

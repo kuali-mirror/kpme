@@ -18,6 +18,7 @@ package org.kuali.hr.lm.balancetransfer;
 import java.math.BigDecimal;
 import java.sql.Date;
 import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
@@ -169,6 +170,31 @@ public class BalanceTransfer extends HrBusinessObject {
 
 	public void setBalanceTransferType(String balanceTransferType) {
 		this.balanceTransferType = balanceTransferType;
+	}
+
+	/**
+	 * Returns a balance transfer object adjusted for the new transfer amount.
+	 *
+	 * @param balanceTransfer
+	 * @return
+	 */
+	public BalanceTransfer adjust(BigDecimal transferAmount) {
+		BigDecimal difference = this.transferAmount.subtract(transferAmount);
+		//if difference is negative, transfer amount was increased. forfeiture, if applicable, will be reduced.
+		if(difference.compareTo(BigDecimal.ZERO) < 0) {
+			//reduce forfeiture if necessary.
+			if(forfeitedAmount.compareTo(BigDecimal.ZERO) > 0) {
+				if(forfeitedAmount.compareTo(difference.abs()) >= 0)
+					forfeitedAmount = forfeitedAmount.subtract(difference.abs());
+				else
+					forfeitedAmount = BigDecimal.ZERO;
+			}
+		}
+		else 
+			forfeitedAmount = forfeitedAmount.add(difference);
+
+		this.transferAmount = transferAmount;
+		return this;
 	}
 	
 	//Comparable for order handling of more than one transfer occurring during the same

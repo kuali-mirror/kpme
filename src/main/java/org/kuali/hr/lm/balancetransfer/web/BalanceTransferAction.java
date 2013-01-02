@@ -35,12 +35,13 @@ import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 /**
  * TODO:
  * 
- * Apply only to current pay period on leave calendar.
+ * Apply only to current pay period on leave calendar?
  * When leave calendar has already been routed for approval/submitted, "Transfer" button for action frequency ON_DEMAND accrual categories should not be rendered.
  * 		What needs to be done if action frequency is on-demand, and the user disregards the transfer notifications; auto-lose? display dialog?
  * ADD warning messages on leave calendar when an accrual category has exceeded its rules defined max balance.
@@ -57,18 +58,19 @@ public class BalanceTransferAction extends TkAction {
 	 * @param request
 	 * @param response
 	 * @return
+	 * @throws Exception 
 	 */
 	//rename to "transfer"
 	//TODO: Route Balance Transfer Document, save document for records keeping, etc.
 	//TODO: When user changes transfer amount derived during object creation, update forfeiture if applicable.
 	//TODO: Write tests.
 	public ActionForward balanceTransferOnLeaveApproval(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response) {
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		//if action was submit, execute the transfer
 		BalanceTransferForm btf = (BalanceTransferForm) form;
-
 		BalanceTransfer balanceTransfer = btf.getBalanceTransfer();
+	
 		boolean valid = BalanceTransferValidationUtils.validateTransfer(balanceTransfer);
 		
 		//if transfer amount has changed, and the resulting change produces forfeiture
@@ -76,14 +78,23 @@ public class BalanceTransferAction extends TkAction {
 		//forfeiture that the entered amount would produce.
 
 		if(valid) {
-			String accrualRuleId = balanceTransfer.getAccrualCategoryRule();
-
-			AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
 			
+			String accrualRuleId = balanceTransfer.getAccrualCategoryRule();
+			AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+			String leaveCalendarDocumentId = balanceTransfer.getLeaveCalendarDocumentId();
+			LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(leaveCalendarDocumentId);
+			//throws exception
+			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(balanceTransfer.getPrincipalId(), lcd.getCalendarEntry());
+			BalanceTransfer defaultBT = TkServiceLocator.getBalanceTransferService().initializeAccrualGeneratedBalanceTransfer(balanceTransfer.getPrincipalId(), accrualRuleId, ls);
+			if(balanceTransfer.getTransferAmount().compareTo(defaultBT.getTransferAmount()) != 0) {
+				//employee changed the transfer amount. Transfer amount is NOT negative, and transfer amount is below the
+				//adjusted maximum transfer transfer amount for the accrual category. i.e., valid.
+				//Must recalculate forfeiture.
+				balanceTransfer = defaultBT.adjust(balanceTransfer.getTransferAmount());
+			}
 			//try/catch BalanceTransferException?
 			TkServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
-			
-			String leaveCalendarDocumentId = balanceTransfer.getLeaveCalendarDocumentId();
+
 			ActionRedirect redirect = new ActionRedirect();
 			if(ObjectUtils.isNotNull(leaveCalendarDocumentId)) {
 				if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)) {
@@ -106,11 +117,13 @@ public class BalanceTransferAction extends TkAction {
 	public ActionForward cancel(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
+		
 		BalanceTransferForm btf = (BalanceTransferForm) form;
 		BalanceTransfer bt = btf.getBalanceTransfer();
 		String accrualCategoryRuleId = bt.getAccrualCategoryRule();
 		AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
 		String actionFrequency = accrualRule.getMaxBalanceActionFrequency();
+		
 		if(StringUtils.equals(actionFrequency,LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
 			return mapping.findForward("closeBalanceTransferDoc");
 		else 
@@ -125,12 +138,14 @@ public class BalanceTransferAction extends TkAction {
 				throw new RuntimeException("Action should only be reachable through triggers with frequency ON_DEMAND or LEAVE_APPROVE");
 	}
 	
+	//Entry point for BalanceTransfer.do for accrual category rule triggered transfers with action frequency On Demand.
 	public ActionForward balanceTransferOnDemand(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
+		GlobalVariables.getMessageMap().putWarning("document.transferAmount","balanceTransfer.transferAmount.adjust");
 
 		BalanceTransferForm btf = (BalanceTransferForm) form;
-		//thee leave calendar document that triggered this balance transfer.
+		//the leave calendar document that triggered this balance transfer.
 		String leaveCalendarDocumentId = request.getParameter("documentId");
 		String accrualRuleId = request.getParameter("accrualRuleId");
 		if(ObjectUtils.isNotNull(accrualRuleId)) {
@@ -166,11 +181,12 @@ public class BalanceTransferAction extends TkAction {
 		return mapping.findForward("basic");
 	}
 
+	//Entry point for BalanceTransfer.do for accrual category rule triggered transfers with action frequency Leave Approve.
 	//TODO: Rename method to differentiate from ActionForward with same name in LeaveCalendarSubmit.
 	public ActionForward approveLeaveCalendar(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-
+		GlobalVariables.getMessageMap().putWarning("document.newMaintainableObj.transferAmount","balanceTransfer.transferAmount.adjust");
 		BalanceTransferForm btf = (BalanceTransferForm) form;
 		
 		int categoryCounter = 0;
@@ -188,9 +204,11 @@ public class BalanceTransferAction extends TkAction {
 		//Bad.... User must be prompted for each transfer that needs to be made.
 		//For now, assuming not more than one accrual category is eligible for transfer.
 		if(!transferableAccrualCategoryRules.isEmpty()) {
+			
 			accrualRuleId = transferableAccrualCategoryRules.get(0);
 			BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeAccrualGeneratedBalanceTransfer(lcd.getPrincipalId(), accrualRuleId, ls);
 			btf.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
+			
 			if(ObjectUtils.isNotNull(balanceTransfer)) {
 				balanceTransfer.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
 				btf.setBalanceTransfer(balanceTransfer);

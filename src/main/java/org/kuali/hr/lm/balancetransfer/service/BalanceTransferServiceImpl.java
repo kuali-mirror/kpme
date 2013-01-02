@@ -126,14 +126,13 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 				if(StringUtils.equals(override.getAccrualCategory(),fromAccrualCategory.getAccrualCategory())) {
 					if(StringUtils.equals(override.getOverrideType(),"MB"))
 						adjustedMaxBalance = new BigDecimal(override.getOverrideValue());
-					//override values are not pro-rated.
+					//override values are not pro-rated for FTE.
 					if(StringUtils.equals(override.getOverrideType(),"MTA"))
 						adjustedMaxTransferAmount = new BigDecimal(override.getOverrideValue());
 				}
 			}
 			
 			BigDecimal transferAmount = balanceInformation.getAccruedBalance().subtract(adjustedMaxBalance);
-			
 			if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
 				//Move all time in excess of employee's fte adjusted max balance to forfeiture.
 				bt.setForfeitedAmount(transferAmount);
@@ -143,8 +142,11 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			else {
 
 				if(transferAmount.compareTo(adjustedMaxTransferAmount) > 0) {
-					//there's forfeiture
-					BigDecimal forfeiture = (balanceInformation.getAccruedBalance().subtract(adjustedMaxTransferAmount)).subtract(adjustedMaxBalance);
+					//there's forfeiture.
+					//accruedBalance - adjustedMaxTransferAmount - adjustedMaxBalance = forfeiture.
+					//transferAmount = accruedBalance - adjustedMaxBalance; forfeiture = transferAmount - adjustedMaxTransferAmount.
+					BigDecimal forfeiture = transferAmount.subtract(adjustedMaxTransferAmount);
+					forfeiture = forfeiture.stripTrailingZeros();
 					bt.setForfeitedAmount(forfeiture);
 					//TODO: Ensure that precision/rounding does not inhibit leave calendar submission due to balance being; i.e. 0.000000001 above max balance.
 					bt.setTransferAmount(adjustedMaxTransferAmount);
@@ -160,6 +162,9 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			bt.setFromAccrualCategory(fromAccrualCategory.getAccrualCategory());
 			bt.setPrincipalId(principalId);
 			bt.setToAccrualCategory(toAccrualCategory.getAccrualCategory());
+			bt.setTransferAmount(bt.getTransferAmount().stripTrailingZeros());
+			bt.setForfeitedAmount(bt.getForfeitedAmount().stripTrailingZeros());
+			
 		}
 		return bt;
 	}
@@ -196,23 +201,19 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			
 			if(ObjectUtils.isNotNull(transferAmount)) {
 				if(transferAmount.compareTo(BigDecimal.ZERO) > 0) {
-					//May need to move this variable's scope a level up if leave block's request status varies
-					//on action_at_max_bal/max_bal_action_freq. ( i.e. forfeiture is auto-approved on action = LOSE. )
 					/**
+					 * Possible Balance Transfer Types???
 					 * 
-					 * There's one problem with the way this is implemented. Transfers initiated via the Maintenance Tab do not include a
-					 * specific transfer conversion factor. Thus, for the use case of transferring between accrual categories in separate leave plans,
-					 * for instance, if an accrual category rule is set on this balance transfer, an unwanted adjustment could occur.
-					 * If a dept or sys admin wants to transfer within the confines of an accrual rule...
-					 * 
-					 * (L)eave Approve, (Y)ear End, (O)n Demand, (M)aintenance, (C)arry Over
+					 * (A)ccrual Generated (M)aintenance, (C)arry Over
 					 * 
 					 */
 					//Here, use the accrual category rule defined on the balance transfer object. If the balance transfer was initiated via a
 					//trigger, this rule will be set to the "from" accrual category rule on the transfer. Transfers initiated via the
-					//maintenance tab aren't necessarily associated with a particular rule as described in the block comment above.
+					//maintenance tab do not set the accrual category rule on the balance transfer object, defaulting to 1-1 transfer conversion factor.
+					//May need to move this variable's scope a level up if leave block's request status varies
+					//on action_at_max_bal/max_bal_action_freq. ( i.e. forfeiture is auto-approved on action = LOSE. )
 					AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(balanceTransfer.getAccrualCategoryRule());
-					//Transfers initiated by department and system admins may not have associated balance transfer rules.
+
 					BigDecimal transferConversionFactor = null;
 					if(ObjectUtils.isNotNull(aRule)) {
 						transferConversionFactor = aRule.getMaxBalanceTransferConversionFactor();
@@ -253,8 +254,6 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					leaveBlocks.add(aLeaveBlock);
 				}
 			}
-			else
-				throw new RuntimeException("Transfer amount is null");
 			
 			BigDecimal forfeitedAmount = balanceTransfer.getForfeitedAmount();
 			if(ObjectUtils.isNotNull(forfeitedAmount)) {
@@ -276,7 +275,6 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					leaveBlocks.add(aLeaveBlock);
 				}
 			}
-			
 			TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(leaveBlocks);
 		}
 	}

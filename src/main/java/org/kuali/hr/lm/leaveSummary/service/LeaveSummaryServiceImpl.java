@@ -158,6 +158,8 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                             assignApprovedValuesToRow(lsr, ac.getAccrualCategory(), leaveBlockMap.get(ac.getAccrualCategory()));
 
                             //Check for going over max carry over
+                            //Should only be setting values on leave summary if the values are "static references".
+                            //KPME-1985 and KPME-1264 would replace the need to do this.
                             if (acRule != null
                                     && acRule.getMaxCarryOver() != null
                                     && acRule.getMaxCarryOver() < lsr.getCarryOver().longValue()) {
@@ -190,8 +192,8 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 //                            	//accrual rule is undefined for accrual category, or max bal flag is "N"
 //                                lsr.setLeaveBalance(leaveBalance);
 //                            }
-                            determineTransferable(lsr,acRule);
-                            determinePayoutable(lsr,acRule);
+                            markTransferable(lsr,acRule);
+                            markPayoutable(lsr,acRule);
                             rows.add(lsr);
                         }
                     }
@@ -237,7 +239,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
      * @param lsr
      * @param accrualCategoryRule
      */
-    private void determineTransferable(LeaveSummaryRow lsr, AccrualCategoryRule accrualCategoryRule) {
+    private void markTransferable(LeaveSummaryRow lsr, AccrualCategoryRule accrualCategoryRule) {
     	//return type must be changed to boolean, or an associated field element must be created for decision
     	//purposes.
     	//an accrual category's balance is transferable if the accrued balance is 
@@ -263,7 +265,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
      * @param lsr
      * @param accrualCategoryRule 
      */
-    private void determinePayoutable(LeaveSummaryRow lsr, AccrualCategoryRule accrualCategoryRule) {
+    private void markPayoutable(LeaveSummaryRow lsr, AccrualCategoryRule accrualCategoryRule) {
     	//return type must be changed to boolean, or an associated field element must be created for decision
     	//purposes.
     	//an accrual category's balance is transferable if max_bal_action_frequency is ON-DEMAND

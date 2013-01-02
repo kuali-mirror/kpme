@@ -199,7 +199,6 @@
                 validate="true" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/balanceTransfer.jsp"/>
             <forward name="success" path="/LeaveCalendarSubmit.do"/>
-            <forward name="transferred" path="/LeaveCalendar.do"/>
             <forward name="cancel" path="/LeaveCalendar.do"/>
             <forward name="closeBalanceTransferDoc" path="/WEB-INF/jsp/closeMissedPunchDoc.jsp"/>
         </action>
