@@ -285,44 +285,49 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		List<String> eligibleAccrualCategories = new ArrayList<String>();
 		//Employee override check here, or return base-eligible accrual categories,
 		//filtering out those that have increased balance limits due to employee override in caller?
-		LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(document.getPrincipalId(),document.getCalendarEntry());
-
-		for(LeaveSummaryRow lsr : leaveSummary.getLeaveSummaryRows()) {
-			/*			
-			if(lsr.isTransferable()) {
-				//this conditional could replace the branches below, with the addition of
-				//frequency testing, given the conditionals up to the max balance action frequency
-				//are used to set the field value on the leave summary row.
-				//this field value is currently used in tags to display/hide the transfer button for
-				//on-demand max balance action frequency. 
-			}
-			*/
-			String accrualCategoryRuleId = lsr.getAccrualCategoryRuleId();
-			AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
-			//Employee overrides...
-			if(ObjectUtils.isNotNull(rule)) {
-				if(StringUtils.equals(rule.getMaxBalFlag(),"Y")) {
-					if(StringUtils.equals(rule.getActionAtMaxBalance(), LMConstants.ACTION_AT_MAX_BAL.TRANSFER)) {
-						//There is a disagreement between the constant value LMConstants.MAX_BAL_ACTION_FREQ, and the value being
-						//set on LM_ACCRUAL_CATEGORY_RULES_T table. Temporarily have changed the constant to reflect the field
-						//value being set for MAX_BAL_ACTION_FREQ when accrual category rule records are saved.
-						if(StringUtils.equals(rule.getMaxBalanceActionFrequency(),actionFrequency)) {
-							BigDecimal maxBalance = rule.getMaxBalance();
-
-							BigDecimal fullTimeEngagement = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(document.getPrincipalId(), TKUtils.getCurrentDate());
-							BigDecimal adjustedMaxBalance = maxBalance.multiply(fullTimeEngagement);
-							
-							List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(document.getPrincipalId(), TKUtils.getCurrentDate());
-							for(EmployeeOverride override : overrides) {
-								if(StringUtils.equals(override.getAccrualCategory(),lsr.getAccrualCategoryId())) {
-									if(StringUtils.equals(override.getOverrideType(),"MB"))
-										adjustedMaxBalance = new BigDecimal(override.getOverrideValue());
-									//override values are not pro-rated.
+		if(ObjectUtils.isNotNull(document)) {
+			//null check inserted to fix LeaveCalendarWebTest failures on kpme-trunk-build-unit #2069
+			LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(document.getPrincipalId(),document.getCalendarEntry());
+			if(ObjectUtils.isNotNull(leaveSummary)) {
+				//null check inserted to fix LeaveCalendarWebTst failures on kpme-trunk-build-unit #2069
+				for(LeaveSummaryRow lsr : leaveSummary.getLeaveSummaryRows()) {
+					/*			
+					if(lsr.isTransferable()) {
+						//this conditional could replace the branches below, with the addition of
+						//frequency testing, given the conditionals up to the max balance action frequency
+						//are used to set the field value on the leave summary row.
+						//this field value is currently used in tags to display/hide the transfer button for
+						//on-demand max balance action frequency. 
+					}
+					*/
+					String accrualCategoryRuleId = lsr.getAccrualCategoryRuleId();
+					AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
+					//Employee overrides...
+					if(ObjectUtils.isNotNull(rule)) {
+						if(StringUtils.equals(rule.getMaxBalFlag(),"Y")) {
+							if(StringUtils.equals(rule.getActionAtMaxBalance(), LMConstants.ACTION_AT_MAX_BAL.TRANSFER)) {
+								//There is a disagreement between the constant value LMConstants.MAX_BAL_ACTION_FREQ, and the value being
+								//set on LM_ACCRUAL_CATEGORY_RULES_T table. Temporarily have changed the constant to reflect the field
+								//value being set for MAX_BAL_ACTION_FREQ when accrual category rule records are saved.
+								if(StringUtils.equals(rule.getMaxBalanceActionFrequency(),actionFrequency)) {
+									BigDecimal maxBalance = rule.getMaxBalance();
+		
+									BigDecimal fullTimeEngagement = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(document.getPrincipalId(), TKUtils.getCurrentDate());
+									BigDecimal adjustedMaxBalance = maxBalance.multiply(fullTimeEngagement);
+									
+									List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(document.getPrincipalId(), TKUtils.getCurrentDate());
+									for(EmployeeOverride override : overrides) {
+										if(StringUtils.equals(override.getAccrualCategory(),lsr.getAccrualCategoryId())) {
+											if(StringUtils.equals(override.getOverrideType(),"MB"))
+												adjustedMaxBalance = new BigDecimal(override.getOverrideValue());
+											//override values are not pro-rated.
+										}
+									}
+		
+									if(lsr.getAccruedBalance().compareTo(adjustedMaxBalance) > 0 ) {
+										eligibleAccrualCategories.add(rule.getLmAccrualCategoryRuleId());
+									}
 								}
-							}
-
-							if(lsr.getAccruedBalance().compareTo(adjustedMaxBalance) > 0 ) {
-								eligibleAccrualCategories.add(rule.getLmAccrualCategoryRuleId());
 							}
 						}
 					}
