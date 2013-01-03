@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.lm.balancetransfer.web;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,7 @@ import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -84,8 +86,11 @@ public class BalanceTransferAction extends TkAction {
 			String leaveCalendarDocumentId = balanceTransfer.getLeaveCalendarDocumentId();
 			LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(leaveCalendarDocumentId);
 			//throws exception
+			Date effectiveDate = TKUtils.getCurrentDate();
+			if(TKUtils.getCurrentDate().after(lcd.getCalendarEntry().getEndPeriodDate()))
+				effectiveDate = lcd.getCalendarEntry().getEndPeriodDate();
 			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(balanceTransfer.getPrincipalId(), lcd.getCalendarEntry());
-			BalanceTransfer defaultBT = TkServiceLocator.getBalanceTransferService().initializeAccrualGeneratedBalanceTransfer(balanceTransfer.getPrincipalId(), accrualRuleId, ls);
+			BalanceTransfer defaultBT = TkServiceLocator.getBalanceTransferService().initializeAccrualGeneratedBalanceTransfer(balanceTransfer.getPrincipalId(), accrualRuleId, ls, effectiveDate);
 			if(balanceTransfer.getTransferAmount().compareTo(defaultBT.getTransferAmount()) != 0) {
 				//employee changed the transfer amount. Transfer amount is NOT negative, and transfer amount is below the
 				//adjusted maximum transfer transfer amount for the accrual category. i.e., valid.
@@ -163,8 +168,10 @@ public class BalanceTransferAction extends TkAction {
 		
 		LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(leaveCalendarDocumentId);
 		LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(lcd.getPrincipalId(), lcd.getCalendarEntry());
-
-		BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeAccrualGeneratedBalanceTransfer(lcd.getPrincipalId(), accrualRuleId, ls);
+		Date effectiveDate = TKUtils.getCurrentDate();
+		if(TKUtils.getCurrentDate().after(lcd.getCalendarEntry().getEndPeriodDate()))
+			effectiveDate = lcd.getCalendarEntry().getEndPeriodDate();
+		BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeAccrualGeneratedBalanceTransfer(lcd.getPrincipalId(), accrualRuleId, ls, effectiveDate);
 
 		btf.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
 		if(ObjectUtils.isNotNull(balanceTransfer)) {
@@ -204,9 +211,11 @@ public class BalanceTransferAction extends TkAction {
 		//Bad.... User must be prompted for each transfer that needs to be made.
 		//For now, assuming not more than one accrual category is eligible for transfer.
 		if(!transferableAccrualCategoryRules.isEmpty()) {
-			
+			Date effectiveDate = TKUtils.getCurrentDate();
+			if(TKUtils.getCurrentDate().after(lcd.getCalendarEntry().getEndPeriodDate()))
+				effectiveDate = lcd.getCalendarEntry().getEndPeriodDate();
 			accrualRuleId = transferableAccrualCategoryRules.get(0);
-			BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeAccrualGeneratedBalanceTransfer(lcd.getPrincipalId(), accrualRuleId, ls);
+			BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeAccrualGeneratedBalanceTransfer(lcd.getPrincipalId(), accrualRuleId, ls, effectiveDate);
 			btf.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
 			
 			if(ObjectUtils.isNotNull(balanceTransfer)) {

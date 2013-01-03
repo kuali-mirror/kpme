@@ -80,10 +80,12 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 	 * 
 	 */
 	@Override
-	public BalanceTransfer initializeAccrualGeneratedBalanceTransfer(String principalId, String accrualCategoryRule, LeaveSummary leaveSummary) {
+	public BalanceTransfer initializeAccrualGeneratedBalanceTransfer(String principalId, String accrualCategoryRule, LeaveSummary leaveSummary, Date effectiveDate) {
 		//Initially, principals may be allowed to edit the transfer amount when prompted to submit this balance transfer, however,
 		//a base transfer amount together with a forfeited amount is calculated to bring the balance back to its limit in accordance
 		//with transfer limits.
+		String pendingDates = leaveSummary.getPendingDatesString();
+		TKUtils.formatDateString(pendingDates);
 		BalanceTransfer bt = null;
 		AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRule);
 		/**
@@ -112,16 +114,16 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			//These two objects are essential to balance transfers triggered when the employee submits their leave calendar for approval.
 			//Neither of these objects should be null, otherwise this method could not have been called.
 			AccrualCategory fromAccrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
-			AccrualCategory toAccrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getMaxBalanceTransferToAccrualCategory(),TKUtils.getCurrentDate());
+			AccrualCategory toAccrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getMaxBalanceTransferToAccrualCategory(),effectiveDate);
 			LeaveSummaryRow balanceInformation = leaveSummary.getLeaveSummaryRowForAccrualCategory(accrualRule.getLmAccrualCategoryId());
 
 			BigDecimal maxBalance = accrualRule.getMaxBalance();
-			BigDecimal fullTimeEngagement = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, TKUtils.getCurrentDate());
+			BigDecimal fullTimeEngagement = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, effectiveDate);
 			BigDecimal adjustedMaxBalance = maxBalance.multiply(fullTimeEngagement);
 			BigDecimal maxTransferAmount = new BigDecimal(accrualRule.getMaxTransferAmount());
 			BigDecimal adjustedMaxTransferAmount = maxTransferAmount.multiply(fullTimeEngagement);
 			
-			List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, TKUtils.getCurrentDate());
+			List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, effectiveDate);
 			for(EmployeeOverride override : overrides) {
 				if(StringUtils.equals(override.getAccrualCategory(),fromAccrualCategory.getAccrualCategory())) {
 					if(StringUtils.equals(override.getOverrideType(),"MB"))
@@ -157,7 +159,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 				}
 			}
 			//transfers triggered by accrual category rules are effective as of the date this method is called.
-			bt.setEffectiveDate(TKUtils.getCurrentDate());
+			bt.setEffectiveDate(effectiveDate);
 			bt.setAccrualCategoryRule(accrualCategoryRule);
 			bt.setFromAccrualCategory(fromAccrualCategory.getAccrualCategory());
 			bt.setPrincipalId(principalId);

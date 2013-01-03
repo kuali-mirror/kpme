@@ -42,6 +42,7 @@ public interface BalanceTransferService {
 	 * @param principalId	The principal this transfer pertains to.
 	 * @param accrualCategoryRule	The accrual category rule that contains the max balance information.
 	 * @param leaveSummary	Holds balance information needed for transfer.
+	 * @param effectiveDate 
 	 * @return A BalanceTransfer object conforming to @param accrualCategoryRule, if one exists. Null otherwise.
 	 * 
 	 * The transfer amount will be the minimum of:
@@ -50,7 +51,7 @@ public interface BalanceTransferService {
 	 *  	2.) the number of time units exceeding the maximum balance 
 	 *
 	 */
-	public BalanceTransfer initializeAccrualGeneratedBalanceTransfer(String principalId, String accrualCategoryRule, LeaveSummary leaveSummary);
+	public BalanceTransfer initializeAccrualGeneratedBalanceTransfer(String principalId, String accrualCategoryRule, LeaveSummary leaveSummary, Date effectiveDate);
 	
 	/**
 	 * For balance transfers triggered by accrual categories that have exceeded their max balance, and

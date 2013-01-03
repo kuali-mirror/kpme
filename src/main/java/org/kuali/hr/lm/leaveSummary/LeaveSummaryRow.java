@@ -17,11 +17,6 @@ package org.kuali.hr.lm.leaveSummary;
 
 import java.math.BigDecimal;
 
-import org.kuali.hr.lm.accrual.AccrualCategoryRule;
-import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.krad.util.ObjectUtils;
-
 public class LeaveSummaryRow {
 	private String accrualCategory;
     //adding this to have a very simple means of getting the Accrual Category object
@@ -37,8 +32,7 @@ public class LeaveSummaryRow {
 	private BigDecimal pendingAvailableUsage;
 	private BigDecimal usageLimit;
 	private BigDecimal fmlaUsage;
-	//Preparing to integrate balance transfer and payout funtions.
-	//These fields will lose their static final nature upon full feature implementation.
+
 	private boolean transferable;
 	private boolean payoutable;
 	

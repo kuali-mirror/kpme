@@ -175,25 +175,50 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                             //Employee overrides have already been taken into consideration and the appropriate values
                             //for usage have been set by this point.
 //                            if (acRule != null && StringUtils.equals(acRule.getMaxBalFlag(), "Y")) {
-                            	//there exists an accrual category rule with max balance limit imposed.
-                            	//max bal flag = 'Y' has no precedence here with max-bal / balance transfers implemented.
-                            	//unless institutions are not required to define a max balance limit for action_at_max_bal = LOSE.
-                            	//Possibly preferable to procure forfeiture blocks through balance transfer
-                            	if(lsr.getUsageLimit()!=null) { //should not set leave balance to usage limit simply because it's not null.
-                            		BigDecimal availableUsage = lsr.getUsageLimit().subtract(lsr.getYtdApprovedUsage().add(lsr.getPendingLeaveRequests()));
-                            		if(leaveBalance.compareTo( availableUsage ) > 0)
-                            			lsr.setLeaveBalance(availableUsage);
-                            		else
-                            			lsr.setLeaveBalance(leaveBalance);
-                            	}
-                            	else//no usage limit
-                            		lsr.setLeaveBalance(leaveBalance);
+                        	//there exists an accrual category rule with max balance limit imposed.
+                        	//max bal flag = 'Y' has no precedence here with max-bal / balance transfers implemented.
+                        	//unless institutions are not required to define a max balance limit for action_at_max_bal = LOSE.
+                        	//Possibly preferable to procure forfeiture blocks through balance transfer
+                        	if(lsr.getUsageLimit()!=null) { //should not set leave balance to usage limit simply because it's not null.
+                        		BigDecimal availableUsage = lsr.getUsageLimit().subtract(lsr.getYtdApprovedUsage().add(lsr.getPendingLeaveRequests()));
+                        		if(leaveBalance.compareTo( availableUsage ) > 0)
+                        			lsr.setLeaveBalance(availableUsage);
+                        		else
+                        			lsr.setLeaveBalance(leaveBalance);
+                        	}
+                        	else//no usage limit
+                        		lsr.setLeaveBalance(leaveBalance);
 //                            } else {
 //                            	//accrual rule is undefined for accrual category, or max bal flag is "N"
 //                                lsr.setLeaveBalance(leaveBalance);
 //                            }
-                            markTransferable(lsr,acRule);
-                            markPayoutable(lsr,acRule);
+                        	//Rows should only be marked transferable/payoutable for calendars that have not already been submitted for approval,
+                        	//and if either the current date falls within the calendar, or it is beyond the end date of the calendar.
+                        	//Logic should be implemented which would take action on over-the-limit balances with frequency on-demand, if the user
+                        	//did not transfer the excess themselves, upon calendar submission/approval.
+                        	//Doing so would eliminate the need to suppress the nested method calls in cases dealing with calendar entries
+                        	//that have moved beyond status initiated.
+                        	DateTime startDateTime = new DateTime(calendarEntry.getBeginPeriodDateTime());
+                        	DateTime endDateTime = new DateTime(calendarEntry.getEndPeriodDateTime());
+                        	Interval interval = new Interval(startDateTime,endDateTime);
+                        	if(interval.containsNow() || !calendarEntry.getEndPeriodDate().after(TKUtils.getCurrentDate())) {
+                        		//current or past calendar is being used for leave summary calculation
+                        		if(ObjectUtils.isNotNull(approvedLcdh)) {
+	                        		if(approvedLcdh.getEndDate().before(TKUtils.getCurrentDate())) {
+	                        			//should only allow on-demand transfers if calendar document has status initiated.
+	                        			//obviously this code block is executed for all non-approved calendars, displaying the buttons
+	                        			//for calendar documents that have already been routed.
+	                        			//Depending on requirements for on demand display, may need to update this.
+			                            markTransferable(lsr,acRule,principalId);
+			                            markPayoutable(lsr,acRule,principalId);
+	                        		}
+                        		}
+                        		// One situation where this would cause problems is when there is no previous approved leave calendar document
+                        		// i.e. When someone starts a new position, or if the principal has no leave eligible jobs. ( no leave calendar doc ).
+                        		// if someone were to move into a new leave plan and a balance was transferred that exceeded the new leave plans
+                        		// balance limit, with a transfer frequency on-demand, the principal would not be allowed to transfer this excess.
+                        		// fringe case, but should still be addressed...
+                        	}
                             rows.add(lsr);
                         }
                     }
@@ -238,8 +263,9 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
      * Use with button display for balance transfers available On-Demand.
      * @param lsr
      * @param accrualCategoryRule
+     * @param principalId 
      */
-    private void markTransferable(LeaveSummaryRow lsr, AccrualCategoryRule accrualCategoryRule) {
+    private void markTransferable(LeaveSummaryRow lsr, AccrualCategoryRule accrualCategoryRule, String principalId) {
     	//return type must be changed to boolean, or an associated field element must be created for decision
     	//purposes.
     	//an accrual category's balance is transferable if the accrued balance is 
@@ -264,8 +290,9 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
      * Use with button display for balance transfer payouts available On-Demand.
      * @param lsr
      * @param accrualCategoryRule 
+     * @param principalId 
      */
-    private void markPayoutable(LeaveSummaryRow lsr, AccrualCategoryRule accrualCategoryRule) {
+    private void markPayoutable(LeaveSummaryRow lsr, AccrualCategoryRule accrualCategoryRule, String principalId) {
     	//return type must be changed to boolean, or an associated field element must be created for decision
     	//purposes.
     	//an accrual category's balance is transferable if max_bal_action_frequency is ON-DEMAND
@@ -274,7 +301,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
     	if(ObjectUtils.isNotNull(accrualCategoryRule)) {
     		if(ObjectUtils.isNotNull(accrualCategoryRule.getMaxBalance())) {
     			BigDecimal maxBalance = accrualCategoryRule.getMaxBalance();
-    			BigDecimal fte = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate());
+    			BigDecimal fte = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, TKUtils.getCurrentDate());
     			BigDecimal adjustedMaxBalance = maxBalance.multiply(fte);
     			if(adjustedMaxBalance.compareTo(lsr.getAccruedBalance()) < 0) {
     				if(StringUtils.equals(accrualCategoryRule.getActionAtMaxBalance(), LMConstants.ACTION_AT_MAX_BAL.PAYOUT) &&
@@ -315,7 +342,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                             }
                         }
                     } else {
-                    	//LEAVE_BLOCK_TYPE.BALANCE_TRANSFER should not count as usage.
+                    	//LEAVE_BLOCK_TYPE.BALANCE_TRANSFER should not count as usage, but it does need to be taken out of accrued balance.
                         BigDecimal currentLeaveAmount = aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) > 0 ? aLeaveBlock.getLeaveAmount().negate() : aLeaveBlock.getLeaveAmount();
                         approvedUsage = approvedUsage.add(currentLeaveAmount);
                         EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(aLeaveBlock.getEarnCode(), aLeaveBlock.getLeaveDate());
