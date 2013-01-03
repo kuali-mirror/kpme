@@ -1,6 +1,6 @@
 
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
-<%@ attribute name="balanceTransfer" required="true" type="org.kuali.hr.lm.balanceTransfer.BalanceTransfer"%>
+<%@ attribute name="balanceTransfer" required="true" type="org.kuali.hr.lm.balancetransfer.BalanceTransfer"%>
 
 <c:set var="attributes" value="${DataDictionary.BalanceTransfer.attributes}" />
 	<html:form action="/BalanceTransfer.do" method="POST">
