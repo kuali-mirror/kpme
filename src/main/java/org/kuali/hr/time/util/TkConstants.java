@@ -381,6 +381,7 @@ public class TkConstants {
         static {
         	MAX_BALANCE_ACTION_FREQUENCY.put("LA", "Leave Approve");
         	MAX_BALANCE_ACTION_FREQUENCY.put("YE", "Year End");
+        	MAX_BALANCE_ACTION_FREQUENCY.put("OD", "On Demand");
         	//MAX_BALANCE_ACTION_FREQUENCY.put("NA", "Not Applicable");
         }
 

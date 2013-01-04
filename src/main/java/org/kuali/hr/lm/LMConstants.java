@@ -144,8 +144,8 @@ public class LMConstants {
     	//being set in LM_ACCRUAL_CATEGORY_RULES_T.MAX_BAL_ACTION_FREQ. Constant was defined as "L"
     	//table value being set is "LA"
         public static final String LEAVE_APPROVE = "LA";
-        public static final String YEAR_END = "Y";
-		public static final String ON_DEMAND = "O";
+        public static final String YEAR_END = "YE";
+		public static final String ON_DEMAND = "OD";
     }
 	 
 	 public static final String STATUS_CHANGE_EARN_CODE = "Accrual Note";
