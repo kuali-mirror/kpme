@@ -150,8 +150,8 @@
 									<td>${disaprovedLeave.earnCodeDescription} (${disaprovedLeave.earnCode})</td>
 									<td>${disaprovedLeave.leaveAmount}</td>
                                     <td>${disaprovedLeave.description}</td>
-									<td>${Form.documents[approvedLeave.lmLeaveBlockId].description}</td>
-									<td><joda:format value="${Form.documents[approvedLeave.lmLeaveBlockId].documentHeader.workflowDocument.dateFinalized}"
+									<td>${Form.documents[disaprovedLeave.lmLeaveBlockId].description}</td>
+									<td><joda:format value="${Form.documents[disaprovedLeave.lmLeaveBlockId].documentHeader.workflowDocument.dateFinalized}"
                                                      pattern="MM/dd/yyyy hh:mm a"  />
 									</td>
 								</tr>

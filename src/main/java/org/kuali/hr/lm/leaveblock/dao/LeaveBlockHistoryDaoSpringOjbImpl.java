@@ -73,6 +73,25 @@ public class LeaveBlockHistoryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb i
 		return (List<LeaveBlockHistory>) this.getPersistenceBrokerTemplate()
 				.getCollectionByQuery(query);
 	}
+	
+	@Override
+	public List<LeaveBlockHistory> getLeaveBlockHistories(String principalId,String requestStatus, String action, Date currentDate) {
+		Criteria recordCriteria = new Criteria();
+		recordCriteria.addEqualTo("principalId", principalId);
+		if (requestStatus != null) {
+			recordCriteria.addEqualTo("requestStatus", requestStatus);
+		}
+		if(currentDate != null) {
+			recordCriteria.addGreaterThan("leaveDate", currentDate);
+		}
+		if(action != null) {
+			recordCriteria.addEqualTo("action", action);
+		}
+		Query query = QueryFactory.newQuery(LeaveBlockHistory.class,
+				recordCriteria);
+		return (List<LeaveBlockHistory>) this.getPersistenceBrokerTemplate()
+				.getCollectionByQuery(query);
+	}
 
 	@Override
 	public List<LeaveBlockHistory> getLeaveBlockHistoriesForLeaveDisplay(String principalId,

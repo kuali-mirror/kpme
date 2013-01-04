@@ -53,7 +53,7 @@ public class LeaveRequestPostProcessor extends DefaultPostProcessor {
 	                if (DocumentStatus.ENROUTE.equals(newDocumentStatus)) {
 	                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
 	                } else if (DocumentStatus.DISAPPROVED.equals(newDocumentStatus)) {
-	                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.DISAPPROVED);
+	                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.DISAPPROVED);	                                      
 	                } else if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
 	                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
 	                } else if (DocumentStatus.CANCELED.equals(newDocumentStatus)) {
@@ -61,6 +61,11 @@ public class LeaveRequestPostProcessor extends DefaultPostProcessor {
 	                    lb.setLeaveRequestDocumentId("");
 	                }
 	                TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, document.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId());
+	                if (DocumentStatus.DISAPPROVED.equals(newDocumentStatus)) {
+		                // delete leave block from leave block table when leave request gets disapproved 
+	                    // leave request page gets disapproved leave block list from leave block history table
+	                    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(lb.getLmLeaveBlockId(), document.getDocumentHeader().getWorkflowDocument().getRoutedByPrincipalId());
+	                }
 				}
 	       }
 		}

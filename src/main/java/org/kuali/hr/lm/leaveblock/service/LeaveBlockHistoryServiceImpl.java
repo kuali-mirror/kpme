@@ -56,8 +56,11 @@ public class LeaveBlockHistoryServiceImpl implements LeaveBlockHistoryService {
 			String principalId, Date beginDate, Date endDate, boolean considerModifiedUser) {
 		return leaveBlockHistoryDao.getLeaveBlockHistoriesForLeaveDisplay(principalId, beginDate, endDate, considerModifiedUser);
 	}
-
 	
+	@Override
+	public List<LeaveBlockHistory> getLeaveBlockHistories(String principalId,String requestStatus, String action, Date currentDate) {
+		return leaveBlockHistoryDao.getLeaveBlockHistories(principalId, requestStatus, action, currentDate);
+	}
 	
 
 }

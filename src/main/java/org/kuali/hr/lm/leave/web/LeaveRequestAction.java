@@ -22,6 +22,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
 import org.kuali.hr.lm.leaverequest.service.LeaveRequestDocumentService;
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.base.web.TkAction;
@@ -29,6 +30,8 @@ import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -59,7 +62,7 @@ public class LeaveRequestAction extends TkAction {
 		leaveForm.setPlannedLeaves(plannedLeaves);
 		leaveForm.setPendingLeaves(getLeaveBlocksWithRequestStatus(principalId, currentDate, LMConstants.REQUEST_STATUS.REQUESTED));
 		leaveForm.setApprovedLeaves(getLeaveBlocksWithRequestStatus(principalId, currentDate, LMConstants.REQUEST_STATUS.APPROVED));
-		leaveForm.setDisapprovedLeaves(getLeaveBlocksWithRequestStatus(principalId, currentDate, LMConstants.REQUEST_STATUS.DISAPPROVED));
+		leaveForm.setDisapprovedLeaves(getDisapprovedLeaveBlockHistory(principalId, currentDate));
 
         leaveForm.setDocuments(getLeaveRequestDocuments(leaveForm));
 		return forward;
@@ -77,6 +80,20 @@ public class LeaveRequestAction extends TkAction {
         });
 
         return plannedLeaves;
+    }
+    
+    private List<LeaveBlockHistory> getDisapprovedLeaveBlockHistory(String principalId, Date currentDate) {
+        List<LeaveBlockHistory> historyList = TkServiceLocator.getLeaveBlockHistoryService()
+        	.getLeaveBlockHistories(principalId, LMConstants.REQUEST_STATUS.DISAPPROVED, LMConstants.ACTION.DELETE, currentDate);
+
+        Collections.sort(historyList, new Comparator<LeaveBlockHistory>() {
+            @Override
+            public int compare(LeaveBlockHistory lbh1, LeaveBlockHistory lbh2) {
+                return ObjectUtils.compare(lbh1.getLeaveDate(), lbh2.getLeaveDate());
+            }
+        });
+
+        return historyList;
     }
 
 	  
@@ -106,8 +123,16 @@ public class LeaveRequestAction extends TkAction {
         for (LeaveBlock leaveBlock : form.getApprovedLeaves()) {
             docs.put(leaveBlock.getLmLeaveBlockId(), getLeaveRequestDocumentService().getLeaveRequestDocument(leaveBlock.getLeaveRequestDocumentId()));
         }
-        for (LeaveBlock leaveBlock : form.getDisapprovedLeaves()) {
-            docs.put(leaveBlock.getLmLeaveBlockId(), getLeaveRequestDocumentService().getLeaveRequestDocument(leaveBlock.getLeaveRequestDocumentId()));
+        for (LeaveBlockHistory lbh : form.getDisapprovedLeaves()) {
+        	List<LeaveRequestDocument> docList = getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(lbh.getLmLeaveBlockId());
+        	for(LeaveRequestDocument lrd : docList) {
+        		DocumentStatus status = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(lrd.getDocumentNumber());
+				if(status != null && DocumentStatus.DISAPPROVED.getCode().equals(status.getCode())) {
+					 docs.put(lbh.getLmLeaveBlockId(), getLeaveRequestDocumentService().getLeaveRequestDocument(lrd.getDocumentNumber()));
+					 break;
+				}
+        	}
+           
         }
         return docs;
     }

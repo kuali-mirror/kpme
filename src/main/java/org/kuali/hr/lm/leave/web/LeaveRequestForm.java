@@ -28,7 +28,7 @@ public class LeaveRequestForm extends TkForm {
 	private List<LeaveBlock> plannedLeaves;
 	private List<LeaveBlock> pendingLeaves;
 	private List<LeaveBlock> approvedLeaves;
-	private List<LeaveBlock> disapprovedLeaves;
+	private List<LeaveBlockHistory> disapprovedLeaves;
     private Map<String, LeaveRequestDocument> documents;
 
 	public List<LeaveBlock> getPlannedLeaves() {
@@ -55,11 +55,11 @@ public class LeaveRequestForm extends TkForm {
 		this.approvedLeaves = approvedLeaves;
 	}
 
-	public List<LeaveBlock> getDisapprovedLeaves() {
+	public List<LeaveBlockHistory> getDisapprovedLeaves() {
 		return disapprovedLeaves;
 	}
 
-	public void setDisapprovedLeaves(List<LeaveBlock> disapprovedLeaves) {
+	public void setDisapprovedLeaves(List<LeaveBlockHistory> disapprovedLeaves) {
 		this.disapprovedLeaves = disapprovedLeaves;
 	}
 

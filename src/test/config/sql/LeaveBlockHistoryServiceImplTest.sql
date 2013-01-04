@@ -16,15 +16,10 @@
 
 /** create system scheduled time off data */
 delete from lm_leave_code_t where LM_LEAVE_CODE_ID = '1000';
-delete from lm_sys_schd_timeoff_t where LM_SYS_SCHD_TIMEOFF_ID = '3000';
-delete from lm_sys_schd_timeoff_t where LM_SYS_SCHD_TIMEOFF_ID = '3001';
+delete from lm_sys_schd_timeoff_t where LM_SYS_SCHD_TIMEOFF_ID >= '3000';
 delete from lm_accrual_category_t where lm_accrual_category_id = '3000';
-delete from lm_leave_block_t where lm_leave_block_id = '1000';
-delete from lm_leave_block_t where lm_leave_block_id = '1001';
-delete from lm_leave_block_t where lm_leave_block_id = '1002';
-delete from lm_leave_block_hist_t where lm_leave_block_hist_id = '1000';
-delete from lm_leave_block_hist_t where lm_leave_block_hist_id = '1001';
-delete from lm_leave_block_hist_t where lm_leave_block_hist_id = '1002';
+delete from lm_leave_block_t where lm_leave_block_id >= '1000';
+delete from lm_leave_block_hist_t where lm_leave_block_hist_id >= '1000';
 
 insert into lm_leave_code_t (`lm_leave_code_id`, `LEAVE_PLAN`, `ELIGIBLE_FOR_ACC`, `ACCRUAL_CAT`, `EARN_CODE`, `LEAVE_CODE`, `DISP_NAME`, `UNIT_OF_TIME`, `FRACT_TIME_ALLOWD`, `ROUND_OPT`, `ALLOW_SCHD_LEAVE`, `FMLA`, `WORKMANS_COMP`, `DEF_TIME`, `EMPLOYEE`, `APPROVER`, `DEPT_ADMIN`, `EFFDT`, `OBJ_ID`, `VER_NBR`, `ACTIVE`, `TIMESTAMP`, `ALLOW_NEGATIVE_ACC_BALANCE`, `AFFECT_PAY`) values ('1000',	'testLP', 'Y', 'testAC', 'TC1', 'testLC', 'testLC', 'D', 99,	'T', 'Y', 'N', 'N', null, 'Y', 'N', 'N', '2012-02-09', 'B2991ADA-E866-F28C-7E95-A897AC377D0C',	'1', 'Y', '2012-02-09 11:38:04', 'N', 'N');
 insert into lm_sys_schd_timeoff_t values ('3000', 'testLP', 'testAC', 'testLC', '2012-01-01', NULL, 'testLocation','testSSTO', '3', null, null, null, null, 'testH', '2012-03-01', uuid(), '1', 'Y', now());
@@ -39,3 +34,7 @@ insert into lm_leave_block_hist_t (`LM_LEAVE_BLOCK_HIST_ID`, `LM_LEAVE_BLOCK_ID`
 
 /** Leave Block history */
 insert into lm_leave_block_hist_t (`LM_LEAVE_BLOCK_HIST_ID`, `LM_LEAVE_BLOCK_ID`, `LEAVE_DATE`, `DESCRIPTION`, `PRINCIPAL_ID`, `EARN_CODE`, `LM_SYS_SCHD_TIMEOFF_ID`, `ACCRUAL_CATEGORY`, `TK_ASSIGNMENT_ID`, `LEAVE_AMOUNT`, `APPLY_TO_YTD_USED`, `DOCUMENT_ID`, `PRINCIPAL_ID_MODIFIED`, `TIMESTAMP`, `PRINCIPAL_ID_DELETED`, `TIMESTAMP_DELETED`, `BLOCK_ID`, `ACCRUAL_GENERATED`, `REQUEST_STATUS`, `ACTION`, `VER_NBR`, `OBJ_ID`, `LEAVE_BLOCK_TYPE`) values ('1000','1000', '2012-03-01', 'Test Description', 'admin', 'testLC', 3000, 'testAC', 1100, '8', 'Apply to ytd', '12546', null, '2010-01-01 08:08:08', null, null, 0,'A','P','A','1','B2991ADA-E866-F28C-7E95-A897AC377D0C', 'LC' );
+-- test getLeaveBlockHistories with request_status and action
+insert into lm_leave_block_hist_t (`LM_LEAVE_BLOCK_HIST_ID`, `LM_LEAVE_BLOCK_ID`, `LEAVE_DATE`, `DESCRIPTION`, `PRINCIPAL_ID`, `EARN_CODE`, `LM_SYS_SCHD_TIMEOFF_ID`, `ACCRUAL_CATEGORY`, `TK_ASSIGNMENT_ID`, `LEAVE_AMOUNT`, `APPLY_TO_YTD_USED`, `DOCUMENT_ID`, `PRINCIPAL_ID_MODIFIED`, `TIMESTAMP`, `PRINCIPAL_ID_DELETED`, `TIMESTAMP_DELETED`, `BLOCK_ID`, `ACCRUAL_GENERATED`, `REQUEST_STATUS`, `ACTION`, `VER_NBR`, `OBJ_ID`, `LEAVE_BLOCK_TYPE`) values ('1003','1003', '2012-03-01', 'Test Description', 'admin', 'testLC', 3000, 'testAC', 1100, '8', 'Apply to ytd', '12546', null, '2010-01-01 08:08:08', null, null, 0,'A','D','D','1','B2991ADA-E866-F28C-7E95-A897AC377D0C', 'LC' );
+insert into lm_leave_block_hist_t (`LM_LEAVE_BLOCK_HIST_ID`, `LM_LEAVE_BLOCK_ID`, `LEAVE_DATE`, `DESCRIPTION`, `PRINCIPAL_ID`, `EARN_CODE`, `LM_SYS_SCHD_TIMEOFF_ID`, `ACCRUAL_CATEGORY`, `TK_ASSIGNMENT_ID`, `LEAVE_AMOUNT`, `APPLY_TO_YTD_USED`, `DOCUMENT_ID`, `PRINCIPAL_ID_MODIFIED`, `TIMESTAMP`, `PRINCIPAL_ID_DELETED`, `TIMESTAMP_DELETED`, `BLOCK_ID`, `ACCRUAL_GENERATED`, `REQUEST_STATUS`, `ACTION`, `VER_NBR`, `OBJ_ID`, `LEAVE_BLOCK_TYPE`) values ('1004','1004', '2012-04-01', 'Test Description', 'admin', 'testLC', 3000, 'testAC', 1100, '8', 'Apply to ytd', '12546', null, '2010-01-01 08:08:08', null, null, 0,'A','D','D','1','B2991ADA-E866-F28C-7E95-A897AC377D0C', 'LC' );
+insert into lm_leave_block_hist_t (`LM_LEAVE_BLOCK_HIST_ID`, `LM_LEAVE_BLOCK_ID`, `LEAVE_DATE`, `DESCRIPTION`, `PRINCIPAL_ID`, `EARN_CODE`, `LM_SYS_SCHD_TIMEOFF_ID`, `ACCRUAL_CATEGORY`, `TK_ASSIGNMENT_ID`, `LEAVE_AMOUNT`, `APPLY_TO_YTD_USED`, `DOCUMENT_ID`, `PRINCIPAL_ID_MODIFIED`, `TIMESTAMP`, `PRINCIPAL_ID_DELETED`, `TIMESTAMP_DELETED`, `BLOCK_ID`, `ACCRUAL_GENERATED`, `REQUEST_STATUS`, `ACTION`, `VER_NBR`, `OBJ_ID`, `LEAVE_BLOCK_TYPE`) values ('1005','1005', '2012-04-05', 'Test Description', 'admin', 'testLC', 3000, 'testAC', 1100, '8', 'Apply to ytd', '12546', null, '2010-01-01 08:08:08', null, null, 0,'A','D','M','1','B2991ADA-E866-F28C-7E95-A897AC377D0C', 'LC' );

@@ -28,5 +28,6 @@ public interface LeaveBlockHistoryDao {
 	public List<LeaveBlockHistory> getLeaveBlockHistories(String principalId, List<String> requestStatus);
 	
 	public List<LeaveBlockHistory> getLeaveBlockHistoriesForLeaveDisplay(String principalId, Date beginDate, Date endDate, boolean considerModifiedUser);
+	public List<LeaveBlockHistory> getLeaveBlockHistories(String principalId,String requestStatus, String action, Date currentDate);
 
 }
