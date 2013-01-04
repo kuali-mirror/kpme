@@ -127,7 +127,7 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 		//accrual category is an optional field
 		if(StringUtils.isNotEmpty(earnCode.getAccrualCategory())){
 			if (!ValidationUtils.validateAccrualCategory(earnCode.getAccrualCategory(), earnCode.getEffectiveDate())) {
-				this.putFieldError("accrualCategory", "earncode.accrualCategory.invalid", earnCode.getAccrualCategory());
+				this.putFieldError("accrualCategory", "earncode.accrualCategory.invalid", new String[]{earnCode.getAccrualCategory(),earnCode.getLeavePlan()});
 				return false;
 			}
 		}
