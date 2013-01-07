@@ -57,6 +57,8 @@ import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -300,8 +302,9 @@ public class LeaveCalendarAction extends TkAction {
         	if(blockToDelete.getRequestStatus().equals(LMConstants.REQUEST_STATUS.REQUESTED)) {
         		List<LeaveRequestDocument> lrdList = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(blockToDelete.getLmLeaveBlockId());
         		if(CollectionUtils.isNotEmpty(lrdList)) {
-        			for(LeaveRequestDocument lrd : lrdList) {    
-        				if(!lrd.getDocumentHeader().getWorkflowDocument().isFinal()) {
+        			for(LeaveRequestDocument lrd : lrdList) { 
+        				DocumentStatus status = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(lrd.getDocumentNumber());
+        				if(DocumentStatus.ENROUTE.getCode().equals(status.getCode())) {
         					// cancel the leave request document as the employee.
         					TkServiceLocator.getLeaveRequestDocumentService().recallAndCancelLeave(lrd.getDocumentNumber(), targetPrincipalId, "Leave block deleted by user " + principalId);
         				}
