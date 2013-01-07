@@ -74,21 +74,18 @@ public class EarnCodeSecurityLookupableHelper extends HrEffectiveDateActiveLooku
 	}
 
 	@Override
-	public List<? extends BusinessObject> getSearchResults(
-			Map<String, String> fieldValues) {
+	public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         String salGroup = fieldValues.get("hrSalGroup");
         String dept = fieldValues.get("dept");
         String earnCode = fieldValues.get("earnCode");
         String location = fieldValues.get("location");
-        String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
+        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
-        System.out.println("field value map is >>> "+fieldValues);
-        System.out.println("actual list is  "+TkServiceLocator.getEarnCodeSecurityService().searchEarnCodeSecurities(dept, salGroup, earnCode, location, 
-				TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist));
-		return TkServiceLocator.getEarnCodeSecurityService().searchEarnCodeSecurities(dept, salGroup, earnCode, location, 
-								TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist);
+
+        return TkServiceLocator.getEarnCodeSecurityService().searchEarnCodeSecurities(dept, salGroup, earnCode, location, TKUtils.formatDateString(fromEffdt), 
+        		TKUtils.formatDateString(toEffdt), active, showHist);
 	}
 
 }

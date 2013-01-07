@@ -74,15 +74,17 @@ public class SystemLunchRuleDaoImpl  extends PlatformAwareDaoBaseOjb implements 
         
         Criteria root = new Criteria();
 
+        Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            root.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
         }
-        
         if (toEffdt != null) {
-            root.addLessOrEqualThan("effectiveDate", toEffdt);
-        } else {
-            root.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
         }
+        if (fromEffdt == null && toEffdt == null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+        }
+        root.addAndCriteria(effectiveDateFilter);
         
         if (StringUtils.isNotBlank(active)) {
         	Criteria activeFilter = new Criteria();
@@ -96,12 +98,13 @@ public class SystemLunchRuleDaoImpl  extends PlatformAwareDaoBaseOjb implements 
 
         if (StringUtils.equals(showHistory, "N")) {
             Criteria effdt = new Criteria();
+            effdt.addAndCriteria(effectiveDateFilter);
             ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(SystemLunchRule.class, effdt);
             effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
             root.addEqualTo("effectiveDate", effdtSubQuery);
             
             Criteria timestamp = new Criteria();
-            timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+            timestamp.addAndCriteria(effectiveDateFilter);
             ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(SystemLunchRule.class, timestamp);
             timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
             root.addEqualTo("timestamp", timestampSubQuery);

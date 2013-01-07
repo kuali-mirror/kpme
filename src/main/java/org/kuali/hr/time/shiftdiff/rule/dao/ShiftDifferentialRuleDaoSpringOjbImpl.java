@@ -96,8 +96,10 @@ public class ShiftDifferentialRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseO
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<ShiftDifferentialRule> getShiftDifferentialRules(String location, String hrSalGroup, String payGrade, Date fromEffdt, Date toEffdt, String active, String showHistory) {
-    	List<ShiftDifferentialRule> results = new ArrayList<ShiftDifferentialRule>();
+    public List<ShiftDifferentialRule> getShiftDifferentialRules(String location, String hrSalGroup, String payGrade, Date fromEffdt, Date toEffdt, 
+    															 String active, String showHistory) {
+    	
+		List<ShiftDifferentialRule> results = new ArrayList<ShiftDifferentialRule>();
     	
     	Criteria root = new Criteria();
 
@@ -113,14 +115,17 @@ public class ShiftDifferentialRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseO
             root.addLike("payGrade", payGrade);
         }
 
+        Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            root.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
         }
         if (toEffdt != null) {
-            root.addLessOrEqualThan("effectiveDate", toEffdt);
-        } else {
-            root.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
         }
+        if (fromEffdt == null && toEffdt == null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+        }
+        root.addAndCriteria(effectiveDateFilter);
         
         if (StringUtils.isNotBlank(active)) {
         	Criteria activeFilter = new Criteria();
@@ -137,6 +142,7 @@ public class ShiftDifferentialRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseO
     		effdt.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
     		effdt.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
     		effdt.addEqualToField("payGrade", Criteria.PARENT_QUERY_PREFIX + "payGrade");
+    		effdt.addAndCriteria(effectiveDateFilter);
     		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(ShiftDifferentialRule.class, effdt);
     		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
 
@@ -144,7 +150,7 @@ public class ShiftDifferentialRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseO
     		timestamp.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
     		timestamp.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
     		timestamp.addEqualToField("payGrade", Criteria.PARENT_QUERY_PREFIX + "payGrade");
-    		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+    		timestamp.addAndCriteria(effectiveDateFilter);
     		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(ShiftDifferentialRule.class, timestamp);
     		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
         }

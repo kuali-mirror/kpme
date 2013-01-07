@@ -70,20 +70,15 @@ public class PrincipalHRAttributesLookupableHelper extends HrEffectiveDateActive
 		return customActionUrls;
 	}
 	
-   @Override
-    public List<? extends BusinessObject> getSearchResults(
-            Map<String, String> fieldValues) {
-	   String principalId = fieldValues.get("principalId");
-       String fromEffdt = TKUtils.getToDateString(fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate"));
-       String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
-       String active = fieldValues.get("active");
-       String showHist = fieldValues.get("history");
+	@Override
+	public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+		String principalId = fieldValues.get("principalId");
+	    String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
+	    String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
+	    String active = fieldValues.get("active");
+	    String showHist = fieldValues.get("history");
 
-       List<PrincipalHRAttributes> phraList = TkServiceLocator.getPrincipalHRAttributeService()
-       			.getPrincipalHrAtributes(principalId, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist);
-
-       return phraList;
-
-   }
-	
+	    return TkServiceLocator.getPrincipalHRAttributeService().getPrincipalHrAtributes(principalId, TKUtils.formatDateString(fromEffdt), 
+	    		TKUtils.formatDateString(toEffdt), active, showHist);
+	}
 }

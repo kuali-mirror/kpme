@@ -95,26 +95,29 @@ public class SalGroupDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
             root.addLike("descr", descr);
         }
         
+        Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            root.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
         }
-        
         if (toEffdt != null) {
-            root.addLessOrEqualThan("effectiveDate", toEffdt);
-        } else {
-            root.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
         }
+        if (fromEffdt == null && toEffdt == null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+        }
+        root.addAndCriteria(effectiveDateFilter);
 
         if (StringUtils.equals(showHistory, "N")) {
             Criteria effdt = new Criteria();
         	effdt.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(SalGroup.class, effdt);
+        	effdt.addAndCriteria(effectiveDateFilter);
+        	ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(SalGroup.class, effdt);
             effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
             root.addEqualTo("effectiveDate", effdtSubQuery);
             
             Criteria timestamp = new Criteria();
             timestamp.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
-            timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+            timestamp.addAndCriteria(effectiveDateFilter);
             ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(SalGroup.class, timestamp);
             timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
             root.addEqualTo("timestamp", timestampSubQuery);
@@ -123,7 +126,7 @@ public class SalGroupDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
         Query query = QueryFactory.newQuery(SalGroup.class, root);
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
         
-        return results;    
-        
+        return results;
     }
+	
 }

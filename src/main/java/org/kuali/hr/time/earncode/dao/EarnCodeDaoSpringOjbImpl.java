@@ -216,15 +216,17 @@ public class EarnCodeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
         	root.addLike("accrualCategory", accrualCategory);
         }
         
+        Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-        	root.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
         }
-        
         if (toEffdt != null) {
-            root.addLessOrEqualThan("effectiveDate", toEffdt);
-        } else {
-            root.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
         }
+        if (fromEffdt == null && toEffdt == null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+        }
+        root.addAndCriteria(effectiveDateFilter);
         
         if (StringUtils.isNotBlank(active)) {
         	Criteria activeFilter = new Criteria();
@@ -239,13 +241,14 @@ public class EarnCodeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
         if (StringUtils.equals(showHistory, "N")) {
             Criteria effdt = new Criteria();
         	effdt.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(EarnCode.class, effdt);
+        	effdt.addAndCriteria(effectiveDateFilter);
+        	ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(EarnCode.class, effdt);
             effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
             root.addEqualTo("effectiveDate", effdtSubQuery);
             
             Criteria timestamp = new Criteria();
             timestamp.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
-            timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+            timestamp.addAndCriteria(effectiveDateFilter);
             ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EarnCode.class, timestamp);
             timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
             root.addEqualTo("timestamp", timestampSubQuery);
@@ -256,4 +259,5 @@ public class EarnCodeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
         
         return results;
     }
+	
 }

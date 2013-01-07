@@ -243,8 +243,8 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Job> getJobs(String principalId, String jobNumber, String dept, String positionNumber, String hrPayType, 
-    						 java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory) {
+    public List<Job> getJobs(String principalId, String jobNumber, String dept, String positionNumber, String hrPayType, Date fromEffdt, Date toEffdt, 
+    						 String active, String showHistory) {
 
         List<Job> results = new ArrayList<Job>();
 
@@ -270,15 +270,17 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
             root.addLike("hrPayType", hrPayType);
         }
 
+        Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            root.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
         }
-
         if (toEffdt != null) {
-            root.addLessOrEqualThan("effectiveDate", toEffdt);
-        } else {
-            root.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
         }
+        if (fromEffdt == null && toEffdt == null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+        }
+        root.addAndCriteria(effectiveDateFilter);
         
         if (StringUtils.isNotBlank(active)) {
         	Criteria activeFilter = new Criteria();
@@ -297,6 +299,7 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
             effdt.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
             effdt.addEqualToField("positionNumber", Criteria.PARENT_QUERY_PREFIX + "positionNumber");
             effdt.addEqualToField("hrPayType", Criteria.PARENT_QUERY_PREFIX + "hrPayType");
+            effdt.addAndCriteria(effectiveDateFilter);
             ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Job.class, effdt);
             effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
             root.addEqualTo("effectiveDate", effdtSubQuery);
@@ -307,7 +310,7 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
             timestamp.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
             timestamp.addEqualToField("positionNumber", Criteria.PARENT_QUERY_PREFIX + "positionNumber");
             timestamp.addEqualToField("hrPayType", Criteria.PARENT_QUERY_PREFIX + "hrPayType");
-            timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+            timestamp.addAndCriteria(effectiveDateFilter);
             ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Job.class, timestamp);
             timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
             root.addEqualTo("timestamp", timestampSubQuery);

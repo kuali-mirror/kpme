@@ -75,10 +75,9 @@ public class AssignmentLookupableHelper extends HrEffectiveDateActiveLookupableH
 		return customActionUrls;
     }
 
-    @SuppressWarnings({"unchecked"})
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
+        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
         String principalId = fieldValues.get("principalId");
         String jobNumber = fieldValues.get("jobNumber");
@@ -87,36 +86,8 @@ public class AssignmentLookupableHelper extends HrEffectiveDateActiveLookupableH
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
 
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().searchAssignments(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), principalId,
-                jobNumber, dept, workArea, active, showHist);
-
-//		String deptName = "";
-//		if(fieldValues.containsKey("dept") && !fieldValues.get("dept").isEmpty()) {
-//			deptName = fieldValues.get("dept");
-//			fieldValues.remove("dept");
-//		}
-//		List aList = super.getSearchResults(fieldValues);
-//		if(deptName.isEmpty()) {
-//			return aList;
-//		}
-//		List finalList = new ArrayList<Assignment>();
-//		for(int i = 0; i< aList.size(); i++) {
-//			Assignment anAssign = (Assignment) aList.get(i);
-//			if(anAssign.getPrincipalId() != null && anAssign.getEffectiveDate() != null) {
-//				List<Job> jobList = TkServiceLocator.getJobService().getJobs(anAssign.getPrincipalId(), anAssign.getEffectiveDate());
-//				for(Job aJob : jobList) {
-//					if(!aJob.getJobNumber().equals(anAssign.getJobNumber())){
-//						continue;
-//					}
-//					if( aJob.getDept().equals(deptName)) {
-//						finalList.add(anAssign);
-//						break;
-//					}
-//				}
-//			}
-//		}
-        return assignments;
+        return TkServiceLocator.getAssignmentService().searchAssignments(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), principalId, 
+        		jobNumber, dept, workArea, active, showHist);
     }
-
 
 }

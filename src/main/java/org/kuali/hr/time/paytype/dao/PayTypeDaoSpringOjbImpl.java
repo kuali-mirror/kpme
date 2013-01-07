@@ -106,15 +106,17 @@ public class PayTypeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements 
             root.addLike("descr", descr);
         }
         
+        Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            root.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
         }
-        
         if (toEffdt != null) {
-            root.addLessOrEqualThan("effectiveDate", toEffdt);
-        } else {
-            root.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
         }
+        if (fromEffdt == null && toEffdt == null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+        }
+        root.addAndCriteria(effectiveDateFilter);
         
         if (StringUtils.isNotBlank(active)) {
         	Criteria activeFilter = new Criteria();
@@ -129,13 +131,14 @@ public class PayTypeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements 
         if (StringUtils.equals(showHistory, "N")) {
             Criteria effdt = new Criteria();
         	effdt.addEqualToField("payType", Criteria.PARENT_QUERY_PREFIX + "payType");
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(PayType.class, effdt);
+        	effdt.addAndCriteria(effectiveDateFilter);
+        	ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(PayType.class, effdt);
             effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
             root.addEqualTo("effectiveDate", effdtSubQuery);
             
             Criteria timestamp = new Criteria();
             timestamp.addEqualToField("payType", Criteria.PARENT_QUERY_PREFIX + "payType");
-            timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+            timestamp.addAndCriteria(effectiveDateFilter);
             ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(PayType.class, timestamp);
             timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
             root.addEqualTo("timestamp", timestampSubQuery);

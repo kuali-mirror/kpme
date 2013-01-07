@@ -58,9 +58,8 @@ public class SystemScheduledTimeOffDaoSpringOjbImpl extends PlatformAwareDaoBase
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<SystemScheduledTimeOff> getSystemScheduledTimeOffs(Date fromEffdt, Date toEffdt, String earnCode, String fromAccruedDate,
-                                                                   String toAccruedDate, String fromSchTimeOffDate, String toSchTimeOffDate, 
-                                                                   String active, String showHistory) {
+    public List<SystemScheduledTimeOff> getSystemScheduledTimeOffs(Date fromEffdt, Date toEffdt, String earnCode, Date fromAccruedDate,Date toAccruedDate, 
+    															   Date fromSchTimeOffDate, Date toSchTimeOffDate, String active, String showHistory) {
         
     	List<SystemScheduledTimeOff> results = new ArrayList<SystemScheduledTimeOff>();
     	
@@ -70,29 +69,29 @@ public class SystemScheduledTimeOffDaoSpringOjbImpl extends PlatformAwareDaoBase
             root.addLike("earnCode", earnCode);
         }
 
+        Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            root.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
         }
-        
         if (toEffdt != null) {
-            root.addLessOrEqualThan("effectiveDate", toEffdt);
-        } else {
-            root.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
         }
+        if (fromEffdt == null && toEffdt == null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+        }
+        root.addAndCriteria(effectiveDateFilter);
 
-        if (StringUtils.isNotBlank(fromAccruedDate)) {
+        if (fromAccruedDate != null) {
             root.addGreaterOrEqualThan("accruedDate", fromAccruedDate);
         }
-        
-        if (StringUtils.isNotBlank(toAccruedDate)) {
+        if (toAccruedDate != null) {
             root.addLessOrEqualThan("accruedDate", toAccruedDate);
         }
 
-        if (StringUtils.isNotBlank(fromSchTimeOffDate)) {
+        if (fromSchTimeOffDate != null) {
             root.addGreaterOrEqualThan("scheduledTimeOffDate", fromSchTimeOffDate);
         }
-        
-        if (StringUtils.isNotBlank(toSchTimeOffDate)) {
+        if (toSchTimeOffDate != null) {
             root.addLessOrEqualThan("scheduledTimeOffDate", toSchTimeOffDate);
         }
         
@@ -107,18 +106,19 @@ public class SystemScheduledTimeOffDaoSpringOjbImpl extends PlatformAwareDaoBase
         }
         
         if (StringUtils.equals(showHistory, "N")) {
-            Criteria effdtCrit = new Criteria();
-            effdtCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
-            effdtCrit.addEqualToField("accruedDate", Criteria.PARENT_QUERY_PREFIX + "accruedDate");
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(SystemScheduledTimeOff.class, effdtCrit);
+            Criteria effdt = new Criteria();
+            effdt.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+            effdt.addEqualToField("accruedDate", Criteria.PARENT_QUERY_PREFIX + "accruedDate");
+            effdt.addAndCriteria(effectiveDateFilter);
+            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(SystemScheduledTimeOff.class, effdt);
             effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
             root.addEqualTo("effectiveDate", effdtSubQuery);
             
-            Criteria timestampCrit = new Criteria();
-            timestampCrit.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
-            timestampCrit.addEqualToField("accruedDate", Criteria.PARENT_QUERY_PREFIX + "accruedDate");
-            timestampCrit.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(SystemScheduledTimeOff.class, timestampCrit);
+            Criteria timestamp = new Criteria();
+            timestamp.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
+            timestamp.addEqualToField("accruedDate", Criteria.PARENT_QUERY_PREFIX + "accruedDate");
+            timestamp.addAndCriteria(effectiveDateFilter);
+            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(SystemScheduledTimeOff.class, timestamp);
             timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
             root.addEqualTo("timestamp", timestampSubQuery);
         }

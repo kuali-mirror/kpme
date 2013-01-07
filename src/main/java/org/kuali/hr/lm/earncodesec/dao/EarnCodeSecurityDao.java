@@ -30,11 +30,11 @@ public interface EarnCodeSecurityDao {
 
 	public EarnCodeSecurity getEarnCodeSecurity(String hrEarnCodeSecId);
 	
-	public List<EarnCodeSecurity> searchEarnCodeSecurities(String dept, String salGroup, String earnCode, String location,
-			java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory);
+	public List<EarnCodeSecurity> searchEarnCodeSecurities(String dept, String salGroup, String earnCode, String location, Date fromEffdt, Date toEffdt, 
+														   String active, String showHistory);
 	
 	public int getEarnCodeSecurityCount(String dept, String salGroup, String earnCode, String employee, String approver, String location,
-			String active, java.sql.Date effdt,String hrDeptEarnCodeId);
+                                        String active, java.sql.Date effdt, String hrDeptEarnCodeId);
 	
 	public int getNewerEarnCodeSecurityCount(String earnCode, Date effdt);
 }

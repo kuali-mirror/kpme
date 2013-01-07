@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.position.service;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -71,19 +70,12 @@ public class PositionLookupableHelper extends HrEffectiveDateActiveLookupableHel
 		return customActionUrls;
 	}
 
-    @SuppressWarnings("unchecked")
     @Override
-    /**
-     * Custom work area search logic
-     *
-     */
-    public List<? extends BusinessObject> getSearchResults(
-            Map<String, String> fieldValues) {
-
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         String positionNum = fieldValues.get("positionNumber");
         String workArea = fieldValues.get("workArea");
-        String descr = fieldValues.get("description");
-        String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
+        String description = fieldValues.get("description");
+        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
@@ -91,7 +83,8 @@ public class PositionLookupableHelper extends HrEffectiveDateActiveLookupableHel
         if (StringUtils.equals(positionNum, "%")) {
             positionNum = "";
         }
-        return TkServiceLocator.getPositionService().getPositions(positionNum, workArea, descr, TKUtils.formatDateString(fromEffdt),
+        
+        return TkServiceLocator.getPositionService().getPositions(positionNum, workArea, description, TKUtils.formatDateString(fromEffdt),
                 TKUtils.formatDateString(toEffdt), active, showHist);
     }
 

@@ -79,11 +79,8 @@ public class JobLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
 		return customActionUrls;
     }
 
-    @SuppressWarnings({"unchecked"})
     @Override
-    public List<? extends BusinessObject> getSearchResults(
-            Map<String, String> fieldValues) {
-
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         String principalId = fieldValues.get("principalId");
         String firstName = fieldValues.get("firstName");
         String lastName = fieldValues.get("lastName");
@@ -91,50 +88,13 @@ public class JobLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
         String dept = fieldValues.get("dept");
         String positionNumber = fieldValues.get("positionNumber");
         String hrPayType = fieldValues.get("hrPayType");
-        String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
+        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
 
-        List<Job> jobs = TkServiceLocator.getJobService().getJobs(principalId, firstName, lastName, jobNumber,
-                dept, positionNumber, hrPayType,
-                TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt),
-                active,  showHist);
-
-        return jobs;
-
-
-//		String firstName = null;
-//		String lastName = null;
-//		if (fieldValues.containsKey("firstName")) {
-//			firstName = fieldValues.get("firstName");
-//			fieldValues.remove("firstName");
-//		}
-//		if (fieldValues.containsKey("lastName")) {
-//			lastName = fieldValues.get("lastName");
-//			fieldValues.remove("lastName");
-//		}
-
-
-//		if(StringUtils.isNotEmpty(firstName) || StringUtils.isNotEmpty(lastName)){
-//			Map<String, String> fields = new HashMap<String, String>();
-//			fields.put("firstName", firstName);
-//			fields.put("lastName", lastName);
-//			List<Person> listPerson = KIMServiceLocator.getPersonService()
-//					.findPeople(fields);
-//			List<Job> objectList = new ArrayList<Job>();
-//			for(Person p: listPerson){
-//				fieldValues.put("principalId", p.getPrincipalId());
-//				objectList.addAll((Collection<? extends Job>) super.getSearchResults(fieldValues));
-//			}
-//			//trim if greater than 300 items
-//			if(objectList.size() > 300){
-//				objectList = objectList.subList(0, 299);
-//			}
-//			return objectList;
-//		}
-
-//        return super.getSearchResults(fieldValues);
+        return TkServiceLocator.getJobService().getJobs(principalId, firstName, lastName, jobNumber, dept, positionNumber, hrPayType, 
+        		TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist);
     }
 
     @SuppressWarnings("rawtypes")

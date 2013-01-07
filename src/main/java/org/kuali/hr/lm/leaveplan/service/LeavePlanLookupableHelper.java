@@ -54,12 +54,11 @@ public class LeavePlanLookupableHelper extends HrEffectiveDateActiveLookupableHe
 
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues){
-
         String leavePlan = fieldValues.get("leavePlan");
         String calendarYearStart = fieldValues.get("calendarYearStart");
         String descr = fieldValues.get("descr");
         String planningMonths = fieldValues.get("planningMonths");
-        String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
+        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
         String active = fieldValues.get("active");
         String showHistory = fieldValues.get("history");

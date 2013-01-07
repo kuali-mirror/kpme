@@ -141,15 +141,17 @@ public class ClockLocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
         
         Criteria root = new Criteria();
 
+        Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            root.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
         }
-
         if (toEffdt != null) {
-            root.addLessOrEqualThan("effectiveDate", toEffdt);
-        } else {
-            root.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
         }
+        if (fromEffdt == null && toEffdt == null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+        }
+        root.addAndCriteria(effectiveDateFilter);
 
         if (StringUtils.isNotBlank(principalId)) {
             root.addLike("principalId", principalId);
@@ -197,6 +199,7 @@ public class ClockLocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
     		effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
     		effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
     		effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+    		effdt.addAndCriteria(effectiveDateFilter);
     		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(ClockLocationRule.class, effdt);
     		effdtSubQuery.setAttributes(new String[] { "max(effectiveDate)" });
     		root.addEqualTo("effectiveDate", effdtSubQuery);
@@ -206,7 +209,7 @@ public class ClockLocationDaoOjbImpl extends PlatformAwareDaoBaseOjb implements 
     		timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
     		timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
     		timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
-    		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+    		timestamp.addAndCriteria(effectiveDateFilter);
     		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(ClockLocationRule.class, timestamp);
     		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
     		root.addEqualTo("timestamp", timestampSubQuery);

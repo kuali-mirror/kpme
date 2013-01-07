@@ -70,12 +70,11 @@ List<HtmlData> customActionUrls = new ArrayList<HtmlData>();
 	}
 
     @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues){
-
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         String location = fieldValues.get("location");
         String payGrade = fieldValues.get("payGrade");
         String hrSalGroup = fieldValues.get("hrSalGroup");
-        String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
+        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");

@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.lm.leaveplan.dao;
 
-
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,7 +22,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -33,8 +31,6 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class LeavePlanDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements LeavePlanDao {
-
-	private static final Logger LOG = Logger.getLogger(LeavePlanDaoSpringOjbImpl.class);
 
 	@Override
 	public LeavePlan getLeavePlan(String lmLeavePlanId) {
@@ -128,35 +124,40 @@ public class LeavePlanDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implement
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<LeavePlan> getLeavePlans(String leavePlan, String calendarYearStart, String descr, String planningMonths, Date fromEffdt, Date toEffdt, String active, String showHistory) {
+    public List<LeavePlan> getLeavePlans(String leavePlan, String calendarYearStart, String descr, String planningMonths, Date fromEffdt, Date toEffdt, 
+    									 String active, String showHistory) {
 
-        Criteria crit = new Criteria();
-        Criteria effdt = new Criteria();
-        Criteria timestamp = new Criteria();
-
-        List<LeavePlan> results= new ArrayList<LeavePlan>();
+        List<LeavePlan> results = new ArrayList<LeavePlan>();
+        
+    	Criteria root = new Criteria();
 
         if (StringUtils.isNotBlank(leavePlan)) {
-            crit.addEqualTo("leavePlan",leavePlan);
+        	root.addEqualTo("leavePlan", leavePlan);
         }
+        
         if (StringUtils.isNotBlank(calendarYearStart)) {
-            crit.addEqualTo("calendarYearStart",calendarYearStart);
+        	root.addEqualTo("calendarYearStart", calendarYearStart);
         }
+        
         if (StringUtils.isNotBlank(descr)) {
-            crit.addLike("descr",descr);
+        	root.addLike("descr", descr);
         }
+        
         if (StringUtils.isNotBlank(planningMonths)) {
-            crit.addEqualTo("planningMonths",planningMonths);
+        	root.addEqualTo("planningMonths", planningMonths);
         }
+        
+        Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            crit.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
         }
-
         if (toEffdt != null) {
-            crit.addLessOrEqualThan("effectiveDate", toEffdt);
-        } else {
-            crit.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
         }
+        if (fromEffdt == null && toEffdt == null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+        }
+        root.addAndCriteria(effectiveDateFilter);
 
         if (StringUtils.isNotBlank(active)) {
             Criteria activeFilter = new Criteria();
@@ -165,25 +166,29 @@ public class LeavePlanDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implement
             } else if (StringUtils.equals(active, "N")) {
                 activeFilter.addEqualTo("active", false);
             }
-            crit.addAndCriteria(activeFilter);
+            root.addAndCriteria(activeFilter);
         }
 
         if (StringUtils.equals(showHistory, "N")) {
+            Criteria effdt = new Criteria();
+            Criteria timestamp = new Criteria();
             effdt.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
+            effdt.addAndCriteria(effectiveDateFilter);
             ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(LeavePlan.class, effdt);
             effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
-            crit.addEqualTo("effectiveDate", effdtSubQuery);
+            root.addEqualTo("effectiveDate", effdtSubQuery);
 
             timestamp.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
-            timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+            timestamp.addAndCriteria(effectiveDateFilter);
             ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(LeavePlan.class, timestamp);
             timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-            crit.addEqualTo("timestamp", timestampSubQuery);
+            root.addEqualTo("timestamp", timestampSubQuery);
         }
 
-        Query query = QueryFactory.newQuery(LeavePlan.class, crit);
+        Query query = QueryFactory.newQuery(LeavePlan.class, root);
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
 
         return results;
     }
+    
 }

@@ -18,10 +18,8 @@ package org.kuali.hr.time.task.service;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.authorization.TkAuthorizedLookupableHelperBase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -36,16 +34,13 @@ public class TaskLookupableHelper extends TkAuthorizedLookupableHelperBase {
 
 	@Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-
         String task = fieldValues.get("task");
         String description = fieldValues.get("description");
         String workArea = fieldValues.get("workArea");
-        String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
+        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
 
-        List<Task> tasks = TkServiceLocator.getTaskService().getTasks(task, description, workArea, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt));
-
-        return tasks;
+        return TkServiceLocator.getTaskService().getTasks(task, description, workArea, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt));
     }
 
     @SuppressWarnings("rawtypes")

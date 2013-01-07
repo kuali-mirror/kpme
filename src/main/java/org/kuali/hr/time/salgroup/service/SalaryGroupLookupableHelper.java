@@ -55,10 +55,9 @@ public class SalaryGroupLookupableHelper extends HrEffectiveDateActiveLookupable
 	
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues){
-
         String hrSalGroup = fieldValues.get("hrSalGroup");
         String descr = fieldValues.get("descr");
-        String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
+        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
@@ -66,6 +65,7 @@ public class SalaryGroupLookupableHelper extends HrEffectiveDateActiveLookupable
         if (StringUtils.equals(hrSalGroup, "%")) {
             hrSalGroup = "";
         }
+        
         return TkServiceLocator.getSalGroupService().getSalGroups(hrSalGroup, descr, TKUtils.formatDateString(fromEffdt),
                 TKUtils.formatDateString(toEffdt), active, showHist);
     }

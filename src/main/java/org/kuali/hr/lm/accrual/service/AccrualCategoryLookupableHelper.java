@@ -15,11 +15,14 @@
  */
 package org.kuali.hr.lm.accrual.service;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -27,24 +30,15 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-import java.util.List;
-import java.util.Properties;
-import java.util.Map;
-
 /**
  * Used to override lookup functionality for the accrual category lookup
- * 
- * 
  */
-public class AccrualCategoryLookupableHelper extends
-		HrEffectiveDateActiveLookupableHelper {
-	/**
-	 * 
-	 */
+public class AccrualCategoryLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
+
 	private static final long serialVersionUID = 1L;
 
-	@Override
-	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+    @Override
+    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
 
 		AccrualCategory leaveAccrualCategory = (AccrualCategory) businessObject;
@@ -62,13 +56,11 @@ public class AccrualCategoryLookupableHelper extends
 		return customActionUrls;
 	}
 
-    @SuppressWarnings({"unchecked"})
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-
         String accrualCategory = fieldValues.get("accrualCategory");
-        String accrualCatDescr = fieldValues.get("descr");
-        String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
+        String descr = fieldValues.get("descr");
+        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
         String leavePlan = fieldValues.get("leavePlan");
         String accrualEarnInterval = fieldValues.get("accrualEarnInterval");
@@ -81,11 +73,8 @@ public class AccrualCategoryLookupableHelper extends
             accrualCategory = "";
         }
 
-        List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getAccrualCategories(accrualCategory, accrualCatDescr,
-                leavePlan, accrualEarnInterval, unitOfTime, minPercentWorked, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, 
-                showHist);
-
-        return accrualCategories;
+        return TkServiceLocator.getAccrualCategoryService().getAccrualCategories(accrualCategory, descr, leavePlan, accrualEarnInterval, unitOfTime, 
+        		minPercentWorked, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist);
     }
 
 }

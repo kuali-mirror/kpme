@@ -17,7 +17,6 @@ package org.kuali.hr.time.task.dao;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -98,54 +97,57 @@ public class TaskDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements Tas
             this.getPersistenceBrokerTemplate().store(task);
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public List<Task> getTasks(Long task, String description, Long workArea, Date fromEffdt, Date toEffdt) {
-        Criteria crit = new Criteria();
-        Criteria effdt = new Criteria();
-        Criteria timestamp = new Criteria();
+        Criteria root = new Criteria();
 
         List<Task> results = new ArrayList<Task>();
 
         if (task != null) {
-            crit.addLike("task", task);
+        	root.addLike("task", task);
         }
-        if (StringUtils.isNotEmpty(description)) {
-            crit.addLike("description", description);
+        
+        if (StringUtils.isNotBlank(description)) {
+        	root.addLike("description", description);
         }
+        
         if (workArea != null) {
-            crit.addEqualTo("workArea", workArea);
+        	root.addEqualTo("workArea", workArea);
         }
+        
+        Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            crit.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
         }
         if (toEffdt != null) {
-            crit.addLessOrEqualThan("effectiveDate", toEffdt);
-        } else {
-            crit.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
         }
+        if (fromEffdt == null && toEffdt == null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+        }
+        root.addAndCriteria(effectiveDateFilter);
 
+        Criteria activeFilter = new Criteria();
+        activeFilter.addEqualTo("active", true);
+        root.addAndCriteria(activeFilter);
+
+        Criteria effdt = new Criteria();
         effdt.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
-        if (toEffdt != null) {
-            effdt.addLessOrEqualThan("effectiveDate", toEffdt);
-        }
+        effdt.addAndCriteria(effectiveDateFilter);
         ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Task.class, effdt);
         effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-
+        root.addEqualTo("effectiveDate", effdtSubQuery);
+        
+        Criteria timestamp = new Criteria();
         timestamp.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
         timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
         ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Task.class, timestamp);
         timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+        root.addEqualTo("timestamp", timestampSubQuery);
 
-        crit.addEqualTo("effectiveDate", effdtSubQuery);
-        crit.addEqualTo("timestamp", timestampSubQuery);
-
-        Criteria activeFilter = new Criteria(); // Inner Join For Activity
-        activeFilter.addEqualTo("active", true);
-        crit.addAndCriteria(activeFilter);
-
-        Query query = QueryFactory.newQuery(Task.class, crit);
-        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-        results.addAll(c);
+        Query query = QueryFactory.newQuery(Task.class, root);
+        results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
 
         return results;
     }

@@ -70,9 +70,8 @@ public class SystemLunchRuleLookupableHelper extends HrEffectiveDateActiveLookup
 	}
 
     @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues){
-
-        String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");

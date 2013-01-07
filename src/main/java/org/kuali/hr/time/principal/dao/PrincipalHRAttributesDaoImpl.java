@@ -29,6 +29,7 @@ import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implements PrincipalHRAttributesDao {
@@ -371,13 +372,17 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
             root.addLike("principalId", principalId);
         }
         
-    	if (fromEffdt != null) {
-            root.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+        Criteria effectiveDateFilter = new Criteria();
+        if (fromEffdt != null) {
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
         }
-    	
         if (toEffdt != null) {
-            root.addLessOrEqualThan("effectiveDate", toEffdt);
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
         }
+        if (fromEffdt == null && toEffdt == null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+        }
+        root.addAndCriteria(effectiveDateFilter);
 
         if (StringUtils.isNotBlank(active)) {
         	Criteria activeFilter = new Criteria();
@@ -392,13 +397,14 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
         if (StringUtils.equals(showHistory, "N")) {
             Criteria effdt = new Criteria();
         	effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(PrincipalHRAttributes.class, effdt);
+        	effdt.addAndCriteria(effectiveDateFilter);
+        	ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(PrincipalHRAttributes.class, effdt);
             effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
             root.addEqualTo("effectiveDate", effdtSubQuery);
             
             Criteria timestamp = new Criteria();
        		timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-       		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+       		timestamp.addAndCriteria(effectiveDateFilter);
        		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(PrincipalHRAttributes.class, timestamp);
        		timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
        		root.addEqualTo("timestamp", timestampSubQuery);

@@ -27,7 +27,6 @@ public interface WorkAreaDao {
     public void saveOrUpdate(WorkArea workArea);
     public WorkArea getWorkArea(String tkWorkAreaId);
     public Long getNextWorkAreaKey();
-    public List<WorkArea> getWorkAreas(String dept, String workArea, String workAreaDescr, Date fromEffdt, Date toEffdt,
-    									String active, String showHistory);
+    public List<WorkArea> getWorkAreas(String dept, String workArea, String description, Date fromEffdt, Date toEffdt, String active, String showHistory);
     public int getWorkAreaCount(String dept, Long workArea);
 }

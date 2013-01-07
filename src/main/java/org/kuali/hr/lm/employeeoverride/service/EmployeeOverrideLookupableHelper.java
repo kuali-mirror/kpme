@@ -53,18 +53,17 @@ public class EmployeeOverrideLookupableHelper extends HrEffectiveDateActiveLooku
 	}
 
     @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues){
-
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         String principalId = fieldValues.get("principalId");
         String leavePlan = fieldValues.get("leavePlan");
         String accrualCategory = fieldValues.get("accrualCategory");
         String overrideType = fieldValues.get("overrideType");
-        String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
+        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
         String active = fieldValues.get("active");
 
-        return TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, leavePlan, accrualCategory, overrideType, TKUtils.formatDateString(fromEffdt),
-                TKUtils.formatDateString(toEffdt), active);
+        return TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, leavePlan, accrualCategory, overrideType, 
+        		TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active);
     }
 	
 }

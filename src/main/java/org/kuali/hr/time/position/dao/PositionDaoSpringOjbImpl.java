@@ -70,7 +70,7 @@ public class PositionDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<Position> getPositions(String positionNum, String workArea, String positionDescr, Date fromEffdt, Date toEffdt, 
+    public List<Position> getPositions(String positionNum, String workArea, String description, Date fromEffdt, Date toEffdt, 
     								   String active, String showHistory) {
         
         List<Position> results = new ArrayList<Position>();
@@ -85,19 +85,21 @@ public class PositionDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
             root.addLike("workArea", workArea);
         }
 
-        if (StringUtils.isNotBlank(positionDescr)) {
-            root.addLike("description", positionDescr);
+        if (StringUtils.isNotBlank(description)) {
+            root.addLike("description", description);
         }
         
+        Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
-            root.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
         }
-        
         if (toEffdt != null) {
-            root.addLessOrEqualThan("effectiveDate", toEffdt);
-        } else {
-            root.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
         }
+        if (fromEffdt == null && toEffdt == null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+        }
+        root.addAndCriteria(effectiveDateFilter);
         
         if (StringUtils.isNotBlank(active)) {
         	Criteria activeFilter = new Criteria();
@@ -112,13 +114,14 @@ public class PositionDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
         if (StringUtils.equals(showHistory, "N")) {
             Criteria effdt = new Criteria();
             effdt.addEqualToField("positionNumber", Criteria.PARENT_QUERY_PREFIX + "positionNumber");
+            effdt.addAndCriteria(effectiveDateFilter);
             ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Position.class, effdt);
             effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
             root.addEqualTo("effectiveDate", effdtSubQuery);
             
             Criteria timestamp = new Criteria();
             timestamp.addEqualToField("positionNumber", Criteria.PARENT_QUERY_PREFIX + "positionNumber");
-            timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+            timestamp.addAndCriteria(effectiveDateFilter);
             ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Position.class, timestamp);
             timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
             root.addEqualTo("timestamp", timestampSubQuery);

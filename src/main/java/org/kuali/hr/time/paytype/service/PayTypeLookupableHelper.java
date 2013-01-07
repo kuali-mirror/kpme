@@ -56,12 +56,11 @@ public class PayTypeLookupableHelper extends HrEffectiveDateActiveLookupableHelp
 	}
 
     @Override
-    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues){
-
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         String payType = fieldValues.get("payType");
         String regEarnCode = fieldValues.get("regEarnCode");
         String descr = fieldValues.get("descr");
-        String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
+        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
@@ -69,9 +68,9 @@ public class PayTypeLookupableHelper extends HrEffectiveDateActiveLookupableHelp
         if (StringUtils.equals(payType, "%")) {
             payType = "";
         }
+        
         return TkServiceLocator.getPayTypeService().getPayTypes(payType, regEarnCode, descr, TKUtils.formatDateString(fromEffdt),
                 TKUtils.formatDateString(toEffdt), active, showHist);
     }
-
 
 }

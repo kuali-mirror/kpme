@@ -22,7 +22,6 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.junit.Assert;
 import org.junit.Test;
@@ -114,38 +113,28 @@ public class TKUtilsTest extends Assert {
 	}
 	
 	@Test
-	public void testAddMonths() {
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-		java.util.Date aDate = new java.util.Date(new DateTime(2011,1,15,0,0,0,0).getMillis());
-		int aNumber = -1;
-		java.util.Date resultDate = TKUtils.addMonths(aDate, aNumber);
-		assertTrue("ResultDate should be 12/15/2010, not " + sdf.format(resultDate), sdf.format(resultDate).equals("12/15/2010"));
+	public void testFromDateString() {
+		String dateString = "01/01/2012..12/31/2012";
+		String fromDateString = TKUtils.getFromDateString(dateString);
+		assertTrue("fromDateString should be 01/01/2012, not " + fromDateString, fromDateString.equals("01/01/2012"));
+		assertNotNull(TKUtils.formatDateString(fromDateString));
 		
-		aDate = new java.util.Date(new DateTime(2012,1,31,0,0,0,0).getMillis());
-		aNumber = 3;
-		resultDate = TKUtils.addMonths(aDate, aNumber);
-		assertTrue("ResultDate should be 04/30/2012, not " + sdf.format(resultDate), sdf.format(resultDate).equals("04/30/2012"));
-		
+		dateString = ">=2/01/2012";
+		fromDateString = TKUtils.getFromDateString(dateString);
+		assertTrue("fromDateString should be 2/01/2012, not " + fromDateString, fromDateString.equals("2/01/2012"));
+		assertNotNull(TKUtils.formatDateString(fromDateString));
 	}
 	
 	@Test
-	public void testFromAndToDateString() {
-		String dateString = "01/01/2012..12/20/2012";
-		String fromDateString = TKUtils.getFromDateString(dateString);
-		assertTrue("FromDateString should be 01/01/2012, not " + fromDateString, fromDateString.equals("01/01/2012"));
-		assertNotNull(TKUtils.formatDateString(fromDateString));
+	public void testToDateString() {
+		String dateString = "01/01/2012..12/31/2012";
 		String toDateString = TKUtils.getToDateString(dateString);
-		assertTrue("toDateString should be 12/20/2012, not " + toDateString, toDateString.equals("12/20/2012"));
+		assertTrue("toDateString should be 12/31/2012, not " + toDateString, toDateString.equals("12/31/2012"));
 		assertNotNull(TKUtils.formatDateString(toDateString));
 		
-		dateString = "<=2/1/2012";
+		dateString = "<=2/01/2012";
 		toDateString = TKUtils.getToDateString(dateString);
-		assertTrue("toDateString should be 2/1/2012, not " + toDateString, toDateString.equals("2/1/2012"));
-		assertNotNull(TKUtils.formatDateString(toDateString));
-		
-		dateString = ">=3/01/2012";
-		toDateString = TKUtils.getToDateString(dateString);
-		assertTrue("toDateString should be 3/01/2012, not " + toDateString, toDateString.equals("3/01/2012"));
+		assertTrue("toDateString should be 2/01/2012, not " + toDateString, toDateString.equals("2/01/2012"));
 		assertNotNull(TKUtils.formatDateString(toDateString));
 	}
 

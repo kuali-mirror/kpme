@@ -15,7 +15,11 @@
  */
 package org.kuali.hr.time.clock.location.service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.authorization.DepartmentalRule;
@@ -109,8 +113,7 @@ public class ClockLocationRuleLookupableHelper extends TkAuthorizedLookupableHel
 	}
 
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-
-        String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
+        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
         String principalId = fieldValues.get("principalId");
         String jobNumber = fieldValues.get("jobNumber");
@@ -119,8 +122,8 @@ public class ClockLocationRuleLookupableHelper extends TkAuthorizedLookupableHel
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
 
-        List<ClockLocationRule> clockLocationRules = TkServiceLocator.getClockLocationRuleService().getClockLocationRules(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), principalId,
-                jobNumber, dept, workArea, active, showHist);
-        return clockLocationRules;
+        return TkServiceLocator.getClockLocationRuleService().getClockLocationRules(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), 
+        		principalId, jobNumber, dept, workArea, active, showHist);
     }
+    
 }

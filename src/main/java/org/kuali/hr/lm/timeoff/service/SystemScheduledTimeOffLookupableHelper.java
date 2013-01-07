@@ -71,22 +71,21 @@ public class SystemScheduledTimeOffLookupableHelper extends HrEffectiveDateActiv
 		return customActionUrls;
 	}
 
-    @SuppressWarnings({"unchecked"})
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        String fromEffdt = fieldValues.get("rangeLowerBoundKeyPrefix_effectiveDate");
+        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
         String earnCode = fieldValues.get("earnCode");
-        String fromAccruedDate = fieldValues.get("rangeLowerBoundKeyPrefix_accruedDate");
+        String fromAccruedDate = TKUtils.getFromDateString(fieldValues.get("accruedDate"));
         String toAccruedDate = TKUtils.getToDateString(fieldValues.get("accruedDate"));
-        String fromSchTimeOffDate = fieldValues.get("rangeLowerBoundKeyPrefix_scheduledTimeOffDate");
+        String fromSchTimeOffDate = TKUtils.getFromDateString(fieldValues.get("scheduledTimeOffDate"));
         String toSchTimeOffDate = TKUtils.getToDateString(fieldValues.get("scheduledTimeOffDate"));
         String active = fieldValues.get("active");
         String showHist = fieldValues.get("history");
 
-        List<SystemScheduledTimeOff> sysSchTimeOffs = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffs(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), earnCode,
-                fromAccruedDate, toAccruedDate, fromSchTimeOffDate, toSchTimeOffDate, active, showHist);
-
-        return sysSchTimeOffs;
+        return TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffs(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), 
+        		earnCode, TKUtils.formatDateString(fromAccruedDate), TKUtils.formatDateString(toAccruedDate), TKUtils.formatDateString(fromSchTimeOffDate), 
+        		TKUtils.formatDateString(toSchTimeOffDate), active, showHist);
     }
+    
 }

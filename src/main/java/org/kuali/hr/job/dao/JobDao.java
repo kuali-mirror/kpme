@@ -89,9 +89,8 @@ public interface JobDao {
 	 */
 	public Job getMaxJob(String principalId);
 
-    List<Job> getJobs(String principalId, String jobNumber,
-                      String dept, String positionNbr, String payType,
-                      java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory);
+    List<Job> getJobs(String principalId, String jobNumber, String dept, String positionNbr, String payType, Date fromEffdt, Date toEffdt, String active, 
+    				  String showHistory);
     
     /**
      * Fetch the count of the jobs with the given principalId and jobNumber

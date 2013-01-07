@@ -609,35 +609,43 @@ public class TKUtils {
     }
     
     /**
-     * returns effectiveDate "to" date that's passed in through dateString
-     * dateString is generated from date lookup fields
-     * dateString is in "fromDate..toDate", "<=toDate" or ">=toDate" format
-     * fromDate and toDate are in MM/dd/yyyy or M/d/yyyy format
-     * @param dateString
-     * @return
-     */
-    public static String getToDateString(String dateString) {
-    	if(StringUtils.isNotBlank(dateString)) {
-    		if(dateString.indexOf("..") == 10) {
-    			return dateString.substring(12, dateString.length());
-    		} else {
-    			return dateString.substring(2, dateString.length());
-    		}
-    	}
-    	return "";
-    }
-    /**
-     * returns effectiveDate "to" date that's passed in through dateString
-	 * dateString is generated from date lookup fields
-     * dateString is in "fromDate..toDate", "<=toDate" or ">=toDate" format
-     * fromDate and toDate are in MM/dd/yyyy or M/d/yyyy format
+     * Returns effectiveDate "from" date that's passed in through dateString.
+     * 
+	 * The "from" dateString can either be from the format "fromDate..toDate" or ">=fromDate", otherwise an empty string is returned.
+	 * 
      * @param dateString
      * @return
      */
     public static String getFromDateString(String dateString) {
-    	if(StringUtils.isNotBlank(dateString) && dateString.indexOf("..") == 10) {
-			return dateString.substring(0, 10);
-    	}
-    	return "";
+    	String toDateString = StringUtils.EMPTY;
+    	
+    	if (StringUtils.startsWith(dateString, ">=")) {
+    		toDateString = StringUtils.substringAfter(dateString, ">=");
+    	} else if (StringUtils.contains(dateString, "..")) {
+    		toDateString = StringUtils.substringBefore(dateString, "..");
+		}
+    	
+    	return toDateString;
     }
+    
+    /**
+     * Returns effectiveDate "to" date that's passed in through dateString.
+     * 
+     * The "to" dateString can either be from the format "fromDate..toDate" or "<=toDate", otherwise an empty string is returned.
+     *
+     * @param dateString
+     * @return
+     */
+    public static String getToDateString(String dateString) {
+    	String toDateString = StringUtils.EMPTY;
+    	
+    	if (StringUtils.startsWith(dateString, "<=")) {
+    		toDateString = StringUtils.substringAfter(dateString, "<=");
+    	} else if (StringUtils.contains(dateString, "..")) {
+    		toDateString = StringUtils.substringAfter(dateString, "..");
+		}
+    	
+    	return toDateString;
+    }
+
 }
