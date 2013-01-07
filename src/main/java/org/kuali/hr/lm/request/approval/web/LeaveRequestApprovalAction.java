@@ -126,6 +126,18 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 			List<String> depts = new ArrayList<String>(TKContext.getUser().getReportingApprovalDepartments().keySet());
 			Collections.sort(depts);
 		    lraaForm.setDepartments(depts);
+		    if (StringUtils.isBlank(lraaForm.getSelectedDept())
+	                && lraaForm.getDepartments().size() == 1) {
+	        	lraaForm.setSelectedDept(lraaForm.getDepartments().get(0));
+	        	lraaForm.getWorkAreaDescr().clear();
+	        	List<WorkArea> workAreaList = TkServiceLocator.getWorkAreaService().getWorkAreas(lraaForm.getSelectedDept(), currentDate);
+	            for(WorkArea wa : workAreaList){
+	            	if (TKContext.getUser().getApproverWorkAreas().contains(wa.getWorkArea())
+	            			|| TKContext.getUser().getReviewerWorkAreas().contains(wa.getWorkArea())) {
+	            		lraaForm.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
+	            	}
+	            }
+	        }		    
         }
         
         // build employee rows to display on the page
