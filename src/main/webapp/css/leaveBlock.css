@@ -32,11 +32,11 @@
 }
 
 .approved {
-    background-color: #006600;
+    background-color: #008800;
 }
 
 .planned {
-    background-color: #000066;
+    background-color: #0000CC;
 }
 
 .requested {
@@ -48,7 +48,7 @@
 }
 
 .deferred {
-    background-color: #333333;
+    background-color: #0000CC;
 }
 
 .usage {
