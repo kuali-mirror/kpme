@@ -330,21 +330,23 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 
         int priorYearCutOffMonth = lp.getCalendarYearStart() == null ? 1 : Integer.parseInt(lp.getCalendarYearStart().substring(0,2));
         int priorYearCutOffDay = lp.getCalendarYearStart() == null ? 1 : Integer.parseInt(lp.getCalendarYearStart().substring(3,5));
-        Timestamp priorYearCutOff = new Timestamp(new DateMidnight(effectiveDate).withMonthOfYear(priorYearCutOffMonth).withDayOfMonth(priorYearCutOffDay).toDate().getTime());
+        DateMidnight cutOffDate = new DateMidnight(effectiveDate).withMonthOfYear(priorYearCutOffMonth).withDayOfMonth(priorYearCutOffDay);
+        if (cutOffDate.isAfter(effectiveDate.getTime())) {
+            cutOffDate = cutOffDate.withYear(cutOffDate.getYear() - 1);
+        }
+        Timestamp priorYearCutOff = new Timestamp(cutOffDate.getMillis());
+
         if (CollectionUtils.isNotEmpty(approvedLeaveBlocks)) {
             // create it here so we don't need to get instance every loop iteration
-            Calendar cal = Calendar.getInstance();
             for(LeaveBlock aLeaveBlock : approvedLeaveBlocks) {
                 if((StringUtils.isBlank(accrualCategory) && StringUtils.isBlank(aLeaveBlock.getAccrualCategory()))
                         || (StringUtils.isNotBlank(aLeaveBlock.getAccrualCategory())
                             && StringUtils.equals(aLeaveBlock.getAccrualCategory(), accrualCategory))) {
                     if(aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) >= 0
                             && !aLeaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR)) {
-                        if(StringUtils.isNotEmpty(aLeaveBlock.getRequestStatus())
-                                && aLeaveBlock.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED)) {
+                        if(StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, aLeaveBlock.getRequestStatus())) {
                             if (aLeaveBlock.getLeaveDate().getTime() < priorYearCutOff.getTime()) {
-                                cal.setTime(aLeaveBlock.getLeaveDate());
-                                String yearKey = Integer.toString(cal.get(Calendar.YEAR));
+                                String yearKey = getYearKey(aLeaveBlock.getLeaveDate(), lp);;
                                 BigDecimal co = yearlyAccrued.get(yearKey);
                                 if (co == null) {
                                     co = BigDecimal.ZERO.setScale(2);
@@ -359,22 +361,23 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                     	//LEAVE_BLOCK_TYPE.BALANCE_TRANSFER should not count as usage, but it does need to be taken out of accrued balance.
                         BigDecimal currentLeaveAmount = aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) > 0 ? aLeaveBlock.getLeaveAmount().negate() : aLeaveBlock.getLeaveAmount();
                         //we only want this for the current calendar!!!
-                        if (aLeaveBlock.getLeaveDate().getTime() > priorYearCutOff.getTime()) {
-                            approvedUsage = approvedUsage.add(currentLeaveAmount);
-                            EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(aLeaveBlock.getEarnCode(), aLeaveBlock.getLeaveDate());
-                            if(ec != null && ec.getFmla().equals("Y")) {
-                                fmlaUsage = fmlaUsage.add(aLeaveBlock.getLeaveAmount());
+                        if(StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, aLeaveBlock.getRequestStatus())) {
+                            if (aLeaveBlock.getLeaveDate().getTime() >= priorYearCutOff.getTime()) {
+                                approvedUsage = approvedUsage.add(currentLeaveAmount);
+                                EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(aLeaveBlock.getEarnCode(), aLeaveBlock.getLeaveDate());
+                                if(ec != null && ec.getFmla().equals("Y")) {
+                                    fmlaUsage = fmlaUsage.add(aLeaveBlock.getLeaveAmount());
+                                }
+                            } else {
+                                //these usages are for previous years, to help figure out correct carry over values
+                                String yearKey = getYearKey(aLeaveBlock.getLeaveDate(), lp);
+                                BigDecimal use = yearlyUsage.get(yearKey);
+                                if (use == null) {
+                                    use = BigDecimal.ZERO.setScale(2);
+                                }
+                                use = use.add(currentLeaveAmount);
+                                yearlyUsage.put(yearKey, use);
                             }
-                        } else {
-                            //these usages are for previous years, to help figure out correct carry over values
-                            cal.setTime(aLeaveBlock.getLeaveDate());
-                            String yearKey = Integer.toString(cal.get(Calendar.YEAR));
-                            BigDecimal use = yearlyUsage.get(yearKey);
-                            if (use == null) {
-                                use = BigDecimal.ZERO.setScale(2);
-                            }
-                            use = use.add(currentLeaveAmount);
-                            yearlyUsage.put(yearKey, use);
                         }
                     }
 
@@ -391,6 +394,21 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 		
 		//lsr.setLeaveBalance(lsr.getYtdAccruedBalance().add(approvedUsage));
 	}
+
+    private String getYearKey(Date leaveDate, LeavePlan lp){
+        Calendar cal = Calendar.getInstance();
+        Calendar leavePlanCal = Calendar.getInstance();
+        cal.setTime(leaveDate);
+        String yearKey = Integer.toString(cal.get(Calendar.YEAR));
+        leavePlanCal.set(Calendar.MONTH, Integer.parseInt(lp.getCalendarYearStartMonth()));
+        leavePlanCal.set(Calendar.DAY_OF_MONTH, Integer.parseInt(lp.getCalendarYearStartDayOfMonth()));
+        leavePlanCal.set(Calendar.YEAR, cal.get(Calendar.YEAR));
+
+        if (cal.getTime().before(leavePlanCal.getTime())) {
+            yearKey = Integer.toString(cal.get(Calendar.YEAR) - 1);
+        }
+        return yearKey;
+    }
 	
 	private void assignPendingValuesToRow(LeaveSummaryRow lsr, String accrualCategory, List<LeaveBlock> pendingLeaveBlocks ) {
 		BigDecimal pendingAccrual= BigDecimal.ZERO.setScale(2);

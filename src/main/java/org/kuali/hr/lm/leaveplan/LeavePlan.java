@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.lm.leaveplan;
 
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.time.HrBusinessObject;
 
@@ -70,6 +71,22 @@ public class LeavePlan extends HrBusinessObject {
 	public void setCalendarYearStart(String calendarYearStart) {
 		this.calendarYearStart = calendarYearStart;
 	}
+
+    public String getCalendarYearStartMonth() {
+        if (StringUtils.isEmpty(getCalendarYearStart())) {
+            return "01";
+        }
+        String[] date = getCalendarYearStart().split("/");
+        return date[0];
+    }
+
+    public String getCalendarYearStartDayOfMonth() {
+        if (StringUtils.isEmpty(getCalendarYearStart())) {
+            return "01";
+        }
+        String[] date = getCalendarYearStart().split("/");
+        return date[1];
+    }
 	
 	public Boolean getHistory() {
 		return history;
