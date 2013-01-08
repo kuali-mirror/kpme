@@ -84,7 +84,7 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 				AccrualCategory myTestAccrualCategoryObj =  TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCode.getAccrualCategory(), earnCode.getEffectiveDate());
 				if(myTestAccrualCategoryObj != null) {
 					if (!myTestAccrualCategoryObj.getLeavePlan().equals(earnCode.getLeavePlan())) {
-						this.putFieldError("leavePlan", "error.earnCode.leavePlanMismatch", myTestAccrualCategoryObj.getLeavePlan());
+						this.putFieldError("leavePlan", "error.leaveCode.leavePlanMismatch", myTestAccrualCategoryObj.getLeavePlan());
 						valid = false;
 						return valid;
 					}
