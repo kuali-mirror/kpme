@@ -16,6 +16,7 @@
 package org.kuali.hr.lm.leaveSummary;
 
 import java.math.BigDecimal;
+import java.util.SortedMap;
 
 public class LeaveSummaryRow {
 	private String accrualCategory;
@@ -35,6 +36,8 @@ public class LeaveSummaryRow {
 
 	private boolean transferable;
 	private boolean payoutable;
+    private SortedMap<String, BigDecimal> priorYearsTotalAccrued;
+    private SortedMap<String, BigDecimal> priorYearsUsage;
 	
 	public String getAccrualCategory() {
 		return accrualCategory;
@@ -138,4 +141,20 @@ public class LeaveSummaryRow {
 	public void setPayoutable(boolean payoutable) {
 		this.payoutable = payoutable;
 	}
+
+    public SortedMap<String, BigDecimal> getPriorYearsUsage() {
+        return priorYearsUsage;
+    }
+
+    public void setPriorYearsUsage(SortedMap<String, BigDecimal> priorYearsUsage) {
+        this.priorYearsUsage = priorYearsUsage;
+    }
+
+    public SortedMap<String, BigDecimal> getPriorYearsTotalAccrued() {
+        return priorYearsTotalAccrued;
+    }
+
+    public void setPriorYearsTotalAccrued(SortedMap<String, BigDecimal> priorYearsTotalAccrued) {
+        this.priorYearsTotalAccrued = priorYearsTotalAccrued;
+    }
 }
