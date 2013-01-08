@@ -526,8 +526,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
     
     public String getAssignmentKey() {
         if (assignmentKey == null) {
-            AssignmentDescriptionKey adk = new AssignmentDescriptionKey(this.getJobNumber().toString(), this.getWorkArea().toString(), this.getTask().toString());
-            this.setAssignmentKey(adk.toAssignmentKeyString());
+            this.setAssignmentKey(TKUtils.formatAssignmentKey(jobNumber, workArea, task));
         }
         return assignmentKey;
     }

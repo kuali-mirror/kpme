@@ -25,6 +25,7 @@ import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -37,6 +38,7 @@ import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.springframework.util.NumberUtils;
 
 public class TKUtils {
 
@@ -149,20 +151,15 @@ public class TKUtils {
     }
 
     public static String formatAssignmentKey(Long jobNumber, Long workArea, Long task) {
-        Long taskLong = task;
-        if (taskLong == null) {
-            taskLong = new Long("0");
-        }
-        return jobNumber + TkConstants.ASSIGNMENT_KEY_DELIMITER + workArea + TkConstants.ASSIGNMENT_KEY_DELIMITER + taskLong;
+    	String jobNumberString = ObjectUtils.toString(jobNumber, "0");
+    	String workAreaString = ObjectUtils.toString(workArea, "0");
+    	String taskString = ObjectUtils.toString(task, "0");
+        return jobNumberString + TkConstants.ASSIGNMENT_KEY_DELIMITER + workAreaString + TkConstants.ASSIGNMENT_KEY_DELIMITER + taskString;
     }
 
     public static Map<String, String> formatAssignmentDescription(Assignment assignment) {
         Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
-        Long task = assignment.getTask();
-        if (task == null) {
-            task = new Long("0");
-        }
-        String assignmentDescKey = formatAssignmentKey(assignment.getJobNumber(), assignment.getWorkArea(), task);
+        String assignmentDescKey = formatAssignmentKey(assignment.getJobNumber(), assignment.getWorkArea(), assignment.getTask());
         String assignmentDescValue = getAssignmentString(assignment);
         assignmentDescriptions.put(assignmentDescKey, assignmentDescValue);
 
