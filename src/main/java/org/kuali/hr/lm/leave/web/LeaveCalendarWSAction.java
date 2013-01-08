@@ -29,6 +29,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.joda.time.DateTime;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -193,6 +194,9 @@ public class LeaveCalendarWSAction extends TkAction {
     	//KPME-1263
         errorMsgList.addAll(LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(lcf));
 
+        //KPME-2010                
+        errorMsgList.addAll(LeaveCalendarValidationUtil.validateSpanningWeeks(lcf));
+        
         lcf.setOutputString(JSONValue.toJSONString(errorMsgList));
         
         return mapping.findForward("ws");

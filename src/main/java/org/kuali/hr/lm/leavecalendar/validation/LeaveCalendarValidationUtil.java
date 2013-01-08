@@ -202,4 +202,26 @@ public class LeaveCalendarValidationUtil {
     	
     	return errors;
     }
+    
+    // KPME-2010
+    public static List<String> validateSpanningWeeks(LeaveCalendarWSForm lcf) {
+    	boolean spanningWeeks = lcf.getSpanningWeeks().equalsIgnoreCase("y");
+    	DateTime startTemp = new DateTime(TKUtils.convertDateStringToTimestamp(lcf.getStartDate()).getTime());
+        DateTime endTemp = new DateTime(TKUtils.convertDateStringToTimestamp(lcf.getEndDate()).getTime());
+    	
+        List<String> errors = new ArrayList<String>();
+    	boolean valid = true;
+    	while ((startTemp.isBefore(endTemp) || startTemp.isEqual(endTemp)) && valid) {
+           	if (!spanningWeeks && 
+        		(startTemp.getDayOfWeek() == DateTimeConstants.SATURDAY || startTemp.getDayOfWeek() == DateTimeConstants.SUNDAY)) {
+        		valid = false;
+        	}
+        	startTemp = startTemp.plusDays(1);
+        }
+        if (!valid) {
+        	errors.add("Weekend day is selected, but include weekends checkbox is not checked");
+        }
+    	return errors;
+    }
+    
 }
