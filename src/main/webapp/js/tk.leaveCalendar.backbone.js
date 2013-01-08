@@ -610,8 +610,12 @@ $(function () {
         validateLeaveBlock : function () {
             var self = this;
             var isValid = true;
-//            isValid = isValid && this.checkEmptyField($("#selectedAssignment"), "Assignment");
+            
+            isValid = isValid && this.checkEmptyField($("#startDate"), "Start Date");
+            isValid = isValid && this.checkEmptyField($("#endDate"), "End Date");
+            isValid = isValid && this.checkStartEndDateFields($("#startDate"), $("#endDate"),"Start Date");
             isValid = isValid && this.validateEarnCode();
+             
             
             if (isValid) {
            
@@ -672,6 +676,16 @@ $(function () {
             var val = o.val();
             if (val == '' || val == undefined) {
                 this.displayErrorMessages(field + " field cannot be empty", o);
+                return false;
+            }
+            return true;
+        },
+        
+        checkStartEndDateFields : function (o1, o2, field) {
+            var val1 = o1.val();
+            var val2 = o2.val();
+            if (val1 > val2) {
+                this.displayErrorMessages(field + " is later than end date.", o1);
                 return false;
             }
             return true;
