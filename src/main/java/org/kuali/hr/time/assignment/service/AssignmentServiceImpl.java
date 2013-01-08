@@ -18,6 +18,7 @@ package org.kuali.hr.time.assignment.service;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.assignment.Assignment;
@@ -84,9 +85,14 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     public List<Assignment> getAssignmentsByPayEntry(String principalId, CalendarEntries payCalendarEntry) {
+    	DateTime entryEndDate = payCalendarEntry.getEndLocalDateTime().toDateTime();
+        if (entryEndDate.getHourOfDay() == 0) {
+            entryEndDate = entryEndDate.minusDays(1);
+        }
+        Date endDate = new java.sql.Date(entryEndDate.getMillis());
         List<Assignment> beginPeriodAssign = getAssignments(principalId, payCalendarEntry.getBeginPeriodDate());
-        List<Assignment> endPeriodAssign = getAssignments(principalId, payCalendarEntry.getEndPeriodDate());
-        List<Assignment> assignsWithPeriod = getAssignments(principalId, payCalendarEntry.getBeginPeriodDate(), payCalendarEntry.getEndPeriodDate());
+        List<Assignment> endPeriodAssign = getAssignments(principalId, endDate);
+        List<Assignment> assignsWithPeriod = getAssignments(principalId, payCalendarEntry.getBeginPeriodDate(), endDate);
 
         List<Assignment> finalAssignments = new ArrayList<Assignment>();
         Map<String, Assignment> assignKeyToAssignmentMap = new HashMap<String, Assignment>();

@@ -82,4 +82,16 @@ public class AssignmentServiceImplTest extends KPMETestCase {
 		}
 		
 	}
+	@Test
+	public void testGetAssignmentsByPayEntry() throws Exception {
+		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("5000");
+		List<Assignment> assignments = assignmentService.getAssignmentsByPayEntry("testUser", ce);
+		Assert.assertNotNull("Null assignment list", assignments);
+		Assert.assertTrue("Assignments size for Calendar Entry 5000 should be 3, not " + assignments.size(), assignments.size() == 3);
+		
+		ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("5001");
+		assignments = assignmentService.getAssignmentsByPayEntry("testUser", ce);
+		Assert.assertNotNull("Null assignment list", assignments);
+		Assert.assertTrue("Assignments size for Calendar Entry 5000 should be 4, not " + assignments.size(), assignments.size() == 4);
+	}
 }
