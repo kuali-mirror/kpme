@@ -14,9 +14,9 @@
 -- limitations under the License.
 --
 
-delete from hr_calendar_entries_t where hr_calendar_entry_id >= '5000';
-delete from tk_assignment_t where tk_assignment_id >= '5000';
-delete from hr_job_t where hr_job_id >= '5000';
+delete from hr_calendar_entries_t where hr_calendar_entry_id >= 5000;
+delete from tk_assignment_t where tk_assignment_id >= 5000;
+delete from hr_job_t where hr_job_id >= 5000;
 
 /* calendar entry */
 insert into hr_calendar_entries_t (`hr_calendar_entry_id`,`hr_calendar_id`, `calendar_name`, `begin_period_date`, `end_period_date`) values ('5000', '2', 'BWS-CAL', '2012-03-01 00:00:00', '2012-03-15 00:00:00');
