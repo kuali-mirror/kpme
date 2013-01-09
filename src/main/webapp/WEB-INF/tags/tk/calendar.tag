@@ -150,7 +150,7 @@
                                         <tk:payCalendar day="${day}"/>
                                     </c:when>
                                     <c:when test="${calType eq 'leaveCalendar'}">
-                                        <tk:leaveCalendar day="${day}"/>
+                                        <tk:leaveCalendar day="${day}" dayNumberId="${dayNumberId}" />
                                     </c:when>
                                     <c:otherwise>
                                     </c:otherwise>
