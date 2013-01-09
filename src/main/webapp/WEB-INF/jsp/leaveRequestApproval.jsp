@@ -72,7 +72,9 @@
 					   <th>Requested Hours</th>
 					   <th>Leave Code</th>
 					   <th>Date & Time Submitted</th>
-					   <th>Approve</th>
+					   <th>Approve <br/>
+					   	   Select All<input type="checkbox" name="checkAllApprove_${employeeRow.principalId}" id="checkAllApprove_${employeeRow.principalId}"></input>
+					   </th>
 					   <th>Disapprove</th>
 					   <th>Defer</th>
 					   <th>No Action</th>
@@ -102,9 +104,7 @@
 		            	<td></td>
 		            	<td></td>
 		            	<td></td>
-		            	<td>
-		            		<input type="submit" class="approve" value="Approve All" name="approveAll_${employeeRow.principalId}" id="approveAll_${employeeRow.principalId}" />
-		            	</td>
+		            	<td></td>
 		            	<td></td>
 		            	<td></td>
 		            	<td></td>

@@ -272,22 +272,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 		}
 		return mapping.findForward("basic");
 	}
-	
-	public ActionForward approveAllForEmployee(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
-		
-		if(StringUtils.isNotEmpty(lraaForm.getApproveList())) {
-			String[] approveList = lraaForm.getApproveList().split(DOC_SEPARATOR);
-			for(String eachAction : approveList){
-				String[] fields = eachAction.split(ID_SEPARATOR);
-				String docId = fields[0];	// leave request document id
-				String reasonString = fields.length > 1 ? fields[1] : ""; 	// approve reason text, can be empty
-				TkServiceLocator.getLeaveRequestDocumentService().approveLeave(docId, TKContext.getPrincipalId(), reasonString);
-			}
-		}		
-		return mapping.findForward("basic");
-	}
-	
+
 	private List<LeaveRequestApprovalEmployeeRow> getEmployeeRows(List<ActionItem> actionList) {
 		List<LeaveRequestApprovalEmployeeRow> empRowList = new ArrayList<LeaveRequestApprovalEmployeeRow>();
 		Map<String, List<LeaveRequestDocument>> docMap = new HashMap<String, List<LeaveRequestDocument>>();
