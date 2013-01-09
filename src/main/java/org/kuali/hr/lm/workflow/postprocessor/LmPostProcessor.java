@@ -137,8 +137,10 @@ public class LmPostProcessor extends DefaultPostProcessor {
 		
 		AccrualCategoryRule accrualCategoryRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, asOfDate, serviceDate);
 		
-		if (accrualCategoryRule != null && !StringUtils.equals(accrualCategoryRule.getMaxBalanceActionFrequency(), LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
-			maxCarryOverAccrualCategoryRule = accrualCategoryRule;
+		if (accrualCategoryRule != null) {
+			if (StringUtils.equals(accrualCategoryRule.getMaxBalFlag(), "N") || !StringUtils.equals(accrualCategoryRule.getMaxBalanceActionFrequency(), LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+				maxCarryOverAccrualCategoryRule = accrualCategoryRule;
+			}
 		}
 		
 		return maxCarryOverAccrualCategoryRule;
