@@ -168,10 +168,18 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
                         hours = hours.negate();
                     }
                     //if on future calendar entry, mark as PLANNED, otherwise USAGE
+                    DateTime leaveBlockDate =new DateTime(leaveBlockInt.getStartMillis());
                     String requestStatus = LMConstants.REQUEST_STATUS.USAGE;
-                    if (calBeginDateTime.getMillis() < beginDate.getMillis()) {
+                    
+                    // KPME 2009 - retrive curent calendar entry
+                    CalendarEntries cce = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(ce.getHrCalendarId(), TKUtils.getCurrentDate());
+                    if (calBeginDateTime.getMillis() >=  cce.getBeginPeriodDateTime().getTime()) {
                         requestStatus = LMConstants.REQUEST_STATUS.PLANNED;
+                        if(leaveBlockDate.getMillis() >= (cce.getBeginPeriodDateTime().getTime())  && leaveBlockDate.getMillis() < cce.getEndPeriodDateTime().getTime()) {
+                        	requestStatus = LMConstants.REQUEST_STATUS.USAGE;
+                        }
                     }
+                    
                     EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, sqlDate);
 	                LeaveBlock leaveBlock = new LeaveBlock.Builder(new DateTime(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours)
 	                        .description(description)

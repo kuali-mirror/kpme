@@ -80,6 +80,9 @@ public class LeaveBlockRenderer {
         if (!this.leaveBlock.getRequestStatus().equals(LMConstants.REQUEST_STATUS.USAGE)) {
             return getRequestStatusClass();
         }
+        if(this.leaveBlock.getRequestStatus().equals(LMConstants.REQUEST_STATUS.USAGE)) {
+        	return getRequestStatusClass();
+        }
         return "";
     }
 
