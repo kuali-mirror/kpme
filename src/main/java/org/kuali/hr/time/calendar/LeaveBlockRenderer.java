@@ -77,13 +77,7 @@ public class LeaveBlockRenderer {
         if (this.leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE)) {
             return "accrual";
         }
-        if (!this.leaveBlock.getRequestStatus().equals(LMConstants.REQUEST_STATUS.USAGE)) {
-            return getRequestStatusClass();
-        }
-        if(this.leaveBlock.getRequestStatus().equals(LMConstants.REQUEST_STATUS.USAGE)) {
-        	return getRequestStatusClass();
-        }
-        return "";
+        return getRequestStatusClass();
     }
 
 }
