@@ -33,6 +33,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -70,12 +71,13 @@ public class LeaveBlockDisplayAction extends TkAction {
 			lbdf.setYear(lbdf.getYear() - 1);
 		}
 		currentCalendar.set(lbdf.getYear(), 0, 1);
+		Date serviceDate = (principalHRAttributes != null) ? principalHRAttributes.getServiceDate() : TKUtils.getTimelessDate(currentCalendar.getTime());
 		Date beginDate = TKUtils.getTimelessDate(currentCalendar.getTime());
 		currentCalendar.set(lbdf.getYear(), 11, 31);
 		Date endDate = TKUtils.getTimelessDate(currentCalendar.getTime());
 
 		lbdf.setAccrualCategories(getAccrualCategories(leavePlan));
-		lbdf.setLeaveEntries(getLeaveEntries(principalId, beginDate, endDate, lbdf.getAccrualCategories()));
+		lbdf.setLeaveEntries(getLeaveEntries(principalId, serviceDate, beginDate, endDate, lbdf.getAccrualCategories()));
 
 		List<LeaveBlockHistory> correctedLeaveEntries = TkServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistoriesForLeaveDisplay(principalId, beginDate, endDate, Boolean.TRUE);
 		if (correctedLeaveEntries != null) {
@@ -141,24 +143,23 @@ public class LeaveBlockDisplayAction extends TkAction {
 		return accrualCategories;
 	}
 	
-	private List<LeaveBlockDisplay> getLeaveEntries(String principalId, Date beginDate, Date endDate, List<AccrualCategory> accrualCategories) {
+	private List<LeaveBlockDisplay> getLeaveEntries(String principalId, Date serviceDate, Date beginDate, Date endDate, List<AccrualCategory> accrualCategories) {
 		List<LeaveBlockDisplay> leaveEntries = new ArrayList<LeaveBlockDisplay>();
 		
 		List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
 		
-		if (leaveBlocks != null) {
-			for (LeaveBlock leaveBlock : leaveBlocks) {
-				leaveEntries.add(new LeaveBlockDisplay(leaveBlock));
-			}
-			Collections.sort(leaveEntries, new Comparator<LeaveBlockDisplay>() {
-				@Override
-				public int compare(LeaveBlockDisplay o1, LeaveBlockDisplay o2) {
-					return ObjectUtils.compare(o1.getLeaveDate(), o2.getLeaveDate());
-				}
-			});
+		for (LeaveBlock leaveBlock : leaveBlocks) {
+			leaveEntries.add(new LeaveBlockDisplay(leaveBlock));
 		}
+		Collections.sort(leaveEntries, new Comparator<LeaveBlockDisplay>() {
+			@Override
+			public int compare(LeaveBlockDisplay o1, LeaveBlockDisplay o2) {
+				return ObjectUtils.compare(o1.getLeaveDate(), o2.getLeaveDate());
+			}
+		});
 		
-		SortedMap<String, BigDecimal> accrualBalances = new TreeMap<String, BigDecimal>();
+		SortedMap<String, BigDecimal> accrualBalances = getPreviousAccrualBalances(principalId, serviceDate, beginDate, accrualCategories);
+				
 		for (LeaveBlockDisplay leaveEntry : leaveEntries) {
 			for (AccrualCategory accrualCategory : accrualCategories) {
 				if (!accrualBalances.containsKey(accrualCategory.getAccrualCategory())) {
@@ -176,6 +177,28 @@ public class LeaveBlockDisplayAction extends TkAction {
 		}
 		
 		return leaveEntries;
+	}
+	
+	private SortedMap<String, BigDecimal> getPreviousAccrualBalances(String principalId, Date serviceDate, Date beginDate, List<AccrualCategory> accrualCategories) {
+		SortedMap<String, BigDecimal> previousAccrualBalances = new TreeMap<String, BigDecimal>();
+		
+		List<LeaveBlock> previousLeaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, serviceDate, new DateTime(beginDate).minusDays(1).toDate());
+		
+		for (LeaveBlock previousLeaveBlock : previousLeaveBlocks) {
+			for (AccrualCategory accrualCategory : accrualCategories) {
+				if (!previousAccrualBalances.containsKey(accrualCategory.getAccrualCategory())) {
+					previousAccrualBalances.put(accrualCategory.getAccrualCategory(), BigDecimal.ZERO);
+				}
+				BigDecimal currentAccrualBalance = previousAccrualBalances.get(accrualCategory.getAccrualCategory());
+				
+				if (StringUtils.equals(previousLeaveBlock.getAccrualCategory(), accrualCategory.getAccrualCategory())) {
+					BigDecimal accruedBalance = currentAccrualBalance.add(previousLeaveBlock.getLeaveAmount());
+					previousAccrualBalances.put(accrualCategory.getAccrualCategory(), accruedBalance);
+				}
+			}
+		}
+		
+		return previousAccrualBalances;
 	}
 
 	private void assignDocumentStatusToLeaveBlock(LeaveBlock leaveBlock) {
