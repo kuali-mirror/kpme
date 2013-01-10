@@ -77,17 +77,11 @@
         <insert tableName="hr_earn_code_s">
             <column name="id" value="10153" />
         </insert>
-        <insert tableName="hr_earn_group_def_s">
+        <insert tableName="hr_earn_code_group_def_s">
             <column name="id" value="12059" />
         </insert>
-        <insert tableName="hr_earn_group_s">
+        <insert tableName="hr_earn_code_group_s">
             <column name="id" value="10115" />
-        </insert>
-        <insert tableName="hr_holiday_calendar_dates_s">
-            <column name="id" value="10002" />
-        </insert>
-        <insert tableName="hr_holiday_calendar_s">
-            <column name="id" value="10000" />
         </insert>
         <insert tableName="hr_job_s">
             <column name="id" value="10346" />
@@ -124,8 +118,8 @@
         <loadData tableName="hr_dept_t" file="src/test/config/db/testdrive/hr_dept_t.csv" />
         <loadData tableName="hr_earn_code_security_t" file="src/test/config/db/testdrive/hr_earn_code_security_t.csv" />
         <loadData tableName="hr_earn_code_t" file="src/test/config/db/testdrive/hr_earn_code_t.csv" />
-        <loadData tableName="hr_earn_group_def_t" file="src/test/config/db/testdrive/hr_earn_group_def_t.csv" />
-        <loadData tableName="hr_earn_group_t" file="src/test/config/db/testdrive/hr_earn_group_t.csv" />
+        <loadData tableName="hr_earn_code_group_def_t" file="src/test/config/db/testdrive/hr_earn_code_group_def_t.csv" />
+        <loadData tableName="hr_earn_code_group_t" file="src/test/config/db/testdrive/hr_earn_code_group_t.csv" />
         <loadData tableName="hr_job_t" file="src/test/config/db/testdrive/hr_job_t.csv" />
         <loadData tableName="hr_location_t" file="src/test/config/db/testdrive/hr_location_t.csv" />
         <loadData tableName="hr_pay_grade_t" file="src/test/config/db/testdrive/hr_pay_grade_t.csv" />
@@ -138,7 +132,7 @@
     </changeSet>
     
     <changeSet id="7" author="kbtaylor" context="kpme-client-testdrive" dbms="mysql">
-        <insert tableName="lm_accrual_categories_s">
+        <insert tableName="lm_accrual_category_s">
             <column name="id" value="10002" />
         </insert>
         <insert tableName="lm_accruals_s">
@@ -147,7 +141,7 @@
     </changeSet>
     
     <changeSet id="8" author="kbtaylor" context="kpme-client-testdrive">
-        <loadData tableName="lm_accrual_categories_t" file="src/test/config/db/testdrive/lm_accrual_categories_t.csv" />
+        <loadData tableName="lm_accrual_category_t" file="src/test/config/db/testdrive/lm_accrual_category_t.csv" />
         <loadData tableName="lm_accruals_t" file="src/test/config/db/testdrive/lm_accruals_t.csv" />
     </changeSet>
     
