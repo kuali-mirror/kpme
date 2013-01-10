@@ -24,7 +24,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -98,22 +97,6 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 		}
 		return true;
 	}
-	
-	boolean validateExistingLeavePlan(String leavePlan, String leavePlanId, boolean isActive) {
-		boolean valid = true;
-		if(leavePlan != null && StringUtils.isNotBlank(leavePlan)) {
-			List<LeavePlan> leavePlans = TkServiceLocator.getLeavePlanService().getAllActiveLeavePlan(leavePlan, TKUtils.END_OF_TIME);
-//			LeavePlan lastLeavePlan = TkServiceLocator.getLeavePlanService().getLeavePlan(leavePlan, TKUtils.END_OF_TIME);
-			if(leavePlans != null && !leavePlans.isEmpty()) {
-				LeavePlan lastLeavePlan = leavePlans.get(0); 
-				if(lastLeavePlan != null && !lastLeavePlan.getLmLeavePlanId().equals(leavePlanId) && isActive) {
-					valid = false;
-		        	this.putFieldError("leavePlan", "error.leavePlan.effectiveDate.newr.exists", "Leave Plan");
-				} 
-			}
-		}
-		return valid;
-	}
 
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
@@ -127,9 +110,6 @@ public class LeavePlanValidation extends MaintenanceDocumentRuleBase {
 			if (leavePlan != null) {
 				valid = true;
 				valid &= this.validateInactivation(leavePlan);
-				if(leavePlan.getLeavePlan() != null && StringUtils.isNotEmpty(leavePlan.getLeavePlan())) {
-					valid &= this.validateExistingLeavePlan(leavePlan.getLeavePlan(), leavePlan.getLmLeavePlanId(), leavePlan.isActive());
-				}
 				if (StringUtils.isNotEmpty(leavePlan.getPlanningMonths())) {
 					valid &= this.validatePlanningMonths(leavePlan
 							.getPlanningMonths());
