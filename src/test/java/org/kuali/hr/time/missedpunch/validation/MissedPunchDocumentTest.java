@@ -123,11 +123,11 @@ public class MissedPunchDocumentTest extends KPMETestCase {
 				+ mPunchPage.asText());
 
 		Assert.assertTrue("page text:\n" + mPunchPage.asText() + "\n does not contain:\n",
-				mPunchPage.asText().contains("5:5 is not a valid date."));
+				mPunchPage.asText().contains("5:5 is not a valid time."));
 
 		// set Future time 
 		setFieldValue(mPunchPage, "document.actionDate", "01/20/2020");
-		setFieldValue(mPunchPage, "document.actionTime", "5:5 AM");
+		setFieldValue(mPunchPage, "document.actionTime", "5:50 AM");
 
 		elementSubmit = mPunchPage.getElementByName("methodToCall.route");
 		mPunchPage = elementSubmit.click();
@@ -143,7 +143,7 @@ public class MissedPunchDocumentTest extends KPMETestCase {
 		// before last clock in time
 		setFieldValue(mPunchPage, "document.clockAction", "CI");
 		setFieldValue(mPunchPage, "document.actionDate", "12/20/2009");
-		setFieldValue(mPunchPage, "document.actionTime", "5:5 AM");
+		setFieldValue(mPunchPage, "document.actionTime", "5:50 AM");
 		setFieldValue(mPunchPage, "document.assignment", "2_1234_2");
 
 		elementSubmit = mPunchPage.getElementByName("methodToCall.route");
@@ -161,7 +161,7 @@ public class MissedPunchDocumentTest extends KPMETestCase {
 	
 		// set proper value
 		setFieldValue(mPunchPage, "document.actionDate", "01/19/2012");
-		setFieldValue(mPunchPage, "document.actionTime", "5:5 AM");
+		setFieldValue(mPunchPage, "document.actionTime", "5:50 AM");
 		setFieldValue(mPunchPage, "document.clockAction", "CI");
 		setFieldValue(mPunchPage, "document.assignment", "2_1234_2");
 
