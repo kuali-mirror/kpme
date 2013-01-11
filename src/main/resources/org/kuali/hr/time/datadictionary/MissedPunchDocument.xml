@@ -119,9 +119,6 @@
             <bean parent="TextControlDefinition" p:size="10"/>
         </property>
         <property name="required" value="true"/>
-        <property name="validationPattern">
-            <bean parent="RegexValidationPattern" p:pattern="[0-9]{2}:[0-9]{2}\s*[Aa|Pp][Mm]" p:validationErrorMessageKey="MISSING"/>
-        </property>
         <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlTimeFormatter"/>
         <property name="name" value="actionTime"/>
         <property name="label" value="Missed Action Time (00:00 AM)"/>

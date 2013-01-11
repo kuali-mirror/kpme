@@ -18,21 +18,19 @@ package org.kuali.hr.time.rice.kns.web.format;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 
-import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.core.web.format.FormatException;
 import org.kuali.rice.core.web.format.Formatter;
 
 public class SqlTimeFormatter extends Formatter {
 
-	/**
-    * 
-    */
-	private static final long serialVersionUID = 1L;
-	private static final SimpleDateFormat sdFormat = new SimpleDateFormat(
-			"hh:mm aa");
+	private static final long serialVersionUID = -6187456990309386413L;
+	
+	private static final SimpleDateFormat sdFormat = new SimpleDateFormat("hh:mm aa");
 
 	static {
 		registerFormatter(Time.class, SqlTimeFormatter.class);
+		
+		sdFormat.setLenient(false);
 	}
 
 	/**
@@ -44,8 +42,7 @@ public class SqlTimeFormatter extends Formatter {
 		try {
 			o = new Time(sdFormat.parse(source).getTime());
 		} catch (Exception e) {
-			throw new FormatException("parsing", RiceKeyConstants.ERROR_DATE,
-					source, e);
+			throw new FormatException("parsing", "error.invalidTime", source, e);
 		}
 
 		return o;
