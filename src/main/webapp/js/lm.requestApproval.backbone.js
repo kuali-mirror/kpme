@@ -53,7 +53,7 @@ $(function () {
         	var disapproveList = '';
         	var deferList = '';
         	var validationEle = $("#validation_"+principalId);	// display error messages
-        	var radioCells = $('input:radio[id^="action_" + principalId]');
+        	var radioCells = $("input:radio[id^=action_" + principalId + "]");
         	var docSeparator = "----";  // separater doc actions
         	var idSeparator = "____";	// four "_", separator for for documentId and reason string
         	var errors = "";
@@ -150,7 +150,7 @@ $(function () {
          checkAllApprove : function(e) {
          	var key = _(e).parseActionKey();
 			var principalId = key.principalId;	// get the principalId from the id of the "Select All" checkbox
-			var radioCells = $('input:radio[id^="action_" + principalId]');
+			var radioCells = $("input:radio[id^=action_" + principalId + "]");
 			// when checkbox is checked, select approve for all radio buttons of employee
 			if($('#checkAllApprove_' + principalId).is(':checked')){
 				radioCells.each(function() {
