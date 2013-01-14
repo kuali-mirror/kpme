@@ -36,7 +36,7 @@ public class LeaveAdjustment extends HrBusinessObject {
 	private String earnCode;
 	private String description;
 	private BigDecimal adjustmentAmount = new BigDecimal("0.0");
-	private Person principal;
+    private Person principal;
 	private AccrualCategory accrualCategoryObj;
 	private EarnCode earnCodeObj;
 	private PrincipalHRAttributes principalHRAttrObj;
@@ -59,7 +59,13 @@ public class LeaveAdjustment extends HrBusinessObject {
 	public void setPrincipalId(String principalId) {
 		this.principalId = principalId;
 	}
-	public String getName() {
+    public Person getPrincipal() {
+        return principal;
+    }
+    public void setPrincipal(Person principal) {
+        this.principal = principal;
+    }
+    public String getName() {
 		if (principal == null) {
         principal = KimApiServiceLocator.getPersonService().getPerson(this.principalId);
 		}
