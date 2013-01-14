@@ -274,17 +274,6 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		
 		return accrualCategoryLeaveHours;
 	}
-	
-	@Override
-	public List<String> getUniqueLeavePayGroups() {
-		String sql = "SELECT DISTINCT P.leave_calendar FROM hr_principal_attributes_t P WHERE P.active = 'Y'";
-		SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(sql);
-		List<String> pyGroups = new LinkedList<String>();
-		while (rs.next()) {
-			pyGroups.add(rs.getString("leave_calendar"));
-		}
-		return pyGroups;
-	}
 
     @Override
     public List<String> getUniqueLeavePayGroupsForPrincipalIds(List<String> principalIds) {

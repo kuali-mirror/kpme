@@ -43,8 +43,6 @@ public interface LeaveApprovalService {
      */
     public List<Note> getNotesForDocument(String documentNumber);
 
-	public List<String> getUniqueLeavePayGroups();
-
     public List<String> getUniqueLeavePayGroupsForPrincipalIds(List<String> principalIds);
 	
     /*
