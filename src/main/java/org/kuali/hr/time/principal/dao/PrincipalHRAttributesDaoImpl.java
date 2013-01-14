@@ -19,8 +19,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -151,6 +153,46 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
         }
 
         return principalHRAttributes;
+    }
+    
+    public List<String> getActiveEmployeesIdForLeaveCalendarAndIdList(String leaveCalendarName, List<String> pidList, Date asOfDate) {
+    	List<PrincipalHRAttributes> principalHRAttributes = new ArrayList<PrincipalHRAttributes>();
+        Criteria root = new Criteria();
+        
+        root.addEqualTo("leaveCalendar", leaveCalendarName);
+        root.addIn("principalId", pidList);
+
+        Criteria effdt = new Criteria();
+        effdt.addEqualToField("leaveCalendar", Criteria.PARENT_QUERY_PREFIX + "leaveCalendar");
+        effdt.addLessOrEqualThan("effectiveDate", asOfDate);
+        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(PrincipalHRAttributes.class, effdt);
+        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+
+        Criteria timestamp = new Criteria();
+        timestamp.addEqualToField("leaveCalendar", Criteria.PARENT_QUERY_PREFIX + "leaveCalendar");
+        timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(PrincipalHRAttributes.class, timestamp);
+        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+
+        Criteria activeFilter = new Criteria();
+        activeFilter.addEqualTo("active", true);
+        root.addAndCriteria(activeFilter);
+
+        Query query = QueryFactory.newQuery(PrincipalHRAttributes.class, root);
+        Collection c = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        if (c != null) {
+        	principalHRAttributes.addAll(c);
+        }
+        Set<String> pids = new HashSet<String>();
+        for(PrincipalHRAttributes phra : principalHRAttributes) {
+	       	if(phra != null) {
+	       	pids.add(phra.getPrincipalId());
+	       	}
+        }
+        List<String> ids = new ArrayList<String>();
+        ids.addAll(pids);
+        
+        return ids;
     }
 	
     // KPME-1250 Kagata

@@ -36,10 +36,10 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
+import org.hsqldb.lib.StringUtil;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.approval.web.ApprovalLeaveSummaryRow;
-import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.base.web.ApprovalAction;
 import org.kuali.hr.time.base.web.ApprovalForm;
@@ -129,6 +129,7 @@ public class LeaveApprovalAction extends ApprovalAction{
         laaf.setLeaveCalendarDates(TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(payCalendarEntries));
 
 		laaf.getWorkAreaDescr().clear();
+		laaf.setSelectedWorkArea("");
     	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(laaf.getSelectedDept(), new java.sql.Date(laaf.getPayBeginDate().getTime()));
         for(WorkArea wa : workAreas){
         	if (TKContext.getUser().getApproverWorkAreas().contains(wa.getWorkArea())
@@ -137,7 +138,7 @@ public class LeaveApprovalAction extends ApprovalAction{
         	}
         }
 	
-    	List<String> principalIds = TkServiceLocator.getLeaveApprovalService().getPrincipalIdsByDeptWorkAreaRolename(laaf.getRoleName(), laaf.getSelectedDept(), laaf.getSelectedWorkArea(), new java.sql.Date(laaf.getPayBeginDate().getTime()), new java.sql.Date(laaf.getPayEndDate().getTime()), laaf.getSelectedPayCalendarGroup());
+        List<String> principalIds = this.getPrincipalIdsToPopulateTable(laaf);
     	this.setApprovalTables(laaf, principalIds, request, payCalendarEntries);
     	
     	this.populateCalendarAndPayPeriodLists(request, laaf);
@@ -153,13 +154,30 @@ public class LeaveApprovalAction extends ApprovalAction{
 
 	    CalendarEntries payCalendarEntries = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(laaf.getHrPyCalendarEntriesId());
         laaf.setLeaveCalendarDates(TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(payCalendarEntries));
-        
-        List<String> principalIds = TkServiceLocator.getLeaveApprovalService().getPrincipalIdsByDeptWorkAreaRolename(laaf.getRoleName(), laaf.getSelectedDept(), laaf.getSelectedWorkArea(), new java.sql.Date(laaf.getPayBeginDate().getTime()), new java.sql.Date(laaf.getPayEndDate().getTime()), laaf.getSelectedPayCalendarGroup());
-        this.setApprovalTables(laaf, principalIds, request, payCalendarEntries);
+   
+        List<String> idList = this.getPrincipalIdsToPopulateTable(laaf);
+        this.setApprovalTables(laaf, idList , request, payCalendarEntries);
         
 		return mapping.findForward("basic");
-	}
-		
+	}	
+
+	private List<String> getPrincipalIdsToPopulateTable(LeaveApprovalActionForm laaf) {
+        List<String> workAreaList = new ArrayList<String>();
+        if(StringUtil.isEmpty(laaf.getSelectedWorkArea())) {
+        	for(Long aKey : laaf.getWorkAreaDescr().keySet()) {
+        		workAreaList.add(aKey.toString());
+        	}
+        } else {
+        	workAreaList.add(laaf.getSelectedWorkArea());
+        }
+        java.sql.Date endDate = new java.sql.Date(laaf.getPayEndDate().getTime());
+        java.sql.Date beginDate = new java.sql.Date(laaf.getPayBeginDate().getTime());
+
+        List<String> idList = TkServiceLocator.getLeaveApprovalService()
+        		.getLeavePrincipalIdsWithSearchCriteria(workAreaList, laaf.getSelectedPayCalendarGroup(), endDate, beginDate, endDate);      
+        return idList;
+	}	
+	
 	private void setApprovalTables(LeaveApprovalActionForm laaf, List<String> principalIds, HttpServletRequest request, CalendarEntries payCalendarEntries) {
 		laaf.setLeaveCalendarDates(TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(payCalendarEntries));
 		
@@ -241,6 +259,10 @@ public class LeaveApprovalAction extends ApprovalAction{
             currentDate = TKUtils.getTimelessDate(null);
         }
         Set<Long> workAreas = TkServiceLocator.getTkRoleService().getWorkAreasForApprover(TKContext.getPrincipalId(), currentDate);
+        // should we use all three roles to find work areas???
+//        List<String> roleNameList = Arrays.asList(TkConstants.ROLE_TK_APPROVER, TkConstants.ROLE_TK_APPROVER_DELEGATE, TkConstants.ROLE_TK_REVIEWER);
+//        Set<Long> workAreas = TkServiceLocator.getTkRoleService().getWorkAreasForRoleNames(TKContext.getPrincipalId(), roleNameList, currentDate);
+        
         List<String> principalIds = new ArrayList<String>();
         for (Long workArea : workAreas) {
             List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, currentDate);
@@ -287,11 +309,8 @@ public class LeaveApprovalAction extends ApprovalAction{
 		LeaveApprovalActionForm laaf = (LeaveApprovalActionForm)form;
 
         if (payCalendarEntries != null) {
-		    laaf.setLeaveCalendarDates(TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(payCalendarEntries));
-
-            List<String> principalIds = TkServiceLocator.getLeaveApprovalService().getPrincipalIdsByDeptWorkAreaRolename(laaf.getRoleName(), laaf.getSelectedDept(), laaf.getSelectedWorkArea(), new java.sql.Date(laaf.getPayBeginDate().getTime()), new java.sql.Date(laaf.getPayEndDate().getTime()), laaf.getSelectedPayCalendarGroup());
-            TkServiceLocator.getLeaveApprovalService().removeNonLeaveEmployees(principalIds);
-
+		    laaf.setLeaveCalendarDates(TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(payCalendarEntries));	    
+		    List<String> principalIds = this.getPrincipalIdsToPopulateTable(laaf); 
             this.setApprovalTables(laaf, principalIds, request, payCalendarEntries);
             laaf.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(laaf.getPayCalendarEntries()));
         }

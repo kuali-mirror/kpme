@@ -36,6 +36,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.hsqldb.lib.StringUtil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -88,7 +89,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 		
 		// build employee rows to display on the page
 	    List<ActionItem> items = filterActionsWithSeletedParameters(lraaForm.getSelectedPayCalendarGroup(),
-				lraaForm.getSelectedDept(), lraaForm.getSelectedWorkArea());
+				lraaForm.getSelectedDept(), this.getWorkAreaList(lraaForm));
 		List<LeaveRequestApprovalEmployeeRow> rowList = this.getEmployeeRows(items);
 		lraaForm.setEmployeeRows(rowList);
 		return forward;
@@ -142,7 +143,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
         
         // build employee rows to display on the page
         List<ActionItem> items = filterActionsWithSeletedParameters(lraaForm.getSelectedPayCalendarGroup(),
-				lraaForm.getSelectedDept(), lraaForm.getSelectedWorkArea());
+				lraaForm.getSelectedDept(), this.getWorkAreaList(lraaForm));
         List<LeaveRequestApprovalEmployeeRow> rowList = this.getEmployeeRows(items);
         lraaForm.setEmployeeRows(rowList);	     
         
@@ -177,7 +178,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
         }
     	// filter actions with selected calendarGroup, Dept and workarea
     	List<ActionItem> items = filterActionsWithSeletedParameters(lraaForm.getSelectedPayCalendarGroup(),
-    				lraaForm.getSelectedDept(), lraaForm.getSelectedWorkArea());
+    				lraaForm.getSelectedDept(), this.getWorkAreaList(lraaForm));
     	List<LeaveRequestApprovalEmployeeRow> rowList = this.getEmployeeRows(items);
 		lraaForm.setEmployeeRows(rowList);	
  	
@@ -191,21 +192,21 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 		    
 		// filter actions with selected calendarGroup, Dept and workarea
     	List<ActionItem> items = filterActionsWithSeletedParameters(lraaForm.getSelectedPayCalendarGroup(),
-    				lraaForm.getSelectedDept(), lraaForm.getSelectedWorkArea());
+    				lraaForm.getSelectedDept(), this.getWorkAreaList(lraaForm));
     	List<LeaveRequestApprovalEmployeeRow> rowList = this.getEmployeeRows(items);
 		lraaForm.setEmployeeRows(rowList);
         
 		return mapping.findForward("basic");
 	}
 	
-	private List<ActionItem> filterActionsWithSeletedParameters(String calGroup, String dept, String workArea) {
+	private List<ActionItem> filterActionsWithSeletedParameters(String calGroup, String dept, List<String> workAreaList) {
 		String principalId = TKUser.getCurrentTargetPerson().getPrincipalId();
 		List<ActionItem> actionList = KewApiServiceLocator.getActionListService().getActionItemsForPrincipal(principalId);
 		List<ActionItem> resultsList = new ArrayList<ActionItem>();
 
 		Date currentDate = TKUtils.getCurrentDate();
 		List<String> principalIds = TkServiceLocator.getLeaveApprovalService()
-			.getPrincipalIdsByDeptWorkAreaRolename(null, dept, workArea, currentDate, currentDate, calGroup);
+ 			.getLeavePrincipalIdsWithSearchCriteria(workAreaList, calGroup, currentDate, currentDate, currentDate);    
 		
 		if(CollectionUtils.isNotEmpty(principalIds)) {
 			for(ActionItem anAction : actionList) {
@@ -225,6 +226,18 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 		}
         
         return resultsList;
+	}
+	
+	private List<String> getWorkAreaList(LeaveRequestApprovalActionForm lraaForm) {
+		List<String> workAreaList = new ArrayList<String>();
+	    if(StringUtil.isEmpty(lraaForm.getSelectedWorkArea())) {
+	    	for(Long aKey : lraaForm.getWorkAreaDescr().keySet()) {
+	    		workAreaList.add(aKey.toString());
+	    	}
+	    } else {
+	    	workAreaList.add(lraaForm.getSelectedWorkArea());
+	    }
+	    return workAreaList;
 	}
 	
 	public void resetState(ActionForm form, HttpServletRequest request) {

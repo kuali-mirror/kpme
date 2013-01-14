@@ -180,4 +180,13 @@ public interface AssignmentService {
      * @return
      */
 	public Assignment getAssignmentToApplyScheduledTimeOff(TimesheetDocument timesheetDocument, java.sql.Date payEndDate);
+	/**
+	 * Get list of unique principalIds with given workarea list and dates
+	 * @param workAreaList
+	 * @param effdt
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	public List<String> getPrincipalIds(List<String> workAreaList, Date effdt, Date startDate, Date endDate);
 }

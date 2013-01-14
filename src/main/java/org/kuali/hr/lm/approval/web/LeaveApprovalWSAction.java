@@ -16,6 +16,7 @@
 package org.kuali.hr.lm.approval.web;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -29,6 +30,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.hsqldb.lib.StringUtil;
 import org.json.simple.JSONValue;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.base.web.TkAction;
@@ -60,7 +62,18 @@ public class LeaveApprovalWSAction extends TkAction {
 		        Date beginDate = new SimpleDateFormat("MM/dd/yyyy").parse(laaf.getPayBeginDateForSearch());
 		        Date endDate = new SimpleDateFormat("MM/dd/yyyy").parse(laaf.getPayEndDateForSearch());
 		        
-		        List<String> principalIds = TkServiceLocator.getLeaveApprovalService().getPrincipalIdsByDeptWorkAreaRolename(laaf.getRoleName(), laaf.getSelectedDept(), laaf.getSelectedWorkArea(), new java.sql.Date(beginDate.getTime()), new java.sql.Date(endDate.getTime()), laaf.getSelectedPayCalendarGroup());
+		        List<String> workAreaList = new ArrayList<String>();
+		        if(StringUtil.isEmpty(laaf.getSelectedWorkArea())) {
+		        	for(Long aKey : laaf.getWorkAreaDescr().keySet()) {
+		        		workAreaList.add(aKey.toString());
+		        	}
+		        } else {
+		        	workAreaList.add(laaf.getSelectedWorkArea());
+		        } 
+		        List<String> principalIds = TkServiceLocator.getLeaveApprovalService()
+        			.getLeavePrincipalIdsWithSearchCriteria(workAreaList, laaf.getSelectedPayCalendarGroup(),
+        					new java.sql.Date(endDate.getTime()), new java.sql.Date(beginDate.getTime()), new java.sql.Date(endDate.getTime())); 
+		        
 		        List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
 		        
 		        if (StringUtils.equals(laaf.getSearchField(), ApprovalForm.ORDER_BY_PRINCIPAL)) {

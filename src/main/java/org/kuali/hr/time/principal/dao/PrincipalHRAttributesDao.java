@@ -30,6 +30,8 @@ public interface PrincipalHRAttributesDao {
 	public List<PrincipalHRAttributes> getActiveEmployeesForPayCalendar(String payCalendarName, Date asOfDate);
 
 	public List<PrincipalHRAttributes> getActiveEmployeesForLeaveCalendar(String leaveCalendarName, Date asOfDate);
+	
+	public List<String> getActiveEmployeesIdForLeaveCalendarAndIdList(String leaveCalendarName, List<String> pidList, Date asOfDate);
 
 	/**
 	 * KPME-1250 Kagata

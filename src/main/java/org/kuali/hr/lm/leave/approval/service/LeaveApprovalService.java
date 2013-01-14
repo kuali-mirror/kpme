@@ -59,19 +59,7 @@ public interface LeaveApprovalService {
      * 
      */
    public void removeNonLeaveEmployees(List<String> principalIds);
-   
-   /**
-    * Method to get a list of principal ids based on the department work areas.
-    *
-    * @param roleName
-    * @param department
-    * @param workArea
-    * @param payEndDate
-    * @param calGroup
-    * @return A list of the PrincipalIds
-    */
-   List<String> getPrincipalIdsByDeptWorkAreaRolename(String roleName, String department, String workArea, java.sql.Date payBeginDate, java.sql.Date payEndDate, String calGroup);
-   
+
    /**
     * Method to create a map that contains the principal's id and corresponding leave calendar document header.
     *
@@ -90,4 +78,16 @@ public interface LeaveApprovalService {
     * @return
     */
    public boolean isActiveAssignmentFoundOnJobFlsaStatus(String principalId, String flsaStatus, boolean chkForLeaveEligible);
+ 
+   /**
+    * Method to get a lit of principal ids based on work area list, calendarGroup and dates
+    * @param workAreaList
+    * @param calendarGroup
+    * @param effdt
+    * @param beginDate
+    * @param endDate
+    * @return
+    */		   
+   public List<String> getLeavePrincipalIdsWithSearchCriteria(
+			List<String> workAreaList, String calendarGroup, java.sql.Date effdt, java.sql.Date beginDate, java.sql.Date endDate);
 }

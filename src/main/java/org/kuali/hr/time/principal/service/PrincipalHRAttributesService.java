@@ -47,6 +47,16 @@ public interface PrincipalHRAttributesService {
 	 */
     @Cacheable(value= PrincipalHRAttributes.CACHE_NAME, key="'leaveCalendarName=' + #p0 + '|' + 'asOfDate=' + #p1")
     public List<PrincipalHRAttributes> getActiveEmployeesForLeaveCalendar(String leaveCalendarName, Date asOfDate);
+    
+    /**
+     * Get a list of unique principal ids that match given criteria, used by leave approval and leave request approval pages
+     * @param leaveCalendarName
+     * @param pidList
+     * @param asOfDate
+     * @return
+     */
+    @Cacheable(value= PrincipalHRAttributes.CACHE_NAME, key="'leaveCalendarName=' + #p0 + '|' + 'asOfDate=' + #p1")
+    public List<String> getActiveEmployeesIdForLeaveCalendarAndIdList(String leaveCalendarName, List<String> pidList, Date asOfDate);
 	
     /**
 	 * KPME-1250 Kagata

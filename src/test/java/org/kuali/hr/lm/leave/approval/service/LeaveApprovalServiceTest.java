@@ -17,6 +17,7 @@ package org.kuali.hr.lm.leave.approval.service;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -81,6 +82,44 @@ public class LeaveApprovalServiceTest extends KPMETestCase {
 		Map<String, BigDecimal> dayMap = aMap.get(DATE_FORMAT.parse("03/05/2012"));
 		Assert.assertTrue("Map on day 03/05 should have 1 entries, not " + dayMap.size(), dayMap.size() == 1);
 		Assert.assertTrue("testAC on day 03/05 should have 8 hours, not " + dayMap.get("testAC"), dayMap.get("testAC").equals(new BigDecimal(8)));
+	}
+	
+	@Test
+	public void testGetLeavePrincipalIdsWithSearchCriteria() throws ParseException {
+		List<String> workAreaList = new ArrayList<String>();
+		String calendarGroup = "leaveCal";
+		java.sql.Date beginDate = new java.sql.Date(DATE_FORMAT.parse("03/01/2012").getTime());
+		java.sql.Date endDate = new java.sql.Date(DATE_FORMAT.parse("03/30/2012").getTime());
+		
+		List<String> idList = TkServiceLocator.getLeaveApprovalService()
+			.getLeavePrincipalIdsWithSearchCriteria(workAreaList, calendarGroup, endDate, beginDate, endDate);		
+		Assert.assertTrue("There should be 0 principal ids when searching with empty workarea list, not " + idList.size(), idList.isEmpty());
+		
+		workAreaList.add("1111");
+		workAreaList.add("2222");
+		idList = TkServiceLocator.getLeaveApprovalService()
+			.getLeavePrincipalIdsWithSearchCriteria(workAreaList, calendarGroup, endDate, beginDate, endDate);		
+		Assert.assertTrue("There should be 2 principal ids when searching with both workareas, not " + idList.size(), idList.size() == 2);
+		// there's an principal id '1033' in setup that is not eligible for leave, so it should not be in the search results
+		for(String anId : idList) {
+			if(!(anId.equals("1011") || anId.equals("1022"))) {
+				Assert.fail("PrincipalIds searched with both workareas should be either '1011' or '1022', not " + anId);
+			}
+		}
+		
+		workAreaList = new ArrayList<String>();
+		workAreaList.add("1111");
+		idList = TkServiceLocator.getLeaveApprovalService()
+			.getLeavePrincipalIdsWithSearchCriteria(workAreaList, calendarGroup, endDate, beginDate, endDate);		
+		Assert.assertTrue("There should be 1 principal ids for workArea '1111', not " + idList.size(), idList.size() == 1);
+		Assert.assertTrue("Principal id for workArea '1111' should be principalA, not " + idList.get(0), idList.get(0).equals("1011"));
+		
+		workAreaList = new ArrayList<String>();
+		workAreaList.add("2222");
+		idList = TkServiceLocator.getLeaveApprovalService()
+			.getLeavePrincipalIdsWithSearchCriteria(workAreaList, calendarGroup, endDate, beginDate, endDate);		
+		Assert.assertTrue("There should be 1 principal ids for workArea '2222', not " + idList.size(), idList.size() == 1);
+		Assert.assertTrue("Principal id for workArea '2222' should be principalB, not " + idList.get(0), idList.get(0).equals("1022"));
 	}
 
 }

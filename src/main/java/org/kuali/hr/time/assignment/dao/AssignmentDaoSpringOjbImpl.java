@@ -18,7 +18,9 @@ package org.kuali.hr.time.assignment.dao;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -441,5 +443,65 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
         return (Assignment) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
 
+    public List<String> getPrincipalIds(List<String> workAreaList, Date effdt, Date startDate, Date endDate) {
+    	
+    	List<Assignment> results = new ArrayList<Assignment>();
+		List<String> ids = new ArrayList<String>();
+		 
+		Criteria activeRoot = new Criteria();	
+     	Criteria activEeffdtCrit = new Criteria();
+     	Criteria effdtCrit = new Criteria();
+        Criteria timestampCrit = new Criteria();
+     	Criteria inactiveRoot = new Criteria();
+
+     	effdtCrit.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+        effdtCrit.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
+        effdtCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+        effdtCrit.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
+        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Assignment.class, effdtCrit);
+        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+         
+        activEeffdtCrit.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+        activEeffdtCrit.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
+        activEeffdtCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+        activEeffdtCrit.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
+        activEeffdtCrit.addLessOrEqualThan("effectiveDate", effdt);
+        ReportQueryByCriteria activeEffdtSubQuery = QueryFactory.newReportQuery(Assignment.class, activEeffdtCrit);
+        activeEffdtSubQuery.setAttributes(new String[]{"max(effdt)"});
+        
+        timestampCrit.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
+        timestampCrit.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
+        timestampCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+        timestampCrit.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
+        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Assignment.class, timestampCrit);
+        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+        
+        inactiveRoot.addEqualTo("active", "N");
+        inactiveRoot.addIn("workArea", workAreaList);
+        inactiveRoot.addGreaterOrEqualThan("effectiveDate", startDate);
+        inactiveRoot.addLessOrEqualThan("effectiveDate", endDate);
+        inactiveRoot.addEqualTo("effectiveDate", effdtSubQuery);
+        inactiveRoot.addEqualTo("timestamp", timestampSubQuery);
+         
+        activeRoot.addIn("workArea", workAreaList);
+        activeRoot.addEqualTo("active", "Y");
+        activeRoot.addEqualTo("effectiveDate", activeEffdtSubQuery);
+        activeRoot.addEqualTo("timestamp", timestampSubQuery);
+        activeRoot.addOrCriteria(inactiveRoot);
+         
+        Query query = QueryFactory.newQuery(Assignment.class, activeRoot);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        if (c != null) {
+        	results.addAll(c);
+        }
+        Set<String> pids = new HashSet<String>();
+        for(Assignment anAssignment : results) {
+        	if(anAssignment != null) {
+        		pids.add(anAssignment.getPrincipalId());
+        	}
+        }
+        ids.addAll(pids);
+     	return ids;
+    }
 
 }
