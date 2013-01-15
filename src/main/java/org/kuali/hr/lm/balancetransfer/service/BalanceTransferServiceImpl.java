@@ -17,12 +17,11 @@ package org.kuali.hr.lm.balancetransfer.service;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTime;
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
@@ -34,13 +33,10 @@ import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
-import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -128,6 +124,10 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			BigDecimal adjustedMaxBalance = maxBalance.multiply(fullTimeEngagement);
 			BigDecimal maxTransferAmount = new BigDecimal(accrualRule.getMaxTransferAmount());
 			BigDecimal adjustedMaxTransferAmount = maxTransferAmount.multiply(fullTimeEngagement);
+			BigDecimal maxCarryOver = null;
+			if(ObjectUtils.isNotNull(accrualRule.getMaxCarryOver()))
+				maxCarryOver = new BigDecimal(accrualRule.getMaxCarryOver());
+			BigDecimal adjustedMaxCarryOver = null;
 			
 			List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, effectiveDate);
 			for(EmployeeOverride override : overrides) {
@@ -137,8 +137,11 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					//override values are not pro-rated for FTE.
 					if(StringUtils.equals(override.getOverrideType(),"MTA"))
 						adjustedMaxTransferAmount = new BigDecimal(override.getOverrideValue());
+					if(StringUtils.equals(override.getOverrideType(), "MAC"))
+						adjustedMaxCarryOver = new BigDecimal(override.getOverrideValue());
 				}
 			}
+			
 			
 			BigDecimal transferAmount = balanceInformation.getAccruedBalance().subtract(adjustedMaxBalance);
 			if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
@@ -165,6 +168,38 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					bt.setForfeitedAmount(BigDecimal.ZERO);
 				}
 			}
+			
+			// Max Carry Over logic for Year End transfers.
+			if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+				if(ObjectUtils.isNotNull(maxCarryOver)) {
+					if(ObjectUtils.isNull(adjustedMaxCarryOver))
+						adjustedMaxCarryOver = maxCarryOver.multiply(fullTimeEngagement);
+					//otherwise, adjustedMaxCarryOver has an employee override value, which trumps accrual rule defined MAC.
+					//At this point, transfer amount and forfeiture have been set so that the new accrued balance will be the
+					//adjusted max balance, so this amount is used to check against carry over.
+					if(adjustedMaxBalance.compareTo(adjustedMaxCarryOver) > 0) {
+						BigDecimal carryOverDiff = adjustedMaxBalance.subtract(adjustedMaxCarryOver);
+
+						BigDecimal potentialTransferAmount = bt.getTransferAmount().add(carryOverDiff);
+						//Can this amount be added to the transfer amount??
+						if(potentialTransferAmount.compareTo(adjustedMaxTransferAmount) <= 0) {
+							//yes
+							bt.setTransferAmount(bt.getTransferAmount().add(carryOverDiff));
+						}
+						else {
+							//no
+							BigDecimal carryOverExcess = potentialTransferAmount.subtract(adjustedMaxTransferAmount);
+							//move excess to forfeiture
+							bt.setForfeitedAmount(bt.getForfeitedAmount().add(carryOverExcess));
+							//the remainder (if any) can be added to the transfer amount
+							bt.setTransferAmount(bt.getTransferAmount().add(carryOverDiff.subtract(carryOverExcess)));
+							assert(bt.getTransferAmount().compareTo(adjustedMaxTransferAmount)==0);
+						}
+					}
+					//otherwise, given balance will be under the max annual carry over.
+				}
+			}
+			
 			//transfers triggered by accrual category rules are effective as of the date this method is called.
 			bt.setEffectiveDate(effectiveDate);
 			bt.setAccrualCategoryRule(accrualCategoryRule);
@@ -376,7 +411,8 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					//Employee overrides...
 					if(ObjectUtils.isNotNull(rule)) {
 						if(StringUtils.equals(rule.getMaxBalFlag(),"Y")) {
-							if(StringUtils.equals(rule.getActionAtMaxBalance(), LMConstants.ACTION_AT_MAX_BAL.TRANSFER)) {
+							if(StringUtils.equals(rule.getActionAtMaxBalance(), LMConstants.ACTION_AT_MAX_BAL.TRANSFER)
+									|| StringUtils.equals(rule.getActionAtMaxBalance(), LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
 								//There is a disagreement between the constant value LMConstants.MAX_BAL_ACTION_FREQ, and the value being
 								//set on LM_ACCRUAL_CATEGORY_RULES_T table. Temporarily have changed the constant to reflect the field
 								//value being set for MAX_BAL_ACTION_FREQ when accrual category rule records are saved.
@@ -394,9 +430,38 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 											//override values are not pro-rated.
 										}
 									}
-									BigDecimal accruedBalanceLessPendingTransfers = lsr.getAccruedBalance().add(adjustment);
-									if(accruedBalanceLessPendingTransfers.compareTo(adjustedMaxBalance) > 0 ) {
-										eligibleAccrualCategories.add(rule.getLmAccrualCategoryRuleId());
+									//should extend a BalanceTransferBase class, or use an algorithm swapping pattern.
+									//allow institutions to extend/customize/implement their own max_bal_action_frequency types.
+									if(StringUtils.equals(actionFrequency,LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+										//For year end transfer frequencies...
+										PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(document.getPrincipalId(), TKUtils.getCurrentDate());
+										LeavePlan lp = TkServiceLocator.getLeavePlanService().getLeavePlan(pha.getLeavePlan(),TKUtils.getCurrentDate());
+										StringBuilder sb = new StringBuilder("");
+										String calendarYearStart = lp.getCalendarYearStart();
+										// mm/dd
+										sb.append(calendarYearStart+"/");
+										if(lp.getCalendarYearStartMonth().equals("01")) {
+											//a calendar may start on 01/15, with monthly intervals.
+											sb.append(DateUtils.addYears(document.getCalendarEntry().getBeginPeriodDate(),1).getYear());
+										}
+										else
+											sb.append(document.getCalendarEntry().getBeginPeriodDate().getYear());
+										//if the calendar being submitted is the final calendar in the leave plans calendar year.
+										//must check the calendar year start month. If its the first month of the year, add a year to the date.
+										//otherwise, the end period date and the calendar year start date have the same year.
+										if(document.getCalendarEntry().getEndPeriodDate().equals(TKUtils.formatDateString(sb.toString()))) {
+											BigDecimal accruedBalanceLessPendingTransfers = lsr.getAccruedBalance().add(adjustment);
+											if(accruedBalanceLessPendingTransfers.compareTo(adjustedMaxBalance) > 0 ) {
+												eligibleAccrualCategories.add(rule.getLmAccrualCategoryRuleId());
+											}
+										}
+										//otherwise its not transferable under year end frequency.
+									}
+									else {
+										BigDecimal accruedBalanceLessPendingTransfers = lsr.getAccruedBalance().add(adjustment);
+										if(accruedBalanceLessPendingTransfers.compareTo(adjustedMaxBalance) > 0 ) {
+											eligibleAccrualCategories.add(rule.getLmAccrualCategoryRuleId());
+										}
 									}
 								}
 							}

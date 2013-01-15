@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -70,10 +71,11 @@ public class LeaveCalendarSubmitAction extends TkAction {
         if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.ROUTE)) {
             if (DocumentStatus.INITIATED.getCode().equals(document.getDocumentHeader().getDocumentStatus())
                     || DocumentStatus.SAVED.getCode().equals(document.getDocumentHeader().getDocumentStatus())) {
+            	
             	List<String> leaveApproveIds = TkServiceLocator.getBalanceTransferService().getAccrualCategoryRuleIdsForEligibleTransfers(document,
             			LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE);
-            	List<String> yearEndIds = TkServiceLocator.getBalanceTransferService().getAccrualCategoryRuleIdsForEligibleTransfers(document,
-            			LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END);
+            	leaveApproveIds.addAll(TkServiceLocator.getBalanceTransferService().getAccrualCategoryRuleIdsForEligibleTransfers(document,
+            			LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END));
             	//Waterfall transfers? What order do transfers occur?
             	//ACTION_AT_MAX_BALANCE == LOSE
             	//if prompting the user to submit forfeiture. Transfer amount field must be locked, read only.
@@ -99,10 +101,7 @@ public class LeaveCalendarSubmitAction extends TkAction {
             		redirect.setPath("/BalanceTransfer.do?"+request.getQueryString()+sb.toString());
             		return redirect;
             	}
-/*            	PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(document.getPrincipalId(), TKUtils.getCurrentDate());
-            	LeavePlan lp = TkServiceLocator.getLeavePlanService().getLeavePlan(pha.getLeavePlan(),TKUtils.getCurrentDate());
-            	
-            	if(document.getCalendarEntry().getEndPeriodDate())*/
+
                 TkServiceLocator.getLeaveCalendarService().routeLeaveCalendar(TKContext.getTargetPrincipalId(), document);
             }
         } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
