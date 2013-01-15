@@ -101,7 +101,7 @@
 							</td>
 
 							<td>
-								<input name="btRow1" id="btRow1" readonly="readonly"  size="10" value="${Form.currentTimeBlock.beginTimeDisplayTimeOnlyString}" />
+								<input type="text" name="btRow1" id="btRow1" disabled="disabled" size="10" value="${Form.currentTimeBlock.beginTimeDisplayTimeOnlyString}" />
                             </td>
 							<td>
 								<input type="text" name="edRow1" id="edRow1" size="10" value="${Form.currentTimeBlock.endTimeDisplayDateOnlyString }" />
@@ -113,7 +113,7 @@
 									
 							</td>
 							<td>
-								<input name="hrRow1" id="hrRow1" size="5" readonly="">
+								<input name="hrRow1" id="hrRow1" disabled="disabled" size="5" />
 							</td>
 							<td></td>
 					      </tr>
@@ -153,7 +153,7 @@
 									title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 15:30, 2:30">
 							</td>
 							<td>
-								<input name="hrRow2" id="hrRow2" size="5" readonly="" >
+								<input name="hrRow2" id="hrRow2" disabled="disabled" size="5" />
 							</td>
 							<td>
 								<input class="button" value="Add" type="button" name="addTimeBlock" id="addTimeBlock"
@@ -173,7 +173,7 @@
 							<td></td>
 							<td>Total Hours:</td>
 							<td>
-								<input name="hrsTotal" id="hrsTotal" size="5" readonly="">
+								<input name="hrsTotal" id="hrsTotal" disabled="disabled" size="5"/>
 								</td>
 							<td></td>
 						</tr>

@@ -1117,13 +1117,12 @@ $(function () {
 			//thus populating earn codes for a single selected non-editable assignment.
             if (e.keyCode == 65 && isCtrl && isAlt) {
                 app.showTimeEntryDialog(startDate,endDate,null);
+                
+                // https://uisapp2.iu.edu/jira-prd/browse/TK-1593
+                if ($("#selectedAssignment").is("input")) {
+                    app.fetchEarnCodeAndLoadFields();
+                }
             }
-            
-            // https://uisapp2.iu.edu/jira-prd/browse/TK-1593
-        	if ($("#selectedAssignment").is("input")) {
-           		app.fetchEarnCodeAndLoadFields();
-        	}
-
         }).keyup(function(e) {
             isCtrl = false;
             isAlt = false;

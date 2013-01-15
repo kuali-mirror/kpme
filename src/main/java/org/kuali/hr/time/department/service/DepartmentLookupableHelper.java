@@ -77,12 +77,12 @@ public class DepartmentLookupableHelper extends HrEffectiveDateActiveLookupableH
     @SuppressWarnings({"unchecked"})
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-        String department = fieldValues.get("department");
+        String dept = fieldValues.get("dept");
         String location = fieldValues.get("location");
         String descr = fieldValues.get("description");
         String active = fieldValues.get("active");
 
-        List<Department> departments = TkServiceLocator.getDepartmentService().getDepartments(department, location, descr, active);
+        List<Department> departments = TkServiceLocator.getDepartmentService().getDepartments(dept, location, descr, active);
 
         return departments;
     }

@@ -51,6 +51,7 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
         MissedPunchDocument mpDoc = (MissedPunchDocument) mpForm.getDocument();
         mpForm.setDocId(mpDoc.getTimesheetDocumentId());
 
+        ClockLog lastClock = null;
         if (StringUtils.equals(request.getParameter("command"), "initiate")) {
             String tdocId = request.getParameter("tdocid");
             TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(tdocId);
@@ -58,56 +59,59 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
             mpDoc.setPrincipalId(timesheetDocument.getPrincipalId());
             mpDoc.setTimesheetDocumentId(tdocId);
             // set default document description
-            if(StringUtils.isEmpty(mpDoc.getDocumentHeader().getDocumentDescription())) {
-            	mpDoc.getDocumentHeader().setDocumentDescription("Missed Punch: " + timesheetDocument.getPrincipalId());
+            if (StringUtils.isEmpty(mpDoc.getDocumentHeader().getDocumentDescription())) {
+                mpDoc.getDocumentHeader().setDocumentDescription("Missed Punch: " + timesheetDocument.getPrincipalId());
             }
-            
-            ClockLog lastClock = TkServiceLocator.getClockLogService().getLastClockLog(TKUser.getCurrentTargetPerson().getPrincipalId());
-            if(lastClock != null) {
-	            MissedPunchDocument lastDoc = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(lastClock.getTkClockLogId());
-	            if(lastDoc != null) {	// last action was a missed punch
-	            	mpDoc.setAssignment(lastDoc.getAssignment());
-	            } else {	// last action was not a missed punch
-	            	AssignmentDescriptionKey adk = new AssignmentDescriptionKey(lastClock.getJobNumber().toString(), lastClock.getWorkArea().toString(), lastClock.getTask().toString());
-	            	mpDoc.setAssignment(adk.toAssignmentKeyString());
-	            }
+
+            lastClock = TkServiceLocator.getClockLogService().getLastClockLog(TKUser.getCurrentTargetPerson().getPrincipalId());
+            if (lastClock != null) {
+                MissedPunchDocument lastDoc = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(lastClock.getTkClockLogId());
+                if (lastDoc != null) {    // last action was a missed punch
+                    mpDoc.setAssignment(lastDoc.getAssignment());
+                } else {    // last action was not a missed punch
+                    AssignmentDescriptionKey adk = new AssignmentDescriptionKey(lastClock.getJobNumber().toString(), lastClock.getWorkArea().toString(), lastClock.getTask().toString());
+                    mpDoc.setAssignment(adk.toAssignmentKeyString());
+                }
             }
         }
         if (StringUtils.equals(request.getParameter("command"), "displayDocSearchView")
-        		|| StringUtils.equals(request.getParameter("command"), "displayActionListView") ) {
+                || StringUtils.equals(request.getParameter("command"), "displayActionListView")) {
             Person p = KimApiServiceLocator.getPersonService().getPerson(mpDoc.getPrincipalId());
             TKContext.getUser().setTargetPerson(p);
             mpForm.setDocId(mpDoc.getDocumentNumber());
         }
-        
-        mpForm.setAssignmentReadOnly(false);
+//      mpForm.setAssignmentReadOnly(true);
         TkClockActionValuesFinder finder = new TkClockActionValuesFinder();
         List<KeyValue> keyLabels = (List<KeyValue>) finder.getKeyValues();
-        if(keyLabels.size() == 2){
+        if (keyLabels.size() == 2) {
 //        		&& !mpForm.getDocumentActions().containsKey(KNSConstants.KUALI_ACTION_CAN_EDIT)) {
-        	Set<String> actions = TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(TkConstants.CLOCK_IN);
-        	boolean flag = true;
-        	 for (String entry : actions) {
-                 if(!keyLabels.contains(new ConcreteKeyValue(entry, TkConstants.CLOCK_ACTION_STRINGS.get(entry)))) {
-                	 flag = false;
-                 }
-             }
-        	 if(flag) {
-        		 mpForm.setAssignmentReadOnly(true); 
-        	 }
-        } else if(keyLabels.size() == 1){
-        	Set<String> actions = TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(TkConstants.LUNCH_IN);
-        	boolean flag = true;
-        	for (String entry : actions) {
-                if(!keyLabels.contains(new ConcreteKeyValue(entry, TkConstants.CLOCK_ACTION_STRINGS.get(entry)))) {
-               	 flag = false;
+            Set<String> actions = TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(TkConstants.CLOCK_IN);
+            boolean flag = true;
+            for (String entry : actions) {
+                if (!keyLabels.contains(new ConcreteKeyValue(entry, TkConstants.CLOCK_ACTION_STRINGS.get(entry)))) {
+                    flag = false;
                 }
             }
-       	 	if(flag) {
-       		 mpForm.setAssignmentReadOnly(true); 
-       	 	}
+            if (flag) {
+                mpForm.setAssignmentReadOnly(true);
+            }
+        } else if (keyLabels.size() == 1) {
+            Set<String> actions = TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(TkConstants.LUNCH_IN);
+            boolean flag = true;
+            for (String entry : actions) {
+                if (!keyLabels.contains(new ConcreteKeyValue(entry, TkConstants.CLOCK_ACTION_STRINGS.get(entry)))) {
+                    flag = false;
+                }
+            }
+            if (flag) {
+                mpForm.setAssignmentReadOnly(true);
+            }
         }
-        
+        if (StringUtils.equals(lastClock.getClockAction(),"CO")){        // lock on the current assignment if user is clocked in.
+            mpForm.setAssignmentReadOnly(false);
+        } else {
+            mpForm.setAssignmentReadOnly(true);
+        }
         return act;
     }
 

@@ -50,7 +50,7 @@ public class WorkflowTagSupport {
     }
 
     private boolean isDisplayingRouteButton(CalendarDocumentContract doc) {
-        TkUserRoles roles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getActualPerson().getPrincipalId());
+        TkUserRoles roles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
         CalendarDocumentHeaderContract docHeader = doc.getDocumentHeader();
         if(StringUtils.isNotBlank(docHeader.getDocumentStatus())
             && (docHeader.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.SAVED)

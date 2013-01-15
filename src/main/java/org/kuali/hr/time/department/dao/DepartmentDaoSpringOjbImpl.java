@@ -102,13 +102,13 @@ public class DepartmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 
 	@Override
 	@SuppressWarnings("unchecked")
-    public List<Department> getDepartments(String department, String location, String departmentDescr, String active) {
+    public List<Department> getDepartments(String dept, String location, String departmentDescr, String active) {
         List<Department> results = new ArrayList<Department>();
         
         Criteria root = new Criteria();
 
-        if (StringUtils.isNotBlank(department)) {
-            root.addLike("department", department);
+        if (StringUtils.isNotBlank(dept)) {
+            root.addLike("dept", dept);
         }
         
         if (StringUtils.isNotBlank(location)) {

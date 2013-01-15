@@ -809,7 +809,7 @@ function addTimeBlockRow(form, tempArr) {
     el.id = idString;
     el.size = 5;
 //    el.value = form.hours.value;
-    el.readOnly = true;
+    el.disabled = true;
     cellHours.appendChild(el);
     var hrId = '#' + idString;
 
