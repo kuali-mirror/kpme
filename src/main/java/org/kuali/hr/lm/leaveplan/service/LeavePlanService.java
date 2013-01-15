@@ -19,6 +19,7 @@ import java.sql.Date;
 import java.util.List;
 
 import org.kuali.hr.lm.leaveplan.LeavePlan;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.springframework.cache.annotation.Cacheable;
 
 public interface LeavePlanService {
@@ -42,4 +43,9 @@ public interface LeavePlanService {
 
     List<LeavePlan> getLeavePlans(String leavePlan, String calendarYearStart, String descr, String planningMonths,
                                   Date fromEffdt, Date toEffdt, String active, String showHistory);
+    
+    boolean isFirstCalendarPeriodOfLeavePlan(CalendarEntries calendarEntry, String leavePlan, Date asOfDate);
+    
+    boolean isLastCalendarPeriodOfLeavePlan(CalendarEntries calendarEntry, String leavePlan, Date asOfDate);
+    
 }

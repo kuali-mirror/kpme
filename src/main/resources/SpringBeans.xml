@@ -650,7 +650,16 @@
     <bean id="leaveRequestDocumentService" class="org.kuali.hr.lm.leaverequest.service.LeaveRequestDocumentServiceImpl">
         <property name="leaveRequestDocumentDao" ref="leaveRequestDocumentDao"/>
     </bean>
-     
+    
+    <bean id="accrualCategoryMaxCarryOverService" class="org.kuali.hr.lm.accrual.service.AccrualCategoryMaxCarryOverServiceImpl">
+        <property name="accrualCategoryService" ref="accrualCategoryService" />
+	    <property name="accrualCategoryRuleService" ref="accrualCategoryRuleService" />
+	    <property name="employeeOverrideService" ref="employeeOverrideService" />
+	    <property name="jobService" ref="jobService" />
+	    <property name="leaveBlockService" ref="leaveBlockService" />
+	    <property name="leavePlanService" ref="leavePlanService" />
+	    <property name="principalHRAttributesService" ref="principalHRAttributesService" />
+    </bean>
     
     <!--<bean id="tkLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">-->
         <!--<property name="lookupableHelperService">-->

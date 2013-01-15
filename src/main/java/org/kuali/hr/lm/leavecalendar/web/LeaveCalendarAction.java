@@ -38,6 +38,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
+import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
@@ -51,6 +52,7 @@ import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.LeaveCalendar;
 import org.kuali.hr.time.detail.web.ActionFormUtils;
 import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
@@ -163,16 +165,14 @@ public class LeaveCalendarAction extends TkAction {
             leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForLeaveCalendar(viewPrincipal, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate(), assignmentKeys);
         } 
         
-        // add warning messages based on earn codes of leave blocks
-        List<String> warningMes = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
-        
-        lcf.setWarnings(warningMes);
-        
         // leave summary
         if (calendarEntry != null) {
             LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(viewPrincipal, calendarEntry);
             lcf.setLeaveSummary(ls);
         }
+        
+        // add warning messages based on earn codes of leave blocks
+        List<String> warningMes = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
         
         // add warning message for accrual categories that have exceeded max balance.
         List<String> transfers = new ArrayList<String>();
@@ -184,6 +184,20 @@ public class LeaveCalendarAction extends TkAction {
         	warningMes.add("You have exceeded the balance limit for one or more accrual categories within your leave plan.");
         	warningMes.add("Depending upon the rules of your institution, you may lose any hours over this limit.");
         }
+        
+        // add warning messages based on max carry over balances for each accrual category
+        PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, calendarEntry.getEndPeriodDate());
+		if (StringUtils.isNotBlank(principalCalendar.getLeavePlan())) {			
+			if (TkServiceLocator.getLeavePlanService().isLastCalendarPeriodOfLeavePlan(calendarEntry, principalCalendar.getLeavePlan(), new java.sql.Date(calendarEntry.getEndPeriodDate().getTime()))) {
+				List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(principalCalendar.getLeavePlan(), new java.sql.Date(calendarEntry.getEndPeriodDate().getTime()));
+				for (AccrualCategory accrualCategory : accrualCategories) {
+					if (TkServiceLocator.getAccrualCategoryMaxCarryOverService().exceedsAccrualCategoryMaxCarryOver(accrualCategory.getAccrualCategory(), viewPrincipal, calendarEntry, calendarEntry.getEndPeriodDate())) {
+						warningMes.add("Your pending leave balance is greater than the annual max carry over for accrual category '" + accrualCategory.getAccrualCategory() + "' and upon approval, the excess balance will be lost.");
+					}
+				}
+			}
+		}
+		
         lcf.setWarnings(warningMes);
         
 		// KPME-1690

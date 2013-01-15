@@ -17,6 +17,7 @@ package org.kuali.hr.time.service.base;
 
 import org.kuali.hr.core.notification.service.KPMENotificationService;
 import org.kuali.hr.job.service.JobService;
+import org.kuali.hr.lm.accrual.service.AccrualCategoryMaxCarryOverService;
 import org.kuali.hr.lm.accrual.service.AccrualCategoryRuleService;
 import org.kuali.hr.lm.accrual.service.AccrualCategoryService;
 import org.kuali.hr.lm.accrual.service.AccrualService;
@@ -164,7 +165,8 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String LM_LEAVE_APPROVAL_SERVICE = "leaveApprovalService";
     public static final String LM_BALANCE_TRANSFER_SERVICE = "balanceTransferService";
     public static final String LM_LEAVE_REQUEST_DOC_SERVICE = "leaveRequestDocumentService";
-	public static final String KPME_DISTRIBUTED_CACHE_MANAGER = "kpmeDistributedCacheManager";
+	public static final String LM_ACCRUAL_CATEGORY_MAX_CARRY_OVER_SERVICE = "accrualCategoryMaxCarryOverService";
+    public static final String KPME_DISTRIBUTED_CACHE_MANAGER = "kpmeDistributedCacheManager";
     public static final String KPME_NOTIFICATION_SERVICE = "kpmeNotificationService";
     
     public static MissedPunchService getMissedPunchService() {
@@ -458,6 +460,9 @@ public class TkServiceLocator implements ApplicationContextAware {
     }
     public static LeaveRequestDocumentService getLeaveRequestDocumentService() {
         return (LeaveRequestDocumentService) CONTEXT.getBean(LM_LEAVE_REQUEST_DOC_SERVICE);
+    }
+    public static AccrualCategoryMaxCarryOverService getAccrualCategoryMaxCarryOverService() {
+    	return (AccrualCategoryMaxCarryOverService) CONTEXT.getBean(LM_ACCRUAL_CATEGORY_MAX_CARRY_OVER_SERVICE);
     }
 	
 	@Override
