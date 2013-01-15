@@ -25,9 +25,15 @@ import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
+import org.kuali.hr.time.roles.TkRole;
+import org.kuali.hr.time.roles.TkRoleGroup;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.rice.kew.api.action.ActionItem;
+import org.kuali.rice.kew.api.action.ActionRequestType;
+import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
+import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -330,6 +336,13 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 			}
 		}
 		return isValid; 
+	}
+	
+	@Override
+	protected boolean processCustomApproveDocumentBusinessRules(
+			MaintenanceDocument document) {
+/*		System.out.println("");*/
+		return super.processCustomApproveDocumentBusinessRules(document);
 	}
 
 }

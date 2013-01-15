@@ -166,14 +166,6 @@ public class LeaveCalendarAction extends TkAction {
         // add warning messages based on earn codes of leave blocks
         List<String> warningMes = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
         
-        // add warning message for accrual categories that have exceeded max balance.
-        List<String> transfers = new ArrayList<String>();
-        transfers.addAll(TkServiceLocator.getBalanceTransferService().getAccrualCategoryRuleIdsForEligibleTransfers(lcd, LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE));
-        transfers.addAll(TkServiceLocator.getBalanceTransferService().getAccrualCategoryRuleIdsForEligibleTransfers(lcd, LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND));
-        if(!transfers.isEmpty()) {
-        	warningMes.add("You have exceeded the balance limit for one or more accrual categories within your leave plan.");
-        	warningMes.add("Depending upon the rules of your institution, you may lose any hours over this limit.");
-        }
         lcf.setWarnings(warningMes);
         
         // leave summary
@@ -181,6 +173,18 @@ public class LeaveCalendarAction extends TkAction {
             LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(viewPrincipal, calendarEntry);
             lcf.setLeaveSummary(ls);
         }
+        
+        // add warning message for accrual categories that have exceeded max balance.
+        List<String> transfers = new ArrayList<String>();
+        // Could set a flag on the transferable rows here so that LeaveCalendarSubmit.do knows
+        // which row(s) to transfer when user submits the calendar for approval.
+        transfers.addAll(TkServiceLocator.getBalanceTransferService().getAccrualCategoryRuleIdsForEligibleTransfers(lcf.getLeaveCalendarDocument(), LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE));
+        transfers.addAll(TkServiceLocator.getBalanceTransferService().getAccrualCategoryRuleIdsForEligibleTransfers(lcf.getLeaveCalendarDocument(), LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND));
+        if(!transfers.isEmpty()) {
+        	warningMes.add("You have exceeded the balance limit for one or more accrual categories within your leave plan.");
+        	warningMes.add("Depending upon the rules of your institution, you may lose any hours over this limit.");
+        }
+        lcf.setWarnings(warningMes);
         
 		// KPME-1690
 //        LeaveCalendar leaveCalender = new LeaveCalendar(viewPrincipal, calendarEntry);

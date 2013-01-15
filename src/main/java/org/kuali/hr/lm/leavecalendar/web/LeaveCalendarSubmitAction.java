@@ -27,11 +27,14 @@ import org.apache.struts.action.ActionRedirect;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
+import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.base.web.TkAction;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.exception.AuthorizationException;
@@ -67,10 +70,15 @@ public class LeaveCalendarSubmitAction extends TkAction {
         if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.ROUTE)) {
             if (DocumentStatus.INITIATED.getCode().equals(document.getDocumentHeader().getDocumentStatus())
                     || DocumentStatus.SAVED.getCode().equals(document.getDocumentHeader().getDocumentStatus())) {
-            	List<String> accrualRuleIds = TkServiceLocator.getBalanceTransferService().getAccrualCategoryRuleIdsForEligibleTransfers(document,
+            	List<String> leaveApproveIds = TkServiceLocator.getBalanceTransferService().getAccrualCategoryRuleIdsForEligibleTransfers(document,
             			LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE);
+            	List<String> yearEndIds = TkServiceLocator.getBalanceTransferService().getAccrualCategoryRuleIdsForEligibleTransfers(document,
+            			LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END);
             	//Waterfall transfers? What order do transfers occur?
-            	if(!accrualRuleIds.isEmpty()) {
+            	//ACTION_AT_MAX_BALANCE == LOSE
+            	//if prompting the user to submit forfeiture. Transfer amount field must be locked, read only.
+            	//
+            	if(!leaveApproveIds.isEmpty()) {
             		//There exist accrual categories that have exceeded their maximum balance
             		//It is required that if a max balance limit exists for any particular accrual category with frequency LEAVE_APPROVE
             		//and if the balance for such an accrual category exceeds that limit at the time this function
@@ -85,12 +93,16 @@ public class LeaveCalendarSubmitAction extends TkAction {
             		int categoryCounter = 0;
             		ActionRedirect redirect = new ActionRedirect();
 
-            		for(String accrualRuleId : accrualRuleIds) {
+            		for(String accrualRuleId : leaveApproveIds) {
             			sb.append("&accrualCategory"+categoryCounter+"="+accrualRuleId);
             		}
             		redirect.setPath("/BalanceTransfer.do?"+request.getQueryString()+sb.toString());
             		return redirect;
             	}
+/*            	PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(document.getPrincipalId(), TKUtils.getCurrentDate());
+            	LeavePlan lp = TkServiceLocator.getLeavePlanService().getLeavePlan(pha.getLeavePlan(),TKUtils.getCurrentDate());
+            	
+            	if(document.getCalendarEntry().getEndPeriodDate())*/
                 TkServiceLocator.getLeaveCalendarService().routeLeaveCalendar(TKContext.getTargetPrincipalId(), document);
             }
         } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.APPROVE)) {

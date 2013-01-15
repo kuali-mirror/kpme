@@ -119,7 +119,7 @@
 		<property name="shortLabel" value="Transfer Amount" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
-			<bean parent="NumericValidationPattern" />
+			<bean parent="FloatingPointValidationPattern" />
 		</property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="10" />
@@ -195,6 +195,9 @@
 		<property name="maxLength" value="10" />
 		<property name="control">
 			<bean parent="HiddenControlDefinition" />
+		</property>
+		<property name="validationPattern">
+			<bean parent="FloatingPointValidationPattern" />
 		</property>
 		<property name="label" value="Forfeited Amount" />
 	</bean>

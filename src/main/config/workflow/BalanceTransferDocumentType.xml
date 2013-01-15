@@ -24,8 +24,92 @@
     	<documentType>
             <name>BalanceTransferDocumentType</name>
             <parent>RiceDocument</parent>
+            <postProcessorName>org.kuali.hr.lm.workflow.postprocessor.BalanceTransferPostProcessor</postProcessorName>
             <docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+            <superUserWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</superUserWorkgroupName>
+            <blanketApproveWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</blanketApproveWorkgroupName>
+            <defaultExceptionWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</defaultExceptionWorkgroupName>
             <label>BalanceTransferDocument</label>
+			<active>true</active>
+            <routingVersion>1</routingVersion>
+            <routePaths>
+                <routePath>
+                    <start name="adhoc" nextNode="BalanceTransfer Attribute" />
+                    <requests name="BalanceTransfer Attribute" />
+                </routePath>
+            </routePaths>
+            <routeNodes>
+                <start name="adhoc">
+                    <exceptionWorkgroup>KPME-WKFLW:TK_SYSTEM_ADMIN</exceptionWorkgroup>
+                    <activationType>S</activationType>
+                    <mandatoryRoute>false</mandatoryRoute>
+                    <finalApproval>false</finalApproval>
+                </start>
+                <requests name="BalanceTransfer Attribute">
+                    <exceptionWorkgroup>KPME-WKFLW:TK_SYSTEM_ADMIN</exceptionWorkgroup>
+                    <activationType>S</activationType>
+                    <ruleTemplate>BalanceTransferWorkflowTemplate</ruleTemplate>
+                    <mandatoryRoute>true</mandatoryRoute>
+                    <finalApproval>true</finalApproval>
+                </requests>
+            </routeNodes>
+            <policies>
+                <policy>
+                    <name>INITIATOR_MUST_CANCEL</name>
+                    <value>false</value>
+                </policy>
+                <policy>
+                    <name>INITIATOR_MUST_ROUTE</name>
+                    <value>false</value>
+                </policy>
+                <policy>
+				    <name>NOTIFY_COMPLETED_ON_RETURN</name>
+				    <value>true</value>
+				</policy>
+            </policies>
         </documentType>
     </documentTypes>
+    <ruleAttributes xmlns="ns:workflow/RuleAttribute"
+	                xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+	<ruleAttribute>
+        <name>BalanceTransferWorkflowAttribute</name>
+        <className>org.kuali.hr.lm.workflow.BalanceTransferWorkflowAttribute</className>
+        <label>BalanceTransferWorkflowAttribute</label>
+        <description>BalanceTransferWorkflowAttribute</description>
+        <type>RuleAttribute</type>
+    </ruleAttribute>
+    </ruleAttributes>
+
+    <ruleTemplates xmlns="ns:workflow/RuleTemplate"
+                   xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+    <ruleTemplate allowOverwrite="true">
+        <name>BalanceTransferWorkflowTemplate</name>
+        <description>BalanceTransferWorkflowTemplate</description>
+        <attributes>
+            <attribute>
+                <name>BalanceTransferWorkflowAttribute</name>
+                <required>false</required>
+            </attribute>
+        </attributes>
+    </ruleTemplate>
+    </ruleTemplates>
+
+    <rules xmlns="ns:workflow/Rule"
+           xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+    <rule>
+        <name>BalanceTransferWorkflowRule</name>
+        <documentType>BalanceTransferDocumentType</documentType>
+        <ruleTemplate>BalanceTransferWorkflowTemplate</ruleTemplate>
+        <description>BalanceTransferWorkflowRule</description>
+        <forceAction>true</forceAction>
+        <responsibilities>
+            <responsibility>
+                <role>org.kuali.hr.lm.workflow.BalanceTransferWorkflowAttribute!TK_APPROVER</role>
+                <approvePolicy>A</approvePolicy>
+                <actionRequested>A</actionRequested>
+                <priority>1</priority>
+            </responsibility>
+        </responsibilities>
+    </rule>
+    </rules>
 </data>

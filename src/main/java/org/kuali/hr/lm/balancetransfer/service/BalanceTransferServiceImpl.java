@@ -17,10 +17,12 @@ package org.kuali.hr.lm.balancetransfer.service;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
@@ -30,11 +32,15 @@ import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
+import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -145,6 +151,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 
 				if(transferAmount.compareTo(adjustedMaxTransferAmount) > 0) {
 					//there's forfeiture.
+					//bring transfer amount down to the adjusted maximum transfer amount, and place excess in forfeiture.
 					//accruedBalance - adjustedMaxTransferAmount - adjustedMaxBalance = forfeiture.
 					//transferAmount = accruedBalance - adjustedMaxBalance; forfeiture = transferAmount - adjustedMaxTransferAmount.
 					BigDecimal forfeiture = transferAmount.subtract(adjustedMaxTransferAmount);
@@ -193,9 +200,9 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 	}
 
 	@Override
-	public void transfer(BalanceTransfer balanceTransfer) {
+	public BalanceTransfer transfer(BalanceTransfer balanceTransfer) {
 		if(ObjectUtils.isNull(balanceTransfer))
-			throw new RuntimeException("Attempted to proccess a null balance transfer");
+			throw new RuntimeException("did not supply a valid BalanceTransfer object.");
 		else {
 			List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
 			BigDecimal transferAmount = balanceTransfer.getTransferAmount();
@@ -236,8 +243,19 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					aLeaveBlock.setAccrualGenerated(true);
 					aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
 					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
+					aLeaveBlock.setDocumentId(balanceTransfer.getLeaveCalendarDocumentId());
 					aLeaveBlock.setBlockId(0L);
-					
+
+					//Want to store the newly created leave block id on this maintainable object
+					//when the status of the maintenance document encapsulating this maintainable changes
+					//the id will be used to fetch and update the leave block statuses.
+			    	aLeaveBlock = KRADServiceLocator.getBusinessObjectService().save(aLeaveBlock);
+
+			    	balanceTransfer.setAccruedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
+			        // save history
+			        LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
+			        lbh.setAction(LMConstants.ACTION.ADD);
+			        TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
 					leaveBlocks.add(aLeaveBlock);
 					
 					//Create leave block that removes the correct transfer amount from the originating accrual category.
@@ -251,7 +269,19 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					aLeaveBlock.setAccrualGenerated(true);
 					aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
 					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
+					aLeaveBlock.setDocumentId(balanceTransfer.getLeaveCalendarDocumentId());
 					aLeaveBlock.setBlockId(0L);
+					
+					//Want to store the newly created leave block id on this maintainable object.
+					//when the status of the maintenance document encapsulating this maintainable changes
+					//the id will be used to fetch and update the leave block statuses.
+			    	aLeaveBlock = KRADServiceLocator.getBusinessObjectService().save(aLeaveBlock);
+
+			    	balanceTransfer.setDebitedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
+			        // save history
+			        lbh = new LeaveBlockHistory(aLeaveBlock);
+			        lbh.setAction(LMConstants.ACTION.ADD);
+			        TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
 					
 					leaveBlocks.add(aLeaveBlock);
 				}
@@ -272,36 +302,75 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					aLeaveBlock.setAccrualGenerated(true);
 					aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
 					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
+					aLeaveBlock.setDocumentId(balanceTransfer.getLeaveCalendarDocumentId());
 					aLeaveBlock.setBlockId(0L);
+					
+					//Want to store the newly created leave block id on this maintainable object
+					//when the status of the maintenance document encapsulating this maintainable changes
+					//the id will be used to fetch and update the leave block statuses.
+			    	aLeaveBlock = KRADServiceLocator.getBusinessObjectService().save(aLeaveBlock);
+
+			    	balanceTransfer.setForfeitedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
+			        // save history
+			        LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
+			        lbh.setAction(LMConstants.ACTION.ADD);
+			        TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
 					
 					leaveBlocks.add(aLeaveBlock);
 				}
 			}
-			TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(leaveBlocks);
+
+			return balanceTransfer;
 		}
 	}
 	
 	//TODO: Move to LeaveCalendarService or implement as an accessor on LeaveCalendarDocument object.
 	@Override
-	public List<String> getAccrualCategoryRuleIdsForEligibleTransfers(LeaveCalendarDocument document, String actionFrequency) throws Exception {
+	public List<String> getAccrualCategoryRuleIdsForEligibleTransfers(LeaveCalendarDocument document, final String actionFrequency) throws Exception {
 		List<String> eligibleAccrualCategories = new ArrayList<String>();
 		//Employee override check here, or return base-eligible accrual categories,
 		//filtering out those that have increased balance limits due to employee override in caller?
 		if(ObjectUtils.isNotNull(document)) {
-			//null check inserted to fix LeaveCalendarWebTest failures on kpme-trunk-build-unit #2069
+			//null check inserted to fix LeaveCalendarWebTest failures on kpme-trunk-build-unit #2069		
+			
 			LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(document.getPrincipalId(),document.getCalendarEntry());
+
 			if(ObjectUtils.isNotNull(leaveSummary)) {
 				//null check inserted to fix LeaveCalendarWebTst failures on kpme-trunk-build-unit #2069
+				List<LeaveBlock> leaveBlocks = document.getLeaveBlocks();
 				for(LeaveSummaryRow lsr : leaveSummary.getLeaveSummaryRows()) {
-					/*			
-					if(lsr.isTransferable()) {
-						//this conditional could replace the branches below, with the addition of
-						//frequency testing, given the conditionals up to the max balance action frequency
-						//are used to set the field value on the leave summary row.
-						//this field value is currently used in tags to display/hide the transfer button for
-						//on-demand max balance action frequency. 
+					
+					
+					BigDecimal adjustment = new BigDecimal(0);
+					for(LeaveBlock lb : leaveBlocks) {
+						if(StringUtils.equals(lb.getAccrualCategory(),lsr.getAccrualCategory())) {
+							if(StringUtils.equals(lb.getRequestStatus(),LMConstants.REQUEST_STATUS.PLANNED) ||
+									StringUtils.equals(lb.getRequestStatus(), LMConstants.REQUEST_STATUS.USAGE)) 
+								adjustment = adjustment.add(lb.getLeaveAmount());
+							//add leave into adjustment for blocks whose leave amount hasn't been factored into accrued balance
+							if(StringUtils.equals(lb.getRequestStatus(),LMConstants.REQUEST_STATUS.REQUESTED)) {
+								//leave blocks move to requested from planned/usage upon submission of leave calendar document.
+								if(lb.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER)) {
+									// if the type is balance transfer, add only those for the accrual category.
+									//BT created leave blocks don't get factored into the accrued balance until status is final/approved.
+									// adjust accrued balance for "usage" leave amounts.
+									if(lb.getDescription().contains("Forfeited amount") ||
+											lb.getDescription().contains("Transferred amount"))
+										adjustment = adjustment.add(lb.getLeaveAmount());
+								}
+								// "Amount transferred" descriptions are credited/accrued leave amounts
+								// on the "transfer to" accrual category of a balance transfer.
+								// These are positive amounts, and can take the accrued balance on the credited accrual category
+								// over their balance limit. We will allow the accrued balance on the credited accrual category to "go over"
+								// when considering a requested leave block status.
+
+								else {
+									adjustment = adjustment.add(lb.getLeaveAmount());
+								}
+							}
+						}
 					}
-					*/
+					
 					String accrualCategoryRuleId = lsr.getAccrualCategoryRuleId();
 					AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
 					//Employee overrides...
@@ -325,8 +394,8 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 											//override values are not pro-rated.
 										}
 									}
-		
-									if(lsr.getAccruedBalance().compareTo(adjustedMaxBalance) > 0 ) {
+									BigDecimal accruedBalanceLessPendingTransfers = lsr.getAccruedBalance().add(adjustment);
+									if(accruedBalanceLessPendingTransfers.compareTo(adjustedMaxBalance) > 0 ) {
 										eligibleAccrualCategories.add(rule.getLmAccrualCategoryRuleId());
 									}
 								}

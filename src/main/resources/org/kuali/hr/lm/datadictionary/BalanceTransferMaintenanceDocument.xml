@@ -54,7 +54,6 @@
 			<bean parent="MaintainableFieldDefinition" p:name="toAccrualCategory" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="transferAmount" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="forfeitedAmount"/>
-
       </list>
     </property>
   </bean>

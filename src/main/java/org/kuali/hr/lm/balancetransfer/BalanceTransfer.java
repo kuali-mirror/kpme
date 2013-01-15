@@ -17,10 +17,15 @@ package org.kuali.hr.lm.balancetransfer;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
+import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
 
 public class BalanceTransfer extends HrBusinessObject {
@@ -30,6 +35,7 @@ public class BalanceTransfer extends HrBusinessObject {
     //public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "BalanceTransfer";
 
 	private String balanceTransferId;
+	private String documentHeaderId;
 	private String accrualCategoryRule;
 	private String principalId;
 	private String toAccrualCategory;
@@ -38,12 +44,13 @@ public class BalanceTransfer extends HrBusinessObject {
 	private BigDecimal forfeitedAmount;
 	private Date effectiveDate;
 	private String leaveCalendarDocumentId;
-	private String balanceTransferType;
+
+	private String status;
+	private String forfeitedLeaveBlockId;
+	private String accruedLeaveBlockId;
+	private String debitedLeaveBlockId;
 	
 	private Person principal;
-	private AccrualCategory creditedAccrualCategory;
-	private AccrualCategory debitedAccrualCategory;
-	private boolean transferRuleOverride;
 
 	public Date getEffectiveDate() {
 		return effectiveDate;
@@ -136,24 +143,8 @@ public class BalanceTransfer extends HrBusinessObject {
 		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, effectiveDate);
 	}
 
-	public void setCreditedAccrualCategory(AccrualCategory creditedAccrualCategory) {
-		this.creditedAccrualCategory = creditedAccrualCategory;
-	}
-
 	public AccrualCategory getDebitedAccrualCategory() {
 		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
-	}
-
-	public void setDebitedAccrualCategory(AccrualCategory debitedAccrualCategory) {
-		this.debitedAccrualCategory = debitedAccrualCategory;
-	}
-
-	public boolean isTransferRuleOverride() {
-		return transferRuleOverride;
-	}
-
-	public void setTransferRuleOverride(boolean transferRuleOverride) {
-		this.transferRuleOverride = transferRuleOverride;
 	}
 
 	public String getLeaveCalendarDocumentId() {
@@ -162,14 +153,6 @@ public class BalanceTransfer extends HrBusinessObject {
 
 	public void setLeaveCalendarDocumentId(String leaveCalendarDocumentId) {
 		this.leaveCalendarDocumentId = leaveCalendarDocumentId;
-	}
-
-	public String getBalanceTransferType() {
-		return balanceTransferType;
-	}
-
-	public void setBalanceTransferType(String balanceTransferType) {
-		this.balanceTransferType = balanceTransferType;
 	}
 
 	/**
@@ -195,6 +178,71 @@ public class BalanceTransfer extends HrBusinessObject {
 
 		this.transferAmount = transferAmount;
 		return this;
+	}
+
+	public List<LeaveBlock> getLeaveBlocks() {
+		List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
+		
+		leaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(forfeitedLeaveBlockId));
+		leaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(accruedLeaveBlockId));
+		leaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(debitedLeaveBlockId));
+
+		return leaveBlocks;
+	}
+
+	public String getDocumentHeaderId() {
+		return documentHeaderId;
+	}
+
+	public void setDocumentHeaderId(String documentHeaderId) {
+		this.documentHeaderId = documentHeaderId;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public void disapprove() {
+		TkServiceLocator.getLeaveBlockService().updateLeaveBlock(null, principalId);
+		setStatus(TkConstants.ROUTE_STATUS.DISAPPROVED);
+	}
+
+	public void approve() {
+
+		setStatus(TkConstants.ROUTE_STATUS.FINAL);
+	}
+
+	public void cancel() {
+
+		setStatus(TkConstants.ROUTE_STATUS.CANCEL);
+	}
+
+	public String getAccruedLeaveBlockId() {
+		return accruedLeaveBlockId;
+	}
+
+	public void setAccruedLeaveBlockId(String accruedLeaveBlockId) {
+		this.accruedLeaveBlockId = accruedLeaveBlockId;
+	}
+
+	public String getForfeitedLeaveBlockId() {
+		return forfeitedLeaveBlockId;
+	}
+
+	public void setForfeitedLeaveBlockId(String forfeitedLeaveBlockId) {
+		this.forfeitedLeaveBlockId = forfeitedLeaveBlockId;
+	}
+
+	public String getDebitedLeaveBlockId() {
+		return debitedLeaveBlockId;
+	}
+
+	public void setDebitedLeaveBlockId(String debitedLeaveBlockId) {
+		this.debitedLeaveBlockId = debitedLeaveBlockId;
 	}
 	
 	//Comparable for order handling of more than one transfer occurring during the same

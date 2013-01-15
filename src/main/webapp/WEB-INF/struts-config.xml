@@ -196,7 +196,7 @@
         
         <action path="/BalanceTransfer" name="BalanceTransferForm" scope="request" input="/WEB-INF/jsp/balanceTransfer.jsp"
                 type="org.kuali.hr.lm.balancetransfer.web.BalanceTransferAction" parameter="methodToCall"
-                validate="true" attribute="KualiForm">
+                validate="false" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/balanceTransfer.jsp"/>
             <forward name="success" path="/LeaveCalendarSubmit.do"/>
             <forward name="cancel" path="/LeaveCalendar.do"/>

@@ -24,6 +24,7 @@ import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
+import org.kuali.hr.time.calendar.CalendarEntries;
 
 public interface BalanceTransferService {
 
@@ -73,8 +74,9 @@ public interface BalanceTransferService {
 	/**
 	 * Consumes a BalanceTransfer object, creating up to three leave blocks.
 	 * @param balanceTransfer The BalanceTransfer object to use for transfer.
+	 * @return The same BalanceTransfer object, but with associated leave block ids.
 	 */
-	public void transfer(BalanceTransfer balanceTransfer);
+	public BalanceTransfer transfer(BalanceTransfer balanceTransfer);
 	
 	/**
 	 * Helper Services
@@ -90,13 +92,5 @@ public interface BalanceTransferService {
 	 * @throws Exception
 	 */
 	public List<String> getAccrualCategoryRuleIdsForEligibleTransfers(LeaveCalendarDocument document, String actionFrequency) throws Exception;
-	
-	/**
-	 * 
-	 * @param document The LeaveCalendarDocument to use in determining balance transfer eligibility
-	 * @return True if balance transfer qualifications have been met for any accrual category within the Leave calendar, false otherwise.
-	 */
-	//Unimplemented. Would require an equal number of service calls as "getEligibleTransferForLeaveApprove"
-	//public boolean balanceTransferQualificationMet(LeaveCalendarDocument document);
 	
 }
