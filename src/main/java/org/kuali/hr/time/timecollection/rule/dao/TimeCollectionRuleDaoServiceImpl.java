@@ -60,19 +60,7 @@ public class TimeCollectionRuleDaoServiceImpl extends PlatformAwareDaoBaseOjb im
         }
 
         //Try with everything wildcarded
-        timeCollectionRule = getTimeCollectionRuleWildCarded("%", -1L, asOfDate);
-        if (timeCollectionRule != null) {
-            return timeCollectionRule;
-        }
-
-        //Return default time collection rule
-        timeCollectionRule = new TimeCollectionRule();
-        timeCollectionRule.setActive(true);
-        timeCollectionRule.setClockUserFl(true);
-        timeCollectionRule.setDept(dept);
-        timeCollectionRule.setWorkArea(workArea);
-
-        return timeCollectionRule;
+        return getTimeCollectionRuleWildCarded("%", -1L, asOfDate);
     }
 
     private TimeCollectionRule getTimeCollectionRuleWildCarded(String dept, Long workArea, Date asOfDate) {
@@ -172,19 +160,7 @@ public class TimeCollectionRuleDaoServiceImpl extends PlatformAwareDaoBaseOjb im
         }
 
         //Try with everything wildcarded
-        timeCollectionRule = getTimeCollectionRuleWildCarded("%", -1L, "%", asOfDate);
-        if (timeCollectionRule != null) {
-            return timeCollectionRule;
-        }
-
-        //Return default time collection rule
-        timeCollectionRule = new TimeCollectionRule();
-        timeCollectionRule.setActive(true);
-        timeCollectionRule.setClockUserFl(true);
-        timeCollectionRule.setDept(dept);
-        timeCollectionRule.setWorkArea(workArea);
-
-        return timeCollectionRule;
+        return getTimeCollectionRuleWildCarded("%", -1L, "%", asOfDate);
     }
 
     private TimeCollectionRule getTimeCollectionRuleWildCarded(String dept, Long workArea, String payType, Date asOfDate) {

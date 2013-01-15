@@ -103,13 +103,15 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
                     || TKContext.getUser().isTimesheetReviewer()
                     && TKContext.getUser().getReviewerWorkAreas().contains(tb.getWorkArea())) {
 
-                if (StringUtils.equals(payType.getRegEarnCode(),
-                        tb.getEarnCode())) {
+                if (StringUtils.equals(payType.getRegEarnCode(), tb.getEarnCode())) {
                     TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),tb.getWorkArea(),tb.getBeginDate());
-                    if(!tcr.isClockUserFl()){
-                        return true;
-                    }  else{
-                        return false;
+                    
+                    if (tcr != null) {
+                    	if (!tcr.isClockUserFl()) {
+	                        return true;
+	                    }  else{
+	                        return false;
+	                    }
                     }
 
                 }
@@ -198,25 +200,23 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
 
             if (userId.equals(TKContext.getTargetPrincipalId())) {
 
-                if (StringUtils.equals(payType.getRegEarnCode(),
-                        tb.getEarnCode())) {
-                    TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),tb.getWorkArea(),job.getHrPayType(),tb.getBeginDate());
-
+                if (StringUtils.equals(payType.getRegEarnCode(), tb.getEarnCode())) {
                     //If you are a clock user and you have only one assignment you should not be allowed to change the assignment
                     //TODO eventually move this logic to one concise place for editable portions of the timeblock
                     List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getPrincipalId(),tb.getBeginDate());
-                    if(assignments.size() == 1){
-                        if(!tcr.isClockUserFl() ){
-                            return true;
-                        }  else{
-                            return false;
-                        }
-                    }   else {
+                    if (assignments.size() == 1) {
+                    	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),tb.getWorkArea(),job.getHrPayType(),tb.getBeginDate());
+                    	
+                    	if (tcr != null) {
+	                        if (!tcr.isClockUserFl()) {
+	                            return true;
+	                        }  else{
+	                            return false;
+	                        }
+                    	}
+                    } else {
                         return true;
                     }
-
-
-
                 }
 
                 List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator
@@ -252,8 +252,6 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
                     tb.getEndDate());
             PayType payType = TkServiceLocator.getPayTypeService().getPayType(
                     job.getHrPayType(), tb.getEndDate());
-
-            TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),tb.getWorkArea(),payType.getPayType(),tb.getEndDate());
 
             if (TKContext.getUser().isTimesheetApprover()
                     && TKContext.getUser().getApproverWorkAreas().contains(tb.getWorkArea())
@@ -294,30 +292,31 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
 					return false;
 			}
 
-                //if on a regular earncode
-                if (StringUtils.equals(payType.getRegEarnCode(),
-                        tb.getEarnCode())) {
-                    //and the user is a clock user and this is the users timesheet do not allow to be deleted
-                    if(tcr.isClockUserFl() && StringUtils.equals(userId,TKContext.getTargetPrincipalId())) {
-                        return false;
-                    }  else {
-                        return true;
-                    }
-
+            //if on a regular earncode and the user is a clock user and this is the users timesheet, do not allow to be deleted
+            if (StringUtils.equals(payType.getRegEarnCode(), tb.getEarnCode())) {
+            	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),tb.getWorkArea(),payType.getPayType(),tb.getEndDate());
+            	
+            	if (tcr != null) {
+                	if (tcr.isClockUserFl() && StringUtils.equals(userId,TKContext.getTargetPrincipalId())) {
+	                    return false;
+	                }  else {
+	                    return true;
+	                }
                 }
+            }
 
-                List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator
-                        .getEarnCodeSecurityService().getEarnCodeSecurities(
-                                job.getDept(), job.getHrSalGroup(),
-                                job.getLocation(), tb.getEndDate());
-                for (EarnCodeSecurity dec : deptEarnCodes) {
-                    if (dec.isEmployee()
-                            && StringUtils.equals(dec.getEarnCode(),
-                            tb.getEarnCode())
-                            && hasManagerialRolesOnWorkArea(tb)) {
-                        return true;
-                    }
+            List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator
+                    .getEarnCodeSecurityService().getEarnCodeSecurities(
+                            job.getDept(), job.getHrSalGroup(),
+                            job.getLocation(), tb.getEndDate());
+            for (EarnCodeSecurity dec : deptEarnCodes) {
+                if (dec.isEmployee()
+                        && StringUtils.equals(dec.getEarnCode(),
+                        tb.getEarnCode())
+                        && hasManagerialRolesOnWorkArea(tb)) {
+                    return true;
                 }
+            }
 
         }
 
@@ -721,10 +720,9 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
         	if(tdh != null && tdh.getEndDate() != null) {
         		aDate = new java.sql.Date(tdh.getEndDate().getTime());
         	}
-        	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService()
-        								.getTimeCollectionRule(anAssignment.getDept(), anAssignment.getWorkArea()
-        										, anAssignment.getJob().getHrPayType(), aDate);
-        	if(tcr != null && tcr.isClockUserFl()) {
+        	
+        	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(anAssignment.getDept(), anAssignment.getWorkArea(), anAssignment.getJob().getHrPayType(), aDate);
+        	if (tcr != null && tcr.isClockUserFl()) {
         		// use assignment to get the payType object, then check if the regEarnCode of the paytyep matches the earn code of the timeblock
         		// if they do match, then return false
         		PayType pt = TkServiceLocator.getPayTypeService().getPayType(anAssignment.getJob().getHrPayType(), anAssignment.getJob().getEffectiveDate());

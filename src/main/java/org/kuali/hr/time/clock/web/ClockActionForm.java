@@ -307,7 +307,7 @@ public class ClockActionForm extends TimesheetActionForm {
 
 				 for(Assignment assignment : assignmentList) {
 					TimeCollectionRule rule = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(assignment.getJob().getDept(), assignment.getWorkArea(), assignment.getEffectiveDate());
-					if(rule.isHrsDistributionF() && rule.isClockUserFl()) {
+					if(rule != null && rule.isHrsDistributionF() && rule.isClockUserFl()) {
 						aList.add(assignment.getAssignmentDescription()+ "=" + assignment.getTkAssignmentId().toString());
 						desMap.put(assignment.getTkAssignmentId().toString(), assignment.getAssignmentDescription());
 

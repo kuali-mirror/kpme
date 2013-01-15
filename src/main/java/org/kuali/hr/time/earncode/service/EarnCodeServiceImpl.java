@@ -15,7 +15,16 @@
  */
 package org.kuali.hr.time.earncode.service;
 
-import com.google.common.collect.Ordering;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
@@ -23,6 +32,7 @@ import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.lm.earncodesec.EarnCodeType;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncode.dao.EarnCodeDao;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
@@ -34,9 +44,7 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.*;
+import com.google.common.collect.Ordering;
 
 public class EarnCodeServiceImpl implements EarnCodeService {
 
@@ -66,7 +74,9 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         List<EarnCode> earnCodes = new LinkedList<EarnCode>();
         String earnTypeCode = EarnCodeType.TIME.getCode();
 
-        boolean isClockUser = a.getTimeCollectionRule().isClockUserFl();
+        TimeCollectionRule tcr = a.getTimeCollectionRule();
+        
+        boolean isClockUser = tcr != null && tcr.isClockUserFl();
         boolean isUsersTimesheet = StringUtils.equals(TKContext.getPrincipalId(),a.getPrincipalId());
 
         // Reg earn codes will typically not be defined in the earn code security table
