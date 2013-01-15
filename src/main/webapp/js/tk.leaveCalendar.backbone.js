@@ -468,7 +468,7 @@ $(function () {
 
         validateEarnCode : function () {
             var isValid = true;
-            isValid = isValid && this.checkEmptyField($("#selectedEarnCode option:selected"), "Earn Code");
+            isValid = isValid && this.checkEmptyField($("#selectedEarnCode"), "Earn Code");
 
             // couldn't find an easier way to get the earn code json, so we validate by the field id
             // The method below will get a list of not hidden fields' ids
@@ -478,7 +478,7 @@ $(function () {
                     }).get();
              if (_.contains(ids, "leaveAmount")) {
                 var hours = $('#leaveAmount');
-                isValid = isValid && (this.checkEmptyField(hours, "Leave amount")  && this.checkRegexp(hours, '/0/', 'Leave amount cannot be zero'));
+                isValid = isValid && (this.checkEmptyField(hours, "Leave amount") && this.checkZeroValue(hours, 'Leave amount cannot be zero') && this.checkNumeric(hours, /^\d+(\.\d{1,})?$/, 'Enter valid leave amount'));
                 if(isValid) {
                 	var type = this.getEarnCodeUnit(EarnCodes.toJSON(), $('#selectedEarnCode option:selected').val());
                 	if (type == 'D') {
@@ -616,7 +616,6 @@ $(function () {
             isValid = isValid && this.checkStartEndDateFields($("#startDate"), $("#endDate"),"Start Date");
             isValid = isValid && this.validateEarnCode();
              
-            
             if (isValid) {
            
                 var docId = $('#documentId').val();
@@ -693,7 +692,15 @@ $(function () {
 
         checkRegexp : function (o, regexp, n) {
             if (( o.val().match(regexp) )) {
-                this.displayErrorMessages(n);
+                this.displayErrorMessages(n, o);
+                return false;
+            }
+            return true;
+        },
+        
+        checkNumeric : function (o, regexp, n) {
+            if (!( o.val().match(regexp) )) {
+                this.displayErrorMessages(n, o);
                 return false;
             }
             return true;
@@ -710,6 +717,14 @@ $(function () {
         checkRangeValue : function (o, value1, field) {
             if (o.val() > value1) {
             	this.displayErrorMessages(field + " field should not exceed " + value1, o);
+            	return false;
+            }
+            return true;
+        },
+        
+        checkZeroValue : function (o, n) {
+            if (o.val() <=  0) {
+            	this.displayErrorMessages(n, o);
             	return false;
             }
             return true;
