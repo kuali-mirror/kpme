@@ -382,6 +382,7 @@
     <property name="lookupFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="calendarName"/>
+        <bean parent="FieldDefinition" p:attributeName="hrCalendarId" p:noInquiry="true" p:noLookup="true" p:hidden="true"/>
         <bean parent="FieldDefinition" p:attributeName="beginPeriodDateTime"/>
         <bean parent="FieldDefinition" p:attributeName="endPeriodDateTime"/>
       </list>
