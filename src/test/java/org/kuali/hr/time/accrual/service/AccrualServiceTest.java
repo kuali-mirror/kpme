@@ -784,5 +784,34 @@ public class AccrualServiceTest extends KPMETestCase {
 				 , lb.getLeaveAmount().equals(new BigDecimal(32)));
 		 
 	}
+	
+	@Test
+	/*	testUser15's service Date is 2012-03-10
+	 * 	testUser15 has one accrual category, the effectiveDate of the AC is 2012-03-01
+	 *  The rule associated with the AC has 24 as the accrual rate
+	 *  There's Leave Calendar document for calendar entry 2012-04-01 -- 2012-05-01
+	 *  run accrual for testUser15 for 6 months
+	 */
+	public void testLeaveBlocksWithLeaveCalendarDocId() {
+		String principal_id = "testUser15";
+		Calendar aCal = Calendar.getInstance();
+		aCal.setTime(START_DATE);
+		aCal.add(Calendar.MONTH, 6);
+		Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		 
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE, endDate);
+		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
+		
+		TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, endDate, false);
+		
+		// 04/30/2012 
+		Date intervalDate = new Date((new DateTime(2012, 4, 30, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate);
+		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
+		LeaveBlock lb = leaveBlockList.get(0);
+		Assert.assertTrue("DocumentId of the leave block for date  " + intervalDate.toString() + " should be 5000, not " + lb.getDocumentId()
+				 , lb.getDocumentId().equals("5000"));		
+		 
+	}
 
 }

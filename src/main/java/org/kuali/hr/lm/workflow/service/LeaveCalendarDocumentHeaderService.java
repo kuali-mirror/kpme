@@ -46,5 +46,14 @@ public interface LeaveCalendarDocumentHeaderService {
 	public List<LeaveCalendarDocumentHeader> getApprovalDelinquentDocumentHeaders(String principalId);
 
     public void deleteLeaveCalendarHeader(String documentId);
+    
+    /**
+     * Get list of LeaveCalendarDocumentHeader for given principalId and date range
+     * @param principalId
+     * @param beginDate
+     * @param endDate
+     * @return
+     */
+    public List<LeaveCalendarDocumentHeader> getAllDocumentHeadersInRangeForPricipalId(String principalId, Date beginDate, Date endDate);
 }
 

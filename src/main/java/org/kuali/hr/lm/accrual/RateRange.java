@@ -36,6 +36,7 @@ public class RateRange {
 	private List<AccrualCategory> acList = new ArrayList<AccrualCategory>();
 	private List<AccrualCategoryRule> acRuleList = new ArrayList<AccrualCategoryRule>();
 	private SystemScheduledTimeOff sysScheTimeOff;
+	private String leaveCalendarDocumentId;
 	
 	private boolean statusChanged;
 	
@@ -107,5 +108,11 @@ public class RateRange {
 	}
 	public void setSysScheTimeOff(SystemScheduledTimeOff sysScheTimeOff) {
 		this.sysScheTimeOff = sysScheTimeOff;
+	}
+	public String getLeaveCalendarDocumentId() {
+		return leaveCalendarDocumentId;
+	}
+	public void setLeaveCalendarDocumentId(String leaveCalendarDocumentId) {
+		this.leaveCalendarDocumentId = leaveCalendarDocumentId;
 	}
 }

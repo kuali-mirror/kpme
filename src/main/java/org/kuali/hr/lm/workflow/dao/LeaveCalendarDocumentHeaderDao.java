@@ -41,4 +41,6 @@ public interface LeaveCalendarDocumentHeaderDao {
 	public List<LeaveCalendarDocumentHeader> getApprovalDelinquentDocumentHeaders(String principalId);
 
     public void deleteLeaveCalendarHeader(String documentId);
+    
+    public List<LeaveCalendarDocumentHeader> getAllDocumentHeadersInRangeForPricipalId(String principalId, Date beginDate, Date endDate);
 }

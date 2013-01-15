@@ -26,3 +26,4 @@ delete from lm_sys_schd_timeoff_t where lm_sys_schd_timeoff_id = '5000';
 delete from lm_leave_block_t where principal_id like('testUser%');
 delete from lm_leave_block_hist_t where principal_id like('testUser%');
 delete from lm_leave_plan_t where lm_leave_plan_id >= '8000';
+delete from lm_leave_document_header_t where document_id >= 5000;

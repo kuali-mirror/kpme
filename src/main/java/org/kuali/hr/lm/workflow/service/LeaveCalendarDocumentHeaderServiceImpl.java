@@ -98,4 +98,8 @@ public class LeaveCalendarDocumentHeaderServiceImpl implements LeaveCalendarDocu
     public void deleteLeaveCalendarHeader(String documentId){
         leaveCalendarDocumentHeaderDao.deleteLeaveCalendarHeader(documentId);
     }
+    @Override
+    public List<LeaveCalendarDocumentHeader> getAllDocumentHeadersInRangeForPricipalId(String principalId, Date beginDate, Date endDate) {
+    	return leaveCalendarDocumentHeaderDao.getAllDocumentHeadersInRangeForPricipalId(principalId, beginDate, endDate);
+    }
 }

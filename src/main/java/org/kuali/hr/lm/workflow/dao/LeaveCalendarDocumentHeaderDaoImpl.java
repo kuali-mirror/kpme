@@ -193,4 +193,35 @@ public class LeaveCalendarDocumentHeaderDaoImpl extends PlatformAwareDaoBaseOjb 
         crit.addEqualTo("documentId", documentId);
         this.getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(LeaveCalendarDocumentHeader.class, crit));
     }
+    
+    @Override
+    public List<LeaveCalendarDocumentHeader> getAllDocumentHeadersInRangeForPricipalId(String principalId, Date startDate, Date endDate) {
+    	Criteria root = new Criteria();
+        List<LeaveCalendarDocumentHeader> lstDocumentHeaders = new ArrayList<LeaveCalendarDocumentHeader>();
+
+        Criteria beginRoot = new Criteria();
+        beginRoot.addEqualTo("principalId", principalId);
+        beginRoot.addLessOrEqualThan("beginDate", startDate);
+        beginRoot.addGreaterOrEqualThan("endDate", startDate);  
+        
+        Criteria endRoot = new Criteria();
+        endRoot.addEqualTo("principalId", principalId);
+        endRoot.addLessOrEqualThan("beginDate", endDate);
+        endRoot.addGreaterOrEqualThan("endDate", endDate); 
+        
+        root.addEqualTo("principalId", principalId);
+        root.addGreaterOrEqualThan("beginDate", startDate);
+        root.addLessOrEqualThan("beginDate", endDate);
+        root.addGreaterOrEqualThan("endDate", startDate);
+        root.addLessOrEqualThan("endDate", endDate);
+        root.addOrCriteria(beginRoot);
+        root.addOrCriteria(endRoot);
+        
+        QueryByCriteria query = new QueryByCriteria(LeaveCalendarDocumentHeader.class, root);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        if (c != null) {
+            lstDocumentHeaders.addAll(c);
+        }
+        return lstDocumentHeaders;
+    }
 }

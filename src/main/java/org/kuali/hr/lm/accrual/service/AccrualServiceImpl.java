@@ -41,6 +41,7 @@ import org.kuali.hr.lm.accrual.RateRangeAggregate;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
+import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
@@ -278,14 +279,14 @@ public class AccrualServiceImpl implements AccrualService {
 						BigDecimal acHours = accumulatedAccrualCatToAccrualAmounts.get(anAC.getLmAccrualCategoryId());
 						
 						if(acHours != null) {
-							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, acHours, anAC, null, true);
+							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, acHours, anAC, null, true, currentRange.getLeaveCalendarDocumentId());
 							accumulatedAccrualCatToAccrualAmounts.remove(anAC.getLmAccrualCategoryId());	// reset accumulatedAccrualCatToAccrualAmounts
 						}
 						
 						BigDecimal adjustmentHours = accumulatedAccrualCatToNegativeAccrualAmounts.get(anAC.getLmAccrualCategoryId());
 						if(adjustmentHours != null && adjustmentHours.compareTo(BigDecimal.ZERO) != 0) {
 							// do not create leave block if the ajustment amount is 0
-							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, adjustmentHours, anAC, null, false);
+							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, adjustmentHours, anAC, null, false, currentRange.getLeaveCalendarDocumentId());
 							accumulatedAccrualCatToNegativeAccrualAmounts.remove(anAC.getLmAccrualCategoryId());	// reset accumulatedAccrualCatToNegativeAccrualAmounts
 						}
 					}			
@@ -300,9 +301,9 @@ public class AccrualServiceImpl implements AccrualService {
 				}
 				BigDecimal hrs = ssto.getAmountofTime().multiply(ftePercentage);
 				// system scheduled time off leave block
-				createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, hrs, anAC, ssto.getLmSystemScheduledTimeOffId(), true);
+				createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, hrs, anAC, ssto.getLmSystemScheduledTimeOffId(), true, currentRange.getLeaveCalendarDocumentId());
 				// usage leave block with negative amount
-				createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, hrs.negate(), anAC, ssto.getLmSystemScheduledTimeOffId(), true);
+				createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, hrs.negate(), anAC, ssto.getLmSystemScheduledTimeOffId(), true, currentRange.getLeaveCalendarDocumentId());
 			}
 			// if today is the last day of the employment, create leave blocks if there's any hours available
 			if(endPhra != null && TKUtils.removeTime(currentDate).equals(TKUtils.removeTime(endPhra.getEffectiveDate()))){
@@ -311,7 +312,7 @@ public class AccrualServiceImpl implements AccrualService {
 					for(Map.Entry<String, BigDecimal> entry : accumulatedAccrualCatToAccrualAmounts.entrySet()) {
 						if(entry.getValue() != null && entry.getValue().compareTo(BigDecimal.ZERO) != 0) {
 							AccrualCategory anAC = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(entry.getKey());
-							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, entry.getValue(), anAC, null, true);
+							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, entry.getValue(), anAC, null, true, currentRange.getLeaveCalendarDocumentId());
 						}
 					}
 					accumulatedAccrualCatToAccrualAmounts = new HashMap<String,BigDecimal>();	// reset accumulatedAccrualCatToAccrualAmounts
@@ -321,7 +322,7 @@ public class AccrualServiceImpl implements AccrualService {
 					for(Map.Entry<String, BigDecimal> entry : accumulatedAccrualCatToNegativeAccrualAmounts.entrySet()) {
 						if(entry.getValue() != null && entry.getValue().compareTo(BigDecimal.ZERO) != 0) {
 							AccrualCategory anAC = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(entry.getKey());
-							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, entry.getValue(), anAC, null, true);
+							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, entry.getValue(), anAC, null, true, currentRange.getLeaveCalendarDocumentId());
 						}
 					}
 					accumulatedAccrualCatToNegativeAccrualAmounts = new HashMap<String,BigDecimal>();	// reset accumulatedAccrualCatToNegativeAccrualAmounts
@@ -369,7 +370,8 @@ public class AccrualServiceImpl implements AccrualService {
 	}
 	
 	private void createLeaveBlock(String principalId, List<LeaveBlock> accrualLeaveBlocks, 
-			java.util.Date currentDate, BigDecimal hrs, AccrualCategory anAC, String sysSchTimeOffId, boolean createZeroLeaveBlock) {
+			java.util.Date currentDate, BigDecimal hrs, AccrualCategory anAC, String sysSchTimeOffId, 
+			boolean createZeroLeaveBlock, String leaveDocId) {
 		// Replacing Leave Code to earn code - KPME 1634
 		EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(anAC.getEarnCode(), anAC.getEffectiveDate());
 		if(ec == null) {
@@ -393,6 +395,7 @@ public class AccrualServiceImpl implements AccrualService {
 		aLeaveBlock.setLeaveAmount(roundedHours);
 		aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE);
 		aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+		aLeaveBlock.setDocumentId(leaveDocId);
 		
 		accrualLeaveBlocks.add(aLeaveBlock);
 		
@@ -549,6 +552,8 @@ public class AccrualServiceImpl implements AccrualService {
 			inactiveRuleList.addAll(aRuleList);
 		}
 		
+		List<LeaveCalendarDocumentHeader> lcDocList = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getAllDocumentHeadersInRangeForPricipalId(principalId, startDate, endDate);
+		
 		BigDecimal previousFte = null;
 		List<Job> jobs = new ArrayList<Job>();
 		
@@ -619,11 +624,23 @@ public class AccrualServiceImpl implements AccrualService {
 			DateTime endInterval = new DateTime(gc.getTime());
 			Interval range = new Interval(beginInterval, endInterval);
 			rateRange.setRange(range);
+			// assign leave document id to range if there is an existing leave doc for currentDate.
+			// The doc Id will be assigned to leave blocks created at this rate range
+			rateRange.setLeaveCalendarDocumentId(this.getLeaveDocumentForDate(lcDocList, currentDate));
 			rateRangeList.add(rateRange);	       
 	    }
 		rrAggregate.setRateRanges(rateRangeList);
 		rrAggregate.setCurrentRate(null);
 		return rrAggregate;
+	}
+	
+	private String getLeaveDocumentForDate(List<LeaveCalendarDocumentHeader> lcDocList, java.util.Date currentDate) {
+		for(LeaveCalendarDocumentHeader lcdh : lcDocList) {
+			if(!lcdh.getBeginDate().after(currentDate) && lcdh.getEndDate().after(currentDate)) {
+				return lcdh.getDocumentId();
+			}
+		}
+		return "";
 	}
 		
 	public List<Job> getJobsForDate(List<Job> activeJobs, List<Job> inactiveJobs, java.util.Date currentDate) {
