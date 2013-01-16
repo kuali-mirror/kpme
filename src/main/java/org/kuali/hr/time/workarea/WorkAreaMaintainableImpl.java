@@ -156,6 +156,8 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
             task.setTimestamp(new Timestamp(System.currentTimeMillis()));
         }
         workArea.setTasks(tasks);
+
+        TkServiceLocator.getTaskService().saveTasks(tasks);
     }
     
     private List<TkRole> createInactiveRoles(List<TkRole> activeRoles) {

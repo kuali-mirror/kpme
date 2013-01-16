@@ -68,8 +68,8 @@ public class WorkAreaServiceImpl implements WorkAreaService {
                             null,
                             null,
                             ObjectUtils.toString(workArea.getWorkArea()),
-                            null,
-                            workArea.getEffectiveDate()
+                            workArea.getEffectiveDate(),
+                            null
                     )
             );
 		}
