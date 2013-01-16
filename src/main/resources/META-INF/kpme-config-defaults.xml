@@ -137,7 +137,7 @@
 
     <!-- KSB Messaging -->
     <param name="message.persistence">true</param>
-    <param name="message.delivery">synchronous</param>
+    <param name="message.delivery">async</param>
     
 	<param name="kim.ehcache.config.location" override="false">classpath:org/kuali/rice/kim/impl/config/kim.ehcache.xml</param>
 	<param name="kew.ehcache.config.location" override="false">classpath:org/kuali/rice/kew/impl/config/kew.ehcache.xml</param>
