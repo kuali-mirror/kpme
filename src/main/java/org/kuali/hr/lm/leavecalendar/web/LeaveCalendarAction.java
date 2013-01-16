@@ -499,7 +499,6 @@ public class LeaveCalendarAction extends TkAction {
     		 } else {
     			 if(TKContext.getUser().isSystemAdmin()
                      || TKContext.getUser().isLocationAdmin()
-                     || TKContext.getUser().isDepartmentAdmin()
                      || TKContext.getUser().isReviewer()
                      || TKContext.getUser().isApprover()) {
     				 	leaveForm.setDocEditable(true);
@@ -514,7 +513,6 @@ public class LeaveCalendarAction extends TkAction {
 	                if(StringUtils.equals(lcd.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
 	                        || TKContext.getUser().isSystemAdmin()
 	                        || TKContext.getUser().isLocationAdmin()
-	                        || TKContext.getUser().isDepartmentAdmin()
 	                        || TKContext.getUser().isReviewer()
 	                        || TKContext.getUser().isApprover()) {
 	                    leaveForm.setDocEditable(true);
