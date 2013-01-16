@@ -149,7 +149,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 
                             //handle up to current leave blocks
                             assignApprovedValuesToRow(lsr, ac.getAccrualCategory(), leaveBlockMap.get(ac.getAccrualCategory()), lp, calendarEntry.getBeginPeriodDate());
-
+                            //how about the leave blocks on the calendar entry being currently handled??
 
                             //figure out past carry over values!!!
                             //We now have list of past years accrual and use (with ordered keys!!!)
@@ -330,6 +330,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 
         int priorYearCutOffMonth = lp.getCalendarYearStart() == null ? 1 : Integer.parseInt(lp.getCalendarYearStart().substring(0,2));
         int priorYearCutOffDay = lp.getCalendarYearStart() == null ? 1 : Integer.parseInt(lp.getCalendarYearStart().substring(3,5));
+        // cutOffDate = current ca
         DateMidnight cutOffDate = new DateMidnight(effectiveDate).withMonthOfYear(priorYearCutOffMonth).withDayOfMonth(priorYearCutOffDay);
         if (cutOffDate.isAfter(effectiveDate.getTime())) {
             cutOffDate = cutOffDate.withYear(cutOffDate.getYear() - 1);
@@ -344,7 +345,8 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                             && StringUtils.equals(aLeaveBlock.getAccrualCategory(), accrualCategory))) {
                     if(aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) >= 0
                             && !aLeaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR)) {
-                        if(StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, aLeaveBlock.getRequestStatus())) {
+                        /** KPME-2057: Removed conditional to consider all statuses **/
+                        //if(StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, aLeaveBlock.getRequestStatus())) {
                             if (aLeaveBlock.getLeaveDate().getTime() < priorYearCutOff.getTime()) {
                                 String yearKey = getYearKey(aLeaveBlock.getLeaveDate(), lp);;
                                 BigDecimal co = yearlyAccrued.get(yearKey);
@@ -353,15 +355,16 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                                 }
                                 co = co.add(aLeaveBlock.getLeaveAmount());
                                 yearlyAccrued.put(yearKey, co);
-                            } else {
+                            } else if(aLeaveBlock.getLeaveDate().getTime() < effectiveDate.getTime()) {
                                 accrualedBalance = accrualedBalance.add(aLeaveBlock.getLeaveAmount());
                             }
-                        }
+                       // }
                     } else {
                     	//LEAVE_BLOCK_TYPE.BALANCE_TRANSFER should not count as usage, but it does need to be taken out of accrued balance.
                         BigDecimal currentLeaveAmount = aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) > 0 ? aLeaveBlock.getLeaveAmount().negate() : aLeaveBlock.getLeaveAmount();
                         //we only want this for the current calendar!!!
-                        if(StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, aLeaveBlock.getRequestStatus())) {
+                        /** KPME-2057: Removed conditional to consider all statuses **/
+                        //if(StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, aLeaveBlock.getRequestStatus())) {
                             if (aLeaveBlock.getLeaveDate().getTime() >= priorYearCutOff.getTime()) {
                                 approvedUsage = approvedUsage.add(currentLeaveAmount);
                                 EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(aLeaveBlock.getEarnCode(), aLeaveBlock.getLeaveDate());
@@ -378,7 +381,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                                 use = use.add(currentLeaveAmount);
                                 yearlyUsage.put(yearKey, use);
                             }
-                        }
+                        //}
                     }
 
                     //}

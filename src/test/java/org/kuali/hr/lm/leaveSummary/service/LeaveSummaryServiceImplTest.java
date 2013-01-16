@@ -85,9 +85,9 @@ public class LeaveSummaryServiceImplTest extends KPMETestCase {
 		for(LeaveSummaryRow lsRow : rows ) {
 			if(lsRow.getAccrualCategory().equals("testAC")) {
 				Assert.assertTrue("Carry over for Row should be '0', not " + lsRow.getCarryOver(), lsRow.getCarryOver().compareTo(BigDecimal.ZERO) == 0);
-				Assert.assertTrue("YTD accrualed balance for Row should be '5', not " + lsRow.getYtdAccruedBalance(), lsRow.getYtdAccruedBalance().compareTo(new BigDecimal(5)) == 0);
+				Assert.assertTrue("YTD accrualed balance for Row should be '15', not " + lsRow.getYtdAccruedBalance(), lsRow.getYtdAccruedBalance().compareTo(new BigDecimal(15)) == 0);
 				Assert.assertTrue("YTD approved usage for Row should be '2', not " + lsRow.getYtdApprovedUsage(), lsRow.getYtdApprovedUsage().compareTo(new BigDecimal(2)) == 0);
-				Assert.assertTrue("Leave Balance for Row should be '3', not " + lsRow.getLeaveBalance(), lsRow.getLeaveBalance().compareTo(new BigDecimal(3)) == 0);
+				Assert.assertTrue("Leave Balance for Row should be '13', not " + lsRow.getLeaveBalance(), lsRow.getLeaveBalance().compareTo(new BigDecimal(13)) == 0);
 				Assert.assertTrue("Pending Leave Accrual for Row should be '0', not " + lsRow.getPendingLeaveAccrual(), lsRow.getPendingLeaveAccrual().compareTo(BigDecimal.ZERO) == 0);
 				Assert.assertTrue("Pending Leave requests for Row should be '0', not " + lsRow.getPendingLeaveRequests(), lsRow.getPendingLeaveRequests().compareTo(new BigDecimal(0)) == 0);
 				//Assert.assertTrue("Pending Leave Balance for Row should be '13', not " + lsRow.getPendingLeaveBalance(), lsRow.getPendingLeaveBalance().equals(new BigDecimal(13)));
