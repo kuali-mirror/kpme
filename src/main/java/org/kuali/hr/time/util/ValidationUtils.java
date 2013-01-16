@@ -180,26 +180,16 @@ public class ValidationUtils {
 		return valid;
 	}
 	
-	public static boolean validateEarnCodeOfAccrualCategory(String earnCode, String accrualCategory, String principalId, Date asOfDate) {
+	public static boolean validateEarnCodeOfAccrualCategory(String earnCode, String accrualCategory, Date asOfDate) {
 		boolean valid = false;
 		
 		if (asOfDate != null) {
-			if(validateAccCategory(accrualCategory, principalId, asOfDate)){
-				List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForPrincipal(principalId, asOfDate, true);
-                earnCodes.removeAll(TkServiceLocator.getEarnCodeService().getEarnCodesForPrincipal(principalId, asOfDate, false));
-                earnCodes.addAll(TkServiceLocator.getEarnCodeService().getEarnCodesForPrincipal(principalId, asOfDate, false));
-                if(earnCodes != null && !earnCodes.isEmpty()) {
-					for(EarnCode earnCodeObj : earnCodes) {
-						if(earnCodeObj.getEarnCode() != null) {
-							if(StringUtils.equals(earnCodeObj.getEarnCode().trim(), earnCode.trim()) && StringUtils.equals(earnCodeObj.getAccrualCategory(), accrualCategory)){
-								valid = true;
-								break;
-							}
-						}
-					}
+			AccrualCategory accrualCategoryObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, asOfDate);
+			if (accrualCategoryObj != null) {
+				if (StringUtils.equals(earnCode, accrualCategoryObj.getEarnCode())) {
+					valid = true;
 				}
 			}
-//			valid = (leaveCodes != null);
 		} else {
 			Map<String, String> fieldValues = new HashMap<String, String>();
 			fieldValues.put("earnCode", earnCode);
