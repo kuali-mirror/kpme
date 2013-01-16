@@ -649,4 +649,19 @@ public class LeaveCalendarAction extends TkAction {
     	
     	return mapping.findForward("basic");
     }
+
+    /**
+     * Leave Payout
+     *
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     */
+    public ActionForward leavePayout(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+
+        return mapping.findForward("basic");
+    }
+
 }

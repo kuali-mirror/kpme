@@ -250,7 +250,8 @@
 				<value>leaveAdjustmentLookupable</value> 
 				<value>employeeOverrideLookupable</value>
 				<value>balanceTransferLookupable</value>
-            </set>      
+                <value>leavePayoutLookupable</value>
+            </set>
         </property>
     </bean>
 
@@ -336,6 +337,8 @@
     <bean id="accrualCategoryRuleDao" class="org.kuali.hr.lm.accrual.dao.AccrualCategoryRuleDaoSpringOjbImpl" parent="platformAwareDao" />
     
     <bean id="balanceTransferDao" class="org.kuali.hr.lm.balancetransfer.dao.BalanceTransferDaoSpringOjbImpl" parent="platformAwareDao" />
+
+    <bean id="leavePayoutDao" class="org.kuali.hr.lm.leavepayout.dao.LeavePayoutDaoSpringOjbImpl" parent="platformAwareDao" />
 
     <bean id="leaveCodeDao" class="org.kuali.hr.lm.leavecode.dao.LeaveCodeDaoSpringOjbImpl" parent="platformAwareDao" />
 
@@ -553,7 +556,11 @@
     <bean id="balanceTransferService" class="org.kuali.hr.lm.balancetransfer.service.BalanceTransferServiceImpl">
     	<property name="balanceTransferDao" ref="balanceTransferDao"/>
     </bean>
-    
+
+    <bean id="leavePayoutService" class="org.kuali.hr.lm.leavepayout.service.LeavePayoutServiceImpl">
+        <property name="leavePayoutDao" ref="leavePayoutDao"/>
+    </bean>
+
     <bean id="leaveCodeService" class="org.kuali.hr.lm.leavecode.service.LeaveCodeServiceImpl">
         <property name="leaveCodeDao" ref="leaveCodeDao"/>
     </bean>
@@ -670,6 +677,11 @@
     	<property name="lookupableHelperService">
     		<bean class="org.kuali.hr.lm.balancetransfer.service.BalanceTransferLookupableHelper"/>
     	</property>    
+    </bean>
+    <bean id="leavePayoutLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
+        <property name="lookupableHelperService">
+            <bean class="org.kuali.hr.lm.leavepayout.service.LeavePayoutLookupableHelper"/>
+        </property>
     </bean>
     <bean id="calendarLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">

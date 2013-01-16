@@ -93,6 +93,17 @@
         <field-descriptor name="effectiveDate"          column="EFFECTIVE_DATE"         		jdbc-type="DATE"        nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
     </class-descriptor>
 
+    <!-- Leave Payout -->
+    <class-descriptor class="org.kuali.hr.lm.leavepayout.LeavePayout" table="LM_LEAVE_PAYOUT_T">
+        <field-descriptor name="lmLeavePayoutId"        column="LM_LEAVE_PAYOUT_ID"       		jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_PAYOUT_S" />
+        <field-descriptor name="principalId"      		column="PRINCIPAL_ID"					jdbc-type="VARCHAR"     length="50" nullable="false"/>
+        <field-descriptor name="earnCode"               column="EARN_CODE"                      jdbc-type="VARCHAR"     length="15" />
+        <field-descriptor name="effectiveDate"          column="EFFECTIVE_DATE"         		jdbc-type="DATE"        nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="fromAccrualCategory"    column="FROM_ACCRUAL_CATEGORY"			jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="payoutAmount"         	column="PAYOUT_AMOUNT"         			jdbc-type="DECIMAL"     length="20" nullable="false" />
+        <field-descriptor name="forfeitedAmount"        column="FORFEITED_AMOUNT"          		jdbc-type="DECIMAL"   	length="20" />
+    </class-descriptor>
+
     <!-- Leave Code -->
     <class-descriptor class="org.kuali.hr.lm.leavecode.LeaveCode" table="LM_LEAVE_CODE_T">
         <field-descriptor name="lmLeaveCodeId"                column="LM_LEAVE_CODE_ID"           jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_CODE_S" />

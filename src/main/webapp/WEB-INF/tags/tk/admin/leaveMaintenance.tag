@@ -46,6 +46,10 @@
             <portal:portalLink displayTitle="true" title="System Scheduled Time Off"
                                url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.lm.timeoff.SystemScheduledTimeOff&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
         </li>
+        <li>
+            <portal:portalLink displayTitle="true" title="Leave Payout"
+                               url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.lm.leavepayout.LeavePayout&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
+        </li>
 	</ul>
 </div>
 <channel:portalChannelBottom />

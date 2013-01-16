@@ -23,6 +23,7 @@ import org.kuali.hr.lm.accrual.service.AccrualCategoryService;
 import org.kuali.hr.lm.accrual.service.AccrualService;
 import org.kuali.hr.lm.accrual.service.PrincipalAccrualRanService;
 import org.kuali.hr.lm.balancetransfer.service.BalanceTransferService;
+import org.kuali.hr.lm.leavepayout.service.LeavePayoutService;
 import org.kuali.hr.lm.earncodesec.service.EarnCodeSecurityService;
 import org.kuali.hr.lm.employeeoverride.service.EmployeeOverrideService;
 import org.kuali.hr.lm.leave.approval.service.LeaveApprovalService;
@@ -166,7 +167,8 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String LM_BALANCE_TRANSFER_SERVICE = "balanceTransferService";
     public static final String LM_LEAVE_REQUEST_DOC_SERVICE = "leaveRequestDocumentService";
 	public static final String LM_ACCRUAL_CATEGORY_MAX_CARRY_OVER_SERVICE = "accrualCategoryMaxCarryOverService";
-    public static final String KPME_DISTRIBUTED_CACHE_MANAGER = "kpmeDistributedCacheManager";
+    public static final String LM_LEAVE_PAYOUT_SERVICE = "leavePayoutService";
+	public static final String KPME_DISTRIBUTED_CACHE_MANAGER = "kpmeDistributedCacheManager";
     public static final String KPME_NOTIFICATION_SERVICE = "kpmeNotificationService";
     
     public static MissedPunchService getMissedPunchService() {
@@ -454,6 +456,9 @@ public class TkServiceLocator implements ApplicationContextAware {
 	}
     public static BalanceTransferService getBalanceTransferService() {
     	return (BalanceTransferService) CONTEXT.getBean(LM_BALANCE_TRANSFER_SERVICE);
+    }
+    public static LeavePayoutService getLeavePayoutService() {
+        return (LeavePayoutService) CONTEXT.getBean(LM_LEAVE_PAYOUT_SERVICE);
     }
     public static KPMENotificationService getKPMENotificationService() {
     	return (KPMENotificationService) CONTEXT.getBean(KPME_NOTIFICATION_SERVICE);
