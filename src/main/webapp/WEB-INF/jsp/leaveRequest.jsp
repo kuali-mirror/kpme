@@ -35,7 +35,7 @@
 					<table>
 						<tr>
 							<th>Requested Date</th>
-							<th>Leave Code</th>
+							<th>Earn Code</th>
 							<th>Hours</th>
 							<th>Description</th>
 							<th>Submit</th>
@@ -70,7 +70,7 @@
 					<table>
 						<tr>
 							<th>Requested Date</th>
-							<th>Leave Code</th>
+							<th>Earn Code</th>
 							<th>Hours</th>
 							<th>Description</th>
 							<th>Date/Time Submitted</th>
@@ -101,7 +101,7 @@
 					<table>
 						<tr>
 							<th>Requested Date</th>
-							<th>Leave Code</th>
+							<th>Earn Code</th>
 							<th>Hours</th>
 							<th>Description</th>
 							<th>Date/Time Approved</th>
@@ -133,7 +133,7 @@
 					<table>
 						<tr>
 							<th>Requested Date</th>
-							<th>Leave Code</th>
+							<th>Earn Code</th>
 							<th>Hours</th>
                             <th>Description</th>
 							<th>Reason</th>

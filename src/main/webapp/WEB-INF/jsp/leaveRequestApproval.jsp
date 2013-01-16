@@ -70,7 +70,7 @@
 					<tr>
 					   <th>Requested Date</th>
 					   <th>Requested Hours</th>
-					   <th>Leave Code</th>
+					   <th>Earn Code</th>
 					   <th>Date & Time Submitted</th>
 					   <th>Approve <br/>
 					   	   Select All<input type="checkbox" name="checkAllApprove_${employeeRow.principalId}" id="checkAllApprove_${employeeRow.principalId}"></input>
