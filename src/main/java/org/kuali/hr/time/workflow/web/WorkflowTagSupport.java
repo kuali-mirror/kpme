@@ -15,14 +15,17 @@
  */
 package org.kuali.hr.time.workflow.web;
 
+import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.document.CalendarDocumentHeaderContract;
 import org.kuali.hr.core.document.calendar.CalendarDocumentContract;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.roles.UserRoles;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.doctype.SecuritySession;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
@@ -80,8 +83,12 @@ public class WorkflowTagSupport {
 
     private boolean isRouteButtonEnabled(CalendarDocumentContract doc) {
         CalendarDocumentHeaderContract dh = doc.getDocumentHeader();
-        return (dh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.INITIATED)
-                || dh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.SAVED));
+        Date asOfDate = TKUtils.getTimelessDate(null);        
+        if(((dh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.INITIATED)
+                || dh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.SAVED)) && (TkServiceLocator.getPermissionsService().canViewLeaveTabsWithEStatus() && (asOfDate.compareTo(dh.getEndDate()))>0 ))){
+        		return true;
+        } else 
+        	return false;
     }
 
     public boolean isDisplayingTimesheetApprovalButtons() {
