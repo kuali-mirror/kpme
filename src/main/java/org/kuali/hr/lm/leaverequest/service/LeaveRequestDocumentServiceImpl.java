@@ -20,6 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leaverequest.LeaveRequestActionValue;
 import org.kuali.hr.lm.leaverequest.dao.LeaveRequestDocumentDao;
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
@@ -39,6 +40,8 @@ import org.kuali.rice.kew.api.action.ValidActions;
 import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -182,8 +185,15 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
             LOG.error(e.getMessage());
             return null;
         }
+        
+        Person person = KimApiServiceLocator.getPersonService().getPerson(principalId);
+        String principalName = person != null ? person.getName() : StringUtils.EMPTY;
+        LeaveBlock leaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
+        String leaveRequestDateString = leaveBlock != null ? TKUtils.formatDate(leaveBlock.getLeaveDate()) : StringUtils.EMPTY;
+        String leaveRequestDocumentTitle = principalName + " - " + leaveRequestDateString;
+        
         leaveRequestDocument.setLmLeaveBlockId(leaveBlockId);
-        leaveRequestDocument.getDocumentHeader().setDocumentDescription("Leave Request for LeaveBlock " + leaveBlockId);
+        leaveRequestDocument.getDocumentHeader().setDocumentDescription(leaveRequestDocumentTitle);
         leaveRequestDocument.setDescription("");
         leaveRequestDocument.setActionCode(LeaveRequestActionValue.NO_ACTION.getCode());
         initiateSearchableAttributes(leaveRequestDocument);
