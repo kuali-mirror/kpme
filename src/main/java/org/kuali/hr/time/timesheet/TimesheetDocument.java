@@ -32,7 +32,6 @@ import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 public class TimesheetDocument implements CalendarDocumentContract {
 
 	public static final String TIMESHEET_DOCUMENT_TYPE = "TimesheetDocument";
-	public static final String TIMESHEET_DOCUMENT_TITLE = "TimesheetDocument";
 
 	private TimesheetDocumentHeader documentHeader;
 	private List<Assignment> assignments = new LinkedList<Assignment>();
