@@ -187,14 +187,15 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
         }
         
         Person person = KimApiServiceLocator.getPersonService().getPerson(principalId);
-        String principalName = person != null ? person.getName() : StringUtils.EMPTY;
         LeaveBlock leaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
+
+        String principalName = person != null ? person.getName() : StringUtils.EMPTY;
         String leaveRequestDateString = leaveBlock != null ? TKUtils.formatDate(leaveBlock.getLeaveDate()) : StringUtils.EMPTY;
         String leaveRequestDocumentTitle = principalName + " - " + leaveRequestDateString;
         
         leaveRequestDocument.setLmLeaveBlockId(leaveBlockId);
         leaveRequestDocument.getDocumentHeader().setDocumentDescription(leaveRequestDocumentTitle);
-        leaveRequestDocument.setDescription("");
+        leaveRequestDocument.setDescription(leaveBlock != null ? leaveBlock.getDescription() : StringUtils.EMPTY);
         leaveRequestDocument.setActionCode(LeaveRequestActionValue.NO_ACTION.getCode());
         initiateSearchableAttributes(leaveRequestDocument);
 

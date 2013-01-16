@@ -20,6 +20,7 @@ public class LeaveRequestApprovalRow implements Comparable<LeaveRequestApprovalR
 	private String leaveRequestDocId;	
 	private String requestedDate;
 	private String requestedHours;
+	private String description;
 	private String leaveCode;
 	private String submittedTime;
 
@@ -31,21 +32,35 @@ public class LeaveRequestApprovalRow implements Comparable<LeaveRequestApprovalR
 	public String getRequestedDate() {
 		return requestedDate;
 	}
+	
 	public void setRequestedDate(String requestedDate) {
 		this.requestedDate = requestedDate;
 	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
 	public String getLeaveCode() {
 		return leaveCode;
 	}
+	
 	public void setLeaveCode(String leaveCode) {
 		this.leaveCode = leaveCode;
 	}
+	
 	public String getSubmittedTime() {
 		return submittedTime;
 	}
+	
 	public void setSubmittedTime(String submittedTime) {
 		this.submittedTime = submittedTime;
 	}
+	
 	public String getLeaveRequestDocId() {
 		return leaveRequestDocId;
 	}

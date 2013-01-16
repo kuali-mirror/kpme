@@ -70,6 +70,7 @@
 					<tr>
 					   <th>Requested Date</th>
 					   <th>Requested Hours</th>
+					   <th>Description</th>
 					   <th>Earn Code</th>
 					   <th>Date & Time Submitted</th>
 					   <th>Approve <br/>
@@ -85,6 +86,7 @@
 			            <tr>
 			            	<td>${requestRow.requestedDate}</td>
 			            	<td>${requestRow.requestedHours}</td>
+			            	<td>${requestRow.description}</td>
 			            	<td>${requestRow.leaveCode}</td>
 			            	<td>${requestRow.submittedTime}</td>
 			            	
@@ -100,6 +102,7 @@
 			            </tr>
 		            </c:forEach>		            
 		            <tr class="noborder" >
+		            	<td></td>
 		            	<td></td>
 		            	<td></td>
 		            	<td></td>

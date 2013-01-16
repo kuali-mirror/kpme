@@ -347,6 +347,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 			aRow.setLeaveCode(lb.getEarnCode());
 			aRow.setRequestedDate(TKUtils.formatDate(lb.getLeaveDate()));
 			aRow.setRequestedHours(lb.getLeaveAmount().toString());
+			aRow.setDescription(lrd.getDescription());
 			DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 			aRow.setSubmittedTime(df.format( new Date(lrd.getDocumentHeader().getWorkflowDocument().getDateCreated().getMillis())));
 			rowList.add(aRow);
