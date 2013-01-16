@@ -28,7 +28,6 @@ import org.kuali.hr.time.calendar.CalendarEntries;
 public class LeaveCalendarDocument implements CalendarDocumentContract {
 
 	public static final String LEAVE_CALENDAR_DOCUMENT_TYPE = "LeaveCalendarDocument";
-	public static final String LEAVE_CALENDAR_DOCUMENT_TITLE = "LeaveCalendarDocument";
 
 	LeaveCalendarDocumentHeader documentHeader;
 	List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();

@@ -34,6 +34,7 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -83,7 +84,13 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 
         LeaveCalendarDocumentHeader header = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, begin, end);
         if (header == null) {
-            doc = initiateWorkflowDocument(principalId, begin, end, calEntry, LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TYPE, LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TITLE);
+            Person person = KimApiServiceLocator.getPersonService().getPerson(principalId);
+            String principalName = person != null ? person.getName() : StringUtils.EMPTY;
+            String beginDateString = TKUtils.formatDate(new java.sql.Date(begin.getTime()));
+            String endDateString = TKUtils.formatDate(new java.sql.Date(end.getTime()));
+            String leaveCalendarDocumentTitle = LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TYPE + " - " + principalName + " - " + beginDateString + "-" + endDateString;
+            
+            doc = initiateWorkflowDocument(principalId, begin, end, calEntry, LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TYPE, leaveCalendarDocumentTitle);
         } else {
             doc = getLeaveCalendarDocument(header.getDocumentId());
         }
