@@ -189,7 +189,7 @@ public class Assignment extends HrBusinessObject {
 	}
 
 	public boolean isSynchronous() {
-		return timeCollectionRule.isClockUserFl();
+		return timeCollectionRule == null ? false : timeCollectionRule.isClockUserFl();
 	}
 
 	public DeptLunchRule getDeptLunchRule() {
