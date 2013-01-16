@@ -55,7 +55,7 @@ public class BalanceTransferPostProcessor extends DefaultPostProcessor {
 				if (DocumentStatus.ENROUTE.equals(newDocumentStatus)) {
 					//when transfer document is routed, initiate the balance transfer - creating the leave blocks
 					balanceTransfer = TkServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
-					//balanceTransfer now holds the associated leave block ids that were created during transfer.
+					//balanceTransfer now holds the associated leave block ids that were created during "transfer" (leave block creation)
 					//encapsulate this information for later document status changes.
 					document.getNewMaintainableObject().setDataObject(balanceTransfer);
 					document.setNewMaintainableObject(document.getNewMaintainableObject());

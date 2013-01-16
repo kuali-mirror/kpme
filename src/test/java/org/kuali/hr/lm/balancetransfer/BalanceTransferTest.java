@@ -162,6 +162,11 @@ public class BalanceTransferTest extends LeaveCalendarWebTestBase {
 		assertTrue("Dummy assertion 4", true);
 	}
 	
+	@Test
+	public void testAdjust() throws Exception {
+		assertNull(null);
+	}
+	
 
 	
 }

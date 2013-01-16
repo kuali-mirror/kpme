@@ -72,9 +72,9 @@ public class LeaveCalendarSubmitAction extends TkAction {
             if (DocumentStatus.INITIATED.getCode().equals(document.getDocumentHeader().getDocumentStatus())
                     || DocumentStatus.SAVED.getCode().equals(document.getDocumentHeader().getDocumentStatus())) {
             	
-            	List<String> leaveApproveIds = TkServiceLocator.getBalanceTransferService().getAccrualCategoryRuleIdsForEligibleTransfers(document,
+            	List<String> leaveApproveIds = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(document,
             			LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE);
-            	leaveApproveIds.addAll(TkServiceLocator.getBalanceTransferService().getAccrualCategoryRuleIdsForEligibleTransfers(document,
+            	leaveApproveIds.addAll(TkServiceLocator.getBalanceTransferService().getEligibleTransfers(document,
             			LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END));
             	//Waterfall transfers? What order do transfers occur?
             	//ACTION_AT_MAX_BALANCE == LOSE

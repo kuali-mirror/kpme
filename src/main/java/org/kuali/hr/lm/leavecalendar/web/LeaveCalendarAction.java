@@ -178,11 +178,12 @@ public class LeaveCalendarAction extends TkAction {
         List<String> transfers = new ArrayList<String>();
         // Could set a flag on the transferable rows here so that LeaveCalendarSubmit.do knows
         // which row(s) to transfer when user submits the calendar for approval.
-        transfers.addAll(TkServiceLocator.getBalanceTransferService().getAccrualCategoryRuleIdsForEligibleTransfers(lcf.getLeaveCalendarDocument(), LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE));
-        transfers.addAll(TkServiceLocator.getBalanceTransferService().getAccrualCategoryRuleIdsForEligibleTransfers(lcf.getLeaveCalendarDocument(), LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND));
+        transfers.addAll(TkServiceLocator.getBalanceTransferService().getEligibleTransfers(lcf.getLeaveCalendarDocument(), LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE));
+        transfers.addAll(TkServiceLocator.getBalanceTransferService().getEligibleTransfers(lcf.getLeaveCalendarDocument(), LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END));
+        transfers.addAll(TkServiceLocator.getBalanceTransferService().getEligibleTransfers(lcf.getLeaveCalendarDocument(), LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND));
         if(!transfers.isEmpty()) {
         	warningMes.add("You have exceeded the balance limit for one or more accrual categories within your leave plan.");
-        	warningMes.add("Depending upon the rules of your institution, you may lose any hours over this limit.");
+        	warningMes.add("Depending upon the rules of your institution, you may lose any leave over this limit.");
         }
         
         // add warning messages based on max carry over balances for each accrual category

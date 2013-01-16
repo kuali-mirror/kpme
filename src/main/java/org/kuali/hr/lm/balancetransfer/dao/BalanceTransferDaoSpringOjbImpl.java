@@ -29,11 +29,6 @@ import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
-/**
- * TODO: Write criteria for LM_BALANCE_TRANSFER_T
- * @author dgodfrey
- *
- */
 public class BalanceTransferDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
 		BalanceTransferDao {
 	

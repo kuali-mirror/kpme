@@ -18,10 +18,14 @@ package org.kuali.hr.lm.balancetransfer.service;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
@@ -37,7 +41,12 @@ import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class BalanceTransferServiceImpl implements BalanceTransferService {
@@ -82,7 +91,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 	 * 
 	 */
 	@Override
-	public BalanceTransfer initializeAccrualGeneratedBalanceTransfer(String principalId, String accrualCategoryRule, LeaveSummary leaveSummary, Date effectiveDate) {
+	public BalanceTransfer initializeTransfer(String principalId, String accrualCategoryRule, LeaveSummary leaveSummary, Date effectiveDate) {
 		//Initially, principals may be allowed to edit the transfer amount when prompted to submit this balance transfer, however,
 		//a base transfer amount together with a forfeited amount is calculated to bring the balance back to its limit in accordance
 		//with transfer limits.
@@ -121,9 +130,9 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 
 			BigDecimal maxBalance = accrualRule.getMaxBalance();
 			BigDecimal fullTimeEngagement = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, effectiveDate);
-			BigDecimal adjustedMaxBalance = maxBalance.multiply(fullTimeEngagement);
+			BigDecimal adjustedMaxBalance = maxBalance.multiply(fullTimeEngagement).setScale(2);
 			BigDecimal maxTransferAmount = new BigDecimal(accrualRule.getMaxTransferAmount());
-			BigDecimal adjustedMaxTransferAmount = maxTransferAmount.multiply(fullTimeEngagement);
+			BigDecimal adjustedMaxTransferAmount = maxTransferAmount.multiply(fullTimeEngagement).setScale(2);
 			BigDecimal maxCarryOver = null;
 			if(ObjectUtils.isNotNull(accrualRule.getMaxCarryOver()))
 				maxCarryOver = new BigDecimal(accrualRule.getMaxCarryOver());
@@ -148,7 +157,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 				//Move all time in excess of employee's fte adjusted max balance to forfeiture.
 				bt.setForfeitedAmount(transferAmount);
 				//There is no transfer to another accrual category.
-				transferAmount = BigDecimal.ZERO;
+				bt.setTransferAmount(BigDecimal.ZERO);
 			}
 			else {
 
@@ -157,7 +166,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					//bring transfer amount down to the adjusted maximum transfer amount, and place excess in forfeiture.
 					//accruedBalance - adjustedMaxTransferAmount - adjustedMaxBalance = forfeiture.
 					//transferAmount = accruedBalance - adjustedMaxBalance; forfeiture = transferAmount - adjustedMaxTransferAmount.
-					BigDecimal forfeiture = transferAmount.subtract(adjustedMaxTransferAmount);
+					BigDecimal forfeiture = transferAmount.subtract(adjustedMaxTransferAmount).setScale(2);
 					forfeiture = forfeiture.stripTrailingZeros();
 					bt.setForfeitedAmount(forfeiture);
 					//TODO: Ensure that precision/rounding does not inhibit leave calendar submission due to balance being; i.e. 0.000000001 above max balance.
@@ -173,7 +182,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
 				if(ObjectUtils.isNotNull(maxCarryOver)) {
 					if(ObjectUtils.isNull(adjustedMaxCarryOver))
-						adjustedMaxCarryOver = maxCarryOver.multiply(fullTimeEngagement);
+						adjustedMaxCarryOver = maxCarryOver.multiply(fullTimeEngagement).setScale(2);
 					//otherwise, adjustedMaxCarryOver has an employee override value, which trumps accrual rule defined MAC.
 					//At this point, transfer amount and forfeiture have been set so that the new accrued balance will be the
 					//adjusted max balance, so this amount is used to check against carry over.
@@ -211,27 +220,6 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			
 		}
 		return bt;
-	}
-
-	@Override
-	public BalanceTransfer initiateBalanceTransferOnYearEnd(String principalId,
-			BigDecimal transferAmount, AccrualCategory fromAcc,
-			AccrualCategory toAcc) {
-		//This stub is being provided for the use case of housing carry over from one calendar year to the next
-		//It seems unlikely that an institution would allow a maximum balance to be exceeded
-		//until the final period in the principals calendar, except for perhaps principals who are
-		//payed on a one time annual basis. This would be the other use case for "Year-End" frequency transfers.
-		BalanceTransfer bt = new BalanceTransfer();
-		
-		bt.setTransferAmount(transferAmount);
-		bt.setEffectiveDate(TKUtils.getCurrentDate());
-		bt.setFromAccrualCategory(fromAcc.getAccrualCategory());
-		bt.setToAccrualCategory(toAcc.getAccrualCategory());
-		//bt.setDebitedAccrualCategory(fromAcc);
-		//bt.setCreditedAccrualCategory(toAcc);
-		//must check max carry over.
-		
-		return KRADServiceLocator.getBusinessObjectService().save(bt);
 	}
 
 	@Override
@@ -361,7 +349,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 	
 	//TODO: Move to LeaveCalendarService or implement as an accessor on LeaveCalendarDocument object.
 	@Override
-	public List<String> getAccrualCategoryRuleIdsForEligibleTransfers(LeaveCalendarDocument document, final String actionFrequency) throws Exception {
+	public List<String> getEligibleTransfers(LeaveCalendarDocument document, final String actionFrequency) throws Exception {
 		List<String> eligibleAccrualCategories = new ArrayList<String>();
 		//Employee override check here, or return base-eligible accrual categories,
 		//filtering out those that have increased balance limits due to employee override in caller?
@@ -372,11 +360,14 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 
 			if(ObjectUtils.isNotNull(leaveSummary)) {
 				//null check inserted to fix LeaveCalendarWebTst failures on kpme-trunk-build-unit #2069
-				List<LeaveBlock> leaveBlocks = document.getLeaveBlocks();
+				
+				List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(document.getPrincipalId(),
+						document.getCalendarEntry().getBeginPeriodDateTime(), document.getCalendarEntry().getEndPeriodDateTime());
+				
 				for(LeaveSummaryRow lsr : leaveSummary.getLeaveSummaryRows()) {
 					
 					
-					BigDecimal adjustment = new BigDecimal(0);
+/*					BigDecimal adjustment = new BigDecimal(0);
 					for(LeaveBlock lb : leaveBlocks) {
 						if(StringUtils.equals(lb.getAccrualCategory(),lsr.getAccrualCategory())) {
 							if(StringUtils.equals(lb.getRequestStatus(),LMConstants.REQUEST_STATUS.PLANNED) ||
@@ -389,7 +380,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 									// if the type is balance transfer, add only those for the accrual category.
 									//BT created leave blocks don't get factored into the accrued balance until status is final/approved.
 									// adjust accrued balance for "usage" leave amounts.
-									if(lb.getDescription().contains("Forfeited amount") ||
+									if(lb.getDescription().contains("Forfeited balance transfer amount") ||
 											lb.getDescription().contains("Transferred amount"))
 										adjustment = adjustment.add(lb.getLeaveAmount());
 								}
@@ -398,13 +389,12 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 								// These are positive amounts, and can take the accrued balance on the credited accrual category
 								// over their balance limit. We will allow the accrued balance on the credited accrual category to "go over"
 								// when considering a requested leave block status.
-
 								else {
 									adjustment = adjustment.add(lb.getLeaveAmount());
 								}
 							}
 						}
-					}
+					}*/
 					
 					String accrualCategoryRuleId = lsr.getAccrualCategoryRuleId();
 					AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
@@ -442,24 +432,24 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 										sb.append(calendarYearStart+"/");
 										if(lp.getCalendarYearStartMonth().equals("01")) {
 											//a calendar may start on 01/15, with monthly intervals.
-											sb.append(DateUtils.addYears(document.getCalendarEntry().getBeginPeriodDate(),1).getYear());
+											sb.append(DateUtils.toCalendar(DateUtils.addYears(document.getCalendarEntry().getBeginPeriodDate(),1)).get(Calendar.YEAR));
 										}
 										else
-											sb.append(document.getCalendarEntry().getBeginPeriodDate().getYear());
+											sb.append(DateUtils.toCalendar(document.getCalendarEntry().getBeginPeriodDateTime()).get(Calendar.YEAR));
 										//if the calendar being submitted is the final calendar in the leave plans calendar year.
 										//must check the calendar year start month. If its the first month of the year, add a year to the date.
 										//otherwise, the end period date and the calendar year start date have the same year.
 										if(document.getCalendarEntry().getEndPeriodDate().equals(TKUtils.formatDateString(sb.toString()))) {
-											BigDecimal accruedBalanceLessPendingTransfers = lsr.getAccruedBalance().add(adjustment);
-											if(accruedBalanceLessPendingTransfers.compareTo(adjustedMaxBalance) > 0 ) {
+											//BigDecimal accruedBalanceLessPendingTransfers = lsr.getAccruedBalance().add(adjustment);
+											if(lsr.getAccruedBalance().compareTo(adjustedMaxBalance) > 0 ) {
 												eligibleAccrualCategories.add(rule.getLmAccrualCategoryRuleId());
 											}
 										}
 										//otherwise its not transferable under year end frequency.
 									}
 									else {
-										BigDecimal accruedBalanceLessPendingTransfers = lsr.getAccruedBalance().add(adjustment);
-										if(accruedBalanceLessPendingTransfers.compareTo(adjustedMaxBalance) > 0 ) {
+										//BigDecimal accruedBalanceLessPendingTransfers = lsr.getAccruedBalance().add(adjustment);
+										if(lsr.getAccruedBalance().compareTo(adjustedMaxBalance) > 0 ) {
 											eligibleAccrualCategories.add(rule.getLmAccrualCategoryRuleId());
 										}
 									}
@@ -479,5 +469,38 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 	
 	public void setBalanceTransferDao(BalanceTransferDao balanceTransferDao) {
 		this.balanceTransferDao = balanceTransferDao;
+	}
+
+	@Override
+	public void submitToWorkflow(BalanceTransfer balanceTransfer)
+			throws WorkflowException {
+		
+		balanceTransfer.setStatus(TkConstants.ROUTE_STATUS.ENROUTE);
+
+		MaintenanceDocument document = KRADServiceLocatorWeb.getMaintenanceDocumentService().setupNewMaintenanceDocument(BalanceTransfer.class.getName(),
+				"BalanceTransferDocumentType",KRADConstants.MAINTENANCE_NEW_ACTION);
+		
+		document.getDocumentHeader().setDocumentDescription("Accrual Triggered Transfer");
+		Map<String,String[]> params = new HashMap<String,String[]>();
+		
+		KRADServiceLocatorWeb.getMaintenanceDocumentService().setupMaintenanceObject(document, KRADConstants.MAINTENANCE_NEW_ACTION, params);
+		BalanceTransfer btObj = (BalanceTransfer) document.getNewMaintainableObject().getDataObject();
+		
+		btObj.setAccrualCategoryRule(balanceTransfer.getAccrualCategoryRule());
+		btObj.setEffectiveDate(balanceTransfer.getEffectiveDate());
+		btObj.setForfeitedAmount(balanceTransfer.getForfeitedAmount());
+		btObj.setFromAccrualCategory(balanceTransfer.getFromAccrualCategory());
+		btObj.setLeaveCalendarDocumentId(balanceTransfer.getLeaveCalendarDocumentId());
+		btObj.setPrincipalId(balanceTransfer.getPrincipalId());
+		btObj.setToAccrualCategory(balanceTransfer.getToAccrualCategory());
+		btObj.setTransferAmount(balanceTransfer.getTransferAmount());
+		
+		document.getNewMaintainableObject().setDataObject(btObj);
+		KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
+		document.getDocumentHeader().getWorkflowDocument().saveDocument("");
+
+		document.getDocumentHeader().getWorkflowDocument().route("");
+
+		
 	}
 }

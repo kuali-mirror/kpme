@@ -25,6 +25,7 @@ import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface BalanceTransferService {
 
@@ -52,25 +53,8 @@ public interface BalanceTransferService {
 	 *  	2.) the number of time units exceeding the maximum balance 
 	 *
 	 */
-	public BalanceTransfer initializeAccrualGeneratedBalanceTransfer(String principalId, String accrualCategoryRule, LeaveSummary leaveSummary, Date effectiveDate);
-	
-	/**
-	 * For balance transfers triggered by accrual categories that have exceeded their max balance, and
-	 * whose max balance action frequency is Year-End.
-	 * @param principalId
-	 * @param transferAmount
-	 * @param fromAcc
-	 * @param toAcc
-	 * @return A BalanceTransfer object pre-populated according to the supplied parameters if one exists.
-	 * 
-	 * The transfer amount will be the minimum of:
-	 *  
-	 *  	1.) the accrual category rule's maximum transfer amount
-	 *  	2.) the number of units exceeding the maximum balance
-	 *
-	 */
-	public BalanceTransfer initiateBalanceTransferOnYearEnd(String principalId, BigDecimal transferAmount, AccrualCategory fromAcc, AccrualCategory toAcc);
-	
+	public BalanceTransfer initializeTransfer(String principalId, String accrualCategoryRule, LeaveSummary leaveSummary, Date effectiveDate);
+
 	/**
 	 * Consumes a BalanceTransfer object, creating up to three leave blocks.
 	 * @param balanceTransfer The BalanceTransfer object to use for transfer.
@@ -83,14 +67,16 @@ public interface BalanceTransferService {
 	 */
 	
 	/**
-	 * Determines which accrual categories for the given leave calendar document, are TRANSFERABLE for the given action frequency.
+	 * Determines which accrual categories within the given leave calendar document, are TRANSFERABLE for the given action frequency.
+	 * Includes accrual categories for which ACTION_AT_MAX_BALANCE = LOSE.
 	 * 
 	 * @param document The LeaveCalendarDocument to use in gathering transfer eligible accrual categories.
 	 * @param actionFrequency One of LMConstants.MAX_BAL_ACTION_FREQ
-	 * @return A List of accrualCategoryRuleId's in {@param document}'s leave summary that have ACTION_AT_MAX_BALANCE = TRANSFER,
-	 * 	and with MAX_BAL_ACTION_FREQUENCY = {@param actionFrequency} 
+	 * @return A List of accrualCategoryRuleId's in {@param document}'s leave summary with MAX_BAL_ACTION_FREQUENCY = {@param actionFrequency} 
 	 * @throws Exception
 	 */
-	public List<String> getAccrualCategoryRuleIdsForEligibleTransfers(LeaveCalendarDocument document, String actionFrequency) throws Exception;
+	public List<String> getEligibleTransfers(LeaveCalendarDocument document, String actionFrequency) throws Exception;
+	
+	public void submitToWorkflow(BalanceTransfer balanceTransfer) throws WorkflowException;
 	
 }
