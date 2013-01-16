@@ -83,20 +83,22 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
 			LeavePlan leavePlan = getLeavePlanService().getLeavePlan(principalCalendar.getLeavePlan(), principalCalendar.getEffectiveDate());
 			
 			AccrualCategory accrualCategoryObj = getAccrualCategoryService().getAccrualCategory(accrualCategory, new java.sql.Date(asOfDate.getTime()));
-	
-			AccrualCategoryRule accrualCategoryRule = getMaxCarryOverAccrualCategoryRule(accrualCategoryObj, principalCalendar.getServiceDate(), asOfDate);
 			
-			if (accrualCategoryRule != null) {
-				Long maxCarryOverLimitValue = getMaxCarryOverLimitValue(principalId, leavePlan, accrualCategoryObj, accrualCategoryRule, asOfDate);
-			
-				if (maxCarryOverLimitValue != null) {
-					BigDecimal accrualCategoryBalance = getAccrualCategoryBalance(principalId, accrualCategoryObj, asOfDate);
-	
-					BigDecimal maxCarryOverLimit = new BigDecimal(maxCarryOverLimitValue);
-					BigDecimal fteSum = getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, asOfDate);
-					BigDecimal maxCarryOver = maxCarryOverLimit.multiply(fteSum);
+			if (accrualCategoryObj != null) {
+				AccrualCategoryRule accrualCategoryRule = getMaxCarryOverAccrualCategoryRule(accrualCategoryObj, principalCalendar.getServiceDate(), asOfDate);
 				
-					accrualCategoryCarryOverAdjustment = accrualCategoryBalance.subtract(maxCarryOver);
+				if (accrualCategoryRule != null) {
+					Long maxCarryOverLimitValue = getMaxCarryOverLimitValue(principalId, leavePlan, accrualCategoryObj, accrualCategoryRule, asOfDate);
+				
+					if (maxCarryOverLimitValue != null) {
+						BigDecimal accrualCategoryBalance = getAccrualCategoryBalance(principalId, accrualCategoryObj, asOfDate);
+		
+						BigDecimal maxCarryOverLimit = new BigDecimal(maxCarryOverLimitValue);
+						BigDecimal fteSum = getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, asOfDate);
+						BigDecimal maxCarryOver = maxCarryOverLimit.multiply(fteSum);
+					
+						accrualCategoryCarryOverAdjustment = accrualCategoryBalance.subtract(maxCarryOver);
+					}
 				}
 			}
 		}
