@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
@@ -39,6 +40,8 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class LeaveBlockServiceImpl implements LeaveBlockService {
@@ -167,17 +170,24 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
                             && BigDecimal.ZERO.compareTo(hours) < 0) {
                         hours = hours.negate();
                     }
-                    //if on future calendar entry, mark as PLANNED, otherwise USAGE
-                    DateTime leaveBlockDate =new DateTime(leaveBlockInt.getStartMillis());
-                    String requestStatus = LMConstants.REQUEST_STATUS.USAGE;
+
+                    CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(ce.getHrCalendarId(), TKUtils.getCurrentDate());
+                    Date leaveBlockDate = new DateTime(leaveBlockInt.getStartMillis()).toDate();
                     
-                    // KPME 2009 - retrive curent calendar entry
-                    CalendarEntries cce = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(ce.getHrCalendarId(), TKUtils.getCurrentDate());
-                    if (calBeginDateTime.getMillis() >=  cce.getBeginPeriodDateTime().getTime()) {
-                        requestStatus = LMConstants.REQUEST_STATUS.PLANNED;
-                        if(leaveBlockDate.getMillis() >= (cce.getBeginPeriodDateTime().getTime())  && leaveBlockDate.getMillis() < cce.getEndPeriodDateTime().getTime()) {
-                        	requestStatus = LMConstants.REQUEST_STATUS.USAGE;
-                        }
+                    String requestStatus = LMConstants.REQUEST_STATUS.USAGE;
+                    if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
+                    	TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(principalId, leaveBlockDate);
+                    	if (tdh != null) {
+     	            	   if (DateUtils.isSameDay(leaveBlockDate, tdh.getEndDate()) || leaveBlockDate.after(tdh.getEndDate())) {
+     	            		  requestStatus = LMConstants.REQUEST_STATUS.PLANNED;
+     	            	   }
+     	               } else {
+     	            	  requestStatus = LMConstants.REQUEST_STATUS.PLANNED;
+     	               }
+                    } else {
+                    	if (DateUtils.isSameDay(leaveBlockDate, calendarEntry.getEndPeriodDateTime()) || leaveBlockDate.after(calendarEntry.getEndPeriodDateTime())) {
+                    		requestStatus = LMConstants.REQUEST_STATUS.PLANNED;
+                    	}
                     }
                     
                     EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, sqlDate);

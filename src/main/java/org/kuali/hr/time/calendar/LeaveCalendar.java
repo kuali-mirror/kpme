@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -54,10 +55,8 @@ public class LeaveCalendar extends CalendarParent {
         LeaveCalendarWeek leaveCalendarWeek = new LeaveCalendarWeek();
         Integer dayNumber = 0;
         
-        boolean viewFlag = TkServiceLocator.getPermissionsService().canViewLeaveTabsWithNEStatus();
         while (currentDisplayDateTime.isBefore(endDisplayDateTime) || currentDisplayDateTime.isEqual(endDisplayDateTime)) {
             LeaveCalendarDay leaveCalendarDay = new LeaveCalendarDay();
-            leaveCalendarDay.setDayEditable(true);
             
             // If the day is not within the current pay period, mark them as read only (gray)
             if (currentDisplayDateTime.isBefore(getBeginDateTime()) 
@@ -80,16 +79,18 @@ public class LeaveCalendar extends CalendarParent {
                } else {
             	   leaveCalendarDay.setLeaveBlocks(lbs);
                }
-               // if there's time sheet document covers this leave date, make the date not editable
-               TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(principalId, leaveDate);
-               if(tdh != null && viewFlag) {
-            	   // when the endDate of the timesheet document has 00 as the time, the date should be editable on leave calendar
-            	   DateTime endDt = new DateTime(tdh.getEndDate());
-            	   if(leaveDate.equals(tdh.getEndDate()) && endDt.getHourOfDay() == 0) {
-            		   leaveCalendarDay.setDayEditable(true);
-            	   } else {
-            		   leaveCalendarDay.setDayEditable(false);
-            	   }
+               
+               if (TkServiceLocator.getPermissionsService().canViewLeaveTabsWithNEStatus()) {
+	               TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(principalId, leaveDate);
+	               if (tdh != null) {
+	            	   if (DateUtils.isSameDay(leaveDate, tdh.getEndDate()) || leaveDate.after(tdh.getEndDate())) {
+	            		   leaveCalendarDay.setDayEditable(true);
+	            	   }
+	               } else {
+	            	   leaveCalendarDay.setDayEditable(true);
+	               }
+               } else {
+                   leaveCalendarDay.setDayEditable(true);
                }
                
                dayNumber++;
