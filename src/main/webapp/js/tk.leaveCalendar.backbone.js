@@ -707,8 +707,8 @@ $(function () {
         },
         
         checkStartEndDateFields : function (o1, o2, field) {
-            var val1 = o1.val();
-            var val2 = o2.val();
+            var val1 = new Date(o1.val());
+            var val2 = new Date(o2.val());
             if (val1 > val2) {
                 this.displayErrorMessages(field + " is later than end date.", o1);
                 return false;
