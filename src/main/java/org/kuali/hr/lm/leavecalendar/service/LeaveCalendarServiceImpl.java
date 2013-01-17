@@ -294,7 +294,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
             }
 
             //update leave blocks with appropriate request status
-            List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(leaveCalendarDocument.getDocumentId());
+            //KPME-2065 - LeaveCalendar should not change leave block status.  Keep as usage.
+            /*List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(leaveCalendarDocument.getDocumentId());
             for (LeaveBlock lb : leaveBlocks) {
                 boolean lbChanged = false;
                 if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.ROUTE)) {
@@ -320,7 +321,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
                 if (lbChanged) {
                     TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, TKContext.getPrincipalId());
                 }
-            }
+            }*/
 
         }
     }
