@@ -36,6 +36,7 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
+import org.kuali.rice.kew.api.action.ActionTaken;
 import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.action.DocumentActionParameters;
 import org.kuali.rice.kew.api.action.ValidActions;
@@ -280,4 +281,17 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
     private CalendarEntries getCalendarEntry(LeaveBlock leaveBlock) {
         return TkServiceLocator.getCalendarEntriesService().getCalendarEntries(leaveBlock.getCalendarId());
     }
+    
+    public List<String> getApproverIdList(String documentId) {
+    	List<String> idList = new ArrayList<String>();
+    	List<ActionTaken> actions = KewApiServiceLocator.getWorkflowDocumentService().getActionsTaken(documentId);
+    	for(ActionTaken anAction : actions) {
+    		if(anAction.getActionTaken().getCode().equals(ActionType.APPROVE.getCode())
+    				&& StringUtils.isNotEmpty(anAction.getPrincipalId()) ) {
+    			idList.add(anAction.getPrincipalId());
+    		}
+    	}
+        return idList;
+    }
+    
 }

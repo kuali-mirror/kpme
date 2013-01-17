@@ -314,9 +314,6 @@ public class LeaveCalendarAction extends TkAction {
 
         LeaveBlock blockToDelete = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
         if (blockToDelete != null && TkServiceLocator.getPermissionsService().canDeleteLeaveBlock(blockToDelete)) {
-		    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId, principalId);
-		    generateLeaveCalendarChangedNotification(principalId, targetPrincipalId, documentId, calendarEntry.getHrCalendarEntriesId());
-		    
         	//if leave block is a pending leave request, cancel the leave request document
         	if(blockToDelete.getRequestStatus().equals(LMConstants.REQUEST_STATUS.REQUESTED)) {
         		List<LeaveRequestDocument> lrdList = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(blockToDelete.getLmLeaveBlockId());
@@ -330,6 +327,28 @@ public class LeaveCalendarAction extends TkAction {
         			}
         		}
         	}
+        	
+        	List<String> approverList = new ArrayList<String>();
+        	//if leave block is an approved leave request, get list of approver's id
+        	if(blockToDelete.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED)) {
+        		List<LeaveRequestDocument> lrdList = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(blockToDelete.getLmLeaveBlockId());
+        		if(CollectionUtils.isNotEmpty(lrdList)) {
+        			for(LeaveRequestDocument lrd : lrdList) { 
+        				DocumentStatus status = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(lrd.getDocumentNumber());
+        				if(DocumentStatus.FINAL.getCode().equals(status.getCode())) {
+        					// get approver's id for sending out email notification later
+        					approverList = TkServiceLocator.getLeaveRequestDocumentService().getApproverIdList(lrd.getDocumentNumber());
+        				}
+        			}
+        		}
+        	}
+        	
+        	TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId, principalId);
+		    generateLeaveCalendarChangedNotification(principalId, targetPrincipalId, documentId, calendarEntry.getHrCalendarEntriesId());
+		    if(CollectionUtils.isNotEmpty(approverList)) {
+		    	this.generateLeaveBlockDeletionNotification(approverList, targetPrincipalId, principalId, TKUtils.formatDate(blockToDelete.getLeaveDate()), blockToDelete.getLeaveAmount().toString());
+		    }
+        	
 		    // recalculate accruals
 		    if(lcf.getCalendarEntry() != null) {
 		    	rerunAccrualForNotEligibleForAccrualChanges(blockToDelete.getEarnCode(), blockToDelete.getLeaveDate(), calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
@@ -610,6 +629,21 @@ public class LeaveCalendarAction extends TkAction {
 				message.append(getLeaveCalendarURL(documentId, hrCalendarEntryId));
 				
 				TkServiceLocator.getKPMENotificationService().sendNotification(subject, message.toString(), targetPrincipalId);
+			}
+		}
+	}
+	
+	private void generateLeaveBlockDeletionNotification(List<String> approverIdList, String employeeId, String userId, String dateString, String hrString) {
+		Person employee = KimApiServiceLocator.getPersonService().getPerson(employeeId);
+		Person user = KimApiServiceLocator.getPersonService().getPerson(userId);
+		if (employee != null && user != null) {
+			String subject = "Leave Request Deletion Notice";
+			StringBuilder message = new StringBuilder();
+			message.append("An Approved leave request of " + hrString +" hours on Date " + dateString);
+			message.append(" for " + employee.getNameUnmasked() +" was deleted by ");
+			message.append(user.getNameUnmasked());
+			for(String anId : approverIdList) {
+				TkServiceLocator.getKPMENotificationService().sendNotification(subject, message.toString(), anId);
 			}
 		}
 	}

@@ -31,5 +31,11 @@ public interface LeaveRequestDocumentService {
     void disapproveLeave(String documentId, String principalId, String reason);
     void deferLeave(String documentId, String principalId, String reason);
     void suBlanketApproveLeave(String documentId, String principalId);    
-    void recallAndCancelLeave(String documentId, String principalId, String reason);    
+    void recallAndCancelLeave(String documentId, String principalId, String reason); 
+   /**
+    * Get a list of principal ids of approvers that have taken "approve" action on the given document
+    * @param documentId
+    * @return
+    */
+    public List<String> getApproverIdList(String documentId);
 }
