@@ -74,5 +74,13 @@ public class EarnCodeGroupMaintainableImpl extends HrBusinessObjectMaintainableI
 	public HrBusinessObject getObjectById(String id) {
 		return TkServiceLocator.getEarnCodeGroupService().getEarnCodeGroup(id);
 	} 
-	
+
+    @Override
+    public void customSaveLogic(HrBusinessObject hrObj){
+        EarnCodeGroup ecg = (EarnCodeGroup)hrObj;
+        for (EarnCodeGroupDefinition definition : ecg.getEarnCodeGroups()) {
+            definition.setHrEarnCodeGroupDefId(null);
+            definition.setHrEarnCodeGroupId(ecg.getHrEarnCodeGroupId());
+        }
+    }
 }
