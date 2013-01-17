@@ -10,7 +10,7 @@
 </c:if>
 
 <c:forEach var="leaveBlock" items="${day.leaveBlockRenderers}" varStatus="status">
-    <div id="${dayNumberId}" class="leaveBlock ${fn:toLowerCase(leaveBlock.requestStatusClass)}">
+    <div id="${dayNumberId}" class="leaveBlock ${fn:toLowerCase(leaveBlock.requestStatusClass)}" title="${leaveBlock.description}">
     	<div id="leaveblock_${leaveBlock.leaveBlockId}" class="${editableClass}">
             <c:if test="${leaveBlock.deletable and day.dayEditable}">
 	            <img id="leaveBlockDelete_${leaveBlock.leaveBlockId}" src='images/delete.png' class="leaveBlock-delete"/>

@@ -79,5 +79,9 @@ public class LeaveBlockRenderer {
         }
         return getRequestStatusClass();
     }
+    
+    public String getDescription() {
+    	return leaveBlock.getDescription();
+    }
 
 }
