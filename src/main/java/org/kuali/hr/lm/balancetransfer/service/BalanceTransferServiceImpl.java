@@ -76,20 +76,6 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		return balanceTransferDao.getBalanceTransferById(balanceTransferId);
 	}
 	
-	/**
-	 * change to "get/initiateAccrualGeneratedBalanceTransfer".
-	 * Updated method will provide a common endpoint for all max balance action frequencies triggered by
-	 * accrual categories that have exceeded max balance.
-	 * with action_at_max_bal=LOSE, all service-unit-time over max balance must be moved to forfeiture
-	 * 
-	 * Not concerned with institutions needing to customize this functionality, as these types of transfers are automated
-	 * according to accrual category rules which are defined by the institution.
-	 * 
-	 * There does exist an issue involving balance transfer leave block types, though. Demonstrated with action_at_max_balance = LOSE,
-	 * the amount is placed in a "forfeiture" leave block, which is counted as usage. This COULD be an institutionally dependent
-	 * feature.
-	 * 
-	 */
 	@Override
 	public BalanceTransfer initializeTransfer(String principalId, String accrualCategoryRule, LeaveSummary leaveSummary, Date effectiveDate) {
 		//Initially, principals may be allowed to edit the transfer amount when prompted to submit this balance transfer, however,
@@ -128,15 +114,34 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			AccrualCategory toAccrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getMaxBalanceTransferToAccrualCategory(),effectiveDate);
 			LeaveSummaryRow balanceInformation = leaveSummary.getLeaveSummaryRowForAccrualCategory(accrualRule.getLmAccrualCategoryId());
 
+			// AccrualRule.maxBalance == null -> no balance limit. No balance limit -> no accrual triggered transfer / payout / lose.
 			BigDecimal maxBalance = accrualRule.getMaxBalance();
 			BigDecimal fullTimeEngagement = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, effectiveDate);
 			BigDecimal adjustedMaxBalance = maxBalance.multiply(fullTimeEngagement).setScale(2);
-			BigDecimal maxTransferAmount = new BigDecimal(accrualRule.getMaxTransferAmount());
-			BigDecimal adjustedMaxTransferAmount = maxTransferAmount.multiply(fullTimeEngagement).setScale(2);
+			
+			BigDecimal maxTransferAmount = null;
+			BigDecimal adjustedMaxTransferAmount = null;
+			if(ObjectUtils.isNotNull(accrualRule.getMaxTransferAmount())) {
+				maxTransferAmount = new BigDecimal(accrualRule.getMaxTransferAmount());
+				adjustedMaxTransferAmount = maxTransferAmount.multiply(fullTimeEngagement).setScale(2);
+			}
+			else {
+				// no limit on transfer amount
+				maxTransferAmount = new BigDecimal(Long.MAX_VALUE);
+				adjustedMaxTransferAmount = maxTransferAmount;
+			}
+
 			BigDecimal maxCarryOver = null;
-			if(ObjectUtils.isNotNull(accrualRule.getMaxCarryOver()))
-				maxCarryOver = new BigDecimal(accrualRule.getMaxCarryOver());
 			BigDecimal adjustedMaxCarryOver = null;
+			if(ObjectUtils.isNotNull(accrualRule.getMaxCarryOver())) {
+				maxCarryOver = new BigDecimal(accrualRule.getMaxCarryOver());
+				adjustedMaxCarryOver = maxCarryOver.multiply(fullTimeEngagement).setScale(2);
+			}
+			else {
+				//no limit to carry over.
+				maxCarryOver = new BigDecimal(Long.MAX_VALUE);
+				adjustedMaxCarryOver = maxCarryOver;
+			}
 			
 			List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, effectiveDate);
 			for(EmployeeOverride override : overrides) {
@@ -146,7 +151,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					//override values are not pro-rated for FTE.
 					if(StringUtils.equals(override.getOverrideType(),"MTA"))
 						adjustedMaxTransferAmount = new BigDecimal(override.getOverrideValue());
-					if(StringUtils.equals(override.getOverrideType(), "MAC"))
+					if(StringUtils.equals(override.getOverrideType(),"MAC"))
 						adjustedMaxCarryOver = new BigDecimal(override.getOverrideValue());
 				}
 			}
@@ -169,7 +174,6 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					BigDecimal forfeiture = transferAmount.subtract(adjustedMaxTransferAmount).setScale(2);
 					forfeiture = forfeiture.stripTrailingZeros();
 					bt.setForfeitedAmount(forfeiture);
-					//TODO: Ensure that precision/rounding does not inhibit leave calendar submission due to balance being; i.e. 0.000000001 above max balance.
 					bt.setTransferAmount(adjustedMaxTransferAmount);
 				}
 				else {
@@ -361,8 +365,8 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			if(ObjectUtils.isNotNull(leaveSummary)) {
 				//null check inserted to fix LeaveCalendarWebTst failures on kpme-trunk-build-unit #2069
 				
-				List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(document.getPrincipalId(),
-						document.getCalendarEntry().getBeginPeriodDateTime(), document.getCalendarEntry().getEndPeriodDateTime());
+/*				List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(document.getPrincipalId(),
+						document.getCalendarEntry().getBeginPeriodDateTime(), document.getCalendarEntry().getEndPeriodDateTime());*/
 				
 				for(LeaveSummaryRow lsr : leaveSummary.getLeaveSummaryRows()) {
 					

@@ -24,6 +24,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -73,7 +74,7 @@ public class BalanceTransferAction extends TkAction {
 
 			Date effectiveDate = TKUtils.getCurrentDate();
 			if(TKUtils.getCurrentDate().after(lcd.getCalendarEntry().getEndPeriodDate()))
-				effectiveDate = lcd.getCalendarEntry().getEndPeriodDate();
+				effectiveDate = new Date(DateUtils.addMinutes(lcd.getCalendarEntry().getEndPeriodDate(),-1).getTime());
 			// if submitting a delinquent calendar, use the calendar's end period date for the effective date.
 			// could adjust the end period date by subtracting a day so that the leave blocks appear on the month in question.
 			
@@ -156,7 +157,7 @@ public class BalanceTransferAction extends TkAction {
 					
 					Date effectiveDate = TKUtils.getCurrentDate();
 					if(TKUtils.getCurrentDate().after(lcd.getCalendarEntry().getEndPeriodDate()))
-						effectiveDate = lcd.getCalendarEntry().getEndPeriodDate();
+						effectiveDate = new Date(DateUtils.addMinutes(lcd.getCalendarEntry().getEndPeriodDate(),-1).getTime());
 
 					BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(lcd.getPrincipalId(), accrualRuleId, ls, effectiveDate);
 					balanceTransfer.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
@@ -216,7 +217,7 @@ public class BalanceTransferAction extends TkAction {
 			
 			Date effectiveDate = TKUtils.getCurrentDate();
 			if(TKUtils.getCurrentDate().after(lcd.getCalendarEntry().getEndPeriodDate()))
-				effectiveDate = lcd.getCalendarEntry().getEndPeriodDate();
+				effectiveDate = new Date(DateUtils.addMinutes(lcd.getCalendarEntry().getEndPeriodDate(),-1).getTime());
 			
 			accrualRuleId = transferableAccrualCategoryRules.get(0);
 			BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(lcd.getPrincipalId(), accrualRuleId, leaveSummary, effectiveDate);
