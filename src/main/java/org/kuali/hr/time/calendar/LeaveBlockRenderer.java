@@ -77,7 +77,22 @@ public class LeaveBlockRenderer {
         if (this.leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE)) {
             return "accrual";
         }
-        return getRequestStatusClass();
+        else if(this.leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER)) {
+        	if(this.leaveBlock.getDescription().contains("Forfeited"))
+        		return "transfer forfeiture";
+        	else if(this.leaveBlock.getDescription().contains("Amount transferred"))
+        		return "amount transferred";
+        	else if(this.leaveBlock.getDescription().contains("Transferred amount"))
+        		return "transferred amount";
+        	else
+        		return "balance transfer";
+        }
+        else
+        	if(!this.leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR) &&
+        			!this.leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR))
+        		return LMConstants.LEAVE_BLOCK_TYPE_MAP.get(this.leaveBlock.getLeaveBlockType()).toLowerCase();
+        	else
+        		return getRequestStatusClass();
     }
     
     public String getDescription() {
