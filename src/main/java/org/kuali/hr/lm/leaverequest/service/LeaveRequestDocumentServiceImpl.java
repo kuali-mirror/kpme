@@ -16,11 +16,15 @@
 package org.kuali.hr.lm.leaverequest.service;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
-import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leaverequest.LeaveRequestActionValue;
 import org.kuali.hr.lm.leaverequest.dao.LeaveRequestDocumentDao;
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
@@ -30,10 +34,8 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.action.ActionType;
 import org.kuali.rice.kew.api.action.DocumentActionParameters;
 import org.kuali.rice.kew.api.action.ValidActions;
@@ -45,11 +47,6 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentService {
     private static final Logger LOG = Logger.getLogger(LeaveRequestDocumentServiceImpl.class);
@@ -191,7 +188,7 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
 
         String principalName = person != null ? person.getName() : StringUtils.EMPTY;
         String leaveRequestDateString = leaveBlock != null ? TKUtils.formatDate(leaveBlock.getLeaveDate()) : StringUtils.EMPTY;
-        String leaveRequestDocumentTitle = principalName + " - " + leaveRequestDateString;
+        String leaveRequestDocumentTitle = principalName + " (" + principalId + ") - " + leaveRequestDateString;
         
         leaveRequestDocument.setLmLeaveBlockId(leaveBlockId);
         leaveRequestDocument.getDocumentHeader().setDocumentDescription(leaveRequestDocumentTitle);
