@@ -27,7 +27,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.lm.LMConstants;
+import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
+import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
@@ -39,6 +42,7 @@ import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
@@ -193,7 +197,40 @@ public class TimesheetServiceImpl implements TimesheetService {
         loadTimesheetDocumentData(timesheetDocument, principalId, calendarEntries);
         TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(timesheetDocument, payEndDate);
 
+        if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
+        	deleteNonApprovedLeaveBlocks(principalId, calendarEntries.getBeginPeriodDate(), calendarEntries.getEndPeriodDate());
+        }
+        
         return timesheetDocument;
+    }
+    
+    private void deleteNonApprovedLeaveBlocks(String principalId, Date beginDate, Date endDate) {
+    	String batchUserPrincipalId = getBatchUserPrincipalId();
+        
+        if (batchUserPrincipalId != null) {
+	    	List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
+	
+	    	for (LeaveBlock leaveBlock : leaveBlocks) {
+	    		if (!StringUtils.equals(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.APPROVED)) {
+	    			TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlock.getLmLeaveBlockId(), batchUserPrincipalId);
+	    		}
+	    	}
+        } else {
+        	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
+        	LOG.error("Could not delete leave request blocks due to missing batch user " + principalName);
+        }
+    }
+    
+    private String getBatchUserPrincipalId() {
+    	String principalId = null;
+    	
+    	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
+        Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(principalName);
+        if (person != null) {
+        	principalId = person.getPrincipalId();
+        }
+        
+        return principalId;
     }
 
     public List<TimeBlock> getPrevDocumentTimeBlocks(String principalId, Date payBeginDate) {
