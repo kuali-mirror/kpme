@@ -88,7 +88,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
             String principalName = person != null ? person.getName() : StringUtils.EMPTY;
             String beginDateString = TKUtils.formatDate(new java.sql.Date(begin.getTime()));
             String endDateString = TKUtils.formatDate(new java.sql.Date(end.getTime()));
-            String leaveCalendarDocumentTitle = LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TYPE + " - " + principalName + " - " + beginDateString + "-" + endDateString;
+            String leaveCalendarDocumentTitle = LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TYPE + " - " + principalName + " (" + principalId + ") - " + beginDateString + "-" + endDateString;
             
             doc = initiateWorkflowDocument(principalId, begin, end, calEntry, LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TYPE, leaveCalendarDocumentTitle);
         } else {
