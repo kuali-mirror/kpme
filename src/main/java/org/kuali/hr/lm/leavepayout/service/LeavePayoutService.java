@@ -26,6 +26,14 @@ public interface LeavePayoutService {
     public List<LeavePayout> getAllLeavePayoutsForPrincipalIdAsOfDate(String principalId, Date effectiveDate);
     public List<LeavePayout> getAllLeavePayoutsByEffectiveDate(Date effectiveDate);
 
+    /**
+     * Consumes a LeavePayout object.
+     * @param leavePayout The LeavePayout object to use for payout.
+     * @return The same LeavePayout object, but with associated leave block ids.
+     */
+    public LeavePayout payout(LeavePayout leavePayout);
+
+
     //@Cacheable(value= LeaveDonation.CACHE_NAME, key="'lmLeavePayoutId=' + #p0")
     public LeavePayout getLeavePayoutById(String lmLeavePayoutId);
 

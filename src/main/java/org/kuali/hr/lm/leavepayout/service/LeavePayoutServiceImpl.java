@@ -17,6 +17,7 @@ package org.kuali.hr.lm.leavepayout.service;
 
 import org.kuali.hr.lm.leavepayout.LeavePayout;
 import org.kuali.hr.lm.leavepayout.dao.LeavePayoutDao;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.sql.Date;
 import java.util.List;
@@ -57,6 +58,15 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 
     public void setLeavePayoutDao(LeavePayoutDao leavePayoutDao) {
         this.leavePayoutDao = leavePayoutDao;
+    }
+
+    @Override
+    public LeavePayout payout(LeavePayout leavePayout) {
+        if(ObjectUtils.isNull(leavePayout))
+            throw new RuntimeException("did not supply a valid LeavePayout object.");
+        else {
+            return leavePayout;
+        }
     }
 
 }

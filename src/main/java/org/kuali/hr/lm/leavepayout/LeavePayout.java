@@ -17,6 +17,7 @@ package org.kuali.hr.lm.leavepayout;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
@@ -25,6 +26,8 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LeavePayout extends HrBusinessObject {
 
@@ -42,7 +45,12 @@ public class LeavePayout extends HrBusinessObject {
 	private AccrualCategory fromAccrualCategoryObj;
 	private EarnCode earnCodeObj;
 	private PrincipalHRAttributes principalHRAttrObj;
-	
+    private String leaveCalendarDocumentId;
+
+    private String forfeitedLeaveBlockId;
+    private String accruedLeaveBlockId;
+    private String debitedLeaveBlockId;
+
 	public String getEarnCode() {
 		return earnCode;
 	}
@@ -146,4 +154,19 @@ public class LeavePayout extends HrBusinessObject {
 	public void setPrincipalHRAttrObj(PrincipalHRAttributes hrObj) {
 		this.principalHRAttrObj = hrObj;
 	}
+
+    public List<LeaveBlock> getLeaveBlocks() {
+        List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
+
+        leaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(forfeitedLeaveBlockId));
+        leaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(accruedLeaveBlockId));
+        leaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(debitedLeaveBlockId));
+
+        return leaveBlocks;
+    }
+
+    public String getLeaveCalendarDocumentId() {
+        return leaveCalendarDocumentId;
+    }
+
 }
