@@ -181,6 +181,20 @@ public class LeaveCalendarAction extends TkAction {
         transfers.addAll(TkServiceLocator.getBalanceTransferService().getEligibleTransfers(lcf.getLeaveCalendarDocument(), LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE));
         transfers.addAll(TkServiceLocator.getBalanceTransferService().getEligibleTransfers(lcf.getLeaveCalendarDocument(), LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END));
         transfers.addAll(TkServiceLocator.getBalanceTransferService().getEligibleTransfers(lcf.getLeaveCalendarDocument(), LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND));
+        boolean btDocExists = false;
+        boolean lpDocExists = false;
+        for(LeaveBlock leaveBlock : leaveBlocks) {
+        	if(leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER) &&
+        			!leaveBlock.getDescription().contains("Max carry over adjustment"))
+        		btDocExists = true;
+            else if(leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT))
+            	lpDocExists = true;
+        }
+        if(btDocExists)
+        	warningMes.add("A balance transfer document for this calendar exists");
+        if(lpDocExists)
+        	warningMes.add("A leave payout document for this calendar exists");
+
         if(!transfers.isEmpty()) {
         	warningMes.add("You have exceeded the balance limit for one or more accrual categories within your leave plan.");
         	warningMes.add("Depending upon the rules of your institution, you may lose any leave over this limit.");
