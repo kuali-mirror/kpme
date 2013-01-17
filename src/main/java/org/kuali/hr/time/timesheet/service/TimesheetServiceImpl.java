@@ -30,7 +30,6 @@ import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
-import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
@@ -142,7 +141,7 @@ public class TimesheetServiceImpl implements TimesheetService {
             Person person = KimApiServiceLocator.getPersonService().getPerson(principalId);
             String principalName = person != null ? person.getName() : StringUtils.EMPTY;
             String endDateString = TKUtils.formatDate(new java.sql.Date(end.getTime()));
-            String timesheetDocumentTitle = TimesheetDocument.TIMESHEET_DOCUMENT_TYPE + " - " + principalName + " - " + endDateString;
+            String timesheetDocumentTitle = TimesheetDocument.TIMESHEET_DOCUMENT_TYPE + " - " + principalName + " (" + principalId + ") - " + endDateString;
             
             timesheetDocument = this.initiateWorkflowDocument(principalId, begin, end, calendarDates, TimesheetDocument.TIMESHEET_DOCUMENT_TYPE, timesheetDocumentTitle);
             //timesheetDocument.setPayCalendarEntry(calendarDates);
