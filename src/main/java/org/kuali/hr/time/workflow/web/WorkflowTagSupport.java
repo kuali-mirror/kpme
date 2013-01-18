@@ -16,10 +16,14 @@
 package org.kuali.hr.time.workflow.web;
 
 import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.kuali.hr.core.document.CalendarDocumentHeaderContract;
 import org.kuali.hr.core.document.calendar.CalendarDocumentContract;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
+import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -85,12 +89,26 @@ public class WorkflowTagSupport {
         CalendarDocumentHeaderContract dh = doc.getDocumentHeader();
         Date asOfDate = TKUtils.getTimelessDate(null);        
         if(((dh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.INITIATED)
-                || dh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.SAVED)) && (TkServiceLocator.getPermissionsService().canViewLeaveTabsWithEStatus() && (asOfDate.compareTo(dh.getEndDate()))>0 ))){
+                || dh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.SAVED)) && !isDelinquent(doc) &&
+                (TkServiceLocator.getPermissionsService().canViewLeaveTabsWithEStatus() && (asOfDate.compareTo(dh.getEndDate()))>0 ))){
         		return true;
         } else 
         	return false;
     }
 
+    /**
+     * checks for delinquncies in target ee's calendar.
+     * @param doc
+     * @return true if there are previous non-routed or non-final documents
+     */
+    private boolean isDelinquent(CalendarDocumentContract doc) {
+        String principalId = doc.getDocumentHeader().getPrincipalId();
+        List<LeaveCalendarDocumentHeader> lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getSubmissionDelinquentDocumentHeaders(principalId, DateUtils.addSeconds(doc.getAsOfDate(),1));
+        if (lcdh.isEmpty()){
+            return false;        // no delinquncy
+        } else
+            return true;        // all previous leave document are final or enroute.
+    }
     public boolean isDisplayingTimesheetApprovalButtons() {
         TimesheetDocument doc = TKContext.getCurrentTimesheetDocument();
         return isDisplayingApprovalButtons(doc);
