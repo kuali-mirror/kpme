@@ -97,8 +97,8 @@
 			            	<td><input type="radio" name="action_${requestId}" id="action_${requestId}" value="disapprove"></td>
 			            	<td><input type="radio" name="action_${requestId}" id="action_${requestId}" value="defer"></td>
 			            	<td><input type="radio" name="action_${requestId}" id="action_${requestId}" value="noAction" checked="checked"></td>
-			            	
-			            	<td><input type="text" name="reason_${requestId}" id="reason_${requestId}" size="100" ></td>
+			            	<%-- when approve/noAction selected, reason field is disabled --%>
+			            	<td><input type="text" name="reason_${requestId}" id="reason_${requestId}" size="100" disabled="disabled" class="ui-state-disabled"></td>
 			            </tr>
 		            </c:forEach>		            
 		            <tr class="noborder" >

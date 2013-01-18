@@ -31,7 +31,8 @@ $(function () {
     	 el : $("body"),
     	 events : {
 	    	 "click input[id^=takeAction]" : "takeActionOnEmployee",
-	         "click input[id^=checkAllApprove]" : "checkAllApprove"	
+	         "click input[id^=checkAllApprove]" : "checkAllApprove",
+	         "change input:radio[id^=action]" : "changeReasonStyle"
          },
          initialize : function () {
         	 return this;
@@ -165,6 +166,36 @@ $(function () {
 					}
 				});
 			}
+			//disable all reason input fields, reason fields should be disabled for approve and noAction
+			var reasonCells = $("input[id^=reason_" + principalId + "]");
+			reasonCells.each(function() {
+				$(this)
+					.val('')
+    				.attr("disabled", "disabled")
+    				.addClass('ui-state-disabled');
+			});
+			
+         },
+         
+         changeReasonStyle : function(e) {
+ 			var actionId = (e.target || e.srcElement).id;
+ 			var reasonId = actionId.replace(/action/g, "reason");
+    		var radioCells = $("input:radio[id^=" + actionId + "]");
+   			radioCells.each(function() {
+        		if($(this).attr('checked') == "checked") {
+        			var radioValue = $(this).attr('value');
+		    		if(radioValue == "approve" || radioValue == "noAction") {	
+		    			$('#'+reasonId)
+		    				.val('')
+		    				.attr("disabled", "disabled")
+		    				.addClass('ui-state-disabled');
+		    		} else {
+		    			$('#'+reasonId)
+		    				.removeAttr("disabled")
+		    				.removeClass("ui-state-disabled");
+		    		}
+		    	}
+   			});
          },
          
 //       update the validation field for this employee table
