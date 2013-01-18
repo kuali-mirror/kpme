@@ -376,4 +376,11 @@ public class AssignmentServiceImpl implements AssignmentService {
 		}	
 		return assignmentDao.getPrincipalIds(workAreaList, effdt, startDate, endDate);
 	}
+	
+	 public List<Assignment> getAssignments(List<String> workAreaList, Date effdt, Date startDate, Date endDate) {
+		if (CollectionUtils.isEmpty(workAreaList)) {
+			return new ArrayList<Assignment>();
+		}	
+		return assignmentDao.getAssignments(workAreaList, effdt, startDate, endDate);
+	}
 }

@@ -59,6 +59,16 @@ public interface PrincipalHRAttributesService {
     public List<String> getActiveEmployeesIdForLeaveCalendarAndIdList(String leaveCalendarName, List<String> pidList, Date asOfDate);
 	
     /**
+     * Get a list of unique principal ids that match given criteria, used by Time approval pages
+     * @param timeCalendarName
+     * @param pidList
+     * @param asOfDate
+     * @return
+     */
+    @Cacheable(value= PrincipalHRAttributes.CACHE_NAME, key="'timeCalendarName=' + #p0 + '|' + 'asOfDate=' + #p1")
+    public List<String> getActiveEmployeesIdForTimeCalendarAndIdList(String timeCalendarName, List<String> pidList, Date asOfDate);
+    
+    /**
 	 * KPME-1250 Kagata
 	 * Get a list of active employees based on leave plan and as of a particular date 
 	 * @param leavePlan
@@ -106,4 +116,9 @@ public interface PrincipalHRAttributesService {
      * @return
      */
     public List<PrincipalHRAttributes> getPrincipalHrAtributes(String principalId, java.sql.Date fromEffdt, java.sql.Date toEffdt,String active, String showHistory);
+    /**
+     * Get List of all active pay calendars
+     * @return
+     */
+    public List<String> getUniqueTimePayGroups();
 }

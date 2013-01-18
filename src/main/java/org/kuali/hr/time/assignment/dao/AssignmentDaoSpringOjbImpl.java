@@ -444,9 +444,20 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
     }
 
     public List<String> getPrincipalIds(List<String> workAreaList, Date effdt, Date startDate, Date endDate) {
-    	
+    	List<Assignment> results = this.getAssignments(workAreaList, effdt, startDate, endDate);
+        Set<String> pids = new HashSet<String>();
+        for(Assignment anAssignment : results) {
+        	if(anAssignment != null) {
+        		pids.add(anAssignment.getPrincipalId());
+        	}
+        }
+        List<String> ids = new ArrayList<String>();
+        ids.addAll(pids);
+     	return ids;
+    }
+    
+    public List<Assignment> getAssignments(List<String> workAreaList, Date effdt, Date startDate, Date endDate) {
     	List<Assignment> results = new ArrayList<Assignment>();
-		List<String> ids = new ArrayList<String>();
 		 
 		Criteria activeRoot = new Criteria();	
      	Criteria activEeffdtCrit = new Criteria();
@@ -494,14 +505,8 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
         if (c != null) {
         	results.addAll(c);
         }
-        Set<String> pids = new HashSet<String>();
-        for(Assignment anAssignment : results) {
-        	if(anAssignment != null) {
-        		pids.add(anAssignment.getPrincipalId());
-        	}
-        }
-        ids.addAll(pids);
-     	return ids;
+        
+        return results;
     }
 
 }

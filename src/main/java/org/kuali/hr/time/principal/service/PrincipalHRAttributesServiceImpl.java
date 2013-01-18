@@ -50,6 +50,10 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
     	return principalHRAttributesDao.getActiveEmployeesIdForLeaveCalendarAndIdList(leaveCalendarName, pidList, asOfDate);
     }
     
+    public List<String> getActiveEmployeesIdForTimeCalendarAndIdList(String timeCalendarName, List<String> pidList, Date asOfDate) {
+    	return principalHRAttributesDao.getActiveEmployeesIdForTimeCalendarAndIdList(timeCalendarName, pidList, asOfDate);
+    }
+    
 	/**
      * KPME-1250 Kagata
      * Get a list of active employees based on leave plan and as of a particular date
@@ -101,5 +105,9 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
     public List<PrincipalHRAttributes> getPrincipalHrAtributes(String principalId, 
     		java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory) {
     	return this.principalHRAttributesDao.getPrincipalHrAtributes(principalId, fromEffdt, toEffdt, active, showHistory);
+    }
+    @Override
+    public List<String> getUniqueTimePayGroups() {
+    	return this.principalHRAttributesDao.getUniqueTimePayGroups();
     }
 }

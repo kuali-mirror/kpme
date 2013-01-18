@@ -32,6 +32,8 @@ public interface PrincipalHRAttributesDao {
 	public List<PrincipalHRAttributes> getActiveEmployeesForLeaveCalendar(String leaveCalendarName, Date asOfDate);
 	
 	public List<String> getActiveEmployeesIdForLeaveCalendarAndIdList(String leaveCalendarName, List<String> pidList, Date asOfDate);
+	
+    public List<String> getActiveEmployeesIdForTimeCalendarAndIdList(String timeCalendarName, List<String> pidList, Date asOfDate);
 
 	/**
 	 * KPME-1250 Kagata
@@ -64,5 +66,7 @@ public interface PrincipalHRAttributesDao {
     public List<String> getUniqueLeavePayGroupsForPrincipalIds(List<String> principalIds);
     
     public List<PrincipalHRAttributes> getPrincipalHrAtributes(String principalId, java.sql.Date fromEffdt, java.sql.Date toEffdt,String active, String showHistory);
+    
+    public List<String> getUniqueTimePayGroups();
     
 }
