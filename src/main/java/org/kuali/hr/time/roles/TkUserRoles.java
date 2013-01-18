@@ -388,8 +388,9 @@ public class TkUserRoles implements UserRoles {
     public boolean isApproverForPerson(String principalId) {
         List<Assignment> lstAssignment = TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getCurrentDate());
 
+        Set<Long> workAreas = getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
         for (Assignment assignment : lstAssignment) {
-            if (getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas().contains(assignment.getWorkArea())) {
+            if (workAreas.contains(assignment.getWorkArea())) {
                 return true;
             }
         }

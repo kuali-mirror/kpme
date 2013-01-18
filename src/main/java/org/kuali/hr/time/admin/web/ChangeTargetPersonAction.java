@@ -31,6 +31,7 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -44,7 +45,7 @@ public class ChangeTargetPersonAction extends TkAction {
     	ChangeTargetPersonForm changeTargetPersonForm = (ChangeTargetPersonForm) form;
 
         if (StringUtils.isNotBlank(changeTargetPersonForm.getPrincipalName())) {
-        	Person targetPerson = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(changeTargetPersonForm.getPrincipalName());
+        	Principal targetPerson = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(changeTargetPersonForm.getPrincipalName());
         	
 	        if (targetPerson != null) {
 	        	UserRoles roles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
@@ -56,7 +57,7 @@ public class ChangeTargetPersonAction extends TkAction {
 	                	|| roles.isTimesheetReviewerForPerson(targetPerson.getPrincipalId())
 	                	|| roles.isApproverForPerson(targetPerson.getPrincipalId())) {
 		                	
-	            	TKUser.setTargetPerson(targetPerson);
+	            	TKUser.setTargetPerson(KimApiServiceLocator.getPersonService().getPerson(targetPerson.getPrincipalId()));
 	
 		            if (StringUtils.isNotEmpty(changeTargetPersonForm.getReturnUrl())) {
 		            	GlobalVariables.getUserSession().addObject(TkConstants.TK_TARGET_USER_RETURN, changeTargetPersonForm.getReturnUrl());

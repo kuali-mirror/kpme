@@ -35,7 +35,6 @@ public class BalanceTransfer extends HrBusinessObject {
     //public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "BalanceTransfer";
 
 	private String balanceTransferId;
-	private String documentHeaderId;
 	private String accrualCategoryRule;
 	private String principalId;
 	private String toAccrualCategory;
@@ -43,13 +42,13 @@ public class BalanceTransfer extends HrBusinessObject {
 	private BigDecimal transferAmount;
 	private BigDecimal forfeitedAmount;
 	private Date effectiveDate;
-	private String leaveCalendarDocumentId;
+	//private String leaveCalendarDocumentId;
 
 	private String status;
 	private String forfeitedLeaveBlockId;
 	private String accruedLeaveBlockId;
 	private String debitedLeaveBlockId;
-	
+
 	private Person principal;
 
 	public Date getEffectiveDate() {
@@ -147,13 +146,13 @@ public class BalanceTransfer extends HrBusinessObject {
 		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
 	}
 
-	public String getLeaveCalendarDocumentId() {
+	/*public String getLeaveCalendarDocumentId() {
 		return leaveCalendarDocumentId;
 	}
 
 	public void setLeaveCalendarDocumentId(String leaveCalendarDocumentId) {
 		this.leaveCalendarDocumentId = leaveCalendarDocumentId;
-	}
+	}*/
 
 	/**
 	 * Returns a balance transfer object adjusted for the new transfer amount.
@@ -182,20 +181,17 @@ public class BalanceTransfer extends HrBusinessObject {
 
 	public List<LeaveBlock> getLeaveBlocks() {
 		List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
-		
-		leaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(forfeitedLeaveBlockId));
-		leaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(accruedLeaveBlockId));
-		leaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(debitedLeaveBlockId));
+		if (getForfeitedLeaveBlockId() != null) {
+		    leaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(forfeitedLeaveBlockId));
+        }
+        if (getAccruedLeaveBlockId() != null) {
+		    leaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(accruedLeaveBlockId));
+        }
+        if (getDebitedLeaveBlockId() != null) {
+		    leaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(debitedLeaveBlockId));
+        }
 
 		return leaveBlocks;
-	}
-
-	public String getDocumentHeaderId() {
-		return documentHeaderId;
-	}
-
-	public void setDocumentHeaderId(String documentHeaderId) {
-		this.documentHeaderId = documentHeaderId;
 	}
 
 	public String getStatus() {

@@ -30,12 +30,18 @@
   <bean id="BalanceTransferMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
   		p:businessObjectClass="org.kuali.hr.lm.balancetransfer.BalanceTransfer"
   	    p:businessRulesClass="org.kuali.hr.lm.balancetransfer.validation.BalanceTransferValidation"
-  		p:maintainableClass="org.kuali.hr.lm.balancetransfer.service.BalanceTransferMaintainableServiceImpl">
+  		p:maintainableClass="org.kuali.hr.lm.balancetransfer.service.BalanceTransferMaintainableImpl"
+        p:documentAuthorizerClass="org.kuali.hr.time.authorization.DepartmentAdminAuthorizer">
     <property name="maintainableSections">
       <list>
         <ref bean="BalanceTransferMaintenanceDocument-BalanceTransferMaintenance"/>
       </list>
-    </property>    
+    </property>
+    <property name="lockingKeys">
+      <list>
+          <value>balanceTransferId</value>
+      </list>
+    </property>
     <property name="documentTypeName" value="BalanceTransferDocumentType"/>
   </bean>
 

@@ -67,7 +67,7 @@ public class BalanceTransferAction extends TkAction {
 		if(valid) {
 			
 			String accrualRuleId = balanceTransfer.getAccrualCategoryRule();
-			String leaveCalendarDocumentId = balanceTransfer.getLeaveCalendarDocumentId();
+			String leaveCalendarDocumentId = btf.getLeaveCalendarDocumentId();
 			
 			AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
 			LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(leaveCalendarDocumentId);
@@ -88,7 +88,7 @@ public class BalanceTransferAction extends TkAction {
 				// would cause a loop that would break only if the original transfer amount was re-established in the form.
 				// javascript must be written if the forfeited amount is to be updated on the form object.
 				// an alternative to javascript would be to render a "re-calculate" button attached to a dedicated action forward method.
-				balanceTransfer.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
+				//balanceTransfer.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
 			}
 
 			TkServiceLocator.getBalanceTransferService().submitToWorkflow(balanceTransfer);
@@ -160,7 +160,6 @@ public class BalanceTransferAction extends TkAction {
 						effectiveDate = new Date(DateUtils.addMinutes(lcd.getCalendarEntry().getEndPeriodDate(),-1).getTime());
 
 					BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(lcd.getPrincipalId(), accrualRuleId, ls, effectiveDate);
-					balanceTransfer.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
 					btf.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
 					if(ObjectUtils.isNotNull(balanceTransfer)) {
 						if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
@@ -170,7 +169,6 @@ public class BalanceTransferAction extends TkAction {
 						}
 						else {
 							btf.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
-							balanceTransfer.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
 							btf.setBalanceTransfer(balanceTransfer);
 							btf.setTransferAmount(balanceTransfer.getTransferAmount());
 							return mapping.findForward("basic");
@@ -221,7 +219,6 @@ public class BalanceTransferAction extends TkAction {
 			
 			accrualRuleId = transferableAccrualCategoryRules.get(0);
 			BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(lcd.getPrincipalId(), accrualRuleId, leaveSummary, effectiveDate);
-			balanceTransfer.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
 			btf.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
 
 			if(ObjectUtils.isNotNull(balanceTransfer)) {
@@ -241,7 +238,6 @@ public class BalanceTransferAction extends TkAction {
 					}
 
 				} else {
-					balanceTransfer.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
 					btf.setBalanceTransfer(balanceTransfer);
 					btf.setTransferAmount(balanceTransfer.getTransferAmount());
 					return mapping.findForward("basic");

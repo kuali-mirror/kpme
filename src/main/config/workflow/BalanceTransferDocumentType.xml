@@ -24,11 +24,12 @@
     	<documentType>
             <name>BalanceTransferDocumentType</name>
             <parent>RiceDocument</parent>
-            <postProcessorName>org.kuali.hr.lm.workflow.postprocessor.BalanceTransferPostProcessor</postProcessorName>
-            <docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
             <superUserWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</superUserWorkgroupName>
             <blanketApproveWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</blanketApproveWorkgroupName>
             <defaultExceptionWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</defaultExceptionWorkgroupName>
+            <description>Balance Transfer Maintenance Document</description>
+            <docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+            <applicationId>KPME</applicationId>
             <label>BalanceTransferDocument</label>
 			<active>true</active>
             <routingVersion>1</routingVersion>
@@ -62,10 +63,6 @@
                     <name>INITIATOR_MUST_ROUTE</name>
                     <value>false</value>
                 </policy>
-                <policy>
-				    <name>NOTIFY_COMPLETED_ON_RETURN</name>
-				    <value>true</value>
-				</policy>
             </policies>
         </documentType>
     </documentTypes>
@@ -77,6 +74,7 @@
         <label>BalanceTransferWorkflowAttribute</label>
         <description>BalanceTransferWorkflowAttribute</description>
         <type>RuleAttribute</type>
+        <applicationId>KPME</applicationId>
     </ruleAttribute>
     </ruleAttributes>
 
@@ -105,7 +103,7 @@
         <responsibilities>
             <responsibility>
                 <role>org.kuali.hr.lm.workflow.BalanceTransferWorkflowAttribute!TK_APPROVER</role>
-                <approvePolicy>A</approvePolicy>
+                <approvePolicy>F</approvePolicy>
                 <actionRequested>A</actionRequested>
                 <priority>1</priority>
             </responsibility>
