@@ -39,7 +39,6 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
     private String documentId;
     private LeaveCalendar leaveCalendar;
     private LeaveCalendarDocument leaveCalendarDocument;
-    private List<String> warnings;
     CalendarEntries calendarEntry;
     private String startDate;
     private String endDate;
@@ -197,14 +196,6 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
 
     public void setDocumentId(String documentId) {
         this.documentId = documentId;
-    }
-
-    public List<String> getWarnings() {
-        return warnings;
-    }
-
-    public void setWarnings(List<String> warnings) {
-        this.warnings = warnings;
     }
 
     public CalendarEntries getCalendarEntry() {

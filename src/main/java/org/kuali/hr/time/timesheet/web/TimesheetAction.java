@@ -16,6 +16,8 @@
 package org.kuali.hr.time.timesheet.web;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,9 +28,12 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
+import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.base.web.TkAction;
+import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.detail.web.ActionFormUtils;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -68,7 +73,7 @@ public class TimesheetAction extends TkAction {
         // Here - viewPrincipal will be the principal of the user we intend to
         // view, be it target user, backdoor or otherwise.
         String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
-		CalendarEntries payCalendarEntries;
+		CalendarEntries payCalendarEntry = null;
 		TimesheetDocument td;
 		TimesheetDocumentHeader tsdh;
 
@@ -81,11 +86,11 @@ public class TimesheetAction extends TkAction {
         } else {
             // Default to whatever is active for "today".
             Date currentDate = TKUtils.getTimelessDate(null);
-            payCalendarEntries = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal,  currentDate);
-            if(payCalendarEntries == null){
+            payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal,  currentDate);
+            if(payCalendarEntry == null){
                 throw new RuntimeException("No Calendar Entry setup for "+viewPrincipal);
             }
-            td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, payCalendarEntries);
+            td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, payCalendarEntry);
         }
 
         // Set the TKContext for the current timesheet document id.
@@ -94,6 +99,30 @@ public class TimesheetAction extends TkAction {
         } else {
             LOG.error("Null timesheet document in TimesheetAction.");
         }
+        
+        List<String> warnings = new ArrayList<String>();
+        
+        // add warning messages based on max carry over balances for each accrual category for non-exempt leave users
+        if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(viewPrincipal, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
+        	PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, payCalendarEntry.getEndPeriodDate());
+        	
+        	if (principalCalendar != null) {
+	        	Calendar calendar = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(viewPrincipal, payCalendarEntry.getEndPeriodDateTime(), true);
+					
+				if (calendar != null) {
+					List<CalendarEntries> leaveCalendarEntries = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesEndingBetweenBeginAndEndDate(calendar.getHrCalendarId(), payCalendarEntry.getBeginPeriodDateTime(), payCalendarEntry.getEndPeriodDateTime());
+					
+					List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(principalCalendar.getLeavePlan(), new java.sql.Date(payCalendarEntry.getEndPeriodDate().getTime()));
+					for (AccrualCategory accrualCategory : accrualCategories) {
+						if (TkServiceLocator.getAccrualCategoryMaxCarryOverService().exceedsAccrualCategoryMaxCarryOver(accrualCategory.getAccrualCategory(), viewPrincipal, leaveCalendarEntries, payCalendarEntry.getEndPeriodDate())) {
+							warnings.add("Your pending leave balance is greater than the annual max carry over for accrual category '" + accrualCategory.getAccrualCategory() + "' and upon approval, the excess balance will be lost.");
+						}
+					}
+				}
+			}
+        }
+		
+		taForm.setWarnings(warnings);
 
         // Do this at the end, so we load the document first,
         // then check security permissions via the superclass execution chain.

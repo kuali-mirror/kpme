@@ -15,8 +15,15 @@
  */
 package org.kuali.hr.time.workflow.postprocessor;
 
+import java.util.Date;
+import java.util.List;
+
+import org.kuali.hr.time.calendar.Calendar;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.framework.postprocessor.ProcessDocReport;
 import org.kuali.rice.kew.postprocessor.DefaultPostProcessor;
@@ -32,12 +39,39 @@ public class TkPostProcessor extends DefaultPostProcessor {
 			pdr = super.doRouteStatusChange(statusChangeEvent);
 			// Only update the status if it's different.
 			if (!document.getDocumentStatus().equals(statusChangeEvent.getNewRouteStatus())) {
-				document.setDocumentStatus(statusChangeEvent.getNewRouteStatus());
-				TkServiceLocator.getTimesheetDocumentHeaderService().saveOrUpdate(document);
+				DocumentStatus newDocumentStatus = DocumentStatus.fromCode(statusChangeEvent.getNewRouteStatus());
+
+				updateTimesheetDocumentHeaderStatus(document, newDocumentStatus);
+				
+				calculateMaxCarryOver(document, newDocumentStatus);
 			}
 		}
 		
 		return pdr;
+	}
+	
+	private void updateTimesheetDocumentHeaderStatus(TimesheetDocumentHeader timesheetDocumentHeader, DocumentStatus newDocumentStatus) {
+		timesheetDocumentHeader.setDocumentStatus(newDocumentStatus.getCode());
+		TkServiceLocator.getTimesheetDocumentHeaderService().saveOrUpdate(timesheetDocumentHeader);
+	}
+	
+	private void calculateMaxCarryOver(TimesheetDocumentHeader timesheetDocumentHeader, DocumentStatus newDocumentStatus) {
+		if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
+			String documentId = timesheetDocumentHeader.getDocumentId();
+			String principalId = timesheetDocumentHeader.getPrincipalId();
+			Date beginDate = timesheetDocumentHeader.getBeginDate();
+			Date endDate = timesheetDocumentHeader.getEndDate();
+			
+			if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
+				Calendar calendar = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, endDate, true);
+					
+				if (calendar != null) {
+					List<CalendarEntries> calendarEntries = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesEndingBetweenBeginAndEndDate(calendar.getHrCalendarId(), beginDate, endDate);
+					
+					TkServiceLocator.getAccrualCategoryMaxCarryOverService().calculateMaxCarryOver(documentId, principalId, calendarEntries, endDate);
+				}
+			}
+		}
 	}
 
 }

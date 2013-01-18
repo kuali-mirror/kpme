@@ -64,6 +64,8 @@ public interface CalendarEntriesService {
 
     public CalendarEntries getCalendarEntriesByBeginAndEndDate(Date beginPeriodDate, Date endPeriodDate);
 
+    public List<CalendarEntries> getCalendarEntriesEndingBetweenBeginAndEndDate(String hrCalendarId, Date beginDate, Date endDate);
+
     @Cacheable(value= CalendarEntries.CACHE_NAME, key="'hrCalendarId=' + #p0")
     public List<CalendarEntries> getAllCalendarEntriesForCalendarId(String hrCalendarId);
     @Cacheable(value= CalendarEntries.CACHE_NAME, key="'hrCalendarId=' + #p0 + '|' + 'year=' + #p1")

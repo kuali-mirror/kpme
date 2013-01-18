@@ -18,6 +18,7 @@ package org.kuali.hr.lm.workflow.postprocessor;
 import java.util.Date;
 
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
+import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -56,11 +57,15 @@ public class LmPostProcessor extends DefaultPostProcessor {
 		if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
 			String documentId = leaveCalendarDocumentHeader.getDocumentId();
 			String principalId = leaveCalendarDocumentHeader.getPrincipalId();
-			Date beginDate = leaveCalendarDocumentHeader.getBeginDate();
 			Date endDate = leaveCalendarDocumentHeader.getEndDate();
-			CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(beginDate, endDate);
 			
-			TkServiceLocator.getAccrualCategoryMaxCarryOverService().calculateMaxCarryOver(documentId, principalId, calendarEntry, endDate);
+			Calendar calendar = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, endDate, true);
+			
+			if (calendar != null) {
+				CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByIdAndPeriodEndDate(calendar.getHrCalendarId(), endDate);
+				
+				TkServiceLocator.getAccrualCategoryMaxCarryOverService().calculateMaxCarryOver(documentId, principalId, calendarEntry, endDate);
+			}
 		}
 	}
 

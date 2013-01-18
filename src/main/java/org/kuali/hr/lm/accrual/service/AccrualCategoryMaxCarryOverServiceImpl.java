@@ -49,27 +49,85 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
 	private PrincipalHRAttributesService principalHRAttributesService;
 	
 	@Override
+	public boolean exceedsAccrualCategoryMaxCarryOver(String accrualCategory, String principalId, List<CalendarEntries> calendarEntries, Date asOfDate) {
+		boolean exceedsAccrualCategoryMaxCarryOver = false;
+		
+		PrincipalHRAttributes principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
+		
+		if (principalCalendar != null) {
+			CalendarEntries lastCalendarPeriodOfLeavePlan = null;
+			
+			for (CalendarEntries calendarEntry : calendarEntries) {
+				if (getLeavePlanService().isLastCalendarPeriodOfLeavePlan(calendarEntry, principalCalendar.getLeavePlan(), new java.sql.Date(asOfDate.getTime()))) {
+					lastCalendarPeriodOfLeavePlan = calendarEntry;
+					break;
+				}
+			}
+			
+			if (lastCalendarPeriodOfLeavePlan != null) {
+				exceedsAccrualCategoryMaxCarryOver = getAccrualCategoryCarryOverAdjustment(accrualCategory, principalId, lastCalendarPeriodOfLeavePlan, asOfDate).compareTo(BigDecimal.ZERO) > 0;
+			}
+		}
+		
+		return exceedsAccrualCategoryMaxCarryOver;
+	}
+	
+	@Override
 	public boolean exceedsAccrualCategoryMaxCarryOver(String accrualCategory, String principalId, CalendarEntries calendarEntry, Date asOfDate) {
-		return getAccrualCategoryCarryOverAdjustment(accrualCategory, principalId, calendarEntry, asOfDate).compareTo(BigDecimal.ZERO) > 0;
+		boolean exceedsAccrualCategoryMaxCarryOver = false;
+		
+		PrincipalHRAttributes principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
+		
+		if (principalCalendar != null) {
+			if (getLeavePlanService().isLastCalendarPeriodOfLeavePlan(calendarEntry, principalCalendar.getLeavePlan(), new java.sql.Date(asOfDate.getTime()))) {
+				exceedsAccrualCategoryMaxCarryOver = getAccrualCategoryCarryOverAdjustment(accrualCategory, principalId, calendarEntry, asOfDate).compareTo(BigDecimal.ZERO) > 0;
+			}
+		}
+		
+		return exceedsAccrualCategoryMaxCarryOver;
+	}
+	
+	@Override
+	public void calculateMaxCarryOver(String documentId, String principalId, List<CalendarEntries> calendarEntries, Date asOfDate) {
+		PrincipalHRAttributes principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
+		
+		if (principalCalendar != null) {
+			CalendarEntries lastCalendarPeriodOfLeavePlan = null;
+			
+			for (CalendarEntries calendarEntry : calendarEntries) {
+				if (getLeavePlanService().isLastCalendarPeriodOfLeavePlan(calendarEntry, principalCalendar.getLeavePlan(), new java.sql.Date(asOfDate.getTime()))) {
+					lastCalendarPeriodOfLeavePlan = calendarEntry;
+					break;
+				}
+			}
+			
+			if (lastCalendarPeriodOfLeavePlan != null) {
+				calculateMaxCarryOverForLeavePlan(documentId, principalId, lastCalendarPeriodOfLeavePlan, principalCalendar.getLeavePlan(), asOfDate);
+			}
+		}
 	}
 		
 	@Override
 	public void calculateMaxCarryOver(String documentId, String principalId, CalendarEntries calendarEntry, Date asOfDate) {
 		PrincipalHRAttributes principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
 		
-		if (StringUtils.isNotBlank(principalCalendar.getLeavePlan())) {			
+		if (principalCalendar != null) {			
 			if (getLeavePlanService().isLastCalendarPeriodOfLeavePlan(calendarEntry, principalCalendar.getLeavePlan(), new java.sql.Date(asOfDate.getTime()))) {
-				List<AccrualCategory> accrualCategories = getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(principalCalendar.getLeavePlan(), new java.sql.Date(asOfDate.getTime()));
+				calculateMaxCarryOverForLeavePlan(documentId, principalId, calendarEntry, principalCalendar.getLeavePlan(), asOfDate);
+			}
+		}
+	}
+	
+	private void calculateMaxCarryOverForLeavePlan(String documentId, String principalId, CalendarEntries calendarEntry, String leavePlan, Date asOfDate) {
+		List<AccrualCategory> accrualCategories = getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(leavePlan, new java.sql.Date(asOfDate.getTime()));
+		
+		for (AccrualCategory accrualCategory : accrualCategories) {
+			BigDecimal adjustmentAmount = getAccrualCategoryCarryOverAdjustment(accrualCategory.getAccrualCategory(), principalId, calendarEntry, asOfDate);
 			
-				for (AccrualCategory accrualCategory : accrualCategories) {
-					BigDecimal adjustmentAmount = getAccrualCategoryCarryOverAdjustment(accrualCategory.getAccrualCategory(), principalId, calendarEntry, asOfDate);
-					
-					if (adjustmentAmount.compareTo(BigDecimal.ZERO) > 0) {
-						DateTime leaveBlockDate = new DateTime(calendarEntry.getEndPeriodDate()).minusSeconds(1);
-					
-						addAdjustmentLeaveBlock(documentId, principalId, leaveBlockDate, accrualCategory, adjustmentAmount.negate());
-					}
-				}
+			if (adjustmentAmount.compareTo(BigDecimal.ZERO) > 0) {
+				DateTime leaveBlockDate = new DateTime(calendarEntry.getEndPeriodDate()).minusSeconds(1);
+			
+				addAdjustmentLeaveBlock(documentId, principalId, leaveBlockDate, accrualCategory, adjustmentAmount.negate());
 			}
 		}
 	}
@@ -79,25 +137,27 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
 		
 		PrincipalHRAttributes principalCalendar = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
 		
-		if (StringUtils.isNotBlank(principalCalendar.getLeavePlan())) {
+		if (principalCalendar != null) {
 			LeavePlan leavePlan = getLeavePlanService().getLeavePlan(principalCalendar.getLeavePlan(), principalCalendar.getEffectiveDate());
 			
-			AccrualCategory accrualCategoryObj = getAccrualCategoryService().getAccrualCategory(accrualCategory, new java.sql.Date(asOfDate.getTime()));
-			
-			if (accrualCategoryObj != null) {
-				AccrualCategoryRule accrualCategoryRule = getMaxCarryOverAccrualCategoryRule(accrualCategoryObj, principalCalendar.getServiceDate(), asOfDate);
+			if (leavePlan != null) {
+				AccrualCategory accrualCategoryObj = getAccrualCategoryService().getAccrualCategory(accrualCategory, new java.sql.Date(asOfDate.getTime()));
 				
-				if (accrualCategoryRule != null) {
-					Long maxCarryOverLimitValue = getMaxCarryOverLimitValue(principalId, leavePlan, accrualCategoryObj, accrualCategoryRule, asOfDate);
-				
-					if (maxCarryOverLimitValue != null) {
-						BigDecimal accrualCategoryBalance = getAccrualCategoryBalance(principalId, accrualCategoryObj, asOfDate);
-		
-						BigDecimal maxCarryOverLimit = new BigDecimal(maxCarryOverLimitValue);
-						BigDecimal fteSum = getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, asOfDate);
-						BigDecimal maxCarryOver = maxCarryOverLimit.multiply(fteSum);
+				if (accrualCategoryObj != null) {
+					AccrualCategoryRule accrualCategoryRule = getMaxCarryOverAccrualCategoryRule(accrualCategoryObj, principalCalendar.getServiceDate(), asOfDate);
 					
-						accrualCategoryCarryOverAdjustment = accrualCategoryBalance.subtract(maxCarryOver);
+					if (accrualCategoryRule != null) {
+						Long maxCarryOverLimitValue = getMaxCarryOverLimitValue(principalId, leavePlan, accrualCategoryObj, accrualCategoryRule, asOfDate);
+					
+						if (maxCarryOverLimitValue != null) {
+							BigDecimal accrualCategoryBalance = getAccrualCategoryBalance(principalId, accrualCategoryObj, asOfDate);
+			
+							BigDecimal maxCarryOverLimit = new BigDecimal(maxCarryOverLimitValue);
+							BigDecimal fteSum = getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, asOfDate);
+							BigDecimal maxCarryOver = maxCarryOverLimit.multiply(fteSum);
+						
+							accrualCategoryCarryOverAdjustment = accrualCategoryBalance.subtract(maxCarryOver);
+						}
 					}
 				}
 			}
