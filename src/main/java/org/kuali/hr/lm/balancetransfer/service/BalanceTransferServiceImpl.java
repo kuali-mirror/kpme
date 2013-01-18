@@ -163,9 +163,10 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 				bt.setForfeitedAmount(transferAmount);
 				//There is no transfer to another accrual category.
 				bt.setTransferAmount(BigDecimal.ZERO);
+				bt.setToAccrualCategory(null);
 			}
 			else {
-
+				bt.setToAccrualCategory(toAccrualCategory.getAccrualCategory());
 				if(transferAmount.compareTo(adjustedMaxTransferAmount) > 0) {
 					//there's forfeiture.
 					//bring transfer amount down to the adjusted maximum transfer amount, and place excess in forfeiture.
@@ -213,14 +214,10 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 				}
 			}
 			
-			//transfers triggered by accrual category rules are effective as of the date this method is called.
 			bt.setEffectiveDate(effectiveDate);
 			bt.setAccrualCategoryRule(accrualCategoryRule);
 			bt.setFromAccrualCategory(fromAccrualCategory.getAccrualCategory());
 			bt.setPrincipalId(principalId);
-			bt.setToAccrualCategory(toAccrualCategory.getAccrualCategory());
-			bt.setTransferAmount(bt.getTransferAmount().stripTrailingZeros());
-			bt.setForfeitedAmount(bt.getForfeitedAmount().stripTrailingZeros());
 			
 		}
 		return bt;
