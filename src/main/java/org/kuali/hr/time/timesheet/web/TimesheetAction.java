@@ -73,7 +73,9 @@ public class TimesheetAction extends TkAction {
         // Here - viewPrincipal will be the principal of the user we intend to
         // view, be it target user, backdoor or otherwise.
         String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
-		CalendarEntries payCalendarEntry = null;
+        Date currentDate = TKUtils.getTimelessDate(null);
+		CalendarEntries payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal,  currentDate);
+
 		TimesheetDocument td;
 		TimesheetDocumentHeader tsdh;
 
@@ -85,8 +87,6 @@ public class TimesheetAction extends TkAction {
             td = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
         } else {
             // Default to whatever is active for "today".
-            Date currentDate = TKUtils.getTimelessDate(null);
-            payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal,  currentDate);
             if(payCalendarEntry == null){
                 throw new RuntimeException("No Calendar Entry setup for "+viewPrincipal);
             }
