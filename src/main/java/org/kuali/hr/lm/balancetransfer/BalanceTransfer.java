@@ -35,11 +35,13 @@ public class BalanceTransfer extends HrBusinessObject {
     //public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "BalanceTransfer";
 
 	private String balanceTransferId;
+	private String documentHeaderId;
 	private String accrualCategoryRule;
 	private String principalId;
 	private String toAccrualCategory;
 	private String fromAccrualCategory;
 	private BigDecimal transferAmount;
+	private BigDecimal amountTransferred;
 	private BigDecimal forfeitedAmount;
 	private Date effectiveDate;
 	//private String leaveCalendarDocumentId;
@@ -48,7 +50,7 @@ public class BalanceTransfer extends HrBusinessObject {
 	private String forfeitedLeaveBlockId;
 	private String accruedLeaveBlockId;
 	private String debitedLeaveBlockId;
-
+	
 	private Person principal;
 
 	public Date getEffectiveDate() {
@@ -239,6 +241,14 @@ public class BalanceTransfer extends HrBusinessObject {
 
 	public void setDebitedLeaveBlockId(String debitedLeaveBlockId) {
 		this.debitedLeaveBlockId = debitedLeaveBlockId;
+	}
+
+	public BigDecimal getAmountTransferred() {
+		return amountTransferred;
+	}
+
+	public void setAmountTransferred(BigDecimal amountTransferrerd) {
+		this.amountTransferred = amountTransferrerd;
 	}
 	
 	//Comparable for order handling of more than one transfer occurring during the same

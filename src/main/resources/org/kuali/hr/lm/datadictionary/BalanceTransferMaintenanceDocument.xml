@@ -30,8 +30,8 @@
   <bean id="BalanceTransferMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
   		p:businessObjectClass="org.kuali.hr.lm.balancetransfer.BalanceTransfer"
   	    p:businessRulesClass="org.kuali.hr.lm.balancetransfer.validation.BalanceTransferValidation"
-  		p:maintainableClass="org.kuali.hr.lm.balancetransfer.service.BalanceTransferMaintainableImpl"
-        p:documentAuthorizerClass="org.kuali.hr.time.authorization.DepartmentAdminAuthorizer">
+  		p:maintainableClass="org.kuali.hr.lm.balancetransfer.service.BalanceTransferMaintainableImpl">
+        <!-- p:documentAuthorizerClass="org.kuali.hr.time.authorization.DepartmentAdminAuthorizer"> -->
     <property name="maintainableSections">
       <list>
         <ref bean="BalanceTransferMaintenanceDocument-BalanceTransferMaintenance"/>
@@ -57,9 +57,10 @@
 			<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="fromAccrualCategory" p:required="true"/>
-			<bean parent="MaintainableFieldDefinition" p:name="toAccrualCategory" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="transferAmount" p:required="true"/>
 			<bean parent="MaintainableFieldDefinition" p:name="forfeitedAmount"/>
+			<bean parent="MaintainableFieldDefinition" p:name="toAccrualCategory" p:required="true"/>
+			<bean parent="MaintainableFieldDefinition" p:name="amountTransferred"/>
       </list>
     </property>
   </bean>

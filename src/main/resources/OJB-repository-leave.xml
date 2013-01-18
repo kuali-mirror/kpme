@@ -88,6 +88,7 @@
         <field-descriptor name="principalId"      		column="PRINCIPAL_ID"					jdbc-type="VARCHAR"     length="50" nullable="false"/>
         <field-descriptor name="transferAmount"     	column="TRANSFER_AMOUNT"    			jdbc-type="DECIMAL"     length="20" nullable="false" />
         <field-descriptor name="fromAccrualCategory"    column="FROM_ACCRUAL_CATEGORY"			jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="amountTransferred"		column="AMOUNT_TRANSFERRED"				jdbc-type="DECIMAL"		length="20" />
         <field-descriptor name="toAccrualCategory"  	column="TO_ACCRUAL_CATEGORY"			jdbc-type="VARCHAR"     length="15" />
         <field-descriptor name="forfeitedAmount"        column="FORFEITED_AMOUNT"          		jdbc-type="DECIMAL"   	length="20" />
         <field-descriptor name="effectiveDate"          column="EFFECTIVE_DATE"         		jdbc-type="DATE"        nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />

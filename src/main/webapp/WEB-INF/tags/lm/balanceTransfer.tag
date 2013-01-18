@@ -76,6 +76,17 @@
 				</tr>
 				<tr>
 					<kul:htmlAttributeHeaderCell 
+						attributeEntry="${attributes.amountTransferred}"
+						horizontal="true" />
+					<td align="left" valign="middle">
+						<kul:htmlControlAttribute 
+			                  	attributeEntry="${attributes.amountTransferred}"
+			                  	property="balanceTransfer.amountTransferred"
+			                  	readOnly="true"/>
+		            </td>
+				</tr>
+				<tr>
+					<kul:htmlAttributeHeaderCell 
 						attributeEntry="${attributes.accrualCategoryRule}"
 						horizontal="true" />
 					<td align="left" valign="middle">

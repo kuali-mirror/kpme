@@ -113,7 +113,10 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			AccrualCategory fromAccrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
 			AccrualCategory toAccrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getMaxBalanceTransferToAccrualCategory(),effectiveDate);
 			LeaveSummaryRow balanceInformation = leaveSummary.getLeaveSummaryRowForAccrualCategory(accrualRule.getLmAccrualCategoryId());
-
+			BigDecimal transferConversionFactor = null;
+			if(ObjectUtils.isNotNull(accrualRule.getMaxBalanceTransferConversionFactor()))
+				transferConversionFactor = accrualRule.getMaxBalanceTransferConversionFactor();
+			
 			// AccrualRule.maxBalance == null -> no balance limit. No balance limit -> no accrual triggered transfer / payout / lose.
 			BigDecimal maxBalance = accrualRule.getMaxBalance();
 			BigDecimal fullTimeEngagement = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, effectiveDate);
@@ -163,7 +166,10 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 				bt.setForfeitedAmount(transferAmount);
 				//There is no transfer to another accrual category.
 				bt.setTransferAmount(BigDecimal.ZERO);
-				bt.setToAccrualCategory(null);
+				bt.setAmountTransferred(BigDecimal.ZERO);
+				// to accrual category is a required field on maintenance document. Set to from accrual category
+				// to remove validation errors when routing, approving, etc.
+				bt.setToAccrualCategory(fromAccrualCategory.getAccrualCategory());
 			}
 			else {
 				bt.setToAccrualCategory(toAccrualCategory.getAccrualCategory());
@@ -193,21 +199,29 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					//adjusted max balance, so this amount is used to check against carry over.
 					if(adjustedMaxBalance.compareTo(adjustedMaxCarryOver) > 0) {
 						BigDecimal carryOverDiff = adjustedMaxBalance.subtract(adjustedMaxCarryOver);
-
-						BigDecimal potentialTransferAmount = bt.getTransferAmount().add(carryOverDiff);
-						//Can this amount be added to the transfer amount??
-						if(potentialTransferAmount.compareTo(adjustedMaxTransferAmount) <= 0) {
-							//yes
-							bt.setTransferAmount(bt.getTransferAmount().add(carryOverDiff));
+						
+						if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)){
+							//move excess over carry over to forfeiture.
+							bt.setForfeitedAmount(bt.getForfeitedAmount().add(carryOverDiff));
 						}
 						else {
-							//no
-							BigDecimal carryOverExcess = potentialTransferAmount.subtract(adjustedMaxTransferAmount);
-							//move excess to forfeiture
-							bt.setForfeitedAmount(bt.getForfeitedAmount().add(carryOverExcess));
-							//the remainder (if any) can be added to the transfer amount
-							bt.setTransferAmount(bt.getTransferAmount().add(carryOverDiff.subtract(carryOverExcess)));
-							assert(bt.getTransferAmount().compareTo(adjustedMaxTransferAmount)==0);
+							//maximize the transfer amount.
+							BigDecimal potentialTransferAmount = bt.getTransferAmount().add(carryOverDiff);
+	
+							//Can this amount be added to the transfer amount??
+							if(potentialTransferAmount.compareTo(adjustedMaxTransferAmount) <= 0) {
+								//yes
+								bt.setTransferAmount(bt.getTransferAmount().add(carryOverDiff));
+							}
+							else {
+								//no
+								BigDecimal carryOverExcess = potentialTransferAmount.subtract(adjustedMaxTransferAmount);
+								//move excess to forfeiture
+								bt.setForfeitedAmount(bt.getForfeitedAmount().add(carryOverExcess));
+								//the remainder (if any) can be added to the transfer amount ( unless action is LOSE ).
+								bt.setTransferAmount(bt.getTransferAmount().add(carryOverDiff.subtract(carryOverExcess)));
+								assert(bt.getTransferAmount().compareTo(adjustedMaxTransferAmount)==0);
+							}
 						}
 					}
 					//otherwise, given balance will be under the max annual carry over.
@@ -218,7 +232,10 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			bt.setAccrualCategoryRule(accrualCategoryRule);
 			bt.setFromAccrualCategory(fromAccrualCategory.getAccrualCategory());
 			bt.setPrincipalId(principalId);
-			
+			if(ObjectUtils.isNotNull(transferConversionFactor))
+				bt.setAmountTransferred(bt.getTransferAmount().multiply(transferConversionFactor).setScale(2));
+			else
+				bt.setAmountTransferred(bt.getTransferAmount());
 		}
 		return bt;
 	}
@@ -240,7 +257,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					 * (A)ccrual Generated (M)aintenance, (C)arry Over
 					 * 
 					 */
-					//Here, use the accrual category rule defined on the balance transfer object. If the balance transfer was initiated via a
+/*					//Here, use the accrual category rule defined on the balance transfer object. If the balance transfer was initiated via a
 					//trigger, this rule will be set to the "from" accrual category rule on the transfer. Transfers initiated via the
 					//maintenance tab do not set the accrual category rule on the balance transfer object, defaulting to 1-1 transfer conversion factor.
 					//May need to move this variable's scope a level up if leave block's request status varies
@@ -254,7 +271,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 							transferConversionFactor = BigDecimal.ONE;
 					}
 					else
-						transferConversionFactor = BigDecimal.ONE;
+						transferConversionFactor = BigDecimal.ONE;*/
 		
 					aLeaveBlock = new LeaveBlock();
 					//Create a leave block that adds the adjusted transfer amount to the "transfer to" accrual category.
@@ -263,7 +280,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					aLeaveBlock.setEarnCode(balanceTransfer.getCreditedAccrualCategory().getEarnCode());
 					aLeaveBlock.setAccrualCategory(balanceTransfer.getToAccrualCategory());
 					aLeaveBlock.setDescription("Amount transferred");
-					aLeaveBlock.setLeaveAmount(transferConversionFactor.multiply(balanceTransfer.getTransferAmount()));
+					aLeaveBlock.setLeaveAmount(balanceTransfer.getAmountTransferred());
 					aLeaveBlock.setAccrualGenerated(true);
 					aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
 					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
