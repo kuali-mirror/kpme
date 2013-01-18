@@ -96,17 +96,6 @@
 			                  	readOnly="true"/>
 		            </td>
 				</tr>
-				<tr>
-					<kul:htmlAttributeHeaderCell 
-						attributeEntry="${attributes.leaveCalendarDocumentId}"
-						horizontal="true" />
-					<td align="left" valign="middle">
-						<kul:htmlControlAttribute 
-			                  	attributeEntry="${attributes.leaveCalendarDocumentId}"
-			                  	property="balanceTransfer.leaveCalendarDocumentId"
-			                  	readOnly="true"/>
-		            </td>
-				</tr>
 			</table>
 			<input type="hidden" name="forfeitedAmount" id="forfeitedAmount" value=""/>
 			<input type="hidden" name="leaveCalendarDocumentId" id="leaveCalendarDocumentId" value=""/>
