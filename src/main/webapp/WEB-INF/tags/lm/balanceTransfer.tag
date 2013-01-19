@@ -42,17 +42,6 @@
 				</tr>
 				<tr>
 					<kul:htmlAttributeHeaderCell 
-						attributeEntry="${attributes.toAccrualCategory}"
-						horizontal="true" />
-					<td align="left" valign="middle">
-						<kul:htmlControlAttribute 
-			                  	attributeEntry="${attributes.toAccrualCategory}"
-			                  	property="balanceTransfer.toAccrualCategory"
-			                  	readOnly="true"/>
-		            </td>
-				</tr>		
-				<tr>
-					<kul:htmlAttributeHeaderCell 
 						attributeEntry="${attributes.transferAmount}"
 						useShortLabel="false"
 						horizontal="true" />
@@ -76,6 +65,17 @@
 				</tr>
 				<tr>
 					<kul:htmlAttributeHeaderCell 
+						attributeEntry="${attributes.toAccrualCategory}"
+						horizontal="true" />
+					<td align="left" valign="middle">
+						<kul:htmlControlAttribute 
+			                  	attributeEntry="${attributes.toAccrualCategory}"
+			                  	property="balanceTransfer.toAccrualCategory"
+			                  	readOnly="true"/>
+		            </td>
+				</tr>		
+				<tr>
+					<kul:htmlAttributeHeaderCell 
 						attributeEntry="${attributes.amountTransferred}"
 						horizontal="true" />
 					<td align="left" valign="middle">
@@ -93,6 +93,17 @@
 						<kul:htmlControlAttribute 
 			                  	attributeEntry="${attributes.accrualCategoryRule}"
 			                  	property="balanceTransfer.accrualCategoryRule"
+			                  	readOnly="true"/>
+		            </td>
+				</tr>
+				<tr>
+					<kul:htmlAttributeHeaderCell 
+						attributeEntry="${attributes.leaveCalendarDocumentId}"
+						horizontal="true" />
+					<td align="left" valign="middle">
+						<kul:htmlControlAttribute 
+			                  	attributeEntry="${attributes.leaveCalendarDocumentId}"
+			                  	property="balanceTransfer.leaveCalendarDocumentId"
 			                  	readOnly="true"/>
 		            </td>
 				</tr>

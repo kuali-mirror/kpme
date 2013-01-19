@@ -43,7 +43,7 @@
 				<ref bean="BalanceTransfer-forfeitedAmount"/>
 				<ref bean="BalanceTransfer-accrualCategoryRule"/>
 				<ref bean="BalanceTransfer-effectiveDate" />
-				<!--<ref bean="BalanceTransfer-leaveCalendarDocumentId"/>-->
+				<ref bean="BalanceTransfer-leaveCalendarDocumentId"/>
 			</list>
 		</property>
 		<property name="relationships">
@@ -234,7 +234,7 @@
 	</bean>
 	
 	<!-- leaveCalendarDocumentId -->
-	<!--<bean id="BalanceTransfer-leaveCalendarDocumentId" parent="BalanceTransfer-leaveCalendarDocumentId-parentBean" />
+	<bean id="BalanceTransfer-leaveCalendarDocumentId" parent="BalanceTransfer-leaveCalendarDocumentId-parentBean" />
 	<bean id="BalanceTransfer-leaveCalendarDocumentId-parentBean" abstract="true"
 		parent="AttributeDefinition">
 		<property name="name" value="leaveCalendarDocumentId" />
@@ -243,7 +243,7 @@
 			<bean parent="HiddenControlDefinition" />
 		</property>
 		<property name="label" value="Leave Calendar ID" />
-	</bean>-->
+	</bean>
 	
 	<!-- effectiveDate -->
 	<bean id="BalanceTransfer-effectiveDate" parent="BalanceTransfer-effectiveDate-parentBean" />

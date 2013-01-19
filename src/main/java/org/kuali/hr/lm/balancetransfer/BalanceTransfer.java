@@ -44,7 +44,7 @@ public class BalanceTransfer extends HrBusinessObject {
 	private BigDecimal amountTransferred;
 	private BigDecimal forfeitedAmount;
 	private Date effectiveDate;
-	//private String leaveCalendarDocumentId;
+	private String leaveCalendarDocumentId;
 
 	private String status;
 	private String forfeitedLeaveBlockId;
@@ -148,13 +148,13 @@ public class BalanceTransfer extends HrBusinessObject {
 		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
 	}
 
-	/*public String getLeaveCalendarDocumentId() {
+	public String getLeaveCalendarDocumentId() {
 		return leaveCalendarDocumentId;
 	}
 
 	public void setLeaveCalendarDocumentId(String leaveCalendarDocumentId) {
 		this.leaveCalendarDocumentId = leaveCalendarDocumentId;
-	}*/
+	}
 
 	/**
 	 * Returns a balance transfer object adjusted for the new transfer amount.

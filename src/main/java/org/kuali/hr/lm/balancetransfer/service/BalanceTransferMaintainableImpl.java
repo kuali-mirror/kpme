@@ -63,7 +63,7 @@ public class BalanceTransferMaintainableImpl extends
             try {
                 MaintenanceDocument md = (MaintenanceDocument)KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(documentId);
 
-                TkServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
+                balanceTransfer = TkServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
                 md.getNewMaintainableObject().setDataObject(balanceTransfer);
                 documentService.saveDocument(md);
             }

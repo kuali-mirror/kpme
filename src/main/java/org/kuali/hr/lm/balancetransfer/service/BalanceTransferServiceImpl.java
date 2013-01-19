@@ -113,13 +113,14 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			AccrualCategory fromAccrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
 			AccrualCategory toAccrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getMaxBalanceTransferToAccrualCategory(),effectiveDate);
 			LeaveSummaryRow balanceInformation = leaveSummary.getLeaveSummaryRowForAccrualCategory(accrualRule.getLmAccrualCategoryId());
+			BigDecimal fullTimeEngagement = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, effectiveDate);
+			
 			BigDecimal transferConversionFactor = null;
 			if(ObjectUtils.isNotNull(accrualRule.getMaxBalanceTransferConversionFactor()))
 				transferConversionFactor = accrualRule.getMaxBalanceTransferConversionFactor();
 			
 			// AccrualRule.maxBalance == null -> no balance limit. No balance limit -> no accrual triggered transfer / payout / lose.
 			BigDecimal maxBalance = accrualRule.getMaxBalance();
-			BigDecimal fullTimeEngagement = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, effectiveDate);
 			BigDecimal adjustedMaxBalance = maxBalance.multiply(fullTimeEngagement).setScale(2);
 			
 			BigDecimal maxTransferAmount = null;
@@ -172,6 +173,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 				bt.setToAccrualCategory(fromAccrualCategory.getAccrualCategory());
 			}
 			else {
+				// ACTION_AT_MAX_BAL = TRANSFER
 				bt.setToAccrualCategory(toAccrualCategory.getAccrualCategory());
 				if(transferAmount.compareTo(adjustedMaxTransferAmount) > 0) {
 					//there's forfeiture.
@@ -201,7 +203,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 						BigDecimal carryOverDiff = adjustedMaxBalance.subtract(adjustedMaxCarryOver);
 						
 						if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)){
-							//move excess over carry over to forfeiture.
+							//add carry over excess to forfeiture.
 							bt.setForfeitedAmount(bt.getForfeitedAmount().add(carryOverDiff));
 						}
 						else {
@@ -508,7 +510,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		btObj.setPrincipalId(balanceTransfer.getPrincipalId());
 		btObj.setToAccrualCategory(balanceTransfer.getToAccrualCategory());
 		btObj.setTransferAmount(balanceTransfer.getTransferAmount());
-		
+		btObj.setAmountTransferred(balanceTransfer.getAmountTransferred());
 		document.getNewMaintainableObject().setDataObject(btObj);
 		KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
 		document.getDocumentHeader().getWorkflowDocument().saveDocument("");

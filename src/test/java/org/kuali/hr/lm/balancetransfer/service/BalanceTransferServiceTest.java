@@ -22,6 +22,81 @@ import org.kuali.hr.test.KPMETestCase;
 
 public class BalanceTransferServiceTest extends KPMETestCase {
 
+	
+	/*****************************
+	 * Use-case specific testing *
+	 ****************************/
+
+	//
+	// ACTION_AT_MAX_BALANCE = TRANSFER
+	//
+	@Test
+	public void testInitiateTransferOnDemand() {
+		assertNull(null);
+	}
+	
+	@Test
+	public void testInitiateTransferOnYearEnd() {
+		assertNull(null);
+	}
+	
+	@Test
+	public void testInitiateTransferOnLeaveApprove() {
+		assertNull(null);
+	}
+	
+	@Test
+	public void testInitiateTransferOnDemandMaxCarryOver() {
+		assertNull(null);
+	}
+	
+	@Test
+	public void testInitiateTransferOnYearEndMaxCarryOver() {
+		assertNull(null);
+	}
+	
+	@Test
+	public void testInitiateTransferOnLeaveApproveMaxCarryOver() {
+		assertNull(null);
+	}
+	
+	//
+	// ACTION_AT_MAX_BALANCE = LOSE
+	//
+	@Test
+	public void testInitiateLoseOnDemand() {
+		assertNull(null);
+	}
+	
+	@Test
+	public void testInitiateLoseOnYearEnd() {
+		assertNull(null);
+	}
+	
+	@Test
+	public void testInitiateLoseOnLeaveApprove() {
+		assertNull(null);
+	}
+	
+	@Test
+	public void testInitiateLoseOnDemandMaxCarryOver() {
+		assertNull(null);
+	}
+	
+	@Test
+	public void testInitiateLoseOnYearEndMaxCarryOver() {
+		assertNull(null);
+	}
+	
+	@Test
+	public void testInitiateLoseOnLeaveApproveMaxCarryOver() {
+		assertNull(null);
+	}
+	/**
+	 * End Use-case testing
+	 */
+	
+	
 	@Test
 	public void testBalanceTransfer() {
 		assertNull(null);
@@ -38,7 +113,7 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 	}
 	
 	@Test
-	public void testGetAccrualCategoryRuleIdsForEligibleTransfersWithEmployeeOverride() {
+	public void testGetEligibleTransfersWithEmployeeOverride() {
 		assertNull(null);
 	}
 	
