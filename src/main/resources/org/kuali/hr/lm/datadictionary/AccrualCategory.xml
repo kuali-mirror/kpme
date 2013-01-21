@@ -343,6 +343,7 @@
 							<bean parent="FieldDefinition" p:attributeName="descr" />
 							<bean parent="FieldDefinition" p:attributeName="accrualEarnInterval" />
 							<bean parent="FieldDefinition" p:attributeName="unitOfTime" />
+							<bean parent="FieldDefinition" p:attributeName="minPercentWorked" />
 							<bean parent="FieldDefinition" p:attributeName="proration" />
 							<bean parent="FieldDefinition" p:attributeName="donation" />
 							<bean parent="FieldDefinition" p:attributeName="showOnGrid" />	
