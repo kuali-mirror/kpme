@@ -6,7 +6,11 @@
 	<display:table name="${Form.leaveApprovalRows}" requestURI="LeaveApproval.do?methodToCall=loadApprovalTab" excludedParams="*"
 	               pagesize="20" id="row"
 	               class="approvals-table" partialList="true" size="${Form.resultSize}" sort="external" defaultsort="0">
-	    <display:column title="Name" sortable="true" sortName="name" style="${row.moreThanOneCalendar ? 'background-color: #F08080;' : ''}">
+        <%--<display:caption style="text-align:right; margin-right:205px;">
+            <div>approved/usage: <span class="approvals-approved">bold</span></div><div>planned/defered: <span class="approvals-requested">italics</span></div>
+        </display:caption>--%>
+
+        <display:column title="Name" sortable="true" sortName="name" style="${row.moreThanOneCalendar ? 'background-color: #F08080;' : ''}">
 	    	<c:if test="${not empty row.documentId }">
 	            <div class="ui-state-default ui-corner-all" style="float:left;">
 	                <span id="showLeaveDetailButton_${row.documentId}" class="ui-icon ui-icon-plus rowInfo"></span>
@@ -101,8 +105,22 @@
             <fmt:formatDate var="leaveCalendarDayNumber" value="${leaveCalendarDate}" pattern="dd"/>
         	<display:column title="${leaveCalendarDayName} </br> ${leaveCalendarDayNumber}">
         		<c:forEach var="earnCodeMap" items="${row.earnCodeLeaveHours[leaveCalendarDate]}" >
-        			${earnCodeMap.key}<br/>
-        			${earnCodeMap.value}<br/>
+                    <c:set var="key" value="${fn:split(earnCodeMap.key, '|')}"/>
+                    <c:set var="ac" value="${key[0]}"/>
+                    <c:set var="styleClass" value="approvals-default"/>
+                    <c:set var="status" value="${key[1]}"/>
+                      <c:choose>
+                        <c:when test="${status == 'A' or status == 'U'}">
+                            <c:set var="styleClass" value="approvals-approved"/>
+                        </c:when>
+                        <c:when test="${status == 'P' or status == 'F'}">
+                            <c:set var="styleClass" value="approvals-requested"/>
+                        </c:when>
+                      </c:choose>
+                    <div class="${styleClass}">
+                      ${ac}<br/>
+                      ${earnCodeMap.value}
+                    </div>
         		</c:forEach>
         	</display:column>
    		</c:forEach>
@@ -119,7 +137,6 @@
        		</c:if>
         	<div id="leaveDetails_${row.documentId}" style="display: none;"></div>
    		</display:column>
-	    
-	</display:table>
 
+	</display:table>
 </div>

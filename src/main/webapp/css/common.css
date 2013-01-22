@@ -505,6 +505,15 @@ label.error {
 * Approval
 */
 
+.approvals-approved {
+    font-weight: 900;
+    font-size: 105%;
+}
+.approvals-requested {
+    font-style: italic;
+}
+.approvals-default {}
+
 .approvals {
     font-size: .7em;
 }
@@ -1079,5 +1088,6 @@ label.error {
     border: 1px solid #ccc;
     padding: 3px;
 }
+
 
 

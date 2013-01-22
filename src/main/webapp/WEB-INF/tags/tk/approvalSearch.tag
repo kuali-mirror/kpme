@@ -5,6 +5,7 @@
 the id is used in approval.js--%>
 <%@ attribute name="searchId" required="true" type="java.lang.String" %>
 
+
 <table class="navigation">   
         <tr>
             <td class="left">
@@ -53,11 +54,23 @@ the id is used in approval.js--%>
         </tr>
         <tr>
         	<td></td>
+            <td align="center">
         	<c:if test="${!Form.onCurrentPeriod}" >
-	        	<td align="center">
 	        		<a href="${KualiForm.backLocation}?methodToCall=gotoCurrentPayPeriod"
 	                  	 target="_self" id="cppLink">Go to Current Period</a>
-	        	</td>
         	</c:if>
+            </td>
+            <td align="center">
+                <c:if test="${calType == 'leaveCalendar'}">
+                    <%--<table width="100%">--%>
+                    <fieldset style="width:75%;">
+                        <legend>Leave Request Status</legend>
+                        <div>Approved/Usage: <span class="approvals-approved">bold</span></div>
+                        <div>Planned/Defered: <span class="approvals-requested">italics</span></div>
+                        <%--<div>Other: <span class="approvals-default">normal</span></div>--%>
+                    </fieldset>
+                    <%--</table>--%>
+                </c:if>
+            </td>
         </tr>
 </table>

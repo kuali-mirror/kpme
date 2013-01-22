@@ -157,13 +157,14 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 			
 			if (earnCodeLeaveHours.get(leaveDate.toDate()) != null) {
 				Map<String, BigDecimal> leaveHours = earnCodeLeaveHours.get(leaveDate.toDate());
-				
+
 				BigDecimal amount = lb.getLeaveAmount();
+                String key = lb.getEarnCode() + "|" + lb.getRequestStatus();
 				if (leaveHours.get(lb.getEarnCode()) != null) {
-					amount = leaveHours.get(lb.getEarnCode()).add(lb.getLeaveAmount());
+					amount = leaveHours.get(key).add(lb.getLeaveAmount());
 				}
 				
-				leaveHours.put(lb.getEarnCode(), amount);
+				leaveHours.put(key, amount);
 			}
 		}
 		
