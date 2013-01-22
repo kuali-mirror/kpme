@@ -151,21 +151,6 @@ public class TimeDetailWSAction extends TimesheetAction {
         return mapping.findForward("ws");
     }
 
-    private boolean shouldAddEarnCode(Assignment assignment, EarnCode earnCode, boolean isTimeBlockReadOnly) {
-        //TODO - this was written prior to the earn code and isPlanningCalendar services getting fleshed out. It is not used anywhere, and may be obsolete, or its remaining logic needs to move out of this view layer. 20121127tv
-        Boolean shouldAddEarnCode;
-
-        shouldAddEarnCode = earnCode.getEarnCode().equals(TkConstants.HOLIDAY_EARN_CODE)
-                && !(TKContext.getUser().isSystemAdmin() || TKContext.getUser().isTimesheetApprover());
-
-        // If the timeblock is readonly (happens when a sync user is editing a sync timeblock) and the earn code is RGH,
-        // it should still add the RGH earn code.
-        shouldAddEarnCode |= isTimeBlockReadOnly;
-
-        return shouldAddEarnCode;
-
-    }
-
     public ActionForward getOvertimeEarnCodes(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeDetailWSActionForm tdaf = (TimeDetailWSActionForm) form;
         List<EarnCode> overtimeEarnCodes = TkServiceLocator.getEarnCodeService().getOvertimeEarnCodes(TKUtils.getCurrentDate());
