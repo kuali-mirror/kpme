@@ -31,8 +31,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.lm.LMConstants;
+import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
+import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveblock.LeaveBlock.Builder;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
@@ -41,6 +43,7 @@ import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class BalanceTransferServiceTest extends KPMETestCase {
 
@@ -212,6 +215,7 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 		//Create a leave block that will bring the available balance for january down to 14.
 		//this balance would be under the max available balance (15), but over the max annual carry over amount.
 		//i.o.w., this transfer would not due to max balance limit, but max annual carry over.
+		//could also simply change the accrual amount.
 		LeaveBlock usage = new LeaveBlock();
 		usage.setAccrualCategory(YE_XFER_MAC);
 		usage.setLeaveDate(new java.sql.Date(DateUtils.addDays(janStart,5).getTime()));
@@ -334,13 +338,110 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 	 */
 	
 	@Test
-	public void testTransfer() {
-		assertNull(null);
+	public void testTransferNullBalanceTransfer() {
+		BalanceTransfer balanceTransfer = null;
+		try {
+			balanceTransfer = TkServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
+		} catch (RuntimeException re) {
+			assertTrue(re.getMessage().contains("did not supply a valid BalanceTransfer object"));
+		}
 	}
 	
 	@Test
-	public void testGetEligibleTransfers() {
-		assertNull(null);
+	public void testTransferWithZeroTransferAmount() throws Exception {
+		BalanceTransfer bt = new BalanceTransfer();
+		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
+		java.sql.Date effectiveDate = new java.sql.Date(DateUtils.addDays(janStart,3).getTime());
+		bt = TkServiceLocator.getBalanceTransferService().initializeTransfer(USER_ID, YE_LOSE, summary, effectiveDate);
+		bt = TkServiceLocator.getBalanceTransferService().transfer(bt);
+		LeaveBlock forfeitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getForfeitedLeaveBlockId());
+		LeaveBlock accruedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getAccruedLeaveBlockId());
+		LeaveBlock debitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getDebitedLeaveBlockId());
+		assertEquals("forfeited leave block leave amount incorrect",forfeitedLeaveBlock.getLeaveAmount().longValue(), (new BigDecimal(-17)).longValue());
+		assertTrue("accrued leave block should not exist",ObjectUtils.isNull(accruedLeaveBlock));
+		assertTrue("debited leave block should not exist",ObjectUtils.isNull(debitedLeaveBlock));
+	}
+	
+	@Test
+	public void testTransferWithZeroForfeiture() throws Exception {
+		BalanceTransfer bt = new BalanceTransfer();
+		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, decEntry);
+		java.sql.Date effectiveDate = new java.sql.Date(DateUtils.addDays(decStart,3).getTime());
+		bt = TkServiceLocator.getBalanceTransferService().initializeTransfer(USER_ID, OD_XFER, summary, effectiveDate);
+		bt = TkServiceLocator.getBalanceTransferService().transfer(bt);
+		System.out.println("finished transfer");
+		LeaveBlock forfeitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getForfeitedLeaveBlockId());
+		LeaveBlock accruedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getAccruedLeaveBlockId());
+		LeaveBlock debitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getDebitedLeaveBlockId());
+		assertEquals("accrued leave block leave amount incorrect",accruedLeaveBlock.getLeaveAmount().longValue(), (new BigDecimal(0.5)).longValue());
+		assertTrue("forfeited leave block should not exist",ObjectUtils.isNull(forfeitedLeaveBlock));
+		assertEquals("transfered leave block leave amount incorrect",debitedLeaveBlock.getLeaveAmount().longValue(), (new BigDecimal(-1)).longValue());
+	}
+	
+	@Test
+	public void testTransferWithThreeLeaveBlocks() throws Exception {
+		BalanceTransfer bt = new BalanceTransfer();
+		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
+		java.sql.Date effectiveDate = new java.sql.Date(DateUtils.addDays(janStart,3).getTime());
+		bt = TkServiceLocator.getBalanceTransferService().initializeTransfer(USER_ID, YE_XFER, summary, effectiveDate);
+		bt = TkServiceLocator.getBalanceTransferService().transfer(bt);
+		LeaveBlock forfeitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getForfeitedLeaveBlockId());
+		LeaveBlock accruedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getAccruedLeaveBlockId());
+		LeaveBlock debitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getDebitedLeaveBlockId());
+		assertEquals("forfeited leave block leave amount incorrect",forfeitedLeaveBlock.getLeaveAmount().longValue(), (new BigDecimal(-7)).longValue());
+		assertEquals(accruedLeaveBlock.getLeaveAmount().longValue(), (new BigDecimal(5)).longValue());
+		assertEquals(debitedLeaveBlock.getLeaveAmount().longValue(), (new BigDecimal(-10)).longValue());
+	}
+	
+	@Test
+	public void testGetEligibleTransfersLeaveApprove() throws Exception {
+		List<String> eligibleTransfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(janLCD, LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE);
+		assertEquals("incorrect number of eligible transfers",eligibleTransfers.size(),4);
+		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
+		for(String eligibleTransfer : eligibleTransfers) {
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer));
+		}
+		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
+		for(AccrualCategoryRule aRule : rules) {
+			LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId());
+			assertNotNull("eligible accrual category has no balance limit",ObjectUtils.isNotNull(aRule.getMaxBalance()));
+			System.out.println("iterating");
+			assertTrue("accrual category not eligible for transfer",row.getAccruedBalance().compareTo(aRule.getMaxBalance()) > 0);
+		}
+	}
+	
+	@Test
+	public void testGetEligibleTransfersYearEnd() throws Exception {
+		List<String> eligibleTransfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(janLCD, LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END);
+		assertEquals("incorrect number of eligible transfers",eligibleTransfers.size(),4);
+		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
+		for(String eligibleTransfer : eligibleTransfers) {
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer));
+		}
+		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
+		for(AccrualCategoryRule aRule : rules) {
+			LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId());
+			assertNotNull("eligible accrual category has no balance limit",ObjectUtils.isNotNull(aRule.getMaxBalance()));
+			System.out.println("iterating");
+			assertTrue("accrual category not eligible for transfer",row.getAccruedBalance().compareTo(aRule.getMaxBalance()) > 0);
+		}
+	}
+	
+	@Test
+	public void testGetEligibleTransfersOnDemand() throws Exception {
+		List<String> eligibleTransfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(janLCD, LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND);
+		assertEquals("incorrect number of eligible transfers",eligibleTransfers.size(),4);
+		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
+		for(String eligibleTransfer : eligibleTransfers) {
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer));
+		}
+		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
+		for(AccrualCategoryRule aRule : rules) {
+			LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId());
+			assertNotNull("eligible accrual category has no balance limit",ObjectUtils.isNotNull(aRule.getMaxBalance()));
+			System.out.println("iterating");
+			assertTrue("accrual category not eligible for transfer",row.getAccruedBalance().compareTo(aRule.getMaxBalance()) > 0);
+		}
 	}
 	
 	@Test

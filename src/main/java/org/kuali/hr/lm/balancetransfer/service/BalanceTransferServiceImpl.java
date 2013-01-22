@@ -374,7 +374,9 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		
 									BigDecimal fullTimeEngagement = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(document.getPrincipalId(), TKUtils.getCurrentDate());
 									BigDecimal adjustedMaxBalance = maxBalance.multiply(fullTimeEngagement);
-									BigDecimal maxAnnualCarryOver = new BigDecimal(rule.getMaxCarryOver());
+									BigDecimal maxAnnualCarryOver = null;
+									if(ObjectUtils.isNotNull(rule.getMaxCarryOver()))
+											maxAnnualCarryOver = new BigDecimal(rule.getMaxCarryOver());
 									BigDecimal adjustedMaxAnnualCarryOver = null;
 									if(ObjectUtils.isNotNull(maxAnnualCarryOver))
 										adjustedMaxAnnualCarryOver = maxAnnualCarryOver.multiply(fullTimeEngagement);
