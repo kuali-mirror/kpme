@@ -33,6 +33,7 @@ import org.junit.Test;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
+import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -43,6 +44,7 @@ import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class BalanceTransferServiceTest extends KPMETestCase {
@@ -69,6 +71,7 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 	private final String OD_LOSE_MAC = "5009";
 	private final String YE_LOSE_MAC = "5010";
 	private final String LA_LOSE_MAC = "5011";
+	private final String YE_XFER_EO = "5012";
 	
 	private final String JAN_ID = "5001";
 	private final String DEC_ID = "5000";
@@ -107,6 +110,30 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 	//
 	// ACTION_AT_MAX_BALANCE = TRANSFER
 	//
+	
+	@Test
+	public void testInitializeTransferNullAccrualRule() throws Exception {
+		BalanceTransfer bt = new BalanceTransfer();
+		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, decEntry);
+		java.sql.Date effectiveDate = new java.sql.Date(DateUtils.addDays(decStart,3).getTime());
+		bt = TkServiceLocator.getBalanceTransferService().initializeTransfer(USER_ID, null, summary, effectiveDate);
+		assertNull(bt);
+	}
+	
+	@Test
+	public void testInitializeTransferNullLeaveSummary() throws Exception {
+		BalanceTransfer bt = new BalanceTransfer();
+
+		bt = TkServiceLocator.getBalanceTransferService().initializeTransfer(USER_ID, OD_XFER, null, TKUtils.getCurrentDate());
+		assertNull(bt);
+	}
+	
+	@Test
+	public void testInitializeTransferNullAccrualRuleNullLeaveSummary() {
+		BalanceTransfer bt = new BalanceTransfer();
+		bt = TkServiceLocator.getBalanceTransferService().initializeTransfer(USER_ID, null, null, TKUtils.getCurrentDate());
+	}
+	
 	@Test
 	public void testInitializeTransferOnDemand() throws Exception {
 		BalanceTransfer bt = new BalanceTransfer();
@@ -333,6 +360,18 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 		assertEquals("transferOnDemand forfeited amount",(new BigDecimal(17)).longValue(), bt.getForfeitedAmount().longValue());
 		assertEquals("transferOnDemand amount transferred", (new BigDecimal(0)).longValue(), bt.getAmountTransferred().longValue());
 	}
+	
+	@Test
+	public void testInitializeTransferWithOverrides() throws Exception {
+		BalanceTransfer bt = new BalanceTransfer();
+		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
+		java.sql.Date effectiveDate = new java.sql.Date(DateUtils.addDays(janStart,3).getTime());
+		bt = TkServiceLocator.getBalanceTransferService().initializeTransfer(USER_ID, YE_XFER_EO, summary, effectiveDate);
+		assertEquals("transferOnDemand transfer amount", (new BigDecimal(7)).longValue(), bt.getTransferAmount().longValue());
+		assertEquals("transferOnDemand forfeited amount",(new BigDecimal(20)).longValue(), bt.getForfeitedAmount().longValue());
+		// max balance transfer conversion factor is undefined for YE_XFER_EO
+		assertEquals("transferOnDemand amount transferred", (new BigDecimal(7)).longValue(), bt.getAmountTransferred().longValue());
+	}
 	/**
 	 * End Use-case testing
 	 */
@@ -369,7 +408,6 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 		java.sql.Date effectiveDate = new java.sql.Date(DateUtils.addDays(decStart,3).getTime());
 		bt = TkServiceLocator.getBalanceTransferService().initializeTransfer(USER_ID, OD_XFER, summary, effectiveDate);
 		bt = TkServiceLocator.getBalanceTransferService().transfer(bt);
-		System.out.println("finished transfer");
 		LeaveBlock forfeitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getForfeitedLeaveBlockId());
 		LeaveBlock accruedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getAccruedLeaveBlockId());
 		LeaveBlock debitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getDebitedLeaveBlockId());
@@ -393,6 +431,8 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 		assertEquals(debitedLeaveBlock.getLeaveAmount().longValue(), (new BigDecimal(-10)).longValue());
 	}
 	
+	//TODO: write tests for adjusted max balance cases - i.e. FTE < 1, employee override's w/ type MAX_BALANCE
+	
 	@Test
 	public void testGetEligibleTransfersLeaveApprove() throws Exception {
 		List<String> eligibleTransfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(janLCD, LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE);
@@ -405,7 +445,6 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 		for(AccrualCategoryRule aRule : rules) {
 			LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId());
 			assertNotNull("eligible accrual category has no balance limit",ObjectUtils.isNotNull(aRule.getMaxBalance()));
-			System.out.println("iterating");
 			assertTrue("accrual category not eligible for transfer",row.getAccruedBalance().compareTo(aRule.getMaxBalance()) > 0);
 		}
 	}
@@ -413,17 +452,27 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 	@Test
 	public void testGetEligibleTransfersYearEnd() throws Exception {
 		List<String> eligibleTransfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(janLCD, LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END);
-		assertEquals("incorrect number of eligible transfers",eligibleTransfers.size(),4);
+		assertEquals("incorrect number of eligible transfers",eligibleTransfers.size(),5);
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
 		for(String eligibleTransfer : eligibleTransfers) {
 			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer));
 		}
+		// Set should contain an accrual category whose rule's max balance is trumped by an employee override.
+		// Comparing accrued balance to a rule's defined max balance is insufficient for testing
+		// whether or not an accrual category is indeed over it's balance limit. Same can be said for FTE-proration.
 		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
 		for(AccrualCategoryRule aRule : rules) {
 			LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId());
-			assertNotNull("eligible accrual category has no balance limit",ObjectUtils.isNotNull(aRule.getMaxBalance()));
-			System.out.println("iterating");
-			assertTrue("accrual category not eligible for transfer",row.getAccruedBalance().compareTo(aRule.getMaxBalance()) > 0);
+			BigDecimal maxBalance = aRule.getMaxBalance();
+			EmployeeOverride mbOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(USER_ID,
+					"testLP",
+					row.getAccrualCategory(),
+					"MB",
+					janEntry.getBeginPeriodDate());
+			if(ObjectUtils.isNotNull(mbOverride))
+				maxBalance = new BigDecimal(mbOverride.getOverrideValue());
+			assertNotNull("eligible accrual category has no balance limit",maxBalance);
+			assertTrue("accrual category not eligible for transfer",row.getAccruedBalance().compareTo(maxBalance) > 0);
 		}
 	}
 	
@@ -439,7 +488,6 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 		for(AccrualCategoryRule aRule : rules) {
 			LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId());
 			assertNotNull("eligible accrual category has no balance limit",ObjectUtils.isNotNull(aRule.getMaxBalance()));
-			System.out.println("iterating");
 			assertTrue("accrual category not eligible for transfer",row.getAccruedBalance().compareTo(aRule.getMaxBalance()) > 0);
 		}
 	}

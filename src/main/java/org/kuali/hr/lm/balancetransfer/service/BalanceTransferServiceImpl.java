@@ -81,8 +81,6 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		//Initially, principals may be allowed to edit the transfer amount when prompted to submit this balance transfer, however,
 		//a base transfer amount together with a forfeited amount is calculated to bring the balance back to its limit in accordance
 		//with transfer limits.
-		String pendingDates = leaveSummary.getPendingDatesString();
-		TKUtils.formatDateString(pendingDates);
 		BalanceTransfer bt = null;
 		AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRule);
 		/**
