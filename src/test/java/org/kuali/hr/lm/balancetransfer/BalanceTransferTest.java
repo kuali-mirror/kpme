@@ -51,11 +51,17 @@ public class BalanceTransferTest extends LeaveCalendarWebTestBase {
 	
     public static final String USER_PRINCIPAL_ID = "admin";
 	private Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+	private BalanceTransfer balanceTransfer;
 	
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
         setBaseDetailURL(TkTestConstants.Urls.LEAVE_CALENDAR_SUBMIT_URL + "?documentId=");
+        balanceTransfer = new BalanceTransfer();
+        balanceTransfer.setTransferAmount(new BigDecimal(20));
+        balanceTransfer.setForfeitedAmount(new BigDecimal(0));
+        balanceTransfer.setAmountTransferred(new BigDecimal(10));
+        balanceTransfer.setAccrualCategoryRule("5000");
 	}
 	
 	@Test
@@ -63,6 +69,60 @@ public class BalanceTransferTest extends LeaveCalendarWebTestBase {
 		BalanceTransfer btd = new BalanceTransfer();
 		//btd.setCreditedAccrualCategory(TKTestUtils.creat)
 		assertTrue("Dummy assertion",true);
+	}
+	
+	@Test
+	public void testAdjustLowerTransferAmount() {
+		BigDecimal adjustedTransferAmount = new BigDecimal(10);
+		balanceTransfer = balanceTransfer.adjust(adjustedTransferAmount);
+		
+		assertTrue("Transfer Amount not equals", balanceTransfer.getTransferAmount().compareTo(adjustedTransferAmount) == 0);
+		assertTrue("Forfeited amount not updated", balanceTransfer.getForfeitedAmount().compareTo(new BigDecimal(10)) == 0);
+		assertTrue(balanceTransfer.getAmountTransferred().compareTo(new BigDecimal(5)) == 0);
+	}
+	
+	@Test
+	public void testAdjustLowerTransferAmountWithForfeiture() {
+		BigDecimal adjustedTransferAmount = new BigDecimal(10);
+		balanceTransfer.setForfeitedAmount(new BigDecimal(10));
+		balanceTransfer = balanceTransfer.adjust(adjustedTransferAmount);
+		
+		assertTrue("Transfer Amount not equals", balanceTransfer.getTransferAmount().compareTo(adjustedTransferAmount) == 0);
+		assertTrue("Forfeited amount not updated", balanceTransfer.getForfeitedAmount().compareTo(new BigDecimal(20)) == 0);
+		assertTrue(balanceTransfer.getAmountTransferred().compareTo(new BigDecimal(5)) == 0);
+	}
+	
+	@Test
+	public void testAdjustRaiseTransferAmount() {
+		BigDecimal adjustedTransferAmount = new BigDecimal(30);
+		balanceTransfer = balanceTransfer.adjust(adjustedTransferAmount);
+		
+		assertTrue("Transfer Amount not equals", balanceTransfer.getTransferAmount().compareTo(adjustedTransferAmount) == 0);
+		assertTrue("Forfeited amount not updated", balanceTransfer.getForfeitedAmount().compareTo(BigDecimal.ZERO) == 0);
+		assertTrue(balanceTransfer.getAmountTransferred().compareTo(new BigDecimal(15)) == 0);
+	}
+	
+	@Test
+	public void testAdjustRaiseTransferAmountWithForfeitureLessThanDifference() {
+		BigDecimal adjustedTransferAmount = new BigDecimal(40);
+		balanceTransfer.setForfeitedAmount(new BigDecimal(10));
+		
+		balanceTransfer = balanceTransfer.adjust(adjustedTransferAmount);
+		
+		assertTrue("Transfer Amount not equals", balanceTransfer.getTransferAmount().compareTo(adjustedTransferAmount) == 0);
+		assertTrue("Forfeited amount not updated", balanceTransfer.getForfeitedAmount().compareTo(BigDecimal.ZERO) == 0);
+		assertTrue(balanceTransfer.getAmountTransferred().compareTo(new BigDecimal(20)) == 0);
+	}
+	
+	@Test
+	public void testAdjustRaiseTransferAmountWithForfeitureMoreThanDifference() {
+		BigDecimal adjustedTransferAmount = new BigDecimal(30);
+		balanceTransfer.setForfeitedAmount(new BigDecimal(15));
+		balanceTransfer = balanceTransfer.adjust(adjustedTransferAmount);
+		
+		assertTrue("Transfer Amount not equals", balanceTransfer.getTransferAmount().compareTo(adjustedTransferAmount) == 0);
+		assertTrue("Forfeited amount not updated", balanceTransfer.getForfeitedAmount().compareTo(new BigDecimal(5)) == 0);
+		assertTrue(balanceTransfer.getAmountTransferred().compareTo(new BigDecimal(15)) == 0);
 	}
 	
 	/**
@@ -162,11 +222,5 @@ public class BalanceTransferTest extends LeaveCalendarWebTestBase {
 		assertTrue("Dummy assertion 4", true);
 	}
 	
-	@Test
-	public void testAdjust() throws Exception {
-		assertNull(null);
-	}
-	
-
 	
 }

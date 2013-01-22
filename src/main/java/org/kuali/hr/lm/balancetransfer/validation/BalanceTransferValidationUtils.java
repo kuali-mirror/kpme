@@ -17,12 +17,14 @@ package org.kuali.hr.lm.balancetransfer.validation;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
+import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
@@ -43,13 +45,6 @@ public class BalanceTransferValidationUtils {
 		AccrualCategory toCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, effectiveDate);
 		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId,effectiveDate);
 		
-/*		boolean isDeptAdmin = TKContext.getUser().isDepartmentAdmin();
-		boolean isSysAdmin = TKContext.getUser().isSystemAdmin();
-		if(isDeptAdmin || isSysAdmin) {
-			
-			isValid &= validateTransferAmount(balanceTransfer.getTransferAmount(),fromCat,toCat, principalId, effectiveDate);
-		}
-		else {*/
 		if(ObjectUtils.isNotNull(pha)) {
 			if(ObjectUtils.isNotNull(pha.getLeavePlan())) {
 				AccrualCategoryRule acr = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat,
@@ -112,24 +107,33 @@ public class BalanceTransferValidationUtils {
 		//transfer amount must be less than the max transfer amount defined in the accrual category rule.
 		//it cannot be negative.
 		boolean isValid = true;
-		BigDecimal maxTransferAmount = new BigDecimal(accrualRule.getMaxTransferAmount());
-
-		String fromUnitOfTime = TkConstants.UNIT_OF_TIME.get(fromCat.getUnitOfTime());
-		if(ObjectUtils.isNotNull(maxTransferAmount)) {
+		BigDecimal maxTransferAmount = null;
+		BigDecimal adjustedMaxTransferAmount = null;
+		if(ObjectUtils.isNotNull(accrualRule.getMaxTransferAmount())) {
+			maxTransferAmount = new BigDecimal(accrualRule.getMaxTransferAmount());
 			BigDecimal fullTimeEngagement = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, effectiveDate);
-			BigDecimal adjustedMaxTransferAmount = maxTransferAmount.multiply(fullTimeEngagement);
+			adjustedMaxTransferAmount = maxTransferAmount.multiply(fullTimeEngagement);
+		}
+		
+		//use override if one exists.
+		List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, effectiveDate);
+		for(EmployeeOverride override : overrides) {
+			if(override.getOverrideType().equals(TkConstants.EMPLOYEE_OVERRIDE_TYPE.get("MTA")))
+				adjustedMaxTransferAmount = new BigDecimal(override.getOverrideValue());
+		}
+				
+		if(ObjectUtils.isNotNull(adjustedMaxTransferAmount)) {
 			if(transferAmount.compareTo(adjustedMaxTransferAmount) > 0) {
 				isValid &= false;
+				String fromUnitOfTime = TkConstants.UNIT_OF_TIME.get(fromCat.getUnitOfTime());
 				GlobalVariables.getMessageMap().putError("balanceTransfer.transferAmount","balanceTransfer.transferAmount.maxTransferAmount",adjustedMaxTransferAmount.toString(),fromUnitOfTime);
 			}
 		}
-		else
-		{/*no limit to transfer amount???*/}
+		// check for a positive amount.
 		if(transferAmount.compareTo(BigDecimal.ZERO) < 0 ) {
 			isValid &= false;
 			GlobalVariables.getMessageMap().putError("balanceTransfer.transferAmount","balanceTransfer.transferAmount.negative");
 		}
-				
 		return isValid;
 	}
 

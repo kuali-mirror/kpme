@@ -22,11 +22,13 @@ import java.util.List;
 
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
+import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class BalanceTransfer extends HrBusinessObject {
 
@@ -158,26 +160,50 @@ public class BalanceTransfer extends HrBusinessObject {
 
 	/**
 	 * Returns a balance transfer object adjusted for the new transfer amount.
+	 * 
+	 * "this" must be a default initialized balance transfer. i.e. transfer amount plus forfeited amount
+	 * equal to the amount of leave in excess of the from accrual category's max balance for the given principal.
+	 * 
+	 * calling this method without first validating the supplied transfer amount via BalanceTransferValidationUtils may produce undesired results.
 	 *
-	 * @param balanceTransfer
+	 * @param transferAmount The desired transfer amount
 	 * @return
 	 */
 	public BalanceTransfer adjust(BigDecimal transferAmount) {
 		BigDecimal difference = this.transferAmount.subtract(transferAmount);
-		//if difference is negative, transfer amount was increased. forfeiture, if applicable, will be reduced.
-		if(difference.compareTo(BigDecimal.ZERO) < 0) {
-			//reduce forfeiture if necessary.
+		AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRule);
+		//technically if there is forfeiture, then the transfer amount has already been maximized
+		//via BalanceTransferService::initializeTransfer(...)
+		//i.o.w. transfer amount cannot be increased.
+		//this method is written with the intention of eventually allowing end user to adjust the transfer
+		//amount as many times as they wish before submitting. Currently they cannot.
+		if(difference.signum() < 0) {
+			//transfer amount is being increased.
 			if(forfeitedAmount.compareTo(BigDecimal.ZERO) > 0) {
+				//transfer amount has already been maximized.
 				if(forfeitedAmount.compareTo(difference.abs()) >= 0)
+					// there is enough leave in the forfeited amount to take out the difference.
 					forfeitedAmount = forfeitedAmount.subtract(difference.abs());
 				else
+					// the difference zero's the forfeited amount.
 					forfeitedAmount = BigDecimal.ZERO;
 			}
+			// a forfeited amount equal to zero with an increase in the transfer amount
+			// does not produce forfeiture.
+			// forfeiture cannot be negative.
 		}
-		else 
+		else if (difference.signum() > 0) {
+			//transfer amount is being decreased
 			forfeitedAmount = forfeitedAmount.add(difference);
+		}
 
 		this.transferAmount = transferAmount;
+
+		if(ObjectUtils.isNotNull(aRule.getMaxBalanceTransferConversionFactor()))
+			this.amountTransferred = transferAmount.multiply(aRule.getMaxBalanceTransferConversionFactor()).setScale(2);
+		else
+			this.amountTransferred = transferAmount;
+		
 		return this;
 	}
 
