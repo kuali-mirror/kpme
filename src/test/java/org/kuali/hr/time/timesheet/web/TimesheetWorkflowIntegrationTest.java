@@ -145,8 +145,6 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
         // Routing is initiated via javascript, we need to extract the routing
         // action from the button element to perform this action.
         HtmlElement routeButton = page.getElementById("ts-route-button");
-       
-        if (!routeButton.getAttributesMap().containsKey("disabled")) {
         String routeHref = TkTestUtils.getOnClickHref(routeButton);
         // The 'only' way to do the button click.
         page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.BASE_URL + "/" + routeHref);
@@ -184,7 +182,6 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
         Assert.assertTrue("Document not routed.", pageAsText.contains("Final"));
         approveButton = page.getElementById("ts-approve-button");
         Assert.assertNull("Approval button should not be present.", approveButton);
-        }
     }
 
 }
