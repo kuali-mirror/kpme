@@ -206,7 +206,10 @@ public class LeaveCalendarAction extends TkAction {
 			List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(principalCalendar.getLeavePlan(), new java.sql.Date(calendarEntry.getEndPeriodDate().getTime()));
 			for (AccrualCategory accrualCategory : accrualCategories) {
 				if (TkServiceLocator.getAccrualCategoryMaxCarryOverService().exceedsAccrualCategoryMaxCarryOver(accrualCategory.getAccrualCategory(), viewPrincipal, calendarEntry, calendarEntry.getEndPeriodDate())) {
-					warningMes.add("Your pending leave balance is greater than the annual max carry over for accrual category '" + accrualCategory.getAccrualCategory() + "' and upon approval, the excess balance will be lost.");
+					String message = "Your pending leave balance is greater than the annual max carry over for accrual category '" + accrualCategory.getAccrualCategory() + "' and upon approval, the excess balance will be lost.";
+					if (!warningMes.contains(message)) {
+						warningMes.add(message);
+					}
 				}
 			}
 		}

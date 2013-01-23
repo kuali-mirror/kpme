@@ -82,18 +82,15 @@ public class WorkflowTagSupport {
      */
     public boolean isRouteLeaveButtonEnabled() {
         LeaveCalendarDocument doc = TKContext.getCurrentLeaveCalendarDocument();
-        return isRouteButtonEnabled(doc);
+        Date asOfDate = TKUtils.getTimelessDate(null);
+        return isRouteButtonEnabled(doc) && !isDelinquent(doc) 
+        		&& (TkServiceLocator.getPermissionsService().canViewLeaveTabsWithEStatus() && asOfDate.compareTo(doc.getDocumentHeader().getEndDate()) > 0);
     }
 
     private boolean isRouteButtonEnabled(CalendarDocumentContract doc) {
         CalendarDocumentHeaderContract dh = doc.getDocumentHeader();
-        Date asOfDate = TKUtils.getTimelessDate(null);        
-        if(((dh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.INITIATED)
-                || dh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.SAVED)) && !isDelinquent(doc) &&
-                (TkServiceLocator.getPermissionsService().canViewLeaveTabsWithEStatus() && (asOfDate.compareTo(dh.getEndDate()))>0 ))){
-        		return true;
-        } else 
-        	return false;
+        return dh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.INITIATED)
+                || dh.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.SAVED);
     }
 
     /**
@@ -101,7 +98,7 @@ public class WorkflowTagSupport {
      * @param doc
      * @return true if there are previous non-routed or non-final documents
      */
-    private boolean isDelinquent(CalendarDocumentContract doc) {
+    private boolean isDelinquent(LeaveCalendarDocument doc) {
         String principalId = doc.getDocumentHeader().getPrincipalId();
         List<LeaveCalendarDocumentHeader> lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getSubmissionDelinquentDocumentHeaders(principalId, DateUtils.addSeconds(doc.getAsOfDate(),1));
         if (lcdh.isEmpty()){
@@ -109,6 +106,7 @@ public class WorkflowTagSupport {
         } else
             return true;        // all previous leave document are final or enroute.
     }
+    
     public boolean isDisplayingTimesheetApprovalButtons() {
         TimesheetDocument doc = TKContext.getCurrentTimesheetDocument();
         return isDisplayingApprovalButtons(doc);
