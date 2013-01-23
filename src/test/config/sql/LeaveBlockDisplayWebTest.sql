@@ -22,6 +22,7 @@ DELETE FROM `lm_leave_block_t`;
 DELETE FROM `lm_leave_block_hist_t`;
 DELETE FROM `lm_leave_status_hist_t`;
 delete from lm_leave_document_header_t where document_id >= '5000';
+update hr_principal_attributes_t set leave_plan = NULL where principal_id = 'admin';
 
 /** Update HR_Principal_attribute_t */
 update hr_principal_attributes_t set leave_plan = 'testLP' where principal_id = 'admin';

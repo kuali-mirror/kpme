@@ -71,30 +71,42 @@ public class LeavePlanServiceImpl implements LeavePlanService {
     
     @Override
 	public boolean isFirstCalendarPeriodOfLeavePlan(CalendarEntries calendarEntry, String leavePlan, Date asOfDate) {
-		LeavePlan leavePlanObj = getLeavePlan(leavePlan, asOfDate);
+		boolean isFirstCalendarPeriodOfLeavePlan = false;
+    	
+    	LeavePlan leavePlanObj = getLeavePlan(leavePlan, asOfDate);
 		
-		DateTime calendarEntryEndDate = new DateTime(calendarEntry.getBeginPeriodDate());
-		
-		int calendarYearStartMonth = Integer.valueOf(leavePlanObj.getCalendarYearStartMonth());
-		int calendarYearStartDay = Integer.valueOf(leavePlanObj.getCalendarYearStartDayOfMonth());
-		int calendarEntryEndDateMonth = calendarEntryEndDate.getMonthOfYear();
-		int calendarEntryEndDateDay = calendarEntryEndDate.getDayOfMonth();
-		
-		return (calendarYearStartMonth == calendarEntryEndDateMonth) && (calendarYearStartDay == calendarEntryEndDateDay);
+    	if (leavePlanObj != null) {
+			DateTime calendarEntryEndDate = new DateTime(calendarEntry.getBeginPeriodDate());
+			
+			int calendarYearStartMonth = Integer.valueOf(leavePlanObj.getCalendarYearStartMonth());
+			int calendarYearStartDay = Integer.valueOf(leavePlanObj.getCalendarYearStartDayOfMonth());
+			int calendarEntryEndDateMonth = calendarEntryEndDate.getMonthOfYear();
+			int calendarEntryEndDateDay = calendarEntryEndDate.getDayOfMonth();
+			
+			isFirstCalendarPeriodOfLeavePlan = (calendarYearStartMonth == calendarEntryEndDateMonth) && (calendarYearStartDay == calendarEntryEndDateDay);
+    	}
+    	
+    	return isFirstCalendarPeriodOfLeavePlan;
 	}
     
     @Override
 	public boolean isLastCalendarPeriodOfLeavePlan(CalendarEntries calendarEntry, String leavePlan, Date asOfDate) {
-		LeavePlan leavePlanObj = getLeavePlan(leavePlan, asOfDate);
+    	boolean isLastCalendarPeriodOfLeavePlan = false;
+    	
+    	LeavePlan leavePlanObj = getLeavePlan(leavePlan, asOfDate);
 		
-		DateTime calendarEntryEndDate = new DateTime(calendarEntry.getEndPeriodDate());
-		
-		int calendarYearStartMonth = Integer.valueOf(leavePlanObj.getCalendarYearStartMonth());
-		int calendarYearStartDay = Integer.valueOf(leavePlanObj.getCalendarYearStartDayOfMonth());
-		int calendarEntryEndDateMonth = calendarEntryEndDate.getMonthOfYear();
-		int calendarEntryEndDateDay = calendarEntryEndDate.getDayOfMonth();
-		
-		return (calendarYearStartMonth == calendarEntryEndDateMonth) && (calendarYearStartDay == calendarEntryEndDateDay);
+    	if (leavePlanObj != null) {
+			DateTime calendarEntryEndDate = new DateTime(calendarEntry.getEndPeriodDate());
+			
+			int calendarYearStartMonth = Integer.valueOf(leavePlanObj.getCalendarYearStartMonth());
+			int calendarYearStartDay = Integer.valueOf(leavePlanObj.getCalendarYearStartDayOfMonth());
+			int calendarEntryEndDateMonth = calendarEntryEndDate.getMonthOfYear();
+			int calendarEntryEndDateDay = calendarEntryEndDate.getDayOfMonth();
+			
+			isLastCalendarPeriodOfLeavePlan = (calendarYearStartMonth == calendarEntryEndDateMonth) && (calendarYearStartDay == calendarEntryEndDateDay);
+    	}
+    	
+    	return isLastCalendarPeriodOfLeavePlan;
 	}
 	
 }

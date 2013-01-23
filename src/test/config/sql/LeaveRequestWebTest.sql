@@ -21,6 +21,7 @@ delete from lm_accrual_category_t where lm_accrual_category_id = '3000';
 DELETE FROM `lm_leave_block_t`;
 DELETE FROM `lm_leave_block_hist_t`;
 DELETE FROM `lm_leave_status_hist_t`;
+update hr_principal_attributes_t set leave_plan = NULL where principal_id = 'admin';
 
 /** Update HR_Principal_attribute_t */
 update hr_principal_attributes_t set leave_plan = 'testLP' where principal_id = 'admin';

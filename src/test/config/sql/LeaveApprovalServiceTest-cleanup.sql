@@ -21,3 +21,4 @@ delete from lm_accrual_category_t where lm_accrual_category_id >= '5000';
 delete from tk_assignment_t where tk_assignment_id >= 5000;
 delete from hr_job_t where hr_job_id >= 5000;
 delete from hr_principal_attributes_t where hr_principal_attribute_id >= 5000;
+update hr_principal_attributes_t set leave_plan = NULL where principal_id = 'admin';
