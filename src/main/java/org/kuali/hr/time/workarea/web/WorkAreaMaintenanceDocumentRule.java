@@ -102,15 +102,20 @@ public class WorkAreaMaintenanceDocumentRule extends
 		return valid;
 	}
 	
-	boolean validateTask(Task task, List<Task> tasks) {
+	boolean validateTask(Task task, Long workArea) {
 		boolean valid = true;
-		
-		for (Task t : tasks) {
-			if (t.getTask().equals(task.getTask()) ) {
-				this.putGlobalError("error.duplicate.entry", "task '" + task.getTask() + "'");
-				valid = false;
-			}
-		}
+        //Task numbers are assigned by the system and the validation below is not needed.
+//		for (Task t : tasks) {
+//			if (t.getTask().equals(task.getTask()) ) {   //task.getTask() is always null at this point?
+//				this.putGlobalError("error.duplicate.entry", "task '" + task.getTask() + "'");
+//				valid = false;
+//			}
+//		}
+        //validate the effective date set for the task. it should be equal to or after the effdt set for the workarea
+        if (task.getEffectiveDate().compareTo(TkServiceLocator.getWorkAreaService().getWorkArea(workArea,TKUtils.getCurrentDate()).getEffectiveDate()) < 0) {
+            this.putGlobalError("task.workarea.invalid.effdt", "effective date '" + task.getEffectiveDate().toString() +"'");
+            valid = false;
+        }
 		return valid;
 	}
 	
@@ -202,7 +207,7 @@ public class WorkAreaMaintenanceDocumentRule extends
 			
 			if (task != null && wa.getTasks() != null) {
 				valid = true;
-				valid &= this.validateTask(task, wa.getTasks());
+				valid &= this.validateTask(task, wa.getWorkArea());
 				// KPME-870
 				if ( valid ){
 					if (task.getTask() == null){
