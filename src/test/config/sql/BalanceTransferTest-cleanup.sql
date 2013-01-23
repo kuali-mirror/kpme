@@ -16,3 +16,4 @@
 
 delete from lm_accrual_category_rules_t where lm_accrual_category_rules_id >= 5000;
 delete from lm_leave_code_t where lm_leave_code_id >= 5000;
+delete from LM_BALANCE_TRANSFER_T where LM_BALANCE_TRANSFER_ID >= 5000;

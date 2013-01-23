@@ -222,5 +222,19 @@ public class BalanceTransferTest extends LeaveCalendarWebTestBase {
 		assertTrue("Dummy assertion 4", true);
 	}
 	
+	/**
+	 * Test the lookup results page, there should not be "edit" actions, only "view" actions
+	 * @throws Exception
+	 */
+	@Test
+	public void testLookupPage() throws Exception {	 
+		HtmlPage btLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.BALANCE_TRANSFER_MAINT_URL);
+		btLookup = HtmlUnitUtil.clickInputContainingText(btLookup, "search");
+		System.out.println(btLookup.asXml());
+		Assert.assertTrue("Page contains test Balance Transfer", btLookup.asText().contains("fromAC"));
+		Assert.assertFalse("Page should not contain edit action", btLookup.asText().contains("edit")); 
+		Assert.assertTrue("Page should contain view action", btLookup.asText().contains("view"));
+	}
+	
 	
 }
