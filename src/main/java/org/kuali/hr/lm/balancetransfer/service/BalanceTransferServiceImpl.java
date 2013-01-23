@@ -249,9 +249,10 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			BigDecimal transferAmount = balanceTransfer.getTransferAmount();
 			LeaveBlock aLeaveBlock = null;
 			
-			if(ObjectUtils.isNotNull(transferAmount)) {
-				if(transferAmount.compareTo(BigDecimal.ZERO) > 0) {
-		
+
+				if(ObjectUtils.isNotNull(balanceTransfer.getAmountTransferred())) {
+					if(balanceTransfer.getAmountTransferred().compareTo(BigDecimal.ZERO) > 0 ) {
+
 					aLeaveBlock = new LeaveBlock();
 					//Create a leave block that adds the adjusted transfer amount to the "transfer to" accrual category.
 					aLeaveBlock.setPrincipalId(balanceTransfer.getPrincipalId());
@@ -276,7 +277,11 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			        lbh.setAction(LMConstants.ACTION.ADD);
 			        TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
 					leaveBlocks.add(aLeaveBlock);
+					}
+				}
 					
+				if(ObjectUtils.isNotNull(transferAmount)) {
+					if(transferAmount.compareTo(BigDecimal.ZERO) > 0) {					
 					//Create leave block that removes the correct transfer amount from the originating accrual category.
 					aLeaveBlock = new LeaveBlock();
 					aLeaveBlock.setPrincipalId(balanceTransfer.getPrincipalId());
@@ -297,7 +302,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 
 			    	balanceTransfer.setDebitedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
 			        // save history
-			        lbh = new LeaveBlockHistory(aLeaveBlock);
+			        LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
 			        lbh.setAction(LMConstants.ACTION.ADD);
 			        TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
 					
