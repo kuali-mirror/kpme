@@ -17,16 +17,12 @@ package org.kuali.hr.lm.balancetransfer.service;
 
 import static org.junit.Assert.*;
 
-import edu.emory.mathcs.backport.java.util.Collections;
-import groovy.lang.Singleton;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.time.DateUtils;
-import org.apache.cxf.service.invoker.SingletonFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,14 +33,11 @@ import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
-import org.kuali.hr.lm.leaveblock.LeaveBlock.Builder;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
-import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class BalanceTransferServiceTest extends KPMETestCase {
@@ -132,6 +125,7 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 	public void testInitializeTransferNullAccrualRuleNullLeaveSummary() {
 		BalanceTransfer bt = new BalanceTransfer();
 		bt = TkServiceLocator.getBalanceTransferService().initializeTransfer(USER_ID, null, null, TKUtils.getCurrentDate());
+		assertNull(bt);
 	}
 	
 	@Test
@@ -396,9 +390,25 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 		LeaveBlock forfeitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getForfeitedLeaveBlockId());
 		LeaveBlock accruedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getAccruedLeaveBlockId());
 		LeaveBlock debitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getDebitedLeaveBlockId());
-		assertEquals("forfeited leave block leave amount incorrect",forfeitedLeaveBlock.getLeaveAmount().longValue(), (new BigDecimal(-17)).longValue());
+		assertEquals("forfeited leave block leave amount incorrect", (new BigDecimal(-17)).longValue(), forfeitedLeaveBlock.getLeaveAmount().longValue());
 		assertTrue("accrued leave block should not exist",ObjectUtils.isNull(accruedLeaveBlock));
 		assertTrue("debited leave block should not exist",ObjectUtils.isNull(debitedLeaveBlock));
+	}
+	
+	@Test
+	public void testTransferWithNoAmountTransferred() throws Exception {
+		BalanceTransfer bt = new BalanceTransfer();
+		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
+		java.sql.Date effectiveDate = new java.sql.Date(DateUtils.addDays(janStart,3).getTime());
+		bt = TkServiceLocator.getBalanceTransferService().initializeTransfer(USER_ID, YE_LOSE, summary, effectiveDate);
+		bt.setAmountTransferred(null);
+		bt = TkServiceLocator.getBalanceTransferService().transfer(bt);
+		LeaveBlock forfeitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getForfeitedLeaveBlockId());
+		LeaveBlock accruedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getAccruedLeaveBlockId());
+		LeaveBlock debitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getDebitedLeaveBlockId());
+		assertEquals("forfeited leave block leave amount incorrect",(new BigDecimal(-17)).longValue(), forfeitedLeaveBlock.getLeaveAmount().longValue());
+		assertTrue("accrued leave block should not exist",ObjectUtils.isNull(accruedLeaveBlock));
+		assertTrue("debited leave block should not exist",ObjectUtils.isNull(debitedLeaveBlock));	
 	}
 	
 	@Test
@@ -411,9 +421,9 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 		LeaveBlock forfeitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getForfeitedLeaveBlockId());
 		LeaveBlock accruedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getAccruedLeaveBlockId());
 		LeaveBlock debitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getDebitedLeaveBlockId());
-		assertEquals("accrued leave block leave amount incorrect",accruedLeaveBlock.getLeaveAmount().longValue(), (new BigDecimal(0.5)).longValue());
+		assertEquals("accrued leave block leave amount incorrect", (new BigDecimal(0.5)).longValue(), accruedLeaveBlock.getLeaveAmount().longValue());
 		assertTrue("forfeited leave block should not exist",ObjectUtils.isNull(forfeitedLeaveBlock));
-		assertEquals("transfered leave block leave amount incorrect",debitedLeaveBlock.getLeaveAmount().longValue(), (new BigDecimal(-1)).longValue());
+		assertEquals("transfered leave block leave amount incorrect", (new BigDecimal(-1)).longValue(), debitedLeaveBlock.getLeaveAmount().longValue());
 	}
 	
 	@Test
@@ -426,9 +436,9 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 		LeaveBlock forfeitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getForfeitedLeaveBlockId());
 		LeaveBlock accruedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getAccruedLeaveBlockId());
 		LeaveBlock debitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(bt.getDebitedLeaveBlockId());
-		assertEquals("forfeited leave block leave amount incorrect",forfeitedLeaveBlock.getLeaveAmount().longValue(), (new BigDecimal(-7)).longValue());
-		assertEquals(accruedLeaveBlock.getLeaveAmount().longValue(), (new BigDecimal(5)).longValue());
-		assertEquals(debitedLeaveBlock.getLeaveAmount().longValue(), (new BigDecimal(-10)).longValue());
+		assertEquals("forfeited leave block leave amount incorrect", (new BigDecimal(-7)).longValue(), forfeitedLeaveBlock.getLeaveAmount().longValue());
+		assertEquals((new BigDecimal(5)).longValue(), accruedLeaveBlock.getLeaveAmount().longValue());
+		assertEquals((new BigDecimal(-10)).longValue(), debitedLeaveBlock.getLeaveAmount().longValue());
 	}
 	
 	//TODO: write tests for adjusted max balance cases - i.e. FTE < 1, employee override's w/ type MAX_BALANCE
