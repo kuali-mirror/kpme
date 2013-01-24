@@ -80,6 +80,7 @@ public interface TimeApproveService {
 
     public Map<String, BigDecimal> getHoursToPayDayMap(String principalId, Date payEndDate, List<String> payCalendarLabels, List<TimeBlock> lstTimeBlocks, Long workArea, CalendarEntries payCalendarEntries, Calendar payCalendar, DateTimeZone dateTimeZone, List<Interval> dayIntervals);
 
+	public Map<String, BigDecimal> getHoursToFlsaWeekMap(String principalId, Date payEndDate, List<String> payCalendarLabels, List<TimeBlock> lstTimeBlocks, Long workArea, CalendarEntries payCalendarEntries, Calendar payCalendar, DateTimeZone dateTimeZone, List<Interval> dayIntervals);
     /**
      * Method to provide a mapping of PayCalendarGroupNames to PayCalendarEntries to
      * allow for various starting points in Approval Tab Navigation.

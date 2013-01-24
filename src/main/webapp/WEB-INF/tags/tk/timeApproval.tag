@@ -98,6 +98,8 @@
 	            <c:choose>
 	                <c:when test="${fn:contains(payCalLabel,'Week')}">
 	                    <span style="font-weight: bold;">${row.hoursToPayLabelMap[payCalLabel]}</span>
+	                    <br/>
+	                    <span style="font-style: italic;">(${row.hoursToFlsaPayLabelMap[payCalLabel]})</span>
 	                </c:when>
 	                <c:otherwise>
 	                    ${row.hoursToPayLabelMap[payCalLabel]}

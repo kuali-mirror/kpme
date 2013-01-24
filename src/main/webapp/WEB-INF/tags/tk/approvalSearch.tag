@@ -20,8 +20,8 @@ the id is used in approval.js--%>
                 <label for="search value">
            			<input id="${searchId}" name="${searchId}" type="text" value="${Form.searchTerm}" placeholder="enter at least 3 chars" />
                     <span id='loading-value' style="display:none;"><img src='images/ajax-loader.gif'></span>
-                    <input type="button" id='search' value="Search"
-                           class="ui-button ui-widget ui-state-default ui-corner-all"/>
+                    <input type="button" id='search' value="Search" class="ui-button ui-widget ui-state-default ui-corner-all" 
+                           onclick="this.form.methodToCall.value='searchResult'; this.form.submit();" name="searchResult" />
                 </label>
             </td>
             <td>
@@ -61,16 +61,22 @@ the id is used in approval.js--%>
         	</c:if>
             </td>
             <td align="center">
-                <c:if test="${calType == 'leaveCalendar'}">
-                    <%--<table width="100%">--%>
-                    <fieldset style="width:75%;">
-                        <legend>Leave Request Status</legend>
-                        <div>Approved/Usage: <span class="approvals-approved">bold</span></div>
-                        <div>Planned/Defered: <span class="approvals-requested">italics</span></div>
-                        <%--<div>Other: <span class="approvals-default">normal</span></div>--%>
-                    </fieldset>
-                    <%--</table>--%>
-                </c:if>
+            	<c:choose>
+            		<c:when test="${calType == 'payCalendar'}">
+            			<fieldset style="width:75%;">
+                    		<legend>Weekly Status</legend>
+                    		<div>Pay Period Week Total: <span style="font-weight: bold;">bold</span></div>
+                    		<div>FLSA Week Total: <span style="font-style: italic;">italics</span></div>
+						</fieldset>
+					</c:when>
+					<c:when test="${calType == 'leaveCalendar'}">
+                    	<fieldset style="width:75%;">
+                        	<legend>Leave Request Status</legend>
+                        	<div>Approved/Usage: <span class="approvals-approved">bold</span></div>
+                        	<div>Planned/Defered: <span class="approvals-requested">italics</span></div>
+                    	</fieldset>
+                	</c:when>
+                </c:choose>
             </td>
         </tr>
 </table>

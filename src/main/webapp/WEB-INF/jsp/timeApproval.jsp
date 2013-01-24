@@ -43,7 +43,7 @@
 	<tk:approvalFilter />
 
     <c:if test="${fn:length(Form.approvalRows) != 0}">
-		<tk:approvalSearch calType="payCalendar" searchId="searchValue" />
+		<tk:approvalSearch calType="payCalendar" searchId="searchTerm" />
     
     	<tk:timeApproval />
     
@@ -60,11 +60,11 @@
 <%-- Hour detail template --%>
 <script type="text/template" id="hourDetail-template">
     <tr class="hourDetailRow_<@= docId @>">
-        <td colspan="3"><@= section.earnCode @>: <@= section.desc @></td>
+        <td colspan="2"><@= section.earnCode @>: <@= section.desc @></td>
     </tr>
     <@ _.each(section.assignmentRows, function(assignmentRow) { @>
         <tr class="hourDetailRow_<@= docId @>">
-            <td colspan="3" class="<@= assignmentRow.cssClass @>"><b><@= assignmentRow.descr @></b></td>
+            <td colspan="2" class="<@= assignmentRow.cssClass @>"><b><@= assignmentRow.descr @></b></td>
             <@ if (!assignmentRow.isAmountEarnCode) { @>
                 <@ _.each(assignmentRow.total, function(tot) { @>
                     <td><@= tot == 0 ? "" : tot.toFixed(2) @></td>
@@ -78,7 +78,7 @@
     <@ }); @>
     <@ if (isLast) { @>
     <tr class="hourDetailRow_<@= docId @>">
-        <td colspan="3"><@= section.earnGroup @></td>
+        <td colspan="2"><@= section.earnGroup @></td>
         <@ _.each(section.totals, function(total) { @>
             <td><@= total == 0 ? "" : total.toFixed(2) @></td>
         <@ }); @>

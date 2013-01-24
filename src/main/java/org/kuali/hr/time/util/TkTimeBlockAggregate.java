@@ -20,7 +20,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.ListIterator;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
@@ -32,6 +34,7 @@ import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 public class TkTimeBlockAggregate {
 	public List<List<TimeBlock>> dayTimeBlockList = new ArrayList<List<TimeBlock>>();
@@ -226,6 +229,59 @@ public class TkTimeBlockAggregate {
 			}
 		}
 
+		return flsaWeeks;
+	}
+	
+	public List<List<FlsaWeek>> getFlsaWeeks(DateTimeZone zone, String principalId) {
+		List<List<FlsaWeek>> flsaWeeks = new ArrayList<List<FlsaWeek>>();
+		
+		List<FlsaWeek> currentWeeks = getFlsaWeeks(zone);
+		
+		for (ListIterator<FlsaWeek> weekIterator = currentWeeks.listIterator(); weekIterator.hasNext(); ) {
+			List<FlsaWeek> flsaWeek = new ArrayList<FlsaWeek>();
+			
+			int index = weekIterator.nextIndex();
+			FlsaWeek currentWeek = weekIterator.next();
+			
+			if (index == 0 && !currentWeek.isFirstWeekFull()) {
+				CalendarEntries previousCalendarEntry = TkServiceLocator.getCalendarEntriesService().getPreviousCalendarEntriesByCalendarId(payCalendar.getHrCalendarId(), payCalendarEntry);
+				if (previousCalendarEntry != null) {
+					TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, previousCalendarEntry.getBeginPeriodDateTime(), previousCalendarEntry.getEndPeriodDateTime());
+					if (timesheetDocumentHeader != null) { 
+						List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(timesheetDocumentHeader.getDocumentId());
+						if (CollectionUtils.isNotEmpty(timeBlocks)) {
+							TkTimeBlockAggregate previousAggregate = new TkTimeBlockAggregate(timeBlocks, previousCalendarEntry, payCalendar, true);
+							List<FlsaWeek> previousWeek = previousAggregate.getFlsaWeeks(zone);
+							if (CollectionUtils.isNotEmpty(previousWeek)) {
+								flsaWeek.add(previousWeek.get(previousWeek.size() - 1));
+							}
+						}
+					 }
+				}
+			}
+			
+			flsaWeek.add(currentWeek);
+			
+			if (index == flsaWeeks.size() - 1 && !currentWeek.isLastWeekFull()) {
+				CalendarEntries nextCalendarEntry = TkServiceLocator.getCalendarEntriesService().getNextCalendarEntriesByCalendarId(payCalendar.getHrCalendarId(), payCalendarEntry);
+				if (nextCalendarEntry != null) {
+					TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, nextCalendarEntry.getBeginPeriodDateTime(), nextCalendarEntry.getEndPeriodDateTime());
+					if (timesheetDocumentHeader != null) { 
+						List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(timesheetDocumentHeader.getDocumentId());
+						if (CollectionUtils.isNotEmpty(timeBlocks)) {
+							TkTimeBlockAggregate nextAggregate = new TkTimeBlockAggregate(timeBlocks, nextCalendarEntry, payCalendar, true);
+							List<FlsaWeek> nextWeek = nextAggregate.getFlsaWeeks(zone);
+							if (CollectionUtils.isNotEmpty(nextWeek)) {
+								flsaWeek.add(nextWeek.get(0));
+							}
+						}
+					 }
+				}
+			}
+			
+			flsaWeeks.add(flsaWeek);
+		}
+		
 		return flsaWeeks;
 	}
 

@@ -278,12 +278,18 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 					person.getPrincipalId(), payEndDate, payCalendarLabels,
 					timeBlocks, null, payCalendarEntries, payCalendar,
 					dateTimeZone, dayIntervals);
+			
+			Map<String, BigDecimal> hoursToFlsaPayLabelMap = getHoursToFlsaWeekMap(
+					person.getPrincipalId(), payEndDate, payCalendarLabels,
+					timeBlocks, null, payCalendarEntries, payCalendar,
+					dateTimeZone, dayIntervals);
 
 			approvalSummaryRow.setName(person.getPrincipalName());
 			approvalSummaryRow.setPrincipalId(person.getPrincipalId());
 			approvalSummaryRow.setPayCalendarGroup(calGroup);
 			approvalSummaryRow.setDocumentId(documentId);
 			approvalSummaryRow.setHoursToPayLabelMap(hoursToPayLabelMap);
+			approvalSummaryRow.setHoursToFlsaPayLabelMap(hoursToFlsaPayLabelMap);
 			approvalSummaryRow.setPeriodTotal(hoursToPayLabelMap
 					.get("Period Total"));
 			approvalSummaryRow.setLstTimeBlocks(timeBlocks);
@@ -520,13 +526,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 	/**
 	 * Aggregate TimeBlocks to hours per day and sum for week
-	 * 
-	 * @param principalId
-	 * @param payEndDate
-	 * @param payCalendarLabels
-	 * @param lstTimeBlocks
-	 * @param workArea
-	 * @return
 	 */
 	@Override
 	public Map<String, BigDecimal> getHoursToPayDayMap(String principalId,
@@ -586,6 +585,45 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 		}
 		return hoursToPayLabelMap;
+	}
+	
+	/**
+	 * Aggregate TimeBlocks to hours per day and sum for flsa week (including previous/next weeks)
+	 */
+	@Override
+	public Map<String, BigDecimal> getHoursToFlsaWeekMap(String principalId, 
+			Date payEndDate, List<String> payCalendarLabels, 
+			List<TimeBlock> lstTimeBlocks, Long workArea, 
+			CalendarEntries payCalendarEntries, Calendar payCalendar, 
+			DateTimeZone dateTimeZone, List<Interval> dayIntervals) {
+		
+		Map<String, BigDecimal> hoursToFlsaWeekMap = new LinkedHashMap<String, BigDecimal>();
+
+		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(lstTimeBlocks, payCalendarEntries, payCalendar, true, dayIntervals);
+		List<List<FlsaWeek>> flsaWeeks = tkTimeBlockAggregate.getFlsaWeeks(dateTimeZone, principalId);
+		
+		int weekCount = 1;
+		for (List<FlsaWeek> flsaWeekParts : flsaWeeks) {
+			BigDecimal weekTotal = new BigDecimal(0.00);
+			for (FlsaWeek flsaWeekPart : flsaWeekParts) {
+				for (FlsaDay flsaDay : flsaWeekPart.getFlsaDays()) {
+					for (TimeBlock timeBlock : flsaDay.getAppliedTimeBlocks()) {
+						if (workArea != null) {
+							if (timeBlock.getWorkArea().compareTo(workArea) == 0) {
+								weekTotal = weekTotal.add(timeBlock.getHours(), TkConstants.MATH_CONTEXT);
+							} else {
+								weekTotal = weekTotal.add(new BigDecimal("0"), TkConstants.MATH_CONTEXT);
+							}
+						} else {
+							weekTotal = weekTotal.add(timeBlock.getHours(),TkConstants.MATH_CONTEXT);
+						}
+					}
+				}
+			}
+			hoursToFlsaWeekMap.put("Week " + weekCount++, weekTotal);
+		}
+		
+		return hoursToFlsaWeekMap;
 	}
 
 	public boolean doesApproverHavePrincipalsForCalendarGroup(Date asOfDate,
