@@ -65,7 +65,9 @@ public class AccrualCategoryValidationTest extends KPMETestCase{
 		Assert.assertTrue("Page contains test AccrualCategory", accrualCategoryLookup.asText().contains(ACCRUAL_CATEGORY));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(accrualCategoryLookup, "edit", "lmAccrualCategoryId=3000");
 		//HtmlUnitUtil.createTempFile(maintPage);
-		Assert.assertTrue("Maintenance Page contains test AccrualCategory",maintPage.asText().contains("Bi-Weekly"));
+		// Bi-weekly was removed from the list and replaced by pay calendar
+		Assert.assertFalse("Maintenance Page contains test AccrualCategory",maintPage.asText().contains("Bi-Weekly"));
+		Assert.assertTrue("Maintenance Page contains test AccrualCategory",maintPage.asText().contains("Pay Calendar"));
 	}
 	
 	// KPME-1347 Kagata 
