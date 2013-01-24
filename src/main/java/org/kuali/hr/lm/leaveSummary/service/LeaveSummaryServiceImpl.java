@@ -37,6 +37,7 @@ import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.math.BigDecimal;
@@ -190,9 +191,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                         		lsr.setLeaveBalance(leaveBalance);
                             }
 
-                        	//Rows should only be marked transferable/payoutable for calendars that have not already been submitted for approval,
-                        	//and if either the current date falls within the calendar, or it is beyond the end date of the calendar.
-                        	//Logic should be implemented which would take action on over-the-limit balances with frequency on-demand, if the user
+							//Logic should be implemented which would take action on over-the-limit balances with frequency on-demand, if the user
                         	//did not transfer the excess themselves, upon calendar submission/approval.
                         	//Doing so would eliminate the need to suppress the nested method calls in cases dealing with calendar entries
                         	//that have moved beyond status initiated.
@@ -203,10 +202,8 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                         		//current or past calendar is being used for leave summary calculation
                         		if(ObjectUtils.isNotNull(approvedLcdh)) {
 	                        		if(approvedLcdh.getEndDate().before(TKUtils.getCurrentDate())) {
-	                        			//should only allow on-demand transfers if calendar document has status initiated.
-	                        			//obviously this code block is executed for all non-approved calendars, displaying the buttons
-	                        			//for calendar documents that have already been routed.
 	                        			//Depending on requirements for on demand display, may need to update this.
+	                        			//TODO: only enable buttons if calendar is submitable?
 			                            markTransferable(lsr,acRule,principalId);
 			                            markPayoutable(lsr,acRule,principalId);
 	                        		}
@@ -282,6 +279,13 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
     			BigDecimal maxBalance = accrualCategoryRule.getMaxBalance();
     			BigDecimal fte = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate());
     			BigDecimal adjustedMaxBalance = maxBalance.multiply(fte);
+    			List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, TKUtils.getCurrentDate());
+    			for(EmployeeOverride override : overrides) {
+    				if(StringUtils.equals(override.getOverrideType(),TkConstants.EMPLOYEE_OVERRIDE_TYPE.get("MB"))) {
+    					adjustedMaxBalance = new BigDecimal(override.getOverrideValue());
+    					break;
+    				}
+    			}
     			if(adjustedMaxBalance.compareTo(lsr.getAccruedBalance()) < 0) {
     				if(StringUtils.equals(accrualCategoryRule.getActionAtMaxBalance(), LMConstants.ACTION_AT_MAX_BAL.TRANSFER) &&
     						StringUtils.equals(accrualCategoryRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
@@ -303,20 +307,27 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
     	//purposes.
     	//an accrual category's balance is transferable if max_bal_action_frequency is ON-DEMAND
     	//and action_at_max_balance is PAYOUT
-    	boolean transferable = false;
+    	boolean payoutable = false;
     	if(ObjectUtils.isNotNull(accrualCategoryRule)) {
     		if(ObjectUtils.isNotNull(accrualCategoryRule.getMaxBalance())) {
     			BigDecimal maxBalance = accrualCategoryRule.getMaxBalance();
     			BigDecimal fte = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, TKUtils.getCurrentDate());
     			BigDecimal adjustedMaxBalance = maxBalance.multiply(fte);
+    			List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, TKUtils.getCurrentDate());
+    			for(EmployeeOverride override : overrides) {
+    				if(StringUtils.equals(override.getOverrideType(),TkConstants.EMPLOYEE_OVERRIDE_TYPE.get("MB"))) {
+    					adjustedMaxBalance = new BigDecimal(override.getOverrideValue());
+    					break;
+    				}
+    			}
     			if(adjustedMaxBalance.compareTo(lsr.getAccruedBalance()) < 0) {
     				if(StringUtils.equals(accrualCategoryRule.getActionAtMaxBalance(), LMConstants.ACTION_AT_MAX_BAL.PAYOUT) &&
     						StringUtils.equals(accrualCategoryRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
-    					transferable = true;
+    					payoutable = true;
     			}
     		}
     	}
-    	lsr.setPayoutable(transferable);
+    	lsr.setPayoutable(payoutable);
     }
     
 	private void assignApprovedValuesToRow(LeaveSummaryRow lsr, String accrualCategory, List<LeaveBlock> approvedLeaveBlocks, LeavePlan lp, Date effectiveDate) {
