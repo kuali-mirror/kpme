@@ -343,18 +343,7 @@ public class TkConstants {
 
     public static final String TASK_DEFAULT_DESP = "Default";
 
-    public static final Map<String, String> ACCRUAL_EARN_INTERVAL = new LinkedHashMap<String, String>(6);
-
-        static {
-        	ACCRUAL_EARN_INTERVAL.put("D", "Daily");
-        	ACCRUAL_EARN_INTERVAL.put("W", "Weekly");
-        	ACCRUAL_EARN_INTERVAL.put("S", "Semi-Monthly");
-        	ACCRUAL_EARN_INTERVAL.put("M", "Monthly");
-        	ACCRUAL_EARN_INTERVAL.put("Y", "Yearly");
-        	ACCRUAL_EARN_INTERVAL.put("N", "No Accrual");
-        }
-
-        public static final Map<String, String> SERVICE_UNIT_OF_TIME = new LinkedHashMap<String, String>(3);
+    public static final Map<String, String> SERVICE_UNIT_OF_TIME = new LinkedHashMap<String, String>(3);
 
         static {
         	SERVICE_UNIT_OF_TIME.put("Y", "Years");

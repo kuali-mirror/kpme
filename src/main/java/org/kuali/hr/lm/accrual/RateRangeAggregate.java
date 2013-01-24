@@ -18,11 +18,15 @@ package org.kuali.hr.lm.accrual;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
+import org.kuali.hr.time.calendar.CalendarEntries;
 
 public class RateRangeAggregate {
 	private List<RateRange> rateRanges = new ArrayList<RateRange>();
 	private RateRange currentRate;
 	private boolean rateRangeChanged;
+	private Map<String, List<CalendarEntries>> calEntryMap;
 	
 	public RateRange getRate(Date date) {		
 		rateRangeChanged = false;
@@ -69,6 +73,14 @@ public class RateRangeAggregate {
 			}
 		}
 		return null;
+	}
+
+	public Map<String, List<CalendarEntries>> getCalEntryMap() {
+		return calEntryMap;
+	}
+
+	public void setCalEntryMap(Map<String, List<CalendarEntries>> calEntryMap) {
+		this.calEntryMap = calEntryMap;
 	}
 	
 

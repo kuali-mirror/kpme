@@ -29,6 +29,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.time.assignment.Assignment;
@@ -88,7 +89,7 @@ public class PersonInfoAction extends TkAction {
 						
 						accrualCategoryRates.put(accrualCategory.getAccrualCategory(), accrualCategoryRule.getAccrualRate());
 
-						for (Map.Entry<String, String> entry : TkConstants.ACCRUAL_EARN_INTERVAL.entrySet()) {					            
+						for (Map.Entry<String, String> entry : LMConstants.ACCRUAL_EARN_INTERVAL_MAP.entrySet()) {					            
 				            if (accrualCategory.getAccrualEarnInterval().equals(entry.getKey())) {
 				            	accrualEarnIntervals.put(accrualCategory.getAccrualCategory(), entry.getValue());
 				            	break;

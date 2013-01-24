@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.lm.accrual.service;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
@@ -66,18 +65,7 @@ public interface AccrualService {
 	 * @return
 	 */
 	public void calculateFutureAccrualUsingPlanningMonth(String principalId, Date asOfDate);
-	
-	/**
-	 * determine if minimumPercentage has been reached with given parameters
-	 * @param min
-	 * @param earnInterval
-	 * @param daysInBetween
-	 * @param intervalDate
-	 * @return boolean, 
-	 * the given intervalDate could be the first or the last accrual interval of an employment
-	 */
-	public boolean minimumPercentageReachedForPayPeriod(BigDecimal min, String earnInterval, int daysInBetween, Date intervalDate);
-	
+
 	/**
 	 * get the accrual interval date of the previous accrual period with given parameters
 	 * @param earnInterval
@@ -93,22 +81,7 @@ public interface AccrualService {
 	 * @return
 	 */
 	public java.util.Date getNextAccrualIntervalDate(String earnInterval, Date aDate);
-	
-	/**
-	 * calculate # of calendar days in an accrual period
-	 * @param earnInterval
-	 * @param aDate
-	 * @return	int
-	 */
-	public int getDaysInAccrualInterval(String earnInterval, Date aDate);
-	/**
-	 * get the start date of an accrual period
-	 * @param earnInterval
-	 * @param aDate
-	 * @return	int
-	 */
-	public java.util.Date getAccrualIntervalStartDate(String earnInterval, Date aDate);
-	
+
 	/**
 	 * calculate # of work days in an accrual period
 	 * @param earnInterval

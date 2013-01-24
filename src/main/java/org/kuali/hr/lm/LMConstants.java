@@ -27,21 +27,21 @@ public class LMConstants {
     public static final class ACCRUAL_EARN_INTERVAL_CODE{
         public static final String DAILY = "D";
         public static final String WEEKLY = "W";
-        public static final String BI_WEEKLY = "B";
         public static final String SEMI_MONTHLY = "S";
         public static final String MONTHLY = "M";
         public static final String YEARLY = "Y";
         public static final String NO_ACCRUAL = "N";
+        public static final String PAY_CAL = "P";
     }
 
 	public static final class ACCRUAL_EARN_INTERVAL{
 		public static final String DAILY = "daily";
 		public static final String WEEKLY = "weekly";
-		public static final String BI_WEEKLY = "biweekly";
 		public static final String SEMI_MONTHLY = "semimonthly";
 		public static final String MONTHLY = "monthly";
 		public static final String YEARLY = "yearly";
 		public static final String NO_ACCRUAL = "noaccrual";
+		public static final String PAY_CAL = "paycalendar";
 	}
 	
 	// KPME-1347 Kagata
@@ -49,11 +49,11 @@ public class LMConstants {
     static {
     	ACCRUAL_EARN_INTERVAL_MAP.put(ACCRUAL_EARN_INTERVAL_CODE.DAILY, "Daily");
     	ACCRUAL_EARN_INTERVAL_MAP.put(ACCRUAL_EARN_INTERVAL_CODE.WEEKLY, "Weekly");
-    	ACCRUAL_EARN_INTERVAL_MAP.put(ACCRUAL_EARN_INTERVAL_CODE.BI_WEEKLY, "Bi-Weekly");
     	ACCRUAL_EARN_INTERVAL_MAP.put(ACCRUAL_EARN_INTERVAL_CODE.SEMI_MONTHLY, "Semi-Monthly");
     	ACCRUAL_EARN_INTERVAL_MAP.put(ACCRUAL_EARN_INTERVAL_CODE.MONTHLY, "Monthly");
     	ACCRUAL_EARN_INTERVAL_MAP.put(ACCRUAL_EARN_INTERVAL_CODE.YEARLY, "Yearly");
     	ACCRUAL_EARN_INTERVAL_MAP.put(ACCRUAL_EARN_INTERVAL_CODE.NO_ACCRUAL, "No Accrual");
+    	ACCRUAL_EARN_INTERVAL_MAP.put(ACCRUAL_EARN_INTERVAL_CODE.PAY_CAL, "Pay Calendar");
     }
     
 	

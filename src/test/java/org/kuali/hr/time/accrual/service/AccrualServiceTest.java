@@ -813,5 +813,111 @@ public class AccrualServiceTest extends KPMETestCase {
 				 , lb.getDocumentId().equals("5000"));		
 		 
 	}
+	
+	@Test
+	/*	testUser16's service Date is 2012-03-26 which is a Monday
+	 * 	testUser16 has one accrual category "testAC19" with effectiveDate of 2012-03-01
+	 *  testAC19 has proration = false, minimum percentage = 0
+	 *  testAC19 has "pay calendar" as the earn interval, so the accrual interval will be based on the pay calendar entries of testUser16
+	 *  testUser16 has "BI-WE" as the pay calendar, it's bi-weekly with start day as Sunday
+	 *  The rule associated with the AC has 24 as the accrual rate
+	 *  run accrual for testUser16 for 6 months
+	 */
+	public void testPayCalAsEarnInterval() {
+		String principal_id = "testUser16";
+		Calendar aCal = Calendar.getInstance();
+		aCal.setTime(START_DATE);
+		aCal.add(Calendar.MONTH, 6);
+		Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		 
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE, endDate);
+		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
+		
+		TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, endDate, false);
+		
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE, endDate);
+		Assert.assertTrue("There should be 11 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 11);	
+		
+		// 03/31/2012, testAC19 has proration= false, minimum percentage = 0, so whole FTE of 24 hours is given to the first interval
+		Date intervalDate = new Date((new DateTime(2012, 3, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate);
+		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
+		LeaveBlock lb = leaveBlockList.get(0);		
+		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 24, not " + lb.getLeaveAmount().toString()
+				 , lb.getLeaveAmount().equals(new BigDecimal(24)));
+		
+		// 04/28/2012
+		intervalDate = new Date((new DateTime(2012, 4, 28, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate);
+		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
+		lb = leaveBlockList.get(0);		
+		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 24, not " + lb.getLeaveAmount().toString()
+				 , lb.getLeaveAmount().equals(new BigDecimal(24)));
+		// 05/12/2012
+		intervalDate = new Date((new DateTime(2012, 5, 12, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate);
+		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
+		// 08/04/2012
+		intervalDate = new Date((new DateTime(2012, 8, 4, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate);
+		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
+		// 08/18/2012
+		intervalDate = new Date((new DateTime(2012, 8, 18, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate);
+		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
+	}
+	
+	@Test
+	/*	testUser17's service Date is 2012-03-26 which is a Monday
+	 * 	testUser17 has one accrual category "testAC20" with effectiveDate of 2012-03-01
+	 *  testAC20 has proration = true, minimum percentage = 0.5
+	 *  testAC20 has "pay calendar" as the earn interval, so the accrual interval will be based on the pay calendar entries of testUser17
+	 *  testUser17 has "BI-WE" as the pay calendar, it's bi-weekly with start day as Sunday
+	 *  The rule associated with the AC has 24 as the accrual rate
+	 *  run accrual for testUser17 for 6 months
+	 */
+	public void testPayCalAsEarnIntervalProrationFalseMinReached() {
+		String principal_id = "testUser17";
+		Calendar aCal = Calendar.getInstance();
+		aCal.setTime(START_DATE);
+		aCal.add(Calendar.MONTH, 6);
+		Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		 
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE, endDate);
+		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
+		
+		TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, endDate, false);
+		
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE, endDate);
+		Assert.assertTrue("There should be 11 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 11);	
+		
+		// 03/31/2012, testAC20 has proration= true, minimum percentage = 0.5, so only 12 hours is given to the first interval
+		Date intervalDate = new Date((new DateTime(2012, 3, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate);
+		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
+		LeaveBlock lb = leaveBlockList.get(0);		
+		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 12, not " + lb.getLeaveAmount().toString()
+				 , lb.getLeaveAmount().equals(new BigDecimal(12)));
+		
+		// 04/28/2012
+		intervalDate = new Date((new DateTime(2012, 4, 28, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate);
+		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
+		lb = leaveBlockList.get(0);		
+		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 24, not " + lb.getLeaveAmount().toString()
+				 , lb.getLeaveAmount().equals(new BigDecimal(24)));
+		// 05/12/2012
+		intervalDate = new Date((new DateTime(2012, 5, 12, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate);
+		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
+		// 08/04/2012
+		intervalDate = new Date((new DateTime(2012, 8, 4, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate);
+		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
+		// 08/18/2012
+		intervalDate = new Date((new DateTime(2012, 8, 18, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate);
+		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
+	}
 
 }
