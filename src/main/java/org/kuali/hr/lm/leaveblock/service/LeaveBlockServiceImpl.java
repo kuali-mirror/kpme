@@ -67,10 +67,17 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         return leaveBlockDao.getLeaveBlocksForDocumentId(documentId);
     }
 
+
     @Override
     public List<LeaveBlock> getLeaveBlocks(String principalId, Date beginDate,
                                    Date endDate) {
         return leaveBlockDao.getLeaveBlocks(principalId, beginDate, endDate);
+    }
+
+    @Override
+    public List<LeaveBlock> getLeaveBlocksWithType(String principalId, Date beginDate,
+                                           Date endDate, String leaveBlockType) {
+        return leaveBlockDao.getLeaveBlocksWithType(principalId, beginDate, endDate, leaveBlockType);
     }
 
     @Override

@@ -16,13 +16,14 @@
 package org.kuali.hr.time.calendar;
 
 import java.sql.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import edu.emory.mathcs.backport.java.util.Arrays;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
@@ -54,7 +55,17 @@ public class LeaveCalendar extends CalendarParent {
 
         LeaveCalendarWeek leaveCalendarWeek = new LeaveCalendarWeek();
         Integer dayNumber = 0;
-        
+        List<LeaveBlock> blocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
+        Map<String, List<LeaveBlock>> leaveBlockMap = new HashMap<String, List<LeaveBlock>>();
+        for (LeaveBlock lb : blocks) {
+            String key = new LocalDate(lb.getLeaveDate()).toString();
+            if (leaveBlockMap.containsKey(key)) {
+                leaveBlockMap.get(key).add(lb);
+            } else {
+                leaveBlockMap.put(key, createNewLeaveBlockList(lb));
+            }
+        }
+
         while (currentDisplayDateTime.isBefore(endDisplayDateTime) || currentDisplayDateTime.isEqual(endDisplayDateTime)) {
             LeaveCalendarDay leaveCalendarDay = new LeaveCalendarDay();
             
@@ -70,8 +81,11 @@ public class LeaveCalendar extends CalendarParent {
 //                leaveCalendarDay.setDayNumberDelta(currDateTime.getDayOfMonth());
                 leaveCalendarDay.setDayNumberDelta(dayNumber);
     
-               java.util.Date leaveDate = TKUtils.getTimelessDate(currentDisplayDateTime.toDate());
-               List<LeaveBlock> lbs = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principalId, leaveDate);
+               java.util.Date leaveDate = TKUtils.getTimelessDate(currentDisplayDateTime.toLocalDate().toDateMidnight().toDate());
+               List<LeaveBlock> lbs = leaveBlockMap.get(currentDisplayDateTime.toLocalDate().toString());
+               if (lbs == null) {
+                   lbs = Collections.emptyList();
+               }
                // use given assignmentKeys to control leave blocks displayed on the calendar
                if(CollectionUtils.isNotEmpty(lbs) && CollectionUtils.isNotEmpty(assignmentKeys)) {
             	   List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().filterLeaveBlocksForLeaveCalendar(lbs, assignmentKeys);
@@ -115,7 +129,13 @@ public class LeaveCalendar extends CalendarParent {
         boolean isPlanningCal = TkServiceLocator.getLeaveCalendarService().isLeavePlanningCalendar(principalId, calendarEntry.getBeginPeriodDateTime(), calendarEntry.getEndPeriodDateTime());
         Map<String, String> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForDisplay(principalId, isPlanningCal);
         setEarnCodeList(earnCodes);
-    } 
+    }
+
+    private List<LeaveBlock> createNewLeaveBlockList(LeaveBlock lb){
+        List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
+        leaveBlocks.add(lb);
+        return leaveBlocks;
+    }
     
     private Multimap<Date, LeaveBlock> leaveBlockAggregator(String documentId) {
         List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(documentId);

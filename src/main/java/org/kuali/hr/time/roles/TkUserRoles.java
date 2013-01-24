@@ -229,7 +229,7 @@ public class TkUserRoles implements UserRoles {
         return MapUtils.isNotEmpty(this.approverRoles) || MapUtils.isNotEmpty(this.approverDelegateRoles);
     }
 
-
+    //Todo: rename method.  this is also used for leave calendar
     @Override
     public boolean isApproverForTimesheet(CalendarDocumentContract doc) {
         boolean approver = false;
@@ -248,6 +248,7 @@ public class TkUserRoles implements UserRoles {
         return approver;
     }
 
+    //Todo: rename method.  this is also used for leave calendar
     @Override
     public boolean isApproverForTimesheet(String docId) {
         boolean approver = false;

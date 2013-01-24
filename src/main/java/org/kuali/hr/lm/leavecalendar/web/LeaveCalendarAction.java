@@ -157,6 +157,7 @@ public class LeaveCalendarAction extends TkAction {
         }
 		
 		this.populateCalendarAndPayPeriodLists(request, lcf);
+
 		// KPME-1447
         List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
         if (lcdh != null && lcdh.getPrincipalId() != null && lcdh.getBeginDate() != null && lcdh.getEndDate() != null) {
@@ -183,6 +184,9 @@ public class LeaveCalendarAction extends TkAction {
         transfers.addAll(TkServiceLocator.getBalanceTransferService().getEligibleTransfers(lcf.getLeaveCalendarDocument(), LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND));
         boolean btDocExists = false;
         boolean lpDocExists = false;
+        boolean pendingBTDocumentExists = !TkServiceLocator.getLeaveCalendarService().isReadyToApprove(lcf.getLeaveCalendarDocument())
+                    && lcf.getLeaveCalendarDocument() != null;
+
         for(LeaveBlock leaveBlock : leaveBlocks) {
         	if(leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER) &&
         			!leaveBlock.getDescription().contains("Max carry over adjustment"))
@@ -190,10 +194,13 @@ public class LeaveCalendarAction extends TkAction {
             else if(leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT))
             	lpDocExists = true;
         }
-        if(btDocExists)
+        if(btDocExists
+                && !pendingBTDocumentExists ) {
         	warningMes.add("A balance transfer document for this calendar exists");
-        if(lpDocExists)
+        }
+        if(lpDocExists) {
         	warningMes.add("A leave payout document for this calendar exists");
+        }
 
         if(!transfers.isEmpty()) {
         	warningMes.add("You have exceeded the balance limit for one or more accrual categories within your leave plan.");

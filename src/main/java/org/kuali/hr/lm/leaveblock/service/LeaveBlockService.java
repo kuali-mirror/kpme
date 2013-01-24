@@ -28,7 +28,7 @@ public interface LeaveBlockService {
     public LeaveBlock getLeaveBlock(String leaveBlockId);
     public List<LeaveBlock> getLeaveBlocksForDocumentId(String documentId);
     public List<LeaveBlock> getLeaveBlocks(String principalId, Date beginDate, Date endDate);
-
+    public List<LeaveBlock> getLeaveBlocksWithType(String principalId, Date beginDate, Date endDate, String leaveBlockType);
     public void saveLeaveBlocks(List<LeaveBlock> leaveBlocks);
 
     public void saveLeaveBlock(LeaveBlock leaveBlock, String principalId);

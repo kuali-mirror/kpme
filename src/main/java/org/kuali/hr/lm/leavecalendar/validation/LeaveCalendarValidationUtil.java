@@ -42,6 +42,7 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 
 import com.google.common.base.Predicate;
+import org.kuali.rice.krad.util.ErrorMessage;
 
 public class LeaveCalendarValidationUtil {
     
@@ -139,6 +140,12 @@ public class LeaveCalendarValidationUtil {
                     if(eg != null && !StringUtils.isEmpty(eg.getWarningText())) {
                         aSet.add(eg.getWarningText());
                     }
+                }
+
+                if (StringUtils.equals(lb.getLeaveBlockType(), LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER)
+                        && !StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus())
+                        && !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, lb.getRequestStatus())) {
+                    aSet.add("A non-final balance transfer exists on this leave calendar.  It must be finalized before this leave calendar can be approved.");
                 }
             }
         }

@@ -23,8 +23,10 @@ import org.kuali.hr.lm.leaveblock.LeaveBlock;
 public interface LeaveBlockDao {
     public LeaveBlock getLeaveBlock(String leaveBlockId);
     public List<LeaveBlock> getLeaveBlocksForDocumentId(String documentId);
-    public List<LeaveBlock> getLeaveBlocks(String principalId, Date beginDate, Date endDate);
     public void saveOrUpdate(LeaveBlock leaveBlock);
+    public List<LeaveBlock> getLeaveBlocks(String principalId, Date beginDate, Date endDate);
+    public List<LeaveBlock> getLeaveBlocksWithType(String principalId, Date beginDate, Date endDate, String leaveBlockType);
+
     public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, Date currentDate);
     public List<LeaveBlock> getLeaveBlocksForDate(String principalId, Date leaveDate);
     public List<LeaveBlock> getLeaveBlocks(Date leaveDate, String accrualCategory, String principalId);

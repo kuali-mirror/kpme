@@ -132,7 +132,7 @@ public class WorkflowTagSupport {
 
     public boolean isApprovalLeaveButtonsEnabled() {
         LeaveCalendarDocument doc = TKContext.getCurrentLeaveCalendarDocument();
-        return isApprovalButtonsEnabled(doc);
+        return isApprovalButtonsEnabled(doc) && TkServiceLocator.getLeaveCalendarService().isReadyToApprove(doc);
     }
 
     private boolean isApprovalButtonsEnabled(CalendarDocumentContract doc) {

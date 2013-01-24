@@ -32,6 +32,7 @@ import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
@@ -255,6 +256,28 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         leaveCalendarDocumentAction(TkConstants.DOCUMENT_ACTIONS.DISAPPROVE, principalId, leaveCalendarDocument);
     }
 
+    public boolean isReadyToApprove(LeaveCalendarDocument leaveCalendarDocument) {
+        if (leaveCalendarDocument == null) {
+            return false;
+        }
+        List<LeaveBlock> balanceTransferLeaveBlocks =
+                TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(leaveCalendarDocument.getPrincipalId(),
+                                        leaveCalendarDocument.getCalendarEntry().getBeginPeriodDate(),
+                                        leaveCalendarDocument.getCalendarEntry().getEndPeriodDate(),
+                                        LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
+        if (CollectionUtils.isEmpty(balanceTransferLeaveBlocks))   {
+            return true;
+        }
+        for(LeaveBlock lb : balanceTransferLeaveBlocks) {
+            if (!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus())
+                    && !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, lb.getRequestStatus())) {
+                return false;
+            }
+        }
+        return true;
+
+    }
+
     protected void leaveCalendarDocumentAction(String action, String principalId, LeaveCalendarDocument leaveCalendarDocument) {
         WorkflowDocument wd = null;
         if (leaveCalendarDocument != null) {
@@ -292,37 +315,6 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
                     wd.disapprove("Disapproving timesheet.");
                 }
             }
-
-            //update leave blocks with appropriate request status
-            //KPME-2065 - LeaveCalendar should not change leave block status.  Keep as usage.
-            /*List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(leaveCalendarDocument.getDocumentId());
-            for (LeaveBlock lb : leaveBlocks) {
-                boolean lbChanged = false;
-                if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.ROUTE)) {
-                    if (!lb.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED)
-                            && !lb.getRequestStatus().equals(LMConstants.REQUEST_STATUS.DISAPPROVED)
-                            && !lb.getRequestStatus().equals(LMConstants.REQUEST_STATUS.REQUESTED)) {
-                        lb.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
-                        lbChanged = true;
-                    }
-                } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
-                    if (!lb.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED)
-                            && !lb.getRequestStatus().equals(LMConstants.REQUEST_STATUS.DISAPPROVED)) {
-                        lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
-                        lbChanged = true;
-                    }
-                } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
-                    if (!lb.getRequestStatus().equals(LMConstants.REQUEST_STATUS.APPROVED)
-                            && !lb.getRequestStatus().equals(LMConstants.REQUEST_STATUS.DISAPPROVED)) {
-                        lb.setRequestStatus(LMConstants.REQUEST_STATUS.DISAPPROVED);
-                        lbChanged = true;
-                    }
-                }
-                if (lbChanged) {
-                    TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, TKContext.getPrincipalId());
-                }
-            }*/
-
         }
     }
 

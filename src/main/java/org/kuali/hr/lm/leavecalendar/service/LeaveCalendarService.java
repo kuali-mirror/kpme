@@ -27,6 +27,9 @@ public interface LeaveCalendarService {
     public LeaveCalendarDocument getLeaveCalendarDocument(String documentId);
     public LeaveCalendarDocument getLeaveCalendarDocument(String principalId, CalendarEntries calendarEntries);
 
+
+    boolean isReadyToApprove(LeaveCalendarDocument leaveCalendarDocument);
+
     /**
      * Route the given leaveCalendarDocument
      * @param principalId

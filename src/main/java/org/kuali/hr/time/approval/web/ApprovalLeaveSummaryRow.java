@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
@@ -59,6 +60,11 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
     	boolean isEnroute =  StringUtils.equals(getApprovalStatus(), "ENROUTE") ;
 
         if(isEnroute){
+            LeaveCalendarDocument doc = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(this.documentId);
+            //is there a pending bt doc?
+            if (!TkServiceLocator.getLeaveCalendarService().isReadyToApprove(doc)) {
+                return false;
+            }
         	DocumentRouteHeaderValue routeHeader = TkServiceLocator.getTimeApproveService().getRouteHeader(this.getDocumentId());
             // check if there are any pending calendars are there
         	LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getMinBeginDatePendingLeaveCalendar(this.principalId);
