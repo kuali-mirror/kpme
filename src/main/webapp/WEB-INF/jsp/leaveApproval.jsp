@@ -74,7 +74,7 @@
 <%-- Leave Calendar detail template --%>
 <script type="text/template" id="leaveDetail-template">   	
     <tr class="leaveDetailRow_<@= docId @>">
-        <td colspan="3" class="<@= section.cssClass @>">
+        <td colspan="2" class="<@= section.cssClass @>">
 			<b><@= section.accrualCategory @></b>
       	</td>
         <@ _.each(section.daysDetail, function(tot) { @>
