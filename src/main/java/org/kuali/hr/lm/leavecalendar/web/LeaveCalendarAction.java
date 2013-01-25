@@ -80,7 +80,7 @@ public class LeaveCalendarAction extends TkAction {
         UserRoles roles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
         LeaveCalendarDocument doc = TKContext.getCurrentLeaveCalendarDocument();
 
-        if (!roles.isDocumentReadable(doc)) {
+        if (doc != null && !roles.isDocumentReadable(doc)) {
             throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "LeaveCalendarAction: docid: " + (doc == null ? "" : doc.getDocumentId()), "");
         }
     }
