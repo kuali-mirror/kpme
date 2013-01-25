@@ -164,13 +164,63 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 		
 		return valid;
 	}
-	
+
+    /**
+     * Validates all requirements for a single leave accrual category rule
+     * @param leaveAccrualCategoryRule
+     * @return
+     */
+    public boolean validateAccrualCategoryRule(AccrualCategoryRule leaveAccrualCategoryRule){
+        boolean valid = true;
+        // cannot validate the rule without this flag now
+        if (StringUtils.isBlank(leaveAccrualCategoryRule.getMaxBalFlag())) {
+            //System.out.println("Caught NPE at max balance FLAG");
+            this.putFieldError("add.accrualCategoryRules."+ "maxBalFlag", "error.required");
+            valid = false;
+        } else {
+            if (leaveAccrualCategoryRule.getMaxBalFlag().equals("Y")) {
+
+                if (leaveAccrualCategoryRule.getMaxBalance() == null) {
+                    //System.out.println("Caught NPE at max balance");
+                    this.putFieldError("add.accrualCategoryRules."+ "maxBalance", "error.required", "Max Balance");
+                    valid = false;
+                }
+                if (leaveAccrualCategoryRule.getMaxBalanceActionFrequency() == null) {
+                    this.putFieldError("add.accrualCategoryRules."+ "maxBalanceActionFrequency", "error.required","Max Balance Action Frequency");
+                    valid = false;
+                }
+                if (leaveAccrualCategoryRule.getActionAtMaxBalance() == null) {
+                    this.putFieldError("add.accrualCategoryRules."+ "actionAtMaxBalance", "error.required","Action at Max Balance");
+                    valid = false;
+                }
+
+                if (StringUtils.equals(LMConstants.ACTION_AT_MAX_BAL.TRANSFER,leaveAccrualCategoryRule.getActionAtMaxBalance())) {
+                    valid &= validateMaxBalAccCat(leaveAccrualCategoryRule.getMaxBalanceTransferToAccrualCategory(),ADD_LINE_LOCATION);
+                    valid &= validateMaxBalConvFact(leaveAccrualCategoryRule.getMaxBalanceTransferConversionFactor(),ADD_LINE_LOCATION);
+                    valid &= validateMaxBalTransferAmount(leaveAccrualCategoryRule.getMaxTransferAmount(),ADD_LINE_LOCATION);
+                } else if (StringUtils.equals(LMConstants.ACTION_AT_MAX_BAL.PAYOUT,leaveAccrualCategoryRule.getActionAtMaxBalance())) {
+                    valid &= validateMaxPayoutAmount(leaveAccrualCategoryRule.getMaxPayoutAmount(),ADD_LINE_LOCATION);
+                    valid &= validateMaxPayoutEarnCode(leaveAccrualCategoryRule.getMaxPayoutEarnCode(),ADD_LINE_LOCATION);
+                }
+            }
+
+            if (leaveAccrualCategoryRule != null&& leaveAccrualCategoryRule.getMaxBalFlag().equals("N")) {
+                BigDecimal noMaxBal = new BigDecimal(0);
+                leaveAccrualCategoryRule.setMaxBalance(noMaxBal);
+                leaveAccrualCategoryRule.setMaxBalanceActionFrequency(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END);
+                leaveAccrualCategoryRule.setActionAtMaxBalance(LMConstants.ACTION_AT_MAX_BAL.LOSE);
+
+            }
+
+        } //else
+        return valid;
+    }
 	/**
 	 * Validates if there's any gaps or overlaps between rules
 	 * @param accrualCategoryRules
 	 * @return
 	 */
-	public boolean validateAccrualRules(List<AccrualCategoryRule> accrualCategoryRules) {
+	public boolean validateAccrualRulesGapOverlap(List<AccrualCategoryRule> accrualCategoryRules) {
 		if (CollectionUtils.isNotEmpty(accrualCategoryRules)) {
 			List<AccrualCategoryRule> tempAccrualCategoryRules = new ArrayList<AccrualCategoryRule>(accrualCategoryRules);
 			// rules should be added in order, sort rules list by start field just in case
@@ -267,7 +317,10 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 				valid &= this.doesCategoryHaveRules(leaveAccrualCategory);
 				valid &= this.validateAccrualRulePresent(leaveAccrualCategory.getAccrualCategoryRules());
 				if(valid && CollectionUtils.isNotEmpty(leaveAccrualCategory.getAccrualCategoryRules())) {
-					valid &= this.validateAccrualRules(leaveAccrualCategory.getAccrualCategoryRules());
+					valid &= this.validateAccrualRulesGapOverlap(leaveAccrualCategory.getAccrualCategoryRules());
+                    for(AccrualCategoryRule acr: leaveAccrualCategory.getAccrualCategoryRules()){
+                        valid &= this.validateAccrualCategoryRule(acr);
+                    }
 				}
 				valid &= this.validateMinPercentWorked(leaveAccrualCategory.getMinPercentWorked(), ADD_LINE_LOCATION);
 				valid &= this.validateLeavePlan(leaveAccrualCategory.getLeavePlan(), leaveAccrualCategory.getEffectiveDate());
@@ -310,7 +363,9 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 						}
 						valid = this.validateStartEndUnits(accrualCategory.getAccrualCategoryRules(), leaveAccrualCategoryRule);
 					}
-					
+                    valid = this.validateAccrualCategoryRule(leaveAccrualCategoryRule);
+                    /*
+					///////////////////////////////////////////////////////////
 					// cannot validate the rule without this flag now
 					if (StringUtils.isBlank(leaveAccrualCategoryRule.getMaxBalFlag())) {
 						//System.out.println("Caught NPE at max balance FLAG");
@@ -351,7 +406,8 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 	
 						}
 					
-				  } //else					
+				  } //else  ///////////////////////////////////////////////
+				  */
 				}
 			}
 		}
@@ -402,7 +458,6 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 			}
 		  } //else
 		}*/
-
 		return valid;
 	}
 }

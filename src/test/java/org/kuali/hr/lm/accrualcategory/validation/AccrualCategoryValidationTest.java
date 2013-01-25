@@ -171,15 +171,15 @@ public class AccrualCategoryValidationTest extends KPMETestCase{
 		rule2.setEnd(999L);
 		accrualCategoryRules.add(rule2);
 		
-		boolean valid = new AccrualCategoryValidation().validateAccrualRules(accrualCategoryRules);
+		boolean valid = new AccrualCategoryValidation().validateAccrualRulesGapOverlap(accrualCategoryRules);
 		Assert.assertFalse("There should be gap error", valid);
 		
 		rule2.setStart(50L);	// correct
-		valid = new AccrualCategoryValidation().validateAccrualRules(accrualCategoryRules);
+		valid = new AccrualCategoryValidation().validateAccrualRulesGapOverlap(accrualCategoryRules);
 		Assert.assertTrue("There should not be any error", valid);
 		
 		rule2.setStart(45L);	//overlap
-		valid = new AccrualCategoryValidation().validateAccrualRules(accrualCategoryRules);
+		valid = new AccrualCategoryValidation().validateAccrualRulesGapOverlap(accrualCategoryRules);
 		Assert.assertFalse("There should be overlap error", valid);
 	}
 	
