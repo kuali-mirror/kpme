@@ -27,8 +27,6 @@ import org.kuali.hr.core.document.calendar.CalendarDocumentContract;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kew.api.WorkflowDocument;
@@ -82,7 +80,7 @@ public class TkSearchableAttributeServiceImpl implements
 			if(!workAreas.contains(assign.getWorkArea())){
 				workAreas.add(assign.getWorkArea());
 			}
-			Job job = TkServiceLocator.getJobService().getJob(assign.getPrincipalId(), assign.getJobNumber(), document.getAsOfDate());
+			Job job = TkServiceLocator.getJobService().getJob(assign.getPrincipalId(), assign.getJobNumber(), assign.getEffectiveDate());
 
 			if(!salGroups.contains(job.getHrSalGroup())){
 				salGroups.add(job.getHrSalGroup());
