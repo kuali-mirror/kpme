@@ -50,10 +50,7 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.timeblock.service.TimeBlockService;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
-import org.kuali.hr.time.util.TkConstants;
-import org.kuali.hr.time.util.TkTimeBlockAggregate;
+import org.kuali.hr.time.util.*;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -162,7 +159,10 @@ public class TkTestUtils {
 		block.setBeginTimestamp(ci);
 		block.setEndTimestamp(co);
 		block.setHours(hours);
-		block.setEarnCode(earnCode);
+        block.setBeginTimeDisplay(new DateTime(ci.getTime()));
+        block.setEndTimeDisplay(new DateTime(co.getTime()));
+
+        block.setEarnCode(earnCode);
 		block.setJobNumber(jobNumber);
 		block.setWorkArea(workArea);
 
@@ -342,17 +342,21 @@ public class TkTestUtils {
 		// that were passed in.
 		Map<String,BigDecimal> ecToSumMap = new HashMap<String,BigDecimal>() {{ for (String ec : ecToHoursMap.keySet()) { put(ec, BigDecimal.ZERO); }}};
 
-		for (TimeBlock bl : aggregate.getFlattenedTimeBlockList())
-			for (TimeHourDetail thd : bl.getTimeHourDetails())
-				if (ecToSumMap.containsKey(thd.getEarnCode()))
+		for (TimeBlock bl : aggregate.getFlattenedTimeBlockList()) {
+			for (TimeHourDetail thd : bl.getTimeHourDetails()) {
+				if (ecToSumMap.containsKey(thd.getEarnCode())) {
 					ecToSumMap.put(thd.getEarnCode(), ecToSumMap.get(thd.getEarnCode()).add(thd.getHours()));
+                }
+            }
+        }
 
 		// Assert that our values are correct.
-		for (String key : ecToHoursMap.keySet())
+		for (String key : ecToHoursMap.keySet()) {
 			Assert.assertEquals(
 					msg + " >> ("+key+") Wrong number of hours expected: " + ecToHoursMap.get(key) + " found: " + ecToSumMap.get(key) + " :: ",
 					0,
 					ecToHoursMap.get(key).compareTo(ecToSumMap.get(key)));
+        }
 	}
 
 	/**
@@ -371,25 +375,33 @@ public class TkTestUtils {
 		// that were passed in.
 		Map<String,BigDecimal> ecToSumMap = new HashMap<String,BigDecimal>() {{ for (String ec : ecToHoursMap.keySet()) { put(ec, BigDecimal.ZERO); }}};
 
-		List<FlsaWeek> flsaWeeks = aggregate.getFlsaWeeks(DateTimeZone.forID(TkServiceLocator.getTimezoneService().getUserTimezone()));
+		List<FlsaWeek> flsaWeeks = aggregate.getFlsaWeeks(DateTimeZone.forID(TKUtils.getSystemTimeZone()));
 		Assert.assertTrue(msg + " >> Not enough FLSA weeks to verify aggregate hours, max: " + (flsaWeeks.size() - 1), flsaWeeks.size() > flsaWeek);
 
 		// Build our Sum Map.
 		FlsaWeek week = flsaWeeks.get(flsaWeek);
 		List<FlsaDay> flsaDays = week.getFlsaDays();
-		for (FlsaDay day : flsaDays)
-			for (TimeBlock bl : day.getAppliedTimeBlocks())
-				for (TimeHourDetail thd : bl.getTimeHourDetails())
-					if (ecToSumMap.containsKey(thd.getEarnCode()))
+		for (FlsaDay day : flsaDays) {
+			for (TimeBlock bl : day.getAppliedTimeBlocks()) {
+				for (TimeHourDetail thd : bl.getTimeHourDetails()) {
+					if (ecToSumMap.containsKey(thd.getEarnCode())) {
 						ecToSumMap.put(thd.getEarnCode(), ecToSumMap.get(thd.getEarnCode()).add(thd.getHours()));
+                    }
+                }
+            }
+        }
+
 
 		// Assert that our values are correct.
-		for (String key : ecToHoursMap.keySet())
+		for (String key : ecToHoursMap.keySet()) {
 			Assert.assertEquals(
 					msg + " >> ("+key+") Wrong number of hours expected: " + ecToHoursMap.get(key) + " found: " + ecToSumMap.get(key) + " :: ",
 					0,
 					ecToHoursMap.get(key).compareTo(ecToSumMap.get(key)));
+        }
 	}
+
+
 	public static void verifyAggregateHourSums(final Map<String,BigDecimal> ecToHoursMap, TkTimeBlockAggregate aggregate, int flsaWeek) {
 		TkTestUtils.verifyAggregateHourSums("", ecToHoursMap, aggregate, flsaWeek);
 	}

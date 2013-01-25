@@ -212,20 +212,16 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
 				for (ShiftDifferentialRule rule : shiftDifferentialRules) {
 					Set<String> fromEarnGroup = TkServiceLocator.getEarnCodeGroupService().getEarnCodeListForEarnCodeGroup(rule.getFromEarnGroup(), TKUtils.getTimelessDate(timesheetDocument.getCalendarEntry().getBeginPeriodDateTime()));
 
-                    // Because of the way java.sql.Time are stored, we need to first
-                    // construct a LocalTime in the System Time Zone, then convert that
-                    // time to the users time zone.
-                    LocalTime ruleStart = new LocalTime(rule.getBeginTime(), TKUtils.getSystemDateTimeZone());
-                    LocalTime ruleEnd = new LocalTime(rule.getEndTime(), TKUtils.getSystemDateTimeZone());
-                    ruleStart = new LocalTime(ruleStart, zone);
-                    ruleEnd = new LocalTime(ruleEnd, zone);
+                    LocalTime ruleStart = new LocalTime(rule.getBeginTime(), zone);
+                    LocalTime ruleEnd = new LocalTime(rule.getEndTime(), zone);
 
 
 					DateTime shiftEnd = ruleEnd.toDateTime(currentDay);
 					DateTime shiftStart = ruleStart.toDateTime(currentDay);
 
-					if (shiftEnd.isBefore(shiftStart) || shiftEnd.isEqual(shiftStart))
+					if (shiftEnd.isBefore(shiftStart) || shiftEnd.isEqual(shiftStart)) {
 						shiftEnd = shiftEnd.plusDays(1);
+                    }
 					Interval shiftInterval = new Interval(shiftStart, shiftEnd);
 
 					// Set up buckets to handle previous days time accumulations
@@ -468,8 +464,14 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
         return filtered;
     }
 
-
-    private void applyAccumulatedWrapper(BigDecimal accumHours, Interval evalInterval, List<Interval>accumulatedBlockIntervals, List<TimeBlock>accumulatedBlocks, List<TimeBlock> previousBlocks, BigDecimal hoursToApplyPrevious, BigDecimal hoursToApply, ShiftDifferentialRule rule) {
+    private void applyAccumulatedWrapper(BigDecimal accumHours,
+                                         Interval evalInterval,
+                                         List<Interval>accumulatedBlockIntervals,
+                                         List<TimeBlock>accumulatedBlocks,
+                                         List<TimeBlock> previousBlocks,
+                                         BigDecimal hoursToApplyPrevious,
+                                         BigDecimal hoursToApply,
+                                         ShiftDifferentialRule rule) {
         if (accumHours.compareTo(rule.getMinHours()) >= 0) {
             this.applyPremium(evalInterval, accumulatedBlockIntervals, accumulatedBlocks, previousBlocks, hoursToApplyPrevious, hoursToApply, rule.getEarnCode());
         }
@@ -508,7 +510,7 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
      * @param earnCode what earn code to create time hour detail entry for.
      */
 	void applyPremium(Interval shift, List<Interval> blockIntervals, List<TimeBlock> blocks, List<TimeBlock> previousBlocks, BigDecimal initialHours, BigDecimal hours, String earnCode) {
-		for (int i=0; i<blocks.size(); i++) {
+        for (int i=0; i<blocks.size(); i++) {
 			TimeBlock b = blocks.get(i);
 
             // Only apply initial hours to the first timeblock.
