@@ -260,7 +260,7 @@ public class TkTimeBlockAggregate {
 			
 			flsaWeek.add(currentWeek);
 			
-			if (index == flsaWeeks.size() - 1 && !currentWeek.isLastWeekFull()) {
+			if (index == currentWeeks.size() - 1 && !currentWeek.isLastWeekFull()) {
 				CalendarEntries nextCalendarEntry = TkServiceLocator.getCalendarEntriesService().getNextCalendarEntriesByCalendarId(payCalendar.getHrCalendarId(), payCalendarEntry);
 				if (nextCalendarEntry != null) {
 					TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, nextCalendarEntry.getBeginPeriodDateTime(), nextCalendarEntry.getEndPeriodDateTime());

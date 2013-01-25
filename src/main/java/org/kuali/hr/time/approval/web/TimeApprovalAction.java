@@ -58,21 +58,15 @@ public class TimeApprovalAction extends ApprovalAction{
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		TimeApprovalActionForm taaf = (TimeApprovalActionForm)form;
-		String searchField = taaf.getSearchField();
-		String searchTerm = taaf.getSearchTerm();
-		String principalId;
 		
-        if(StringUtils.equals("documentId", searchField)){
-        	TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(searchTerm);
-        	principalId = tdh.getPrincipalId();
-        } else {
-        	principalId = searchTerm;
+        if (StringUtils.equals("documentId", taaf.getSearchField())) {
+        	TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(taaf.getSearchTerm());
+        	taaf.setSearchTerm(tdh != null ? tdh.getPrincipalId() : StringUtils.EMPTY);
         }
+        
     	taaf.setSearchField("principalId");
-    	taaf.setSearchTerm(principalId);
-       
         List<String> principalIds = new ArrayList<String>();
-        principalIds.add(principalId);
+        principalIds.add(taaf.getSearchTerm());
         List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
         if (persons.isEmpty()) {
         	taaf.setApprovalRows(new ArrayList<ApprovalTimeSummaryRow>());
@@ -85,7 +79,7 @@ public class TimeApprovalAction extends ApprovalAction{
    	        taaf.setPayCalendarEntries(payCalendarEntries);
    	        taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(payCalendarEntries, new ArrayList<Boolean>()));
         	
-	        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, payCalendarEntries.getEndPeriodDate());
+	        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(taaf.getSearchTerm(), payCalendarEntries.getEndPeriodDate());
 	        if(!assignments.isEmpty()){
 	        	 for(Long wa : taaf.getWorkAreaDescr().keySet()){
 	        		for (Assignment assign : assignments) {
