@@ -36,6 +36,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.action.ActionRedirect;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -53,6 +54,8 @@ import org.kuali.hr.time.calendar.LeaveCalendar;
 import org.kuali.hr.time.detail.web.ActionFormUtils;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
+import org.kuali.hr.time.roles.TkUserRoles;
+import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
@@ -64,21 +67,36 @@ import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.UrlFactory;
 
 public class LeaveCalendarAction extends TkAction {
 
-	private static final Logger LOG = Logger
-			.getLogger(LeaveCalendarAction.class);
+	private static final Logger LOG = Logger.getLogger(LeaveCalendarAction.class);
 
+    @Override
+    protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
+        UserRoles roles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
+        LeaveCalendarDocument doc = TKContext.getCurrentLeaveCalendarDocument();
+
+        if (!roles.isDocumentReadable(doc)) {
+            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "LeaveCalendarAction: docid: " + (doc == null ? "" : doc.getDocumentId()), "");
+        }
+    }
+    
 	@Override
-	public ActionForward execute(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
-
 		String documentId = lcf.getDocumentId();
+		
+        if (StringUtils.equals(request.getParameter("command"), "displayDocSearchView")
+        		|| StringUtils.equals(request.getParameter("command"), "displayActionListView") ) {
+        	documentId = (String) request.getParameter("docId");
+        }
+
+        LOG.debug("DOCID: " + documentId);
+        
 		// if the reload was trigger by changing of the selectedPayPeriod, use the passed in parameter as the calendar entry id
 		String calendarEntryId = StringUtils.isNotBlank(request.getParameter("selectedPP")) ? request.getParameter("selectedPP") : lcf.getCalEntryId();
 		
@@ -719,6 +737,33 @@ public class LeaveCalendarAction extends TkAction {
     public ActionForward leavePayout(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
 
         return mapping.findForward("basic");
+    }
+    
+    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward("basic");
+    	
+    	if (StringUtils.equals(request.getParameter("command"), "displayDocSearchView")
+        		|| StringUtils.equals(request.getParameter("command"), "displayActionListView") ) {
+        	
+        	String docId = (String) request.getParameter("docId");
+        	LeaveCalendarDocument leaveCalendarDocument = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(docId);
+        	String timesheetPrincipalName = KimApiServiceLocator.getPersonService().getPerson(leaveCalendarDocument.getPrincipalId()).getPrincipalName();
+        	
+        	String principalId = TKUser.getCurrentTargetPerson().getPrincipalId();
+        	String principalName = KimApiServiceLocator.getPersonService().getPerson(principalId).getPrincipalName();
+        	
+        	StringBuilder builder = new StringBuilder();
+        	if (!StringUtils.equals(principalName, timesheetPrincipalName)) {
+        		builder.append("LeaveApproval.do");
+        	} else {
+        		builder.append("LeaveCalendar.do");
+        		builder.append("?docmentId=" + docId);
+        	}
+        	
+        	forward = new ActionRedirect(builder.toString());
+        }
+    	
+    	return forward;
     }
 
 }
