@@ -60,21 +60,15 @@ public class LeaveApprovalAction extends ApprovalAction{
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		LeaveApprovalActionForm laaf = (LeaveApprovalActionForm)form;
-		String searchField = laaf.getSearchField();
-		String searchTerm = laaf.getSearchTerm();
-		String principalId;
 		
-        if(StringUtils.equals("documentId", searchField)){
-        	LeaveCalendarDocumentHeader lcd = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(searchTerm);
-        	principalId = lcd.getPrincipalId();
-        } else {
-        	principalId = searchTerm;
+        if (StringUtils.equals("documentId", laaf.getSearchField())) {
+        	LeaveCalendarDocumentHeader lcd = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(laaf.getSearchTerm());
+        	laaf.setSearchTerm(lcd != null ? lcd.getPrincipalId() : StringUtils.EMPTY);
         }
+        
     	laaf.setSearchField("principalId");
-    	laaf.setSearchTerm(principalId);
-       
         List<String> principalIds = new ArrayList<String>();
-        principalIds.add(principalId);
+        principalIds.add(laaf.getSearchTerm());
         List<TKPerson> persons = TkServiceLocator.getPersonService().getPersonCollection(principalIds);
         CalendarEntries payCalendarEntries = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(laaf.getHrPyCalendarEntriesId());
         if (persons.isEmpty()) {
@@ -86,7 +80,7 @@ public class LeaveApprovalAction extends ApprovalAction{
    	        laaf.setPayCalendarEntries(payCalendarEntries);
    	        laaf.setLeaveCalendarDates(TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(payCalendarEntries));
         	
-	        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, payCalendarEntries.getEndPeriodDate());
+	        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(laaf.getSearchTerm(), payCalendarEntries.getEndPeriodDate());
 	        if(!assignments.isEmpty()){
 	        	 for(Long wa : laaf.getWorkAreaDescr().keySet()){
 	        		for (Assignment assign : assignments) {

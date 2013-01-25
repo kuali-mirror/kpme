@@ -54,15 +54,13 @@
 		</tr>
 		</tbody>
      </table>
-	
-	<c:if test="${fn:length(Form.leaveApprovalRows) != 0}">
-		
-       	<tk:approvalSearch calType="leaveCalendar" searchId="searchTerm" />
 
-		<lm:leaveApproval />
+    <tk:approvalSearch calType="leaveCalendar" searchId="searchTerm" />
 
+    <lm:leaveApproval />
+
+    <c:if test="${fn:length(Form.leaveApprovalRows) != 0}">
 		<tk:approvalButtons refreshId="leaveRefresh" approvable="${Form.anyApprovalRowApprovable}" />
-	
 	</c:if>
 
 </div>
