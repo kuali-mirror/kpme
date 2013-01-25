@@ -568,7 +568,7 @@ public class AccrualServiceImpl implements AccrualService {
 		}
 		List<SystemScheduledTimeOff> sstoList = new ArrayList<SystemScheduledTimeOff>();
 		for(String lpString : lpStringSet) {
-			List<SystemScheduledTimeOff> aList = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffForPayPeriod(lpString, startDate, endDate);
+			List<SystemScheduledTimeOff> aList =TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOffsForLeavePlan(startDate, endDate, lpString);
 			if(CollectionUtils.isNotEmpty(aList)) {
 				sstoList.addAll(aList);
 			}

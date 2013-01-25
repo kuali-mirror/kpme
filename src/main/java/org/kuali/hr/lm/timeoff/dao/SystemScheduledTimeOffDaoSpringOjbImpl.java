@@ -128,5 +128,45 @@ public class SystemScheduledTimeOffDaoSpringOjbImpl extends PlatformAwareDaoBase
         
         return results;
     }
+	
+	@Override
+    @SuppressWarnings("unchecked")
+    public List<SystemScheduledTimeOff> getSystemScheduledTimeOffsForLeavePlan(Date fromAccruedDate,Date toAccruedDate, String leavePlan) {
+    	List<SystemScheduledTimeOff> results = new ArrayList<SystemScheduledTimeOff>();
+    	Criteria root = new Criteria();
+
+        if (fromAccruedDate != null) {
+            root.addGreaterOrEqualThan("accruedDate", fromAccruedDate);
+        }
+        if (toAccruedDate != null) {
+            root.addLessOrEqualThan("accruedDate", toAccruedDate);
+        }
+        
+        if(StringUtils.isNotEmpty(leavePlan)) {
+        	root.addEqualTo("leavePlan", leavePlan);
+        }
+    	Criteria activeFilter = new Criteria();
+        activeFilter.addEqualTo("active", true);
+        root.addAndCriteria(activeFilter);
+       
+        Criteria effdt = new Criteria();
+        effdt.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
+        effdt.addEqualToField("accruedDate", Criteria.PARENT_QUERY_PREFIX + "accruedDate");
+        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(SystemScheduledTimeOff.class, effdt);
+        effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
+        root.addEqualTo("effectiveDate", effdtSubQuery);
+        
+        Criteria timestamp = new Criteria();
+        timestamp.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
+        timestamp.addEqualToField("accruedDate", Criteria.PARENT_QUERY_PREFIX + "accruedDate");
+        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(SystemScheduledTimeOff.class, timestamp);
+        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
+        root.addEqualTo("timestamp", timestampSubQuery);
+        
+        Query query = QueryFactory.newQuery(SystemScheduledTimeOff.class, root);
+        results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
+        
+        return results;
+    }
 
 }

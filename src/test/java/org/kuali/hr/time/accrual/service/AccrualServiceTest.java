@@ -118,6 +118,11 @@ public class AccrualServiceTest extends KPMETestCase {
 			} 
 		}
 		
+		// the disabled system scheduled time off on 04/20/2012 should not generate accruals
+		intervalDate = new Date((new DateTime(2012, 4, 20, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(PRINCIPAL_ID, intervalDate);
+		Assert.assertTrue("There should be 0 leave block for date 04/20/2012.", leaveBlockList.isEmpty());
+		
 		// there should be 1 leave blocks on 04/30/2012, regular accrual of 8 hours
 		intervalDate = new Date((new DateTime(2012, 4, 30, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(PRINCIPAL_ID, intervalDate);

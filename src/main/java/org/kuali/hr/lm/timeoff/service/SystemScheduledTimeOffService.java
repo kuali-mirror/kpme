@@ -53,4 +53,14 @@ public interface SystemScheduledTimeOffService {
 
     List<SystemScheduledTimeOff> getSystemScheduledTimeOffs(Date fromEffdt, Date toEffdt, String earnCode, Date fromAccruedDate, Date toAccruedDate, 
     														Date fromSchTimeOffDate, Date toSchTimeOffDate, String active, String showHist);
+    /**
+     * Get the list of all active system scheduled time off for the given leave plan and dates
+     * @param fromEffdt
+     * @param toEffdt
+     * @param fromAccruedDate
+     * @param toAccruedDate
+     * @param leavePlan
+     * @return
+     */
+    public List<SystemScheduledTimeOff> getSystemScheduledTimeOffsForLeavePlan(Date fromAccruedDate,Date toAccruedDate, String leavePlan);
 }

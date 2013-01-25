@@ -81,5 +81,10 @@ public class SystemScheduledTimeOffServiceImpl implements SystemScheduledTimeOff
         return systemScheduledTimeOffDao.getSystemScheduledTimeOffs(fromEffdt, toEffdt, earnCode, fromAccruedDate, toAccruedDate, fromSchTimeOffDate, 
         															toSchTimeOffDate, active, showHist);
     }
+    
+    @Override
+    public List<SystemScheduledTimeOff> getSystemScheduledTimeOffsForLeavePlan(Date fromAccruedDate,Date toAccruedDate, String leavePlan) {
+    	return systemScheduledTimeOffDao.getSystemScheduledTimeOffsForLeavePlan(fromAccruedDate, toAccruedDate, leavePlan);
+    }
 
 }
