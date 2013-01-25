@@ -191,29 +191,9 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                         		lsr.setLeaveBalance(leaveBalance);
                             }
 
-							//Logic should be implemented which would take action on over-the-limit balances with frequency on-demand, if the user
-                        	//did not transfer the excess themselves, upon calendar submission/approval.
-                        	//Doing so would eliminate the need to suppress the nested method calls in cases dealing with calendar entries
-                        	//that have moved beyond status initiated.
-                        	DateTime startDateTime = new DateTime(calendarEntry.getBeginPeriodDateTime());
-                        	DateTime endDateTime = new DateTime(calendarEntry.getEndPeriodDateTime());
-                        	Interval interval = new Interval(startDateTime,endDateTime);
-                        	if(interval.containsNow() || !calendarEntry.getEndPeriodDate().after(TKUtils.getCurrentDate())) {
-                        		//current or past calendar is being used for leave summary calculation
-                        		if(ObjectUtils.isNotNull(approvedLcdh)) {
-	                        		if(approvedLcdh.getEndDate().before(TKUtils.getCurrentDate())) {
-	                        			//Depending on requirements for on demand display, may need to update this.
-	                        			//TODO: only enable buttons if calendar is submitable?
-			                            markTransferable(lsr,acRule,principalId);
-			                            markPayoutable(lsr,acRule,principalId);
-	                        		}
-                        		}
-                        		// One situation where this would cause problems is when there is no previous approved leave calendar document
-                        		// i.e. When someone starts a new position, or if the principal has no leave eligible jobs. ( no leave calendar doc ).
-                        		// if someone were to move into a new leave plan and a balance was transferred that exceeded the new leave plans
-                        		// balance limit, with a transfer frequency on-demand, the principal would not be allowed to transfer this excess.
-                        		// fringe case, but should still be addressed...
-                        	}
+                            markTransferable(lsr,acRule,principalId);
+                            markPayoutable(lsr,acRule,principalId);
+
                             rows.add(lsr);
                         }
                     }
@@ -281,7 +261,8 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
     			BigDecimal adjustedMaxBalance = maxBalance.multiply(fte);
     			List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, TKUtils.getCurrentDate());
     			for(EmployeeOverride override : overrides) {
-    				if(StringUtils.equals(override.getOverrideType(),TkConstants.EMPLOYEE_OVERRIDE_TYPE.get("MB"))) {
+    				if(StringUtils.equals(override.getOverrideType(),TkConstants.EMPLOYEE_OVERRIDE_TYPE.get("MB"))
+    						&& override.isActive()) {
     					adjustedMaxBalance = new BigDecimal(override.getOverrideValue());
     					break;
     				}
@@ -315,7 +296,8 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
     			BigDecimal adjustedMaxBalance = maxBalance.multiply(fte);
     			List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, TKUtils.getCurrentDate());
     			for(EmployeeOverride override : overrides) {
-    				if(StringUtils.equals(override.getOverrideType(),TkConstants.EMPLOYEE_OVERRIDE_TYPE.get("MB"))) {
+    				if(StringUtils.equals(override.getOverrideType(),TkConstants.EMPLOYEE_OVERRIDE_TYPE.get("MB"))
+    						&& override.isActive()) {
     					adjustedMaxBalance = new BigDecimal(override.getOverrideValue());
     					break;
     				}

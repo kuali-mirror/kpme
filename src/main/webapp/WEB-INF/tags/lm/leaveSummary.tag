@@ -1,6 +1,8 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
 <jsp:useBean id="tagSupport" class="org.kuali.hr.time.util.TagSupport"/>
+<jsp:useBean id="workflowTagSupport" class="org.kuali.hr.time.workflow.web.WorkflowTagSupport"/>
+
 <%@ attribute name="leaveSummary" required="true" type="org.kuali.hr.lm.leaveSummary.LeaveSummary"%>
  
 <div id="leave-summary">
@@ -40,23 +42,28 @@
 								<td>${row.carryOver}</td>
 								<td>${row.ytdAccruedBalance}</td>
 								<td>${row.ytdApprovedUsage}</td>
-                                <td>${row.accruedBalance}<c:if test="${row.transferable || row.payoutable}"><br/></c:if>
-								<c:choose>
-        							<c:when test="${row.transferable}">
-                						<input type="button" id="lm-transfer-button_${row.accrualCategoryRuleId}" class="button" value="Transfer" name="transfer"/>
-        							</c:when>
-        							<c:otherwise>
-        							<%--<input disabled id="lm-transfer-button" type="button" class="button" value="Transfer" name="transfer"/>--%>
-        							</c:otherwise>
-        						</c:choose>
-								<c:choose>
-        							<c:when test="${row.payoutable}">
-                						<input type="button" id="lm-payout-button" class="button" value="Payout" name="payout" onclick="showOnDemandBalancePayoutDialog()"/>
-        							</c:when>
-        							<c:otherwise>
-        							<%--<input disabled id="lm-payout-button" type="button" class="button" value="Payout" name="payout"/>--%>
-        							</c:otherwise>
-        						</c:choose>
+                                <td>${row.accruedBalance}<c:if test="${not empty Form.documentId}"><c:if test="${row.transferable || row.payoutable}"><br/></c:if>
+    							<c:if test="${row.transferable}">
+    								<c:choose>
+    									<c:when test="${(workflowTagSupport.displayingLeaveRouteButton && workflowTagSupport.routeLeaveButtonEnabled) || workflowTagSupport.displayingCurrentPeriodRouteButtonWithNoDelinquencies}">
+            								<input type="button" id="lm-transfer-button_${row.accrualCategoryRuleId}" class="button" value="Transfer" name="transfer"/>
+    									</c:when>
+    									<c:otherwise>
+    										<input disabled id="lm-transfer-button_${row.accrualCategoryRuleId}" class="button" value="Transfer" name="transfer"/>
+    									</c:otherwise>
+    								</c:choose>
+								</c:if>
+    							<c:if test="${row.payoutable}">
+     								<c:choose>
+    									<c:when test="${(workflowTagSupport.displayingLeaveRouteButton && workflowTagSupport.routeLeaveButtonEnabled) || workflowTagSupport.displayingCurrentPeriodRouteButtonWithNoDelinquencies}">
+	                						<input type="button" id="lm-payout-button_${row.accrualCategoryRuleId}" class="button" value="Payout" name="payout"/>
+	        							</c:when>
+	        							<c:otherwise>
+	        								<input disabled id="lm-payout-button_${row.accrualCategoryRuleId}" class="button" value="Payout" name="payout"/>
+	        							</c:otherwise>
+	        						</c:choose>
+								</c:if>
+								</c:if>
         						</td>
 								<td style="border: 3px double #ccc;border-bottom-color: gray;">${row.leaveBalance}</td>
 								<td>${row.usageLimit}</td>

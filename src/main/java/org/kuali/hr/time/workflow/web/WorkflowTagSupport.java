@@ -55,6 +55,19 @@ public class WorkflowTagSupport {
         LeaveCalendarDocument doc = TKContext.getCurrentLeaveCalendarDocument();
         return isDisplayingRouteButton(doc);
     }
+    
+    public boolean isDisplayingCurrentPeriodRouteButtonWithNoDelinquencies() {
+    	LeaveCalendarDocument doc = TKContext.getCurrentLeaveCalendarDocument();
+    	if(TKUtils.getCurrentDate().after(DateUtils.addMilliseconds(doc.getCalendarEntry().getBeginPeriodDate(),1)) &&
+    			TKUtils.getCurrentDate().before(DateUtils.addMilliseconds(doc.getCalendarEntry().getEndPeriodDate(), -1))) {
+    		if(!isDelinquent(doc) && isDisplayingRouteButton(doc))
+    			return true;
+    		else
+    			return false;
+    	}
+    	else
+    		return false;
+    }
 
     private boolean isDisplayingRouteButton(CalendarDocumentContract doc) {
         TkUserRoles roles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
