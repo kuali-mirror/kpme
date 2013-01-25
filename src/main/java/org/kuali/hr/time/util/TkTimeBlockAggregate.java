@@ -211,22 +211,20 @@ public class TkTimeBlockAggregate {
 		List<FlsaWeek> flsaWeeks = new ArrayList<FlsaWeek>();
 		List<TimeBlock> flatSortedBlockList = getFlattenedTimeBlockList();
 		FlsaWeek currentWeek = new FlsaWeek(flsaDayConstant, flsaBeginLocalTime, LocalTime.fromDateFields(payCalendarEntry.getBeginPeriodDateTime()));
-//		commented additional week addition, as causing an extra day on UI
+		FlsaDay flsaDay = new FlsaDay(startLDT, flatSortedBlockList, zone);
+		currentWeek.addFlsaDay(flsaDay);
 		flsaWeeks.add(currentWeek);
 
-		for (int i = 0; i<dayTimeBlockList.size(); i++) {
+		for (int i = 1; i < dayTimeBlockList.size(); i++) {
 			LocalDateTime currentDate = startLDT.plusDays(i);
-			FlsaDay flsaDay = new FlsaDay(currentDate, flatSortedBlockList, zone);
+			flsaDay = new FlsaDay(currentDate, flatSortedBlockList, zone);
 
 			if (currentDate.getDayOfWeek() == flsaDayConstant) {
 				currentWeek = new FlsaWeek(flsaDayConstant, flsaBeginLocalTime, flsaBeginLocalTime);
-				flsaWeeks.add(currentWeek);
-				
-				currentWeek.addFlsaDay(flsaDay);
-			} else {
-				// add to existing week.
-				currentWeek.addFlsaDay(flsaDay);
+				flsaWeeks.add(currentWeek);	
 			}
+			
+			currentWeek.addFlsaDay(flsaDay);
 		}
 
 		return flsaWeeks;
