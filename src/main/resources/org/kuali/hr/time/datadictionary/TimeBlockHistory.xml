@@ -48,6 +48,7 @@
                 <ref bean="TimeBlockHistory-userPrincipalId"/>
                 <ref bean="TimeBlockHistory-principalId"/>
                 <ref bean="TimeBlockHistory-actionHistory"/>
+                <ref bean="TimeBlockHistory-timesheetDocumentHeader.documentId"/>
                 <ref bean="TimeBlockHistory-timesheetDocumentHeader.documentStatus"/>
             </list>
         </property>
@@ -58,9 +59,7 @@
                     <property name="primitiveAttributes">
                         <list>
                             <bean parent="PrimitiveAttributeDefinition" 
-                            	  p:sourceName="documentId" p:targetName="documentId"/>
-                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="principalId"
-                                  p:targetName="principalId"/>
+                            	  p:sourceName="timesheetDocumentHeader.documentId" p:targetName="documentId"/>
                             <bean parent="PrimitiveAttributeDefinition"
                                   p:sourceName="timesheetDocumentHeader.documentStatus" p:targetName="documentStatus"/>
                         </list>
@@ -333,6 +332,15 @@
         <property name="name" value="amount"/>
         <property name="label" value="Amount"/>
         <property name="description" value="amount"/>
+    </bean>
+    
+    <bean id="TimeBlockHistory-timesheetDocumentHeader.documentId"
+          parent="TimeBlockHistory-timesheetDocumentHeader.documentId-parentBean"/>
+    <bean id="TimeBlockHistory-timesheetDocumentHeader.documentId-parentBean" abstract="true"
+          parent="TimesheetDocumentHeader-documentId">
+        <property name="name" value="timesheetDocumentHeader.documentId"/>
+        <property name="label" value="Document Id"/>
+        <property name="required" value="false"/>
     </bean>
 
     <bean id="TimeBlockHistory-timesheetDocumentHeader.documentStatus"

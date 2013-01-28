@@ -46,6 +46,7 @@
                 <ref bean="TimeBlockHistoryDetail-timeBlockHistory.userPrincipalId"/>
                 <ref bean="TimeBlockHistoryDetail-timeBlockHistory.principalId"/>
                 <ref bean="TimeBlockHistoryDetail-timeBlockHistory.actionHistory"/>
+                <ref bean="TimeBlockHistoryDetail-timeBlockHistory.timesheetDocumentHeader.documentId"/>
                 <ref bean="TimeBlockHistoryDetail-timeBlockHistory.timesheetDocumentHeader.documentStatus"/>
                 <ref bean="TimeBlockHistoryDetail-beginDate"/>
                 <ref bean="TimeBlockHistoryDetail-timeBlockHistory.clockLogCreated"/>
@@ -62,6 +63,15 @@
 						</list>
 					</property>
 				</bean>
+				<bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="userPrincipal" />
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="timeBlockHistory.userPrincipalId"
+                                p:targetName="principalId" />
+                        </list>
+                    </property>
+                </bean>
 				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="timeBlockHistory" />
 					<property name="primitiveAttributes">
@@ -303,6 +313,15 @@
         <property name="label" value="Amount"/>
         <property name="description" value="amount"/>
     </bean>
+    
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.timesheetDocumentHeader.documentId"
+          parent="TimeBlockHistoryDetail-timeBlockHistory.timesheetDocumentHeader.documentId-parentBean"/>
+    <bean id="TimeBlockHistoryDetail-timeBlockHistory.timesheetDocumentHeader.documentId-parentBean" abstract="true"
+          parent="TimesheetDocumentHeader-documentId">
+        <property name="name" value="timeBlockHistory.timesheetDocumentHeader.documentId"/>
+        <property name="label" value="Document Id"/>
+        <property name="required" value="false"/>
+    </bean>
 
     <bean id="TimeBlockHistoryDetail-timeBlockHistory.timesheetDocumentHeader.documentStatus"
           parent="TimeBlockHistoryDetail-timeBlockHistory.timesheetDocumentHeader.documentStatus-parentBean"/>
@@ -366,7 +385,8 @@
         <property name="lookupableID" value="timeBlockHistoryDetailLookupable"/>
         <property name="lookupFields">
             <list>
-                <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.documentId"/>
+                <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.tkTimeBlockHistoryId" p:noInquiry="true" p:noLookup="true" p:hidden="true"/>
+                <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.timesheetDocumentHeader.documentId"/>
                 <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.principalId"/>
                 <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.userPrincipalId"/>
                 <bean parent="FieldDefinition" p:attributeName="timeBlockHistory.timesheetDocumentHeader.documentStatus" />

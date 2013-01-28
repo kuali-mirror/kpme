@@ -49,7 +49,7 @@ public class TimeBlockHistoryDetailLookupableHelperServiceImpl extends KualiLook
 	private static final long serialVersionUID = 1L;
 	
 	static final String DOC_ID = "documentId";
-	static final String DOC_STATUS_ID = "timesheetDocumentHeader.documentStatus";
+	static final String DOC_STATUS_ID = "timeBlockHistory.timesheetDocumentHeader.documentStatus";
 	static final String BEGIN_DATE_ID = "beginDate";
 
     @SuppressWarnings("unchecked")
