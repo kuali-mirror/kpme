@@ -42,7 +42,7 @@
 
 	<tk:approvalFilter />
 
-	<tk:approvalSearch searchId="searchTerm" />
+	<tk:approvalSearch calType="payCalendar" searchId="searchTerm" />
 
     <tk:timeApproval />
     
