@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -30,9 +31,15 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.rice.kew.api.document.DocumentStatus;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocument;
+import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.service.DocumentService;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.ObjectUtils;
 
-public class LeavePayoutMaintainableServiceImpl extends
+public class LeavePayoutMaintainableImpl extends
         HrBusinessObjectMaintainableImpl {
 
     private static final long serialVersionUID = 1L;
@@ -108,6 +115,57 @@ public class LeavePayoutMaintainableServiceImpl extends
         }
         return super.populateBusinessObject(fieldValues, maintenanceDocument,
                 methodToCall);
+    }
+
+    @Override
+    public void doRouteStatusChange(DocumentHeader documentHeader) {
+        //ProcessDocReport pdr = new ProcessDocReport(true, "");
+        String documentId = documentHeader.getDocumentNumber();
+        LeavePayout payout = (LeavePayout)this.getDataObject();
+        DocumentService documentService = KRADServiceLocatorWeb.getDocumentService();
+
+        DocumentStatus newDocumentStatus = documentHeader.getWorkflowDocument().getStatus();
+        String routedByPrincipalId = documentHeader.getWorkflowDocument().getRoutedByPrincipalId();
+        if (DocumentStatus.ENROUTE.equals(newDocumentStatus)
+                && CollectionUtils.isEmpty(payout.getLeaveBlocks())) {
+            //when transfer document is routed, initiate the balance transfer - creating the leave blocks
+            try {
+                MaintenanceDocument md = (MaintenanceDocument)KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(documentId);
+
+                payout = TkServiceLocator.getLeavePayoutService().payout(payout);
+                md.getNewMaintainableObject().setDataObject(payout);
+                documentService.saveDocument(md);
+            }
+            catch (WorkflowException e) {
+                LOG.error("caught exception while handling doRouteStatusChange -> documentService.getByDocumentHeaderId(" + documentHeader.getDocumentNumber() + "). ", e);
+                throw new RuntimeException("caught exception while handling doRouteStatusChange -> documentService.getByDocumentHeaderId(" + documentHeader.getDocumentNumber() + "). ", e);
+            }
+        } else if (DocumentStatus.DISAPPROVED.equals(newDocumentStatus)) {
+            //When transfer document is disapproved, set all leave block's request statuses to disapproved.
+            for(LeaveBlock lb : payout.getLeaveBlocks()) {
+                if(ObjectUtils.isNotNull(lb)) {
+                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.DISAPPROVED);
+                    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(lb.getLmLeaveBlockId(), routedByPrincipalId);
+                }
+            }
+            //update status of document and associated leave blocks.
+        } else if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
+            //When transfer document moves to final, set all leave block's request statuses to approved.
+            for(LeaveBlock lb : payout.getLeaveBlocks()) {
+                if(ObjectUtils.isNotNull(lb)) {
+                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+                    TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, routedByPrincipalId);
+                }
+            }
+        } else if (DocumentStatus.CANCELED.equals(newDocumentStatus)) {
+            //When transfer document is canceled, set all leave block's request statuses to deferred
+            for(LeaveBlock lb : payout.getLeaveBlocks()) {
+                if(ObjectUtils.isNotNull(lb)) {
+                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.DEFERRED);
+                    TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, routedByPrincipalId);
+                }
+            }
+        }
     }
 
 }

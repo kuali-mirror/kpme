@@ -21,7 +21,6 @@ import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.leavepayout.LeavePayout;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
-import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.roles.TkRole;
@@ -61,32 +60,19 @@ public class LeavePayoutWorkflowAttribute extends AbstractRoleAttribute {
 			e.printStackTrace();
 		}
 		LeavePayout leavePayout = null;
-		if(ObjectUtils.isNotNull(document))
+		if(document != null
+                && document.getNewMaintainableObject() != null)
 			leavePayout = (LeavePayout) document.getNewMaintainableObject().getDataObject();
 
         if (leavePayout != null) {
-            String leaveCalendarDocId = leavePayout.getLeaveCalendarDocumentId();
-            if(ObjectUtils.isNull(leaveCalendarDocId)) {
-            	List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(leavePayout.getPrincipalId(), leavePayout.getEffectiveDate());
+            List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(leavePayout.getPrincipalId(), leavePayout.getEffectiveDate());
             	for(Assignment assignment : assignments) {
-            		String roleStr = "SYSTEM_ADMIN_"+assignment.getWorkArea();
+                String roleStr = roleName+"_"+assignment.getWorkArea();
             		if(!roles.contains(roleStr))
             			roles.add(roleStr);
             	}
-            }
-            else {
-	            LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(leaveCalendarDocId);
-	            CalendarEntries ce = lcd.getCalendarEntry();
-	
-	            List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(leavePayout.getPrincipalId(), ce);
-	            for (Assignment assignment : assignments) {
-	                String roleStr = roleName + "_" +assignment.getWorkArea();
-	                if(!roles.contains(roleStr)){
-	                    roles.add(roleStr);
+
 	                }
-	            }
-            }
-        }
         return roles;
     }
 
@@ -118,7 +104,7 @@ public class LeavePayoutWorkflowAttribute extends AbstractRoleAttribute {
 		try {
 			document = (MaintenanceDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(routeHeaderId);
 		} catch (WorkflowException e) {
-			LOG.error("unable to retreive the Maintenance Document with route hearder id: " + routeHeaderId);
+			LOG.error("unable to retrieve the Maintenance Document with route header id: " + routeHeaderId);
 			e.printStackTrace();
 		}
         TkRoleService roleService = TkServiceLocator.getTkRoleService();
@@ -139,10 +125,7 @@ public class LeavePayoutWorkflowAttribute extends AbstractRoleAttribute {
 	            //Position routing
 	            if(StringUtils.isEmpty(role.getPrincipalId())){
 	                String positionNumber = role.getPositionNumber();
-	                String leaveCalendarDocId = leavePayout.getLeaveCalendarDocumentId();
-	                LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(leaveCalendarDocId);
-	                CalendarEntries ce = lcd.getCalendarEntry();
-	                List<Job> lstJobsForPosition = TkServiceLocator.getJobService().getActiveJobsForPosition(positionNumber, ce.getEndPeriodDateTime());
+	                List<Job> lstJobsForPosition = TkServiceLocator.getJobService().getActiveJobsForPosition(positionNumber, leavePayout.getEffectiveDate());
 	                for(Job job : lstJobsForPosition){
 	                    PrincipalId pid = new PrincipalId(job.getPrincipalId());
 	                    if (!principals.contains(pid)) {
@@ -157,15 +140,16 @@ public class LeavePayoutWorkflowAttribute extends AbstractRoleAttribute {
 	            }
 	        }
 	
-	        if (principals.size() == 0)
+	        if (principals.size() == 0)  {
 	            throw new RuntimeException("No principals to route to. Push to exception routing.");
-	
+            }
 	        rqr.setRecipients(principals);
 	        rqr.setAnnotation("Dept: "+ workArea.getDept()+", Work Area: "+workArea.getWorkArea());
 	        return rqr;
         }
-        else
+        else {
         	throw new RuntimeException("no business object could be retreived");
+        }
     }
 
     @Override

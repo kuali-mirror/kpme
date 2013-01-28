@@ -29,7 +29,6 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
     @Override
     public List<LeavePayout> getAllLeavePayoutsForPrincipalId(
             String principalId) {
-        // TODO Auto-generated method stub
         return leavePayoutDao.getAllLeavePayoutsForPrincipalId(principalId);
     }
 
@@ -42,13 +41,11 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
     @Override
     public List<LeavePayout> getAllLeavePayoutsByEffectiveDate(
             Date effectiveDate) {
-        // TODO Auto-generated method stub
         return leavePayoutDao.getAllLeavePayoutsByEffectiveDate(effectiveDate);
     }
 
     @Override
     public LeavePayout getLeavePayoutById(String lmLeavePayoutId) {
-        // TODO Auto-generated method stub
         return leavePayoutDao.getLeavePayoutById(lmLeavePayoutId);
     }
 
@@ -61,6 +58,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
     }
 
     @Override
+    //TODO  implement this!!
     public LeavePayout payout(LeavePayout leavePayout) {
         if(ObjectUtils.isNull(leavePayout))
             throw new RuntimeException("did not supply a valid LeavePayout object.");

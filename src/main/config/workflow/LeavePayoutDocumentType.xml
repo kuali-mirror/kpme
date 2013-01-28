@@ -24,13 +24,13 @@
     	<documentType>
             <name>LeavePayoutDocumentType</name>
             <parent>RiceDocument</parent>
-            <postProcessorName>org.kuali.hr.lm.workflow.postprocessor.LeavePayoutPostProcessor</postProcessorName>
             <docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
             <superUserWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</superUserWorkgroupName>
             <blanketApproveWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</blanketApproveWorkgroupName>
             <defaultExceptionWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</defaultExceptionWorkgroupName>
             <label>LeavePayoutDocument</label>
 			<active>true</active>
+            <applicationId>KPME</applicationId>
             <routingVersion>1</routingVersion>
             <routePaths>
                 <routePath>
@@ -62,10 +62,6 @@
                     <name>INITIATOR_MUST_ROUTE</name>
                     <value>false</value>
                 </policy>
-                <policy>
-				    <name>NOTIFY_COMPLETED_ON_RETURN</name>
-				    <value>true</value>
-				</policy>
             </policies>
         </documentType>
     </documentTypes>
@@ -105,7 +101,7 @@
         <responsibilities>
             <responsibility>
                 <role>org.kuali.hr.lm.workflow.LeavePayoutWorkflowAttribute!TK_APPROVER</role>
-                <approvePolicy>A</approvePolicy>
+                <approvePolicy>F</approvePolicy>
                 <actionRequested>A</actionRequested>
                 <priority>1</priority>
             </responsibility>
