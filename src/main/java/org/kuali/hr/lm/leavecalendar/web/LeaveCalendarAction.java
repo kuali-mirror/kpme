@@ -741,10 +741,9 @@ public class LeaveCalendarAction extends TkAction {
     
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward("basic");
-    	
-    	if (StringUtils.equals(request.getParameter("command"), "displayDocSearchView")
-        		|| StringUtils.equals(request.getParameter("command"), "displayActionListView") ) {
-        	
+        String command = request.getParameter("command");
+        
+    	if (StringUtils.equals(command, "displayDocSearchView") || StringUtils.equals(command, "displayActionListView")) {
         	String docId = (String) request.getParameter("docId");
         	LeaveCalendarDocument leaveCalendarDocument = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(docId);
         	String timesheetPrincipalName = KimApiServiceLocator.getPersonService().getPerson(leaveCalendarDocument.getPrincipalId()).getPrincipalName();
@@ -754,7 +753,18 @@ public class LeaveCalendarAction extends TkAction {
         	
         	StringBuilder builder = new StringBuilder();
         	if (!StringUtils.equals(principalName, timesheetPrincipalName)) {
-        		builder.append("LeaveApproval.do");
+        		if (StringUtils.equals(command, "displayDocSearchView")) {
+            		builder.append("changeTargetPerson.do?methodToCall=changeTargetPerson");
+            		builder.append("&documentId=");
+            		builder.append(docId);
+            		builder.append("&principalName=");
+            		builder.append(timesheetPrincipalName);
+            		builder.append("&targetUrl=LeaveCalendar.do");
+            		builder.append("?docmentId=" + docId);
+            		builder.append("&returnUrl=LeaveApproval.do");
+            	} else {
+            		builder.append("LeaveApproval.do");
+            	}
         	} else {
         		builder.append("LeaveCalendar.do");
         		builder.append("?docmentId=" + docId);
