@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.lm.leavecalendar.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -72,36 +73,20 @@ public class LeaveCalendarSubmitAction extends TkAction {
         if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.ROUTE)) {
             if (DocumentStatus.INITIATED.getCode().equals(document.getDocumentHeader().getDocumentStatus())
                     || DocumentStatus.SAVED.getCode().equals(document.getDocumentHeader().getDocumentStatus())) {
-            	
-            	List<String> leaveApproveIds = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(document,
-            			LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE);
-            	leaveApproveIds.addAll(TkServiceLocator.getBalanceTransferService().getEligibleTransfers(document,
-            			LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END));
-            	//Waterfall transfers? What order do transfers occur?
-            	//ACTION_AT_MAX_BALANCE == LOSE
-            	//if prompting the user to submit forfeiture. Transfer amount field must be locked, read only.
-            	//
-            	if(!leaveApproveIds.isEmpty()) {
-            		//There exist accrual categories that have exceeded their maximum balance
-            		//It is required that if a max balance limit exists for any particular accrual category with frequency LEAVE_APPROVE
-            		//and if the balance for such an accrual category exceeds that limit at the time this function
-            		//is called, the balance on that accrual category MUST be brought back to, AT MOST, its limit.
-            		//This conditional need not append every accrual category over max balance to its request string.
-            		//If there exists more than one accrual category that triggers a transfer on LEAVE_APPROVE
-            		//Each one shall be handled in its own redirect to BalanceTransfer.do.
-            		//Should it be the case that the transfer fails, or is otherwise prevented from executing,
-            		//as it currently stands, an infinite redirect loop could occur.
-            		//More work needs to be done in order to ensure or at least increase the likely hood that this doesn't occur.
+        		Map<String,ArrayList<String>> eligibilities = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(document.getCalendarEntry(), document.getPrincipalId());
+        		int categoryCounter = 0;
+        		List<String> eligibleTransfers = new ArrayList<String>();
+        		eligibleTransfers.addAll(eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE));
+        		eligibleTransfers.addAll(eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END));
+    			if(!eligibleTransfers.isEmpty()) {
             		StringBuilder sb = new StringBuilder();
-            		int categoryCounter = 0;
             		ActionRedirect redirect = new ActionRedirect();
-
-            		for(String accrualRuleId : leaveApproveIds) {
+            		for(String accrualRuleId : eligibleTransfers) {
             			sb.append("&accrualCategory"+categoryCounter+"="+accrualRuleId);
             		}
             		redirect.setPath("/BalanceTransfer.do?"+request.getQueryString()+sb.toString());
             		return redirect;
-            	}
+    			}
 
                 TkServiceLocator.getLeaveCalendarService().routeLeaveCalendar(TKContext.getTargetPrincipalId(), document);
             }

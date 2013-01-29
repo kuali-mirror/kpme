@@ -18,6 +18,8 @@ package org.kuali.hr.time.timesheet.web;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -106,7 +108,18 @@ public class TimesheetAction extends TkAction {
         // add warning messages based on max carry over balances for each accrual category for non-exempt leave users
         if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(viewPrincipal, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
         	PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, payCalendarEntry.getEndPeriodDate());
-        	
+        	Map<String,ArrayList<String>> eligibilities = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(td.getCalendarEntry(),td.getPrincipalId());
+        	boolean maxBalance = false;
+        	for(Entry<String,ArrayList<String>> entry : eligibilities.entrySet()) {
+        		if(!entry.getValue().isEmpty()) {
+        			maxBalance = true;
+        			break;
+        		}
+        	}
+        	if(maxBalance) {
+            	warnings.add("You have exceeded the balance limit for one or more accrual categories within your leave plan.");
+            	warnings.add("Depending upon the rules of your institution, you may lose any leave over this limit.");
+        	}
         	if (principalCalendar != null) {
 	        	Calendar calendar = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(viewPrincipal, taForm.getEndPeriodDateTime(), true);
 					

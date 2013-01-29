@@ -26,6 +26,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
+import org.joda.time.Interval;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
@@ -38,8 +39,10 @@ import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -77,40 +80,22 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 	}
 	
 	@Override
-	public BalanceTransfer initializeTransfer(String principalId, String accrualCategoryRule, LeaveSummary leaveSummary, Date effectiveDate) {
+	public BalanceTransfer initializeTransfer(String principalId, String accrualCategoryRule, BigDecimal accruedBalance, Date effectiveDate) {
 		//Initially, principals may be allowed to edit the transfer amount when prompted to submit this balance transfer, however,
 		//a base transfer amount together with a forfeited amount is calculated to bring the balance back to its limit in accordance
 		//with transfer limits.
 		BalanceTransfer bt = null;
 		AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRule);
-		/**
-		 * Balance transfers triggered by an accrual category rule require at least the following elements:
-		 * 
-		 * AccrualCategoryRule:
-		 * 
-		 * 	MaxBalFlag=Y;
-		 *  ActionAtMaxBal=TRANSFER || LOSE;
-		 *  MaxBalActionFreq!=null;
-		 *  MaxBal > 0;
-		 *  MaxBalTransferConvFator != null; ( unless action = LOSE )
-		 *  MaxBalTransferToAccrualCategory != null ( unless action = LOSE ).
-		 *  Active=Y;
-		 *  
-		 * LeaveSummary:
-		 * 
-		 *  LeaveSummaryRow with accrual category matching the eligible accrual category rule's accrual category. set leave summary row's accrual
-		 *  	category rule..?
-		 *  LeaveSummaryRow.balance > AccrualCategoryRule.MaxBal;
-		 *  
-		 * 
-		 */
-		if(ObjectUtils.isNotNull(accrualRule) && ObjectUtils.isNotNull(leaveSummary)) {
+
+		if(ObjectUtils.isNotNull(accrualRule) && ObjectUtils.isNotNull(accruedBalance)) {
 			bt = new BalanceTransfer();
+			//Leave summary is not a requirement, per se, but the information it contains is.
+			//The only thing that is obtained from leave summary is the accrued balance of the leave summary row matching the
+			//passed accrualCategoryRules accrual category.
 			//These two objects are essential to balance transfers triggered when the employee submits their leave calendar for approval.
 			//Neither of these objects should be null, otherwise this method could not have been called.
 			AccrualCategory fromAccrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
 			AccrualCategory toAccrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getMaxBalanceTransferToAccrualCategory(),effectiveDate);
-			LeaveSummaryRow balanceInformation = leaveSummary.getLeaveSummaryRowForAccrualCategory(accrualRule.getLmAccrualCategoryId());
 			BigDecimal fullTimeEngagement = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, effectiveDate);
 			
 			BigDecimal transferConversionFactor = null;
@@ -118,6 +103,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 				transferConversionFactor = accrualRule.getMaxBalanceTransferConversionFactor();
 			
 			// AccrualRule.maxBalance == null -> no balance limit. No balance limit -> no accrual triggered transfer / payout / lose.
+			// execution point should not be here if max balance on accrualRule is null, unless there exists an employee override.
 			BigDecimal maxBalance = accrualRule.getMaxBalance();
 			BigDecimal adjustedMaxBalance = maxBalance.multiply(fullTimeEngagement).setScale(2);
 			
@@ -159,14 +145,14 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			}
 			
 			
-			BigDecimal transferAmount = balanceInformation.getAccruedBalance().subtract(adjustedMaxBalance);
+			BigDecimal transferAmount = accruedBalance.subtract(adjustedMaxBalance);
 			if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
 				//Move all time in excess of employee's fte adjusted max balance to forfeiture.
 				bt.setForfeitedAmount(transferAmount);
 				//There is no transfer to another accrual category.
 				bt.setTransferAmount(BigDecimal.ZERO);
 				bt.setAmountTransferred(BigDecimal.ZERO);
-				// to accrual category is a required field on maintenance document. Set to from accrual category
+				// to accrual category is a required field on maintenance document. Set as from accrual category
 				// to remove validation errors when routing, approving, etc.
 				bt.setToAccrualCategory(fromAccrualCategory.getAccrualCategory());
 			}
@@ -346,17 +332,165 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		}
 	}
 	
-	//TODO: Move to LeaveCalendarService or implement as an accessor on LeaveCalendarDocument object.
+	//getMaxBalanceViolations...
 	@Override
-	public List<String> getEligibleTransfers(LeaveCalendarDocument document, final String actionFrequency) throws Exception {
+	public Map<String,ArrayList<String>> getEligibleTransfers(CalendarEntries calendarEntry, String principalId) throws Exception {
+		//Employee override check here, or return base-eligible accrual categories,
+		//filtering out those that have increased balance limits due to employee override in caller?
+		//null check inserted to fix LeaveCalendarWebTest failures on kpme-trunk-build-unit #2069	
+		List<String> eligibleAccrualCategories = new ArrayList<String>();
+		Map<String, ArrayList<String>> eligibilities = new HashMap<String,ArrayList<String>>();
+		//TODO: create map for MAX_BAL_ACTION_FREQ in LMConstants
+		eligibilities.put(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE, new ArrayList<String>());
+		eligibilities.put(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END, new ArrayList<String>());
+		eligibilities.put(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND, new ArrayList<String>());
+
+		//LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId,calendarEntry);
+		//No leaveSummary can currently be derived using timesheet calendar entry, leaveSummary depends on LeaveCalendarDocument
+		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, calendarEntry.getEndPeriodDate());
+		LeavePlan leavePlan = TkServiceLocator.getLeavePlanService().getLeavePlan(pha.getLeavePlan(),TKUtils.getCurrentDate());
+		List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), calendarEntry.getEndPeriodDate());
+		
+		org.kuali.hr.time.calendar.Calendar leaveCalendar = pha.getLeaveCalObj();
+		CalendarEntries thisLeaveEntry = null;
+		Interval thisEntryInterval = new Interval(calendarEntry.getBeginPeriodDate().getTime(),calendarEntry.getEndPeriodDate().getTime());
+
+		if(ObjectUtils.isNotNull(leaveCalendar)) {
+			for(CalendarEntries entry : leaveCalendar.getCalendarEntries()) {
+				if(thisEntryInterval.contains(DateUtils.addDays(entry.getEndPeriodTime(),-1).getTime()))
+					thisLeaveEntry = entry;
+			}
+		}
+		// this calendar entry interval does not contain a leave calendar's rollover date.
+		if(ObjectUtils.isNull(thisLeaveEntry))
+			return eligibilities;
+		//TODO: Find the end period date for the corresponding leave calendar.
+		// must check if this date falls within the interval of the calendar entries begin / end.
+		// if so, get the leave blocks and calculate the accrued balance.
+		//LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, getCalendarEntry());
+		if(!accrualCategories.isEmpty()) {
+
+			//null check inserted to fix LeaveCalendarWebTst failures on kpme-trunk-build-unit #2069
+			for(AccrualCategory accrualCategory : accrualCategories) {
+				//TODO: Iterate over Accrual Categories within this calendar entry.
+				AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, calendarEntry.getEndPeriodDate(), pha.getServiceDate());
+				//Employee overrides...
+				if(ObjectUtils.isNotNull(rule)) {
+					if(StringUtils.equals(rule.getMaxBalFlag(),"Y")) {
+						if(StringUtils.equals(rule.getActionAtMaxBalance(), LMConstants.ACTION_AT_MAX_BAL.TRANSFER)
+								|| StringUtils.equals(rule.getActionAtMaxBalance(), LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
+							//There is a disagreement between the constant value LMConstants.MAX_BAL_ACTION_FREQ, and the value being
+							//set on LM_ACCRUAL_CATEGORY_RULES_T table. Temporarily have changed the constant to reflect the field
+							//value being set for MAX_BAL_ACTION_FREQ when accrual category rule records are saved.
+							if(ObjectUtils.isNotNull(rule.getMaxBalanceActionFrequency())) {
+								BigDecimal maxBalance = rule.getMaxBalance();
+								
+								List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, pha.getServiceDate(), calendarEntry.getEndPeriodDate());
+								LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, calendarEntry);
+								LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCategory(accrualCategory.getLmAccrualCategoryId());
+								BigDecimal accruedBalance = row.getAccruedBalance();
+/*								for(LeaveBlock leaveBlock : leaveBlockMap.get(accrualCategory.getAccrualCategory())) {
+									//TODO: limit leave blocks to those created on or after the calendar year period containing this calendar entry.
+									if(StringUtils.equals(leaveBlock.getRequestStatus(),LMConstants.REQUEST_STATUS.APPROVED))
+										accruedBalance = accruedBalance.add(leaveBlock.getLeaveAmount());
+								}*/
+								
+								BigDecimal fte = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, TKUtils.getCurrentDate());
+								BigDecimal adjustedMaxBalance = maxBalance.multiply(fte);
+								BigDecimal maxAnnualCarryOver = null;
+								if(ObjectUtils.isNotNull(rule.getMaxCarryOver()))
+									maxAnnualCarryOver = new BigDecimal(rule.getMaxCarryOver());
+								BigDecimal adjustedMaxAnnualCarryOver = null;
+								if(ObjectUtils.isNotNull(maxAnnualCarryOver))
+									adjustedMaxAnnualCarryOver = maxAnnualCarryOver.multiply(fte);
+									
+								List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, TKUtils.getCurrentDate());
+								for(EmployeeOverride override : overrides) {
+									if(StringUtils.equals(override.getAccrualCategory(),accrualCategory.getAccrualCategory())) {
+										if(StringUtils.equals(override.getOverrideType(),"MB"))
+											adjustedMaxBalance = new BigDecimal(override.getOverrideValue());
+										if(StringUtils.equals(override.getOverrideType(),"MAC"))
+											adjustedMaxAnnualCarryOver = new BigDecimal(override.getOverrideValue());
+										//override values are not pro-rated.
+									}
+								}
+								//should extend a BalanceTransferBase class, or use an algorithm swapping pattern.
+								//allow institutions to extend/customize/implement their own max_bal_action_frequency types.
+								if(StringUtils.equals(rule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+									//For year end transfer frequencies...
+									//Should use an "asOfDate" or effective date for principalHRAttributes. If getting eligibilities for a past calendar,
+									//pha may not be the same.
+									LeavePlan lp = TkServiceLocator.getLeavePlanService().getLeavePlan(pha.getLeavePlan(),TKUtils.getCurrentDate());
+									StringBuilder sb = new StringBuilder("");
+									String calendarYearStart = lp.getCalendarYearStart();
+									// mm/dd
+									sb.append(calendarYearStart+"/");
+									if(lp.getCalendarYearStartMonth().equals("01") && calendarEntry.getBeginPeriodDate().getMonth() == 11) {
+										//a calendar may start on 01/15, with monthly intervals.
+										//calendarEntry.beginPeriodDate.year = calendarYearStart.year - 1
+										sb.append(DateUtils.toCalendar(DateUtils.addYears(calendarEntry.getBeginPeriodDate(),1)).get(Calendar.YEAR));
+									}
+									else
+										sb.append(DateUtils.toCalendar(calendarEntry.getBeginPeriodDateTime()).get(Calendar.YEAR));
+									//if the calendar being submitted is the final calendar in the leave plans calendar year.
+									//must check the calendar year start month. If its the first month of the year, add a year to the date.
+									//otherwise, the end period date and the calendar year start date have the same year.
+									if(thisEntryInterval.contains(DateUtils.addDays(TKUtils.formatDateString(sb.toString()),-1).getTime())) {
+										//BigDecimal accruedBalanceLessPendingTransfers = lsr.getAccruedBalance().add(adjustment);
+										if(accruedBalance.compareTo(adjustedMaxBalance) > 0 ||
+												(ObjectUtils.isNotNull(adjustedMaxAnnualCarryOver) &&
+												accruedBalance.compareTo(adjustedMaxAnnualCarryOver) > 0)) {
+											eligibleAccrualCategories.add(rule.getLmAccrualCategoryRuleId());
+											eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).add(rule.getLmAccrualCategoryRuleId());
+										}
+									}
+									//otherwise its not transferable under year end frequency.
+								}
+								else {
+									//BigDecimal accruedBalanceLessPendingTransfers = lsr.getAccruedBalance().add(adjustment);
+									if(accruedBalance.compareTo(adjustedMaxBalance) > 0 ) {
+										eligibleAccrualCategories.add(rule.getLmAccrualCategoryRuleId());
+										eligibilities.get(rule.getMaxBalanceActionFrequency()).add(rule.getLmAccrualCategoryRuleId());
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		return eligibilities;
+
+	}
+
+	
+/*	//TODO: Move to LeaveCalendarService or implement as an accessor on LeaveCalendarDocument object.
+	@Override
+	public List<String> getEligibleTransfers(CalendarEntries calendarEntry, String principalId, final String actionFrequency) throws Exception {
 		List<String> eligibleAccrualCategories = new ArrayList<String>();
 		//Employee override check here, or return base-eligible accrual categories,
 		//filtering out those that have increased balance limits due to employee override in caller?
-		if(ObjectUtils.isNotNull(document)) {
+		if(ObjectUtils.isNotNull(calendarEntry)) {
 			//null check inserted to fix LeaveCalendarWebTest failures on kpme-trunk-build-unit #2069		
 			
-			LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(document.getPrincipalId(),document.getCalendarEntry());
+			LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId,calendarEntry);
+			PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, calendarEntry.getEndPeriodDate());
+			
+			org.kuali.hr.time.calendar.Calendar leaveCalendar = pha.getLeaveCalObj();
+			CalendarEntries thisLeaveEntry = null;
+			Interval thisEntryInterval = new Interval(calendarEntry.getBeginPeriodDate().getTime(),calendarEntry.getEndPeriodDate().getTime());
 
+			if(ObjectUtils.isNotNull(leaveCalendar)) {
+				for(CalendarEntries entry : leaveCalendar.getCalendarEntries()) {
+					if(thisEntryInterval.contains(DateUtils.addSeconds(entry.getEndPeriodTime(),-1).getTime()))
+						thisLeaveEntry = entry;
+				}
+			}
+			
+			// this calendar entry interval does not contain a leave calendar's rollover date.
+			if(ObjectUtils.isNull(thisLeaveEntry))
+				return eligibleAccrualCategories;
+			
 			if(ObjectUtils.isNotNull(leaveSummary)) {
 				//null check inserted to fix LeaveCalendarWebTst failures on kpme-trunk-build-unit #2069
 				
@@ -375,7 +509,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 								if(StringUtils.equals(rule.getMaxBalanceActionFrequency(),actionFrequency)) {
 									BigDecimal maxBalance = rule.getMaxBalance();
 		
-									BigDecimal fullTimeEngagement = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(document.getPrincipalId(), TKUtils.getCurrentDate());
+									BigDecimal fullTimeEngagement = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, TKUtils.getCurrentDate());
 									BigDecimal adjustedMaxBalance = maxBalance.multiply(fullTimeEngagement);
 									BigDecimal maxAnnualCarryOver = null;
 									if(ObjectUtils.isNotNull(rule.getMaxCarryOver()))
@@ -384,7 +518,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 									if(ObjectUtils.isNotNull(maxAnnualCarryOver))
 										adjustedMaxAnnualCarryOver = maxAnnualCarryOver.multiply(fullTimeEngagement);
 										
-									List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(document.getPrincipalId(), TKUtils.getCurrentDate());
+									List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, TKUtils.getCurrentDate());
 									for(EmployeeOverride override : overrides) {
 										if(StringUtils.equals(override.getAccrualCategory(),lsr.getAccrualCategoryId())) {
 											if(StringUtils.equals(override.getOverrideType(),"MB"))
@@ -398,22 +532,21 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 									//allow institutions to extend/customize/implement their own max_bal_action_frequency types.
 									if(StringUtils.equals(actionFrequency,LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
 										//For year end transfer frequencies...
-										PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(document.getPrincipalId(), TKUtils.getCurrentDate());
 										LeavePlan lp = TkServiceLocator.getLeavePlanService().getLeavePlan(pha.getLeavePlan(),TKUtils.getCurrentDate());
 										StringBuilder sb = new StringBuilder("");
 										String calendarYearStart = lp.getCalendarYearStart();
 										// mm/dd
 										sb.append(calendarYearStart+"/");
-										if(lp.getCalendarYearStartMonth().equals("01")) {
+										if(lp.getCalendarYearStartMonth().equals("01") && calendarEntry.getBeginPeriodDate().getMonth() == 11) {
 											//a calendar may start on 01/15, with monthly intervals.
-											sb.append(DateUtils.toCalendar(DateUtils.addYears(document.getCalendarEntry().getBeginPeriodDate(),1)).get(Calendar.YEAR));
+											sb.append(DateUtils.toCalendar(DateUtils.addYears(calendarEntry.getBeginPeriodDate(),1)).get(Calendar.YEAR));
 										}
 										else
-											sb.append(DateUtils.toCalendar(document.getCalendarEntry().getBeginPeriodDateTime()).get(Calendar.YEAR));
+											sb.append(DateUtils.toCalendar(calendarEntry.getBeginPeriodDateTime()).get(Calendar.YEAR));
 										//if the calendar being submitted is the final calendar in the leave plans calendar year.
 										//must check the calendar year start month. If its the first month of the year, add a year to the date.
 										//otherwise, the end period date and the calendar year start date have the same year.
-										if(document.getCalendarEntry().getEndPeriodDate().equals(TKUtils.formatDateString(sb.toString()))) {
+										if(thisEntryInterval.contains(DateUtils.addSeconds(TKUtils.formatDateString(sb.toString()),-1).getTime())) {
 											//BigDecimal accruedBalanceLessPendingTransfers = lsr.getAccruedBalance().add(adjustment);
 											if(lsr.getAccruedBalance().compareTo(adjustedMaxBalance) > 0 ||
 													(ObjectUtils.isNotNull(adjustedMaxAnnualCarryOver) &&
@@ -438,7 +571,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		}
 		return eligibleAccrualCategories;
 	}
-
+*/
 	public BalanceTransferDao getBalanceTransferDao() {
 		return balanceTransferDao;
 	}

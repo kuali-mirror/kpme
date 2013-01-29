@@ -21,8 +21,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
@@ -194,12 +197,11 @@ public class LeaveCalendarAction extends TkAction {
         List<String> warningMes = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
         
         // add warning message for accrual categories that have exceeded max balance.
-        List<String> transfers = new ArrayList<String>();
+        Map<String,ArrayList<String>> transfers = new HashMap<String,ArrayList<String>>();
         // Could set a flag on the transferable rows here so that LeaveCalendarSubmit.do knows
         // which row(s) to transfer when user submits the calendar for approval.
-        transfers.addAll(TkServiceLocator.getBalanceTransferService().getEligibleTransfers(lcf.getLeaveCalendarDocument(), LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE));
-        transfers.addAll(TkServiceLocator.getBalanceTransferService().getEligibleTransfers(lcf.getLeaveCalendarDocument(), LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END));
-        transfers.addAll(TkServiceLocator.getBalanceTransferService().getEligibleTransfers(lcf.getLeaveCalendarDocument(), LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND));
+        transfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(calendarEntry, viewPrincipal);
+
         boolean btDocExists = false;
         boolean lpDocExists = false;
         boolean pendingBTDocumentExists = !TkServiceLocator.getLeaveCalendarService().isReadyToApprove(lcf.getLeaveCalendarDocument())
@@ -220,13 +222,16 @@ public class LeaveCalendarAction extends TkAction {
         	warningMes.add("A leave payout document for this calendar exists");
         }
 
-        if(!transfers.isEmpty()) {
-        	warningMes.add("You have exceeded the balance limit for one or more accrual categories within your leave plan.");
-        	warningMes.add("Depending upon the rules of your institution, you may lose any leave over this limit.");
+        for(Entry<String, ArrayList<String>> entry : transfers.entrySet()) {
+        	if(!entry.getValue().isEmpty()) {
+	        	warningMes.add("You have exceeded the balance limit for one or more accrual categories within your leave plan.");
+	        	warningMes.add("Depending upon the rules of your institution, you may lose any leave over this limit.");
+	        	break;
+        	}
         }
         
         // add warning messages based on max carry over balances for each accrual category
-        PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, calendarEntry.getEndPeriodDate());
+/*        PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, calendarEntry.getEndPeriodDate());
 		if (principalCalendar != null) {
 			List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(principalCalendar.getLeavePlan(), new java.sql.Date(calendarEntry.getEndPeriodDate().getTime()));
 			for (AccrualCategory accrualCategory : accrualCategories) {
@@ -237,7 +242,7 @@ public class LeaveCalendarAction extends TkAction {
 					}
 				}
 			}
-		}
+		}*/
 		
         lcf.setWarnings(warningMes);
         

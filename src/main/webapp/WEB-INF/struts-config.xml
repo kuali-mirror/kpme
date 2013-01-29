@@ -199,8 +199,10 @@
                 type="org.kuali.hr.lm.balancetransfer.web.BalanceTransferAction" parameter="methodToCall"
                 validate="false" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/balanceTransfer.jsp"/>
-            <forward name="success" path="/LeaveCalendarSubmit.do"/>
-            <forward name="cancel" path="/LeaveCalendar.do"/>
+            <forward name="leaveCalendarTransferSuccess" path="/LeaveCalendarSubmit.do"/>
+            <forward name="timesheetTransferSuccess" path="/TimesheetSubmit.do"/>
+            <forward name="timesheetCancel" path="/LeaveCalendar.do"/>
+            <forward name="leaveCalendarCancel" path="/TimesheetSubmit.do"/>
             <forward name="closeBalanceTransferDoc" path="/WEB-INF/jsp/closeMissedPunchDoc.jsp"/>
         </action>
 

@@ -17,11 +17,12 @@ package org.kuali.hr.lm.balancetransfer.service;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
-import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -43,7 +44,7 @@ public interface BalanceTransferService {
 	 * 
 	 * @param principalId	The principal this transfer pertains to.
 	 * @param accrualCategoryRule	The accrual category rule that contains the max balance information.
-	 * @param leaveSummary	Holds balance information needed for transfer.
+	 * @param accruedBalance	Holds balance information needed for transfer.
 	 * @param effectiveDate 
 	 * @return A BalanceTransfer object conforming to @param accrualCategoryRule, if one exists. Null otherwise.
 	 * 
@@ -53,7 +54,7 @@ public interface BalanceTransferService {
 	 *  	2.) the number of time units exceeding the maximum balance 
 	 *
 	 */
-	public BalanceTransfer initializeTransfer(String principalId, String accrualCategoryRule, LeaveSummary leaveSummary, Date effectiveDate);
+	public BalanceTransfer initializeTransfer(String principalId, String accrualCategoryRule, BigDecimal accruedBalance, Date effectiveDate);
 
 	/**
 	 * Consumes a BalanceTransfer object, creating up to three leave blocks.
@@ -75,7 +76,7 @@ public interface BalanceTransferService {
 	 * @return A List of accrualCategoryRuleId's in {@param document}'s leave summary with MAX_BAL_ACTION_FREQUENCY = {@param actionFrequency} 
 	 * @throws Exception
 	 */
-	public List<String> getEligibleTransfers(LeaveCalendarDocument document, String actionFrequency) throws Exception;
+	public Map<String,ArrayList<String>> getEligibleTransfers(CalendarEntries calendarEntry, String principalId) throws Exception;
 	
 	public void submitToWorkflow(BalanceTransfer balanceTransfer) throws WorkflowException;
 	
