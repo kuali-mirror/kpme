@@ -36,6 +36,7 @@ public class LeaveSummaryRow {
 
 	private boolean transferable;
 	private boolean payoutable;
+	private BigDecimal maxCarryOver;
     private SortedMap<String, BigDecimal> priorYearsTotalAccrued;
     private SortedMap<String, BigDecimal> priorYearsUsage;
 	
@@ -142,6 +143,7 @@ public class LeaveSummaryRow {
 		this.payoutable = payoutable;
 	}
 
+
     public SortedMap<String, BigDecimal> getPriorYearsUsage() {
         return priorYearsUsage;
     }
@@ -157,4 +159,12 @@ public class LeaveSummaryRow {
     public void setPriorYearsTotalAccrued(SortedMap<String, BigDecimal> priorYearsTotalAccrued) {
         this.priorYearsTotalAccrued = priorYearsTotalAccrued;
     }
+    
+	public BigDecimal getMaxCarryOver() {
+		return maxCarryOver;
+	}
+	
+	public void setMaxCarryOver(BigDecimal maxCarryOver) {
+		this.maxCarryOver = maxCarryOver;
+	}
 }

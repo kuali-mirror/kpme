@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.lm.leaveSummary.service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -24,6 +25,8 @@ import org.kuali.hr.time.calendar.CalendarEntries;
 public interface LeaveSummaryService {
 	
 	 public LeaveSummary getLeaveSummary(String principalId, CalendarEntries calendarEntry) throws Exception;
+
+	 public LeaveSummary getLeaveSummary(String principalId, CalendarEntries calendarEntry, Calendar previousYearCalendarStart) throws Exception;
 
 	 public List<Date> getLeaveSummaryDates(CalendarEntries cal);
 }

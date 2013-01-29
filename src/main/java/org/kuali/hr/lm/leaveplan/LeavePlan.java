@@ -15,15 +15,20 @@
  */
 package org.kuali.hr.lm.leaveplan;
 
+import java.util.Date;
+
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.time.HrBusinessObject;
 
 public class LeavePlan extends HrBusinessObject {
-    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "LeavePlan";
-	/**
-	 * 
-	 */
+	
+	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE
+			+ "/" + "LeavePlan";
+	
 	private static final long serialVersionUID = 1L;
 	private String lmLeavePlanId;
 	private String leavePlan;
@@ -31,7 +36,62 @@ public class LeavePlan extends HrBusinessObject {
 	private String calendarYearStart;
 	private Boolean history;
 	private String planningMonths;
-	
+	private Date batchPriorYearCarryOverStartDateTime;
+
+
+	public java.sql.Time getBatchPriorYearCarryOverStartTime() {
+		java.sql.Time batchPriorYearCarryOverStartTime = null;
+		if (batchPriorYearCarryOverStartDateTime != null) {
+			batchPriorYearCarryOverStartTime = new java.sql.Time(
+					batchPriorYearCarryOverStartDateTime.getTime());
+		}
+		return batchPriorYearCarryOverStartTime;
+	}
+
+	public void setBatchPriorYearCarryOverStartTime(
+			java.sql.Time batchPriorYearCarryOverStartDate) {
+		DateTime dateTime = new DateTime(batchPriorYearCarryOverStartDateTime);
+		LocalDate localDate = new LocalDate(
+				batchPriorYearCarryOverStartDateTime);
+		LocalTime localTime = new LocalTime(batchPriorYearCarryOverStartDate);
+		batchPriorYearCarryOverStartDateTime = localDate.toDateTime(localTime,
+				dateTime.getZone()).toDate();
+	}
+
+	public java.sql.Date getBatchPriorYearCarryOverStartDate() {
+		java.sql.Date batchPriorYearCarryOverStartDate = null;
+
+		if (batchPriorYearCarryOverStartDateTime != null) {
+			batchPriorYearCarryOverStartDate = new java.sql.Date(
+					batchPriorYearCarryOverStartDateTime.getTime());
+		}
+
+		return batchPriorYearCarryOverStartDate;
+	}
+
+	public void setBatchPriorYearCarryOverStartDate(
+			java.sql.Date batchPriorYearCarryOverStartDate) {
+		DateTime dateTime = new DateTime(batchPriorYearCarryOverStartDateTime);
+		LocalDate localDate = new LocalDate(batchPriorYearCarryOverStartDate);
+		LocalTime localTime = new LocalTime(
+				batchPriorYearCarryOverStartDateTime);
+		batchPriorYearCarryOverStartDateTime = localDate.toDateTime(localTime,
+				dateTime.getZone()).toDate();
+	}
+
+
+	public Date getBatchPriorYearCarryOverStartDateTime() {
+		return batchPriorYearCarryOverStartDateTime;
+	}
+
+	public void setBatchPriorYearCarryOverStartDateTime(
+			Date batchPriorYearCarryOverStartDateTime) {
+		if(this.getBatchPriorYearCarryOverStartDate() != null && this.getBatchPriorYearCarryOverStartTime() != null) {
+			
+		}
+		this.batchPriorYearCarryOverStartDateTime = batchPriorYearCarryOverStartDateTime;
+	}
+
 	public String getPlanningMonths() {
 		return planningMonths;
 	}
@@ -72,22 +132,22 @@ public class LeavePlan extends HrBusinessObject {
 		this.calendarYearStart = calendarYearStart;
 	}
 
-    public String getCalendarYearStartMonth() {
-        if (StringUtils.isEmpty(getCalendarYearStart())) {
-            return "01";
-        }
-        String[] date = getCalendarYearStart().split("/");
-        return date[0];
-    }
+	public String getCalendarYearStartMonth() {
+		if (StringUtils.isEmpty(getCalendarYearStart())) {
+			return "01";
+		}
+		String[] date = getCalendarYearStart().split("/");
+		return date[0];
+	}
 
-    public String getCalendarYearStartDayOfMonth() {
-        if (StringUtils.isEmpty(getCalendarYearStart())) {
-            return "01";
-        }
-        String[] date = getCalendarYearStart().split("/");
-        return date[1];
-    }
-	
+	public String getCalendarYearStartDayOfMonth() {
+		if (StringUtils.isEmpty(getCalendarYearStart())) {
+			return "01";
+		}
+		String[] date = getCalendarYearStart().split("/");
+		return date[1];
+	}
+
 	public Boolean getHistory() {
 		return history;
 	}

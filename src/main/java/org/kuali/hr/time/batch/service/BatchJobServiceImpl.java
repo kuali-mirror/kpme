@@ -26,11 +26,13 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.core.document.CalendarDocumentHeaderContract;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.lm.workflow.service.LeaveCalendarDocumentHeaderService;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.service.AssignmentService;
 import org.kuali.hr.time.batch.BatchJobUtil;
+import org.kuali.hr.time.batch.CarryOverJob;
 import org.kuali.hr.time.batch.EmployeeApprovalJob;
 import org.kuali.hr.time.batch.EndPayPeriodJob;
 import org.kuali.hr.time.batch.EndReportingPeriodJob;
@@ -240,6 +242,22 @@ public class BatchJobServiceImpl implements BatchJobService {
 	        	scheduleEmployeeApprovalJob(calendarEntry, scheduleDate, leaveCalendarDocumentHeader);
 	        }
     	}
+	}
+	
+	@Override
+	public void scheduleLeaveCarryOverJobs(LeavePlan leavePlan) throws SchedulerException {
+		Date batchJobDate = leavePlan.getBatchPriorYearCarryOverStartDateTime();
+		scheduleLeaveCarryOverJob(leavePlan, batchJobDate);
+	}
+	
+	
+	private void scheduleLeaveCarryOverJob(LeavePlan leavePlan, Date scheduleDate) throws SchedulerException {
+        Map<String, String> jobGroupDataMap = new HashMap<String, String>();
+        jobGroupDataMap.put("leavePlanCode", leavePlan.getLeavePlan());
+		Map<String, String> jobDataMap = new HashMap<String, String>();
+		// It does not work if not any key to jobDataMap.
+		jobDataMap.put("leavePlanId", leavePlan.getLmLeavePlanId());
+        scheduleJob(CarryOverJob.class, scheduleDate, jobGroupDataMap, jobDataMap);
 	}
 	
 	private void scheduleEmployeeApprovalJob(CalendarEntries calendarEntry, Date scheduleDate, CalendarDocumentHeaderContract calendarDocumentHeaderContract) throws SchedulerException {

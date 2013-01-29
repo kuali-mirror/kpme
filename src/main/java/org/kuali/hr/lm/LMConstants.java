@@ -124,6 +124,7 @@ public class LMConstants {
          public static final String LEAVE_PAYOUT = "LP";
 		 public static final String DONATION_MAINT = "DM";
 		 public static final String LEAVE_ADJUSTMENT_MAINT = "LAM";
+		 public static final String CARRY_OVER = "CO";
 	 }
 
 	 public static final Map<String, String> LEAVE_BLOCK_TYPE_MAP = new HashMap<String, String>(4);
@@ -133,6 +134,7 @@ public class LMConstants {
 	    	LEAVE_BLOCK_TYPE_MAP.put(LEAVE_BLOCK_TYPE.LEAVE_PAYOUT, "Leave Payout");
 	    	LEAVE_BLOCK_TYPE_MAP.put(LEAVE_BLOCK_TYPE.DONATION_MAINT, "Donation");
 	    	LEAVE_BLOCK_TYPE_MAP.put(LEAVE_BLOCK_TYPE.LEAVE_ADJUSTMENT_MAINT, "Leave Adjustment");
+	    	LEAVE_BLOCK_TYPE_MAP.put(LEAVE_BLOCK_TYPE.CARRY_OVER, "Carry Over");
 	 }
 	    
     public static final class ACTION_AT_MAX_BAL {

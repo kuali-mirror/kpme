@@ -26,7 +26,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.joda.time.DateTime;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -190,5 +192,27 @@ public class LeavePlanDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implement
 
         return results;
     }
+
+	@Override
+	public List<LeavePlan> getLeavePlansNeedsScheduled(int thresholdDays,
+			Date asOfDate) {
+		DateTime current = new DateTime(asOfDate.getTime());
+        DateTime windowStart = current.minusDays(thresholdDays);
+        DateTime windowEnd = current.plusDays(thresholdDays);
+
+        Criteria root = new Criteria();
+
+        root.addGreaterOrEqualThan("batchPriorYearCarryOverStartDateTime", windowStart.toDate());
+        root.addLessOrEqualThan("batchPriorYearCarryOverStartDateTime", windowEnd.toDate());
+        root.addEqualTo("active", true);
+
+        Query query = QueryFactory.newQuery(LeavePlan.class, root);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+        List<LeavePlan> leavePlans = new ArrayList<LeavePlan>(c.size());
+        leavePlans.addAll(c);
+
+        return leavePlans;
+	}
     
 }

@@ -29,6 +29,7 @@ public class BatchJobActionForm extends TkForm {
 
     private String selectedBatchJob;
     private String hrPyCalendarEntryId;
+    private String leavePlan;
     
     static {
     	BATCH_JOB_NAMES.add(TkConstants.BATCH_JOB_NAMES.INITIATE);
@@ -37,6 +38,7 @@ public class BatchJobActionForm extends TkForm {
     	BATCH_JOB_NAMES.add(TkConstants.BATCH_JOB_NAMES.EMPLOYEE_APPROVAL);
     	BATCH_JOB_NAMES.add(TkConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL);
     	BATCH_JOB_NAMES.add(TkConstants.BATCH_JOB_NAMES.MISSED_PUNCH_APPROVAL);
+    	BATCH_JOB_NAMES.add(TkConstants.BATCH_JOB_NAMES.CARRY_OVER_RUN);
     }
 
     public List<String> getBatchJobNames() {
@@ -58,5 +60,15 @@ public class BatchJobActionForm extends TkForm {
     public void setHrPyCalendarEntryId(String hrPyCalendarEntryId) {
         this.hrPyCalendarEntryId = hrPyCalendarEntryId;
     }
+
+	public String getLeavePlan() {
+		return leavePlan;
+	}
+
+	public void setLeavePlan(String leavePlan) {
+		this.leavePlan = leavePlan;
+	}
+    
+    
 
 }

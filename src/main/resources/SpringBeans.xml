@@ -966,6 +966,7 @@
                 <ref bean="calendarEntrySchedulerTrigger" />
                 <ref bean="leaveCalendarDelinquencyTrigger" />
                 <ref bean="serializerTrigger" />
+                <ref bean="carryOverSchedulerTrigger" />
             </list>
         </property>
     </bean>
@@ -984,13 +985,32 @@
         <property name="cronExpression" value="${kpme.batch.accrual.cronExpression}" />
     </bean>
     
+   	<!--  CarryOverSchedule Batch JOB -->
+   	
+    <bean id="carryOverSchedulerJob" class="org.kuali.hr.time.batch.CarryOverSchedulerJob" scope="singleton">
+        <property name="leavePlanPollingWindow" value="${kpme.batch.leavePlanPollingWindow.days}" />
+        <property name="batchJobService" ref="batchJobService" />
+    </bean>
+    
+	<bean id="carryOverSchedulerJobBean" class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="org.kuali.hr.time.batch.CarryOverSchedulerJob" />
+    </bean>
+    
+    <bean id="carryOverSchedulerTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+        <property name="jobDetail" ref="carryOverSchedulerJobBean" />
+        <property name="startDelay" value="${kpme.batch.startDelay.milliseconds}" />
+        <property name="repeatInterval" value="${kpme.batch.repeatInterval.milliseconds}" />
+    </bean>
+
     <bean id="calendarEntrySchedulerJob" class="org.kuali.hr.time.batch.CalendarEntrySchedulerJob" scope="singleton">
         <property name="calendarEntriesPollingWindow" value="${kpme.batch.calendarEntriesPollingWindow.days}" />
         <property name="batchJobService" ref="batchJobService" />
     </bean>
+    
     <bean id="calendarEntrySchedulerJobBean" class="org.springframework.scheduling.quartz.JobDetailBean">
         <property name="jobClass" value="org.kuali.hr.time.batch.CalendarEntrySchedulerJob" />
     </bean>
+    
     <bean id="calendarEntrySchedulerTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
         <property name="jobDetail" ref="calendarEntrySchedulerJobBean" />
         <property name="startDelay" value="${kpme.batch.startDelay.milliseconds}" />
@@ -1004,6 +1024,7 @@
         <property name="leaveCalendarDocumentHeaderService" ref="leaveCalendarDocumentHeaderService" />
         <property name="principalHRAttributesService" ref="principalHRAttributesService" />
     </bean>
+    
     <bean id="leaveCalendarDelinquencyJobBean" class="org.springframework.scheduling.quartz.JobDetailBean">
         <property name="jobClass" value="org.kuali.hr.time.batch.LeaveCalendarDelinquencyJob" />
     </bean>

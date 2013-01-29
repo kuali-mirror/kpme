@@ -17,6 +17,7 @@ package org.kuali.hr.time.batch.service;
 
 import java.util.Date;
 
+import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.quartz.SchedulerException;
 
@@ -45,5 +46,7 @@ public interface BatchJobService {
     void scheduleSupervisorApprovalJobs(CalendarEntries calendarEntry) throws SchedulerException;
     
     void scheduleSupervisorApprovalJobs(CalendarEntries calendarEntry, Date scheduleDate) throws SchedulerException;
+    
+    void scheduleLeaveCarryOverJobs(LeavePlan leavePlan) throws SchedulerException;
     
 }

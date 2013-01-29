@@ -54,6 +54,8 @@
       	<bean parent="MaintainableFieldDefinition" p:name="descr" />
       	<bean parent="MaintainableFieldDefinition" p:name="planningMonths" p:required="true"/>
       	<bean parent="MaintainableFieldDefinition" p:name="calendarYearStart" p:required="true"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="batchPriorYearCarryOverStartDate" />
+      	<bean parent="MaintainableFieldDefinition" p:name="batchPriorYearCarryOverStartTime" />
       	<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />
       </list>
     </property>

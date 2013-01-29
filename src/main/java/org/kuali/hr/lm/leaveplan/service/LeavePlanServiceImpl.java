@@ -108,5 +108,12 @@ public class LeavePlanServiceImpl implements LeavePlanService {
     	
     	return isLastCalendarPeriodOfLeavePlan;
 	}
+
+
+	@Override
+	public List<LeavePlan> getLeavePlansNeedsScheduled(int thresholdDays,
+			Date asOfDate) {
+		return leavePlanDao.getLeavePlansNeedsScheduled(thresholdDays, asOfDate);
+	}
 	
 }
