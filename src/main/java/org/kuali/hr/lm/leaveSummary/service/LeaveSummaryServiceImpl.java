@@ -106,7 +106,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                 //until we have something that creates carry over, we need to grab everything.
                 // Calculating leave bLocks from Calendar Year start instead of Service Date
                 java.util.Date yearStartDate = this.getLeavePlanCalendarYearStart(lp, calendarEntry);
-                List<LeaveBlock> leaveBlocks = getLeaveBlockService().getLeaveBlocks(principalId, yearStartDate, calendarEntry.getEndPeriodDateTime());
+                List<LeaveBlock> leaveBlocks = getLeaveBlockService().getLeaveBlocks(principalId, pha.getServiceDate(), calendarEntry.getEndPeriodDateTime());
 
 
                 List<LeaveBlock> futureLeaveBlocks = getLeaveBlockService().getLeaveBlocks(principalId, calendarEntry.getEndPeriodDateTime(), calendarEntry.getEndLocalDateTime().toDateTime().plusYears(5).toDate());
