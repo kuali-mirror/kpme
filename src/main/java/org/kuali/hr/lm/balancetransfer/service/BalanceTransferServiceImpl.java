@@ -310,7 +310,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					aLeaveBlock.setLeaveAmount(forfeitedAmount.negate());
 					aLeaveBlock.setAccrualGenerated(true);
 					aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
-					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
 					aLeaveBlock.setBlockId(0L);
 					
 					//Want to store the newly created leave block id on this maintainable object

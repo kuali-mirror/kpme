@@ -33,6 +33,7 @@ import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.balancetransfer.validation.BalanceTransferValidationUtils;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
+import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.base.web.TkAction;
@@ -187,8 +188,17 @@ public class BalanceTransferAction extends TkAction {
 					BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(lcd.getPrincipalId(), accrualRuleId, transferRow.getAccruedBalance(), effectiveDate);
 					balanceTransfer.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
 					if(ObjectUtils.isNotNull(balanceTransfer)) {
-						if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {					
-							TkServiceLocator.getBalanceTransferService().submitToWorkflow(balanceTransfer);
+						if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {	
+							// this particular combination of action / action frequency does not particularly make sense
+							// unless for some reason users still need to be prompted to submit the loss.
+							// For now, we treat as though it is a valid use-case.
+							//TkServiceLocator.getBalanceTransferService().submitToWorkflow(balanceTransfer);
+							// May need to update to save the business object to KPME's tables for record keeping.
+							balanceTransfer = TkServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
+							// May need to update to save the business object to KPME's tables for record keeping.
+							LeaveBlock forfeitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(balanceTransfer.getForfeitedLeaveBlockId());
+							forfeitedLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+							TkServiceLocator.getLeaveBlockService().updateLeaveBlock(forfeitedLeaveBlock, lcd.getPrincipalId());
 							return mapping.findForward("closeBalanceTransferDoc");
 						}
 						else {
@@ -252,8 +262,14 @@ public class BalanceTransferAction extends TkAction {
 			if(ObjectUtils.isNotNull(balanceTransfer)) {
 				AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
 				if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
-					// TODO: Redirect user to prompt stating excess leave will be forfeited and ask for confirmation.
-					TkServiceLocator.getBalanceTransferService().submitToWorkflow(balanceTransfer);
+
+					//TkServiceLocator.getBalanceTransferService().submitToWorkflow(balanceTransfer);
+					balanceTransfer = TkServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
+					// May need to update to save the business object to KPME's tables for record keeping.
+					LeaveBlock forfeitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(balanceTransfer.getForfeitedLeaveBlockId());
+					forfeitedLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+					TkServiceLocator.getLeaveBlockService().updateLeaveBlock(forfeitedLeaveBlock, lcd.getPrincipalId());
+					
 					ActionRedirect redirect = new ActionRedirect();
 					if(ObjectUtils.isNotNull(leaveCalendarDocumentId)) {
 						if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||
@@ -319,7 +335,12 @@ public class BalanceTransferAction extends TkAction {
 			if(ObjectUtils.isNotNull(balanceTransfer)) {
 				if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
 					// TODO: Redirect user to prompt stating excess leave will be forfeited and ask for confirmation.
-					TkServiceLocator.getBalanceTransferService().submitToWorkflow(balanceTransfer);
+					// Do not submit the object to workflow for this max balance action.
+					balanceTransfer = TkServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
+					// May need to update to save the business object to KPME's tables for record keeping.
+					LeaveBlock forfeitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(balanceTransfer.getForfeitedLeaveBlockId());
+					forfeitedLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+					TkServiceLocator.getLeaveBlockService().updateLeaveBlock(forfeitedLeaveBlock, tsd.getPrincipalId());
 					ActionRedirect redirect = new ActionRedirect();
 					if(ObjectUtils.isNotNull(timesheetDocumentId)) {
 						if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||

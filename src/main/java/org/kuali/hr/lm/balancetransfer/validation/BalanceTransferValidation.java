@@ -291,7 +291,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 										&& StringUtils.isNotBlank(acr.getMaxBalFlag())
 										&& StringUtils.isNotEmpty(acr.getMaxBalFlag())
 										&& StringUtils.equals(acr.getMaxBalFlag(), "Y")) {
-									if(ObjectUtils.isNotNull(acr.getMaxBalanceTransferToAccrualCategory())) {
+									if(ObjectUtils.isNotNull(toCat)) {
 										isValid &= validatePrincipal(pha,principalId);
 										isValid &= validateEffectiveDate(effectiveDate);
 										isValid &= validateAgainstLeavePlan(pha,fromCat,toCat,effectiveDate);

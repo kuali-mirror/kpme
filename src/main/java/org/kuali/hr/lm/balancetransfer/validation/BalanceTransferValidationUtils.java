@@ -54,7 +54,7 @@ public class BalanceTransferValidationUtils {
 							&& StringUtils.isNotBlank(acr.getMaxBalFlag())
 							&& StringUtils.isNotEmpty(acr.getMaxBalFlag())
 							&& StringUtils.equals(acr.getMaxBalFlag(), "Y")) {
-						if(ObjectUtils.isNotNull(acr.getMaxBalanceTransferToAccrualCategory())) {
+						if(ObjectUtils.isNotNull(acr.getMaxBalanceTransferToAccrualCategory()) || StringUtils.equals(LMConstants.ACTION_AT_MAX_BAL.LOSE, acr.getActionAtMaxBalance())) {
 /*							isValid &= validatePrincipal(pha,principalId);
 							isValid &= validateEffectiveDate(effectiveDate);
 							isValid &= validateAgainstLeavePlan(pha,fromCat,toCat,effectiveDate);
