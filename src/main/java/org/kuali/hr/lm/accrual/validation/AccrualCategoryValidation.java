@@ -37,6 +37,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 	private static final String ADD_LINE_LOCATION = "add.accrualCategoryRules.";
+    private static final String OLD_LINE_LOCATION = "accrualCategoryRules";
 	//need to use categoryHasRules flag for any tests that expect rules for the category
 	//set in doesCategoryHaveRules() below see KPME JIRA 1352
 	private boolean categoryHasRules = true;
@@ -166,7 +167,8 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 	}
 
     /**
-     * Validates all requirements for a single leave accrual category rule
+     * Validates all requirements for a new leave accrual category rule
+     * Called after AddCollectionLineBusinessRule
      * @param leaveAccrualCategoryRule
      * @return
      */
@@ -215,6 +217,63 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
         } //else
         return valid;
     }
+
+    /**
+     * Validates all requirements for all leave accrual category rules already added but might have changed
+     * @param accrualCategoryRules
+     * @return
+     */
+    public boolean validateAccrualCategoryRules(List<AccrualCategoryRule> accrualCategoryRules){
+        boolean valid = true;
+
+        for(int i = 0; i < accrualCategoryRules.size(); i++) {
+            AccrualCategoryRule leaveAccrualCategoryRule = accrualCategoryRules.get(i);
+
+            // cannot validate the rule without this flag now
+            if (StringUtils.isBlank(leaveAccrualCategoryRule.getMaxBalFlag())) {
+                //System.out.println("Caught NPE at max balance FLAG");
+                this.putFieldError("add.accrualCategoryRules[" + i + "].maxBalFlag", "error.required");
+                valid = false;
+            } else {
+                if (leaveAccrualCategoryRule.getMaxBalFlag().equals("Y")) {
+
+                    if (leaveAccrualCategoryRule.getMaxBalance() == null) {
+                        //System.out.println("Caught NPE at max balance");
+                        this.putFieldError("add.accrualCategoryRules[" + i + "].maxBalance", "error.required", "Max Balance");
+                        valid = false;
+                    }
+                    if (leaveAccrualCategoryRule.getMaxBalanceActionFrequency() == null) {
+                        this.putFieldError("add.accrualCategoryRules[" + i + "].maxBalanceActionFrequency", "error.required","Max Balance Action Frequency");
+                        valid = false;
+                    }
+                    if (leaveAccrualCategoryRule.getActionAtMaxBalance() == null) {
+                        this.putFieldError("add.accrualCategoryRules[" + i + "].actionAtMaxBalance", "error.required","Action at Max Balance");
+                        valid = false;
+                    }
+
+                    if (StringUtils.equals(LMConstants.ACTION_AT_MAX_BAL.TRANSFER,leaveAccrualCategoryRule.getActionAtMaxBalance())) {
+                        valid &= validateMaxBalAccCat(leaveAccrualCategoryRule.getMaxBalanceTransferToAccrualCategory(),OLD_LINE_LOCATION+"["+ i +"].");
+                        valid &= validateMaxBalConvFact(leaveAccrualCategoryRule.getMaxBalanceTransferConversionFactor(),OLD_LINE_LOCATION+"["+ i +"].");
+                        valid &= validateMaxBalTransferAmount(leaveAccrualCategoryRule.getMaxTransferAmount(),OLD_LINE_LOCATION+"["+ i +"].");
+                    } else if (StringUtils.equals(LMConstants.ACTION_AT_MAX_BAL.PAYOUT,leaveAccrualCategoryRule.getActionAtMaxBalance())) {
+                        valid &= validateMaxPayoutAmount(leaveAccrualCategoryRule.getMaxPayoutAmount(),OLD_LINE_LOCATION+"["+ i +"].");
+                        valid &= validateMaxPayoutEarnCode(leaveAccrualCategoryRule.getMaxPayoutEarnCode(),OLD_LINE_LOCATION+"["+ i +"].");
+                    }
+                }
+
+                if (leaveAccrualCategoryRule != null&& leaveAccrualCategoryRule.getMaxBalFlag().equals("N")) {
+                    BigDecimal noMaxBal = new BigDecimal(0);
+                    leaveAccrualCategoryRule.setMaxBalance(noMaxBal);
+                    leaveAccrualCategoryRule.setMaxBalanceActionFrequency(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END);
+                    leaveAccrualCategoryRule.setActionAtMaxBalance(LMConstants.ACTION_AT_MAX_BAL.LOSE);
+
+                }
+
+            } //else
+        }
+        return valid;
+    }
+
 	/**
 	 * Validates if there's any gaps or overlaps between rules
 	 * @param accrualCategoryRules
@@ -309,20 +368,16 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
 		if (pbo instanceof AccrualCategory) {
 			AccrualCategory leaveAccrualCategory = (AccrualCategory) pbo;
-			
 			if (leaveAccrualCategory != null) {
-				
 				valid = true;
-				valid &= this.validateEffectiveDate(leaveAccrualCategory.getEffectiveDate());
+				valid &= this.validateEffectiveDate(leaveAccrualCategory.getEffectiveDate());                           //validate effective dates
 				valid &= this.doesCategoryHaveRules(leaveAccrualCategory);
-				valid &= this.validateAccrualRulePresent(leaveAccrualCategory.getAccrualCategoryRules());
+				valid &= this.validateAccrualRulePresent(leaveAccrualCategory.getAccrualCategoryRules());               // validate existence of active rules if specified in Acc. Cat.
 				if(valid && CollectionUtils.isNotEmpty(leaveAccrualCategory.getAccrualCategoryRules())) {
-					valid &= this.validateAccrualRulesGapOverlap(leaveAccrualCategory.getAccrualCategoryRules());
-                    for(AccrualCategoryRule acr: leaveAccrualCategory.getAccrualCategoryRules()){
-                        valid &= this.validateAccrualCategoryRule(acr);
-                    }
+					valid &= this.validateAccrualRulesGapOverlap(leaveAccrualCategory.getAccrualCategoryRules());         //Validate gaps and overaps
+                    valid &= this.validateAccrualCategoryRules(leaveAccrualCategory.getAccrualCategoryRules());           //validate required fields in case of actions at max balance
 				}
-				valid &= this.validateMinPercentWorked(leaveAccrualCategory.getMinPercentWorked(), ADD_LINE_LOCATION);
+				valid &= this.validateMinPercentWorked(leaveAccrualCategory.getMinPercentWorked(), ADD_LINE_LOCATION);      //validate minimum work percentage
 				valid &= this.validateLeavePlan(leaveAccrualCategory.getLeavePlan(), leaveAccrualCategory.getEffectiveDate());
 			}
 		}
@@ -348,9 +403,7 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 		AccrualCategoryRule leaveAccrualCategoryRule = (AccrualCategoryRule) pbo;
 		
 		if(pboAccrualCategory instanceof AccrualCategory){
-			
-			
-			
+//            valid &= this.doesCategoryHaveRules((AccrualCategory) pboAccrualCategory);
 			if (StringUtils.isNotBlank(((AccrualCategory) pboAccrualCategory).getHasRules()) && ((AccrualCategory) pboAccrualCategory).getHasRules().equalsIgnoreCase("Y")){
 				if ( pbo instanceof AccrualCategoryRule ) {
 					AccrualCategory accrualCategory = (AccrualCategory) pboAccrualCategory;
@@ -364,100 +417,10 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 						valid = this.validateStartEndUnits(accrualCategory.getAccrualCategoryRules(), leaveAccrualCategoryRule);
 					}
                     valid = this.validateAccrualCategoryRule(leaveAccrualCategoryRule);
-                    /*
-					///////////////////////////////////////////////////////////
-					// cannot validate the rule without this flag now
-					if (StringUtils.isBlank(leaveAccrualCategoryRule.getMaxBalFlag())) {
-						//System.out.println("Caught NPE at max balance FLAG");
-						this.putFieldError("add.accrualCategoryRules."+ "maxBalFlag", "error.required");
-						valid = false;				
-					} else {
-						if (leaveAccrualCategoryRule.getMaxBalFlag().equals("Y")) {
-	
-							if (leaveAccrualCategoryRule.getMaxBalance() == null) {
-							//System.out.println("Caught NPE at max balance");
-							this.putFieldError("add.accrualCategoryRules."+ "maxBalance", "error.required", "Max Balance");
-								valid = false;
-							}
-							if (leaveAccrualCategoryRule.getMaxBalanceActionFrequency() == null) {
-							this.putFieldError("add.accrualCategoryRules."+ "maxBalanceActionFrequency", "error.required","Max Balance Action Frequency");
-								valid = false;
-							}
-							if (leaveAccrualCategoryRule.getActionAtMaxBalance() == null) {
-							this.putFieldError("add.accrualCategoryRules."+ "actionAtMaxBalance", "error.required","Action at Max Balance");
-								valid = false;
-							}
-	
-							if (StringUtils.equals(LMConstants.ACTION_AT_MAX_BAL.TRANSFER,leaveAccrualCategoryRule.getActionAtMaxBalance())) {
-								valid &= validateMaxBalAccCat(leaveAccrualCategoryRule.getMaxBalanceTransferToAccrualCategory(),ADD_LINE_LOCATION);
-								valid &= validateMaxBalConvFact(leaveAccrualCategoryRule.getMaxBalanceTransferConversionFactor(),ADD_LINE_LOCATION);
-								valid &= validateMaxBalTransferAmount(leaveAccrualCategoryRule.getMaxTransferAmount(),ADD_LINE_LOCATION);
-							} else if (StringUtils.equals(LMConstants.ACTION_AT_MAX_BAL.PAYOUT,leaveAccrualCategoryRule.getActionAtMaxBalance())) {
-								valid &= validateMaxPayoutAmount(leaveAccrualCategoryRule.getMaxPayoutAmount(),ADD_LINE_LOCATION);
-								valid &= validateMaxPayoutEarnCode(leaveAccrualCategoryRule.getMaxPayoutEarnCode(),ADD_LINE_LOCATION);
-							}
-						}
-						
-						if (leaveAccrualCategoryRule != null&& leaveAccrualCategoryRule.getMaxBalFlag().equals("N")) {
-							BigDecimal noMaxBal = new BigDecimal(0);
-							leaveAccrualCategoryRule.setMaxBalance(noMaxBal);
-							leaveAccrualCategoryRule.setMaxBalanceActionFrequency(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END);
-							leaveAccrualCategoryRule.setActionAtMaxBalance(LMConstants.ACTION_AT_MAX_BAL.LOSE);
-	
-						}
-					
-				  } //else  ///////////////////////////////////////////////
-				  */
 				}
 			}
 		}
-		/*if (pbo instanceof AccrualCategoryRule) {
-			
-			leaveAccrualCategoryRule = (AccrualCategoryRule) pbo;
-
-			// cannot validate the rule without this flag now
-			if (StringUtils.isBlank(leaveAccrualCategoryRule.getMaxBalFlag())) {
-				//System.out.println("Caught NPE at max balance FLAG");
-				this.putFieldError("add.accrualCategoryRules."+ "maxBalFlag", "error.required");
-				valid = false;
-							
-			} else {
-
-			if (leaveAccrualCategoryRule.getMaxBalFlag().equals("Y")) {
-
-				if (leaveAccrualCategoryRule.getMaxBalance() == null) {
-				//System.out.println("Caught NPE at max balance");
-				this.putFieldError("add.accrualCategoryRules."+ "maxBalance", "error.required", "Max Balance");
-					valid = false;
-				}
-				if (leaveAccrualCategoryRule.getMaxBalanceActionFrequency() == null) {
-				this.putFieldError("add.accrualCategoryRules."+ "maxBalanceActionFrequency", "error.required","Max Balance Action Frequency");
-					valid = false;
-				}
-				if (leaveAccrualCategoryRule.getActionAtMaxBalance() == null) {
-				this.putFieldError("add.accrualCategoryRules."+ "actionAtMaxBalance", "error.required","Action at Max Balance");
-					valid = false;
-				}
-
-				if (StringUtils.equals("T",leaveAccrualCategoryRule.getActionAtMaxBalance())) {
-					valid &= validateMaxBalAccCat(leaveAccrualCategoryRule.getMaxBalanceTransferToAccrualCategory(),ADD_LINE_LOCATION);
-					valid &= validateMaxBalConvFact(leaveAccrualCategoryRule.getMaxBalanceTransferConversionFactor(),ADD_LINE_LOCATION);
-					valid &= validateMaxBalTransferAmount(leaveAccrualCategoryRule.getMaxTransferAmount(),ADD_LINE_LOCATION);
-				} else if (StringUtils.equals("P",leaveAccrualCategoryRule.getActionAtMaxBalance())) {
-					valid &= validateMaxPayoutAmount(leaveAccrualCategoryRule.getMaxPayoutAmount(),ADD_LINE_LOCATION);
-					valid &= validateMaxPayoutLeaveCode(leaveAccrualCategoryRule.getMaxPayoutLeaveCode(),ADD_LINE_LOCATION);
-				}
-			}
-
-			if (leaveAccrualCategoryRule != null&& leaveAccrualCategoryRule.getMaxBalFlag().equals("N")) {
-				BigDecimal noMaxBal = new BigDecimal(0);
-				leaveAccrualCategoryRule.setMaxBalance(noMaxBal);
-				leaveAccrualCategoryRule.setMaxBalanceActionFrequency("");
-				leaveAccrualCategoryRule.setActionAtMaxBalance("");
-
-			}
-		  } //else
-		}*/
 		return valid;
 	}
+
 }
