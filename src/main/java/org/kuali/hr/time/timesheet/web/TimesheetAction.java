@@ -135,10 +135,9 @@ public class TimesheetAction extends TkAction {
 
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = mapping.findForward("basic");
+    	String command = request.getParameter("command");
     	
-    	if (StringUtils.equals(request.getParameter("command"), "displayDocSearchView")
-        		|| StringUtils.equals(request.getParameter("command"), "displayActionListView") ) {
-        	
+    	if (StringUtils.equals(command, "displayDocSearchView") || StringUtils.equals(command, "displayActionListView")) {
         	String docId = (String) request.getParameter("docId");
         	TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(docId);
         	String timesheetPrincipalName = KimApiServiceLocator.getPersonService().getPerson(timesheetDocument.getPrincipalId()).getPrincipalName();
@@ -148,12 +147,23 @@ public class TimesheetAction extends TkAction {
         	
         	StringBuilder builder = new StringBuilder();
         	if (!StringUtils.equals(principalName, timesheetPrincipalName)) {
-        		builder.append("TimeApproval.do");
+            	if (StringUtils.equals(command, "displayDocSearchView")) {
+            		builder.append("changeTargetPerson.do?methodToCall=changeTargetPerson");
+            		builder.append("&documentId=");
+            		builder.append(docId);
+            		builder.append("&principalName=");
+            		builder.append(timesheetPrincipalName);
+            		builder.append("&targetUrl=TimeDetail.do");
+            		builder.append("?docmentId=" + docId);
+            		builder.append("&returnUrl=TimeApproval.do");
+            	} else {
+            		builder.append("TimeApproval.do");
+            	}
         	} else {
         		builder.append("TimeDetail.do");
         		builder.append("?docmentId=" + docId);
         	}
-        	
+
         	forward = new ActionRedirect(builder.toString());
         }
     	
