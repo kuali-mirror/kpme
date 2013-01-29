@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.time.principal.validation;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -68,6 +69,15 @@ public class PrincipalHRAttributesRule extends MaintenanceDocumentRuleBase {
 			return true;
 		}
 	}
+
+    private boolean validateServiceDate(PrincipalHRAttributes principalHRAttr) {
+        if (StringUtils.isNotEmpty(principalHRAttr.getLeavePlan())
+                && principalHRAttr.getServiceDate() == null) {
+            this.putFieldError("leavePlan", "validation.prerequisite", "'Service Date'");
+            return false;
+        }
+        return true;
+    }
 	
 	boolean validateEffectiveDate(PrincipalHRAttributes principalHRAttr) {
 		boolean valid = true;
@@ -83,6 +93,7 @@ public class PrincipalHRAttributesRule extends MaintenanceDocumentRuleBase {
 			MaintenanceDocument document) {
 		boolean valid = false;
 
+
 		LOG.debug("entering custom validation for Job");
 		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
 		if (pbo instanceof PrincipalHRAttributes) {
@@ -95,6 +106,7 @@ public class PrincipalHRAttributesRule extends MaintenanceDocumentRuleBase {
 				valid &= this.validatePayCalendar(principalHRAttr);
 				valid &= this.validateLeaveCalendar(principalHRAttr);
 				valid &= this.validateLeavePlan(principalHRAttr);
+                valid &= this.validateServiceDate(principalHRAttr);
 			}
 		}
 		return valid;

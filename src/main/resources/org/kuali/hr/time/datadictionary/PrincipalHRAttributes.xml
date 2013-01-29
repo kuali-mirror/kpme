@@ -35,7 +35,8 @@
 			<ref bean="PrincipalHRAttributes-lookupDefinition" />
 		</property>
 		<property name="attributes">
-			<list>				
+			<list>
+                <ref bean="PrincipalHRAttributes-hrPrincipalAttributeId" />
 				<ref bean="PrincipalHRAttributes-principalId" />
 				<ref bean="PrincipalHRAttributes-name" />
 				<ref bean="PrincipalHRAttributes-payCalendar" />
@@ -90,6 +91,23 @@
         </list>
     </property>  		
 	</bean>
+
+    <bean id="PrincipalHRAttributes-hrPrincipalAttributeId" parent="PrincipalHRAttributes-hrPrincipalAttributeId-parentBean" />
+    <bean id="PrincipalHRAttributes-hrPrincipalAttributeId-parentBean" abstract="true"
+          parent="AttributeDefinition">
+        <property name="shortLabel" value="HR Attr Id" />
+        <property name="maxLength" value="40" />
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="40" />
+        </property>
+        <property name="name" value="hrPrincipalAttributeId" />
+        <property name="label" value="HR Attr Id" />
+    </bean>
 
 	<bean id="PrincipalHRAttributes-principalId" parent="PrincipalHRAttributes-principalId-parentBean" />
 	<bean id="PrincipalHRAttributes-principalId-parentBean" abstract="true"
