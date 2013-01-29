@@ -29,4 +29,11 @@
         </addColumn>
     </changeSet>
     
+    <changeSet id="2" author="kbtaylor" context="kpme-client-bootstrap">
+        <modifyDataType tableName="LM_LEAVE_PLAN_T" columnName="BATCH_CARRY_OVER_START_DATE_TIME" newDataType="DATETIME" />
+        <update tableName="LM_LEAVE_PLAN_T">
+            <column name="BATCH_CARRY_OVER_START_DATE_TIME" value="NULL" />
+        </update>
+    </changeSet>
+    
 </databaseChangeLog>
