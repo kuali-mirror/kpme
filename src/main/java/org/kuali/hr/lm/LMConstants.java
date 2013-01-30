@@ -183,4 +183,17 @@ public class LMConstants {
 		 public static final String MAINTENANCE = "M";
 		 public static final String CARRY_OVER = "C";
 	 }
+	 
+	public static final class UNUSED_TIME{
+		public static final String NO_UNUSED = "NUTA";
+        public static final String TRANSFER = "T";
+        public static final String BANK = "B";
+	}
+		
+	public static final Map<String, String> UNUSED_TIME_MAP = new HashMap<String, String>(7);
+    static {
+    	UNUSED_TIME_MAP.put(UNUSED_TIME.NO_UNUSED, "No Unused Time Allowed");
+    	UNUSED_TIME_MAP.put(UNUSED_TIME.TRANSFER, "Transfer");
+    	UNUSED_TIME_MAP.put(UNUSED_TIME.BANK, "Bank");
+    }
 }

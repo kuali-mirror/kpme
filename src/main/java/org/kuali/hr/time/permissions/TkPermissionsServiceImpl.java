@@ -32,6 +32,7 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
@@ -359,7 +360,7 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
             		return true;
             	}
             	SystemScheduledTimeOff ssto = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
-            	if(ssto != null && !StringUtils.equals("NUTA", ssto.getUnusedTime())) {
+            	if(ssto != null && !StringUtils.equals(LMConstants.UNUSED_TIME.NO_UNUSED, ssto.getUnusedTime())) {
             		return true;
             	}
             }
@@ -370,9 +371,12 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
 
     @Override
     public boolean canDeleteLeaveBlock(LeaveBlock lb) {
-    	 if(StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, lb.getRequestStatus()))  {
-             return false;
-         }
+    	if(StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, lb.getRequestStatus()))  {
+            return false;
+        }
+    	if(isBankableSSTOUsage(lb)) {
+    		return true;
+    	}
         if (StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus())) {
         	List<LeaveRequestDocument> docList= TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(lb.getLmLeaveBlockId());
         	if(CollectionUtils.isEmpty(docList)) {
@@ -382,6 +386,29 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
        
         return canEditLeaveBlock(lb);
     }
+
+	private boolean isBankableSSTOUsage(LeaveBlock lb) {
+		// if it's an accrual generated ssto usage leave block which can be banked, and on a current leave calendar,
+	    // it can be deleted so the accrualed amount can be banked
+	   if(lb.getAccrualGenerated() 
+			   && StringUtils.isNotEmpty(lb.getScheduleTimeOffId()) 
+			   && lb.getLeaveAmount().compareTo(BigDecimal.ZERO) < 0) {
+		   SystemScheduledTimeOff ssto = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
+		   if(ssto != null && ssto.getUnusedTime().equals(LMConstants.UNUSED_TIME.BANK)) {
+			   Date currentDate = TKUtils.getTimelessDate(null);
+			   String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
+			   CalendarEntries ce = TkServiceLocator.getCalendarService()
+						.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, currentDate);
+			   if(ce != null) {
+				   if(!lb.getLeaveDate().before(ce.getBeginPeriodDate()) && !lb.getLeaveDate().after(ce.getEndPeriodDate())) {
+					   return true;
+				   }
+			   }
+			  
+		   }
+	   }
+	   return false;
+	}
 
     @Override
     public boolean canViewAdminTab() {
