@@ -208,14 +208,10 @@ public class LeaveCalendarAction extends TkAction {
                     && lcf.getLeaveCalendarDocument() != null;
 
         for(LeaveBlock leaveBlock : leaveBlocks) {
-        	if(leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER) &&
-        			!leaveBlock.getDescription().contains("Max carry over adjustment"))
-        		btDocExists = true;
-            else if(leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT))
+            if(leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT))
             	lpDocExists = true;
         }
-        if(btDocExists
-                && !pendingBTDocumentExists ) {
+        if(!pendingBTDocumentExists ) {
         	warningMes.add("A balance transfer document for this calendar exists");
         }
         if(lpDocExists) {
@@ -231,7 +227,7 @@ public class LeaveCalendarAction extends TkAction {
         }
         
         // add warning messages based on max carry over balances for each accrual category
-/*        PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, calendarEntry.getEndPeriodDate());
+        PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, calendarEntry.getEndPeriodDate());
 		if (principalCalendar != null) {
 			List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(principalCalendar.getLeavePlan(), new java.sql.Date(calendarEntry.getEndPeriodDate().getTime()));
 			for (AccrualCategory accrualCategory : accrualCategories) {
@@ -242,7 +238,7 @@ public class LeaveCalendarAction extends TkAction {
 					}
 				}
 			}
-		}*/
+		}
 		
         lcf.setWarnings(warningMes);
         

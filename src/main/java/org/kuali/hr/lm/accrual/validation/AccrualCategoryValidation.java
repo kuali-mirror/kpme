@@ -34,6 +34,7 @@ import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 	private static final String ADD_LINE_LOCATION = "add.accrualCategoryRules.";
@@ -290,10 +291,12 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 				AccrualCategoryRule aRule = sortedAccrualCategoryRules.get(i);
 				if(aRule != null && i > 0) {
 					AccrualCategoryRule previousRule =  sortedAccrualCategoryRules.get(i-1);
-					if(previousRule.getEnd().compareTo(aRule.getStart()) != 0) {	// overlap
-						String[] errors={previousRule.getEnd().toString(), aRule.getStart().toString()};
-						this.putFieldError("accrualCategoryRules[" + i + "].start", "error.accrualCategoryRule.overlapOrGap", errors);
-						return false;
+					if(ObjectUtils.isNotNull(previousRule.getEnd()) && ObjectUtils.isNotNull(aRule.getStart())) {
+						if(previousRule.getEnd().compareTo(aRule.getStart()) != 0) {	// overlap
+							String[] errors={previousRule.getEnd().toString(), aRule.getStart().toString()};
+							this.putFieldError("accrualCategoryRules[" + i + "].start", "error.accrualCategoryRule.overlapOrGap", errors);
+							return false;
+						}
 					}
 					previousRule = aRule;
 				}
