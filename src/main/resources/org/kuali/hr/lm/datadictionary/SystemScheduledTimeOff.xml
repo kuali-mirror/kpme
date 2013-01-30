@@ -45,7 +45,6 @@
 				<ref bean="SystemScheduledTimeOff-unusedTime" />
 				<ref bean="SystemScheduledTimeOff-transferConversionFactor" />
 				<ref bean="SystemScheduledTimeOff-transfertoEarnCode" />
-				<ref bean="SystemScheduledTimeOff-expirationDate" />
 				<ref bean="SystemScheduledTimeOff-premiumHoliday" />
 				<ref bean="SystemScheduledTimeOff-effectiveDate" />
 				<ref bean="SystemScheduledTimeOff-timestamp" />
@@ -300,24 +299,6 @@
 		<property name="name" value="transfertoEarnCode" />
 		<property name="label" value="Transfer to Earn Code" />
 	</bean>
-
-<!-- ExpirationDate -->
-	<bean id="SystemScheduledTimeOff-expirationDate" parent="SystemScheduledTimeOff-expirationDate-parentBean" />
-	<bean id="SystemScheduledTimeOff-expirationDate-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Expiration Date" />
-		<property name="maxLength" value="12" />
-		<property name="validationPattern">
-			<bean parent="DateValidationPattern" />
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
-		</property>
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
-		<property name="name" value="expirationDate" />
-		<property name="label" value="Expiration Date" />
-	</bean>
-
 
     <!-- Premium Holiday -->
 	<bean id="SystemScheduledTimeOff-premiumHoliday" parent="SystemScheduledTimeOff-premiumHoliday-parentBean" />

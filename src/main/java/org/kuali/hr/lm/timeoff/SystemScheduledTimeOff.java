@@ -45,7 +45,6 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 	private String unusedTime;
 	private BigDecimal transferConversionFactor;
 	private String transfertoEarnCode;
-	private Date expirationDate;
 	private String premiumHoliday;
 	private Boolean history;
 
@@ -148,14 +147,6 @@ public class SystemScheduledTimeOff extends HrBusinessObject {
 
 	public void setTransferConversionFactor(BigDecimal transferConversionFactor) {
 		this.transferConversionFactor = transferConversionFactor;
-	}
-
-	public Date getExpirationDate() {
-		return expirationDate;
-	}
-
-	public void setExpirationDate(Date expirationDate) {
-		this.expirationDate = expirationDate;
 	}
 
 	public String getPremiumHoliday() {

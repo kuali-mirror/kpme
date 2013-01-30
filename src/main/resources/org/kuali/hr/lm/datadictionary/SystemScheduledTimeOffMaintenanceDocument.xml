@@ -75,7 +75,6 @@
 				<bean parent="MaintainableFieldDefinition" p:name="unusedTime"/>
 				<bean parent="MaintainableFieldDefinition" p:name="transfertoEarnCode" />
 				<bean parent="MaintainableFieldDefinition" p:name="transferConversionFactor" />
-				<bean parent="MaintainableFieldDefinition" p:name="expirationDate" />
 				<bean parent="MaintainableFieldDefinition" p:name="premiumHoliday"
 					p:required="true" p:defaultValue="N" />
 				<bean parent="MaintainableFieldDefinition" p:name="active"
