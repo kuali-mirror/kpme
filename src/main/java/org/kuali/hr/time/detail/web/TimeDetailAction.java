@@ -38,6 +38,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.hr.lm.util.LeaveBlockAggregate;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.Calendar;
@@ -110,7 +111,11 @@ public class TimeDetailAction extends TimesheetAction {
         }
         List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(TKContext.getCurrentTimesheetDocument().getPrincipalId(), 
         					payCalendarEntry.getBeginPeriodDate(), payCalendarEntry.getEndPeriodDate(), tAssignmentKeys);
-        
+        List<LeaveBlock> balanceTransferLeaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksByType(TKContext.getCurrentTimesheetDocument().getPrincipalId(),
+        		LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER, payCalendarEntry.getBeginPeriodDate(), payCalendarEntry.getEndPeriodDate());
+        List<String> warnings = tdaf.getWarnings();
+        warnings.addAll(LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(balanceTransferLeaveBlocks));
+        tdaf.setWarnings(warnings);
         this.assignStypeClassMapForTimeSummary(tdaf,timeBlocks, leaveBlocks);
         
         List<Interval> intervals = TKUtils.getFullWeekDaySpanForCalendarEntry(payCalendarEntry);

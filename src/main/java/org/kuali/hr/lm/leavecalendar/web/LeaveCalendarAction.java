@@ -202,26 +202,10 @@ public class LeaveCalendarAction extends TkAction {
         // which row(s) to transfer when user submits the calendar for approval.
         transfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(calendarEntry, viewPrincipal);
 
-        boolean btDocExists = false;
-        boolean lpDocExists = false;
-        boolean pendingBTDocumentExists = !TkServiceLocator.getLeaveCalendarService().isReadyToApprove(lcf.getLeaveCalendarDocument())
-                    && lcf.getLeaveCalendarDocument() != null;
-
-        for(LeaveBlock leaveBlock : leaveBlocks) {
-            if(leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT))
-            	lpDocExists = true;
-        }
-        if(!pendingBTDocumentExists ) {
-        	warningMes.add("A balance transfer document for this calendar exists");
-        }
-        if(lpDocExists) {
-        	warningMes.add("A leave payout document for this calendar exists");
-        }
-
         for(Entry<String, ArrayList<String>> entry : transfers.entrySet()) {
         	if(!entry.getValue().isEmpty()) {
-	        	warningMes.add("You have exceeded the balance limit for one or more accrual categories within your leave plan.");
-	        	warningMes.add("Depending upon the rules of your institution, you may lose any leave over this limit.");
+	        	warningMes.add("One or more accrual categories have exceeded the maximum balance limit. " +
+	        			"Depending upon the accrual category rules, leave over this limit may be forfeited.");
 	        	break;
         	}
         }
