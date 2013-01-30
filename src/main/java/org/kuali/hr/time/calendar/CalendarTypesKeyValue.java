@@ -27,10 +27,11 @@ public class CalendarTypesKeyValue extends KeyValuesBase {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List getKeyValues() {
+	public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue("Pay", "Pay"));
         keyValues.add(new ConcreteKeyValue("Leave", "Leave"));
+        keyValues.add(new ConcreteKeyValue("", "Both"));
         return keyValues;
 	}
 

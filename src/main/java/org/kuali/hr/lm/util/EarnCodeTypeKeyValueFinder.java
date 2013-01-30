@@ -26,7 +26,7 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 public class EarnCodeTypeKeyValueFinder extends KeyValuesBase {
 
 	@Override
-	public List getKeyValues() {
+	public List<KeyValue> getKeyValues() {
 		List<KeyValue> keyValues = new ArrayList<KeyValue>();
         keyValues.add(new ConcreteKeyValue(EarnCodeType.TIME.getCode(), "Time"));
         keyValues.add(new ConcreteKeyValue(EarnCodeType.LEAVE.getCode(), "Leave"));
