@@ -43,12 +43,12 @@ public class CalendarMaintTest extends KPMETestCase {
 		HtmlPage calendarPage = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.CALENDAR_MAINT_URL);
 		HtmlPage resultPage = HtmlUnitUtil.clickInputContainingText(calendarPage, "search");
 		HtmlUnitUtil.createTempFile(resultPage);
-		Assert.assertFalse("Lookup page contains:\n" + "The both radio button is not present", resultPage.asText().contains("Both"));
+		Assert.assertTrue("Lookup page contains:\n" + "The both radio button is not present", resultPage.asText().contains("Both"));
 		
 		//verify the lookup page doesn't contain the both radio button
 		HtmlPage calendarMaintPage = HtmlUnitUtil.clickAnchorContainingText(resultPage, "edit"); //click on the first result
 		HtmlUnitUtil.createTempFile(calendarMaintPage);
-		Assert.assertFalse("Maintenance page contains:\n" + "The both radio button is not present", calendarMaintPage.asText().contains("Both"));
+		Assert.assertFalse("Maintenance page contains:\n" + "The both radio button is present", calendarMaintPage.asText().contains("Both"));
 		
 	}
 	
