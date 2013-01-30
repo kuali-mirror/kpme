@@ -296,6 +296,14 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     public List<TimeHourDetail> getTimeHourDetails() {
         return timeHourDetails;
     }
+    
+    public void addTimeHourDetail(TimeHourDetail timeHourDetail) {
+    	timeHourDetails.add(timeHourDetail);
+    }
+    
+    public void removeTimeHourDetail(TimeHourDetail timeHourDetail) {
+    	timeHourDetails.remove(timeHourDetail);
+    }
 
     public void setTimeHourDetails(List<TimeHourDetail> timeHourDetails) {
         this.timeHourDetails = timeHourDetails;

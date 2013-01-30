@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.Map;
 
 public class FlsaDay {
-	private Map<String,BigDecimal> earnCodeToHours = new HashMap<String,BigDecimal>();
+
 	private Map<String,List<TimeBlock>> earnCodeToTimeBlocks = new HashMap<String,List<TimeBlock>>();
 	private List<TimeBlock> appliedTimeBlocks = new ArrayList<TimeBlock>();
 
@@ -78,7 +78,6 @@ public class FlsaDay {
 	 */
 	public void remapTimeHourDetails() {
 		List<TimeBlock> reApplied = new ArrayList<TimeBlock>(appliedTimeBlocks.size());
-		earnCodeToHours.clear();
 		earnCodeToTimeBlocks.clear();
 		for (TimeBlock block : appliedTimeBlocks) {
 			applyBlock(block, reApplied);
@@ -150,13 +149,10 @@ public class FlsaDay {
 
             List<TimeHourDetail> details = block.getTimeHourDetails();
             for (TimeHourDetail thd : details) {
-                BigDecimal ecHours = earnCodeToHours.containsKey(thd.getEarnCode()) ? earnCodeToHours.get(thd.getEarnCode()) : BigDecimal.ZERO;
                 BigDecimal localEcHours = localEarnCodeToHours.containsKey(thd.getEarnCode()) ? localEarnCodeToHours.get(thd.getEarnCode()) : BigDecimal.ZERO;
                 //NOTE adding this in the last few hours before release.. remove if side effects are noticed
                 if (overlapHours.compareTo(localEcHours) >= 0 || thd.getAmount().compareTo(BigDecimal.ZERO) == 0) {
-                    ecHours = ecHours.add(thd.getHours(), TkConstants.MATH_CONTEXT);
                     localEcHours = localEcHours.add(thd.getHours(), TkConstants.MATH_CONTEXT);
-                    earnCodeToHours.put(thd.getEarnCode(), ecHours);
                     localEarnCodeToHours.put(thd.getEarnCode(), localEcHours);
                 }
             }
@@ -171,10 +167,6 @@ public class FlsaDay {
 		}
 
 		return true;
-	}
-
-	public Map<String, BigDecimal> getEarnCodeToHours() {
-		return earnCodeToHours;
 	}
 
 	public Map<String, List<TimeBlock>> getEarnCodeToTimeBlocks() {
