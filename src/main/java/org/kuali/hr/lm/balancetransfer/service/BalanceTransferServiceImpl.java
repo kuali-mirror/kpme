@@ -46,6 +46,9 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -585,11 +588,17 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			throws WorkflowException {
 		
 		balanceTransfer.setStatus(TkConstants.ROUTE_STATUS.ENROUTE);
+        EntityNamePrincipalName principalName = null;
+        if (balanceTransfer.getPrincipalId() != null) {
+            principalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(balanceTransfer.getPrincipalId());
+        }
 
 		MaintenanceDocument document = KRADServiceLocatorWeb.getMaintenanceDocumentService().setupNewMaintenanceDocument(BalanceTransfer.class.getName(),
 				"BalanceTransferDocumentType",KRADConstants.MAINTENANCE_NEW_ACTION);
-		
-		document.getDocumentHeader().setDocumentDescription("Accrual Triggered Transfer");
+
+        String personName = (principalName != null  && principalName.getDefaultName() != null) ? principalName.getDefaultName().getCompositeName() : StringUtils.EMPTY;
+        String date = TKUtils.formatDate(new java.sql.Date(balanceTransfer.getEffectiveDate().getTime()));
+        document.getDocumentHeader().setDocumentDescription(personName + " (" + balanceTransfer.getPrincipalId() + ")  - " + date);
 		Map<String,String[]> params = new HashMap<String,String[]>();
 		
 		KRADServiceLocatorWeb.getMaintenanceDocumentService().setupMaintenanceObject(document, KRADConstants.MAINTENANCE_NEW_ACTION, params);
