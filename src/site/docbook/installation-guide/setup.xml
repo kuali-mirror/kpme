@@ -82,19 +82,14 @@
                 <para>Oracle</para>
                 <itemizedlist>
                     <listitem>
-                        <para>Oracle Database 10g</para>
-                    </listitem>
-                    <listitem>
-                        <para>Oracle Database 11g</para>
-                    </listitem>
-                    <listitem>
                         <para>Oracle Express Edition (XE)</para>
                     </listitem>
                 </itemizedlist>
                 <para>Use the Oracle JDBC Driver to connect to these databases.</para>
                 <para>
-                    Ensure that the Oracle database you intend to use encodes character data in a UTF variant by default. For Oracle XE, this entails 
-                    downloading the "Universal" flavor of the binary, which uses AL32UTF8.
+                    Enterprise Oracle installations like 10g or 11g should work with KPME but they have not been tested.  Ensure that the Oracle database you 
+                    intend to use encodes character data in a UTF variant by default. For Oracle XE, this entails downloading the "Universal" flavor of the 
+                    binary, which uses AL32UTF8.  
                 </para>
             </listitem>
             <listitem>
@@ -488,7 +483,7 @@ export PATH M2_HOME MAVEN_OPTS JAVA_HOME CATALINA_HOME MYSQL_HOME</programlistin
             </section>
         </section> 
         <section>
-            <title>Java SDK</title>
+            <title>Java Development Kit (JDK)</title>
             <section>
                 <title>Installation</title>
                 <para>
@@ -699,20 +694,76 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
             </section>
             <section>
                 <title>Populate the KPME Database</title>
-                <orderedlist>
-                    <listitem>
-                        <para>
-                            Change to the directory <emphasis role="bold">src/main/config/sql</emphasis>.  Go to the appropriate folder for the version of KPME 
-                            you are installing and your database type.
-                        </para>
-                    </listitem>
-                    <listitem>
-                        <para>
-                            Install the <emphasis role="bold">client.sql</emphasis> file on your KPME database and the 
-                            <emphasis role="bold">server.sql</emphasis> file on your Rice database.
-                        </para>
-                    </listitem>
-                </orderedlist>
+                <para>
+                    Change to the directory <emphasis role="bold">db-scripts</emphasis> in the distribution.  Run the scripts in order for the applicable 
+                    database type.  Client scripts run on the KPME database and server scripts run on the existing Rice database.
+                    <section>
+                        <title>Full Install</title>
+	                    <itemizedlist>
+	                        <listitem>
+	                            <para>Oracle Client</para>
+	                            <orderedlist>
+	                                <listitem><emphasis role="bold">1.2.0/oracle/rice-1.0.3-oracle-client-install.sql</emphasis></listitem>
+	                                <listitem><emphasis role="bold">1.2.0/oracle/rice-2.0.0-oracle-client-install.sql</emphasis></listitem>
+	                                <listitem><emphasis role="bold">1.2.0/oracle/rice-2.1.0-oracle-client-install.sql</emphasis></listitem>
+	                                <listitem><emphasis role="bold">1.2.0/oracle/kpme-1.2.0-oracle-client-install.sql</emphasis></listitem>
+	                                <listitem><emphasis role="bold">1.2.1/oracle/kpme-1.2.1-oracle-client-upgrade.sql</emphasis></listitem>
+	                            </orderedlist>
+	                        </listitem>
+	                        <listitem>
+	                            <para>Oracle Server</para>
+	                            <orderedlist>
+	                                <listitem><emphasis role="bold">1.2.0/oracle/kpme-1.2.0-oracle-server-install.sql</emphasis></listitem>
+	                            </orderedlist>
+	                        </listitem>
+	                        <listitem>
+	                            <para>MySQL Client</para>
+	                            <orderedlist>
+		                            <listitem><emphasis role="bold">1.2.0/mysql/rice-1.0.3-mysql-client-install.sql</emphasis></listitem>
+		                            <listitem><emphasis role="bold">1.2.0/mysql/rice-2.0.0-mysql-client-install.sql</emphasis></listitem>
+		                            <listitem><emphasis role="bold">1.2.0/mysql/rice-2.1.0-mysql-client-install.sql</emphasis></listitem>
+		                            <listitem><emphasis role="bold">1.2.0/mysql/kpme-1.2.0-mysql-client-install.sql</emphasis></listitem>
+		                            <listitem><emphasis role="bold">1.2.1/mysql/kpme-1.2.1-mysql-client-upgrade.sql</emphasis></listitem>
+	                            </orderedlist>
+	                        </listitem>
+	                        <listitem>
+	                            <para>MySQL Server</para>
+	                            <orderedlist>
+	                                <listitem><emphasis role="bold">1.2.0/mysql/kpme-1.2.0-mysql-server-install.sql</emphasis></listitem>
+	                            </orderedlist>
+	                        </listitem>
+	                    </itemizedlist>
+	               </section>
+	               <section>
+                        <title>Upgrade from 1.2.0</title>
+                        <itemizedlist>
+                            <listitem>
+                                <para>Oracle Client</para>
+                                <orderedlist>
+                                    <listitem><emphasis role="bold">1.2.1/oracle/kpme-1.2.1-oracle-client-upgrade.sql</emphasis></listitem>
+                                </orderedlist>
+                            </listitem>
+                            <listitem>
+                                <para>Oracle Server</para>
+                                <orderedlist>
+                                    <listitem>None</listitem>
+                                </orderedlist>
+                            </listitem>
+                            <listitem>
+                                <para>MySQL Client</para>
+                                <orderedlist>
+                                    <listitem><emphasis role="bold">1.2.1/mysql/kpme-1.2.1-mysql-client-upgrade.sql</emphasis></listitem>
+                                </orderedlist>
+                            </listitem>
+                            <listitem>
+                                <para>MySQL Server</para>
+                                <orderedlist>
+                                    <listitem>None</listitem>
+                                </orderedlist>
+                            </listitem>
+                        </itemizedlist>
+                   </section>
+                </para>
             </section>
 	        <section>
 	            <title>Verifying your Database Installation</title>
@@ -729,16 +780,17 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
             <orderedlist>
                 <listitem>
                     <para>
-                        Copy the kpme-web.war file from the base directory of the distribution to the directory that contains web applications in your
-                        servlet container. For Tomcat, this is <emphasis role="bold">&lt;Tomcat-root-directory&gt;/webapps</emphasis>.
+                        Change to the <emphasis role="bold">binary</emphasis> folder in the distribution.  Copy the 
+                        <emphasis role="bold">kpme-web-${project.version}.war</emphasis> file to the directory that contains web applications in your servlet 
+                        container. For Tomcat, this is <emphasis role="bold">&lt;Tomcat-root-directory&gt;/webapps</emphasis>.
                     </para>
                 </listitem>
                 <listitem>
-                    <para>Copy the database-specific JDBC driver to the &lt;Tomcat-root-directory&gt;/lib.</para>
+                    <para>Copy the database-specific JDBC driver to the <emphasis role="bold">&lt;Tomcat-root-directory&gt;/lib.</emphasis></para>
                 </listitem>
                 <listitem>
                     <para>
-	                     Place <emphasis role="bold">src/main/config/local/kuali/*</emphasis> in the <emphasis role="bold">&lt;userhome&gt;/kuali</emphasis> 
+	                     Place <emphasis role="bold">kpme-config.xml</emphasis> in the <emphasis role="bold">&lt;userhome&gt;/kuali/main/dev/</emphasis> 
 	                     directory.
                     </para>
                 </listitem>
@@ -781,8 +833,9 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
 	                    </listitem>
 	                    <listitem>
 	                        <para>
-	                            Ingest all files in <emphasis role="bold">src/main/config/workflow/*</emphasis>.  Ingestion can take several minutes, 
-	                            during which time the activity indicator on your browser will just stay animated.
+	                            Change to the folder <emphasis role="bold">db-scripts/workflow</emphasis> in the distribution and ingest all files in that 
+	                            directory.  You may alternatively put all of these files into one zip file and just ingest the one zip file if it is easier.  
+	                            Ingestion can take several minutes, during which time the activity indicator on your browser will just stay animated.
 	                        </para>
 	                    </listitem>
 	                </itemizedlist>
@@ -892,34 +945,6 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
 	                        <entry>Oracle9i or MySQL</entry>
 	                    </row>
 	                    <row>
-	                        <entry>datasource.platform</entry>
-	                        <entry>Rice platform class name</entry>
-	                        <entry>
-	                            <itemizedlist>
-	                                <listitem>
-	                                    <para>org.kuali.rice.core.database.platform.MySQLPlatform</para>
-	                                </listitem>
-	                                <listitem>
-	                                    <para>org.kuali.rice.core.database.platform.OraclePlatform</para>
-	                                </listitem>
-	                            </itemizedlist>
-	                        </entry>
-	                    </row>
-	                    <row>
-	                        <entry>datasource.driver.name</entry>
-	                        <entry>JDBC driver class name</entry>
-	                        <entry>
-	                            <itemizedlist>
-	                                <listitem>
-	                                    <para>com.mysql.jdbc.Driver</para>
-	                                </listitem>
-	                                <listitem>
-	                                    <para>oracle.jdbc.driver.OracleDriver</para>
-	                                </listitem>
-	                            </itemizedlist>
-	                        </entry>
-	                    </row>
-	                    <row>
 	                        <entry>datasource.username</entry>
 	                        <entry>Username for the database</entry>
 	                        <entry/>
@@ -964,34 +989,6 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
                             <entry>server.datasource.ojb.platform</entry>
                             <entry>OJB platform name</entry>
                             <entry>Oracle9i or MySQL</entry>
-                        </row>
-                        <row>
-                            <entry>server.datasource.platform</entry>
-                            <entry>Rice platform class name</entry>
-                            <entry>
-                                <itemizedlist>
-                                    <listitem>
-                                        <para>org.kuali.rice.core.database.platform.MySQLPlatform</para>
-                                    </listitem>
-                                    <listitem>
-                                        <para>org.kuali.rice.core.database.platform.OraclePlatform</para>
-                                    </listitem>
-                                </itemizedlist>
-                            </entry>
-                        </row>
-                        <row>
-                            <entry>server.datasource.driver.name</entry>
-                            <entry>JDBC driver class name</entry>
-                            <entry>
-                                <itemizedlist>
-                                    <listitem>
-                                        <para>com.mysql.jdbc.Driver</para>
-                                    </listitem>
-                                    <listitem>
-                                        <para>oracle.jdbc.driver.OracleDriver</para>
-                                    </listitem>
-                                </itemizedlist>
-                            </entry>
                         </row>
                         <row>
                             <entry>server.datasource.username</entry>

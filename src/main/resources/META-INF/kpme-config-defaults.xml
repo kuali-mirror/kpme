@@ -86,27 +86,48 @@
 
 	<!-- Client DB Defaults -->
     <param name="datasource.ojb.platform">MySQL</param>
-    <param name="datasource.platform">org.kuali.rice.core.framework.persistence.platform.MySQLDatabasePlatform</param>
-	<param name="datasource.driver.name">com.mysql.jdbc.Driver</param>
-	<param name="datasource.pool.validationQuery">select 1</param>
-	<param name="datasource.pool.maxWait">30000</param>
+    <param name="datasource.pool.maxWait">30000</param>
     <param name="datasource.pool.minSize">10</param>
     <param name="datasource.pool.size">50</param>
     <param name="datasource.pool.maxSize">150</param>
     <param name="datasource.pool.class">com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</param>
     <param name="datasource.pool.class.non.xa">bitronix.tm.resource.jdbc.lrc.LrcXADataSource</param>
 
-	<!-- Server DB Defaults -->
-    <param name="server.datasource.ojb.platform">MySQL</param>
-    <param name="server.datasource.platform">org.kuali.rice.core.framework.persistence.platform.MySQLDatabasePlatform</param>
-    <param name="server.datasource.driver.name">com.mysql.jdbc.Driver</param>
-    <param name="server.datasource.pool.validationQuery">select 1</param>
+    <param name="datasource.pool.class.Oracle9i" override="false">oracle.jdbc.xa.client.OracleXADataSource</param>
+    
+    <param name="datasource.pool.class.MySQL" override="false">com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</param>
+    
+    <param name="datasource.pool.class" override="false">${datasource.pool.class.${datasource.ojb.platform}}</param>
+    
+    <!-- Server DB Defaults -->
+    <param name="server.datasource.ojb.platform" override="false">MySQL</param>
     <param name="server.datasource.pool.maxWait">30000</param>
     <param name="server.datasource.pool.minSize">10</param>
     <param name="server.datasource.pool.size">50</param>
     <param name="server.datasource.pool.maxSize">150</param>
     <param name="server.datasource.pool.class">com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</param>
     <param name="server.datasource.pool.class.non.xa">bitronix.tm.resource.jdbc.lrc.LrcXADataSource</param>
+    
+    <param name="server.datasource.driver.name.Oracle9i" override="false">oracle.jdbc.OracleDriver</param>
+    <param name="server.datasource.platform.Oracle9i" override="false">org.kuali.rice.core.framework.persistence.platform.OracleDatabasePlatform</param>
+    <param name="server.datasource.ojb.sequenceManager.Oracle9i" override="false"></param>
+    <param name="server.datasource.ojb.sequenceManager.className.Oracle9i" override="false"></param>
+    <param name="server.datasource.pool.validationQuery.Oracle9i" override="false">select 1 from dual</param>
+    <param name="server.datasource.pool.class.Oracle9i" override="false">oracle.jdbc.xa.client.OracleXADataSource</param>
+    
+    <param name="server.datasource.driver.name.MySQL" override="false">com.mysql.jdbc.Driver</param>
+    <param name="server.datasource.platform.MySQL" override="false">org.kuali.rice.core.framework.persistence.platform.MySQLDatabasePlatform</param>
+    <param name="server.datasource.ojb.sequenceManager.MySQL" override="false">org.apache.ojb.broker.platforms.KualiMySQLSequenceManagerImpl</param>
+    <param name="server.datasource.ojb.sequenceManager.className.MySQL" override="false">org.apache.ojb.broker.platforms.KualiMySQLSequenceManagerImpl</param>
+    <param name="server.datasource.pool.validationQuery.MySQL" override="false">select 1</param>
+    <param name="server.datasource.pool.class.MySQL" override="false">com.mysql.jdbc.jdbc2.optional.MysqlXADataSource</param>
+    
+    <param name="server.datasource.driver.name" override="false">${server.datasource.driver.name.${server.datasource.ojb.platform}}</param>
+    <param name="server.datasource.platform" override="false">${server.datasource.platform.${server.datasource.ojb.platform}}</param>
+    <param name="server.datasource.ojb.sequenceManager" override="false">${server.datasource.ojb.sequenceManager.${server.datasource.ojb.platform}}</param>
+    <param name="server.datasource.ojb.sequenceManager.className" override="false">${server.datasource.ojb.sequenceManager.className.${server.datasource.ojb.platform}}</param>
+    <param name="server.datasource.pool.validationQuery" override="false">${server.datasource.pool.validationQuery.${server.datasource.ojb.platform}}</param>
+    <param name="server.datasource.pool.class" override="false">${server.datasource.pool.class.${server.datasource.ojb.platform}}</param>
     
     <!-- KPME Client DB -->
     <param name="datasource.url" override="false">jdbc:mysql://localhost:3306/kpmedev</param>
