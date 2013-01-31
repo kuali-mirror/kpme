@@ -19,6 +19,7 @@ import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.base.web.TkCommonCalendarForm;
@@ -64,6 +65,7 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
 	private DateTime currentPayCalEnd;
 	private LeaveSummary leaveSummary;
     private boolean leavePlanningCalendar;
+    private List<BalanceTransfer> forfeitures;
 	
 	public DateTime getCurrentPayCalStart() {
 		return currentPayCalStart;
@@ -300,5 +302,13 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
 
 	public void setLeaveSummary(LeaveSummary leaveSummary) {
 		this.leaveSummary = leaveSummary;
+	}
+
+	public List<BalanceTransfer> getForfeitures() {
+		return forfeitures;
+	}
+
+	public void setForfeitures(List<BalanceTransfer> forfeitures) {
+		this.forfeitures = forfeitures;
 	}
 }

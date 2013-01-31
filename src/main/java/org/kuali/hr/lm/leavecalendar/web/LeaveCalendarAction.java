@@ -35,6 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -43,6 +44,8 @@ import org.apache.struts.action.ActionRedirect;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.accrual.AccrualCategoryRule;
+import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
@@ -201,7 +204,32 @@ public class LeaveCalendarAction extends TkAction {
         // Could set a flag on the transferable rows here so that LeaveCalendarSubmit.do knows
         // which row(s) to transfer when user submits the calendar for approval.
         transfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(calendarEntry, viewPrincipal);
+        List<BalanceTransfer> losses = new ArrayList<BalanceTransfer>();
 
+        for(String accrualRuleId : transfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)) {
+        	AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+        	if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
+	        	BigDecimal accruedBalance = lcf.getLeaveSummary().getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId()).getAccruedBalance();
+	        	Date effectiveDate = TKUtils.getCurrentDate();
+	        	if(TKUtils.getCurrentDate().after(calendarEntry.getEndPeriodDate()))
+	        		effectiveDate = new Date(DateUtils.addDays(calendarEntry.getEndPeriodDate(),-1).getTime());
+	        	BalanceTransfer loseTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(viewPrincipal, accrualRuleId, accruedBalance, effectiveDate);
+	        	losses.add(loseTransfer);
+        	}
+        }
+        for(String accrualRuleId : transfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+        	AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+        	if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
+	        	BigDecimal accruedBalance = lcf.getLeaveSummary().getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId()).getAccruedBalance();
+	        	Date effectiveDate = TKUtils.getCurrentDate();
+	        	if(TKUtils.getCurrentDate().after(calendarEntry.getEndPeriodDate()))
+	        		effectiveDate = new Date(DateUtils.addDays(calendarEntry.getEndPeriodDate(),-1).getTime());
+	        	BalanceTransfer loseTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(viewPrincipal, accrualRuleId, accruedBalance, effectiveDate);
+	        	losses.add(loseTransfer);
+        	}
+        }
+        lcf.setForfeitures(losses);
+        
         for(Entry<String, ArrayList<String>> entry : transfers.entrySet()) {
         	if(!entry.getValue().isEmpty()) {
 	        	warningMes.add("One or more accrual categories have exceeded the maximum balance limit. " +

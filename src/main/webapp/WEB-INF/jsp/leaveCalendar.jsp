@@ -143,4 +143,30 @@
 
 	</div>
 	
+	<div id="confirm-forfeiture-dialog" class="dialog-form" title="Confirm Forfeiture">
+	   <html:form action="/LeaveCalendarSubmit.do" styleId="leaveBlock-form">
+	
+	        <html:hidden property="methodToCall" value="" styleId="methodToCall"/>
+	        <html:hidden property="calEntryId" value="${Form.calEntryId}" styleId="calEntryId"/>
+			<html:hidden property="loseOnSubmit" value="${not empty Form.forfeitures}" styleId="loseOnSubmit"/>
+			 
+	        <div class="ui-widget timesheet-panel" id="timesheet-panel">
+	            <table>
+					<tr>
+						<th></th>
+						<th>Forfeited Amount</th>
+					</tr>
+					<tbody>
+					<c:forEach var="forfeiture" items="${Form.forfeitures}">
+						<tr>
+							<td>${forfeiture.fromAccrualCategory}: </td>
+							<td align="right">${forfeiture.forfeitedAmount}</td>
+						</tr>
+					</c:forEach>
+					</tbody>
+	            </table>
+	        </div>
+	    </html:form>
+	</div>
+	
 </tk:tkHeader>

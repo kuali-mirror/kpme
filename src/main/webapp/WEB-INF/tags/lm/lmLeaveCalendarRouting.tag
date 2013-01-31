@@ -8,7 +8,14 @@
     <c:if test="${tagSupport.displayingLeaveRouteButton}">
         <c:choose>
             <c:when test="${tagSupport.routeLeaveButtonEnabled}">
-                <input id="ts-route-button" type="button" class="button" value="Submit for Approval" name="route" onclick="location.href='LeaveCalendarSubmit.do?action=${tagSupport.routeAction}&documentId=${tagSupport.leaveCalendarDocumentId}&methodToCall=approveLeaveCalendar'"/>
+            	<c:choose>
+	            	<c:when test="${not empty Form.forfeitures}">
+		                <input id="ts-route-button" type="button" class="button" value="Submit for Approval" name="route"/>
+		            </c:when>
+		            <c:otherwise>
+		                <input id="ts-route-button" type="button" class="button" value="Submit for Approval" name="route" onclick="location.href='LeaveCalendarSubmit.do?action=${tagSupport.routeAction}&documentId=${tagSupport.leaveCalendarDocumentId}&methodToCall=approveLeaveCalendar'"/>
+					</c:otherwise>
+				</c:choose>
             </c:when>
             <c:otherwise>
                 <input disabled id="ts-route-button" type="button" class="button" value="Submit for Approval" name="route"/>

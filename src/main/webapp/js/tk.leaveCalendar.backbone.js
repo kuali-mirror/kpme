@@ -102,7 +102,8 @@ $(function () {
             "keypress #selectedAssignment" : "changeAssignment",
             "click input[id^=lm-transfer-button]" : "showOnDemandBalanceTransferDialog",
             "click #lm-payout-button" : "showOnDemandBalancePayoutDialog",
-            "click #lm-leavepayout-button" : "showLeavePayoutDialog"
+            "click #lm-leavepayout-button" : "showLeavePayoutDialog",
+            "click #ts-route-button" : "forfeitBalanceOnSubmit"
         },
 
         initialize : function () {
@@ -301,9 +302,34 @@ $(function () {
 //            }
         },
         
-        // Button for iFrame show/hide to show the missed punch items
-        // The iFrame is added to the missed-punch-dialog as a child element.
-        // tdocid is a variable that is set from the form value in 'clock.jsp'
+        forfeitBalanceOnSubmit : function () {
+        	var docId = $('#documentId').val();
+        	if ($('#loseOnSubmit').val() == 'true') {
+        		$('#confirm-forfeiture-dialog').dialog({
+        			autoOpen: true,
+        			height: 'auto',
+        			width: 'auto',
+        			modal: true,
+        			open : function () {
+        				// Set the selected date on start/end time fields
+        				// This statmement can tell is showTimeEntryDialog() by other methods or triggered directly by backbone.
+        			},
+        			close : function () {
+
+        			},
+        			buttons : {
+        				"Forfeit" : function () {
+        					window.location = "LeaveCalendarSubmit.do?methodToCall=approveLeaveCalendar&documentId=" + docId + "&action=R";
+        					$(this).dialog("close");
+        				},
+        				Cancel : function () {
+        					$(this).dialog("close");
+        				}
+        			}
+        		});
+    		}
+    	},
+        
         showOnDemandBalanceTransferDialog : function (e) {
         	var docId = $('#documentId').val();
         	var accrualRuleId = _(e).parseEventKey().id;
