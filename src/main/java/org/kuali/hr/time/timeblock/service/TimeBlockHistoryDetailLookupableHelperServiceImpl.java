@@ -136,7 +136,7 @@ public class TimeBlockHistoryDetailLookupableHelperServiceImpl extends KualiLook
     	List<TkRole> tkRoles = TkServiceLocator.getTkRoleService().getRoles(TKContext.getPrincipalId(), TKUtils.getCurrentDate());
 		while(itr.hasNext()){
 			TimeBlockHistoryDetail tbhd = (TimeBlockHistoryDetail)itr.next();
-			Job job = TkServiceLocator.getJobService().getJob(tbhd.getTimeBlockHistory().getUserPrincipalId(), tbhd.getTimeBlockHistory().getJobNumber(), TKUtils.getCurrentDate(), false);
+			Job job = TkServiceLocator.getJobService().getJob(tbhd.getTimeBlockHistory().getPrincipalId(), tbhd.getTimeBlockHistory().getJobNumber(), TKUtils.getCurrentDate(), false);
 			boolean valid = false;
 			for (TkRole tkRole : tkRoles) {
 				if (StringUtils.equals(tkRole.getRoleName(),
@@ -145,8 +145,7 @@ public class TimeBlockHistoryDetailLookupableHelperServiceImpl extends KualiLook
 						|| (StringUtils.equals(tkRole.getRoleName(),
 								TkConstants.ROLE_TK_APPROVER) && tbhd.getTimeBlockHistory().getWorkArea().equals(tkRole.getWorkArea()))
 						|| (StringUtils.equals(tkRole.getRoleName(),
-								TkConstants.ROLE_TK_DEPT_ADMIN) && (job != null && (job
-								.getDept().equals(tkRole.getDepartment()))))) {
+								TkConstants.ROLE_TK_DEPT_ADMIN) && (job != null && (job.getDept().equals(tkRole.getDepartment()))))) {
 					valid = true;
 					break;
 				}
