@@ -118,4 +118,21 @@ public interface LeaveBlockService {
      * @return List of leave blocks
      */
     public List<LeaveBlock> getLeaveBlocksByType(String principalId, String leaveBlockType, Date beginDate, Date endDate);
+    /**
+     * Retrieve list of accrual generated leave blocks for given Date range and User
+     * @param principalId 
+     * @param beginDate
+     * @param endDate
+     * @return List of leave blocks
+     */
+    public List<LeaveBlock> getAccrualGeneratedLeaveBlocks(String principalId, Date beginDate, Date endDate);
+    
+    /**
+     * Retrieve list of leave blocks generated with given system scheduled time off id, date and user
+     * @param principalId
+     * @param sstoId
+     * @param accruledDate
+     * @return
+     */
+    public List<LeaveBlock> getSSTOLeaveBlock(String principalId, String sstoId, Date accruledDate);
 }

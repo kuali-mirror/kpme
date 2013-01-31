@@ -925,4 +925,159 @@ public class AccrualServiceTest extends KPMETestCase {
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 	}
 
+	@Test
+	/*	testUser18's service Date is 2012-03-20 which is a Tuesday
+	 * 	testUser18 has one accrual category "testAC21" with effectiveDate of 2012-03-01
+	 *  testAC21 has proration = false, minimum percentage = 0
+	 *  testAC21 has "weekly" as the earn interval
+	 *  The rule associated with the AC has 6 as the accrual rate
+	 *  run accrual for testUser18 for 6 months
+	 */
+	public void testWeeklyAsEarnInterval() {
+		String principal_id = "testUser18";
+		Calendar aCal = Calendar.getInstance();
+		aCal.setTime(START_DATE);
+		aCal.add(Calendar.MONTH, 6);
+		Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		 
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE, endDate);
+		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
+		
+		TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, endDate, false);
+		
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE, endDate);
+		Assert.assertTrue("There should be 22 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 22);	
+		
+		// 03/24/2012
+		Date intervalDate = new Date((new DateTime(2012, 3, 24, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate);
+		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
+		LeaveBlock lb = leaveBlockList.get(0);		
+		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 3, not " + lb.getLeaveAmount().toString()
+				 , lb.getLeaveAmount().equals(new BigDecimal(3)));		
+		// 03/31/2012
+		intervalDate = new Date((new DateTime(2012, 3, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate);
+		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
+		lb = leaveBlockList.get(0);		
+		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 4, not " + lb.getLeaveAmount().toString()
+				 , lb.getLeaveAmount().equals(new BigDecimal(4)));
+		// 08/11/2012
+		intervalDate = new Date((new DateTime(2012, 8, 11, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate);
+		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
+		lb = leaveBlockList.get(0);		
+		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 4, not " + lb.getLeaveAmount().toString()
+				 , lb.getLeaveAmount().equals(new BigDecimal(4)));
+		// 08/18/2012
+		intervalDate = new Date((new DateTime(2012, 8, 18, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate);
+		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
+		lb = leaveBlockList.get(0);		
+		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 4, not " + lb.getLeaveAmount().toString()
+				 , lb.getLeaveAmount().equals(new BigDecimal(4)));
+	}
+	@Test
+	/*	testUser19's service Date is 2012-03-20
+	 * 	testUser19 has one accrual category "testAC22" with effectiveDate of 2012-03-01
+	 *  testAC22 has "yearly" as the earn interval
+	 *  The rule associated with the AC has 100 hours as the accrual rate
+	 *  run accrual for testUser19 for 18 months
+	 */
+	public void testYearlyAsEarnInterval() {
+		String principal_id = "testUser19";
+		Calendar aCal = Calendar.getInstance();
+		aCal.setTime(START_DATE);
+		aCal.add(Calendar.MONTH, 18);
+		Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		 
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE, endDate);
+		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
+		
+		TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, endDate, false);
+		
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE, endDate);
+		Assert.assertTrue("There should be 1 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 1);
+		
+		// 12/31/2013
+		Date intervalDate = new Date((new DateTime(2012, 12, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate);
+		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
+		LeaveBlock lb = leaveBlockList.get(0);		
+		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 100, not " + lb.getLeaveAmount().toString()
+				 , lb.getLeaveAmount().equals(new BigDecimal(100)));		
+	}
+	@Test
+	/*	testUser20's service Date is 2012-03-20
+	 * 	testUser20 has one accrual category "testAC23" with effectiveDate of 2012-03-01
+	 *  testAC23 has "daily" as the earn interval
+	 *  The rule associated with the AC has 2 as the accrual rate
+	 *  run accrual for testUser20 for 3 months
+	 */
+	public void testDailyAsEarnInterval() {
+		String principal_id = "testUser20";
+		Calendar aCal = Calendar.getInstance();
+		aCal.setTime(START_DATE);
+		aCal.add(Calendar.MONTH, 3);
+		Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		 
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE, endDate);
+		Assert.assertTrue("There are leave blocks before runAccrual for princiapl id " + principal_id, leaveBlockList.isEmpty());
+		
+		TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, endDate, false);
+		
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE, endDate);
+		Assert.assertTrue("There should be 44 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 44);
+		
+		// 03/20/2012
+		Date intervalDate = new Date((new DateTime(2012, 3, 20, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate);
+		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
+		LeaveBlock lb = leaveBlockList.get(0);		
+		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 2, not " + lb.getLeaveAmount().toString()
+				 , lb.getLeaveAmount().equals(new BigDecimal(2)));	
+		
+		// 05/28/2012
+		intervalDate = new Date((new DateTime(2012, 5, 18, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate);
+		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
+		lb = leaveBlockList.get(0);		
+		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 2, not " + lb.getLeaveAmount().toString()
+				 , lb.getLeaveAmount().equals(new BigDecimal(2)));
+	}
+
+	@Test
+	/*	testUser21's service Date is 2012-03-20
+	 * 	testUser21 has one accrual category "testAC24" with effectiveDate of 2012-03-01
+	 *  testAC24 has "monthly" as the earn interval
+	 *  There's a accrual ssto leave block on 04/10/2012 for testUser21,no usage lb, so that's a banked ssto accrual
+	 *  run accrual for testUser21 for 3 months, the accrual service should not delete the existing leaveblock
+	 *  and should not generate new ssto accrual/usage lbs
+	 */
+	public void testSSTOBanked() {
+		String principal_id = "testUser21";
+		Calendar aCal = Calendar.getInstance();
+		aCal.setTime(START_DATE);
+		aCal.add(Calendar.MONTH, 3);
+		Date endDate = new java.sql.Date(aCal.getTime().getTime());
+		 
+		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE, endDate);
+		Assert.assertTrue("There should be 1 leave blocks for princiapl id before runAccrual" + principal_id, leaveBlockList.size() == 1);
+		
+		TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, endDate, false);
+		
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE, endDate);
+		Assert.assertTrue("There should be 3 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 3);
+		
+		// 04/10/2012
+		Date intervalDate = new Date((new DateTime(2012, 4, 10, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate);
+		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
+		LeaveBlock lb = leaveBlockList.get(0);		
+		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 8, not " + lb.getLeaveAmount().toString()
+				 , lb.getLeaveAmount().equals(new BigDecimal(8)));	
+		Assert.assertTrue("LeaveBlockId of the leave block for date  " + intervalDate.toString() + " should be 5004, not " + lb.getLmLeaveBlockId()
+				 , lb.getLmLeaveBlockId().equals("5004"));	
+	}
+
 }

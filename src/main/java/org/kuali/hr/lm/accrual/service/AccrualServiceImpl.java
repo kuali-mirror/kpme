@@ -140,8 +140,9 @@ public class AccrualServiceImpl implements AccrualService {
 			
 			BigDecimal ftePercentage = currentRange.getAccrualRatePercentageModifier();
 			BigDecimal totalOfStandardHours = currentRange.getStandardHours();
-			
+			boolean fullFteGranted = false;
 			for(AccrualCategory anAC : accrCatList) {
+				fullFteGranted = false;
 				if(!currentDate.before(phra.getEffectiveDate()) && !anAC.getAccrualEarnInterval().equals("N")) {   	// "N" means no accrual
 					boolean prorationFlag = this.getProrationFlag(anAC.getProration());
 					// get the accrual rule 
@@ -179,9 +180,11 @@ public class AccrualServiceImpl implements AccrualService {
 									if(minReachedFlag) {
 										// min reached, proration = false, rule changed, then accrual the whole fte of the new rule for this pay interval
 										accumulatedAccrualCatToAccrualAmounts.put(anAC.getLmAccrualCategoryId(), currentAcRule.getAccrualRate());
+										fullFteGranted = true;
 									} else {
 										//min NOT reached, proration = false, rule changed, then accrual the whole fte of the previous rule for this pay interval
 										accumulatedAccrualCatToAccrualAmounts.put(anAC.getLmAccrualCategoryId(), previousAcRule.getAccrualRate());
+										fullFteGranted = true;
 									}
 								}
 							}
@@ -211,6 +214,7 @@ public class AccrualServiceImpl implements AccrualService {
 							if(minReachedFlag) {
 								//  minimum reached, proration = false, first pay period, then accrual the whole fte of current AC rule for this pay interval
 								accumulatedAccrualCatToAccrualAmounts.put(anAC.getLmAccrualCategoryId(), currentAcRule.getAccrualRate());
+								fullFteGranted = true;
 							} else {
 								// min NOT reached, proration = false, first pay period, then no accrual for this pay period
 								accumulatedAccrualCatToAccrualAmounts.remove(anAC.getLmAccrualCategoryId());
@@ -244,6 +248,7 @@ public class AccrualServiceImpl implements AccrualService {
 								if(minReachedFlag) {
 									//  minimum reached, proration = false, first pay period, then accrual the whole fte of current AC rule for this pay interval
 									accumulatedAccrualCatToAccrualAmounts.put(anAC.getLmAccrualCategoryId(), currentAcRule.getAccrualRate());
+									fullFteGranted = true;
 								} else {
 									// min NOT reached, proration = false, first pay period, then no accrual for this pay period
 									accumulatedAccrualCatToAccrualAmounts.remove(anAC.getLmAccrualCategoryId());
@@ -261,7 +266,7 @@ public class AccrualServiceImpl implements AccrualService {
 					}
 					
 					// only accrual on work days
-					if(!TKUtils.isWeekend(currentDate)) {
+					if(!TKUtils.isWeekend(currentDate) && !fullFteGranted) {
 						BigDecimal accrualRate = currentAcRule.getAccrualRate();
 						int numberOfWorkDays = this.getWorkDaysInInterval(new java.sql.Date(currentDate.getTime()), anAC.getAccrualEarnInterval(), phra.getPayCalendar(), rrAggregate.getCalEntryMap());
 						BigDecimal dayRate = numberOfWorkDays > 0 ? accrualRate.divide(new BigDecimal(numberOfWorkDays), 6, BigDecimal.ROUND_HALF_UP) : new BigDecimal(0);
@@ -287,6 +292,7 @@ public class AccrualServiceImpl implements AccrualService {
 						if(acHours != null) {
 							createLeaveBlock(principalId, accrualLeaveBlocks, currentDate, acHours, anAC, null, true, currentRange.getLeaveCalendarDocumentId());
 							accumulatedAccrualCatToAccrualAmounts.remove(anAC.getLmAccrualCategoryId());	// reset accumulatedAccrualCatToAccrualAmounts
+							fullFteGranted = false;
 						}
 						
 						BigDecimal adjustmentHours = accumulatedAccrualCatToNegativeAccrualAmounts.get(anAC.getLmAccrualCategoryId());
@@ -351,12 +357,33 @@ public class AccrualServiceImpl implements AccrualService {
 	}
 	
 	private void inactivateOldAccruals(String principalId, Date startDate, Date endDate, String runAsPrincipalId) {
-		List<LeaveBlock> previousLB = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, startDate, endDate);
+		List<LeaveBlock> previousLB = TkServiceLocator.getLeaveBlockService().getAccrualGeneratedLeaveBlocks(principalId, startDate, endDate);
+		List<LeaveBlock> sstoAccrualList = new ArrayList<LeaveBlock>();
+		List<LeaveBlock> sstoUsageList = new ArrayList<LeaveBlock>();
+		
 		for(LeaveBlock lb : previousLB) {
-			if(lb.getAccrualGenerated()) {
+			if(StringUtils.isNotEmpty(lb.getScheduleTimeOffId())) {
+				if(lb.getLeaveAmount().compareTo(BigDecimal.ZERO) > 0) {
+					sstoAccrualList.add(lb);
+				} else if(lb.getLeaveAmount().compareTo(BigDecimal.ZERO) < 0) {
+					sstoUsageList.add(lb);
+				}
+			} else {
 				TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(lb.getLmLeaveBlockId(), runAsPrincipalId);
 			}
 		}
+		
+		for(LeaveBlock accrualLb : sstoAccrualList) {
+			for(LeaveBlock usageLb : sstoUsageList) {
+				// both usage and accrual ssto leave blocks are there, so the ssto accural is not banked, removed both leave blocks
+				// if this is no ssto usage leave block, it means the user has banked this ssto hours. Don't delete this ssto accrual leave block
+				if(accrualLb.getScheduleTimeOffId().equals(usageLb.getScheduleTimeOffId())) {	
+					TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(accrualLb.getLmLeaveBlockId(), runAsPrincipalId);
+					TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(usageLb.getLmLeaveBlockId(), runAsPrincipalId);
+				}
+			}
+		}
+		
 	}
 	
 	private BigDecimal getNotEligibleForAccrualHours(String principalId, Date currentDate) {
@@ -650,7 +677,12 @@ public class AccrualServiceImpl implements AccrualService {
 				for(SystemScheduledTimeOff ssto : sstoList) {
 					if(TKUtils.removeTime(ssto.getAccruedDate()).equals(TKUtils.removeTime(currentDate) )
 							&& ssto.getLeavePlan().equals(rateRange.getLeavePlan().getLeavePlan())) {
-						rateRange.setSysScheTimeOff(ssto);
+						// if there exists a ssto accrualed leave block with this ssto id, it means the ssto hours has been banked by the employee
+						// this logic depends on the inactivateOldAccruals() runs before buildRateRangeAggregate()
+						List<LeaveBlock> sstoLbList = TkServiceLocator.getLeaveBlockService().getSSTOLeaveBlock(principalId, ssto.getLmSystemScheduledTimeOffId(), ssto.getAccruedDate());
+						if(CollectionUtils.isEmpty(sstoLbList)) {
+							rateRange.setSysScheTimeOff(ssto);
+						}
 					}	
 				}
 			}
@@ -894,7 +926,7 @@ public class AccrualServiceImpl implements AccrualService {
 		aCal.setTime(aDate);
 
 		if(earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.DAILY)) {
-			// no change to calendar
+			aCal.add(Calendar.DAY_OF_YEAR, -1);
 		} else if(earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.WEEKLY)) {
 			aCal.add(Calendar.WEEK_OF_YEAR, -1);
 			aCal.set(Calendar.DAY_OF_WEEK, 7);	// set to the Saturday of previous week
