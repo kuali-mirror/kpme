@@ -45,6 +45,7 @@ import org.kuali.hr.time.util.TKUtils;
 
 import com.google.common.base.Predicate;
 import org.kuali.rice.krad.util.ErrorMessage;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class LeaveCalendarValidationUtil {
     
@@ -153,11 +154,13 @@ public class LeaveCalendarValidationUtil {
                 		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(lb.getPrincipalId(), lb.getLeaveDate());
                 		AccrualCategory accrualCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveDate());
                 		AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCat, TKUtils.getCurrentDate(), pha.getServiceDate());
-                		if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE) &&
-                				lb.getLeaveAmount().signum() == -1)
-                			aSet.add("A max balance action that forfeited accrued leave occurred on this calendar");
-                		else
-                			aSet.add("A max balance action for transfer occurred on this calendar.");
+                		if(ObjectUtils.isNotNull(aRule)) {
+	                		if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE) &&
+	                				lb.getLeaveAmount().signum() == -1)
+	                			aSet.add("A max balance action that forfeited accrued leave occurred on this calendar");
+	                		else
+	                			aSet.add("A max balance action for transfer occurred on this calendar.");
+                		}
                 	}
                 }
                 if (StringUtils.equals(lb.getLeaveBlockType(), LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT)) {
