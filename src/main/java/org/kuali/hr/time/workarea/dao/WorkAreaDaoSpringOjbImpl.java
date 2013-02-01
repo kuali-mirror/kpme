@@ -20,37 +20,30 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class WorkAreaDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements WorkAreaDao {
+    private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+            .add("workArea")
+            .build();
 
     @Override
     public WorkArea getWorkArea(Long workArea, Date asOfDate) {
 		Criteria root = new Criteria();
-		Criteria effdt = new Criteria();
-		Criteria timestamp = new Criteria();
-
-		effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(WorkArea.class, effdt);
-		effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-
-		timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(WorkArea.class, timestamp);
-		timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 
 		root.addEqualTo("workArea", workArea);
-		root.addEqualTo("effectiveDate", effdtSubQuery);
-		root.addEqualTo("timestamp", timestampSubQuery);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(WorkArea.class, asOfDate, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(WorkArea.class, EQUAL_TO_FIELDS, false));
 
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
@@ -63,24 +56,10 @@ public class WorkAreaDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
     @Override
     public List<WorkArea> getWorkArea(String department, Date asOfDate) {
         Criteria root = new Criteria();
-        Criteria effdt = new Criteria();
-        Criteria timestamp = new Criteria();
-
-        effdt.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
-        effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-        effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(WorkArea.class, effdt);
-        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-
-        timestamp.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
-        timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-        timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(WorkArea.class, timestamp);
-        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 
         root.addEqualTo("dept", department);
-        root.addEqualTo("effectiveDate", effdtSubQuery);
-        root.addEqualTo("timestamp", timestampSubQuery);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(WorkArea.class, asOfDate, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(WorkArea.class, EQUAL_TO_FIELDS, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
@@ -153,19 +132,8 @@ public class WorkAreaDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
         }
 		
 		if (StringUtils.equals(showHistory, "N")) {
-			Criteria effdt = new Criteria();
-			effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-			effdt.addAndCriteria(effectiveDateFilter);
-			ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(WorkArea.class, effdt);
-			effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
-			root.addEqualTo("effectiveDate", effdtSubQuery);
-			
-			Criteria timestamp = new Criteria();
-			timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-			timestamp.addAndCriteria(effectiveDateFilter);
-			ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(WorkArea.class, timestamp);
-			timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-			root.addEqualTo("timestamp", timestampSubQuery);
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(WorkArea.class, effectiveDateFilter, EQUAL_TO_FIELDS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(WorkArea.class, EQUAL_TO_FIELDS, false));
 		}
 		
         Query query = QueryFactory.newQuery(WorkArea.class, root);

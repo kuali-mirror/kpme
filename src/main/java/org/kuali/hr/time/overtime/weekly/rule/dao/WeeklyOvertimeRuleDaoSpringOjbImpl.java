@@ -20,11 +20,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.hr.core.util.OjbSubQueryUtil;
+import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -36,27 +39,14 @@ public class WeeklyOvertimeRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb 
 		List<WeeklyOvertimeRule> list = new ArrayList<WeeklyOvertimeRule>();
 
 		Criteria root = new Criteria();
-		Criteria effdt = new Criteria();
-		Criteria timestamp = new Criteria();
-		
-		effdt.addEqualToField("convertFromEarnGroup", Criteria.PARENT_QUERY_PREFIX + "convertFromEarnGroup");
-		effdt.addEqualToField("convertToEarnCode", Criteria.PARENT_QUERY_PREFIX + "convertToEarnCode");
-		effdt.addEqualToField("maxHoursEarnGroup", Criteria.PARENT_QUERY_PREFIX + "maxHoursEarnGroup");
-		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-//		effdt.addEqualTo("active", true);
-		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(WeeklyOvertimeRule.class, effdt);
-		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
 
-		timestamp.addEqualToField("convertFromEarnGroup", Criteria.PARENT_QUERY_PREFIX + "convertFromEarnGroup");
-		timestamp.addEqualToField("convertToEarnCode", Criteria.PARENT_QUERY_PREFIX + "convertToEarnCode");
-		timestamp.addEqualToField("maxHoursEarnGroup", Criteria.PARENT_QUERY_PREFIX + "maxHoursEarnGroup");
-		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-//		timestamp.addEqualTo("active", true);
-		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(WeeklyOvertimeRule.class, timestamp);
-		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
-
-		root.addEqualTo("effectiveDate", effdtSubQuery);
-		root.addEqualTo("timestamp", timestampSubQuery);
+        ImmutableList<String> fields = new ImmutableList.Builder<String>()
+                .add("convertFromEarnGroup")
+                .add("convertToEarnCode")
+                .add("maxHoursEarnGroup")
+                .build();
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(WeeklyOvertimeRule.class, asOfDate, fields, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(WeeklyOvertimeRule.class, fields, false));
 //		root.addEqualTo("active", true);
 
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity

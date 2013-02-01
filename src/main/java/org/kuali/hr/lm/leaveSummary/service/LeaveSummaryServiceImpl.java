@@ -152,12 +152,12 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                             //handle up to current leave blocks
                             assignApprovedValuesToRow(lsr, ac.getAccrualCategory(), leaveBlockMap.get(ac.getAccrualCategory()), lp, calendarEntry.getBeginPeriodDate());
                             
-                            Calendar startCal = Calendar.getInstance();
+                            /*Calendar startCal = Calendar.getInstance();
                             startCal.setTime(yearStartDate);
                             startCal.set(Calendar.HOUR_OF_DAY, 0);
                             startCal.set(Calendar.MINUTE, 0);
                             startCal.set(Calendar.SECOND, 0);
-                            startCal.set(Calendar.MILLISECOND, 0);
+                            startCal.set(Calendar.MILLISECOND, 0);*/
                             
                             BigDecimal carryOver = BigDecimal.ZERO.setScale(2);
                             lsr.setCarryOver(carryOver);
@@ -195,7 +195,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                             //figure out past carry over values!!!
                             //We now have list of past years accrual and use (with ordered keys!!!)
 //                            BigDecimal carryOver = BigDecimal.ZERO.setScale(2);
-//                            
+//
 //                            for (Map.Entry<String, BigDecimal> entry : lsr.getPriorYearsTotalAccrued().entrySet()) {
 //                                carryOver = carryOver.add(entry.getValue());
 //                                BigDecimal use = lsr.getPriorYearsUsage().containsKey(entry.getKey()) ? lsr.getPriorYearsUsage().get(entry.getKey()) : BigDecimal.ZERO;
@@ -207,7 +207,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 //                                    carryOver = new BigDecimal(acRule.getMaxCarryOver());
 //                                }
 //                            }
-//                            
+//
 //                            lsr.setCarryOver(carryOver);
 
                             //handle future leave blocks

@@ -15,13 +15,6 @@
  */
 package org.kuali.hr.lm.leavecalendar.validation;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -29,13 +22,11 @@ import org.joda.time.DateTimeConstants;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
-import org.kuali.hr.lm.accrual.service.AccrualCategoryRuleService;
 import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.lm.leave.web.LeaveCalendarWSForm;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
-import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
@@ -43,8 +34,12 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 
-import com.google.common.base.Predicate;
-import org.kuali.rice.krad.util.ErrorMessage;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class LeaveCalendarValidationUtil {

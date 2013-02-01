@@ -21,16 +21,22 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class LeaveCodeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements LeaveCodeDao {
-
+    private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+            .add("leaveCode")
+            .add("leavePlan")
+            .add("principalId")
+            .build();
 	private static final Logger LOG = Logger.getLogger(LeaveCodeDaoSpringOjbImpl.class);
 
 	@Override
@@ -44,28 +50,11 @@ public class LeaveCodeDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implement
 	public List<LeaveCode> getLeaveCodes(String leavePlan, Date asOfDate){
 		List<LeaveCode> leaveCodes = new ArrayList<LeaveCode>();
 		Criteria root = new Criteria();
-		Criteria effdt = new Criteria();
-		Criteria timestamp = new Criteria();
-		
-		effdt.addEqualToField("leaveCode",Criteria.PARENT_QUERY_PREFIX+ "leaveCode");
-//		effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-		effdt.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
-		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(LeaveCode.class, effdt);
-		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
 
-		timestamp.addEqualToField("leaveCode", Criteria.PARENT_QUERY_PREFIX + "leaveCode");
-//		timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-		timestamp.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
-		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-
-		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(LeaveCode.class, timestamp);
-		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
-
-//		root.addEqualTo("principalId", principalId);
+        java.sql.Date effDate = asOfDate == null ? null : new java.sql.Date(asOfDate.getTime());
 		root.addEqualTo("leavePlan", leavePlan);
-		root.addEqualTo("effectiveDate", effdtSubQuery);
-		root.addEqualTo("timestamp", timestampSubQuery);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(LeaveCode.class, effDate, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LeaveCode.class, EQUAL_TO_FIELDS, false));
 		
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);

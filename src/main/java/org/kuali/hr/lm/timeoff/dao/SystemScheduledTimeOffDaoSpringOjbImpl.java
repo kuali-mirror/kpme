@@ -20,11 +20,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
@@ -106,21 +108,12 @@ public class SystemScheduledTimeOffDaoSpringOjbImpl extends PlatformAwareDaoBase
         }
         
         if (StringUtils.equals(showHistory, "N")) {
-            Criteria effdt = new Criteria();
-            effdt.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
-            effdt.addEqualToField("accruedDate", Criteria.PARENT_QUERY_PREFIX + "accruedDate");
-            effdt.addAndCriteria(effectiveDateFilter);
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(SystemScheduledTimeOff.class, effdt);
-            effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
-            root.addEqualTo("effectiveDate", effdtSubQuery);
-            
-            Criteria timestamp = new Criteria();
-            timestamp.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
-            timestamp.addEqualToField("accruedDate", Criteria.PARENT_QUERY_PREFIX + "accruedDate");
-            timestamp.addAndCriteria(effectiveDateFilter);
-            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(SystemScheduledTimeOff.class, timestamp);
-            timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-            root.addEqualTo("timestamp", timestampSubQuery);
+            ImmutableList<String> fields = new ImmutableList.Builder<String>()
+                    .add("earnCode")
+                    .add("accruedDate")
+                    .build();
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(SystemScheduledTimeOff.class, effectiveDateFilter, fields, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(SystemScheduledTimeOff.class, fields, false));
         }
         
         Query query = QueryFactory.newQuery(SystemScheduledTimeOff.class, root);
@@ -148,20 +141,13 @@ public class SystemScheduledTimeOffDaoSpringOjbImpl extends PlatformAwareDaoBase
     	Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
-       
-        Criteria effdt = new Criteria();
-        effdt.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
-        effdt.addEqualToField("accruedDate", Criteria.PARENT_QUERY_PREFIX + "accruedDate");
-        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(SystemScheduledTimeOff.class, effdt);
-        effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
-        root.addEqualTo("effectiveDate", effdtSubQuery);
-        
-        Criteria timestamp = new Criteria();
-        timestamp.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
-        timestamp.addEqualToField("accruedDate", Criteria.PARENT_QUERY_PREFIX + "accruedDate");
-        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(SystemScheduledTimeOff.class, timestamp);
-        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-        root.addEqualTo("timestamp", timestampSubQuery);
+
+        ImmutableList<String> fields = new ImmutableList.Builder<String>()
+                .add("leavePlan")
+                .add("accruedDate")
+                .build();
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithoutFilter(SystemScheduledTimeOff.class, fields, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(SystemScheduledTimeOff.class, fields, false));
         
         Query query = QueryFactory.newQuery(SystemScheduledTimeOff.class, root);
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));

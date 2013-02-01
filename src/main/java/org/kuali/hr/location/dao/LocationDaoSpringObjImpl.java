@@ -19,42 +19,27 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.location.Location;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class LocationDaoSpringObjImpl extends PlatformAwareDaoBaseOjb implements LocationDao {
-
+    private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+            .add("location")
+            .build();
 	@Override
 	public Location getLocation(String location, Date asOfDate) {
 		Criteria root = new Criteria();
-		Criteria effdt = new Criteria();
-		Criteria timestamp = new Criteria();
-
-		effdt.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
-//		effdt.addEqualToField("org", Criteria.PARENT_QUERY_PREFIX + "org");
-//		effdt.addEqualToField("chart", Criteria.PARENT_QUERY_PREFIX + "chart");
-		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-//		effdt.addEqualTo("active", true);
-		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Location.class, effdt);
-		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
-
-		timestamp.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
-//		timestamp.addEqualToField("org", Criteria.PARENT_QUERY_PREFIX + "org");
-//		timestamp.addEqualToField("chart", Criteria.PARENT_QUERY_PREFIX + "chart");
-		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-//		timestamp.addEqualTo("active", true);
-		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Location.class, timestamp);
-		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
 
 		root.addEqualTo("location", location);
-		root.addEqualTo("effectiveDate", effdtSubQuery);
-		root.addEqualTo("timestamp", timestampSubQuery);
-//		root.addEqualTo("active", true);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Location.class, new java.sql.Date(asOfDate.getTime()), EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Location.class, EQUAL_TO_FIELDS, false));
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
 		root.addAndCriteria(activeFilter);

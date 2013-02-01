@@ -21,18 +21,23 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.joda.time.DateTime;
+import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class LeavePlanDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements LeavePlanDao {
+    private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+            .add("leavePlan")
+            .build();
 
 	@Override
 	public LeavePlan getLeavePlan(String lmLeavePlanId) {
@@ -47,24 +52,11 @@ public class LeavePlanDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implement
 		LeavePlan lp = null;
 
 		Criteria root = new Criteria();
-		Criteria effdt = new Criteria();
-		Criteria timestamp = new Criteria();
 
-		// OJB's awesome sub query setup part 1
-		effdt.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
-		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(LeavePlan.class, effdt);
-		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
-
-		// OJB's awesome sub query setup part 2
-		timestamp.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
-		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(LeavePlan.class, timestamp);
-		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
-
+        java.sql.Date effDate = asOfDate == null ? null : new java.sql.Date(asOfDate.getTime());
 		root.addEqualTo("leavePlan", leavePlan);
-		root.addEqualTo("effectiveDate", effdtSubQuery);
-		root.addEqualTo("timestamp", timestampSubQuery);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(LeavePlan.class, effDate, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LeavePlan.class, EQUAL_TO_FIELDS, false));
 		
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
@@ -172,19 +164,8 @@ public class LeavePlanDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implement
         }
 
         if (StringUtils.equals(showHistory, "N")) {
-            Criteria effdt = new Criteria();
-            Criteria timestamp = new Criteria();
-            effdt.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
-            effdt.addAndCriteria(effectiveDateFilter);
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(LeavePlan.class, effdt);
-            effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
-            root.addEqualTo("effectiveDate", effdtSubQuery);
-
-            timestamp.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
-            timestamp.addAndCriteria(effectiveDateFilter);
-            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(LeavePlan.class, timestamp);
-            timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-            root.addEqualTo("timestamp", timestampSubQuery);
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(LeavePlan.class, effectiveDateFilter, EQUAL_TO_FIELDS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LeavePlan.class, EQUAL_TO_FIELDS, false));
         }
 
         Query query = QueryFactory.newQuery(LeavePlan.class, root);

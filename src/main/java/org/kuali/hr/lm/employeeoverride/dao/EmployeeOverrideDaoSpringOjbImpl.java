@@ -20,38 +20,36 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
+import edu.emory.mathcs.backport.java.util.Collections;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class EmployeeOverrideDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements EmployeeOverrideDao{
+    private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+            .add("principalId")
+            .add("leavePlan")
+            .add("accrualCategory")
+            .add("overrideType")
+            .build();
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<EmployeeOverride> getEmployeeOverrides(String principalId, Date asOfDate) {
         List<EmployeeOverride> employeeOverrides = new ArrayList<EmployeeOverride>();
         Criteria root = new Criteria();
-        Criteria effdt = new Criteria();
-        Criteria timestamp = new Criteria();
 
-        effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-        effdt.addEqualTo("principalId", principalId);
-        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(EmployeeOverride.class, effdt);
-        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-
-        timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-        timestamp.addEqualTo("principalId", principalId);
-        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EmployeeOverride.class, timestamp);
-        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-
+        List<String> fields = Collections.singletonList("principalId");
         root.addEqualTo("principalId", principalId);
-        root.addEqualTo("effectiveDate", effdtSubQuery);
-        root.addEqualTo("timestamp", timestampSubQuery);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EmployeeOverride.class, asOfDate, fields, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EmployeeOverride.class, fields, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
@@ -75,25 +73,8 @@ public class EmployeeOverrideDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb im
         root.addEqualTo("accrualCategory", accrualCategory);
         root.addEqualTo("overrideType", overrideType);
 
-        Criteria effdt = new Criteria();
-        effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-        effdt.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
-        effdt.addEqualToField("accrualCategory", Criteria.PARENT_QUERY_PREFIX + "accrualCategory");
-        effdt.addEqualToField("overrideType", Criteria.PARENT_QUERY_PREFIX + "overrideType");
-        effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(EmployeeOverride.class, effdt);
-        effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
-        root.addEqualTo("effectiveDate", effdtSubQuery);
-        
-        Criteria timestamp = new Criteria();
-        timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-        timestamp.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
-        timestamp.addEqualToField("accrualCategory", Criteria.PARENT_QUERY_PREFIX + "accrualCategory");
-        timestamp.addEqualToField("overrideType", Criteria.PARENT_QUERY_PREFIX + "overrideType");
-        timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EmployeeOverride.class, timestamp);
-        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-        root.addEqualTo("timestamp", timestampSubQuery);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EmployeeOverride.class, asOfDate, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EmployeeOverride.class, EQUAL_TO_FIELDS, false));
 
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);
@@ -157,26 +138,9 @@ public class EmployeeOverrideDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb im
             }
             root.addAndCriteria(activeFilter);
         }
-        
-        Criteria effdt = new Criteria();
-        effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-        effdt.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
-        effdt.addEqualToField("accrualCategory", Criteria.PARENT_QUERY_PREFIX + "accrualCategory");
-        effdt.addEqualToField("overrideType", Criteria.PARENT_QUERY_PREFIX + "overrideType");
-        effdt.addAndCriteria(effectiveDateFilter);
-        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(EmployeeOverride.class, effdt);
-        effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
-        root.addEqualTo("effectiveDate", effdtSubQuery);
 
-        Criteria timestamp = new Criteria();
-        timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-        timestamp.addEqualToField("leavePlan", Criteria.PARENT_QUERY_PREFIX + "leavePlan");
-        timestamp.addEqualToField("accrualCategory", Criteria.PARENT_QUERY_PREFIX + "accrualCategory");
-        timestamp.addEqualToField("overrideType", Criteria.PARENT_QUERY_PREFIX + "overrideType");
-        timestamp.addAndCriteria(effectiveDateFilter);
-        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EmployeeOverride.class, timestamp);
-        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-        root.addEqualTo("timestamp", timestampSubQuery);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(EmployeeOverride.class, effectiveDateFilter, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EmployeeOverride.class, EQUAL_TO_FIELDS, false));
 
         Query query = QueryFactory.newQuery(EmployeeOverride.class, root);
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));

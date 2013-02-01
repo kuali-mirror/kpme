@@ -224,4 +224,35 @@ public class TkRole extends HrBusinessObject {
 	public void setLocationObj(Location locationObj) {
 		this.locationObj = locationObj;
 	}
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TkRole tkRole = (TkRole) o;
+
+        if (chart != null ? !chart.equals(tkRole.chart) : tkRole.chart != null) return false;
+        if (chartObj != null ? !chartObj.equals(tkRole.chartObj) : tkRole.chartObj != null) return false;
+        if (department != null ? !department.equals(tkRole.department) : tkRole.department != null) return false;
+        if (departmentObj != null ? !departmentObj.equals(tkRole.departmentObj) : tkRole.departmentObj != null)
+            return false;
+        if (expirationDate != null ? !expirationDate.equals(tkRole.expirationDate) : tkRole.expirationDate != null)
+            return false;
+        if (hrDeptId != null ? !hrDeptId.equals(tkRole.hrDeptId) : tkRole.hrDeptId != null) return false;
+        if (!hrRolesId.equals(tkRole.hrRolesId)) return false;
+        if (locationObj != null ? !locationObj.equals(tkRole.locationObj) : tkRole.locationObj != null) return false;
+        if (person != null ? !person.equals(tkRole.person) : tkRole.person != null) return false;
+        if (positionNumber != null ? !positionNumber.equals(tkRole.positionNumber) : tkRole.positionNumber != null)
+            return false;
+        if (positionObj != null ? !positionObj.equals(tkRole.positionObj) : tkRole.positionObj != null) return false;
+        if (principalId != null ? !principalId.equals(tkRole.principalId) : tkRole.principalId != null) return false;
+        if (roleName != null ? !roleName.equals(tkRole.roleName) : tkRole.roleName != null) return false;
+        if (userPrincipalId != null ? !userPrincipalId.equals(tkRole.userPrincipalId) : tkRole.userPrincipalId != null)
+            return false;
+        if (workArea != null ? !workArea.equals(tkRole.workArea) : tkRole.workArea != null) return false;
+        if (workAreaObj != null ? !workAreaObj.equals(tkRole.workAreaObj) : tkRole.workAreaObj != null) return false;
+
+        return true;
+    }
 }
