@@ -26,8 +26,8 @@ import java.util.Map;
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
+import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.HrBusinessObject;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class EarnCode extends HrBusinessObject {
@@ -51,6 +51,7 @@ public class EarnCode extends HrBusinessObject {
 
 	private AccrualCategory accrualCategoryObj;
 	private EarnCode rollupToEarnCodeObj;
+	private LeavePlan leavePlanObj;
 	
 	private String leavePlan;
 	private String accrualBalanceAction;
@@ -326,4 +327,13 @@ public class EarnCode extends HrBusinessObject {
     public String getEarnCodeValueForDisplay() {
         return earnCode + " : " + description;
     }
+
+	public LeavePlan getLeavePlanObj() {
+		return leavePlanObj;
+	}
+
+	public void setLeavePlanObj(LeavePlan leavePlanObj) {
+		this.leavePlanObj = leavePlanObj;
+	}    
+    
 }

@@ -81,6 +81,15 @@
 					</property>
 				</bean>
 				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="leavePlanObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="leavePlan"
+								p:targetName="leavePlan" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="rollupToEarnCodeObj" />
 					<property name="primitiveAttributes">
 						<list>
