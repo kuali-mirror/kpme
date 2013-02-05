@@ -265,16 +265,12 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                         	Interval interval = new Interval(startDateTime,endDateTime);
                         	if(interval.containsNow() || !calendarEntry.getEndPeriodDate().after(TKUtils.getCurrentDate())) {
                         		//current or past calendar is being used for leave summary calculation
-                        		if(ObjectUtils.isNotNull(approvedLcdh)) {
-	                        		if(approvedLcdh.getEndDate().before(TKUtils.getCurrentDate())) {
-	                        			//should only allow on-demand transfers if calendar document has status initiated.
-	                        			//obviously this code block is executed for all non-approved calendars, displaying the buttons
-	                        			//for calendar documents that have already been routed.
-	                        			//Depending on requirements for on demand display, may need to update this.
-			                            markTransferable(lsr,acRule,principalId);
-			                            markPayoutable(lsr,acRule,principalId);
-	                        		}
-                        		}
+                    			//should only allow on-demand transfers if calendar document has status initiated.
+                    			//obviously this code block is executed for all non-approved calendars, displaying the buttons
+                    			//for calendar documents that have already been routed.
+                    			//Depending on requirements for on demand display, may need to update this.
+	                            markTransferable(lsr,acRule,principalId);
+	                            markPayoutable(lsr,acRule,principalId);
                         		// One situation where this would cause problems is when there is no previous approved leave calendar document
                         		// i.e. When someone starts a new position, or if the principal has no leave eligible jobs. ( no leave calendar doc ).
                         		// if someone were to move into a new leave plan and a balance was transferred that exceeded the new leave plans

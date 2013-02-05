@@ -157,7 +157,11 @@ $(function () {
             "change #selectedAssignment" : "changeAssignment",
             "keypress #selectedAssignment" : "changeAssignment",
             "change #selectedEarnCode" : "showFieldByEarnCodeType",
-            "keypress #selectedEarnCode" : "showFieldByEarnCodeType"
+            "keypress #selectedEarnCode" : "showFieldByEarnCodeType",
+            "click input[id^=lm-transfer-button]" : "showOnDemandBalanceTransferDialog",
+            "click #lm-payout-button" : "showOnDemandBalancePayoutDialog",
+            "click #lm-leavepayout-button" : "showLeavePayoutDialog",
+            "click #ts-route-button" : "forfeitBalanceOnSubmit"
         },
 
         initialize : function () {
@@ -388,6 +392,107 @@ $(function () {
                     .done(this.showFieldByEarnCodeType())
                     .done(_(timeBlock).fillInForm())
                     .done(this.applyRules(timeBlock));
+        },
+        
+        forfeitBalanceOnSubmit : function () {
+        	var docId = $('#documentId').val();
+        	if ($('#loseOnSubmit').val() == 'true') {
+        		$('#confirm-forfeiture-dialog').dialog({
+        			autoOpen: true,
+        			height: 'auto',
+        			width: 'auto',
+        			modal: true,
+        			open : function () {
+        				// Set the selected date on start/end time fields
+        				// This statmement can tell is showTimeEntryDialog() by other methods or triggered directly by backbone.
+        			},
+        			close : function () {
+
+        			},
+        			buttons : {
+        				"Forfeit" : function () {
+        					window.location = "TimesheetSubmit.do?methodToCall=approveTimesheet&documentId=" + docId + "&action=R";
+        					$(this).dialog("close");
+        				},
+        				Cancel : function () {
+        					$(this).dialog("close");
+        				}
+        			}
+        		});
+    		}
+    	},
+        
+        showOnDemandBalanceTransferDialog : function (e) {
+        	var docId = $('#documentId').val();
+        	var accrualRuleId = _(e).parseEventKey().id;
+            $('#lm-transfer-empty').empty();
+            $('#lm-transfer-dialog').append('<iframe width="800" height="600" src="BalanceTransfer.do?methodToCall=balanceTransferOnDemand&docTypeName=BalanceTransferDocumentType&timesheet=true&accrualRuleId='+ accrualRuleId +'&documentId='+docId+'"></iframe>');
+
+            $('#lm-transfer-dialog').dialog({
+                autoOpen: true,
+                height: 'auto',
+                width: 'auto',
+                modal: true,
+                buttons: {
+                    //"test" : function() {
+                    //}
+                },
+                beforeClose: function(event, ui) {
+                    var URL = unescape(window.parent.location);
+                    window.parent.location.href = URL;
+                    window.close();
+                }
+            });
+        },
+        
+        // Button for iFrame show/hide to show the missed punch items
+        // The iFrame is added to the missed-punch-dialog as a child element.
+        // tdocid is a variable that is set from the form value in 'clock.jsp'
+        showOnDemandBalancePayoutDialog : function (e) {
+
+            $('#lm-payout-empty').empty();
+            $('#lm-payout-dialog').append('<iframe width="800" height="600" src="BalanceTransfer.do?methodToCall=balancePayout&command=initiate&docTypeName=BalanceTransferDocumentType&documentId="></iframe>');
+
+            $('#lm-payout-dialog').dialog({
+                autoOpen: true,
+                height: 'auto',
+                width: 'auto',
+                modal: true,
+                buttons: {
+                    //"test" : function() {
+                    //}
+                },
+                beforeClose: function(event, ui) {
+                    var URL = unescape(window.parent.location.pathname);
+                    window.parent.location.href = URL;
+                    window.close();
+                }
+            });
+        },
+
+        // Button for iFrame show/hide to show the leave payout items
+        // The iFrame is added as a child element.
+        // tdocid is a variable that is set from the form value in 'clock.jsp'
+        showLeavePayoutDialog : function (e) {
+
+            $('#lm-leavepayout-empty').empty();
+            $('#lm-leavepayout-dialog').append('<iframe width="800" height="600" src="LeavePayout.do?methodToCall=leavePayout&command=initiate&docTypeName=LeavePayoutDocumentType&documentId="></iframe>');
+
+            $('#lm-leavepayout-dialog').dialog({
+                autoOpen: true,
+                height: 'auto',
+                width: 'auto',
+                modal: true,
+                buttons: {
+                    //"test" : function() {
+                    //}
+                },
+                beforeClose: function(event, ui) {
+                    var URL = unescape(window.parent.location.pathname);
+                    window.parent.location.href = URL;
+                    window.close();
+                }
+            });
         },
         
         showLeaveBlock : function (e) {

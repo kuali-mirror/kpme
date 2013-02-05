@@ -79,5 +79,4 @@ public interface BalanceTransferService {
 	public Map<String,ArrayList<String>> getEligibleTransfers(CalendarEntries calendarEntry, String principalId) throws Exception;
 	
 	public void submitToWorkflow(BalanceTransfer balanceTransfer) throws WorkflowException;
-	
 }

@@ -52,6 +52,7 @@ public class BalanceTransferForm extends KualiTransactionalDocumentFormBase {
 	private String leaveCalendarDocumentId;
 	private String type;
 	private boolean onLeaveApproval;
+	private boolean timesheet;
 	
 	public Date getEffectiveDate() {
 		return effectiveDate;
@@ -184,6 +185,10 @@ public class BalanceTransferForm extends KualiTransactionalDocumentFormBase {
 
 	public void setOnLeaveApproval(boolean onLeaveApproval) {
 		this.onLeaveApproval = onLeaveApproval;
+	}
+
+	public void isTimesheet(boolean b) {
+		timesheet = true;
 	}
 
 }

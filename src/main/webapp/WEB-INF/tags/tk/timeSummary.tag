@@ -1,6 +1,7 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
 
 <jsp:useBean id="tagSupport" class="org.kuali.hr.time.util.TagSupport"/>
+<jsp:useBean id="workflowTagSupport" class="org.kuali.hr.time.workflow.web.WorkflowTagSupport"/>
 <%@ attribute name="timeSummary" required="true" type="org.kuali.hr.time.timesummary.TimeSummary"%>
 <c:set var="headerLength" value="${fn:length(timeSummary.summaryHeader)}"/>  
 <c:set var="workedHoursLength" value="${fn:length(timeSummary.workedHours)}"/>  
@@ -86,4 +87,58 @@
 		   </tbody>
 		</table>
 	</div>
+	<c:if test="${not empty timeSummary.maxedLeaveRows}">
+	<div id="maxed-leave-table">
+		<table>
+			<thead>
+				<td scope="col">Accrual Category</td>
+				<td scope="col">Prior Year Carryover</td>
+				<td scope="col" title="Accruals through the end of the prior leave calendar">YTD Earned</td>
+				<td scope="col" title="Usage through the end of the displayed leave calendar">YTD Usage</td>
+				<td scope="col" title="As of current leave calendar/usage limit not considered">Accrued Balance</td>
+	            <td scope="col" style="border: 3px double #ccc;font-weight: bold" title="As of current leave calendar/usage limit and future usage considered">Available Balance</td>
+				<td scope="col" title="Amount of usage allowed per plan">Usage Limit</td>
+	            <td scope="col" title="Total usage on future calendars">Future/Planned Usage</td>
+				<td scope="col" title="Total usage of Family Medical Leave codes">YTD FMLA Usage</td>
+			</thead>
+		<tbody>
+			<c:forEach items="${timeSummary.maxedLeaveRows}" var="maxedLeaveRow">
+				<tr>
+					<td>${maxedLeaveRow.accrualCategory}</td>	
+					<td>${maxedLeaveRow.carryOver}</td>
+					<td>${maxedLeaveRow.ytdAccruedBalance}</td>
+					<td>${maxedLeaveRow.ytdApprovedUsage}</td>
+		            <td>${maxedLeaveRow.accruedBalance}<c:if test="${not empty Form.documentId}"><c:if test="${maxedLeaveRow.transferable || maxedLeaveRow.payoutable}"><br/></c:if>
+					<c:if test="${maxedLeaveRow.transferable}">
+						<c:choose>
+							<c:when test="${(workflowTagSupport.displayingTimesheetRouteButton && workflowTagSupport.routeTimesheetButtonEnabled) || workflowTagSupport.displayingCurrentPeriodTimesheetRouteButtonWithNoDelinquencies}">
+								<input type="button" id="lm-transfer-button_${maxedLeaveRow.accrualCategoryRuleId}" class="button" value="Transfer" name="transfer"/>
+							</c:when>
+							<c:otherwise>
+								<input disabled id="lm-transfer-button_${maxedLeaveRow.accrualCategoryRuleId}" class="button" value="Transfer" name="transfer"/>
+							</c:otherwise>
+						</c:choose>
+					</c:if>
+					<c:if test="${maxedLeaveRow.payoutable}">
+						<c:choose>
+							<c:when test="${(workflowTagSupport.displayingTimesheetRouteButton && workflowTagSupport.routeTimesheetButtonEnabled) || workflowTagSupport.displayingCurrentPeriodTimesheetRouteButtonWithNoDelinquencies}">
+								<input type="button" id="lm-payout-button_${maxedLeaveRow.accrualCategoryRuleId}" class="button" value="Payout" name="payout"/>
+							</c:when>
+							<c:otherwise>
+								<input disabled id="lm-payout-button_${maxedLeaveRow.accrualCategoryRuleId}" class="button" value="Payout" name="payout"/>
+							</c:otherwise>
+						</c:choose>
+					</c:if>
+					</c:if>
+					</td>
+					<td style="border: 3px double #ccc;border-bottom-color: gray;">${maxedLeaveRow.leaveBalance}</td>
+					<td>${maxedLeaveRow.usageLimit}</td>
+		            <td>${maxedLeaveRow.pendingLeaveRequests}</td>
+					<td>${maxedLeaveRow.fmlaUsage}</td>
+				</tr>
+			</c:forEach>
+		</tbody>
+		</table>
+		</div>
+	</c:if>
 </div>

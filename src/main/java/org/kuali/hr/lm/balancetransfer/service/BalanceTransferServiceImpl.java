@@ -348,10 +348,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		eligibilities.put(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END, new ArrayList<String>());
 		eligibilities.put(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND, new ArrayList<String>());
 
-		//LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId,calendarEntry);
-		//No leaveSummary can currently be derived using timesheet calendar entry, leaveSummary depends on LeaveCalendarDocument
 		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, calendarEntry.getEndPeriodDate());
-		LeavePlan leavePlan = TkServiceLocator.getLeavePlanService().getLeavePlan(pha.getLeavePlan(),TKUtils.getCurrentDate());
 		List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), calendarEntry.getEndPeriodDate());
 		
 		org.kuali.hr.time.calendar.Calendar leaveCalendar = pha.getLeaveCalObj();
@@ -397,7 +394,6 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 									if(StringUtils.equals(leaveBlock.getRequestStatus(),LMConstants.REQUEST_STATUS.APPROVED))
 										accruedBalance = accruedBalance.add(leaveBlock.getLeaveAmount());
 								}*/
-								
 								BigDecimal fte = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, TKUtils.getCurrentDate());
 								BigDecimal adjustedMaxBalance = maxBalance.multiply(fte);
 								BigDecimal maxAnnualCarryOver = null;
