@@ -16,8 +16,11 @@
 package org.kuali.hr.time.batch;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.batch.service.BatchJobService;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -38,13 +41,20 @@ public class CarryOverSchedulerJob extends QuartzJobBean {
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		Date asOfDate = TKUtils.getCurrentDate();
 		List<LeavePlan> leavePlans = TkServiceLocator.getLeavePlanService().getLeavePlansNeedsScheduled(getLeavePlanPollingWindow(), asOfDate);
-		System.out.println( "---- Carry Over Schedule Start ----");
         try {
         	if(leavePlans!=null && !leavePlans.isEmpty()) {
+				DateTime current = new DateTime(asOfDate.getTime());
+		        DateTime windowStart = current.minusDays(getLeavePlanPollingWindow());
+		        DateTime windowEnd = current.plusDays(getLeavePlanPollingWindow());
+
         		// schedule batch job for all LeavePlans who fall in leave polling window.
         		for(LeavePlan leavePlan : leavePlans) {
-        			if(leavePlan.getBatchPriorYearCarryOverStartDateTime() != null ) {
-        				getBatchJobService().scheduleLeaveCarryOverJobs(leavePlan);
+        			if(leavePlan.getBatchPriorYearCarryOverStartDate() != null  && leavePlan.getBatchPriorYearCarryOverStartTime() != null ) {
+        				java.util.Date batchDate = getBatchJobStartDateTime(leavePlan);
+        				DateTime batchDateTime = new DateTime(batchDate.getTime());
+        				if(batchDateTime.compareTo(windowStart) >= 0 && batchDateTime.compareTo(windowEnd) <= 0) {
+        					getBatchJobService().scheduleLeaveCarryOverJobs(leavePlan);
+        				}
         			}
         		}
         	}
@@ -67,6 +77,33 @@ public class CarryOverSchedulerJob extends QuartzJobBean {
 
 	public void setBatchJobService(BatchJobService batchJobService) {
 		CarryOverSchedulerJob.batchJobService = batchJobService;
+	}
+	
+	private java.util.Date getBatchJobStartDateTime(LeavePlan leavePlan) {
+		
+		String batchJobDate = leavePlan.getBatchPriorYearCarryOverStartDate();
+		
+		java.util.Calendar batchJobTimeCal = java.util.Calendar.getInstance();
+		batchJobTimeCal.setTimeInMillis(leavePlan.getBatchPriorYearCarryOverStartTime().getTime());
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
+		sdf.setLenient(false);
+		
+		java.util.Date batchJobStart = null;
+		
+		try {
+			batchJobStart = sdf.parse(batchJobDate);
+		} catch (ParseException e) {
+		}
+		
+		java.util.Calendar batchJobStartDateTime = java.util.Calendar.getInstance();
+		batchJobStartDateTime.setTime(batchJobStart);
+		batchJobStartDateTime.set(java.util.Calendar.YEAR,java.util.Calendar.getInstance().get(java.util.Calendar.YEAR));
+		batchJobStartDateTime.set(java.util.Calendar.HOUR_OF_DAY,batchJobTimeCal.get(java.util.Calendar.HOUR_OF_DAY));
+		batchJobStartDateTime.set(java.util.Calendar.MINUTE,batchJobTimeCal.get(java.util.Calendar.MINUTE));
+		batchJobStartDateTime.set(java.util.Calendar.SECOND, 0);
+		batchJobStartDateTime.set(java.util.Calendar.MILLISECOND, 0);
+		
+		return batchJobStartDateTime.getTime();
 	}
 
 }

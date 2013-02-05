@@ -336,10 +336,6 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         leaveBlockDao.deleteLeaveBlocksForDocumentId(documentId);
     }
     
-    @Override
-    public List<LeaveBlock> getLeaveBlocksByType(String principalId,String leaveBlockType,Date beginDate,Date endDate) {
-        return leaveBlockDao.getLeaveBlocksByType(principalId,leaveBlockType, beginDate, endDate);
-    }
     
     @Override
     public List<LeaveBlock> getAccrualGeneratedLeaveBlocks(String principalId, Date beginDate, Date endDate) {

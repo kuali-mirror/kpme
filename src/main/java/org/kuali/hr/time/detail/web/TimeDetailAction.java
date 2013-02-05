@@ -111,8 +111,8 @@ public class TimeDetailAction extends TimesheetAction {
         }
         List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(TKContext.getCurrentTimesheetDocument().getPrincipalId(), 
         					payCalendarEntry.getBeginPeriodDate(), payCalendarEntry.getEndPeriodDate(), tAssignmentKeys);
-        List<LeaveBlock> balanceTransferLeaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksByType(TKContext.getCurrentTimesheetDocument().getPrincipalId(),
-        		LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER, payCalendarEntry.getBeginPeriodDate(), payCalendarEntry.getEndPeriodDate());
+        List<LeaveBlock> balanceTransferLeaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(TKContext.getCurrentTimesheetDocument().getPrincipalId(),
+        		 payCalendarEntry.getBeginPeriodDate(), payCalendarEntry.getEndPeriodDate(), LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
         List<String> warnings = tdaf.getWarnings();
         warnings.addAll(LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(balanceTransferLeaveBlocks));
         tdaf.setWarnings(warnings);

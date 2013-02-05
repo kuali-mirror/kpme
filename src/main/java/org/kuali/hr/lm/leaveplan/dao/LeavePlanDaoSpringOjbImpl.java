@@ -177,14 +177,9 @@ public class LeavePlanDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implement
 	@Override
 	public List<LeavePlan> getLeavePlansNeedsScheduled(int thresholdDays,
 			Date asOfDate) {
-		DateTime current = new DateTime(asOfDate.getTime());
-        DateTime windowStart = current.minusDays(thresholdDays);
-        DateTime windowEnd = current.plusDays(thresholdDays);
 
         Criteria root = new Criteria();
 
-        root.addGreaterOrEqualThan("batchPriorYearCarryOverStartDateTime", windowStart.toDate());
-        root.addLessOrEqualThan("batchPriorYearCarryOverStartDateTime", windowEnd.toDate());
         root.addEqualTo("active", true);
 
         Query query = QueryFactory.newQuery(LeavePlan.class, root);

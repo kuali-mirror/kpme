@@ -110,15 +110,6 @@ public interface LeaveBlockService {
     public void deleteLeaveBlocksForDocumentId(String documentId);
     
     /**
-     * Retrieve list of leave blocks for given leave block type, Date range and User
-     * @param principalId 
-     * @param leaveBlockType
-     * @param beginDate
-     * @param endDate
-     * @return List of leave blocks
-     */
-    public List<LeaveBlock> getLeaveBlocksByType(String principalId, String leaveBlockType, Date beginDate, Date endDate);
-    /**
      * Retrieve list of accrual generated leave blocks for given Date range and User
      * @param principalId 
      * @param beginDate

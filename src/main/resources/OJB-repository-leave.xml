@@ -27,7 +27,8 @@
         <field-descriptor name="effectiveDate"      column="EFFDT"              jdbc-type="DATE"        nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="timestamp"          column="TIMESTAMP"          jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
         <field-descriptor name="active"             column="ACTIVE"             jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
- 		<field-descriptor name="batchPriorYearCarryOverStartDateTime"    column="BATCH_CARRY_OVER_START_DATE_TIME"   jdbc-type="TIMESTAMP"   conversion="org.kuali.hr.time.util.TkTimestampConverter" />
+ 		<field-descriptor name="batchPriorYearCarryOverStartDate"    column="BATCH_CARRY_OVER_START_DATE"   jdbc-type="VARCHAR"     length="5" />
+ 		<field-descriptor name="batchPriorYearCarryOverStartTime"    column="BATCH_CARRY_OVER_START_TIME"   jdbc-type="TIME" />
         <field-descriptor name="objectId"           column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"      column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>

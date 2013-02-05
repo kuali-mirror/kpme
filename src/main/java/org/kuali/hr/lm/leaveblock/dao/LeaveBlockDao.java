@@ -43,7 +43,6 @@ public interface LeaveBlockDao {
     public List<LeaveBlock> getCalendarLeaveBlocks(String principalId, Date beginDate, Date endDate);
     public void deleteLeaveBlock(String leaveBlockId);
     public void deleteLeaveBlocksForDocumentId(String documentId);
-    public List<LeaveBlock> getLeaveBlocksByType(String principalId, String leaveBlockType, Date beginDate, Date endDate);
     public List<LeaveBlock> getAccrualGeneratedLeaveBlocks(String principalId, Date beginDate, Date endDate);
     public List<LeaveBlock> getSSTOLeaveBlock(String principalId, String sstoId, Date accruledDate);
 }

@@ -22,8 +22,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -78,21 +80,23 @@ public class CarryOverJob implements Job{
 
         JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
 		String leavePlan = jobDataMap.getString("leavePlanCode");
-		System.out.println("----------- Crone Job for CarryOver LeaveBlocks executing ------ : " + leavePlan);
         if (leavePlan!= null) {
         	
         	Date asOfDate = TKUtils.getCurrentDate();
         	LeavePlan leavePlanObj = getLeavePlanService().getLeavePlan(leavePlan, asOfDate);
 			List<Assignment> assignments = getAssignmentService().getActiveAssignments(asOfDate);
-			
+			Set<String> principalIds = new HashSet<String>();
 			List<LeaveBlock> carryOverLeaveBlocks  =  null;
 			carryOverLeaveBlocks = new ArrayList<LeaveBlock>();
 			Map<String,LeaveBlock> carryOverLeaveBlockMap = null;
 			for (Assignment assignment : assignments) {
 				carryOverLeaveBlockMap =  new HashMap<String, LeaveBlock>();
-					if (assignment.getJob().isEligibleForLeave()) {
-						String principalId = assignment.getPrincipalId();
+				String principalId = assignment.getPrincipalId();
+				System.out.println("Principal Ids >>>> "+principalId);
+					if (assignment.getJob().isEligibleForLeave() && !principalIds.contains(principalId)) {
+						
 						PrincipalHRAttributes principalHRAttributes = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
+						principalIds.add(principalId);
 						
 						if (principalHRAttributes != null) {
 							Date serviceDate = principalHRAttributes.getServiceDate();
@@ -121,7 +125,7 @@ public class CarryOverJob implements Job{
 									
 									java.util.Date prevCalEndDate = prevCalEndDateCal.getTime();
 									
-									List<LeaveBlock> prevYearCarryOverleaveBlocks = getLeaveBlockService().getLeaveBlocksByType(principalId, LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER, lpYearPreviousStart.getTime(), prevCalEndDate);
+									List<LeaveBlock> prevYearCarryOverleaveBlocks = getLeaveBlockService().getLeaveBlocksWithType(principalId,  lpYearPreviousStart.getTime(), prevCalEndDate, LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER);
 									if(prevYearCarryOverleaveBlocks == null || prevYearCarryOverleaveBlocks.isEmpty()){
 										if (serviceDate.getTime() > lpYearPreviousStart.getTime().getTime()) {
 											lpYearPreviousStart.setTime(serviceDate);
@@ -135,25 +139,11 @@ public class CarryOverJob implements Job{
 									
 								 	getLeaveBlockService().saveLeaveBlocks(new ArrayList<LeaveBlock>(carryOverLeaveBlockMap.values()));
 								}
-								
-								
 							}
-							
 						}
 					}
 				}
 			}
-			// Adding all carry over leave blocks to database
-			
-			
-			//If Success
-			java.util.Date batchCOYearStartDateTime = getNextBatchJobYearStart(leavePlanObj);
-			
-			leavePlanObj.setBatchPriorYearCarryOverStartDateTime(batchCOYearStartDateTime);
-			KRADServiceLocator.getBusinessObjectService().linkAndSave(leavePlanObj);
-			
-			
-			
 			
         } else {
         	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
@@ -257,11 +247,11 @@ public class CarryOverJob implements Job{
 								// ASk--Set null
 								leaveBlock.setScheduleTimeOffId(null);
 								
-								if(lsr.getLeaveBalance() != null)  {
-									if(lsr.getMaxCarryOver() != null && lsr.getLeaveBalance().compareTo(lsr.getMaxCarryOver()) > 0 ){
+								if(lsr.getAccruedBalance() != null)  {
+									if(lsr.getMaxCarryOver() != null && lsr.getAccruedBalance().compareTo(lsr.getMaxCarryOver()) > 0 ){
 										leaveBlock.setLeaveAmount(lsr.getMaxCarryOver());
 									} else {
-										leaveBlock.setLeaveAmount(lsr.getLeaveBalance());
+										leaveBlock.setLeaveAmount(lsr.getAccruedBalance());
 									}
 								}
 								
@@ -269,7 +259,7 @@ public class CarryOverJob implements Job{
 								leaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
 								
 								// Set EarnCode 
-								if(leaveBlock.getLeaveAmount() != null && leaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) > 0 && leaveBlock.getEarnCode() != null) {
+								if(leaveBlock.getLeaveAmount() != null && leaveBlock.getEarnCode() != null) {
 									if(!carryOverLeaveBlockMap.containsKey(lsr.getAccrualCategoryId())) {
 										carryOverLeaveBlockMap.put(lsr.getAccrualCategoryId(), leaveBlock);
 									} else {
@@ -368,14 +358,4 @@ public class CarryOverJob implements Job{
 		return lpYearStart;
 	}
 	
-	private java.util.Date getNextBatchJobYearStart(LeavePlan leavePlan) {
-		// check if Calendar entry is first entry of the year start the make
-		// accrued balance and approved usage zero
-				
-		java.util.Calendar nextBatchJobYear = java.util.Calendar.getInstance();
-		nextBatchJobYear.setTime(leavePlan.getBatchPriorYearCarryOverStartDateTime());
-		nextBatchJobYear.add(java.util.Calendar.YEAR,1);
-		
-		return nextBatchJobYear.getTime();
-	}
 }
