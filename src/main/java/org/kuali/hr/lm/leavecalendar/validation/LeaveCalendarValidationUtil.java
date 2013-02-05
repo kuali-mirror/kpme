@@ -148,13 +148,15 @@ public class LeaveCalendarValidationUtil {
                 	else if(StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus())) {
                 		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(lb.getPrincipalId(), lb.getLeaveDate());
                 		AccrualCategory accrualCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveDate());
-                		AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCat, TKUtils.getCurrentDate(), pha.getServiceDate());
-                		if(ObjectUtils.isNotNull(aRule)) {
-	                		if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE) &&
-	                				lb.getLeaveAmount().signum() == -1)
-	                			aSet.add("A max balance action that forfeited accrued leave occurred on this calendar");
-	                		else
-	                			aSet.add("A max balance action for transfer occurred on this calendar.");
+                		if(ObjectUtils.isNotNull(accrualCat)) {
+                			AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCat, TKUtils.getCurrentDate(), pha.getServiceDate());
+	                		if(ObjectUtils.isNotNull(aRule)) {
+		                		if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE) &&
+		                				lb.getLeaveAmount().signum() == -1)
+		                			aSet.add("A max balance action that forfeited accrued leave occurred on this calendar");
+		                		else
+		                			aSet.add("A max balance action for transfer occurred on this calendar.");
+	                		}
                 		}
                 	}
                 }
