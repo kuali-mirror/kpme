@@ -128,7 +128,7 @@ public class LeavePayoutMaintainableImpl extends
         String routedByPrincipalId = documentHeader.getWorkflowDocument().getRoutedByPrincipalId();
         if (DocumentStatus.ENROUTE.equals(newDocumentStatus)
                 && CollectionUtils.isEmpty(payout.getLeaveBlocks())) {
-            //when transfer document is routed, initiate the balance transfer - creating the leave blocks
+            //when payout document is routed, initiate the leave payout - creating the leave blocks
             try {
                 MaintenanceDocument md = (MaintenanceDocument)KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(documentId);
 
@@ -141,7 +141,7 @@ public class LeavePayoutMaintainableImpl extends
                 throw new RuntimeException("caught exception while handling doRouteStatusChange -> documentService.getByDocumentHeaderId(" + documentHeader.getDocumentNumber() + "). ", e);
             }
         } else if (DocumentStatus.DISAPPROVED.equals(newDocumentStatus)) {
-            //When transfer document is disapproved, set all leave block's request statuses to disapproved.
+            //When payout document is disapproved, set all leave block's request statuses to disapproved.
             for(LeaveBlock lb : payout.getLeaveBlocks()) {
                 if(ObjectUtils.isNotNull(lb)) {
                     lb.setRequestStatus(LMConstants.REQUEST_STATUS.DISAPPROVED);
@@ -150,7 +150,7 @@ public class LeavePayoutMaintainableImpl extends
             }
             //update status of document and associated leave blocks.
         } else if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
-            //When transfer document moves to final, set all leave block's request statuses to approved.
+            //When payout document moves to final, set all leave block's request statuses to approved.
             for(LeaveBlock lb : payout.getLeaveBlocks()) {
                 if(ObjectUtils.isNotNull(lb)) {
                     lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
@@ -158,7 +158,7 @@ public class LeavePayoutMaintainableImpl extends
                 }
             }
         } else if (DocumentStatus.CANCELED.equals(newDocumentStatus)) {
-            //When transfer document is canceled, set all leave block's request statuses to deferred
+            //When payout document is canceled, set all leave block's request statuses to deferred
             for(LeaveBlock lb : payout.getLeaveBlocks()) {
                 if(ObjectUtils.isNotNull(lb)) {
                     lb.setRequestStatus(LMConstants.REQUEST_STATUS.DEFERRED);
