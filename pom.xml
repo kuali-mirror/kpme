@@ -47,6 +47,13 @@
         <displaytag.version>1.1.1</displaytag.version>
         <jetty.version>7.5.1.v20110908</jetty.version>
         <rice.version>2.1.2</rice.version>
+        <oracle.jdbc.version>10.2.0.3.0</oracle.jdbc.version>
+        <oracle.jdbc.artifactId>ojdbc14</oracle.jdbc.artifactId>
+        <mysql.jdbc.version>5.1.23</mysql.jdbc.version>
+        <mysql.jdbc.artifactId>mysql-connector-java</mysql.jdbc.artifactId>
+        <jdbc.drivers.location>${env.M2_REPO}</jdbc.drivers.location>
+        <mysql-connector-java.jar.location>${jdbc.drivers.location}/mysql/${mysql.jdbc.artifactId}/${mysql.jdbc.version}/${mysql.jdbc.artifactId}-${mysql.jdbc.version}.jar</mysql-connector-java.jar.location>
+        <ojdbc14.jar.location>${jdbc.drivers.location}/com/oracle/${oracle.jdbc.artifactId}/${oracle.jdbc.version}/${oracle.jdbc.artifactId}-${oracle.jdbc.version}.jar</ojdbc14.jar.location>
     </properties>
 
     <dependencies>
@@ -231,7 +238,17 @@
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-krms-impl</artifactId>
             <version>${rice.version}</version>
-        </dependency>  
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-krad-app-framework</artifactId>
+            <version>${rice.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-krad-web-framework</artifactId>
+            <version>${rice.version}</version>
+        </dependency>
         <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-ksb-web</artifactId>
@@ -324,7 +341,8 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.21</version>
+            <version>${mysql.jdbc.version}</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>p6spy</groupId>
@@ -510,6 +528,10 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <forkMode>once</forkMode>
+                    <additionalClasspathElements>
+                        <additionalClasspathElement>${mysql-connector-java.jar.location}</additionalClasspathElement>
+                        <additionalClasspathElement>${ojdbc14.jar.location}</additionalClasspathElement>
+                    </additionalClasspathElements>
                     <useManifestOnlyJar>false</useManifestOnlyJar>
                     <argLine>-Xms512m -Xmx2048m -XX:MaxPermSize=512m</argLine>
                     <useManifestOnlyJar>false</useManifestOnlyJar>
