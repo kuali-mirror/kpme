@@ -571,7 +571,8 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                         if(aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) >= 0
                                 && !aLeaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR)) {
                             /** KPME-2057: Removed conditional to consider all statuses **/
-                            //if(StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, aLeaveBlock.getRequestStatus())) {
+                            if(!(StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, aLeaveBlock.getRequestStatus()) ||
+                            		StringUtils.equals(LMConstants.REQUEST_STATUS.DEFERRED, aLeaveBlock.getRequestStatus()))) {
                                 if (aLeaveBlock.getLeaveDate().getTime() <= priorYearCutOff.getTime()) {
                                     String yearKey = getYearKey(aLeaveBlock.getLeaveDate(), lp);
                                     BigDecimal co = yearlyAccrued.get(yearKey);
@@ -583,13 +584,14 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                                 } else if(aLeaveBlock.getLeaveDate().getTime() < effectiveDate.getTime()) {
                                     accrualedBalance = accrualedBalance.add(aLeaveBlock.getLeaveAmount());
                                 }
-                           // }
+                           }
                         } else {
                             //LEAVE_BLOCK_TYPE.BALANCE_TRANSFER should not count as usage, but it does need to be taken out of accrued balance.
                             BigDecimal currentLeaveAmount = aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) > 0 ? aLeaveBlock.getLeaveAmount().negate() : aLeaveBlock.getLeaveAmount();
                             //we only want this for the current calendar!!!
                             /** KPME-2057: Removed conditional to consider all statuses **/
-                            //if(StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, aLeaveBlock.getRequestStatus())) {
+                            if(!(StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, aLeaveBlock.getRequestStatus()) ||
+                            		StringUtils.equals(LMConstants.REQUEST_STATUS.DEFERRED, aLeaveBlock.getRequestStatus()))) {
                                 if (aLeaveBlock.getLeaveDate().getTime() > priorYearCutOff.getTime()) {
                                     approvedUsage = approvedUsage.add(currentLeaveAmount);
                                     EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(aLeaveBlock.getEarnCode(), aLeaveBlock.getLeaveDate());
@@ -606,7 +608,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                                     use = use.add(currentLeaveAmount);
                                     yearlyUsage.put(yearKey, use);
                                 }
-                            //}
+                            }
                         }
 
                         //}
