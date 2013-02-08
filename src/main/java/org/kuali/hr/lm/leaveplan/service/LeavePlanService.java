@@ -48,6 +48,6 @@ public interface LeavePlanService {
     
     boolean isLastCalendarPeriodOfLeavePlan(CalendarEntries calendarEntry, String leavePlan, Date asOfDate);
     
-    public List<LeavePlan> getLeavePlansNeedsScheduled(int thresholdDays, Date asOfDate);
+    public List<LeavePlan> getLeavePlansNeedsCarryOverScheduled(int thresholdDays, Date asOfDate);
     
 }

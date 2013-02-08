@@ -111,8 +111,8 @@ public class LeavePlanServiceImpl implements LeavePlanService {
 
 
 	@Override
-	public List<LeavePlan> getLeavePlansNeedsScheduled(int thresholdDays,
-			Date asOfDate) {
+	public List<LeavePlan> getLeavePlansNeedsCarryOverScheduled(int thresholdDays,
+                                                                Date asOfDate) {
 		return leavePlanDao.getLeavePlansNeedsScheduled(thresholdDays, asOfDate);
 	}
 	

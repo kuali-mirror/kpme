@@ -270,9 +270,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 		batchJobStartDateTime.set(java.util.Calendar.SECOND, 0);
 		batchJobStartDateTime.set(java.util.Calendar.MILLISECOND, 0);
 		
-		if(batchJobStartDateTime.getTime().compareTo(TKUtils.getCurrentDate()) >= 0) {
-			scheduleLeaveCarryOverJob(leavePlan, batchJobStartDateTime.getTime());
-		}
+		scheduleLeaveCarryOverJob(leavePlan, batchJobStartDateTime.getTime());
 	}
 	
 	

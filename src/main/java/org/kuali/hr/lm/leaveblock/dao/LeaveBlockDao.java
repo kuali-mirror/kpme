@@ -17,7 +17,9 @@ package org.kuali.hr.lm.leaveblock.dao;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import org.joda.time.DateTime;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 
 public interface LeaveBlockDao {
@@ -26,6 +28,8 @@ public interface LeaveBlockDao {
     public void saveOrUpdate(LeaveBlock leaveBlock);
     public List<LeaveBlock> getLeaveBlocks(String principalId, Date beginDate, Date endDate);
     public List<LeaveBlock> getLeaveBlocksWithType(String principalId, Date beginDate, Date endDate, String leaveBlockType);
+    public List<LeaveBlock> getLeaveBlocksSinceCarryOver(String principalId, Map<String, LeaveBlock> carryOverDates, DateTime endDate);
+    public Map<String, LeaveBlock> getLastCarryOverBlocks(String principalId, String leaveBlockType, Date asOfDate);
 
     public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, Date currentDate);
     public List<LeaveBlock> getLeaveBlocksForDate(String principalId, Date leaveDate);

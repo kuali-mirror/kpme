@@ -16,13 +16,11 @@
 package org.kuali.hr.lm.leaveblock.service;
 
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import junit.framework.Assert;
 
+import org.joda.time.DateTime;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +34,7 @@ public class LeaveBlockServiceImplTest extends KPMETestCase {
 	
 	private String TEST_USER = "admin";
 	private LeaveBlockService leaveBlockService;
-	
+
 	@Before
 	public void setUp() throws Exception{
 		super.setUp();
@@ -53,6 +51,14 @@ public class LeaveBlockServiceImplTest extends KPMETestCase {
 		LeaveBlock leaveBlock = leaveBlockService.getLeaveBlock("1000");
 		Assert.assertNotNull("Leave Block not found ", leaveBlock);
 	}
+
+    @Test
+    public void testGetLeaveCarryOverDates() {
+        Map<String, LeaveBlock> dates = leaveBlockService.getLastCarryOverBlocks("admin", null);
+        Assert.assertNotNull("Leave Block not found ", dates);
+    }
+
+
 	
 	@Test
 	public void testGetLeaveBlocks(){
@@ -148,5 +154,6 @@ public class LeaveBlockServiceImplTest extends KPMETestCase {
 		Assert.assertNotNull("Leave blocks not found for user ", leaveBlocks);
 		Assert.assertTrue("There should be 6 leave blocks, not " + leaveBlocks.size(), leaveBlocks.size()== 6);
 	}
+
 
 }

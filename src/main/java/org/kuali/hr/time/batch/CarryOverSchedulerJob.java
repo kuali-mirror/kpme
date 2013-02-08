@@ -23,7 +23,6 @@ import java.util.List;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.batch.service.BatchJobService;
-import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.quartz.JobExecutionContext;
@@ -40,7 +39,7 @@ public class CarryOverSchedulerJob extends QuartzJobBean {
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		Date asOfDate = TKUtils.getCurrentDate();
-		List<LeavePlan> leavePlans = TkServiceLocator.getLeavePlanService().getLeavePlansNeedsScheduled(getLeavePlanPollingWindow(), asOfDate);
+		List<LeavePlan> leavePlans = TkServiceLocator.getLeavePlanService().getLeavePlansNeedsCarryOverScheduled(getLeavePlanPollingWindow(), asOfDate);
         try {
         	if(leavePlans!=null && !leavePlans.isEmpty()) {
 				DateTime current = new DateTime(asOfDate.getTime());

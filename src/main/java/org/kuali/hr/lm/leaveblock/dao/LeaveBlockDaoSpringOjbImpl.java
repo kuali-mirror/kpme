@@ -15,16 +15,18 @@
  */
 package org.kuali.hr.lm.leaveblock.dao;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.*;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
+import org.apache.ojb.broker.metadata.FieldHelper;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -106,6 +108,71 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
         }
 
         return leaveBlocks;
+    }
+
+    public List<LeaveBlock> getLeaveBlocksSinceCarryOver(String principalId, Map<String, LeaveBlock> carryOverDates, DateTime endDate) {
+        Criteria root = new Criteria();
+        root.addEqualTo("principalId", principalId);
+        if (endDate != null) {
+            root.addLessOrEqualThan("leaveDate", endDate.toDate());
+        }
+
+        Criteria orCriteria = new Criteria();
+        for (Map.Entry<String, LeaveBlock> entry : carryOverDates.entrySet()) {
+            Criteria crit = new Criteria();
+            crit.addEqualTo("accrualCategory", entry.getKey());
+            crit.addGreaterThan("leaveDate", entry.getValue().getLeaveDate());
+            orCriteria.addOrCriteria(crit);
+        }
+        if (!orCriteria.isEmpty()) {
+            if (CollectionUtils.isNotEmpty(carryOverDates.keySet())) {
+                Criteria crit = new Criteria();
+                crit.addNotIn("accrualCategory", carryOverDates.keySet());
+                orCriteria.addOrCriteria(crit);
+            }
+            root.addAndCriteria(orCriteria);
+        }
+
+
+        Query query = QueryFactory.newQuery(LeaveBlock.class, root);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
+        if (c != null) {
+            leaveBlocks.addAll(c);
+        }
+
+        return leaveBlocks;
+    }
+
+    public Map<String, LeaveBlock> getLastCarryOverBlocks(String principalId, String leaveBlockType, Date asOfDate) {
+        Map<String, LeaveBlock> carryOver = new HashMap<String, LeaveBlock>();
+        Criteria root = new Criteria();
+        root.addEqualTo("principalId", principalId);
+        root.addEqualTo("leaveBlockType", leaveBlockType);
+
+        Criteria dateSubquery = new Criteria();
+        dateSubquery.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+        dateSubquery.addEqualToField("leaveBlockType", Criteria.PARENT_QUERY_PREFIX + "leaveBlockType");
+        dateSubquery.addEqualToField("accrualCategory", Criteria.PARENT_QUERY_PREFIX + "accrualCategory");
+        if (asOfDate != null) {
+            dateSubquery.addLessOrEqualThan("leaveDate", asOfDate);
+        }
+
+        ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(LeaveBlock.class, dateSubquery);
+        String[] attributes = new String[] { "max(leaveDate)" };
+        subQuery.setAttributes(attributes);
+
+        root.addEqualTo("leaveDate", subQuery);
+
+        Query query = QueryFactory.newQuery(LeaveBlock.class, root);
+        Collection<LeaveBlock> c = (Collection<LeaveBlock>)this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        //Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        for (LeaveBlock lb : c) {
+            carryOver.put(lb.getAccrualCategory(), lb);
+        }
+
+        return carryOver;
+
     }
 
 	@Override

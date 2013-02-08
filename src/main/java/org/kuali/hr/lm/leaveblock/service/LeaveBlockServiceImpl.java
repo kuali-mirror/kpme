@@ -17,9 +17,7 @@ package org.kuali.hr.lm.leaveblock.service;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -78,6 +76,19 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     public List<LeaveBlock> getLeaveBlocksWithType(String principalId, Date beginDate,
                                            Date endDate, String leaveBlockType) {
         return leaveBlockDao.getLeaveBlocksWithType(principalId, beginDate, endDate, leaveBlockType);
+    }
+
+    @Override
+    public List<LeaveBlock> getLeaveBlocksSinceCarryOver(String principalId, Map<String, LeaveBlock> carryOver, DateTime endDate) {
+        return leaveBlockDao.getLeaveBlocksSinceCarryOver(principalId, carryOver, endDate);
+    }
+
+    @Override
+    public Map<String, LeaveBlock> getLastCarryOverBlocks(String principalId, Date asOfDate) {
+        if (StringUtils.isEmpty(principalId)) {
+            return Collections.emptyMap();
+        }
+        return leaveBlockDao.getLastCarryOverBlocks(principalId, LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER, asOfDate);
     }
 
     @Override
