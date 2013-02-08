@@ -24,11 +24,11 @@
     	<documentType>
             <name>BalanceTransferDocumentType</name>
             <parent>RiceDocument</parent>
+			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
             <superUserWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</superUserWorkgroupName>
             <blanketApproveWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</blanketApproveWorkgroupName>
             <defaultExceptionWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</defaultExceptionWorkgroupName>
             <description>Balance Transfer Maintenance Document</description>
-            <docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
             <applicationId>KPME</applicationId>
             <label>BalanceTransferDocument</label>
 			<active>true</active>

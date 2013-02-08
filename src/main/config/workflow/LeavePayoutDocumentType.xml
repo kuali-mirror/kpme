@@ -29,6 +29,7 @@
             <blanketApproveWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</blanketApproveWorkgroupName>
             <defaultExceptionWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</defaultExceptionWorkgroupName>
             <label>LeavePayoutDocument</label>
+            <description>Leave Payout Maintenance Document</description>
 			<active>true</active>
             <applicationId>KPME</applicationId>
             <routingVersion>1</routingVersion>
@@ -73,6 +74,7 @@
         <label>LeavePayoutWorkflowAttribute</label>
         <description>LeavePayoutWorkflowAttribute</description>
         <type>RuleAttribute</type>
+        <applicationId>KPME</applicationId>
     </ruleAttribute>
     </ruleAttributes>
 

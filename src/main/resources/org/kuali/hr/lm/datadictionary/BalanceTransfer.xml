@@ -113,7 +113,7 @@
 		<property name="label" value="Principal Id" />
 	</bean>
 	
-		<!-- transferAmount -->
+	<!-- transferAmount -->
 	<bean id="BalanceTransfer-transferAmount" parent="BalanceTransfer-transferAmount-parentBean" />
 	<bean id="BalanceTransfer-transferAmount-parentBean" abstract="true"
 		parent="AttributeDefinition">
@@ -184,26 +184,6 @@
 		<property name="name" value="toAccrualCategory" />
 		<property name="label" value="Transfer To Accrual Category" />
 	</bean>
-	
-	<!-- toEarnCode -->
-<!-- Move to Payout Maintenance Document
-
-	<bean id="BalanceTransfer-toEarnCode" parent="BalanceTransfer-toEarnCode-parentBean" />
-	<bean id="BalanceTransfer-toEarnCode-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="To Earn Code" />
-		<property name="maxLength" value="15" />
-		<property name="validationPattern">
-			<bean parent="AnyCharacterValidationPattern">
-				<property name="allowWhitespace" value="false" />
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
-		</property>
-		<property name="name" value="toEarnCode" />
-		<property name="label" value="To Earn Code" />
-	</bean> -->
 	
 	<!-- forfeitedAmount -->
 	<bean id="BalanceTransfer-forfeitedAmount" parent="BalanceTransfer-forfeitedAmount-parentBean" />

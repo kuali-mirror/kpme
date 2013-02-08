@@ -15,10 +15,17 @@
  */
 package org.kuali.hr.lm.leavepayout.service;
 
+import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.kuali.hr.lm.leaveSummary.LeaveSummary;
+import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavepayout.LeavePayout;
+import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface LeavePayoutService {
 
@@ -26,15 +33,49 @@ public interface LeavePayoutService {
     public List<LeavePayout> getAllLeavePayoutsForPrincipalIdAsOfDate(String principalId, Date effectiveDate);
     public List<LeavePayout> getAllLeavePayoutsByEffectiveDate(Date effectiveDate);
 
-    /**
-     * Consumes a LeavePayout object.
-     * @param leavePayout The LeavePayout object to use for payout.
-     * @return The same LeavePayout object, but with associated leave block ids.
-     */
-    public LeavePayout payout(LeavePayout leavePayout);
-
-
     //@Cacheable(value= LeaveDonation.CACHE_NAME, key="'lmLeavePayoutId=' + #p0")
     public LeavePayout getLeavePayoutById(String lmLeavePayoutId);
 
+	//Use-Case specific service providers. Could be combined if max carry over applies to all use cases.
+	/**
+	 * A service that instantiates and returns LeavePayout objects that follow the given accrual category rule.
+	 * 
+	 * @param principalId	The principal this transfer pertains to.
+	 * @param accrualCategoryRule	The accrual category rule that contains the max balance information.
+	 * @param leaveSummary	Holds balance information needed for transfer.
+	 * @param effectiveDate 
+	 * @return A LeavePayout object conforming to @param accrualCategoryRule, if one exists. Null otherwise.
+	 * 
+	 * The transfer amount will be the minimum of:
+	 *  
+	 *  	1.) the accrual category rule's maximum transfer amount, adjusted for the employees FTE.
+	 *  	2.) the number of time units exceeding the maximum balance 
+	 *
+	 */
+	public LeavePayout initializePayout(String principalId, String accrualCategoryRule, BigDecimal accruedBalance, Date effectiveDate);
+
+	/**
+	 * Consumes a LeavePayout object, creating up to three leave blocks.
+	 * @param LeavePayout The LeavePayout object to use for transfer.
+	 * @return The same LeavePayout object, but with associated leave block ids.
+	 */
+	public LeavePayout payout(LeavePayout leavePayout);
+	
+	/**
+	 * Helper Services
+	 */
+	
+	/**
+	 * Determines which accrual categories within the given leave calendar document, are TRANSFERABLE for the given action frequency.
+	 * Includes accrual categories for which ACTION_AT_MAX_BALANCE = LOSE.
+	 * 
+	 * @param document The LeaveCalendarDocument to use in gathering transfer eligible accrual categories.
+	 * @param actionFrequency One of LMConstants.MAX_BAL_ACTION_FREQ
+	 * @return A List of accrualCategoryRuleId's in {@param document}'s leave summary with MAX_BAL_ACTION_FREQUENCY = {@param actionFrequency} 
+	 * @throws Exception
+	 */
+	public Map<String, ArrayList<String>> getEligiblePayouts(CalendarEntries calendarEntry, String principalId) throws Exception;
+	
+	public void submitToWorkflow(LeavePayout leavePayout) throws WorkflowException;
+    
 }

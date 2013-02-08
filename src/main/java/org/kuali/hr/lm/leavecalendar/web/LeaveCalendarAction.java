@@ -204,10 +204,12 @@ public class LeaveCalendarAction extends TkAction {
 
         // add warning message for accrual categories that have exceeded max balance.
         Map<String,ArrayList<String>> transfers = new HashMap<String,ArrayList<String>>();
+        Map<String,ArrayList<String>> payouts = new HashMap<String,ArrayList<String>>();
         // Could set a flag on the transferable rows here so that LeaveCalendarSubmit.do knows
         // which row(s) to transfer when user submits the calendar for approval.
         if(ObjectUtils.isNotNull(calendarEntry)) {
 	        transfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(calendarEntry, viewPrincipal);
+	        payouts = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(calendarEntry,viewPrincipal);
 	        List<BalanceTransfer> losses = new ArrayList<BalanceTransfer>();
 	
 	        for(String accrualRuleId : transfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)) {
@@ -236,6 +238,14 @@ public class LeaveCalendarAction extends TkAction {
         }
         for(Entry<String, ArrayList<String>> entry : transfers.entrySet()) {
         	if(!entry.getValue().isEmpty()) {
+	        	warningMes.add("One or more accrual categories have exceeded the maximum balance limit. " +
+	        			"Depending upon the accrual category rules, leave over this limit may be forfeited.");
+	        	break;
+        	}
+        }
+        for(Entry<String, ArrayList<String>> entry : payouts.entrySet()) {
+        	if(!entry.getValue().isEmpty() && !warningMes.contains("One or more accrual categories have exceeded the maximum balance limit. " +
+	        			"Depending upon the accrual category rules, leave over this limit may be forfeited.")) {
 	        	warningMes.add("One or more accrual categories have exceeded the maximum balance limit. " +
 	        			"Depending upon the accrual category rules, leave over this limit may be forfeited.");
 	        	break;

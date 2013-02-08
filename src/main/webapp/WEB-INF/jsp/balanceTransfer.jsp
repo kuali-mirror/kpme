@@ -26,7 +26,7 @@
     renderMultipart="false"
     docTitle="Balance Transfer"
     showTabButtons="false">
-<div class="tab-container" align=center>
+	<div class="tab-container" align=center>
 	<lm:balanceTransfer balanceTransfer="${Form.balanceTransfer}"/>
 	<kul:documentControls transactionalDocument="false" />
 </kul:documentPage>

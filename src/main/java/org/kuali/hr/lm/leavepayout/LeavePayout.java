@@ -17,6 +17,7 @@ package org.kuali.hr.lm.leavepayout;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -24,6 +25,7 @@ import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -35,7 +37,6 @@ public class LeavePayout extends HrBusinessObject {
 
 	private String lmLeavePayoutId;
 	private String principalId;
-	private String leavePlan;
 	private String fromAccrualCategory;
 	private String earnCode;
 	private String description;
@@ -46,10 +47,10 @@ public class LeavePayout extends HrBusinessObject {
 	private EarnCode earnCodeObj;
 	private PrincipalHRAttributes principalHRAttrObj;
     private String leaveCalendarDocumentId;
-
+    private String accrualCategoryRule;
     private String forfeitedLeaveBlockId;
-    private String accruedLeaveBlockId;
-    private String debitedLeaveBlockId;
+    private String payoutFromLeaveBlockId;
+    private String payoutLeaveBlockId;
 
 	public String getEarnCode() {
 		return earnCode;
@@ -58,7 +59,7 @@ public class LeavePayout extends HrBusinessObject {
 		this.earnCode = earnCode;
 	}
 	public EarnCode getEarnCodeObj() {
-		return earnCodeObj;
+		return TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, getEffectiveDate());
 	}
 	public void setEarnCodeObj(EarnCode earnCodeObj) {
 		this.earnCodeObj = earnCodeObj;
@@ -90,7 +91,6 @@ public class LeavePayout extends HrBusinessObject {
 	}
 
 	public void setLeavePlan(String leavePlan) {
-		this.leavePlan = leavePlan;
 	}
 	public String getFromAccrualCategory() {
 		return fromAccrualCategory;
@@ -118,7 +118,7 @@ public class LeavePayout extends HrBusinessObject {
         this.forfeitedAmount = amount;
     }
 	public AccrualCategory getFromAccrualCategoryObj() {
-		return fromAccrualCategoryObj;
+		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, getEffectiveDate());
 	}
 	public void setFromAccrualCategoryObj(AccrualCategory accrualCategoryObj) {
 		this.fromAccrualCategoryObj = accrualCategoryObj;
@@ -154,19 +154,82 @@ public class LeavePayout extends HrBusinessObject {
 	public void setPrincipalHRAttrObj(PrincipalHRAttributes hrObj) {
 		this.principalHRAttrObj = hrObj;
 	}
+	public String getAccrualCategoryRule() {
+		return accrualCategoryRule;
+	}
+	public void setAccrualCategoryRule(String accrualCategoryRule) {
+		this.accrualCategoryRule = accrualCategoryRule;
+	}
+	public String getForfeitedLeaveBlockId() {
+		return forfeitedLeaveBlockId;
+	}
+	public void setForfeitedLeaveBlockId(String forfeitedLeaveBlockId) {
+		this.forfeitedLeaveBlockId = forfeitedLeaveBlockId;
+	}
+	public String getPayoutLeaveBlockId() {
+		return payoutLeaveBlockId;
+	}
+	public void setPayoutLeaveBlockId(String payoutLeaveBlockId) {
+		this.payoutLeaveBlockId = payoutLeaveBlockId;
+	}
+	public String getPayoutFromLeaveBlockId() {
+		return payoutFromLeaveBlockId;
+	}
+	public void setPayoutFromLeaveBlockId(String payoutFromLeaveBlockId) {
+		this.payoutFromLeaveBlockId = payoutFromLeaveBlockId;
+	}
+
+	public void setLeaveCalendarDocumentId(String leaveCalendarDocumentId) {
+		this.leaveCalendarDocumentId = leaveCalendarDocumentId;
+	}
 
     public List<LeaveBlock> getLeaveBlocks() {
         List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
 
-        leaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(forfeitedLeaveBlockId));
-        leaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(accruedLeaveBlockId));
-        leaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(debitedLeaveBlockId));
-
+		if (getForfeitedLeaveBlockId() != null) {
+		    leaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(forfeitedLeaveBlockId));
+        }
+        if (getPayoutFromLeaveBlockId() != null) {
+		    leaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(payoutFromLeaveBlockId));
+        }
+        if (getPayoutLeaveBlockId() != null) {
+		    leaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(payoutLeaveBlockId));
+        }
         return leaveBlocks;
     }
 
     public String getLeaveCalendarDocumentId() {
         return leaveCalendarDocumentId;
     }
+	public LeavePayout adjust(BigDecimal payoutAmount) {
+		BigDecimal difference = this.payoutAmount.subtract(payoutAmount);
+		//technically if there is forfeiture, then the transfer amount has already been maximized
+		//via BalanceTransferService::initializeTransfer(...)
+		//i.o.w. transfer amount cannot be increased.
+		//this method is written with the intention of eventually allowing end user to adjust the transfer
+		//amount as many times as they wish before submitting. Currently they cannot.
+		if(difference.signum() < 0) {
+			//transfer amount is being increased.
+			if(forfeitedAmount.compareTo(BigDecimal.ZERO) > 0) {
+				//transfer amount has already been maximized.
+				if(forfeitedAmount.compareTo(difference.abs()) >= 0)
+					// there is enough leave in the forfeited amount to take out the difference.
+					forfeitedAmount = forfeitedAmount.subtract(difference.abs());
+				else
+					// the difference zero's the forfeited amount.
+					forfeitedAmount = BigDecimal.ZERO;
+			}
+			// a forfeited amount equal to zero with an increase in the transfer amount
+			// does not produce forfeiture.
+			// forfeiture cannot be negative.
+		}
+		else if (difference.signum() > 0) {
+			//transfer amount is being decreased
+			forfeitedAmount = forfeitedAmount.add(difference);
+		}
 
+		this.payoutAmount = payoutAmount;
+		
+		return this;
+	}
 }

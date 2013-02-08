@@ -206,10 +206,15 @@
             <forward name="closeBalanceTransferDoc" path="/WEB-INF/jsp/closeMissedPunchDoc.jsp"/>
         </action>
 
-        <action path="/leavePayout" name="LeavePayoutForm" input="/WEB-INF/jsp/leavePayout.jsp"
+        <action path="/LeavePayout" name="LeavePayoutForm" input="/WEB-INF/jsp/leavePayout.jsp"
                 type="org.kuali.hr.lm.leavepayout.web.LeavePayoutAction"
-                scope="session" parameter="methodToCall" validate="true" attribute="KualiForm">
+                scope="request" parameter="methodToCall" validate="false" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/leavePayout.jsp"/>
+            <forward name="leaveCalendarTransferSuccess" path="/LeaveCalendarSubmit.do"/>
+            <forward name="timesheetTransferSuccess" path="/TimesheetSubmit.do"/>
+            <forward name="timesheetCancel" path="/TimeDetail.do"/>
+            <forward name="leaveCalendarCancel" path="/LeaveCalendar.do"/>
+            <forward name="closeLeavePayoutDoc" path="/WEB-INF/jsp/closeMissedPunchDoc.jsp"/>
         </action>
 
         <action path="/Help" name="HelpActionForm" scope="request" input="/WEB-INF/jsp/help.jsp"
@@ -234,6 +239,7 @@
             <forward name="leaveCalendarRedirect" path="/LeaveCalendar.do"/>
             <forward name="approverRedirect" path="/LeaveApproval.do"/>
             <forward name="transfer" path="/BalanceTransfer.do"/>
+            <forward name="payout" path="/LeavePayout.do"/>
         </action>
         
         <action path="/LeaveRequest" name="LeaveRequestForm" scope="session" input="/WEB-INF/jsp/leaveRequest.jsp"

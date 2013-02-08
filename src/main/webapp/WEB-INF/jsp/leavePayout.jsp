@@ -16,26 +16,17 @@
 
 --%>
 <%@include file="/WEB-INF/jsp/TkTldHeader.jsp"%>
-
 <c:set var="Form" value="${LeavePayoutForm}" scope="request"/>
-<c:set var="KualiForm" value="${LeavePayoutForm}" scope="request"/>
-
-<kul:documentPage showDocumentInfo="true"
+<link type="text/css" href="css/ui-iu/jquery-ui-1.8.5.custom.css" rel="stylesheet" />
+<link type="text/css" href="css/tk.css?v=1.1" rel="stylesheet" />
+<kul:documentPage
+	  showDocumentInfo="true"
+      htmlFormAction="LeavePayout"
       documentTypeName="LeavePayoutDocumentType"
-      htmlFormAction="leavePayout"
-      renderMultipart="true"
-      showTabButtons="true">
-<div class="tab-container" align=center>
-	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
-	<tk:leavePayoutDoc editingMode="${KualiForm.editingMode}"/>
-
-	<kul:notes />
-
-	<kul:routeLog/>
-	<kul:panelFooter />
-	
-
-	<kul:documentControls transactionalDocument="true" />
-
+      renderMultipart="false"
+      docTitle="Leave Payout"
+      showTabButtons="false">
+	<lm:leavePayout leavePayout="${Form.leavePayout}"/>
+	<kul:documentControls transactionalDocument="false" />
 </kul:documentPage>
 

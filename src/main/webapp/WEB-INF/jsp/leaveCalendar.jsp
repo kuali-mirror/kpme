@@ -143,6 +143,10 @@
 
 	</div>
 	
+	<div id="lm-payout-dialog" title="Leave Payout" style="display:none;">
+
+	</div>
+	
 	<div id="confirm-forfeiture-dialog" class="dialog-form" title="Confirm Forfeiture">
 	   <html:form action="/LeaveCalendarSubmit.do" styleId="forfeiture-form">
 			<html:hidden property="loseOnSubmit" value="${not empty Form.forfeitures}" styleId="loseOnSubmit"/>

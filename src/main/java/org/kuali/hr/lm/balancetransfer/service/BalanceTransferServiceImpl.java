@@ -237,10 +237,9 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
 			BigDecimal transferAmount = balanceTransfer.getTransferAmount();
 			LeaveBlock aLeaveBlock = null;
-			
 
-				if(ObjectUtils.isNotNull(balanceTransfer.getAmountTransferred())) {
-					if(balanceTransfer.getAmountTransferred().compareTo(BigDecimal.ZERO) > 0 ) {
+			if(ObjectUtils.isNotNull(balanceTransfer.getAmountTransferred())) {
+				if(balanceTransfer.getAmountTransferred().compareTo(BigDecimal.ZERO) > 0 ) {
 
 					aLeaveBlock = new LeaveBlock();
 					//Create a leave block that adds the adjusted transfer amount to the "transfer to" accrual category.
@@ -258,19 +257,19 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					//Want to store the newly created leave block id on this maintainable object
 					//when the status of the maintenance document encapsulating this maintainable changes
 					//the id will be used to fetch and update the leave block statuses.
-			    	aLeaveBlock = KRADServiceLocator.getBusinessObjectService().save(aLeaveBlock);
+					aLeaveBlock = KRADServiceLocator.getBusinessObjectService().save(aLeaveBlock);
 
-			    	balanceTransfer.setAccruedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
-			        // save history
-			        LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
-			        lbh.setAction(LMConstants.ACTION.ADD);
-			        TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
+					balanceTransfer.setAccruedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
+					// save history
+					LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
+					lbh.setAction(LMConstants.ACTION.ADD);
+					TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
 					leaveBlocks.add(aLeaveBlock);
-					}
 				}
-					
-				if(ObjectUtils.isNotNull(transferAmount)) {
-					if(transferAmount.compareTo(BigDecimal.ZERO) > 0) {					
+			}
+
+			if(ObjectUtils.isNotNull(transferAmount)) {
+				if(transferAmount.compareTo(BigDecimal.ZERO) > 0) {					
 					//Create leave block that removes the correct transfer amount from the originating accrual category.
 					aLeaveBlock = new LeaveBlock();
 					aLeaveBlock.setPrincipalId(balanceTransfer.getPrincipalId());
@@ -283,22 +282,22 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
 					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
 					aLeaveBlock.setBlockId(0L);
-					
+
 					//Want to store the newly created leave block id on this maintainable object.
 					//when the status of the maintenance document encapsulating this maintainable changes
 					//the id will be used to fetch and update the leave block statuses.
-			    	aLeaveBlock = KRADServiceLocator.getBusinessObjectService().save(aLeaveBlock);
+					aLeaveBlock = KRADServiceLocator.getBusinessObjectService().save(aLeaveBlock);
 
-			    	balanceTransfer.setDebitedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
-			        // save history
-			        LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
-			        lbh.setAction(LMConstants.ACTION.ADD);
-			        TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
-					
+					balanceTransfer.setDebitedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
+					// save history
+					LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
+					lbh.setAction(LMConstants.ACTION.ADD);
+					TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
+
 					leaveBlocks.add(aLeaveBlock);
 				}
 			}
-			
+
 			BigDecimal forfeitedAmount = balanceTransfer.getForfeitedAmount();
 			if(ObjectUtils.isNotNull(forfeitedAmount)) {
 				//Any amount forfeited must come out of the originating accrual category in order to bring balance back to max.
@@ -315,18 +314,18 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
 					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
 					aLeaveBlock.setBlockId(0L);
-					
+
 					//Want to store the newly created leave block id on this maintainable object
 					//when the status of the maintenance document encapsulating this maintainable changes
 					//the id will be used to fetch and update the leave block statuses.
-			    	aLeaveBlock = KRADServiceLocator.getBusinessObjectService().save(aLeaveBlock);
+					aLeaveBlock = KRADServiceLocator.getBusinessObjectService().save(aLeaveBlock);
 
-			    	balanceTransfer.setForfeitedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
-			        // save history
-			        LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
-			        lbh.setAction(LMConstants.ACTION.ADD);
-			        TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
-					
+					balanceTransfer.setForfeitedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
+					// save history
+					LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
+					lbh.setAction(LMConstants.ACTION.ADD);
+					TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
+
 					leaveBlocks.add(aLeaveBlock);
 				}
 			}
