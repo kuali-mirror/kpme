@@ -149,9 +149,23 @@ public class BalanceTransferAction extends TkAction {
 		else 
 			if(StringUtils.equals(actionFrequency, LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||
 					StringUtils.equals(actionFrequency, LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+				String documentId = bt.getLeaveCalendarDocumentId();
+				TimesheetDocumentHeader tsdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
+				LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
+				String strutsActionForward = "";
+				if(ObjectUtils.isNull(tsdh) && ObjectUtils.isNull(lcdh)) {
+					strutsActionForward = "/";
+				}
+				else if(ObjectUtils.isNotNull(tsdh)) {
+					//Throws runtime exception, separate action forwards for timesheet/leave calendar transfers.
+					strutsActionForward = mapping.findForward("timesheetCancel").getPath() + "?documentId=" + bt.getLeaveCalendarDocumentId();
+				}
+				else {
+					strutsActionForward = mapping.findForward("leaveCalendarCancel").getPath() + "?documentId=" + bt.getLeaveCalendarDocumentId();
+				}
+
 				ActionRedirect redirect = new ActionRedirect();
-				redirect.setPath(mapping.findForward("cancel").getPath());
-				redirect.addParameter("documentId", bt.getLeaveCalendarDocumentId());
+				redirect.setPath(strutsActionForward);
 				return redirect;
 			}
 			else

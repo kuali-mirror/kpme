@@ -120,6 +120,7 @@ public class LeavePayoutAction extends TkAction {
 			if(ObjectUtils.isNotNull(documentId)) {
 				if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||
 						StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(), LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+					
 					ActionForward forward = new ActionForward(mapping.findForward(strutsActionForward));
 					forward.setPath(forward.getPath()+"?documentId="+documentId+"&action=R&methodToCall="+methodToCall);
 					return forward;
@@ -139,8 +140,8 @@ public class LeavePayoutAction extends TkAction {
 			throws Exception {
 		
 		LeavePayoutForm lpf = (LeavePayoutForm) form;
-		LeavePayout bt = lpf.getLeavePayout();
-		String accrualCategoryRuleId = bt.getAccrualCategoryRule();
+		LeavePayout leavePayout = lpf.getLeavePayout();
+		String accrualCategoryRuleId = leavePayout.getAccrualCategoryRule();
 		AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
 		String actionFrequency = accrualRule.getMaxBalanceActionFrequency();
 		
@@ -149,10 +150,26 @@ public class LeavePayoutAction extends TkAction {
 		else 
 			if(StringUtils.equals(actionFrequency, LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||
 					StringUtils.equals(actionFrequency, LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+				
+				String documentId = leavePayout.getLeaveCalendarDocumentId();
+				TimesheetDocumentHeader tsdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(documentId);
+				LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
+				String strutsActionForward = "";
+				if(ObjectUtils.isNull(tsdh) && ObjectUtils.isNull(lcdh)) {
+					strutsActionForward = "/";
+				}
+				else if(ObjectUtils.isNotNull(tsdh)) {
+					//Throws runtime exception, separate action forwards for timesheet/leave calendar transfers.
+					strutsActionForward = mapping.findForward("timesheetCancel").getPath() + "?documentId=" + leavePayout.getLeaveCalendarDocumentId();
+				}
+				else {
+					strutsActionForward = mapping.findForward("leaveCalendarCancel").getPath() + "?documentId=" + leavePayout.getLeaveCalendarDocumentId();
+				}
+
 				ActionRedirect redirect = new ActionRedirect();
-				redirect.setPath(mapping.findForward("cancel").getPath());
-				redirect.addParameter("documentId", bt.getLeaveCalendarDocumentId());
+				redirect.setPath(strutsActionForward);
 				return redirect;
+
 			}
 			else
 				throw new RuntimeException("Action should only be reachable through triggers with frequency ON_DEMAND or LEAVE_APPROVE");

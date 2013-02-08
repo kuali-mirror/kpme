@@ -159,8 +159,7 @@ $(function () {
             "change #selectedEarnCode" : "showFieldByEarnCodeType",
             "keypress #selectedEarnCode" : "showFieldByEarnCodeType",
             "click input[id^=lm-transfer-button]" : "showOnDemandBalanceTransferDialog",
-            "click #lm-payout-button" : "showOnDemandBalancePayoutDialog",
-            "click #lm-leavepayout-button" : "showLeavePayoutDialog",
+            "click input[id^=lm-payout-button]" : "showOnDemandBalancePayoutDialog",
             "click #ts-route-button" : "forfeitBalanceOnSubmit"
         },
 
@@ -449,36 +448,12 @@ $(function () {
         // The iFrame is added to the missed-punch-dialog as a child element.
         // tdocid is a variable that is set from the form value in 'clock.jsp'
         showOnDemandBalancePayoutDialog : function (e) {
-
+        	var docId = $('#documentId').val();
+        	var accrualRuleId = _(e).parseEventKey().id;
             $('#lm-payout-empty').empty();
-            $('#lm-payout-dialog').append('<iframe width="800" height="600" src="BalanceTransfer.do?methodToCall=balancePayout&command=initiate&docTypeName=BalanceTransferDocumentType&documentId="></iframe>');
+            $('#lm-payout-dialog').append('<iframe width="800" height="600" src="LeavePayout.do?methodToCall=leavePayoutOnDemand&command=initiate&docTypeName=LeavePayoutDocumentType&accrualRuleId=' + accrualRuleId + '&documentId='+docId+'"></iframe>');
 
             $('#lm-payout-dialog').dialog({
-                autoOpen: true,
-                height: 'auto',
-                width: 'auto',
-                modal: true,
-                buttons: {
-                    //"test" : function() {
-                    //}
-                },
-                beforeClose: function(event, ui) {
-                    var URL = unescape(window.parent.location.pathname);
-                    window.parent.location.href = URL;
-                    window.close();
-                }
-            });
-        },
-
-        // Button for iFrame show/hide to show the leave payout items
-        // The iFrame is added as a child element.
-        // tdocid is a variable that is set from the form value in 'clock.jsp'
-        showLeavePayoutDialog : function (e) {
-
-            $('#lm-leavepayout-empty').empty();
-            $('#lm-leavepayout-dialog').append('<iframe width="800" height="600" src="LeavePayout.do?methodToCall=leavePayout&command=initiate&docTypeName=LeavePayoutDocumentType&documentId="></iframe>');
-
-            $('#lm-leavepayout-dialog').dialog({
                 autoOpen: true,
                 height: 'auto',
                 width: 'auto',

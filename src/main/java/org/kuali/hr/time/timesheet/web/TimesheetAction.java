@@ -118,11 +118,34 @@ public class TimesheetAction extends TkAction {
         if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(viewPrincipal, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
         	PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, payCalendarEntry.getEndPeriodDate());
         	Map<String,ArrayList<String>> transfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(td.getCalendarEntry(),td.getPrincipalId());
-        	boolean maxBalance = false;
+        	Map<String,ArrayList<String>> payouts = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(td.getCalendarEntry(),td.getPrincipalId());
+        	
         	for(Entry<String,ArrayList<String>> entry : transfers.entrySet()) {
+        		//contains max balance action = lose "transfers".
         		if(!entry.getValue().isEmpty()) {
-        			maxBalance = true;
-        			break;
+        			for(String accrualRuleId : entry.getValue()) {
+        				AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+        				AccrualCategory aCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
+        				String message = "You have exceeded the maximum balance limit for '" + aCat.getAccrualCategory() + "'. " +
+                    			"Depending upon the accrual category rules, leave over this limit may be forfeited.";
+        				if(!warnings.contains(message)) {
+        					warnings.add(message);
+        				}
+        			}
+        		}
+        	}
+        	for(Entry<String,ArrayList<String>> entry : payouts.entrySet()) {
+        		//contains only payouts.
+        		if(!entry.getValue().isEmpty()) {
+        			for(String accrualRuleId : entry.getValue()) {
+        				AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+        				AccrualCategory aCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
+        				String message = "You have exceeded the maximum balance limit for '" + aCat.getAccrualCategory() + "'. " +
+                    			"Depending upon the accrual category rules, leave over this limit may be forfeited.";
+        				if(!warnings.contains(message)) {
+        					warnings.add(message);
+        				}
+        			}
         		}
         	}
             List<BalanceTransfer> losses = new ArrayList<BalanceTransfer>();
@@ -150,10 +173,6 @@ public class TimesheetAction extends TkAction {
             	}
             }
             taForm.setForfeitures(losses);
-        	if(maxBalance) {
-            	warnings.add("One or more accrual categories have exceeded the maximum balance limit. " +
-            			"Depending upon the accrual category rules, leave over this limit may be forfeited.");
-        	}
         	
         	if (principalCalendar != null) {
 	        	Calendar calendar = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(viewPrincipal, taForm.getEndPeriodDateTime(), true);
