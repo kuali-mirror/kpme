@@ -27,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
@@ -373,6 +374,10 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		// if so, get the leave blocks and calculate the accrued balance.
 		//LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, getCalendarEntry());
 		if(!accrualCategories.isEmpty()) {
+			
+			LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, calendarEntry);
+			BigDecimal fte = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, calendarEntry.getEndPeriodDate());
+			List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, TKUtils.getCurrentDate());
 
 			//null check inserted to fix LeaveCalendarWebTst failures on kpme-trunk-build-unit #2069
 			for(AccrualCategory accrualCategory : accrualCategories) {
@@ -389,8 +394,6 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 							if(ObjectUtils.isNotNull(rule.getMaxBalanceActionFrequency())) {
 								BigDecimal maxBalance = rule.getMaxBalance();
 								
-								List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, pha.getServiceDate(), calendarEntry.getEndPeriodDate());
-								LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, calendarEntry);
 								LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCategory(accrualCategory.getLmAccrualCategoryId());
 								BigDecimal accruedBalance = row.getAccruedBalance();
 /*								for(LeaveBlock leaveBlock : leaveBlockMap.get(accrualCategory.getAccrualCategory())) {
@@ -398,7 +401,6 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 									if(StringUtils.equals(leaveBlock.getRequestStatus(),LMConstants.REQUEST_STATUS.APPROVED))
 										accruedBalance = accruedBalance.add(leaveBlock.getLeaveAmount());
 								}*/
-								BigDecimal fte = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, TKUtils.getCurrentDate());
 								BigDecimal adjustedMaxBalance = maxBalance.multiply(fte);
 								BigDecimal maxAnnualCarryOver = null;
 								if(ObjectUtils.isNotNull(rule.getMaxCarryOver()))
@@ -407,7 +409,6 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 								if(ObjectUtils.isNotNull(maxAnnualCarryOver))
 									adjustedMaxAnnualCarryOver = maxAnnualCarryOver.multiply(fte);
 									
-								List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, TKUtils.getCurrentDate());
 								for(EmployeeOverride override : overrides) {
 									if(StringUtils.equals(override.getAccrualCategory(),accrualCategory.getAccrualCategory())) {
 										if(StringUtils.equals(override.getOverrideType(),"MB"))

@@ -365,7 +365,10 @@ public class BalanceTransferAction extends TkAction {
 			
 			Date effectiveDate = TKUtils.getCurrentDate();
 			if(TKUtils.getCurrentDate().after(timeCalendarEntry.getEndPeriodDate())) {
-				Calendar calendar = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(tsd.getPrincipalId(), timeCalendarEntry.getBeginPeriodDate(), true);
+				effectiveDate = new Date(DateUtils.addMinutes(timeCalendarEntry.getEndPeriodDate(),-1).getTime());
+/*				Uncommenting changes pending input on KPME-2138
+ * 
+ * 				Calendar calendar = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(tsd.getPrincipalId(), timeCalendarEntry.getBeginPeriodDate(), true);
 				Date beginDate = timeCalendarEntry.getBeginPeriodDate();
 				Date endDate = timeCalendarEntry.getEndPeriodDate();
 				List<CalendarEntries> leaveCalendarEntries = new ArrayList<CalendarEntries>();
@@ -381,7 +384,7 @@ public class BalanceTransferAction extends TkAction {
 				}
 				else
 					effectiveDate = new Date(DateUtils.addMinutes(timeCalendarEntry.getEndPeriodDate(),-1).getTime());
-			}
+*/			}
 			
 			accrualRuleId = transferableAccrualCategoryRules.get(0);
 			AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
