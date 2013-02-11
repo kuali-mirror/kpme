@@ -346,10 +346,15 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		eligibilities.put(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE, new ArrayList<String>());
 		eligibilities.put(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END, new ArrayList<String>());
 		eligibilities.put(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND, new ArrayList<String>());
-
+		if(ObjectUtils.isNull(calendarEntry))
+			return eligibilities;
+			
 		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, calendarEntry.getEndPeriodDate());
-		List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), calendarEntry.getEndPeriodDate());
+		if(ObjectUtils.isNull(pha))
+			return eligibilities;
 		
+		List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), calendarEntry.getEndPeriodDate());
+
 		org.kuali.hr.time.calendar.Calendar leaveCalendar = pha.getLeaveCalObj();
 		CalendarEntries thisLeaveEntry = null;
 		Interval thisEntryInterval = new Interval(calendarEntry.getBeginPeriodDate().getTime(),calendarEntry.getEndPeriodDate().getTime());

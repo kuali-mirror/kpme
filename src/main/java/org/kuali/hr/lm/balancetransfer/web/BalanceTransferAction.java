@@ -17,6 +17,8 @@ package org.kuali.hr.lm.balancetransfer.web;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,13 +33,16 @@ import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.balancetransfer.validation.BalanceTransferValidationUtils;
+import org.kuali.hr.lm.leave.web.LeaveBlockDisplay;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.base.web.TkAction;
+import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
@@ -46,6 +51,8 @@ import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import edu.emory.mathcs.backport.java.util.Collections;
 
 public class BalanceTransferAction extends TkAction {
 
@@ -353,11 +360,28 @@ public class BalanceTransferAction extends TkAction {
 			String timesheetDocumentId = request.getParameter("documentId");
 			ActionForward forward = new ActionForward(mapping.findForward("basic"));
 			TimesheetDocument tsd = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentId);
-			LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(tsd.getPrincipalId(), tsd.getCalendarEntry());
+			CalendarEntries timeCalendarEntry = tsd.getCalendarEntry();
+			LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(tsd.getPrincipalId(), timeCalendarEntry);
 			
 			Date effectiveDate = TKUtils.getCurrentDate();
-			if(TKUtils.getCurrentDate().after(tsd.getCalendarEntry().getEndPeriodDate()))
-				effectiveDate = new Date(DateUtils.addMinutes(tsd.getCalendarEntry().getEndPeriodDate(),-1).getTime());
+			if(TKUtils.getCurrentDate().after(timeCalendarEntry.getEndPeriodDate())) {
+				Calendar calendar = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(tsd.getPrincipalId(), timeCalendarEntry.getBeginPeriodDate(), true);
+				Date beginDate = timeCalendarEntry.getBeginPeriodDate();
+				Date endDate = timeCalendarEntry.getEndPeriodDate();
+				List<CalendarEntries> leaveCalendarEntries = new ArrayList<CalendarEntries>();
+				leaveCalendarEntries.addAll(TkServiceLocator.getCalendarEntriesService().getCalendarEntriesEndingBetweenBeginAndEndDate(calendar.getHrCalendarId(),	beginDate, endDate));
+				if(!leaveCalendarEntries.isEmpty()) {
+					if(leaveCalendarEntries.size() < 2) {
+						CalendarEntries endingLeaveEntry = leaveCalendarEntries.get(0);
+						effectiveDate = new Date(DateUtils.addMinutes(endingLeaveEntry.getEndPeriodDate(), -1).getTime());
+					}
+					else {
+						throw new RuntimeException("Unable to determine effective date");
+					}
+				}
+				else
+					effectiveDate = new Date(DateUtils.addMinutes(timeCalendarEntry.getEndPeriodDate(),-1).getTime());
+			}
 			
 			accrualRuleId = transferableAccrualCategoryRules.get(0);
 			AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
