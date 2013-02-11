@@ -437,6 +437,13 @@ public class LeaveCalendarAction extends TkAction {
         		}
         	}
         	
+        	if(TkServiceLocator.getPermissionsService().canBankOrTransferSSTOUsage(blockToDelete)) {
+        		// prompt the user to do a create a balance transfer document
+        		ActionRedirect redirect = new ActionRedirect();
+        		redirect.setPath("/BalanceTransfer.do?"+ request.getQueryString());
+        		return redirect;
+        	}
+        	
         	TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId, principalId);
 		    generateLeaveCalendarChangedNotification(principalId, targetPrincipalId, documentId, calendarEntry.getHrCalendarEntriesId());
 		    if(CollectionUtils.isNotEmpty(approverList)) {

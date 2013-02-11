@@ -37,6 +37,9 @@ public class BalanceTransferValidationUtils {
 
 	public static boolean validateTransfer(BalanceTransfer balanceTransfer) {
 		boolean isValid = true;
+		if(StringUtils.isNotEmpty(balanceTransfer.getSstoId())) {
+			return isValid;
+		}
 		String principalId = balanceTransfer.getPrincipalId();
 		Date effectiveDate = balanceTransfer.getEffectiveDate();
 		String fromAccrualCategory = balanceTransfer.getFromAccrualCategory();

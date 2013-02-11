@@ -15,14 +15,15 @@
  */
 package org.kuali.hr.lm.balancetransfer.web;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
@@ -33,26 +34,22 @@ import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.balancetransfer.validation.BalanceTransferValidationUtils;
-import org.kuali.hr.lm.leave.web.LeaveBlockDisplay;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
+import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
-import org.kuali.hr.time.principal.PrincipalHRAttributes;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
-import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-
-import edu.emory.mathcs.backport.java.util.Collections;
 
 public class BalanceTransferAction extends TkAction {
 
@@ -147,11 +144,19 @@ public class BalanceTransferAction extends TkAction {
 		
 		BalanceTransferForm btf = (BalanceTransferForm) form;
 		BalanceTransfer bt = btf.getBalanceTransfer();
+		
+		if(StringUtils.isNotEmpty(bt.getSstoId())) {	// if this is a transfer on ssto, no need to check anything before return
+			String action = mapping.findForward("leaveCalendarCancel").getPath();
+			ActionRedirect redirect = new ActionRedirect();
+			redirect.setPath(action);
+			return redirect;
+		}
+		
 		String accrualCategoryRuleId = bt.getAccrualCategoryRule();
 		AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
 		String actionFrequency = accrualRule.getMaxBalanceActionFrequency();
 		
-		if(StringUtils.equals(actionFrequency,LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
+		if(StringUtils.equals(actionFrequency,LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND)) 
 			return mapping.findForward("closeBalanceTransferDoc");
 		else 
 			if(StringUtils.equals(actionFrequency, LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||
@@ -431,6 +436,65 @@ public class BalanceTransferAction extends TkAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		return mapping.findForward("closeBalanceTransferDoc");
+	}
+	
+	public ActionForward deleteLeaveBlock(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+		
+		BalanceTransferForm btf = (BalanceTransferForm) form;
+		
+		String lbId = request.getParameter("leaveBlockId");
+		LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lbId);
+		// this leave block is a ssto usage block, need to use it fo find the accrualed leave block which has a positive amount
+		if(lb == null && StringUtils.isEmpty(lb.getScheduleTimeOffId())) {
+			throw new RuntimeException("could not find the System Scheduled Time Off leave block that needs to be transferred!");	
+		}
+		List<LeaveBlock> lbList = TkServiceLocator.getLeaveBlockService().getSSTOLeaveBlocks(lb.getPrincipalId(), lb.getScheduleTimeOffId(), lb.getLeaveDate());
+		
+		SystemScheduledTimeOff ssto = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
+		BigDecimal amountTransferred = ssto.getTransferConversionFactor() == null ? lb.getLeaveAmount() : lb.getLeaveAmount().multiply(ssto.getTransferConversionFactor());
+		EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(ssto.getTransfertoEarnCode(), lb.getLeaveDate());
+		
+		BalanceTransfer bt = new BalanceTransfer();
+		bt.setTransferAmount(lb.getLeaveAmount().abs());
+		bt.setFromAccrualCategory(lb.getAccrualCategory());
+		bt.setAmountTransferred(amountTransferred.abs());
+		bt.setToAccrualCategory(ec.getAccrualCategory());
+		bt.setSstoId(lb.getScheduleTimeOffId());
+		bt.setEffectiveDate(lb.getLeaveDate());
+		bt.setPrincipalId(lb.getPrincipalId());
+		
+		btf.setBalanceTransfer(bt);
+		btf.setTransferAmount(bt.getTransferAmount());
+		
+		GlobalVariables.getMessageMap().putWarning("document.newMaintainableObj.transferAmount","balanceTransfer.transferSSTO", 
+				bt.getTransferAmount().toString(), bt.getAmountTransferred().toString());
+		ActionForward forward = new ActionForward(mapping.findForward("basic"));
+		return forward;
+	}
+	
+	public ActionForward balanceTransferOnSSTO(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response) throws Exception {
+		BalanceTransferForm btf = (BalanceTransferForm) form;
+		BalanceTransfer bt = btf.getBalanceTransfer();
+		
+		if(StringUtils.isEmpty(bt.getSstoId())) {
+			throw new RuntimeException("System Scheduled Time Off not found for this balance transfer!");
+		}
+		List<LeaveBlock> lbList = TkServiceLocator.getLeaveBlockService().getSSTOLeaveBlocks(bt.getPrincipalId(), bt.getSstoId(), bt.getEffectiveDate());
+		if(CollectionUtils.isEmpty(lbList) || (CollectionUtils.isNotEmpty(lbList) && lbList.size() != 2)) {
+			throw new RuntimeException("There should be 2 system scheduled time off leave blocks!");
+		}
+		TkServiceLocator.getBalanceTransferService().submitToWorkflow(bt);
+		// delete both SSTO accrualed and usage leave blocks
+		for(LeaveBlock lb : lbList) {
+			TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(lb.getLmLeaveBlockId(), lb.getPrincipalId());
+		}
+		String action = mapping.findForward("leaveCalendarCancel").getPath();
+		ActionRedirect redirect = new ActionRedirect();
+		redirect.setPath(action);
+		return redirect;
 	}
 
 }

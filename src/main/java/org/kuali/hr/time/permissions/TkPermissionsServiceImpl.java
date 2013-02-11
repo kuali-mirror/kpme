@@ -374,7 +374,7 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
     	if(StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, lb.getRequestStatus()))  {
             return false;
         }
-    	if(isBankableSSTOUsage(lb)) {
+    	if(canBankOrTransferSSTOUsage(lb)) {
     		return true;
     	}
         if (StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus())) {
@@ -387,14 +387,16 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
         return canEditLeaveBlock(lb);
     }
 
-	private boolean isBankableSSTOUsage(LeaveBlock lb) {
-		// if it's an accrual generated ssto usage leave block which can be banked, and on a current leave calendar,
+    @Override
+	public boolean canBankOrTransferSSTOUsage(LeaveBlock lb) {
+		// if it's an accrual generated ssto usage leave block which can be banked or transferred, and on a current leave calendar,
 	    // it can be deleted so the accrualed amount can be banked
 	   if(lb.getAccrualGenerated() 
 			   && StringUtils.isNotEmpty(lb.getScheduleTimeOffId()) 
 			   && lb.getLeaveAmount().compareTo(BigDecimal.ZERO) < 0) {
 		   SystemScheduledTimeOff ssto = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
-		   if(ssto != null && ssto.getUnusedTime().equals(LMConstants.UNUSED_TIME.BANK)) {
+		   if(ssto != null 
+				   && (ssto.getUnusedTime().equals(LMConstants.UNUSED_TIME.BANK) || ssto.getUnusedTime().equals(LMConstants.UNUSED_TIME.TRANSFER))) {
 			   Date currentDate = TKUtils.getTimelessDate(null);
 			   String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
 			   CalendarEntries ce = TkServiceLocator.getCalendarService()

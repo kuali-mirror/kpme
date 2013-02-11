@@ -1051,9 +1051,11 @@ public class AccrualServiceTest extends KPMETestCase {
 	 *  testAC24 has "monthly" as the earn interval
 	 *  There's a accrual ssto leave block on 04/10/2012 for testUser21,no usage lb, so that's a banked ssto accrual
 	 *  run accrual for testUser21 for 3 months, the accrual service should not delete the existing leaveblock
-	 *  and should not generate new ssto accrual/usage lbs
+	 *  and should not generate new ssto accrual/usage lbs on 04/10/2012
+	 *  There's a balance transferred leave block on 04/15/2012, sstoId is not empty, 
+	 *  accrual service should not generate ssto accrual leave blocks on 04/15/2012 
 	 */
-	public void testSSTOBanked() {
+	public void testSSTOBankedOrTransferred() {
 		String principal_id = "testUser21";
 		Calendar aCal = Calendar.getInstance();
 		aCal.setTime(START_DATE);
@@ -1061,12 +1063,12 @@ public class AccrualServiceTest extends KPMETestCase {
 		Date endDate = new java.sql.Date(aCal.getTime().getTime());
 		 
 		List<LeaveBlock> leaveBlockList = (List<LeaveBlock>) TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE, endDate);
-		Assert.assertTrue("There should be 1 leave blocks for princiapl id before runAccrual" + principal_id, leaveBlockList.size() == 1);
+		Assert.assertTrue("There should be 1 leave blocks for princiapl id before runAccrual" + principal_id, leaveBlockList.size() == 2);
 		
 		TkServiceLocator.getLeaveAccrualService().runAccrual(principal_id, START_DATE, endDate, false);
 		
 		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, START_DATE, endDate);
-		Assert.assertTrue("There should be 3 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 3);
+		Assert.assertTrue("There should be 4 leave blocks for emplyee " + principal_id + ", not " + leaveBlockList.size(), leaveBlockList.size()== 4);
 		
 		// 04/10/2012
 		Date intervalDate = new Date((new DateTime(2012, 4, 10, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
@@ -1077,6 +1079,16 @@ public class AccrualServiceTest extends KPMETestCase {
 				 , lb.getLeaveAmount().equals(new BigDecimal(8)));	
 		Assert.assertTrue("LeaveBlockId of the leave block for date  " + intervalDate.toString() + " should be 5004, not " + lb.getLmLeaveBlockId()
 				 , lb.getLmLeaveBlockId().equals("5004"));	
+		
+		// 04/15/2012
+		intervalDate = new Date((new DateTime(2012, 4, 15, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate);
+		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
+		lb = leaveBlockList.get(0);		
+		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 4, not " + lb.getLeaveAmount().toString()
+				 , lb.getLeaveAmount().equals(new BigDecimal(4)));	
+		Assert.assertTrue("LeaveBlockId of the leave block for date  " + intervalDate.toString() + " should be 5005, not " + lb.getLmLeaveBlockId()
+				 , lb.getLmLeaveBlockId().equals("5005"));
 	}
 
 }

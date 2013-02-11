@@ -337,14 +337,13 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
     }
     
     @Override
-    public List<LeaveBlock> getSSTOLeaveBlock(String principalId, String sstoId, Date accruledDate) {
+    public List<LeaveBlock> getSSTOLeaveBlocks(String principalId, String sstoId, Date accruledDate) {
     	List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
         Criteria root = new Criteria();
           
         root.addEqualTo("principalId", principalId);
         root.addEqualTo("leaveDate", accruledDate);
         root.addEqualTo("scheduleTimeOffId", sstoId);
-        root.addEqualTo("accrualGenerated", "Y");
 
         Query query = QueryFactory.newQuery(LeaveBlock.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);

@@ -129,5 +129,5 @@ public interface LeaveBlockService {
      * @param accruledDate
      * @return
      */
-    public List<LeaveBlock> getSSTOLeaveBlock(String principalId, String sstoId, Date accruledDate);
+    public List<LeaveBlock> getSSTOLeaveBlocks(String principalId, String sstoId, Date accruledDate);
 }

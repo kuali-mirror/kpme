@@ -25,9 +25,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.joda.time.DateTime;
 import org.joda.time.Interval;
-import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
@@ -38,17 +36,14 @@ import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
-import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
-import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -613,6 +608,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		btObj.setToAccrualCategory(balanceTransfer.getToAccrualCategory());
 		btObj.setTransferAmount(balanceTransfer.getTransferAmount());
 		btObj.setAmountTransferred(balanceTransfer.getAmountTransferred());
+		btObj.setSstoId(balanceTransfer.getSstoId());
 		document.getNewMaintainableObject().setDataObject(btObj);
 		KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
 		document.getDocumentHeader().getWorkflowDocument().saveDocument("");
@@ -620,5 +616,33 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		document.getDocumentHeader().getWorkflowDocument().route("");
 
 		
+	}
+	
+	@Override
+	public BalanceTransfer transferSsto(BalanceTransfer balanceTransfer) {
+		if(ObjectUtils.isNull(balanceTransfer))
+			throw new RuntimeException("did not supply a valid BalanceTransfer object.");
+		else {
+			List<LeaveBlock> lbList = new ArrayList<LeaveBlock>();
+			// create a new leave block with transferred amount, make sure system scheduled timeoff id is added to it
+			LeaveBlock aLeaveBlock = new LeaveBlock();
+			aLeaveBlock.setPrincipalId(balanceTransfer.getPrincipalId());
+			aLeaveBlock.setLeaveDate(balanceTransfer.getEffectiveDate());
+			aLeaveBlock.setEarnCode(balanceTransfer.getCreditedAccrualCategory().getEarnCode());
+			aLeaveBlock.setAccrualCategory(balanceTransfer.getToAccrualCategory());
+			aLeaveBlock.setDescription("System Scheduled Time off Amount transferred");
+			aLeaveBlock.setLeaveAmount(balanceTransfer.getAmountTransferred());
+			aLeaveBlock.setAccrualGenerated(false);
+			aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
+			aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
+			aLeaveBlock.setBlockId(0L);
+			aLeaveBlock.setScheduleTimeOffId(balanceTransfer.getSstoId());
+
+			lbList.add(aLeaveBlock);
+			TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(lbList);
+
+	    	balanceTransfer.setAccruedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());	
+			return balanceTransfer;
+		}
 	}
 }

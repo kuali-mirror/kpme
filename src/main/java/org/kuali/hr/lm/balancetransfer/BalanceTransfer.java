@@ -49,6 +49,7 @@ public class BalanceTransfer extends HrBusinessObject {
 	private String forfeitedLeaveBlockId;
 	private String accruedLeaveBlockId;
 	private String debitedLeaveBlockId;
+	private String sstoId;
 	
 	private Person principal;
 
@@ -272,6 +273,14 @@ public class BalanceTransfer extends HrBusinessObject {
 
 	public void setAmountTransferred(BigDecimal amountTransferrerd) {
 		this.amountTransferred = amountTransferrerd;
+	}
+	
+	public String getSstoId() {
+		return sstoId;
+	}
+
+	public void setSstoId(String sstoId) {
+		this.sstoId = sstoId;
 	}
 	
 	//Comparable for order handling of more than one transfer occurring during the same

@@ -186,4 +186,11 @@ public class BalanceTransferForm extends KualiTransactionalDocumentFormBase {
 		timesheet = true;
 	}
 
+	public boolean isSstoTransfer() {
+		if(this.getBalanceTransfer() != null && StringUtils.isNotEmpty(this.getBalanceTransfer().getSstoId()))
+			return true;
+		else
+			return false;
+	}
+
 }
