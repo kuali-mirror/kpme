@@ -36,10 +36,8 @@ import org.kuali.hr.time.util.TKUtils;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class LeaveCalendarValidationUtil {
@@ -114,7 +112,7 @@ public class LeaveCalendarValidationUtil {
     						}
 	    					if(maxUsage!=null) {
 		    					if(desiredUsage.compareTo(maxUsage) > 0 ) {
-		    						errors.add("This leave request would exceed the usage limit for " + aRow.getAccrualCategory());
+		    						errors.add("This leave request would exceed the usage limit for " + aRow.getAccrualCategory());                        //errorMessages
 		    					}
 	    					}
 	    				}
@@ -127,23 +125,27 @@ public class LeaveCalendarValidationUtil {
 	//End KPME-1263
 
     // get warning messages associated with earn codes of leave blocks
-    public static List<String> getWarningMessagesForLeaveBlocks(List<LeaveBlock> leaveBlocks) {
-        List<String> warningMessages = new ArrayList<String>();
-        Set<String> aSet = new HashSet<String>();
+    public static Map<String, Set> getWarningMessagesForLeaveBlocks(List<LeaveBlock> leaveBlocks) {
+//        List<String> warningMessages = new ArrayList<String>();
+        Map<String, Set> allMessages = new HashMap<String, Set>();
+        Set<String> actionMessages = new HashSet<String>();
+        Set<String> infoMessages = new HashSet<String>();
+        Set<String> warningMessages = new HashSet<String>();
+
         if (CollectionUtils.isNotEmpty(leaveBlocks)) {
             for(LeaveBlock lb : leaveBlocks) {
                 EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), lb.getLeaveDate());
                 if(ec != null) {
                     EarnCodeGroup eg = TkServiceLocator.getEarnCodeGroupService().getEarnCodeGroupForEarnCode(lb.getEarnCode(), lb.getLeaveDate());
                     if(eg != null && !StringUtils.isEmpty(eg.getWarningText())) {
-                        aSet.add(eg.getWarningText());
+                        warningMessages.add(eg.getWarningText());
                     }
                 }
 
                 if (StringUtils.equals(lb.getLeaveBlockType(), LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER)) {
                 	if(!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus())
                 			&& !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, lb.getRequestStatus())) {
-                		aSet.add("A pending balance transfer exists on this calendar. It must be finalized before this calendar can be approved.");
+                        actionMessages.add("A pending balance transfer exists on this calendar. It must be finalized before this calendar can be approved.");       //actionMessages
                 	}
                 	else if(StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus())) {
                 		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(lb.getPrincipalId(), lb.getLeaveDate());
@@ -153,9 +155,9 @@ public class LeaveCalendarValidationUtil {
 	                		if(ObjectUtils.isNotNull(aRule)) {
 		                		if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE) &&
 		                				lb.getLeaveAmount().signum() == -1)
-		                			aSet.add("A max balance action that forfeited accrued leave occurred on this calendar");
+                                    infoMessages.add("A max balance action that forfeited accrued leave occurred on this calendar");           //infoMessages
 		                		else
-		                			aSet.add("A max balance action for transfer occurred on this calendar.");
+                                    infoMessages.add("A max balance action for transfer occurred on this calendar.");                          //infoMessages
 	                		}
                 		}
                 	}
@@ -163,16 +165,20 @@ public class LeaveCalendarValidationUtil {
                 if (StringUtils.equals(lb.getLeaveBlockType(), LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT)) {
                 	if(!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus())
                 			&& !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, lb.getRequestStatus())) {
-                		aSet.add("A pending payout exists on this leave calendar. It must be finalized before this calendar can be approved.");
+                        actionMessages.add("A pending payout exists on this leave calendar. It must be finalized before this calendar can be approved.");                 //actionMessages
                 	}
                 	else if(StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED,lb.getRequestStatus())) {
-                		aSet.add("A max balance action for payout occurred on this calendar");
+                        infoMessages.add("A max balance action for payout occurred on this calendar");                                                                 //infoMessages
                 	}
                 }
             }
         }
-        warningMessages.addAll(aSet);
-        return warningMessages;
+        allMessages.put("actionMessages", actionMessages);
+        allMessages.put("infoMessages", infoMessages);
+        allMessages.put("warningMessages", warningMessages);
+
+//        warningMessages.addAll(aSet);
+        return allMessages;
     }
 
     public static List<String> validateAvailableLeaveBalance(LeaveCalendarWSForm lcf) {
@@ -221,7 +227,7 @@ public class LeaveCalendarValidationUtil {
 	    					BigDecimal desiredUsage = leaveAmount.multiply(new BigDecimal(daysSpan+1));
 
 	    					if(desiredUsage.compareTo(availableBalance) >  0 ) {
-	    						errors.add("Requested leave amount is greater than available leave balance.");
+	    						errors.add("Requested leave amount is greater than available leave balance.");      //errorMessages
 	    					}
 	    				}
 	    			}
@@ -248,7 +254,7 @@ public class LeaveCalendarValidationUtil {
         	startTemp = startTemp.plusDays(1);
         }
         if (!valid) {
-        	errors.add("Weekend day is selected, but include weekends checkbox is not checked");
+        	errors.add("Weekend day is selected, but include weekends checkbox is not checked");            //errorMessages
         }
     	return errors;
     }

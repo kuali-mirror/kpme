@@ -200,7 +200,7 @@ public class LeaveCalendarAction extends TkAction {
         }
         
         // add warning messages based on earn codes of leave blocks
-        List<String> warningMes = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
+        Map<String, Set> allMessages = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
 
         // add warning message for accrual categories that have exceeded max balance.
         Map<String,ArrayList<String>> transfers = new HashMap<String,ArrayList<String>>();
@@ -248,8 +248,8 @@ public class LeaveCalendarAction extends TkAction {
     				AccrualCategory aCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
     				String message = "You have exceeded the maximum balance limit for '" + aCat.getAccrualCategory() + "'. " +
                 			"Depending upon the accrual category rules, leave over this limit may be forfeited.";
-    				if(!warningMes.contains(message)) {
-    					warningMes.add(message);
+    				if(!allMessages.get("warningMessages").contains(message)) {
+                        allMessages.get("warningMessages").add(message);
     				}
     			}
         	}
@@ -261,8 +261,8 @@ public class LeaveCalendarAction extends TkAction {
     				AccrualCategory aCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
     				String message = "You have exceeded the maximum balance limit for '" + aCat.getAccrualCategory() + "'. " +
                 			"Depending upon the accrual category rules, leave over this limit may be forfeited.";
-    				if(!warningMes.contains(message)) {
-    					warningMes.add(message);
+    				if(!allMessages.get("warningMessages").contains(message)) {
+                        allMessages.get("warningMessages").add(message);
     				}
     			}
         	}
@@ -276,15 +276,24 @@ public class LeaveCalendarAction extends TkAction {
 				for (AccrualCategory accrualCategory : accrualCategories) {
 					if (TkServiceLocator.getAccrualCategoryMaxCarryOverService().exceedsAccrualCategoryMaxCarryOver(accrualCategory.getAccrualCategory(), viewPrincipal, calendarEntry, calendarEntry.getEndPeriodDate())) {
 						String message = "Your pending leave balance is greater than the annual max carry over for accrual category '" + accrualCategory.getAccrualCategory() + "' and upon approval, the excess balance will be lost.";
-						if (!warningMes.contains(message)) {
-							warningMes.add(message);
+						if (!allMessages.get("warningMessages").contains(message)) {
+                            allMessages.get("warningMessages").add(message);
 						}
 					}
 				}
 			}
         }
-		
-        lcf.setWarnings(warningMes);
+
+        List<String> warningMessages = new ArrayList<String>();
+        List<String> infoMessages = new ArrayList<String>();
+        List<String> actionMessages = new ArrayList<String>();
+        warningMessages.addAll(allMessages.get("warningMessages"));
+        infoMessages.addAll(allMessages.get("infoMessages"));
+        actionMessages.addAll(allMessages.get("actionMessages"));
+
+        lcf.setWarningMessages(warningMessages);
+        lcf.setInfoMessages(infoMessages);
+        lcf.setActionMessages(actionMessages);
         
 		// KPME-1690
 //        LeaveCalendar leaveCalender = new LeaveCalendar(viewPrincipal, calendarEntry);

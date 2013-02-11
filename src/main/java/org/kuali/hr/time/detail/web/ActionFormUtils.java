@@ -83,10 +83,11 @@ public class ActionFormUtils {
         if (!warningMessages.isEmpty()) {
             Set<String> aSet = new HashSet<String>();
             aSet.addAll(warningMessages);
-            aSet.addAll(tdaf.getWarnings());
+            aSet.addAll(tdaf.getWarningMessages()); //Only warnings. TODO: Do we need actions and info messages here?
+
             List<String> aList = new ArrayList<String>();
             aList.addAll(aSet);
-            tdaf.setWarnings(aList);
+            tdaf.setWarningMessages(aList);
         }
     }
 

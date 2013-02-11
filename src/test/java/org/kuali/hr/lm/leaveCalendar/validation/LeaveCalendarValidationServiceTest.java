@@ -18,6 +18,8 @@ package org.kuali.hr.lm.leaveCalendar.validation;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -288,29 +290,36 @@ public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 		// create two leave blocks with two different earn codes
 		// earn code "ECA" has fmla=Y, has earn code group with warning messages
 		// earn Code "ECB" has fmla = N, has earn code group with warning messages
-		// earn code "ECC" does not have earn code group with warning messages		
-		
+		// earn code "ECC" does not have earn code group with warning messages
+
 		List<LeaveBlock> leaveBlocs = new ArrayList<LeaveBlock>();
 		LeaveBlock lbA = new LeaveBlock();
 		lbA.setEarnCode("ECA");
 		lbA.setLeaveDate(TKUtils.getCurrentDate());
 		leaveBlocs.add(lbA);
-		
+
 		LeaveBlock lbB = new LeaveBlock();
 		lbB.setEarnCode("ECB");
 		lbB.setLeaveDate(TKUtils.getCurrentDate());
 		leaveBlocs.add(lbB);
-		
+
 		LeaveBlock lbC = new LeaveBlock();
 		lbC.setEarnCode("ECC");
 		lbC.setLeaveDate(TKUtils.getCurrentDate());
 		leaveBlocs.add(lbC);
-		
-		List<String> warningMess = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocs);
-		Assert.assertTrue("There should be 2 warning messages, not " + warningMess.size(), warningMess.size()== 2);
-		for(String warning : warningMess) {
-			Assert.assertTrue("Warning message should be 'Test Message' or 'Test Message1'", warning.equals("Test Message") || warning.equals("Test Message1"));
-		}
+
+		Map<String, Set> allMessages = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocs);
+        int numberOfMessages = 0;
+        for (Set<String> msgs : allMessages.values()){
+            numberOfMessages += msgs.size();
+        }
+		Assert.assertTrue("There should be 2 warning messages, not " + numberOfMessages, numberOfMessages== 2);
+
+        for (Set<String> msgs : allMessages.values()){
+            for (String message : msgs) {
+                Assert.assertTrue("Warning message should be 'Test Message' or 'Test Message1'", message.equals("Test Message") || message.equals("Test Message1"));
+            }
+        }
 	}
 		
 }

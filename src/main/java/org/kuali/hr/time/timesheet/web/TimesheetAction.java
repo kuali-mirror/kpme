@@ -202,7 +202,7 @@ public class TimesheetAction extends TkAction {
 			}
         }
 		
-		taForm.setWarnings(warnings);
+		taForm.setWarningMessages(warnings);
 
         // Do this at the end, so we load the document first,
         // then check security permissions via the superclass execution chain.

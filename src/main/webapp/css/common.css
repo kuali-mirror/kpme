@@ -343,20 +343,36 @@
 .validation {
     padding: 0.3em;
 }
-
+.messages {
+    text-align: center;
+    margin: 10px;
+}
 .warning {
     padding: 0.3em;
     color: red;
-    font-size: .8em;
     width: 100%;
     margin: 0 auto 0 auto;
     text-align: center;
 }
-
+.info {
+    padding: 0.3em;
+    color: #00008b;
+    width: 100%;
+    margin: 0 auto 0 auto;
+    text-align: center;
+}
+.action {
+    padding: 0.3em;
+    color: red;
+    font-weight: bold;
+    width: 100%;
+    margin: 0 auto 0 auto;
+    text-align: center;
+}
 .global-error {
     text-align: center;
     margin-top: 10px;
-    color: red;
+    /*color: red;*/
 }
 
 .block-error {
