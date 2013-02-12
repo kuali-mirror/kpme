@@ -137,19 +137,16 @@ public class BalanceTransferAction extends TkAction {
 		else //show user errors.
 			return mapping.findForward("basic");
 	}
-	
+
 	public ActionForward cancel(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		
 		BalanceTransferForm btf = (BalanceTransferForm) form;
 		BalanceTransfer bt = btf.getBalanceTransfer();
-		
-		if(StringUtils.isNotEmpty(bt.getSstoId())) {	// if this is a transfer on ssto, no need to check anything before return
-			String action = mapping.findForward("leaveCalendarCancel").getPath();
-			ActionRedirect redirect = new ActionRedirect();
-			redirect.setPath(action);
-			return redirect;
+
+		if(btf.isSstoTransfer()) {
+			return mapping.findForward("closeBalanceTransferDoc");
 		}
 		
 		String accrualCategoryRuleId = bt.getAccrualCategoryRule();
@@ -438,26 +435,31 @@ public class BalanceTransferAction extends TkAction {
 		return mapping.findForward("closeBalanceTransferDoc");
 	}
 	
-	public ActionForward deleteLeaveBlock(ActionMapping mapping, ActionForm form,
+	/* Delete system scheduled time off usage leave block from Leave or Time Calendar 
+	 */
+	public ActionForward deleteSSTOLeaveBlock(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-		
 		BalanceTransferForm btf = (BalanceTransferForm) form;
-		
-		String lbId = request.getParameter("leaveBlockId");
+		buildBalanceTransferForLeaveBlock(btf, request.getParameter("leaveBlockId"));
+	
+		return new ActionForward(mapping.findForward("basic"));
+	}
+	
+	/* Build balance transfer based on the to-be-deleted leave block 
+	 */
+	private void buildBalanceTransferForLeaveBlock(BalanceTransferForm btf, String lbId) {
 		LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lbId);
 		// this leave block is a ssto usage block, need to use it fo find the accrualed leave block which has a positive amount
 		if(lb == null && StringUtils.isEmpty(lb.getScheduleTimeOffId())) {
 			throw new RuntimeException("could not find the System Scheduled Time Off leave block that needs to be transferred!");	
 		}
-		List<LeaveBlock> lbList = TkServiceLocator.getLeaveBlockService().getSSTOLeaveBlocks(lb.getPrincipalId(), lb.getScheduleTimeOffId(), lb.getLeaveDate());
-		
 		SystemScheduledTimeOff ssto = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
 		BigDecimal amountTransferred = ssto.getTransferConversionFactor() == null ? lb.getLeaveAmount() : lb.getLeaveAmount().multiply(ssto.getTransferConversionFactor());
 		EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(ssto.getTransfertoEarnCode(), lb.getLeaveDate());
 		
 		BalanceTransfer bt = new BalanceTransfer();
-		bt.setTransferAmount(lb.getLeaveAmount().abs());
+		bt.setTransferAmount(lb.getLeaveAmount().abs());	// the usage leave block's leave amount is negative
 		bt.setFromAccrualCategory(lb.getAccrualCategory());
 		bt.setAmountTransferred(amountTransferred.abs());
 		bt.setToAccrualCategory(ec.getAccrualCategory());
@@ -467,13 +469,13 @@ public class BalanceTransferAction extends TkAction {
 		
 		btf.setBalanceTransfer(bt);
 		btf.setTransferAmount(bt.getTransferAmount());
-		
 		GlobalVariables.getMessageMap().putWarning("document.newMaintainableObj.transferAmount","balanceTransfer.transferSSTO", 
 				bt.getTransferAmount().toString(), bt.getAmountTransferred().toString());
-		ActionForward forward = new ActionForward(mapping.findForward("basic"));
-		return forward;
 	}
-	
+	/*
+	 * Submit a balance transfer document when deleting a ssto usage leave block from current Leave/time calendar
+	 * delete both accrued and usage ssto leave blocks, a pending transferred leave block is created by the BT doc
+	 */
 	public ActionForward balanceTransferOnSSTO(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		BalanceTransferForm btf = (BalanceTransferForm) form;
@@ -491,10 +493,7 @@ public class BalanceTransferAction extends TkAction {
 		for(LeaveBlock lb : lbList) {
 			TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(lb.getLmLeaveBlockId(), lb.getPrincipalId());
 		}
-		String action = mapping.findForward("leaveCalendarCancel").getPath();
-		ActionRedirect redirect = new ActionRedirect();
-		redirect.setPath(action);
-		return redirect;
+		return mapping.findForward("closeBalanceTransferDoc");
 	}
 
 }

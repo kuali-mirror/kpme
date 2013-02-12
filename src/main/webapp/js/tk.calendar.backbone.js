@@ -578,7 +578,28 @@ $(function () {
         deleteLeaveBlock : function (e) {
             var key = _(e).parseEventKey();
             if (confirm('You are about to delete a leave block. Click OK to confirm the delete.')) {
-                window.location = "TimeDetail.do?methodToCall=deleteLeaveBlock&lmLeaveBlockId=" + key.id;
+            	var leaveBlock = leaveBlockCollection.get(key.id);
+            	var canBankOrTransferLB = leaveBlock.get("canBankOrTransfer") ? true : false;
+            	if(canBankOrTransferLB) {
+	            	$('#lm-transfer-empty').empty();
+		            $('#lm-transfer-dialog').append('<iframe width="800" height="600" src="BalanceTransfer.do?methodToCall=deleteSSTOLeaveBlock&leaveBlockId=' + key.id +'"></iframe>');
+		 
+		            $('#lm-transfer-dialog').dialog({
+		                autoOpen: true,
+		                height: 'auto',
+		                width: 'auto',
+		                modal: true,
+		                buttons: {
+		                },
+		                beforeClose: function(event, ui) {
+		                    var URL = unescape(window.parent.location);
+		                    window.parent.location.href = URL;
+		                    window.close();
+		                }
+	           		});
+            	} else {
+               		window.location = "TimeDetail.do?methodToCall=deleteLeaveBlock&lmLeaveBlockId=" + key.id;
+                }
             }
         },
 

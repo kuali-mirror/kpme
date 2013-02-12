@@ -32,9 +32,9 @@ public class TkCommonCalendarForm extends TkForm {
 //    private List<String> warnings;
 
     private List<String> errorMessages;
-    private List<String> warningMessages;         // Messages like: "you might lose leave if you don't act." or "you're over the limit - use / transfer / payout leave or risk forfeiting."  i.e. just warns of an upcoming consequence
-    private List<String> infoMessages;            // Messages like: "leave was forfeted on this calendar" i.e. reports what happened or presents additional info to user.
-    private List<String> actionMessages;          // Messages like: "must approve transfer / payout doc ( or take other action ) before this calendar can be approved / submitted." i.e.: messages that informs about a required action.
+    private List<String> warningMessages = new ArrayList<String>(); ;        // Messages like: "you might lose leave if you don't act." or "you're over the limit - use / transfer / payout leave or risk forfeiting."  i.e. just warns of an upcoming consequence
+    private List<String> infoMessages = new ArrayList<String>(); ;           // Messages like: "leave was forfeted on this calendar" i.e. reports what happened or presents additional info to user.
+    private List<String> actionMessages = new ArrayList<String>();           // Messages like: "must approve transfer / payout doc ( or take other action ) before this calendar can be approved / submitted." i.e.: messages that informs about a required action.
 
 	public List<String> getCalendarYears() {
 		return calendarYears;

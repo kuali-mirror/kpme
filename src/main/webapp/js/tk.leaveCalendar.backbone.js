@@ -296,8 +296,31 @@ $(function () {
             
 //            if (this.checkPermissions()) {
             	if (confirm('You are about to delete a leave block. Click OK to confirm the delete.')) {
+            	var leaveBlock = leaveBlockCollection.get(key.id);
+            	var canBankOrTransferLB = leaveBlock.get("canBankOrTransfer") ? true : false;
+       console.log("canBankOrTransferLB is " + canBankOrTransferLB);
+            	if(canBankOrTransferLB) {
+          console.log("in if");
+	            	$('#lm-transfer-empty').empty();
+		            $('#lm-transfer-dialog').append('<iframe width="800" height="600" src="BalanceTransfer.do?methodToCall=deleteSSTOLeaveBlock&leaveBlockId=' + key.id +'"></iframe>');
+		 
+		            $('#lm-transfer-dialog').dialog({
+		                autoOpen: true,
+		                height: 'auto',
+		                width: 'auto',
+		                modal: true,
+		                buttons: {
+		                },
+		                beforeClose: function(event, ui) {
+		                    var URL = unescape(window.parent.location);
+		                    window.parent.location.href = URL;
+		                    window.close();
+		                }
+	           		});
+            	} else {
             		window.location = "LeaveCalendar.do?methodToCall=deleteLeaveBlock&leaveBlockId=" + key.id + "&calEntryId=" + calId;
             	}
+              }	
 //            }
         },
         

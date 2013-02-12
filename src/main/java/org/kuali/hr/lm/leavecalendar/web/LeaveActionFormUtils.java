@@ -74,6 +74,7 @@ public class LeaveActionFormUtils {
             LeaveBlockMap.put("leaveBlockType", leaveBlock.getLeaveBlockType());
             LeaveBlockMap.put("editable", leaveBlock.isEditable());
             LeaveBlockMap.put("requestStatus", leaveBlock.getRequestStatus());
+            LeaveBlockMap.put("canBankOrTransfer", TkServiceLocator.getPermissionsService().canBankOrTransferSSTOUsage(leaveBlock));
             leaveBlockList.add(LeaveBlockMap);
         }
 
