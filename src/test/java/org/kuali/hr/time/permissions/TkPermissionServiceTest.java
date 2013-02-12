@@ -56,8 +56,8 @@ public class TkPermissionServiceTest extends KPMETestCase {
 	
 	@Test
 	// added this brand new test for kpme-2109 so this test does not cover all existing scenarios,
-	// only bankable system scheduled time off usage leave blocks
-	public void testCanDeleteLeaveBlockForBankableSSTOUsageLB() {
+	// only system scheduled time off usage leave blocks that can be banked or transferred
+	public void testCanDeleteLeaveBlockForSSTOUsageLB() {
 		// leave block 6000 is a bankable ssto usage block that is on current leave calendar, 
 		// ssto 2000's unused time is "B"
 		LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock("6000");
@@ -65,11 +65,11 @@ public class TkPermissionServiceTest extends KPMETestCase {
 		boolean deleteFlag = TkServiceLocator.getPermissionsService().canDeleteLeaveBlock(lb);
 		Assert.assertTrue("Leave Block 6000 should be deletable", deleteFlag);
 		
-		// leave block 6001 is a ssto usage block that is not bankable, ssto 2001's unused time is "T"
+		// leave block 6001 is a ssto usage block that can be transferred, ssto 2001's unused time is "T"
 		lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock("6001");
 		lb.setLeaveDate(TKUtils.getCurrentDate());
 		deleteFlag = TkServiceLocator.getPermissionsService().canDeleteLeaveBlock(lb);
-		Assert.assertFalse("Leave Block 6001 should NOT be deletable", deleteFlag);
+		Assert.assertTrue("Leave Block 6001 should be deletable", deleteFlag);
 		
 		// leave block 6002 is a ssto usage block that is not on current leave calendar
 		lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock("6002");
