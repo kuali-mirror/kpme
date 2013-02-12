@@ -398,18 +398,22 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 								}*/
 								BigDecimal adjustedMaxBalance = maxBalance.multiply(fte);
 								BigDecimal maxAnnualCarryOver = null;
-								if(ObjectUtils.isNotNull(rule.getMaxCarryOver()))
+								if(ObjectUtils.isNotNull(rule.getMaxCarryOver())) {
 									maxAnnualCarryOver = new BigDecimal(rule.getMaxCarryOver());
+                                }
 								BigDecimal adjustedMaxAnnualCarryOver = null;
-								if(ObjectUtils.isNotNull(maxAnnualCarryOver))
+								if(ObjectUtils.isNotNull(maxAnnualCarryOver)) {
 									adjustedMaxAnnualCarryOver = maxAnnualCarryOver.multiply(fte);
+                                }
 									
 								for(EmployeeOverride override : overrides) {
 									if(StringUtils.equals(override.getAccrualCategory(),accrualCategory.getAccrualCategory())) {
-										if(StringUtils.equals(override.getOverrideType(),"MB"))
+										if(StringUtils.equals(override.getOverrideType(),"MB")) {
 											adjustedMaxBalance = new BigDecimal(override.getOverrideValue());
-										if(StringUtils.equals(override.getOverrideType(),"MAC"))
+                                        }
+										if(StringUtils.equals(override.getOverrideType(),"MAC")) {
 											adjustedMaxAnnualCarryOver = new BigDecimal(override.getOverrideValue());
+                                        }
 										//override values are not pro-rated.
 									}
 								}
@@ -429,8 +433,9 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 										//calendarEntry.beginPeriodDate.year = calendarYearStart.year - 1
 										sb.append(DateUtils.toCalendar(DateUtils.addYears(calendarEntry.getBeginPeriodDate(),1)).get(Calendar.YEAR));
 									}
-									else
+									else {
 										sb.append(DateUtils.toCalendar(calendarEntry.getBeginPeriodDateTime()).get(Calendar.YEAR));
+                                    }
 									//if the calendar being submitted is the final calendar in the leave plans calendar year.
 									//must check the calendar year start month. If its the first month of the year, add a year to the date.
 									//otherwise, the end period date and the calendar year start date have the same year.
