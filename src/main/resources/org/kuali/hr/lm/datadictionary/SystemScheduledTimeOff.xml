@@ -392,6 +392,11 @@
 							<bean parent="FieldDefinition" p:attributeName="earnCode" />
 							<bean parent="FieldDefinition" p:attributeName="scheduledTimeOffDate" />
 							<bean parent="FieldDefinition" p:attributeName="location" />
+                            <bean parent="FieldDefinition" p:attributeName="amountofTime" />
+                            <bean parent="FieldDefinition" p:attributeName="unusedTime" />
+                            <bean parent="FieldDefinition" p:attributeName="transfertoEarnCode" />
+                            <bean parent="FieldDefinition" p:attributeName="transferConversionFactor" />
+                            <bean parent="FieldDefinition" p:attributeName="premiumHoliday" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 						 </list>
