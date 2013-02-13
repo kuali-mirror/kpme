@@ -270,9 +270,9 @@ public class LeaveCalendarValidationUtil {
 			//use service date as begin date calculating balance.
 			PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, endDate);
 			prevYearStart.setTime(pha.getServiceDate());
-		}
-		else	//otherwise the 
+		} else {	//otherwise the
 			prevYearStart.setTime(lastCarryOver.getLeaveDate());
+        }
 
 		// service dates and leave dates stamped 00:00:00
 

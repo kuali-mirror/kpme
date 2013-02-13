@@ -128,7 +128,7 @@ public class CarryOverJob implements Job{
                                             lpYearPreviousStart.setTime(serviceDate);
                                         }
                                         if (prevCalEndDate.getTime() >= serviceDate.getTime()) {
-                                            fillCarryOverLeaveBlockMap(principalId, leaveCalendar, prevCalEndDate, servicStartCal, lpYearPreviousStart ,carryOverLeaveBlockMap);
+                                            fillCarryOverLeaveBlockMap(principalId, leaveCalendar, prevCalEndDate, carryOverLeaveBlockMap);
                                         }
                                     }
 
@@ -214,11 +214,14 @@ public class CarryOverJob implements Job{
 		LEAVE_BLOCK_SERVICE = leaveBlockService;
 	}
 	
-	private void fillCarryOverLeaveBlockMap(String principalId, Calendar leaveCalendar, java.util.Date prevCalEndDate,java.util.Calendar lpYearNextStart,java.util.Calendar lpYearPreviousStart, Map<String, LeaveBlock> carryOverLeaveBlockMap){
+	private void fillCarryOverLeaveBlockMap(String principalId,
+                                            Calendar leaveCalendar,
+                                            java.util.Date prevCalEndDate,
+                                            Map<String, LeaveBlock> carryOverLeaveBlockMap){
 
  				   CalendarEntries calendarEntries = getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(leaveCalendar.getHrCalendarId(), prevCalEndDate);
 					try {
-						LeaveSummary leaveSummary = getLeaveSummaryService().getLeaveSummary(principalId, calendarEntries, lpYearPreviousStart);
+						LeaveSummary leaveSummary = getLeaveSummaryService().getLeaveSummary(principalId, calendarEntries);
 						List<LeaveSummaryRow> leaveSummaryRows = leaveSummary.getLeaveSummaryRows();
 						
 						if(leaveSummaryRows !=null && !leaveSummaryRows.isEmpty()){

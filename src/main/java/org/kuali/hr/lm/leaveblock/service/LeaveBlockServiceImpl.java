@@ -73,14 +73,20 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     }
 
     @Override
+    public List<LeaveBlock> getLeaveBlocksWithAccrualCategory(String principalId, Date beginDate,
+                                           Date endDate, String accrualCategory) {
+        return leaveBlockDao.getLeaveBlocksWithAccrualCategory(principalId, beginDate, endDate, accrualCategory);
+    }
+
+    @Override
     public List<LeaveBlock> getLeaveBlocksWithType(String principalId, Date beginDate,
                                            Date endDate, String leaveBlockType) {
         return leaveBlockDao.getLeaveBlocksWithType(principalId, beginDate, endDate, leaveBlockType);
     }
 
     @Override
-    public List<LeaveBlock> getLeaveBlocksSinceCarryOver(String principalId, Map<String, LeaveBlock> carryOver, DateTime endDate) {
-        return leaveBlockDao.getLeaveBlocksSinceCarryOver(principalId, carryOver, endDate);
+    public List<LeaveBlock> getLeaveBlocksSinceCarryOver(String principalId, Map<String, LeaveBlock> carryOver, DateTime endDate, boolean includeAllAccrualCategories) {
+        return leaveBlockDao.getLeaveBlocksSinceCarryOver(principalId, carryOver, endDate, includeAllAccrualCategories);
     }
 
     @Override

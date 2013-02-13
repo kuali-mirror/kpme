@@ -110,7 +110,27 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
         return leaveBlocks;
     }
 
-    public List<LeaveBlock> getLeaveBlocksSinceCarryOver(String principalId, Map<String, LeaveBlock> carryOverDates, DateTime endDate) {
+    @Override
+    public List<LeaveBlock> getLeaveBlocksWithAccrualCategory(String principalId, Date beginDate, Date endDate, String accrualCategory) {
+        List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
+        Criteria root = new Criteria();
+        root.addEqualTo("principalId", principalId);
+        root.addGreaterOrEqualThan("leaveDate", beginDate);
+        root.addLessOrEqualThan("leaveDate", endDate);
+        root.addEqualTo("accrualCategory", accrualCategory);
+//        root.addEqualTo("active", true);
+
+        Query query = QueryFactory.newQuery(LeaveBlock.class, root);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+        if (c != null) {
+            leaveBlocks.addAll(c);
+        }
+
+        return leaveBlocks;
+    }
+
+    public List<LeaveBlock> getLeaveBlocksSinceCarryOver(String principalId, Map<String, LeaveBlock> carryOverDates, DateTime endDate, boolean includeAllAccrualCategories) {
         Criteria root = new Criteria();
         root.addEqualTo("principalId", principalId);
         if (endDate != null) {
@@ -125,7 +145,7 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
             orCriteria.addOrCriteria(crit);
         }
         if (!orCriteria.isEmpty()) {
-            if (CollectionUtils.isNotEmpty(carryOverDates.keySet())) {
+            if (CollectionUtils.isNotEmpty(carryOverDates.keySet()) && includeAllAccrualCategories) {
                 Criteria crit = new Criteria();
                 crit.addNotIn("accrualCategory", carryOverDates.keySet());
                 orCriteria.addOrCriteria(crit);

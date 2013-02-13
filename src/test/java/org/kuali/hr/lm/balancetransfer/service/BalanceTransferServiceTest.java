@@ -819,13 +819,14 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 		Map<String, ArrayList<String>> eligibleTransfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(endJanTSDEntry, TS_USER_ID);
 
 		//Assert correct number of transfer eligible for frequency
-		assertEquals(5, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
+		assertEquals(3, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
 		
 		//Assert that the accrual categories returned by BT service are in fact over their balance limit,
 		//according to their rules. - does not consider FTE.
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligibleTransfer : eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
+		for(String eligibleTransfer : eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
 			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer));
+        }
 
 		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TS_USER_ID,endJanTSDEntry);
 		for(AccrualCategoryRule aRule : rules) {
@@ -841,13 +842,15 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 					row.getAccrualCategory(),
 					"MAC",
 					janEntry.getBeginPeriodDate());
-			if(ObjectUtils.isNotNull(mbOverride) && ObjectUtils.isNotNull(macOverride))
+			if(ObjectUtils.isNotNull(mbOverride) && ObjectUtils.isNotNull(macOverride)) {
 				maxBalance = new BigDecimal(Math.min(mbOverride.getOverrideValue(), macOverride.getOverrideValue()));
-			else {
-				if(ObjectUtils.isNotNull(macOverride))
+            } else {
+				if(ObjectUtils.isNotNull(macOverride)) {
 					maxBalance = new BigDecimal(macOverride.getOverrideValue());
-				if(ObjectUtils.isNotNull(mbOverride))
+                }
+				if(ObjectUtils.isNotNull(mbOverride)) {
 					maxBalance = new BigDecimal(mbOverride.getOverrideValue());
+                }
 			}
 			assertNotNull("eligible accrual category has no balance limit",ObjectUtils.isNotNull(maxBalance));
 			assertTrue("accrual category " + aRule.getLmAccrualCategoryId() + " not eligible for transfer",row.getAccruedBalance().compareTo(maxBalance) > 0);

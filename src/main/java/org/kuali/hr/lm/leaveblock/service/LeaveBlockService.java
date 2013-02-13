@@ -30,8 +30,8 @@ public interface LeaveBlockService {
     public List<LeaveBlock> getLeaveBlocksForDocumentId(String documentId);
     public List<LeaveBlock> getLeaveBlocks(String principalId, Date beginDate, Date endDate);
     public List<LeaveBlock> getLeaveBlocksWithType(String principalId, Date beginDate, Date endDate, String leaveBlockType);
-    public List<LeaveBlock> getLeaveBlocksSinceCarryOver(String principalId, Map<String, LeaveBlock> carryOverBlocks, DateTime endDate);
-    //public Map<String, DateTime> getLastCarryOverDates(String principalId, Date asOfDate);
+    public List<LeaveBlock> getLeaveBlocksWithAccrualCategory(String principalId, Date beginDate, Date endDate, String accrualCategory);
+    public List<LeaveBlock> getLeaveBlocksSinceCarryOver(String principalId, Map<String, LeaveBlock> carryOverBlocks, DateTime endDate, boolean includeAllAccrualCategories);
     public Map<String, LeaveBlock> getLastCarryOverBlocks(String principalId, Date asOfDate);
     public void saveLeaveBlocks(List<LeaveBlock> leaveBlocks);
 

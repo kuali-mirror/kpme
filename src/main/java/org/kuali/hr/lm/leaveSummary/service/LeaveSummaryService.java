@@ -26,7 +26,11 @@ public interface LeaveSummaryService {
 	
 	 public LeaveSummary getLeaveSummary(String principalId, CalendarEntries calendarEntry) throws Exception;
 
-	 public LeaveSummary getLeaveSummary(String principalId, CalendarEntries calendarEntry, Calendar previousYearCalendarStart) throws Exception;
+	 //public LeaveSummary getLeaveSummary(String principalId, CalendarEntries calendarEntry, Calendar previousYearCalendarStart) throws Exception;
 
 	 public List<Date> getLeaveSummaryDates(CalendarEntries cal);
+
+     public LeaveSummary getLeaveSummaryAsOfDate(String principalId, java.sql.Date asOfDate);
+
+     public LeaveSummary getLeaveSummaryAsOfDateForAccrualCategory(String principalId, java.sql.Date asOfDate, String accrualCategory);
 }
