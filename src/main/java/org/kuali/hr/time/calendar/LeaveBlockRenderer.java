@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 import static org.kuali.hr.time.service.base.TkServiceLocator.*;
 
@@ -79,7 +80,10 @@ public class LeaveBlockRenderer {
     public String getLeaveBlockDetails() {
         if (this.leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE)) {
 //            return "accrual";
-            return TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(this.leaveBlock.getScheduleTimeOffId()).getDescr();
+        	if(ObjectUtils.isNotNull(leaveBlock.getSystemScheduledTimeOffObj()))
+        		return TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(this.leaveBlock.getScheduleTimeOffId()).getDescr();
+        	else
+        		return "accrual";
         }
         else if(this.leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER)) {
         	if(this.leaveBlock.getDescription().contains("Forfeited"))
