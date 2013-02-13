@@ -392,6 +392,8 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 								BigDecimal maxBalance = rule.getMaxBalance();
 								
 								LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCategory(accrualCategory.getLmAccrualCategoryId());
+								if(row == null)
+									continue;
 								BigDecimal accruedBalance = row.getAccruedBalance();
 /*								for(LeaveBlock leaveBlock : leaveBlockMap.get(accrualCategory.getAccrualCategory())) {
 									//TODO: limit leave blocks to those created on or after the calendar year period containing this calendar entry.

@@ -28,6 +28,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class BalanceTransferForm extends KualiTransactionalDocumentFormBase {
 
@@ -187,8 +188,12 @@ public class BalanceTransferForm extends KualiTransactionalDocumentFormBase {
 	}
 
 	public boolean isSstoTransfer() {
-		if(this.getBalanceTransfer() != null && StringUtils.isNotEmpty(this.getBalanceTransfer().getSstoId()))
-			return true;
+		if(this.getBalanceTransfer() != null) {
+			if(ObjectUtils.isNotNull(this.getBalanceTransfer().getSstoId()) && StringUtils.isNotEmpty(this.getBalanceTransfer().getSstoId()))
+				return true;
+			else
+				return false;
+		}
 		else
 			return false;
 	}
