@@ -19,6 +19,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
+import org.joda.time.Interval;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
@@ -27,7 +28,7 @@ import org.kuali.hr.lm.leave.web.LeaveCalendarWSForm;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
-import org.kuali.hr.lm.leaveplan.LeavePlan;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
@@ -37,8 +38,6 @@ import org.kuali.hr.time.util.TKUtils;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -195,6 +194,7 @@ public class LeaveCalendarValidationUtil {
     public static List<String> validateAvailableLeaveBalance(LeaveSummary ls, String earnCode, String leaveStartDateString, String leaveEndDateString,
     		BigDecimal leaveAmount, LeaveBlock updatedLeaveBlock) {
     	List<String> errors = new ArrayList<String>();
+    	CalendarEntries calendarEntries = new CalendarEntries();
     	boolean earnCodeChanged = false;
     	BigDecimal oldAmount = null;
     	if(ls != null && CollectionUtils.isNotEmpty(ls.getLeaveSummaryRows())) {
@@ -213,22 +213,31 @@ public class LeaveCalendarValidationUtil {
 	    	if(earnCodeObj != null && earnCodeObj.getAllowNegativeAccrualBalance().equals("N")) {
 	    		AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), endDate);
 	    		if(accrualCategory != null) {
-		    		BigDecimal availableBalance = getAccrualCategoryBalance(TKContext.getTargetPrincipalId(),accrualCategory,endDate);
-
-					if(oldAmount!=null) {
-
-    					if(!earnCodeChanged ||
-    							updatedLeaveBlock.getAccrualCategory().equals(accrualCategory.getAccrualCategory())) {
-							availableBalance = availableBalance.add(oldAmount.abs());
+	    			LeaveSummaryRow validationRow = ls.getLeaveSummaryRowForAccrualCategory(accrualCategory.getLmAccrualCategoryId());
+    				if(ObjectUtils.isNotNull(validationRow)) {
+    					BigDecimal availableBalance = validationRow.getLeaveBalance();
+    					LeaveSummary ytdSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateForAccrualCategory(TKContext.getTargetPrincipalId(), startDate, accrualCategory.getAccrualCategory());
+    					if(ytdSummary != null) {
+    						LeaveSummaryRow ytdSummaryRow = ytdSummary.getLeaveSummaryRowForAccrualCategory(accrualCategory.getLmAccrualCategoryId());
+    						if(ytdSummaryRow != null)
+    							availableBalance = ytdSummaryRow.getLeaveBalance();
     					}
 
-					}
-					//multiply by days in span in case the user has also edited the start/end dates.
-					BigDecimal desiredUsage = leaveAmount.multiply(new BigDecimal(daysSpan+1));
+    					if(oldAmount!=null) {
 
-					if(desiredUsage.compareTo(availableBalance) >  0 ) {
-						errors.add("Requested leave amount is greater than available leave balance.");      //errorMessages
-					}
+	    					if(!earnCodeChanged ||
+	    							updatedLeaveBlock.getAccrualCategory().equals(accrualCategory.getAccrualCategory())) {
+								availableBalance = availableBalance.add(oldAmount.abs());
+	    					}
+
+						}
+						//multiply by days in span in case the user has also edited the start/end dates.
+    					BigDecimal desiredUsage = leaveAmount.multiply(new BigDecimal(daysSpan+1));
+
+    					if(desiredUsage.compareTo(availableBalance) >  0 ) {
+    						errors.add("Requested leave amount is greater than available leave balance.");      //errorMessages
+    					}
+    				}
 	    		}
 	    	}
     	}
@@ -256,37 +265,4 @@ public class LeaveCalendarValidationUtil {
         }
     	return errors;
     }
-    
-    // 
-	private static BigDecimal getAccrualCategoryBalance(String principalId, AccrualCategory accrualCategory, Date endDate) {
-		BigDecimal accrualCategoryBalance = BigDecimal.ZERO;
-		
-		Calendar prevYearStart = Calendar.getInstance();
-		
-		Map<String,LeaveBlock> coLeaveBlockMap = TkServiceLocator.getLeaveBlockService().getLastCarryOverBlocks(principalId, endDate);
-		LeaveBlock lastCarryOver = coLeaveBlockMap.get(accrualCategory.getAccrualCategory());
-
-		if(lastCarryOver == null) {
-			//use service date as begin date calculating balance.
-			PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, endDate);
-			prevYearStart.setTime(pha.getServiceDate());
-		} else {	//otherwise the
-			prevYearStart.setTime(lastCarryOver.getLeaveDate());
-        }
-
-		// service dates and leave dates stamped 00:00:00
-
-		List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, prevYearStart.getTime(), endDate);
-        
-		for (LeaveBlock leaveBlock : leaveBlocks) {
-            if (StringUtils.equals(leaveBlock.getAccrualCategory(), accrualCategory.getAccrualCategory())) {
-            	if (StringUtils.equals(leaveBlock.getRequestStatus(), LMConstants.REQUEST_STATUS.APPROVED)) {
-                	accrualCategoryBalance = accrualCategoryBalance.add(leaveBlock.getLeaveAmount());
-                }
-            }
-		}
-		
-		return accrualCategoryBalance;
-	}
-    
 }

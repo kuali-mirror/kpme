@@ -49,6 +49,7 @@ public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 		LeaveSummary ls = new LeaveSummary();
 		LeaveSummaryRow lsr = new LeaveSummaryRow();
 		lsr.setAccrualCategory("testAC");
+		lsr.setAccrualCategoryId("5000");
 		lsr.setLeaveBalance(new BigDecimal(5));
 		List<LeaveSummaryRow> lsrList = new ArrayList<LeaveSummaryRow>();
 		lsrList.add(lsr);
@@ -57,7 +58,7 @@ public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 		// adding brand new leave blocks
 		// earn code "EC" does not allow negative accrual balance
 		List<String> errors = LeaveCalendarValidationUtil.validateAvailableLeaveBalance(ls, "EC", "02/15/2012", "02/15/2012", new BigDecimal(8), null);
-		Assert.assertTrue("There should be 1 error message" , errors.size()== 1);
+		Assert.assertEquals("Incorrect number of error messages", 1, errors.size());
 		String anError = errors.get(0);
 		Assert.assertTrue("error message not correct" , anError.equals("Requested leave amount is greater than available leave balance."));
 		
