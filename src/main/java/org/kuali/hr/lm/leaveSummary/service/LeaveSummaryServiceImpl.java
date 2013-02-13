@@ -115,6 +115,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                 Map<String, List<LeaveBlock>> futureLeaveBlockMap = mapLeaveBlocksByAccrualCategory(futureLeaveBlocks);
                 List<AccrualCategory> acList = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(lp.getLeavePlan(), calendarEntry.getEndPeriodDate());
                 if(CollectionUtils.isNotEmpty(acList)) {
+                    List<EmployeeOverride> employeeOverrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId,TKUtils.getCurrentDate()); //current date ok?
                     for(AccrualCategory ac : acList) {
                         if(ac.getShowOnGrid().equals("Y")) {
                             LeaveSummaryRow lsr = new LeaveSummaryRow();
@@ -138,7 +139,6 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                                 lsr.setUsageLimit(null);
                             }
                             
-                            List<EmployeeOverride> employeeOverrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId,TKUtils.getCurrentDate()); //current date ok?
                             for(EmployeeOverride eo : employeeOverrides) {
                                 if(eo.getLeavePlan().equals(lp.getLeavePlan()) && eo.getAccrualCategory().equals(ac.getAccrualCategory())) {
                                     if(eo.getOverrideType().equals("MU") && eo.isActive()) {
@@ -587,7 +587,6 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                                 && StringUtils.equals(aLeaveBlock.getAccrualCategory(), accrualCategory))) {
                         if(aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) >= 0
                                 && !aLeaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR)) {
-                            /** KPME-2057: Removed conditional to consider all statuses **/
                             if(!(StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, aLeaveBlock.getRequestStatus()) ||
                             		StringUtils.equals(LMConstants.REQUEST_STATUS.DEFERRED, aLeaveBlock.getRequestStatus()))) {
                                 if (aLeaveBlock.getLeaveDate().getTime() <= priorYearCutOff.getTime()) {
@@ -603,10 +602,8 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                                 }
                            }
                         } else {
-                            //LEAVE_BLOCK_TYPE.BALANCE_TRANSFER should not count as usage, but it does need to be taken out of accrued balance.
                             BigDecimal currentLeaveAmount = aLeaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) > 0 ? aLeaveBlock.getLeaveAmount().negate() : aLeaveBlock.getLeaveAmount();
                             //we only want this for the current calendar!!!
-                            /** KPME-2057: Removed conditional to consider all statuses **/
                             if(!(StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, aLeaveBlock.getRequestStatus()) ||
                             		StringUtils.equals(LMConstants.REQUEST_STATUS.DEFERRED, aLeaveBlock.getRequestStatus()))) {
                                 if (aLeaveBlock.getLeaveDate().getTime() > priorYearCutOff.getTime()) {

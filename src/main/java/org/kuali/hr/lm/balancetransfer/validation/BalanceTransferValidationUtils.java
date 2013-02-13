@@ -20,6 +20,7 @@ import java.sql.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.Interval;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
@@ -63,6 +64,7 @@ public class BalanceTransferValidationUtils {
 							isValid &= validateAgainstLeavePlan(pha,fromCat,toCat,effectiveDate);
 							isValid &= validateTransferFromAccrualCategory(fromCat,principalId,effectiveDate,acr);
 							isValid &= validateTransferToAccrualCategory(toCat,principalId,effectiveDate,acr);*/
+							isValid &= validateMaxCarryOver(balanceTransfer.getAmountTransferred(),toCat,principalId,effectiveDate,acr, pha);
 							isValid &= validateTransferAmount(balanceTransfer.getTransferAmount(),fromCat,toCat, principalId, effectiveDate, acr);
 						}
 						else {
@@ -101,6 +103,19 @@ public class BalanceTransferValidationUtils {
 /*		}*/
 		return isValid;
 
+	}
+
+	private static boolean validateMaxCarryOver(BigDecimal amountTransferred,
+			AccrualCategory toCat, String principalId, Date effectiveDate,
+			AccrualCategoryRule acr, PrincipalHRAttributes pha) {
+/*		List<AccrualCategoryRule> rules = toCat.getAccrualCategoryRules();
+		Date serviceDate = pha.getServiceDate();
+		Interval interval = new Interval(serviceDate.getTime(), effectiveDate.getTime());
+		for(AccrualCategoryRule rule : rules) {
+			String unitOfTime = rule.getServiceUnitOfTime();
+			if(StringUtils.equals(unitOfTime, LMConstants.SERVICE_TIME_MONTHS))
+		}*/
+		return true;
 	}
 
 	private static boolean validateTransferAmount(BigDecimal transferAmount,
