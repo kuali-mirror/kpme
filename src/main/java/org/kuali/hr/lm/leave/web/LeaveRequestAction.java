@@ -55,7 +55,10 @@ public class LeaveRequestAction extends TkAction {
         //  The most common scenario occurs when a non-monthly pay period ends before the current leave calendar ends.
 
         CalendarEntries payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(principalId, currentDate);
-        if(calendarEntry != null && payCalendarEntry != null) {
+        String flsaStatus = "NE";
+        Boolean checkLeaveEligible = true;
+        Boolean nonExemptLeaveEligible = TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId,flsaStatus,checkLeaveEligible);
+        if(nonExemptLeaveEligible && calendarEntry != null && payCalendarEntry != null) {
             if ( payCalendarEntry.getEndPeriodDate().before(calendarEntry.getEndPeriodDate()) ) {
                 calendarEntry = payCalendarEntry;
             }
