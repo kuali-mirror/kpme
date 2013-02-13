@@ -102,9 +102,9 @@ public class PrincipalHRAttributesServiceImpl implements PrincipalHRAttributesSe
     	return this.principalHRAttributesDao.getInactivePrincipalHRAttributesForRange(principalId, startDate, endDate);
     }
     @Override
-    public List<PrincipalHRAttributes> getPrincipalHrAtributes(String principalId, 
-    		java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory) {
-    	return this.principalHRAttributesDao.getPrincipalHrAtributes(principalId, fromEffdt, toEffdt, active, showHistory);
+    public List<PrincipalHRAttributes> getPrincipalHrAtributes(String principalId,
+                                                               String leavePlan, java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory) {
+    	return this.principalHRAttributesDao.getPrincipalHrAtributes(principalId, leavePlan, fromEffdt, toEffdt, active, showHistory);
     }
     @Override
     public List<String> getUniqueTimePayGroups() {

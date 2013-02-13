@@ -434,7 +434,7 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
    
 	@Override
     @SuppressWarnings("unchecked")
-    public List<PrincipalHRAttributes> getPrincipalHrAtributes(String principalId, java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory) {
+    public List<PrincipalHRAttributes> getPrincipalHrAtributes(String principalId, String leavePlan, java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory) {
     	List<PrincipalHRAttributes> results = new ArrayList<PrincipalHRAttributes>();
         
     	Criteria root = new Criteria();
@@ -442,7 +442,11 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
         if (StringUtils.isNotBlank(principalId)) {
             root.addLike("principalId", principalId);
         }
-        
+
+        if (StringUtils.isNotBlank(leavePlan)) {
+            root.addLike("leavePlan", leavePlan);
+        }
+
         Criteria effectiveDateFilter = new Criteria();
         if (fromEffdt != null) {
             effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
@@ -468,6 +472,7 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
         if (StringUtils.equals(showHistory, "N")) {
             ImmutableList<String> fields = new ImmutableList.Builder<String>()
                     .add("principalId")
+                    .add("leavePlan")
                     .build();
             root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(PrincipalHRAttributes.class, effectiveDateFilter, fields, false));
             root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PrincipalHRAttributes.class, fields, false));
