@@ -297,10 +297,8 @@ $(function () {
 //            if (this.checkPermissions()) {
             	if (confirm('You are about to delete a leave block. Click OK to confirm the delete.')) {
             	var leaveBlock = leaveBlockCollection.get(key.id);
-            	var canBankOrTransferLB = leaveBlock.get("canBankOrTransfer") ? true : false;
-       console.log("canBankOrTransferLB is " + canBankOrTransferLB);
-            	if(canBankOrTransferLB) {
-          console.log("in if");
+            	var canTransferLB = leaveBlock.get("canTransfer") ? true : false;
+            	if(canTransferLB) {
 	            	$('#lm-transfer-empty').empty();
 		            $('#lm-transfer-dialog').append('<iframe width="800" height="600" src="BalanceTransfer.do?methodToCall=deleteSSTOLeaveBlock&leaveBlockId=' + key.id +'"></iframe>');
 		 

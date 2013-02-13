@@ -281,7 +281,7 @@ public class ActionFormUtils {
         	DateTime leaveDate = new DateTime(leaveBlock.getLeaveDate());
         	leaveBlockMap.put("leaveDate", leaveDate.toString(TkConstants.DT_BASIC_DATE_FORMAT));
         	leaveBlockMap.put("id", leaveBlock.getLmLeaveBlockId());
-        	leaveBlockMap.put("canBankOrTransfer", TkServiceLocator.getPermissionsService().canBankOrTransferSSTOUsage(leaveBlock));
+        	leaveBlockMap.put("canTransfer", TkServiceLocator.getPermissionsService().canTransferSSTOUsage(leaveBlock));
         	
         	
         	leaveBlockList.add(leaveBlockMap);

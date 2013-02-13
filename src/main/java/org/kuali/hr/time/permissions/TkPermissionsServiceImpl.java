@@ -391,12 +391,37 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
 	public boolean canBankOrTransferSSTOUsage(LeaveBlock lb) {
 		// if it's an accrual generated ssto usage leave block which can be banked or transferred, and on a current leave calendar,
 	    // it can be deleted so the accrualed amount can be banked
+	    return canBankSSTOUsage(lb) || canTransferSSTOUsage(lb);
+	}
+    
+    @Override
+	public boolean canBankSSTOUsage(LeaveBlock lb) {
 	   if(lb.getAccrualGenerated() 
 			   && StringUtils.isNotEmpty(lb.getScheduleTimeOffId()) 
 			   && lb.getLeaveAmount().compareTo(BigDecimal.ZERO) < 0) {
 		   SystemScheduledTimeOff ssto = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
-		   if(ssto != null 
-				   && (ssto.getUnusedTime().equals(LMConstants.UNUSED_TIME.BANK) || ssto.getUnusedTime().equals(LMConstants.UNUSED_TIME.TRANSFER))) {
+		   if(ssto != null && ssto.getUnusedTime().equals(LMConstants.UNUSED_TIME.BANK)) {
+			   Date currentDate = TKUtils.getTimelessDate(null);
+			   String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
+			   CalendarEntries ce = TkServiceLocator.getCalendarService()
+						.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, currentDate);
+			   if(ce != null) {
+				   if(!lb.getLeaveDate().before(ce.getBeginPeriodDate()) && !lb.getLeaveDate().after(ce.getEndPeriodDate())) {
+					   return true;
+				   }
+			   }
+			  
+		   }
+	   }
+	   return false;
+	}
+    @Override
+	public boolean canTransferSSTOUsage(LeaveBlock lb) {
+	   if(lb.getAccrualGenerated() 
+			   && StringUtils.isNotEmpty(lb.getScheduleTimeOffId()) 
+			   && lb.getLeaveAmount().compareTo(BigDecimal.ZERO) < 0) {
+		   SystemScheduledTimeOff ssto = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
+		   if(ssto != null && ssto.getUnusedTime().equals(LMConstants.UNUSED_TIME.TRANSFER)) {
 			   Date currentDate = TKUtils.getTimelessDate(null);
 			   String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
 			   CalendarEntries ce = TkServiceLocator.getCalendarService()
