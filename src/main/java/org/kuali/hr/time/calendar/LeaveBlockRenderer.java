@@ -19,6 +19,9 @@ import java.math.BigDecimal;
 
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+
+import static org.kuali.hr.time.service.base.TkServiceLocator.*;
 
 public class LeaveBlockRenderer {
     private LeaveBlock leaveBlock;
@@ -75,7 +78,8 @@ public class LeaveBlockRenderer {
 
     public String getLeaveBlockDetails() {
         if (this.leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE)) {
-            return "accrual";
+//            return "accrual";
+            return TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(this.leaveBlock.getScheduleTimeOffId()).getDescr();
         }
         else if(this.leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER)) {
         	if(this.leaveBlock.getDescription().contains("Forfeited"))
