@@ -39,6 +39,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
 
@@ -107,11 +108,14 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
                 mpForm.setAssignmentReadOnly(true);
             }
         }
-        if (StringUtils.equals(lastClock.getClockAction(),"CO")){        // lock on the current assignment if user is clocked in.
-            mpForm.setAssignmentReadOnly(false);
-        } else {
-            mpForm.setAssignmentReadOnly(true);
+        if (ObjectUtils.isNotNull(lastClock)) {
+            if (StringUtils.equals(lastClock.getClockAction(),"CO")){        // lock on the current assignment if user is clocked in.
+                mpForm.setAssignmentReadOnly(false);
+            } else {
+                mpForm.setAssignmentReadOnly(true);
+            }
         }
+
         return act;
     }
 
