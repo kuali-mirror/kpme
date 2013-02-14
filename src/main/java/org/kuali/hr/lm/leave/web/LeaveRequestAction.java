@@ -30,6 +30,7 @@ import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 
@@ -49,6 +50,20 @@ public class LeaveRequestAction extends TkAction {
 		Date currentDate = TKUtils.getTimelessDate(null);
 
 		CalendarEntries calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(principalId, currentDate);
+
+        //  If the current pay period ends before the current leave calendar ends, then we need to include any planned leave blocks that occur
+        //  in this window between the current pay end and the beginning of the leave planning calendar (the next future leave period).
+        //  The most common scenario occurs when a non-monthly pay period ends before the current leave calendar ends.
+
+        CalendarEntries payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(principalId, currentDate);
+        Boolean checkLeaveEligible = true;
+        Boolean nonExemptLeaveEligible = TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT,checkLeaveEligible);
+        if(nonExemptLeaveEligible && calendarEntry != null && payCalendarEntry != null) {
+            if ( payCalendarEntry.getEndPeriodDate().before(calendarEntry.getEndPeriodDate()) ) {
+                calendarEntry = payCalendarEntry;
+            }
+        }
+
 		if(calendarEntry != null) {
 			if(calendarEntry.getEndLocalDateTime().getMillisOfDay() == 0) {
 				// if the time of the end date is the beginning of a day, subtract one day from the end date

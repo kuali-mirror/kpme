@@ -23,17 +23,25 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class EarnCodeSecurityDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements EarnCodeSecurityDao {
+    private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+            .add("dept")
+            .add("hrSalGroup")
+            .add("earnCode")
+            .add("location")
+            .build();
 
 	@SuppressWarnings("unused")
 	private static final Logger LOG = Logger.getLogger(EarnCodeSecurityDaoSpringOjbImpl.class);
@@ -56,8 +64,6 @@ public class EarnCodeSecurityDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb im
 		List<EarnCodeSecurity> decs = new LinkedList<EarnCodeSecurity>();
 
 		Criteria root = new Criteria();
-		Criteria effdt = new Criteria();
-		Criteria timestamp = new Criteria();
 		
 		Criteria deptCrit = new Criteria();
 		Criteria salGroupCrit = new Criteria();
@@ -87,37 +93,19 @@ public class EarnCodeSecurityDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb im
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
 		root.addAndCriteria(activeFilter);
-		
-		// OJB's awesome sub query setup part 1
-		effdt.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
-		effdt.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
-		effdt.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
-		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-		
-		if ( !location.trim().isEmpty() ){
-			effdt.addAndCriteria(locationCrit2);
-			effdt.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
-		}
-		
-		// KPME-856, commented out the following line, when geting max(effdt) for each earnCode, do not need to limit to active entries.
-		//effdt.addEqualTo("active", true);
-		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(EarnCodeSecurity.class, effdt);
-		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
-
-		// OJB's awesome sub query setup part 2
-		timestamp.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
-		timestamp.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
-		timestamp.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
-		if ( !location.trim().isEmpty() ){
-			timestamp.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
-		}
-		timestamp.addEqualTo("active", true);
-		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EarnCodeSecurity.class, timestamp);
-		timestampSubQuery.setAttributes(new String[]{ "max(timestamp)" });
-		
-		root.addEqualTo("effectiveDate", effdtSubQuery);
-		root.addEqualTo("timestamp", timestampSubQuery);
+        ImmutableList.Builder<String> fields = new ImmutableList.Builder<String>()
+                .add("dept")
+                .add("hrSalGroup")
+                .add("earnCode");
+        if ( !location.trim().isEmpty() ){
+            fields.add("location");
+        }
+        java.sql.Date effDate = null;
+        if (asOfDate != null) {
+            effDate = new java.sql.Date(asOfDate.getTime());
+        }
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EarnCodeSecurity.class, effDate, fields.build(), false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EarnCodeSecurity.class, fields.build(), false));
 		
 		root.addOrderBy("earnCode", true);
 		root.addOrderBy("dept",false);
@@ -202,25 +190,8 @@ public class EarnCodeSecurityDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb im
         }
 
         if (StringUtils.equals(showHistory, "N")) {
-            Criteria effdt = new Criteria();
-            effdt.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
-            effdt.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
-            effdt.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
-            effdt.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
-            effdt.addAndCriteria(effectiveDateFilter);
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(EarnCodeSecurity.class, effdt);
-            effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
-            root.addEqualTo("effectiveDate", effdtSubQuery);
-            
-            Criteria timestamp = new Criteria();
-            timestamp.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
-            timestamp.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
-            timestamp.addEqualToField("earnCode", Criteria.PARENT_QUERY_PREFIX + "earnCode");
-            timestamp.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
-            timestamp.addAndCriteria(effectiveDateFilter);
-            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(EarnCodeSecurity.class, timestamp);
-            timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-            root.addEqualTo("timestamp", timestampSubQuery);
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(EarnCodeSecurity.class, effectiveDateFilter, EQUAL_TO_FIELDS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EarnCodeSecurity.class, EQUAL_TO_FIELDS, false));
         }
         
         Query query = QueryFactory.newQuery(EarnCodeSecurity.class, root);

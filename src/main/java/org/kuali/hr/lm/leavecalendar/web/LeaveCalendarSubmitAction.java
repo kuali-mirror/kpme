@@ -74,12 +74,12 @@ public class LeaveCalendarSubmitAction extends TkAction {
             if (DocumentStatus.INITIATED.getCode().equals(document.getDocumentHeader().getDocumentStatus())
                     || DocumentStatus.SAVED.getCode().equals(document.getDocumentHeader().getDocumentStatus())) {
         		Map<String,ArrayList<String>> eligibilities = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(document.getCalendarEntry(), document.getPrincipalId());
-        		int categoryCounter = 0;
         		List<String> eligibleTransfers = new ArrayList<String>();
         		eligibleTransfers.addAll(eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE));
         		eligibleTransfers.addAll(eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END));
     			if(!eligibleTransfers.isEmpty()) {
-            		StringBuilder sb = new StringBuilder();
+            		int categoryCounter = 0;
+    				StringBuilder sb = new StringBuilder();
             		ActionRedirect redirect = new ActionRedirect();
             		for(String accrualRuleId : eligibleTransfers) {
             			sb.append("&accrualCategory"+categoryCounter+"="+accrualRuleId);
@@ -87,7 +87,20 @@ public class LeaveCalendarSubmitAction extends TkAction {
             		redirect.setPath("/BalanceTransfer.do?"+request.getQueryString()+sb.toString());
             		return redirect;
     			}
-
+        		eligibilities = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(document.getCalendarEntry(),document.getPrincipalId());
+        		List<String> eligiblePayouts = new ArrayList<String>();
+        		eligiblePayouts.addAll(eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE));
+        		eligiblePayouts.addAll(eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END));
+    			if(!eligiblePayouts.isEmpty()) {
+    				int categoryCounter = 0;
+            		StringBuilder sb = new StringBuilder();
+            		ActionRedirect redirect = new ActionRedirect();
+            		for(String accrualRuleId : eligiblePayouts) {
+            			sb.append("&accrualCategory"+categoryCounter+"="+accrualRuleId);
+            		}
+            		redirect.setPath("/LeavePayout.do?"+request.getQueryString()+sb.toString());
+            		return redirect;
+    			}
                 TkServiceLocator.getLeaveCalendarService().routeLeaveCalendar(TKContext.getTargetPrincipalId(), document);
             }
         } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.APPROVE)) {

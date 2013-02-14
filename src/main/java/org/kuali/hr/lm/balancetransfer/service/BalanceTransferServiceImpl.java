@@ -25,7 +25,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -37,17 +36,14 @@ import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
-import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
-import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -237,10 +233,9 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
 			BigDecimal transferAmount = balanceTransfer.getTransferAmount();
 			LeaveBlock aLeaveBlock = null;
-			
 
-				if(ObjectUtils.isNotNull(balanceTransfer.getAmountTransferred())) {
-					if(balanceTransfer.getAmountTransferred().compareTo(BigDecimal.ZERO) > 0 ) {
+			if(ObjectUtils.isNotNull(balanceTransfer.getAmountTransferred())) {
+				if(balanceTransfer.getAmountTransferred().compareTo(BigDecimal.ZERO) > 0 ) {
 
 					aLeaveBlock = new LeaveBlock();
 					//Create a leave block that adds the adjusted transfer amount to the "transfer to" accrual category.
@@ -258,19 +253,19 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					//Want to store the newly created leave block id on this maintainable object
 					//when the status of the maintenance document encapsulating this maintainable changes
 					//the id will be used to fetch and update the leave block statuses.
-			    	aLeaveBlock = KRADServiceLocator.getBusinessObjectService().save(aLeaveBlock);
+					aLeaveBlock = KRADServiceLocator.getBusinessObjectService().save(aLeaveBlock);
 
-			    	balanceTransfer.setAccruedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
-			        // save history
-			        LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
-			        lbh.setAction(LMConstants.ACTION.ADD);
-			        TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
+					balanceTransfer.setAccruedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
+					// save history
+					LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
+					lbh.setAction(LMConstants.ACTION.ADD);
+					TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
 					leaveBlocks.add(aLeaveBlock);
-					}
 				}
-					
-				if(ObjectUtils.isNotNull(transferAmount)) {
-					if(transferAmount.compareTo(BigDecimal.ZERO) > 0) {					
+			}
+
+			if(ObjectUtils.isNotNull(transferAmount)) {
+				if(transferAmount.compareTo(BigDecimal.ZERO) > 0) {					
 					//Create leave block that removes the correct transfer amount from the originating accrual category.
 					aLeaveBlock = new LeaveBlock();
 					aLeaveBlock.setPrincipalId(balanceTransfer.getPrincipalId());
@@ -283,22 +278,22 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
 					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
 					aLeaveBlock.setBlockId(0L);
-					
+
 					//Want to store the newly created leave block id on this maintainable object.
 					//when the status of the maintenance document encapsulating this maintainable changes
 					//the id will be used to fetch and update the leave block statuses.
-			    	aLeaveBlock = KRADServiceLocator.getBusinessObjectService().save(aLeaveBlock);
+					aLeaveBlock = KRADServiceLocator.getBusinessObjectService().save(aLeaveBlock);
 
-			    	balanceTransfer.setDebitedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
-			        // save history
-			        LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
-			        lbh.setAction(LMConstants.ACTION.ADD);
-			        TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
-					
+					balanceTransfer.setDebitedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
+					// save history
+					LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
+					lbh.setAction(LMConstants.ACTION.ADD);
+					TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
+
 					leaveBlocks.add(aLeaveBlock);
 				}
 			}
-			
+
 			BigDecimal forfeitedAmount = balanceTransfer.getForfeitedAmount();
 			if(ObjectUtils.isNotNull(forfeitedAmount)) {
 				//Any amount forfeited must come out of the originating accrual category in order to bring balance back to max.
@@ -315,18 +310,18 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
 					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
 					aLeaveBlock.setBlockId(0L);
-					
+
 					//Want to store the newly created leave block id on this maintainable object
 					//when the status of the maintenance document encapsulating this maintainable changes
 					//the id will be used to fetch and update the leave block statuses.
-			    	aLeaveBlock = KRADServiceLocator.getBusinessObjectService().save(aLeaveBlock);
+					aLeaveBlock = KRADServiceLocator.getBusinessObjectService().save(aLeaveBlock);
 
-			    	balanceTransfer.setForfeitedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
-			        // save history
-			        LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
-			        lbh.setAction(LMConstants.ACTION.ADD);
-			        TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
-					
+					balanceTransfer.setForfeitedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());
+					// save history
+					LeaveBlockHistory lbh = new LeaveBlockHistory(aLeaveBlock);
+					lbh.setAction(LMConstants.ACTION.ADD);
+					TkServiceLocator.getLeaveBlockHistoryService().saveLeaveBlockHistory(lbh);
+
 					leaveBlocks.add(aLeaveBlock);
 				}
 			}
@@ -347,13 +342,17 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		eligibilities.put(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE, new ArrayList<String>());
 		eligibilities.put(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END, new ArrayList<String>());
 		eligibilities.put(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND, new ArrayList<String>());
-
-		//LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId,calendarEntry);
-		//No leaveSummary can currently be derived using timesheet calendar entry, leaveSummary depends on LeaveCalendarDocument
+		if(ObjectUtils.isNull(calendarEntry)) {
+			return eligibilities;
+        }
+			
 		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, calendarEntry.getEndPeriodDate());
-		LeavePlan leavePlan = TkServiceLocator.getLeavePlanService().getLeavePlan(pha.getLeavePlan(),TKUtils.getCurrentDate());
-		List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), calendarEntry.getEndPeriodDate());
+		if(ObjectUtils.isNull(pha)) {
+			return eligibilities;
+        }
 		
+		List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), calendarEntry.getEndPeriodDate());
+
 		org.kuali.hr.time.calendar.Calendar leaveCalendar = pha.getLeaveCalObj();
 		CalendarEntries thisLeaveEntry = null;
 		Interval thisEntryInterval = new Interval(calendarEntry.getBeginPeriodDate().getTime(),calendarEntry.getEndPeriodDate().getTime());
@@ -372,6 +371,10 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		// if so, get the leave blocks and calculate the accrued balance.
 		//LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, getCalendarEntry());
 		if(!accrualCategories.isEmpty()) {
+			
+			LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, calendarEntry);
+			BigDecimal fte = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, calendarEntry.getEndPeriodDate());
+			List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, TKUtils.getCurrentDate());
 
 			//null check inserted to fix LeaveCalendarWebTst failures on kpme-trunk-build-unit #2069
 			for(AccrualCategory accrualCategory : accrualCategories) {
@@ -388,32 +391,33 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 							if(ObjectUtils.isNotNull(rule.getMaxBalanceActionFrequency())) {
 								BigDecimal maxBalance = rule.getMaxBalance();
 								
-								List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, pha.getServiceDate(), calendarEntry.getEndPeriodDate());
-								LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, calendarEntry);
 								LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCategory(accrualCategory.getLmAccrualCategoryId());
+								if(row == null)
+									continue;
 								BigDecimal accruedBalance = row.getAccruedBalance();
 /*								for(LeaveBlock leaveBlock : leaveBlockMap.get(accrualCategory.getAccrualCategory())) {
 									//TODO: limit leave blocks to those created on or after the calendar year period containing this calendar entry.
 									if(StringUtils.equals(leaveBlock.getRequestStatus(),LMConstants.REQUEST_STATUS.APPROVED))
 										accruedBalance = accruedBalance.add(leaveBlock.getLeaveAmount());
 								}*/
-								
-								BigDecimal fte = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, TKUtils.getCurrentDate());
 								BigDecimal adjustedMaxBalance = maxBalance.multiply(fte);
 								BigDecimal maxAnnualCarryOver = null;
-								if(ObjectUtils.isNotNull(rule.getMaxCarryOver()))
+								if(ObjectUtils.isNotNull(rule.getMaxCarryOver())) {
 									maxAnnualCarryOver = new BigDecimal(rule.getMaxCarryOver());
+                                }
 								BigDecimal adjustedMaxAnnualCarryOver = null;
-								if(ObjectUtils.isNotNull(maxAnnualCarryOver))
+								if(ObjectUtils.isNotNull(maxAnnualCarryOver)) {
 									adjustedMaxAnnualCarryOver = maxAnnualCarryOver.multiply(fte);
+                                }
 									
-								List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, TKUtils.getCurrentDate());
 								for(EmployeeOverride override : overrides) {
 									if(StringUtils.equals(override.getAccrualCategory(),accrualCategory.getAccrualCategory())) {
-										if(StringUtils.equals(override.getOverrideType(),"MB"))
+										if(StringUtils.equals(override.getOverrideType(),"MB")) {
 											adjustedMaxBalance = new BigDecimal(override.getOverrideValue());
-										if(StringUtils.equals(override.getOverrideType(),"MAC"))
+                                        }
+										if(StringUtils.equals(override.getOverrideType(),"MAC")) {
 											adjustedMaxAnnualCarryOver = new BigDecimal(override.getOverrideValue());
+                                        }
 										//override values are not pro-rated.
 									}
 								}
@@ -433,8 +437,9 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 										//calendarEntry.beginPeriodDate.year = calendarYearStart.year - 1
 										sb.append(DateUtils.toCalendar(DateUtils.addYears(calendarEntry.getBeginPeriodDate(),1)).get(Calendar.YEAR));
 									}
-									else
+									else {
 										sb.append(DateUtils.toCalendar(calendarEntry.getBeginPeriodDateTime()).get(Calendar.YEAR));
+                                    }
 									//if the calendar being submitted is the final calendar in the leave plans calendar year.
 									//must check the calendar year start month. If its the first month of the year, add a year to the date.
 									//otherwise, the end period date and the calendar year start date have the same year.
@@ -612,6 +617,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		btObj.setToAccrualCategory(balanceTransfer.getToAccrualCategory());
 		btObj.setTransferAmount(balanceTransfer.getTransferAmount());
 		btObj.setAmountTransferred(balanceTransfer.getAmountTransferred());
+		btObj.setSstoId(balanceTransfer.getSstoId());
 		document.getNewMaintainableObject().setDataObject(btObj);
 		KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
 		document.getDocumentHeader().getWorkflowDocument().saveDocument("");
@@ -619,5 +625,33 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		document.getDocumentHeader().getWorkflowDocument().route("");
 
 		
+	}
+	
+	@Override
+	public BalanceTransfer transferSsto(BalanceTransfer balanceTransfer) {
+		if(ObjectUtils.isNull(balanceTransfer))
+			throw new RuntimeException("did not supply a valid BalanceTransfer object.");
+		else {
+			List<LeaveBlock> lbList = new ArrayList<LeaveBlock>();
+			// create a new leave block with transferred amount, make sure system scheduled timeoff id is added to it
+			LeaveBlock aLeaveBlock = new LeaveBlock();
+			aLeaveBlock.setPrincipalId(balanceTransfer.getPrincipalId());
+			aLeaveBlock.setLeaveDate(balanceTransfer.getEffectiveDate());
+			aLeaveBlock.setEarnCode(balanceTransfer.getCreditedAccrualCategory().getEarnCode());
+			aLeaveBlock.setAccrualCategory(balanceTransfer.getToAccrualCategory());
+			aLeaveBlock.setDescription("System Scheduled Time off Amount transferred");
+			aLeaveBlock.setLeaveAmount(balanceTransfer.getAmountTransferred());
+			aLeaveBlock.setAccrualGenerated(false);
+			aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
+			aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
+			aLeaveBlock.setBlockId(0L);
+			aLeaveBlock.setScheduleTimeOffId(balanceTransfer.getSstoId());
+
+			lbList.add(aLeaveBlock);
+			TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(lbList);
+
+	    	balanceTransfer.setAccruedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());	
+			return balanceTransfer;
+		}
 	}
 }

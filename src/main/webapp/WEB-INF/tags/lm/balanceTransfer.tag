@@ -3,6 +3,10 @@
 <%@ attribute name="balanceTransfer" required="true" type="org.kuali.hr.lm.balancetransfer.BalanceTransfer"%>
 
 <c:set var="attributes" value="${DataDictionary.BalanceTransfer.attributes}" />
+<c:set var="amountReadOnly" value="${KualiForm.sstoTransfer}" />
+
+<html:hidden property="balanceTransfer.sstoId" />
+
 	<html:form action="/BalanceTransfer.do" method="POST">
 		 <div class="tab-container" align="center">
 			<h3>Balance Transfer</h3>
@@ -49,7 +53,7 @@
 						<kul:htmlControlAttribute 
 			                  	attributeEntry="${attributes.transferAmount}"
 			                  	property="balanceTransfer.transferAmount"
-			                  	readOnly="false"/>
+			                  	readOnly="${amountReadOnly}"/>
 		            </td>
 				</tr>
 				<tr>
@@ -110,14 +114,13 @@
 			</table>
 			<input type="hidden" name="forfeitedAmount" id="forfeitedAmount" value=""/>
 			<input type="hidden" name="leaveCalendarDocumentId" id="leaveCalendarDocumentId" value=""/>
-			<c:choose>
-				<c:when test="${balanceTransfer.onLeaveApproval}">
-					<html:image property="methodToCall.balanceTransferOnLeaveApproval" src='${ConfigProperties.kew.externalizable.images.url}buttonsmall_submit.gif' styleClass="tinybutton"/>
-        		</c:when>
-        		<c:otherwise>
-					<html:image property="methodToCall.balanceTransferOnLeaveApproval" src='${ConfigProperties.kew.externalizable.images.url}buttonsmall_submit.gif' styleClass="tinybutton"/>
-				</c:otherwise>
-			</c:choose>
+			
+			<c:set var="actionMethod" value="balanceTransferOnLeaveApproval" />
+			<c:if test="${KualiForm.sstoTransfer}">
+				<c:set var="actionMethod" value="balanceTransferOnSSTO" />
+			</c:if>	
+			<html:image property="methodToCall.${actionMethod}" src='${ConfigProperties.kew.externalizable.images.url}buttonsmall_submit.gif' styleClass="tinybutton"/>
+        		
 			<html:image property="methodToCall.cancel" src='${ConfigProperties.kew.externalizable.images.url}buttonsmall_cancel.gif' styleClass="tinybutton"/>
 			
 	</html:form>

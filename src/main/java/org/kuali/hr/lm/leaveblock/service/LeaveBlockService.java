@@ -18,6 +18,7 @@ package org.kuali.hr.lm.leaveblock.service;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -29,6 +30,9 @@ public interface LeaveBlockService {
     public List<LeaveBlock> getLeaveBlocksForDocumentId(String documentId);
     public List<LeaveBlock> getLeaveBlocks(String principalId, Date beginDate, Date endDate);
     public List<LeaveBlock> getLeaveBlocksWithType(String principalId, Date beginDate, Date endDate, String leaveBlockType);
+    public List<LeaveBlock> getLeaveBlocksWithAccrualCategory(String principalId, Date beginDate, Date endDate, String accrualCategory);
+    public List<LeaveBlock> getLeaveBlocksSinceCarryOver(String principalId, Map<String, LeaveBlock> carryOverBlocks, DateTime endDate, boolean includeAllAccrualCategories);
+    public Map<String, LeaveBlock> getLastCarryOverBlocks(String principalId, Date asOfDate);
     public void saveLeaveBlocks(List<LeaveBlock> leaveBlocks);
 
     public void saveLeaveBlock(LeaveBlock leaveBlock, String principalId);
@@ -47,7 +51,7 @@ public interface LeaveBlockService {
     /**
      * 
      * @param principalId
-     * @param leaveblockType
+     * @param leaveBlockType
      * @param requestStatus
      * @param currentDate currentDate to get the records for the future date, pass null when not required
      * @return List of LeaveBlocks
@@ -110,15 +114,6 @@ public interface LeaveBlockService {
     public void deleteLeaveBlocksForDocumentId(String documentId);
     
     /**
-     * Retrieve list of leave blocks for given leave block type, Date range and User
-     * @param principalId 
-     * @param leaveBlockType
-     * @param beginDate
-     * @param endDate
-     * @return List of leave blocks
-     */
-    public List<LeaveBlock> getLeaveBlocksByType(String principalId, String leaveBlockType, Date beginDate, Date endDate);
-    /**
      * Retrieve list of accrual generated leave blocks for given Date range and User
      * @param principalId 
      * @param beginDate
@@ -134,5 +129,5 @@ public interface LeaveBlockService {
      * @param accruledDate
      * @return
      */
-    public List<LeaveBlock> getSSTOLeaveBlock(String principalId, String sstoId, Date accruledDate);
+    public List<LeaveBlock> getSSTOLeaveBlocks(String principalId, String sstoId, Date accruledDate);
 }

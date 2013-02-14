@@ -20,10 +20,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.time.workschedule.WorkScheduleAssignment;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -42,25 +44,16 @@ public class WorkScheduleAssignmentDaoSpringOjbImpl extends PlatformAwareDaoBase
         Criteria effdt = new Criteria();
         Criteria timestamp = new Criteria();
 
-        effdt.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
-        effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-        effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-        effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(WorkScheduleAssignment.class, effdt);
-        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-
-        timestamp.addEqualToField("dept", Criteria.PARENT_QUERY_PREFIX + "dept");
-        timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-        timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-        timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(WorkScheduleAssignment.class, timestamp);
-        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-
         root.addEqualTo("dept", dept);
         root.addEqualTo("workArea", workArea);
         root.addEqualTo("principalId", principalId);
-        root.addEqualTo("effectiveDate", effdtSubQuery);
-        root.addEqualTo("timestamp", timestampSubQuery);
+        ImmutableList<String> fields = new ImmutableList.Builder<String>()
+                .add("convertFromEarnGroup")
+                .add("convertToEarnCode")
+                .add("maxHoursEarnGroup")
+                .build();
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(WorkScheduleAssignment.class, asOfDate, fields, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(WorkScheduleAssignment.class, fields, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);

@@ -16,6 +16,7 @@
 package org.kuali.hr.time.detail.web;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.time.calendar.TkCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -50,6 +51,7 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
     private List<String> overtimeEarnCodes = new ArrayList<String>();
     private String tkTimeHourDetailId;
     private String isLunchDeleted;
+    private List<BalanceTransfer> forfeitures;
     private boolean canAddTimeblock;
 
     public TkCalendar getTkCalendar() {
@@ -193,5 +195,13 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 
 	public void setLeaveBlockString(String leaveBlockString) {
 		this.leaveBlockString = leaveBlockString;
+	}
+
+	public List<BalanceTransfer> getForfeitures() {
+		return forfeitures;
+	}
+
+	public void setForfeitures(List<BalanceTransfer> forfeitures) {
+		this.forfeitures = forfeitures;
 	}
 }

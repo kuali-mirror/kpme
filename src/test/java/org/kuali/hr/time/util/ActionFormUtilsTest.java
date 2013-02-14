@@ -65,11 +65,12 @@ public class ActionFormUtilsTest extends KPMETestCase {
 		lb.setEarnCode("EarnCode");
 		lb.setLmLeaveBlockId("1111");
 		lb.setLeaveAmount(new BigDecimal(3));
-		lb.setLeaveDate(new Date((new DateTime(2012, 2, 20, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis()));	
+		lb.setLeaveDate(new Date((new DateTime(2012, 2, 20, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis()));
+		lb.setAccrualGenerated(false);
 		lbList.add(lb);
 		
 		String jsonString = ActionFormUtils.getLeaveBlocksJson(lbList);
-		String expectedString = "[{\"title\":\"\",\"assignment\":\"0-123-0\",\"earnCode\":\"EarnCode\",\"lmLeaveBlockId\":\"1111\",\"leaveAmount\":\"3\",\"leaveDate\":\"02\\/20\\/2012\",\"id\":\"1111\"}]";
+		String expectedString = "[{\"title\":\"\",\"assignment\":\"0-123-0\",\"earnCode\":\"EarnCode\",\"lmLeaveBlockId\":\"1111\",\"leaveAmount\":\"3\",\"leaveDate\":\"02\\/20\\/2012\",\"id\":\"1111\",\"canTransfer\":false}]";
 		Assert.assertTrue("Leave Block Json should include assignment", jsonString.equals(expectedString));
 		
 		

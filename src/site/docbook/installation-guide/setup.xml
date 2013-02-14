@@ -251,8 +251,8 @@ mysql></programlisting>
             <section>
                 <title>Install the JDBC Driver</title>
                 <para>
-                    KPME uses the MySQL Connector/J product as the native JDBC driver.  During installation, Maven will automatically download and install this
-                    driver, so no additional action is necessary.
+                    KPME uses the MySQL Connector/J product as the native JDBC driver.  When needed for building the project,
+                    Maven will automatically download this driver, so no additional action should be necessary.
                 </para>
             </section>
         </section>    
@@ -595,6 +595,13 @@ OS name: "mac os x", version: "10.7.2", arch: "x86_64", family: "mac"</programli
                 Please visit the <link xlink:href="http://tomcat.apache.org/">Apache Tomcat site</link> for information on how to install and configure Tomcat.
             </para>
             <para>Other servlet containers can be used with KPME, but this guide will focus on Tomcat.</para>
+        </section>
+        <section>
+            <title>Copy JDBC drivers to Tomcat's lib directory</title>
+            <para>
+                Copy the JDBC drivers downloaded earlier (<link linkend="database_software_locations">Locations for Database Software</link>)
+                and paste them into the lib folder in your Tomcat directory.
+            </para>
         </section>
         <section>
             <title>Install KPME software from distribution</title>

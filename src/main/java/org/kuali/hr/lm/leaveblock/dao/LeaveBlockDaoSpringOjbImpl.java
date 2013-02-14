@@ -15,16 +15,18 @@
  */
 package org.kuali.hr.lm.leaveblock.dao;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.*;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.log4j.Logger;
+import org.apache.ojb.broker.metadata.FieldHelper;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -106,6 +108,91 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
         }
 
         return leaveBlocks;
+    }
+
+    @Override
+    public List<LeaveBlock> getLeaveBlocksWithAccrualCategory(String principalId, Date beginDate, Date endDate, String accrualCategory) {
+        List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
+        Criteria root = new Criteria();
+        root.addEqualTo("principalId", principalId);
+        root.addGreaterOrEqualThan("leaveDate", beginDate);
+        root.addLessOrEqualThan("leaveDate", endDate);
+        root.addEqualTo("accrualCategory", accrualCategory);
+//        root.addEqualTo("active", true);
+
+        Query query = QueryFactory.newQuery(LeaveBlock.class, root);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+
+        if (c != null) {
+            leaveBlocks.addAll(c);
+        }
+
+        return leaveBlocks;
+    }
+
+    public List<LeaveBlock> getLeaveBlocksSinceCarryOver(String principalId, Map<String, LeaveBlock> carryOverDates, DateTime endDate, boolean includeAllAccrualCategories) {
+        Criteria root = new Criteria();
+        root.addEqualTo("principalId", principalId);
+        if (endDate != null) {
+            root.addLessOrEqualThan("leaveDate", endDate.toDate());
+        }
+
+        Criteria orCriteria = new Criteria();
+        for (Map.Entry<String, LeaveBlock> entry : carryOverDates.entrySet()) {
+            Criteria crit = new Criteria();
+            crit.addEqualTo("accrualCategory", entry.getKey());
+            crit.addGreaterThan("leaveDate", entry.getValue().getLeaveDate());
+            orCriteria.addOrCriteria(crit);
+        }
+        if (!orCriteria.isEmpty()) {
+            if (CollectionUtils.isNotEmpty(carryOverDates.keySet()) && includeAllAccrualCategories) {
+                Criteria crit = new Criteria();
+                crit.addNotIn("accrualCategory", carryOverDates.keySet());
+                orCriteria.addOrCriteria(crit);
+            }
+            root.addAndCriteria(orCriteria);
+        }
+
+
+        Query query = QueryFactory.newQuery(LeaveBlock.class, root);
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
+        if (c != null) {
+            leaveBlocks.addAll(c);
+        }
+
+        return leaveBlocks;
+    }
+
+    public Map<String, LeaveBlock> getLastCarryOverBlocks(String principalId, String leaveBlockType, Date asOfDate) {
+        Map<String, LeaveBlock> carryOver = new HashMap<String, LeaveBlock>();
+        Criteria root = new Criteria();
+        root.addEqualTo("principalId", principalId);
+        root.addEqualTo("leaveBlockType", leaveBlockType);
+
+        Criteria dateSubquery = new Criteria();
+        dateSubquery.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
+        dateSubquery.addEqualToField("leaveBlockType", Criteria.PARENT_QUERY_PREFIX + "leaveBlockType");
+        dateSubquery.addEqualToField("accrualCategory", Criteria.PARENT_QUERY_PREFIX + "accrualCategory");
+        if (asOfDate != null) {
+            dateSubquery.addLessOrEqualThan("leaveDate", asOfDate);
+        }
+
+        ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(LeaveBlock.class, dateSubquery);
+        String[] attributes = new String[] { "max(leaveDate)" };
+        subQuery.setAttributes(attributes);
+
+        root.addEqualTo("leaveDate", subQuery);
+
+        Query query = QueryFactory.newQuery(LeaveBlock.class, root);
+        Collection<LeaveBlock> c = (Collection<LeaveBlock>)this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        //Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        for (LeaveBlock lb : c) {
+            carryOver.put(lb.getAccrualCategory(), lb);
+        }
+
+        return carryOver;
+
     }
 
 	@Override
@@ -250,27 +337,7 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 
     }
     
-    @Override
-    public List<LeaveBlock> getLeaveBlocksByType(String principalId,String leaveBlockType, Date beginDate, Date endDate) {
-        List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
-        Criteria root = new Criteria();
-        
-        root.addEqualTo("principalId", principalId);
-        
-        root.addGreaterOrEqualThan("leaveDate", beginDate);
-        root.addLessOrEqualThan("leaveDate", endDate);
-        root.addEqualTo("leaveBlockType", leaveBlockType);
-
-        Query query = QueryFactory.newQuery(LeaveBlock.class, root);
-        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-
-        if (c != null) {
-        	leaveBlocks.addAll(c);
-        }
-
-        return leaveBlocks;
-    }
-    
+      
     @Override
     public List<LeaveBlock> getAccrualGeneratedLeaveBlocks(String principalId, Date beginDate, Date endDate) {
     	List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
@@ -290,14 +357,13 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
     }
     
     @Override
-    public List<LeaveBlock> getSSTOLeaveBlock(String principalId, String sstoId, Date accruledDate) {
+    public List<LeaveBlock> getSSTOLeaveBlocks(String principalId, String sstoId, Date accruledDate) {
     	List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
         Criteria root = new Criteria();
           
         root.addEqualTo("principalId", principalId);
         root.addEqualTo("leaveDate", accruledDate);
         root.addEqualTo("scheduleTimeOffId", sstoId);
-        root.addEqualTo("accrualGenerated", "Y");
 
         Query query = QueryFactory.newQuery(LeaveBlock.class, root);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);

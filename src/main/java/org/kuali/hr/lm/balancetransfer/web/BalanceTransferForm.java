@@ -24,15 +24,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
-import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
-import org.kuali.hr.time.base.web.TkForm;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.WebUtils;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
-import org.kuali.rice.kns.web.struts.form.KualiForm;
-import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class BalanceTransferForm extends KualiTransactionalDocumentFormBase {
 
@@ -52,6 +48,7 @@ public class BalanceTransferForm extends KualiTransactionalDocumentFormBase {
 	private String leaveCalendarDocumentId;
 	private String type;
 	private boolean onLeaveApproval;
+	private boolean timesheet;
 	
 	public Date getEffectiveDate() {
 		return effectiveDate;
@@ -184,6 +181,21 @@ public class BalanceTransferForm extends KualiTransactionalDocumentFormBase {
 
 	public void setOnLeaveApproval(boolean onLeaveApproval) {
 		this.onLeaveApproval = onLeaveApproval;
+	}
+
+	public void isTimesheet(boolean b) {
+		timesheet = true;
+	}
+
+	public boolean isSstoTransfer() {
+		if(this.getBalanceTransfer() != null) {
+			if(ObjectUtils.isNotNull(this.getBalanceTransfer().getSstoId()) && StringUtils.isNotEmpty(this.getBalanceTransfer().getSstoId()))
+				return true;
+			else
+				return false;
+		}
+		else
+			return false;
 	}
 
 }

@@ -12,7 +12,9 @@
 				<table>
 					<thead>
                         <tr class="noborder">
-                            <td colspan="9">last approved: ${leaveSummary.ytdDatesString}</td>
+                            <td width="20%" align="left"> ${leaveSummary.note}</td>
+                            <td colspan="7">last approved: ${leaveSummary.ytdDatesString}</td>
+                            <td width="20%"></td>
                         </tr>
 						<%--<tr class="noborder" >
 							<td></td>

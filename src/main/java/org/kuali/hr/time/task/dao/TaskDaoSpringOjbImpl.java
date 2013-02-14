@@ -19,17 +19,22 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class TaskDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements TaskDao {
-	
+    private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
+            .add("task")
+            .build();
+
 	@Override
 	public Task getTask(String tkTaskId) {
 		Criteria crit = new Criteria();
@@ -56,22 +61,10 @@ public class TaskDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements Tas
     @Override
     public Task getTask(Long task, Date asOfDate) {
         Criteria root = new Criteria();
-        Criteria effdt = new Criteria();
-        Criteria timestamp = new Criteria();
-
-        effdt.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
-        effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Task.class, effdt);
-        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-
-        timestamp.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
-        timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Task.class, timestamp);
-        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 
         root.addEqualTo("task", task);
-        root.addEqualTo("effectiveDate", effdtSubQuery);
-        root.addEqualTo("timestamp", timestampSubQuery);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Task.class, asOfDate, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Task.class, EQUAL_TO_FIELDS, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
@@ -132,19 +125,8 @@ public class TaskDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements Tas
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
 
-        Criteria effdt = new Criteria();
-        effdt.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
-        effdt.addAndCriteria(effectiveDateFilter);
-        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Task.class, effdt);
-        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-        root.addEqualTo("effectiveDate", effdtSubQuery);
-        
-        Criteria timestamp = new Criteria();
-        timestamp.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
-        timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Task.class, timestamp);
-        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-        root.addEqualTo("timestamp", timestampSubQuery);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(Task.class, effectiveDateFilter, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Task.class, EQUAL_TO_FIELDS, false));
 
         Query query = QueryFactory.newQuery(Task.class, root);
         results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));

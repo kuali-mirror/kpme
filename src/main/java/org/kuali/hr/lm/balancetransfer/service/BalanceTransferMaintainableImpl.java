@@ -15,9 +15,8 @@
  */
 package org.kuali.hr.lm.balancetransfer.service;
 
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -26,10 +25,8 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.framework.postprocessor.ProcessDocReport;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.krad.bo.DocumentHeader;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -37,12 +34,8 @@ import org.kuali.rice.krad.util.ObjectUtils;
 public class BalanceTransferMaintainableImpl extends
 		HrBusinessObjectMaintainableImpl {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -789218061798169466L;
 
-	
 	@Override
 	public HrBusinessObject getObjectById(String id) {
 		return TkServiceLocator.getBalanceTransferService().getBalanceTransferById(id);
@@ -59,18 +52,33 @@ public class BalanceTransferMaintainableImpl extends
         String routedByPrincipalId = documentHeader.getWorkflowDocument().getRoutedByPrincipalId();
         if (DocumentStatus.ENROUTE.equals(newDocumentStatus)
                 && CollectionUtils.isEmpty(balanceTransfer.getLeaveBlocks())) {
+        	
+        	// this is a balance transfer on an system scheduled time off
+        	if(StringUtils.isNotEmpty(balanceTransfer.getSstoId())) {
+        		try {
+	                MaintenanceDocument md = (MaintenanceDocument)KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(documentId);
+	                balanceTransfer = TkServiceLocator.getBalanceTransferService().transferSsto(balanceTransfer);
+	                md.getNewMaintainableObject().setDataObject(balanceTransfer);
+	                documentService.saveDocument(md);
+	            }
+	            catch (WorkflowException e) {
+	                LOG.error("caught exception while handling doRouteStatusChange -> documentService.getByDocumentHeaderId(" + documentHeader.getDocumentNumber() + "). ", e);
+	                throw new RuntimeException("caught exception while handling doRouteStatusChange -> documentService.getByDocumentHeaderId(" + documentHeader.getDocumentNumber() + "). ", e);
+	            }	
+        	} else {
                 //when transfer document is routed, initiate the balance transfer - creating the leave blocks
-            try {
-                MaintenanceDocument md = (MaintenanceDocument)KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(documentId);
-
-                balanceTransfer = TkServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
-                md.getNewMaintainableObject().setDataObject(balanceTransfer);
-                documentService.saveDocument(md);
-            }
-            catch (WorkflowException e) {
-                LOG.error("caught exception while handling doRouteStatusChange -> documentService.getByDocumentHeaderId(" + documentHeader.getDocumentNumber() + "). ", e);
-                throw new RuntimeException("caught exception while handling doRouteStatusChange -> documentService.getByDocumentHeaderId(" + documentHeader.getDocumentNumber() + "). ", e);
-            }
+	            try {
+	                MaintenanceDocument md = (MaintenanceDocument)KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(documentId);
+	
+	                balanceTransfer = TkServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
+	                md.getNewMaintainableObject().setDataObject(balanceTransfer);
+	                documentService.saveDocument(md);
+	            }
+	            catch (WorkflowException e) {
+	                LOG.error("caught exception while handling doRouteStatusChange -> documentService.getByDocumentHeaderId(" + documentHeader.getDocumentNumber() + "). ", e);
+	                throw new RuntimeException("caught exception while handling doRouteStatusChange -> documentService.getByDocumentHeaderId(" + documentHeader.getDocumentNumber() + "). ", e);
+	            }
+        	}
         } else if (DocumentStatus.DISAPPROVED.equals(newDocumentStatus)) {
             //When transfer document is disapproved, set all leave block's request statuses to disapproved.
             for(LeaveBlock lb : balanceTransfer.getLeaveBlocks()) {

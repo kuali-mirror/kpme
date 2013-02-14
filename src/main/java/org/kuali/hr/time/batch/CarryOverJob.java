@@ -22,8 +22,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -78,83 +80,67 @@ public class CarryOverJob implements Job{
 
         JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
 		String leavePlan = jobDataMap.getString("leavePlanCode");
-		System.out.println("----------- Crone Job for CarryOver LeaveBlocks executing ------ : " + leavePlan);
         if (leavePlan!= null) {
         	
         	Date asOfDate = TKUtils.getCurrentDate();
         	LeavePlan leavePlanObj = getLeavePlanService().getLeavePlan(leavePlan, asOfDate);
 			List<Assignment> assignments = getAssignmentService().getActiveAssignments(asOfDate);
-			
-			List<LeaveBlock> carryOverLeaveBlocks  =  null;
-			carryOverLeaveBlocks = new ArrayList<LeaveBlock>();
+
+            //holds a list of principalIds so this isn't run multiple time for the same person
+			Set<String> principalIds = new HashSet<String>();
 			Map<String,LeaveBlock> carryOverLeaveBlockMap = null;
 			for (Assignment assignment : assignments) {
 				carryOverLeaveBlockMap =  new HashMap<String, LeaveBlock>();
-					if (assignment.getJob().isEligibleForLeave()) {
-						String principalId = assignment.getPrincipalId();
-						PrincipalHRAttributes principalHRAttributes = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
-						
-						if (principalHRAttributes != null) {
-							Date serviceDate = principalHRAttributes.getServiceDate();
-							java.util.Calendar tempCalendar = java.util.Calendar.getInstance();
+				String principalId = assignment.getPrincipalId();
+                if (assignment.getJob().isEligibleForLeave() && !principalIds.contains(principalId)) {
 
-							if(serviceDate != null){
-								
-							Calendar leaveCalendar = principalHRAttributes.getLeaveCalObj();
-							if (leavePlanObj != null && leavePlanObj.getLeavePlan().equalsIgnoreCase(principalHRAttributes.getLeavePlan())) {
-								
-							 	java.util.Calendar lpYearNextStart = getLeavePlanCalendarYearStart(leavePlanObj);
-								java.util.Date originYearStart = lpYearNextStart.getTime();
-								// this should be passed to the 
-								
-								java.util.Calendar servicStartCal = this.getLeaveCalendarServiceStart(serviceDate, leavePlanObj);
-								 
-								while (servicStartCal.getTime().compareTo(originYearStart) <= 0) {
+                    PrincipalHRAttributes principalHRAttributes = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
+                    principalIds.add(principalId);
 
-									java.util.Calendar lpYearPreviousStart = java.util.Calendar.getInstance();
-									lpYearPreviousStart.setTime(servicStartCal.getTime());
-									lpYearPreviousStart.add(java.util.Calendar.YEAR, -1);
-								
-									java.util.Calendar prevCalEndDateCal = java.util.Calendar.getInstance();
-									prevCalEndDateCal.setTime(servicStartCal.getTime());
-									prevCalEndDateCal.add(java.util.Calendar.DATE, -1);
-									
-									java.util.Date prevCalEndDate = prevCalEndDateCal.getTime();
-									
-									List<LeaveBlock> prevYearCarryOverleaveBlocks = getLeaveBlockService().getLeaveBlocksByType(principalId, LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER, lpYearPreviousStart.getTime(), prevCalEndDate);
-									if(prevYearCarryOverleaveBlocks == null || prevYearCarryOverleaveBlocks.isEmpty()){
-										if (serviceDate.getTime() > lpYearPreviousStart.getTime().getTime()) {
-											lpYearPreviousStart.setTime(serviceDate);
-										}
-										if (prevCalEndDate.getTime() >= serviceDate.getTime()) {
-											fillCarryOverLeaveBlockMap(principalId, leaveCalendar, prevCalEndDate, servicStartCal, lpYearPreviousStart ,carryOverLeaveBlockMap);
-										}
-									}
-									
-									servicStartCal.add(java.util.Calendar.YEAR, 1);
-									
-								 	getLeaveBlockService().saveLeaveBlocks(new ArrayList<LeaveBlock>(carryOverLeaveBlockMap.values()));
-								}
-								
-								
-							}
-							
-						}
-					}
-				}
-			}
-			// Adding all carry over leave blocks to database
-			
-			
-			//If Success
-			java.util.Date batchCOYearStartDateTime = getNextBatchJobYearStart(leavePlanObj);
-			
-			leavePlanObj.setBatchPriorYearCarryOverStartDateTime(batchCOYearStartDateTime);
-			KRADServiceLocator.getBusinessObjectService().linkAndSave(leavePlanObj);
-			
-			
-			
-			
+                    if (principalHRAttributes != null) {
+                        Date serviceDate = principalHRAttributes.getServiceDate();
+                        if(serviceDate != null){
+
+                            Calendar leaveCalendar = principalHRAttributes.getLeaveCalObj();
+                            if (leavePlanObj != null && leavePlanObj.getLeavePlan().equalsIgnoreCase(principalHRAttributes.getLeavePlan())) {
+
+                                java.util.Calendar lpYearNextStart = getLeavePlanCalendarYearStart(leavePlanObj);
+                                java.util.Date originYearStart = lpYearNextStart.getTime();
+                                // this should be passed to the
+
+                                java.util.Calendar servicStartCal = this.getLeaveCalendarServiceStart(serviceDate, leavePlanObj);
+
+                                while (servicStartCal.getTime().compareTo(originYearStart) <= 0) {
+
+                                    java.util.Calendar lpYearPreviousStart = java.util.Calendar.getInstance();
+                                    lpYearPreviousStart.setTime(servicStartCal.getTime());
+                                    lpYearPreviousStart.add(java.util.Calendar.YEAR, -1);
+
+                                    java.util.Calendar prevCalEndDateCal = java.util.Calendar.getInstance();
+                                    prevCalEndDateCal.setTime(servicStartCal.getTime());
+                                    prevCalEndDateCal.add(java.util.Calendar.DATE, -1);
+
+                                    java.util.Date prevCalEndDate = prevCalEndDateCal.getTime();
+
+                                    List<LeaveBlock> prevYearCarryOverleaveBlocks = getLeaveBlockService().getLeaveBlocksWithType(principalId,  lpYearPreviousStart.getTime(), prevCalEndDate, LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER);
+                                    if(prevYearCarryOverleaveBlocks == null || prevYearCarryOverleaveBlocks.isEmpty()){
+                                        if (serviceDate.getTime() > lpYearPreviousStart.getTime().getTime()) {
+                                            lpYearPreviousStart.setTime(serviceDate);
+                                        }
+                                        if (prevCalEndDate.getTime() >= serviceDate.getTime()) {
+                                            fillCarryOverLeaveBlockMap(principalId, leaveCalendar, prevCalEndDate, carryOverLeaveBlockMap);
+                                        }
+                                    }
+
+                                    servicStartCal.add(java.util.Calendar.YEAR, 1);
+
+                                    getLeaveBlockService().saveLeaveBlocks(new ArrayList<LeaveBlock>(carryOverLeaveBlockMap.values()));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         } else {
         	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
         	LOG.error("Could not run batch jobs due to missing batch user " + principalName);
@@ -228,11 +214,14 @@ public class CarryOverJob implements Job{
 		LEAVE_BLOCK_SERVICE = leaveBlockService;
 	}
 	
-	private void fillCarryOverLeaveBlockMap(String principalId, Calendar leaveCalendar, java.util.Date prevCalEndDate,java.util.Calendar lpYearNextStart,java.util.Calendar lpYearPreviousStart, Map<String, LeaveBlock> carryOverLeaveBlockMap){
+	private void fillCarryOverLeaveBlockMap(String principalId,
+                                            Calendar leaveCalendar,
+                                            java.util.Date prevCalEndDate,
+                                            Map<String, LeaveBlock> carryOverLeaveBlockMap){
 
  				   CalendarEntries calendarEntries = getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(leaveCalendar.getHrCalendarId(), prevCalEndDate);
 					try {
-						LeaveSummary leaveSummary = getLeaveSummaryService().getLeaveSummary(principalId, calendarEntries, lpYearPreviousStart);
+						LeaveSummary leaveSummary = getLeaveSummaryService().getLeaveSummary(principalId, calendarEntries);
 						List<LeaveSummaryRow> leaveSummaryRows = leaveSummary.getLeaveSummaryRows();
 						
 						if(leaveSummaryRows !=null && !leaveSummaryRows.isEmpty()){
@@ -257,11 +246,11 @@ public class CarryOverJob implements Job{
 								// ASk--Set null
 								leaveBlock.setScheduleTimeOffId(null);
 								
-								if(lsr.getLeaveBalance() != null)  {
-									if(lsr.getMaxCarryOver() != null && lsr.getLeaveBalance().compareTo(lsr.getMaxCarryOver()) > 0 ){
+								if(lsr.getAccruedBalance() != null)  {
+									if(lsr.getMaxCarryOver() != null && lsr.getAccruedBalance().compareTo(lsr.getMaxCarryOver()) > 0 ){
 										leaveBlock.setLeaveAmount(lsr.getMaxCarryOver());
 									} else {
-										leaveBlock.setLeaveAmount(lsr.getLeaveBalance());
+										leaveBlock.setLeaveAmount(lsr.getAccruedBalance());
 									}
 								}
 								
@@ -269,7 +258,7 @@ public class CarryOverJob implements Job{
 								leaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
 								
 								// Set EarnCode 
-								if(leaveBlock.getLeaveAmount() != null && leaveBlock.getLeaveAmount().compareTo(BigDecimal.ZERO) > 0 && leaveBlock.getEarnCode() != null) {
+								if(leaveBlock.getLeaveAmount() != null && leaveBlock.getEarnCode() != null) {
 									if(!carryOverLeaveBlockMap.containsKey(lsr.getAccrualCategoryId())) {
 										carryOverLeaveBlockMap.put(lsr.getAccrualCategoryId(), leaveBlock);
 									} else {
@@ -368,14 +357,4 @@ public class CarryOverJob implements Job{
 		return lpYearStart;
 	}
 	
-	private java.util.Date getNextBatchJobYearStart(LeavePlan leavePlan) {
-		// check if Calendar entry is first entry of the year start the make
-		// accrued balance and approved usage zero
-				
-		java.util.Calendar nextBatchJobYear = java.util.Calendar.getInstance();
-		nextBatchJobYear.setTime(leavePlan.getBatchPriorYearCarryOverStartDateTime());
-		nextBatchJobYear.add(java.util.Calendar.YEAR,1);
-		
-		return nextBatchJobYear.getTime();
-	}
 }

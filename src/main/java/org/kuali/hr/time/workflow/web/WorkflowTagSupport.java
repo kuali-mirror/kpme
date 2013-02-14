@@ -68,6 +68,19 @@ public class WorkflowTagSupport {
     	else
     		return false;
     }
+    
+    public boolean isDisplayingCurrentPeriodTimesheetRouteButtonWithNoDelinquencies() {
+    	TimesheetDocument doc = TKContext.getCurrentTimesheetDocument();
+    	if(TKUtils.getCurrentDate().after(DateUtils.addMilliseconds(doc.getCalendarEntry().getBeginPeriodDate(),1)) &&
+    			TKUtils.getCurrentDate().before(DateUtils.addMilliseconds(doc.getCalendarEntry().getEndPeriodDate(), -1))) {
+    		if(isDisplayingRouteButton(doc))
+    			return true;
+    		else
+    			return false;
+    	}
+    	else
+    		return false;
+    }
 
     private boolean isDisplayingRouteButton(CalendarDocumentContract doc) {
         TkUserRoles roles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());

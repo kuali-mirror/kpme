@@ -17,9 +17,7 @@ package org.kuali.hr.lm.leaveblock.service;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -75,9 +73,28 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     }
 
     @Override
+    public List<LeaveBlock> getLeaveBlocksWithAccrualCategory(String principalId, Date beginDate,
+                                           Date endDate, String accrualCategory) {
+        return leaveBlockDao.getLeaveBlocksWithAccrualCategory(principalId, beginDate, endDate, accrualCategory);
+    }
+
+    @Override
     public List<LeaveBlock> getLeaveBlocksWithType(String principalId, Date beginDate,
                                            Date endDate, String leaveBlockType) {
         return leaveBlockDao.getLeaveBlocksWithType(principalId, beginDate, endDate, leaveBlockType);
+    }
+
+    @Override
+    public List<LeaveBlock> getLeaveBlocksSinceCarryOver(String principalId, Map<String, LeaveBlock> carryOver, DateTime endDate, boolean includeAllAccrualCategories) {
+        return leaveBlockDao.getLeaveBlocksSinceCarryOver(principalId, carryOver, endDate, includeAllAccrualCategories);
+    }
+
+    @Override
+    public Map<String, LeaveBlock> getLastCarryOverBlocks(String principalId, Date asOfDate) {
+        if (StringUtils.isEmpty(principalId)) {
+            return Collections.emptyMap();
+        }
+        return leaveBlockDao.getLastCarryOverBlocks(principalId, LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER, asOfDate);
     }
 
     @Override
@@ -336,10 +353,6 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         leaveBlockDao.deleteLeaveBlocksForDocumentId(documentId);
     }
     
-    @Override
-    public List<LeaveBlock> getLeaveBlocksByType(String principalId,String leaveBlockType,Date beginDate,Date endDate) {
-        return leaveBlockDao.getLeaveBlocksByType(principalId,leaveBlockType, beginDate, endDate);
-    }
     
     @Override
     public List<LeaveBlock> getAccrualGeneratedLeaveBlocks(String principalId, Date beginDate, Date endDate) {
@@ -347,7 +360,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     }
     
     @Override
-    public List<LeaveBlock> getSSTOLeaveBlock(String principalId, String sstoId, Date accruledDate) {
-    	return leaveBlockDao.getSSTOLeaveBlock(principalId, sstoId, accruledDate);
+    public List<LeaveBlock> getSSTOLeaveBlocks(String principalId, String sstoId, Date accruledDate) {
+    	return leaveBlockDao.getSSTOLeaveBlocks(principalId, sstoId, accruledDate);
     }
 }

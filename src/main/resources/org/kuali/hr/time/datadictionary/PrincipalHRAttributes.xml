@@ -362,6 +362,7 @@
 		<property name="lookupFields">
 			<list>				
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
+                <bean parent="FieldDefinition" p:attributeName="leavePlan" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate"
 					p:noInquiry="true" p:noLookup="true" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
@@ -372,6 +373,7 @@
 			<list>				
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="name" />
+                <bean parent="FieldDefinition" p:attributeName="leavePlan" />
 				<bean parent="FieldDefinition" p:attributeName="timezone" />				
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />

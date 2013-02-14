@@ -157,7 +157,10 @@ $(function () {
             "change #selectedAssignment" : "changeAssignment",
             "keypress #selectedAssignment" : "changeAssignment",
             "change #selectedEarnCode" : "showFieldByEarnCodeType",
-            "keypress #selectedEarnCode" : "showFieldByEarnCodeType"
+            "keypress #selectedEarnCode" : "showFieldByEarnCodeType",
+            "click input[id^=lm-transfer-button]" : "showOnDemandBalanceTransferDialog",
+            "click input[id^=lm-payout-button]" : "showOnDemandBalancePayoutDialog",
+            "click #ts-route-button" : "forfeitBalanceOnSubmit"
         },
 
         initialize : function () {
@@ -390,6 +393,83 @@ $(function () {
                     .done(this.applyRules(timeBlock));
         },
         
+        forfeitBalanceOnSubmit : function () {
+        	var docId = $('#documentId').val();
+        	if ($('#loseOnSubmit').val() == 'true') {
+        		$('#confirm-forfeiture-dialog').dialog({
+        			autoOpen: true,
+        			height: 'auto',
+        			width: 'auto',
+        			modal: true,
+        			open : function () {
+        				// Set the selected date on start/end time fields
+        				// This statmement can tell is showTimeEntryDialog() by other methods or triggered directly by backbone.
+        			},
+        			close : function () {
+
+        			},
+        			buttons : {
+        				"Forfeit" : function () {
+        					window.location = "TimesheetSubmit.do?methodToCall=approveTimesheet&documentId=" + docId + "&action=R";
+        					$(this).dialog("close");
+        				},
+        				Cancel : function () {
+        					$(this).dialog("close");
+        				}
+        			}
+        		});
+    		}
+    	},
+        
+        showOnDemandBalanceTransferDialog : function (e) {
+        	var docId = $('#documentId').val();
+        	var accrualRuleId = _(e).parseEventKey().id;
+            $('#lm-transfer-empty').empty();
+            $('#lm-transfer-dialog').append('<iframe width="800" height="600" src="BalanceTransfer.do?methodToCall=balanceTransferOnDemand&docTypeName=BalanceTransferDocumentType&timesheet=true&accrualRuleId='+ accrualRuleId +'&documentId='+docId+'"></iframe>');
+
+            $('#lm-transfer-dialog').dialog({
+                autoOpen: true,
+                height: 'auto',
+                width: 'auto',
+                modal: true,
+                buttons: {
+                    //"test" : function() {
+                    //}
+                },
+                beforeClose: function(event, ui) {
+                    var URL = unescape(window.parent.location);
+                    window.parent.location.href = URL;
+                    window.close();
+                }
+            });
+        },
+        
+        // Button for iFrame show/hide to show the missed punch items
+        // The iFrame is added to the missed-punch-dialog as a child element.
+        // tdocid is a variable that is set from the form value in 'clock.jsp'
+        showOnDemandBalancePayoutDialog : function (e) {
+        	var docId = $('#documentId').val();
+        	var accrualRuleId = _(e).parseEventKey().id;
+            $('#lm-payout-empty').empty();
+            $('#lm-payout-dialog').append('<iframe width="800" height="600" src="LeavePayout.do?methodToCall=leavePayoutOnDemand&command=initiate&docTypeName=LeavePayoutDocumentType&accrualRuleId=' + accrualRuleId + '&documentId='+docId+'"></iframe>');
+
+            $('#lm-payout-dialog').dialog({
+                autoOpen: true,
+                height: 'auto',
+                width: 'auto',
+                modal: true,
+                buttons: {
+                    //"test" : function() {
+                    //}
+                },
+                beforeClose: function(event, ui) {
+                    var URL = unescape(window.parent.location.pathname);
+                    window.parent.location.href = URL;
+                    window.close();
+                }
+            });
+        },
+        
         showLeaveBlock : function (e) {
             var key = _(e).parseEventKey();
             // Retrieve the selected leaveBlock
@@ -498,7 +578,28 @@ $(function () {
         deleteLeaveBlock : function (e) {
             var key = _(e).parseEventKey();
             if (confirm('You are about to delete a leave block. Click OK to confirm the delete.')) {
-                window.location = "TimeDetail.do?methodToCall=deleteLeaveBlock&lmLeaveBlockId=" + key.id;
+            	var leaveBlock = leaveBlockCollection.get(key.id);
+            	var canTransferLB = leaveBlock.get("canTransfer") ? true : false;
+            	if(canTransferLB) {
+	            	$('#lm-transfer-empty').empty();
+		            $('#lm-transfer-dialog').append('<iframe width="800" height="600" src="BalanceTransfer.do?methodToCall=deleteSSTOLeaveBlock&leaveBlockId=' + key.id +'"></iframe>');
+		 
+		            $('#lm-transfer-dialog').dialog({
+		                autoOpen: true,
+		                height: 'auto',
+		                width: 'auto',
+		                modal: true,
+		                buttons: {
+		                },
+		                beforeClose: function(event, ui) {
+		                    var URL = unescape(window.parent.location);
+		                    window.parent.location.href = URL;
+		                    window.close();
+		                }
+	           		});
+            	} else {
+               		window.location = "TimeDetail.do?methodToCall=deleteLeaveBlock&lmLeaveBlockId=" + key.id;
+                }
             }
         },
 

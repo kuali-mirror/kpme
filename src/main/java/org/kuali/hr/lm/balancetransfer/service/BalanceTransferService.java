@@ -80,4 +80,10 @@ public interface BalanceTransferService {
 	
 	public void submitToWorkflow(BalanceTransfer balanceTransfer) throws WorkflowException;
 	
+	/**
+	 * transfer system scheduled time off
+	 * @param balanceTransfer
+	 * @return
+	 */
+	public BalanceTransfer transferSsto(BalanceTransfer balanceTransfer);
 }

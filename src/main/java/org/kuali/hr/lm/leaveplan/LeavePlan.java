@@ -16,6 +16,7 @@
 package org.kuali.hr.lm.leaveplan;
 
 import java.util.Date;
+import java.sql.Time;
 
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
@@ -36,60 +37,25 @@ public class LeavePlan extends HrBusinessObject {
 	private String calendarYearStart;
 	private Boolean history;
 	private String planningMonths;
-	private Date batchPriorYearCarryOverStartDateTime;
+	private String batchPriorYearCarryOverStartDate;
+	private Time batchPriorYearCarryOverStartTime;
 
-
-	public java.sql.Time getBatchPriorYearCarryOverStartTime() {
-		java.sql.Time batchPriorYearCarryOverStartTime = null;
-		if (batchPriorYearCarryOverStartDateTime != null) {
-			batchPriorYearCarryOverStartTime = new java.sql.Time(
-					batchPriorYearCarryOverStartDateTime.getTime());
-		}
-		return batchPriorYearCarryOverStartTime;
-	}
-
-	public void setBatchPriorYearCarryOverStartTime(
-			java.sql.Time batchPriorYearCarryOverStartDate) {
-		DateTime dateTime = new DateTime(batchPriorYearCarryOverStartDateTime);
-		LocalDate localDate = new LocalDate(
-				batchPriorYearCarryOverStartDateTime);
-		LocalTime localTime = new LocalTime(batchPriorYearCarryOverStartDate);
-		batchPriorYearCarryOverStartDateTime = localDate.toDateTime(localTime,
-				dateTime.getZone()).toDate();
-	}
-
-	public java.sql.Date getBatchPriorYearCarryOverStartDate() {
-		java.sql.Date batchPriorYearCarryOverStartDate = null;
-
-		if (batchPriorYearCarryOverStartDateTime != null) {
-			batchPriorYearCarryOverStartDate = new java.sql.Date(
-					batchPriorYearCarryOverStartDateTime.getTime());
-		}
-
+	public String getBatchPriorYearCarryOverStartDate() {
 		return batchPriorYearCarryOverStartDate;
 	}
 
 	public void setBatchPriorYearCarryOverStartDate(
-			java.sql.Date batchPriorYearCarryOverStartDate) {
-		DateTime dateTime = new DateTime(batchPriorYearCarryOverStartDateTime);
-		LocalDate localDate = new LocalDate(batchPriorYearCarryOverStartDate);
-		LocalTime localTime = new LocalTime(
-				batchPriorYearCarryOverStartDateTime);
-		batchPriorYearCarryOverStartDateTime = localDate.toDateTime(localTime,
-				dateTime.getZone()).toDate();
+			String batchPriorYearCarryOverStartDate) {
+		this.batchPriorYearCarryOverStartDate = batchPriorYearCarryOverStartDate;
+	}
+	
+	public Time getBatchPriorYearCarryOverStartTime() {
+		return batchPriorYearCarryOverStartTime;
 	}
 
-
-	public Date getBatchPriorYearCarryOverStartDateTime() {
-		return batchPriorYearCarryOverStartDateTime;
-	}
-
-	public void setBatchPriorYearCarryOverStartDateTime(
-			Date batchPriorYearCarryOverStartDateTime) {
-		if(this.getBatchPriorYearCarryOverStartDate() != null && this.getBatchPriorYearCarryOverStartTime() != null) {
-			
-		}
-		this.batchPriorYearCarryOverStartDateTime = batchPriorYearCarryOverStartDateTime;
+	public void setBatchPriorYearCarryOverStartTime(
+			Time batchPriorYearCarryOverStartTime) {
+		this.batchPriorYearCarryOverStartTime = batchPriorYearCarryOverStartTime;
 	}
 
 	public String getPlanningMonths() {

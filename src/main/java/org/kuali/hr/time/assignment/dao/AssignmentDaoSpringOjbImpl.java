@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -29,6 +30,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
@@ -39,6 +41,12 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements AssignmentDao {
 
     private static final Logger LOG = Logger.getLogger(AssignmentDaoSpringOjbImpl.class);
+    private static final ImmutableList<String> ASSIGNMENT_EQUAL_TO_FIELD = new ImmutableList.Builder<String>()
+            .add("jobNumber")
+            .add("workArea")
+            .add("task")
+            .add("principalId")
+            .build();
 
     @Override
     public void saveOrUpdate(Assignment assignment) {
@@ -66,33 +74,13 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 
     public Assignment getAssignment(String principalId, Long jobNumber, Long workArea, Long task, Date asOfDate) {
         Criteria root = new Criteria();
-        Criteria effdt = new Criteria();
-        Criteria timestamp = new Criteria();
-
-        effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
-        effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-        effdt.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
-        effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-        effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Assignment.class, effdt);
-        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-
-        // OJB's awesome sub query setup part 2
-        timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
-        timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-        timestamp.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
-        timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-        //timestamp.addEqualTo("active", true);
-        timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Assignment.class, timestamp);
-        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 
         root.addEqualTo("principalId", principalId);
         root.addEqualTo("jobNumber", jobNumber);
         root.addEqualTo("workArea", workArea);
         root.addEqualTo("task", task);
-        root.addEqualTo("effectiveDate", effdtSubQuery);
-        root.addEqualTo("timestamp", timestampSubQuery);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Assignment.class, asOfDate, ASSIGNMENT_EQUAL_TO_FIELD, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Assignment.class, ASSIGNMENT_EQUAL_TO_FIELD, false));
         //root.addEqualTo("active", true);
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
@@ -109,32 +97,12 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
     @Override
     public Assignment getAssignment(Long job, Long workArea, Long task, Date asOfDate) {
         Criteria root = new Criteria();
-        Criteria effdt = new Criteria();
-        Criteria timestamp = new Criteria();
-
-        effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
-        effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-        effdt.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
-        effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-        effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Assignment.class, effdt);
-        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-
-        // OJB's awesome sub query setup part 2
-        timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
-        timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-        timestamp.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
-        timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-        //timestamp.addEqualTo("active", true);
-        timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Assignment.class, timestamp);
-        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 
         root.addEqualTo("jobNumber", job);
         root.addEqualTo("workArea", workArea);
         root.addEqualTo("task", task);
-        root.addEqualTo("effectiveDate", effdtSubQuery);
-        root.addEqualTo("timestamp", timestampSubQuery);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Assignment.class, asOfDate, ASSIGNMENT_EQUAL_TO_FIELD, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Assignment.class, ASSIGNMENT_EQUAL_TO_FIELD, false));
         root.addEqualTo("principalId", TKContext.getTargetPrincipalId());
         //root.addEqualTo("active", true);
 
@@ -153,31 +121,10 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
     public List<Assignment> findAssignments(String principalId, Date asOfDate) {
         List<Assignment> assignments = new ArrayList<Assignment>();
         Criteria root = new Criteria();
-        Criteria effdt = new Criteria();
-        Criteria timestamp = new Criteria();
-
-        effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
-        effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-        effdt.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
-        effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-        //effdt.addEqualTo("active", true);
-        effdt.addEqualTo("principalId", principalId);
-        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Assignment.class, effdt);
-        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-
-        // OJB's awesome sub query setup part 2
-        timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
-        timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-        timestamp.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
-        timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-        //timestamp.addEqualTo("active", true);
-        timestamp.addEqualTo("principalId", principalId);
-        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Assignment.class, timestamp);
-        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 
         root.addEqualTo("principalId", principalId);
-        root.addEqualTo("effectiveDate", effdtSubQuery);
-        root.addEqualTo("timestamp", timestampSubQuery);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Assignment.class, asOfDate, ASSIGNMENT_EQUAL_TO_FIELD, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Assignment.class, ASSIGNMENT_EQUAL_TO_FIELD, false));
         //root.addEqualTo("active", true);
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
@@ -219,30 +166,10 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
     public List<Assignment> getActiveAssignmentsInWorkArea(Long workArea, Date asOfDate) {
         List<Assignment> assignments = new ArrayList<Assignment>();
         Criteria root = new Criteria();
-        Criteria effdt = new Criteria();
-        Criteria timestamp = new Criteria();
-
-        // OJB's awesome sub query setup part 1
-        effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-        effdt.addEqualTo("active", true);
-        effdt.addEqualTo("workArea", workArea);
-        effdt.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
-        effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Assignment.class, effdt);
-        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-
-        // OJB's awesome sub query setup part 2
-        timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-        timestamp.addEqualTo("active", true);
-        timestamp.addEqualTo("workArea", workArea);
-        timestamp.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
-        timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Assignment.class, timestamp);
-        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 
         root.addEqualTo("workArea", workArea);
-        root.addEqualTo("effectiveDate", effdtSubQuery);
-        root.addEqualTo("timestamp", timestampSubQuery);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Assignment.class, asOfDate, ASSIGNMENT_EQUAL_TO_FIELD, true));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Assignment.class, ASSIGNMENT_EQUAL_TO_FIELD, true));
         root.addEqualTo("active", true);
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
@@ -301,31 +228,11 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
     public List<Assignment> getActiveAssignmentsForJob(String principalId, Long jobNumber, Date asOfDate) {
         List<Assignment> assignments = new ArrayList<Assignment>();
         Criteria root = new Criteria();
-        Criteria effdt = new Criteria();
-        Criteria timestamp = new Criteria();
-
-        // subquery for effective date
-        effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-        effdt.addEqualTo("principalId", principalId);
-        effdt.addEqualTo("jobNumber", jobNumber);
-        effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-        effdt.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
-        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Assignment.class, effdt);
-        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-
-        // subquery for timestamp
-        timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-        timestamp.addEqualTo("principalId", principalId);
-        timestamp.addEqualTo("jobNumber", jobNumber);
-        timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-        timestamp.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
-        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Assignment.class, timestamp);
-        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
 
         root.addEqualTo("principalId", principalId);
         root.addEqualTo("jobNumber", jobNumber);
-        root.addEqualTo("effectiveDate", effdtSubQuery);
-        root.addEqualTo("timestamp", timestampSubQuery);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Assignment.class, asOfDate, ASSIGNMENT_EQUAL_TO_FIELD, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Assignment.class, ASSIGNMENT_EQUAL_TO_FIELD, false));
         root.addEqualTo("active", true);
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
@@ -400,25 +307,8 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
         }
 
         if (StringUtils.equals(showHistory, "N")) {
-            Criteria effdt = new Criteria();
-            effdt.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-            effdt.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
-            effdt.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-            effdt.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
-            effdt.addAndCriteria(effectiveDateFilter);
-            ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Assignment.class, effdt);
-            effdtSubQuery.setAttributes(new String[]{"max(effectiveDate)"});
-            root.addEqualTo("effectiveDate", effdtSubQuery);
-            
-            Criteria timestamp = new Criteria();
-            timestamp.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-            timestamp.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
-            timestamp.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-            timestamp.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
-            timestamp.addAndCriteria(effectiveDateFilter);
-            ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Assignment.class, timestamp);
-            timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-            root.addEqualTo("timestamp", timestampSubQuery);
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(Assignment.class, effectiveDateFilter, ASSIGNMENT_EQUAL_TO_FIELD, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Assignment.class, ASSIGNMENT_EQUAL_TO_FIELD, false));
         }
         
         Query query = QueryFactory.newQuery(Assignment.class, root);
@@ -462,31 +352,12 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 		Criteria activeRoot = new Criteria();	
      	Criteria activEeffdtCrit = new Criteria();
      	Criteria effdtCrit = new Criteria();
-        Criteria timestampCrit = new Criteria();
      	Criteria inactiveRoot = new Criteria();
 
-     	effdtCrit.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
-        effdtCrit.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-        effdtCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-        effdtCrit.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
-        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(Assignment.class, effdtCrit);
-        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-         
-        activEeffdtCrit.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
-        activEeffdtCrit.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-        activEeffdtCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-        activEeffdtCrit.addEqualToField("task", Criteria.PARENT_QUERY_PREFIX + "task");
-        activEeffdtCrit.addLessOrEqualThan("effectiveDate", effdt);
-        ReportQueryByCriteria activeEffdtSubQuery = QueryFactory.newReportQuery(Assignment.class, activEeffdtCrit);
-        activeEffdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-        
-        timestampCrit.addEqualToField("jobNumber", Criteria.PARENT_QUERY_PREFIX + "jobNumber");
-        timestampCrit.addEqualToField("workArea", Criteria.PARENT_QUERY_PREFIX + "workArea");
-        timestampCrit.addEqualToField("principalId", Criteria.PARENT_QUERY_PREFIX + "principalId");
-        timestampCrit.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(Assignment.class, timestampCrit);
-        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-        
+        ReportQueryByCriteria effdtSubQuery = OjbSubQueryUtil.getEffectiveDateSubQueryWithoutFilter(Assignment.class, ASSIGNMENT_EQUAL_TO_FIELD, false);
+        ReportQueryByCriteria activeEffdtSubQuery = OjbSubQueryUtil.getEffectiveDateSubQuery(Assignment.class, effdt, ASSIGNMENT_EQUAL_TO_FIELD, false);
+        ReportQueryByCriteria timestampSubQuery = OjbSubQueryUtil.getTimestampSubQuery(Assignment.class, ASSIGNMENT_EQUAL_TO_FIELD, false);
+
         inactiveRoot.addEqualTo("active", "N");
         inactiveRoot.addIn("workArea", workAreaList);
         inactiveRoot.addGreaterOrEqualThan("effectiveDate", startDate);

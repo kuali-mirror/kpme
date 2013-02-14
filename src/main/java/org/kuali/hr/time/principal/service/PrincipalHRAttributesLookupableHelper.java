@@ -73,12 +73,13 @@ public class PrincipalHRAttributesLookupableHelper extends HrEffectiveDateActive
 	@Override
 	public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
 		String principalId = fieldValues.get("principalId");
+        String leavePlan = fieldValues.get("leavePlan");
 	    String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
 	    String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
 	    String active = fieldValues.get("active");
 	    String showHist = fieldValues.get("history");
 
-	    return TkServiceLocator.getPrincipalHRAttributeService().getPrincipalHrAtributes(principalId, TKUtils.formatDateString(fromEffdt), 
+	    return TkServiceLocator.getPrincipalHRAttributeService().getPrincipalHrAtributes(principalId, leavePlan, TKUtils.formatDateString(fromEffdt),
 	    		TKUtils.formatDateString(toEffdt), active, showHist);
 	}
 }

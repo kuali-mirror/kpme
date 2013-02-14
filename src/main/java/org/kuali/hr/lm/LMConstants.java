@@ -177,11 +177,10 @@ public class LMConstants {
 	 }
 	 
 	 public static final class BALANCE_TRANSFER_TYPE {
-		 public static final String LEAVE_APPROVE = "LA";
-		 public static final String YEAR_END = "Y";
-		 public static final String ON_DEMAND = "O";
-		 public static final String MAINTENANCE = "M";
-		 public static final String CARRY_OVER = "C";
+		 public static final String ACCRUAL_TRIGGERED = "AT";
+		 public static final String SSTO = "TO";
+		 public static final String MAINTENANCE = "MT";
+		 public static final String CARRY_OVER = "CO";
 	 }
 	 
 	public static final class UNUSED_TIME{

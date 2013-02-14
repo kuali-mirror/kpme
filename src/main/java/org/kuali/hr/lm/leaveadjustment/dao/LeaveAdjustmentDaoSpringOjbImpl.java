@@ -20,10 +20,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import edu.emory.mathcs.backport.java.util.Collections;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.lm.leaveadjustment.LeaveAdjustment;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -34,22 +36,11 @@ public class LeaveAdjustmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
 	public List<LeaveAdjustment> getLeaveAdjustments(String principalId, Date asOfDate) {
         List<LeaveAdjustment> leaveAdjustments = new ArrayList<LeaveAdjustment>();
         Criteria root = new Criteria();
-        Criteria effdt = new Criteria();
-        Criteria timestamp = new Criteria();
 
-        effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-        effdt.addEqualTo("principalId", principalId);
-        ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(LeaveAdjustment.class, effdt);
-        effdtSubQuery.setAttributes(new String[]{"max(effdt)"});
-
-        timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-        timestamp.addEqualTo("principalId", principalId);
-        ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(LeaveAdjustment.class, timestamp);
-        timestampSubQuery.setAttributes(new String[]{"max(timestamp)"});
-
+        java.sql.Date effDate = asOfDate == null ? null : new java.sql.Date(asOfDate.getTime());
         root.addEqualTo("principalId", principalId);
-        root.addEqualTo("effectiveDate", effdtSubQuery);
-        root.addEqualTo("timestamp", timestampSubQuery);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(LeaveAdjustment.class, effDate, Collections.singletonList("principalId"), false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(LeaveAdjustment.class, Collections.singletonList("principalId"), false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);

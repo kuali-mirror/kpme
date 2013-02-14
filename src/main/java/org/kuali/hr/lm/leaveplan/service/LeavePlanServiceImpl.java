@@ -18,6 +18,7 @@ package org.kuali.hr.lm.leaveplan.service;
 import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.lm.leaveplan.dao.LeavePlanDao;
@@ -109,10 +110,20 @@ public class LeavePlanServiceImpl implements LeavePlanService {
     	return isLastCalendarPeriodOfLeavePlan;
 	}
 
+    public DateTime getFirstDayOfLeavePlan(String leavePlan, Date asOfDate) {
+        LeavePlan lp = getLeavePlan(leavePlan, asOfDate);
+
+        int priorYearCutOffMonth = Integer.parseInt(lp.getCalendarYearStartMonth());
+        int priorYearCutOffDay = Integer.parseInt(lp.getCalendarYearStartDayOfMonth());
+        DateMidnight cutOffDate = new DateMidnight(asOfDate.getTime()).withMonthOfYear(priorYearCutOffMonth).withDayOfMonth(priorYearCutOffDay);
+
+        return cutOffDate.toDateTime();
+    }
+
 
 	@Override
-	public List<LeavePlan> getLeavePlansNeedsScheduled(int thresholdDays,
-			Date asOfDate) {
+	public List<LeavePlan> getLeavePlansNeedsCarryOverScheduled(int thresholdDays,
+                                                                Date asOfDate) {
 		return leavePlanDao.getLeavePlansNeedsScheduled(thresholdDays, asOfDate);
 	}
 	

@@ -111,11 +111,28 @@ public class TimeDetailAction extends TimesheetAction {
         }
         List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(TKContext.getCurrentTimesheetDocument().getPrincipalId(), 
         					payCalendarEntry.getBeginPeriodDate(), payCalendarEntry.getEndPeriodDate(), tAssignmentKeys);
-        List<LeaveBlock> balanceTransferLeaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksByType(TKContext.getCurrentTimesheetDocument().getPrincipalId(),
-        		LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER, payCalendarEntry.getBeginPeriodDate(), payCalendarEntry.getEndPeriodDate());
-        List<String> warnings = tdaf.getWarnings();
-        warnings.addAll(LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(balanceTransferLeaveBlocks));
-        tdaf.setWarnings(warnings);
+        List<LeaveBlock> balanceTransferLeaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(TKContext.getCurrentTimesheetDocument().getPrincipalId(),
+        		 payCalendarEntry.getBeginPeriodDate(), payCalendarEntry.getEndPeriodDate(), LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
+//        List<String> warnings = tdaf.getWarnings();
+        Map<String, Set> allMessages = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(balanceTransferLeaveBlocks);
+        List<String> infoMessages = tdaf.getInfoMessages();
+        if (!allMessages.get("infoMessages").isEmpty()) {
+            infoMessages.addAll(allMessages.get("infoMessages"));
+        }
+        List<String> warningMessages = tdaf.getWarningMessages();
+        if (!allMessages.get("warningMessages").isEmpty()){
+            warningMessages.addAll(allMessages.get("warningMessages"));
+        }
+        List<String> actionMessages = tdaf.getActionMessages();
+        if (!allMessages.get("actionMessages").isEmpty()){
+            actionMessages.addAll(allMessages.get("actionMessages"));
+        }
+//        warnings.addAll(LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(balanceTransferLeaveBlocks));
+
+        tdaf.setInfoMessages(infoMessages);
+        tdaf.setWarningMessages(warningMessages);
+        tdaf.setActionMessages(actionMessages);
+
         this.assignStypeClassMapForTimeSummary(tdaf,timeBlocks, leaveBlocks);
         
         List<Interval> intervals = TKUtils.getFullWeekDaySpanForCalendarEntry(payCalendarEntry);

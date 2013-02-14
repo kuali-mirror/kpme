@@ -73,7 +73,8 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 			String principalId = aPerson.getPrincipalId();
 			ApprovalLeaveSummaryRow aRow = new ApprovalLeaveSummaryRow();
             List<Note> notes = new ArrayList<Note>();
-            List<String> warnings = new ArrayList<String>();
+//            List<String> warnings = new ArrayList<String>();
+            Map<String, Set> allMessages = new HashMap<String, Set>();
 			aRow.setName(aPerson.getPrincipalName());
 			aRow.setPrincipalId(aPerson.getPrincipalId());
 			
@@ -96,12 +97,17 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 			}
 			
 			List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, payBeginDate, payEndDate);
-			warnings = findWarnings(aDoc, payCalendarEntries, leaveBlocks);
+			allMessages = findWarnings(aDoc, payCalendarEntries, leaveBlocks);
             aRow.setLeaveBlockList(leaveBlocks);
 			Map<Date, Map<String, BigDecimal>> earnCodeLeaveHours = getEarnCodeLeaveHours(leaveBlocks, leaveSummaryDates);
 			aRow.setEarnCodeLeaveHours(earnCodeLeaveHours);
             aRow.setNotes(notes);
-            aRow.setWarnings(warnings);
+
+            Set msgs = allMessages.get("warningMessages");
+            List<String> warningMessages = new ArrayList<String>();
+            warningMessages.addAll(msgs);
+
+            aRow.setWarnings(warningMessages); //these are only warning messages.
 			
 			rowList.add(aRow);
 		}
@@ -109,9 +115,9 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		return rowList;
 	}
 
-    private List<String> findWarnings(LeaveCalendarDocumentHeader doc, CalendarEntries calendarEntry, List<LeaveBlock> leaveBlocks) {
-        List<String> warnings = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
-
+    private Map<String, Set> findWarnings(LeaveCalendarDocumentHeader doc, CalendarEntries calendarEntry, List<LeaveBlock> leaveBlocks) {
+//        List<String> warnings = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
+        Map<String, Set> allMessages= LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
         //get LeaveSummary and check for warnings
         if (doc != null) {
             LeaveSummary leaveSummary;
@@ -131,17 +137,17 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
                             if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.TRANSFER)
                                     || rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.PAYOUT)) {
                                 //Todo: add link to balance transfer
-                                warnings.add("Accrual Category '" + lsr.getAccrualCategory() + "' is at the maximum balance, transfer or payout must be done.");
+                                allMessages.get("warningMessages").add("Accrual Category '" + lsr.getAccrualCategory() + "' is at the maximum balance, transfer or payout must be done.");   //warningMessages
                             } else if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
                                 //Todo: compute and display amount of time lost.
-                                warnings.add("Accrual Category '" + lsr.getAccrualCategory() + "' is at the maximum balance, additional accrual will be lost.");
+                                allMessages.get("warningMessages").add("Accrual Category '" + lsr.getAccrualCategory() + "' is at the maximum balance, additional accrual will be lost.");      //warningMessages
                             }
                         }
                     }
                 }
             }
         }
-        return warnings;
+        return allMessages;
     }
 	
 	@Override

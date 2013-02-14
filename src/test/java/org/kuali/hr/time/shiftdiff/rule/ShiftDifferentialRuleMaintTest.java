@@ -36,8 +36,7 @@ public class ShiftDifferentialRuleMaintTest extends KPMETestCase{
 		
 	private static final BigDecimal TEST_NO=new BigDecimal(2);
 	private static String shiftDifferentialRuleId;
-	private static final String TEST_TIME= "11:00 PM";
-	private static final Date TEST_DATE= new Date(Calendar.getInstance().getTimeInMillis());
+
 	
 	
 	@Test
@@ -108,11 +107,14 @@ public class ShiftDifferentialRuleMaintTest extends KPMETestCase{
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
+        Calendar yesterday = Calendar.getInstance();
+        yesterday.add(Calendar.DATE, -1);
+        Date testDate = new Date(yesterday.getTimeInMillis());
 		ShiftDifferentialRule shiftDifferentialRule = new ShiftDifferentialRule();
 		shiftDifferentialRule.setActive(true);
 		//shiftDifferentialRule.setBeginTime(TEST_TIME);
 		shiftDifferentialRule.setEarnCode(TEST_CODE);
-		shiftDifferentialRule.setEffectiveDate(TEST_DATE);
+		shiftDifferentialRule.setEffectiveDate(testDate);
 		//shiftDifferentialRule.setEndTime(TEST_TIME);
 		shiftDifferentialRule.setLocation(TEST_CODE);
 		shiftDifferentialRule.setMaxGap(new BigDecimal(2));
@@ -128,8 +130,8 @@ public class ShiftDifferentialRuleMaintTest extends KPMETestCase{
 		shiftDifferentialRule.setSaturday(true);
 		shiftDifferentialRule.setPyCalendarGroup("TEST");
 		
-		KRADServiceLocator.getBusinessObjectService().save(shiftDifferentialRule);
-		shiftDifferentialRuleId = shiftDifferentialRule.getTkShiftDiffRuleId();
+		ShiftDifferentialRule rule = KRADServiceLocator.getBusinessObjectService().save(shiftDifferentialRule);
+		shiftDifferentialRuleId = rule.getTkShiftDiffRuleId();
 	}
 
 	@Override

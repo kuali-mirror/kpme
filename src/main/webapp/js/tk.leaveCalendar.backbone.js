@@ -101,8 +101,7 @@ $(function () {
             "change #selectedAssignment" : "changeAssignment",
             "keypress #selectedAssignment" : "changeAssignment",
             "click input[id^=lm-transfer-button]" : "showOnDemandBalanceTransferDialog",
-            "click #lm-payout-button" : "showOnDemandBalancePayoutDialog",
-            "click #lm-leavepayout-button" : "showLeavePayoutDialog",
+            "click input[id^=lm-payout-button]" : "showOnDemandBalancePayoutDialog",
             "click #ts-route-button" : "forfeitBalanceOnSubmit"
         },
 
@@ -297,8 +296,29 @@ $(function () {
             
 //            if (this.checkPermissions()) {
             	if (confirm('You are about to delete a leave block. Click OK to confirm the delete.')) {
+            	var leaveBlock = leaveBlockCollection.get(key.id);
+            	var canTransferLB = leaveBlock.get("canTransfer") ? true : false;
+            	if(canTransferLB) {
+	            	$('#lm-transfer-empty').empty();
+		            $('#lm-transfer-dialog').append('<iframe width="800" height="600" src="BalanceTransfer.do?methodToCall=deleteSSTOLeaveBlock&leaveBlockId=' + key.id +'"></iframe>');
+		 
+		            $('#lm-transfer-dialog').dialog({
+		                autoOpen: true,
+		                height: 'auto',
+		                width: 'auto',
+		                modal: true,
+		                buttons: {
+		                },
+		                beforeClose: function(event, ui) {
+		                    var URL = unescape(window.parent.location);
+		                    window.parent.location.href = URL;
+		                    window.close();
+		                }
+	           		});
+            	} else {
             		window.location = "LeaveCalendar.do?methodToCall=deleteLeaveBlock&leaveBlockId=" + key.id + "&calEntryId=" + calId;
             	}
+              }	
 //            }
         },
         
@@ -357,9 +377,10 @@ $(function () {
         // The iFrame is added to the missed-punch-dialog as a child element.
         // tdocid is a variable that is set from the form value in 'clock.jsp'
         showOnDemandBalancePayoutDialog : function (e) {
-
+        	var docId = $('#documentId').val();
+        	var accrualRuleId = _(e).parseEventKey().id;
             $('#lm-payout-empty').empty();
-            $('#lm-payout-dialog').append('<iframe width="800" height="600" src="BalanceTransfer.do?methodToCall=balancePayout&command=initiate&docTypeName=BalanceTransferDocumentType&documentId="></iframe>');
+            $('#lm-payout-dialog').append('<iframe width="800" height="600" src="LeavePayout.do?methodToCall=leavePayoutOnDemand&command=initiate&docTypeName=LeavePayoutDocumentType&accrualRuleId=' + accrualRuleId + '&documentId='+docId+'"></iframe>');
 
             $('#lm-payout-dialog').dialog({
                 autoOpen: true,
@@ -377,7 +398,7 @@ $(function () {
                 }
             });
         },
-
+/*
         // Button for iFrame show/hide to show the leave payout items
         // The iFrame is added as a child element.
         // tdocid is a variable that is set from the form value in 'clock.jsp'
@@ -401,7 +422,7 @@ $(function () {
                     window.close();
                 }
             });
-        },
+        },*/
 
         tableCellMouseDown : function(e) {
             //alert(this.index);

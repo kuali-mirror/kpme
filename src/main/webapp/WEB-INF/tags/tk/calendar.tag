@@ -100,9 +100,15 @@
         </tr>
     </table>
 
-    <div class="global-error">
-        <c:forEach var="warning" items="${Form.warnings}">
-            ${warning} <br/>
+    <div class="messages">
+        <c:forEach var="action" items="${Form.actionMessages}">
+            <span class="action"> ${action}</span> <br/>
+        </c:forEach>
+        <c:forEach var="warning" items="${Form.warningMessages}">
+            <span class="warning"> ${warning}</span> <br/>
+        </c:forEach>
+        <c:forEach var="info" items="${Form.infoMessages}">
+            <span class="info"> ${info}</span> <br/>
         </c:forEach>
     </div>
 

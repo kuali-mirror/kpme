@@ -19,6 +19,9 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.LocalDateTime;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.lm.LMConstants;
+import org.kuali.hr.lm.leaveSummary.LeaveSummary;
+import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.Calendar;
@@ -27,6 +30,7 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
@@ -42,6 +46,7 @@ import org.kuali.hr.time.workarea.WorkArea;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.Map.Entry;
 
 public class TimeSummaryServiceImpl implements TimeSummaryService {
 	private static final String OTHER_EARN_GROUP = "Other";
@@ -63,11 +68,37 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         List<EarnGroupSection> earnGroupSections = getEarnGroupSections(tkTimeBlockAggregate, timeSummary.getSummaryHeader().size()+1, 
         			dayArrangements, timesheetDocument.getAsOfDate(), timesheetDocument.getDocEndDate());
         timeSummary.setSections(earnGroupSections);
+        
+        try {
+			List<LeaveSummaryRow> maxedLeaveRows = getMaxedLeaveRows(timesheetDocument.getCalendarEntry(),timesheetDocument.getPrincipalId());
+			timeSummary.setMaxedLeaveRows(maxedLeaveRows);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		return timeSummary;
 	}
 	
-    /**
+    private List<LeaveSummaryRow> getMaxedLeaveRows(
+			CalendarEntries calendarEntry, String principalId) throws Exception {
+    	List<LeaveSummaryRow> maxedLeaveRows = new ArrayList<LeaveSummaryRow>();
+    	if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
+        	Map<String,ArrayList<String>> eligibilities = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(calendarEntry,principalId);
+        	List<String> onDemandTransfers = eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND);
+        	if(!onDemandTransfers.isEmpty()) {
+            	LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, calendarEntry);
+            	for(LeaveSummaryRow row : summary.getLeaveSummaryRows()) {
+            		if(onDemandTransfers.contains(row.getAccrualCategoryRuleId()))
+            			maxedLeaveRows.add(row);
+            			
+            	}
+        	}
+    	}
+		return maxedLeaveRows;
+	}
+
+	/**
      * Aggregates timeblocks into the appropriate earngroup-> earncode -> assignment rows
      * @param tkTimeBlockAggregate
      * @param numEntries

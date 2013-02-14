@@ -65,7 +65,7 @@ public interface PrincipalHRAttributesDao {
 
     public List<String> getUniqueLeavePayGroupsForPrincipalIds(List<String> principalIds);
     
-    public List<PrincipalHRAttributes> getPrincipalHrAtributes(String principalId, java.sql.Date fromEffdt, java.sql.Date toEffdt,String active, String showHistory);
+    public List<PrincipalHRAttributes> getPrincipalHrAtributes(String principalId, String leavePlan, java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory);
     
     public List<String> getUniqueTimePayGroups();
     

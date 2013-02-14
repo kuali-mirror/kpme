@@ -213,5 +213,32 @@
     <script type="text/template" id="overtime-template">
         <option value="<@= earnCode @>"><@= earnCode + " : " + desc @></option>
     </script>
+    
+    <div id="lm-transfer-dialog" title="Balance Transfer" style="display:none;">
+
+	</div>
+	
+	<div id="confirm-forfeiture-dialog" class="dialog-form" title="Confirm Forfeiture">
+	   <html:form action="/TimesheetSubmit.do" styleId="forfeiture-form">
+			<html:hidden property="loseOnSubmit" value="${not empty Form.forfeitures}" styleId="loseOnSubmit"/>
+			 
+	        <div class="ui-widget timesheet-panel" id="timesheet-panel">
+	            <table>
+					<tr>
+						<th></th>
+						<th>Forfeited Amount</th>
+					</tr>
+					<tbody>
+					<c:forEach var="forfeiture" items="${Form.forfeitures}">
+						<tr>
+							<td>${forfeiture.fromAccrualCategory}: </td>
+							<td align="right">${forfeiture.forfeitedAmount}</td>
+						</tr>
+					</c:forEach>
+					</tbody>
+	            </table>
+	        </div>
+	    </html:form>
+	</div>
 
 </tk:tkHeader>

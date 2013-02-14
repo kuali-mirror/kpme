@@ -108,14 +108,15 @@ public interface PrincipalHRAttributesService {
     public List<PrincipalHRAttributes> getInactivePrincipalHRAttributesForRange(String principalId, Date startDate, Date endDate);
     /**
      * Fetch list of PrincipalHRAttributes using given parameters
+     *
      * @param principalId
-     * @param fromEffdt
+     * @param leavePlan
+     *@param fromEffdt
      * @param toEffdt
      * @param active
-     * @param showHistory
-     * @return
+     * @param showHistory     @return
      */
-    public List<PrincipalHRAttributes> getPrincipalHrAtributes(String principalId, java.sql.Date fromEffdt, java.sql.Date toEffdt,String active, String showHistory);
+    public List<PrincipalHRAttributes> getPrincipalHrAtributes(String principalId, String leavePlan, java.sql.Date fromEffdt, java.sql.Date toEffdt, String active, String showHistory);
     /**
      * Get List of all active pay calendars
      * @return

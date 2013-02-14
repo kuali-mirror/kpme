@@ -15,6 +15,9 @@
  */
 package org.kuali.hr.time.batch.service;
 
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +51,7 @@ import org.kuali.hr.time.missedpunch.MissedPunchDocument;
 import org.kuali.hr.time.missedpunch.service.MissedPunchService;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.principal.service.PrincipalHRAttributesService;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderService;
@@ -246,8 +250,27 @@ public class BatchJobServiceImpl implements BatchJobService {
 	
 	@Override
 	public void scheduleLeaveCarryOverJobs(LeavePlan leavePlan) throws SchedulerException {
-		Date batchJobDate = leavePlan.getBatchPriorYearCarryOverStartDateTime();
-		scheduleLeaveCarryOverJob(leavePlan, batchJobDate);
+		String batchJobDate = leavePlan.getBatchPriorYearCarryOverStartDate();
+		java.util.Calendar batchJobTimeCal = java.util.Calendar.getInstance();
+		batchJobTimeCal.setTimeInMillis(leavePlan.getBatchPriorYearCarryOverStartTime().getTime());
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
+		sdf.setLenient(false);
+		java.util.Date batchJobStart = null;
+		
+		try {
+			batchJobStart = sdf.parse(batchJobDate);
+		} catch (ParseException e) {
+		}
+		
+		java.util.Calendar batchJobStartDateTime = java.util.Calendar.getInstance();
+		batchJobStartDateTime.setTime(batchJobStart);
+		batchJobStartDateTime.set(java.util.Calendar.YEAR,java.util.Calendar.getInstance().get(java.util.Calendar.YEAR));
+		batchJobStartDateTime.set(java.util.Calendar.HOUR_OF_DAY,batchJobTimeCal.get(java.util.Calendar.HOUR_OF_DAY));
+		batchJobStartDateTime.set(java.util.Calendar.MINUTE,batchJobTimeCal.get(java.util.Calendar.MINUTE));
+		batchJobStartDateTime.set(java.util.Calendar.SECOND, 0);
+		batchJobStartDateTime.set(java.util.Calendar.MILLISECOND, 0);
+		
+		scheduleLeaveCarryOverJob(leavePlan, batchJobStartDateTime.getTime());
 	}
 	
 	

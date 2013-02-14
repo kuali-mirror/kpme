@@ -15,8 +15,10 @@
  */
 package org.kuali.hr.time.timesheet.web;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -25,12 +27,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
+import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.accrual.AccrualCategoryRule;
+import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
+import org.kuali.hr.lm.leaveSummary.LeaveSummary;
+import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -40,6 +48,8 @@ import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
+import org.kuali.hr.time.timesummary.EarnCodeSection;
+import org.kuali.hr.time.timesummary.EarnGroupSection;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
@@ -48,6 +58,7 @@ import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class TimesheetAction extends TkAction {
 
@@ -106,20 +117,72 @@ public class TimesheetAction extends TkAction {
         List<String> warnings = new ArrayList<String>();
         
         // add warning messages based on max carry over balances for each accrual category for non-exempt leave users
+        List<BalanceTransfer> losses = new ArrayList<BalanceTransfer>();
         if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(viewPrincipal, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
-        	PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, payCalendarEntry.getEndPeriodDate());
-        	Map<String,ArrayList<String>> eligibilities = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(td.getCalendarEntry(),td.getPrincipalId());
-        	boolean maxBalance = false;
-        	for(Entry<String,ArrayList<String>> entry : eligibilities.entrySet()) {
-        		if(!entry.getValue().isEmpty()) {
-        			maxBalance = true;
-        			break;
-        		}
+        	PrincipalHRAttributes principalCalendar = null;
+        	if(ObjectUtils.isNotNull(payCalendarEntry)) {
+	        	principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, payCalendarEntry.getEndPeriodDate());
+	        	Map<String,ArrayList<String>> transfers = new HashMap<String,ArrayList<String>>();
+	        	Map<String,ArrayList<String>> payouts = new HashMap<String,ArrayList<String>>();;
+	        	if(ObjectUtils.isNotNull(principalCalendar)) {
+	        		transfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(td.getCalendarEntry(),td.getPrincipalId());
+	        		payouts = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(td.getCalendarEntry(),td.getPrincipalId());
+	        	}
+	        	
+	        	for(Entry<String,ArrayList<String>> entry : transfers.entrySet()) {
+	        		//contains max balance action = lose "transfers".
+	        		if(!entry.getValue().isEmpty()) {
+	        			for(String accrualRuleId : entry.getValue()) {
+	        				AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+	        				AccrualCategory aCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
+	        				String message = "You have exceeded the maximum balance limit for '" + aCat.getAccrualCategory() + "'. " +
+	                    			"Depending upon the accrual category rules, leave over this limit may be forfeited.";
+	        				if(!warnings.contains(message)) {
+	        					warnings.add(message);
+	        				}
+	        			}
+	        		}
+	        	}
+	        	for(Entry<String,ArrayList<String>> entry : payouts.entrySet()) {
+	        		//contains only payouts.
+	        		if(!entry.getValue().isEmpty()) {
+	        			for(String accrualRuleId : entry.getValue()) {
+	        				AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+	        				AccrualCategory aCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
+	        				String message = "You have exceeded the maximum balance limit for '" + aCat.getAccrualCategory() + "'. " +
+	                    			"Depending upon the accrual category rules, leave over this limit may be forfeited.";
+	        				if(!warnings.contains(message)) {
+	        					warnings.add(message);
+	        				}
+	        			}
+	        		}
+	        	}
+	            LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(viewPrincipal, payCalendarEntry);
+	            for(String accrualRuleId : transfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)) {
+	            	AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+	            	if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
+	    	        	BigDecimal accruedBalance = leaveSummary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId()).getAccruedBalance();
+	    	        	Date effectiveDate = TKUtils.getCurrentDate();
+	    	        	if(TKUtils.getCurrentDate().after(payCalendarEntry.getEndPeriodDate()))
+	    	        		effectiveDate = new Date(DateUtils.addDays(payCalendarEntry.getEndPeriodDate(),-1).getTime());
+	    	        	BalanceTransfer loseTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(viewPrincipal, accrualRuleId, accruedBalance, effectiveDate);
+	    	        	losses.add(loseTransfer);
+	            	}
+	            }
+	            for(String accrualRuleId : transfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+	            	AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+	            	if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
+	    	        	BigDecimal accruedBalance = leaveSummary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId()).getAccruedBalance();
+	    	        	Date effectiveDate = TKUtils.getCurrentDate();
+	    	        	if(TKUtils.getCurrentDate().after(payCalendarEntry.getEndPeriodDate()))
+	    	        		effectiveDate = new Date(DateUtils.addDays(payCalendarEntry.getEndPeriodDate(),-1).getTime());
+	    	        	BalanceTransfer loseTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(viewPrincipal, accrualRuleId, accruedBalance, effectiveDate);
+	    	        	losses.add(loseTransfer);
+	            	}
+	            }
         	}
-        	if(maxBalance) {
-            	warnings.add("You have exceeded the balance limit for one or more accrual categories within your leave plan.");
-            	warnings.add("Depending upon the rules of your institution, you may lose any leave over this limit.");
-        	}
+            taForm.setForfeitures(losses);
+        	
         	if (principalCalendar != null) {
 	        	Calendar calendar = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(viewPrincipal, taForm.getEndPeriodDateTime(), true);
 					
@@ -139,7 +202,7 @@ public class TimesheetAction extends TkAction {
 			}
         }
 		
-		taForm.setWarnings(warnings);
+		taForm.setWarningMessages(warnings);
 
         // Do this at the end, so we load the document first,
         // then check security permissions via the superclass execution chain.

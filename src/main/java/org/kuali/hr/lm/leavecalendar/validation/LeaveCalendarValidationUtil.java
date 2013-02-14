@@ -15,27 +15,20 @@
  */
 package org.kuali.hr.lm.leavecalendar.validation;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
+import org.joda.time.Interval;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
-import org.kuali.hr.lm.accrual.service.AccrualCategoryRuleService;
 import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.lm.leave.web.LeaveCalendarWSForm;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
-import org.kuali.hr.lm.leaveplan.LeavePlan;
+import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
@@ -43,8 +36,10 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 
-import com.google.common.base.Predicate;
-import org.kuali.rice.krad.util.ErrorMessage;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.*;
+
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class LeaveCalendarValidationUtil {
@@ -119,7 +114,7 @@ public class LeaveCalendarValidationUtil {
     						}
 	    					if(maxUsage!=null) {
 		    					if(desiredUsage.compareTo(maxUsage) > 0 ) {
-		    						errors.add("This leave request would exceed the usage limit for " + aRow.getAccrualCategory());
+		    						errors.add("This leave request would exceed the usage limit for " + aRow.getAccrualCategory());                        //errorMessages
 		    					}
 	    					}
 	    				}
@@ -132,50 +127,60 @@ public class LeaveCalendarValidationUtil {
 	//End KPME-1263
 
     // get warning messages associated with earn codes of leave blocks
-    public static List<String> getWarningMessagesForLeaveBlocks(List<LeaveBlock> leaveBlocks) {
-        List<String> warningMessages = new ArrayList<String>();
-        Set<String> aSet = new HashSet<String>();
+    public static Map<String, Set> getWarningMessagesForLeaveBlocks(List<LeaveBlock> leaveBlocks) {
+//        List<String> warningMessages = new ArrayList<String>();
+        Map<String, Set> allMessages = new HashMap<String, Set>();
+        Set<String> actionMessages = new HashSet<String>();
+        Set<String> infoMessages = new HashSet<String>();
+        Set<String> warningMessages = new HashSet<String>();
+
         if (CollectionUtils.isNotEmpty(leaveBlocks)) {
             for(LeaveBlock lb : leaveBlocks) {
                 EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), lb.getLeaveDate());
                 if(ec != null) {
                     EarnCodeGroup eg = TkServiceLocator.getEarnCodeGroupService().getEarnCodeGroupForEarnCode(lb.getEarnCode(), lb.getLeaveDate());
                     if(eg != null && !StringUtils.isEmpty(eg.getWarningText())) {
-                        aSet.add(eg.getWarningText());
+                        warningMessages.add(eg.getWarningText());
                     }
                 }
 
                 if (StringUtils.equals(lb.getLeaveBlockType(), LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER)) {
                 	if(!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus())
                 			&& !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, lb.getRequestStatus())) {
-                		aSet.add("A pending balance transfer exists on this calendar. It must be finalized before this calendar can be approved.");
+                        actionMessages.add("A pending balance transfer exists on this calendar. It must be finalized before this calendar can be approved.");       //actionMessages
                 	}
                 	else if(StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus())) {
                 		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(lb.getPrincipalId(), lb.getLeaveDate());
                 		AccrualCategory accrualCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveDate());
-                		AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCat, TKUtils.getCurrentDate(), pha.getServiceDate());
-                		if(ObjectUtils.isNotNull(aRule)) {
-	                		if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE) &&
-	                				lb.getLeaveAmount().signum() == -1)
-	                			aSet.add("A max balance action that forfeited accrued leave occurred on this calendar");
-	                		else
-	                			aSet.add("A max balance action for transfer occurred on this calendar.");
+                		if(ObjectUtils.isNotNull(accrualCat)) {
+                			AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCat, TKUtils.getCurrentDate(), pha.getServiceDate());
+	                		if(ObjectUtils.isNotNull(aRule)) {
+		                		if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE) &&
+		                				lb.getLeaveAmount().signum() == -1)
+                                    infoMessages.add("A max balance action that forfeited accrued leave occurred on this calendar");           //infoMessages
+		                		else
+                                    infoMessages.add("A max balance action for transfer occurred on this calendar.");                          //infoMessages
+	                		}
                 		}
                 	}
                 }
                 if (StringUtils.equals(lb.getLeaveBlockType(), LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT)) {
                 	if(!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus())
                 			&& !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, lb.getRequestStatus())) {
-                		aSet.add("A pending payout exists on this leave calendar. It must be finalized before this calendar can be approved.");
+                        actionMessages.add("A pending payout exists on this leave calendar. It must be finalized before this calendar can be approved.");                 //actionMessages
                 	}
                 	else if(StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED,lb.getRequestStatus())) {
-                		aSet.add("A max balance action for payout occurred on this calendar");
+                        infoMessages.add("A max balance action for payout occurred on this calendar");                                                                 //infoMessages
                 	}
                 }
             }
         }
-        warningMessages.addAll(aSet);
-        return warningMessages;
+        allMessages.put("actionMessages", actionMessages);
+        allMessages.put("infoMessages", infoMessages);
+        allMessages.put("warningMessages", warningMessages);
+
+//        warningMessages.addAll(aSet);
+        return allMessages;
     }
 
     public static List<String> validateAvailableLeaveBalance(LeaveCalendarWSForm lcf) {
@@ -189,6 +194,7 @@ public class LeaveCalendarValidationUtil {
     public static List<String> validateAvailableLeaveBalance(LeaveSummary ls, String earnCode, String leaveStartDateString, String leaveEndDateString,
     		BigDecimal leaveAmount, LeaveBlock updatedLeaveBlock) {
     	List<String> errors = new ArrayList<String>();
+    	CalendarEntries calendarEntries = new CalendarEntries();
     	boolean earnCodeChanged = false;
     	BigDecimal oldAmount = null;
     	if(ls != null && CollectionUtils.isNotEmpty(ls.getLeaveSummaryRows())) {
@@ -207,27 +213,31 @@ public class LeaveCalendarValidationUtil {
 	    	if(earnCodeObj != null && earnCodeObj.getAllowNegativeAccrualBalance().equals("N")) {
 	    		AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), endDate);
 	    		if(accrualCategory != null) {
-	    			List<LeaveSummaryRow> rows = ls.getLeaveSummaryRows();
-	    			for(LeaveSummaryRow aRow : rows) {
-	    				if(aRow.getAccrualCategory().equals(accrualCategory.getAccrualCategory())) {
-	    					BigDecimal availableBalance = aRow.getLeaveBalance();
+	    			LeaveSummaryRow validationRow = ls.getLeaveSummaryRowForAccrualCategory(accrualCategory.getLmAccrualCategoryId());
+    				if(ObjectUtils.isNotNull(validationRow)) {
+    					BigDecimal availableBalance = validationRow.getLeaveBalance();
+    					LeaveSummary ytdSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateForAccrualCategory(TKContext.getTargetPrincipalId(), startDate, accrualCategory.getAccrualCategory());
+    					if(ytdSummary != null) {
+    						LeaveSummaryRow ytdSummaryRow = ytdSummary.getLeaveSummaryRowForAccrualCategory(accrualCategory.getLmAccrualCategoryId());
+    						if(ytdSummaryRow != null)
+    							availableBalance = ytdSummaryRow.getLeaveBalance();
+    					}
 
-							if(oldAmount!=null) {
+    					if(oldAmount!=null) {
 
-		    					if(!earnCodeChanged ||
-		    							updatedLeaveBlock.getAccrualCategory().equals(accrualCategory.getAccrualCategory())) {
-									availableBalance = availableBalance.add(oldAmount.abs());
-		    					}
-
-							}
-							//multiply by days in span in case the user has also edited the start/end dates.
-	    					BigDecimal desiredUsage = leaveAmount.multiply(new BigDecimal(daysSpan+1));
-
-	    					if(desiredUsage.compareTo(availableBalance) >  0 ) {
-	    						errors.add("Requested leave amount is greater than available leave balance.");
+	    					if(!earnCodeChanged ||
+	    							updatedLeaveBlock.getAccrualCategory().equals(accrualCategory.getAccrualCategory())) {
+								availableBalance = availableBalance.add(oldAmount.abs());
 	    					}
-	    				}
-	    			}
+
+						}
+						//multiply by days in span in case the user has also edited the start/end dates.
+    					BigDecimal desiredUsage = leaveAmount.multiply(new BigDecimal(daysSpan+1));
+
+    					if(desiredUsage.compareTo(availableBalance) >  0 ) {
+    						errors.add("Requested leave amount is greater than available leave balance.");      //errorMessages
+    					}
+    				}
 	    		}
 	    	}
     	}
@@ -251,9 +261,8 @@ public class LeaveCalendarValidationUtil {
         	startTemp = startTemp.plusDays(1);
         }
         if (!valid) {
-        	errors.add("Weekend day is selected, but include weekends checkbox is not checked");
+        	errors.add("Weekend day is selected, but include weekends checkbox is not checked");            //errorMessages
         }
     	return errors;
     }
-    
 }

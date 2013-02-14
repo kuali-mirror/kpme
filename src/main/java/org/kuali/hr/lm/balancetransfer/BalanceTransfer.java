@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
-import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -34,8 +33,6 @@ public class BalanceTransfer extends HrBusinessObject {
 
 	private static final long serialVersionUID = 6948695780968441016L;
 	
-    //public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "BalanceTransfer";
-
 	private String balanceTransferId;
 	private String documentHeaderId;
 	private String accrualCategoryRule;
@@ -52,6 +49,7 @@ public class BalanceTransfer extends HrBusinessObject {
 	private String forfeitedLeaveBlockId;
 	private String accruedLeaveBlockId;
 	private String debitedLeaveBlockId;
+	private String sstoId;
 	
 	private Person principal;
 
@@ -167,7 +165,7 @@ public class BalanceTransfer extends HrBusinessObject {
 	 * calling this method without first validating the supplied transfer amount via BalanceTransferValidationUtils may produce undesired results.
 	 *
 	 * @param transferAmount The desired transfer amount
-	 * @return
+	 * @return A balance transfer object with forfeited and amount transfer amounts adjusted to transferAmount
 	 */
 	public BalanceTransfer adjust(BigDecimal transferAmount) {
 		BigDecimal difference = this.transferAmount.subtract(transferAmount);
@@ -275,6 +273,14 @@ public class BalanceTransfer extends HrBusinessObject {
 
 	public void setAmountTransferred(BigDecimal amountTransferrerd) {
 		this.amountTransferred = amountTransferrerd;
+	}
+	
+	public String getSstoId() {
+		return sstoId;
+	}
+
+	public void setSstoId(String sstoId) {
+		this.sstoId = sstoId;
 	}
 	
 	//Comparable for order handling of more than one transfer occurring during the same

@@ -15,19 +15,20 @@
  */
 package org.kuali.hr.time.shiftdiff.rule.dao;
 
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
+import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
+import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.time.shiftdiff.rule.ShiftDifferentialRule;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class ShiftDifferentialRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements ShiftDifferentialRuleDao {
 	
@@ -44,31 +45,21 @@ public class ShiftDifferentialRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseO
 		List<ShiftDifferentialRule> list = new ArrayList<ShiftDifferentialRule>();
 
 		Criteria root = new Criteria();
-		Criteria effdt = new Criteria();
-		Criteria timestamp = new Criteria();
-
-		effdt.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
-		effdt.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
-		effdt.addEqualToField("payGrade", Criteria.PARENT_QUERY_PREFIX + "payGrade");
-		effdt.addEqualToField("pyCalendarGroup", Criteria.PARENT_QUERY_PREFIX + "pyCalendarGroup");
-		effdt.addLessOrEqualThan("effectiveDate", asOfDate);
-		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(ShiftDifferentialRule.class, effdt);
-		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
-
-		timestamp.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
-		timestamp.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
-		timestamp.addEqualToField("payGrade", Criteria.PARENT_QUERY_PREFIX + "payGrade");
-		timestamp.addEqualToField("pyCalendarGroup", Criteria.PARENT_QUERY_PREFIX + "pyCalendarGroup");
-		timestamp.addEqualToField("effectiveDate", Criteria.PARENT_QUERY_PREFIX + "effectiveDate");
-		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(ShiftDifferentialRule.class, timestamp);
-		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
 
 		root.addEqualTo("location", location);
 		root.addEqualTo("hrSalGroup", hrSalGroup);
 		root.addEqualTo("payGrade", payGrade);
 		root.addEqualTo("pyCalendarGroup", pyCalendarGroup);
-		root.addEqualTo("effectiveDate", effdtSubQuery);
-		root.addEqualTo("timestamp", timestampSubQuery);
+
+        ImmutableList<String> fields = new ImmutableList.Builder<String>()
+                .add("location")
+                .add("hrSalGroup")
+                .add("payGrade")
+                .add("pyCalendarGroup")
+                .build();
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(ShiftDifferentialRule.class, asOfDate, fields, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(ShiftDifferentialRule.class, fields, false));
+
 
 		Criteria activeFilter = new Criteria(); // Inner Join For Activity
 		activeFilter.addEqualTo("active", true);
@@ -125,7 +116,7 @@ public class ShiftDifferentialRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseO
         if (fromEffdt == null && toEffdt == null) {
             effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
         }
-        root.addAndCriteria(effectiveDateFilter);
+
         
         if (StringUtils.isNotBlank(active)) {
         	Criteria activeFilter = new Criteria();
@@ -138,21 +129,7 @@ public class ShiftDifferentialRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseO
         }
 
         if (StringUtils.equals(showHistory, "N")) {
-    		Criteria effdt = new Criteria();
-    		effdt.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
-    		effdt.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
-    		effdt.addEqualToField("payGrade", Criteria.PARENT_QUERY_PREFIX + "payGrade");
-    		effdt.addAndCriteria(effectiveDateFilter);
-    		ReportQueryByCriteria effdtSubQuery = QueryFactory.newReportQuery(ShiftDifferentialRule.class, effdt);
-    		effdtSubQuery.setAttributes(new String[] { "max(effdt)" });
-
-    		Criteria timestamp = new Criteria();
-    		timestamp.addEqualToField("location", Criteria.PARENT_QUERY_PREFIX + "location");
-    		timestamp.addEqualToField("hrSalGroup", Criteria.PARENT_QUERY_PREFIX + "hrSalGroup");
-    		timestamp.addEqualToField("payGrade", Criteria.PARENT_QUERY_PREFIX + "payGrade");
-    		timestamp.addAndCriteria(effectiveDateFilter);
-    		ReportQueryByCriteria timestampSubQuery = QueryFactory.newReportQuery(ShiftDifferentialRule.class, timestamp);
-    		timestampSubQuery.setAttributes(new String[] { "max(timestamp)" });
+            root.addAndCriteria(effectiveDateFilter);
         }
         
         Query query = QueryFactory.newQuery(ShiftDifferentialRule.class, root);

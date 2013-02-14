@@ -85,7 +85,7 @@ public class AccrualServiceImpl implements AccrualService {
 			throw new RuntimeException("Start Date " + startDate.toString() + " should not be later than End Date " + endDate.toString());
 		}
 		//Inactivate all previous accrual-generated entries for this span of time
-		inactivateOldAccruals(principalId, startDate, endDate, runAsPrincipalId);
+		deactivateOldAccruals(principalId, startDate, endDate, runAsPrincipalId);
 		
 		//Build a rate range aggregate with appropriate information for this period of time detailing Rate Ranges for job
 		//entries for this range of time
@@ -356,7 +356,7 @@ public class AccrualServiceImpl implements AccrualService {
 		
 	}
 	
-	private void inactivateOldAccruals(String principalId, Date startDate, Date endDate, String runAsPrincipalId) {
+	private void deactivateOldAccruals(String principalId, Date startDate, Date endDate, String runAsPrincipalId) {
 		List<LeaveBlock> previousLB = TkServiceLocator.getLeaveBlockService().getAccrualGeneratedLeaveBlocks(principalId, startDate, endDate);
 		List<LeaveBlock> sstoAccrualList = new ArrayList<LeaveBlock>();
 		List<LeaveBlock> sstoUsageList = new ArrayList<LeaveBlock>();
@@ -677,9 +677,10 @@ public class AccrualServiceImpl implements AccrualService {
 				for(SystemScheduledTimeOff ssto : sstoList) {
 					if(TKUtils.removeTime(ssto.getAccruedDate()).equals(TKUtils.removeTime(currentDate) )
 							&& ssto.getLeavePlan().equals(rateRange.getLeavePlan().getLeavePlan())) {
-						// if there exists a ssto accrualed leave block with this ssto id, it means the ssto hours has been banked by the employee
-						// this logic depends on the inactivateOldAccruals() runs before buildRateRangeAggregate()
-						List<LeaveBlock> sstoLbList = TkServiceLocator.getLeaveBlockService().getSSTOLeaveBlock(principalId, ssto.getLmSystemScheduledTimeOffId(), ssto.getAccruedDate());
+						// if there exists a ssto accrualed leave block with this ssto id, it means the ssto hours has been banked or transferred by the employee
+						// this logic depends on the deactivateOldAccruals() runs before buildRateRangeAggregate()
+						// because deactivateOldAccruals() removes accrued ssto leave blocks unless they are banked/transferred
+						List<LeaveBlock> sstoLbList = TkServiceLocator.getLeaveBlockService().getSSTOLeaveBlocks(principalId, ssto.getLmSystemScheduledTimeOffId(), ssto.getAccruedDate());
 						if(CollectionUtils.isEmpty(sstoLbList)) {
 							rateRange.setSysScheTimeOff(ssto);
 						}

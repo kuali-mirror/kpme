@@ -61,4 +61,25 @@ public interface TkPermissionsService {
 	   public boolean canViewTimeTabs();
 	   public boolean canViewLeaveTabsWithEStatus();
 	   public boolean canViewLeaveTabsWithNEStatus();
+	   /**
+	    * Determine if given leave block is a accrual generated System Scheduled Timeoff usage that can be banked/transferred
+	    * and if the leave block is on the current leave calendar entry of the current targeted user
+	    * @param lb
+	    * @return
+	    */
+	   public boolean canBankOrTransferSSTOUsage(LeaveBlock lb);
+	   /**
+	    * Determine if given leave block is a accrual generated System Scheduled Timeoff usage that can be transferred
+	    * and if the leave block is on the current leave calendar entry of the current targeted user
+	    * @param lb
+	    * @return
+	    */
+	   public boolean canTransferSSTOUsage(LeaveBlock lb);
+	   /**
+	    * Determine if given leave block is a accrual generated System Scheduled Timeoff usage that can be banked
+	    * and if the leave block is on the current leave calendar entry of the current targeted user
+	    * @param lb
+	    * @return
+	    */
+	   public boolean canBankSSTOUsage(LeaveBlock lb);
 }
