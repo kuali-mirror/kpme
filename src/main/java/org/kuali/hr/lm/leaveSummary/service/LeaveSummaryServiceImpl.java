@@ -49,16 +49,30 @@ import java.util.*;
 public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 	private LeaveBlockService leaveBlockService;
 
-
+    @Override
     public LeaveSummary getLeaveSummaryAsOfDate(String principalId, java.sql.Date asOfDate) {
-        return getLeaveSummary(principalId, asOfDate, asOfDate, null);
+        return getLeaveSummary(principalId, asOfDate, asOfDate, null, true);
     }
 
+    public LeaveSummary getLeaveSummaryAsOfDateWithoutFuture(String principalId, java.sql.Date asOfDate) {
+        return getLeaveSummary(principalId, asOfDate, asOfDate, null, false);
+    }
+
+    @Override
+    public LeaveSummary getLeaveSummary(String principalId, CalendarEntries calendarEntry) {
+        return getLeaveSummary(principalId, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate(), null, true);
+    }
+
+    @Override
     public LeaveSummary getLeaveSummaryAsOfDateForAccrualCategory(String principalId, java.sql.Date asOfDate, String accrualCategory) {
-        return getLeaveSummary(principalId, asOfDate, asOfDate, accrualCategory);
+        return getLeaveSummary(principalId, asOfDate, asOfDate, accrualCategory, true);
     }
 
-    protected LeaveSummary getLeaveSummary(String principalId, java.sql.Date startDate, java.sql.Date endDate, String accrualCategory) {
+    protected LeaveSummary getLeaveSummary(String principalId,
+                                           java.sql.Date startDate,
+                                           java.sql.Date endDate,
+                                           String accrualCategory,
+                                           boolean includeFuture) {
         LeaveSummary ls = new LeaveSummary();
         List<LeaveSummaryRow> rows = new ArrayList<LeaveSummaryRow>();
 
@@ -109,11 +123,13 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                 }
                 List<LeaveBlock> leaveBlocks = getLeaveBlockService().getLeaveBlocksSinceCarryOver(principalId, carryOverBlocks, (new LocalDateTime(endDate)).toDateTime(), filterByAccrualCategory);
 
-                List<LeaveBlock> futureLeaveBlocks;
-                if (!filterByAccrualCategory) {
-                    futureLeaveBlocks = getLeaveBlockService().getLeaveBlocks(principalId, endDate, (new LocalDateTime(endDate)).toDateTime().plusMonths(Integer.parseInt(lp.getPlanningMonths())).toDate());
-                } else {
-                    futureLeaveBlocks = getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, endDate, (new LocalDateTime(endDate)).toDateTime().plusMonths(Integer.parseInt(lp.getPlanningMonths())).toDate(), accrualCategory);
+                List<LeaveBlock> futureLeaveBlocks = new ArrayList<LeaveBlock>();
+                if (includeFuture) {
+                    if (!filterByAccrualCategory) {
+                        futureLeaveBlocks = getLeaveBlockService().getLeaveBlocks(principalId, endDate, (new LocalDateTime(endDate)).toDateTime().plusMonths(Integer.parseInt(lp.getPlanningMonths())).toDate());
+                    } else {
+                        futureLeaveBlocks = getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, endDate, (new LocalDateTime(endDate)).toDateTime().plusMonths(Integer.parseInt(lp.getPlanningMonths())).toDate(), accrualCategory);
+                    }
                 }
                 Map<String, List<LeaveBlock>> leaveBlockMap = mapLeaveBlocksByAccrualCategory(leaveBlocks);
                 Map<String, List<LeaveBlock>> futureLeaveBlockMap = mapLeaveBlocksByAccrualCategory(futureLeaveBlocks);
@@ -268,12 +284,6 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
         }
         ls.setLeaveSummaryRows(rows);
         return ls;
-    }
-
-
-    @Override
-    public LeaveSummary getLeaveSummary(String principalId, CalendarEntries calendarEntry) {
-        return getLeaveSummary(principalId, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate(), null);
     }
 
     private PrincipalHRAttributes getPrincipalHrAttributes(String principalId, Date startDate, Date endDate) {
@@ -748,33 +758,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
         }
         return leaveBlockService;
     }
-    
-    private Date getLeavePlanCalendarYearStart(LeavePlan leavePlan, CalendarEntries leaveCalEntries) {
-    	boolean flag = true;
-		// check if Calendar entry is first entry of the year start the make accrued balance and approved usage zero
-		String calendarYearStartStr = leavePlan.getCalendarYearStart();
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
-		sdf.setLenient(false);
-		Date calYearStart = null;
-		try {
-			calYearStart = sdf.parse(calendarYearStartStr);
-		} catch (ParseException e) {
-		}
-		Calendar lpYearStart = Calendar.getInstance();
-		lpYearStart.setTime(calYearStart);
-		lpYearStart.set(Calendar.HOUR_OF_DAY, 0);
-		lpYearStart.set(Calendar.MINUTE, 0);
-		lpYearStart.set(Calendar.SECOND, 0);
-		lpYearStart.set(Calendar.MILLISECOND, 0);
-		lpYearStart.set(Calendar.YEAR, leaveCalEntries.getBeginLocalDateTime().getYear());
-		if(lpYearStart.getTime() != null) {
-			if((lpYearStart.getTime().compareTo(leaveCalEntries.getBeginPeriodDateTime()) >=0) && (lpYearStart.getTime().compareTo(leaveCalEntries.getEndPeriodDateTime()) <=0)){
-				flag = true;
-			}
-		}
-		return lpYearStart.getTime();
-    }
+
 
 }
 

@@ -23,14 +23,13 @@ import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.time.calendar.CalendarEntries;
 
 public interface LeaveSummaryService {
-	
-	 public LeaveSummary getLeaveSummary(String principalId, CalendarEntries calendarEntry) throws Exception;
+	public LeaveSummary getLeaveSummary(String principalId, CalendarEntries calendarEntry) throws Exception;
 
-	 //public LeaveSummary getLeaveSummary(String principalId, CalendarEntries calendarEntry, Calendar previousYearCalendarStart) throws Exception;
+	public List<Date> getLeaveSummaryDates(CalendarEntries cal);
 
-	 public List<Date> getLeaveSummaryDates(CalendarEntries cal);
+    public LeaveSummary getLeaveSummaryAsOfDate(String principalId, java.sql.Date asOfDate);
 
-     public LeaveSummary getLeaveSummaryAsOfDate(String principalId, java.sql.Date asOfDate);
+    public LeaveSummary getLeaveSummaryAsOfDateForAccrualCategory(String principalId, java.sql.Date asOfDate, String accrualCategory);
 
-     public LeaveSummary getLeaveSummaryAsOfDateForAccrualCategory(String principalId, java.sql.Date asOfDate, String accrualCategory);
+    public LeaveSummary getLeaveSummaryAsOfDateWithoutFuture(String principalId, java.sql.Date asOfDate);
 }

@@ -17,17 +17,10 @@ package org.kuali.hr.lm.leavecalendar.web;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Properties;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,6 +35,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
@@ -195,8 +191,28 @@ public class LeaveCalendarAction extends TkAction {
         
         // leave summary
         if (calendarEntry != null) {
-            LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(viewPrincipal, calendarEntry);
-            lcf.setLeaveSummary(ls);
+            //check to see if we are on a previous leave plan
+            PrincipalHRAttributes principalCal = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, calendarEntry.getEndPeriodDate());
+            DateTime firstDay = TkServiceLocator.getLeavePlanService().getFirstDayOfLeavePlan(principalCal.getLeavePlan(), TKUtils.getCurrentDate());
+            if (firstDay.isBefore(calendarEntry.getEndPeriodDate().getTime())) {
+                LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(viewPrincipal, calendarEntry);
+                lcf.setLeaveSummary(ls);
+            } else {
+                DateTime effDate = (new LocalDateTime(firstDay)).toDateTime().minus(1);
+                LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(viewPrincipal, new java.sql.Date(effDate.getMillis()));
+                //override title element (based on date passed in)
+                DateFormat formatter = new SimpleDateFormat("MMMM d");
+                DateFormat formatter2 = new SimpleDateFormat("MMMM d yyyy");
+                DateTime entryEndDate = new LocalDateTime(calendarEntry.getEndPeriodDate()).toDateTime();
+                if (entryEndDate.getHourOfDay() == 0) {
+                    entryEndDate = entryEndDate.minusDays(1);
+                }
+                String aString = formatter.format(calendarEntry.getBeginPeriodDate()) + " - " + formatter2.format(entryEndDate.toDate());
+                ls.setPendingDatesString(aString);
+                DateTimeFormatter fmt = DateTimeFormat.forPattern("MMM d, yyyy");
+                ls.setNote("Values as of: " + fmt.print(effDate));
+                lcf.setLeaveSummary(ls);
+            }
         }
         
         // add warning messages based on earn codes of leave blocks

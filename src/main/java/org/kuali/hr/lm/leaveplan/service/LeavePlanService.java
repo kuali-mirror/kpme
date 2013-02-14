@@ -18,6 +18,7 @@ package org.kuali.hr.lm.leaveplan.service;
 import java.sql.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.springframework.cache.annotation.Cacheable;
@@ -49,5 +50,6 @@ public interface LeavePlanService {
     boolean isLastCalendarPeriodOfLeavePlan(CalendarEntries calendarEntry, String leavePlan, Date asOfDate);
     
     public List<LeavePlan> getLeavePlansNeedsCarryOverScheduled(int thresholdDays, Date asOfDate);
-    
+
+    public DateTime getFirstDayOfLeavePlan(String leavePlan, Date asOfDate);
 }

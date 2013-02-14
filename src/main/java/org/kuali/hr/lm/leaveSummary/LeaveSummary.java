@@ -27,6 +27,7 @@ public class LeaveSummary {
 	private List<LeaveSummaryRow> leaveSummaryRows = new ArrayList<LeaveSummaryRow>();
 	private String ytdDatesString;
 	private String pendingDatesString;
+    private String note;
 	private List<String> approvalHeaders = new ArrayList<String>();
 
 	public List<LeaveSummaryRow> getLeaveSummaryRows() {
@@ -92,6 +93,14 @@ public class LeaveSummary {
 		}
 		return null;
 	}
+
+    public String getNote() {
+        return note == null ? "" : note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
 	
 	
 	
