@@ -80,7 +80,7 @@ public class LeaveBlockRenderer {
     public String getLeaveBlockDetails() {
         if (this.leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE)) {
 //            return "accrual";
-        	if(ObjectUtils.isNotNull(leaveBlock.getSystemScheduledTimeOffObj()))
+        	if(ObjectUtils.isNotNull(leaveBlock.getScheduleTimeOffId()))
         		return TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(this.leaveBlock.getScheduleTimeOffId()).getDescr();
         	else
         		return "accrual";
