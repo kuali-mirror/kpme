@@ -15,14 +15,20 @@
  */
 package org.kuali.hr.lm.balancetransfer.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.hr.lm.LMConstants;
+import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
+import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -53,7 +59,7 @@ public class BalanceTransferMaintainableImpl extends
         if (DocumentStatus.ENROUTE.equals(newDocumentStatus)
                 && CollectionUtils.isEmpty(balanceTransfer.getLeaveBlocks())) {
         	
-        	// this is a balance transfer on an system scheduled time off
+        	// this is a balance transfer on a system scheduled time off leave block
         	if(StringUtils.isNotEmpty(balanceTransfer.getSstoId())) {
         		try {
 	                MaintenanceDocument md = (MaintenanceDocument)KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(documentId);
@@ -80,6 +86,12 @@ public class BalanceTransferMaintainableImpl extends
 	            }
         	}
         } else if (DocumentStatus.DISAPPROVED.equals(newDocumentStatus)) {
+        	// this is a balance transfer on a system scheduled time off leave block
+            if(StringUtils.isNotEmpty(balanceTransfer.getSstoId())) {
+        		// put two accrual service generated leave blocks back, one accrued, one usage
+        		List<LeaveBlock> lbList = buildSstoLeaveBlockList(balanceTransfer);    			
+    			TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(lbList);
+        	}
             //When transfer document is disapproved, set all leave block's request statuses to disapproved.
             for(LeaveBlock lb : balanceTransfer.getLeaveBlocks()) {
                 if(ObjectUtils.isNotNull(lb)) {
@@ -106,5 +118,45 @@ public class BalanceTransferMaintainableImpl extends
             }
         }
     }
+
+	private List<LeaveBlock> buildSstoLeaveBlockList(BalanceTransfer bt) {
+		String leaveDocId = CollectionUtils.isNotEmpty(bt.getLeaveBlocks())? bt.getLeaveBlocks().get(0).getDocumentId() : "";
+		List<LeaveBlock> lbList = new ArrayList<LeaveBlock>();
+		AccrualCategory fromAC = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(bt.getFromAccrualCategory(), bt.getEffectiveDate());
+		
+		LeaveBlock accruedLeaveBlock = new LeaveBlock();
+		accruedLeaveBlock.setAccrualCategory(bt.getFromAccrualCategory());
+		accruedLeaveBlock.setLeaveDate(bt.getEffectiveDate());
+		accruedLeaveBlock.setPrincipalId(bt.getPrincipalId());
+		accruedLeaveBlock.setEarnCode(fromAC.getEarnCode());
+		accruedLeaveBlock.setDateAndTime(TKUtils.getCurrentTimestamp());
+		accruedLeaveBlock.setAccrualGenerated(true);
+		accruedLeaveBlock.setBlockId(0L);
+		accruedLeaveBlock.setScheduleTimeOffId(bt.getSstoId());
+		accruedLeaveBlock.setLeaveAmount(bt.getTransferAmount());
+		accruedLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE);
+		accruedLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+		accruedLeaveBlock.setDocumentId(leaveDocId);
+		accruedLeaveBlock.setPrincipalIdModified(TKContext.getPrincipalId());
+		lbList.add(accruedLeaveBlock);
+		
+		LeaveBlock usageLeaveBlock = new LeaveBlock();
+		usageLeaveBlock.setAccrualCategory(bt.getFromAccrualCategory());
+		usageLeaveBlock.setLeaveDate(bt.getEffectiveDate());
+		usageLeaveBlock.setPrincipalId(bt.getPrincipalId());
+		usageLeaveBlock.setEarnCode(fromAC.getEarnCode());
+		usageLeaveBlock.setDateAndTime(TKUtils.getCurrentTimestamp());
+		usageLeaveBlock.setAccrualGenerated(true);
+		usageLeaveBlock.setBlockId(0L);
+		usageLeaveBlock.setScheduleTimeOffId(bt.getSstoId());
+		usageLeaveBlock.setLeaveAmount(bt.getTransferAmount().negate());
+		usageLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE);
+		usageLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+		usageLeaveBlock.setDocumentId(leaveDocId);
+		usageLeaveBlock.setPrincipalIdModified(TKContext.getPrincipalId());
+		lbList.add(usageLeaveBlock);
+		
+		return lbList;
+	}
 
 }

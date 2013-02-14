@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.Interval;
@@ -632,6 +633,11 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		if(ObjectUtils.isNull(balanceTransfer))
 			throw new RuntimeException("did not supply a valid BalanceTransfer object.");
 		else {
+			List<LeaveBlock> sstoLbList = TkServiceLocator.getLeaveBlockService().getSSTOLeaveBlocks(balanceTransfer.getPrincipalId(), balanceTransfer.getSstoId(), balanceTransfer.getEffectiveDate());
+			String leaveDocId = "";
+			if(CollectionUtils.isNotEmpty(sstoLbList)) {
+				leaveDocId = sstoLbList.get(0).getDocumentId();
+			}
 			List<LeaveBlock> lbList = new ArrayList<LeaveBlock>();
 			// create a new leave block with transferred amount, make sure system scheduled timeoff id is added to it
 			LeaveBlock aLeaveBlock = new LeaveBlock();
@@ -646,7 +652,8 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
 			aLeaveBlock.setBlockId(0L);
 			aLeaveBlock.setScheduleTimeOffId(balanceTransfer.getSstoId());
-
+			aLeaveBlock.setDocumentId(leaveDocId);
+			
 			lbList.add(aLeaveBlock);
 			TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(lbList);
 

@@ -20,15 +20,14 @@ import java.sql.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.Interval;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
+import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -39,7 +38,7 @@ public class BalanceTransferValidationUtils {
 	public static boolean validateTransfer(BalanceTransfer balanceTransfer) {
 		boolean isValid = true;
 		if(StringUtils.isNotEmpty(balanceTransfer.getSstoId())) {
-			return isValid;
+			return isValid && validateSstoTranser(balanceTransfer) ;
 		}
 		String principalId = balanceTransfer.getPrincipalId();
 		Date effectiveDate = balanceTransfer.getEffectiveDate();
@@ -154,5 +153,51 @@ public class BalanceTransferValidationUtils {
 		}
 		return isValid;
 	}
+	
+	public static boolean validateSstoTranser(BalanceTransfer bt) {
+		// make sure from accrual category is consistent with the ssto's
+		SystemScheduledTimeOff ssto = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(bt.getSstoId());
+		if(ssto == null) {
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory", "balanceTransfer.transferSSTO.sstoDoesNotExis", bt.getSstoId());
+			return false;
+		}
+		if(!ssto.getAccrualCategory().equals(bt.getFromAccrualCategory())) {
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory", "balanceTransfer.transferSSTO.fromACWrong", bt.getFromAccrualCategory(), ssto.getAccrualCategory());
+			return false;
+		}
+		
+		if(bt.getFromAccrualCategory().equals(bt.getToAccrualCategory())) {
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory", "balanceTransfer.transferSSTO.fromAndToACTheSame");
+			return false;
+		}
+		
+		AccrualCategory fromAC = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(bt.getFromAccrualCategory(), bt.getEffectiveDate());
+		if(fromAC == null) {
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory", "balanceTransfer.transferSSTO.acDoesNotExist", bt.getFromAccrualCategory());
+			return false;
+		}
+		AccrualCategory toAC = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(bt.getToAccrualCategory(), bt.getEffectiveDate());
+		if(toAC == null) {
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.toAccrualCategory", "balanceTransfer.transferSSTO.acDoesNotExist", bt.getToAccrualCategory());
+			return false;
+		}
+		// make sure the leave plan of from/to accrual categories are consistent with the employee's leave plan
+		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(bt.getPrincipalId(),bt.getEffectiveDate());
+		if(StringUtils.isNotEmpty(fromAC.getLeavePlan())){
+			if(!fromAC.getLeavePlan().equals(pha.getLeavePlan())) {
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory", "balanceTransfer.transferSSTO.wrongACLeavePlan", fromAC.getLeavePlan(), pha.getLeavePlan());
+				return false;
+			}
+		}
+		if(StringUtils.isNotEmpty(toAC.getLeavePlan())){
+			if(!fromAC.getLeavePlan().equals(pha.getLeavePlan())) {
+				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.toAccrualCategory", "balanceTransfer.transferSSTO.wrongACLeavePlan", toAC.getLeavePlan(), pha.getLeavePlan());
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 
 }

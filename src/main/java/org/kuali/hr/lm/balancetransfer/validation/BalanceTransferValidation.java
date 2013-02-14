@@ -255,7 +255,12 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 		if(pbo instanceof BalanceTransfer) {
 
 			BalanceTransfer balanceTransfer = (BalanceTransfer) pbo;
-
+			
+			// if this balance transfer is on a system scheduled time off, then don't do further validation
+			if(StringUtils.isNotEmpty(balanceTransfer.getSstoId())) {
+				isValid &= BalanceTransferValidationUtils.validateSstoTranser(balanceTransfer);
+				return isValid;
+			}
 			if(isValid) {
 
 				/**
