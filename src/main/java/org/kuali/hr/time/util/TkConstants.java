@@ -281,7 +281,6 @@ public class TkConstants {
         public static final String EMPLOYEE_APPROVAL = "Employee Approval";
         public static final String MISSED_PUNCH_APPROVAL = "Missed Punch Approval";
         public static final String SUPERVISOR_APPROVAL = "Supervisor Approval";
-        public static final String CARRY_OVER_RUN ="Carry Over";
     }
 
     public static final String ASSIGNMENT_KEY_DELIMITER = "_";

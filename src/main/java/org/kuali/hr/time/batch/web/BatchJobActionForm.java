@@ -38,7 +38,6 @@ public class BatchJobActionForm extends TkForm {
     	BATCH_JOB_NAMES.add(TkConstants.BATCH_JOB_NAMES.EMPLOYEE_APPROVAL);
     	BATCH_JOB_NAMES.add(TkConstants.BATCH_JOB_NAMES.SUPERVISOR_APPROVAL);
     	BATCH_JOB_NAMES.add(TkConstants.BATCH_JOB_NAMES.MISSED_PUNCH_APPROVAL);
-    	BATCH_JOB_NAMES.add(TkConstants.BATCH_JOB_NAMES.CARRY_OVER_RUN);
     }
 
     public List<String> getBatchJobNames() {

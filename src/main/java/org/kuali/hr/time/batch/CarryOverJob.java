@@ -131,9 +131,7 @@ public class CarryOverJob implements Job{
                                             fillCarryOverLeaveBlockMap(principalId, leaveCalendar, prevCalEndDate, carryOverLeaveBlockMap);
                                         }
                                     }
-
                                     servicStartCal.add(java.util.Calendar.YEAR, 1);
-
                                     getLeaveBlockService().saveLeaveBlocks(new ArrayList<LeaveBlock>(carryOverLeaveBlockMap.values()));
                                 }
                             }
@@ -220,8 +218,9 @@ public class CarryOverJob implements Job{
                                             Map<String, LeaveBlock> carryOverLeaveBlockMap){
 
  				   CalendarEntries calendarEntries = getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(leaveCalendar.getHrCalendarId(), prevCalEndDate);
+ 				   if(calendarEntries != null) {
 					try {
-						LeaveSummary leaveSummary = getLeaveSummaryService().getLeaveSummary(principalId, calendarEntries);
+						LeaveSummary leaveSummary = getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, calendarEntries.getEndPeriodDate());
 						List<LeaveSummaryRow> leaveSummaryRows = leaveSummary.getLeaveSummaryRows();
 						
 						if(leaveSummaryRows !=null && !leaveSummaryRows.isEmpty()){
@@ -259,13 +258,7 @@ public class CarryOverJob implements Job{
 								
 								// Set EarnCode 
 								if(leaveBlock.getLeaveAmount() != null && leaveBlock.getEarnCode() != null) {
-									if(!carryOverLeaveBlockMap.containsKey(lsr.getAccrualCategoryId())) {
 										carryOverLeaveBlockMap.put(lsr.getAccrualCategoryId(), leaveBlock);
-									} else {
-										LeaveBlock lb = carryOverLeaveBlockMap.get(lsr.getAccrualCategoryId());
-										leaveBlock.setLeaveAmount(lb.getLeaveAmount().add(leaveBlock.getLeaveAmount()));
-										carryOverLeaveBlockMap.put(lsr.getAccrualCategoryId(), leaveBlock);
-									}
 								}
 							}
 						}
@@ -274,6 +267,7 @@ public class CarryOverJob implements Job{
 						LOG.error("Could not run batch jobs due to missing leaveSummary "+e);
 						e.printStackTrace();
 					}
+		}
 		
 	}
 	

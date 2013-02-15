@@ -64,12 +64,6 @@ public class BatchJobAction extends TkAction {
         	TkServiceLocator.getBatchJobService().scheduleSupervisorApprovalJobs(calendarEntry, scheduleDate);
         }
         
-        if (StringUtils.equals(batchJobName, TkConstants.BATCH_JOB_NAMES.CARRY_OVER_RUN)) {
-        	// here do the coding regarding Carry Over
-        	LeavePlan leavePlanObj = TkServiceLocator.getLeavePlanService().getLeavePlan(leavePlan, new java.sql.Date(scheduleDate.getTime()));
-        	TkServiceLocator.getBatchJobService().scheduleLeaveCarryOverJobs(leavePlanObj);
-        }
-        
         return mapping.findForward("basic");
     }
 
