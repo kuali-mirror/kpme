@@ -343,7 +343,9 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
             if (StringUtils.isBlank(blockType)
                     || StringUtils.equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, blockType)
                     || StringUtils.equals(LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR, blockType)) {
-                return true;
+            	if (!TKContext.getUser().isDepartmentAdmin()) {
+            		return true;
+            	}
             } else if (LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER.equals(blockType)
                     || LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT.equals(blockType)
                     || LMConstants.LEAVE_BLOCK_TYPE.DONATION_MAINT.equals(blockType)
