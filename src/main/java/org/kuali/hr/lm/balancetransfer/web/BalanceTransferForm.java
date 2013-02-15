@@ -189,7 +189,7 @@ public class BalanceTransferForm extends KualiTransactionalDocumentFormBase {
 
 	public boolean isSstoTransfer() {
 		if(this.getBalanceTransfer() != null) {
-			if(ObjectUtils.isNotNull(this.getBalanceTransfer().getSstoId()) && StringUtils.isNotEmpty(this.getBalanceTransfer().getSstoId()))
+			if(StringUtils.isNotEmpty(this.getBalanceTransfer().getSstoId()))
 				return true;
 			else
 				return false;

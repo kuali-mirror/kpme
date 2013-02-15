@@ -39,6 +39,7 @@ import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
+import org.kuali.hr.lm.leavepayout.LeavePayout;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -78,7 +79,7 @@ public class TimesheetAction extends TkAction {
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		TimesheetActionForm taForm = (TimesheetActionForm) form;
 		String documentId = taForm.getDocumentId();
-		
+
         if (StringUtils.equals(request.getParameter("command"), "displayDocSearchView")
         		|| StringUtils.equals(request.getParameter("command"), "displayActionListView") ) {
         	documentId = (String) request.getParameter("docId");
@@ -90,7 +91,7 @@ public class TimesheetAction extends TkAction {
         // view, be it target user, backdoor or otherwise.
         String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
         Date currentDate = TKUtils.getTimelessDate(null);
-		CalendarEntries payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal,  currentDate);
+		CalendarEntries payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal, currentDate);
 
         // By handling the prev/next in the execute method, we are saving one
         // fetch/construction of a TimesheetDocument. If it were broken out into
@@ -182,7 +183,22 @@ public class TimesheetAction extends TkAction {
 	            }
         	}
             taForm.setForfeitures(losses);
-        	
+            List<BalanceTransfer> completeTransfers = TkServiceLocator.getBalanceTransferService().getBalanceTransfers(viewPrincipal, td.getCalendarEntry().getBeginPeriodDate(), td.getCalendarEntry().getEndPeriodDate());
+            for(BalanceTransfer transfer : completeTransfers) {
+            	if(StringUtils.isEmpty(transfer.getSstoId())) {
+	            	if(transfer.getTransferAmount().compareTo(BigDecimal.ZERO) == 0 && transfer.getAmountTransferred().compareTo(BigDecimal.ZERO) == 0) {
+	            		if(transfer.getForfeitedAmount() != null && transfer.getForfeitedAmount().signum() != 0)
+	            			warnings.add("A transfer action that forfeited leave occured on this calendar");
+	            	}
+	            	else
+	           			warnings.add("A transfer action occurred on this calendar");
+            	}
+            }
+            
+            List<LeavePayout> completePayouts = TkServiceLocator.getLeavePayoutService().getLeavePayouts(viewPrincipal, td.getCalendarEntry().getBeginPeriodDate(), td.getCalendarEntry().getEndPeriodDate());
+            if(!completePayouts.isEmpty())
+            	warnings.add("A payout action occurred on this calendar");
+            
         	if (principalCalendar != null) {
 	        	Calendar calendar = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(viewPrincipal, taForm.getEndPeriodDateTime(), true);
 					

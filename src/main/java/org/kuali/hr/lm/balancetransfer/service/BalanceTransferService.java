@@ -86,4 +86,6 @@ public interface BalanceTransferService {
 	 * @return
 	 */
 	public BalanceTransfer transferSsto(BalanceTransfer balanceTransfer);
+	public List<BalanceTransfer> getBalanceTransfers(String viewPrincipal,
+			Date beginPeriodDate, Date endPeriodDate);
 }

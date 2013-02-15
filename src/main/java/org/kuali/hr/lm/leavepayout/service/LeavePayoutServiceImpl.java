@@ -495,4 +495,11 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 
 		
 	}
+
+	@Override
+	public List<LeavePayout> getLeavePayouts(String viewPrincipal,
+			Date beginPeriodDate, Date endPeriodDate) {
+		// TODO Auto-generated method stub
+		return leavePayoutDao.getLeavePayouts(viewPrincipal, beginPeriodDate, endPeriodDate);
+	}
 }

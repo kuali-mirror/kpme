@@ -126,10 +126,21 @@ public class LeaveCalendarValidationUtil {
     }
 	//End KPME-1263
 
+	public static Map<String, Set<String>> validatePendingTransactions() {
+		Map<String, Set<String>> allMessages = new HashMap<String, Set<String>>();
+        Set<String> actionMessages = new HashSet<String>();
+        Set<String> infoMessages = new HashSet<String>();
+        Set<String> warningMessages = new HashSet<String>();
+        
+        
+        
+        return allMessages;
+	}
+	
     // get warning messages associated with earn codes of leave blocks
-    public static Map<String, Set> getWarningMessagesForLeaveBlocks(List<LeaveBlock> leaveBlocks) {
+    public static Map<String, Set<String>> getWarningMessagesForLeaveBlocks(List<LeaveBlock> leaveBlocks) {
 //        List<String> warningMessages = new ArrayList<String>();
-        Map<String, Set> allMessages = new HashMap<String, Set>();
+        Map<String, Set<String>> allMessages = new HashMap<String, Set<String>>();
         Set<String> actionMessages = new HashSet<String>();
         Set<String> infoMessages = new HashSet<String>();
         Set<String> warningMessages = new HashSet<String>();
@@ -143,34 +154,16 @@ public class LeaveCalendarValidationUtil {
                         warningMessages.add(eg.getWarningText());
                     }
                 }
-
                 if (StringUtils.equals(lb.getLeaveBlockType(), LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER)) {
                 	if(!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus())
                 			&& !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, lb.getRequestStatus())) {
                         actionMessages.add("A pending balance transfer exists on this calendar. It must be finalized before this calendar can be approved.");       //actionMessages
-                	}
-                	else if(StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus())) {
-                		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(lb.getPrincipalId(), lb.getLeaveDate());
-                		AccrualCategory accrualCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveDate());
-                		if(ObjectUtils.isNotNull(accrualCat)) {
-                			AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCat, TKUtils.getCurrentDate(), pha.getServiceDate());
-	                		if(ObjectUtils.isNotNull(aRule)) {
-		                		if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE) &&
-		                				lb.getLeaveAmount().signum() == -1)
-                                    infoMessages.add("A max balance action that forfeited accrued leave occurred on this calendar");           //infoMessages
-		                		else
-                                    infoMessages.add("A max balance action for transfer occurred on this calendar.");                          //infoMessages
-	                		}
-                		}
                 	}
                 }
                 if (StringUtils.equals(lb.getLeaveBlockType(), LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT)) {
                 	if(!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus())
                 			&& !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, lb.getRequestStatus())) {
                         actionMessages.add("A pending payout exists on this leave calendar. It must be finalized before this calendar can be approved.");                 //actionMessages
-                	}
-                	else if(StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED,lb.getRequestStatus())) {
-                        infoMessages.add("A max balance action for payout occurred on this calendar");                                                                 //infoMessages
                 	}
                 }
             }

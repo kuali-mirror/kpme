@@ -28,5 +28,7 @@ public interface BalanceTransferDao {
 	public List<BalanceTransfer> getAllBalanceTransfersMarkedPayoutForPrincipalId(String principalId);
 	public List<BalanceTransfer> getAllBalanceTransfersForAccrualCategoryRuleByDate(String accrualRuleId, Date asOfDate);
 	public BalanceTransfer getBalanceTransferById(String balanceTransferId);
+	public List<BalanceTransfer> getBalanceTransfers(String viewPrincipal,
+			Date beginPeriodDate, Date endPeriodDate);
 	
 }

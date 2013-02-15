@@ -46,6 +46,7 @@ import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;
+import org.kuali.hr.lm.leavepayout.LeavePayout;
 import org.kuali.hr.lm.util.LeaveBlockAggregate;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
@@ -216,7 +217,7 @@ public class LeaveCalendarAction extends TkAction {
         }
         
         // add warning messages based on earn codes of leave blocks
-        Map<String, Set> allMessages = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
+        Map<String, Set<String>> allMessages = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
 
         // add warning message for accrual categories that have exceeded max balance.
         Map<String,ArrayList<String>> transfers = new HashMap<String,ArrayList<String>>();
@@ -284,6 +285,20 @@ public class LeaveCalendarAction extends TkAction {
         	}
         }
         
+        List<BalanceTransfer> completeTransfers = TkServiceLocator.getBalanceTransferService().getBalanceTransfers(viewPrincipal, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
+        for(BalanceTransfer transfer : completeTransfers) {
+        	if(transfer.getTransferAmount().compareTo(BigDecimal.ZERO) == 0 && transfer.getAmountTransferred().compareTo(BigDecimal.ZERO) == 0) {
+        		if(transfer.getForfeitedAmount() != null && transfer.getForfeitedAmount().signum() != 0)
+        			allMessages.get("infoMessages").add("A transfer action that forfeited leave occured on this calendar");
+        	}
+        	else
+       			allMessages.get("infoMessages").add("A transfer action occurred on this calendar");
+        }
+        
+        List<LeavePayout> completePayouts = TkServiceLocator.getLeavePayoutService().getLeavePayouts(viewPrincipal, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
+        if(!completePayouts.isEmpty())
+   			allMessages.get("infoMessages").add("A payout action occurred on this calendar");
+        
         // add warning messages based on max carry over balances for each accrual category
         if(calendarEntry != null) {
 	        PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, calendarEntry.getEndPeriodDate());
@@ -303,6 +318,7 @@ public class LeaveCalendarAction extends TkAction {
         List<String> warningMessages = new ArrayList<String>();
         List<String> infoMessages = new ArrayList<String>();
         List<String> actionMessages = new ArrayList<String>();
+        
         warningMessages.addAll(allMessages.get("warningMessages"));
         infoMessages.addAll(allMessages.get("infoMessages"));
         actionMessages.addAll(allMessages.get("actionMessages"));

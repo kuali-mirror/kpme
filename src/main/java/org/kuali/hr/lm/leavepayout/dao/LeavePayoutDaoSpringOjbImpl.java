@@ -26,6 +26,7 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 
+import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leavepayout.LeavePayout;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -40,7 +41,7 @@ public class LeavePayoutDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb impleme
             String principalId) {
         Criteria crit = new Criteria();
         List<LeavePayout> leavePayouts = new ArrayList<LeavePayout>();
-        crit.addEqualToField("principalId",principalId);
+        crit.addEqualTo("principalId",principalId);
         Query query = QueryFactory.newQuery(LeavePayout.class,crit);
 
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -56,9 +57,9 @@ public class LeavePayoutDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb impleme
             String principalId, Date effectiveDate) {
         List<LeavePayout> leavePayouts = new ArrayList<LeavePayout>();
         Criteria crit = new Criteria();
-        crit.addEqualToField("principalId",principalId);
+        crit.addEqualTo("principalId",principalId);
         Criteria effDate = new Criteria();
-        effDate.addGreaterOrEqualThanField("effectiveDate", effectiveDate);
+        effDate.addGreaterOrEqualThan("effectiveDate", effectiveDate);
         crit.addAndCriteria(effDate);
         Query query = QueryFactory.newQuery(LeavePayout.class,crit);
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -74,7 +75,7 @@ public class LeavePayoutDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb impleme
             Date effectiveDate) {
         List<LeavePayout> leavePayouts = new ArrayList<LeavePayout>();
         Criteria effDate = new Criteria();
-        effDate.addGreaterOrEqualThanField("effectiveDate", effectiveDate);
+        effDate.addGreaterOrEqualThan("effectiveDate", effectiveDate);
         Query query = QueryFactory.newQuery(LeavePayout.class,effDate);
 
         Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -88,7 +89,7 @@ public class LeavePayoutDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb impleme
     @Override
     public LeavePayout getLeavePayoutById(String lmLeavePayoutId) {
         Criteria crit = new Criteria();
-        crit.addEqualToField("lmLeavePayoutId",lmLeavePayoutId);
+        crit.addEqualTo("lmLeavePayoutId",lmLeavePayoutId);
         Query query = QueryFactory.newQuery(LeavePayout.class,crit);
         return (LeavePayout) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
     }
@@ -98,7 +99,7 @@ public class LeavePayoutDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb impleme
             String principalId) {
         Criteria crit = new Criteria();
         List<LeavePayout> leavePayouts = new ArrayList<LeavePayout>();
-        crit.addEqualToField("principalId",principalId);
+        crit.addEqualTo("principalId",principalId);
         Criteria payoutCrit = new Criteria();
         payoutCrit.addNotNull("earnCode");
         crit.addAndCriteria(payoutCrit);
@@ -111,5 +112,29 @@ public class LeavePayoutDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb impleme
 
         return leavePayouts;
     }
+
+	@Override
+	public List<LeavePayout> getLeavePayouts(String viewPrincipal,
+			Date beginPeriodDate, Date endPeriodDate) {
+		// TODO Auto-generated method stub
+		List<LeavePayout> leavePayouts = new ArrayList<LeavePayout>();
+		Criteria crit = new Criteria();
+		crit.addEqualTo("principalId",viewPrincipal);
+		
+		Criteria effDate = new Criteria();
+		effDate.addGreaterOrEqualThan("effectiveDate", beginPeriodDate);
+		effDate.addLessOrEqualThan("effectiveDate", endPeriodDate);
+		
+		crit.addAndCriteria(effDate);
+		
+		Query query = QueryFactory.newQuery(LeavePayout.class,crit);
+		
+		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+		
+		if(c != null)
+			leavePayouts.addAll(c);
+		
+		return leavePayouts;
+	}
 
 }

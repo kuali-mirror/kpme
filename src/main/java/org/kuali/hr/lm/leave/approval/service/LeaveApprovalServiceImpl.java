@@ -25,9 +25,11 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
@@ -74,7 +76,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 			ApprovalLeaveSummaryRow aRow = new ApprovalLeaveSummaryRow();
             List<Note> notes = new ArrayList<Note>();
 //            List<String> warnings = new ArrayList<String>();
-            Map<String, Set> allMessages = new HashMap<String, Set>();
+            Map<String, Set<String>> allMessages = new HashMap<String, Set<String>>();
 			aRow.setName(aPerson.getPrincipalName());
 			aRow.setPrincipalId(aPerson.getPrincipalId());
 			
@@ -103,7 +105,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 			aRow.setEarnCodeLeaveHours(earnCodeLeaveHours);
             aRow.setNotes(notes);
 
-            Set msgs = allMessages.get("warningMessages");
+            Set<String> msgs = allMessages.get("warningMessages");
             List<String> warningMessages = new ArrayList<String>();
             warningMessages.addAll(msgs);
 
@@ -115,35 +117,40 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		return rowList;
 	}
 
-    private Map<String, Set> findWarnings(LeaveCalendarDocumentHeader doc, CalendarEntries calendarEntry, List<LeaveBlock> leaveBlocks) {
+    private Map<String, Set<String>> findWarnings(LeaveCalendarDocumentHeader doc, CalendarEntries calendarEntry, List<LeaveBlock> leaveBlocks) {
 //        List<String> warnings = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
-        Map<String, Set> allMessages= LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
+        Map<String, Set<String>> allMessages= LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
         //get LeaveSummary and check for warnings
         if (doc != null) {
-            LeaveSummary leaveSummary;
+            Map<String, ArrayList<String>> eligibilities;
             try {
-                leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(doc.getPrincipalId(), calendarEntry);
+        	 eligibilities = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(calendarEntry, doc.getPrincipalId());
             } catch (Exception e) {
-                leaveSummary = null;
-            }
-            if (leaveSummary != null) {
-                for (LeaveSummaryRow lsr : leaveSummary.getLeaveSummaryRows()) {
-                    AccrualCategory ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(lsr.getAccrualCategoryId());
-                    AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lsr.getAccrualCategoryRuleId());
-                    if (rule != null) {
-                        if (rule.getMaxBalanceActionFrequency().equals(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)
-                                && rule.getMaxBalFlag().equals("Y")
-                                && rule.getMaxBalance().compareTo(lsr.getLeaveBalance()) == 0) {
-                            if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.TRANSFER)
-                                    || rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.PAYOUT)) {
-                                //Todo: add link to balance transfer
-                                allMessages.get("warningMessages").add("Accrual Category '" + lsr.getAccrualCategory() + "' is at the maximum balance, transfer or payout must be done.");   //warningMessages
-                            } else if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
-                                //Todo: compute and display amount of time lost.
-                                allMessages.get("warningMessages").add("Accrual Category '" + lsr.getAccrualCategory() + "' is at the maximum balance, additional accrual will be lost.");      //warningMessages
-                            }
-                        }
-                    }
+            	eligibilities = null;
+            }           
+            if (eligibilities != null) {
+                for (Entry<String,ArrayList<String>> entry : eligibilities.entrySet()) {
+                	for(String accrualRuleId : entry.getValue()) {
+	                    AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+	                    if (rule != null) {
+	                    	String frequency = "";
+	                    	if(StringUtils.equals(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND,"OD"))
+	                    		frequency = "on-demand";
+                    		else
+                    			frequency = "on leave approval";
+	                    	
+	                    	AccrualCategory accrualCategory = rule.getAccrualCategoryObj();
+	                        if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.TRANSFER)) {
+	                            //Todo: add link to balance transfer
+	                            allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory + "' is over max balance. Transfer is set to occur " + frequency);   //warningMessages
+	                        } else if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
+	                            //Todo: compute and display amount of time lost.
+	                            allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory + "' is over max balance. Excess leave will be lost " + frequency);      //warningMessages
+	                        } else if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.PAYOUT)){
+	                        	allMessages.get("warningMessages").add("Accrual category '" + accrualCategory + "' is over max balance. Payout is set to occur " + frequency);
+	                        }
+	                    }
+                	}
                 }
             }
         }

@@ -309,7 +309,7 @@ public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 		lbC.setLeaveDate(TKUtils.getCurrentDate());
 		leaveBlocs.add(lbC);
 
-		Map<String, Set> allMessages = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocs);
+		Map<String, Set<String>> allMessages = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocs);
         int numberOfMessages = 0;
         for (Set<String> msgs : allMessages.values()){
             numberOfMessages += msgs.size();

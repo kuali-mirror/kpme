@@ -661,4 +661,11 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			return balanceTransfer;
 		}
 	}
+
+	@Override
+	public List<BalanceTransfer> getBalanceTransfers(String viewPrincipal,
+			Date beginPeriodDate, Date endPeriodDate) {
+		// TODO Auto-generated method stub
+		return balanceTransferDao.getBalanceTransfers(viewPrincipal, beginPeriodDate, endPeriodDate);
+	}
 }
