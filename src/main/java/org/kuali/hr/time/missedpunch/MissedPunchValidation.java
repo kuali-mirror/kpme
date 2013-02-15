@@ -48,15 +48,17 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         
         if (DocumentStatus.INITIATED.equals(DocumentStatus.fromCode(documentStatus.getCode()))
         		|| DocumentStatus.SAVED.equals(DocumentStatus.fromCode(documentStatus.getCode()))) {
-	        valid &= !validateTimeSheet(missedPunchDocument);
+	        valid &= validateTimeSheet(missedPunchDocument);
 	        
-	        ClockLog lastClock = TkServiceLocator.getClockLogService().getLastClockLog(missedPunchDocument.getPrincipalId());
-	        try {
-	        	valid &= validateClockAction(missedPunchDocument, lastClock);
-	        	valid &= validateClockTime(missedPunchDocument, lastClock);
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
+	        if (valid) {
+	        	ClockLog lastClock = TkServiceLocator.getClockLogService().getLastClockLog(missedPunchDocument.getPrincipalId());
+		        try {
+		        	valid &= validateClockAction(missedPunchDocument, lastClock);
+		        	valid &= validateClockTime(missedPunchDocument, lastClock);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+	        }
         }
 	    
         return valid;
