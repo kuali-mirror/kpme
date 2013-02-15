@@ -63,7 +63,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
     
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ActionForward forward = super.execute(mapping, form, request, response);
+        ActionForward forward = super.execute(mapping, form, request, response);
 		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
 		
 		Date currentDate = TKUtils.getCurrentDate();
