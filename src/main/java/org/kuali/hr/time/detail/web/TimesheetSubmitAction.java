@@ -110,9 +110,13 @@ public class TimesheetSubmitAction extends TkAction {
                 TkServiceLocator.getTimesheetService().routeTimesheet(TKContext.getTargetPrincipalId(), document);
             }
         } else if (StringUtils.equals(tsaf.getAction(), TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
-            if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.ENROUTE.getCode())) {
-                TkServiceLocator.getTimesheetService().approveTimesheet(TKContext.getPrincipalId(), document);
-            }
+        	if(TkServiceLocator.getTimesheetService().isReadyToApprove(document)) {
+	            if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.ENROUTE.getCode())) {
+	                TkServiceLocator.getTimesheetService().approveTimesheet(TKContext.getPrincipalId(), document);
+	            }
+        	} else {
+        		//ERROR!!!
+        	}
         } else if (StringUtils.equals(tsaf.getAction(), TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
             if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.ENROUTE.getCode())) {
                 TkServiceLocator.getTimesheetService().disapproveTimesheet(TKContext.getPrincipalId(), document);
@@ -137,9 +141,13 @@ public class TimesheetSubmitAction extends TkAction {
                 TkServiceLocator.getTimesheetService().routeTimesheet(TKContext.getTargetPrincipalId(), document);
             }
         } else if (StringUtils.equals(tsaf.getAction(), TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
-            if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.ENROUTE.getCode())) {
-                TkServiceLocator.getTimesheetService().approveTimesheet(TKContext.getPrincipalId(), document);
-            }
+        	if(TkServiceLocator.getTimesheetService().isReadyToApprove(document)) {
+	            if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.ENROUTE.getCode())) {
+	                TkServiceLocator.getTimesheetService().approveTimesheet(TKContext.getPrincipalId(), document);
+	            }
+        	} else {
+        		//ERROR!!!
+        	}
         } else if (StringUtils.equals(tsaf.getAction(), TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
             if (document.getDocumentHeader().getDocumentStatus().equals(DocumentStatus.ENROUTE.getCode())) {
                 TkServiceLocator.getTimesheetService().disapproveTimesheet(TKContext.getPrincipalId(), document);

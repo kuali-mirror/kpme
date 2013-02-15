@@ -298,4 +298,26 @@ public class TimesheetServiceImpl implements TimesheetService {
         TkServiceLocator.getTimeBlockService().resetTimeHourDetail(timeBlocks);
     }
 
+	@Override
+	public boolean isReadyToApprove(TimesheetDocument document) {
+        if (document == null) {
+            return false;
+        }
+        List<LeaveBlock> balanceTransferLeaveBlocks =
+                TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(document.getPrincipalId(),
+                                        document.getCalendarEntry().getBeginPeriodDate(),
+                                        document.getCalendarEntry().getEndPeriodDate(),
+                                        LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
+        if (CollectionUtils.isEmpty(balanceTransferLeaveBlocks))   {
+            return true;
+        }
+        for(LeaveBlock lb : balanceTransferLeaveBlocks) {
+            if (!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus())
+                    && !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, lb.getRequestStatus())) {
+                return false;
+            }
+        }
+        return true;
+	}
+
 }

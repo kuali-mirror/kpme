@@ -185,14 +185,12 @@ public class TimesheetAction extends TkAction {
             taForm.setForfeitures(losses);
             List<BalanceTransfer> completeTransfers = TkServiceLocator.getBalanceTransferService().getBalanceTransfers(viewPrincipal, td.getCalendarEntry().getBeginPeriodDate(), td.getCalendarEntry().getEndPeriodDate());
             for(BalanceTransfer transfer : completeTransfers) {
-            	if(StringUtils.isEmpty(transfer.getSstoId())) {
-	            	if(transfer.getTransferAmount().compareTo(BigDecimal.ZERO) == 0 && transfer.getAmountTransferred().compareTo(BigDecimal.ZERO) == 0) {
-	            		if(transfer.getForfeitedAmount() != null && transfer.getForfeitedAmount().signum() != 0)
-	            			warnings.add("A transfer action that forfeited leave occured on this calendar");
-	            	}
-	            	else
-	           			warnings.add("A transfer action occurred on this calendar");
+            	if(transfer.getTransferAmount().compareTo(BigDecimal.ZERO) == 0 && transfer.getAmountTransferred().compareTo(BigDecimal.ZERO) == 0) {
+            		if(transfer.getForfeitedAmount() != null && transfer.getForfeitedAmount().signum() != 0)
+            			warnings.add("A transfer action that forfeited leave occured on this calendar");
             	}
+            	else
+           			warnings.add("A transfer action occurred on this calendar");
             }
             
             List<LeavePayout> completePayouts = TkServiceLocator.getLeavePayoutService().getLeavePayouts(viewPrincipal, td.getCalendarEntry().getBeginPeriodDate(), td.getCalendarEntry().getEndPeriodDate());
