@@ -119,8 +119,8 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         	return false;
         }
         
-        if ( ((!StringUtils.equals(lastClock.getClockAction(), TkConstants.CLOCK_OUT) && actionDateTime.isAfter(boundaryMax)) 
-        		|| newDateTime.isBefore(clockLogDateTime)) && StringUtils.equals(mp.getDocumentStatus(),"R")) {
+        if ((!StringUtils.equals(lastClock.getClockAction(), TkConstants.CLOCK_OUT) && actionDateTime.isAfter(boundaryMax)) 
+        		|| newDateTime.isBefore(clockLogDateTime)) {
         	GlobalVariables.getMessageMap().putError("document.actionTime", "clock.mp.invalid.datetime");
             valid = false;
         }
