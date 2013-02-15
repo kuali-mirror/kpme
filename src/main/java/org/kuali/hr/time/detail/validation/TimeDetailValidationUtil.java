@@ -67,9 +67,19 @@ public class TimeDetailValidationUtil {
         errors.addAll(TimeDetailValidationUtil.validateDates(startDateS, endDateS));
         errors.addAll(TimeDetailValidationUtil.validateTimes(startTimeS, endTimeS));
         if (errors.size() > 0) return errors;
+
+        Long startTime;
+        Long endTime;
+        //if startTime and end time are equal, lets ignore timezone
+        if (startTimeS.equals(endTimeS)
+                && startDateS.equals(endDateS)) {
+            startTime = TKUtils.convertDateStringToTimestampWithoutZone(startDateS, startTimeS).getTime();
+            endTime = TKUtils.convertDateStringToTimestampWithoutZone(endDateS, endTimeS).getTime();
+        } else {
         // These methods use the UserTimeZone.
-        Long startTime = TKUtils.convertDateStringToTimestamp(startDateS, startTimeS).getTime();
-        Long endTime = TKUtils.convertDateStringToTimestamp(endDateS, endTimeS).getTime();
+            startTime = TKUtils.convertDateStringToTimestamp(startDateS, startTimeS).getTime();
+            endTime = TKUtils.convertDateStringToTimestamp(endDateS, endTimeS).getTime();
+        }
 
         errors.addAll(validateInterval(payCalEntry, startTime, endTime));
         if (errors.size() > 0) return errors;
@@ -77,6 +87,7 @@ public class TimeDetailValidationUtil {
         EarnCode earnCode = new EarnCode();
         if (StringUtils.isNotBlank(selectedEarnCode)) {
             earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, asOfDate);
+
             if (earnCode != null && earnCode.getRecordMethod()!= null && earnCode.getRecordMethod().equalsIgnoreCase(TkConstants.EARN_CODE_TIME)) {
                 if (startTimeS == null) errors.add("The start time is blank.");
                 if (endTimeS == null) errors.add("The end time is blank.");
