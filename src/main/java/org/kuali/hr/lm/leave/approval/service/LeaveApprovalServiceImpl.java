@@ -35,6 +35,7 @@ import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
+import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -100,6 +101,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 			
 			List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, payBeginDate, payEndDate);
 			allMessages = findWarnings(aDoc, payCalendarEntries, leaveBlocks);
+			allMessages.putAll(findPendingActions(aDoc, payCalendarEntries));
             aRow.setLeaveBlockList(leaveBlocks);
 			Map<Date, Map<String, BigDecimal>> earnCodeLeaveHours = getEarnCodeLeaveHours(leaveBlocks, leaveSummaryDates);
 			aRow.setEarnCodeLeaveHours(earnCodeLeaveHours);
@@ -108,6 +110,8 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
             Set<String> msgs = allMessages.get("warningMessages");
             List<String> warningMessages = new ArrayList<String>();
             warningMessages.addAll(msgs);
+            warningMessages.addAll(allMessages.get("infoMessages"));
+            warningMessages.addAll(allMessages.get("actionMessages"));
 
             aRow.setWarnings(warningMessages); //these are only warning messages.
 			
@@ -117,7 +121,47 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		return rowList;
 	}
 
-    private Map<String, Set<String>> findWarnings(LeaveCalendarDocumentHeader doc, CalendarEntries calendarEntry, List<LeaveBlock> leaveBlocks) {
+    private Map<String,Set<String>> findPendingActions(LeaveCalendarDocumentHeader aDoc,
+			CalendarEntries payCalendarEntries) {
+		Map<String,Set<String>> allMessages = new HashMap<String,Set<String>>();
+		
+		allMessages.put("actionMessages", new HashSet<String>());
+		allMessages.put("infoMessages", new HashSet<String>());
+		allMessages.put("warningMessages", new HashSet<String>());
+		if(aDoc != null) {
+			List<BalanceTransfer> transfers = TkServiceLocator.getBalanceTransferService().getBalanceTransfers(aDoc.getPrincipalId(), payCalendarEntries.getBeginPeriodDate(), payCalendarEntries.getEndPeriodDate());
+	        for(BalanceTransfer transfer : transfers) {
+	        	if(StringUtils.equals(transfer.getStatus(), TkConstants.ROUTE_STATUS.ENROUTE)) {
+	        		allMessages.get("actionMessages").add("A pending balance transfer exists on this calendar. It must be finalized before this calendar can be approved");
+	        	}
+	    		if(StringUtils.equals(transfer.getStatus() ,TkConstants.ROUTE_STATUS.FINAL)) {
+	    			if(StringUtils.isEmpty(transfer.getSstoId())) {
+		            	if(transfer.getTransferAmount().compareTo(BigDecimal.ZERO) == 0 && transfer.getAmountTransferred().compareTo(BigDecimal.ZERO) == 0) {
+		            		if(transfer.getForfeitedAmount() != null && transfer.getForfeitedAmount().signum() != 0)
+		            			allMessages.get("infoMessages").add("A transfer action that forfeited leave occured on this calendar");
+		            	}
+		            	else
+		           			allMessages.get("infoMessages").add("A transfer action occurred on this calendar");
+	    			}
+	    			else
+	        			allMessages.get("infoMessages").add("System scheduled time off was transferred on this calendar");
+	    		}
+	    		if(StringUtils.equals(transfer.getStatus() ,TkConstants.ROUTE_STATUS.DISAPPROVED)) {
+	    			if(StringUtils.isEmpty(transfer.getSstoId())) {
+	    	        	if(transfer.getTransferAmount().compareTo(BigDecimal.ZERO) == 0 && transfer.getAmountTransferred().compareTo(BigDecimal.ZERO) == 0) {
+	    	        		if(transfer.getForfeitedAmount() != null && transfer.getForfeitedAmount().signum() != 0)
+	    	        			allMessages.get("infoMessages").add("A transfer action that forfeited leave occured on this calendar");
+	    	        	}
+	    	        	else
+	    	       			allMessages.get("infoMessages").add("A transfer action occurred on this calendar");
+	    			}
+	    		}
+	        }
+		}
+		return allMessages;
+	}
+
+	private Map<String, Set<String>> findWarnings(LeaveCalendarDocumentHeader doc, CalendarEntries calendarEntry, List<LeaveBlock> leaveBlocks) {
 //        List<String> warnings = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
         Map<String, Set<String>> allMessages= LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
         //get LeaveSummary and check for warnings

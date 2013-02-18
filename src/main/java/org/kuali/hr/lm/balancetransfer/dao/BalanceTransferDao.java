@@ -30,5 +30,6 @@ public interface BalanceTransferDao {
 	public BalanceTransfer getBalanceTransferById(String balanceTransferId);
 	public List<BalanceTransfer> getBalanceTransfers(String viewPrincipal,
 			Date beginPeriodDate, Date endPeriodDate);
+	public void saveOrUpdate(BalanceTransfer balanceTransfer);
 	
 }

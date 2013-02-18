@@ -25,6 +25,7 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
+import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecalendar.dao.LeaveCalendarDao;
@@ -260,22 +261,21 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         if (leaveCalendarDocument == null) {
             return false;
         }
-        List<LeaveBlock> balanceTransferLeaveBlocks =
-                TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(leaveCalendarDocument.getPrincipalId(),
-                                        leaveCalendarDocument.getCalendarEntry().getBeginPeriodDate(),
-                                        leaveCalendarDocument.getCalendarEntry().getEndPeriodDate(),
-                                        LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
-        if (CollectionUtils.isEmpty(balanceTransferLeaveBlocks))   {
+        List<BalanceTransfer> balanceTransfers = TkServiceLocator.getBalanceTransferService().getBalanceTransfers(leaveCalendarDocument.getPrincipalId(),
+                leaveCalendarDocument.getCalendarEntry().getBeginPeriodDate(),
+                leaveCalendarDocument.getCalendarEntry().getEndPeriodDate());
+        if (CollectionUtils.isEmpty(balanceTransfers))   {
             return true;
         }
-        for(LeaveBlock lb : balanceTransferLeaveBlocks) {
-            if (!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus())
-                    && !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, lb.getRequestStatus())) {
+        for(BalanceTransfer balanceTransfer : balanceTransfers) {
+        	if(StringUtils.equals(TkConstants.DOCUMENT_STATUS.get(balanceTransfer.getStatus()), TkConstants.ROUTE_STATUS.ENROUTE))
+        		return false;
+            if (!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, balanceTransfer.getStatus())
+                    && !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, balanceTransfer.getStatus())) {
                 return false;
             }
         }
         return true;
-
     }
 
     protected void leaveCalendarDocumentAction(String action, String principalId, LeaveCalendarDocument leaveCalendarDocument) {

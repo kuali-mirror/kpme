@@ -593,7 +593,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 	public void submitToWorkflow(BalanceTransfer balanceTransfer)
 			throws WorkflowException {
 		
-		balanceTransfer.setStatus(TkConstants.ROUTE_STATUS.ENROUTE);
+		//balanceTransfer.setStatus(TkConstants.ROUTE_STATUS.ENROUTE);
         EntityNamePrincipalName principalName = null;
         if (balanceTransfer.getPrincipalId() != null) {
             principalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(balanceTransfer.getPrincipalId());
@@ -619,11 +619,14 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		btObj.setTransferAmount(balanceTransfer.getTransferAmount());
 		btObj.setAmountTransferred(balanceTransfer.getAmountTransferred());
 		btObj.setSstoId(balanceTransfer.getSstoId());
+		btObj.setBalanceTransferId(document.getDocumentHeader().getWorkflowDocument().getDocumentId());
 		document.getNewMaintainableObject().setDataObject(btObj);
 		KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
 		document.getDocumentHeader().getWorkflowDocument().saveDocument("");
 
 		document.getDocumentHeader().getWorkflowDocument().route("");
+		btObj.setStatus(document.getDocumentHeader().getWorkflowDocument().getStatus().getCode());
+        TkServiceLocator.getBalanceTransferService().saveOrUpdate(btObj);
 
 		
 	}
@@ -667,5 +670,11 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			Date beginPeriodDate, Date endPeriodDate) {
 		// TODO Auto-generated method stub
 		return balanceTransferDao.getBalanceTransfers(viewPrincipal, beginPeriodDate, endPeriodDate);
+	}
+
+	@Override
+	public void saveOrUpdate(BalanceTransfer balanceTransfer) {
+		// TODO Auto-generated method stub
+		balanceTransferDao.saveOrUpdate(balanceTransfer);
 	}
 }

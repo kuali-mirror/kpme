@@ -284,15 +284,34 @@ public class LeaveCalendarAction extends TkAction {
     			}
         	}
         }
-        
+
         List<BalanceTransfer> completeTransfers = TkServiceLocator.getBalanceTransferService().getBalanceTransfers(viewPrincipal, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
         for(BalanceTransfer transfer : completeTransfers) {
-        	if(transfer.getTransferAmount().compareTo(BigDecimal.ZERO) == 0 && transfer.getAmountTransferred().compareTo(BigDecimal.ZERO) == 0) {
-        		if(transfer.getForfeitedAmount() != null && transfer.getForfeitedAmount().signum() != 0)
-        			allMessages.get("infoMessages").add("A transfer action that forfeited leave occured on this calendar");
+        	if(StringUtils.equals(transfer.getStatus(), TkConstants.ROUTE_STATUS.ENROUTE)) {
+        		allMessages.get("actionMessages").add("A pending balance transfer exists on this calendar. It must be finalized before this calendar can be approved");
         	}
-        	else
-       			allMessages.get("infoMessages").add("A transfer action occurred on this calendar");
+    		if(StringUtils.equals(transfer.getStatus() ,TkConstants.ROUTE_STATUS.FINAL)) {
+    			if(StringUtils.isEmpty(transfer.getSstoId())) {
+	            	if(transfer.getTransferAmount().compareTo(BigDecimal.ZERO) == 0 && transfer.getAmountTransferred().compareTo(BigDecimal.ZERO) == 0) {
+	            		if(transfer.getForfeitedAmount() != null && transfer.getForfeitedAmount().signum() != 0)
+	            			allMessages.get("infoMessages").add("A transfer action that forfeited leave occured on this calendar");
+	            	}
+	            	else
+	           			allMessages.get("infoMessages").add("A transfer action occurred on this calendar");
+    			}
+    			else
+        			allMessages.get("infoMessages").add("System scheduled time off was transferred on this calendar");
+    		}
+    		if(StringUtils.equals(transfer.getStatus() ,TkConstants.ROUTE_STATUS.DISAPPROVED)) {
+    			if(StringUtils.isEmpty(transfer.getSstoId())) {
+    	        	if(transfer.getTransferAmount().compareTo(BigDecimal.ZERO) == 0 && transfer.getAmountTransferred().compareTo(BigDecimal.ZERO) == 0) {
+    	        		if(transfer.getForfeitedAmount() != null && transfer.getForfeitedAmount().signum() != 0)
+    	        			allMessages.get("infoMessages").add("A transfer action that forfeited leave occured on this calendar");
+    	        	}
+    	        	else
+    	       			allMessages.get("infoMessages").add("A transfer action occurred on this calendar");
+    			}
+    		}
         }
         
         List<LeavePayout> completePayouts = TkServiceLocator.getLeavePayoutService().getLeavePayouts(viewPrincipal, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());

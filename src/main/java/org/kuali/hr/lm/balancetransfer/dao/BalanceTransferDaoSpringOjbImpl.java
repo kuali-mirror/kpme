@@ -27,6 +27,7 @@ import org.apache.ojb.broker.query.QueryFactory;
 
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
+import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -153,4 +154,9 @@ public class BalanceTransferDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
 		
 		return balanceTransfers;
 	}
+
+    @Override
+    public void saveOrUpdate(BalanceTransfer balanceTransfer) {
+        this.getPersistenceBrokerTemplate().store(balanceTransfer);
+    }
 }

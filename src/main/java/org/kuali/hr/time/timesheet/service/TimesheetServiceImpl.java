@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
+import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.assignment.Assignment;
@@ -303,17 +304,17 @@ public class TimesheetServiceImpl implements TimesheetService {
         if (document == null) {
             return false;
         }
-        List<LeaveBlock> balanceTransferLeaveBlocks =
-                TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(document.getPrincipalId(),
-                                        document.getCalendarEntry().getBeginPeriodDate(),
-                                        document.getCalendarEntry().getEndPeriodDate(),
-                                        LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
-        if (CollectionUtils.isEmpty(balanceTransferLeaveBlocks))   {
+        List<BalanceTransfer> balanceTransfers = TkServiceLocator.getBalanceTransferService().getBalanceTransfers(document.getPrincipalId(),
+                document.getCalendarEntry().getBeginPeriodDate(),
+                document.getCalendarEntry().getEndPeriodDate());
+        if (CollectionUtils.isEmpty(balanceTransfers))   {
             return true;
         }
-        for(LeaveBlock lb : balanceTransferLeaveBlocks) {
-            if (!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus())
-                    && !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, lb.getRequestStatus())) {
+        for(BalanceTransfer balanceTransfer : balanceTransfers) {
+        	if(StringUtils.equals(TkConstants.DOCUMENT_STATUS.get(balanceTransfer.getStatus()), TkConstants.ROUTE_STATUS.ENROUTE))
+        		return false;
+            if (!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, balanceTransfer.getStatus())
+                    && !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, balanceTransfer.getStatus())) {
                 return false;
             }
         }

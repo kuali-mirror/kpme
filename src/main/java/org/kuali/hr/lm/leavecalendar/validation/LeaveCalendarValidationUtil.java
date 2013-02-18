@@ -128,11 +128,13 @@ public class LeaveCalendarValidationUtil {
 
 	public static Map<String, Set<String>> validatePendingTransactions() {
 		Map<String, Set<String>> allMessages = new HashMap<String, Set<String>>();
+		
         Set<String> actionMessages = new HashSet<String>();
         Set<String> infoMessages = new HashSet<String>();
         Set<String> warningMessages = new HashSet<String>();
         
-        
+        //TODO: Move pending transfer / payout document checks in LeaveCalendarAction, TimesheetAction and LeaveApprovalAction
+        // execute methods to this, or another common location.
         
         return allMessages;
 	}
@@ -141,6 +143,7 @@ public class LeaveCalendarValidationUtil {
     public static Map<String, Set<String>> getWarningMessagesForLeaveBlocks(List<LeaveBlock> leaveBlocks) {
 //        List<String> warningMessages = new ArrayList<String>();
         Map<String, Set<String>> allMessages = new HashMap<String, Set<String>>();
+        
         Set<String> actionMessages = new HashSet<String>();
         Set<String> infoMessages = new HashSet<String>();
         Set<String> warningMessages = new HashSet<String>();
@@ -154,16 +157,10 @@ public class LeaveCalendarValidationUtil {
                         warningMessages.add(eg.getWarningText());
                     }
                 }
-                if (StringUtils.equals(lb.getLeaveBlockType(), LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER)) {
-                	if(!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus())
-                			&& !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, lb.getRequestStatus())) {
-                        actionMessages.add("A pending balance transfer exists on this calendar. It must be finalized before this calendar can be approved.");       //actionMessages
-                	}
-                }
                 if (StringUtils.equals(lb.getLeaveBlockType(), LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT)) {
                 	if(!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus())
                 			&& !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, lb.getRequestStatus())) {
-                        actionMessages.add("A pending payout exists on this leave calendar. It must be finalized before this calendar can be approved.");                 //actionMessages
+                        actionMessages.add("A pending payout exists on this leave calendar. It must be finalized before this calendar can be approved.");   //actionMessages
                 	}
                 }
             }
