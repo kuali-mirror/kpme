@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    
+    <changeSet id="1" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>KPME-2184: Updating Quartz tables to 1.8.4 standards</comment>
+        <dropTable tableName="QRTZ_CALENDARS" />
+        <dropTable tableName="QRTZ_FIRED_TRIGGERS" />
+		<dropTable tableName="QRTZ_TRIGGER_LISTENERS" />
+		<dropTable tableName="QRTZ_BLOB_TRIGGERS" />
+		<dropTable tableName="QRTZ_CRON_TRIGGERS" />
+		<dropTable tableName="QRTZ_SIMPLE_TRIGGERS" />
+		<dropTable tableName="QRTZ_TRIGGERS" />
+		<dropTable tableName="QRTZ_JOB_LISTENERS" />
+		<dropTable tableName="QRTZ_JOB_DETAILS" />
+		<dropTable tableName="QRTZ_PAUSED_TRIGGER_GRPS" />
+		<dropTable tableName="QRTZ_SCHEDULER_STATE" />
+    </changeSet>
+
+    <changeSet id="2" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>KPME-2184: Updating Quartz tables to 1.8.4 standards</comment>
+        <createTable tableName="QRTZ_JOB_DETAILS">
+            <column name="JOB_NAME" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="JOB_GROUP" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="DESCRIPTION" type="VARCHAR(250)" />
+            <column name="JOB_CLASS_NAME" type="VARCHAR(250)">
+                <constraints nullable="false" />
+            </column>
+            <column name="IS_DURABLE" type="VARCHAR(1)">
+                <constraints nullable="false" />
+            </column>
+            <column name="IS_VOLATILE" type="VARCHAR(1)">
+                <constraints nullable="false" />
+            </column>
+            <column name="IS_STATEFUL" type="VARCHAR(1)">
+                <constraints nullable="false" />
+            </column>
+            <column name="REQUESTS_RECOVERY" type="VARCHAR(1)">
+                <constraints nullable="false" />
+            </column>
+            <column name="JOB_DATA" type="LONGBLOB" />
+        </createTable>
+
+        <modifySql dbms="mysql">
+            <append value=" ENGINE INNODB" />
+        </modifySql>
+    </changeSet>
+    
+    <changeSet id="3" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>KPME-2184: Updating Quartz tables to 1.8.4 standards</comment>
+        <createTable tableName="QRTZ_JOB_LISTENERS">
+            <column name="JOB_NAME" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="JOB_GROUP" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="JOB_LISTENER" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+        </createTable>
+        
+        <modifySql dbms="mysql">
+            <append value=" ENGINE INNODB" />
+        </modifySql>
+    </changeSet>
+
+    <changeSet id="4" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>KPME-2184: Updating Quartz tables to 1.8.4 standards</comment>
+        <createTable tableName="QRTZ_TRIGGERS">
+            <column name="TRIGGER_NAME" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="TRIGGER_GROUP" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="JOB_NAME" type="VARCHAR(200)">
+                <constraints nullable="false" />
+            </column>
+            <column name="JOB_GROUP" type="VARCHAR(200)">
+                <constraints nullable="false" />
+            </column>
+            <column name="IS_VOLATILE" type="VARCHAR(1)">
+                <constraints nullable="false" />
+            </column>
+            <column name="DESCRIPTION" type="VARCHAR(250)" />
+            <column name="NEXT_FIRE_TIME" type="DECIMAL(13,0)" />
+            <column name="PREV_FIRE_TIME" type="DECIMAL(13,0)" />
+            <column name="PRIORITY" type="DECIMAL(13,0)" />
+            <column name="TRIGGER_STATE" type="VARCHAR(16)">
+                <constraints nullable="false" />
+            </column>
+            <column name="TRIGGER_TYPE" type="VARCHAR(8)">
+                <constraints nullable="false" />
+            </column>
+            <column name="START_TIME" type="DECIMAL(13,0)">
+                <constraints nullable="false" />
+            </column>
+            <column name="END_TIME" type="DECIMAL(13,0)" />
+            <column name="CALENDAR_NAME" type="VARCHAR(200)" />
+            <column name="MISFIRE_INSTR" type="DECIMAL(2,0)" />
+            <column name="JOB_DATA" type="LONGBLOB" />
+        </createTable>
+
+        <modifySql dbms="mysql">
+            <append value=" ENGINE INNODB" />
+        </modifySql>
+    </changeSet>
+    
+    <changeSet id="5" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>KPME-2184: Updating Quartz tables to 1.8.4 standards</comment>
+        <createTable tableName="QRTZ_SIMPLE_TRIGGERS">
+            <column name="TRIGGER_NAME" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="TRIGGER_GROUP" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="REPEAT_COUNT" type="DECIMAL(7,0)">
+                <constraints nullable="false" />
+            </column>
+            <column name="REPEAT_INTERVAL" type="DECIMAL(12,0)">
+                <constraints nullable="false" />
+            </column>
+            <column name="TIMES_TRIGGERED" type="DECIMAL(10,0)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <modifySql dbms="mysql">
+            <append value=" ENGINE INNODB" />
+        </modifySql>
+    </changeSet>
+    
+    <changeSet id="6" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>KPME-2184: Updating Quartz tables to 1.8.4 standards</comment>
+        <createTable tableName="QRTZ_CRON_TRIGGERS">
+            <column name="TRIGGER_NAME" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="TRIGGER_GROUP" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="CRON_EXPRESSION" type="VARCHAR(120)">
+                <constraints nullable="false" />
+            </column>
+            <column name="TIME_ZONE_ID" type="VARCHAR(80)" />
+        </createTable>
+
+        <modifySql dbms="mysql">
+            <append value=" ENGINE INNODB" />
+        </modifySql>
+    </changeSet>
+
+    <changeSet id="7" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>KPME-2184: Updating Quartz tables to 1.8.4 standards</comment>
+        <createTable tableName="QRTZ_BLOB_TRIGGERS">
+            <column name="TRIGGER_NAME" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="TRIGGER_GROUP" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="BLOB_DATA" type="LONGBLOB" />
+        </createTable>
+
+        <modifySql dbms="mysql">
+            <append value=" ENGINE INNODB" />
+        </modifySql>
+    </changeSet>
+    
+    <changeSet id="8" author="kbtaylor" context="kpme-client-bootstrap">
+        <createTable tableName="QRTZ_TRIGGER_LISTENERS">
+            <column name="TRIGGER_NAME" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="TRIGGER_GROUP" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="TRIGGER_LISTENER" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+        </createTable>
+
+        <modifySql dbms="mysql">
+            <append value=" ENGINE INNODB" />
+        </modifySql>
+    </changeSet>
+        
+    <changeSet id="9" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>KPME-2184: Updating Quartz tables to 1.8.4 standards</comment>
+        <createTable tableName="QRTZ_CALENDARS">
+            <column name="CALENDAR_NAME" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="CALENDAR" type="LONGBLOB">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        
+        <modifySql dbms="mysql">
+            <append value=" ENGINE INNODB" />
+        </modifySql>
+    </changeSet>
+    
+    <changeSet id="10" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>KPME-2184: Updating Quartz tables to 1.8.4 standards</comment>
+        <createTable tableName="QRTZ_PAUSED_TRIGGER_GRPS">
+            <column name="TRIGGER_GROUP" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+        </createTable>
+        
+        <modifySql dbms="mysql">
+            <append value=" ENGINE INNODB" />
+        </modifySql>
+    </changeSet>
+    
+    <changeSet id="11" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>KPME-2184: Updating Quartz tables to 1.8.4 standards</comment>
+        <createTable tableName="QRTZ_FIRED_TRIGGERS">
+            <column name="ENTRY_ID" type="VARCHAR(95)" defaultValue="">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="TRIGGER_NAME" type="VARCHAR(200)">
+                <constraints nullable="false" />
+            </column>
+            <column name="TRIGGER_GROUP" type="VARCHAR(200)">
+                <constraints nullable="false" />
+            </column>
+            <column name="IS_VOLATILE" type="VARCHAR(1)">
+                <constraints nullable="false" />
+            </column>
+            <column name="INSTANCE_NAME" type="VARCHAR(200)">
+                <constraints nullable="false" />
+            </column>
+            <column name="FIRED_TIME" type="DECIMAL(13,0)">
+                <constraints nullable="false" />
+            </column>
+            <column name="PRIORITY" type="DECIMAL(13,0)">
+                <constraints nullable="false" />
+            </column>
+            <column name="STATE" type="VARCHAR(16)">
+                <constraints nullable="false" />
+            </column>
+            <column name="JOB_NAME" type="VARCHAR(200)" />
+            <column name="JOB_GROUP" type="VARCHAR(200)" />
+            <column name="IS_STATEFUL" type="VARCHAR(1)" />
+            <column name="REQUESTS_RECOVERY" type="VARCHAR(1)" />
+        </createTable>
+        
+        <modifySql dbms="mysql">
+            <append value=" ENGINE INNODB" />
+        </modifySql>
+    </changeSet>
+    
+    <changeSet id="12" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>KPME-2184: Updating Quartz tables to 1.8.4 standards</comment>
+        <createTable tableName="QRTZ_SCHEDULER_STATE">
+            <column name="INSTANCE_NAME" type="VARCHAR(200)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="LAST_CHECKIN_TIME" type="DECIMAL(13,0)">
+                <constraints nullable="false" />
+            </column>
+            <column name="CHECKIN_INTERVAL" type="DECIMAL(13,0)">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        
+        <modifySql dbms="mysql">
+            <append value=" ENGINE INNODB" />
+        </modifySql>
+    </changeSet>
+    
+    <changeSet id="13" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>KPME-2184: Updating Quartz tables to 1.8.4 standards</comment>
+        <addForeignKeyConstraint baseTableName="QRTZ_JOB_LISTENERS" baseColumnNames="JOB_NAME, JOB_GROUP"
+		                         referencedTableName="QRTZ_JOB_DETAILS" referencedColumnNames="JOB_NAME, JOB_GROUP"
+		                         constraintName="QRTZ_JOB_LISTENERS_FK1" />
+        <addForeignKeyConstraint baseTableName="QRTZ_TRIGGERS" baseColumnNames="JOB_NAME, JOB_GROUP"
+				                 referencedTableName="QRTZ_JOB_DETAILS" referencedColumnNames="JOB_NAME, JOB_GROUP"
+				                 constraintName="QRTZ_TRIGGERS_FK1" />
+        <addForeignKeyConstraint baseTableName="QRTZ_SIMPLE_TRIGGERS" baseColumnNames="TRIGGER_NAME, TRIGGER_GROUP"
+                                 referencedTableName="QRTZ_TRIGGERS" referencedColumnNames="TRIGGER_NAME, TRIGGER_GROUP" 
+                                 constraintName="QRTZ_SIMPLE_TRIGGERS_FK1" />
+        <addForeignKeyConstraint baseTableName="QRTZ_CRON_TRIGGERS" baseColumnNames="TRIGGER_NAME, TRIGGER_GROUP"
+                                 referencedTableName="QRTZ_TRIGGERS" referencedColumnNames="TRIGGER_NAME, TRIGGER_GROUP"
+                                 constraintName="QRTZ_CRON_TRIGGERS_FK1" />
+        <addForeignKeyConstraint baseTableName="QRTZ_BLOB_TRIGGERS" baseColumnNames="TRIGGER_NAME, TRIGGER_GROUP"
+                                 referencedTableName="QRTZ_TRIGGERS" referencedColumnNames="TRIGGER_NAME, TRIGGER_GROUP" 
+                                 constraintName="QRTZ_BLOB_TRIGGERS_FK1" />
+        <addForeignKeyConstraint baseTableName="QRTZ_TRIGGER_LISTENERS" baseColumnNames="TRIGGER_NAME, TRIGGER_GROUP"
+                                 referencedTableName="QRTZ_TRIGGERS" referencedColumnNames="TRIGGER_NAME, TRIGGER_GROUP" 
+                                 constraintName="QRTZ_TRIGGER_LISTENERS_FK1" />
+    </changeSet>
+    
+    <changeSet id="14" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>KPME-2184: Updating Quartz tables to 1.8.4 standards</comment>
+        <createIndex indexName="IDX_QRTZ_J_REQ_RECOVERY" tableName="QRTZ_JOB_DETAILS">
+            <column name="REQUESTS_RECOVERY" />
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ_T_NEXT_FIRE_TIME" tableName="QRTZ_TRIGGERS">
+            <column name="NEXT_FIRE_TIME" />
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ_T_STATE" tableName="QRTZ_TRIGGERS">
+            <column name="TRIGGER_STATE" />
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ_T_NFT_ST" tableName="QRTZ_TRIGGERS">
+            <column name="NEXT_FIRE_TIME" />
+            <column name="TRIGGER_STATE" />
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ_T_VOLATILE" tableName="QRTZ_TRIGGERS">
+            <column name="IS_VOLATILE" />
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ_FT_TRIG_NAME" tableName="QRTZ_FIRED_TRIGGERS">
+            <column name="TRIGGER_NAME" />
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ_FT_TRIG_GROUP" tableName="QRTZ_FIRED_TRIGGERS">
+            <column name="TRIGGER_GROUP" />
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ_FT_TRIG_NM_GP" tableName="QRTZ_FIRED_TRIGGERS">
+            <column name="TRIGGER_NAME" />
+            <column name="TRIGGER_GROUP" />
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ_FT_TRIG_VOLATILE" tableName="QRTZ_FIRED_TRIGGERS">
+            <column name="IS_VOLATILE" />
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ_FT_TRIG_INST_NAME" tableName="QRTZ_FIRED_TRIGGERS">
+            <column name="INSTANCE_NAME" />
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ_FT_JOB_NAME" tableName="QRTZ_FIRED_TRIGGERS">
+            <column name="JOB_NAME" />
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ_FT_JOB_GROUP" tableName="QRTZ_FIRED_TRIGGERS">
+            <column name="JOB_GROUP" />
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ_FT_JOB_STATEFUL" tableName="QRTZ_FIRED_TRIGGERS">
+            <column name="IS_STATEFUL" />
+        </createIndex>
+        <createIndex indexName="IDX_QRTZ_FT_JOB_REQ_RECOVERY" tableName="QRTZ_FIRED_TRIGGERS" unique="false">
+            <column name="REQUESTS_RECOVERY" />
+        </createIndex>
+    </changeSet>
+
+</databaseChangeLog>
