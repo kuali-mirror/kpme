@@ -551,7 +551,7 @@ $(function () {
                     }).get();
              if (_.contains(ids, "leaveAmount")) {
                 var hours = $('#leaveAmount');
-                isValid = isValid && (this.checkEmptyField(hours, "Leave amount") && this.checkZeroValue(hours, 'Leave amount cannot be zero') && this.checkNumeric(hours, /^\d+(\.\d{1,})?$/, 'Enter valid leave amount'));
+                isValid = isValid && (this.checkEmptyField(hours, "Leave amount") && this.checkZeroValue(hours, 'Leave amount cannot be zero') && this.checkNumeric(hours, /^-?\d+(\.\d{1,})?$/, 'Enter valid leave amount'));
                 if(isValid) {
                 	var type = this.getEarnCodeUnit(EarnCodes.toJSON(), $('#selectedEarnCode option:selected').val());
                 	if (type == 'D') {
@@ -796,7 +796,7 @@ $(function () {
         },
         
         checkZeroValue : function (o, n) {
-            if (o.val() <=  0) {
+            if (o.val() ==  0) {
             	this.displayErrorMessages(n, o);
             	return false;
             }

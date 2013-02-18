@@ -22,6 +22,8 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.LeaveCalendar;
@@ -47,8 +49,9 @@ public class LeaveBlockAggregate {
 		for(Interval dayInt : dayIntervals){
 			List<LeaveBlock> dayLeaveBlocks = new ArrayList<LeaveBlock>();
 			for(LeaveBlock leaveBlock : leaveBlocks){
-				DateTime dateTime = new DateTime(leaveBlock.getLeaveDate());
-				if(dayInt.contains(dateTime)){
+				LocalDate localDate = new LocalDate(leaveBlock.getLeaveDate());
+                LocalDate dayIntBegin = new LocalDate(dayInt.getStart());
+				if(localDate.equals(dayIntBegin)){
 					dayLeaveBlocks.add(leaveBlock);
 				}
 			}
@@ -62,10 +65,11 @@ public class LeaveBlockAggregate {
 		for(Interval dayInt : dayIntervals){
 			List<LeaveBlock> dayLeaveBlocks = new ArrayList<LeaveBlock>();
 			for(LeaveBlock leaveBlock : leaveBlocks){
-				DateTime dateTime = new DateTime(leaveBlock.getLeaveDate());
-				if(dayInt.contains(dateTime)){
-					dayLeaveBlocks.add(leaveBlock);
-				}
+                LocalDate localDate = new LocalDate(leaveBlock.getLeaveDate());
+                LocalDate dayIntBegin = new LocalDate(dayInt.getStart());
+                if(localDate.equals(dayIntBegin)){
+                    dayLeaveBlocks.add(leaveBlock);
+                }
 			}
 			dayLeaveBlockList.add(dayLeaveBlocks);
 		} 
@@ -94,10 +98,11 @@ public class LeaveBlockAggregate {
 						dayLeaveBlocks.add(leaveBlock);
 					}
 				} else {
-					DateTime dateTime = new DateTime(leaveBlock.getLeaveDate());
-					if(dayInt.contains(dateTime)){
-						dayLeaveBlocks.add(leaveBlock);
-					}
+                    LocalDate localDate = new LocalDate(leaveBlock.getLeaveDate());
+                    LocalDate dayIntBegin = new LocalDate(dayInt.getStart());
+                    if(localDate.equals(dayIntBegin)){
+                        dayLeaveBlocks.add(leaveBlock);
+                    }
 				}
 			}
 			dayLeaveBlockList.add(dayLeaveBlocks);
