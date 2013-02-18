@@ -311,7 +311,7 @@ public class TimeDetailAction extends TimesheetAction {
         }
         if(StringUtils.isNotEmpty(tdaf.getSelectedEarnCode())) {
         	EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument().getAsOfDate());
-        	if(ec != null && ec.getLeavePlan() != null) {	// leave blocks changes
+        	if(ec != null && (ec.getLeavePlan() != null || ec.getEligibleForAccrual().equals("N"))) {	// leave blocks changes
         		this.changeLeaveBlocks(tdaf);
         	} else {	// time blocks changes
         		this.changeTimeBlocks(tdaf);

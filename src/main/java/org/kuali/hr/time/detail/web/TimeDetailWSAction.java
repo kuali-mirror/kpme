@@ -75,7 +75,8 @@ public class TimeDetailWSAction extends TimesheetAction {
         List<String> errors = new ArrayList<String>();
         
     	EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument().getAsOfDate());
-    	if(ec != null && ec.getLeavePlan() != null) {	// leave blocks changes
+    	if(ec != null 
+    			&& (ec.getLeavePlan() != null || ec.getEligibleForAccrual().equals("N"))) {	// leave blocks changes
     		errors = this.validateLeaveEntry(tdaf);
     	} else {	// time blocks changes
     		errors = TimeDetailValidationUtil.validateTimeEntryDetails(tdaf);
@@ -145,6 +146,7 @@ public class TimeDetailWSAction extends TimesheetAction {
                             earnCodeMap.put("fractionalTimeAllowed", earnCode.getFractionalTimeAllowed());
                             earnCodeMap.put("unitOfTime", ActionFormUtils.getUnitOfTimeForEarnCode(earnCode));
                         }
+                        earnCodeMap.put("eligibleForAccrual", earnCode.getEligibleForAccrual());
                         earnCodeList.add(earnCodeMap);
                     }
                 }
