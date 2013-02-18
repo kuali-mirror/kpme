@@ -620,11 +620,13 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		btObj.setAmountTransferred(balanceTransfer.getAmountTransferred());
 		btObj.setSstoId(balanceTransfer.getSstoId());
 		btObj.setBalanceTransferId(document.getDocumentHeader().getWorkflowDocument().getDocumentId());
+		
 		document.getNewMaintainableObject().setDataObject(btObj);
 		KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
 		document.getDocumentHeader().getWorkflowDocument().saveDocument("");
 
 		document.getDocumentHeader().getWorkflowDocument().route("");
+		
 		btObj.setStatus(document.getDocumentHeader().getWorkflowDocument().getStatus().getCode());
         TkServiceLocator.getBalanceTransferService().saveOrUpdate(btObj);
 

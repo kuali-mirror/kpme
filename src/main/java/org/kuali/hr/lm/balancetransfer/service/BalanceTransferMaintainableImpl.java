@@ -146,9 +146,6 @@ public class BalanceTransferMaintainableImpl extends
                 }
             }
         }
-        else {
-        	System.out.println("");
-        }
     }
 
 	private List<LeaveBlock> buildSstoLeaveBlockList(BalanceTransfer bt) {
