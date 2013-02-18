@@ -79,7 +79,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 
         TimeCollectionRule tcr = a.getTimeCollectionRule();
         
-        boolean isClockUser = tcr != null && tcr.isClockUserFl();
+        boolean isClockUser = tcr == null || tcr.isClockUserFl();
         boolean isUsersTimesheet = StringUtils.equals(TKContext.getPrincipalId(),a.getPrincipalId());
 
         // Reg earn codes will typically not be defined in the earn code security table
