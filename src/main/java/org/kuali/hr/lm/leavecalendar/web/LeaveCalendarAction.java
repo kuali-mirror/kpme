@@ -199,7 +199,7 @@ public class LeaveCalendarAction extends TkAction {
                 LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(viewPrincipal, calendarEntry);
                 lcf.setLeaveSummary(ls);
             } else {
-                DateTime effDate = (new LocalDateTime(firstDay)).toDateTime().minus(1);
+                DateTime effDate = (new LocalDateTime(firstDay)).toDateTime().withYear(calendarEntry.getBeginLocalDateTime().getYear()+1).minus(1);
                 LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(viewPrincipal, new java.sql.Date(effDate.getMillis()));
                 //override title element (based on date passed in)
                 DateFormat formatter = new SimpleDateFormat("MMMM d");

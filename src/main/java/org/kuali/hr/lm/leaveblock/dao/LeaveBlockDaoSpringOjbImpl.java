@@ -175,7 +175,7 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
         dateSubquery.addEqualToField("leaveBlockType", Criteria.PARENT_QUERY_PREFIX + "leaveBlockType");
         dateSubquery.addEqualToField("accrualCategory", Criteria.PARENT_QUERY_PREFIX + "accrualCategory");
         if (asOfDate != null) {
-            dateSubquery.addLessOrEqualThan("leaveDate", asOfDate);
+            dateSubquery.addLessThan("leaveDate", asOfDate);
         }
 
         ReportQueryByCriteria subQuery = QueryFactory.newReportQuery(LeaveBlock.class, dateSubquery);
