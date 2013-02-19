@@ -930,7 +930,7 @@ public class AccrualServiceImpl implements AccrualService {
 			aCal.add(Calendar.DAY_OF_YEAR, -1);
 		} else if(earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.WEEKLY)) {
 			aCal.add(Calendar.WEEK_OF_YEAR, -1);
-			aCal.set(Calendar.DAY_OF_WEEK, 7);	// set to the Saturday of previous week
+			aCal.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);	// set to the Saturday of previous week
 		} else if (earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.SEMI_MONTHLY)) {
 			aCal.add(Calendar.DAY_OF_YEAR, -15);
 			if(aCal.get(Calendar.DAY_OF_MONTH) <=15) {
@@ -1005,7 +1005,11 @@ public class AccrualServiceImpl implements AccrualService {
 		if(earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.DAILY)) {
 			// no change to calendar
 		} else if(earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.WEEKLY)) {
-			aCal.set(Calendar.WEEK_OF_YEAR, 1);
+			if(aCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
+				aCal.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);	// set to the Saturday of previous week
+			} else {
+				aCal.add(Calendar.WEEK_OF_YEAR, 1);
+			}
 		} else if (earnInterval.equals(LMConstants.ACCRUAL_EARN_INTERVAL_CODE.SEMI_MONTHLY)) {
 			if(aCal.get(Calendar.DAY_OF_MONTH) <=15) {
 				aCal.set(Calendar.DAY_OF_MONTH, 15);

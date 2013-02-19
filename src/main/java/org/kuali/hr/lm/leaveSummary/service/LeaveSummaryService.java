@@ -15,7 +15,7 @@
  */
 package org.kuali.hr.lm.leaveSummary.service;
 
-import java.util.Calendar;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -32,4 +32,11 @@ public interface LeaveSummaryService {
     public LeaveSummary getLeaveSummaryAsOfDateForAccrualCategory(String principalId, java.sql.Date asOfDate, String accrualCategory);
 
     public LeaveSummary getLeaveSummaryAsOfDateWithoutFuture(String principalId, java.sql.Date asOfDate);
+    
+    
+    public BigDecimal getLeaveBalanceForAccrCatUpToDate(String principalId,
+            java.sql.Date startDate,	
+            java.sql.Date endDate,
+            String accrualCategory,
+            Date usageEndDate);
 }

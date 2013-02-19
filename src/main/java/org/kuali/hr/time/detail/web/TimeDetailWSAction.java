@@ -99,8 +99,10 @@ public class TimeDetailWSAction extends TimesheetAction {
 			if(StringUtils.isNotEmpty(tdaf.getLmLeaveBlockId())) {
 				lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(tdaf.getLmLeaveBlockId());
 			}
-			errorMsgList.addAll(LeaveCalendarValidationUtil.validateAvailableLeaveBalance(ls, tdaf.getSelectedEarnCode(),
-                    tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
+//			errorMsgList.addAll(LeaveCalendarValidationUtil.validateAvailableLeaveBalance(ls, tdaf.getSelectedEarnCode(),
+//                    tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
+			errorMsgList.addAll(LeaveCalendarValidationUtil.validateAvailableLeaveBalanceForUsage(tdaf.getSelectedEarnCode(), 
+					tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
 			//Validate leave block does not exceed max usage. Leave Calendar Validators at this point rely on a leave summary.
 	        errorMsgList.addAll(LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, tdaf.getSelectedEarnCode(),
                     tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
