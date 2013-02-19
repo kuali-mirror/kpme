@@ -30,6 +30,7 @@
         <form-bean name="DeleteDocumentForm" type="org.kuali.hr.time.admin.web.DeleteDocumentForm"/>
         <form-bean name="CalculateLeaveAccrualsForm" type="org.kuali.hr.time.admin.web.CalculateLeaveAccrualsForm"/>
         <form-bean name="BatchJobActionForm" type="org.kuali.hr.time.batch.web.BatchJobActionForm"/>
+        <form-bean name="CarryOverBatchJobActionForm" type="org.kuali.hr.time.batch.web.CarryOverBatchJobActionForm"/>
         <form-bean name="CalendarEntryActionForm" type="org.kuali.hr.time.calendar.web.CalendarEntryActionForm"/>
         <form-bean name="ClockActionForm" type="org.kuali.hr.time.clock.web.ClockActionForm"/>
         <form-bean name="TimeDetailActionForm" type="org.kuali.hr.time.detail.web.TimeDetailActionForm"/>
@@ -115,6 +116,10 @@
         </action>
         
         <action path="/batchJob" name="BatchJobActionForm" type="org.kuali.hr.time.batch.web.BatchJobAction">
+            <forward name="basic" path="/portal.jsp"/>
+        </action>
+        
+        <action path="/carryOverBatchJob" name="CarryOverBatchJobActionForm" type="org.kuali.hr.time.batch.web.CarryOverBatchJobAction">
             <forward name="basic" path="/portal.jsp"/>
         </action>
         

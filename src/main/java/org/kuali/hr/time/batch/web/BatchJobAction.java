@@ -24,7 +24,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -35,7 +34,6 @@ public class BatchJobAction extends TkAction {
     public ActionForward runBatchJob(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BatchJobActionForm bjaf = (BatchJobActionForm) form;
         String batchJobName = bjaf.getSelectedBatchJob();
-        String leavePlan = bjaf.getLeavePlan();
 
         CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(bjaf.getHrPyCalendarEntryId());
         Date scheduleDate = new Date();

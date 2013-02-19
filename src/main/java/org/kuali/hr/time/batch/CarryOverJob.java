@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.batch;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -28,35 +27,27 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.service.AccrualCategoryService;
-import org.kuali.hr.lm.accrual.service.AccrualService;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveSummary.service.LeaveSummaryService;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveblock.service.LeaveBlockService;
-import org.kuali.hr.lm.leavecalendar.service.LeaveCalendarServiceImpl;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.lm.leaveplan.service.LeavePlanService;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.service.AssignmentService;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
-import org.kuali.hr.time.calendar.LeaveCalendar;
 import org.kuali.hr.time.calendar.service.CalendarEntriesService;
-import org.kuali.hr.time.calendar.service.CalendarService;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.principal.service.PrincipalHRAttributesService;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -79,7 +70,7 @@ public class CarryOverJob implements Job{
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 
         JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
-		String leavePlan = jobDataMap.getString("leavePlanCode");
+		String leavePlan = jobDataMap.getString("leavePlan");
         if (leavePlan!= null) {
         	
         	Date asOfDate = TKUtils.getCurrentDate();
