@@ -15,12 +15,21 @@
  */
 package org.kuali.hr.time.workflow.postprocessor;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
+import org.kuali.hr.lm.LMConstants;
+import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -43,6 +52,8 @@ public class TkPostProcessor extends DefaultPostProcessor {
 
 				updateTimesheetDocumentHeaderStatus(document, newDocumentStatus);
 				
+				calculateLeaveCalendarOvertime(document, newDocumentStatus);
+				
 				calculateMaxCarryOver(document, newDocumentStatus);
 			}
 		}
@@ -53,6 +64,57 @@ public class TkPostProcessor extends DefaultPostProcessor {
 	private void updateTimesheetDocumentHeaderStatus(TimesheetDocumentHeader timesheetDocumentHeader, DocumentStatus newDocumentStatus) {
 		timesheetDocumentHeader.setDocumentStatus(newDocumentStatus.getCode());
 		TkServiceLocator.getTimesheetDocumentHeaderService().saveOrUpdate(timesheetDocumentHeader);
+	}
+	
+	private void calculateLeaveCalendarOvertime(TimesheetDocumentHeader timesheetDocumentHeader, DocumentStatus newDocumentStatus) {
+		if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
+			String documentId = timesheetDocumentHeader.getDocumentId();
+			String principalId = timesheetDocumentHeader.getPrincipalId();
+			Date endDate = timesheetDocumentHeader.getEndDate();
+			
+			if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
+				List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(documentId);
+				
+				List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
+				
+				for (TimeBlock timeBlock : timeBlocks) {
+					EarnCode overtimeEarnCode = getOvertimeEarnCode(timeBlock, endDate);
+					
+					if (overtimeEarnCode != null) {
+						AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(overtimeEarnCode.getAccrualCategory(), new java.sql.Date(endDate.getTime()));
+						
+						if (accrualCategory != null) {
+							DateTime leaveDate = new DateTime(timeBlock.getBeginDate());
+							BigDecimal leaveAmount = timeBlock.getHours();
+							
+							LeaveBlock.Builder builder = new LeaveBlock.Builder(leaveDate, null, principalId, overtimeEarnCode.getEarnCode(), leaveAmount)
+								.accrualCategory(accrualCategory.getAccrualCategory())
+								.leaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE)
+								.requestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+							
+							leaveBlocks.add(builder.build());
+						}
+					}
+				}
+				
+				TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(leaveBlocks);
+			}
+		}
+	}
+	
+	private EarnCode getOvertimeEarnCode(TimeBlock timeBlock, Date asOfDate) {
+		EarnCode overtimeEarnCode = null;
+		
+		for (TimeHourDetail timeHourDetail : timeBlock.getTimeHourDetails()) {
+			EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode(timeHourDetail.getEarnCode(), new java.sql.Date(asOfDate.getTime()));
+		
+			if (earnCode != null && earnCode.getOvtEarnCode()) {
+				overtimeEarnCode = earnCode;
+				break;
+			}
+		}
+		
+		return overtimeEarnCode;
 	}
 	
 	private void calculateMaxCarryOver(TimesheetDocumentHeader timesheetDocumentHeader, DocumentStatus newDocumentStatus) {
