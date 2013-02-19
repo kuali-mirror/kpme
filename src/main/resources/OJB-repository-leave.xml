@@ -107,6 +107,7 @@
         <field-descriptor name="fromAccrualCategory"    column="FROM_ACCRUAL_CATEGORY"			jdbc-type="VARCHAR"     length="15" nullable="false" />
         <field-descriptor name="payoutAmount"         	column="PAYOUT_AMOUNT"         			jdbc-type="DECIMAL"     length="20" nullable="false" />
         <field-descriptor name="forfeitedAmount"        column="FORFEITED_AMOUNT"          		jdbc-type="DECIMAL"   	length="20" />
+        <field-descriptor name="status"					column="STATUS"							jdbc-type="VARCHAR"		length="1" />
     </class-descriptor>
 
     <!-- Leave Code -->

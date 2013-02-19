@@ -451,7 +451,7 @@ $(function () {
         	var docId = $('#documentId').val();
         	var accrualRuleId = _(e).parseEventKey().id;
             $('#lm-payout-empty').empty();
-            $('#lm-payout-dialog').append('<iframe width="800" height="600" src="LeavePayout.do?methodToCall=leavePayoutOnDemand&command=initiate&docTypeName=LeavePayoutDocumentType&accrualRuleId=' + accrualRuleId + '&documentId='+docId+'"></iframe>');
+            $('#lm-payout-dialog').append('<iframe width="800" height="600" src="LeavePayout.do?methodToCall=leavePayoutOnDemand&docTypeName=LeavePayoutDocumentType&timesheet=true&accrualRuleId=' + accrualRuleId + '&documentId='+docId+'"></iframe>');
 
             $('#lm-payout-dialog').dialog({
                 autoOpen: true,

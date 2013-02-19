@@ -41,6 +41,7 @@ import org.joda.time.Hours;
 import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
@@ -273,6 +274,12 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                 TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
 				warnings = TkServiceLocator.getWarningService().getWarnings(td);
 			}
+			//TODO: Move to Warning Service!!!!!
+			Map<String, Set<String>> transactionalWarnings = LeaveCalendarValidationUtil.validatePendingTransactions(person.getPrincipalId(), payCalendarEntries.getBeginPeriodDate(), payCalendarEntries.getEndPeriodDate());
+			
+			warnings.addAll(transactionalWarnings.get("infoMessages"));
+			warnings.addAll(transactionalWarnings.get("warningMessages"));
+			warnings.addAll(transactionalWarnings.get("actionMessages"));
 
 			Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(
 					person.getPrincipalId(), payEndDate, payCalendarLabels,

@@ -52,6 +52,8 @@ public class LeavePayout extends HrBusinessObject {
     private String payoutFromLeaveBlockId;
     private String payoutLeaveBlockId;
 
+	private String status;
+
 	public String getEarnCode() {
 		return earnCode;
 	}
@@ -231,5 +233,13 @@ public class LeavePayout extends HrBusinessObject {
 		this.payoutAmount = payoutAmount;
 		
 		return this;
+	}
+	
+	public String getStatus() {
+		return status;
+	}
+	
+	public void setStatus(String code) {
+		status = code;
 	}
 }

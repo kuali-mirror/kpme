@@ -29,5 +29,6 @@ public interface LeavePayoutDao {
     public LeavePayout getLeavePayoutById(String lmLeavePayoutId);
 	public List<LeavePayout> getLeavePayouts(String viewPrincipal,
 			Date beginPeriodDate, Date endPeriodDate);
+	public void saveOrUpdate(LeavePayout payout);
 
 }

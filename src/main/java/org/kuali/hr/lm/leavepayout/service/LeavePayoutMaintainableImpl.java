@@ -17,6 +17,7 @@ package org.kuali.hr.lm.leavepayout.service;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.hr.lm.LMConstants;
+import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leavepayout.LeavePayout;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.HrBusinessObject;
@@ -35,6 +36,23 @@ public class LeavePayoutMaintainableImpl extends
 
     private static final long serialVersionUID = 1L;
 
+    @Override
+    public void saveBusinessObject() {
+		LeavePayout bt = (LeavePayout) this.getBusinessObject();
+		
+		LeavePayout existingBt = TkServiceLocator.getLeavePayoutService().getLeavePayoutById(bt.getId());
+		
+		if(ObjectUtils.isNotNull(existingBt)) {
+			if(existingBt.getPayoutAmount().compareTo(bt.getPayoutAmount()) != 0) {
+				//TODO: Create leave block reference within bt, and update leave amount.
+			}
+			if(existingBt.getForfeitedAmount().compareTo(bt.getForfeitedAmount()) != 0) {
+				//TODO: Create reference within bt for forfeited leave block, update leave amount.
+			}
+			//Will approvers / department admins be changing accrual category? effective date?
+		}
+    }
+    
     @Override
     public HrBusinessObject getObjectById(String id) {
         // TODO Auto-generated method stub
@@ -65,6 +83,8 @@ public class LeavePayoutMaintainableImpl extends
                 throw new RuntimeException("caught exception while handling doRouteStatusChange -> documentService.getByDocumentHeaderId(" + documentHeader.getDocumentNumber() + "). ", e);
             }
         } else if (DocumentStatus.DISAPPROVED.equals(newDocumentStatus)) {
+        	payout.setStatus(newDocumentStatus.getCode());
+        	TkServiceLocator.getLeavePayoutService().saveOrUpdate(payout);
             //When payout document is disapproved, set all leave block's request statuses to disapproved.
             for(LeaveBlock lb : payout.getLeaveBlocks()) {
                 if(ObjectUtils.isNotNull(lb)) {
@@ -74,6 +94,8 @@ public class LeavePayoutMaintainableImpl extends
             }
             //update status of document and associated leave blocks.
         } else if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
+        	payout.setStatus(newDocumentStatus.getCode());
+        	TkServiceLocator.getLeavePayoutService().saveOrUpdate(payout);
             //When payout document moves to final, set all leave block's request statuses to approved.
             for(LeaveBlock lb : payout.getLeaveBlocks()) {
                 if(ObjectUtils.isNotNull(lb)) {
@@ -82,6 +104,8 @@ public class LeavePayoutMaintainableImpl extends
                 }
             }
         } else if (DocumentStatus.CANCELED.equals(newDocumentStatus)) {
+        	payout.setStatus(newDocumentStatus.getCode());
+        	TkServiceLocator.getLeavePayoutService().saveOrUpdate(payout);
             //When payout document is canceled, set all leave block's request statuses to deferred
             for(LeaveBlock lb : payout.getLeaveBlocks()) {
                 if(ObjectUtils.isNotNull(lb)) {

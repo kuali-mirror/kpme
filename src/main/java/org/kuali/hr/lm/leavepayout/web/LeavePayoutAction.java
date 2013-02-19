@@ -18,6 +18,7 @@ package org.kuali.hr.lm.leavepayout.web;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -187,6 +188,7 @@ public class LeavePayoutAction extends TkAction {
 		String documentId = request.getParameter("documentId");
 		String accrualRuleId = request.getParameter("accrualRuleId");
 		String timesheet = request.getParameter("timesheet");
+
 		boolean isTimesheet = false;
 		if(StringUtils.equals(timesheet, "true")) {
 			lpf.isTimesheet(true);

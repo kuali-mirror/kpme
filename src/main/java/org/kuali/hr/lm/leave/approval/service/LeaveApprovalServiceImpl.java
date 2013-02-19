@@ -40,6 +40,7 @@ import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;
+import org.kuali.hr.lm.leavepayout.LeavePayout;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.approval.web.ApprovalLeaveSummaryRow;
 import org.kuali.hr.time.assignment.Assignment;
@@ -101,7 +102,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 			
 			List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, payBeginDate, payEndDate);
 			allMessages = findWarnings(aDoc, payCalendarEntries, leaveBlocks);
-			allMessages.putAll(findPendingActions(aDoc, payCalendarEntries));
+			allMessages.putAll(findTransactionsWithinPeriod(aDoc, payCalendarEntries));
             aRow.setLeaveBlockList(leaveBlocks);
 			Map<Date, Map<String, BigDecimal>> earnCodeLeaveHours = getEarnCodeLeaveHours(leaveBlocks, leaveSummaryDates);
 			aRow.setEarnCodeLeaveHours(earnCodeLeaveHours);
@@ -121,7 +122,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		return rowList;
 	}
 
-    private Map<String,Set<String>> findPendingActions(LeaveCalendarDocumentHeader aDoc,
+    private Map<String,Set<String>> findTransactionsWithinPeriod(LeaveCalendarDocumentHeader aDoc,
 			CalendarEntries payCalendarEntries) {
 		Map<String,Set<String>> allMessages = new HashMap<String,Set<String>>();
 		
@@ -155,6 +156,28 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 	    	        	else
 	    	       			allMessages.get("infoMessages").add("A transfer action occurred on this calendar");
 	    			}
+	    		}
+	        }
+	        List<LeavePayout> payouts = TkServiceLocator.getLeavePayoutService().getLeavePayouts(aDoc.getPrincipalId(), payCalendarEntries.getBeginPeriodDate(), payCalendarEntries.getEndPeriodDate());
+	        for(LeavePayout payout : payouts) {
+	        	if(StringUtils.equals(payout.getStatus(), TkConstants.ROUTE_STATUS.ENROUTE)) {
+	        		allMessages.get("actionMessages").add("A pending payout exists on this calendar. It must be finalized before this calendar can be approved");
+	        	}
+	    		if(StringUtils.equals(payout.getStatus() ,TkConstants.ROUTE_STATUS.FINAL)) {
+	            	if(payout.getPayoutAmount().compareTo(BigDecimal.ZERO) == 0) {
+	            		if(payout.getForfeitedAmount() != null && payout.getForfeitedAmount().signum() != 0)
+	            			allMessages.get("infoMessages").add("A payout action that forfeited leave occured on this calendar");
+	            	}
+	            	else
+	           			allMessages.get("infoMessages").add("A payout action occurred on this calendar");
+	    		}
+	    		if(StringUtils.equals(payout.getStatus() ,TkConstants.ROUTE_STATUS.DISAPPROVED)) {
+    	        	if(payout.getPayoutAmount().compareTo(BigDecimal.ZERO) == 0) {
+    	        		if(payout.getForfeitedAmount() != null && payout.getForfeitedAmount().signum() != 0)
+    	        			allMessages.get("infoMessages").add("A disapproved payout that forfeited leave occured on this calendar");
+    	        	}
+    	        	else
+    	       			allMessages.get("infoMessages").add("A disapproved payout occurred on this calendar");
 	    		}
 	        }
 		}

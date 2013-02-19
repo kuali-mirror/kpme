@@ -23,11 +23,13 @@ import org.joda.time.Interval;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
+import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.lm.leave.web.LeaveCalendarWSForm;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.lm.leavepayout.LeavePayout;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
@@ -35,6 +37,7 @@ import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -126,15 +129,70 @@ public class LeaveCalendarValidationUtil {
     }
 	//End KPME-1263
 
-	public static Map<String, Set<String>> validatePendingTransactions() {
+	//TODO: Move to WarningService
+	public static Map<String, Set<String>> validatePendingTransactions(String principalId, Date fromDate, Date toDate) {
 		Map<String, Set<String>> allMessages = new HashMap<String, Set<String>>();
 		
         Set<String> actionMessages = new HashSet<String>();
         Set<String> infoMessages = new HashSet<String>();
         Set<String> warningMessages = new HashSet<String>();
         
-        //TODO: Move pending transfer / payout document checks in LeaveCalendarAction, TimesheetAction and LeaveApprovalAction
-        // execute methods to this, or another common location.
+        allMessages.put("actionMessages", actionMessages);
+        allMessages.put("infoMessages", infoMessages);
+        allMessages.put("warningMessages", warningMessages);
+        
+        //TODO: Re-combine balance transfer and leave payout...
+        List<BalanceTransfer> completeTransfers = TkServiceLocator.getBalanceTransferService().getBalanceTransfers(principalId, fromDate, toDate);
+        for(BalanceTransfer transfer : completeTransfers) {
+        	if(StringUtils.equals(transfer.getStatus(), TkConstants.ROUTE_STATUS.ENROUTE)) {
+        		allMessages.get("actionMessages").add("A pending balance transfer exists on this calendar. It must be finalized before this calendar can be approved");	//action
+        	}
+    		if(StringUtils.equals(transfer.getStatus() ,TkConstants.ROUTE_STATUS.FINAL)) {
+    			if(StringUtils.isEmpty(transfer.getSstoId())) {
+	            	if(transfer.getTransferAmount().compareTo(BigDecimal.ZERO) == 0 && transfer.getAmountTransferred().compareTo(BigDecimal.ZERO) == 0) {
+	            		if(transfer.getForfeitedAmount() != null && transfer.getForfeitedAmount().signum() != 0)
+	            			allMessages.get("infoMessages").add("A transfer action that forfeited leave occured on this calendar");	//info
+	            	}
+	            	else
+	            		allMessages.get("infoMessages").add("A transfer action occurred on this calendar");	//info
+    			}
+    			else
+    				allMessages.get("infoMessages").add("System scheduled time off was transferred on this calendar");	//info
+    		}
+    		if(StringUtils.equals(transfer.getStatus() ,TkConstants.ROUTE_STATUS.DISAPPROVED)) {
+    			if(StringUtils.isEmpty(transfer.getSstoId())) {
+    	        	if(transfer.getTransferAmount().compareTo(BigDecimal.ZERO) == 0 && transfer.getAmountTransferred().compareTo(BigDecimal.ZERO) == 0) {
+    	        		if(transfer.getForfeitedAmount() != null && transfer.getForfeitedAmount().signum() != 0)
+    	        			allMessages.get("infoMessages").add("A transfer action that forfeited leave occured on this calendar");	//info
+    	        	}
+    	        	else
+    	        		allMessages.get("infoMessages").add("A transfer action occurred on this calendar");	//info
+    			}
+    		}
+        }
+        
+        List<LeavePayout> completePayouts = TkServiceLocator.getLeavePayoutService().getLeavePayouts(principalId, fromDate, toDate);
+        for(LeavePayout payout : completePayouts) {
+        	if(StringUtils.equals(payout.getStatus(), TkConstants.ROUTE_STATUS.ENROUTE)) {
+        		allMessages.get("actionMessages").add("A pending payout exists on this calendar. It must be finalized before this calendar can be approved");
+        	}
+    		if(StringUtils.equals(payout.getStatus() ,TkConstants.ROUTE_STATUS.FINAL)) {
+            	if(payout.getPayoutAmount().compareTo(BigDecimal.ZERO) == 0) {
+            		if(payout.getForfeitedAmount() != null && payout.getForfeitedAmount().signum() != 0)
+            			allMessages.get("infoMessages").add("A payout action that forfeited leave occured on this calendar");
+            	}
+            	else
+            		allMessages.get("infoMessages").add("A payout action occurred on this calendar");
+    		}
+    		if(StringUtils.equals(payout.getStatus() ,TkConstants.ROUTE_STATUS.DISAPPROVED)) {
+	        	if(payout.getPayoutAmount().compareTo(BigDecimal.ZERO) == 0) {
+	        		if(payout.getForfeitedAmount() != null && payout.getForfeitedAmount().signum() != 0)
+	        			allMessages.get("infoMessages").add("A disapproved payout that forfeited leave occured on this calendar");
+	        	}
+	        	else
+	        		allMessages.get("infoMessages").add("A disapproved payout occurred on this calendar");
+    		}
+        }
         
         return allMessages;
 	}
@@ -156,12 +214,6 @@ public class LeaveCalendarValidationUtil {
                     if(eg != null && !StringUtils.isEmpty(eg.getWarningText())) {
                         warningMessages.add(eg.getWarningText());
                     }
-                }
-                if (StringUtils.equals(lb.getLeaveBlockType(), LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT)) {
-                	if(!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus())
-                			&& !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, lb.getRequestStatus())) {
-                        actionMessages.add("A pending payout exists on this leave calendar. It must be finalized before this calendar can be approved.");   //actionMessages
-                	}
                 }
             }
         }

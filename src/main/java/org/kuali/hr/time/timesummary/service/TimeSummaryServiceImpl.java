@@ -99,7 +99,9 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
     	List<LeaveSummaryRow> maxedLeaveRows = new ArrayList<LeaveSummaryRow>();
     	if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
         	Map<String,ArrayList<String>> eligibilities = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(calendarEntry,principalId);
+        	Map<String,ArrayList<String>> payouts = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(calendarEntry, principalId);
         	List<String> onDemandTransfers = eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND);
+        	onDemandTransfers.addAll(payouts.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND));
         	if(!onDemandTransfers.isEmpty()) {
             	LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, calendarEntry);
             	for(LeaveSummaryRow row : summary.getLeaveSummaryRows()) {

@@ -354,7 +354,7 @@ $(function () {
         	var docId = $('#documentId').val();
         	var accrualRuleId = _(e).parseEventKey().id;
             $('#lm-transfer-empty').empty();
-            $('#lm-transfer-dialog').append('<iframe width="800" height="600" src="BalanceTransfer.do?methodToCall=balanceTransferOnDemand&docTypeName=BalanceTransferDocumentType&accrualRuleId='+ accrualRuleId +'&documentId='+docId+'"></iframe>');
+            $('#lm-transfer-dialog').append('<iframe width="800" height="600" src="BalanceTransfer.do?methodToCall=balanceTransferOnDemand&docTypeName=BalanceTransferDocumentType&timesheet=false&accrualRuleId='+ accrualRuleId +'&documentId='+docId+'"></iframe>');
 
             $('#lm-transfer-dialog').dialog({
                 autoOpen: true,
@@ -380,7 +380,7 @@ $(function () {
         	var docId = $('#documentId').val();
         	var accrualRuleId = _(e).parseEventKey().id;
             $('#lm-payout-empty').empty();
-            $('#lm-payout-dialog').append('<iframe width="800" height="600" src="LeavePayout.do?methodToCall=leavePayoutOnDemand&command=initiate&docTypeName=LeavePayoutDocumentType&accrualRuleId=' + accrualRuleId + '&documentId='+docId+'"></iframe>');
+            $('#lm-payout-dialog').append('<iframe width="800" height="600" src="LeavePayout.do?methodToCall=leavePayoutOnDemand&docTypeName=LeavePayoutDocumentType&timesheet=false&accrualRuleId=' + accrualRuleId + '&documentId='+docId+'"></iframe>');
 
             $('#lm-payout-dialog').dialog({
                 autoOpen: true,

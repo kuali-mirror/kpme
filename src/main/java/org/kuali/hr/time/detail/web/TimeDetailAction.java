@@ -115,18 +115,20 @@ public class TimeDetailAction extends TimesheetAction {
         		 payCalendarEntry.getBeginPeriodDate(), payCalendarEntry.getEndPeriodDate(), LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
 //        List<String> warnings = tdaf.getWarnings();
         Map<String, Set<String>> allMessages = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(balanceTransferLeaveBlocks);
+        Map<String, Set<String>> transactionalMessages = LeaveCalendarValidationUtil.validatePendingTransactions(TKContext.getTargetPrincipalId(),
+        		payCalendarEntry.getBeginPeriodDate(), payCalendarEntry.getEndPeriodDate());
+
         List<String> infoMessages = tdaf.getInfoMessages();
-        if (!allMessages.get("infoMessages").isEmpty()) {
-            infoMessages.addAll(allMessages.get("infoMessages"));
-        }
+        infoMessages.addAll(allMessages.get("infoMessages"));
+        infoMessages.addAll(transactionalMessages.get("infoMessages"));
+
         List<String> warningMessages = tdaf.getWarningMessages();
-        if (!allMessages.get("warningMessages").isEmpty()){
-            warningMessages.addAll(allMessages.get("warningMessages"));
-        }
+        warningMessages.addAll(allMessages.get("warningMessages"));
+        warningMessages.addAll(transactionalMessages.get("warningMessages"));
+
         List<String> actionMessages = tdaf.getActionMessages();
-        if (!allMessages.get("actionMessages").isEmpty()){
-            actionMessages.addAll(allMessages.get("actionMessages"));
-        }
+        actionMessages.addAll(allMessages.get("actionMessages"));
+        actionMessages.addAll(transactionalMessages.get("actionMessages"));
 
         tdaf.setInfoMessages(infoMessages);
         tdaf.setWarningMessages(warningMessages);

@@ -137,4 +137,9 @@ public class LeavePayoutDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb impleme
 		return leavePayouts;
 	}
 
+	@Override
+	public void saveOrUpdate(LeavePayout payout) {
+		this.getPersistenceBrokerTemplate().store(payout);
+	}
+
 }

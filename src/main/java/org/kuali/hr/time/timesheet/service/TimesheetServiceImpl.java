@@ -30,6 +30,7 @@ import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.lm.leavepayout.LeavePayout;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -317,6 +318,19 @@ public class TimesheetServiceImpl implements TimesheetService {
                     && !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, balanceTransfer.getStatus())) {
                 return false;
             }
+        }
+        List<LeavePayout> leavePayouts = TkServiceLocator.getLeavePayoutService().getLeavePayouts(document.getPrincipalId(),
+        		document.getCalendarEntry().getBeginPeriodDate(),
+        		document.getCalendarEntry().getEndPeriodDate());
+        if (!CollectionUtils.isEmpty(leavePayouts)) {
+        	for(LeavePayout payout : leavePayouts) {
+	        	if(StringUtils.equals(TkConstants.DOCUMENT_STATUS.get(payout.getStatus()), TkConstants.ROUTE_STATUS.ENROUTE))
+	        		return false;
+	            if (!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, payout.getStatus())
+	                    && !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, payout.getStatus())) {
+	                return false;
+	            }
+        	}
         }
         return true;
 	}

@@ -487,12 +487,16 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 		lpObj.setPrincipalId(leavePayout.getPrincipalId());
 		lpObj.setEarnCode(leavePayout.getEarnCode());
 		lpObj.setPayoutAmount(leavePayout.getPayoutAmount());
+		lpObj.setLmLeavePayoutId(document.getDocumentHeader().getWorkflowDocument().getDocumentId());
+		
 		document.getNewMaintainableObject().setDataObject(lpObj);
 		KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
 		document.getDocumentHeader().getWorkflowDocument().saveDocument("");
 
 		document.getDocumentHeader().getWorkflowDocument().route("");
-
+		
+		lpObj.setStatus(document.getDocumentHeader().getWorkflowDocument().getStatus().getCode());
+		TkServiceLocator.getLeavePayoutService().saveOrUpdate(lpObj);
 		
 	}
 
@@ -501,5 +505,10 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 			Date beginPeriodDate, Date endPeriodDate) {
 		// TODO Auto-generated method stub
 		return leavePayoutDao.getLeavePayouts(viewPrincipal, beginPeriodDate, endPeriodDate);
+	}
+
+	@Override
+	public void saveOrUpdate(LeavePayout payout) {
+		leavePayoutDao.saveOrUpdate(payout);
 	}
 }
