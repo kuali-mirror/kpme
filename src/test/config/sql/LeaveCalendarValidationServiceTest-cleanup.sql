@@ -19,3 +19,4 @@ delete from hr_earn_code_t where hr_earn_code_id >= '5000';
 delete from hr_earn_code_group_t where hr_earn_code_group_id >= '5000';
 delete from hr_earn_code_group_def_t where hr_earn_code_group_def_id >= '5000';
 delete from lm_employee_override_t where lm_employee_override_id >= '6000';
+delete from lm_leave_plan_t where lm_leave_plan_id >= 8000;

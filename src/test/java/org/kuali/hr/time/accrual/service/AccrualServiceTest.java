@@ -929,7 +929,7 @@ public class AccrualServiceTest extends KPMETestCase {
 	 * 	testUser18 has one accrual category "testAC21" with effectiveDate of 2012-03-01
 	 *  testAC21 has proration = false, minimum percentage = 0
 	 *  testAC21 has "weekly" as the earn interval
-	 *  The rule associated with the AC has 6 as the accrual rate
+	 *  The rule associated with the AC has 24 as the accrual rate
 	 *  run accrual for testUser18 for 6 months
 	 */
 	public void testWeeklyAsEarnInterval() {
@@ -952,29 +952,29 @@ public class AccrualServiceTest extends KPMETestCase {
 		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate);
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		LeaveBlock lb = leaveBlockList.get(0);		
-//		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 3, not " + lb.getLeaveAmount().toString()
-//				 , lb.getLeaveAmount().equals(new BigDecimal(3)));		
+		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 24, not " + lb.getLeaveAmount().toString()
+				 , lb.getLeaveAmount().equals(new BigDecimal(24)));		
 		// 03/31/2012
 		intervalDate = new Date((new DateTime(2012, 3, 31, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate);
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		lb = leaveBlockList.get(0);		
-		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 4, not " + lb.getLeaveAmount().toString()
-				 , lb.getLeaveAmount().equals(new BigDecimal(4)));
+		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 24, not " + lb.getLeaveAmount().toString()
+				 , lb.getLeaveAmount().equals(new BigDecimal(24)));
 		// 08/11/2012
 		intervalDate = new Date((new DateTime(2012, 8, 11, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate);
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		lb = leaveBlockList.get(0);		
-		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 4, not " + lb.getLeaveAmount().toString()
-				 , lb.getLeaveAmount().equals(new BigDecimal(4)));
+		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 24, not " + lb.getLeaveAmount().toString()
+				 , lb.getLeaveAmount().equals(new BigDecimal(24)));
 		// 08/18/2012
 		intervalDate = new Date((new DateTime(2012, 8, 18, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(principal_id, intervalDate);
 		Assert.assertTrue("There should be 1 leave block for employee " + principal_id + " for date " + intervalDate.toString(), leaveBlockList.size()==1);
 		lb = leaveBlockList.get(0);		
-		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 4, not " + lb.getLeaveAmount().toString()
-				 , lb.getLeaveAmount().equals(new BigDecimal(4)));
+		Assert.assertTrue("Hours of the leave block for date  " + intervalDate.toString() + " should be 24, not " + lb.getLeaveAmount().toString()
+				 , lb.getLeaveAmount().equals(new BigDecimal(24)));
 	}
 	@Test
 	/*	testUser19's service Date is 2012-03-20
