@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.batch.service;
 
-import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -51,7 +50,6 @@ import org.kuali.hr.time.missedpunch.MissedPunchDocument;
 import org.kuali.hr.time.missedpunch.service.MissedPunchService;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.principal.service.PrincipalHRAttributesService;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderService;
@@ -248,41 +246,6 @@ public class BatchJobServiceImpl implements BatchJobService {
     	}
 	}
 	
-	@Override
-	public void scheduleLeaveCarryOverJobs(LeavePlan leavePlan) throws SchedulerException {
-		String batchJobDate = leavePlan.getBatchPriorYearCarryOverStartDate();
-		java.util.Calendar batchJobTimeCal = java.util.Calendar.getInstance();
-		batchJobTimeCal.setTimeInMillis(leavePlan.getBatchPriorYearCarryOverStartTime().getTime());
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
-		sdf.setLenient(false);
-		java.util.Date batchJobStart = null;
-		
-		try {
-			batchJobStart = sdf.parse(batchJobDate);
-		} catch (ParseException e) {
-		}
-		
-		java.util.Calendar batchJobStartDateTime = java.util.Calendar.getInstance();
-		batchJobStartDateTime.setTime(batchJobStart);
-		batchJobStartDateTime.set(java.util.Calendar.YEAR,java.util.Calendar.getInstance().get(java.util.Calendar.YEAR));
-		batchJobStartDateTime.set(java.util.Calendar.HOUR_OF_DAY,batchJobTimeCal.get(java.util.Calendar.HOUR_OF_DAY));
-		batchJobStartDateTime.set(java.util.Calendar.MINUTE,batchJobTimeCal.get(java.util.Calendar.MINUTE));
-		batchJobStartDateTime.set(java.util.Calendar.SECOND, 0);
-		batchJobStartDateTime.set(java.util.Calendar.MILLISECOND, 0);
-		
-		scheduleLeaveCarryOverJob(leavePlan, batchJobStartDateTime.getTime());
-	}
-	
-	
-	private void scheduleLeaveCarryOverJob(LeavePlan leavePlan, Date scheduleDate) throws SchedulerException {
-        Map<String, String> jobGroupDataMap = new HashMap<String, String>();
-        jobGroupDataMap.put("leavePlanCode", leavePlan.getLeavePlan());
-		Map<String, String> jobDataMap = new HashMap<String, String>();
-		// It does not work if not any key to jobDataMap.
-		jobDataMap.put("leavePlanId", leavePlan.getLmLeavePlanId());
-        scheduleJob(CarryOverJob.class, scheduleDate, jobGroupDataMap, jobDataMap);
-	}
-	
 	private void scheduleEmployeeApprovalJob(CalendarEntries calendarEntry, Date scheduleDate, CalendarDocumentHeaderContract calendarDocumentHeaderContract) throws SchedulerException {
         Map<String, String> jobGroupDataMap = new HashMap<String, String>();
         jobGroupDataMap.put("hrCalendarEntriesId", calendarEntry.getHrCalendarEntriesId());
@@ -292,7 +255,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 		
         scheduleJob(EmployeeApprovalJob.class, scheduleDate, jobGroupDataMap, jobDataMap);
 	}
-	
+
 	@Override
 	public void scheduleMissedPunchApprovalJobs(CalendarEntries calendarEntry) throws SchedulerException {
 		scheduleMissedPunchApprovalJobs(calendarEntry, calendarEntry.getBatchSupervisorApprovalDateTime());
@@ -356,6 +319,45 @@ public class BatchJobServiceImpl implements BatchJobService {
         jobDataMap.put("documentId", calendarDocumentHeaderContract.getDocumentId());
 		
         scheduleJob(SupervisorApprovalJob.class, scheduleDate, jobGroupDataMap, jobDataMap);
+	}
+	
+	
+	@Override
+	public void scheduleLeaveCarryOverJobs(LeavePlan leavePlan) throws SchedulerException {
+		String batchJobDate = leavePlan.getBatchPriorYearCarryOverStartDate();
+		java.util.Calendar batchJobTimeCal = java.util.Calendar.getInstance();
+		batchJobTimeCal.setTimeInMillis(leavePlan.getBatchPriorYearCarryOverStartTime().getTime());
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
+		sdf.setLenient(false);
+		java.util.Date batchJobStart = null;
+		
+		try {
+			batchJobStart = sdf.parse(batchJobDate);
+		} catch (ParseException e) {
+		}
+		
+		java.util.Calendar batchJobStartDateTime = java.util.Calendar.getInstance();
+		batchJobStartDateTime.setTime(batchJobStart);
+		batchJobStartDateTime.set(java.util.Calendar.YEAR,java.util.Calendar.getInstance().get(java.util.Calendar.YEAR));
+		batchJobStartDateTime.set(java.util.Calendar.HOUR_OF_DAY,batchJobTimeCal.get(java.util.Calendar.HOUR_OF_DAY));
+		batchJobStartDateTime.set(java.util.Calendar.MINUTE,batchJobTimeCal.get(java.util.Calendar.MINUTE));
+		batchJobStartDateTime.set(java.util.Calendar.SECOND, 0);
+		batchJobStartDateTime.set(java.util.Calendar.MILLISECOND, 0);
+		
+		scheduleLeaveCarryOverJob(leavePlan, batchJobStartDateTime.getTime());
+	}
+	
+	@Override
+	public void scheduleLeaveCarryOverJobs(LeavePlan leavePlan, Date scheduleDate) throws SchedulerException {
+		scheduleLeaveCarryOverJob(leavePlan, scheduleDate);
+	}
+
+	private void scheduleLeaveCarryOverJob(LeavePlan leavePlan, Date scheduleDate) throws SchedulerException {
+        Map<String, String> jobGroupDataMap = new HashMap<String, String>();
+
+		Map<String, String> jobDataMap = new HashMap<String, String>();
+		jobDataMap.put("leavePlan", leavePlan.getLeavePlan());
+        scheduleJob(CarryOverJob.class, scheduleDate, jobGroupDataMap, jobDataMap);
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -252,6 +252,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 					aLeaveBlock.setDescription("Amount payed out");
 					aLeaveBlock.setLeaveAmount(leavePayout.getPayoutAmount());
 					aLeaveBlock.setAccrualGenerated(true);
+					aLeaveBlock.setTransactionDocId(leavePayout.getDocumentHeaderId());
 					aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT);
 					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
 					aLeaveBlock.setDocumentId(leavePayout.getLeaveCalendarDocumentId());
@@ -278,6 +279,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 					aLeaveBlock.setDescription("Payout amount");
 					aLeaveBlock.setLeaveAmount(leavePayout.getPayoutAmount().negate());
 					aLeaveBlock.setAccrualGenerated(true);
+					aLeaveBlock.setTransactionDocId(leavePayout.getDocumentHeaderId());
 					aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT);
 					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
 					aLeaveBlock.setDocumentId(leavePayout.getLeaveCalendarDocumentId());
@@ -311,6 +313,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 					aLeaveBlock.setDescription("Forfeited payout amount");
 					aLeaveBlock.setLeaveAmount(forfeitedAmount.negate());
 					aLeaveBlock.setAccrualGenerated(true);
+					aLeaveBlock.setTransactionDocId(leavePayout.getDocumentHeaderId());
 					aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT);
 					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
 					aLeaveBlock.setDocumentId(leavePayout.getLeaveCalendarDocumentId());
@@ -487,12 +490,24 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 		lpObj.setPrincipalId(leavePayout.getPrincipalId());
 		lpObj.setEarnCode(leavePayout.getEarnCode());
 		lpObj.setPayoutAmount(leavePayout.getPayoutAmount());
+		lpObj.setDocumentHeaderId(document.getDocumentHeader().getWorkflowDocument().getDocumentId());
+		
 		document.getNewMaintainableObject().setDataObject(lpObj);
 		KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
 		document.getDocumentHeader().getWorkflowDocument().saveDocument("");
 
 		document.getDocumentHeader().getWorkflowDocument().route("");
+	}
 
-		
+	@Override
+	public List<LeavePayout> getLeavePayouts(String viewPrincipal,
+			Date beginPeriodDate, Date endPeriodDate) {
+		// TODO Auto-generated method stub
+		return leavePayoutDao.getLeavePayouts(viewPrincipal, beginPeriodDate, endPeriodDate);
+	}
+
+	@Override
+	public void saveOrUpdate(LeavePayout payout) {
+		leavePayoutDao.saveOrUpdate(payout);
 	}
 }

@@ -34,7 +34,8 @@ public interface BalanceTransferService {
 	public List<BalanceTransfer> getAllBalanceTransfersForPrincipalId(String principalId);
 	public List<BalanceTransfer> getAllBalanceTransferForPrincipalIdAsOfDate(String principalId, Date effectiveDate);
 	public List<BalanceTransfer> getAllBalanceTransferByEffectiveDate(Date effectiveDate);
-
+	public void saveOrUpdate(BalanceTransfer balanceTransfer);
+	
 	//@Cacheable(value= LeaveDonation.CACHE_NAME, key="'balanceTransferId=' + #p0")
 	public BalanceTransfer getBalanceTransferById(String balanceTransferId);
 	
@@ -86,4 +87,6 @@ public interface BalanceTransferService {
 	 * @return
 	 */
 	public BalanceTransfer transferSsto(BalanceTransfer balanceTransfer);
+	public List<BalanceTransfer> getBalanceTransfers(String viewPrincipal,
+			Date beginPeriodDate, Date endPeriodDate);
 }

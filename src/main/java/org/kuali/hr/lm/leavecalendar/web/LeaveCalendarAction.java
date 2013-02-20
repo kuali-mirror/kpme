@@ -15,16 +15,6 @@
  */
 package org.kuali.hr.lm.leavecalendar.web;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.Map.Entry;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
@@ -35,6 +25,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -46,6 +37,7 @@ import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;
+import org.kuali.hr.lm.leavepayout.LeavePayout;
 import org.kuali.hr.lm.util.LeaveBlockAggregate;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
@@ -70,11 +62,18 @@ import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.exception.AuthorizationException;
-import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krad.util.UrlFactory;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class LeaveCalendarAction extends TkAction {
 
@@ -198,7 +197,7 @@ public class LeaveCalendarAction extends TkAction {
                 LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(viewPrincipal, calendarEntry);
                 lcf.setLeaveSummary(ls);
             } else {
-                DateTime effDate = (new LocalDateTime(firstDay)).toDateTime().minus(1);
+                DateTime effDate = (new LocalDateTime(firstDay)).toDateTime().withYear(calendarEntry.getBeginLocalDateTime().getYear()+1).minus(1);
                 LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(viewPrincipal, new java.sql.Date(effDate.getMillis()));
                 //override title element (based on date passed in)
                 DateFormat formatter = new SimpleDateFormat("MMMM d");
@@ -216,7 +215,7 @@ public class LeaveCalendarAction extends TkAction {
         }
         
         // add warning messages based on earn codes of leave blocks
-        Map<String, Set> allMessages = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
+        Map<String, Set<String>> allMessages = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
 
         // add warning message for accrual categories that have exceeded max balance.
         Map<String,ArrayList<String>> transfers = new HashMap<String,ArrayList<String>>();
@@ -257,6 +256,7 @@ public class LeaveCalendarAction extends TkAction {
             }
 	        lcf.setForfeitures(losses);
         }
+        
         for(Entry<String, ArrayList<String>> entry : transfers.entrySet()) {
         	if(!entry.getValue().isEmpty()) {
     			for(String accrualRuleId : entry.getValue()) {
@@ -283,6 +283,11 @@ public class LeaveCalendarAction extends TkAction {
     			}
         	}
         }
+        Map<String,Set<String>> transactions = LeaveCalendarValidationUtil.validatePendingTransactions(viewPrincipal, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
+
+        allMessages.get("infoMessages").addAll(transactions.get("infoMessages"));
+        allMessages.get("warningMessages").addAll(transactions.get("warningMessages"));
+        allMessages.get("actionMessages").addAll(transactions.get("actionMessages"));
         
         // add warning messages based on max carry over balances for each accrual category
         if(calendarEntry != null) {
@@ -303,6 +308,7 @@ public class LeaveCalendarAction extends TkAction {
         List<String> warningMessages = new ArrayList<String>();
         List<String> infoMessages = new ArrayList<String>();
         List<String> actionMessages = new ArrayList<String>();
+        
         warningMessages.addAll(allMessages.get("warningMessages"));
         infoMessages.addAll(allMessages.get("infoMessages"));
         actionMessages.addAll(allMessages.get("actionMessages"));

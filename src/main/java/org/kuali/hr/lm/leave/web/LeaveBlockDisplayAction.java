@@ -36,6 +36,9 @@ import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.leaveSummary.LeaveSummary;
+import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
+import org.kuali.hr.lm.leaveSummary.service.LeaveSummaryServiceImpl;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
@@ -149,7 +152,9 @@ public class LeaveBlockDisplayAction extends TkAction {
 		List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, beginDate, endDate);
 		
 		for (LeaveBlock leaveBlock : leaveBlocks) {
-			leaveEntries.add(new LeaveBlockDisplay(leaveBlock));
+            if (!leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER)) {
+			    leaveEntries.add(new LeaveBlockDisplay(leaveBlock));
+            }
 		}
 		Collections.sort(leaveEntries, new Comparator<LeaveBlockDisplay>() {
 			@Override
@@ -181,22 +186,12 @@ public class LeaveBlockDisplayAction extends TkAction {
 	
 	private SortedMap<String, BigDecimal> getPreviousAccrualBalances(String principalId, Date serviceDate, Date beginDate, List<AccrualCategory> accrualCategories) {
 		SortedMap<String, BigDecimal> previousAccrualBalances = new TreeMap<String, BigDecimal>();
-		
-		List<LeaveBlock> previousLeaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, serviceDate, new DateTime(beginDate).minusDays(1).toDate());
-		
-		for (LeaveBlock previousLeaveBlock : previousLeaveBlocks) {
-			for (AccrualCategory accrualCategory : accrualCategories) {
-				if (!previousAccrualBalances.containsKey(accrualCategory.getAccrualCategory())) {
-					previousAccrualBalances.put(accrualCategory.getAccrualCategory(), BigDecimal.ZERO);
-				}
-				BigDecimal currentAccrualBalance = previousAccrualBalances.get(accrualCategory.getAccrualCategory());
-				
-				if (StringUtils.equals(previousLeaveBlock.getAccrualCategory(), accrualCategory.getAccrualCategory())) {
-					BigDecimal accruedBalance = currentAccrualBalance.add(previousLeaveBlock.getLeaveAmount());
-					previousAccrualBalances.put(accrualCategory.getAccrualCategory(), accruedBalance);
-				}
-			}
-		}
+
+        LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(principalId, new java.sql.Date(new DateTime(beginDate).getMillis()));
+
+        for (LeaveSummaryRow row : leaveSummary.getLeaveSummaryRows()) {
+            previousAccrualBalances.put(row.getAccrualCategory(), row.getCarryOver());
+        }
 		
 		return previousAccrualBalances;
 	}

@@ -37,6 +37,7 @@ public class LeavePayout extends HrBusinessObject {
 
 	private String lmLeavePayoutId;
 	private String principalId;
+	private String documentHeaderId;
 	private String fromAccrualCategory;
 	private String earnCode;
 	private String description;
@@ -51,6 +52,8 @@ public class LeavePayout extends HrBusinessObject {
     private String forfeitedLeaveBlockId;
     private String payoutFromLeaveBlockId;
     private String payoutLeaveBlockId;
+
+	private String status;
 
 	public String getEarnCode() {
 		return earnCode;
@@ -231,5 +234,19 @@ public class LeavePayout extends HrBusinessObject {
 		this.payoutAmount = payoutAmount;
 		
 		return this;
+	}
+	
+	public String getStatus() {
+		return status;
+	}
+	
+	public void setStatus(String code) {
+		status = code;
+	}
+	public String getDocumentHeaderId() {
+		return documentHeaderId;
+	}
+	public void setDocumentHeaderId(String documentHeaderId) {
+		this.documentHeaderId = documentHeaderId;
 	}
 }

@@ -95,6 +95,7 @@
         <field-descriptor name="forfeitedAmount"        column="FORFEITED_AMOUNT"          		jdbc-type="DECIMAL"   	length="20" />
         <field-descriptor name="effectiveDate"          column="EFFECTIVE_DATE"         		jdbc-type="DATE"        nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
         <field-descriptor name="sstoId"     			column="SSTO_ID"   						jdbc-type="VARCHAR"     length="60" />
+        <field-descriptor name="status"					column="STATUS"							jdbc-type="VARCHAR"		length="1" />
     </class-descriptor>
 
     <!-- Leave Payout -->
@@ -106,6 +107,7 @@
         <field-descriptor name="fromAccrualCategory"    column="FROM_ACCRUAL_CATEGORY"			jdbc-type="VARCHAR"     length="15" nullable="false" />
         <field-descriptor name="payoutAmount"         	column="PAYOUT_AMOUNT"         			jdbc-type="DECIMAL"     length="20" nullable="false" />
         <field-descriptor name="forfeitedAmount"        column="FORFEITED_AMOUNT"          		jdbc-type="DECIMAL"   	length="20" />
+        <field-descriptor name="status"					column="STATUS"							jdbc-type="VARCHAR"		length="1" />
     </class-descriptor>
 
     <!-- Leave Code -->
@@ -181,6 +183,7 @@
         <field-descriptor name="task"                   column="TASK"                   jdbc-type="BIGINT"      nullable="false" primarykey="false" />
         <field-descriptor name="leaveBlockType"         column="LEAVE_BLOCK_TYPE"       jdbc-type="VARCHAR"     length="5" nullable="false" />
         <field-descriptor name="leaveRequestDocumentId" column="LEAVE_REQUEST_ID"       jdbc-type="VARCHAR"     length="40" nullable="true" />
+        <field-descriptor name="transactionalDocId"		column="TRANS_DOC_ID"			jdbc-type="VARCHAR"		length="40"	nullable="true" />
         <field-descriptor name="objectId"               column="OBJ_ID"                 jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"          column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
 

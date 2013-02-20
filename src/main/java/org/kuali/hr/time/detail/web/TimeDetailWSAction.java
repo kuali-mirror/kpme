@@ -75,7 +75,8 @@ public class TimeDetailWSAction extends TimesheetAction {
         List<String> errors = new ArrayList<String>();
         
     	EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument().getAsOfDate());
-    	if(ec != null && ec.getLeavePlan() != null) {	// leave blocks changes
+    	if(ec != null 
+    			&& (ec.getLeavePlan() != null || ec.getEligibleForAccrual().equals("N"))) {	// leave blocks changes
     		errors = this.validateLeaveEntry(tdaf);
     	} else {	// time blocks changes
     		errors = TimeDetailValidationUtil.validateTimeEntryDetails(tdaf);
@@ -98,8 +99,10 @@ public class TimeDetailWSAction extends TimesheetAction {
 			if(StringUtils.isNotEmpty(tdaf.getLmLeaveBlockId())) {
 				lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(tdaf.getLmLeaveBlockId());
 			}
-			errorMsgList.addAll(LeaveCalendarValidationUtil.validateAvailableLeaveBalance(ls, tdaf.getSelectedEarnCode(),
-                    tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
+//			errorMsgList.addAll(LeaveCalendarValidationUtil.validateAvailableLeaveBalance(ls, tdaf.getSelectedEarnCode(),
+//                    tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
+			errorMsgList.addAll(LeaveCalendarValidationUtil.validateAvailableLeaveBalanceForUsage(tdaf.getSelectedEarnCode(), 
+					tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
 			//Validate leave block does not exceed max usage. Leave Calendar Validators at this point rely on a leave summary.
 	        errorMsgList.addAll(LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, tdaf.getSelectedEarnCode(),
                     tdaf.getStartDate(), tdaf.getEndDate(), tdaf.getLeaveAmount(), lb));
@@ -145,6 +148,7 @@ public class TimeDetailWSAction extends TimesheetAction {
                             earnCodeMap.put("fractionalTimeAllowed", earnCode.getFractionalTimeAllowed());
                             earnCodeMap.put("unitOfTime", ActionFormUtils.getUnitOfTimeForEarnCode(earnCode));
                         }
+                        earnCodeMap.put("eligibleForAccrual", earnCode.getEligibleForAccrual());
                         earnCodeList.add(earnCodeMap);
                     }
                 }

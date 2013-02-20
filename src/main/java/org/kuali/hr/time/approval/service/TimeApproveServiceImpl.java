@@ -15,32 +15,19 @@
  */
 package org.kuali.hr.time.approval.service;
 
-import java.math.BigDecimal;
-import java.sql.Types;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
-import org.joda.time.DateMidnight;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Hours;
-import org.joda.time.Interval;
+import org.joda.time.*;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.kuali.hr.lm.LMConstants;
+import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.accrual.AccrualCategoryRule;
+import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
@@ -55,11 +42,7 @@ import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
-import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
-import org.kuali.hr.time.util.TkTimeBlockAggregate;
+import org.kuali.hr.time.util.*;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -69,8 +52,11 @@ import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import java.math.BigDecimal;
+import java.sql.Types;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Map.Entry;
 
 public class TimeApproveServiceImpl implements TimeApproveService {
 
@@ -272,8 +258,18 @@ public class TimeApproveServiceImpl implements TimeApproveService {
                 notes = getNotesForDocument(documentId);
                 TimesheetDocument td = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
 				warnings = TkServiceLocator.getWarningService().getWarnings(td);
-			}
 
+			}
+			//TODO: Move to Warning Service!!!!!
+			Map<String, Set<String>> transactionalWarnings = LeaveCalendarValidationUtil.validatePendingTransactions(person.getPrincipalId(), payCalendarEntries.getBeginPeriodDate(), payCalendarEntries.getEndPeriodDate());
+			
+			warnings.addAll(transactionalWarnings.get("infoMessages"));
+			warnings.addAll(transactionalWarnings.get("warningMessages"));
+			warnings.addAll(transactionalWarnings.get("actionMessages"));
+
+			Map<String, Set<String>> eligibleTransfers = findWarnings(tdh,payCalendarEntries);
+			warnings.addAll(eligibleTransfers.get("warningMessages"));
+			
 			Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(
 					person.getPrincipalId(), payEndDate, payCalendarLabels,
 					timeBlocks, null, payCalendarEntries, payCalendar,
@@ -368,6 +364,58 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		return lstPayCalendarLabels;
 	}
 
+	private Map<String, Set<String>> findWarnings(TimesheetDocumentHeader tdh, CalendarEntries calendarEntry) {
+//      List<String> warnings = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
+      Map<String, Set<String>> allMessages = new HashMap<String,Set<String>>();
+      allMessages.put("warningMessages", new HashSet<String>());
+      //get LeaveSummary and check for warnings
+      if (tdh != null) {
+          Map<String, ArrayList<String>> eligibilities;
+          try {
+      	 eligibilities = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(calendarEntry, tdh.getPrincipalId());
+          } catch (Exception e) {
+          	eligibilities = null;
+          }           
+          if (eligibilities != null) {
+              for (Entry<String,ArrayList<String>> entry : eligibilities.entrySet()) {
+            	  for(String accrualRuleId : entry.getValue()) {
+            		  AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+            		  if (rule != null) {
+            			  AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
+            			  if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.TRANSFER)) {
+            				  //Todo: add link to balance transfer
+            				  allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");   //warningMessages
+            			  } else if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
+            				  //Todo: compute and display amount of time lost.
+            				  allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");      //warningMessages
+            			  }
+            			  //will never contain PAYOUT action transfers.
+            		  }
+            	  }
+              }
+          }
+          Map<String, ArrayList<String>> payoutEligible;
+          try {
+        	  payoutEligible = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(calendarEntry, tdh.getPrincipalId());
+          } catch (Exception e) {
+        	  payoutEligible = null;  
+          }
+          if (payoutEligible != null) {
+              for (Entry<String,ArrayList<String>> entry : payoutEligible.entrySet()) {
+            	  for(String accrualRuleId : entry.getValue()) {
+            		  AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+            		  if (rule != null) {
+            			  AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
+           				  allMessages.get("warningMessages").add("Accrual category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");
+            		  }
+            		  // should never contain LOSE or TRANSFER max balance actions.
+            	  }
+              }
+          }
+      }
+      return allMessages;
+  }
+	
 	/**
 	 * Create label for a given pay calendar day
 	 * 

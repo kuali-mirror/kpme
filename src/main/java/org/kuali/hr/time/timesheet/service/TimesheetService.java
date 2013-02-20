@@ -83,4 +83,5 @@ public interface TimesheetService {
     void approveTimesheet(String principalId, TimesheetDocument timesheetDocument, String action);
 
     void routeTimesheet(String principalId, TimesheetDocument timesheetDocument, String action);
+	public boolean isReadyToApprove(TimesheetDocument document);
 }

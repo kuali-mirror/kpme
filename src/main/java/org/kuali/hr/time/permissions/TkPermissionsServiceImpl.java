@@ -107,14 +107,11 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
                 if (StringUtils.equals(payType.getRegEarnCode(), tb.getEarnCode())) {
                     TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),tb.getWorkArea(),tb.getBeginDate());
                     
-                    if (tcr != null) {
-                    	if (!tcr.isClockUserFl()) {
-	                        return true;
-	                    }  else{
-	                        return false;
-	                    }
+                    if (tcr != null && !tcr.isClockUserFl()) {
+                    	return true;
+                    } else {
+                        return false;
                     }
-
                 }
 
                 List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator
@@ -208,13 +205,11 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
                     if (assignments.size() == 1) {
                     	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),tb.getWorkArea(),job.getHrPayType(),tb.getBeginDate());
                     	
-                    	if (tcr != null) {
-	                        if (!tcr.isClockUserFl()) {
-	                            return true;
-	                        }  else{
-	                            return false;
-	                        }
-                    	}
+                    	if (tcr != null && !tcr.isClockUserFl()) {
+                    		return true;
+                        }  else {
+                            return false;
+                        }
                     } else {
                         return true;
                     }
@@ -297,8 +292,8 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
             if (StringUtils.equals(payType.getRegEarnCode(), tb.getEarnCode())) {
             	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),tb.getWorkArea(),payType.getPayType(),tb.getEndDate());
             	
-            	if (tcr != null) {
-                	if (tcr.isClockUserFl() && StringUtils.equals(userId,TKContext.getTargetPrincipalId())) {
+            	if (tcr == null || tcr.isClockUserFl()) {
+            		if (StringUtils.equals(userId,TKContext.getTargetPrincipalId())) {
 	                    return false;
 	                }  else {
 	                    return true;
@@ -343,7 +338,9 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
             if (StringUtils.isBlank(blockType)
                     || StringUtils.equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, blockType)
                     || StringUtils.equals(LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR, blockType)) {
-                return true;
+            	if (!TKContext.getUser().isDepartmentAdmin()) {
+            		return true;
+            	}
             } else if (LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER.equals(blockType)
                     || LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT.equals(blockType)
                     || LMConstants.LEAVE_BLOCK_TYPE.DONATION_MAINT.equals(blockType)
@@ -777,7 +774,7 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
         	}
         	
         	TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(anAssignment.getDept(), anAssignment.getWorkArea(), anAssignment.getJob().getHrPayType(), aDate);
-        	if (tcr != null && tcr.isClockUserFl()) {
+        	if (tcr == null || tcr.isClockUserFl()) {
         		// use assignment to get the payType object, then check if the regEarnCode of the paytyep matches the earn code of the timeblock
         		// if they do match, then return false
         		PayType pt = TkServiceLocator.getPayTypeService().getPayType(anAssignment.getJob().getHrPayType(), anAssignment.getJob().getEffectiveDate());

@@ -42,7 +42,6 @@ public class BalanceTransfer extends HrBusinessObject {
 	private BigDecimal transferAmount;
 	private BigDecimal amountTransferred;
 	private BigDecimal forfeitedAmount;
-	private Date effectiveDate;
 	private String leaveCalendarDocumentId;
 
 	private String status;
@@ -52,14 +51,6 @@ public class BalanceTransfer extends HrBusinessObject {
 	private String sstoId;
 	
 	private Person principal;
-
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
-
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
 	
 	public String getPrincipalId() {
 		return principalId;
@@ -141,11 +132,11 @@ public class BalanceTransfer extends HrBusinessObject {
 	}
 
 	public AccrualCategory getCreditedAccrualCategory() {
-		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, effectiveDate);
+		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, super.getEffectiveDate());
 	}
 
 	public AccrualCategory getDebitedAccrualCategory() {
-		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
+		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, super.getEffectiveDate());
 	}
 
 	public String getLeaveCalendarDocumentId() {
@@ -281,6 +272,14 @@ public class BalanceTransfer extends HrBusinessObject {
 
 	public void setSstoId(String sstoId) {
 		this.sstoId = sstoId;
+	}
+
+	public String getDocumentHeaderId() {
+		return documentHeaderId;
+	}
+
+	public void setDocumentHeaderId(String documentHeaderId) {
+		this.documentHeaderId = documentHeaderId;
 	}
 	
 	//Comparable for order handling of more than one transfer occurring during the same

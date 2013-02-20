@@ -29,7 +29,11 @@
             <defaultExceptionWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</defaultExceptionWorkgroupName>
             <description>Leave Request Document</description>
             <label>LeaveRequestDocument</label>
+            <applicationId>KPME</applicationId>
             <attributes>
+                <attribute>
+                    <name>LeaveRequestCustomActionListAttribute</name>
+                </attribute>
                 <attribute>
                     <name>LeaveRequestWorkareaSearchAttribute</name>
                 </attribute>
@@ -87,81 +91,90 @@
 
     <ruleAttributes xmlns="ns:workflow/RuleAttribute"
                     xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
-    <ruleAttribute>
-        <name>LeaveRequestWorkareaSearchAttribute</name>
-        <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
-        <label>LeaveRequestWorkareaSearchAttribute</label>
-        <description>LeaveRequestWorkareaSearchAttribute</description>
-        <type>SearchableXmlAttribute</type>
-        <searchingConfig>
-            <fieldDef name="workarea" title="Work Area">
-                <display>
-                    <type>text</type>
-                </display>
-                <fieldEvaluation>
-                    <xpathexpression>//WORKAREA/@value</xpathexpression>
-                </fieldEvaluation>
-            </fieldDef>
-        </searchingConfig>
-    </ruleAttribute>
-    <ruleAttribute>
-        <name>LeaveRequestDepartmentSearchAttribute</name>
-        <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
-        <label>LeaveRequestDepartmentSearchAttribute</label>
-        <description>LeaveRequestDepartmentSearchAttribute</description>
-        <type>SearchableXmlAttribute</type>
-        <searchingConfig>
-            <fieldDef name="department" title="Department">
-                <display>
-                    <type>text</type>
-                </display>
-                <fieldEvaluation>
-                    <xpathexpression>//DEPARTMENT/@value</xpathexpression>
-                </fieldEvaluation>
-            </fieldDef>
-        </searchingConfig>
-    </ruleAttribute>
-    <ruleAttribute>
-        <name>LeaveRequestSalGroupSearchAttribute</name>
-        <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
-        <label>LeaveRequestSalGroupSearchAttribute</label>
-        <description>LeaveRequestSalGroupSearchAttribute</description>
-        <type>SearchableXmlAttribute</type>
-        <searchingConfig>
-            <fieldDef name="salGroup" title="Salary Group">
-                <display>
-                    <type>text</type>
-                </display>
-                <fieldEvaluation>
-                    <xpathexpression>//SALGROUP/@value</xpathexpression>
-                </fieldEvaluation>
-            </fieldDef>
-        </searchingConfig>
-    </ruleAttribute>
-    <ruleAttribute>
-        <name>LeaveRequestCalEndSearchAttribute</name>
-        <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
-        <label>LeaveRequestCalEndSearchAttribute</label>
-        <description>LeaveRequestCalEndSearchAttribute</description>
-        <type>SearchableXmlAttribute</type>
-        <searchingConfig>
-            <fieldDef name="payCalendarEnd" title="Pay Calendar End Date">
-                <display>
-                    <type>text</type>
-                </display>
-                <fieldEvaluation>
-                    <xpathexpression>//PAYENDDATE/@value</xpathexpression>
-                </fieldEvaluation>
-            </fieldDef>
-        </searchingConfig>
-    </ruleAttribute>
-    <ruleAttribute>
-        <name>LeaveRequestWorkflowAttribute</name>
-        <className>org.kuali.hr.lm.workflow.LeaveRequestWorkflowAttribute</className>
-        <label>LeaveRequestWorkflowAttribute</label>
-        <description>LeaveRequestWorkflowAttribute</description>
-        <type>RuleAttribute</type>
-    </ruleAttribute>
+        <ruleAttribute>
+            <name>LeaveRequestWorkareaSearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>LeaveRequestWorkareaSearchAttribute</label>
+            <description>LeaveRequestWorkareaSearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <searchingConfig>
+                <fieldDef name="workarea" title="Work Area">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <fieldEvaluation>
+                        <xpathexpression>//WORKAREA/@value</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>LeaveRequestDepartmentSearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>LeaveRequestDepartmentSearchAttribute</label>
+            <description>LeaveRequestDepartmentSearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <searchingConfig>
+                <fieldDef name="department" title="Department">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <fieldEvaluation>
+                        <xpathexpression>//DEPARTMENT/@value</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>LeaveRequestSalGroupSearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>LeaveRequestSalGroupSearchAttribute</label>
+            <description>LeaveRequestSalGroupSearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <searchingConfig>
+                <fieldDef name="salGroup" title="Salary Group">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <fieldEvaluation>
+                        <xpathexpression>//SALGROUP/@value</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>LeaveRequestCalEndSearchAttribute</name>
+            <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
+            <label>LeaveRequestCalEndSearchAttribute</label>
+            <description>LeaveRequestCalEndSearchAttribute</description>
+            <type>SearchableXmlAttribute</type>
+            <searchingConfig>
+                <fieldDef name="payCalendarEnd" title="Pay Calendar End Date">
+                    <display>
+                        <type>text</type>
+                    </display>
+                    <fieldEvaluation>
+                        <xpathexpression>//PAYENDDATE/@value</xpathexpression>
+                    </fieldEvaluation>
+                </fieldDef>
+            </searchingConfig>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>LeaveRequestWorkflowAttribute</name>
+            <className>org.kuali.hr.lm.workflow.LeaveRequestWorkflowAttribute</className>
+            <label>LeaveRequestWorkflowAttribute</label>
+            <description>LeaveRequestWorkflowAttribute</description>
+            <type>RuleAttribute</type>
+            <applicationId>KPME</applicationId>
+        </ruleAttribute>
+        <ruleAttribute>
+            <name>LeaveRequestCustomActionListAttribute</name>
+            <className>org.kuali.hr.lm.leaverequest.LeaveRequestCustomActionListAttribute</className>
+            <label>LeaveRequestCustomActionListAttribute</label>
+            <description>LeaveRequestCustomActionListAttribute</description>
+            <type>ActionListAttribute</type>
+            <applicationId>KPME</applicationId>
+        </ruleAttribute>    
     </ruleAttributes>
 
     <ruleTemplates xmlns="ns:workflow/RuleTemplate"

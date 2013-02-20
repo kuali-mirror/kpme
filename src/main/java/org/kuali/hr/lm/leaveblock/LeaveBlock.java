@@ -93,6 +93,8 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	@Transient
 	private String planningDescription;
 
+	private String transactionalDocId;
+
 	public static class Builder {
 
 		// required parameters for the constructor
@@ -602,6 +604,14 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 
 	public void setPlanningDescription(String planningDescription) {
 		this.planningDescription = planningDescription;
+	}
+
+	public void setTransactionDocId(String documentHeaderId) {
+		transactionalDocId = documentHeaderId;		
+	}
+	
+	public String getTransactionalDocId() {
+		return transactionalDocId;
 	}
 
 }

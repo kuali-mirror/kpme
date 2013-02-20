@@ -19,9 +19,11 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,6 +41,8 @@ import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
+import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;
+import org.kuali.hr.lm.leavepayout.LeavePayout;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -78,7 +82,7 @@ public class TimesheetAction extends TkAction {
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		TimesheetActionForm taForm = (TimesheetActionForm) form;
 		String documentId = taForm.getDocumentId();
-		
+
         if (StringUtils.equals(request.getParameter("command"), "displayDocSearchView")
         		|| StringUtils.equals(request.getParameter("command"), "displayActionListView") ) {
         	documentId = (String) request.getParameter("docId");
@@ -90,7 +94,7 @@ public class TimesheetAction extends TkAction {
         // view, be it target user, backdoor or otherwise.
         String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
         Date currentDate = TKUtils.getTimelessDate(null);
-		CalendarEntries payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal,  currentDate);
+		CalendarEntries payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal, currentDate);
 
         // By handling the prev/next in the execute method, we are saving one
         // fetch/construction of a TimesheetDocument. If it were broken out into
@@ -115,6 +119,12 @@ public class TimesheetAction extends TkAction {
         }
         
         List<String> warnings = new ArrayList<String>();
+        Map<String, Set<String>> allMessages = new HashMap<String,Set<String>>();
+        allMessages.put("actionMessages", new HashSet<String>());
+        allMessages.put("warningMessages", new HashSet<String>());
+        allMessages.put("infoMessages", new HashSet<String>());
+        //placing the following "validation" further down in this method will overwrite messages added prior to this call.
+        //allMessages.putAll(LeaveCalendarValidationUtil.validatePendingTransactions(viewPrincipal, payCalendarEntry.getBeginPeriodDate(), payCalendarEntry.getEndPeriodDate()));
         
         // add warning messages based on max carry over balances for each accrual category for non-exempt leave users
         List<BalanceTransfer> losses = new ArrayList<BalanceTransfer>();
@@ -135,11 +145,8 @@ public class TimesheetAction extends TkAction {
 	        			for(String accrualRuleId : entry.getValue()) {
 	        				AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
 	        				AccrualCategory aCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
-	        				String message = "You have exceeded the maximum balance limit for '" + aCat.getAccrualCategory() + "'. " +
-	                    			"Depending upon the accrual category rules, leave over this limit may be forfeited.";
-	        				if(!warnings.contains(message)) {
-	        					warnings.add(message);
-	        				}
+	        				allMessages.get("warningMessages").add("You have exceeded the maximum balance limit for '" + aCat.getAccrualCategory() + "'. " +
+	                    			"Depending upon the accrual category rules, leave over this limit may be forfeited.");
 	        			}
 	        		}
 	        	}
@@ -149,11 +156,8 @@ public class TimesheetAction extends TkAction {
 	        			for(String accrualRuleId : entry.getValue()) {
 	        				AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
 	        				AccrualCategory aCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
-	        				String message = "You have exceeded the maximum balance limit for '" + aCat.getAccrualCategory() + "'. " +
-	                    			"Depending upon the accrual category rules, leave over this limit may be forfeited.";
-	        				if(!warnings.contains(message)) {
-	        					warnings.add(message);
-	        				}
+	        				allMessages.get("warningMessages").add("You have exceeded the maximum balance limit for '" + aCat.getAccrualCategory() + "'. " +
+	                    			"Depending upon the accrual category rules, leave over this limit may be forfeited.");
 	        			}
 	        		}
 	        	}
@@ -182,7 +186,7 @@ public class TimesheetAction extends TkAction {
 	            }
         	}
             taForm.setForfeitures(losses);
-        	
+            
         	if (principalCalendar != null) {
 	        	Calendar calendar = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(viewPrincipal, taForm.getEndPeriodDateTime(), true);
 					
@@ -201,7 +205,9 @@ public class TimesheetAction extends TkAction {
 				}
 			}
         }
-		
+		warnings.addAll(allMessages.get("infoMessages"));
+		warnings.addAll(allMessages.get("actionMessages"));
+		warnings.addAll(allMessages.get("warningMessages"));
 		taForm.setWarningMessages(warnings);
 
         // Do this at the end, so we load the document first,

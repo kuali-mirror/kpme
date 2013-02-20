@@ -80,7 +80,7 @@ public class LeaveBlockRenderer {
     public String getLeaveBlockDetails() {
         if (this.leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE)) {
 //            return "accrual";
-        	if(ObjectUtils.isNotNull(leaveBlock.getSystemScheduledTimeOffObj()))
+        	if(ObjectUtils.isNotNull(leaveBlock.getScheduleTimeOffId()))
         		return TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(this.leaveBlock.getScheduleTimeOffId()).getDescr();
         	else
         		return "accrual";
@@ -95,12 +95,23 @@ public class LeaveBlockRenderer {
         	else
         		return "balance transfer";
         }
+        else if(this.leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT)) {
+        	if(this.leaveBlock.getDescription().contains("Forfeited"))
+        		return "payout forfeiture";
+        	else if(this.leaveBlock.getDescription().contains("Amount paid out"))
+        		return "amount paid out";
+        	else if(this.leaveBlock.getDescription().contains("Payout amount"))
+        		return "payout amount";
+        	else
+        		return "leave payout";
+        }
         else
         	if(!this.leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR) &&
         			!this.leaveBlock.getLeaveBlockType().equals(LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR))
         		return LMConstants.LEAVE_BLOCK_TYPE_MAP.get(this.leaveBlock.getLeaveBlockType()).toLowerCase();
         	else
         		return getRequestStatusClass();
+        
     }
     
     public String getDescription() {

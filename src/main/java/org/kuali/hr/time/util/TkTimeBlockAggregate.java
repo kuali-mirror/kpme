@@ -37,7 +37,7 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 public class TkTimeBlockAggregate {
-	public List<List<TimeBlock>> dayTimeBlockList = new ArrayList<List<TimeBlock>>();
+	private List<List<TimeBlock>> dayTimeBlockList = new ArrayList<List<TimeBlock>>();
 	private CalendarEntries payCalendarEntry;
 	private Calendar payCalendar;
 

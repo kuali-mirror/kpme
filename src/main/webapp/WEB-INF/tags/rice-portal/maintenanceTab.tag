@@ -29,5 +29,6 @@
 </td>
 <td class="content" valign="top">
     <admin:batchJob />
+    <admin:carryOverBatchJob />
     <admin:calendarEntry />
 </td>

@@ -25,9 +25,11 @@ import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
+import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecalendar.dao.LeaveCalendarDao;
+import org.kuali.hr.lm.leavepayout.LeavePayout;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.assignment.Assignment;
@@ -257,25 +259,37 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     }
 
     public boolean isReadyToApprove(LeaveCalendarDocument leaveCalendarDocument) {
+    	boolean isReady = true;
         if (leaveCalendarDocument == null) {
             return false;
         }
-        List<LeaveBlock> balanceTransferLeaveBlocks =
-                TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(leaveCalendarDocument.getPrincipalId(),
-                                        leaveCalendarDocument.getCalendarEntry().getBeginPeriodDate(),
-                                        leaveCalendarDocument.getCalendarEntry().getEndPeriodDate(),
-                                        LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
-        if (CollectionUtils.isEmpty(balanceTransferLeaveBlocks))   {
-            return true;
+        List<BalanceTransfer> balanceTransfers = TkServiceLocator.getBalanceTransferService().getBalanceTransfers(leaveCalendarDocument.getPrincipalId(),
+                leaveCalendarDocument.getCalendarEntry().getBeginPeriodDate(),
+                leaveCalendarDocument.getCalendarEntry().getEndPeriodDate());
+        if (!CollectionUtils.isEmpty(balanceTransfers))   {
+	        for(BalanceTransfer balanceTransfer : balanceTransfers) {
+	        	if(StringUtils.equals(TkConstants.DOCUMENT_STATUS.get(balanceTransfer.getStatus()), TkConstants.ROUTE_STATUS.ENROUTE))
+	        		return false;
+	            if (!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, balanceTransfer.getStatus())
+	                    && !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, balanceTransfer.getStatus())) {
+	                return false;
+	            }
+	        }
         }
-        for(LeaveBlock lb : balanceTransferLeaveBlocks) {
-            if (!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, lb.getRequestStatus())
-                    && !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, lb.getRequestStatus())) {
-                return false;
-            }
+        List<LeavePayout> leavePayouts = TkServiceLocator.getLeavePayoutService().getLeavePayouts(leaveCalendarDocument.getPrincipalId(),
+        		leaveCalendarDocument.getCalendarEntry().getBeginPeriodDate(),
+        		leaveCalendarDocument.getCalendarEntry().getEndPeriodDate());
+        if (!CollectionUtils.isEmpty(leavePayouts)) {
+        	for(LeavePayout payout : leavePayouts) {
+	        	if(StringUtils.equals(TkConstants.DOCUMENT_STATUS.get(payout.getStatus()), TkConstants.ROUTE_STATUS.ENROUTE))
+	        		return false;
+	            if (!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, payout.getStatus())
+	                    && !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, payout.getStatus())) {
+	                return false;
+	            }
+        	}
         }
         return true;
-
     }
 
     protected void leaveCalendarDocumentAction(String action, String principalId, LeaveCalendarDocument leaveCalendarDocument) {

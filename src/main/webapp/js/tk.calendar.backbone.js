@@ -451,7 +451,7 @@ $(function () {
         	var docId = $('#documentId').val();
         	var accrualRuleId = _(e).parseEventKey().id;
             $('#lm-payout-empty').empty();
-            $('#lm-payout-dialog').append('<iframe width="800" height="600" src="LeavePayout.do?methodToCall=leavePayoutOnDemand&command=initiate&docTypeName=LeavePayoutDocumentType&accrualRuleId=' + accrualRuleId + '&documentId='+docId+'"></iframe>');
+            $('#lm-payout-dialog').append('<iframe width="800" height="600" src="LeavePayout.do?methodToCall=leavePayoutOnDemand&docTypeName=LeavePayoutDocumentType&timesheet=true&accrualRuleId=' + accrualRuleId + '&documentId='+docId+'"></iframe>');
 
             $('#lm-payout-dialog').dialog({
                 autoOpen: true,
@@ -743,8 +743,11 @@ $(function () {
             var earnCodeType = _.getEarnCodeType(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
             var fieldSections = [".clockInSection", ".clockOutSection", ".hourSection", ".amountSection", ".leaveAmountSection"];
             var leavePlan = this.getEarnCodeLeavePlan(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
+            var eligibleForAccr = this.getEarnCodeEligibleForAccr(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
 
-            if(typeof leavePlan != 'undefined' && leavePlan != '' && leavePlan != null && leavePlan != 'undefined') {  // for leave block earn codes
+			// display leave block fields if the earn code has leave plan OR the earn code is NOT eligible for accrual
+            if((typeof leavePlan != 'undefined' && leavePlan != '' && leavePlan != null && leavePlan != 'undefined')
+            	|| eligibleForAccr == 'N') {  // for leave block earn codes
             	var earnCodeUnit = this.getEarnCodeUnit(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
  				if(typeof earnCodeUnit == 'undefined' || earnCodeUnit == '' || earnCodeUnit == null || earnCodeUnit == 'undefined') {
  					var checkFlag = earnCodeType;
@@ -951,6 +954,12 @@ $(function () {
                 return json["earnCode"] == earnCode
             });
             return _.first(matchedEarnCode).unitOfTime;
+        },
+        getEarnCodeEligibleForAccr : function (earnCodeJson, earnCode) {
+            var matchedEarnCode = _.filter(earnCodeJson, function (json) {
+                return json["earnCode"] == earnCode
+            });
+            return _.first(matchedEarnCode).eligibleForAccrual;
         },
 
         checkLength : function (o, n, min, max) {

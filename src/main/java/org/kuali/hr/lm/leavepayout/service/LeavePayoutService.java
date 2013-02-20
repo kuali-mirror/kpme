@@ -77,5 +77,8 @@ public interface LeavePayoutService {
 	public Map<String, ArrayList<String>> getEligiblePayouts(CalendarEntries calendarEntry, String principalId) throws Exception;
 	
 	public void submitToWorkflow(LeavePayout leavePayout) throws WorkflowException;
+	public List<LeavePayout> getLeavePayouts(String viewPrincipal,
+			Date beginPeriodDate, Date endPeriodDate);
+	public void saveOrUpdate(LeavePayout payout);
     
 }

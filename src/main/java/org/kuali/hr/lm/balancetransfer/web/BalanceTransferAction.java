@@ -48,6 +48,7 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -309,6 +310,7 @@ public class BalanceTransferAction extends TkAction {
 					balanceTransfer = TkServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
 					// May need to update to save the business object to KPME's tables for record keeping.
 					LeaveBlock forfeitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(balanceTransfer.getForfeitedLeaveBlockId());
+					KRADServiceLocator.getBusinessObjectService().save(balanceTransfer);
 					forfeitedLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
 					TkServiceLocator.getLeaveBlockService().updateLeaveBlock(forfeitedLeaveBlock, lcd.getPrincipalId());
 					
@@ -399,6 +401,8 @@ public class BalanceTransferAction extends TkAction {
 					// TODO: Redirect user to prompt stating excess leave will be forfeited and ask for confirmation.
 					// Do not submit the object to workflow for this max balance action.
 					balanceTransfer = TkServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
+					KRADServiceLocator.getBusinessObjectService().save(balanceTransfer);
+
 					// May need to update to save the business object to KPME's tables for record keeping.
 					LeaveBlock forfeitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(balanceTransfer.getForfeitedLeaveBlockId());
 					forfeitedLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);

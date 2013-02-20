@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.Interval;
@@ -246,6 +247,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					aLeaveBlock.setDescription("Amount transferred");
 					aLeaveBlock.setLeaveAmount(balanceTransfer.getAmountTransferred());
 					aLeaveBlock.setAccrualGenerated(true);
+					aLeaveBlock.setTransactionDocId(balanceTransfer.getDocumentHeaderId());
 					aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
 					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
 					aLeaveBlock.setBlockId(0L);
@@ -275,6 +277,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					aLeaveBlock.setDescription("Transferred amount");
 					aLeaveBlock.setLeaveAmount(balanceTransfer.getTransferAmount().negate());
 					aLeaveBlock.setAccrualGenerated(true);
+					aLeaveBlock.setTransactionDocId(balanceTransfer.getDocumentHeaderId());
 					aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
 					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
 					aLeaveBlock.setBlockId(0L);
@@ -307,6 +310,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					aLeaveBlock.setDescription("Forfeited balance transfer amount");
 					aLeaveBlock.setLeaveAmount(forfeitedAmount.negate());
 					aLeaveBlock.setAccrualGenerated(true);
+					aLeaveBlock.setTransactionDocId(balanceTransfer.getDocumentHeaderId());
 					aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
 					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
 					aLeaveBlock.setBlockId(0L);
@@ -592,7 +596,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 	public void submitToWorkflow(BalanceTransfer balanceTransfer)
 			throws WorkflowException {
 		
-		balanceTransfer.setStatus(TkConstants.ROUTE_STATUS.ENROUTE);
+		//balanceTransfer.setStatus(TkConstants.ROUTE_STATUS.ENROUTE);
         EntityNamePrincipalName principalName = null;
         if (balanceTransfer.getPrincipalId() != null) {
             principalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(balanceTransfer.getPrincipalId());
@@ -618,11 +622,15 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		btObj.setTransferAmount(balanceTransfer.getTransferAmount());
 		btObj.setAmountTransferred(balanceTransfer.getAmountTransferred());
 		btObj.setSstoId(balanceTransfer.getSstoId());
-		document.getNewMaintainableObject().setDataObject(btObj);
+		btObj.setDocumentHeaderId(document.getDocumentHeader().getWorkflowDocument().getDocumentId());
+/*        TkServiceLocator.getBalanceTransferService().saveOrUpdate(btObj);
+		document.getNewMaintainableObject().setDataObject(btObj);*/
 		KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
 		document.getDocumentHeader().getWorkflowDocument().saveDocument("");
 
 		document.getDocumentHeader().getWorkflowDocument().route("");
+		
+
 
 		
 	}
@@ -632,6 +640,11 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		if(ObjectUtils.isNull(balanceTransfer))
 			throw new RuntimeException("did not supply a valid BalanceTransfer object.");
 		else {
+			List<LeaveBlock> sstoLbList = TkServiceLocator.getLeaveBlockService().getSSTOLeaveBlocks(balanceTransfer.getPrincipalId(), balanceTransfer.getSstoId(), balanceTransfer.getEffectiveDate());
+			String leaveDocId = "";
+			if(CollectionUtils.isNotEmpty(sstoLbList)) {
+				leaveDocId = sstoLbList.get(0).getDocumentId();
+			}
 			List<LeaveBlock> lbList = new ArrayList<LeaveBlock>();
 			// create a new leave block with transferred amount, make sure system scheduled timeoff id is added to it
 			LeaveBlock aLeaveBlock = new LeaveBlock();
@@ -646,12 +659,26 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
 			aLeaveBlock.setBlockId(0L);
 			aLeaveBlock.setScheduleTimeOffId(balanceTransfer.getSstoId());
-
+			aLeaveBlock.setDocumentId(leaveDocId);
+			
 			lbList.add(aLeaveBlock);
 			TkServiceLocator.getLeaveBlockService().saveLeaveBlocks(lbList);
 
 	    	balanceTransfer.setAccruedLeaveBlockId(aLeaveBlock.getLmLeaveBlockId());	
 			return balanceTransfer;
 		}
+	}
+
+	@Override
+	public List<BalanceTransfer> getBalanceTransfers(String viewPrincipal,
+			Date beginPeriodDate, Date endPeriodDate) {
+		// TODO Auto-generated method stub
+		return balanceTransferDao.getBalanceTransfers(viewPrincipal, beginPeriodDate, endPeriodDate);
+	}
+
+	@Override
+	public void saveOrUpdate(BalanceTransfer balanceTransfer) {
+		// TODO Auto-generated method stub
+		balanceTransferDao.saveOrUpdate(balanceTransfer);
 	}
 }

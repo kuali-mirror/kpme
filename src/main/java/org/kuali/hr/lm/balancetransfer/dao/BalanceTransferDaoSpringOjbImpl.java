@@ -25,7 +25,9 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 
+import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
+import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
@@ -39,7 +41,7 @@ public class BalanceTransferDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
 			String principalId) {
 		Criteria crit = new Criteria();
 		List<BalanceTransfer> balanceTransfers = new ArrayList<BalanceTransfer>();
-		crit.addEqualToField("principalId",principalId);
+		crit.addEqualTo("principalId",principalId);
 		Query query = QueryFactory.newQuery(BalanceTransfer.class,crit);
 		
 		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -55,9 +57,9 @@ public class BalanceTransferDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
 			String principalId, Date effectiveDate) {
 		List<BalanceTransfer> balanceTransfers = new ArrayList<BalanceTransfer>();
 		Criteria crit = new Criteria();
-		crit.addEqualToField("principalId",principalId);
+		crit.addEqualTo("principalId",principalId);
 		Criteria effDate = new Criteria();
-		effDate.addGreaterOrEqualThanField("effectiveDate", effectiveDate);
+		effDate.addGreaterOrEqualThan("effectiveDate", effectiveDate);
 		crit.addAndCriteria(effDate);
 		Query query = QueryFactory.newQuery(BalanceTransfer.class,crit);
 		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -73,7 +75,7 @@ public class BalanceTransferDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
 			Date effectiveDate) {
 		List<BalanceTransfer> balanceTransfers = new ArrayList<BalanceTransfer>();
 		Criteria effDate = new Criteria();
-		effDate.addGreaterOrEqualThanField("effectiveDate", effectiveDate);
+		effDate.addGreaterOrEqualThan("effectiveDate", effectiveDate);
 		Query query = QueryFactory.newQuery(BalanceTransfer.class,effDate);
 		
 		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
@@ -87,7 +89,7 @@ public class BalanceTransferDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
 	@Override
 	public BalanceTransfer getBalanceTransferById(String balanceTransferId) {
 		Criteria crit = new Criteria();
-		crit.addEqualToField("balanceTransferId",balanceTransferId);
+		crit.addEqualTo("balanceTransferId",balanceTransferId);
 		Query query = QueryFactory.newQuery(BalanceTransfer.class,crit);
 		return (BalanceTransfer) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
@@ -97,7 +99,7 @@ public class BalanceTransferDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
 			String principalId) {
 		Criteria crit = new Criteria();
 		List<BalanceTransfer> balanceTransfers = new ArrayList<BalanceTransfer>();
-		crit.addEqualToField("principalId",principalId);
+		crit.addEqualTo("principalId",principalId);
 		Criteria payoutCrit = new Criteria();
 		payoutCrit.addNotNull("earnCode");
 		crit.addAndCriteria(payoutCrit);
@@ -116,9 +118,9 @@ public class BalanceTransferDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
 			String accrualRuleId, Date asOfDate) {
 		Criteria crit = new Criteria();
 		List<BalanceTransfer> balanceTransfers = new ArrayList<BalanceTransfer>();
-		crit.addGreaterOrEqualThanField("effectiveDate",asOfDate);
+		crit.addGreaterOrEqualThan("effectiveDate",asOfDate);
 		Criteria accrualCategory = new Criteria();
-		accrualCategory.addEqualToField("accrualCategoryRule", accrualRuleId);
+		accrualCategory.addEqualTo("accrualCategoryRule", accrualRuleId);
 		crit.addAndCriteria(accrualCategory);
 		Query query = QueryFactory.newQuery(BalanceTransfer.class,crit);
 		
@@ -129,4 +131,32 @@ public class BalanceTransferDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
 		
 		return balanceTransfers;
 	}
+
+	@Override
+	public List<BalanceTransfer> getBalanceTransfers(String viewPrincipal, Date beginPeriodDate, Date endPeriodDate) {
+		// TODO Auto-generated method stub
+		List<BalanceTransfer> balanceTransfers = new ArrayList<BalanceTransfer>();
+		Criteria crit = new Criteria();
+		crit.addEqualTo("principalId",viewPrincipal);
+		
+		Criteria effDate = new Criteria();
+		effDate.addGreaterOrEqualThan("effectiveDate", beginPeriodDate);
+		effDate.addLessOrEqualThan("effectiveDate", endPeriodDate);
+		
+		crit.addAndCriteria(effDate);
+		
+		Query query = QueryFactory.newQuery(BalanceTransfer.class,crit);
+		
+		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+		
+		if(c != null)
+			balanceTransfers.addAll(c);
+		
+		return balanceTransfers;
+	}
+
+    @Override
+    public void saveOrUpdate(BalanceTransfer balanceTransfer) {
+        this.getPersistenceBrokerTemplate().store(balanceTransfer);
+    }
 }

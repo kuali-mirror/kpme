@@ -15,13 +15,17 @@
  */
 package org.kuali.hr.time.timesummary.service;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.LocalDateTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
+import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.lm.util.LeaveBlockAggregate;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.Calendar;
@@ -30,7 +34,6 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
-import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
@@ -45,8 +48,8 @@ import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.hr.time.workarea.WorkArea;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.*;
-import java.util.Map.Entry;
 
 public class TimeSummaryServiceImpl implements TimeSummaryService {
 	private static final String OTHER_EARN_GROUP = "Other";
@@ -63,7 +66,18 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 
 		timeSummary.setSummaryHeader(getHeaderForSummary(timesheetDocument.getCalendarEntry(), dayArrangements));
 		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(timesheetDocument.getTimeBlocks(), timesheetDocument.getCalendarEntry(), TkServiceLocator.getCalendarService().getCalendar(timesheetDocument.getCalendarEntry().getHrCalendarId()), true);
-		timeSummary.setWorkedHours(getWorkedHours(tkTimeBlockAggregate));
+
+        List<Assignment> timeAssignments = timesheetDocument.getAssignments();
+        List<String> tAssignmentKeys = new ArrayList<String>();
+        for(Assignment assign : timeAssignments) {
+            tAssignmentKeys.add(assign.getAssignmentKey());
+        }
+        List<LeaveBlock> leaveBlocks =  TkServiceLocator.getLeaveBlockService().getLeaveBlocksForTimeCalendar(timesheetDocument.getPrincipalId(),
+                timesheetDocument.getCalendarEntry().getBeginPeriodDate(), timesheetDocument.getCalendarEntry().getEndPeriodDate(), tAssignmentKeys);
+        LeaveBlockAggregate leaveBlockAggregate = new LeaveBlockAggregate(leaveBlocks, timesheetDocument.getCalendarEntry());
+        tkTimeBlockAggregate = combineTimeAndLeaveAggregates(tkTimeBlockAggregate, leaveBlockAggregate);
+
+		timeSummary.setWorkedHours(getWorkedHours(tkTimeBlockAggregate, leaveBlockAggregate));
 
         List<EarnGroupSection> earnGroupSections = getEarnGroupSections(tkTimeBlockAggregate, timeSummary.getSummaryHeader().size()+1, 
         			dayArrangements, timesheetDocument.getAsOfDate(), timesheetDocument.getDocEndDate());
@@ -85,7 +99,9 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
     	List<LeaveSummaryRow> maxedLeaveRows = new ArrayList<LeaveSummaryRow>();
     	if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
         	Map<String,ArrayList<String>> eligibilities = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(calendarEntry,principalId);
+        	Map<String,ArrayList<String>> payouts = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(calendarEntry, principalId);
         	List<String> onDemandTransfers = eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND);
+        	onDemandTransfers.addAll(payouts.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND));
         	if(!onDemandTransfers.isEmpty()) {
             	LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, calendarEntry);
             	for(LeaveSummaryRow row : summary.getLeaveSummaryRows()) {
@@ -265,6 +281,41 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 		return summaryHeader;
 	}
 
+    //kind of a hack
+    private TkTimeBlockAggregate combineTimeAndLeaveAggregates(TkTimeBlockAggregate tbAggregate, LeaveBlockAggregate lbAggregate) {
+        if (tbAggregate != null
+                && lbAggregate != null
+                && tbAggregate.getDayTimeBlockList().size() == lbAggregate.getDayLeaveBlockList().size()) {
+            for (int i = 0; i < tbAggregate.getDayTimeBlockList().size(); i++) {
+                List<LeaveBlock> leaveBlocks = lbAggregate.getDayLeaveBlockList().get(i);
+                if (CollectionUtils.isNotEmpty(leaveBlocks)) {
+                    for (LeaveBlock lb : leaveBlocks) {
+                        //convert leave block to generic time block and add to list
+                        //conveniently, we only really need the hours amount
+                        TimeBlock timeBlock = new TimeBlock();
+                        timeBlock.setHours(lb.getLeaveAmount().negate());
+                        timeBlock.setBeginTimestamp(new Timestamp(lb.getLeaveDate().getTime()));
+                        timeBlock.setEndTimestamp(new Timestamp(new DateTime(lb.getLeaveDate()).plusMinutes(timeBlock.getHours().intValue()).getMillis()));
+                        timeBlock.setAssignmentKey(lb.getAssignmentKey());
+                        timeBlock.setEarnCode(lb.getEarnCode());
+                        timeBlock.setPrincipalId(lb.getPrincipalId());
+                        timeBlock.setWorkArea(lb.getWorkArea());
+                        TimeHourDetail timeHourDetail = new TimeHourDetail();
+                        timeHourDetail.setEarnCode(timeBlock.getEarnCode());
+                        timeHourDetail.setHours(timeBlock.getHours());
+                        timeHourDetail.setAmount(BigDecimal.ZERO);
+                        timeBlock.addTimeHourDetail(timeHourDetail);
+                        tbAggregate.getDayTimeBlockList().get(i).add(timeBlock);
+                    }
+                }
+
+            }
+        }
+        return tbAggregate;
+    }
+
+
+
     /**
      * Provides the number of hours worked for the pay period indicated in the
      * aggregate.
@@ -274,7 +325,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
      * @return A list of BigDecimals containing the number of hours worked.
      * This list will line up with the header.
      */
-    private List<BigDecimal> getWorkedHours(TkTimeBlockAggregate aggregate) {
+    private List<BigDecimal> getWorkedHours(TkTimeBlockAggregate aggregate, LeaveBlockAggregate lbAggregate) {
         List<BigDecimal> hours = new ArrayList<BigDecimal>();
         BigDecimal periodTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
         for (FlsaWeek week : aggregate.getFlsaWeeks(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback())) {
