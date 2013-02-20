@@ -90,16 +90,35 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         boolean valid = true;
         Set<String> validActions = (lastClock != null) ? TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(lastClock.getClockAction()) : new HashSet<String>();
 
+
+        if (mp.getClockAction().equals(TkConstants.CLOCK_OUT) || mp.getClockAction().equals(TkConstants.LUNCH_OUT)) {
+            ClockLog lci = TkServiceLocator.getClockLogService().getLastClockLog(mp.getPrincipalId(),TkConstants.CLOCK_IN); //last clock in
+            ClockLog lli = TkServiceLocator.getClockLogService().getLastClockLog(mp.getPrincipalId(),TkConstants.LUNCH_IN); //last lunch in
+            if (lci != null) {
+                MissedPunchDocument mpd = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(lci.getTkClockLogId());
+                if(mpd != null) {
+                    GlobalVariables.getMessageMap().putError("document.clockAction", "clock.mp.onlyOne.action");
+                    return false;
+                }
+            } else if(lli != null) {
+                MissedPunchDocument mpd = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(lli.getTkClockLogId());
+                if(mpd != null) {
+                    GlobalVariables.getMessageMap().putError("document.clockAction", "clock.mp.onlyOne.action");
+                    return false;
+                }
+            }
+        }
+
         // if a clockIn/lunchIn has been put in by missed punch, do not allow missed punch for clockOut/LunchOut
         // missed punch can only be used on a tiemblock once.
-        if(lastClock != null 
-        		&& (lastClock.getClockAction().equals(TkConstants.CLOCK_IN) || lastClock.getClockAction().equals(TkConstants.LUNCH_IN))) {
-        	MissedPunchDocument mpd = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(lastClock.getTkClockLogId());
-        	if(mpd != null) {
-	       	 	GlobalVariables.getMessageMap().putError("document.clockAction", "clock.mp.onlyOne.action");
-	            return false;
-        	}
-        }
+//        if(lastClock != null
+//        		&& (lastClock.getClockAction().equals(TkConstants.CLOCK_IN) || lastClock.getClockAction().equals(TkConstants.LUNCH_IN))) {
+//        	MissedPunchDocument mpd = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(lastClock.getTkClockLogId());
+//        	if(mpd != null) {
+//	       	 	GlobalVariables.getMessageMap().putError("document.clockAction", "clock.mp.onlyOne.action");
+//	            return false;
+//        	}
+//        }
         if (!StringUtils.equals("A", mp.getDocumentStatus()) && !validActions.contains(mp.getClockAction())) {
             GlobalVariables.getMessageMap().putError("document.clockAction", "clock.mp.invalid.action");
             valid = false;
