@@ -16,6 +16,7 @@
 package org.kuali.hr.lm.leaveblock.service;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -130,4 +131,12 @@ public interface LeaveBlockService {
      * @return
      */
     public List<LeaveBlock> getSSTOLeaveBlocks(String principalId, String sstoId, Date accruledDate);
+    
+    /**
+     * gets list of leave blocks created for earn codes with eligible-for-accrual=no since the given timestamp
+     * @param principalId
+     * @param lastRanTime
+     * @return
+     */
+    public List<LeaveBlock> getABELeaveBlocksSinceTime(String principalId, Timestamp lastRanTime);
 }

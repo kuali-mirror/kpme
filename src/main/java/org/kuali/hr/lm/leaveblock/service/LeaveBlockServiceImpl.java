@@ -363,4 +363,9 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     public List<LeaveBlock> getSSTOLeaveBlocks(String principalId, String sstoId, Date accruledDate) {
     	return leaveBlockDao.getSSTOLeaveBlocks(principalId, sstoId, accruledDate);
     }
+    
+    @Override
+    public List<LeaveBlock> getABELeaveBlocksSinceTime(String principalId, Timestamp lastRanTime) {
+    	return leaveBlockDao.getABELeaveBlocksSinceTime(principalId, lastRanTime);
+    }
 }

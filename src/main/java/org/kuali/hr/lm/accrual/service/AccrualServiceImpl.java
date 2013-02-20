@@ -1140,6 +1140,11 @@ public class AccrualServiceImpl implements AccrualService {
 		if(pha != null && pha.getTimestamp().after(par.getLastRanTs())) {
 			return true;
 		}
+		// if there are leave blocks created for earn codes with eligible-for-accrual = no since the last accrual run, it should trigger recalculation 
+		List<LeaveBlock> lbList = TkServiceLocator.getLeaveBlockService().getABELeaveBlocksSinceTime(principalId, par.getLastRanTs());
+		if(CollectionUtils.isNotEmpty(lbList)) {
+			return true;
+		}		
 		return false;
 	}
 	

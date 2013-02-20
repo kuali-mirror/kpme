@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.lm.leaveblock.dao;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -49,5 +50,6 @@ public interface LeaveBlockDao {
     public void deleteLeaveBlocksForDocumentId(String documentId);
     public List<LeaveBlock> getAccrualGeneratedLeaveBlocks(String principalId, Date beginDate, Date endDate);
     public List<LeaveBlock> getSSTOLeaveBlocks(String principalId, String sstoId, Date accruledDate);
+    public List<LeaveBlock> getABELeaveBlocksSinceTime(String principalId, Timestamp lastRanTime);
 }
 
