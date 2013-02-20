@@ -17,20 +17,33 @@ package org.kuali.hr.lm.leaveCalendar.validation;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.hr.test.KPMETestCase;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.rice.kew.api.document.DocumentContentUpdate;
+import org.kuali.rice.kew.api.exception.WorkflowException;
+import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 	
@@ -323,5 +336,82 @@ public class LeaveCalendarValidationServiceTest extends KPMETestCase {
             }
         }
 	}
+	
+	/* In order for tests of the following form to work, need to change status of a document to enroute/approved
+	 * without actually routing / approving the document. OR, set up a context within which these actions can be performed.
+	 */
+/*	@Test
+	public void testValidatePendingTransactions() throws Exception {
+		Assert.assertNull(null);
+		BalanceTransfer bt = new BalanceTransfer();
+		bt.setAmountTransferred(new BigDecimal(1.0));
+		bt.setTransferAmount(new BigDecimal(1.0));
+		bt.setForfeitedAmount(new BigDecimal(1.0));
+		bt.setAccrualCategoryRule("");
+		bt.setEffectiveDate(TKUtils.getCurrentDate());
+		bt.setFromAccrualCategory("testAC");
+		bt.setToAccrualCategory("testAC2");
+		bt.setPrincipalId("admin");
+		
+		mockSubmitToWorkflow(bt);
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(TKUtils.getCurrentDate());
+		cal.add(Calendar.MONTH, -1);
+		Date from = cal.getTime();
+		cal.add(Calendar.MONTH, 2);
+		Date to = cal.getTime();
+		Map<String,Set<String>> allMessages = new HashMap<String, Set<String>>();
+		allMessages.putAll(LeaveCalendarValidationUtil.validatePendingTransactions("admin", new java.sql.Date(from.getTime()), new java.sql.Date(to.getTime())));
+		
+		Assert.assertTrue(allMessages.get("actionMessages").size() > 0);
+		Set<String> actionMessages = allMessages.get("actionMessage");
+		
+		Assert.assertTrue("Should contain warning message for pending transaction", actionMessages.contains("A pending balance transfer exists on this calendar. " + 
+				"It must be finalized before this calendar can be approved"));
+	}
+
+	private void mockSubmitToWorkflow(BalanceTransfer balanceTransfer) {
+		// TODO Auto-generated method stub
+		//balanceTransfer.setStatus(TkConstants.ROUTE_STATUS.ENROUTE);
+        EntityNamePrincipalName principalName = null;
+        if (balanceTransfer.getPrincipalId() != null) {
+            principalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(balanceTransfer.getPrincipalId());
+        }
+
+		MaintenanceDocument document = KRADServiceLocatorWeb.getMaintenanceDocumentService().setupNewMaintenanceDocument(BalanceTransfer.class.getName(),
+				"BalanceTransferDocumentType",KRADConstants.MAINTENANCE_NEW_ACTION);
+
+        String personName = (principalName != null  && principalName.getDefaultName() != null) ? principalName.getDefaultName().getCompositeName() : StringUtils.EMPTY;
+        String date = TKUtils.formatDate(new java.sql.Date(balanceTransfer.getEffectiveDate().getTime()));
+        document.getDocumentHeader().setDocumentDescription(personName + " (" + balanceTransfer.getPrincipalId() + ")  - " + date);
+		Map<String,String[]> params = new HashMap<String,String[]>();
+		
+		KRADServiceLocatorWeb.getMaintenanceDocumentService().setupMaintenanceObject(document, KRADConstants.MAINTENANCE_NEW_ACTION, params);
+		BalanceTransfer btObj = (BalanceTransfer) document.getNewMaintainableObject().getDataObject();
+		
+		btObj.setAccrualCategoryRule(balanceTransfer.getAccrualCategoryRule());
+		btObj.setEffectiveDate(balanceTransfer.getEffectiveDate());
+		btObj.setForfeitedAmount(balanceTransfer.getForfeitedAmount());
+		btObj.setFromAccrualCategory(balanceTransfer.getFromAccrualCategory());
+		btObj.setPrincipalId(balanceTransfer.getPrincipalId());
+		btObj.setToAccrualCategory(balanceTransfer.getToAccrualCategory());
+		btObj.setTransferAmount(balanceTransfer.getTransferAmount());
+		btObj.setAmountTransferred(balanceTransfer.getAmountTransferred());
+		btObj.setSstoId(balanceTransfer.getSstoId());
+		btObj.setDocumentHeaderId(document.getDocumentHeader().getWorkflowDocument().getDocumentId());
+        //TkServiceLocator.getBalanceTransferService().saveOrUpdate(btObj);
+		document.getNewMaintainableObject().setDataObject(btObj);
+		try {
+			KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
+		} catch (WorkflowException e) {
+			// TODO Auto-generated catch block
+			Assert.fail("Caught workflow exception while saving document");
+		}
+		document.getDocumentHeader().getWorkflowDocument().saveDocument("");
+		
+		balanceTransfer = TkServiceLocator.getBalanceTransferService().transfer(btObj);
+
+	}*/
 		
 }

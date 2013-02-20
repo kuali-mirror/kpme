@@ -305,19 +305,28 @@ public class TimesheetServiceImpl implements TimesheetService {
         if (document == null) {
             return false;
         }
-        List<BalanceTransfer> balanceTransfers = TkServiceLocator.getBalanceTransferService().getBalanceTransfers(document.getPrincipalId(),
+        List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(document.getPrincipalId(),
+        		document.getCalendarEntry().getBeginPeriodDate(), document.getCalendarEntry().getEndPeriodDate(), LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
+        leaveBlocks.addAll(TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(document.getPrincipalId(),
+        		document.getCalendarEntry().getBeginPeriodDate(), document.getCalendarEntry().getEndPeriodDate(), LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT));
+        for(LeaveBlock lb : leaveBlocks) {
+        	if(!StringUtils.equals(lb.getRequestStatus(),LMConstants.REQUEST_STATUS.APPROVED) &&
+        			!StringUtils.equals(lb.getRequestStatus(), LMConstants.REQUEST_STATUS.DISAPPROVED))
+        		return false;
+        }
+        return true;
+/*        List<BalanceTransfer> balanceTransfers = TkServiceLocator.getBalanceTransferService().getBalanceTransfers(document.getPrincipalId(),
                 document.getCalendarEntry().getBeginPeriodDate(),
                 document.getCalendarEntry().getEndPeriodDate());
-        if (CollectionUtils.isEmpty(balanceTransfers))   {
-            return true;
-        }
-        for(BalanceTransfer balanceTransfer : balanceTransfers) {
-        	if(StringUtils.equals(TkConstants.DOCUMENT_STATUS.get(balanceTransfer.getStatus()), TkConstants.ROUTE_STATUS.ENROUTE))
-        		return false;
-            if (!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, balanceTransfer.getStatus())
-                    && !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, balanceTransfer.getStatus())) {
-                return false;
-            }
+        if (!CollectionUtils.isEmpty(balanceTransfers))   {
+	        for(BalanceTransfer balanceTransfer : balanceTransfers) {
+	        	if(StringUtils.equals(TkConstants.DOCUMENT_STATUS.get(balanceTransfer.getStatus()), TkConstants.ROUTE_STATUS.ENROUTE))
+	        		return false;
+	            if (!StringUtils.equals(LMConstants.REQUEST_STATUS.APPROVED, balanceTransfer.getStatus())
+	                    && !StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, balanceTransfer.getStatus())) {
+	                return false;
+	            }
+	        }
         }
         List<LeavePayout> leavePayouts = TkServiceLocator.getLeavePayoutService().getLeavePayouts(document.getPrincipalId(),
         		document.getCalendarEntry().getBeginPeriodDate(),
@@ -332,7 +341,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 	            }
         	}
         }
-        return true;
+        return true;*/
 	}
 
 }

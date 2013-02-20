@@ -21,6 +21,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
@@ -86,13 +87,10 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 
 	//Effective date not more than one year in advance
 	private boolean validateEffectiveDate(Date date) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(TKUtils.getCurrentDate());
-		cal.add(Calendar.YEAR, 1);
-		if(cal.getTime().compareTo(date) <= 0)
+		if(DateUtils.addYears(TKUtils.getCurrentDate(), 1).compareTo(date) > 0)
 			return true;
 		else
-			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.effectiveDate", "balanceTransfer.effectiveDate.errror");
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.effectiveDate", "balanceTransfer.effectiveDate.error");
 		return false;
 	}
 	
