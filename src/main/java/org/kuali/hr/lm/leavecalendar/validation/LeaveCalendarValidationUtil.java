@@ -142,10 +142,13 @@ public class LeaveCalendarValidationUtil {
         for(LeaveBlock lb : leaveBlocks) {
         	if(lb.getTransactionalDocId() != null)
         		workflowDocIds.add(lb.getTransactionalDocId());
+        	else
+        		if(lb.getDescription().contains("Forfeited balance transfer amount"))
+        			allMessages.get("infoMessages").add("A max balance action that forfeited accrued leave occurred on this calendar");
         }
         for(String workflowDocId : workflowDocIds) {
             DocumentStatus status = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(workflowDocId);
-
+            
             if(StringUtils.equals(status.getCode(), TkConstants.ROUTE_STATUS.FINAL)) {
             	allMessages.get("infoMessages").add("A transfer action occurred on this calendar");
             }
