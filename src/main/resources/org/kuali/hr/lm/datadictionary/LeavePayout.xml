@@ -262,9 +262,11 @@
 		<property name="lookupFields">
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
-                <bean parent="FieldDefinition" p:attributeName="earnCode" />
-                <bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true"/>
 				<bean parent="FieldDefinition" p:attributeName="fromAccrualCategory" />
+				<bean parent="FieldDefinition" p:attributeName="payoutAmount" />
+				<bean parent="FieldDefinition" p:attributeName="earnCode" />
+				<bean parent="FieldDefinition" p:attributeName="forfeitedAmount" />
+                <bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true"/>
 			</list>
 
 		</property>

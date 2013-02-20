@@ -83,8 +83,6 @@ public class LeavePayoutMaintainableImpl extends
                 throw new RuntimeException("caught exception while handling doRouteStatusChange -> documentService.getByDocumentHeaderId(" + documentHeader.getDocumentNumber() + "). ", e);
             }
         } else if (DocumentStatus.DISAPPROVED.equals(newDocumentStatus)) {
-        	payout.setStatus(newDocumentStatus.getCode());
-        	TkServiceLocator.getLeavePayoutService().saveOrUpdate(payout);
             //When payout document is disapproved, set all leave block's request statuses to disapproved.
             for(LeaveBlock lb : payout.getLeaveBlocks()) {
                 if(ObjectUtils.isNotNull(lb)) {
@@ -94,8 +92,6 @@ public class LeavePayoutMaintainableImpl extends
             }
             //update status of document and associated leave blocks.
         } else if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
-        	payout.setStatus(newDocumentStatus.getCode());
-        	TkServiceLocator.getLeavePayoutService().saveOrUpdate(payout);
             //When payout document moves to final, set all leave block's request statuses to approved.
             for(LeaveBlock lb : payout.getLeaveBlocks()) {
                 if(ObjectUtils.isNotNull(lb)) {
@@ -104,8 +100,6 @@ public class LeavePayoutMaintainableImpl extends
                 }
             }
         } else if (DocumentStatus.CANCELED.equals(newDocumentStatus)) {
-        	payout.setStatus(newDocumentStatus.getCode());
-        	TkServiceLocator.getLeavePayoutService().saveOrUpdate(payout);
             //When payout document is canceled, set all leave block's request statuses to deferred
             for(LeaveBlock lb : payout.getLeaveBlocks()) {
                 if(ObjectUtils.isNotNull(lb)) {

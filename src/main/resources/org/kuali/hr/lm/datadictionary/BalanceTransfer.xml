@@ -290,10 +290,14 @@
 		<property name="lookupableID" value="balanceTransferLookupable"></property>
 		<property name="lookupFields">
 			<list>
-				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true"/>
 				<bean parent="FieldDefinition" p:attributeName="principalId" />
 				<bean parent="FieldDefinition" p:attributeName="fromAccrualCategory" />
+				<bean parent="FieldDefinition" p:attributeName="transferAmount" />
 				<bean parent="FieldDefinition" p:attributeName="toAccrualCategory" />
+				<bean parent="FieldDefinition" p:attributeName="amountTransferred" />
+				<bean parent="FieldDefinition" p:attributeName="forfeitedAmount" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true"/>
+
 			</list>
 
 		</property>

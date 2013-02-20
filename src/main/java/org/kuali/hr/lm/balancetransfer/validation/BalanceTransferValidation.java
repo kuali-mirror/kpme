@@ -17,23 +17,19 @@ package org.kuali.hr.lm.balancetransfer.validation;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
-import org.kuali.hr.lm.leaveplan.LeavePlan;
+import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
-import org.kuali.hr.time.roles.TkRole;
-import org.kuali.hr.time.roles.TkRoleGroup;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.rice.kew.api.action.ActionItem;
-import org.kuali.rice.kew.api.action.ActionRequestType;
-import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
-import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -42,11 +38,11 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 
-	private boolean validateAgainstLeavePlan(PrincipalHRAttributes pha,
+	//the "to" and "from" accrual categories should be in the supplied principal's leave plan as of the effective date.
+	private boolean validateLeavePlan(PrincipalHRAttributes pha,
 			AccrualCategory fromAccrualCategory, AccrualCategory toAccrualCategory, Date effectiveDate) {
 		boolean isValid = true;
-		LeavePlan lp = TkServiceLocator.getLeavePlanService().getLeavePlan(pha.getLeavePlan(),effectiveDate);
-
+		
 		List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), effectiveDate);
 		if(accrualCategories.size() > 0) {
 			boolean isFromInLeavePlan = false;
@@ -75,18 +71,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 		return isValid;
 	}
 	
-	//Employee Overrides???
-	/**
-	 * Transfer amount must be validated against several variables, including max transfer amount,
-	 * max carry over ( for the converted amount deposited into the "to" accrual category, max usage
-	 * ( if transfers count as usage ).
-	 * @param transferAmount
-	 * @param debitedAccrualCategory
-	 * @param creditedAccrualCategory
-	 * @param principalId TODO
-	 * @param effectiveDate TODO
-	 * @return true if transfer amount is valid
-	 */
+	//See isTransferAmountUnderMaxLimit for futher validation
 	private boolean validateTransferAmount(BigDecimal transferAmount,
 			AccrualCategory debitedAccrualCategory,
 			AccrualCategory creditedAccrualCategory, String principalId, Date effectiveDate) {
@@ -95,30 +80,22 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.transferAmount", "balanceTransfer.amount.negative");
 			return false;
 		}
-		//TkServiceLocator.getAccrualCategoryService().getCurrentBalanceForPrincipal(principalId, debitedAccrualCategory, effectiveDate);
 
 		return true;
 	}
 
-	/**
-	 * Are there any rules in place for effective date? i.e. not more than one year in advance...
-	 * @param date
-	 * @return
-	 */
+	//Effective date not more than one year in advance
 	private boolean validateEffectiveDate(Date date) {
-		//Limit on future dates?
-		return true;
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(TKUtils.getCurrentDate());
+		cal.add(Calendar.YEAR, 1);
+		if(cal.getTime().compareTo(date) <= 0)
+			return true;
+		else
+			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.effectiveDate", "balanceTransfer.effectiveDate.errror");
+		return false;
 	}
 	
-	/**
-	 * Is the "From" accrual category required to be over its maximum balance before a transfer can take place?
-	 * The "From" accrual category must be defined in an accrual category rule as having a max bal rule.
-	 * @param accrualCategory
-	 * @param effectiveDate 
-	 * @param principalId 
-	 * @param acr 
-	 * @return
-	 */
 	private boolean validateTransferFromAccrualCategory(AccrualCategory accrualCategory, String principalId,
 			Date effectiveDate, AccrualCategoryRule acr) {
 		//accrualCategory has rules
@@ -127,15 +104,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 		return true;
 	}
 	
-	/**
-	 * The "To" accrual category must be one for which the applicable accrual category rule specifies
-	 * as the accrual category marked for transfer
-	 * @param accrualCategory
-	 * @param acr 
-	 * @param effectiveDate 
-	 * @param principalId 
-	 * @return
-	 */
+	//Transfer to accrual category should match the value defined in the accrual category rule
 	private boolean validateTransferToAccrualCategory(AccrualCategory accrualCategory, String principalId, Date effectiveDate, AccrualCategoryRule acr) {
 		AccrualCategory maxBalTranToAccCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(acr.getMaxBalanceTransferToAccrualCategory(),effectiveDate);
 		if(!StringUtils.equals(maxBalTranToAccCat.getLmAccrualCategoryId(),accrualCategory.getLmAccrualCategoryId())) {
@@ -145,86 +114,29 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 		return true;
 	}
 
+	//no validation
 	private boolean validatePrincipal(PrincipalHRAttributes pha, String principalId) {
-		// TODO Auto-generated method stub
-		// Principal has to have an associated leave plan.
-		// leave plan should contain the transfer "from" accrual category.
-		
 		return true;
 	}
 	
-	/**
-	 * KPME-1527: When saving, evaluate amounts recorded for the accrual category against max carry over.
-	 * when comparing this amount against max carry over, max carry over must be
-	 * multiplied by entire full time engagement for all leave eligible jobs.
-	 */
-	/**
-	 * Validate transfer amount requested is less than adjusted max carryover for all
-	 * LM eligible jobs. Adjusted max carryover = Sum(FTE_leaveEligibleJobs) x accrual category's max carryover rule.
-	 * 
-	 * Document should be in such a state as to contain the referenced properties.
-	 * 
-	 * @param document
-	 * @return
-	 */
-	private boolean isMaxCarryOverConditionMet(BalanceTransfer btd) {
-		String principalId = btd.getPrincipalId();
-		Date date = btd.getEffectiveDate();
-		BigDecimal transferAmount = btd.getTransferAmount();
-		String toAccrualCategory = btd.getToAccrualCategory();
-		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, date);
-		Date serviceDate = pha.getServiceDate();
-		AccrualCategory debitedAccrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory,date);
-
-		//need to set this elsewhere. This is also using the "to" accrual category to set the accrual category rule
-		//same statement can be found in the validation of max transfer limit. Could use that or put it in its own method
-		//prior to running all of the validations.
-		//btd.setAccrualCategoryRule(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(debitedAccrualCategory, TKUtils.getCurrentDate(), serviceDate).getLmAccrualCategoryRuleId());
-
-		//Accrual Category rule can only be defined on a balance transfer prior to saving if initiated via the leave calendar display.
-		//For payout on termination/retirement, no rule will yet be defined.
-		AccrualCategoryRule acr = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(btd.getAccrualCategoryRule());
-		if(ObjectUtils.isNotNull(acr.getMaxCarryOver())) {
-			//TkServiceLocator.getAccrualCategoryService().getCurrentCarryOverTotalForPrincipalId(principalId,btd.getFromAccrualCategory());
-			//BigDecimal currentCarryOver = TkServiceLocator.getCalendarEntriesService().
-			BigDecimal maxCarryOver = new BigDecimal(acr.getMaxCarryOver());
-			BigDecimal fteSum = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, date);
-			BigDecimal adjustedTransferAmount = acr.getMaxBalanceTransferConversionFactor().multiply(transferAmount);
-			/*
-			 * TODO: Sum adjustedTransferAmount with credited accrual category's current
-			 * carry over amount, use result to compare with max carryover percentage.
-			 *
-			 * replace the augden with the carry over for the current pay calendar.
-			 */
-			//If transfer would take the credited accrual category over its max carry over limit, fail unless
-			//there is an employee override in place.
-			if(adjustedTransferAmount.add(BigDecimal.ZERO).compareTo(fteSum.multiply(maxCarryOver)) > 0) {
-				GlobalVariables.getMessageMap().putError("document.newMaintainableObject.transferAmount", "balanceTransfer.exceeds.maxCarryOver");
-				return false;
-			}
-		}
-		
-		return true;
-	}
+	//transfer amount must be under max limit when submitted via max balance triggered action or by a work area approver.
+	private boolean isTransferAmountUnderMaxLimit(String principalId, Date effectiveDate, String accrualCategory,
+			BigDecimal transferAmount, AccrualCategoryRule accrualRule, String leavePlan) {
 	
+		if(ObjectUtils.isNotNull(accrualRule)) {
 
-	private boolean isTransferAmountUnderMaxLimit(
-			BigDecimal transferAmount, String accrualCategoryRuleId) {
-	
-		//Accrual Category rule can only be defined on a balance transfer prior to saving if initiated via the leave calendar display.
-		//For payout on termination/retirement, no rule will yet be defined.
-		AccrualCategoryRule acr = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
-		
-		if(ObjectUtils.isNotNull(acr)) {
-			//TkServiceLocator.getAccrualCategoryService().getCurrentCarryOverTotalForPrincipalId(principalId,btd.getFromAccrualCategory());
-			//BigDecimal currentCarryOver = TkServiceLocator.getCalendarEntriesService().
 			BigDecimal maxTransferAmount = null;
-			if(ObjectUtils.isNotNull(acr.getMaxTransferAmount())) {
-				maxTransferAmount = new BigDecimal(acr.getMaxTransferAmount());
+			if(ObjectUtils.isNotNull(accrualRule.getMaxTransferAmount())) {
+				maxTransferAmount = new BigDecimal(accrualRule.getMaxTransferAmount());
 			}
-			//Can't transfer more than the maximum amount defined by the accrual category rule.
-			//unless there is an employee override in effect.
 			if(ObjectUtils.isNotNull(maxTransferAmount)) {
+				EmployeeOverride eo = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, leavePlan, accrualCategory, TkConstants.EMPLOYEE_OVERRIDE_TYPE.get("MTA"), effectiveDate);
+				if(ObjectUtils.isNotNull(eo))
+					maxTransferAmount = new BigDecimal(eo.getOverrideValue());
+				else {
+					BigDecimal fteSum = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, effectiveDate);
+					maxTransferAmount = maxTransferAmount.multiply(fteSum);
+				}
 				if(transferAmount.compareTo(maxTransferAmount) > 0) {
 					GlobalVariables.getMessageMap().putError("document.newMaintainableObject.transferAmount","balanceTransfer.exceeds.transferLimit");
 					return false;
@@ -234,17 +146,6 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 		return true;
 	}
 	
-	/**
-	 * Is not called when saving a document, but is called on submit.
-	 * 
-	 * The branched logic in this method contains references to accrual category rule properties
-	 * that, when balance transfer is triggered through system interaction, would naturally have
-	 * been checked in the process of triggering the balance transfer. i.e. existence of accrual
-	 * category rule, maxBalFlag = Y, leave plan for principal id existence and accrual category
-	 * existence under that leave plan. The context in which the balance transfers are triggered
-	 * would themselves validate these checks.
-	 * 
-	 */
 	@Override
 	public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
@@ -292,17 +193,17 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 							AccrualCategoryRule acr = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat,
 									TKUtils.getCurrentDate(), pha.getServiceDate());
 							if(ObjectUtils.isNotNull(acr)) {
-								if(ObjectUtils.isNotNull(acr.getMaxBalFlag())
-										&& StringUtils.isNotBlank(acr.getMaxBalFlag())
-										&& StringUtils.isNotEmpty(acr.getMaxBalFlag())
+								if(StringUtils.isNotBlank(acr.getMaxBalFlag())
 										&& StringUtils.equals(acr.getMaxBalFlag(), "Y")) {
 									if(ObjectUtils.isNotNull(toCat)) {
+										
 										isValid &= validatePrincipal(pha,principalId);
 										isValid &= validateEffectiveDate(effectiveDate);
-										isValid &= validateAgainstLeavePlan(pha,fromCat,toCat,effectiveDate);
+										isValid &= validateLeavePlan(pha,fromCat,toCat,effectiveDate);
 										isValid &= validateTransferFromAccrualCategory(fromCat,principalId,effectiveDate,acr);
 										isValid &= validateTransferToAccrualCategory(toCat,principalId,effectiveDate,acr);
 										isValid &= validateTransferAmount(balanceTransfer.getTransferAmount(),fromCat,toCat, null, null);
+										isValid &= isTransferAmountUnderMaxLimit(principalId,effectiveDate,fromAccrualCategory,balanceTransfer.getTransferAmount(),acr,pha.getLeavePlan());
 									}
 									else {
 										//should never be the case if accrual category rules are validated correctly.

@@ -19,21 +19,16 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
-import org.joda.time.Interval;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
-import org.kuali.hr.lm.accrual.AccrualCategoryRule;
-import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.lm.leave.web.LeaveCalendarWSForm;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
-import org.kuali.hr.lm.leavepayout.LeavePayout;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
-import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
@@ -43,6 +38,8 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.*;
 
+import org.kuali.rice.kew.api.KewApiServiceLocator;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class LeaveCalendarValidationUtil {
@@ -140,10 +137,46 @@ public class LeaveCalendarValidationUtil {
         allMessages.put("actionMessages", actionMessages);
         allMessages.put("infoMessages", infoMessages);
         allMessages.put("warningMessages", warningMessages);
+        List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(principalId, fromDate, toDate, LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
+        Set<String> workflowDocIds = new HashSet<String>();
+        for(LeaveBlock lb : leaveBlocks) {
+        	if(lb.getTransactionalDocId() != null)
+        		workflowDocIds.add(lb.getTransactionalDocId());
+        }
+        for(String workflowDocId : workflowDocIds) {
+            DocumentStatus status = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(workflowDocId);
+
+            if(StringUtils.equals(status.getCode(), TkConstants.ROUTE_STATUS.FINAL)) {
+            	allMessages.get("infoMessages").add("A transfer action occurred on this calendar");
+            }
+            else if(StringUtils.equals(status.getCode(), TkConstants.ROUTE_STATUS.ENROUTE)) {
+            	allMessages.get("actionMessages").add("A pending balance transfer exists on this calendar. It must be finalized before this calendar can be approved");
+            }
+            else
+            	allMessages.get("warningMessages").add("A balance transfer document exists for this calendar with status neither final or enroute");
+        }
         
-        //TODO: Re-combine balance transfer and leave payout...
-        List<BalanceTransfer> completeTransfers = TkServiceLocator.getBalanceTransferService().getBalanceTransfers(principalId, fromDate, toDate);
-        for(BalanceTransfer transfer : completeTransfers) {
+        leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(principalId, fromDate, toDate, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT);
+        workflowDocIds = new HashSet<String>();
+        for(LeaveBlock lb : leaveBlocks) {
+        	if(lb.getTransactionalDocId() != null)
+        		workflowDocIds.add(lb.getTransactionalDocId());
+        }
+        for(String workflowDocId : workflowDocIds) {
+            DocumentStatus status = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(workflowDocId);
+
+            if(StringUtils.equals(status.getCode(), TkConstants.ROUTE_STATUS.FINAL)) {
+            	allMessages.get("infoMessages").add("A payout action occurred on this calendar");
+            }
+            else if(StringUtils.equals(status.getCode(), TkConstants.ROUTE_STATUS.ENROUTE)) {
+            	allMessages.get("actionMessages").add("A pending payout exists on this calendar. It must be finalized before this calendar can be approved");
+            }
+            else
+            	allMessages.get("warningMessages").add("A payout document exists for this calendar with status neither final or enroute");
+        }
+/*        //TODO: Re-combine balance transfer and leave payout...
+        List<BalanceTransfer> transfers = TkServiceLocator.getBalanceTransferService().getBalanceTransfers(principalId, fromDate, toDate);
+        for(BalanceTransfer transfer : transfers) {
         	if(StringUtils.equals(transfer.getStatus(), TkConstants.ROUTE_STATUS.ENROUTE)) {
         		allMessages.get("actionMessages").add("A pending balance transfer exists on this calendar. It must be finalized before this calendar can be approved");	//action
         	}
@@ -171,8 +204,8 @@ public class LeaveCalendarValidationUtil {
     		}
         }
         
-        List<LeavePayout> completePayouts = TkServiceLocator.getLeavePayoutService().getLeavePayouts(principalId, fromDate, toDate);
-        for(LeavePayout payout : completePayouts) {
+        List<LeavePayout> payouts = TkServiceLocator.getLeavePayoutService().getLeavePayouts(principalId, fromDate, toDate);
+        for(LeavePayout payout : payouts) {
         	if(StringUtils.equals(payout.getStatus(), TkConstants.ROUTE_STATUS.ENROUTE)) {
         		allMessages.get("actionMessages").add("A pending payout exists on this calendar. It must be finalized before this calendar can be approved");
         	}
@@ -192,7 +225,7 @@ public class LeaveCalendarValidationUtil {
 	        	else
 	        		allMessages.get("infoMessages").add("A disapproved payout occurred on this calendar");
     		}
-        }
+        }*/
         
         return allMessages;
 	}

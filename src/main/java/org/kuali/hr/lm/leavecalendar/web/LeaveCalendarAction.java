@@ -256,6 +256,7 @@ public class LeaveCalendarAction extends TkAction {
             }
 	        lcf.setForfeitures(losses);
         }
+        
         for(Entry<String, ArrayList<String>> entry : transfers.entrySet()) {
         	if(!entry.getValue().isEmpty()) {
     			for(String accrualRuleId : entry.getValue()) {
@@ -282,40 +283,11 @@ public class LeaveCalendarAction extends TkAction {
     			}
         	}
         }
+        Map<String,Set<String>> transactions = LeaveCalendarValidationUtil.validatePendingTransactions(viewPrincipal, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
 
-        allMessages.putAll(LeaveCalendarValidationUtil.validatePendingTransactions(viewPrincipal, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate()));
-        List<BalanceTransfer> completeTransfers = TkServiceLocator.getBalanceTransferService().getBalanceTransfers(viewPrincipal, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
-        for(BalanceTransfer transfer : completeTransfers) {
-        	if(StringUtils.equals(transfer.getStatus(), TkConstants.ROUTE_STATUS.ENROUTE)) {
-        		allMessages.get("actionMessages").add("A pending balance transfer exists on this calendar. It must be finalized before this calendar can be approved");
-        	}
-    		if(StringUtils.equals(transfer.getStatus() ,TkConstants.ROUTE_STATUS.FINAL)) {
-    			if(StringUtils.isEmpty(transfer.getSstoId())) {
-	            	if(transfer.getTransferAmount().compareTo(BigDecimal.ZERO) == 0 && transfer.getAmountTransferred().compareTo(BigDecimal.ZERO) == 0) {
-	            		if(transfer.getForfeitedAmount() != null && transfer.getForfeitedAmount().signum() != 0)
-	            			allMessages.get("infoMessages").add("A transfer action that forfeited leave occured on this calendar");
-	            	}
-	            	else
-	           			allMessages.get("infoMessages").add("A transfer action occurred on this calendar");
-    			}
-    			else
-        			allMessages.get("infoMessages").add("System scheduled time off was transferred on this calendar");
-    		}
-    		if(StringUtils.equals(transfer.getStatus() ,TkConstants.ROUTE_STATUS.DISAPPROVED)) {
-    			if(StringUtils.isEmpty(transfer.getSstoId())) {
-    	        	if(transfer.getTransferAmount().compareTo(BigDecimal.ZERO) == 0 && transfer.getAmountTransferred().compareTo(BigDecimal.ZERO) == 0) {
-    	        		if(transfer.getForfeitedAmount() != null && transfer.getForfeitedAmount().signum() != 0)
-    	        			allMessages.get("infoMessages").add("A transfer action that forfeited leave occured on this calendar");
-    	        	}
-    	        	else
-    	       			allMessages.get("infoMessages").add("A transfer action occurred on this calendar");
-    			}
-    		}
-        }
-        
-        List<LeavePayout> completePayouts = TkServiceLocator.getLeavePayoutService().getLeavePayouts(viewPrincipal, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
-        if(!completePayouts.isEmpty())
-   			allMessages.get("infoMessages").add("A payout action occurred on this calendar");
+        allMessages.get("infoMessages").addAll(transactions.get("infoMessages"));
+        allMessages.get("warningMessages").addAll(transactions.get("warningMessages"));
+        allMessages.get("actionMessages").addAll(transactions.get("actionMessages"));
         
         // add warning messages based on max carry over balances for each accrual category
         if(calendarEntry != null) {

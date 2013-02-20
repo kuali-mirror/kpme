@@ -247,6 +247,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					aLeaveBlock.setDescription("Amount transferred");
 					aLeaveBlock.setLeaveAmount(balanceTransfer.getAmountTransferred());
 					aLeaveBlock.setAccrualGenerated(true);
+					aLeaveBlock.setTransactionDocId(balanceTransfer.getDocumentHeaderId());
 					aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
 					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
 					aLeaveBlock.setBlockId(0L);
@@ -276,6 +277,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					aLeaveBlock.setDescription("Transferred amount");
 					aLeaveBlock.setLeaveAmount(balanceTransfer.getTransferAmount().negate());
 					aLeaveBlock.setAccrualGenerated(true);
+					aLeaveBlock.setTransactionDocId(balanceTransfer.getDocumentHeaderId());
 					aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
 					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
 					aLeaveBlock.setBlockId(0L);
@@ -308,6 +310,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					aLeaveBlock.setDescription("Forfeited balance transfer amount");
 					aLeaveBlock.setLeaveAmount(forfeitedAmount.negate());
 					aLeaveBlock.setAccrualGenerated(true);
+					aLeaveBlock.setTransactionDocId(balanceTransfer.getDocumentHeaderId());
 					aLeaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
 					aLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
 					aLeaveBlock.setBlockId(0L);
@@ -619,16 +622,15 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		btObj.setTransferAmount(balanceTransfer.getTransferAmount());
 		btObj.setAmountTransferred(balanceTransfer.getAmountTransferred());
 		btObj.setSstoId(balanceTransfer.getSstoId());
-		btObj.setBalanceTransferId(document.getDocumentHeader().getWorkflowDocument().getDocumentId());
-		
-		document.getNewMaintainableObject().setDataObject(btObj);
+		btObj.setDocumentHeaderId(document.getDocumentHeader().getWorkflowDocument().getDocumentId());
+/*        TkServiceLocator.getBalanceTransferService().saveOrUpdate(btObj);
+		document.getNewMaintainableObject().setDataObject(btObj);*/
 		KRADServiceLocatorWeb.getDocumentService().saveDocument(document);
 		document.getDocumentHeader().getWorkflowDocument().saveDocument("");
 
 		document.getDocumentHeader().getWorkflowDocument().route("");
 		
-		btObj.setStatus(document.getDocumentHeader().getWorkflowDocument().getStatus().getCode());
-        TkServiceLocator.getBalanceTransferService().saveOrUpdate(btObj);
+
 
 		
 	}

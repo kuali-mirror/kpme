@@ -183,6 +183,7 @@
         <field-descriptor name="task"                   column="TASK"                   jdbc-type="BIGINT"      nullable="false" primarykey="false" />
         <field-descriptor name="leaveBlockType"         column="LEAVE_BLOCK_TYPE"       jdbc-type="VARCHAR"     length="5" nullable="false" />
         <field-descriptor name="leaveRequestDocumentId" column="LEAVE_REQUEST_ID"       jdbc-type="VARCHAR"     length="40" nullable="true" />
+        <field-descriptor name="transactionalDocId"		column="TRANS_DOC_ID"			jdbc-type="VARCHAR"		length="40"	nullable="true" />
         <field-descriptor name="objectId"               column="OBJ_ID"                 jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"          column="VER_NBR"                jdbc-type="BIGINT"      locking="true" />
 

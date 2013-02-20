@@ -38,6 +38,7 @@ import org.kuali.rice.krad.service.DocumentService;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.ObjectUtils;
 
+@SuppressWarnings("deprecation")
 public class BalanceTransferMaintainableImpl extends
 		HrBusinessObjectMaintainableImpl {
 
@@ -46,22 +47,6 @@ public class BalanceTransferMaintainableImpl extends
 	@Override
 	public void saveBusinessObject() {
 		// TODO Auto-generated method stub
-		BalanceTransfer bt = (BalanceTransfer) this.getBusinessObject();
-		
-		BalanceTransfer existingBt = TkServiceLocator.getBalanceTransferService().getBalanceTransferById(bt.getBalanceTransferId());
-		
-		if(ObjectUtils.isNotNull(existingBt)) {
-			if(existingBt.getTransferAmount().compareTo(bt.getTransferAmount()) != 0) {
-				//TODO: Create leave block reference within bt, and update leave amount.
-			}
-			if(existingBt.getAmountTransferred().compareTo(bt.getAmountTransferred()) != 0) {
-				//TODO: Create leave block reference within bt, update leave amount for this leave block
-			}
-			if(existingBt.getForfeitedAmount().compareTo(bt.getForfeitedAmount()) != 0) {
-				//TODO: Create reference within bt for forfeited leave block, update leave amount.
-			}
-			//Will approvers / department admins be changing accrual category? effective date?
-		}
 		super.saveBusinessObject();
 	}
 	
@@ -70,7 +55,8 @@ public class BalanceTransferMaintainableImpl extends
 		return TkServiceLocator.getBalanceTransferService().getBalanceTransferById(id);
 	}
 
-    @Override
+
+	@Override
     public void doRouteStatusChange(DocumentHeader documentHeader) {
         //ProcessDocReport pdr = new ProcessDocReport(true, "");
         String documentId = documentHeader.getDocumentNumber();
@@ -109,9 +95,11 @@ public class BalanceTransferMaintainableImpl extends
 	            }
         	}
         } else if (DocumentStatus.DISAPPROVED.equals(newDocumentStatus)) {
+        	/**
+        	 * TODO: Remove disapproval action
+        	 */
         	// this is a balance transfer on a system scheduled time off leave block
-            balanceTransfer.setStatus(newDocumentStatus.getCode());
-            TkServiceLocator.getBalanceTransferService().saveOrUpdate(balanceTransfer);
+
             if(StringUtils.isNotEmpty(balanceTransfer.getSstoId())) {
         		// put two accrual service generated leave blocks back, one accrued, one usage
         		List<LeaveBlock> lbList = buildSstoLeaveBlockList(balanceTransfer);    			
@@ -126,19 +114,17 @@ public class BalanceTransferMaintainableImpl extends
             }
             //update status of document and associated leave blocks.
         } else if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
-            balanceTransfer.setStatus(newDocumentStatus.getCode());
-            TkServiceLocator.getBalanceTransferService().saveOrUpdate(balanceTransfer);
             //When transfer document moves to final, set all leave block's request statuses to approved.
             for(LeaveBlock lb : balanceTransfer.getLeaveBlocks()) {
                 if(ObjectUtils.isNotNull(lb)) {
+                	//TODO: What happens when an approver edits the fields in the transfer doc before approving?
                     lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
                     TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, routedByPrincipalId);
                 }
             }
         } else if (DocumentStatus.CANCELED.equals(newDocumentStatus)) {
             //When transfer document is canceled, set all leave block's request statuses to deferred
-            balanceTransfer.setStatus(newDocumentStatus.getCode());
-            TkServiceLocator.getBalanceTransferService().saveOrUpdate(balanceTransfer);
+
             for(LeaveBlock lb : balanceTransfer.getLeaveBlocks()) {
                 if(ObjectUtils.isNotNull(lb)) {
                     lb.setRequestStatus(LMConstants.REQUEST_STATUS.DEFERRED);
@@ -187,12 +173,4 @@ public class BalanceTransferMaintainableImpl extends
 		
 		return lbList;
 	}
-
-	@Override
-	public void processAfterEdit(MaintenanceDocument document,
-			Map<String, String[]> requestParameters) {
-		// TODO Auto-generated method stub
-		super.processAfterEdit(document, requestParameters);
-	}
-
 }

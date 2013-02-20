@@ -101,16 +101,22 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 			}
 			
 			List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, payBeginDate, payEndDate);
-			allMessages = findWarnings(aDoc, payCalendarEntries, leaveBlocks);
-			allMessages.putAll(findTransactionsWithinPeriod(aDoc, payCalendarEntries));
+
             aRow.setLeaveBlockList(leaveBlocks);
 			Map<Date, Map<String, BigDecimal>> earnCodeLeaveHours = getEarnCodeLeaveHours(leaveBlocks, leaveSummaryDates);
 			aRow.setEarnCodeLeaveHours(earnCodeLeaveHours);
             aRow.setNotes(notes);
 
-            Set<String> msgs = allMessages.get("warningMessages");
+			allMessages = findWarnings(aDoc, payCalendarEntries, leaveBlocks);
+			
+			Map<String,Set<String>> transactionalMessages = findTransactionsWithinPeriod(aDoc, payCalendarEntries);
+			
+			allMessages.get("infoMessages").addAll(transactionalMessages.get("infoMessages"));
+			allMessages.get("warningMessages").addAll(transactionalMessages.get("warningMessages"));
+			allMessages.get("actionMessages").addAll(transactionalMessages.get("actionMessages"));
+
             List<String> warningMessages = new ArrayList<String>();
-            warningMessages.addAll(msgs);
+            warningMessages.addAll(allMessages.get("warningMessages"));
             warningMessages.addAll(allMessages.get("infoMessages"));
             warningMessages.addAll(allMessages.get("actionMessages"));
 
@@ -130,56 +136,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		allMessages.put("infoMessages", new HashSet<String>());
 		allMessages.put("warningMessages", new HashSet<String>());
 		if(aDoc != null) {
-			List<BalanceTransfer> transfers = TkServiceLocator.getBalanceTransferService().getBalanceTransfers(aDoc.getPrincipalId(), payCalendarEntries.getBeginPeriodDate(), payCalendarEntries.getEndPeriodDate());
-	        for(BalanceTransfer transfer : transfers) {
-	        	if(StringUtils.equals(transfer.getStatus(), TkConstants.ROUTE_STATUS.ENROUTE)) {
-	        		allMessages.get("actionMessages").add("A pending balance transfer exists on this calendar. It must be finalized before this calendar can be approved");
-	        	}
-	    		if(StringUtils.equals(transfer.getStatus() ,TkConstants.ROUTE_STATUS.FINAL)) {
-	    			if(StringUtils.isEmpty(transfer.getSstoId())) {
-		            	if(transfer.getTransferAmount().compareTo(BigDecimal.ZERO) == 0 && transfer.getAmountTransferred().compareTo(BigDecimal.ZERO) == 0) {
-		            		if(transfer.getForfeitedAmount() != null && transfer.getForfeitedAmount().signum() != 0)
-		            			allMessages.get("infoMessages").add("A transfer action that forfeited leave occured on this calendar");
-		            	}
-		            	else
-		           			allMessages.get("infoMessages").add("A transfer action occurred on this calendar");
-	    			}
-	    			else
-	        			allMessages.get("infoMessages").add("System scheduled time off was transferred on this calendar");
-	    		}
-	    		if(StringUtils.equals(transfer.getStatus() ,TkConstants.ROUTE_STATUS.DISAPPROVED)) {
-	    			if(StringUtils.isEmpty(transfer.getSstoId())) {
-	    	        	if(transfer.getTransferAmount().compareTo(BigDecimal.ZERO) == 0 && transfer.getAmountTransferred().compareTo(BigDecimal.ZERO) == 0) {
-	    	        		if(transfer.getForfeitedAmount() != null && transfer.getForfeitedAmount().signum() != 0)
-	    	        			allMessages.get("infoMessages").add("A transfer action that forfeited leave occured on this calendar");
-	    	        	}
-	    	        	else
-	    	       			allMessages.get("infoMessages").add("A transfer action occurred on this calendar");
-	    			}
-	    		}
-	        }
-	        List<LeavePayout> payouts = TkServiceLocator.getLeavePayoutService().getLeavePayouts(aDoc.getPrincipalId(), payCalendarEntries.getBeginPeriodDate(), payCalendarEntries.getEndPeriodDate());
-	        for(LeavePayout payout : payouts) {
-	        	if(StringUtils.equals(payout.getStatus(), TkConstants.ROUTE_STATUS.ENROUTE)) {
-	        		allMessages.get("actionMessages").add("A pending payout exists on this calendar. It must be finalized before this calendar can be approved");
-	        	}
-	    		if(StringUtils.equals(payout.getStatus() ,TkConstants.ROUTE_STATUS.FINAL)) {
-	            	if(payout.getPayoutAmount().compareTo(BigDecimal.ZERO) == 0) {
-	            		if(payout.getForfeitedAmount() != null && payout.getForfeitedAmount().signum() != 0)
-	            			allMessages.get("infoMessages").add("A payout action that forfeited leave occured on this calendar");
-	            	}
-	            	else
-	           			allMessages.get("infoMessages").add("A payout action occurred on this calendar");
-	    		}
-	    		if(StringUtils.equals(payout.getStatus() ,TkConstants.ROUTE_STATUS.DISAPPROVED)) {
-    	        	if(payout.getPayoutAmount().compareTo(BigDecimal.ZERO) == 0) {
-    	        		if(payout.getForfeitedAmount() != null && payout.getForfeitedAmount().signum() != 0)
-    	        			allMessages.get("infoMessages").add("A disapproved payout that forfeited leave occured on this calendar");
-    	        	}
-    	        	else
-    	       			allMessages.get("infoMessages").add("A disapproved payout occurred on this calendar");
-	    		}
-	        }
+			allMessages = LeaveCalendarValidationUtil.validatePendingTransactions(aDoc.getPrincipalId(), payCalendarEntries.getBeginPeriodDate(), payCalendarEntries.getEndPeriodDate());
 		}
 		return allMessages;
 	}
@@ -197,31 +154,41 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
             }           
             if (eligibilities != null) {
                 for (Entry<String,ArrayList<String>> entry : eligibilities.entrySet()) {
-                	for(String accrualRuleId : entry.getValue()) {
-	                    AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
-	                    if (rule != null) {
-	                    	String frequency = "";
-	                    	if(StringUtils.equals(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND,"OD"))
-	                    		frequency = "on-demand";
-                    		else
-                    			frequency = "on leave approval";
-	                    	
-	                    	AccrualCategory accrualCategory = rule.getAccrualCategoryObj();
-	                        if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.TRANSFER)) {
-	                            //Todo: add link to balance transfer
-	                            allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory + "' is over max balance. Transfer is set to occur " + frequency);   //warningMessages
-	                        } else if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
-	                            //Todo: compute and display amount of time lost.
-	                            allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory + "' is over max balance. Excess leave will be lost " + frequency);      //warningMessages
-	                        } else if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.PAYOUT)){
-	                        	allMessages.get("warningMessages").add("Accrual category '" + accrualCategory + "' is over max balance. Payout is set to occur " + frequency);
-	                        }
-	                    }
-                	}
+              	  for(String accrualRuleId : entry.getValue()) {
+              		  AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+              		  if (rule != null) {
+              			  AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
+              			  if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.TRANSFER)) {
+              				  //Todo: add link to balance transfer
+              				  allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");   //warningMessages
+              			  } else if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
+              				  //Todo: compute and display amount of time lost.
+              				  allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");      //warningMessages
+              			  }
+              			  //will never contain PAYOUT action transfers.
+              		  }
+              	  }
                 }
             }
-        }
-        return allMessages;
+            Map<String, ArrayList<String>> payoutEligible;
+            try {
+          	  payoutEligible = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(calendarEntry, doc.getPrincipalId());
+            } catch (Exception e) {
+          	  payoutEligible = null;  
+            }
+            if (payoutEligible != null) {
+                for (Entry<String,ArrayList<String>> entry : payoutEligible.entrySet()) {
+              	  for(String accrualRuleId : entry.getValue()) {
+              		  AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+              		  if (rule != null) {
+              			  AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
+             				  allMessages.get("warningMessages").add("Accrual category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");
+              		  }
+              		  // should never contain LOSE or TRANSFER max balance actions.
+              	  }
+                }
+            }
+        }        return allMessages;
     }
 	
 	@Override

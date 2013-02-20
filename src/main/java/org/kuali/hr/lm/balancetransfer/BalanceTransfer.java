@@ -273,6 +273,14 @@ public class BalanceTransfer extends HrBusinessObject {
 	public void setSstoId(String sstoId) {
 		this.sstoId = sstoId;
 	}
+
+	public String getDocumentHeaderId() {
+		return documentHeaderId;
+	}
+
+	public void setDocumentHeaderId(String documentHeaderId) {
+		this.documentHeaderId = documentHeaderId;
+	}
 	
 	//Comparable for order handling of more than one transfer occurring during the same
 	//action frequency interval?
