@@ -26,7 +26,7 @@ import org.apache.commons.lang.StringUtils;
 
 public class BatchJobUtil {
 	
-	private static final DateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+	public static final DateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
 	public static String getJobGroupName(Class<?> jobClass, Map<String, String> jobGroupDataMap) {
 		return jobClass.getSimpleName() + "-JobGroup-" + getDataMapString(jobGroupDataMap);

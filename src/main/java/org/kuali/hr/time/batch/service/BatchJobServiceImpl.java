@@ -354,7 +354,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 
 	private void scheduleLeaveCarryOverJob(LeavePlan leavePlan, Date scheduleDate) throws SchedulerException {
         Map<String, String> jobGroupDataMap = new HashMap<String, String>();
-
+        jobGroupDataMap.put("date", BatchJobUtil.FORMAT.format(scheduleDate));
 		Map<String, String> jobDataMap = new HashMap<String, String>();
 		jobDataMap.put("leavePlan", leavePlan.getLeavePlan());
         scheduleJob(CarryOverJob.class, scheduleDate, jobGroupDataMap, jobDataMap);

@@ -25,7 +25,6 @@ import org.kuali.hr.lm.leaveblock.LeaveBlock;
 public interface LeaveBlockDao {
     public LeaveBlock getLeaveBlock(String leaveBlockId);
     public List<LeaveBlock> getLeaveBlocksForDocumentId(String documentId);
-    public void saveOrUpdate(LeaveBlock leaveBlock);
     public List<LeaveBlock> getLeaveBlocks(String principalId, Date beginDate, Date endDate);
     public List<LeaveBlock> getLeaveBlocksWithType(String principalId, Date beginDate, Date endDate, String leaveBlockType);
     public List<LeaveBlock> getLeaveBlocksWithAccrualCategory(String principalId, Date beginDate, Date endDate, String accrualCategory);

@@ -48,11 +48,6 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
     }
 
     @Override
-    public void saveOrUpdate(LeaveBlock leaveBlock) {
-        this.getPersistenceBrokerTemplate().store(leaveBlock);
-    }
-
-    @Override
     public List<LeaveBlock> getLeaveBlocksForDocumentId(String documentId) {
         List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
         Criteria root = new Criteria();

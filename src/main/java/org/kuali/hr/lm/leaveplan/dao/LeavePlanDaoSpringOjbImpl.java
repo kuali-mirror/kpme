@@ -126,7 +126,7 @@ public class LeavePlanDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implement
     	Criteria root = new Criteria();
 
         if (StringUtils.isNotBlank(leavePlan)) {
-        	root.addEqualTo("leavePlan", leavePlan);
+        	root.addLike("leavePlan", leavePlan);
         }
         
         if (StringUtils.isNotBlank(calendarYearStart)) {

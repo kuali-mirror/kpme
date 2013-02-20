@@ -253,7 +253,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         leaveBlockHistory.setTimestampDeleted(new Timestamp(System.currentTimeMillis()));
         leaveBlockHistory.setAction(LMConstants.ACTION.MODIFIED);
 
-        leaveBlockDao.saveOrUpdate(leaveBlock);
+        KRADServiceLocator.getBusinessObjectService().save(leaveBlock);
         
         // creating history
         KRADServiceLocator.getBusinessObjectService().save(leaveBlockHistory); 
