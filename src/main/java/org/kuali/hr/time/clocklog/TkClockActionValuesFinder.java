@@ -36,7 +36,7 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 public class TkClockActionValuesFinder extends KeyValuesBase {
 
 	@Override
-	public List getKeyValues() {
+	public List<KeyValue> getKeyValues() {
 		List<KeyValue> keyLabels = new LinkedList<KeyValue>();
         // get the missed punch doc Id if this is an existing document
         String mpDocId = (String)TKContext.getHttpServletRequest().getParameter(TkConstants.DOCUMENT_ID_REQUEST_NAME);

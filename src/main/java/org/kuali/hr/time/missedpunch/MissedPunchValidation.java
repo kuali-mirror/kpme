@@ -140,8 +140,9 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
     boolean validateClockTime(MissedPunchDocument mp, ClockLog lastClock) throws ParseException {
         boolean valid = true;
 
-        if (lastClock == null)
+        if (lastClock == null) {
             return valid;
+        }
         
         //Missed Action Date and Missed Action Time are required fields. KPME-1853
         if(mp.getActionTime() == null || mp.getActionDate() == null)
@@ -150,21 +151,11 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         DateTime clockLogDateTime = new DateTime(lastClock.getClockTimestamp().getTime());
         DateTime boundaryMax = clockLogDateTime.plusDays(1);
         DateTime nowTime = new DateTime(TKUtils.getCurrentDate());
-        
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-        String s = formatter.format(mp.getActionDate());
-		Date tempDate = formatter.parse(s);
-		Timestamp dateLocal = new Timestamp(tempDate.getTime());
-        LocalTime timeLocal = new LocalTime(mp.getActionTime().getTime());
-        DateTime actionDateTime = new DateTime(dateLocal.getTime());
-        actionDateTime = actionDateTime.plus(timeLocal.getMillisOfDay());
+        long offset = TkServiceLocator.getTimezoneService().getTimezoneOffsetFromServerTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
+        long dateTimeLocal = new LocalTime(mp.getActionTime()).getMillisOfDay() + mp.getActionDate().getTime() - offset;
 
-        // convert the action time to the system zone 
-        Timestamp ts = new Timestamp(actionDateTime.getMillis());
-        ClockLog lastLog = TkServiceLocator.getClockLogService().getLastClockLog(mp.getPrincipalId());
-        Long zoneOffset = TkServiceLocator.getTimezoneService().getTimezoneOffsetFromServerTime(DateTimeZone.forID(lastLog.getClockTimestampTimezone()));
-        Timestamp actionTime = new Timestamp(ts.getTime()-zoneOffset);
-        DateTime newDateTime = new DateTime(actionTime.getTime());
+        //this will be in system's timezone, but offset with user's timezone
+        DateTime actionDateTime = new DateTime(dateTimeLocal);
 
         // if date is a future date
         if(actionDateTime.getYear()> nowTime.getYear()
@@ -180,7 +171,7 @@ public class MissedPunchValidation extends TransactionalDocumentRuleBase {
         }
         
         if ((!StringUtils.equals(lastClock.getClockAction(), TkConstants.CLOCK_OUT) && actionDateTime.isAfter(boundaryMax)) 
-        		|| newDateTime.isBefore(clockLogDateTime)) {
+        		|| actionDateTime.isBefore(clockLogDateTime)) {
         	GlobalVariables.getMessageMap().putError("document.actionTime", "clock.mp.invalid.datetime");
             valid = false;
         }
