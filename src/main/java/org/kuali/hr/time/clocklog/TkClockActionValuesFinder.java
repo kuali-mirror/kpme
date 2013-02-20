@@ -73,20 +73,23 @@ public class TkClockActionValuesFinder extends KeyValuesBase {
             for (String entry : validEntries) {
                 keyLabels.add(new ConcreteKeyValue(entry, TkConstants.CLOCK_ACTION_STRINGS.get(entry)));
             } 
-
-            String dept = TkServiceLocator.getJobService().getJob(targetPerson, lastClock.getJobNumber(), TKUtils.getCurrentDate()).getDept();
-            Long workArea = lastClock.getWorkArea();
-            Long jobNumber = lastClock.getJobNumber();
-
-            if (!TkServiceLocator.getSystemLunchRuleService().getSystemLunchRule(TKUtils.getCurrentDate()).getShowLunchButton()) {
-                keyLabels.remove(new ConcreteKeyValue("LO", "Lunch Out"));
-                keyLabels.remove(new ConcreteKeyValue("LI", "Lunch In"));
-            } else {
-                   if (TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(dept, workArea, targetPerson, jobNumber,TKUtils.getCurrentDate()) != null) {
-                       keyLabels.remove(new ConcreteKeyValue("LO", "Lunch Out"));
-                       keyLabels.remove(new ConcreteKeyValue("LI", "Lunch In"));
-                   }
+            //#KPME-2178 nullity checked.
+            if(lastClock != null){
+            	String dept = TkServiceLocator.getJobService().getJob(targetPerson, lastClock.getJobNumber(), TKUtils.getCurrentDate()).getDept();
+	            Long workArea = lastClock.getWorkArea();
+	            Long jobNumber = lastClock.getJobNumber();
+	
+	            if (!TkServiceLocator.getSystemLunchRuleService().getSystemLunchRule(TKUtils.getCurrentDate()).getShowLunchButton()) {
+	                keyLabels.remove(new ConcreteKeyValue("LO", "Lunch Out"));
+	                keyLabels.remove(new ConcreteKeyValue("LI", "Lunch In"));
+	            } else {
+	                   if (TkServiceLocator.getDepartmentLunchRuleService().getDepartmentLunchRule(dept, workArea, targetPerson, jobNumber,TKUtils.getCurrentDate()) != null) {
+	                       keyLabels.remove(new ConcreteKeyValue("LO", "Lunch Out"));
+	                       keyLabels.remove(new ConcreteKeyValue("LI", "Lunch In"));
+	                   }
+	            }
             }
+            
         }
         
         if(keyLabels.isEmpty()) {		// default is returning all options
