@@ -167,7 +167,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
        
         // To create the correct interval by the given begin and end dates,
         // we need to plus one day on the end date to include that date
-        List<Interval> leaveBlockIntervals = TKUtils.createDaySpan(beginDate, endDate.plusDays(1), TKUtils.getSystemDateTimeZone());
+        List<Interval> leaveBlockIntervals = TKUtils.createDaySpan(beginDate.toDateMidnight().toDateTime(), endDate.plusDays(1).toDateMidnight().toDateTime(), TKUtils.getSystemDateTimeZone());
         // need to use beginDate and endDate of the calendar to find all leaveBlocks since LeaveCalendarDocument Id is not always available
         List<LeaveBlock> currentLeaveBlocks = getLeaveBlocks(principalId, calBeginDateTime.toDate(), calEndDateTime.toDate());
     
