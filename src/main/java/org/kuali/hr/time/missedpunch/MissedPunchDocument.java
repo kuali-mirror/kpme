@@ -102,12 +102,14 @@ public class MissedPunchDocument extends TransactionalDocumentBase {
 	public void setAssignment(String assignment) {
 		this.assignment = assignment;
 	}
-	
-	@Override
-    public void prepareForSave(KualiDocumentEvent event) {
-		if(this.getTkClockLogId() == null) {
-			TkServiceLocator.getMissedPunchService().addClockLogForMissedPunch(this);
-		}
-    }
+
+//	@Override
+//    public void prepareForSave(KualiDocumentEvent event) {
+//        // Add clocklogs only if an MP doc is enroute or approved KPME-2185
+//        // checking it for Approved status might be unneccessary since we create the clocklog after routing.
+//		if(this.getTkClockLogId() == null && (this.getDocumentStatus() =="A" || this.getDocumentStatus() =="R")) {
+//			TkServiceLocator.getMissedPunchService().addClockLogForMissedPunch(this);
+//		}
+//    }
 
 }

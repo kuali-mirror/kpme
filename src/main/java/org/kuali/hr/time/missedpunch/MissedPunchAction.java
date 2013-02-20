@@ -126,10 +126,11 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
         MissedPunchForm mpForm = (MissedPunchForm) form;
         mpForm.setEditingMode(new HashMap());
         MissedPunchDocument mpDoc = (MissedPunchDocument) mpForm.getDocument();
-        mpDoc.setDocumentStatus("R");
         request.setAttribute(TkConstants.DOCUMENT_ID_REQUEST_NAME, mpDoc.getDocumentNumber());
         request.setAttribute(TkConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME, mpDoc.getTimesheetDocumentId());
         ActionForward fwd = super.route(mapping, mpForm, request, response);
+        mpDoc.setDocumentStatus("R");
+        TkServiceLocator.getMissedPunchService().addClockLogForMissedPunch(mpDoc);
         mpForm.setDocId(mpDoc.getDocumentNumber());
         mpForm.setAssignmentReadOnly(true);
         return fwd;
@@ -160,5 +161,18 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
   	  return super.reload(mapping, form, request, response);
   }
 
+    @Override
+    public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        MissedPunchForm mpForm = (MissedPunchForm) form;
+        mpForm.setEditingMode(new HashMap());
+        MissedPunchDocument mpDoc = (MissedPunchDocument) mpForm.getDocument();
+        mpDoc.setDocumentStatus("S");
+        request.setAttribute(TkConstants.DOCUMENT_ID_REQUEST_NAME, mpDoc.getDocumentNumber());
+        request.setAttribute(TkConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME, mpDoc.getTimesheetDocumentId());
+        ActionForward fwd = super.save(mapping, mpForm, request, response);
+        mpForm.setDocId(mpDoc.getDocumentNumber());
+        mpForm.setAssignmentReadOnly(true);
+        return fwd;
 
+    }
 }
