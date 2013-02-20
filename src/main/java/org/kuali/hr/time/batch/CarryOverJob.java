@@ -211,7 +211,7 @@ public class CarryOverJob implements Job{
  				   CalendarEntries calendarEntries = getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(leaveCalendar.getHrCalendarId(), prevCalEndDate);
  				   if(calendarEntries != null) {
 					try {
-						LeaveSummary leaveSummary = getLeaveSummaryService().getLeaveSummary(principalId, calendarEntries);
+						LeaveSummary leaveSummary = getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, calendarEntries.getEndPeriodDate());
 						List<LeaveSummaryRow> leaveSummaryRows = leaveSummary.getLeaveSummaryRows();
 						
 						if(leaveSummaryRows !=null && !leaveSummaryRows.isEmpty()){
