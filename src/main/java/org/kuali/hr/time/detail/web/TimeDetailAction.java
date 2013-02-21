@@ -433,8 +433,10 @@ public class TimeDetailAction extends TimesheetAction {
         TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks);
 
         // apply overtime pref
+        // I changed start and end times comparison below. it used to be overtimeBeginTimestamp and overtimeEndTimestamp but
+        // for some reason, they're always null because, we have removed the time block before getting here. KPME-2162
         for (TimeBlock tb : newTimeBlocks) {
-            if (tb.getBeginTimestamp().equals(overtimeBeginTimestamp) && tb.getEndTimestamp().equals(overtimeEndTimestamp) && StringUtils.isNotEmpty(tdaf.getOvertimePref())) {
+            if (tb.getBeginTimestamp().equals(startTime) && tb.getEndTimestamp().equals(endTime) && StringUtils.isNotEmpty(tdaf.getOvertimePref())) {
                 tb.setOvertimePref(tdaf.getOvertimePref());
             }
 
