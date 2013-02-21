@@ -541,6 +541,16 @@ public class TimeDetailAction extends TimesheetAction {
       if (blockToDelete != null && TkServiceLocator.getPermissionsService().canDeleteLeaveBlock(blockToDelete)) {
 		    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId, TKContext.getPrincipalId());
       }
+      
+      // if the leave block is NOT eligible for accrual, rerun accrual service for the leave calendar the leave block is on
+      EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(blockToDelete.getEarnCode(), blockToDelete.getLeaveDate());
+      if(ec != null && ec.getEligibleForAccrual().equals("N")) {
+    	  CalendarEntries ce = TkServiceLocator.getCalendarService()
+					.getCurrentCalendarDatesForLeaveCalendar(blockToDelete.getPrincipalId(), blockToDelete.getLeaveDate());
+    	  if(ce != null) {
+    		  TkServiceLocator.getLeaveAccrualService().runAccrual(blockToDelete.getPrincipalId(), ce.getBeginPeriodDate(), ce.getEndPeriodDate(), false);
+    	  }
+      }
 		
       return mapping.findForward("basic");
 	}
