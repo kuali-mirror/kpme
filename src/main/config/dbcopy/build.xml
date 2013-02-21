@@ -40,7 +40,7 @@
     <!-- 
         Global Properties 
     -->
-    <property name="db.version" value="dba150"/>
+    <property name="db.version" value="trunk"/>
 	<property name="server.schema" value="krtt"/>
     <property name="server.username" value="krtt"/>
     <property name="server.password" value="krtt"/>
