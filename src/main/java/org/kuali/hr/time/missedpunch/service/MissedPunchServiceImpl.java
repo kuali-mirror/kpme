@@ -80,7 +80,7 @@ public class MissedPunchServiceImpl implements MissedPunchService {
         	}
         }
 
-        if(cl.getClockTimestamp().compareTo(new Timestamp(actionDateTime.getMillis())) != 0){
+        if(cl != null && cl.getClockTimestamp().compareTo(new Timestamp(actionDateTime.getMillis())) != 0){
         	//change occurred between the initial save and the approver
         	//inactivate all the previous timeblocks and delete clock logs
         	String logEndId = null;
