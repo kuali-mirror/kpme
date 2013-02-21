@@ -250,6 +250,7 @@
 				<value>employeeOverrideLookupable</value>
 				<value>balanceTransferLookupable</value>
                 <value>leavePayoutLookupable</value>
+                <value>institutionLookupable</value>
             </set>
         </property>
     </bean>
@@ -363,6 +364,8 @@
 
     <bean id="leaveRequestDocumentDao" class="org.kuali.hr.lm.leaverequest.dao.LeaveRequestDocumentDaoOjbImpl" parent="platformAwareDao" />
     
+    <bean id="institutionDao" class="org.kuali.hr.pm.institution.dao.InstitutionDaoOjbImpl" parent="platformAwareDao" />
+        
     <!-- Time Services for Business Logic -->
     <bean id="missedPunchService" class="org.kuali.hr.time.missedpunch.service.MissedPunchServiceImpl">
         <property name="missedPunchDao" ref="missedPunchDao"/>
@@ -657,6 +660,10 @@
         <property name="leaveRequestDocumentDao" ref="leaveRequestDocumentDao"/>
     </bean>
     
+    <bean id="institutionService" class="org.kuali.hr.pm.institution.service.InstitutionServiceImpl">
+        <property name="institutionDao" ref="institutionDao"/>
+    </bean>
+    
     <bean id="accrualCategoryMaxCarryOverService" class="org.kuali.hr.lm.accrual.service.AccrualCategoryMaxCarryOverServiceImpl">
         <property name="accrualCategoryService" ref="accrualCategoryService" />
 	    <property name="accrualCategoryRuleService" ref="accrualCategoryRuleService" />
@@ -672,6 +679,11 @@
             <!--<bean class="org.kuali.hr.time.TkLookupableHelper"/>-->
         <!--</property>-->
     <!--</bean>-->
+    <bean id="institutionLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
+    	<property name="lookupableHelperService">
+    		<bean class="org.kuali.hr.pm.institution.service.InstitutionLookupableHelper"/>
+    	</property>    
+    </bean>
     <bean id="balanceTransferLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
     	<property name="lookupableHelperService">
     		<bean class="org.kuali.hr.lm.balancetransfer.service.BalanceTransferLookupableHelper"/>

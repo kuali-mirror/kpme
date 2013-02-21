@@ -19,6 +19,7 @@
     <admin:hrPayroll />
     <admin:timeKeeping />
     <admin:leaveMaintenance />
+    <admin:positionManagement />
     <admin:administrative />
 </td>
 <td class="content" valign="top">

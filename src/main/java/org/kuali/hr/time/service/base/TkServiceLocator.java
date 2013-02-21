@@ -40,6 +40,7 @@ import org.kuali.hr.lm.timeoff.service.SystemScheduledTimeOffService;
 import org.kuali.hr.lm.workflow.service.LeaveCalendarDocumentHeaderService;
 import org.kuali.hr.location.service.LocationService;
 import org.kuali.hr.paygrade.service.PayGradeService;
+import org.kuali.hr.pm.institution.service.InstitutionService;
 import org.kuali.hr.time.accrual.service.TimeOffAccrualService;
 import org.kuali.hr.time.approval.service.TimeApproveService;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
@@ -168,8 +169,13 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String LM_LEAVE_REQUEST_DOC_SERVICE = "leaveRequestDocumentService";
 	public static final String LM_ACCRUAL_CATEGORY_MAX_CARRY_OVER_SERVICE = "accrualCategoryMaxCarryOverService";
     public static final String LM_LEAVE_PAYOUT_SERVICE = "leavePayoutService";
+    public static final String PM_INSTITUTION_SERVICE = "institutionService";
 	public static final String KPME_DISTRIBUTED_CACHE_MANAGER = "kpmeDistributedCacheManager";
     public static final String KPME_NOTIFICATION_SERVICE = "kpmeNotificationService";
+    
+    public static InstitutionService getInstitutionService() {
+    	return (InstitutionService) CONTEXT.getBean(PM_INSTITUTION_SERVICE);
+    }
     
     public static MissedPunchService getMissedPunchService() {
         return (MissedPunchService) CONTEXT.getBean(TK_MISSED_PUNCH_SERVICE);
