@@ -14,7 +14,7 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 
 import com.google.common.collect.ImmutableList;
 
-public class InstitutionDaoObjImpl extends PlatformAwareDaoBaseOjb implements InstitutionDao {
+public class InstitutionDaoOjbImpl extends PlatformAwareDaoBaseOjb implements InstitutionDao {
 	
     private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
             .add("institutionCode")
