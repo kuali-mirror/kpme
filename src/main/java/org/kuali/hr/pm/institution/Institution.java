@@ -1,7 +1,5 @@
 package org.kuali.hr.pm.institution;
 
-import org.joda.time.DateTime;
-
 import org.kuali.hr.time.HrBusinessObject;
 
 public class Institution extends HrBusinessObject {
