@@ -103,12 +103,14 @@
                 <value>OJB-repository-time.xml</value>
                 <value>OJB-repository-coa.xml</value>
                 <value>OJB-repository-leave.xml</value>
+                <value>OJB-repository-position.xml</value>
             </list>
         </property>
         <property name="dataDictionaryPackages">
             <list>
                 <value>org/kuali/hr/time/datadictionary</value>
                 <value>org/kuali/hr/lm/datadictionary</value>
+                <value>org/kuali/hr/pm/datadictionary</value>
                 <value>org/kuali/kfs/coa/datadictionary</value>
             </list>
         </property>

@@ -12,9 +12,7 @@
 
   <bean id="InstitutionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
   		p:businessObjectClass="org.kuali.hr.pm.institution.Institution"
-  		p:businessRulesClass="org.kuali.hr.pm.institution.validation.InstitutionValidation"
-  		p:maintainableClass="org.kuali.hr.pm.intsitution.service.InstitutionMaintainableServiceImpl"
-  		p:documentAuthorizerClass="org.kuali.hr.time.authorization.LocationAdminAuthorizer">
+  		p:maintainableClass="org.kuali.hr.pm.institution.service.InstitutionMaintainableImpl">
     <property name="maintainableSections">
       <list>
         <ref bean="InstitutionMaintenanceDocument-InstitutionMaintenance"/>
@@ -28,12 +26,12 @@
   <bean id="InstitutionMaintenanceDocument-InstitutionMaintenance" parent="InstitutionMaintenanceDocument-InstitutionMaintenance-parentBean"/>
 
   <bean id="InstitutionMaintenanceDocument-InstitutionMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="title" value="Leave Plan Maintenance"/>
+    <property name="title" value="Institution Maintenance"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
-		<bean parent="MaintainableFieldDefinition" p:name="institutionCode" p:requried="true" />
-		<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
+		<bean parent="MaintainableFieldDefinition" p:name="institutionCode" p:required="true" />
+		<bean parent="MaintainableFieldDefinition" p:name="description" p:required="false"/>
       	<bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" />
       </list>
     </property>

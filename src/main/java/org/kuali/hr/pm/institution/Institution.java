@@ -12,16 +12,16 @@ public class Institution extends HrBusinessObject {
 	private static final long serialVersionUID = 1L;
 	
 	private String pmInstitutionId;
-	private String insitutionCode;
+	private String institutionCode;
 	private String description;
 	private boolean active;
 	
-	public String getInsitutionCode() {
-		return insitutionCode;
+	public String getInstitutionCode() {
+		return institutionCode;
 	}
 	
-	public void setInsitutionCode(String insitutionCode) {
-		this.insitutionCode = insitutionCode;
+	public void setInstitutionCode(String institutionCode) {
+		this.institutionCode = institutionCode;
 	}
 	
 	public String getDescription() {
