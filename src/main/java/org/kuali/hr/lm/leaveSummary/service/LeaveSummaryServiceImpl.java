@@ -257,7 +257,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                             lsr.setAccrualCategory(ac.getAccrualCategory());
                             lsr.setAccrualCategoryId(ac.getLmAccrualCategoryId());
                             //get max balances
-                            AccrualCategoryRule acRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(ac, TKUtils.getCurrentDate(), pha.getServiceDate());
+                            AccrualCategoryRule acRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(ac, endDate, pha.getServiceDate());
                             //accrual category rule id set on a leave summary row will be useful in generating a relevant balance transfer
                             //document from the leave calendar display. Could put this id in the request for balance transfer document.
                             lsr.setAccrualCategoryRuleId(acRule == null ? null : acRule.getLmAccrualCategoryRuleId());
@@ -347,29 +347,6 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                                 lsr.setLeaveBalance(leaveBalance);
                             }
 
-                            //Rows should only be marked transferable/payoutable for calendars that have not already been submitted for approval,
-                            //and if either the current date falls within the calendar, or it is beyond the end date of the calendar.
-                            //Logic should be implemented which would take action on over-the-limit balances with frequency on-demand, if the user
-                            //did not transfer the excess themselves, upon calendar submission/approval.
-                            //Doing so would eliminate the need to suppress the nested method calls in cases dealing with calendar entries
-                            //that have moved beyond status initiated.
-                            DateTime startDateTime = new DateTime(startDate);
-                            DateTime endDateTime = new DateTime(endDate);
-                            Interval interval = new Interval(startDateTime,endDateTime);
-                            if(interval.containsNow() || !endDate.after(TKUtils.getCurrentDate())) {
-                                //current or past calendar is being used for leave summary calculation
-                                //should only allow on-demand transfers if calendar document has status initiated.
-                                //obviously this code block is executed for all non-approved calendars, displaying the buttons
-                                //for calendar documents that have already been routed.
-                                //Depending on requirements for on demand display, may need to update this.
-                                markTransferable(lsr,acRule,principalId);
-                                markPayoutable(lsr,acRule,principalId);
-                                // One situation where this would cause problems is when there is no previous approved leave calendar document
-                                // i.e. When someone starts a new position, or if the principal has no leave eligible jobs. ( no leave calendar doc ).
-                                // if someone were to move into a new leave plan and a balance was transferred that exceeded the new leave plans
-                                // balance limit, with a transfer frequency on-demand, the principal would not be allowed to transfer this excess.
-                                // fringe case, but should still be addressed...
-                            }
                             rows.add(lsr);
                         }
                     }

@@ -34,6 +34,7 @@ import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
+import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;
@@ -192,25 +193,31 @@ public class LeaveCalendarAction extends TkAction {
         if (calendarEntry != null) {
             //check to see if we are on a previous leave plan
             PrincipalHRAttributes principalCal = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, calendarEntry.getEndPeriodDate());
-            DateTime firstDay = TkServiceLocator.getLeavePlanService().getFirstDayOfLeavePlan(principalCal.getLeavePlan(), TKUtils.getCurrentDate());
-            if (firstDay.isBefore(calendarEntry.getEndPeriodDate().getTime())) {
-                LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(viewPrincipal, calendarEntry);
-                lcf.setLeaveSummary(ls);
-            } else {
-                DateTime effDate = (new LocalDateTime(firstDay)).toDateTime().withYear(calendarEntry.getBeginLocalDateTime().getYear()+1).minus(1);
-                LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(viewPrincipal, new java.sql.Date(effDate.getMillis()));
-                //override title element (based on date passed in)
-                DateFormat formatter = new SimpleDateFormat("MMMM d");
-                DateFormat formatter2 = new SimpleDateFormat("MMMM d yyyy");
-                DateTime entryEndDate = new LocalDateTime(calendarEntry.getEndPeriodDate()).toDateTime();
-                if (entryEndDate.getHourOfDay() == 0) {
-                    entryEndDate = entryEndDate.minusDays(1);
-                }
-                String aString = formatter.format(calendarEntry.getBeginPeriodDate()) + " - " + formatter2.format(entryEndDate.toDate());
-                ls.setPendingDatesString(aString);
-                DateTimeFormatter fmt = DateTimeFormat.forPattern("MMM d, yyyy");
-                ls.setNote("Values as of: " + fmt.print(effDate));
-                lcf.setLeaveSummary(ls);
+            if(principalCal != null) {
+	            DateTime firstDay = TkServiceLocator.getLeavePlanService().getFirstDayOfLeavePlan(principalCal.getLeavePlan(), TKUtils.getCurrentDate());
+	            if (firstDay.isBefore(calendarEntry.getEndPeriodDate().getTime())) {
+	                LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(viewPrincipal, calendarEntry);
+	                lcf.setLeaveSummary(ls);
+	            } else {
+	                DateTime effDate = (new LocalDateTime(firstDay)).toDateTime().withYear(calendarEntry.getBeginLocalDateTime().getYear()+1).minus(1);
+	                LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(viewPrincipal, new java.sql.Date(effDate.getMillis()));
+	                //override title element (based on date passed in)
+	                DateFormat formatter = new SimpleDateFormat("MMMM d");
+	                DateFormat formatter2 = new SimpleDateFormat("MMMM d yyyy");
+	                DateTime entryEndDate = new LocalDateTime(calendarEntry.getEndPeriodDate()).toDateTime();
+	                if (entryEndDate.getHourOfDay() == 0) {
+	                    entryEndDate = entryEndDate.minusDays(1);
+	                }
+	                String aString = formatter.format(calendarEntry.getBeginPeriodDate()) + " - " + formatter2.format(entryEndDate.toDate());
+	                ls.setPendingDatesString(aString);
+	                DateTimeFormatter fmt = DateTimeFormat.forPattern("MMM d, yyyy");
+	                ls.setNote("Values as of: " + fmt.print(effDate));
+	                lcf.setLeaveSummary(ls);
+	            }
+            }
+            else {
+            	LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(viewPrincipal, calendarEntry);
+            	lcf.setLeaveSummary(ls);
             }
         }
         
@@ -253,6 +260,29 @@ public class LeaveCalendarAction extends TkAction {
 			        	losses.add(loseTransfer);
 		        	}
 		        }
+		        LeaveSummary summary = lcf.getLeaveSummary();
+		        for(String accrualRuleId : transfers.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND)) {
+		        	List<LeaveSummaryRow> summaryRows = lcf.getLeaveSummary().getLeaveSummaryRows();
+		        	List<LeaveSummaryRow> updatedSummaryRows = new ArrayList<LeaveSummaryRow>(summaryRows.size());
+		        	for(LeaveSummaryRow summaryRow : summaryRows) {
+		        		if(StringUtils.equals(summaryRow.getAccrualCategoryRuleId(),accrualRuleId))
+		        			summaryRow.setTransferable(true);
+		        		updatedSummaryRows.add(summaryRow);
+		        	}
+		        	summary.setLeaveSummaryRows(updatedSummaryRows);
+		        }
+		        for(String accrualRuleId : payouts.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND)) {
+		        	List<LeaveSummaryRow> summaryRows = lcf.getLeaveSummary().getLeaveSummaryRows();
+		        	List<LeaveSummaryRow> updatedSummaryRows = new ArrayList<LeaveSummaryRow>(summaryRows.size());
+		        	for(LeaveSummaryRow summaryRow : summaryRows) {
+		        		if(StringUtils.equals(summaryRow.getAccrualCategoryRuleId(),accrualRuleId))
+		        			summaryRow.setTransferable(true);
+		        		updatedSummaryRows.add(summaryRow);
+		        	}
+		        	summary.setLeaveSummaryRows(updatedSummaryRows);
+		        }
+	        	lcf.setLeaveSummary(summary);
+
             }
 	        lcf.setForfeitures(losses);
         }
