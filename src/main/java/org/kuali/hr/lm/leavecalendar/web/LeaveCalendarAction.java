@@ -264,8 +264,10 @@ public class LeaveCalendarAction extends TkAction {
 		        for(String accrualRuleId : transfers.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND)) {
 		        	List<LeaveSummaryRow> summaryRows = lcf.getLeaveSummary().getLeaveSummaryRows();
 		        	List<LeaveSummaryRow> updatedSummaryRows = new ArrayList<LeaveSummaryRow>(summaryRows.size());
+		        	AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+		        	AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
 		        	for(LeaveSummaryRow summaryRow : summaryRows) {
-		        		if(StringUtils.equals(summaryRow.getAccrualCategoryRuleId(),accrualRuleId))
+		        		if(StringUtils.equals(summaryRow.getAccrualCategory(),accrualCategory.getAccrualCategory()))
 		        			summaryRow.setTransferable(true);
 		        		updatedSummaryRows.add(summaryRow);
 		        	}
@@ -274,8 +276,10 @@ public class LeaveCalendarAction extends TkAction {
 		        for(String accrualRuleId : payouts.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND)) {
 		        	List<LeaveSummaryRow> summaryRows = lcf.getLeaveSummary().getLeaveSummaryRows();
 		        	List<LeaveSummaryRow> updatedSummaryRows = new ArrayList<LeaveSummaryRow>(summaryRows.size());
+		        	AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+		        	AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
 		        	for(LeaveSummaryRow summaryRow : summaryRows) {
-		        		if(StringUtils.equals(summaryRow.getAccrualCategoryRuleId(),accrualRuleId))
+		        		if(StringUtils.equals(summaryRow.getAccrualCategory(),accrualCategory.getAccrualCategory()))
 		        			summaryRow.setTransferable(true);
 		        		updatedSummaryRows.add(summaryRow);
 		        	}
