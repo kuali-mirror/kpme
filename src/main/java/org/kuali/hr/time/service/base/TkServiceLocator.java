@@ -41,6 +41,7 @@ import org.kuali.hr.lm.workflow.service.LeaveCalendarDocumentHeaderService;
 import org.kuali.hr.location.service.LocationService;
 import org.kuali.hr.paygrade.service.PayGradeService;
 import org.kuali.hr.pm.institution.service.InstitutionService;
+import org.kuali.hr.pm.positionreporttype.service.PositionReportTypeService;
 import org.kuali.hr.time.accrual.service.TimeOffAccrualService;
 import org.kuali.hr.time.approval.service.TimeApproveService;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
@@ -170,6 +171,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String LM_ACCRUAL_CATEGORY_MAX_CARRY_OVER_SERVICE = "accrualCategoryMaxCarryOverService";
     public static final String LM_LEAVE_PAYOUT_SERVICE = "leavePayoutService";
     public static final String PM_INSTITUTION_SERVICE = "institutionService";
+    public static final String PM_POSITION_REPORT_TYPE_SERVICE = "positionReportTypeService";
 	public static final String KPME_DISTRIBUTED_CACHE_MANAGER = "kpmeDistributedCacheManager";
     public static final String KPME_NOTIFICATION_SERVICE = "kpmeNotificationService";
     
@@ -474,6 +476,10 @@ public class TkServiceLocator implements ApplicationContextAware {
     }
     public static AccrualCategoryMaxCarryOverService getAccrualCategoryMaxCarryOverService() {
     	return (AccrualCategoryMaxCarryOverService) CONTEXT.getBean(LM_ACCRUAL_CATEGORY_MAX_CARRY_OVER_SERVICE);
+    }
+    
+    public static PositionReportTypeService getPositionReportTypeService() {
+    	return (PositionReportTypeService) CONTEXT.getBean(PM_POSITION_REPORT_TYPE_SERVICE);
     }
 	
 	@Override
