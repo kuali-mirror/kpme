@@ -43,10 +43,11 @@
         <kuali.release.arguments>-DskipTests</kuali.release.arguments>
 
         <ehcache.version>2.5.0</ehcache.version>
-        <apache.cxf.version>2.3.8</apache.cxf.version>
+        <apache.cxf.version>2.7.0</apache.cxf.version>
         <displaytag.version>1.1.1</displaytag.version>
         <jetty.version>7.5.1.v20110908</jetty.version>
-        <rice.version>2.1.2</rice.version>
+        <rice.version>2.1.3</rice.version>
+        <jsp-api.version>2.1</jsp-api.version>
         <oracle.jdbc.version>10.2.0.3.0</oracle.jdbc.version>
         <oracle.jdbc.artifactId>ojdbc14</oracle.jdbc.artifactId>
         <mysql.jdbc.version>5.1.23</mysql.jdbc.version>
@@ -188,11 +189,6 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-transports-common</artifactId>
-            <version>${apache.cxf.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.apache.xmlgraphics</groupId>
             <artifactId>fop</artifactId>
             <version>1.0</version>
@@ -282,8 +278,28 @@
                     <artifactId>jetty-webapp</artifactId>
                 </exclusion>
                 <exclusion>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>cxf-rt-transports-http-jetty</artifactId>
+                </exclusion>
+                <exclusion>
                     <groupId>org.mortbay.jetty</groupId>
                     <artifactId>jsp-2.1-glassfish</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http-jetty</artifactId>
+            <version>${apache.cxf.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.geronimo.specs</groupId>
+                    <artifactId>geronimo-servlet_3.0_spec</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.eclipse.jetty</groupId>
+                    <artifactId>jetty-security</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>

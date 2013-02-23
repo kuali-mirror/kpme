@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2004-2012 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+
+    <changeSet id="1" author="jjhanso" context="kpme-server-bootstrap">
+        <comment>Adding Rice permission bootstrap data</comment>
+        <insert tableName="KRIM_PERM_T">
+            <column name="PERM_ID" value="KPME0001" />
+            <column name="PERM_TMPL_ID" value="68"/>
+            <column name="NMSPC_CD" value="KR-WKFLW"/>
+            <column name="NM" value="Recall LeaveRequest Document"/>
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+        </insert>
+
+        <modifySql dbms="mysql">
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+
+    <changeSet id="2" author="jjhanso" context="kpme-server-bootstrap">
+        <comment>Adding Rice permission attributes</comment>
+        <insert tableName="KRIM_PERM_ATTR_DATA_T">
+            <column name="ATTR_DATA_ID" value="KPME0001" />
+            <column name="PERM_ID" value="KPME0001"/>
+            <column name="KIM_TYP_ID" value="8"/>
+            <column name="KIM_ATTR_DEFN_ID" value="13"/>
+            <column name="ATTR_VAL" value="LeaveRequestDocument" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+        </insert>
+
+        <modifySql dbms="mysql">
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+
+    <changeSet id="3" author="jjhanso" context="kpme-server-bootstrap">
+        <comment>Adding Rice group bootstrap data</comment>
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0001" />
+            <column name="ROLE_ID" valueComputed="(select role_id from krim_role_t where nmspc_cd = 'KR-WKFLW' and role_nm = 'Initiator')" />
+            <column name="PERM_ID" valueComputed="(select PERM_ID from krim_perm_t where nmspc_cd = 'KR-WKFLW' and nm = 'Recall LeaveRequest Document')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+        </insert>
+
+        <modifySql dbms="mysql">
+            <replace replace="SYSDATE" with="NOW()" />
+            <replace replace="SYS_GUID()" with="UUID()" />
+        </modifySql>
+    </changeSet>
+    
+</databaseChangeLog>
