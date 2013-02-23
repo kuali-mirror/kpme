@@ -199,9 +199,6 @@ public class LeaveCalendarAction extends TkAction {
 	            DateTime currentYearRollOverDate = TkServiceLocator.getLeavePlanService().getFirstDayOfLeavePlan(principalCal.getLeavePlan(), TKUtils.getCurrentDate());
 	            DateTime calendarEntryEndRollOverDate = TkServiceLocator.getLeavePlanService().getFirstDayOfLeavePlan(principalCal.getLeavePlan(), DateUtils.addDays(calendarEntry.getEndPeriodDate(),-1));
 
-            	/**
-            	 * The following assumes that a new leave plan cannot become effective on the principal calendar between current date and calendar entry end period date.
-            	 */
 	            if (currentYearRollOverDate.isBefore(calendarEntryEndRollOverDate)) {
 	            	//we're looking at a future period that falls within the following year.
 	                LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(viewPrincipal, calendarEntry);
@@ -212,12 +209,26 @@ public class LeaveCalendarAction extends TkAction {
 	            	String endDate = TKUtils.formatDate(new Date(DateUtils.addDays(calendarEntry.getEndPeriodDate(),-1).getTime()));
 	            	String leavePlanRollOverDateString = TKUtils.formatDate(new Date(calendarEntryEndRollOverDate.toDate().getTime()));
 	            	String currentDate = TKUtils.formatDate(TKUtils.getCurrentDate());
-	            	if(Integer.valueOf(currentDate.substring(0, 2)) < Integer.valueOf(leavePlanRollOverDateString.substring(0, 2))) {
-		                LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(viewPrincipal, calendarEntry);
-		                lcf.setLeaveSummary(ls);
-	            	}
-	            	else {
-	            		
+	            	// need to determine two things.
+	            	//
+	            	// 1.) if the calendar entry's full end date is before the leave plan roll-over date.
+	            	// 2.) if the current date has or has not passed currentYearRollOverDate.
+	            	//
+	            	// if the current date has passed the current year's roll over date, all calendar periods in the previous year and before
+	            	// will be of a past leave plan calendar year. We'll use currentYearRollOverDate as the effective date for all previous calendars.
+	            	//
+	            	// Otherwise, there exists one active/current leave plan calendar year and one past leave plan calendar year in the previous year. In this case:
+	            	//
+	            	// If the full end date of the calendar entry is on or before the current leave plan roll over date less 1 year, then the calendar entry
+	            	// period belongs to a past leave plan calendar year.
+	            	//
+	            	// If the full begin date is on or after the current leave plan roll over date less 1 year, then the period belongs to the current leave plan calendar year.
+	            	//
+	            	// Otherwise the calendar entry either ends before the previous leave plan roll over date, or it straddles it.
+	            	// i.o.w. The begin date falls within the previous leave plan calendar year and the end date falls within the current leave plan calendar year.
+	            	// In this case, we'll show the alternative leave summary with an effective date as of the roll over date that splits the calendar entry.
+	            	if(TKUtils.getCurrentDate().compareTo(currentYearRollOverDate.toDate()) >= 0) {
+	            		//current year roll over date has been passed, all previous calendars belong to the previous leave plan calendar year.
 		                DateTime effDate = (new LocalDateTime(currentYearRollOverDate)).toDateTime().minus(1);
 		                LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(viewPrincipal, new java.sql.Date(effDate.getMillis()));
 		                //override title element (based on date passed in)
@@ -233,14 +244,39 @@ public class LeaveCalendarAction extends TkAction {
 		                ls.setNote("Values as of: " + fmt.print(effDate));
 		                lcf.setLeaveSummary(ls);
 	            	}
+	            	else {
+	            		// current year roll over date has not been passed.
+	            		Date calEndDate = new Date(DateUtils.addDays(calendarEntry.getEndPeriodDate(),-1).getTime());
+	            		Date calBeginDate = calendarEntry.getBeginPeriodDate();
+	            		if(calBeginDate.compareTo(DateUtils.addYears(currentYearRollOverDate.toDate(),-1)) >= 0) {
+		            		LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(viewPrincipal, calendarEntry);
+		            		lcf.setLeaveSummary(ls);
+	            		}
+	            		else {
+			                DateTime effDate = (new LocalDateTime(calendarEntryEndRollOverDate)).toDateTime().minus(1);
+			                LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(viewPrincipal, new java.sql.Date(effDate.getMillis()));
+			                //override title element (based on date passed in)
+			                DateFormat formatter = new SimpleDateFormat("MMMM d");
+			                DateFormat formatter2 = new SimpleDateFormat("MMMM d yyyy");
+			                DateTime entryEndDate = new LocalDateTime(calendarEntry.getEndPeriodDate()).toDateTime();
+			                if (entryEndDate.getHourOfDay() == 0) {
+			                    entryEndDate = entryEndDate.minusDays(1);
+			                }
+			                String aString = formatter.format(calendarEntry.getBeginPeriodDate()) + " - " + formatter2.format(entryEndDate.toDate());
+			                ls.setPendingDatesString(aString);
+			                DateTimeFormatter fmt = DateTimeFormat.forPattern("MMM d, yyyy");
+			                ls.setNote("Values as of: " + fmt.print(effDate));
+			                lcf.setLeaveSummary(ls);
+	            		}
+	            	}
 	            }
 	            else {
 	            	// we're in the current year
 	            	String beginDate = TKUtils.formatDate(calendarEntry.getBeginPeriodDate());
-	            	String endDate = TKUtils.formatDate(calendarEntry.getEndPeriodDate());
+	            	String endDate = TKUtils.formatDate(new Date(DateUtils.addDays(calendarEntry.getEndPeriodDate(),-1).getTime()));
 	            	String currentDate = TKUtils.formatDate(TKUtils.getCurrentDate());
 	            	String leavePlanRollOverDateString = TKUtils.formatDate(new Date(currentYearRollOverDate.toDate().getTime()));
-	            	if(Integer.valueOf(currentDate.substring(0,2)) < Integer.valueOf(leavePlanRollOverDateString.substring(0, 2))) {
+	            	if(TKUtils.getCurrentDate().compareTo(currentYearRollOverDate.toDate()) < 0) {
 	            		//leave plan's roll over date has not been passed.
 		            	if(Integer.valueOf(endDate.substring(0, 2)) <= Integer.valueOf(leavePlanRollOverDateString.substring(0,2)) ||
 		            			Integer.valueOf(beginDate.substring(0, 2)) >= Integer.valueOf(leavePlanRollOverDateString.substring(0,2))) {
@@ -267,7 +303,9 @@ public class LeaveCalendarAction extends TkAction {
 	            	}
 	            	else {
 	            		//we've passed the roll-over date for the current year.
-		            	if(Integer.valueOf(endDate.substring(0, 2)) <= Integer.valueOf(leavePlanRollOverDateString.substring(0,2))) {
+		            	if(Integer.valueOf(endDate.substring(0, 2)) < Integer.valueOf(leavePlanRollOverDateString.substring(0,2)) ||
+		            			calendarEntry.getBeginPeriodDate().compareTo(currentYearRollOverDate.toDate()) < 0) {
+		            		//this calendar entry is entirely contained in the previous leave plan year, or straddles the leave plan's roll over date
 			                DateTime effDate = (new LocalDateTime(currentYearRollOverDate)).toDateTime().minus(1);
 			                LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(viewPrincipal, new java.sql.Date(effDate.getMillis()));
 			                //override title element (based on date passed in)
@@ -284,17 +322,11 @@ public class LeaveCalendarAction extends TkAction {
 			                lcf.setLeaveSummary(ls);	
 		            	}
 		            	else {
-		            		//unless the calendar entry being viewed has a begin date on or beyond the leave plan roll-over date
-		            		//we need to use the alternative leave summary.
 		            		LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(viewPrincipal, calendarEntry);
 		            		lcf.setLeaveSummary(ls);
 		            	}
 	            	}
 	            }
-            }
-            else {
-            	LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(viewPrincipal, calendarEntry);
-            	lcf.setLeaveSummary(ls);
             }
         }
         

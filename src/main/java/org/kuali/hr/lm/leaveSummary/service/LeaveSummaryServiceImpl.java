@@ -17,6 +17,7 @@ package org.kuali.hr.lm.leaveSummary.service;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -227,6 +228,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                 //until we have something that creates carry over, we need to grab everything.
                 // Calculating leave bLocks from Calendar Year start instead of Service Date
                 Map<String, LeaveBlock> carryOverBlocks = getLeaveBlockService().getLastCarryOverBlocks(principalId, startDate);
+                
                 boolean filterByAccrualCategory = false;
                 if (StringUtils.isNotEmpty(accrualCategory)) {
                     filterByAccrualCategory = true;
