@@ -365,15 +365,16 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 			}
 		}
 		// this calendar entry interval does not contain a leave calendar's rollover date.
-		if(ObjectUtils.isNull(thisLeaveEntry))
+		if(ObjectUtils.isNull(thisLeaveEntry)) {
 			return eligibilities;
+        }
 		//TODO: Find the end period date for the corresponding leave calendar.
 		// must check if this date falls within the interval of the calendar entries begin / end.
 		// if so, get the leave blocks and calculate the accrued balance.
 		//LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, getCalendarEntry());
 		if(!accrualCategories.isEmpty()) {
-
-			//null check inserted to fix LeaveCalendarWebTst failures on kpme-trunk-build-unit #2069
+            LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, calendarEntry);
+            //null check inserted to fix LeaveCalendarWebTst failures on kpme-trunk-build-unit #2069
 			for(AccrualCategory accrualCategory : accrualCategories) {
 				//TODO: Iterate over Accrual Categories within this calendar entry.
 				AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, calendarEntry.getEndPeriodDate(), pha.getServiceDate());
@@ -387,8 +388,6 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 							if(ObjectUtils.isNotNull(rule.getMaxBalanceActionFrequency())) {
 								BigDecimal maxBalance = rule.getMaxBalance();
 								
-								List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, pha.getServiceDate(), calendarEntry.getEndPeriodDate());
-								LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, calendarEntry);
 								LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCategory(accrualCategory.getLmAccrualCategoryId());
 								BigDecimal accruedBalance = row.getAccruedBalance();
 /*								for(LeaveBlock leaveBlock : leaveBlockMap.get(accrualCategory.getAccrualCategory())) {
@@ -402,16 +401,19 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 								if(ObjectUtils.isNotNull(rule.getMaxCarryOver()))
 									maxAnnualCarryOver = new BigDecimal(rule.getMaxCarryOver());
 								BigDecimal adjustedMaxAnnualCarryOver = null;
-								if(ObjectUtils.isNotNull(maxAnnualCarryOver))
+								if(ObjectUtils.isNotNull(maxAnnualCarryOver)) {
 									adjustedMaxAnnualCarryOver = maxAnnualCarryOver.multiply(fte);
+                                }
 									
 								List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, TKUtils.getCurrentDate());
 								for(EmployeeOverride override : overrides) {
 									if(StringUtils.equals(override.getAccrualCategory(),accrualCategory.getAccrualCategory())) {
-										if(StringUtils.equals(override.getOverrideType(),"MB"))
+										if(StringUtils.equals(override.getOverrideType(),"MB")) {
 											adjustedMaxBalance = new BigDecimal(override.getOverrideValue());
-										if(StringUtils.equals(override.getOverrideType(),"MAC"))
+                                        }
+										if(StringUtils.equals(override.getOverrideType(),"MAC")) {
 											adjustedMaxAnnualCarryOver = new BigDecimal(override.getOverrideValue());
+                                        }
 										//override values are not pro-rated.
 									}
 								}
@@ -431,8 +433,9 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 										//calendarEntry.beginPeriodDate.year = calendarYearStart.year - 1
 										sb.append(DateUtils.toCalendar(DateUtils.addYears(calendarEntry.getBeginPeriodDate(),1)).get(Calendar.YEAR));
 									}
-									else
+									else {
 										sb.append(DateUtils.toCalendar(calendarEntry.getBeginPeriodDateTime()).get(Calendar.YEAR));
+                                    }
 									//if the calendar being submitted is the final calendar in the leave plans calendar year.
 									//must check the calendar year start month. If its the first month of the year, add a year to the date.
 									//otherwise, the end period date and the calendar year start date have the same year.

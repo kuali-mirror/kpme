@@ -190,7 +190,7 @@ public class LeaveBlockDisplayAction extends TkAction {
         LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(principalId, new java.sql.Date(new DateTime(beginDate).getMillis()));
 
         for (LeaveSummaryRow row : leaveSummary.getLeaveSummaryRows()) {
-            previousAccrualBalances.put(row.getAccrualCategory(), row.getCarryOver());
+            previousAccrualBalances.put(row.getAccrualCategory(), row.getLeaveBalance());
         }
 		
 		return previousAccrualBalances;

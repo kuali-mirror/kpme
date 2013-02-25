@@ -139,7 +139,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                 }
             }
 
-            //Fetching leaveblocks for accCat with type CarryOver -- This is logic according to the CO blocks created from scheduler job.
+            //Fetching leaveblocks for accCat with type CarryOver -- This is logic according to the CO blocks creatLed from scheduler job.
             BigDecimal carryOver = BigDecimal.ZERO.setScale(2);
             lsr.setCarryOver(carryOver);
 
@@ -503,24 +503,8 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 		BigDecimal approvedUsage = BigDecimal.ZERO.setScale(2);
 		BigDecimal fmlaUsage = BigDecimal.ZERO.setScale(2);
 
-		// To calculate the proper priorYearCutOffDate
-		Calendar effectiveDateCal = Calendar.getInstance();
-		effectiveDateCal.setTime(effectiveDate);
-		effectiveDateCal.add(Calendar.DATE, -1);
-		effectiveDateCal.set(Calendar.HOUR_OF_DAY, 0);
-		effectiveDateCal.set(Calendar.MINUTE, 0);
-		effectiveDateCal.set(Calendar.SECOND, 0);
-		effectiveDateCal.set(Calendar.MILLISECOND, 0);
-
-        int priorYearCutOffMonth = lp.getCalendarYearStart() == null ? 1 : Integer.parseInt(lp.getCalendarYearStart().substring(0,2));
-        int priorYearCutOffDay = lp.getCalendarYearStart() == null ? 1 : Integer.parseInt(lp.getCalendarYearStart().substring(3,5));
-        DateMidnight cutOffDate = new DateMidnight(effectiveDateCal.getTime()).withMonthOfYear(priorYearCutOffMonth).withDayOfMonth(priorYearCutOffDay);
-
-        if (cutOffDate.isAfter(effectiveDateCal.getTime().getTime())) {
-            cutOffDate = cutOffDate.withYear(cutOffDate.getYear() - 1);
-        }
-        
-        cutOffDate = cutOffDate.minusDays(1);
+        Date cutOffDateToCheck = ytdEarnedEffectiveDate != null ? ytdEarnedEffectiveDate : effectiveDate;
+        DateTime cutOffDate = TkServiceLocator.getLeavePlanService().getFirstDayOfLeavePlan(lp.getLeavePlan(), cutOffDateToCheck).minus(1);
 
         Timestamp priorYearCutOff = new Timestamp(cutOffDate.getMillis());
 
