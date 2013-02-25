@@ -46,8 +46,7 @@ public class LeavePayoutValidationUtils {
 		
 		if(ObjectUtils.isNotNull(pha)) {
 			if(ObjectUtils.isNotNull(pha.getLeavePlan())) {
-				AccrualCategoryRule acr = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat,
-						TKUtils.getCurrentDate(), pha.getServiceDate());
+				AccrualCategoryRule acr = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat, effectiveDate, pha.getServiceDate());
 				if(ObjectUtils.isNotNull(acr)) {
 					if(ObjectUtils.isNotNull(acr.getMaxBalFlag())
 							&& StringUtils.isNotBlank(acr.getMaxBalFlag())
