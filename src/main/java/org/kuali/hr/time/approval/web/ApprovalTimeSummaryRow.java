@@ -25,6 +25,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
+import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesummary.TimeSummary;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
@@ -159,7 +160,11 @@ public class ApprovalTimeSummaryRow implements Comparable<ApprovalTimeSummaryRow
      */
     public boolean isApprovable() {
     	boolean isEnroute =  StringUtils.equals(getApprovalStatus(), "ENROUTE") ;
-
+        TimesheetDocument doc = TkServiceLocator.getTimesheetService().getTimesheetDocument(this.documentId);
+        //is there a pending bt doc?
+        if (!TkServiceLocator.getTimesheetService().isReadyToApprove(doc)) {
+            return false;
+        }
         if(isEnroute){
         	DocumentRouteHeaderValue routeHeader = TkServiceLocator.getTimeApproveService().getRouteHeader(this.getDocumentId());
         	boolean authorized = KEWServiceLocator.getDocumentSecurityService().routeLogAuthorized(TKContext.getPrincipalId(), routeHeader, new SecuritySession(TKContext.getPrincipalId()));

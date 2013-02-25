@@ -215,7 +215,8 @@ public class LeaveCalendarAction extends TkAction {
 	            	// 2.) if the current date has or has not passed currentYearRollOverDate.
 	            	//
 	            	// if the current date has passed the current year's roll over date, all calendar periods in the previous year and before
-	            	// will be of a past leave plan calendar year. We'll use currentYearRollOverDate as the effective date for all previous calendars.
+	            	// will be of a past leave plan calendar year. We'll use currentYearRollOverDate as the effective date when calculating the leave
+	            	// summary for all previous calendar.
 	            	//
 	            	// Otherwise, there exists one active/current leave plan calendar year and one past leave plan calendar year in the previous year. In this case:
 	            	//
@@ -249,10 +250,12 @@ public class LeaveCalendarAction extends TkAction {
 	            		Date calEndDate = new Date(DateUtils.addDays(calendarEntry.getEndPeriodDate(),-1).getTime());
 	            		Date calBeginDate = calendarEntry.getBeginPeriodDate();
 	            		if(calBeginDate.compareTo(DateUtils.addYears(currentYearRollOverDate.toDate(),-1)) >= 0) {
+	            		// show typical leave summary if the calendar begin date is on or after the current leave plan calendar's start date.
 		            		LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(viewPrincipal, calendarEntry);
 		            		lcf.setLeaveSummary(ls);
 	            		}
 	            		else {
+	            		// show the alternative summary with a date as of the end of the leave plan calendar year that this calendar entry belongs to.
 			                DateTime effDate = (new LocalDateTime(calendarEntryEndRollOverDate)).toDateTime().minus(1);
 			                LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(viewPrincipal, new java.sql.Date(effDate.getMillis()));
 			                //override title element (based on date passed in)
@@ -346,7 +349,7 @@ public class LeaveCalendarAction extends TkAction {
             if(ObjectUtils.isNotNull(principalCalendar)) {
 		        transfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(calendarEntry, viewPrincipal);
 		        payouts = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(calendarEntry,viewPrincipal);
-		
+		        // Prepare LOSE max balance actions for leave approve and year end.
 		        for(String accrualRuleId : transfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)) {
 		        	AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
 		        	if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
@@ -369,6 +372,7 @@ public class LeaveCalendarAction extends TkAction {
 			        	losses.add(loseTransfer);
 		        	}
 		        }
+		        // mark summary rows for on demand transfer or payout.
 		        LeaveSummary summary = lcf.getLeaveSummary();
 		        for(String accrualRuleId : transfers.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND)) {
 		        	List<LeaveSummaryRow> summaryRows = lcf.getLeaveSummary().getLeaveSummaryRows();

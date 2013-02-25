@@ -118,6 +118,66 @@ public class TimesheetAction extends TkAction {
             LOG.error("Null timesheet document in TimesheetAction.");
         }
         
+
+
+        // Do this at the end, so we load the document first,
+        // then check security permissions via the superclass execution chain.
+		return super.execute(mapping, form, request, response);
+	}
+
+    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = mapping.findForward("basic");
+    	String command = request.getParameter("command");
+    	
+    	if (StringUtils.equals(command, "displayDocSearchView") || StringUtils.equals(command, "displayActionListView")) {
+        	String docId = (String) request.getParameter("docId");
+        	TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(docId);
+        	String timesheetPrincipalName = KimApiServiceLocator.getPersonService().getPerson(timesheetDocument.getPrincipalId()).getPrincipalName();
+        	
+        	String principalId = TKUser.getCurrentTargetPerson().getPrincipalId();
+        	String principalName = KimApiServiceLocator.getPersonService().getPerson(principalId).getPrincipalName();
+        	
+        	StringBuilder builder = new StringBuilder();
+        	if (!StringUtils.equals(principalName, timesheetPrincipalName)) {
+            	if (StringUtils.equals(command, "displayDocSearchView")) {
+            		builder.append("changeTargetPerson.do?methodToCall=changeTargetPerson");
+            		builder.append("&documentId=");
+            		builder.append(docId);
+            		builder.append("&principalName=");
+            		builder.append(timesheetPrincipalName);
+            		builder.append("&targetUrl=TimeDetail.do");
+            		builder.append("?docmentId=" + docId);
+            		builder.append("&returnUrl=TimeApproval.do");
+            	} else {
+            		builder.append("TimeApproval.do");
+            	}
+        	} else {
+        		builder.append("TimeDetail.do");
+        		builder.append("?docmentId=" + docId);
+        	}
+
+        	forward = new ActionRedirect(builder.toString());
+        }
+    	
+    	return forward;
+    }
+
+    protected void setupDocumentOnFormContext(TimesheetActionForm taForm, TimesheetDocument td) throws Exception{
+    	String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
+    	TKContext.setCurrentTimesheetDocumentId(td.getDocumentId());
+        TKContext.setCurrentTimesheetDocument(td);
+	    taForm.setTimesheetDocument(td);
+	    taForm.setDocumentId(td.getDocumentId());
+        TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.PREV_TIMESHEET, viewPrincipal);
+        TimesheetDocumentHeader nextTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.NEXT_TIMESHEET, viewPrincipal);
+       
+        taForm.setPrevDocumentId(prevTdh != null ? prevTdh.getDocumentId() : null);
+        taForm.setNextDocumentId(nextTdh != null ? nextTdh.getDocumentId() : null);
+      
+        taForm.setPayCalendarDates(td.getCalendarEntry());
+        taForm.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(taForm.getPayCalendarDates()));
+        
+        CalendarEntries payCalendarEntry = td.getCalendarEntry();
         List<String> warnings = new ArrayList<String>();
         Map<String, Set<String>> allMessages = new HashMap<String,Set<String>>();
         allMessages.put("actionMessages", new HashSet<String>());
@@ -209,63 +269,6 @@ public class TimesheetAction extends TkAction {
 		warnings.addAll(allMessages.get("actionMessages"));
 		warnings.addAll(allMessages.get("warningMessages"));
 		taForm.setWarningMessages(warnings);
-
-        // Do this at the end, so we load the document first,
-        // then check security permissions via the superclass execution chain.
-		return super.execute(mapping, form, request, response);
-	}
-
-    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = mapping.findForward("basic");
-    	String command = request.getParameter("command");
-    	
-    	if (StringUtils.equals(command, "displayDocSearchView") || StringUtils.equals(command, "displayActionListView")) {
-        	String docId = (String) request.getParameter("docId");
-        	TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(docId);
-        	String timesheetPrincipalName = KimApiServiceLocator.getPersonService().getPerson(timesheetDocument.getPrincipalId()).getPrincipalName();
-        	
-        	String principalId = TKUser.getCurrentTargetPerson().getPrincipalId();
-        	String principalName = KimApiServiceLocator.getPersonService().getPerson(principalId).getPrincipalName();
-        	
-        	StringBuilder builder = new StringBuilder();
-        	if (!StringUtils.equals(principalName, timesheetPrincipalName)) {
-            	if (StringUtils.equals(command, "displayDocSearchView")) {
-            		builder.append("changeTargetPerson.do?methodToCall=changeTargetPerson");
-            		builder.append("&documentId=");
-            		builder.append(docId);
-            		builder.append("&principalName=");
-            		builder.append(timesheetPrincipalName);
-            		builder.append("&targetUrl=TimeDetail.do");
-            		builder.append("?docmentId=" + docId);
-            		builder.append("&returnUrl=TimeApproval.do");
-            	} else {
-            		builder.append("TimeApproval.do");
-            	}
-        	} else {
-        		builder.append("TimeDetail.do");
-        		builder.append("?docmentId=" + docId);
-        	}
-
-        	forward = new ActionRedirect(builder.toString());
-        }
-    	
-    	return forward;
-    }
-
-    protected void setupDocumentOnFormContext(TimesheetActionForm taForm, TimesheetDocument td){
-    	String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
-    	TKContext.setCurrentTimesheetDocumentId(td.getDocumentId());
-        TKContext.setCurrentTimesheetDocument(td);
-	    taForm.setTimesheetDocument(td);
-	    taForm.setDocumentId(td.getDocumentId());
-        TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.PREV_TIMESHEET, viewPrincipal);
-        TimesheetDocumentHeader nextTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.NEXT_TIMESHEET, viewPrincipal);
-       
-        taForm.setPrevDocumentId(prevTdh != null ? prevTdh.getDocumentId() : null);
-        taForm.setNextDocumentId(nextTdh != null ? nextTdh.getDocumentId() : null);
-      
-        taForm.setPayCalendarDates(td.getCalendarEntry());
-        taForm.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(taForm.getPayCalendarDates()));
     }
 
 }

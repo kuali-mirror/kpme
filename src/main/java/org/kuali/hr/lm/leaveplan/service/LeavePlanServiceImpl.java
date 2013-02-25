@@ -111,8 +111,11 @@ public class LeavePlanServiceImpl implements LeavePlanService {
     	return isLastCalendarPeriodOfLeavePlan;
 	}
 
+    /**
+     * Returns the roll-over date of the supplied leave plan for the year given by asOfDate.
+     */
     public DateTime getFirstDayOfLeavePlan(String leavePlan, java.util.Date asOfDate) {
-    	//The only thing this method does is tack on the year of the supplied asOfDate to the calendar year start date.
+
         LeavePlan lp = getLeavePlan(leavePlan, new Date(asOfDate.getTime()));
 
         int priorYearCutOffMonth = Integer.parseInt(lp.getCalendarYearStartMonth());
