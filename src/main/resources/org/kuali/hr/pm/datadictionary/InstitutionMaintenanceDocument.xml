@@ -13,6 +13,7 @@
   <bean id="InstitutionMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
   		p:businessObjectClass="org.kuali.hr.pm.institution.Institution"
   		p:maintainableClass="org.kuali.hr.pm.institution.service.InstitutionMaintainableImpl">
+  		<!-- p:businessRulesClass="org.kuali.hr.pm.institution.validation.InstitutionValidation" -->
     <property name="maintainableSections">
       <list>
         <ref bean="InstitutionMaintenanceDocument-InstitutionMaintenance"/>

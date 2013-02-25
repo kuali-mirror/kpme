@@ -20,7 +20,7 @@
     <!-- Institution -->
     <class-descriptor class="org.kuali.hr.pm.institution.Institution" table="PM_INSTITUTION_T">
         <field-descriptor name="pmInstitutionId"      	column="PM_INSTITUTION_ID"  jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_INSTITUTION_S" />
-        <field-descriptor name="institutionCode"        column="INSTITUTION_CODE"   jdbc-type="VARCHAR"     length="15" 			nullable="false" />
+        <field-descriptor name="institutionCode"        column="INSTITUTION_CODE"   jdbc-type="VARCHAR"     length="15" 		nullable="false" />
         <field-descriptor name="description"  			column="DESCRIPTION"     	jdbc-type="VARCHAR"     length="50"  		nullable="true" />
         <field-descriptor name="active"              	column="ACTIVE"             jdbc-type="VARCHAR"     length="1" 			nullable="false" />
         <field-descriptor name="effectiveDate"      	column="EFFECTIVE_DATE"     jdbc-type="DATE"        nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
