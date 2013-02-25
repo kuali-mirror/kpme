@@ -7,6 +7,8 @@ import org.kuali.hr.pm.institution.Institution;
 
 public interface InstitutionDao {
 
+	public Institution getInstitution(String institution, Date asOfDate);
+	
 	public List<Institution> getActiveInstitutions(Date asOfDate);
 	
 	public List<Institution> getInstitutionByCode(String code);
