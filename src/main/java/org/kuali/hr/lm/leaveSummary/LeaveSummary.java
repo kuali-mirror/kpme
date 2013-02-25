@@ -30,6 +30,18 @@ public class LeaveSummary {
     private String note;
 	private List<String> approvalHeaders = new ArrayList<String>();
 
+	public LeaveSummary(LeaveSummary leaveSummary) {
+		leaveSummaryRows = leaveSummary.leaveSummaryRows;
+		ytdDatesString = leaveSummary.ytdDatesString;
+		pendingDatesString = leaveSummary.pendingDatesString;
+		note = leaveSummary.note;
+		approvalHeaders = leaveSummary.approvalHeaders;
+	}
+
+	public LeaveSummary() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public List<LeaveSummaryRow> getLeaveSummaryRows() {
 		return leaveSummaryRows;
 	}

@@ -433,8 +433,10 @@ public class TimeDetailAction extends TimesheetAction {
         TkServiceLocator.getTimesheetService().resetTimeBlock(newTimeBlocks);
 
         // apply overtime pref
+        // I changed start and end times comparison below. it used to be overtimeBeginTimestamp and overtimeEndTimestamp but
+        // for some reason, they're always null because, we have removed the time block before getting here. KPME-2162
         for (TimeBlock tb : newTimeBlocks) {
-            if (tb.getBeginTimestamp().equals(overtimeBeginTimestamp) && tb.getEndTimestamp().equals(overtimeEndTimestamp) && StringUtils.isNotEmpty(tdaf.getOvertimePref())) {
+            if (tb.getBeginTimestamp().equals(startTime) && tb.getEndTimestamp().equals(endTime) && StringUtils.isNotEmpty(tdaf.getOvertimePref())) {
                 tb.setOvertimePref(tdaf.getOvertimePref());
             }
 
@@ -538,6 +540,16 @@ public class TimeDetailAction extends TimesheetAction {
       LeaveBlock blockToDelete = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
       if (blockToDelete != null && TkServiceLocator.getPermissionsService().canDeleteLeaveBlock(blockToDelete)) {
 		    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId, TKContext.getPrincipalId());
+      }
+      
+      // if the leave block is NOT eligible for accrual, rerun accrual service for the leave calendar the leave block is on
+      EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(blockToDelete.getEarnCode(), blockToDelete.getLeaveDate());
+      if(ec != null && ec.getEligibleForAccrual().equals("N")) {
+    	  CalendarEntries ce = TkServiceLocator.getCalendarService()
+					.getCurrentCalendarDatesForLeaveCalendar(blockToDelete.getPrincipalId(), blockToDelete.getLeaveDate());
+    	  if(ce != null) {
+    		  TkServiceLocator.getLeaveAccrualService().runAccrual(blockToDelete.getPrincipalId(), ce.getBeginPeriodDate(), ce.getEndPeriodDate(), false);
+    	  }
       }
 		
       return mapping.findForward("basic");

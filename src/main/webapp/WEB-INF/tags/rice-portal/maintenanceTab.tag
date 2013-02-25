@@ -14,7 +14,14 @@
  limitations under the License.
 --%>
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp" %>
-
+<c:if test="${!empty UserSession.loggedInUserPrincipalName}">
+    <c:set var="systemAdmin" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isSystemAdmin()%>' />
+    <c:set var="globalViewOnly" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isGlobalViewOnly()%>' />
+    <c:set var="locationAdmin" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isLocationAdmin()%>' />
+</c:if>
+<c:if test="${not systemAdmin && not globalViewOnly && not locationAdmin}">
+    <jsp:forward page="portal.do?selectedTab=main"/>
+</c:if>
 <td class="content" valign="top">
     <admin:hrPayroll />
     <admin:timeKeeping />

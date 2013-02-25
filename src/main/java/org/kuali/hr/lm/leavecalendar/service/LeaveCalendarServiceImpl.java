@@ -258,14 +258,23 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         leaveCalendarDocumentAction(TkConstants.DOCUMENT_ACTIONS.DISAPPROVE, principalId, leaveCalendarDocument);
     }
 
-    public boolean isReadyToApprove(LeaveCalendarDocument leaveCalendarDocument) {
-    	boolean isReady = true;
-        if (leaveCalendarDocument == null) {
+    public boolean isReadyToApprove(LeaveCalendarDocument document) {
+        if (document == null) {
             return false;
         }
-        List<BalanceTransfer> balanceTransfers = TkServiceLocator.getBalanceTransferService().getBalanceTransfers(leaveCalendarDocument.getPrincipalId(),
-                leaveCalendarDocument.getCalendarEntry().getBeginPeriodDate(),
-                leaveCalendarDocument.getCalendarEntry().getEndPeriodDate());
+        List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(document.getPrincipalId(),
+        		document.getCalendarEntry().getBeginPeriodDate(), document.getCalendarEntry().getEndPeriodDate(), LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
+        leaveBlocks.addAll(TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(document.getPrincipalId(),
+        		document.getCalendarEntry().getBeginPeriodDate(), document.getCalendarEntry().getEndPeriodDate(), LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT));
+        for(LeaveBlock lb : leaveBlocks) {
+        	if(!StringUtils.equals(lb.getRequestStatus(),LMConstants.REQUEST_STATUS.APPROVED) &&
+        			!StringUtils.equals(lb.getRequestStatus(), LMConstants.REQUEST_STATUS.DISAPPROVED))
+        		return false;
+        }
+        return true;
+/*        List<BalanceTransfer> balanceTransfers = TkServiceLocator.getBalanceTransferService().getBalanceTransfers(document.getPrincipalId(),
+                document.getCalendarEntry().getBeginPeriodDate(),
+                document.getCalendarEntry().getEndPeriodDate());
         if (!CollectionUtils.isEmpty(balanceTransfers))   {
 	        for(BalanceTransfer balanceTransfer : balanceTransfers) {
 	        	if(StringUtils.equals(TkConstants.DOCUMENT_STATUS.get(balanceTransfer.getStatus()), TkConstants.ROUTE_STATUS.ENROUTE))
@@ -276,9 +285,9 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 	            }
 	        }
         }
-        List<LeavePayout> leavePayouts = TkServiceLocator.getLeavePayoutService().getLeavePayouts(leaveCalendarDocument.getPrincipalId(),
-        		leaveCalendarDocument.getCalendarEntry().getBeginPeriodDate(),
-        		leaveCalendarDocument.getCalendarEntry().getEndPeriodDate());
+        List<LeavePayout> leavePayouts = TkServiceLocator.getLeavePayoutService().getLeavePayouts(document.getPrincipalId(),
+        		document.getCalendarEntry().getBeginPeriodDate(),
+        		document.getCalendarEntry().getEndPeriodDate());
         if (!CollectionUtils.isEmpty(leavePayouts)) {
         	for(LeavePayout payout : leavePayouts) {
 	        	if(StringUtils.equals(TkConstants.DOCUMENT_STATUS.get(payout.getStatus()), TkConstants.ROUTE_STATUS.ENROUTE))
@@ -289,7 +298,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 	            }
         	}
         }
-        return true;
+        return true;*/
     }
 
     protected void leaveCalendarDocumentAction(String action, String principalId, LeaveCalendarDocument leaveCalendarDocument) {

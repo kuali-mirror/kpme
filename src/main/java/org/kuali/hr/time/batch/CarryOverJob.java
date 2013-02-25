@@ -15,18 +15,11 @@
  */
 package org.kuali.hr.time.batch;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.service.AccrualCategoryService;
@@ -39,8 +32,6 @@ import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.lm.leaveplan.service.LeavePlanService;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.service.AssignmentService;
-import org.kuali.hr.time.calendar.Calendar;
-import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.service.CalendarEntriesService;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.principal.service.PrincipalHRAttributesService;
@@ -48,82 +39,96 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.*;
+
 public class CarryOverJob implements Job{
 
-	private static final Logger LOG = Logger
-			.getLogger(CarryOverJob.class);
+	private static final Logger LOG = Logger.getLogger(CarryOverJob.class);
 
-	private static AccrualCategoryService ACCRUAL_CATEGORY_SERVICE;
-	private static AssignmentService ASSIGNMENT_SERVICE;
-	private static LeavePlanService LEAVE_PLAN_SERVICE;
-	private static PrincipalHRAttributesService PRINCIPAL_HR_ATTRIBUTES_SERVICE;
-	private static LeaveSummaryService LEAVE_SUMMARY_SERVICE;
-	private static CalendarEntriesService CALENDAR_ENTRIES_SERVICE;
-	private static LeaveBlockService LEAVE_BLOCK_SERVICE;
+	private AccrualCategoryService accrualCategoryService;
+	private AssignmentService assignmentService;
+	private LeavePlanService leavePlanService;
+	private PrincipalHRAttributesService principalHRAttributesService;
+	private LeaveSummaryService leaveSummaryService;
+	private CalendarEntriesService calendarEntriesService;
+	private LeaveBlockService leaveBlockService;
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
+        String batchUserPrincipalId = getBatchUserPrincipalId();
 
-        JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
-		String leavePlan = jobDataMap.getString("leavePlan");
-        if (leavePlan!= null) {
-        	
-        	Date asOfDate = TKUtils.getCurrentDate();
-        	LeavePlan leavePlanObj = getLeavePlanService().getLeavePlan(leavePlan, asOfDate);
-			List<Assignment> assignments = getAssignmentService().getActiveAssignments(asOfDate);
+        if (batchUserPrincipalId != null) {
+            JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
+            String leavePlan = jobDataMap.getString("leavePlan");
+            if (leavePlan!= null) {
 
-            //holds a list of principalIds so this isn't run multiple time for the same person
-			Set<String> principalIds = new HashSet<String>();
-			Map<String,LeaveBlock> carryOverLeaveBlockMap = null;
-			for (Assignment assignment : assignments) {
-				carryOverLeaveBlockMap =  new HashMap<String, LeaveBlock>();
-				String principalId = assignment.getPrincipalId();
-                if (assignment.getJob().isEligibleForLeave() && !principalIds.contains(principalId)) {
+                Date asOfDate = TKUtils.getCurrentDate();
+                LeavePlan leavePlanObj = getLeavePlanService().getLeavePlan(leavePlan, asOfDate);
+                List<Assignment> assignments = getAssignmentService().getActiveAssignments(asOfDate);
 
-                    PrincipalHRAttributes principalHRAttributes = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
-                    principalIds.add(principalId);
+                //holds a list of principalIds so this isn't run multiple time for the same person
+                Set<String> principalIds = new HashSet<String>();
+                for (Assignment assignment : assignments) {
+                    String principalId = assignment.getPrincipalId();
+                    if (assignment.getJob().isEligibleForLeave() && !principalIds.contains(principalId)) {
 
-                    if (principalHRAttributes != null) {
-                        Date serviceDate = principalHRAttributes.getServiceDate();
-                        if(serviceDate != null){
+                        PrincipalHRAttributes principalHRAttributes = getPrincipalHRAttributesService().getPrincipalCalendar(principalId, asOfDate);
+                        principalIds.add(principalId);
 
-                            Calendar leaveCalendar = principalHRAttributes.getLeaveCalObj();
-                            if (leavePlanObj != null && leavePlanObj.getLeavePlan().equalsIgnoreCase(principalHRAttributes.getLeavePlan())) {
+                        if (principalHRAttributes != null) {
+                            Date serviceDate = principalHRAttributes.getServiceDate();
+                            if(serviceDate != null){
 
-                                java.util.Calendar lpYearNextStart = getLeavePlanCalendarYearStart(leavePlanObj);
-                                java.util.Date originYearStart = lpYearNextStart.getTime();
-                                // this should be passed to the
+                                if (leavePlanObj != null && leavePlanObj.getLeavePlan().equalsIgnoreCase(principalHRAttributes.getLeavePlan())) {
 
-                                java.util.Calendar servicStartCal = this.getLeaveCalendarServiceStart(serviceDate, leavePlanObj);
+                                    DateTime leavePlanStartDate = getLeavePlanService().getFirstDayOfLeavePlan(leavePlan, TKUtils.getCurrentDate());
 
-                                while (servicStartCal.getTime().compareTo(originYearStart) <= 0) {
+                                    DateTime lpPreviousLastDay = (new LocalDateTime(leavePlanStartDate)).toDateTime().minus(1);
+                                    DateTime lpPreviousFirstDay = new DateTime(getLeavePlanService().getFirstDayOfLeavePlan(leavePlan, new Date(lpPreviousLastDay.toDateTime().toDateMidnight().getMillis())));
 
-                                    java.util.Calendar lpYearPreviousStart = java.util.Calendar.getInstance();
-                                    lpYearPreviousStart.setTime(servicStartCal.getTime());
-                                    lpYearPreviousStart.add(java.util.Calendar.YEAR, -1);
-
-                                    java.util.Calendar prevCalEndDateCal = java.util.Calendar.getInstance();
-                                    prevCalEndDateCal.setTime(servicStartCal.getTime());
-                                    prevCalEndDateCal.add(java.util.Calendar.DATE, -1);
-
-                                    java.util.Date prevCalEndDate = prevCalEndDateCal.getTime();
-
-                                    List<LeaveBlock> prevYearCarryOverleaveBlocks = getLeaveBlockService().getLeaveBlocksWithType(principalId,  lpYearPreviousStart.getTime(), prevCalEndDate, LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER);
-                                    if(prevYearCarryOverleaveBlocks == null || prevYearCarryOverleaveBlocks.isEmpty()){
-                                        if (serviceDate.getTime() > lpYearPreviousStart.getTime().getTime()) {
-                                            lpYearPreviousStart.setTime(serviceDate);
+                                    List<LeaveBlock> prevYearCarryOverleaveBlocks = getLeaveBlockService().getLeaveBlocksWithType(principalId,  lpPreviousFirstDay.toDateMidnight().toDate(), lpPreviousLastDay.toDateMidnight().toDate(), LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER);
+                                    LeaveSummary leaveSummary = getLeaveSummaryService().getLeaveSummaryAsOfDateWithoutFuture(principalId, new java.sql.Date(lpPreviousLastDay.getMillis()));
+                                    //no existing carry over blocks.  just create new
+                                    if(CollectionUtils.isEmpty(prevYearCarryOverleaveBlocks)){
+                                        getLeaveBlockService().saveLeaveBlocks(createCarryOverLeaveBlocks(principalId, lpPreviousLastDay, leaveSummary));
+                                    } else {
+                                        Map<String, LeaveBlock> existingCarryOver = new HashMap<String, LeaveBlock>(prevYearCarryOverleaveBlocks.size());
+                                        // just easier to get to things when in a map...
+                                        for (LeaveBlock lb : prevYearCarryOverleaveBlocks) {
+                                            existingCarryOver.put(lb.getAccrualCategory(), lb);
                                         }
-                                        if (prevCalEndDate.getTime() >= serviceDate.getTime()) {
-                                            fillCarryOverLeaveBlockMap(principalId, leaveCalendar, prevCalEndDate, carryOverLeaveBlockMap);
+
+                                        // update existing first
+                                        for (String ac : existingCarryOver.keySet()) {
+                                            LeaveBlock carryOverBlock = existingCarryOver.get(ac);
+                                            LeaveSummaryRow lsr = leaveSummary.getLeaveSummaryRowForAccrualCtgy(ac);
+
+                                            //update values
+                                            if(lsr.getAccruedBalance() != null)  {
+                                                if(lsr.getMaxCarryOver() != null && lsr.getAccruedBalance().compareTo(lsr.getMaxCarryOver()) > 0 ){
+                                                    carryOverBlock.setLeaveAmount(lsr.getMaxCarryOver());
+                                                } else {
+                                                    carryOverBlock.setLeaveAmount(lsr.getAccruedBalance());
+                                                }
+                                            }
+                                            getLeaveBlockService().updateLeaveBlock(carryOverBlock, batchUserPrincipalId);
+                                            //remove row from leave summary
+                                            leaveSummary.getLeaveSummaryRows().remove(lsr);
                                         }
+
+
+                                        // create for any new accrual categories
+                                        getLeaveBlockService().saveLeaveBlocks(createCarryOverLeaveBlocks(principalId, lpPreviousLastDay, leaveSummary));
                                     }
-                                    servicStartCal.add(java.util.Calendar.YEAR, 1);
-                                    getLeaveBlockService().saveLeaveBlocks(new ArrayList<LeaveBlock>(carryOverLeaveBlockMap.values()));
                                 }
                             }
                         }
@@ -131,215 +136,149 @@ public class CarryOverJob implements Job{
                 }
             }
         } else {
-        	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
-        	LOG.error("Could not run batch jobs due to missing batch user " + principalName);
+            String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
+            LOG.error("Could not run batch jobs due to missing batch user " + principalName);
         }
 	
 	}
 
-	public static AccrualCategoryService getAccrualCategoryService() {
-		ACCRUAL_CATEGORY_SERVICE = TkServiceLocator.getAccrualCategoryService();
-		return ACCRUAL_CATEGORY_SERVICE;
+	private AccrualCategoryService getAccrualCategoryService() {
+        if (accrualCategoryService == null) {
+            accrualCategoryService = TkServiceLocator.getAccrualCategoryService();
+        }
+		return accrualCategoryService;
 	}
 
-	public static void setAccrualCategoryService(AccrualCategoryService accrualCategoryService) {
-		ACCRUAL_CATEGORY_SERVICE = accrualCategoryService;
+	public void setAccrualCategoryService(AccrualCategoryService accrualCategoryService) {
+		this.accrualCategoryService = accrualCategoryService;
 	}
 
-	public static AssignmentService getAssignmentService() {
-		ASSIGNMENT_SERVICE = TkServiceLocator.getAssignmentService();
-		return ASSIGNMENT_SERVICE;
+	private AssignmentService getAssignmentService() {
+		if (assignmentService == null) {
+            assignmentService = TkServiceLocator.getAssignmentService();
+        }
+		return assignmentService;
 	}
 
-	public static void setAssignmentService(AssignmentService assignmentService) {
-		ASSIGNMENT_SERVICE = assignmentService;
+	public void setAssignmentService(AssignmentService assignmentService) {
+		this.assignmentService = assignmentService;
 	}
 
-	public static LeavePlanService getLeavePlanService() {
-		LEAVE_PLAN_SERVICE = TkServiceLocator.getLeavePlanService();
-		return LEAVE_PLAN_SERVICE;
+	public LeavePlanService getLeavePlanService() {
+        if (leavePlanService == null) {
+		    leavePlanService = TkServiceLocator.getLeavePlanService();
+        }
+		return leavePlanService;
 	}
 
-	public static void setLeavePlanService(LeavePlanService leavePlanService) {
-		LEAVE_PLAN_SERVICE = leavePlanService;
+	public void setLeavePlanService(LeavePlanService leavePlanService) {
+		this.leavePlanService = leavePlanService;
 	}
 
-	public static PrincipalHRAttributesService getPrincipalHRAttributesService() {
-		PRINCIPAL_HR_ATTRIBUTES_SERVICE = TkServiceLocator.getPrincipalHRAttributeService();
-		return PRINCIPAL_HR_ATTRIBUTES_SERVICE;
+	private PrincipalHRAttributesService getPrincipalHRAttributesService() {
+        if (principalHRAttributesService == null) {
+		    principalHRAttributesService = TkServiceLocator.getPrincipalHRAttributeService();
+        }
+		return principalHRAttributesService;
 	}
 
-	public static void setPrincipalHRAttributesService(
-			PrincipalHRAttributesService principalHRAttributesService) {
-		PRINCIPAL_HR_ATTRIBUTES_SERVICE = principalHRAttributesService;
+	public void setPrincipalHRAttributesService(PrincipalHRAttributesService principalHRAttributesService) {
+		this.principalHRAttributesService = principalHRAttributesService;
 	}
 
-	public static LeaveSummaryService getLeaveSummaryService() {
-		LEAVE_SUMMARY_SERVICE = TkServiceLocator.getLeaveSummaryService();
-		return LEAVE_SUMMARY_SERVICE;
+	private LeaveSummaryService getLeaveSummaryService() {
+        if (leaveSummaryService == null) {
+		    leaveSummaryService = TkServiceLocator.getLeaveSummaryService();
+        }
+		return leaveSummaryService;
 	}
 
-	public static void setLeaveSummaryService(
-			LeaveSummaryService leaveSummaryService) {
-		LEAVE_SUMMARY_SERVICE = leaveSummaryService;
+	public void setLeaveSummaryService(LeaveSummaryService leaveSummaryService) {
+		this.leaveSummaryService = leaveSummaryService;
 	}
 
-	public static CalendarEntriesService getCalendarEntriesService() {
-		CALENDAR_ENTRIES_SERVICE = TkServiceLocator.getCalendarEntriesService();
-		return CALENDAR_ENTRIES_SERVICE;
+	private CalendarEntriesService getCalendarEntriesService() {
+        if (calendarEntriesService == null) {
+		    calendarEntriesService = TkServiceLocator.getCalendarEntriesService();
+        }
+		return calendarEntriesService;
 	}
 
-	public static void setCalendarEntriesService(
-			CalendarEntriesService calendarEntriesService) {
-		CALENDAR_ENTRIES_SERVICE = calendarEntriesService;
+	public void setCalendarEntriesService(CalendarEntriesService calendarEntriesService) {
+		this.calendarEntriesService = calendarEntriesService;
 	}
 
-	public static LeaveBlockService getLeaveBlockService() {
-		LEAVE_BLOCK_SERVICE = TkServiceLocator.getLeaveBlockService();
-		return LEAVE_BLOCK_SERVICE;
+	private LeaveBlockService getLeaveBlockService() {
+        if (leaveBlockService == null) {
+		    leaveBlockService = TkServiceLocator.getLeaveBlockService();
+        }
+		return leaveBlockService;
 	}
 
-	public static void setLeaveBlockService(LeaveBlockService leaveBlockService) {
-		LEAVE_BLOCK_SERVICE = leaveBlockService;
+	public void setLeaveBlockService(LeaveBlockService leaveBlockService) {
+		this.leaveBlockService = leaveBlockService;
 	}
 	
-	private void fillCarryOverLeaveBlockMap(String principalId,
-                                            Calendar leaveCalendar,
-                                            java.util.Date prevCalEndDate,
-                                            Map<String, LeaveBlock> carryOverLeaveBlockMap){
+	private List<LeaveBlock> createCarryOverLeaveBlocks(String principalId,
+                                                        DateTime prevCalEndDate,
+                                                        LeaveSummary leaveSummary) {
 
- 				   CalendarEntries calendarEntries = getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(leaveCalendar.getHrCalendarId(), prevCalEndDate);
- 				   if(calendarEntries != null) {
-					try {
-						LeaveSummary leaveSummary = getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, calendarEntries.getEndPeriodDate());
-						List<LeaveSummaryRow> leaveSummaryRows = leaveSummary.getLeaveSummaryRows();
-						
-						if(leaveSummaryRows !=null && !leaveSummaryRows.isEmpty()){
-							
-							for(LeaveSummaryRow lsr : leaveSummaryRows){
-								AccrualCategory accrualCategory = getAccrualCategoryService().getAccrualCategory(lsr.getAccrualCategoryId());
-								
-								LeaveBlock leaveBlock = new LeaveBlock();
-								leaveBlock.setAccrualCategory(lsr.getAccrualCategory());
-								leaveBlock.setLeaveDate(TKUtils.getTimelessDate(prevCalEndDate));
-								leaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER);
-								
-								//More than one earn code can be associated with an accrual category. Which one does this get?
-								if(accrualCategory != null && accrualCategory.getEarnCode() != null ){
-									leaveBlock.setEarnCode(accrualCategory.getEarnCode());	
-								}
-								
-								leaveBlock.setDateAndTime(new Timestamp(new java.util.Date().getTime()));
-								leaveBlock.setAccrualGenerated(true);
-								leaveBlock.setBlockId(0L);
-								
-								// ASk--Set null
-								leaveBlock.setScheduleTimeOffId(null);
-								
-								if(lsr.getAccruedBalance() != null)  {
-									if(lsr.getMaxCarryOver() != null && lsr.getAccruedBalance().compareTo(lsr.getMaxCarryOver()) > 0 ){
-										leaveBlock.setLeaveAmount(lsr.getMaxCarryOver());
-									} else {
-										leaveBlock.setLeaveAmount(lsr.getAccruedBalance());
-									}
-								}
-								
-								leaveBlock.setPrincipalId(principalId);
-								leaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
-								
-								// Set EarnCode 
-								if(leaveBlock.getLeaveAmount() != null && leaveBlock.getEarnCode() != null) {
-										carryOverLeaveBlockMap.put(lsr.getAccrualCategoryId(), leaveBlock);
-								}
-							}
-						}
-						
-					} catch (Exception e) {
-						LOG.error("Could not run batch jobs due to missing leaveSummary "+e);
-						e.printStackTrace();
-					}
-		}
-		
-	}
-	
-	private java.util.Calendar getLeaveCalendarServiceStart(java.sql.Date serviceDate, LeavePlan leavePlan) {
-		// check if Calendar entry is first entry of the year start the make
-		// accrued balance and approved usage zero
-		
-		String calendarYearStartStr = leavePlan.getCalendarYearStart();
+        List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
+        List<LeaveSummaryRow> leaveSummaryRows = leaveSummary.getLeaveSummaryRows();
+        if(leaveSummaryRows !=null && !leaveSummaryRows.isEmpty()){
 
-		java.util.Calendar serviceCal = java.util.Calendar.getInstance();
-		serviceCal.setTimeInMillis(serviceDate.getTime());
-		
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
-		sdf.setLenient(false);
-		
-		java.util.Date calYearStart = null;
-		
-		try {
-			calYearStart = sdf.parse(calendarYearStartStr);
-		} catch (ParseException e) {
-		}
-		
-		java.util.Calendar lpYearStart = java.util.Calendar.getInstance();
-		lpYearStart.setTime(calYearStart);
-		lpYearStart.set(java.util.Calendar.YEAR, serviceCal.get(java.util.Calendar.YEAR));
-		lpYearStart.set(java.util.Calendar.HOUR_OF_DAY, 0);
-		lpYearStart.set(java.util.Calendar.MINUTE, 0);
-		lpYearStart.set(java.util.Calendar.SECOND, 0);
-		lpYearStart.set(java.util.Calendar.MILLISECOND, 0);
-		
-		return lpYearStart;
-	}
-	
-	private java.util.Date getLeavePlanCalendarYearEnd(LeavePlan leavePlan) {
-		// check if Calendar entry is first entry of the year start the make
-		// accrued balance and approved usage zero
-		String calendarYearStartStr = leavePlan.getCalendarYearStart();
+            for(LeaveSummaryRow lsr : leaveSummaryRows){
+                AccrualCategory accrualCategory = getAccrualCategoryService().getAccrualCategory(lsr.getAccrualCategoryId());
 
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
-		sdf.setLenient(false);
-		java.util.Date calYearStart = null;
-		try {
-			calYearStart = sdf.parse(calendarYearStartStr);
-		} catch (ParseException e) {
-		}
-		java.util.Calendar lpYearStart = java.util.Calendar.getInstance();
-		lpYearStart.setTime(calYearStart);
-		lpYearStart.set(java.util.Calendar.YEAR,java.util.Calendar.getInstance().get(java.util.Calendar.YEAR));
-		lpYearStart.set(java.util.Calendar.HOUR_OF_DAY, 0);
-		lpYearStart.set(java.util.Calendar.MINUTE, 0);
-		lpYearStart.set(java.util.Calendar.SECOND, 0);
-		lpYearStart.set(java.util.Calendar.MILLISECOND, 0);
-		lpYearStart.add(java.util.Calendar.DATE, -1);
-		
-		return lpYearStart.getTime();
-	}
-	
-	private java.util.Calendar getLeavePlanCalendarYearStart(LeavePlan leavePlan) {
-		// check if Calendar entry is first entry of the year start the make
-		// accrued balance and approved usage zero
-		
-		String calendarYearStartStr = leavePlan.getCalendarYearStart();
+                LeaveBlock leaveBlock = new LeaveBlock();
+                leaveBlock.setAccrualCategory(lsr.getAccrualCategory());
+                leaveBlock.setLeaveDate(TKUtils.getTimelessDate(prevCalEndDate.toDateMidnight().toDate()));
+                leaveBlock.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.CARRY_OVER);
 
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd");
-		sdf.setLenient(false);
-		java.util.Date calYearStart = null;
-		
-		try {
-			calYearStart = sdf.parse(calendarYearStartStr);
-		} catch (ParseException e) {
-		}
-		
-		java.util.Calendar lpYearStart = java.util.Calendar.getInstance();
-		lpYearStart.setTime(calYearStart);
-		lpYearStart.set(java.util.Calendar.YEAR,java.util.Calendar.getInstance().get(java.util.Calendar.YEAR));
-		lpYearStart.set(java.util.Calendar.HOUR_OF_DAY, 0);
-		lpYearStart.set(java.util.Calendar.MINUTE, 0);
-		lpYearStart.set(java.util.Calendar.SECOND, 0);
-		lpYearStart.set(java.util.Calendar.MILLISECOND, 0);
-		
-		return lpYearStart;
+                //More than one earn code can be associated with an accrual category. Which one does this get?
+                if(accrualCategory != null && accrualCategory.getEarnCode() != null ){
+                    leaveBlock.setEarnCode(accrualCategory.getEarnCode());
+                }
+
+                leaveBlock.setDateAndTime(new Timestamp(new java.util.Date().getTime()));
+                leaveBlock.setAccrualGenerated(true);
+                leaveBlock.setBlockId(0L);
+
+                // ASk--Set null
+                leaveBlock.setScheduleTimeOffId(null);
+
+                if(lsr.getAccruedBalance() != null)  {
+                    if(lsr.getMaxCarryOver() != null && lsr.getAccruedBalance().compareTo(lsr.getMaxCarryOver()) > 0 ){
+                        leaveBlock.setLeaveAmount(lsr.getMaxCarryOver());
+                    } else {
+                        leaveBlock.setLeaveAmount(lsr.getAccruedBalance());
+                    }
+                }
+
+                leaveBlock.setPrincipalId(principalId);
+                leaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+
+                // Set EarnCode
+                if(leaveBlock.getLeaveAmount() != null && leaveBlock.getEarnCode() != null) {
+                    leaveBlocks.add(leaveBlock);
+                }
+            }
+        }
+
+
+		return leaveBlocks;
 	}
-	
+
+    private String getBatchUserPrincipalId() {
+        String principalId = null;
+
+        String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
+        Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(principalName);
+        if (principal != null) {
+            principalId = principal.getPrincipalId();
+        }
+
+        return principalId;
+    }
+
 }

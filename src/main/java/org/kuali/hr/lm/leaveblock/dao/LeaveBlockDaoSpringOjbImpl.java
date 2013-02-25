@@ -15,13 +15,12 @@
  */
 package org.kuali.hr.lm.leaveblock.dao;
 
-import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.*;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.apache.ojb.broker.metadata.FieldHelper;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -30,6 +29,7 @@ import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.earncode.EarnCode;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements LeaveBlockDao {
@@ -45,11 +45,6 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
         Query query = QueryFactory.newQuery(LeaveBlock.class, root);
 
         return (LeaveBlock) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
-    }
-
-    @Override
-    public void saveOrUpdate(LeaveBlock leaveBlock) {
-        this.getPersistenceBrokerTemplate().store(leaveBlock);
     }
 
     @Override
@@ -373,5 +368,28 @@ public class LeaveBlockDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
         return leaveBlocks;
     }
 
+    @Override
+    public List<LeaveBlock> getABELeaveBlocksSinceTime(String principalId, Timestamp lastRanTime) {
+    	List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
+    	Criteria root = new Criteria();
+         
+		root.addEqualTo("principalId", principalId);
+		root.addGreaterThan("timestamp", lastRanTime);
+		Query query = QueryFactory.newQuery(LeaveBlock.class, root);
+		Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+		List<LeaveBlock> tempList = new ArrayList<LeaveBlock>();
+		if (c != null) {
+			tempList.addAll(c);
+		}
+		for(LeaveBlock lb : tempList) {
+			if(lb != null && StringUtils.isNotEmpty(lb.getEarnCode())) {
+				EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(lb.getEarnCode(), lb.getLeaveDate());
+				if(ec != null && ec.getEligibleForAccrual().equals("N")) {
+					leaveBlocks.add(lb);
+				}
+			}
+		}
+    	return leaveBlocks;
+    }
 
 }

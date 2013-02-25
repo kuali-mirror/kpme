@@ -1,5 +1,5 @@
 --
--- Copyright 2004-2013 The Kuali Foundation
+-- Copyright 2005-2013 The Kuali Foundation
 --
 -- Licensed under the Educational Community License, Version 2.0 (the "License");
 -- you may not use this file except in compliance with the License.
@@ -14,9 +14,9 @@
 -- limitations under the License.
 --
 
-delete from lm_accrual_category_t where lm_accrual_category_id >= '5000';
-delete from hr_earn_code_t where hr_earn_code_id >= '5000';
-delete from hr_earn_code_group_t where hr_earn_code_group_id >= '5000';
-delete from hr_earn_code_group_def_t where hr_earn_code_group_def_id >= '5000';
-delete from lm_employee_override_t where lm_employee_override_id >= '6000';
-delete from lm_leave_plan_t where lm_leave_plan_id >= 8000;
+--
+-- KULRICE-8573: Add session id to locks and delete these locks when session is destroyed.
+--
+
+ALTER TABLE KRNS_PESSIMISTIC_LOCK_T ADD SESN_ID VARCHAR2(40) DEFAULT '' NOT NULL
+/

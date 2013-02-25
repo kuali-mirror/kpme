@@ -142,10 +142,13 @@ public class LeaveCalendarValidationUtil {
         for(LeaveBlock lb : leaveBlocks) {
         	if(lb.getTransactionalDocId() != null)
         		workflowDocIds.add(lb.getTransactionalDocId());
+        	else
+        		if(lb.getDescription().contains("Forfeited balance transfer amount"))
+        			allMessages.get("infoMessages").add("A max balance action that forfeited accrued leave occurred on this calendar");
         }
         for(String workflowDocId : workflowDocIds) {
             DocumentStatus status = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(workflowDocId);
-
+            
             if(StringUtils.equals(status.getCode(), TkConstants.ROUTE_STATUS.FINAL)) {
             	allMessages.get("infoMessages").add("A transfer action occurred on this calendar");
             }
@@ -325,61 +328,6 @@ public class LeaveCalendarValidationUtil {
     
     	return errors;
     }
-    
-    
-//    public static List<String> validateAvailableLeaveBalance(LeaveSummary ls, String earnCode, String leaveStartDateString, String leaveEndDateString,
-//    		BigDecimal leaveAmount, LeaveBlock updatedLeaveBlock) {
-//    	List<String> errors = new ArrayList<String>();
-//    	CalendarEntries calendarEntries = new CalendarEntries();
-//    	boolean earnCodeChanged = false;
-//    	BigDecimal oldAmount = null;
-//    	if(ls != null && CollectionUtils.isNotEmpty(ls.getLeaveSummaryRows())) {
-//    		if(updatedLeaveBlock != null) {
-//    			if(!updatedLeaveBlock.getEarnCode().equals(earnCode)) {
-//    				earnCodeChanged = true;
-//    			}
-//    			if(!updatedLeaveBlock.getLeaveAmount().equals(leaveAmount)) {
-//    				oldAmount = updatedLeaveBlock.getLeaveAmount();
-//    			}
-//    		}
-//			Date startDate = TKUtils.formatDateString(leaveStartDateString);
-//			Date endDate = TKUtils.formatDateString(leaveEndDateString);
-//			long daysSpan = TKUtils.getDaysBetween(startDate,endDate);
-//	    	EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, endDate);
-//	    	if(earnCodeObj != null && earnCodeObj.getAllowNegativeAccrualBalance().equals("N")) {
-//	    		AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCodeObj.getAccrualCategory(), endDate);
-//	    		if(accrualCategory != null) {
-//	    			LeaveSummaryRow validationRow = ls.getLeaveSummaryRowForAccrualCategory(accrualCategory.getLmAccrualCategoryId());
-//    				if(ObjectUtils.isNotNull(validationRow)) {
-//    					BigDecimal availableBalance = validationRow.getLeaveBalance();
-//    					LeaveSummary ytdSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateForAccrualCategory(TKContext.getTargetPrincipalId(), startDate, accrualCategory.getAccrualCategory());
-//    					if(ytdSummary != null) {
-//    						LeaveSummaryRow ytdSummaryRow = ytdSummary.getLeaveSummaryRowForAccrualCategory(accrualCategory.getLmAccrualCategoryId());
-//    						if(ytdSummaryRow != null)
-//    							availableBalance = ytdSummaryRow.getLeaveBalance();
-//    					}
-//
-//    					if(oldAmount!=null) {
-//
-//	    					if(!earnCodeChanged ||
-//	    							updatedLeaveBlock.getAccrualCategory().equals(accrualCategory.getAccrualCategory())) {
-//								availableBalance = availableBalance.add(oldAmount.abs());
-//	    					}
-//
-//						}
-//						//multiply by days in span in case the user has also edited the start/end dates.
-//    					BigDecimal desiredUsage = leaveAmount.multiply(new BigDecimal(daysSpan+1));
-//
-//    					if(desiredUsage.compareTo(availableBalance) >  0 ) {
-//    						errors.add("Requested leave amount is greater than available leave balance.");      //errorMessages
-//    					}
-//    				}
-//	    		}
-//	    	}
-//    	}
-//    	
-//    	return errors;
-//    }
     
     // KPME-2010
     public static List<String> validateSpanningWeeks(LeaveCalendarWSForm lcf) {

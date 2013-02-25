@@ -39,6 +39,7 @@ import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
@@ -126,10 +127,10 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
         MissedPunchForm mpForm = (MissedPunchForm) form;
         mpForm.setEditingMode(new HashMap());
         MissedPunchDocument mpDoc = (MissedPunchDocument) mpForm.getDocument();
+        mpDoc.setDocumentStatus("R");
         request.setAttribute(TkConstants.DOCUMENT_ID_REQUEST_NAME, mpDoc.getDocumentNumber());
         request.setAttribute(TkConstants.TIMESHEET_DOCUMENT_ID_REQUEST_NAME, mpDoc.getTimesheetDocumentId());
         ActionForward fwd = super.route(mapping, mpForm, request, response);
-        mpDoc.setDocumentStatus("R");
         TkServiceLocator.getMissedPunchService().addClockLogForMissedPunch(mpDoc);
         mpForm.setDocId(mpDoc.getDocumentNumber());
         mpForm.setAssignmentReadOnly(true);

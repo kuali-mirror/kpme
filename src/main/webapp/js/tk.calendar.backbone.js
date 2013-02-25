@@ -493,6 +493,19 @@ $(function () {
 
 			$("#startDate").val(leaveBlock.get("leaveDate"));
 			$("#endDate").val(leaveBlock.get("leaveDate"));
+            var startSpanDate = Date.parse($("#startDate").val()).clearTime();
+            var endSpanDate = Date.parse($("#endDate").val()).clearTime();
+            var spanningWeeks = false;
+            var spanningWeeks = false;
+            for (var currentSpanDate = startSpanDate; currentSpanDate.isBefore(endSpanDate) || currentSpanDate.equals(endSpanDate); currentSpanDate.addDays(1)) {
+                if (currentSpanDate.is().saturday() || currentSpanDate.is().sunday()) {
+                    spanningWeeks = true;
+                } else {
+                    spanningWeeks = false;
+                    break;
+                }
+            }
+            $("#spanningWeeks").prop("checked", spanningWeeks);
 			dfd.done()
 				.done(this.fetchEarnCode(leaveBlock.get("assignment"), isLeaveBlockReadOnly))
 				.done($("#selectedEarnCode option[value='" + leaveBlock.get("earnCode") + "']").attr("selected", "selected"))

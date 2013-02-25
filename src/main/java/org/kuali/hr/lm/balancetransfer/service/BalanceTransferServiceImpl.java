@@ -378,12 +378,12 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			
 			LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, calendarEntry);
 			BigDecimal fte = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, calendarEntry.getEndPeriodDate());
-			List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, TKUtils.getCurrentDate());
+			List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, calendarEntry.getEndPeriodDate());
 
 			//null check inserted to fix LeaveCalendarWebTst failures on kpme-trunk-build-unit #2069
 			for(AccrualCategory accrualCategory : accrualCategories) {
 				//TODO: Iterate over Accrual Categories within this calendar entry.
-				AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, calendarEntry.getEndPeriodDate(), pha.getServiceDate());
+				AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, DateUtils.addDays(calendarEntry.getEndPeriodDate(), -1), pha.getServiceDate());
 				//Employee overrides...
 				if(ObjectUtils.isNotNull(rule)) {
 					if(StringUtils.equals(rule.getMaxBalFlag(),"Y")) {
