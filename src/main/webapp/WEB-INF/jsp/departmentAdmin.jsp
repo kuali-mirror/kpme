@@ -29,6 +29,7 @@
                     <departmentAdmin:hrPayroll />
                     <departmentAdmin:timeKeeping />
                     <departmentAdmin:leaveMaintenance />
+                    <departmentAdmin:positionManagement />
                     <departmentAdmin:administrative />
                 </td>
                 <td class="content" valign="top">

@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -29,6 +30,7 @@ import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.paygrade.PayGrade;
+import org.kuali.hr.pm.institution.Institution;
 import org.kuali.hr.time.accrual.TimeOffAccrual;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.calendar.Calendar;
@@ -46,6 +48,8 @@ import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.location.api.services.LocationApiServiceLocator;
 
 /**
  * A few methods to assist with various validation tasks.
@@ -610,6 +614,31 @@ public class ValidationUtils {
 				 valid = false;
 			 }
 		 }
+		return valid;
+	}
+	
+	public static boolean validateInstitution(String institutionCode, Date asOfDate) {
+		boolean valid = false;
+		if (StringUtils.equals(institutionCode, TkConstants.WILDCARD_CHARACTER)) {
+			valid = true;
+		} else if (asOfDate != null) {
+			Institution inst = TkServiceLocator.getInstitutionService().getInstitution(institutionCode, asOfDate);
+			valid = (inst != null);
+		} else {
+			List<Institution> instList = TkServiceLocator.getInstitutionService().getInstitutionsByCode(institutionCode);
+			valid = CollectionUtils.isNotEmpty(instList);
+		}
+		return valid;
+	}
+	
+	public static boolean validateCampus(String campusCode) {
+		boolean valid = false;
+		if (StringUtils.equals(campusCode, TkConstants.WILDCARD_CHARACTER)) {
+			valid = true;
+		} else {
+			Campus campusObj = LocationApiServiceLocator.getCampusService().getCampus(campusCode);
+			valid = (campusObj != null);
+		}
 		return valid;
 	}
 }

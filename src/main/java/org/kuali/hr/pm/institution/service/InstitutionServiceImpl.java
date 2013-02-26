@@ -1,5 +1,6 @@
 package org.kuali.hr.pm.institution.service;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -31,6 +32,11 @@ public class InstitutionServiceImpl implements InstitutionService {
 
 	public void setInstitutionDao(InstitutionDao institutionDao) {
 		this.institutionDao = institutionDao;
+	}
+	
+	@Override
+	public Institution getInstitution(String institutionCode, Date asOfDate) {
+		return institutionDao.getInstitution(institutionCode, asOfDate);
 	}
 
 }

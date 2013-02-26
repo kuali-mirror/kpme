@@ -60,8 +60,8 @@ public class PositionReportType extends HrBusinessObject {
 		return pmPositionReportTypeId;
 	}
 
-	public void setPmPositionReportTypeId(String pmPositonReportTypeId) {
-		this.pmPositionReportTypeId = pmPositonReportTypeId;
+	public void setPmPositionReportTypeId(String pmPositionReportTypeId) {
+		this.pmPositionReportTypeId = pmPositionReportTypeId;
 	}
 
 	public Institution getInstitutionObj() {

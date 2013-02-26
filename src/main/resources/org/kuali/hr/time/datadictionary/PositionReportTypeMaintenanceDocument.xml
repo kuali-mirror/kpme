@@ -53,7 +53,7 @@
         <bean parent="MaintainableFieldDefinition" p:name="description" p:required="false"/>
         <bean parent="MaintainableFieldDefinition" p:name="institution" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="campus" p:required="true" />
-        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
+        <bean parent="MaintainableFieldDefinition" p:name="active" p:defaultValue="true" p:required="true"/>
       </list>
     </property>
   </bean>

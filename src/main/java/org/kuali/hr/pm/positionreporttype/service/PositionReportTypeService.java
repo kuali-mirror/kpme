@@ -1,5 +1,7 @@
 package org.kuali.hr.pm.positionreporttype.service;
 
+import java.sql.Date;
+
 import org.kuali.hr.pm.positionreporttype.PositionReportType;
 
 public interface PositionReportTypeService {
@@ -10,5 +12,12 @@ public interface PositionReportTypeService {
 	 * @return
 	 */
 	public PositionReportType getPositionReportTypeById(String pmPositionReportTypeId);
-
+	
+	/**
+	 * Get the newest active PositionReportType with given type and effective date
+	 * @param positionReportType
+	 * @param asOfDate
+	 * @return
+	 */
+	public PositionReportType getPositionReportTypeByTypeAndDate(String positionReportType, Date asOfDate);
 }
