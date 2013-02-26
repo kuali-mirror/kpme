@@ -160,12 +160,15 @@ public class ApprovalTimeSummaryRow implements Comparable<ApprovalTimeSummaryRow
      */
     public boolean isApprovable() {
     	boolean isEnroute =  StringUtils.equals(getApprovalStatus(), "ENROUTE") ;
-        TimesheetDocument doc = TkServiceLocator.getTimesheetService().getTimesheetDocument(this.documentId);
-        //is there a pending bt doc?
-        if (!TkServiceLocator.getTimesheetService().isReadyToApprove(doc)) {
-            return false;
-        }
+
         if(isEnroute){
+        
+        	TimesheetDocument doc = TkServiceLocator.getTimesheetService().getTimesheetDocument(this.documentId);
+        	//is there a pending bt doc?
+        	if (!TkServiceLocator.getTimesheetService().isReadyToApprove(doc)) {
+        		return false;
+        	}
+        	
         	DocumentRouteHeaderValue routeHeader = TkServiceLocator.getTimeApproveService().getRouteHeader(this.getDocumentId());
         	boolean authorized = KEWServiceLocator.getDocumentSecurityService().routeLogAuthorized(TKContext.getPrincipalId(), routeHeader, new SecuritySession(TKContext.getPrincipalId()));
         	if(authorized){
