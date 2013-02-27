@@ -254,6 +254,7 @@
                 <value>leavePayoutLookupable</value>
                 <value>institutionLookupable</value>
                 <value>positionReportTypeLookupable</value>
+                <value>positionReportGroupLookupable</value>
             </set>
         </property>
     </bean>
@@ -370,6 +371,8 @@
     <bean id="institutionDao" class="org.kuali.hr.pm.institution.dao.InstitutionDaoOjbImpl" parent="platformAwareDao" />
     
     <bean id="positionReportTypeDao" class="org.kuali.hr.pm.positionreporttype.dao.PositionReportTypeDaoObjImpl" parent="platformAwareDao" />
+    
+    <bean id="positionReportGroupDao" class="org.kuali.hr.pm.positionreportgroup.dao.PositionReportGroupDaoObjImpl" parent="platformAwareDao" />
         
     <!-- Time Services for Business Logic -->
     <bean id="missedPunchService" class="org.kuali.hr.time.missedpunch.service.MissedPunchServiceImpl">
@@ -673,6 +676,10 @@
         <property name="positionReportTypeDao" ref="positionReportTypeDao"/>
     </bean>
     
+    <bean id="positionReportGroupService" class="org.kuali.hr.pm.positionreportgroup.service.PositionReportGroupServiceImpl">
+        <property name="positionReportGroupDao" ref="positionReportGroupDao"/>
+    </bean>
+    
     <bean id="accrualCategoryMaxCarryOverService" class="org.kuali.hr.lm.accrual.service.AccrualCategoryMaxCarryOverServiceImpl">
         <property name="accrualCategoryService" ref="accrualCategoryService" />
 	    <property name="accrualCategoryRuleService" ref="accrualCategoryRuleService" />
@@ -930,7 +937,13 @@
     		<bean class="org.kuali.hr.pm.positionreporttype.service.PositionReportTypeLookupableHelper"/>
     	</property>    
     </bean>
-
+    
+ 	<bean id="positionReportGroupLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
+    	<property name="lookupableHelperService">
+    		<bean class="org.kuali.hr.pm.positionreportgroup.service.PositionReportGroupLookupableHelper"/>
+    	</property>    
+    </bean>
+    
     <bean id="rice.ksb.serviceBus" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="rice.ksb.serviceBus" />
     </bean>

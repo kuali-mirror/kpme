@@ -11,12 +11,12 @@ public class PositionReportTypeValidation extends MaintenanceDocumentRuleBase  {
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
 		LOG.debug("entering custom validation for Position Report Type");
-		PositionReportType pbo = (PositionReportType) this.getNewBo();
+		PositionReportType prt = (PositionReportType) this.getNewBo();
 		
-		if (pbo != null) {
+		if (prt != null) {
 			valid = true;
-//				valid &= this.validateInstitution(pbo);
-			valid &= this.validateCampus(pbo);
+//				valid &= this.validateInstitution(prt);
+			valid &= this.validateCampus(prt);
 		}
 		return valid;
 	}

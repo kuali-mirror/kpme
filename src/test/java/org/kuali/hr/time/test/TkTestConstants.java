@@ -143,6 +143,8 @@ public final class TkTestConstants {
 		
 		public static final String POSITION_REPORT_TYPE_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.pm.positionreporttype.PositionReportType&methodToCall=start";
 		
+		public static final String POSITION_REPORT_GROUP_MAINT_NEW_URL = BASE_URL + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.pm.positionreportgroup.PositionReportGroup&methodToCall=start";
+		
 		public static final String CALENDAR_MAINT_URL = BASE_URL + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.calendar.Calendar&returnLocation="+BASE_URL+"/portal.do&hideReturnLink=true&docFormKey=88888888";
 		
         public static final String PORTAL_URL = BASE_URL + "/portal.do";

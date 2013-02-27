@@ -41,6 +41,7 @@ import org.kuali.hr.lm.workflow.service.LeaveCalendarDocumentHeaderService;
 import org.kuali.hr.location.service.LocationService;
 import org.kuali.hr.paygrade.service.PayGradeService;
 import org.kuali.hr.pm.institution.service.InstitutionService;
+import org.kuali.hr.pm.positionreportgroup.service.PositionReportGroupService;
 import org.kuali.hr.pm.positionreporttype.service.PositionReportTypeService;
 import org.kuali.hr.time.accrual.service.TimeOffAccrualService;
 import org.kuali.hr.time.approval.service.TimeApproveService;
@@ -172,6 +173,7 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String LM_LEAVE_PAYOUT_SERVICE = "leavePayoutService";
     public static final String PM_INSTITUTION_SERVICE = "institutionService";
     public static final String PM_POSITION_REPORT_TYPE_SERVICE = "positionReportTypeService";
+    public static final String PM_POSITION_REPORT_GROUP_SERVICE = "positionReportGroupService";
 	public static final String KPME_DISTRIBUTED_CACHE_MANAGER = "kpmeDistributedCacheManager";
     public static final String KPME_NOTIFICATION_SERVICE = "kpmeNotificationService";
     
@@ -482,6 +484,10 @@ public class TkServiceLocator implements ApplicationContextAware {
     	return (PositionReportTypeService) CONTEXT.getBean(PM_POSITION_REPORT_TYPE_SERVICE);
     }
 	
+    public static PositionReportGroupService getPositionReportGroupService() {
+    	return (PositionReportGroupService) CONTEXT.getBean(PM_POSITION_REPORT_GROUP_SERVICE);
+    }
+    
 	@Override
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
 	    CONTEXT = arg0;
