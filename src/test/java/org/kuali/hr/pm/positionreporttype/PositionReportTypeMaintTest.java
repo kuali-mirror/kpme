@@ -19,73 +19,73 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class PositionReportTypeMaintTest extends KPMETestCase {
 	
-//	@Test
-//	public void testRequiredFields() throws Exception {
-//	  	String baseUrl = TkTestConstants.Urls.POSITION_REPORT_TYPE_MAINT_NEW_URL;
-//	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
-//	  	Assert.assertNotNull(page);
-//	 
-//	  	HtmlForm form = page.getFormByName("KualiForm");
-//	  	Assert.assertNotNull("Search form was missing from page.", form);
-//	  	
-//	  	HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
-//	  	Assert.assertNotNull("Could not locate submit button", input);
-//	  	
-//	  	HtmlElement element = page.getElementByName("methodToCall.route");
-//	  	page = element.click();
-//	  	Assert.assertTrue("page text does not contain:\n" + "Effective Date (Effective Date) is a required field.", 
-//	  			page.asText().contains("Effective Date (Effective Date) is a required field."));
-//	  	Assert.assertTrue("page text does not contain:\n" + "Position Report Type (Position Report Type) is a required field.", 
-//	  			page.asText().contains("Position Report Type (Position Report Type) is a required field."));
-//	  	Assert.assertTrue("page text does not contain:\n" + "Institution (Institution) is a required field.",
-//	  			page.asText().contains("Institution (Institution) is a required field."));
-//	  	Assert.assertTrue("page text does not contain:\n" + "Campus (Campus) is a required field.", 
-//	  			page.asText().contains("Campus (Campus) is a required field."));
-//	}
+	@Test
+	public void testRequiredFields() throws Exception {
+	  	String baseUrl = TkTestConstants.Urls.POSITION_REPORT_TYPE_MAINT_NEW_URL;
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	Assert.assertNotNull(page);
+	 
+	  	HtmlForm form = page.getFormByName("KualiForm");
+	  	Assert.assertNotNull("Search form was missing from page.", form);
+	  	
+	  	HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
+	  	Assert.assertNotNull("Could not locate submit button", input);
+	  	
+	  	HtmlElement element = page.getElementByName("methodToCall.route");
+	  	page = element.click();
+	  	Assert.assertTrue("page text does not contain:\n" + "Effective Date (Effective Date) is a required field.", 
+	  			page.asText().contains("Effective Date (Effective Date) is a required field."));
+	  	Assert.assertTrue("page text does not contain:\n" + "Position Report Type (Position Report Type) is a required field.", 
+	  			page.asText().contains("Position Report Type (Position Report Type) is a required field."));
+	  	Assert.assertTrue("page text does not contain:\n" + "Institution (Institution) is a required field.",
+	  			page.asText().contains("Institution (Institution) is a required field."));
+	  	Assert.assertTrue("page text does not contain:\n" + "Campus (Campus) is a required field.", 
+	  			page.asText().contains("Campus (Campus) is a required field."));
+	}
 	
-//	@Test
-//	public void testAddNew() throws Exception {
-//		Date effectiveDate =  new Date((new DateTime(2012, 4, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-//		String prtString = "testPRT";
-//		PositionReportType prt = TkServiceLocator.getPositionReportTypeService().getPositionReportTypeByTypeAndDate(prtString, effectiveDate);
-//		Assert.assertTrue("There should NOT be Position Report Type with name " + prtString, prt == null);
-//		
-//	  	String baseUrl = TkTestConstants.Urls.POSITION_REPORT_TYPE_MAINT_NEW_URL;
-//	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
-//	  	Assert.assertNotNull(page);
-//	 
-//	  	HtmlForm form = page.getFormByName("KualiForm");
-//	  	Assert.assertNotNull("Search form was missing from page.", form);
-//	  	
-//	  	setFieldValue(page, "document.documentHeader.documentDescription", "Position Report Type - test");
-//	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", "04/01/2012");
-//	    setFieldValue(page, "document.newMaintainableObject.positionReportType", prtString);
-//	    setFieldValue(page, "document.newMaintainableObject.institution", "nonExistInst");	//nonexisting institution
-//	    setFieldValue(page, "document.newMaintainableObject.campus", "nonCam");	//nonexisting campus
-//	  	
-//	  	HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
-//	  	Assert.assertNotNull("Could not locate submit button", input);
-//	  	HtmlElement element = page.getElementByName("methodToCall.route");
-//	  	page = element.click();
-//	  	HtmlUnitUtil.createTempFile(page);
-////		Assert.assertTrue("page text contains:\n" + "The specified Instituion 'nonExistInst' does not exist.", 
-////	  			page.asText().contains("The specified Instituion 'nonExistInst' does not exist."));
-//	  	Assert.assertTrue("page text contains:\n" + "The specified Campus 'nonCam' does not exist.", 
-//	  			page.asText().contains("The specified Campus 'nonCam' does not exist."));
-//	  	  	
-////	  	setFieldValue(page, "document.newMaintainableObject.institution", "testInst"); // existing institution
-////	  	element = page.getElementByName("methodToCall.route");
-////	  	page = element.click();
-////	  	Assert.assertFalse("page text contains:\n" + "The specified Instituion 'testInst' does not exist.", 
-////	  			page.asText().contains("The specified Instituion 'testInst' does not exist."));
-////	  	
-//	  	setFieldValue(page, "document.newMaintainableObject.campus", "TS"); // existing campus
+	@Test
+	public void testAddNew() throws Exception {
+		Date effectiveDate =  new Date((new DateTime(2012, 4, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		String prtString = "testPRT";
+		PositionReportType prt = TkServiceLocator.getPositionReportTypeService().getPositionReportTypeByTypeAndDate(prtString, effectiveDate);
+		Assert.assertTrue("There should NOT be Position Report Type with name " + prtString, prt == null);
+		
+	  	String baseUrl = TkTestConstants.Urls.POSITION_REPORT_TYPE_MAINT_NEW_URL;
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	Assert.assertNotNull(page);
+	 
+	  	HtmlForm form = page.getFormByName("KualiForm");
+	  	Assert.assertNotNull("Search form was missing from page.", form);
+	  	
+	  	setFieldValue(page, "document.documentHeader.documentDescription", "Position Report Type - test");
+	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", "04/01/2012");
+	    setFieldValue(page, "document.newMaintainableObject.positionReportType", prtString);
+	    setFieldValue(page, "document.newMaintainableObject.institution", "nonExistInst");	//nonexisting institution
+	    setFieldValue(page, "document.newMaintainableObject.campus", "nonCam");	//nonexisting campus
+	  	
+	  	HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
+	  	Assert.assertNotNull("Could not locate submit button", input);
+	  	HtmlElement element = page.getElementByName("methodToCall.route");
+	  	page = element.click();
+	  	HtmlUnitUtil.createTempFile(page);
+//		Assert.assertTrue("page text contains:\n" + "The specified Instituion 'nonExistInst' does not exist.", 
+//	  			page.asText().contains("The specified Instituion 'nonExistInst' does not exist."));
+	  	Assert.assertTrue("page text contains:\n" + "The specified Campus 'nonCam' does not exist.", 
+	  			page.asText().contains("The specified Campus 'nonCam' does not exist."));
+	  	  	
+//	  	setFieldValue(page, "document.newMaintainableObject.institution", "testInst"); // existing institution
 //	  	element = page.getElementByName("methodToCall.route");
 //	  	page = element.click();
-//	  	Assert.assertFalse("page text contains error", page.asText().contains("error"));
+//	  	Assert.assertFalse("page text contains:\n" + "The specified Instituion 'testInst' does not exist.", 
+//	  			page.asText().contains("The specified Instituion 'testInst' does not exist."));
 //	  	
-//	  	prt = TkServiceLocator.getPositionReportTypeService().getPositionReportTypeByTypeAndDate(prtString, effectiveDate);
-//	  	Assert.assertTrue("There should be Position Report Type with name " + prtString, prt != null);
-//	  	
-//	}
+	  	setFieldValue(page, "document.newMaintainableObject.campus", "TS"); // existing campus
+	  	element = page.getElementByName("methodToCall.route");
+	  	page = element.click();
+	  	Assert.assertFalse("page text contains error", page.asText().contains("error"));
+	  	
+	  	prt = TkServiceLocator.getPositionReportTypeService().getPositionReportTypeByTypeAndDate(prtString, effectiveDate);
+	  	Assert.assertTrue("There should be Position Report Type with name " + prtString, prt != null);
+	  	
+	}
 }
