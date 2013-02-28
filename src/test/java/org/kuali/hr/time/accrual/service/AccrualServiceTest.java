@@ -131,7 +131,8 @@ public class AccrualServiceTest extends KPMETestCase {
 	@Test
 	/* testUser's leavePlan "testLP" has planning month of 12
 	 * after calculateFutureAccrualUsingPlanningMonth, try to get leaveBlock for 18 months in the future
-	 * should still get 12 leave blocks. The accrual service also goes back 1 year for accrual runs.
+	 * should still get 12, 13 or 14 leave blocks depends on the date the test is running. 
+	 * The accrual service also goes back 1 year for accrual runs.
 	 */
 	public void testCalculateFutureAccrualUsingPlanningMonth() {
 		String principal_id = "testUser";
@@ -140,17 +141,23 @@ public class AccrualServiceTest extends KPMETestCase {
 		TkServiceLocator.getLeaveAccrualService().calculateFutureAccrualUsingPlanningMonth(principal_id, currentDate);		
 		Calendar aCal = Calendar.getInstance();
 		aCal.setTime(currentDate);
+		int futureSize = 12;
+		int allSize = 17;
+		if(aCal.getActualMaximum(Calendar.DAY_OF_MONTH) == aCal.get(Calendar.DATE)) {
+			futureSize ++;
+			allSize ++;
+		}
+		
 		aCal.add(Calendar.MONTH, 18);
+		if(aCal.getActualMaximum(Calendar.DAY_OF_MONTH) == aCal.get(Calendar.DATE)) {
+			futureSize ++;
+			allSize ++;
+		}
+		
 		Date endDate = new java.sql.Date(aCal.getTime().getTime());
 		// lookup future leave blocks up to 18 months in the future
 		List<LeaveBlock> leaveBlockList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principal_id, currentDate, aCal.getTime());
 		
-		int futureSize = 12;
-		int allSize = 17;
-		if(aCal.getActualMaximum(Calendar.DAY_OF_MONTH) == aCal.get(Calendar.DATE)) {
-			futureSize = 13;
-			allSize = 18;
-		}
 		Assert.assertFalse("No leave blocks created by calculateF?utureAccrualUsingPlanningMonth for princiapl id " + principal_id, leaveBlockList.isEmpty());
 		Assert.assertTrue("There should be " + futureSize + " leave blocks for employee 'testUser', not " + leaveBlockList.size(), leaveBlockList.size()== futureSize);
 		
