@@ -360,7 +360,10 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		org.kuali.hr.time.calendar.Calendar leaveCalendar = pha.getLeaveCalObj();
 		CalendarEntries thisLeaveEntry = null;
 		Interval thisEntryInterval = new Interval(calendarEntry.getBeginPeriodDate().getTime(),calendarEntry.getEndPeriodDate().getTime());
-
+		Date asOfDate = TKUtils.getCurrentDate();
+		if(TKUtils.getCurrentDate().after(DateUtils.addSeconds(calendarEntry.getEndPeriodDate(),-1)))
+			asOfDate = new Date(DateUtils.addSeconds(calendarEntry.getEndPeriodDate(),-1).getTime());
+			
 		if(ObjectUtils.isNotNull(leaveCalendar)) {
 			for(CalendarEntries entry : leaveCalendar.getCalendarEntries()) {
 				if(thisEntryInterval.contains(DateUtils.addDays(entry.getEndPeriodTime(),-1).getTime()))
@@ -376,7 +379,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		//LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, getCalendarEntry());
 		if(!accrualCategories.isEmpty()) {
 			
-			LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, calendarEntry);
+			LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, asOfDate);
 			BigDecimal fte = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, calendarEntry.getEndPeriodDate());
 			List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, calendarEntry.getEndPeriodDate());
 

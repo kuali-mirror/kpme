@@ -289,7 +289,6 @@ public class LeaveCalendarAction extends TkAction {
 		        	summary.setLeaveSummaryRows(updatedSummaryRows);
 		        }
 	        	lcf.setLeaveSummary(summary);
-
             }
 	        lcf.setForfeitures(losses);
 	        

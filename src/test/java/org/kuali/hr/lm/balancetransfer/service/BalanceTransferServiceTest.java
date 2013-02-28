@@ -817,9 +817,8 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 		endJanTSDEntry = endJanTSD.getCalendarEntry();
 
 		Map<String, ArrayList<String>> eligibleTransfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(endJanTSDEntry, TS_USER_ID);
-
 		//Assert correct number of transfer eligible for frequency
-		assertEquals(5, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
+		assertEquals(3, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
 		
 		//Assert that the accrual categories returned by BT service are in fact over their balance limit,
 		//according to their rules. - does not consider FTE.

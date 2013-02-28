@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -30,6 +31,7 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -118,19 +120,28 @@ public class TkPostProcessor extends DefaultPostProcessor {
 	}
 	
 	private void calculateMaxCarryOver(TimesheetDocumentHeader timesheetDocumentHeader, DocumentStatus newDocumentStatus) {
-		if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
-			String documentId = timesheetDocumentHeader.getDocumentId();
-			String principalId = timesheetDocumentHeader.getPrincipalId();
-			Date beginDate = timesheetDocumentHeader.getBeginDate();
-			Date endDate = timesheetDocumentHeader.getEndDate();
+		String documentId = timesheetDocumentHeader.getDocumentId();
+		String principalId = timesheetDocumentHeader.getPrincipalId();
+		Date endDate = timesheetDocumentHeader.getEndDate();
+		Date beginDate = timesheetDocumentHeader.getBeginDate();
+		if (DocumentStatus.ENROUTE.equals(newDocumentStatus)) {
+			//create pending carry over leave blocks.
 			
-			if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
-				Calendar calendar = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, endDate, true);
-					
-				if (calendar != null) {
-					List<CalendarEntries> calendarEntries = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesEndingBetweenBeginAndEndDate(calendar.getHrCalendarId(), beginDate, endDate);
-					
-					TkServiceLocator.getAccrualCategoryMaxCarryOverService().calculateMaxCarryOver(documentId, principalId, calendarEntries, endDate);
+			Calendar calendar = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, endDate, true);
+			
+			if (calendar != null) {
+				List<CalendarEntries> calendarEntries = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesEndingBetweenBeginAndEndDate(calendar.getHrCalendarId(), beginDate, endDate);
+				
+				TkServiceLocator.getAccrualCategoryMaxCarryOverService().calculateMaxCarryOver(documentId, principalId, calendarEntries, endDate);
+			}
+		}
+		else if (DocumentStatus.FINAL.equals(newDocumentStatus)) {
+			//approve the carry over leave block.
+			List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, timesheetDocumentHeader.getBeginDate(), endDate);
+			for(LeaveBlock lb : leaveBlocks) {
+				if(StringUtils.equals(lb.getDescription(),"Max carry over adjustment")) {
+					lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+					TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, TKContext.getPrincipalId());
 				}
 			}
 		}

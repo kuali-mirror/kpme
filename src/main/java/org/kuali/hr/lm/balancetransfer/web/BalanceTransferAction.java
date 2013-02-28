@@ -100,12 +100,12 @@ public class BalanceTransferAction extends TkAction {
 			
 			AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
 			Date effectiveDate = TKUtils.getCurrentDate();
-			if(TKUtils.getCurrentDate().after(calendarEntry.getEndPeriodDate()))
-				effectiveDate = new Date(DateUtils.addMinutes(calendarEntry.getEndPeriodDate(),-1).getTime());
+			if(TKUtils.getCurrentDate().after(DateUtils.addSeconds(calendarEntry.getEndPeriodDate(),-1)))
+				effectiveDate = new Date(DateUtils.addSeconds(calendarEntry.getEndPeriodDate(),-1).getTime());
 			// if submitting a delinquent calendar, use the calendar's end period date for the effective date.
 			// could adjust the end period date by subtracting a day so that the leave blocks appear on the month in question.
 			
-			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(balanceTransfer.getPrincipalId(), calendarEntry);
+			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(balanceTransfer.getPrincipalId(), effectiveDate);
 			LeaveSummaryRow transferRow = ls.getLeaveSummaryRowForAccrualCategory(accrualRule.getLmAccrualCategoryId());
 			BalanceTransfer defaultBT = TkServiceLocator.getBalanceTransferService().initializeTransfer(balanceTransfer.getPrincipalId(), accrualRuleId, transferRow.getAccruedBalance(), effectiveDate);
 			if(balanceTransfer.getTransferAmount().compareTo(defaultBT.getTransferAmount()) != 0) {
@@ -221,12 +221,14 @@ public class BalanceTransferAction extends TkAction {
 						principalId = lcd.getPrincipalId();
 						calendarEntry = lcd.getCalendarEntry();
 					}
-					LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, calendarEntry);
 					
 					Date effectiveDate = TKUtils.getCurrentDate();
-					if(TKUtils.getCurrentDate().after(calendarEntry.getEndPeriodDate()))
-						effectiveDate = new Date(DateUtils.addMinutes(calendarEntry.getEndPeriodDate(),-1).getTime());
+					if(TKUtils.getCurrentDate().after(DateUtils.addSeconds(calendarEntry.getEndPeriodDate(),-1)))
+						effectiveDate = new Date(DateUtils.addSeconds(calendarEntry.getEndPeriodDate(),-1).getTime());
 
+					LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, effectiveDate);
+
+					
 					LeaveSummaryRow transferRow = ls.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId());
 					BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(principalId, accrualRuleId, transferRow.getAccruedBalance(), effectiveDate);
 					balanceTransfer.setLeaveCalendarDocumentId(documentId);
@@ -290,12 +292,13 @@ public class BalanceTransferAction extends TkAction {
 			String leaveCalendarDocumentId = request.getParameter("documentId");
 			ActionForward forward = new ActionForward(mapping.findForward("basic"));
 			LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(leaveCalendarDocumentId);
-			LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(lcd.getPrincipalId(), lcd.getCalendarEntry());
 			
 			Date effectiveDate = TKUtils.getCurrentDate();
-			if(TKUtils.getCurrentDate().after(lcd.getCalendarEntry().getEndPeriodDate()))
-				effectiveDate = new Date(DateUtils.addMinutes(lcd.getCalendarEntry().getEndPeriodDate(),-1).getTime());
+			if(TKUtils.getCurrentDate().after(DateUtils.addSeconds(lcd.getCalendarEntry().getEndPeriodDate(),-1)))
+				effectiveDate = new Date(DateUtils.addSeconds(lcd.getCalendarEntry().getEndPeriodDate(),-1).getTime());
 			
+			LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(lcd.getPrincipalId(), effectiveDate);
+
 			accrualRuleId = transferableAccrualCategoryRules.get(0);
 			AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
 			LeaveSummaryRow transferRow = leaveSummary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId());
@@ -365,11 +368,13 @@ public class BalanceTransferAction extends TkAction {
 			ActionForward forward = new ActionForward(mapping.findForward("basic"));
 			TimesheetDocument tsd = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentId);
 			CalendarEntries timeCalendarEntry = tsd.getCalendarEntry();
-			LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(tsd.getPrincipalId(), timeCalendarEntry);
 			
 			Date effectiveDate = TKUtils.getCurrentDate();
-			if(TKUtils.getCurrentDate().after(timeCalendarEntry.getEndPeriodDate())) {
-				effectiveDate = new Date(DateUtils.addMinutes(timeCalendarEntry.getEndPeriodDate(),-1).getTime());
+			if(TKUtils.getCurrentDate().after(DateUtils.addSeconds(timeCalendarEntry.getEndPeriodDate(),-1)))
+				effectiveDate = new Date(DateUtils.addSeconds(timeCalendarEntry.getEndPeriodDate(),-1).getTime());
+				
+				LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(tsd.getPrincipalId(), effectiveDate);
+
 /*				Uncommenting changes pending input on KPME-2138
  * 
  * 				Calendar calendar = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(tsd.getPrincipalId(), timeCalendarEntry.getBeginPeriodDate(), true);
@@ -388,7 +393,7 @@ public class BalanceTransferAction extends TkAction {
 				}
 				else
 					effectiveDate = new Date(DateUtils.addMinutes(timeCalendarEntry.getEndPeriodDate(),-1).getTime());
-*/			}
+*/
 			
 			accrualRuleId = transferableAccrualCategoryRules.get(0);
 			AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);

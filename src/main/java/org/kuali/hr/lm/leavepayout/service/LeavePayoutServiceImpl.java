@@ -357,7 +357,9 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 		org.kuali.hr.time.calendar.Calendar leaveCalendar = pha.getLeaveCalObj();
 		CalendarEntries thisLeaveEntry = null;
 		Interval thisEntryInterval = new Interval(calendarEntry.getBeginPeriodDate().getTime(),calendarEntry.getEndPeriodDate().getTime());
-
+		Date asOfDate = TKUtils.getCurrentDate();
+		if(TKUtils.getCurrentDate().after(DateUtils.addSeconds(calendarEntry.getEndPeriodDate(),-1)))
+			asOfDate = new Date(DateUtils.addSeconds(calendarEntry.getEndPeriodDate(), -1).getTime());
 		if(ObjectUtils.isNotNull(leaveCalendar)) {
 			for(CalendarEntries entry : leaveCalendar.getCalendarEntries()) {
 				if(thisEntryInterval.contains(DateUtils.addDays(entry.getEndPeriodTime(),-1).getTime()))
@@ -377,7 +379,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
             //null check inserted to fix LeaveCalendarWebTst failures on kpme-trunk-build-unit #2069
 			for(AccrualCategory accrualCategory : accrualCategories) {
 				//TODO: Iterate over Accrual Categories within this calendar entry.
-				AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, calendarEntry.getEndPeriodDate(), pha.getServiceDate());
+				AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, DateUtils.addDays(calendarEntry.getEndPeriodDate(),-1), pha.getServiceDate());
 				//Employee overrides...
 				if(ObjectUtils.isNotNull(rule)) {
 					if(StringUtils.equals(rule.getMaxBalFlag(),"Y")) {
