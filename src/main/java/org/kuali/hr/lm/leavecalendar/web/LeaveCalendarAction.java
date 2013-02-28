@@ -292,34 +292,35 @@ public class LeaveCalendarAction extends TkAction {
 
             }
 	        lcf.setForfeitures(losses);
+	        
+	        for(Entry<String, ArrayList<String>> entry : transfers.entrySet()) {
+	        	if(!entry.getValue().isEmpty()) {
+	    			for(String accrualRuleId : entry.getValue()) {
+	    				AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+	    				AccrualCategory aCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
+	    				String message = "You have exceeded the maximum balance limit for '" + aCat.getAccrualCategory() + "'. " +
+	                			"Depending upon the accrual category rules, leave over this limit may be forfeited.";
+	    				if(!allMessages.get("warningMessages").contains(message)) {
+	                        allMessages.get("warningMessages").add(message);
+	    				}
+	    			}
+	        	}
+	        }
+	        for(Entry<String, ArrayList<String>> entry : payouts.entrySet()) {
+	        	if(!entry.getValue().isEmpty()) {
+	    			for(String accrualRuleId : entry.getValue()) {
+	    				AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+	    				AccrualCategory aCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
+	    				String message = "You have exceeded the maximum balance limit for '" + aCat.getAccrualCategory() + "'. " +
+	                			"Depending upon the accrual category rules, leave over this limit may be forfeited.";
+	    				if(!allMessages.get("warningMessages").contains(message)) {
+	                        allMessages.get("warningMessages").add(message);
+	    				}
+	    			}
+	        	}
+	        }
         }
-        
-        for(Entry<String, ArrayList<String>> entry : transfers.entrySet()) {
-        	if(!entry.getValue().isEmpty()) {
-    			for(String accrualRuleId : entry.getValue()) {
-    				AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
-    				AccrualCategory aCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
-    				String message = "You have exceeded the maximum balance limit for '" + aCat.getAccrualCategory() + "'. " +
-                			"Depending upon the accrual category rules, leave over this limit may be forfeited.";
-    				if(!allMessages.get("warningMessages").contains(message)) {
-                        allMessages.get("warningMessages").add(message);
-    				}
-    			}
-        	}
-        }
-        for(Entry<String, ArrayList<String>> entry : payouts.entrySet()) {
-        	if(!entry.getValue().isEmpty()) {
-    			for(String accrualRuleId : entry.getValue()) {
-    				AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
-    				AccrualCategory aCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
-    				String message = "You have exceeded the maximum balance limit for '" + aCat.getAccrualCategory() + "'. " +
-                			"Depending upon the accrual category rules, leave over this limit may be forfeited.";
-    				if(!allMessages.get("warningMessages").contains(message)) {
-                        allMessages.get("warningMessages").add(message);
-    				}
-    			}
-        	}
-        }
+
         Map<String,Set<String>> transactions = LeaveCalendarValidationUtil.validatePendingTransactions(viewPrincipal, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
 
         allMessages.get("infoMessages").addAll(transactions.get("infoMessages"));
