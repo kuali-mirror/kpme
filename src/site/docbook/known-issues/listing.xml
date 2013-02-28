@@ -13,8 +13,64 @@
             </thead>
             <tbody>
                 <row>
-                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2115">KPME-2115</link></entry>
-                    <entry>Assignment lookup fails to return active assignment</entry>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2061">KPME-2061</link></entry>
+                    <entry>Earn Code with Time record method on leave calendar</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2138">KPME-2138</link></entry>
+                    <entry>Max Balance Action Effective Date For Non-Exempt EE's</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2156">KPME-2156</link></entry>
+                    <entry>Create Leave Calendar Initialization Widget</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2160">KPME-2160</link></entry>
+                    <entry>Leave Ledger Inactive Leave Blocks section: Edited leave blocks user and assignment is not appearing consistently</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2161">KPME-2161</link></entry>
+                    <entry>Refactor Timesheet Initiate into a Widget</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2164">KPME-2164</link></entry>
+                    <entry>Leave request page for employee- add year</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2165">KPME-2165</link></entry>
+                    <entry>Leave Blocks not in time block or time block history inquiries</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2173">KPME-2173</link></entry>
+                    <entry>Leave request document should not send out acknowledge requests when disapproved</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2196">KPME-2196</link></entry>
+                    <entry>Timesheet Max Balance trigger of lose on leave approval</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2197">KPME-2197</link></entry>
+                    <entry>The Approver's Approval button on leave calendar should be disabled if previous calendars have not be approved yet</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2201">KPME-2201</link></entry>
+                    <entry>Create Calendar Entry widget not creating new calendar entries</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2202">KPME-2202</link></entry>
+                    <entry>Timesheet Max Balance trigger of transfer button not working</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2203">KPME-2203</link></entry>
+                    <entry>Search by on Approver (Leave &amp; TK) tab is not working</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2204">KPME-2204</link></entry>
+                    <entry>Employee Override Max Transfer Amount not working</entry>
+                </row>
+                <row>
+                    <entry><link xlink:href="https://jira.kuali.org/browse/KPME-2205">KPME-2205</link></entry>
+                    <entry>Employee Override Annual Usage not working</entry>
                 </row>
 	        </tbody>
 	    </tgroup>
