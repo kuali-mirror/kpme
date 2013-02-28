@@ -20,7 +20,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.kpme</groupId>
     <artifactId>kpme-web</artifactId>
-    <version>1.5.0-SNAPSHOT</version>
+    <version>1.5.0</version>
 
     <packaging>war</packaging>
     <name>Kuali People Management for the Enterprise</name>
@@ -1196,9 +1196,9 @@
     </repositories>
 
     <scm>
-        <connection>scm:svn:https://svn.kuali.org/repos/kpme/trunk</connection>
-        <developerConnection>scm:svn:https://svn.kuali.org/repos/kpme/trunk</developerConnection>
-        <url>https://svn.kuali.org/repos/kpme/trunk</url>
+        <connection>scm:svn:https://svn.kuali.org/repos/kpme/tags/kpme-web-1.5.0</connection>
+        <developerConnection>scm:svn:https://svn.kuali.org/repos/kpme/tags/kpme-web-1.5.0</developerConnection>
+        <url>https://svn.kuali.org/repos/kpme/tags/kpme-web-1.5.0</url>
     </scm>
 
 </project>
