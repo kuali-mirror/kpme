@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 
 /**
@@ -41,6 +42,7 @@ public class TimeDetailActionFormBase extends TimesheetActionForm {
     private String spanningWeeks; // KPME-1446
     private String lmLeaveBlockId;
     private BigDecimal leaveAmount; // for leave blocks
+    private List<BalanceTransfer> forfeitures;
 
     public String getSpanningWeeks() {
 		return spanningWeeks;
@@ -152,5 +154,13 @@ public class TimeDetailActionFormBase extends TimesheetActionForm {
 
 	public void setLeaveAmount(BigDecimal leaveAmount) {
 		this.leaveAmount = leaveAmount;
+	}
+
+	public List<BalanceTransfer> getForfeitures() {
+		return forfeitures;
+	}
+
+	public void setForfeitures(List<BalanceTransfer> forfeitures) {
+		this.forfeitures = forfeitures;
 	}
 }

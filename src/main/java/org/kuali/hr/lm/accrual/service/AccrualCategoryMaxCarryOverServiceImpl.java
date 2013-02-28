@@ -233,7 +233,7 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
         	.description("Max carry over adjustment")
         	.accrualCategory(accrualCategory.getAccrualCategory())
         	.leaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER)
-        	.requestStatus(LMConstants.REQUEST_STATUS.APPROVED)
+        	.requestStatus(LMConstants.REQUEST_STATUS.REQUESTED)
         	.principalIdModified(principalId)
         	.timestamp(TKUtils.getCurrentTimestamp())
         	.build();

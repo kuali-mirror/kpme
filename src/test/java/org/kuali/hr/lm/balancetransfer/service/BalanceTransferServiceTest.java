@@ -817,7 +817,6 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 		endJanTSDEntry = endJanTSD.getCalendarEntry();
 
 		Map<String, ArrayList<String>> eligibleTransfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(endJanTSDEntry, TS_USER_ID);
-
 		//Assert correct number of transfer eligible for frequency
 		assertEquals(3, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
 		

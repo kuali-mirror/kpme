@@ -24,7 +24,6 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.leavepayout.LeavePayout;
-import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -38,12 +37,9 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 
-	private boolean validateAgainstLeavePlan(PrincipalHRAttributes pha,
-			AccrualCategory fromAccrualCategory, EarnCode payoutEarnCode, Date effectiveDate) {
+	private boolean validateAgainstLeavePlan(PrincipalHRAttributes pha, AccrualCategory fromAccrualCategory, Date effectiveDate) {
 		boolean isValid = true;
-		LeavePlan lp = TkServiceLocator.getLeavePlanService().getLeavePlan(pha.getLeavePlan(),effectiveDate);
-		if(!StringUtils.equals(payoutEarnCode.getLeavePlan(),lp.getLeavePlan()))
-			isValid = false;
+
 		List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), effectiveDate);
 		if(accrualCategories.size() > 0) {
 			boolean isFromInLeavePlan = false;
@@ -61,6 +57,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 			GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId", "leavePayout.principal.noACinLeavePlan");
 			isValid &=false;
 		}
+		
 		return isValid;
 	}
 	
@@ -141,7 +138,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 	 */
 	@Override
 	public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-		boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
+		boolean isValid = true;
 		LOG.debug("entering custom validation for Balance Transfer");
 
 		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
@@ -150,80 +147,76 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 
 			LeavePayout leavePayout = (LeavePayout) pbo;
 
-			if(isValid) {
-
-				/**
-				 * Validation is basically governed by accrual category rules. Get accrual category
-				 * rules for both the "To" and "From" accrual categories, pass to validators along with the
-				 * values needing to be validated.
-				 * 
-				 * Balance transfers initiated from the leave calendar display should already have all values
-				 * populated, thus validated, including the accrual category rule for the "From" accrual category.
-				 * 
-				 * Balance transfers initiated via the Maintenance tab will have no values populated.
-				 */
-				String principalId = leavePayout.getPrincipalId();
-				Date effectiveDate = leavePayout.getEffectiveDate();
-				String fromAccrualCategory = leavePayout.getFromAccrualCategory();
-				EarnCode payoutEarnCode = leavePayout.getEarnCodeObj();
-				AccrualCategory fromCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
-				PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId,effectiveDate);
-				
-				boolean isDeptAdmin = TKContext.getUser().isDepartmentAdmin();
-				boolean isSysAdmin = TKContext.getUser().isSystemAdmin();
-				if(isDeptAdmin || isSysAdmin) {
-					isValid &= validatePayoutAmount(leavePayout.getPayoutAmount(),fromCat,payoutEarnCode, principalId, effectiveDate);
-				}
-				else {
-					if(ObjectUtils.isNotNull(pha)) {
-						if(ObjectUtils.isNotNull(pha.getLeavePlan())) {
-							AccrualCategoryRule acr = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat,
-									TKUtils.getCurrentDate(), pha.getServiceDate());
-							if(ObjectUtils.isNotNull(acr)) {
-								if(ObjectUtils.isNotNull(acr.getMaxBalFlag())
-										&& StringUtils.isNotBlank(acr.getMaxBalFlag())
-										&& StringUtils.isNotEmpty(acr.getMaxBalFlag())
-										&& StringUtils.equals(acr.getMaxBalFlag(), "Y")) {
-									if(ObjectUtils.isNotNull(payoutEarnCode)) {
-										isValid &= validatePrincipal(pha,principalId);
-										isValid &= validateEffectiveDate(effectiveDate);
-										isValid &= validateAgainstLeavePlan(pha,fromCat,payoutEarnCode,effectiveDate);
-										isValid &= validateTransferFromAccrualCategory(fromCat,principalId,effectiveDate,acr);
-										isValid &= validatePayoutAmount(leavePayout.getPayoutAmount(),fromCat,payoutEarnCode, null, null);
-									}
-									else {
-										//should never be the case if accrual category rules are validated correctly.
-										GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory",
-												"leavePayout.fromAccrualCategory.rules.payoutToEarnCode",
-												fromAccrualCategory);
-										isValid &= false;
-									}
+			/**
+			 * Validation is basically governed by accrual category rules. Get accrual category
+			 * rules for both the "To" and "From" accrual categories, pass to validators along with the
+			 * values needing to be validated.
+			 * 
+			 * Balance transfers initiated from the leave calendar display should already have all values
+			 * populated, thus validated, including the accrual category rule for the "From" accrual category.
+			 * 
+			 * Balance transfers initiated via the Maintenance tab will have no values populated.
+			 */
+			String principalId = leavePayout.getPrincipalId();
+			Date effectiveDate = leavePayout.getEffectiveDate();
+			String fromAccrualCategory = leavePayout.getFromAccrualCategory();
+			EarnCode payoutEarnCode = leavePayout.getEarnCodeObj();
+			AccrualCategory fromCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
+			PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId,effectiveDate);
+			
+			boolean isDeptAdmin = TKContext.getUser().isDepartmentAdmin();
+			boolean isSysAdmin = TKContext.getUser().isSystemAdmin();
+			if(isDeptAdmin || isSysAdmin) {
+				isValid &= validatePayoutAmount(leavePayout.getPayoutAmount(),fromCat,payoutEarnCode, principalId, effectiveDate);
+			}
+			else {
+				if(ObjectUtils.isNotNull(pha)) {
+					if(ObjectUtils.isNotNull(pha.getLeavePlan())) {
+						AccrualCategoryRule acr = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat, effectiveDate, pha.getServiceDate());
+						if(ObjectUtils.isNotNull(acr)) {
+							if(ObjectUtils.isNotNull(acr.getMaxBalFlag())
+									&& StringUtils.isNotBlank(acr.getMaxBalFlag())
+									&& StringUtils.isNotEmpty(acr.getMaxBalFlag())
+									&& StringUtils.equals(acr.getMaxBalFlag(), "Y")) {
+								if(ObjectUtils.isNotNull(payoutEarnCode)) {
+									isValid &= validatePrincipal(pha,principalId);
+									isValid &= validateEffectiveDate(effectiveDate);
+									isValid &= validateAgainstLeavePlan(pha,fromCat,effectiveDate);
+									isValid &= validateTransferFromAccrualCategory(fromCat,principalId,effectiveDate,acr);
+									isValid &= validatePayoutAmount(leavePayout.getPayoutAmount(),fromCat,payoutEarnCode, null, null);
 								}
 								else {
-									//max bal flag null, blank, empty, or "N"
-									GlobalVariables.getMessageMap().putError("document.newMaintinableObject.fromAccrualCategory",
-											"leavePayout.fromAccrualCategory.rules.maxBalFlag", fromAccrualCategory);
+									//should never be the case if accrual category rules are validated correctly.
+									GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory",
+											"leavePayout.fromAccrualCategory.rules.payoutToEarnCode",
+											fromAccrualCategory);
 									isValid &= false;
 								}
 							}
 							else {
-								//department admins must validate amount to transfer does not exceed current balance.
-								GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory",
-										"leavePayout.fromAccrualCategory.rules.exist",fromCat.getAccrualCategory());
+								//max bal flag null, blank, empty, or "N"
+								GlobalVariables.getMessageMap().putError("document.newMaintinableObject.fromAccrualCategory",
+										"leavePayout.fromAccrualCategory.rules.maxBalFlag", fromAccrualCategory);
 								isValid &= false;
 							}
 						}
 						else {
-							//if the principal doesn't have a leave plan, there aren't any accrual categories that can be debited/credited.
-							GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId","leavePayout.principal.noLeavePlan");
-							isValid &=false;
+							//department admins must validate amount to transfer does not exceed current balance.
+							GlobalVariables.getMessageMap().putError("document.newMaintainableObject.fromAccrualCategory",
+									"leavePayout.fromAccrualCategory.rules.exist",fromCat.getAccrualCategory());
+							isValid &= false;
 						}
 					}
-					else  {
-						//if the principal has no principal hr attributes, they're not a principal.
-						GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId","leavePayout.principal.noAttributes");
-						isValid &= false;
+					else {
+						//if the principal doesn't have a leave plan, there aren't any accrual categories that can be debited/credited.
+						GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId","leavePayout.principal.noLeavePlan");
+						isValid &=false;
 					}
+				}
+				else  {
+					//if the principal has no principal hr attributes, they're not a principal.
+					GlobalVariables.getMessageMap().putError("document.newMaintainableObject.principalId","leavePayout.principal.noAttributes");
+					isValid &= false;
 				}
 			}
 		}

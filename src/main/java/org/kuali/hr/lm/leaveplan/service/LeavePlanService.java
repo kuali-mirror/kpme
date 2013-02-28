@@ -52,4 +52,5 @@ public interface LeavePlanService {
     public List<LeavePlan> getLeavePlansNeedsCarryOverScheduled(int thresholdDays, Date asOfDate);
 
     public DateTime getFirstDayOfLeavePlan(String leavePlan, java.util.Date date);
+    public DateTime getRolloverDayOfLeavePlan(String leavePlan, java.util.Date asOfDate);
 }

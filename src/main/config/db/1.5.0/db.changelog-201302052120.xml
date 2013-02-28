@@ -35,8 +35,6 @@
             </column>
         </addColumn>
         
-        <dropColumn tableName="LM_LEAVE_PLAN_T" columnName="BATCH_CARRY_OVER_START_DATE_TIME"/>
-        
     </changeSet>
        
 </databaseChangeLog>

@@ -252,7 +252,7 @@ public class TimesheetAction extends TkAction {
     	return forward;
     }
 
-    protected void setupDocumentOnFormContext(TimesheetActionForm taForm, TimesheetDocument td){
+    protected void setupDocumentOnFormContext(TimesheetActionForm taForm, TimesheetDocument td) throws Exception{
     	String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
     	TKContext.setCurrentTimesheetDocumentId(td.getDocumentId());
         TKContext.setCurrentTimesheetDocument(td);
@@ -266,6 +266,7 @@ public class TimesheetAction extends TkAction {
       
         taForm.setPayCalendarDates(td.getCalendarEntry());
         taForm.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(taForm.getPayCalendarDates()));
+        
     }
 
 }

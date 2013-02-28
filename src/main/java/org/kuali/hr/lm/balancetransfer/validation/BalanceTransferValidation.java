@@ -189,7 +189,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 					if(ObjectUtils.isNotNull(pha)) {
 						if(ObjectUtils.isNotNull(pha.getLeavePlan())) {
 							AccrualCategoryRule acr = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(fromCat,
-									TKUtils.getCurrentDate(), pha.getServiceDate());
+									effectiveDate, pha.getServiceDate());
 							if(ObjectUtils.isNotNull(acr)) {
 								if(StringUtils.isNotBlank(acr.getMaxBalFlag())
 										&& StringUtils.equals(acr.getMaxBalFlag(), "Y")) {

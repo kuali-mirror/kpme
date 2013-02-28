@@ -51,7 +51,6 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
     private List<String> overtimeEarnCodes = new ArrayList<String>();
     private String tkTimeHourDetailId;
     private String isLunchDeleted;
-    private List<BalanceTransfer> forfeitures;
     private boolean canAddTimeblock;
 
     public TkCalendar getTkCalendar() {
@@ -197,11 +196,4 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 		this.leaveBlockString = leaveBlockString;
 	}
 
-	public List<BalanceTransfer> getForfeitures() {
-		return forfeitures;
-	}
-
-	public void setForfeitures(List<BalanceTransfer> forfeitures) {
-		this.forfeitures = forfeitures;
-	}
 }

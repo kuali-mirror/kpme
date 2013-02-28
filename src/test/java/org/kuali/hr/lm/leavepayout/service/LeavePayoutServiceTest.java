@@ -729,7 +729,7 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 		Map<String, ArrayList<String>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(endJanTSDEntry, TS_USER_ID);
 
 		//Assert correct number of payout eligible for frequency
-		assertEquals(2, eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
+		assertEquals(3, eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
 		
 		//Assert that the accrual categories returned by BT service are in fact over their balance limit,
 		//according to their rules. - does not consider FTE.

@@ -114,6 +114,7 @@ public class LeavePlan extends HrBusinessObject {
 		return date[1];
 	}
 
+
 	public Boolean getHistory() {
 		return history;
 	}

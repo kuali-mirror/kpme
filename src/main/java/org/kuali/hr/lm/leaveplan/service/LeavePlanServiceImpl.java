@@ -111,6 +111,7 @@ public class LeavePlanServiceImpl implements LeavePlanService {
     	return isLastCalendarPeriodOfLeavePlan;
 	}
 
+    @Override
     public DateTime getFirstDayOfLeavePlan(String leavePlan, java.util.Date asOfDate) {
     	//The only thing this method does is tack on the year of the supplied asOfDate to the calendar year start date.
         LeavePlan lp = getLeavePlan(leavePlan, new Date(asOfDate.getTime()));
@@ -120,9 +121,28 @@ public class LeavePlanServiceImpl implements LeavePlanService {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.MONTH, priorYearCutOffMonth);
         cal.set(Calendar.DATE, priorYearCutOffDay);
-        
+
         DateMidnight cutOffDate = new DateMidnight(asOfDate.getTime()).withMonthOfYear(priorYearCutOffMonth).withDayOfMonth(priorYearCutOffDay);
-        
+        if (asOfDate.before(cutOffDate.toDate())) {
+            cutOffDate = cutOffDate.minusYears(1);
+        }
+        return cutOffDate.toDateTime();
+    }
+
+    @Override
+    public DateTime getRolloverDayOfLeavePlan(String leavePlan, java.util.Date asOfDate) {
+        LeavePlan lp = getLeavePlan(leavePlan, new Date(asOfDate.getTime()));
+
+        int priorYearCutOffMonth = Integer.parseInt(lp.getCalendarYearStartMonth());
+        int priorYearCutOffDay = Integer.parseInt(lp.getCalendarYearStartDayOfMonth());
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.MONTH, priorYearCutOffMonth);
+        cal.set(Calendar.DATE, priorYearCutOffDay);
+
+        DateMidnight cutOffDate = new DateMidnight(asOfDate.getTime()).withMonthOfYear(priorYearCutOffMonth).withDayOfMonth(priorYearCutOffDay);
+        if (asOfDate.after(cutOffDate.toDate())) {
+            cutOffDate = cutOffDate.plusYears(1);
+        }
         return cutOffDate.toDateTime();
     }
 
