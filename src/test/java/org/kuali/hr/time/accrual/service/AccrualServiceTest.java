@@ -131,7 +131,7 @@ public class AccrualServiceTest extends KPMETestCase {
 	@Test
 	/* testUser's leavePlan "testLP" has planning month of 12
 	 * after calculateFutureAccrualUsingPlanningMonth, try to get leaveBlock for 18 months in the future
-	 * should still get 12, 13 or 14 leave blocks depends on the date the test is running. 
+	 * should still get 12 or 13 leave blocks depends on the date the test is running. 
 	 * The accrual service also goes back 1 year for accrual runs.
 	 */
 	public void testCalculateFutureAccrualUsingPlanningMonth() {
@@ -149,10 +149,6 @@ public class AccrualServiceTest extends KPMETestCase {
 		}
 		
 		aCal.add(Calendar.MONTH, 18);
-		if(aCal.getActualMaximum(Calendar.DAY_OF_MONTH) == aCal.get(Calendar.DATE)) {
-			futureSize ++;
-			allSize ++;
-		}
 		
 		Date endDate = new java.sql.Date(aCal.getTime().getTime());
 		// lookup future leave blocks up to 18 months in the future
