@@ -271,6 +271,15 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         			!StringUtils.equals(lb.getRequestStatus(), LMConstants.REQUEST_STATUS.DISAPPROVED))
         		return false;
         }
+        // check if there are any pending calendars are there
+        LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getMinBeginDatePendingLeaveCalendar(document.getPrincipalId());
+        if (lcdh != null){             //if there were any pending document
+            //check to see if it's before the current document. if it is, then this document is not approvable.
+            if (TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(document.getDocumentId()).getBeginDate().compareTo(lcdh.getEndDate()) >= 0){
+                return false;
+            }
+        }
+
         return true;
 /*        List<BalanceTransfer> balanceTransfers = TkServiceLocator.getBalanceTransferService().getBalanceTransfers(document.getPrincipalId(),
                 document.getCalendarEntry().getBeginPeriodDate(),
