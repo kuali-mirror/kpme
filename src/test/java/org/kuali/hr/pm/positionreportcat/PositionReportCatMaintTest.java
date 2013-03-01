@@ -1,4 +1,4 @@
-package org.kuali.hr.pm.positionreporttype;
+package org.kuali.hr.pm.positionreportcat;
 
 import java.sql.Date;
 
@@ -17,11 +17,11 @@ import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class PositionReportTypeMaintTest extends KPMETestCase {
+public class PositionReportCatMaintTest extends KPMETestCase {
 	
 	@Test
 	public void testRequiredFields() throws Exception {
-	  	String baseUrl = PmTestConstants.Urls.POSITION_REPORT_TYPE_MAINT_NEW_URL;
+	  	String baseUrl = PmTestConstants.Urls.POSITION_REPORT_CAT_MAINT_NEW_URL;
 	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
 	  	Assert.assertNotNull(page);
 	 
@@ -35,6 +35,8 @@ public class PositionReportTypeMaintTest extends KPMETestCase {
 	  	page = element.click();
 	  	Assert.assertTrue("page text does not contain:\n" + "Effective Date (Effective Date) is a required field.", 
 	  			page.asText().contains("Effective Date (Effective Date) is a required field."));
+	  	Assert.assertTrue("page text does not contain:\n" + "Position Report Category (Position Report Category) is a required field.", 
+	  			page.asText().contains("Position Report Category (Position Report Category) is a required field."));
 	  	Assert.assertTrue("page text does not contain:\n" + "Position Report Type (Position Report Type) is a required field.", 
 	  			page.asText().contains("Position Report Type (Position Report Type) is a required field."));
 	  	Assert.assertTrue("page text does not contain:\n" + "Institution (Institution) is a required field.",
@@ -46,20 +48,21 @@ public class PositionReportTypeMaintTest extends KPMETestCase {
 	@Test
 	public void testAddNew() throws Exception {
 		Date effectiveDate =  new Date((new DateTime(2012, 4, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
-		String prtString = "testPRT";
-		PositionReportType prt = PmServiceLocator.getPositionReportTypeService().getPositionReportTypeByTypeAndDate(prtString, effectiveDate);
-		Assert.assertTrue("There should NOT be Position Report Type with name " + prtString, prt == null);
+		String prcString = "testPRC";
+		PositionReportCategory prc = PmServiceLocator.getPositionReportCatService().getPositionReportCatByCatAndDate(prcString, effectiveDate);
+		Assert.assertTrue("There should NOT be Position Report Category with name " + prcString, prc == null);
 		
-	  	String baseUrl = PmTestConstants.Urls.POSITION_REPORT_TYPE_MAINT_NEW_URL;
+	  	String baseUrl = PmTestConstants.Urls.POSITION_REPORT_CAT_MAINT_NEW_URL;
 	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
 	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");
 	  	Assert.assertNotNull("Search form was missing from page.", form);
 	  	
-	  	setFieldValue(page, "document.documentHeader.documentDescription", "Position Report Type - test");
+	  	setFieldValue(page, "document.documentHeader.documentDescription", "Position Report Category - test");
 	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", "04/01/2012");
-	    setFieldValue(page, "document.newMaintainableObject.positionReportType", prtString);
+	    setFieldValue(page, "document.newMaintainableObject.positionReportCat", prcString);
+	    setFieldValue(page, "document.newMaintainableObject.positionReportType", "noType"); // non-existing positionReportType
 	    setFieldValue(page, "document.newMaintainableObject.institution", "nonExistInst");	//nonexisting institution
 	    setFieldValue(page, "document.newMaintainableObject.campus", "nonCam");	//nonexisting campus
 	  	
@@ -68,6 +71,8 @@ public class PositionReportTypeMaintTest extends KPMETestCase {
 	  	HtmlElement element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
 	  	HtmlUnitUtil.createTempFile(page);
+	  	Assert.assertTrue("page text contains:\n" + "The specified Position Report Type 'noType' does not exist.", 
+	  			page.asText().contains("The specified Position Report Type 'noType' does not exist."));
 //		Assert.assertTrue("page text contains:\n" + "The specified Instituion 'nonExistInst' does not exist.", 
 //	  			page.asText().contains("The specified Instituion 'nonExistInst' does not exist."));
 	  	Assert.assertTrue("page text contains:\n" + "The specified Campus 'nonCam' does not exist.", 
@@ -79,13 +84,20 @@ public class PositionReportTypeMaintTest extends KPMETestCase {
 //	  	Assert.assertFalse("page text contains:\n" + "The specified Instituion 'testInst' does not exist.", 
 //	  			page.asText().contains("The specified Instituion 'testInst' does not exist."));
 //	  	
-	  	setFieldValue(page, "document.newMaintainableObject.campus", "TS"); // existing campus
+	  	setFieldValue(page, "document.newMaintainableObject.positionReportType", "testPRT"); // postionReportType and campus do not match
+	  	setFieldValue(page, "document.newMaintainableObject.campus", "NN"); // existing campus
+	  	element = page.getElementByName("methodToCall.route");
+	  	page = element.click();
+	  	Assert.assertTrue("page text contains:\n" + "There's no Property Report Type 'testPRT' found with campus 'NN'.", 
+	  			page.asText().contains("There's no Property Report Type 'testPRT' found with campus 'NN'."));
+	  	
+	  	setFieldValue(page, "document.newMaintainableObject.campus", "TS"); // matching campus
 	  	element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
 	  	Assert.assertFalse("page text contains error", page.asText().contains("error"));
 	  	
-	  	prt = PmServiceLocator.getPositionReportTypeService().getPositionReportTypeByTypeAndDate(prtString, effectiveDate);
-	  	Assert.assertTrue("There should be Position Report Type with name " + prtString, prt != null);
+	  	prc = PmServiceLocator.getPositionReportCatService().getPositionReportCatByCatAndDate(prcString, effectiveDate);
+	  	Assert.assertTrue("There should be Position Report Category with name " + prcString, prc != null);
 	  	
 	}
 }

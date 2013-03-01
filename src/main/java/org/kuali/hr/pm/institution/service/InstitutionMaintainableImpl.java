@@ -1,7 +1,7 @@
 package org.kuali.hr.pm.institution.service;
 
+import org.kuali.hr.pm.service.base.PmServiceLocator;
 import org.kuali.hr.time.HrBusinessObject;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 
 public class InstitutionMaintainableImpl extends HrBusinessObjectMaintainableImpl {
@@ -14,7 +14,7 @@ public class InstitutionMaintainableImpl extends HrBusinessObjectMaintainableImp
 	@Override
 	public HrBusinessObject getObjectById(String id) {
 		// TODO Auto-generated method stub
-		return TkServiceLocator.getInstitutionService().getInstitutionById(id);
+		return PmServiceLocator.getInstitutionService().getInstitutionById(id);
 	}
 
 	

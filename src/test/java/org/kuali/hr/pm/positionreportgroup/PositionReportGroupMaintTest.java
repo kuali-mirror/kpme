@@ -6,10 +6,10 @@ import junit.framework.Assert;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
+import org.kuali.hr.pm.service.base.PmServiceLocator;
+import org.kuali.hr.pm.test.PmTestConstants;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
-import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TKUtils;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -21,7 +21,7 @@ public class PositionReportGroupMaintTest extends KPMETestCase {
 	
 	@Test
 	public void testRequiredFields() throws Exception {
-	  	String baseUrl = TkTestConstants.Urls.POSITION_REPORT_GROUP_MAINT_NEW_URL;
+	  	String baseUrl = PmTestConstants.Urls.POSITION_REPORT_GROUP_MAINT_NEW_URL;
 	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
 	  	Assert.assertNotNull(page);
 	 
@@ -47,10 +47,10 @@ public class PositionReportGroupMaintTest extends KPMETestCase {
 	public void testAddNew() throws Exception {
 		Date effectiveDate =  new Date((new DateTime(2012, 4, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		String prgString = "testPRG";
-		PositionReportGroup prg = TkServiceLocator.getPositionReportGroupService().getPositionReportGroupByGroupAndDate(prgString, effectiveDate);
+		PositionReportGroup prg = PmServiceLocator.getPositionReportGroupService().getPositionReportGroupByGroupAndDate(prgString, effectiveDate);
 		Assert.assertTrue("There should NOT be Position Report Group with name " + prgString, prg == null);
 		
-	  	String baseUrl = TkTestConstants.Urls.POSITION_REPORT_GROUP_MAINT_NEW_URL;
+	  	String baseUrl = PmTestConstants.Urls.POSITION_REPORT_GROUP_MAINT_NEW_URL;
 	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
 	  	Assert.assertNotNull(page);
 	 
@@ -84,7 +84,7 @@ public class PositionReportGroupMaintTest extends KPMETestCase {
 	  	page = element.click();
 	  	Assert.assertFalse("page text contains error", page.asText().contains("error"));
 	  	
-	  	prg = TkServiceLocator.getPositionReportGroupService().getPositionReportGroupByGroupAndDate(prgString, effectiveDate);
+	  	prg = PmServiceLocator.getPositionReportGroupService().getPositionReportGroupByGroupAndDate(prgString, effectiveDate);
 	  	Assert.assertTrue("There should be Position Report Group with name " + prgString, prg != null);
 	  	
 	}

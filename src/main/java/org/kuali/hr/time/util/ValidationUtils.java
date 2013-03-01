@@ -617,28 +617,4 @@ public class ValidationUtils {
 		return valid;
 	}
 	
-	public static boolean validateInstitution(String institutionCode, Date asOfDate) {
-		boolean valid = false;
-		if (StringUtils.equals(institutionCode, TkConstants.WILDCARD_CHARACTER)) {
-			valid = true;
-		} else if (asOfDate != null) {
-			Institution inst = TkServiceLocator.getInstitutionService().getInstitution(institutionCode, asOfDate);
-			valid = (inst != null);
-		} else {
-			List<Institution> instList = TkServiceLocator.getInstitutionService().getInstitutionsByCode(institutionCode);
-			valid = CollectionUtils.isNotEmpty(instList);
-		}
-		return valid;
-	}
-	
-	public static boolean validateCampus(String campusCode) {
-		boolean valid = false;
-		if (StringUtils.equals(campusCode, TkConstants.WILDCARD_CHARACTER)) {
-			valid = true;
-		} else {
-			Campus campusObj = LocationApiServiceLocator.getCampusService().getCampus(campusCode);
-			valid = (campusObj != null);
-		}
-		return valid;
-	}
 }

@@ -1,7 +1,7 @@
 package org.kuali.hr.pm.positionreporttype.service;
 
+import org.kuali.hr.pm.service.base.PmServiceLocator;
 import org.kuali.hr.time.HrBusinessObject;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 
 public class PositionReportTypeMaintainableImpl extends HrBusinessObjectMaintainableImpl {
@@ -10,8 +10,7 @@ public class PositionReportTypeMaintainableImpl extends HrBusinessObjectMaintain
 
 	@Override
 	public HrBusinessObject getObjectById(String id) {
-		// TODO Auto-generated method stub
-		return TkServiceLocator.getPositionReportTypeService().getPositionReportTypeById(id);
+		return PmServiceLocator.getPositionReportTypeService().getPositionReportTypeById(id);
 	}
 
 }

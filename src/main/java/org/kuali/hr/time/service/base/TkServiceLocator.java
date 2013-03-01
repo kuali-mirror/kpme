@@ -23,7 +23,6 @@ import org.kuali.hr.lm.accrual.service.AccrualCategoryService;
 import org.kuali.hr.lm.accrual.service.AccrualService;
 import org.kuali.hr.lm.accrual.service.PrincipalAccrualRanService;
 import org.kuali.hr.lm.balancetransfer.service.BalanceTransferService;
-import org.kuali.hr.lm.leavepayout.service.LeavePayoutService;
 import org.kuali.hr.lm.earncodesec.service.EarnCodeSecurityService;
 import org.kuali.hr.lm.employeeoverride.service.EmployeeOverrideService;
 import org.kuali.hr.lm.leave.approval.service.LeaveApprovalService;
@@ -34,15 +33,13 @@ import org.kuali.hr.lm.leaveblock.service.LeaveBlockService;
 import org.kuali.hr.lm.leavecalendar.service.LeaveCalendarService;
 import org.kuali.hr.lm.leavecode.service.LeaveCodeService;
 import org.kuali.hr.lm.leavedonation.service.LeaveDonationService;
+import org.kuali.hr.lm.leavepayout.service.LeavePayoutService;
 import org.kuali.hr.lm.leaveplan.service.LeavePlanService;
 import org.kuali.hr.lm.leaverequest.service.LeaveRequestDocumentService;
 import org.kuali.hr.lm.timeoff.service.SystemScheduledTimeOffService;
 import org.kuali.hr.lm.workflow.service.LeaveCalendarDocumentHeaderService;
 import org.kuali.hr.location.service.LocationService;
 import org.kuali.hr.paygrade.service.PayGradeService;
-import org.kuali.hr.pm.institution.service.InstitutionService;
-import org.kuali.hr.pm.positionreportgroup.service.PositionReportGroupService;
-import org.kuali.hr.pm.positionreporttype.service.PositionReportTypeService;
 import org.kuali.hr.time.accrual.service.TimeOffAccrualService;
 import org.kuali.hr.time.approval.service.TimeApproveService;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
@@ -171,15 +168,9 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String LM_LEAVE_REQUEST_DOC_SERVICE = "leaveRequestDocumentService";
 	public static final String LM_ACCRUAL_CATEGORY_MAX_CARRY_OVER_SERVICE = "accrualCategoryMaxCarryOverService";
     public static final String LM_LEAVE_PAYOUT_SERVICE = "leavePayoutService";
-    public static final String PM_INSTITUTION_SERVICE = "institutionService";
-    public static final String PM_POSITION_REPORT_TYPE_SERVICE = "positionReportTypeService";
-    public static final String PM_POSITION_REPORT_GROUP_SERVICE = "positionReportGroupService";
 	public static final String KPME_DISTRIBUTED_CACHE_MANAGER = "kpmeDistributedCacheManager";
     public static final String KPME_NOTIFICATION_SERVICE = "kpmeNotificationService";
     
-    public static InstitutionService getInstitutionService() {
-    	return (InstitutionService) CONTEXT.getBean(PM_INSTITUTION_SERVICE);
-    }
     
     public static MissedPunchService getMissedPunchService() {
         return (MissedPunchService) CONTEXT.getBean(TK_MISSED_PUNCH_SERVICE);
@@ -248,9 +239,6 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static DistributedCacheManagerDecorator getDistributedCacheManager() {
         return (DistributedCacheManagerDecorator)CONTEXT.getBean(KPME_DISTRIBUTED_CACHE_MANAGER);
     }
-
-
-
 
 	public static AssignmentService getAssignmentService(){
 	    return (AssignmentService)CONTEXT.getBean(TK_ASSIGNMENT_SERVICE);
@@ -479,15 +467,6 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static AccrualCategoryMaxCarryOverService getAccrualCategoryMaxCarryOverService() {
     	return (AccrualCategoryMaxCarryOverService) CONTEXT.getBean(LM_ACCRUAL_CATEGORY_MAX_CARRY_OVER_SERVICE);
     }
-    
-    public static PositionReportTypeService getPositionReportTypeService() {
-    	return (PositionReportTypeService) CONTEXT.getBean(PM_POSITION_REPORT_TYPE_SERVICE);
-    }
-	
-    public static PositionReportGroupService getPositionReportGroupService() {
-    	return (PositionReportGroupService) CONTEXT.getBean(PM_POSITION_REPORT_GROUP_SERVICE);
-    }
-    
 	@Override
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
 	    CONTEXT = arg0;

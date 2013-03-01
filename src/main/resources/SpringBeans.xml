@@ -255,6 +255,7 @@
                 <value>institutionLookupable</value>
                 <value>positionReportTypeLookupable</value>
                 <value>positionReportGroupLookupable</value>
+                <value>positionReportCatLookupable</value>
             </set>
         </property>
     </bean>
@@ -373,6 +374,8 @@
     <bean id="positionReportTypeDao" class="org.kuali.hr.pm.positionreporttype.dao.PositionReportTypeDaoObjImpl" parent="platformAwareDao" />
     
     <bean id="positionReportGroupDao" class="org.kuali.hr.pm.positionreportgroup.dao.PositionReportGroupDaoObjImpl" parent="platformAwareDao" />
+    
+    <bean id="positionReportCatDao" class="org.kuali.hr.pm.positionreportcat.dao.PositionReportCatDaoObjImpl" parent="platformAwareDao" />
         
     <!-- Time Services for Business Logic -->
     <bean id="missedPunchService" class="org.kuali.hr.time.missedpunch.service.MissedPunchServiceImpl">
@@ -616,6 +619,9 @@
     <bean id="tkServiceLocator" class="org.kuali.hr.time.service.base.TkServiceLocator">
     </bean>
 
+ 	<bean id="pmServiceLocator" class="org.kuali.hr.pm.service.base.PmServiceLocator">
+    </bean>
+    
     <bean id="tkRuleControllerService" class="org.kuali.hr.time.rule.TkRuleControllerServiceImpl"/>
 
     <bean id="tkSearchableAttributeService" class="org.kuali.hr.time.docsearch.TkSearchableAttributeServiceImpl"/>
@@ -678,6 +684,10 @@
     
     <bean id="positionReportGroupService" class="org.kuali.hr.pm.positionreportgroup.service.PositionReportGroupServiceImpl">
         <property name="positionReportGroupDao" ref="positionReportGroupDao"/>
+    </bean>
+    
+    <bean id="positionReportCatService" class="org.kuali.hr.pm.positionreportcat.service.PositionReportCatServiceImpl">
+        <property name="positionReportCatDao" ref="positionReportCatDao"/>
     </bean>
     
     <bean id="accrualCategoryMaxCarryOverService" class="org.kuali.hr.lm.accrual.service.AccrualCategoryMaxCarryOverServiceImpl">
@@ -942,6 +952,12 @@
     	<property name="lookupableHelperService">
     		<bean class="org.kuali.hr.pm.positionreportgroup.service.PositionReportGroupLookupableHelper"/>
     	</property>    
+    </bean>
+    
+    <bean id="positionReportCatLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
+	   	<property name="lookupableHelperService">
+	   		<bean class="org.kuali.hr.pm.positionreportcat.service.PositionReportCatLookupableHelper"/>
+	   	</property>    
     </bean>
     
     <bean id="rice.ksb.serviceBus" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">

@@ -1,7 +1,8 @@
 package org.kuali.hr.pm.positionreporttype.validation;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.pm.positionreporttype.PositionReportType;
-import org.kuali.hr.time.util.ValidationUtils;
+import org.kuali.hr.pm.util.PmValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
@@ -22,8 +23,8 @@ public class PositionReportTypeValidation extends MaintenanceDocumentRuleBase  {
 	}
 	
 	private boolean validateInstitution(PositionReportType prt) {
-		if (prt.getInstitution() != null
-				&& !ValidationUtils.validateInstitution(prt.getInstitution(), prt.getEffectiveDate())) {
+		if (StringUtils.isNotEmpty(prt.getInstitution())
+				&& !PmValidationUtils.validateInstitution(prt.getInstitution(), prt.getEffectiveDate())) {
 			this.putFieldError("institution", "error.existence", "Instituion '"
 					+ prt.getInstitution() + "'");
 			return false;
@@ -33,8 +34,8 @@ public class PositionReportTypeValidation extends MaintenanceDocumentRuleBase  {
 	}
 	
 	private boolean validateCampus(PositionReportType prt) {
-		if (prt.getCampus() != null
-				&& !ValidationUtils.validateCampus(prt.getCampus())) {
+		if (StringUtils.isNotEmpty(prt.getCampus())
+				&& !PmValidationUtils.validateCampus(prt.getCampus())) {
 			this.putFieldError("campus", "error.existence", "Campus '"
 					+ prt.getCampus() + "'");
 			return false;
