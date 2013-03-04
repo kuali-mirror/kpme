@@ -26,6 +26,7 @@ import org.kuali.hr.time.calendar.dao.CalendarEntriesDao;
 import org.kuali.hr.time.detail.web.ActionFormUtils;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class CalendarEntriesServiceImpl implements CalendarEntriesService {
 
@@ -108,7 +109,7 @@ public class CalendarEntriesServiceImpl implements CalendarEntriesService {
             newEntry.setBatchEmployeeApprovalDateTime(addSemiMonthToDate(calendarEntries.getBatchEmployeeApprovalDateTime()));
             newEntry.setBatchSupervisorApprovalDateTime(addSemiMonthToDate(calendarEntries.getBatchSupervisorApprovalDateTime()));
         }
-        calendarEntriesDao.saveOrUpdate(newEntry);
+        KRADServiceLocator.getBusinessObjectService().save(newEntry);
         return getNextCalendarEntriesByCalendarId(calendarEntries.getHrCalendarId(), calendarEntries);
     }
 
