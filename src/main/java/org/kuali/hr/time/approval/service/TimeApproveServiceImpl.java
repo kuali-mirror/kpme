@@ -27,6 +27,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
+import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
 import org.kuali.hr.time.assignment.Assignment;
@@ -370,16 +371,16 @@ public class TimeApproveServiceImpl implements TimeApproveService {
       allMessages.put("warningMessages", new HashSet<String>());
       //get LeaveSummary and check for warnings
       if (tdh != null) {
-          Map<String, ArrayList<String>> eligibilities;
+          Map<String, Set<LeaveBlock>> eligibilities;
           try {
-      	 eligibilities = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(calendarEntry, tdh.getPrincipalId());
+      	 eligibilities = TkServiceLocator.getBalanceTransferService().getNewEligibleTransfers(calendarEntry, tdh.getPrincipalId());
           } catch (Exception e) {
           	eligibilities = null;
           }           
           if (eligibilities != null) {
-              for (Entry<String,ArrayList<String>> entry : eligibilities.entrySet()) {
-            	  for(String accrualRuleId : entry.getValue()) {
-            		  AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+              for (Entry<String,Set<LeaveBlock>> entry : eligibilities.entrySet()) {
+            	  for(LeaveBlock lb : entry.getValue()) {
+            		  AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
             		  if (rule != null) {
             			  AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
             			  if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.TRANSFER)) {
@@ -394,16 +395,16 @@ public class TimeApproveServiceImpl implements TimeApproveService {
             	  }
               }
           }
-          Map<String, ArrayList<String>> payoutEligible;
+          Map<String, Set<LeaveBlock>> payoutEligible;
           try {
-        	  payoutEligible = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(calendarEntry, tdh.getPrincipalId());
+        	  payoutEligible = TkServiceLocator.getLeavePayoutService().getNewEligiblePayouts(calendarEntry, tdh.getPrincipalId());
           } catch (Exception e) {
         	  payoutEligible = null;  
           }
           if (payoutEligible != null) {
-              for (Entry<String,ArrayList<String>> entry : payoutEligible.entrySet()) {
-            	  for(String accrualRuleId : entry.getValue()) {
-            		  AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+              for (Entry<String,Set<LeaveBlock>> entry : payoutEligible.entrySet()) {
+            	  for(LeaveBlock lb : entry.getValue()) {
+            		  AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
             		  if (rule != null) {
             			  AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
            				  allMessages.get("warningMessages").add("Accrual category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");

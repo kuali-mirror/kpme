@@ -23,6 +23,7 @@ public class LeaveSummaryRow {
     //adding this to have a very simple means of getting the Accrual Category object
     private String accrualCategoryId;
     private String accrualCategoryRuleId;
+    private String infractingLeaveBlockId;
 	private BigDecimal carryOver;
 	private BigDecimal ytdAccruedBalance;
 	private BigDecimal ytdApprovedUsage;
@@ -167,5 +168,13 @@ public class LeaveSummaryRow {
 	
 	public void setMaxCarryOver(BigDecimal maxCarryOver) {
 		this.maxCarryOver = maxCarryOver;
+	}
+	
+	public String getInfractingLeaveBlockId() {
+		return infractingLeaveBlockId;
+	}
+	
+	public void setInfractingLeaveBlockId(String infractingLeaveBlockId) {
+		this.infractingLeaveBlockId = infractingLeaveBlockId;
 	}
 }

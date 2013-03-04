@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.After;
@@ -501,12 +502,13 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 	
 	@Test
 	public void testGetEligibleTransfersLeaveApprove() throws Exception {
-		Map<String, ArrayList<String>> eligibleTransfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(janEntry, USER_ID);
-		assertEquals(4, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
-		assertEquals(5, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
-		assertEquals(4, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligibleTransfer : eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer));
+		Map<String, Set<LeaveBlock>> newEligibleTransfers = eligibilityTestHelper(janEntry, USER_ID);
+		assertEquals(4, newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
+		//assertEquals(5, newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
+		//assertEquals(4, newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
+		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
+		for(LeaveBlock eligibleTransfer : newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE))
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer.getAccrualCategoryRuleId()));
 			
 		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
 		for(AccrualCategoryRule aRule : rules) {
@@ -515,16 +517,16 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 			assertTrue("accrual category not eligible for transfer",row.getAccruedBalance().compareTo(aRule.getMaxBalance()) > 0);
 		}
 	}
-	
+
 	@Test
 	public void testGetEligibleTransfersYearEnd() throws Exception {
-		Map<String, ArrayList<String>> eligibleTransfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(janEntry, USER_ID);
-		assertEquals(4, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
-		assertEquals(5, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
-		assertEquals(4, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
+		Map<String, Set<LeaveBlock>> newEligibleTransfers = eligibilityTestHelper(janEntry, USER_ID);
+		//assertEquals(4, newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
+		assertEquals(5, newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
+		//assertEquals(4, newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligibleTransfer : eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer));
+		for(LeaveBlock eligibleTransfer : newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer.getAccrualCategoryRuleId()));
 		
 		// Set should contain an accrual category whose rule's max balance is trumped by an employee override.
 		// Comparing accrued balance to a rule's defined max balance is insufficient for testing
@@ -547,13 +549,13 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 	
 	@Test
 	public void testGetEligibleTransfersOnDemand() throws Exception {
-		Map<String, ArrayList<String>> eligibleTransfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(janEntry, USER_ID);
-		assertEquals(4, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
-		assertEquals(5, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
-		assertEquals(4, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
+		Map<String, Set<LeaveBlock>> newEligibleTransfers = eligibilityTestHelper(janEntry, USER_ID);
+		//assertEquals(4, newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
+		//assertEquals(5, newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
+		assertEquals(4, newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligibleTransfer : eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer));
+		for(LeaveBlock eligibleTransfer : newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer.getAccrualCategoryRuleId()));
 
 		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
 		for(AccrualCategoryRule aRule : rules) {
@@ -566,13 +568,13 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 	@Test
 	public void testGetEligibleTransfersOnYearEndCaseOne() throws Exception {
 		//calendar entry is not the last calendar entry of the leave plan's calendar year.
-		Map<String, ArrayList<String>> eligibleTransfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(decEntry, USER_ID);
-		assertEquals(4, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
-		assertEquals(0, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
-		assertEquals(4, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
+		Map<String, Set<LeaveBlock>> newEligibleTransfers = eligibilityTestHelper(decEntry, USER_ID);
+		//assertEquals(4, newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
+		assertEquals(0, newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
+		//assertEquals(4, newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligibleTransfer : eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer));
+		for(LeaveBlock eligibleTransfer : newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer.getAccrualCategoryRuleId()));
 
 		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, decEntry);
 		for(AccrualCategoryRule aRule : rules) {
@@ -585,13 +587,13 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 	@Test
 	public void testGetEligibleTransfersOnYearEndCaseTwo() throws Exception {
 		//calendar entry is the last calendar entry of the leave plan's calendar year.
-		Map<String, ArrayList<String>> eligibleTransfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(janEntry, USER_ID);
-		assertEquals(4, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
-		assertEquals(5, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
-		assertEquals(4, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
+		Map<String, Set<LeaveBlock>> newEligibleTransfers = eligibilityTestHelper(janEntry, USER_ID);
+		//assertEquals(4, newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
+		assertEquals(5, newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
+		//assertEquals(4, newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligibleTransfer : eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer));
+		for(LeaveBlock eligibleTransfer : newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer.getAccrualCategoryRuleId()));
 
 		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
 		for(AccrualCategoryRule aRule : rules) {
@@ -638,15 +640,15 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 		midDecTSD = TkServiceLocator.getTimesheetService().getTimesheetDocument(TSD_MID_DEC_PERIOD_ID);
 		midDecTSDEntry = midDecTSD.getCalendarEntry();
 
-		Map<String, ArrayList<String>> eligibleTransfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(midDecTSDEntry, TS_USER_ID);
+		Map<String, Set<LeaveBlock>> newEligibleTransfers = eligibilityTestHelper(midDecTSDEntry, TS_USER_ID);
 		//Assert correct number of transfer eligible for frequency
-		assertEquals(4, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
+		assertEquals(4, newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
 
 		//Assert that the accrual categories returned by BT service are in fact over their balance limit,
 		//according to their rules. - does not consider FTE.
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligibleTransfer : eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer));
+		for(LeaveBlock eligibleTransfer : newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE))
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer.getAccrualCategoryRuleId()));
 
 		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TS_USER_ID, midDecTSDEntry);
 		for(AccrualCategoryRule aRule : rules) {
@@ -663,9 +665,9 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 		midDecTSD = TkServiceLocator.getTimesheetService().getTimesheetDocument(TSD_MID_DEC_PERIOD_ID);
 		midDecTSDEntry = midDecTSD.getCalendarEntry();
 
-		Map<String, ArrayList<String>> eligibleTransfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(midDecTSDEntry, TS_USER_ID);
+		Map<String, Set<LeaveBlock>> newEligibleTransfers = eligibilityTestHelper(midDecTSDEntry, TS_USER_ID);
 		//Assert correct number of transfer eligible for frequency
-		assertEquals(0, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
+		assertEquals(0, newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
 		
 		/**
 		 * No eligible transfers to test balance limit.
@@ -673,8 +675,8 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 /*		//Assert that the accrual categories returned by BT service are in fact over their balance limit,
 		//according to their rules.
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligibleTransfer : eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer));
+		for(LeaveBlock eligibleTransfer : newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer.getAccrualCategoryRuleId()));
 			
 		// Set should contain an accrual category whose rule's max balance is trumped by an employee override.
 		// Comparing accrued balance to a rule's defined max balance is insufficient for testing
@@ -704,15 +706,15 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 		midDecTSD = TkServiceLocator.getTimesheetService().getTimesheetDocument(TSD_MID_DEC_PERIOD_ID);
 		midDecTSDEntry = midDecTSD.getCalendarEntry();
 
-		Map<String, ArrayList<String>> eligibleTransfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(midDecTSDEntry, TS_USER_ID);
+		Map<String, Set<LeaveBlock>> newEligibleTransfers = eligibilityTestHelper(midDecTSDEntry, TS_USER_ID);
 		//Assert correct number of transfer eligible for frequency
-		assertEquals(4, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
+		assertEquals(4, newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
 
 		//Assert that the accrual categories returned by BT service are in fact over their balance limit,
 		//according to their rules. - does not consider FTE.
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligibleTransfer : eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer));
+		for(LeaveBlock eligibleTransfer : newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer.getAccrualCategoryRuleId()));
 
 		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TS_USER_ID, midDecTSDEntry);
 		for(AccrualCategoryRule aRule : rules) {
@@ -729,15 +731,15 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 		endDecTSD = TkServiceLocator.getTimesheetService().getTimesheetDocument(TSD_END_DEC_PERIOD_ID);
 		endDecTSDEntry = endDecTSD.getCalendarEntry();
 
-		Map<String, ArrayList<String>> eligibleTransfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(endDecTSDEntry, TS_USER_ID);
+		Map<String, Set<LeaveBlock>> newEligibleTransfers = eligibilityTestHelper(endDecTSDEntry, TS_USER_ID);
 		//Assert correct number of transfer eligible for frequency
-		assertEquals(4, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
+		assertEquals(4, newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
 		
 		//Assert that the accrual categories returned by BT service are in fact over their balance limit,
 		//according to their rules. - does not consider FTE.
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligibleTransfer : eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer));
+		for(LeaveBlock eligibleTransfer : newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE))
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer.getAccrualCategoryRuleId()));
 
 		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TS_USER_ID, endDecTSDEntry);
 		for(AccrualCategoryRule aRule : rules) {
@@ -754,15 +756,15 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 		endDecTSD = TkServiceLocator.getTimesheetService().getTimesheetDocument(TSD_END_DEC_PERIOD_ID);
 		endDecTSDEntry = endDecTSD.getCalendarEntry();
 
-		Map<String, ArrayList<String>> eligibleTransfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(endDecTSDEntry, TS_USER_ID);
+		Map<String, Set<LeaveBlock>> newEligibleTransfers = eligibilityTestHelper(endDecTSDEntry, TS_USER_ID);
 		//Assert correct number of transfer eligible for frequency
-		assertEquals(0, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
+		assertEquals(0, newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
 		
 		//Assert that the accrual categories returned by BT service are in fact over their balance limit,
 		//according to their rules. - does not consider FTE.
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligibleTransfer : eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer));
+		for(LeaveBlock eligibleTransfer : newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer.getAccrualCategoryRuleId()));
 
 		// Set should contain an accrual category whose rule's max balance is trumped by an employee override.
 		// Comparing accrued balance to a rule's defined max balance is insufficient for testing
@@ -791,15 +793,15 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 		endDecTSDEntry = endDecTSD.getCalendarEntry();
 
 
-		Map<String, ArrayList<String>> eligibleTransfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(endDecTSDEntry, TS_USER_ID);
+		Map<String, Set<LeaveBlock>> newEligibleTransfers = eligibilityTestHelper(endDecTSDEntry, TS_USER_ID);
 		//Assert correct number of transfer eligible for frequency
-		assertEquals(4, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
+		assertEquals(4, newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
 		
 		//Assert that the accrual categories returned by BT service are in fact over their balance limit,
 		//according to their rules. - does not consider FTE.
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligibleTransfer : eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer));
+		for(LeaveBlock eligibleTransfer : newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer.getAccrualCategoryRuleId()));
 
 		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TS_USER_ID,endDecTSDEntry);
 		for(AccrualCategoryRule aRule : rules) {
@@ -816,15 +818,16 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 		endJanTSD = TkServiceLocator.getTimesheetService().getTimesheetDocument(TSD_END_JAN_PERIOD_ID);
 		endJanTSDEntry = endJanTSD.getCalendarEntry();
 
-		Map<String, ArrayList<String>> eligibleTransfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(endJanTSDEntry, TS_USER_ID);
+		Map<String, Set<LeaveBlock>> newEligibleTransfers = eligibilityTestHelper(endJanTSDEntry, TS_USER_ID);
+
 		//Assert correct number of transfer eligible for frequency
-		assertEquals(3, eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
+		assertEquals(5, newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
 		
 		//Assert that the accrual categories returned by BT service are in fact over their balance limit,
 		//according to their rules. - does not consider FTE.
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligibleTransfer : eligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer));
+		for(LeaveBlock eligibleTransfer : newEligibleTransfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer.getAccrualCategoryRuleId()));
         }
 
 		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TS_USER_ID,endJanTSDEntry);
@@ -854,5 +857,11 @@ public class BalanceTransferServiceTest extends KPMETestCase {
 			assertNotNull("eligible accrual category has no balance limit",ObjectUtils.isNotNull(maxBalance));
 			assertTrue("accrual category " + aRule.getLmAccrualCategoryId() + " not eligible for transfer",row.getAccruedBalance().compareTo(maxBalance) > 0);
 		}
+	}
+	
+	
+	private Map<String, Set<LeaveBlock>> eligibilityTestHelper(
+			CalendarEntries entry, String principalId) throws Exception {
+		return TkServiceLocator.getBalanceTransferService().getNewEligibleTransfers(entry, principalId);
 	}
 }

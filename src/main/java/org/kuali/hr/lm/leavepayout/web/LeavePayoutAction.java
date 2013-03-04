@@ -26,6 +26,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
+import org.joda.time.Interval;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.leavepayout.LeavePayout;
@@ -101,9 +102,9 @@ public class LeavePayoutAction extends TkAction {
 			// if submitting a delinquent calendar, use the calendar's end period date for the effective date.
 			// could adjust the end period date by subtracting a day so that the leave blocks appear on the month in question.
 			
-			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(leavePayout.getPrincipalId(), calendarEntry);
+			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(leavePayout.getPrincipalId(), leavePayout.getEffectiveDate());
 			LeaveSummaryRow payoutRow = ls.getLeaveSummaryRowForAccrualCategory(accrualRule.getLmAccrualCategoryId());
-			LeavePayout defaultBT = TkServiceLocator.getLeavePayoutService().initializePayout(leavePayout.getPrincipalId(), accrualRuleId, payoutRow.getAccruedBalance(), effectiveDate);
+			LeavePayout defaultBT = TkServiceLocator.getLeavePayoutService().initializePayout(leavePayout.getPrincipalId(), accrualRuleId, payoutRow.getAccruedBalance(), leavePayout.getEffectiveDate());
 			if(leavePayout.getPayoutAmount().compareTo(defaultBT.getPayoutAmount()) != 0) {
 				//employee changed the payout amount, recalculate forfeiture.
 				//Note: payout form has been validated.
@@ -186,7 +187,7 @@ public class LeavePayoutAction extends TkAction {
 		LeavePayoutForm lpf = (LeavePayoutForm) form;
 		//the leave calendar document that triggered this balance payout.
 		String documentId = request.getParameter("documentId");
-		String accrualRuleId = request.getParameter("accrualRuleId");
+		String leaveBlockId = request.getParameter("accrualRuleId");
 		String timesheet = request.getParameter("timesheet");
 
 		boolean isTimesheet = false;
@@ -194,8 +195,9 @@ public class LeavePayoutAction extends TkAction {
 			lpf.isTimesheet(true);
 			isTimesheet = true;
 		}
-		if(ObjectUtils.isNotNull(accrualRuleId)) {
-			AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+		if(ObjectUtils.isNotNull(leaveBlockId)) {
+			LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
+			AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
 			if(ObjectUtils.isNotNull(aRule)) {
 				//should somewhat safegaurd against url fabrication.
 				if(!StringUtils.equals(aRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
@@ -216,14 +218,14 @@ public class LeavePayoutAction extends TkAction {
 						principalId = lcd.getPrincipalId();
 						calendarEntry = lcd.getCalendarEntry();
 					}
-					LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, calendarEntry);
 					
 					Date effectiveDate = TKUtils.getCurrentDate();
 					if(TKUtils.getCurrentDate().after(calendarEntry.getEndPeriodDate()))
 						effectiveDate = new Date(DateUtils.addMinutes(calendarEntry.getEndPeriodDate(),-1).getTime());
-
+					
+					LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, lb.getLeaveDate());
 					LeaveSummaryRow payoutRow = ls.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId());
-					LeavePayout leavePayout = TkServiceLocator.getLeavePayoutService().initializePayout(principalId, accrualRuleId, payoutRow.getAccruedBalance(), effectiveDate);
+					LeavePayout leavePayout = TkServiceLocator.getLeavePayoutService().initializePayout(principalId, lb.getAccrualCategory(), payoutRow.getAccruedBalance(), lb.getLeaveDate());
 					leavePayout.setLeaveCalendarDocumentId(documentId);
 					if(ObjectUtils.isNotNull(leavePayout)) {
 						if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {	
@@ -270,12 +272,12 @@ public class LeavePayoutAction extends TkAction {
 
 		int categoryCounter = 0;
 		List<String> payoutableAccrualCategoryRules = new ArrayList<String>();
-		String accrualRuleId = request.getParameter("accrualCategory0");
-		while(ObjectUtils.isNotNull(accrualRuleId)) {
+		String leaveBlockId = request.getParameter("accrualCategory0");
+		while(ObjectUtils.isNotNull(leaveBlockId)) {
 			//TODO: Get rid of this loop
 			categoryCounter++;
-			payoutableAccrualCategoryRules.add(accrualRuleId);
-			accrualRuleId = request.getParameter("accrualCategory"+categoryCounter);
+			payoutableAccrualCategoryRules.add(leaveBlockId);
+			leaveBlockId = request.getParameter("accrualCategory"+categoryCounter);
 		}
 
 		//Bad.... User must be prompted for each payout that needs to be made.
@@ -285,20 +287,24 @@ public class LeavePayoutAction extends TkAction {
 			String leaveCalendarDocumentId = request.getParameter("documentId");
 			ActionForward forward = new ActionForward(mapping.findForward("basic"));
 			LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(leaveCalendarDocumentId);
-			LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(lcd.getPrincipalId(), lcd.getCalendarEntry());
+			CalendarEntries calendarEntry = lcd.getCalendarEntry();
 			
-			Date effectiveDate = TKUtils.getCurrentDate();
-			if(TKUtils.getCurrentDate().after(lcd.getCalendarEntry().getEndPeriodDate()))
-				effectiveDate = new Date(DateUtils.addMinutes(lcd.getCalendarEntry().getEndPeriodDate(),-1).getTime());
+			Interval thisEntryInterval = new Interval(calendarEntry.getBeginPeriodDate().getTime(),calendarEntry.getEndPeriodDate().getTime());
+			Date asOfDate = TKUtils.getCurrentDate();
+			if(!thisEntryInterval.contains(TKUtils.getCurrentTimestamp().getTime()))
+				asOfDate = new Date(DateUtils.addMinutes(lcd.getCalendarEntry().getEndPeriodDate(),-1).getTime());
 			
-			accrualRuleId = payoutableAccrualCategoryRules.get(0);
-			AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
-			LeaveSummaryRow payoutRow = leaveSummary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId());
-			LeavePayout leavePayout = TkServiceLocator.getLeavePayoutService().initializePayout(lcd.getPrincipalId(), accrualRuleId, payoutRow.getAccruedBalance(), effectiveDate);
+			leaveBlockId = payoutableAccrualCategoryRules.get(0);
+			LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
+			
+			LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(lcd.getPrincipalId(), lb.getLeaveDate());
+
+			LeaveSummaryRow payoutRow = leaveSummary.getLeaveSummaryRowForAccrualCtgy(lb.getAccrualCategory());
+			LeavePayout leavePayout = TkServiceLocator.getLeavePayoutService().initializePayout(lcd.getPrincipalId(), lb.getAccrualCategoryRuleId(), payoutRow.getAccruedBalance(), lb.getLeaveDate());
 			leavePayout.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
 
 			if(ObjectUtils.isNotNull(leavePayout)) {
-				AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+				AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
 				if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
 
 					//TkServiceLocator.getLeavePayoutService().submitToWorkflow(leavePayout);
@@ -343,12 +349,12 @@ public class LeavePayoutAction extends TkAction {
 
 		int categoryCounter = 0;
 		List<String> payoutableAccrualCategoryRules = new ArrayList<String>();
-		String accrualRuleId = request.getParameter("accrualCategory0");
-		while(ObjectUtils.isNotNull(accrualRuleId)) {
+		String leaveBlockId = request.getParameter("accrualCategory0");
+		while(ObjectUtils.isNotNull(leaveBlockId)) {
 			//TODO: Get rid of this loop
 			categoryCounter++;
-			payoutableAccrualCategoryRules.add(accrualRuleId);
-			accrualRuleId = request.getParameter("accrualCategory"+categoryCounter);
+			payoutableAccrualCategoryRules.add(leaveBlockId);
+			leaveBlockId = request.getParameter("accrualCategory"+categoryCounter);
 		}
 
 		//Bad.... User must be prompted for each payout that needs to be made.
@@ -358,16 +364,19 @@ public class LeavePayoutAction extends TkAction {
 			String timesheetDocumentId = request.getParameter("documentId");
 			ActionForward forward = new ActionForward(mapping.findForward("basic"));
 			TimesheetDocument tsd = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentId);
-			LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(tsd.getPrincipalId(), tsd.getCalendarEntry());
 			
 			Date effectiveDate = TKUtils.getCurrentDate();
 			if(TKUtils.getCurrentDate().after(tsd.getCalendarEntry().getEndPeriodDate()))
 				effectiveDate = new Date(DateUtils.addMinutes(tsd.getCalendarEntry().getEndPeriodDate(),-1).getTime());
+
+			leaveBlockId = payoutableAccrualCategoryRules.get(0);
+			LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
 			
-			accrualRuleId = payoutableAccrualCategoryRules.get(0);
-			AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
-			LeaveSummaryRow payoutRow = leaveSummary.getLeaveSummaryRowForAccrualCategory(accrualRule.getLmAccrualCategoryId());
-			LeavePayout leavePayout = TkServiceLocator.getLeavePayoutService().initializePayout(tsd.getPrincipalId(), accrualRuleId, payoutRow.getAccruedBalance(), effectiveDate);
+			LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(tsd.getPrincipalId(), lb.getLeaveDate());
+
+			AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
+			LeaveSummaryRow payoutRow = leaveSummary.getLeaveSummaryRowForAccrualCtgy(lb.getAccrualCategory());
+			LeavePayout leavePayout = TkServiceLocator.getLeavePayoutService().initializePayout(tsd.getPrincipalId(), lb.getAccrualCategoryRuleId(), payoutRow.getAccruedBalance(), lb.getLeaveDate());
 			leavePayout.setLeaveCalendarDocumentId(timesheetDocumentId);
 
 			if(ObjectUtils.isNotNull(leavePayout)) {

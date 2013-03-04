@@ -29,6 +29,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.accrual.AccrualCategoryRule;
+import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
@@ -95,6 +97,13 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 
 	private String transactionalDocId;
 
+	public String getAccrualCategoryRuleId() {
+		AccrualCategory category = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, leaveDate);
+		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, leaveDate);
+		AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(category, leaveDate, pha.getServiceDate());
+		return aRule.getLmAccrualCategoryRuleId();
+	}
+	
 	public static class Builder {
 
 		// required parameters for the constructor
@@ -118,7 +127,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		private Long jobNumber;
 		private Long task;
 		private String leaveBlockType;
-
+		
 		public Builder(DateTime leaveBlockDate, String documentId,
 				String principalId, String earnCode, BigDecimal leaveAmount) {
 			this.leaveDate = new java.sql.Date(leaveBlockDate.toDate()
@@ -613,5 +622,6 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	public String getTransactionalDocId() {
 		return transactionalDocId;
 	}
+
 
 }

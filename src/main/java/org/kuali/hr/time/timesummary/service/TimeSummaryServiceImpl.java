@@ -17,11 +17,14 @@ package org.kuali.hr.time.timesummary.service;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeFieldType;
+import org.joda.time.Interval;
 import org.joda.time.LocalDateTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
+import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -97,17 +100,35 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
     private List<LeaveSummaryRow> getMaxedLeaveRows(
 			CalendarEntries calendarEntry, String principalId) throws Exception {
     	List<LeaveSummaryRow> maxedLeaveRows = new ArrayList<LeaveSummaryRow>();
+    	
     	if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
-        	Map<String,ArrayList<String>> eligibilities = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(calendarEntry,principalId);
-        	Map<String,ArrayList<String>> payouts = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(calendarEntry, principalId);
-        	List<String> onDemandTransfers = eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND);
+    		
+        	Map<String,Set<LeaveBlock>> eligibilities = TkServiceLocator.getBalanceTransferService().getNewEligibleTransfers(calendarEntry,principalId);
+        	Map<String,Set<LeaveBlock>> payouts = TkServiceLocator.getLeavePayoutService().getNewEligiblePayouts(calendarEntry, principalId);
+        	Set<LeaveBlock> onDemandTransfers = eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND);
         	onDemandTransfers.addAll(payouts.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND));
+        	
+        	Interval calendarEntryInterval = new Interval(calendarEntry.getBeginPeriodDate().getTime(),calendarEntry.getEndPeriodDate().getTime());
+        	
         	if(!onDemandTransfers.isEmpty()) {
-            	LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, calendarEntry);
-            	for(LeaveSummaryRow row : summary.getLeaveSummaryRows()) {
-            		if(onDemandTransfers.contains(row.getAccrualCategoryRuleId()))
-            			maxedLeaveRows.add(row);
-            			
+        		Date asOfDate = TKUtils.getCurrentDate();
+        		if(TKUtils.getCurrentDate().after(DateUtils.addSeconds(calendarEntry.getEndPeriodDate(),-1)))
+        			asOfDate = new Date(DateUtils.addSeconds(calendarEntry.getEndPeriodDate(), -1).getTime());
+            	LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, new java.sql.Date(asOfDate.getTime()));
+            	for(LeaveBlock lb : onDemandTransfers) {
+            		Date leaveDate = lb.getLeaveDate();
+            		if(calendarEntryInterval.contains(leaveDate.getTime())) {
+            			LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCtgy(lb.getAccrualCategory());
+	            		if(row != null) {
+	            			row.setInfractingLeaveBlockId(lb.getLmLeaveBlockId());
+	            			AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
+	            			if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.TRANSFER))
+	            				row.setTransferable(true);
+	            			else if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.PAYOUT))
+	            				row.setPayoutable(true);
+	            			maxedLeaveRows.add(row);
+	            		}
+            		}
             	}
         	}
     	}
