@@ -259,14 +259,6 @@
         <field-descriptor name="versionNumber"  column="VER_NBR"         jdbc-type="BIGINT"     locking="true" />
     </class-descriptor>
 
-    <class-descriptor class="org.kuali.hr.time.timesheet.TimeSheetInitiate" table="TK_TIME_SHEET_INIT_T">
-        <field-descriptor name="tkTimeSheetInitId"      column="TK_TIME_SHEET_INIT_ID"  jdbc-type="VARCHAR" length="60" primarykey="true" autoincrement="true" sequence-name="TK_TIME_SHEET_INIT_S" />
-        <field-descriptor name="hrPyCalendarEntriesId"  column="PY_CALENDAR_ENTRIES_ID" jdbc-type="VARCHAR" length="60" primarykey="false" />
-        <field-descriptor name="principalId"            column="PRINCIPAL_ID"           jdbc-type="VARCHAR" length="40" primarykey="false" />
-        <field-descriptor name="documentId"             column="DOCUMENT_ID"            jdbc-type="VARCHAR" length="14" primarykey="false" />
-        <field-descriptor name="pyCalendarGroup"        column="PY_CALENDAR_GROUP"      jdbc-type="VARCHAR" length="30" nullable="true" primarykey="false" />
-    </class-descriptor>
-
     <class-descriptor class="org.kuali.hr.time.earncode.EarnCode" table="HR_EARN_CODE_T">
         <field-descriptor name="hrEarnCodeId"                   column="HR_EARN_CODE_ID"            jdbc-type="VARCHAR"     length="60"  primarykey="true" autoincrement="true" sequence-name="HR_EARN_CODE_S" />
         <field-descriptor name="earnCode"                       column="EARN_CODE"                  jdbc-type="VARCHAR"     length="15" nullable="false" primarykey="true" />

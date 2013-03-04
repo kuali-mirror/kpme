@@ -31,11 +31,12 @@
 <td class="content" valign="top">
     <admin:inquiries />
     <admin:changeTargetPerson />
-    <admin:deleteTimesheet />
-    <admin:calculateLeaveAccruals />
+    <admin:calendarEntry />
+    <admin:initiateDocument />
+    <admin:deleteDocument />
 </td>
 <td class="content" valign="top">
     <admin:batchJob />
     <admin:carryOverBatchJob />
-    <admin:calendarEntry />
+    <admin:calculateLeaveAccruals />
 </td>

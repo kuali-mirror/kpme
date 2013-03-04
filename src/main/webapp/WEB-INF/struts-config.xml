@@ -27,6 +27,7 @@
         <!-- Rice content End -->
         
         <form-bean name="ChangeTargetPersonForm" type="org.kuali.hr.time.admin.web.ChangeTargetPersonForm"/>
+        <form-bean name="InitiateDocumentForm" type="org.kuali.hr.time.admin.web.InitiateDocumentForm"/>
         <form-bean name="DeleteDocumentForm" type="org.kuali.hr.time.admin.web.DeleteDocumentForm"/>
         <form-bean name="CalculateLeaveAccrualsForm" type="org.kuali.hr.time.admin.web.CalculateLeaveAccrualsForm"/>
         <form-bean name="BatchJobActionForm" type="org.kuali.hr.time.batch.web.BatchJobActionForm"/>
@@ -104,6 +105,10 @@
         <!-- Rice content End -->
         
         <action path="/changeTargetPerson" name="ChangeTargetPersonForm" type="org.kuali.hr.time.admin.web.ChangeTargetPersonAction">
+            <forward name="basic" path="/portal.jsp"/>
+        </action>
+        
+        <action path="/initiateDocument" name="InitiateDocumentForm" type="org.kuali.hr.time.admin.web.InitiateDocumentAction">
             <forward name="basic" path="/portal.jsp"/>
         </action>
         
