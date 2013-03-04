@@ -24,6 +24,7 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDateTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
+import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
@@ -37,6 +38,7 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
@@ -107,27 +109,33 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         	Map<String,Set<LeaveBlock>> payouts = TkServiceLocator.getLeavePayoutService().getNewEligiblePayouts(calendarEntry, principalId);
         	Set<LeaveBlock> onDemandTransfers = eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND);
         	onDemandTransfers.addAll(payouts.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND));
-        	
+        	PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, TKUtils.getCurrentDate());
+
         	Interval calendarEntryInterval = new Interval(calendarEntry.getBeginPeriodDate().getTime(),calendarEntry.getEndPeriodDate().getTime());
         	
         	if(!onDemandTransfers.isEmpty()) {
-        		Date asOfDate = TKUtils.getCurrentDate();
-        		if(TKUtils.getCurrentDate().after(DateUtils.addSeconds(calendarEntry.getEndPeriodDate(),-1)))
-        			asOfDate = new Date(DateUtils.addSeconds(calendarEntry.getEndPeriodDate(), -1).getTime());
-            	LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, new java.sql.Date(asOfDate.getTime()));
             	for(LeaveBlock lb : onDemandTransfers) {
             		Date leaveDate = lb.getLeaveDate();
-            		if(calendarEntryInterval.contains(leaveDate.getTime())) {
-            			LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCtgy(lb.getAccrualCategory());
-	            		if(row != null) {
+                	LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, new java.sql.Date(DateUtils.addDays(leaveDate, 1).getTime()));
+                	LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCtgy(lb.getAccrualCategory());
+            		if(row != null) {
+            			AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(row.getAccrualCategoryId());
+                    	AccrualCategoryRule currentRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, TKUtils.getCurrentDate(), pha.getServiceDate());
+/*                    	if(StringUtils.equals(lb.getAccrualCategoryRuleId(),currentRule.getLmAccrualCategoryRuleId())
+                    			&& calendarEntryInterval.contains(leaveDate.getTime())) {*/
+                    	if(calendarEntryInterval.contains(leaveDate.getTime())) {
+                    		//do not allow the on-demand max balance action if the rule the action occurs under is no longer in effect,
+                    		//or if the infraction did not occur within this interval. ( if it occurred during the previous interval, 
+                    		//the employee will have the option to take action in that interval up to & including the end date of that interval. )
 	            			row.setInfractingLeaveBlockId(lb.getLmLeaveBlockId());
 	            			AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
+	            			
 	            			if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.TRANSFER))
 	            				row.setTransferable(true);
 	            			else if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.PAYOUT))
 	            				row.setPayoutable(true);
 	            			maxedLeaveRows.add(row);
-	            		}
+                    	}
             		}
             	}
         	}

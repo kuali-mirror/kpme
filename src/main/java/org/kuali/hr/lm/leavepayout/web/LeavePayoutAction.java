@@ -102,7 +102,7 @@ public class LeavePayoutAction extends TkAction {
 			// if submitting a delinquent calendar, use the calendar's end period date for the effective date.
 			// could adjust the end period date by subtracting a day so that the leave blocks appear on the month in question.
 			
-			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(leavePayout.getPrincipalId(), leavePayout.getEffectiveDate());
+			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(leavePayout.getPrincipalId(), new java.sql.Date(DateUtils.addDays(leavePayout.getEffectiveDate(),1).getTime()));
 			LeaveSummaryRow payoutRow = ls.getLeaveSummaryRowForAccrualCategory(accrualRule.getLmAccrualCategoryId());
 			LeavePayout defaultBT = TkServiceLocator.getLeavePayoutService().initializePayout(leavePayout.getPrincipalId(), accrualRuleId, payoutRow.getAccruedBalance(), leavePayout.getEffectiveDate());
 			if(leavePayout.getPayoutAmount().compareTo(defaultBT.getPayoutAmount()) != 0) {
@@ -222,8 +222,8 @@ public class LeavePayoutAction extends TkAction {
 					Date effectiveDate = TKUtils.getCurrentDate();
 					if(TKUtils.getCurrentDate().after(calendarEntry.getEndPeriodDate()))
 						effectiveDate = new Date(DateUtils.addMinutes(calendarEntry.getEndPeriodDate(),-1).getTime());
-					
-					LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, lb.getLeaveDate());
+
+					LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, new java.sql.Date(DateUtils.addDays(lb.getLeaveDate(),1).getTime()));
 					LeaveSummaryRow payoutRow = ls.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId());
 					LeavePayout leavePayout = TkServiceLocator.getLeavePayoutService().initializePayout(principalId, lb.getAccrualCategory(), payoutRow.getAccruedBalance(), lb.getLeaveDate());
 					leavePayout.setLeaveCalendarDocumentId(documentId);
@@ -297,7 +297,7 @@ public class LeavePayoutAction extends TkAction {
 			leaveBlockId = payoutableAccrualCategoryRules.get(0);
 			LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
 			
-			LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(lcd.getPrincipalId(), lb.getLeaveDate());
+			LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(lcd.getPrincipalId(), new java.sql.Date(DateUtils.addDays(lb.getLeaveDate(),1).getTime()));
 
 			LeaveSummaryRow payoutRow = leaveSummary.getLeaveSummaryRowForAccrualCtgy(lb.getAccrualCategory());
 			LeavePayout leavePayout = TkServiceLocator.getLeavePayoutService().initializePayout(lcd.getPrincipalId(), lb.getAccrualCategoryRuleId(), payoutRow.getAccruedBalance(), lb.getLeaveDate());
@@ -372,7 +372,7 @@ public class LeavePayoutAction extends TkAction {
 			leaveBlockId = payoutableAccrualCategoryRules.get(0);
 			LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
 			
-			LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(tsd.getPrincipalId(), lb.getLeaveDate());
+			LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(tsd.getPrincipalId(), new java.sql.Date(DateUtils.addDays(lb.getLeaveDate(),1).getTime()));
 
 			AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
 			LeaveSummaryRow payoutRow = leaveSummary.getLeaveSummaryRowForAccrualCtgy(lb.getAccrualCategory());

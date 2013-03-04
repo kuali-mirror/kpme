@@ -83,7 +83,6 @@ public class LeaveCalendarSubmitAction extends TkAction {
         		Map<String,Set<LeaveBlock>> eligibilities = TkServiceLocator.getBalanceTransferService().getNewEligibleTransfers(document.getCalendarEntry(), document.getPrincipalId());
         		List<LeaveBlock> eligibleTransfers = new ArrayList<LeaveBlock>();
         		eligibleTransfers.addAll(eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE));
-        		eligibleTransfers.addAll(eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END));
     			if(!eligibleTransfers.isEmpty()) {
 					Collections.sort(eligibleTransfers, new Comparator() {
 						
@@ -100,8 +99,37 @@ public class LeaveCalendarSubmitAction extends TkAction {
             		ActionRedirect redirect = new ActionRedirect();
             		Interval interval = new Interval(document.getCalendarEntry().getBeginPeriodDate().getTime(), document.getCalendarEntry().getEndPeriodDate().getTime());
             		for(LeaveBlock lb : eligibleTransfers) {
+            			//leave approve frequency max balance actions cannot happen without a leave block existing on the current
+            			//calendar that exceeds the balance limit.
+            			//the max balance action shall be handled within the calendar that contains the leave block!
             			if(interval.contains(lb.getLeaveDate().getTime()))
             				sb.append("&accrualCategory"+categoryCounter+"="+lb.getLmLeaveBlockId());
+            		}
+            		if(!StringUtils.isEmpty(sb.toString())) {
+	            		redirect.setPath("/BalanceTransfer.do?"+request.getQueryString()+sb.toString());
+	            		return redirect;
+            		}
+    			}
+        		eligibleTransfers.clear();
+        		eligibleTransfers.addAll(eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END));
+    			if(!eligibleTransfers.isEmpty()) {
+					Collections.sort(eligibleTransfers, new Comparator() {
+						
+						@Override
+						public int compare(Object o1, Object o2) {
+							LeaveBlock l1 = (LeaveBlock) o1;
+							LeaveBlock l2 = (LeaveBlock) o2;
+							return l1.getLeaveDate().compareTo(l2.getLeaveDate());
+						}
+						
+					});
+            		int categoryCounter = 0;
+    				StringBuilder sb = new StringBuilder();
+            		ActionRedirect redirect = new ActionRedirect();
+            		for(LeaveBlock lb : eligibleTransfers) {
+            			//year end transfers are not dependent on whether or not the most recent leave block that exceeded the limit
+            			//is contained within the calendar interval.
+           				sb.append("&accrualCategory"+categoryCounter+"="+lb.getLmLeaveBlockId());
             		}
             		if(!StringUtils.isEmpty(sb.toString())) {
 	            		redirect.setPath("/BalanceTransfer.do?"+request.getQueryString()+sb.toString());
@@ -111,7 +139,6 @@ public class LeaveCalendarSubmitAction extends TkAction {
         		eligibilities = TkServiceLocator.getLeavePayoutService().getNewEligiblePayouts(document.getCalendarEntry(),document.getPrincipalId());
         		List<LeaveBlock> eligiblePayouts = new ArrayList<LeaveBlock>();
         		eligiblePayouts.addAll(eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE));
-        		eligiblePayouts.addAll(eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END));
     			if(!eligiblePayouts.isEmpty()) {
 					Collections.sort(eligiblePayouts, new Comparator() {
 						
@@ -128,8 +155,37 @@ public class LeaveCalendarSubmitAction extends TkAction {
             		ActionRedirect redirect = new ActionRedirect();
             		Interval interval = new Interval(document.getCalendarEntry().getBeginPeriodDate().getTime(), document.getCalendarEntry().getEndPeriodDate().getTime());
             		for(LeaveBlock lb : eligiblePayouts) {
+            			//leave approve frequency max balance actions cannot happen without a leave block existing on the current
+            			//calendar that exceeds the balance limit.
+            			//the max balance action shall be handled within the calendar that contains the leave block!
             			if(interval.contains(lb.getLeaveDate().getTime()))
             				sb.append("&accrualCategory"+categoryCounter+"="+lb.getLmLeaveBlockId());
+            		}
+            		if(!StringUtils.isEmpty(sb.toString())) {
+	            		redirect.setPath("/LeavePayout.do?"+request.getQueryString()+sb.toString());
+	            		return redirect;
+            		}
+    			}
+    			eligiblePayouts.clear();
+        		eligiblePayouts.addAll(eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END));
+    			if(!eligiblePayouts.isEmpty()) {
+					Collections.sort(eligiblePayouts, new Comparator() {
+						
+						@Override
+						public int compare(Object o1, Object o2) {
+							LeaveBlock l1 = (LeaveBlock) o1;
+							LeaveBlock l2 = (LeaveBlock) o2;
+							return l1.getLeaveDate().compareTo(l2.getLeaveDate());
+						}
+						
+					});
+    				int categoryCounter = 0;
+            		StringBuilder sb = new StringBuilder();
+            		ActionRedirect redirect = new ActionRedirect();
+            		for(LeaveBlock lb : eligiblePayouts) {
+            			//year end transfers are not dependent on whether or not the most recent leave block that exceeded the limit
+            			//is contained within the calendar interval.
+            			sb.append("&accrualCategory"+categoryCounter+"="+lb.getLmLeaveBlockId());
             		}
             		if(!StringUtils.isEmpty(sb.toString())) {
 	            		redirect.setPath("/LeavePayout.do?"+request.getQueryString()+sb.toString());

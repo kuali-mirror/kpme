@@ -30,6 +30,7 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -535,9 +536,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 	//getMaxBalanceViolations...
 	@Override
 	public Map<String,Set<LeaveBlock>> getNewEligibleTransfers(CalendarEntries calendarEntry, String principalId) throws Exception {
-		//Employee override check here, or return base-eligible accrual categories,
-		//filtering out those that have increased balance limits due to employee override in caller?
-		//null check inserted to fix LeaveCalendarWebTest failures on kpme-trunk-build-unit #2069	
+
 		Map<String, Set<LeaveBlock>> newEligibilities = new HashMap<String,Set<LeaveBlock>>();		
 		newEligibilities.put(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE, new HashSet<LeaveBlock>());
 		newEligibilities.put(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END, new HashSet<LeaveBlock>());
@@ -586,15 +585,17 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 
 									BigDecimal fte = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, TKUtils.getCurrentDate());
 									BigDecimal adjustedMaxBalance = maxBalance.multiply(fte);
+									
 									BigDecimal maxAnnualCarryOver = null;
 									if(ObjectUtils.isNotNull(asOfLeaveDateRule.getMaxCarryOver()))
 										maxAnnualCarryOver = new BigDecimal(asOfLeaveDateRule.getMaxCarryOver());
+									
 									BigDecimal adjustedMaxAnnualCarryOver = null;
 									if(ObjectUtils.isNotNull(maxAnnualCarryOver)) {
 										adjustedMaxAnnualCarryOver = maxAnnualCarryOver.multiply(fte);
 	                                }
-										
-									List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, TKUtils.getCurrentDate());
+									
+									List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, lb.getLeaveDate());
 									for(EmployeeOverride override : overrides) {
 										if(StringUtils.equals(override.getAccrualCategory(),accrualCategory.getAccrualCategory())) {
 											if(StringUtils.equals(override.getOverrideType(),"MB")) {
@@ -611,29 +612,22 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 									//allow institutions to extend/customize/implement their own max_bal_action_frequency types.
 									if(StringUtils.equals(asOfLeaveDateRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
 										//For year end transfer frequencies...
-										//Should use an "asOfDate" or effective date for principalHRAttributes. If getting eligibilities for a past calendar,
-										//pha may not be the same.
-										LeavePlan lp = TkServiceLocator.getLeavePlanService().getLeavePlan(pha.getLeavePlan(),TKUtils.getCurrentDate());
-										StringBuilder sb = new StringBuilder("");
-										String calendarYearStart = lp.getCalendarYearStart();
-										// mm/dd
-										sb.append(calendarYearStart+"/");
-										if(lp.getCalendarYearStartMonth().equals("01") && calendarEntry.getBeginPeriodDate().getMonth() == 11) {
-											//a calendar may start on 01/15, with monthly intervals.
-											//calendarEntry.beginPeriodDate.year = calendarYearStart.year - 1
-											sb.append(DateUtils.toCalendar(DateUtils.addYears(calendarEntry.getBeginPeriodDate(),1)).get(Calendar.YEAR));
-										}
-										else {
-											sb.append(DateUtils.toCalendar(calendarEntry.getBeginPeriodDateTime()).get(Calendar.YEAR));
-	                                    }
-										//if the calendar being submitted is the final calendar in the leave plans calendar year.
-										//must check the calendar year start month. If its the first month of the year, add a year to the date.
-										//otherwise, the end period date and the calendar year start date have the same year.
-										if(thisEntryInterval.contains(DateUtils.addDays(TKUtils.formatDateString(sb.toString()),-1).getTime())) {
-											//BigDecimal accruedBalanceLessPendingTransfers = lsr.getAccruedBalance().add(adjustment);
-											if(tally.compareTo(adjustedMaxBalance) > 0 ||
+										DateTime leavePlanRollOver = TkServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(pha.getLeavePlan(), lb.getLeaveDate());
+										if(thisEntryInterval.getStart().equals(leavePlanRollOver.minusDays(1))
+												|| thisEntryInterval.getEnd().equals(leavePlanRollOver.minusDays(1))
+												|| (thisEntryInterval.getStart().isBefore(leavePlanRollOver.minusDays(1))
+														&& thisEntryInterval.getEnd().isAfter(leavePlanRollOver.minusDays(1)))) {
+											//this calendar interval contains the last day of the leave plan.
+											//if the accrual category rule in effect at the infraction's leave date is the same as
+											//the one in effect as of the leave plan roll-over date, the max balance action should be triggered.
+											//calendar's aren't allowed to be submitted until the last day of the period.
+											//if the service interval changes mid-period, year-end transfer should occur, followed
+											//by any max balance infractions found within the second service interval of the calendar.
+											AccrualCategoryRule rollOverRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, leavePlanRollOver.minusDays(1).toDate(), pha.getServiceDate());
+											if((tally.compareTo(adjustedMaxBalance) > 0 ||
 													(ObjectUtils.isNotNull(adjustedMaxAnnualCarryOver) &&
-													tally.compareTo(adjustedMaxAnnualCarryOver) > 0)) {
+													tally.compareTo(adjustedMaxAnnualCarryOver) > 0))
+													&& StringUtils.equals(rollOverRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())){
 												//The leave amount of lb, when added to the accrued balance as of the leave date, exceeds the max balance
 												// ( or max annual carryover ).
 												if(newEligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).isEmpty()) {

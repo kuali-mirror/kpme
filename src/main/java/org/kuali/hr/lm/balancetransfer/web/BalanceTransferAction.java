@@ -105,7 +105,7 @@ public class BalanceTransferAction extends TkAction {
 			// if submitting a delinquent calendar, use the calendar's end period date for the effective date.
 			// could adjust the end period date by subtracting a day so that the leave blocks appear on the month in question.
 			
-			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(balanceTransfer.getPrincipalId(), balanceTransfer.getEffectiveDate());
+			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(balanceTransfer.getPrincipalId(), new java.sql.Date(DateUtils.addDays(balanceTransfer.getEffectiveDate(),1).getTime()));
 			LeaveSummaryRow transferRow = ls.getLeaveSummaryRowForAccrualCategory(accrualRule.getLmAccrualCategoryId());
 			BalanceTransfer defaultBT = TkServiceLocator.getBalanceTransferService().initializeTransfer(balanceTransfer.getPrincipalId(), accrualRuleId, transferRow.getAccruedBalance(), balanceTransfer.getEffectiveDate());
 			if(balanceTransfer.getTransferAmount().compareTo(defaultBT.getTransferAmount()) != 0) {
@@ -227,7 +227,7 @@ public class BalanceTransferAction extends TkAction {
 					if(TKUtils.getCurrentDate().after(DateUtils.addSeconds(calendarEntry.getEndPeriodDate(),-1)))
 						effectiveDate = new Date(DateUtils.addSeconds(calendarEntry.getEndPeriodDate(),-1).getTime());
 
-					LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, lb.getLeaveDate());
+					LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, new java.sql.Date(DateUtils.addDays(lb.getLeaveDate(),1).getTime()));
 					LeaveSummaryRow transferRow = ls.getLeaveSummaryRowForAccrualCtgy(lb.getAccrualCategory());
 					BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(principalId, aRule.getLmAccrualCategoryRuleId(), transferRow.getAccruedBalance(), lb.getLeaveDate());
 					balanceTransfer.setLeaveCalendarDocumentId(documentId);
@@ -298,7 +298,7 @@ public class BalanceTransferAction extends TkAction {
 			
 			leaveBlockId = transferableAccrualCategoryRules.get(0);
 			LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);			
-			LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(lcd.getPrincipalId(), lb.getLeaveDate());
+			LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(lcd.getPrincipalId(), new java.sql.Date(DateUtils.addDays(lb.getLeaveDate(),1).getTime()));
 
 			LeaveSummaryRow transferRow = leaveSummary.getLeaveSummaryRowForAccrualCtgy(lb.getAccrualCategory());
 			BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(lcd.getPrincipalId(), lb.getAccrualCategoryRuleId(), transferRow.getAccruedBalance(), lb.getLeaveDate());
@@ -378,7 +378,7 @@ public class BalanceTransferAction extends TkAction {
 			
 			leaveBlockId = transferableAccrualCategoryRules.get(0);
 			LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
-			LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(tsd.getPrincipalId(), lb.getLeaveDate());
+			LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(tsd.getPrincipalId(), new java.sql.Date(DateUtils.addDays(lb.getLeaveDate(),1).getTime()));
 			LeaveSummaryRow transferRow = leaveSummary.getLeaveSummaryRowForAccrualCtgy(lb.getAccrualCategory());
 			BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(tsd.getPrincipalId(), lb.getAccrualCategoryRuleId(), transferRow.getAccruedBalance(), lb.getLeaveDate());
 			balanceTransfer.setLeaveCalendarDocumentId(timesheetDocumentId);
