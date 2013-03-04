@@ -58,6 +58,18 @@ public interface LeaveBlockService {
      * @return List of LeaveBlocks
      */
     public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, Date currentDate);
+
+    /**
+     *
+     * @param principalId
+     * @param leaveBlockType
+     * @param requestStatus
+     * @param beginDate
+     * @param endDate
+     * @return List of LeaveBlocks
+     */
+    public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, Date beginDate, Date endDate);
+
     /**
      * Get the list of leave blocks from the given leaveDate for the principalId
      * @param principalId

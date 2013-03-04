@@ -25,6 +25,8 @@ import org.kuali.hr.time.base.web.TkForm;
 
 public class LeaveRequestForm extends TkForm {
 
+    private int year;
+    private String navString;
 	private List<LeaveBlock> plannedLeaves;
 	private List<LeaveBlock> pendingLeaves;
 	private List<LeaveBlock> approvedLeaves;
@@ -70,5 +72,22 @@ public class LeaveRequestForm extends TkForm {
     public void setDocuments(Map<String, LeaveRequestDocument> documents) {
         this.documents = documents;
     }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public String getNavString() {
+        return navString;
+    }
+
+    public void setNavString(String navString) {
+        this.navString = navString;
+    }
+
 
 }

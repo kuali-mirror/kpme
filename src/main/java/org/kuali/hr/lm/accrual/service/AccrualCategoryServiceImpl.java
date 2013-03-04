@@ -152,7 +152,7 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 			AccrualCategory accrualCategory, Date asOfDate) {
 
 //		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
-//		CalendarEntries entries = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(pha.getCalendar().getHrCalendarId(), asOfDate);
+//		CalendarEntries entries = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByCalendarIdAndDateRange(pha.getCalendar().getHrCalendarId(), asOfDate);
 //		LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, entries);
 		return new BigDecimal(0);
 	}

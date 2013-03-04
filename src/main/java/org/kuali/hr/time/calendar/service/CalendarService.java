@@ -53,6 +53,17 @@ public interface CalendarService {
 	public CalendarEntries getCurrentCalendarDates(String principalId, Date currentDate);
 
     /**
+     * Use this method to get CalendarEntries if you are passing in a date range
+     *  ie being/end of a year.
+     *
+     * @param principalId
+     * @param beginDate
+     * @param endDate
+     * @return
+     */
+    public CalendarEntries getCurrentCalendarDates(String principalId, Date beginDate, Date endDate);
+
+    /**
      * A method to use specifically when you have a Timesheet Documents Pay Period
      * end date. Do not use if you are passing in a date known not to be the END period date.
      *
@@ -79,6 +90,25 @@ public interface CalendarService {
 	 * @return
 	 */
 	public Calendar getCalendarByPrincipalIdAndDate(String principalId, Date asOfDate, boolean findLeaveCal);
+
+    /**
+     * Fetch a pay calendar with the given principalId, begin and end date, returns null if none found
+     * @param principalId
+     * @param beginDate
+     * @param endDate
+     * @return
+     */
+    public Calendar getCalendarByPrincipalIdAndDate(String principalId, Date beginDate, Date endDate, boolean findLeaveCal);
+
+    /**
+     *
+     * @param principalId
+     * @param beginDate
+     * @param endDate
+     * @return
+     */
+    @Cacheable(value= Calendar.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'beginDate=' + #p1 + '|' + 'endDate=' + #p2")
+    public CalendarEntries getCurrentCalendarDatesForLeaveCalendar(String principalId, Date beginDate, Date endDate);
 
 	/**
 	 * 

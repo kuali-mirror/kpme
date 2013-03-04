@@ -46,6 +46,12 @@ public class CalendarEntriesServiceImpl implements CalendarEntriesService {
     }
 
     @Override
+    public CalendarEntries getCalendarEntriesByCalendarIdAndDateRange(
+            String hrCalendarId, Date beginDate, Date endDate) {
+        return calendarEntriesDao.getCalendarEntriesByCalendarIdAndDateRange(hrCalendarId, beginDate, endDate);
+    }
+
+    @Override
     public CalendarEntries getCurrentCalendarEntriesByCalendarId(
             String hrCalendarId, Date currentDate) {
         return calendarEntriesDao.getCurrentCalendarEntriesByCalendarId(hrCalendarId, currentDate);
