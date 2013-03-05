@@ -3,6 +3,7 @@ package org.kuali.hr.pm.service.base;
 import org.kuali.hr.pm.institution.service.InstitutionService;
 import org.kuali.hr.pm.positionreportcat.service.PositionReportCatService;
 import org.kuali.hr.pm.positionreportgroup.service.PositionReportGroupService;
+import org.kuali.hr.pm.positionreportsubcat.service.PositionReportSubCatService;
 import org.kuali.hr.pm.positionreporttype.service.PositionReportTypeService;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -15,6 +16,7 @@ public class PmServiceLocator implements ApplicationContextAware {
     public static final String PM_POSITION_REPORT_TYPE_SERVICE = "positionReportTypeService";
     public static final String PM_POSITION_REPORT_GROUP_SERVICE = "positionReportGroupService";
     public static final String PM_POSITION_REPORT_CAT_SERVICE = "positionReportCatService";
+    public static final String PM_POSITION_REPORT_SUB_CAT_SERVICE = "positionReportSubCatService";
     
     public static InstitutionService getInstitutionService() {
     	return (InstitutionService) CONTEXT.getBean(PM_INSTITUTION_SERVICE);
@@ -32,6 +34,9 @@ public class PmServiceLocator implements ApplicationContextAware {
     	return (PositionReportCatService) CONTEXT.getBean(PM_POSITION_REPORT_CAT_SERVICE);
     }
     
+    public static PositionReportSubCatService getPositionReportSubCatService() {
+    	return (PositionReportSubCatService) CONTEXT.getBean(PM_POSITION_REPORT_SUB_CAT_SERVICE);
+    }
     
 	@Override
 	public void setApplicationContext(ApplicationContext arg0)

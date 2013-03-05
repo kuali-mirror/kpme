@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.pm.institution.Institution;
+import org.kuali.hr.pm.positionreportcat.PositionReportCategory;
 import org.kuali.hr.pm.positionreporttype.PositionReportType;
 import org.kuali.hr.pm.service.base.PmServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
@@ -123,5 +124,21 @@ public class PmValidationUtils {
 		} 
 		return false;
 	}
+	
+	/**
+	 * Validate if there exists Position Report Category that matches given postionReportCat and exists before given date 
+	 * @param positionReportCat
+	 * @param asOfDate
+	 * @return
+	 */
+	public static boolean validatePositionReportCategory(String positionReportCat, Date asOfDate) {
+		boolean valid = false;
+		if (StringUtils.isNotEmpty(positionReportCat) && asOfDate != null) {
+			PositionReportCategory prc = PmServiceLocator.getPositionReportCatService().getPositionReportCatByCatAndDate(positionReportCat, asOfDate);
+			valid = (prc != null);
+		}
+		return valid;
+	}
+	
 	
 }

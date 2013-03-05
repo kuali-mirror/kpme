@@ -16,7 +16,7 @@ public class PositionReportGroupValidation extends MaintenanceDocumentRuleBase  
 		
 		if (prg != null) {
 			valid = true;
-//				valid &= this.validateInstitution(prg);
+			valid &= this.validateInstitution(prg);
 			valid &= this.validateCampus(prg);
 		}
 		return valid;

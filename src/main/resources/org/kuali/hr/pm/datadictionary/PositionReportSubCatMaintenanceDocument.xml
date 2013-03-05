@@ -25,32 +25,33 @@
                            http://rice.kuali.org/dd
                            http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="PositionReportCatMaintenanceDocument" parent="PositionReportCatMaintenanceDocument-parentBean"/>
+  <bean id="PositionReportSubCatMaintenanceDocument" parent="PositionReportSubCatMaintenanceDocument-parentBean"/>
 
-  <bean id="PositionReportCatMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
-  		p:businessObjectClass="org.kuali.hr.pm.positionreportcat.PositionReportCategory"
-  		p:businessRulesClass="org.kuali.hr.pm.positionreportcat.validation.PositionReportCatValidation"
-  		p:maintainableClass="org.kuali.hr.pm.positionreportcat.service.PositionReportCatMaintainableImpl"
+  <bean id="PositionReportSubCatMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
+  		p:businessObjectClass="org.kuali.hr.pm.positionreportsubcat.PositionReportSubCategory"
+  		p:businessRulesClass="org.kuali.hr.pm.positionreportsubcat.validation.PositionReportSubCatValidation"
+  		p:maintainableClass="org.kuali.hr.pm.positionreportsubcat.service.PositionReportSubCatMaintainableImpl"
   		p:documentAuthorizerClass="org.kuali.hr.time.authorization.DepartmentAdminAuthorizer">
     <property name="maintainableSections">
       <list>
-        <ref bean="PositionReportCatMaintenanceDocument-PositionReportCatMaintenance"/>
+        <ref bean="PositionReportSubCatMaintenanceDocument-PositionReportSubCatMaintenance"/>
       </list>
     </property>
-    <property name="documentTypeName" value="PositionReportCatMaintenanceDocumentType"/>
+    <property name="documentTypeName" value="PositionReportSubCatMaintenanceDocumentType"/>
   </bean>
 
   <!-- Maintenance Section Definitions -->
 
-  <bean id="PositionReportCatMaintenanceDocument-PositionReportCatMaintenance" parent="PositionReportCatMaintenanceDocument-PositionReportCatMaintenance-parentBean"/>
+  <bean id="PositionReportSubCatMaintenanceDocument-PositionReportSubCatMaintenance" parent="PositionReportSubCatMaintenanceDocument-PositionReportSubCatMaintenance-parentBean"/>
 
-  <bean id="PositionReportCatMaintenanceDocument-PositionReportCatMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="title" value="PositionReportCategory Maintenance"/>
+  <bean id="PositionReportSubCatMaintenanceDocument-PositionReportSubCatMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+    <property name="title" value="PositionReportSubCategory Maintenance"/>
     <property name="maintainableItems">
       <list>
       	<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
-      	<bean parent="MaintainableFieldDefinition" p:name="positionReportCat" p:required="true"/>
+      	<bean parent="MaintainableFieldDefinition" p:name="positionReportSubCat" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="description" p:required="false"/>
+        <bean parent="MaintainableFieldDefinition" p:name="positionReportCat" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="positionReportType" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="institution" p:required="true"/>
         <bean parent="MaintainableFieldDefinition" p:name="campus" p:required="true" />

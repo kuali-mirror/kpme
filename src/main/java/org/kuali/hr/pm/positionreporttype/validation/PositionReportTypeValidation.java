@@ -16,7 +16,7 @@ public class PositionReportTypeValidation extends MaintenanceDocumentRuleBase  {
 		
 		if (prt != null) {
 			valid = true;
-//				valid &= this.validateInstitution(prt);
+			valid &= this.validateInstitution(prt);
 			valid &= this.validateCampus(prt);
 		}
 		return valid;

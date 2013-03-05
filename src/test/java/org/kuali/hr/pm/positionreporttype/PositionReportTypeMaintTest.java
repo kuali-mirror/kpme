@@ -68,17 +68,17 @@ public class PositionReportTypeMaintTest extends KPMETestCase {
 	  	HtmlElement element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
 	  	HtmlUnitUtil.createTempFile(page);
-//		Assert.assertTrue("page text contains:\n" + "The specified Instituion 'nonExistInst' does not exist.", 
-//	  			page.asText().contains("The specified Instituion 'nonExistInst' does not exist."));
+		Assert.assertTrue("page text contains:\n" + "The specified Instituion 'nonExistInst' does not exist.", 
+	  			page.asText().contains("The specified Instituion 'nonExistInst' does not exist."));
 	  	Assert.assertTrue("page text contains:\n" + "The specified Campus 'nonCam' does not exist.", 
 	  			page.asText().contains("The specified Campus 'nonCam' does not exist."));
 	  	  	
-//	  	setFieldValue(page, "document.newMaintainableObject.institution", "testInst"); // existing institution
-//	  	element = page.getElementByName("methodToCall.route");
-//	  	page = element.click();
-//	  	Assert.assertFalse("page text contains:\n" + "The specified Instituion 'testInst' does not exist.", 
-//	  			page.asText().contains("The specified Instituion 'testInst' does not exist."));
-//	  	
+	  	setFieldValue(page, "document.newMaintainableObject.institution", "testInst"); // existing institution
+	  	element = page.getElementByName("methodToCall.route");
+	  	page = element.click();
+	  	Assert.assertFalse("page text contains:\n" + "The specified Instituion 'testInst' does not exist.", 
+	  			page.asText().contains("The specified Instituion 'testInst' does not exist."));
+	  	
 	  	setFieldValue(page, "document.newMaintainableObject.campus", "TS"); // existing campus
 	  	element = page.getElementByName("methodToCall.route");
 	  	page = element.click();

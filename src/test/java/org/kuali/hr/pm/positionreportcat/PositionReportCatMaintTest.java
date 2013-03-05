@@ -73,24 +73,25 @@ public class PositionReportCatMaintTest extends KPMETestCase {
 	  	HtmlUnitUtil.createTempFile(page);
 	  	Assert.assertTrue("page text contains:\n" + "The specified Position Report Type 'noType' does not exist.", 
 	  			page.asText().contains("The specified Position Report Type 'noType' does not exist."));
-//		Assert.assertTrue("page text contains:\n" + "The specified Instituion 'nonExistInst' does not exist.", 
-//	  			page.asText().contains("The specified Instituion 'nonExistInst' does not exist."));
+		Assert.assertTrue("page text contains:\n" + "The specified Instituion 'nonExistInst' does not exist.", 
+	  			page.asText().contains("The specified Instituion 'nonExistInst' does not exist."));
 	  	Assert.assertTrue("page text contains:\n" + "The specified Campus 'nonCam' does not exist.", 
 	  			page.asText().contains("The specified Campus 'nonCam' does not exist."));
-	  	  	
-//	  	setFieldValue(page, "document.newMaintainableObject.institution", "testInst"); // existing institution
-//	  	element = page.getElementByName("methodToCall.route");
-//	  	page = element.click();
-//	  	Assert.assertFalse("page text contains:\n" + "The specified Instituion 'testInst' does not exist.", 
-//	  			page.asText().contains("The specified Instituion 'testInst' does not exist."));
-//	  	
+	  	
 	  	setFieldValue(page, "document.newMaintainableObject.positionReportType", "testPRT"); // postionReportType and campus do not match
-	  	setFieldValue(page, "document.newMaintainableObject.campus", "NN"); // existing campus
+	  	setFieldValue(page, "document.newMaintainableObject.campus", "NN"); // existing, non-matching campus
 	  	element = page.getElementByName("methodToCall.route");
 	  	page = element.click();
 	  	Assert.assertTrue("page text contains:\n" + "There's no Property Report Type 'testPRT' found with campus 'NN'.", 
 	  			page.asText().contains("There's no Property Report Type 'testPRT' found with campus 'NN'."));
 	  	
+	  	setFieldValue(page, "document.newMaintainableObject.institution", "II"); // existing, non-matching institution
+	  	element = page.getElementByName("methodToCall.route");
+	  	page = element.click();
+	  	Assert.assertTrue("page text contains:\n" + "There's no Property Report Type 'testPRT' found with institution 'II'.", 
+	  			page.asText().contains("There's no Property Report Type 'testPRT' found with institution 'II'."));
+	  	
+	  	setFieldValue(page, "document.newMaintainableObject.institution", "testInst"); // matching institution	  	
 	  	setFieldValue(page, "document.newMaintainableObject.campus", "TS"); // matching campus
 	  	element = page.getElementByName("methodToCall.route");
 	  	page = element.click();

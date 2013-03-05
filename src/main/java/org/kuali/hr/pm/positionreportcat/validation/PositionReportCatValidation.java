@@ -11,13 +11,13 @@ public class PositionReportCatValidation extends MaintenanceDocumentRuleBase  {
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = false;
-		LOG.debug("entering custom validation for Position Report Type");
+		LOG.debug("entering custom validation for Position Report Category");
 		PositionReportCategory prc = (PositionReportCategory) this.getNewBo();
 		
 		if (prc != null) {
 			valid = true;
 			valid &= this.validatePositionReportType(prc);
-//				valid &= this.validateInstitution(prc);
+			valid &= this.validateInstitution(prc);
 			valid &= this.validateCampus(prc);
 		}
 		return valid;
@@ -45,7 +45,7 @@ public class PositionReportCatValidation extends MaintenanceDocumentRuleBase  {
 				String[] parameters = new String[2];
 				parameters[0] = prc.getPositionReportType();
 				parameters[1] = prc.getInstitution();
-				this.putFieldError("institution", "institution.inconsistent.positionReportType", prc.getInstitution());
+				this.putFieldError("institution", "institution.inconsistent.positionReportType", parameters);
 				return false;
 			}
 		}
