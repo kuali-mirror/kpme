@@ -279,7 +279,12 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 	public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, Date currentDate) {
 		return leaveBlockDao.getLeaveBlocks(principalId, leaveBlockType, requestStatus, currentDate);
 	}
-	
+
+    @Override
+    public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, Date beginDate, Date endDate) {
+        return leaveBlockDao.getLeaveBlocks(principalId, leaveBlockType, requestStatus, beginDate, endDate);
+    }
+
 	@Override
 	public List<LeaveBlock> getLeaveBlocksForDate(String principalId, Date leaveDate) {
 		return leaveBlockDao.getLeaveBlocksForDate(principalId, leaveDate);

@@ -41,6 +41,7 @@ import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
+import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.hr.lm.leavepayout.LeavePayout;
 import org.kuali.hr.time.base.web.TkAction;
@@ -118,97 +119,7 @@ public class TimesheetAction extends TkAction {
             LOG.error("Null timesheet document in TimesheetAction.");
         }
         
-        List<String> warnings = new ArrayList<String>();
-        Map<String, Set<String>> allMessages = new HashMap<String,Set<String>>();
-        allMessages.put("actionMessages", new HashSet<String>());
-        allMessages.put("warningMessages", new HashSet<String>());
-        allMessages.put("infoMessages", new HashSet<String>());
-        //placing the following "validation" further down in this method will overwrite messages added prior to this call.
-        //allMessages.putAll(LeaveCalendarValidationUtil.validatePendingTransactions(viewPrincipal, payCalendarEntry.getBeginPeriodDate(), payCalendarEntry.getEndPeriodDate()));
-        
-        // add warning messages based on max carry over balances for each accrual category for non-exempt leave users
-        List<BalanceTransfer> losses = new ArrayList<BalanceTransfer>();
-        if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(viewPrincipal, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
-        	PrincipalHRAttributes principalCalendar = null;
-        	if(ObjectUtils.isNotNull(payCalendarEntry)) {
-	        	principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, payCalendarEntry.getEndPeriodDate());
-	        	Map<String,ArrayList<String>> transfers = new HashMap<String,ArrayList<String>>();
-	        	Map<String,ArrayList<String>> payouts = new HashMap<String,ArrayList<String>>();;
-	        	if(ObjectUtils.isNotNull(principalCalendar)) {
-	        		transfers = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(td.getCalendarEntry(),td.getPrincipalId());
-	        		payouts = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(td.getCalendarEntry(),td.getPrincipalId());
-	        	}
-	        	
-	        	for(Entry<String,ArrayList<String>> entry : transfers.entrySet()) {
-	        		//contains max balance action = lose "transfers".
-	        		if(!entry.getValue().isEmpty()) {
-	        			for(String accrualRuleId : entry.getValue()) {
-	        				AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
-	        				AccrualCategory aCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
-	        				allMessages.get("warningMessages").add("You have exceeded the maximum balance limit for '" + aCat.getAccrualCategory() + "'. " +
-	                    			"Depending upon the accrual category rules, leave over this limit may be forfeited.");
-	        			}
-	        		}
-	        	}
-	        	for(Entry<String,ArrayList<String>> entry : payouts.entrySet()) {
-	        		//contains only payouts.
-	        		if(!entry.getValue().isEmpty()) {
-	        			for(String accrualRuleId : entry.getValue()) {
-	        				AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
-	        				AccrualCategory aCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
-	        				allMessages.get("warningMessages").add("You have exceeded the maximum balance limit for '" + aCat.getAccrualCategory() + "'. " +
-	                    			"Depending upon the accrual category rules, leave over this limit may be forfeited.");
-	        			}
-	        		}
-	        	}
-	            LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(viewPrincipal, payCalendarEntry);
-	            for(String accrualRuleId : transfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)) {
-	            	AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
-	            	if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
-	    	        	BigDecimal accruedBalance = leaveSummary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId()).getAccruedBalance();
-	    	        	Date effectiveDate = TKUtils.getCurrentDate();
-	    	        	if(TKUtils.getCurrentDate().after(payCalendarEntry.getEndPeriodDate()))
-	    	        		effectiveDate = new Date(DateUtils.addDays(payCalendarEntry.getEndPeriodDate(),-1).getTime());
-	    	        	BalanceTransfer loseTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(viewPrincipal, accrualRuleId, accruedBalance, effectiveDate);
-	    	        	losses.add(loseTransfer);
-	            	}
-	            }
-	            for(String accrualRuleId : transfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
-	            	AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
-	            	if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
-	    	        	BigDecimal accruedBalance = leaveSummary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId()).getAccruedBalance();
-	    	        	Date effectiveDate = TKUtils.getCurrentDate();
-	    	        	if(TKUtils.getCurrentDate().after(payCalendarEntry.getEndPeriodDate()))
-	    	        		effectiveDate = new Date(DateUtils.addDays(payCalendarEntry.getEndPeriodDate(),-1).getTime());
-	    	        	BalanceTransfer loseTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(viewPrincipal, accrualRuleId, accruedBalance, effectiveDate);
-	    	        	losses.add(loseTransfer);
-	            	}
-	            }
-        	}
-            taForm.setForfeitures(losses);
-            
-        	if (principalCalendar != null) {
-	        	Calendar calendar = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(viewPrincipal, taForm.getEndPeriodDateTime(), true);
-					
-				if (calendar != null) {
-					List<CalendarEntries> leaveCalendarEntries = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesEndingBetweenBeginAndEndDate(calendar.getHrCalendarId(), taForm.getBeginPeriodDateTime(), taForm.getEndPeriodDateTime());
-					
-					List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(principalCalendar.getLeavePlan(), new java.sql.Date(taForm.getEndPeriodDateTime().getTime()));
-					for (AccrualCategory accrualCategory : accrualCategories) {
-						if (TkServiceLocator.getAccrualCategoryMaxCarryOverService().exceedsAccrualCategoryMaxCarryOver(accrualCategory.getAccrualCategory(), viewPrincipal, leaveCalendarEntries, taForm.getEndPeriodDateTime())) {
-							String message = "Your pending leave balance is greater than the annual max carry over for accrual category '" + accrualCategory.getAccrualCategory() + "' and upon approval, the excess balance will be lost.";
-							if (!warnings.contains(message)) {
-								warnings.add(message);
-							}
-						}
-					}
-				}
-			}
-        }
-		warnings.addAll(allMessages.get("infoMessages"));
-		warnings.addAll(allMessages.get("actionMessages"));
-		warnings.addAll(allMessages.get("warningMessages"));
-		taForm.setWarningMessages(warnings);
+
 
         // Do this at the end, so we load the document first,
         // then check security permissions via the superclass execution chain.
@@ -260,7 +171,7 @@ public class TimesheetAction extends TkAction {
 	    taForm.setDocumentId(td.getDocumentId());
         TimesheetDocumentHeader prevTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.PREV_TIMESHEET, viewPrincipal);
         TimesheetDocumentHeader nextTdh = TkServiceLocator.getTimesheetDocumentHeaderService().getPrevOrNextDocumentHeader(TkConstants.NEXT_TIMESHEET, viewPrincipal);
-       
+
         taForm.setPrevDocumentId(prevTdh != null ? prevTdh.getDocumentId() : null);
         taForm.setNextDocumentId(nextTdh != null ? nextTdh.getDocumentId() : null);
       

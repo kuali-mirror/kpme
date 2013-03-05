@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.After;
@@ -410,13 +411,13 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 	
 	@Test
 	public void testgetEligiblePayoutsLeaveApprove() throws Exception {
-		Map<String, ArrayList<String>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(janEntry, USER_ID);
+		Map<String, Set<LeaveBlock>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getNewEligiblePayouts(janEntry, USER_ID);
 		assertEquals(2, eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
 		assertEquals(3, eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
 		assertEquals(2, eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligiblePayout : eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligiblePayout));
+		for(LeaveBlock eligiblePayout : eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE))
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligiblePayout.getAccrualCategoryRuleId()));
 			
 		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
 		for(AccrualCategoryRule aRule : rules) {
@@ -428,13 +429,13 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 	
 	@Test
 	public void testgetEligiblePayoutsYearEnd() throws Exception {
-		Map<String, ArrayList<String>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(janEntry, USER_ID);
+		Map<String, Set<LeaveBlock>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getNewEligiblePayouts(janEntry, USER_ID);
 		assertEquals(2, eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
 		assertEquals(3, eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
 		assertEquals(2, eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligiblePayout : eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligiblePayout));
+		for(LeaveBlock eligiblePayout : eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligiblePayout.getAccrualCategoryRuleId()));
 		
 		// Set should contain an accrual category whose rule's max balance is trumped by an employee override.
 		// Comparing accrued balance to a rule's defined max balance is insufficient for testing
@@ -457,13 +458,13 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 	
 	@Test
 	public void testgetEligiblePayoutsOnDemand() throws Exception {
-		Map<String, ArrayList<String>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(janEntry, USER_ID);
+		Map<String, Set<LeaveBlock>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getNewEligiblePayouts(janEntry, USER_ID);
 		assertEquals(2, eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
 		assertEquals(3, eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
 		assertEquals(2, eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligiblePayout : eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligiblePayout));
+		for(LeaveBlock eligiblePayout : eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligiblePayout.getAccrualCategoryRuleId()));
 
 		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
 		for(AccrualCategoryRule aRule : rules) {
@@ -476,13 +477,13 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 	@Test
 	public void testgetEligiblePayoutsOnYearEndCaseOne() throws Exception {
 		//calendar entry is not the last calendar entry of the leave plan's calendar year.
-		Map<String, ArrayList<String>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(decEntry, USER_ID);
+		Map<String, Set<LeaveBlock>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getNewEligiblePayouts(decEntry, USER_ID);
 		assertEquals(2, eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
 		assertEquals(0, eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
 		assertEquals(2, eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligiblePayout : eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligiblePayout));
+		for(LeaveBlock eligiblePayout : eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligiblePayout.getAccrualCategoryRuleId()));
 
 		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, decEntry);
 		for(AccrualCategoryRule aRule : rules) {
@@ -495,13 +496,13 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 	@Test
 	public void testgetEligiblePayoutsOnYearEndCaseTwo() throws Exception {
 		//calendar entry is the last calendar entry of the leave plan's calendar year.
-		Map<String, ArrayList<String>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(janEntry, USER_ID);
+		Map<String, Set<LeaveBlock>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getNewEligiblePayouts(janEntry, USER_ID);
 		assertEquals(2, eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
 		assertEquals(3, eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
 		assertEquals(2, eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligiblePayout : eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligiblePayout));
+		for(LeaveBlock eligiblePayout : eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligiblePayout.getAccrualCategoryRuleId()));
 
 		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
 		for(AccrualCategoryRule aRule : rules) {
@@ -548,15 +549,15 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 		midDecTSD = TkServiceLocator.getTimesheetService().getTimesheetDocument(TSD_MID_DEC_PERIOD_ID);
 		midDecTSDEntry = midDecTSD.getCalendarEntry();
 
-		Map<String, ArrayList<String>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(midDecTSDEntry, TS_USER_ID);
+		Map<String, Set<LeaveBlock>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getNewEligiblePayouts(midDecTSDEntry, TS_USER_ID);
 		//Assert correct number of payout eligible for frequency
 		assertEquals(2, eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
 
 		//Assert that the accrual categories returned by BT service are in fact over their balance limit,
 		//according to their rules. - does not consider FTE.
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligiblePayout : eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligiblePayout));
+		for(LeaveBlock eligiblePayout : eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE))
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligiblePayout.getAccrualCategoryRuleId()));
 
 		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TS_USER_ID, midDecTSDEntry);
 		for(AccrualCategoryRule aRule : rules) {
@@ -573,7 +574,7 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 		midDecTSD = TkServiceLocator.getTimesheetService().getTimesheetDocument(TSD_MID_DEC_PERIOD_ID);
 		midDecTSDEntry = midDecTSD.getCalendarEntry();
 
-		Map<String, ArrayList<String>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(midDecTSDEntry, TS_USER_ID);
+		Map<String, Set<LeaveBlock>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getNewEligiblePayouts(midDecTSDEntry, TS_USER_ID);
 		//Assert correct number of payout eligible for frequency
 		assertEquals(0, eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
 		
@@ -583,8 +584,8 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 /*		//Assert that the accrual categories returned by BT service are in fact over their balance limit,
 		//according to their rules.
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligiblePayout : eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligiblePayout));
+		for(LeaveBlock eligiblePayout : eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligiblePayout.getAccrualCategoryRuleId()));
 			
 		// Set should contain an accrual category whose rule's max balance is trumped by an employee override.
 		// Comparing accrued balance to a rule's defined max balance is insufficient for testing
@@ -614,15 +615,15 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 		midDecTSD = TkServiceLocator.getTimesheetService().getTimesheetDocument(TSD_MID_DEC_PERIOD_ID);
 		midDecTSDEntry = midDecTSD.getCalendarEntry();
 
-		Map<String, ArrayList<String>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(midDecTSDEntry, TS_USER_ID);
+		Map<String, Set<LeaveBlock>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getNewEligiblePayouts(midDecTSDEntry, TS_USER_ID);
 		//Assert correct number of payout eligible for frequency
 		assertEquals(2, eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
 
 		//Assert that the accrual categories returned by BT service are in fact over their balance limit,
 		//according to their rules. - does not consider FTE.
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligiblePayout : eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligiblePayout));
+		for(LeaveBlock eligiblePayout : eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligiblePayout.getAccrualCategoryRuleId()));
 
 		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TS_USER_ID, midDecTSDEntry);
 		for(AccrualCategoryRule aRule : rules) {
@@ -639,15 +640,15 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 		endDecTSD = TkServiceLocator.getTimesheetService().getTimesheetDocument(TSD_END_DEC_PERIOD_ID);
 		endDecTSDEntry = endDecTSD.getCalendarEntry();
 
-		Map<String, ArrayList<String>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(endDecTSDEntry, TS_USER_ID);
+		Map<String, Set<LeaveBlock>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getNewEligiblePayouts(endDecTSDEntry, TS_USER_ID);
 		//Assert correct number of payout eligible for frequency
 		assertEquals(2, eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
 		
 		//Assert that the accrual categories returned by BT service are in fact over their balance limit,
 		//according to their rules. - does not consider FTE.
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligiblePayout : eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligiblePayout));
+		for(LeaveBlock eligiblePayout : eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE))
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligiblePayout.getAccrualCategoryRuleId()));
 
 		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TS_USER_ID, endDecTSDEntry);
 		for(AccrualCategoryRule aRule : rules) {
@@ -664,15 +665,15 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 		endDecTSD = TkServiceLocator.getTimesheetService().getTimesheetDocument(TSD_END_DEC_PERIOD_ID);
 		endDecTSDEntry = endDecTSD.getCalendarEntry();
 
-		Map<String, ArrayList<String>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(endDecTSDEntry, TS_USER_ID);
+		Map<String, Set<LeaveBlock>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getNewEligiblePayouts(endDecTSDEntry, TS_USER_ID);
 		//Assert correct number of payout eligible for frequency
 		assertEquals(0, eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
 		
 		//Assert that the accrual categories returned by BT service are in fact over their balance limit,
 		//according to their rules. - does not consider FTE.
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligiblePayout : eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligiblePayout));
+		for(LeaveBlock eligiblePayout : eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligiblePayout.getAccrualCategoryRuleId()));
 
 		// Set should contain an accrual category whose rule's max balance is trumped by an employee override.
 		// Comparing accrued balance to a rule's defined max balance is insufficient for testing
@@ -701,15 +702,15 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 		endDecTSDEntry = endDecTSD.getCalendarEntry();
 
 
-		Map<String, ArrayList<String>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(endDecTSDEntry, TS_USER_ID);
+		Map<String, Set<LeaveBlock>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getNewEligiblePayouts(endDecTSDEntry, TS_USER_ID);
 		//Assert correct number of payout eligible for frequency
 		assertEquals(2, eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
 		
 		//Assert that the accrual categories returned by BT service are in fact over their balance limit,
 		//according to their rules. - does not consider FTE.
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligiblePayout : eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligiblePayout));
+		for(LeaveBlock eligiblePayout : eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligiblePayout.getAccrualCategoryRuleId()));
 
 		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TS_USER_ID,endDecTSDEntry);
 		for(AccrualCategoryRule aRule : rules) {
@@ -726,7 +727,7 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 		endJanTSD = TkServiceLocator.getTimesheetService().getTimesheetDocument(TSD_END_JAN_PERIOD_ID);
 		endJanTSDEntry = endJanTSD.getCalendarEntry();
 
-		Map<String, ArrayList<String>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(endJanTSDEntry, TS_USER_ID);
+		Map<String, Set<LeaveBlock>> eligiblePayouts = TkServiceLocator.getLeavePayoutService().getNewEligiblePayouts(endJanTSDEntry, TS_USER_ID);
 
 		//Assert correct number of payout eligible for frequency
 		assertEquals(3, eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
@@ -734,8 +735,8 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 		//Assert that the accrual categories returned by BT service are in fact over their balance limit,
 		//according to their rules. - does not consider FTE.
 		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(String eligiblePayout : eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligiblePayout));
+		for(LeaveBlock eligiblePayout : eligiblePayouts.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
+			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligiblePayout.getAccrualCategoryRuleId()));
 
 		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TS_USER_ID,endJanTSDEntry);
 		for(AccrualCategoryRule aRule : rules) {

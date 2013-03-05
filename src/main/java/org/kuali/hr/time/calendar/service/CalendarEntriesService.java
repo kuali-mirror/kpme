@@ -42,6 +42,17 @@ public interface CalendarEntriesService {
      */
     @Cacheable(value= CalendarEntries.CACHE_NAME, key="'hrCalendarId=' + #p0 + '|' + 'asOfDate=' + #p1")
 	public CalendarEntries getCurrentCalendarEntriesByCalendarId(String hrCalendarId, Date asOfDate);
+
+    /**
+     * Method to obtain theCalendarEntries object based in a date range
+     * @param hrCalendarId The calendar to reference.
+     * @param beginDate
+     * @param endDate
+     * @return the current CalendarEntries effective by the asOfDate.
+     */
+    @Cacheable(value= CalendarEntries.CACHE_NAME, key="'hrCalendarId=' + #p0 + '|' + 'beginDate=' + #p1 + '|' + 'endDate=' + #p2")
+    public CalendarEntries getCalendarEntriesByCalendarIdAndDateRange(String hrCalendarId, Date beginDate, Date endDate);
+
     @Cacheable(value= CalendarEntries.CACHE_NAME, key="'hrCalendarId=' + #p0 + '|' + 'endPeriodDate=' + #p1")
     public CalendarEntries getCalendarEntriesByIdAndPeriodEndDate(String hrCalendarId, Date endPeriodDate);
 
@@ -74,4 +85,5 @@ public interface CalendarEntriesService {
     public List<CalendarEntries> getAllCalendarEntriesForCalendarIdUpToPlanningMonths(String hrCalendarId, String principalId);
     
     public List<CalendarEntries> getAllCalendarEntriesForCalendarIdUpToCutOffTime(String hrCalendarId, Date cutOffTime);
+
 }

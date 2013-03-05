@@ -48,20 +48,20 @@
     							<c:if test="${row.transferable}">
     								<c:choose>
     									<c:when test="${(workflowTagSupport.displayingLeaveRouteButton && workflowTagSupport.routeLeaveButtonEnabled) || workflowTagSupport.displayingCurrentPeriodRouteButtonWithNoDelinquencies}">
-            								<input type="button" id="lm-transfer-button_${row.accrualCategoryRuleId}" class="button" value="Transfer" name="transfer"/>
+            								<input type="button" id="lm-transfer-button_${row.infractingLeaveBlockId}" class="button" value="Transfer" name="transfer"/>
     									</c:when>
     									<c:otherwise>
-    										<input disabled id="lm-transfer-button_${row.accrualCategoryRuleId}" class="button" value="Transfer" name="transfer"/>
+    										<input disabled id="lm-transfer-button_${row.infractingLeaveBlockId}" class="button" value="Transfer" name="transfer"/>
     									</c:otherwise>
     								</c:choose>
 								</c:if>
     							<c:if test="${row.payoutable}">
      								<c:choose>
     									<c:when test="${(workflowTagSupport.displayingLeaveRouteButton && workflowTagSupport.routeLeaveButtonEnabled) || workflowTagSupport.displayingCurrentPeriodRouteButtonWithNoDelinquencies}">
-	                						<input type="button" id="lm-payout-button_${row.accrualCategoryRuleId}" class="button" value="Payout" name="payout"/>
+	                						<input type="button" id="lm-payout-button_${row.infractingLeaveBlockId}" class="button" value="Payout" name="payout"/>
 	        							</c:when>
 	        							<c:otherwise>
-	        								<input disabled id="lm-payout-button_${row.accrualCategoryRuleId}" class="button" value="Payout" name="payout"/>
+	        								<input disabled id="lm-payout-button_${row.infractingLeaveBlockId}" class="button" value="Payout" name="payout"/>
 	        							</c:otherwise>
 	        						</c:choose>
 								</c:if>

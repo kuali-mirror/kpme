@@ -112,20 +112,20 @@
 					<c:if test="${maxedLeaveRow.transferable}">
 						<c:choose>
 							<c:when test="${(workflowTagSupport.displayingTimesheetRouteButton && workflowTagSupport.routeTimesheetButtonEnabled) || workflowTagSupport.displayingCurrentPeriodTimesheetRouteButtonWithNoDelinquencies}">
-								<input type="button" id="lm-transfer-button_${maxedLeaveRow.accrualCategoryRuleId}" class="button" value="Transfer" name="transfer"/>
+								<input type="button" id="lm-transfer-button_${maxedLeaveRow.infractingLeaveBlockId}" class="button" value="Transfer" name="transfer"/>
 							</c:when>
 							<c:otherwise>
-								<input disabled id="lm-transfer-button_${maxedLeaveRow.accrualCategoryRuleId}" class="button" value="Transfer" name="transfer"/>
+								<input disabled id="lm-transfer-button_${maxedLeaveRow.infractingLeaveBlockId}" class="button" value="Transfer" name="transfer"/>
 							</c:otherwise>
 						</c:choose>
 					</c:if>
 					<c:if test="${maxedLeaveRow.payoutable}">
 						<c:choose>
 							<c:when test="${(workflowTagSupport.displayingTimesheetRouteButton && workflowTagSupport.routeTimesheetButtonEnabled) || workflowTagSupport.displayingCurrentPeriodTimesheetRouteButtonWithNoDelinquencies}">
-								<input type="button" id="lm-payout-button_${maxedLeaveRow.accrualCategoryRuleId}" class="button" value="Payout" name="payout"/>
+								<input type="button" id="lm-payout-button_${maxedLeaveRow.infractingLeaveBlockId}" class="button" value="Payout" name="payout"/>
 							</c:when>
 							<c:otherwise>
-								<input disabled id="lm-payout-button_${maxedLeaveRow.accrualCategoryRuleId}" class="button" value="Payout" name="payout"/>
+								<input disabled id="lm-payout-button_${maxedLeaveRow.infractingLeaveBlockId}" class="button" value="Payout" name="payout"/>
 							</c:otherwise>
 						</c:choose>
 					</c:if>

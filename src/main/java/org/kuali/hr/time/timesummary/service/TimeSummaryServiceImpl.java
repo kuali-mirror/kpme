@@ -17,11 +17,15 @@ package org.kuali.hr.time.timesummary.service;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeFieldType;
+import org.joda.time.Interval;
 import org.joda.time.LocalDateTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
+import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -34,6 +38,7 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
+import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
@@ -97,17 +102,41 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
     private List<LeaveSummaryRow> getMaxedLeaveRows(
 			CalendarEntries calendarEntry, String principalId) throws Exception {
     	List<LeaveSummaryRow> maxedLeaveRows = new ArrayList<LeaveSummaryRow>();
+    	
     	if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
-        	Map<String,ArrayList<String>> eligibilities = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(calendarEntry,principalId);
-        	Map<String,ArrayList<String>> payouts = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(calendarEntry, principalId);
-        	List<String> onDemandTransfers = eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND);
+    		
+        	Map<String,Set<LeaveBlock>> eligibilities = TkServiceLocator.getBalanceTransferService().getNewEligibleTransfers(calendarEntry,principalId);
+        	Map<String,Set<LeaveBlock>> payouts = TkServiceLocator.getLeavePayoutService().getNewEligiblePayouts(calendarEntry, principalId);
+        	Set<LeaveBlock> onDemandTransfers = eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND);
         	onDemandTransfers.addAll(payouts.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND));
+        	PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, TKUtils.getCurrentDate());
+
+        	Interval calendarEntryInterval = new Interval(calendarEntry.getBeginPeriodDate().getTime(),calendarEntry.getEndPeriodDate().getTime());
+        	
         	if(!onDemandTransfers.isEmpty()) {
-            	LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, calendarEntry);
-            	for(LeaveSummaryRow row : summary.getLeaveSummaryRows()) {
-            		if(onDemandTransfers.contains(row.getAccrualCategoryRuleId()))
-            			maxedLeaveRows.add(row);
-            			
+            	for(LeaveBlock lb : onDemandTransfers) {
+            		Date leaveDate = lb.getLeaveDate();
+                	LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, new java.sql.Date(DateUtils.addDays(leaveDate, 1).getTime()));
+                	LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCtgy(lb.getAccrualCategory());
+            		if(row != null) {
+            			AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(row.getAccrualCategoryId());
+                    	AccrualCategoryRule currentRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, TKUtils.getCurrentDate(), pha.getServiceDate());
+/*                    	if(StringUtils.equals(lb.getAccrualCategoryRuleId(),currentRule.getLmAccrualCategoryRuleId())
+                    			&& calendarEntryInterval.contains(leaveDate.getTime())) {*/
+                    	if(calendarEntryInterval.contains(leaveDate.getTime())) {
+                    		//do not allow the on-demand max balance action if the rule the action occurs under is no longer in effect,
+                    		//or if the infraction did not occur within this interval. ( if it occurred during the previous interval, 
+                    		//the employee will have the option to take action in that interval up to & including the end date of that interval. )
+	            			row.setInfractingLeaveBlockId(lb.getLmLeaveBlockId());
+	            			AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
+	            			
+	            			if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.TRANSFER))
+	            				row.setTransferable(true);
+	            			else if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.PAYOUT))
+	            				row.setPayoutable(true);
+	            			maxedLeaveRows.add(row);
+                    	}
+            		}
             	}
         	}
     	}

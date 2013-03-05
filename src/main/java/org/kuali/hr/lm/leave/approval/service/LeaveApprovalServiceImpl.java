@@ -146,16 +146,17 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
         Map<String, Set<String>> allMessages= LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
         //get LeaveSummary and check for warnings
         if (doc != null) {
-            Map<String, ArrayList<String>> eligibilities;
+            Map<String, Set<LeaveBlock>> eligibilities;
             try {
-        	 eligibilities = TkServiceLocator.getBalanceTransferService().getEligibleTransfers(calendarEntry, doc.getPrincipalId());
+        	 eligibilities = TkServiceLocator.getBalanceTransferService().getNewEligibleTransfers(calendarEntry, doc.getPrincipalId());
             } catch (Exception e) {
             	eligibilities = null;
-            }           
+            }
             if (eligibilities != null) {
-                for (Entry<String,ArrayList<String>> entry : eligibilities.entrySet()) {
-              	  for(String accrualRuleId : entry.getValue()) {
-              		  AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+                for (Entry<String,Set<LeaveBlock>> entry : eligibilities.entrySet()) {
+              	  for(LeaveBlock block : entry.getValue()) {
+              		  
+              		  AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
               		  if (rule != null) {
               			  AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
               			  if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.TRANSFER)) {
@@ -170,16 +171,16 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
               	  }
                 }
             }
-            Map<String, ArrayList<String>> payoutEligible;
+            Map<String, Set<LeaveBlock>> payoutEligible;
             try {
-          	  payoutEligible = TkServiceLocator.getLeavePayoutService().getEligiblePayouts(calendarEntry, doc.getPrincipalId());
+          	  payoutEligible = TkServiceLocator.getLeavePayoutService().getNewEligiblePayouts(calendarEntry, doc.getPrincipalId());
             } catch (Exception e) {
           	  payoutEligible = null;  
             }
             if (payoutEligible != null) {
-                for (Entry<String,ArrayList<String>> entry : payoutEligible.entrySet()) {
-              	  for(String accrualRuleId : entry.getValue()) {
-              		  AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+                for (Entry<String,Set<LeaveBlock>> entry : payoutEligible.entrySet()) {
+              	  for(LeaveBlock lb : entry.getValue()) {
+              		  AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
               		  if (rule != null) {
               			  AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
              				  allMessages.get("warningMessages").add("Accrual category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");

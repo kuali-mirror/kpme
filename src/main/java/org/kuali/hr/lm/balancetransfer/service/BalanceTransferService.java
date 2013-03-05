@@ -20,10 +20,12 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
+import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -77,8 +79,8 @@ public interface BalanceTransferService {
 	 * @return A List of accrualCategoryRuleId's in {@param document}'s leave summary with MAX_BAL_ACTION_FREQUENCY = {@param actionFrequency} 
 	 * @throws Exception
 	 */
-	public Map<String,ArrayList<String>> getEligibleTransfers(CalendarEntries calendarEntry, String principalId) throws Exception;
-	
+/*	public Map<String,ArrayList<String>> getEligibleTransfers(CalendarEntries calendarEntry, String principalId) throws Exception;
+*/	
 	public void submitToWorkflow(BalanceTransfer balanceTransfer) throws WorkflowException;
 	
 	/**
@@ -89,4 +91,7 @@ public interface BalanceTransferService {
 	public BalanceTransfer transferSsto(BalanceTransfer balanceTransfer);
 	public List<BalanceTransfer> getBalanceTransfers(String viewPrincipal,
 			Date beginPeriodDate, Date endPeriodDate);
+	
+	Map<String, Set<LeaveBlock>> getNewEligibleTransfers(
+			CalendarEntries calendarEntry, String principalId) throws Exception;
 }

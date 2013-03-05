@@ -49,13 +49,28 @@ public class LeaveRequestAction extends TkAction {
 		String principalId = TKUser.getCurrentTargetPerson().getPrincipalId();
 		Date currentDate = TKUtils.getTimelessDate(null);
 
-		CalendarEntries calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(principalId, currentDate);
+        Calendar currentCalendar = Calendar.getInstance();
+        if (leaveForm.getNavString() == null) {
+            leaveForm.setYear(currentCalendar.get(Calendar.YEAR));
+        } else if(leaveForm.getNavString().equals("NEXT")) {
+            leaveForm.setYear(leaveForm.getYear() + 1);
+        } else if(leaveForm.getNavString().equals("PREV")) {
+            leaveForm.setYear(leaveForm.getYear() - 1);
+        }
+        currentCalendar.set(leaveForm.getYear(), 0, 1);
+//        java.util.Date serviceDate = (principalHRAttributes != null) ? principalHRAttributes.getServiceDate() : TKUtils.getTimelessDate(currentCalendar.getTime());
+        java.util.Date beginDate = TKUtils.getTimelessDate(currentCalendar.getTime());
+        currentCalendar.set(leaveForm.getYear(), 11, 31);
+        java.util.Date endDate = TKUtils.getTimelessDate(currentCalendar.getTime());
+
+//        CalendarEntries calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(principalId, currentDate);
+        CalendarEntries calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(principalId, beginDate, endDate);
 
         //  If the current pay period ends before the current leave calendar ends, then we need to include any planned leave blocks that occur
         //  in this window between the current pay end and the beginning of the leave planning calendar (the next future leave period).
         //  The most common scenario occurs when a non-monthly pay period ends before the current leave calendar ends.
 
-        CalendarEntries payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(principalId, currentDate);
+        CalendarEntries payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(principalId, beginDate, endDate);
         Boolean checkLeaveEligible = true;
         Boolean nonExemptLeaveEligible = TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT,checkLeaveEligible);
         if(nonExemptLeaveEligible && calendarEntry != null && payCalendarEntry != null) {
@@ -72,11 +87,11 @@ public class LeaveRequestAction extends TkAction {
 				currentDate = calendarEntry.getEndPeriodDate();	// only show leave requests from planning calendars on leave request page
 			}
 		}
-        List<LeaveBlock> plannedLeaves = getLeaveBlocksWithRequestStatus(principalId, currentDate, LMConstants.REQUEST_STATUS.PLANNED);
-        plannedLeaves.addAll(getLeaveBlocksWithRequestStatus(principalId, currentDate, LMConstants.REQUEST_STATUS.DEFERRED));
+        List<LeaveBlock> plannedLeaves = getLeaveBlocksWithRequestStatus(principalId, beginDate, endDate, LMConstants.REQUEST_STATUS.PLANNED);
+        plannedLeaves.addAll(getLeaveBlocksWithRequestStatus(principalId, beginDate, endDate, LMConstants.REQUEST_STATUS.DEFERRED));
 		leaveForm.setPlannedLeaves(plannedLeaves);
-		leaveForm.setPendingLeaves(getLeaveBlocksWithRequestStatus(principalId, currentDate, LMConstants.REQUEST_STATUS.REQUESTED));
-		leaveForm.setApprovedLeaves(getLeaveBlocksWithRequestStatus(principalId, currentDate, LMConstants.REQUEST_STATUS.APPROVED));
+		leaveForm.setPendingLeaves(getLeaveBlocksWithRequestStatus(principalId, beginDate, endDate, LMConstants.REQUEST_STATUS.REQUESTED));
+		leaveForm.setApprovedLeaves(getLeaveBlocksWithRequestStatus(principalId, beginDate, endDate, LMConstants.REQUEST_STATUS.APPROVED));
 		leaveForm.setDisapprovedLeaves(getDisapprovedLeaveBlockHistory(principalId, currentDate));
 
         leaveForm.setDocuments(getLeaveRequestDocuments(leaveForm));
@@ -84,8 +99,8 @@ public class LeaveRequestAction extends TkAction {
 	}
 
 
-    private List<LeaveBlock> getLeaveBlocksWithRequestStatus(String principalId, Date currentDate, String requestStatus) {
-        List<LeaveBlock> plannedLeaves = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, requestStatus, currentDate);
+    private List<LeaveBlock> getLeaveBlocksWithRequestStatus(String principalId, java.util.Date beginDate, java.util.Date endDate, String requestStatus) {
+        List<LeaveBlock> plannedLeaves = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(principalId, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, requestStatus, beginDate, endDate);
 
         Collections.sort(plannedLeaves, new Comparator<LeaveBlock>() {
             @Override

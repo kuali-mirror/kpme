@@ -46,7 +46,7 @@ public class EmployeeOverrideDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb im
         List<EmployeeOverride> employeeOverrides = new ArrayList<EmployeeOverride>();
         Criteria root = new Criteria();
 
-        List<String> fields = Collections.singletonList("principalId");
+        final ImmutableList<String> fields = new ImmutableList.Builder<String>().add("principalId").build();
         root.addEqualTo("principalId", principalId);
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EmployeeOverride.class, asOfDate, fields, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EmployeeOverride.class, fields, false));

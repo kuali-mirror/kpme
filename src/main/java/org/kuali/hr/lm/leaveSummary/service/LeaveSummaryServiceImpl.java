@@ -296,7 +296,13 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                             assignApprovedValuesToRow(lsr, ac.getAccrualCategory(), leaveBlockMap.get(ac.getAccrualCategory()), lp, startDate, endDate);
 
                             //how about the leave blocks on the calendar entry being currently handled??
-
+/*                            if(carryOverBlocks.containsKey(lsr.getAccrualCategory())) {
+                            	LeaveBlock carryOverBlock = carryOverBlocks.get(lsr.getAccrualCategory());
+                            	DateTime carryOverBlockLPStart = TkServiceLocator.getLeavePlanService().getFirstDayOfLeavePlan(lp.getLeavePlan(), carryOverBlock.getLeaveDate());
+                            	DateTime currentLPStart = TkServiceLocator.getLeavePlanService().getFirstDayOfLeavePlan(lp.getLeavePlan(), TKUtils.getCurrentDate());
+                            	if(carryOverBlockLPStart.equals(currentLPStart))
+                            		carryOver = carryOverBlock.getLeaveAmount();
+                            }*/
                             //figure out past carry over values!!!
                             //We now have list of past years accrual and use (with ordered keys!!!)
 
@@ -320,7 +326,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                                     carryOver = new BigDecimal(acRule.getMaxCarryOver());
                                 }
                             }
-
+                            
                             lsr.setCarryOver(carryOver);
                             if (acRule != null && acRule.getMaxCarryOver() != null) {
                                 lsr.setMaxCarryOver(new BigDecimal(acRule.getMaxCarryOver()));

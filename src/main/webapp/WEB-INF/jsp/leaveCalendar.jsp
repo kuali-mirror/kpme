@@ -166,6 +166,9 @@
 					</c:forEach>
 					</tbody>
 	            </table>
+	            <div>
+	            Effective: ${forfeiture.effectiveDate}
+	            </div>
 	        </div>
 	    </html:form>
 	</div>

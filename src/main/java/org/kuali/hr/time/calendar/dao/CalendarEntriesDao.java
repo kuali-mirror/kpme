@@ -43,4 +43,6 @@ public interface CalendarEntriesDao {
     public List<CalendarEntries> getAllCalendarEntriesForCalendarIdAndYear(String hrCalendarId, String year);
     
     public List<CalendarEntries> getAllCalendarEntriesForCalendarIdUpToCutOffTime(String hrCalendarId, Date cutOffTime);
+
+    public CalendarEntries getCalendarEntriesByCalendarIdAndDateRange(String hrCalendarId, Date beginDate, Date endDate);
 }

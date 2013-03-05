@@ -242,7 +242,6 @@
 				<value>subAccountLookupable</value> 
 				<value>subObjectCodeLookupable</value> 
 				<value>taskLookupable</value> 
-				<value>timeSheetInitiateLookupable</value> 
 				<value>leavePlanLookupable</value> 
 				<value>systemScheduledTimeOffLookupable</value> 
 				<value>leaveCodeLookupable</value> 
@@ -899,12 +898,6 @@
             <bean class="org.kuali.hr.time.task.service.TaskLookupableHelper"/>
         </property>
     </bean>
-	<bean id="timeSheetInitiateLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
-        <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.time.timesheet.service.TimeSheetInitiateLookupableHelper"/>
-        </property>
-    </bean>
-    
    <bean id="leavePlanLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.hr.lm.leaveplan.service.LeavePlanLookupableHelper"/>

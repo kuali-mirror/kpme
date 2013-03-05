@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.calendar.service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -79,9 +78,61 @@ public class CalendarServiceImpl implements CalendarService {
 	}
 
     @Override
+    public CalendarEntries getCurrentCalendarDates(String principalId, Date beginDate, Date endDate) {
+        CalendarEntries pcd = null;
+        Calendar calendar = getCalendarByPrincipalIdAndDate(principalId, beginDate, endDate, false);
+        if(calendar != null) {
+            pcd = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByCalendarIdAndDateRange(calendar.getHrCalendarId(), beginDate, endDate);
+            if(pcd != null) {
+                pcd.setCalendarObj(calendar);
+            }
+        }
+        return pcd;
+    }
+
+    @Override
 	public CalendarEntries getPreviousCalendarEntry(String tkCalendarId, Date beginDateCurrentCalendar){
 		return calendarDao.getPreviousCalendarEntry(tkCalendarId, beginDateCurrentCalendar);
 	}
+
+    @Override
+    public Calendar getCalendarByPrincipalIdAndDate(String principalId, Date beginDate, Date endDate, boolean findLeaveCal) {
+        Calendar pcal = null;
+        List<Job> currentJobs = TkServiceLocator.getJobService().getJobs(principalId, endDate);
+        if(currentJobs.size() < 1){
+            return pcal;
+        }
+        Job job = currentJobs.get(0);
+        if (principalId == null || job == null) {
+            return pcal;
+        } else {
+            PayType payType = job.getPayTypeObj();
+            if (payType == null)  {
+                throw new RuntimeException("No paytype setup for "+principalId + " job number: "+job.getJobNumber());
+            }
+
+            PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, beginDate);
+            if(principalCalendar == null){
+                throw new RuntimeException("No principal hr attribute setup for "+principalId);
+            }
+            if(!findLeaveCal) {
+                pcal = principalCalendar.getCalendar();
+                if (pcal == null){
+                    pcal = principalCalendar.getLeaveCalObj();
+                    if(pcal == null){
+                        return pcal;
+                    }
+                }
+            } else {
+                pcal = principalCalendar.getLeaveCalObj();
+                if(pcal == null){
+                    return pcal;
+                }
+            }
+        }
+
+        return pcal;
+    }
 
 	@Override
 	public Calendar getCalendarByPrincipalIdAndDate(String principalId, Date asOfDate, boolean findLeaveCal) {
@@ -135,6 +186,19 @@ public class CalendarServiceImpl implements CalendarService {
         }
 		return pcd;
 	}
+
+    @Override
+    public CalendarEntries getCurrentCalendarDatesForLeaveCalendar(String principalId, Date beginDate, Date endDate) {
+        CalendarEntries pcd = null;
+        Calendar calendar = getCalendarByPrincipalIdAndDate(principalId, beginDate, endDate, true);
+        if(calendar != null) {
+            pcd = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByCalendarIdAndDateRange(calendar.getHrCalendarId(), beginDate, endDate);
+            if(pcd != null) {
+                pcd.setCalendarObj(calendar);
+            }
+        }
+        return pcd;
+    }
 
     @Override
     public List<Calendar> getCalendars(String calendarName, String calendarTypes, String flsaBeginDay, String flsaBeginTime) {
