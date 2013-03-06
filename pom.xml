@@ -19,9 +19,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kuali.kpme</groupId>
-    <artifactId>kpme-web</artifactId>
+    <artifactId>kpme-web</artifactId>   <!-- change to 'kpme' -->
     <version>2.0.0-SNAPSHOT</version>
 
+    <!-- this needs to be switched to "pom" and the war package needs to be moved to web module -->
     <packaging>war</packaging>
     <name>Kuali People Management for the Enterprise</name>
     <description>Kuali People Management for the Enterprise (KPME) is an open-source, comprehensive HR/Payroll System built by higher education for higher education.</description>
@@ -32,6 +33,13 @@
         <artifactId>kuali-common</artifactId>
         <version>1.7.8</version>
     </parent>
+
+    <!--<modules>
+        <module>db</module>
+        <module>hr-core</module>
+        <module>pm</module>
+
+    </modules>-->
 
     <properties>
         <build.version>NO VERSION</build.version>
@@ -601,6 +609,7 @@
                         </dependency>
                     </dependencies>
                 </plugin>
+<!--  start - will be removed when db module active -->
                 <plugin>
                     <groupId>org.liquibase</groupId>
                     <artifactId>liquibase-maven-plugin</artifactId>
@@ -648,11 +657,13 @@
                         </lifecycleMappingMetadata>
                     </configuration>
                 </plugin>
+<!--  end - will be removed when db module active -->
             </plugins>
         </pluginManagement>
     </build>
 
     <profiles>
+<!--  start - will be removed when db module active -->
         <profile>
             <id>kpme-main</id>
             <properties>
@@ -992,6 +1003,7 @@
                 </plugins>
             </build>
         </profile>
+<!--  end - will be removed when db module active -->
         <profile>
             <id>license</id>
             <properties>
