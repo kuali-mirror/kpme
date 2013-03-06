@@ -193,7 +193,10 @@ public class TkTestUtils {
 		timeBlock.setBeginTimeDisplay(new DateTime(cal.getTimeInMillis()));
 		
 		timeBlock.setBeginTimestamp(new Timestamp(cal.getTimeInMillis()));
-		timeBlock.setBeginTimestampTimezone("EST");
+		/* KPME-1959 BeginTimestampTimezone unused and hence removed
+		 * No need to call set anymore
+		 */		
+		//timeBlock.setBeginTimestampTimezone("EST");
 		timeBlock.setEarnCode(earnCode);
 		timeBlock.setJobNumber(1L);
 		timeBlock.setWorkArea(1234L);
