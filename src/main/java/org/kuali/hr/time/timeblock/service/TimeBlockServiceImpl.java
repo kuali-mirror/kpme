@@ -205,9 +205,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
         tb.setTask(assignment.getTask());
         tb.setEarnCode(earnCode);
         tb.setBeginTimestamp(beginTime);
-        tb.setBeginTimestampTimezone(timezone.getID());
         tb.setEndTimestamp(endTime);
-        tb.setEndTimestampTimezone(timezone.getID());
         tb.setBeginTimeDisplay(new DateTime(tb.getBeginTimestamp(), timezone));
         tb.setEndTimeDisplay(new DateTime(tb.getEndTimestamp(), timezone));
         // only calculate the hours from the time fields if the passed in hour is zero

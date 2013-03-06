@@ -58,22 +58,17 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	private String earnCode;
 	private String scheduleTimeOffId;
 	private String accrualCategory;
-	// private Boolean active;
 	private BigDecimal leaveAmount = new BigDecimal("0.0");
-	private String applyToYtdUsed;
 	private String documentId;
 	private String principalIdModified;
 	private Timestamp timestamp;
 	private Boolean accrualGenerated;
 	private Long blockId;
-	private String tkAssignmentId;
 	private String requestStatus;
 	private String leaveBlockType;
 	private String documentStatus;
 	
 	private List<LeaveBlockHistory> leaveBlockHistories = new ArrayList<LeaveBlockHistory>();
-	private SystemScheduledTimeOff systemScheduledTimeOffObj;
-	private AccrualCategory accrualCategoryObj;
     private String leaveRequestDocumentId;
 
 	@Transient
@@ -114,7 +109,6 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		private final BigDecimal leaveAmount;
 
 		private String description = null;
-		private String applyToYtdUsed = null;
 		private String principalIdModified = null;
 		private Timestamp timestamp = null;
 		private Boolean accrualGenerated = Boolean.FALSE;
@@ -145,10 +139,6 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 			return this;
 		}
 
-		public Builder applyToYtdUsed(String val) {
-			this.applyToYtdUsed = val;
-			return this;
-		}
 
 		public Builder principalIdModified(String val) {
 			this.principalIdModified = val;
@@ -178,11 +168,6 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 
 		public Builder accrualCategory(String val) {
 			this.accrualCategory = val;
-			return this;
-		}
-
-		public Builder tkAssignmentId(String val) {
-			this.tkAssignmentId = val;
 			return this;
 		}
 
@@ -223,7 +208,6 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		principalId = builder.principalId;
 		earnCode = builder.earnCode;
 		leaveAmount = builder.leaveAmount;
-		applyToYtdUsed = builder.applyToYtdUsed;
 		documentId = builder.documentId;
 		principalIdModified = builder.principalIdModified;
 		timestamp = builder.timestamp;
@@ -231,7 +215,6 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		blockId = builder.blockId;
 		scheduleTimeOffId = builder.scheduleTimeOffId;
 		accrualCategory = builder.accrualCategory;
-		tkAssignmentId = builder.tkAssignmentId;
 		requestStatus = builder.requestStatus;
 		workArea = builder.workArea;
 		jobNumber = builder.jobNumber;
@@ -261,28 +244,12 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		this.accrualGenerated = accrualGenerated;
 	}
 
-	// public Boolean getActive() {
-	// return active;
-	// }
-	//
-	// public void setActive(Boolean active) {
-	// this.active = active;
-	// }
-
-	public String getApplyToYtdUsed() {
-		return applyToYtdUsed;
-	}
-
 	public boolean getSubmit() {
 		return submit;
 	}
 
 	public void setSubmit(boolean submit) {
 		this.submit = submit;
-	}
-
-	public void setApplyToYtdUsed(String applyToYtdUsed) {
-		this.applyToYtdUsed = applyToYtdUsed;
 	}
 
 	public Long getBlockId() {
@@ -363,31 +330,6 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 
 	public void setTimestamp(Timestamp timestamp) {
 		this.timestamp = timestamp;
-	}
-
-	public AccrualCategory getAccrualCategoryObj() {
-		return accrualCategoryObj;
-	}
-
-	public void setAccrualCategoryObj(AccrualCategory accrualCategoryObj) {
-		this.accrualCategoryObj = accrualCategoryObj;
-	}
-
-	public SystemScheduledTimeOff getSystemScheduledTimeOffObj() {
-		return systemScheduledTimeOffObj;
-	}
-
-	public void setSystemScheduledTimeOffObj(
-			SystemScheduledTimeOff systemScheduledTimeOffObj) {
-		this.systemScheduledTimeOffObj = systemScheduledTimeOffObj;
-	}
-
-	public String getTkAssignmentId() {
-		return tkAssignmentId;
-	}
-
-	public void setTkAssignmentId(String tkAssignmentId) {
-		this.tkAssignmentId = tkAssignmentId;
 	}
 
 	public String getRequestStatus() {

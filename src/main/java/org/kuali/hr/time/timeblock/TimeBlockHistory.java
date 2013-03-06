@@ -54,8 +54,6 @@ public class TimeBlockHistory extends TimeBlock {
 		this.setUserPrincipalId(tb.getUserPrincipalId());
 		this.setPrincipalId(tb.getPrincipalId());
 		this.setTimestamp(tb.getTimestamp());
-		this.setBeginTimestampTimezone(tb.getBeginTimestampTimezone());
-		this.setEndTimestampTimezone(tb.getEndTimestampTimezone());
 		// add time block history details for this time block history
 		TkServiceLocator.getTimeBlockHistoryService().addTimeBlockHistoryDetails(this, tb);
 	}

@@ -42,7 +42,7 @@ public class LeaveBlockHistory extends LeaveBlock {
 		this.setDocumentId(lb.getDocumentId());
 		this.setAccrualCategory(lb.getAccrualCategory());
 		this.setAccrualGenerated(lb.getAccrualGenerated());
-		this.setApplyToYtdUsed(lb.getApplyToYtdUsed());
+//		this.setApplyToYtdUsed(lb.getApplyToYtdUsed());
 		this.setDescription(lb.getDescription());
 		this.setLeaveAmount(lb.getLeaveAmount());
 		this.setEarnCode(lb.getEarnCode());
@@ -51,7 +51,7 @@ public class LeaveBlockHistory extends LeaveBlock {
 //		this.setPrincipalIdModified(lb.getPrincipalIdModified());
 		this.setRequestStatus(lb.getRequestStatus());
 		this.setTimestamp(lb.getTimestamp());
-		this.setTkAssignmentId(lb.getTkAssignmentId());
+//		this.setTkAssignmentId(lb.getTkAssignmentId());
 		this.setScheduleTimeOffId(lb.getScheduleTimeOffId());
 		this.setLeaveBlockType(lb.getLeaveBlockType());
 		

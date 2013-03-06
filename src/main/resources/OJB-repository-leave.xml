@@ -170,13 +170,11 @@
         <field-descriptor name="scheduleTimeOffId"      column="LM_SYS_SCHD_TIMEOFF_ID" jdbc-type="VARCHAR"     length="60" nullable="true" />
         <field-descriptor name="accrualCategory"        column="ACCRUAL_CATEGORY"       jdbc-type="VARCHAR"     length="15" nullable="true" />
         <field-descriptor name="leaveAmount"            column="LEAVE_AMOUNT"           jdbc-type="NUMERIC"     nullable="false" />
-        <field-descriptor name="applyToYtdUsed"         column="APPLY_TO_YTD_USED"      jdbc-type="VARCHAR" />
         <field-descriptor name="documentId"             column="DOCUMENT_ID"            jdbc-type="VARCHAR"     length="40" nullable="true" />
         <field-descriptor name="principalIdModified"    column="PRINCIPAL_ID_MODIFIED"  jdbc-type="VARCHAR"     length="40" nullable="true" />
         <field-descriptor name="timestamp"              column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="true" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
         <field-descriptor name="accrualGenerated"       column="ACCRUAL_GENERATED"      jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="blockId"                column="BLOCK_ID"               jdbc-type="BIGINT"      nullable="true" />
-        <field-descriptor name="tkAssignmentId"         column="TK_ASSIGNMENT_ID"       jdbc-type="VARCHAR"     length="60" nullable="true" />
         <field-descriptor name="requestStatus"          column="REQUEST_STATUS"         jdbc-type="VARCHAR"     length="1" nullable="false"     />
         <field-descriptor name="jobNumber"              column="JOB_NUMBER"             jdbc-type="BIGINT"      nullable="false" primarykey="false" />
         <field-descriptor name="workArea"               column="WORK_AREA"              jdbc-type="BIGINT"      nullable="false" primarykey="false" />
@@ -203,13 +201,11 @@
         <field-descriptor name="scheduleTimeOffId"      column="LM_SYS_SCHD_TIMEOFF_ID" jdbc-type="VARCHAR"     length="60" nullable="true" />
         <field-descriptor name="accrualCategory"        column="ACCRUAL_CATEGORY"       jdbc-type="VARCHAR"     length="15" nullable="true" />
         <field-descriptor name="leaveAmount"            column="LEAVE_AMOUNT"           jdbc-type="NUMERIC"     nullable="false" />
-        <field-descriptor name="applyToYtdUsed"         column="APPLY_TO_YTD_USED"      jdbc-type="VARCHAR" />
         <field-descriptor name="documentId"             column="DOCUMENT_ID"            jdbc-type="VARCHAR"     length="40" nullable="true" />
         <field-descriptor name="principalIdModified"    column="PRINCIPAL_ID_MODIFIED"  jdbc-type="VARCHAR"     length="40" nullable="true" />
         <field-descriptor name="timestamp"              column="TIMESTAMP"              jdbc-type="TIMESTAMP"   nullable="true" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
         <field-descriptor name="accrualGenerated"       column="ACCRUAL_GENERATED"      jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="blockId"                column="BLOCK_ID"               jdbc-type="BIGINT"      nullable="true" />
-        <field-descriptor name="tkAssignmentId"         column="TK_ASSIGNMENT_ID"       jdbc-type="VARCHAR"     length="60" />
         <field-descriptor name="requestStatus"          column="REQUEST_STATUS"         jdbc-type="VARCHAR"     length="1" nullable="false"     />
         <field-descriptor name="action"                 column="ACTION"                 jdbc-type="VARCHAR"     length="1"  />
         <field-descriptor name="principalIdDeleted"     column="PRINCIPAL_ID_DELETED"   jdbc-type="VARCHAR"     length="40" nullable="true" />

@@ -68,8 +68,6 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     private String principalId;
     private String userPrincipalId;
     private Timestamp timestamp;
-    private String beginTimestampTimezone;
-    private String endTimestampTimezone;
     private DateTime beginTimeDisplay;
     private DateTime endTimeDisplay;
     private String clockLogBeginId;
@@ -234,27 +232,9 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
         this.timestamp = timestamp;
     }
 
-    public String getBeginTimestampTimezone() {
-        return beginTimestampTimezone;
-    }
-
-    public void setBeginTimestampTimezone(String beginTimestampTimezone) {
-        this.beginTimestampTimezone = beginTimestampTimezone;
-    }
-
-    public String getEndTimestampTimezone() {
-        return endTimestampTimezone;
-    }
-
-    public void setEndTimestampTimezone(String endTimestampTimezone) {
-        this.endTimestampTimezone = endTimestampTimezone;
-    }
-
     public String toCSVString() {
         StringBuffer sb = new StringBuffer();
-        sb.append(this.beginTimestampTimezone + ",");
         sb.append(this.earnCode + ",");
-        sb.append(this.endTimestampTimezone + ",");
         sb.append(this.userPrincipalId + ",");
         sb.append(this.amount + ",");
         sb.append(this.beginTimestamp + ",");
