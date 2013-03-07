@@ -21,7 +21,7 @@
     
     <changeSet id="1-mysql" author="dgodfrey" dbms="mysql" context="kpme-client-bootstrap">
         <comment>description should be nullable</comment>
-		<dropNotNullConstraint tableName="pm_institution_t" columnName="description" columnDataType="VARCHAR(50)"/>
+		<dropNotNullConstraint tableName="PM_INSTITUTION_T" columnName="DESCRIPTION" columnDataType="VARCHAR(50)"/>
     </changeSet>
     
 </databaseChangeLog>
