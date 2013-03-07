@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.assignment.Assignment;
@@ -62,7 +63,7 @@ public class TkMobileServiceImpl implements TkMobileService {
 	}
 
 	@Override
-	public HashMap<String,List<String>> addClockAction(String principalId, String assignmentKey, String clockAction) {
+	public Map<String,List<String>> addClockAction(String principalId, String assignmentKey, String clockAction) {
 		HashMap<String,List<String>> errorWarningMap = new HashMap<String,List<String>>();
 
         // Set person on the context
