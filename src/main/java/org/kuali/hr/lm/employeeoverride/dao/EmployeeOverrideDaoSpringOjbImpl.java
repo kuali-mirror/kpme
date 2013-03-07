@@ -46,10 +46,9 @@ public class EmployeeOverrideDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb im
         List<EmployeeOverride> employeeOverrides = new ArrayList<EmployeeOverride>();
         Criteria root = new Criteria();
 
-        final ImmutableList<String> fields = new ImmutableList.Builder<String>().add("principalId").build();
         root.addEqualTo("principalId", principalId);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EmployeeOverride.class, asOfDate, fields, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EmployeeOverride.class, fields, false));
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(EmployeeOverride.class, asOfDate, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EmployeeOverride.class, EQUAL_TO_FIELDS, false));
 
         Criteria activeFilter = new Criteria(); // Inner Join For Activity
         activeFilter.addEqualTo("active", true);
