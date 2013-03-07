@@ -16,12 +16,7 @@
 package org.kuali.hr.lm.approval.web;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,6 +32,8 @@ import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.base.web.ApprovalForm;
 import org.kuali.hr.time.person.TKPerson;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 
 public class LeaveApprovalWSAction extends TkAction {
 
@@ -64,8 +61,9 @@ public class LeaveApprovalWSAction extends TkAction {
 		        
 		        List<String> workAreaList = new ArrayList<String>();
 		        if(StringUtil.isEmpty(laaf.getSelectedWorkArea())) {
-		        	for(Long aKey : laaf.getWorkAreaDescr().keySet()) {
-		        		workAreaList.add(aKey.toString());
+                    Set<Long> workAreas = TkServiceLocator.getTkRoleService().getWorkAreasForApprover(TKContext.getPrincipalId(), TKUtils.getCurrentDate());
+		        	for(Long workArea : workAreas) {                             //laaf.getWorkAreaDescr().keySet()
+		        		workAreaList.add(workArea.toString());
 		        	}
 		        } else {
 		        	workAreaList.add(laaf.getSelectedWorkArea());
