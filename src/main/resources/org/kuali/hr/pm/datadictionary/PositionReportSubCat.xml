@@ -46,9 +46,11 @@
 		<property name="relationships">
 			<list>
 				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="prtObj" />
+					<property name="objectAttributeName" value="prcObj" />
 					<property name="primitiveAttributes">
 						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="positionReportCat"
+								p:targetName="positionReportCat" />
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="positionReportType"
 								p:targetName="positionReportType" />
 						</list>
@@ -124,8 +126,8 @@
 	<bean id="PositionReportSubCat-positionReportCat" parent="PositionReportSubCat-positionReportCat-parentBean" />
 	<bean id="PositionReportSubCat-positionReportCat-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="maxLength" value="10" />
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="20" />
+	    <property name="control">
+			<bean parent="LookupReadonlyControlDefinition" p:size="20" />
 		</property>
 		<property name="name" value="positionReportCat" />
 		<property name="label" value="Position Report Category" />
@@ -234,7 +236,6 @@
 				<bean parent="FieldDefinition" p:attributeName="positionReportSubCat" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 				<bean parent="FieldDefinition" p:attributeName="positionReportCat" />
-				<bean parent="FieldDefinition" p:attributeName="positionReportType" />
 				<bean parent="FieldDefinition" p:attributeName="institution" />
 				<bean parent="FieldDefinition" p:attributeName="campus" />
 				<bean parent="FieldDefinition" p:attributeName="active" />

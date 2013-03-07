@@ -9,7 +9,7 @@ public interface PositionReportTypeDao {
 	
 	public PositionReportType getPositionReportTypeById(String pmPositionReportTypeId);
 	
-	public PositionReportType getPositionReportTypeByTypeAndDate(String positionReportType, Date asOfDate);
+	public List<PositionReportType> getPositionReportTypeList(String positionReportType, String institution, String campus, Date asOfDate);
 	
 	public List<PositionReportType> getPositionReportTypeListByType(String positionReportType);
 	

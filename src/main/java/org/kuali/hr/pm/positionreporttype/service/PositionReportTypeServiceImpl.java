@@ -25,8 +25,8 @@ public class PositionReportTypeServiceImpl implements PositionReportTypeService 
 	}
 
 	@Override
-	public PositionReportType getPositionReportTypeByTypeAndDate(String positionReportType, Date asOfDate) {
-		return positionReportTypeDao.getPositionReportTypeByTypeAndDate(positionReportType, asOfDate);
+	public List<PositionReportType> getPositionReportTypeList(String positionReportType, String institution, String campus, Date asOfDate) {
+		return positionReportTypeDao.getPositionReportTypeList(positionReportType, institution, campus, asOfDate);
 	}
 	
 	@Override

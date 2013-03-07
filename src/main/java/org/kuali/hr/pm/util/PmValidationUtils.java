@@ -54,90 +54,71 @@ public class PmValidationUtils {
 	}
 	
 	/**
-	 * Validate if there exists Position Report Type that matches given postionReportType and exists before given date 
-	 * Wild card is allowed 
+	 * Validate if there exists Position Report Type that matches given postionReportType, institution, campus and exists before given date 
+	 * Wild card is allowed for String parameters
 	 * @param positionReportType
 	 * @param asOfDate
 	 * @return
 	 */
-	public static boolean validatePositionReportType(String positionReportType, Date asOfDate) {
+	public static boolean validatePositionReportType(String positionReportType, String institution, String campus, Date asOfDate) {
 		boolean valid = false;
-		if (StringUtils.equals(positionReportType, TkConstants.WILDCARD_CHARACTER)) {
-			valid = true;
-		} else if (asOfDate != null) {
-			PositionReportType prt = PmServiceLocator.getPositionReportTypeService().getPositionReportTypeByTypeAndDate(positionReportType, asOfDate);
-			valid = (prt != null);
-		} else {
-			List<PositionReportType> prtList = PmServiceLocator.getPositionReportTypeService().getPositionReportTypeListByType(positionReportType);
-			valid = CollectionUtils.isNotEmpty(prtList);
-		}
+		if (asOfDate != null) {
+			List<PositionReportType> prtList = PmServiceLocator.getPositionReportTypeService().getPositionReportTypeList(positionReportType, institution, campus, asOfDate);
+			valid = (CollectionUtils.isNotEmpty(prtList));
+		} 
 		return valid;
 	}	
 	
 	/** 
 	 * Validate if the institution is consistent with given Position Report Type 
+	 * Wild card is allowed for String parameters
 	 * @param positionReportType
 	 * @param institutionCode
 	 * @param asOfDate
 	 * @return
 	 */
 	public static boolean validateInstitutionWithPRT(String positionReportType, String institutionCode, Date asOfDate) {
-		if (StringUtils.equals(institutionCode, TkConstants.WILDCARD_CHARACTER)) {
-			return true;
-		} 
-		if(StringUtils.equals(positionReportType, TkConstants.WILDCARD_CHARACTER)) {
-			// look up existing position Report Type with the institutionCode
-			List<PositionReportType> prtList = PmServiceLocator.getPositionReportTypeService().getPrtListWithInstitutionCodeAndDate(institutionCode, asOfDate);
-			if(CollectionUtils.isEmpty(prtList))
-				return false;
-		}
 		if (asOfDate != null) {
-			PositionReportType prt = PmServiceLocator.getPositionReportTypeService().getPositionReportTypeByTypeAndDate(positionReportType, asOfDate);
-			if(prt != null && prt.getInstitution().equals(institutionCode))
-				return true;
+			List<PositionReportType> prtList = PmServiceLocator.getPositionReportTypeService()
+				.getPositionReportTypeList(positionReportType, institutionCode, TkConstants.WILDCARD_CHARACTER, asOfDate);
+			return CollectionUtils.isNotEmpty(prtList);
 		} 
 		return false;
 	}
 	
 	/**
 	 * Validate if the campus is consistent with given positonReportType
+	 * Wild card is allowed for String parameters
 	 * @param positionReportType
 	 * @param campus
 	 * @param asOfDate
 	 * @return
 	 */
 	public static boolean validateCampusWithPRT(String positionReportType, String campus, Date asOfDate) {
-		if (StringUtils.equals(campus, TkConstants.WILDCARD_CHARACTER))
-			return true;
-		
-		if(StringUtils.equals(positionReportType, TkConstants.WILDCARD_CHARACTER)) {
-			// look up existing position Report Type with the given campus
-			List<PositionReportType> prtList = PmServiceLocator.getPositionReportTypeService().getPrtListWithCampusAndDate(campus, asOfDate);
-			if(CollectionUtils.isEmpty(prtList))
-				return false;
-		}
-		
 		if (asOfDate != null) {
-			PositionReportType prt = PmServiceLocator.getPositionReportTypeService().getPositionReportTypeByTypeAndDate(positionReportType, asOfDate);
-			if(prt != null && prt.getCampus().equals(campus))
-				return true;
+			List<PositionReportType> prtList = PmServiceLocator.getPositionReportTypeService()
+				.getPositionReportTypeList(positionReportType, TkConstants.WILDCARD_CHARACTER, campus, asOfDate);
+			return CollectionUtils.isNotEmpty(prtList);
 		} 
 		return false;
 	}
 	
 	/**
-	 * Validate if there exists Position Report Category that matches given postionReportCat and exists before given date 
+	 * Validate if there exists Position Report Category that matches given postionReportCat, positionReportType , institution, campus and exists before given date 
+	 * Wild card allowed
 	 * @param positionReportCat
+	 * @param positionReportType
+	 * @param institution
+	 * @param campus
 	 * @param asOfDate
 	 * @return
 	 */
-	public static boolean validatePositionReportCategory(String positionReportCat, Date asOfDate) {
-		boolean valid = false;
+	public static boolean validatePositionReportCategory(String positionReportCat, String positionReportType, String institution, String campus, Date asOfDate) {
 		if (StringUtils.isNotEmpty(positionReportCat) && asOfDate != null) {
-			PositionReportCategory prc = PmServiceLocator.getPositionReportCatService().getPositionReportCatByCatAndDate(positionReportCat, asOfDate);
-			valid = (prc != null);
+			List<PositionReportCategory> prcList = PmServiceLocator.getPositionReportCatService().getPositionReportCatList(positionReportCat, positionReportType, institution, campus, asOfDate);
+			return CollectionUtils.isNotEmpty(prcList);
 		}
-		return valid;
+		return false;
 	}
 	
 	

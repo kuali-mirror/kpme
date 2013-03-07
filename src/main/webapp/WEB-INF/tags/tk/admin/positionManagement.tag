@@ -30,6 +30,10 @@
             <portal:portalLink displayTitle="true" title="Position Report Category"
                    url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.pm.positionreportcat.PositionReportCategory&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
         </li>
+        <li>
+            <portal:portalLink displayTitle="true" title="Position Report Sub Category"
+                   url="${ConfigProperties.application.url}/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.pm.positionreportsubcat.PositionReportSubCategory&returnLocation=${ConfigProperties.application.url}/portal.do&showMaintenanceLinks=true&hideReturnLink=true&docFormKey=88888888&active=Y" />
+        </li>
 	</ul>
 </div>
 <channel:portalChannelBottom />

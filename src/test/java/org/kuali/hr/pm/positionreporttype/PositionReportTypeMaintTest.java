@@ -1,6 +1,7 @@
 package org.kuali.hr.pm.positionreporttype;
 
 import java.sql.Date;
+import java.util.List;
 
 import junit.framework.Assert;
 
@@ -47,8 +48,8 @@ public class PositionReportTypeMaintTest extends KPMETestCase {
 	public void testAddNew() throws Exception {
 		Date effectiveDate =  new Date((new DateTime(2012, 4, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		String prtString = "testPRT";
-		PositionReportType prt = PmServiceLocator.getPositionReportTypeService().getPositionReportTypeByTypeAndDate(prtString, effectiveDate);
-		Assert.assertTrue("There should NOT be Position Report Type with name " + prtString, prt == null);
+		List<PositionReportType> prtList = PmServiceLocator.getPositionReportTypeService().getPositionReportTypeList(prtString, "testInst", "TS", effectiveDate);
+		Assert.assertTrue("There should NOT be Position Report Type with name " + prtString, prtList.isEmpty());
 		
 	  	String baseUrl = PmTestConstants.Urls.POSITION_REPORT_TYPE_MAINT_NEW_URL;
 	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
@@ -84,8 +85,8 @@ public class PositionReportTypeMaintTest extends KPMETestCase {
 	  	page = element.click();
 	  	Assert.assertFalse("page text contains error", page.asText().contains("error"));
 	  	
-	  	prt = PmServiceLocator.getPositionReportTypeService().getPositionReportTypeByTypeAndDate(prtString, effectiveDate);
-	  	Assert.assertTrue("There should be Position Report Type with name " + prtString, prt != null);
+	  	prtList = PmServiceLocator.getPositionReportTypeService().getPositionReportTypeList(prtString, "testInst", "TS", effectiveDate);
+	  	Assert.assertTrue("There should be 1 Position Report Type with name " + prtString, prtList.size() == 1);
 	  	
 	}
 }

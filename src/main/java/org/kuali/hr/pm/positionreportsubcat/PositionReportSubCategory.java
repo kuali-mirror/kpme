@@ -21,7 +21,6 @@ public class PositionReportSubCategory extends HrBusinessObject {
 	
 	CampusBo campusObj;
 	Institution institutionObj;
-	PositionReportType prtObj;
 	PositionReportCategory prcObj;
 	
 	@Override
@@ -36,7 +35,7 @@ public class PositionReportSubCategory extends HrBusinessObject {
 
 	@Override
 	protected String getUniqueKey() {
-		return this.getPositionReportCat() + "_" + this.getPositionReportType();
+		return getPositionReportSubCat() +this.getPositionReportCat() + "_" + this.getPositionReportType();
 		
 	}
 
@@ -65,12 +64,6 @@ public class PositionReportSubCategory extends HrBusinessObject {
 	}
 
 	public String getPositionReportType() {
-		if(positionReportType == null && StringUtils.isNotEmpty(getPositionReportCat())) {
-			PositionReportCategory prc = PmServiceLocator.getPositionReportCatService().getPositionReportCatByCatAndDate(this.getPositionReportCat(), getEffectiveDate());
-			if(prc != null) {
-				setPositionReportType(prc.getPositionReportType());
-			}
-		}
 		return positionReportType;
 	}
 
@@ -116,14 +109,6 @@ public class PositionReportSubCategory extends HrBusinessObject {
 
 	public void setInstitutionObj(Institution institutionObj) {
 		this.institutionObj = institutionObj;
-	}
-
-	public PositionReportType getPrtObj() {
-		return prtObj;
-	}
-
-	public void setPrtObj(PositionReportType prtObj) {
-		this.prtObj = prtObj;
 	}
 
 	public PositionReportCategory getPrcObj() {

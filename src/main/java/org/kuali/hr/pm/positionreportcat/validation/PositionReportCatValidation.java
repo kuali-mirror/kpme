@@ -16,18 +16,21 @@ public class PositionReportCatValidation extends MaintenanceDocumentRuleBase  {
 		
 		if (prc != null) {
 			valid = true;
-			valid &= this.validatePositionReportType(prc);
 			valid &= this.validateInstitution(prc);
 			valid &= this.validateCampus(prc);
+			valid &= this.validatePositionReportType(prc);
 		}
 		return valid;
 	}
 	
 	private boolean validatePositionReportType(PositionReportCategory prc) {
 		if (StringUtils.isNotEmpty(prc.getPositionReportType())
-				&& !PmValidationUtils.validatePositionReportType(prc.getPositionReportType(), prc.getEffectiveDate())) {
-			this.putFieldError("positionReportType", "error.existence", "Position Report Type '"
-					+ prc.getPositionReportType() + "'");
+				&& !PmValidationUtils.validatePositionReportType(prc.getPositionReportType(), prc.getInstitution(), prc.getCampus(), prc.getEffectiveDate())) {
+			String[] parameters = new String[3];
+			parameters[0] = prc.getPositionReportType();
+			parameters[1] = prc.getInstitution();
+			parameters[2] = prc.getCampus();
+			this.putFieldError("positionReportType", "institution.campus.inconsistent.positionReportType", parameters);
 			return false;
 		}
 		return true;
@@ -40,14 +43,6 @@ public class PositionReportCatValidation extends MaintenanceDocumentRuleBase  {
 						+ prc.getInstitution() + "'");
 				return false;
 			}
-			if(StringUtils.isNotEmpty(prc.getPositionReportType())
-					&& !PmValidationUtils.validateInstitutionWithPRT(prc.getPositionReportType(), prc.getInstitution(), prc.getEffectiveDate())) {
-				String[] parameters = new String[2];
-				parameters[0] = prc.getPositionReportType();
-				parameters[1] = prc.getInstitution();
-				this.putFieldError("institution", "institution.inconsistent.positionReportType", parameters);
-				return false;
-			}
 		}
 		return true;
 	}
@@ -57,14 +52,6 @@ public class PositionReportCatValidation extends MaintenanceDocumentRuleBase  {
 			if(!PmValidationUtils.validateCampus(prc.getCampus())) {
 				this.putFieldError("campus", "error.existence", "Campus '"
 						+ prc.getCampus() + "'");
-				return false;
-			}
-			if(StringUtils.isNotEmpty(prc.getPositionReportType())
-					&& !PmValidationUtils.validateCampusWithPRT(prc.getPositionReportType(),prc.getCampus(), prc.getEffectiveDate())) {
-				String[] parameters = new String[2];
-				parameters[0] = prc.getPositionReportType();
-				parameters[1] = prc.getCampus();
-				this.putFieldError("campus", "campus.inconsistent.positionReportType", parameters);
 				return false;
 			}
 		}

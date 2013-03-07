@@ -13,14 +13,17 @@ public interface PositionReportTypeService {
 	 * @return
 	 */
 	public PositionReportType getPositionReportTypeById(String pmPositionReportTypeId);
-	
+
 	/**
-	 * Get the newest active PositionReportType with given type and effective date
+	 * Get list of PositionReportType with given type, institution, campus and effective date
+	 * wild card allowed
 	 * @param positionReportType
+	 * @param institution
+	 * @param campus
 	 * @param asOfDate
 	 * @return
 	 */
-	public PositionReportType getPositionReportTypeByTypeAndDate(String positionReportType, Date asOfDate);
+	public List<PositionReportType> getPositionReportTypeList(String positionReportType, String institution, String campus, Date asOfDate);
 	
 	/**
 	 * Retrieve list of position report type by given positionReportType 

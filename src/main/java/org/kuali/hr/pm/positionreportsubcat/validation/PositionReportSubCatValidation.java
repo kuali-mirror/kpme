@@ -16,7 +16,7 @@ public class PositionReportSubCatValidation extends MaintenanceDocumentRuleBase 
 		if (prsc != null) {
 			valid = true;
 			valid &= this.validatePositionReportCategory(prsc);
-//				valid &= this.validateInstitution(prsc);
+			valid &= this.validateInstitution(prsc);
 			valid &= this.validateCampus(prsc);
 		}
 		return valid;
@@ -24,9 +24,14 @@ public class PositionReportSubCatValidation extends MaintenanceDocumentRuleBase 
 	
 	private boolean validatePositionReportCategory(PositionReportSubCategory prsc) {
 		if (StringUtils.isNotEmpty(prsc.getPositionReportCat())
-				&& !PmValidationUtils.validatePositionReportCategory(prsc.getPositionReportCat(), prsc.getEffectiveDate())) {
-			this.putFieldError("positionReportCategory", "error.existence", "Position Report Category '"
-					+ prsc.getPositionReportCat() + "'");
+				&& StringUtils.isNotEmpty(prsc.getPositionReportType())
+				&& !PmValidationUtils.validatePositionReportCategory(prsc.getPositionReportCat(), prsc.getPositionReportType(), prsc.getInstitution(), prsc.getCampus(),prsc.getEffectiveDate())) {
+			String[] parameters = new String[4];
+			parameters[0] = prsc.getPositionReportCat();
+			parameters[1] = prsc.getPositionReportType();
+			parameters[2] = prsc.getInstitution();
+			parameters[3] = prsc.getCampus();
+			this.putFieldError("positionReportCat", "institution.campus.type.inconsistent.positionReportCat", parameters);
 			return false;
 		}
 		return true;
@@ -39,14 +44,6 @@ public class PositionReportSubCatValidation extends MaintenanceDocumentRuleBase 
 						+ prsc.getInstitution() + "'");
 				return false;
 			}
-			if(StringUtils.isNotEmpty(prsc.getPositionReportType())
-					&& !PmValidationUtils.validateInstitutionWithPRT(prsc.getPositionReportType(), prsc.getInstitution(), prsc.getEffectiveDate())) {
-				String[] parameters = new String[2];
-				parameters[0] = prsc.getPositionReportType();
-				parameters[1] = prsc.getInstitution();
-				this.putFieldError("institution", "institution.inconsistent.positionReportType", prsc.getInstitution());
-				return false;
-			}
 		}
 		return true;
 	}
@@ -56,14 +53,6 @@ public class PositionReportSubCatValidation extends MaintenanceDocumentRuleBase 
 			if(!PmValidationUtils.validateCampus(prsc.getCampus())) {
 				this.putFieldError("campus", "error.existence", "Campus '"
 						+ prsc.getCampus() + "'");
-				return false;
-			}
-			if(StringUtils.isNotEmpty(prsc.getPositionReportType())
-					&& !PmValidationUtils.validateCampusWithPRT(prsc.getPositionReportType(),prsc.getCampus(), prsc.getEffectiveDate())) {
-				String[] parameters = new String[2];
-				parameters[0] = prsc.getPositionReportType();
-				parameters[1] = prsc.getCampus();
-				this.putFieldError("campus", "campus.inconsistent.positionReportType", parameters);
 				return false;
 			}
 		}

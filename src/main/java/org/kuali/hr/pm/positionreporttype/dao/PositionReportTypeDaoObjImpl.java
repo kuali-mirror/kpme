@@ -5,11 +5,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.pm.positionreporttype.PositionReportType;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 import com.google.common.collect.ImmutableList;
@@ -18,6 +20,8 @@ public class PositionReportTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implem
 	
 	 private static final ImmutableList<String> PRT_EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
 																	     .add("positionReportType")
+																	     .add("institution")
+																	     .add("campus")
 																	     .build();
 	
 	@Override
@@ -30,21 +34,34 @@ public class PositionReportTypeDaoObjImpl extends PlatformAwareDaoBaseOjb implem
 	}
 
 	@Override
-	public PositionReportType getPositionReportTypeByTypeAndDate(String positionReportType, Date asOfDate) {
+	public List<PositionReportType> getPositionReportTypeList(String positionReportType, String institution, String campus, Date asOfDate) {
+		List<PositionReportType> prtList = new ArrayList<PositionReportType>();
 		Criteria root = new Criteria();
-
-        root.addEqualTo("positionReportType", positionReportType); 
+		if(StringUtils.isNotEmpty(positionReportType) 
+				&& !StringUtils.equals(positionReportType, TkConstants.WILDCARD_CHARACTER)) {
+			root.addEqualTo("positionReportType", positionReportType); 
+		}
+		if(StringUtils.isNotEmpty(institution) 
+				&& !StringUtils.equals(institution, TkConstants.WILDCARD_CHARACTER)) {
+			root.addEqualTo("institution", institution); 
+		}
+		if(StringUtils.isNotEmpty(campus) 
+				&& !StringUtils.equals(campus, TkConstants.WILDCARD_CHARACTER)) {
+			root.addEqualTo("campus", campus); 
+		}
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PositionReportType.class, asOfDate, PRT_EQUAL_TO_FIELDS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PositionReportType.class, PRT_EQUAL_TO_FIELDS, false));
         
         Criteria activeFilter = new Criteria();
         activeFilter.addEqualTo("active", true);
         root.addAndCriteria(activeFilter);
-
         Query query = QueryFactory.newQuery(PositionReportType.class, root);
-        Object obj = this.getPersistenceBrokerTemplate().getObjectByQuery(query);
-
-        return (PositionReportType) obj;
+        
+        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
+		if(!c.isEmpty())
+			prtList.addAll(c);
+		
+		return prtList;
 	}
 	
 	@Override

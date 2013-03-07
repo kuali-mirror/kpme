@@ -32,7 +32,7 @@ public class PositionReportCategory extends HrBusinessObject {
 
 	@Override
 	protected String getUniqueKey() {
-		return getPositionReportCat() + "_" + getPositionReportType();
+		return getPositionReportCat() + "_" + getPositionReportType() + "_" + getInstitution() + "_" + getCampus();
 	}
 
 	public String getPositionReportType() {
