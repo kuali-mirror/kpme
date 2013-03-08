@@ -146,50 +146,37 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
         Map<String, Set<String>> allMessages= LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
         //get LeaveSummary and check for warnings
         if (doc != null) {
-            Map<String, Set<LeaveBlock>> eligibilities;
-            try {
-        	 eligibilities = TkServiceLocator.getBalanceTransferService().getNewEligibleTransfers(calendarEntry, doc.getPrincipalId());
-            } catch (Exception e) {
-            	eligibilities = null;
-            }
-            if (eligibilities != null) {
-                for (Entry<String,Set<LeaveBlock>> entry : eligibilities.entrySet()) {
-              	  for(LeaveBlock block : entry.getValue()) {
-              		  
-              		  AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
-              		  if (rule != null) {
-              			  AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
-              			  if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.TRANSFER)) {
-              				  //Todo: add link to balance transfer
-              				  allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");   //warningMessages
-              			  } else if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
-              				  //Todo: compute and display amount of time lost.
-              				  allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");      //warningMessages
-              			  }
-              			  //will never contain PAYOUT action transfers.
-              		  }
-              	  }
-                }
-            }
-            Map<String, Set<LeaveBlock>> payoutEligible;
-            try {
-          	  payoutEligible = TkServiceLocator.getLeavePayoutService().getNewEligiblePayouts(calendarEntry, doc.getPrincipalId());
-            } catch (Exception e) {
-          	  payoutEligible = null;  
-            }
-            if (payoutEligible != null) {
-                for (Entry<String,Set<LeaveBlock>> entry : payoutEligible.entrySet()) {
-              	  for(LeaveBlock lb : entry.getValue()) {
-              		  AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
-              		  if (rule != null) {
-              			  AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
-             				  allMessages.get("warningMessages").add("Accrual category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");
-              		  }
-              		  // should never contain LOSE or TRANSFER max balance actions.
-              	  }
-                }
-            }
-        }        return allMessages;
+        	Map<String, Set<LeaveBlock>> eligibilities;
+        	try {
+        		eligibilities = TkServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry, doc.getPrincipalId());
+        	} catch (Exception e) {
+        		eligibilities = null;
+        	}
+        	if (eligibilities != null) {
+        		for (Entry<String,Set<LeaveBlock>> entry : eligibilities.entrySet()) {
+        			for(LeaveBlock block : entry.getValue()) {
+
+        				AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
+        				if (rule != null) {
+        					AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
+        					if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.TRANSFER)) {
+        						//Todo: add link to balance transfer
+        						allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");   //warningMessages
+        					} else if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
+        						//Todo: compute and display amount of time lost.
+        						allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");      //warningMessages
+        					} else if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.PAYOUT)){
+        						//Todo: display information about the payout
+        						allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");      //warningMessages
+
+        					}
+
+        				}
+        			}
+        		}
+        	}
+        }        
+        return allMessages;
     }
 	
 	@Override

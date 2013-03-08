@@ -34,7 +34,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class LeavePayoutValidationUtils {
 
-	public static boolean validateTransfer(LeavePayout leavePayout) {
+	public static boolean validatePayout(LeavePayout leavePayout) {
 		boolean isValid = true;
 		String principalId = leavePayout.getPrincipalId();
 		Date effectiveDate = leavePayout.getEffectiveDate();
@@ -114,11 +114,10 @@ public class LeavePayoutValidationUtils {
 		}
 		
 		//use override if one exists.
-		List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, effectiveDate);
-		for(EmployeeOverride override : overrides) {
-			if(override.getOverrideType().equals(TkConstants.EMPLOYEE_OVERRIDE_TYPE.get("MPA")))
-				adjustedMaxPayoutAmount = new BigDecimal(override.getOverrideValue());
-		}
+		EmployeeOverride maxPayoutAmountOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromCat.getLeavePlan(), fromCat.getAccrualCategory(), "MPA", effectiveDate);
+		if(ObjectUtils.isNotNull(maxPayoutAmountOverride))
+			adjustedMaxPayoutAmount = new BigDecimal(maxPayoutAmountOverride.getOverrideValue());
+				
 				
 		if(ObjectUtils.isNotNull(adjustedMaxPayoutAmount)) {
 			if(payoutAmount.compareTo(adjustedMaxPayoutAmount) > 0) {

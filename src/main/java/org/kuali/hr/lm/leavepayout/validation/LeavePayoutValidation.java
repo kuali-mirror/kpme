@@ -112,7 +112,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 	private boolean validateTransferFromAccrualCategory(AccrualCategory accrualCategory, String principalId,
 			Date effectiveDate, AccrualCategoryRule acr) {
 		//accrualCategory has rules
-		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, effectiveDate);
+		//PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, effectiveDate);
 		
 		return true;
 	}

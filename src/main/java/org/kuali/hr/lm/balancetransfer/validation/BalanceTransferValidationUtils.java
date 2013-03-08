@@ -133,11 +133,9 @@ public class BalanceTransferValidationUtils {
 		}
 		
 		//use override if one exists.
-		List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, effectiveDate);
-		for(EmployeeOverride override : overrides) {
-			if(override.getOverrideType().equals(TkConstants.EMPLOYEE_OVERRIDE_TYPE.get("MTA")))
-				adjustedMaxTransferAmount = new BigDecimal(override.getOverrideValue());
-		}
+		EmployeeOverride maxTransferAmountOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromCat.getLeavePlan(), fromCat.getAccrualCategory(), "MTA", effectiveDate);
+		if(ObjectUtils.isNotNull(maxTransferAmountOverride))
+			adjustedMaxTransferAmount = new BigDecimal(maxTransferAmountOverride.getOverrideValue());
 				
 		if(ObjectUtils.isNotNull(adjustedMaxTransferAmount)) {
 			if(transferAmount.compareTo(adjustedMaxTransferAmount) > 0) {

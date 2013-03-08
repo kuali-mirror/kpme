@@ -138,7 +138,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 				adjustedMaxCarryOver = maxCarryOver;
 			}
 			
-			EmployeeOverride maxBalanceOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromAccrualCategory.getLeavePlan(), fromAccrualCategory.getAccrualCategory(), "MB", effectiveDate);
+/*			EmployeeOverride maxBalanceOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromAccrualCategory.getLeavePlan(), fromAccrualCategory.getAccrualCategory(), "MB", effectiveDate);
 			EmployeeOverride maxTransferAmountOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromAccrualCategory.getLeavePlan(), fromAccrualCategory.getAccrualCategory(), "MTA", effectiveDate);
 			EmployeeOverride maxAnnualCarryOverOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromAccrualCategory.getLeavePlan(), fromAccrualCategory.getAccrualCategory(), "MAC", effectiveDate);
 			//Do not pro-rate override values for FTE.
@@ -147,10 +147,10 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 			if(maxTransferAmountOverride != null)
 				adjustedMaxTransferAmount = new BigDecimal(maxTransferAmountOverride.getOverrideValue());
 			if(maxAnnualCarryOverOverride != null)
-				adjustedMaxCarryOver = new BigDecimal(maxAnnualCarryOverOverride.getOverrideValue());
+				adjustedMaxCarryOver = new BigDecimal(maxAnnualCarryOverOverride.getOverrideValue());*/
 
 
-/*			List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, effectiveDate);
+			List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, effectiveDate);
 			for(EmployeeOverride override : overrides) {
 				if(StringUtils.equals(override.getAccrualCategory(),fromAccrualCategory.getAccrualCategory())) {
 					//Do not pro-rate override values for FTE.
@@ -161,7 +161,7 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 					if(StringUtils.equals(override.getOverrideType(),"MAC"))
 						adjustedMaxCarryOver = new BigDecimal(override.getOverrideValue());
 				}
-			}*/
+			}
 			
 			
 			BigDecimal transferAmount = accruedBalance.subtract(adjustedMaxBalance);
@@ -550,10 +550,31 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		if(!accrualCategories.isEmpty()) {
 
 			Map<String, BigDecimal> accruedBalance = new HashMap<String, BigDecimal>();
+			Date asOfDate = calendarEntry.getEndPeriodDate();
+			
+			if(!thisEntryInterval.contains(asOfDate.getTime()))
+				asOfDate = calendarEntry.getEndPeriodDate();
+/*			if(thisEntryInterval.isAfter(asOfDate.getTime()))
+				asOfDate = calendarEntry.getBeginPeriodDate();
+			else if(thisEntryInterval.isBefore(asOfDate.getTime()))
+				asOfDate = calendarEntry.getEndPeriodDate();*/
+			
 			for(AccrualCategory accrualCategory : accrualCategories) {
+				List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, pha.getServiceDate(), asOfDate, accrualCategory.getAccrualCategory());
 
-				List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, pha.getServiceDate(), calendarEntry.getEndPeriodDate(), accrualCategory.getAccrualCategory());
-
+				//Add a max balance allocation leave block.
+				LeaveBlock allocation = new LeaveBlock();
+				allocation.setAccrualCategory(accrualCategory.getAccrualCategory());
+				
+				if(thisEntryInterval.contains(TKUtils.getCurrentDate().getTime()))
+					allocation.setLeaveDate(TKUtils.getCurrentDate());
+				else
+					allocation.setLeaveDate(new java.sql.Date(DateUtils.addDays(calendarEntry.getEndPeriodDate(),-1).getTime()));
+				
+				allocation.setLeaveAmount(BigDecimal.ZERO);
+				allocation.setPrincipalId(principalId);
+				leaveBlocks.add(allocation);
+				
 				if(!leaveBlocks.isEmpty()) {
 					Collections.sort(leaveBlocks, new Comparator() {
 	
@@ -568,6 +589,8 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 				}
 				
 				accruedBalance.put(accrualCategory.getAccrualCategory(), new BigDecimal(0));
+				if(leaveBlocks.isEmpty())
+				{/*check for max balance infractions on asOfDate for rule in effect at that time.*/}
 				for(LeaveBlock lb : leaveBlocks) {
 					BigDecimal tally = accruedBalance.get(accrualCategory.getAccrualCategory());
 					tally = tally.add(lb.getLeaveAmount());
@@ -595,18 +618,16 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 										adjustedMaxAnnualCarryOver = maxAnnualCarryOver.multiply(fte);
 	                                }
 									
-									List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, lb.getLeaveDate());
-									for(EmployeeOverride override : overrides) {
-										if(StringUtils.equals(override.getAccrualCategory(),accrualCategory.getAccrualCategory())) {
-											if(StringUtils.equals(override.getOverrideType(),"MB")) {
-												adjustedMaxBalance = new BigDecimal(override.getOverrideValue());
-	                                        }
-											if(StringUtils.equals(override.getOverrideType(),"MAC")) {
-												adjustedMaxAnnualCarryOver = new BigDecimal(override.getOverrideValue());
-	                                        }
-											//override values are not pro-rated.
-										}
-									}
+									EmployeeOverride maxBalanceOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, pha.getLeavePlan(), accrualCategory.getAccrualCategory(), "MB", lb.getLeaveDate());
+									EmployeeOverride maxAnnualCarryOverOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, pha.getLeavePlan(), accrualCategory.getAccrualCategory(), "MAC", lb.getLeaveDate());
+
+									if(ObjectUtils.isNotNull(maxBalanceOverride)) {
+										adjustedMaxBalance = new BigDecimal(maxBalanceOverride.getOverrideValue());
+                                    }
+									if(ObjectUtils.isNotNull(maxAnnualCarryOverOverride)) {
+										adjustedMaxAnnualCarryOver = new BigDecimal(maxAnnualCarryOverOverride.getOverrideValue());
+                                    }
+									//override values are not pro-rated.
 
 									//should extend a BalanceTransferBase class, or use an algorithm swapping pattern.
 									//allow institutions to extend/customize/implement their own max_bal_action_frequency types.
@@ -626,10 +647,9 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 											AccrualCategoryRule rollOverRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, leavePlanRollOver.minusDays(1).toDate(), pha.getServiceDate());
 											if((tally.compareTo(adjustedMaxBalance) > 0 ||
 													(ObjectUtils.isNotNull(adjustedMaxAnnualCarryOver) &&
-													tally.compareTo(adjustedMaxAnnualCarryOver) > 0))
-													&& StringUtils.equals(rollOverRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())){
+													tally.compareTo(adjustedMaxAnnualCarryOver) > 0))){
 												//The leave amount of lb, when added to the accrued balance as of the leave date, exceeds the max balance
-												// ( or max annual carryover ).
+												// ( or max annual carryover ), and the rule is still in effect as of the last day of the leave plan calendar year.
 												if(newEligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).isEmpty()) {
 													newEligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).add(lb);
 												} else {
@@ -637,7 +657,10 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 													LeaveBlock tempLB = null;
 													for(LeaveBlock block : eligibleLeaveBlocks) {
 														AccrualCategoryRule blockRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
-														if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
+//														if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
+														//the commented conditional flags lb as a separate infraction if the accrual category rule changed from block.leaveDate to lb.leaveDate
+														if(StringUtils.equals(block.getAccrualCategory(),lb.getAccrualCategory())) {
+															//this conditional accepts an accrual category rule change from block.leaveDate to lb.leaveDate
 															tempLB = block;
 															break;
 														}
@@ -655,7 +678,10 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 												LeaveBlock tempLB = null;
 												for(LeaveBlock block : eligibleLeaveBlocks) {
 													AccrualCategoryRule blockRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
-													if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
+//													if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
+													//the commented conditional flags lb as a separate infraction if the accrual category rule changed from block.leaveDate to lb.leaveDate
+													if(StringUtils.equals(block.getAccrualCategory(),lb.getAccrualCategory())) {
+														//this conditional accepts an accrual category rule change from block.leaveDate to lb.leaveDate
 														tempLB = block;
 														break;
 													}
@@ -677,7 +703,10 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 												LeaveBlock tempLB = null;
 												for(LeaveBlock block : eligibleLeaveBlocks) {
 													AccrualCategoryRule blockRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
-													if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
+//													if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
+													//the commented conditional flags lb as a separate infraction if the accrual category rule changed from block.leaveDate to lb.leaveDate
+													if(StringUtils.equals(block.getAccrualCategory(),lb.getAccrualCategory())) {
+														//this conditional accepts an accrual category rule change from block.leaveDate to lb.leaveDate
 														tempLB = block;
 														break;
 													}
@@ -695,7 +724,10 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 											LeaveBlock tempLB = null;
 											for(LeaveBlock block : eligibleLeaveBlocks) {
 												AccrualCategoryRule blockRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
-												if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
+//												if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
+												//the commented conditional flags lb as a separate infraction if the accrual category rule changed from block.leaveDate to lb.leaveDate
+												if(StringUtils.equals(block.getAccrualCategory(),lb.getAccrualCategory())) {
+													//this conditional accepts an accrual category rule change from block.leaveDate to lb.leaveDate
 													tempLB = block;
 													break;
 												}

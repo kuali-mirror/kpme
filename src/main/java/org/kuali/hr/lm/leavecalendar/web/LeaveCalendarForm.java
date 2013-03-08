@@ -25,6 +25,7 @@ import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.base.web.TkCommonCalendarForm;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.LeaveCalendar;
+import org.kuali.hr.time.util.TKUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -67,6 +68,9 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
     private boolean leavePlanningCalendar;
     private List<BalanceTransfer> forfeitures;
 	
+    public boolean isCurrentLeavePeriod () {
+    	return (TKUtils.getCurrentDate().compareTo(calendarEntry.getBeginPeriodDate()) >= 0 && TKUtils.getCurrentDate().compareTo(calendarEntry.getEndPeriodDate()) < 0);
+    }
 	public DateTime getCurrentPayCalStart() {
 		return currentPayCalStart;
 	}

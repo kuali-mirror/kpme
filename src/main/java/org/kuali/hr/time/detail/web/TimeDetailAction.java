@@ -44,6 +44,7 @@ import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
+import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.hr.lm.util.LeaveBlockAggregate;
@@ -137,71 +138,44 @@ public class TimeDetailAction extends TimesheetAction {
         //allMessages.putAll(LeaveCalendarValidationUtil.validatePendingTransactions(viewPrincipal, payCalendarEntry.getBeginPeriodDate(), payCalendarEntry.getEndPeriodDate()));
         
         // add warning messages based on max carry over balances for each accrual category for non-exempt leave users
-        String viewPrincipal = TKContext.getPrincipalId();
+        String viewPrincipal = TKContext.getTargetPrincipalId();
         List<BalanceTransfer> losses = new ArrayList<BalanceTransfer>();
         if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(viewPrincipal, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
-        	PrincipalHRAttributes principalCalendar = null;
-        	if(ObjectUtils.isNotNull(payCalendarEntry)) {
-	        	principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, payCalendarEntry.getEndPeriodDate());
-	        	Map<String,Set<LeaveBlock>> transfers = new HashMap<String,Set<LeaveBlock>>();
-	        	Map<String,Set<LeaveBlock>> payouts = new HashMap<String,Set<LeaveBlock>>();
-	        	Interval calendarInterval = new Interval(payCalendarEntry.getBeginPeriodDate().getTime(),payCalendarEntry.getEndPeriodDate().getTime());
+            PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, payCalendarEntry.getEndPeriodDate());
 
-	        	if(ObjectUtils.isNotNull(principalCalendar)) {
-	        		transfers = TkServiceLocator.getBalanceTransferService().getNewEligibleTransfers(payCalendarEntry,viewPrincipal);
-	        		payouts = TkServiceLocator.getLeavePayoutService().getNewEligiblePayouts(payCalendarEntry,viewPrincipal);
-	        	}
-	        	
-	        	for(Entry<String,Set<LeaveBlock>> entry : transfers.entrySet()) {
-	        		//contains max balance action = lose "transfers".
-	        		if(!entry.getValue().isEmpty()) {
-	        			for(LeaveBlock lb : entry.getValue()) {
-	        				AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
-	        				AccrualCategory aCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
-	        				String warningMessage = "You have exceeded the maximum balance limit for '" + aCat.getAccrualCategory() + "' as of " + lb.getLeaveDate() + ". " +
+	        Interval calendarInterval = new Interval(payCalendarEntry.getBeginPeriodDate().getTime(), payCalendarEntry.getEndPeriodDate().getTime());
+	        Map<String,Set<LeaveBlock>> maxBalInfractions = new HashMap<String,Set<LeaveBlock>>();
+	        
+	        Date effectiveDate = TKUtils.getCurrentDate();
+	        if(!calendarInterval.contains(TKUtils.getCurrentDate().getTime()))
+	        	effectiveDate = payCalendarEntry.getEndPeriodDate();
+	        
+            if(ObjectUtils.isNotNull(principalCalendar)) {
+    	        maxBalInfractions = TkServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(payCalendarEntry, viewPrincipal);
+    	        
+    	        for(Entry<String,Set<LeaveBlock>> entry : maxBalInfractions.entrySet()) {
+    	        	for(LeaveBlock lb : entry.getValue()) {
+    	        		AccrualCategory accrualCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveDate());
+			        	AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
+			        	if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
+			        		//may want to calculate summary for all rows, displayable or not, and determine displayability via tags.
+			    			AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
+			    			BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(viewPrincipal, accrualCategory, lb.getLeaveDate());
+				        	
+				        	BalanceTransfer loseTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(viewPrincipal, lb.getAccrualCategoryRuleId(), accruedBalance, lb.getLeaveDate());
+				        	losses.add(loseTransfer);
+			        	}
+
+        				if(calendarInterval.contains(lb.getLeaveDate().getTime())) {
+        		        	// accrual categories within the leave plan that are hidden from the leave summary WILL appear.
+	        				String message = "You have exceeded the maximum balance limit for '" + accrualCat.getAccrualCategory() + "' as of " + lb.getLeaveDate() + ". "+
 	                    			"Depending upon the accrual category rules, leave over this limit may be forfeited.";
-	        				if(!allMessages.get("warningMessages").contains(warningMessage))
-	        					allMessages.get("warningMessages").add(warningMessage);
-	        			}
-	        		}
-	        	}
-	        	for(Entry<String,Set<LeaveBlock>> entry : payouts.entrySet()) {
-	        		//contains only payouts.
-	        		if(!entry.getValue().isEmpty()) {
-	        			for(LeaveBlock lb : entry.getValue()) {
-	        				AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
-	        				AccrualCategory aCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
-	        				allMessages.get("warningMessages").add("You have exceeded the maximum balance limit for '" + aCat.getAccrualCategory() + "' as of " + lb.getLeaveDate() + ". " +
-	                    			"Depending upon the accrual category rules, leave over this limit may be forfeited.");
-	        			}
-	        		}
-	        	}
-		        for(LeaveBlock lb : transfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)) {
-		        	if(calendarInterval.contains(lb.getLeaveDate().getTime())) {
-			        	AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
-			        	if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
-				        	LeaveSummary asOfDateSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateForAccrualCategory(viewPrincipal,
-			        				new java.sql.Date(DateUtils.addDays(lb.getLeaveDate(),1).getTime()), lb.getAccrualCategory());
-				        	BigDecimal accruedBalance = asOfDateSummary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId()).getAccruedBalance();
-				        	
-				        	BalanceTransfer loseTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(viewPrincipal, lb.getAccrualCategoryRuleId(), accruedBalance, lb.getLeaveDate());
-				        	losses.add(loseTransfer);
-			        	}
-		        	}
-		        }
-		        for(LeaveBlock lb : transfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
-		        	if(calendarInterval.contains(lb.getLeaveDate().getTime())) {
-			        	AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
-			        	if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
-			        		LeaveSummary asOfDateSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateForAccrualCategory(viewPrincipal,
-			        				new java.sql.Date(DateUtils.addDays(lb.getLeaveDate(),1).getTime()), lb.getAccrualCategory());
-				        	BigDecimal accruedBalance = asOfDateSummary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId()).getAccruedBalance();
-				        	
-				        	BalanceTransfer loseTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(viewPrincipal, lb.getAccrualCategoryRuleId(), accruedBalance, lb.getLeaveDate());
-				        	losses.add(loseTransfer);
-			        	}
-		        	}
-		        }
+	        				if(!allMessages.get("warningMessages").contains(message)) {
+	                            allMessages.get("warningMessages").add(message);
+	        				}
+        				}
+    	        	}
+    	        }
         	}
             tdaf.setForfeitures(losses);
             

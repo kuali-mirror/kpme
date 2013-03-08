@@ -18,7 +18,11 @@ package org.kuali.hr.lm.balancetransfer.web;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +35,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.kuali.hr.lm.LMConstants;
+import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.balancetransfer.validation.BalanceTransferValidationUtils;
@@ -51,6 +56,8 @@ import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
+
+import edu.emory.mathcs.backport.java.util.Collections;
 
 public class BalanceTransferAction extends TkAction {
 
@@ -99,15 +106,11 @@ public class BalanceTransferAction extends TkAction {
 			}
 			
 			AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
-			Date effectiveDate = TKUtils.getCurrentDate();
-			if(TKUtils.getCurrentDate().after(DateUtils.addSeconds(calendarEntry.getEndPeriodDate(),-1)))
-				effectiveDate = new Date(DateUtils.addSeconds(calendarEntry.getEndPeriodDate(),-1).getTime());
-			// if submitting a delinquent calendar, use the calendar's end period date for the effective date.
-			// could adjust the end period date by subtracting a day so that the leave blocks appear on the month in question.
 			
-			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(balanceTransfer.getPrincipalId(), new java.sql.Date(DateUtils.addDays(balanceTransfer.getEffectiveDate(),1).getTime()));
-			LeaveSummaryRow transferRow = ls.getLeaveSummaryRowForAccrualCategory(accrualRule.getLmAccrualCategoryId());
-			BalanceTransfer defaultBT = TkServiceLocator.getBalanceTransferService().initializeTransfer(balanceTransfer.getPrincipalId(), accrualRuleId, transferRow.getAccruedBalance(), balanceTransfer.getEffectiveDate());
+			AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
+			BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(balanceTransfer.getPrincipalId(), accrualCategory,balanceTransfer.getEffectiveDate());
+
+			BalanceTransfer defaultBT = TkServiceLocator.getBalanceTransferService().initializeTransfer(balanceTransfer.getPrincipalId(), accrualRuleId, accruedBalance, balanceTransfer.getEffectiveDate());
 			if(balanceTransfer.getTransferAmount().compareTo(defaultBT.getTransferAmount()) != 0) {
 				//employee changed the transfer amount, recalculate forfeiture.
 				//Note: transfer form has been validated.
@@ -192,16 +195,16 @@ public class BalanceTransferAction extends TkAction {
 		BalanceTransferForm btf = (BalanceTransferForm) form;
 		//the leave calendar document that triggered this balance transfer.
 		String documentId = request.getParameter("documentId");
-		String leaveBlockId = request.getParameter("accrualRuleId");
+		String accrualRuleId = request.getParameter("accrualRuleId");
 		String timesheet = request.getParameter("timesheet");
 		boolean isTimesheet = false;
 		if(StringUtils.equals(timesheet, "true")) {
 			btf.isTimesheet(true);
 			isTimesheet = true;
 		}
-		if(ObjectUtils.isNotNull(leaveBlockId)) {
-			LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
-			AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
+		if(ObjectUtils.isNotNull(accrualRuleId)) {
+			//LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
+			AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
 			if(ObjectUtils.isNotNull(aRule)) {
 				//should somewhat safegaurd against url fabrication.
 				if(!StringUtils.equals(aRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
@@ -222,14 +225,12 @@ public class BalanceTransferAction extends TkAction {
 						principalId = lcd.getPrincipalId();
 						calendarEntry = lcd.getCalendarEntry();
 					}
-					
-					Date effectiveDate = TKUtils.getCurrentDate();
-					if(TKUtils.getCurrentDate().after(DateUtils.addSeconds(calendarEntry.getEndPeriodDate(),-1)))
-						effectiveDate = new Date(DateUtils.addSeconds(calendarEntry.getEndPeriodDate(),-1).getTime());
 
-					LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, new java.sql.Date(DateUtils.addDays(lb.getLeaveDate(),1).getTime()));
-					LeaveSummaryRow transferRow = ls.getLeaveSummaryRowForAccrualCtgy(lb.getAccrualCategory());
-					BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(principalId, aRule.getLmAccrualCategoryRuleId(), transferRow.getAccruedBalance(), lb.getLeaveDate());
+					AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
+					AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
+					BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(principalId, accrualCategory, TKUtils.getCurrentDate());
+
+					BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(principalId, aRule.getLmAccrualCategoryRuleId(), accruedBalance, TKUtils.getCurrentDate());
 					balanceTransfer.setLeaveCalendarDocumentId(documentId);
 					if(ObjectUtils.isNotNull(balanceTransfer)) {
 						if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {	
@@ -274,39 +275,39 @@ public class BalanceTransferAction extends TkAction {
 		GlobalVariables.getMessageMap().putWarning("document.newMaintainableObj.transferAmount","balanceTransfer.transferAmount.adjust");
 		BalanceTransferForm btf = (BalanceTransferForm) form;
 
-		int categoryCounter = 0;
-		List<String> transferableAccrualCategoryRules = new ArrayList<String>();
-		String leaveBlockId = request.getParameter("accrualCategory0");
-		while(ObjectUtils.isNotNull(leaveBlockId)) {
-			//TODO: Get rid of this loop
-			categoryCounter++;
-			transferableAccrualCategoryRules.add(leaveBlockId);
-			leaveBlockId = request.getParameter("accrualCategory"+categoryCounter);
-		}
-
-		//Bad.... User must be prompted for each transfer that needs to be made.
-		//For now, assuming not more than one accrual category is eligible for transfer.
-		if(!transferableAccrualCategoryRules.isEmpty()) {
+		List<LeaveBlock> eligibleTransfers = (List<LeaveBlock>) request.getSession().getAttribute("eligibilities");
+		if(!eligibleTransfers.isEmpty()) {
+			
+			Collections.sort(eligibleTransfers, new Comparator() {
+				
+				@Override
+				public int compare(Object o1, Object o2) {
+					LeaveBlock l1 = (LeaveBlock) o1;
+					LeaveBlock l2 = (LeaveBlock) o2;
+					return l1.getLeaveDate().compareTo(l2.getLeaveDate());
+				}
+				
+			});
+			
 			//This is the leave calendar document that triggered this balance transfer.
+
 			String leaveCalendarDocumentId = request.getParameter("documentId");
 			ActionForward forward = new ActionForward(mapping.findForward("basic"));
 			LeaveCalendarDocument lcd = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(leaveCalendarDocumentId);
 			
-			Date effectiveDate = TKUtils.getCurrentDate();
-			if(TKUtils.getCurrentDate().after(DateUtils.addSeconds(lcd.getCalendarEntry().getEndPeriodDate(),-1)))
-				effectiveDate = new Date(DateUtils.addSeconds(lcd.getCalendarEntry().getEndPeriodDate(),-1).getTime());
-			
-			leaveBlockId = transferableAccrualCategoryRules.get(0);
-			LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);			
-			LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(lcd.getPrincipalId(), new java.sql.Date(DateUtils.addDays(lb.getLeaveDate(),1).getTime()));
+			LeaveBlock leaveBlock = eligibleTransfers.get(0);
+			Date effectiveDate = leaveBlock.getLeaveDate();
+			String accrualCategoryRuleId = leaveBlock.getAccrualCategoryRuleId();
+			if(!StringUtils.isBlank(accrualCategoryRuleId)) {
+				AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
+				AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
+				BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(lcd.getPrincipalId(), accrualCategory, leaveBlock.getLeaveDate());
 
-			LeaveSummaryRow transferRow = leaveSummary.getLeaveSummaryRowForAccrualCtgy(lb.getAccrualCategory());
-			BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(lcd.getPrincipalId(), lb.getAccrualCategoryRuleId(), transferRow.getAccruedBalance(), lb.getLeaveDate());
-			balanceTransfer.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
-
-			if(ObjectUtils.isNotNull(balanceTransfer)) {
-
-				AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
+				BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(lcd.getPrincipalId(), accrualCategoryRuleId, accruedBalance, effectiveDate);
+				balanceTransfer.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
+	
+				if(ObjectUtils.isNotNull(balanceTransfer)) {
+	
 				if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
 
 					//TkServiceLocator.getBalanceTransferService().submitToWorkflow(balanceTransfer);
@@ -341,6 +342,9 @@ public class BalanceTransferAction extends TkAction {
 		}
 		else
 			throw new RuntimeException("unable to fetch the accrual category that triggerred this transfer");
+		}
+		else
+			throw new RuntimeException("No infractions given");
 	}
 	
 	public ActionForward approveTimesheet(ActionMapping mapping, ActionForm form,
@@ -350,75 +354,76 @@ public class BalanceTransferAction extends TkAction {
 		GlobalVariables.getMessageMap().putWarning("document.newMaintainableObj.transferAmount","balanceTransfer.transferAmount.adjust");
 		BalanceTransferForm btf = (BalanceTransferForm) form;
 
-		int categoryCounter = 0;
-		List<String> transferableAccrualCategoryRules = new ArrayList<String>();
-		String leaveBlockId = request.getParameter("accrualCategory0");
-		List<LeaveBlock> infractingLeaveBlocks = new ArrayList<LeaveBlock>();
-		while(ObjectUtils.isNotNull(leaveBlockId)) {
-			//TODO: Get rid of this loop
-			infractingLeaveBlocks.add(TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId));
-			categoryCounter++;
-			transferableAccrualCategoryRules.add(leaveBlockId);
-			leaveBlockId = request.getParameter("accrualCategory"+categoryCounter);
-		}
-
-		//Bad.... User must be prompted for each transfer that needs to be made.
-		//For now, assuming not more than one accrual category is eligible for transfer.
-		if(!transferableAccrualCategoryRules.isEmpty()) {
+		List<LeaveBlock> eligibleTransfers = (List<LeaveBlock>) request.getSession().getAttribute("eligibilities");
+		if(!eligibleTransfers.isEmpty()) {
+			
+			Collections.sort(eligibleTransfers, new Comparator() {
+				
+				@Override
+				public int compare(Object o1, Object o2) {
+					LeaveBlock l1 = (LeaveBlock) o1;
+					LeaveBlock l2 = (LeaveBlock) o2;
+					return l1.getLeaveDate().compareTo(l2.getLeaveDate());
+				}
+				
+			});
+			
 			//This is the leave calendar document that triggered this balance transfer.
+
 			String timesheetDocumentId = request.getParameter("documentId");
 			ActionForward forward = new ActionForward(mapping.findForward("basic"));
 			TimesheetDocument tsd = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocumentId);
-			CalendarEntries timeCalendarEntry = tsd.getCalendarEntry();
 			
-			Date effectiveDate = TKUtils.getCurrentDate();
-			if(TKUtils.getCurrentDate().after(DateUtils.addSeconds(timeCalendarEntry.getEndPeriodDate(),-1)))
-				effectiveDate = new Date(DateUtils.addSeconds(timeCalendarEntry.getEndPeriodDate(),-1).getTime());
-				
-			
-			leaveBlockId = transferableAccrualCategoryRules.get(0);
-			LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
-			LeaveSummary leaveSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(tsd.getPrincipalId(), new java.sql.Date(DateUtils.addDays(lb.getLeaveDate(),1).getTime()));
-			LeaveSummaryRow transferRow = leaveSummary.getLeaveSummaryRowForAccrualCtgy(lb.getAccrualCategory());
-			BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(tsd.getPrincipalId(), lb.getAccrualCategoryRuleId(), transferRow.getAccruedBalance(), lb.getLeaveDate());
-			balanceTransfer.setLeaveCalendarDocumentId(timesheetDocumentId);
+			LeaveBlock leaveBlock = eligibleTransfers.get(0);
+			Date effectiveDate = leaveBlock.getLeaveDate();
+			String accrualCategoryRuleId = leaveBlock.getAccrualCategoryRuleId();
+			if(!StringUtils.isBlank(accrualCategoryRuleId)) {
+				AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
+				AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
+				BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(tsd.getPrincipalId(), accrualCategory, leaveBlock.getLeaveDate());
 
-			if(ObjectUtils.isNotNull(balanceTransfer)) {
-				AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
-				if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
-					// TODO: Redirect user to prompt stating excess leave will be forfeited and ask for confirmation.
-					// Do not submit the object to workflow for this max balance action.
-					balanceTransfer = TkServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
-					KRADServiceLocator.getBusinessObjectService().save(balanceTransfer);
+				BalanceTransfer balanceTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(tsd.getPrincipalId(), accrualCategoryRuleId, accruedBalance, effectiveDate);
+				balanceTransfer.setLeaveCalendarDocumentId(timesheetDocumentId);
+	
+				if(ObjectUtils.isNotNull(balanceTransfer)) {
+	
+					if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
+						// TODO: Redirect user to prompt stating excess leave will be forfeited and ask for confirmation.
+						// Do not submit the object to workflow for this max balance action.
+						balanceTransfer = TkServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
+						KRADServiceLocator.getBusinessObjectService().save(balanceTransfer);
+	
+						// May need to update to save the business object to KPME's tables for record keeping.
+						LeaveBlock forfeitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(balanceTransfer.getForfeitedLeaveBlockId());
+						forfeitedLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+						TkServiceLocator.getLeaveBlockService().updateLeaveBlock(forfeitedLeaveBlock, tsd.getPrincipalId());
 
-					// May need to update to save the business object to KPME's tables for record keeping.
-					LeaveBlock forfeitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(balanceTransfer.getForfeitedLeaveBlockId());
-					forfeitedLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
-					TkServiceLocator.getLeaveBlockService().updateLeaveBlock(forfeitedLeaveBlock, tsd.getPrincipalId());
-					ActionRedirect redirect = new ActionRedirect();
-					if(ObjectUtils.isNotNull(timesheetDocumentId)) {
-						if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||
-								StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(), LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
-							ActionForward loseForward = new ActionForward(mapping.findForward("timesheetTransferSuccess"));
-							loseForward.setPath(loseForward.getPath()+"?documentId="+timesheetDocumentId+"&action=R&methodToCall=approveTimesheet");
-							return loseForward;
+						if(ObjectUtils.isNotNull(timesheetDocumentId)) {
+							if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||
+									StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(), LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+								ActionForward loseForward = new ActionForward(mapping.findForward("timesheetTransferSuccess"));
+								loseForward.setPath(loseForward.getPath()+"?documentId="+timesheetDocumentId+"&action=R&methodToCall=approveTimesheet");
+								return loseForward;
+							}
+							//on demand handled in separate action forward.
 						}
-						//on demand handled in separate action forward.
+	
+					} else {
+						btf.setLeaveCalendarDocumentId(timesheetDocumentId);
+						btf.setBalanceTransfer(balanceTransfer);
+						btf.setTransferAmount(balanceTransfer.getTransferAmount());
+						return forward;
 					}
-
-				} else {
-					btf.setLeaveCalendarDocumentId(timesheetDocumentId);
-					btf.setBalanceTransfer(balanceTransfer);
-					btf.setTransferAmount(balanceTransfer.getTransferAmount());
-					return forward;
+	
 				}
-
-			}
-			throw new RuntimeException("could not initialize balance transfer");
+				throw new RuntimeException("could not initialize balance transfer");
 
 		}
 		else
 			throw new RuntimeException("unable to fetch the accrual category that triggerred this transfer");
+		}
+		else
+			throw new RuntimeException("no eligible transfers exist");
 	}
 	
 	public ActionForward closeBalanceTransferDoc(ActionMapping mapping, ActionForm form,

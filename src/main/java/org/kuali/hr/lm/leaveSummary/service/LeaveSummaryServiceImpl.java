@@ -109,8 +109,8 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
             }
             // get all leave blocks from the requested date to the usageEndDate
             List<LeaveBlock> futureLeaveBlocks = getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, endDate, usageEndDate, accrualCategory);
-            List<EmployeeOverride> employeeOverrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, new java.sql.Date(usageEndDate.getTime()));
-         
+            EmployeeOverride maxUsageOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, lp.getLeavePlan(), accrualCategory, "MU", new java.sql.Date(usageEndDate.getTime()));
+
             //get max balances
             AccrualCategoryRule acRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(ac, TKUtils.getCurrentDate(), pha.getServiceDate());
             //accrual category rule id set on a leave summary row will be useful in generating a relevant balance transfer
@@ -128,16 +128,8 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                 lsr.setUsageLimit(null);
             }
 
-            for(EmployeeOverride eo : employeeOverrides) {
-                if(eo.getLeavePlan().equals(lp.getLeavePlan()) && eo.getAccrualCategory().equals(ac.getAccrualCategory())) {
-                    if(eo.getOverrideType().equals("MU") && eo.isActive()) {
-                        if(eo.getOverrideValue()!=null && !eo.getOverrideValue().equals(""))
-                            lsr.setUsageLimit(new BigDecimal(eo.getOverrideValue()));
-                        else // no limit flag
-                            lsr.setUsageLimit(null);
-                    }
-                }
-            }
+            if(maxUsageOverride !=null)
+                lsr.setUsageLimit(new BigDecimal(maxUsageOverride.getOverrideValue()));
 
             //Fetching leaveblocks for accCat with type CarryOver -- This is logic according to the CO blocks creatLed from scheduler job.
             BigDecimal carryOver = BigDecimal.ZERO.setScale(2);
@@ -252,9 +244,9 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                 Map<String, List<LeaveBlock>> futureLeaveBlockMap = mapLeaveBlocksByAccrualCategory(futureLeaveBlocks);
                 List<AccrualCategory> acList = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(lp.getLeavePlan(), endDate);
                 if(CollectionUtils.isNotEmpty(acList)) {
-                    List<EmployeeOverride> employeeOverrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId,TKUtils.getCurrentDate()); //current date ok?
                     for(AccrualCategory ac : acList) {
                         if(ac.getShowOnGrid().equals("Y")) {
+                        	
                             LeaveSummaryRow lsr = new LeaveSummaryRow();
                             lsr.setAccrualCategory(ac.getAccrualCategory());
                             lsr.setAccrualCategoryId(ac.getLmAccrualCategoryId());
@@ -262,6 +254,8 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                             AccrualCategoryRule acRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(ac, endDate, pha.getServiceDate());
                             //accrual category rule id set on a leave summary row will be useful in generating a relevant balance transfer
                             //document from the leave calendar display. Could put this id in the request for balance transfer document.
+                            EmployeeOverride maxUsageOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, lp.getLeavePlan(), ac.getAccrualCategory(), "MU", endDate);
+
                             lsr.setAccrualCategoryRuleId(acRule == null ? null : acRule.getLmAccrualCategoryRuleId());
                             if(acRule != null &&
                                     (acRule.getMaxBalance()!= null
@@ -276,16 +270,8 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                                 lsr.setUsageLimit(null);
                             }
 
-                            for(EmployeeOverride eo : employeeOverrides) {
-                                if(eo.getLeavePlan().equals(lp.getLeavePlan()) && eo.getAccrualCategory().equals(ac.getAccrualCategory())) {
-                                    if(eo.getOverrideType().equals("MU") && eo.isActive()) {
-                                        if(eo.getOverrideValue()!=null && !eo.getOverrideValue().equals(""))
-                                            lsr.setUsageLimit(new BigDecimal(eo.getOverrideValue()));
-                                        else // no limit flag
-                                            lsr.setUsageLimit(null);
-                                    }
-                                }
-                            }
+                            if(maxUsageOverride !=null)
+                                lsr.setUsageLimit(new BigDecimal(maxUsageOverride.getOverrideValue()));
 
                             //Fetching leaveblocks for accCat with type CarryOver -- This is logic according to the CO blocks created from scheduler job.
                             BigDecimal carryOver = BigDecimal.ZERO.setScale(2);

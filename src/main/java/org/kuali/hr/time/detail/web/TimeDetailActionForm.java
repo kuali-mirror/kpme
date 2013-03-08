@@ -137,6 +137,11 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
     public String getEndPeriodDTNoTZ() {
         return SDF_NO_TZ.format(this.getEndPeriodDateTime());
     }
+    
+
+    public boolean isCurrentTimesheet() {
+    	return (TKUtils.getCurrentDate().compareTo(this.getBeginPeriodDateTime()) >= 0 && TKUtils.getCurrentDate().compareTo(this.getEndPeriodDateTime()) < 0 );
+    }
 
 	public String getDocEditable() {
 		if(StringUtils.isEmpty(docEditable)) {

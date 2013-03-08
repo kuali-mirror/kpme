@@ -554,6 +554,8 @@
     <bean id="balanceTransferService" class="org.kuali.hr.lm.balancetransfer.service.BalanceTransferServiceImpl">
     	<property name="balanceTransferDao" ref="balanceTransferDao"/>
     </bean>
+    
+    <bean id = "accrualCategoryMaxBalanceService" class="org.kuali.hr.lm.accrual.service.AccrualCategoryMaxBalanceServiceImpl"/>
 
     <bean id="leavePayoutService" class="org.kuali.hr.lm.leavepayout.service.LeavePayoutServiceImpl">
         <property name="leavePayoutDao" ref="leavePayoutDao"/>

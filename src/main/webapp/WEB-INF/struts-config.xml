@@ -156,6 +156,8 @@
                 type="org.kuali.hr.time.detail.web.TimesheetSubmitAction" parameter="methodToCall" validate="false">
             <forward name="timesheetRedirect" path="/TimeDetail.do"/>
             <forward name="approverRedirect" path="/TimeApproval.do"/>
+            <forward name="transfer" path="/BalanceTransfer.do"/>
+            <forward name="payout" path="/LeavePayout.do"/>
         </action>
 
         <action path="/TimeDetail" name="TimeDetailActionForm" scope="request" input="/WEB-INF/jsp/timeDetail.jsp"
@@ -220,8 +222,8 @@
                 type="org.kuali.hr.lm.leavepayout.web.LeavePayoutAction"
                 scope="request" parameter="methodToCall" validate="false" attribute="KualiForm">
             <forward name="basic" path="/WEB-INF/jsp/leavePayout.jsp"/>
-            <forward name="leaveCalendarTransferSuccess" path="/LeaveCalendarSubmit.do"/>
-            <forward name="timesheetTransferSuccess" path="/TimesheetSubmit.do"/>
+            <forward name="leaveCalendarPayoutSuccess" path="/LeaveCalendarSubmit.do"/>
+            <forward name="timesheetPayoutSuccess" path="/TimesheetSubmit.do"/>
             <forward name="timesheetCancel" path="/TimeDetail.do"/>
             <forward name="leaveCalendarCancel" path="/LeaveCalendar.do"/>
             <forward name="closeLeavePayoutDoc" path="/WEB-INF/jsp/closeMissedPunchDoc.jsp"/>

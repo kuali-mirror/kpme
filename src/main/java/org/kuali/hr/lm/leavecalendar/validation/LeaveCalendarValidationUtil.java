@@ -156,7 +156,7 @@ public class LeaveCalendarValidationUtil {
             	allMessages.get("actionMessages").add("A pending balance transfer exists on this calendar. It must be finalized before this calendar can be approved");
             }
             else
-            	allMessages.get("warningMessages").add("A balance transfer document exists for this calendar with status neither final or enroute");
+            	allMessages.get("warningMessages").add("A balance transfer document exists for this calendar with status neither final nor enroute");
         }
         
         leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(principalId, fromDate, toDate, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT);

@@ -146,18 +146,16 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 				adjustedMaxCarryOver = maxCarryOver;
 			}
 			
-			List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, effectiveDate);
-			for(EmployeeOverride override : overrides) {
-				if(StringUtils.equals(override.getAccrualCategory(),fromAccrualCategory.getAccrualCategory())) {
-					if(StringUtils.equals(override.getOverrideType(),"MB"))
-						adjustedMaxBalance = new BigDecimal(override.getOverrideValue());
-					//override values are not pro-rated for FTE.
-					if(StringUtils.equals(override.getOverrideType(),"MPA"))
-						adjustedMaxPayoutAmount = new BigDecimal(override.getOverrideValue());
-					if(StringUtils.equals(override.getOverrideType(),"MAC"))
-						adjustedMaxCarryOver = new BigDecimal(override.getOverrideValue());
-				}
-			}
+			EmployeeOverride maxBalanceOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromAccrualCategory.getLeavePlan(), fromAccrualCategory.getAccrualCategory(), "MB", effectiveDate);
+			EmployeeOverride maxPayoutAmountOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromAccrualCategory.getLeavePlan(), fromAccrualCategory.getAccrualCategory(), "MPA", effectiveDate);
+			EmployeeOverride maxAnnualCarryOverOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromAccrualCategory.getLeavePlan(), fromAccrualCategory.getAccrualCategory(), "MAC", effectiveDate);
+			//Do not pro-rate override values for FTE.
+			if(maxBalanceOverride != null)
+				adjustedMaxBalance = new BigDecimal(maxBalanceOverride.getOverrideValue());
+			if(maxPayoutAmountOverride != null)
+				adjustedMaxPayoutAmount = new BigDecimal(maxPayoutAmountOverride.getOverrideValue());
+			if(maxAnnualCarryOverOverride != null)
+				adjustedMaxCarryOver = new BigDecimal(maxAnnualCarryOverOverride.getOverrideValue());
 			
 			
 			BigDecimal transferAmount = accruedBalance.subtract(adjustedMaxBalance);
@@ -550,7 +548,18 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 			for(AccrualCategory accrualCategory : accrualCategories) {
 
 				List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, pha.getServiceDate(), calendarEntry.getEndPeriodDate(), accrualCategory.getAccrualCategory());
-
+				
+				LeaveBlock allocation = new LeaveBlock();
+				allocation.setAccrualCategory(accrualCategory.getAccrualCategory());
+				
+				if(thisEntryInterval.contains(TKUtils.getCurrentDate().getTime()))
+					allocation.setLeaveDate(TKUtils.getCurrentDate());
+				else
+					allocation.setLeaveDate(calendarEntry.getEndPeriodDate());
+				
+				allocation.setLeaveAmount(BigDecimal.ZERO);
+				
+				leaveBlocks.add(allocation);
 				if(!leaveBlocks.isEmpty()) {
 					Collections.sort(leaveBlocks, new Comparator() {
 	
@@ -589,18 +598,16 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 										adjustedMaxAnnualCarryOver = maxAnnualCarryOver.multiply(fte);
 	                                }
 										
-									List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, TKUtils.getCurrentDate());
-									for(EmployeeOverride override : overrides) {
-										if(StringUtils.equals(override.getAccrualCategory(),accrualCategory.getAccrualCategory())) {
-											if(StringUtils.equals(override.getOverrideType(),"MB")) {
-												adjustedMaxBalance = new BigDecimal(override.getOverrideValue());
-	                                        }
-											if(StringUtils.equals(override.getOverrideType(),"MAC")) {
-												adjustedMaxAnnualCarryOver = new BigDecimal(override.getOverrideValue());
-	                                        }
-											//override values are not pro-rated.
-										}
-									}
+									EmployeeOverride maxBalanceOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, pha.getLeavePlan(), accrualCategory.getAccrualCategory(), "MB", lb.getLeaveDate());
+									EmployeeOverride maxAnnualCarryOverOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, pha.getLeavePlan(), accrualCategory.getAccrualCategory(), "MAC", lb.getLeaveDate());
+
+									if(ObjectUtils.isNotNull(maxBalanceOverride)) {
+										adjustedMaxBalance = new BigDecimal(maxBalanceOverride.getOverrideValue());
+                                    }
+									if(ObjectUtils.isNotNull(maxAnnualCarryOverOverride)) {
+										adjustedMaxAnnualCarryOver = new BigDecimal(maxAnnualCarryOverOverride.getOverrideValue());
+                                    }
+									//override values are not pro-rated.
 
 									//should extend a BalanceTransferBase class, or use an algorithm swapping pattern.
 									//allow institutions to extend/customize/implement their own max_bal_action_frequency types.
@@ -620,8 +627,7 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 											AccrualCategoryRule rollOverRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, leavePlanRollOver.minusDays(1).toDate(), pha.getServiceDate());
 											if((tally.compareTo(adjustedMaxBalance) > 0 ||
 													(ObjectUtils.isNotNull(adjustedMaxAnnualCarryOver) &&
-													tally.compareTo(adjustedMaxAnnualCarryOver) > 0))
-													&& StringUtils.equals(rollOverRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())){
+													tally.compareTo(adjustedMaxAnnualCarryOver) > 0))){
 												//The leave amount of lb, when added to the accrued balance as of the leave date, exceeds the max balance
 												// ( or max annual carryover ), and the rule is still in effect as of the last day of the leave plan calendar year.
 												if(newEligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).isEmpty()) {
@@ -631,7 +637,10 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 													LeaveBlock tempLB = null;
 													for(LeaveBlock block : eligibleLeaveBlocks) {
 														AccrualCategoryRule blockRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
-														if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
+//														if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
+														//the commented conditional flags lb as a separate infraction if the accrual category rule changed from block.leaveDate to lb.leaveDate
+														if(StringUtils.equals(block.getAccrualCategory(),lb.getAccrualCategory())) {
+															//this conditional accepts an accrual category rule change from block.leaveDate to lb.leaveDate
 															tempLB = block;
 															break;
 														}
@@ -649,7 +658,10 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 												LeaveBlock tempLB = null;
 												for(LeaveBlock block : eligibleLeaveBlocks) {
 													AccrualCategoryRule blockRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
-													if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
+//													if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
+													//the commented conditional flags lb as a separate infraction if the accrual category rule changed from block.leaveDate to lb.leaveDate
+													if(StringUtils.equals(block.getAccrualCategory(),lb.getAccrualCategory())) {
+														//this conditional accepts an accrual category rule change from block.leaveDate to lb.leaveDate
 														tempLB = block;
 														break;
 													}
@@ -671,7 +683,10 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 												LeaveBlock tempLB = null;
 												for(LeaveBlock block : eligibleLeaveBlocks) {
 													AccrualCategoryRule blockRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
-													if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
+//													if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
+													//the commented conditional flags lb as a separate infraction if the accrual category rule changed from block.leaveDate to lb.leaveDate
+													if(StringUtils.equals(block.getAccrualCategory(),lb.getAccrualCategory())) {
+														//this conditional accepts an accrual category rule change from block.leaveDate to lb.leaveDate
 														tempLB = block;
 														break;
 													}
@@ -689,7 +704,10 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 											LeaveBlock tempLB = null;
 											for(LeaveBlock block : eligibleLeaveBlocks) {
 												AccrualCategoryRule blockRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
-												if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
+//												if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
+												//the commented conditional flags lb as a separate infraction if the accrual category rule changed from block.leaveDate to lb.leaveDate
+												if(StringUtils.equals(block.getAccrualCategory(),lb.getAccrualCategory())) {
+													//this conditional accepts an accrual category rule change from block.leaveDate to lb.leaveDate
 													tempLB = block;
 													break;
 												}

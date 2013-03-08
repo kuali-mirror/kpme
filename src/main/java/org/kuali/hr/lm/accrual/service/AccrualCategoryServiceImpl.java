@@ -23,9 +23,11 @@ import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.accrual.RateRangeAggregate;
 import org.kuali.hr.lm.accrual.dao.AccrualCategoryDao;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
+import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 
@@ -148,12 +150,41 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
     }
 
     @Override
-	public BigDecimal getCurrentBalanceForPrincipal(String principalId,
+	public BigDecimal getAccruedBalanceForPrincipal(String principalId,
 			AccrualCategory accrualCategory, Date asOfDate) {
+    	BigDecimal balance = new BigDecimal(0);
+    	PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
+    	List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, pha.getServiceDate(), new java.sql.Date(asOfDate.getTime()), accrualCategory.getAccrualCategory());
+    	for(LeaveBlock block : leaveBlocks) {
+    		if(!(StringUtils.equals(block.getRequestStatus(),LMConstants.REQUEST_STATUS.DEFERRED)
+    				|| StringUtils.equals(block.getRequestStatus(),LMConstants.REQUEST_STATUS.DISAPPROVED))) {
+    			balance = balance.add(block.getLeaveAmount());
+/*    			EarnCode code = accrualCategory.getEarnCodeObj();
+    			if(StringUtils.equals(LMConstants.ACCRUAL_BALANCE_ACTION_MAP.get(code.getAccrualBalanceAction()), "Usage"))
+    				balance = balance.subtract(block.getLeaveAmount().abs());
+    			if(StringUtils.equals(LMConstants.ACCRUAL_BALANCE_ACTION_MAP.get(code.getAccrualBalanceAction()), "Adjustment"))
+    				balance = balance.add(block.getLeaveAmount());*/
+    		}
+    	}
+		return balance;
+	}
 
-//		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
-//		CalendarEntries entries = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByCalendarIdAndDateRange(pha.getCalendar().getHrCalendarId(), asOfDate);
-//		LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(principalId, entries);
-		return new BigDecimal(0);
+	@Override
+	public BigDecimal getApprovedBalanceForPrincipal(String principalId,
+			AccrualCategory accrualCategory, Date asOfDate) {
+    	BigDecimal balance = new BigDecimal(0);
+    	PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
+    	List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, pha.getServiceDate(), new java.sql.Date(asOfDate.getTime()), accrualCategory.getAccrualCategory());
+    	for(LeaveBlock block : leaveBlocks) {
+    		if(StringUtils.equals(block.getRequestStatus(),LMConstants.REQUEST_STATUS.APPROVED)) {
+				balance = balance.add(block.getLeaveAmount());
+/*    			EarnCode code = accrualCategory.getEarnCodeObj();
+    			if(StringUtils.equals(LMConstants.ACCRUAL_BALANCE_ACTION_MAP.get(code.getAccrualBalanceAction()), "Usage"))
+    				balance = balance.subtract(block.getLeaveAmount().abs());
+    			if(StringUtils.equals(LMConstants.ACCRUAL_BALANCE_ACTION_MAP.get(code.getAccrualBalanceAction()), "Adjustment"))
+    				balance = balance.add(block.getLeaveAmount());*/
+    		}
+    	}
+		return balance;
 	}
 }

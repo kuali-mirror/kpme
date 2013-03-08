@@ -46,6 +46,7 @@ import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class LeaveBlock extends PersistableBusinessObjectBase {
 
@@ -101,7 +102,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		AccrualCategory category = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, leaveDate);
 		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, leaveDate);
 		AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(category, leaveDate, pha.getServiceDate());
-		return aRule.getLmAccrualCategoryRuleId();
+		return ObjectUtils.isNull(aRule) ? null : aRule.getLmAccrualCategoryRuleId();
 	}
 	
 	public static class Builder {

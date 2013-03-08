@@ -104,7 +104,7 @@ public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 		ls.setLeaveSummaryRows(lsrList);
 		// adding brand new leave blocks
 		List<String> errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/19/2012", new BigDecimal(8), null);
-		Assert.assertTrue("There should be 1 error message" , errors.size()== 1);
+		Assert.assertEquals("There should be 1 error message" , 1, errors.size());
 		String anError = errors.get(0);
 		Assert.assertTrue("error message not correct" , anError.equals("This leave request would exceed the usage limit for " + lsr.getAccrualCategory()));
 	}
@@ -120,7 +120,7 @@ public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 		ls.setLeaveSummaryRows(lsrList);
 		// adding brand new leave blocks
 		List<String> errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/19/2012", new BigDecimal(8), null);
-		Assert.assertTrue("There should be no error message" , errors.size()== 0);
+		Assert.assertEquals("There should be no error message" , 0, errors.size());
 	}
 	
 	@Test
@@ -134,7 +134,7 @@ public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 		ls.setLeaveSummaryRows(lsrList);
 		// adding brand new leave blocks
 		List<String> errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/19/2012", new BigDecimal(8), null);
-		Assert.assertTrue("There should be no error message" , errors.size()== 0);
+		Assert.assertEquals("There should be no error message" , 0, errors.size());
 	}
 	
 	@Test
@@ -148,7 +148,7 @@ public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 		ls.setLeaveSummaryRows(lsrList);
 		// adding brand new leave blocks
 		List<String> errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/15/2012", new BigDecimal(8), null);
-		Assert.assertTrue("There should be 1 error message" , errors.size()== 1);
+		Assert.assertEquals("There should be 1 error message" , 1, errors.size());
 		String anError = errors.get(0);
 		Assert.assertTrue("error message not correct" , anError.equals("This leave request would exceed the usage limit for " + lsr.getAccrualCategory()));
 	}
@@ -164,7 +164,7 @@ public class LeaveCalendarValidationServiceTest extends KPMETestCase {
 		ls.setLeaveSummaryRows(lsrList);
 
 		List<String> errors = LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(ls, "EC", "02/15/2012", "02/15/2012", new BigDecimal(5), null);
-		Assert.assertTrue("There should be no error message" , errors.size()== 0);
+		Assert.assertEquals("There should be no error message" , 0, errors.size());
 
 	}
 	

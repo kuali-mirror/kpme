@@ -77,5 +77,8 @@ public interface AccrualCategoryService {
      * @return
      * @throws Exception 
      */
-	public BigDecimal getCurrentBalanceForPrincipal(String principalId, AccrualCategory accrualCategory, Date asOfDate) throws Exception;
+	public BigDecimal getAccruedBalanceForPrincipal(String principalId, AccrualCategory accrualCategory, Date asOfDate);
+	
+	public BigDecimal getApprovedBalanceForPrincipal(String principalId, AccrualCategory accrualCategory, Date asOfDate);
+	
 }
