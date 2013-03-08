@@ -28,9 +28,9 @@ public class PositionReportSubCatValidation extends MaintenanceDocumentRuleBase 
 				&& !PmValidationUtils.validatePositionReportCategory(prsc.getPositionReportCat(), prsc.getPositionReportType(), prsc.getInstitution(), prsc.getCampus(),prsc.getEffectiveDate())) {
 			String[] parameters = new String[4];
 			parameters[0] = prsc.getPositionReportCat();
-			parameters[1] = prsc.getPositionReportType();
-			parameters[2] = prsc.getInstitution();
-			parameters[3] = prsc.getCampus();
+			parameters[1] = prsc.getInstitution();
+			parameters[2] = prsc.getCampus();
+			parameters[3] = prsc.getPositionReportType();
 			this.putFieldError("positionReportCat", "institution.campus.type.inconsistent.positionReportCat", parameters);
 			return false;
 		}
