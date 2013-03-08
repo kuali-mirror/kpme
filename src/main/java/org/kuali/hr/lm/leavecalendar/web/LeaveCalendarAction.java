@@ -34,6 +34,7 @@ import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
+import org.kuali.hr.lm.balancetransfer.validation.BalanceTransferValidationUtils;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -257,7 +258,9 @@ public class LeaveCalendarAction extends TkAction {
 			    			BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(viewPrincipal, accrualCategory, lb.getLeaveDate());
 				        	
 				        	BalanceTransfer loseTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(viewPrincipal, lb.getAccrualCategoryRuleId(), accruedBalance, lb.getLeaveDate());
-				        	losses.add(loseTransfer);
+				        	boolean valid = BalanceTransferValidationUtils.validateTransfer(loseTransfer);
+				        	if(valid)
+				        		losses.add(loseTransfer);
 			        	}
 			        	else if(StringUtils.equals(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND, aRule.getMaxBalanceActionFrequency())) {
 				        	if(calendarInterval.contains(lb.getLeaveDate().getTime())) {
@@ -294,14 +297,16 @@ public class LeaveCalendarAction extends TkAction {
 	        	lcf.setLeaveSummary(summary);
             }
 	        lcf.setForfeitures(losses);
+	        
+	        Map<String,Set<String>> transactions = LeaveCalendarValidationUtil.validatePendingTransactions(viewPrincipal, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
+
+	        allMessages.get("infoMessages").addAll(transactions.get("infoMessages"));
+	        allMessages.get("warningMessages").addAll(transactions.get("warningMessages"));
+	        allMessages.get("actionMessages").addAll(transactions.get("actionMessages"));
         }
         
 
-        Map<String,Set<String>> transactions = LeaveCalendarValidationUtil.validatePendingTransactions(viewPrincipal, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate());
 
-        allMessages.get("infoMessages").addAll(transactions.get("infoMessages"));
-        allMessages.get("warningMessages").addAll(transactions.get("warningMessages"));
-        allMessages.get("actionMessages").addAll(transactions.get("actionMessages"));
         
         // add warning messages based on max carry over balances for each accrual category
         if(calendarEntry != null) {

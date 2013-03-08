@@ -172,19 +172,6 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 										}
 									}
 									
-/*									EmployeeOverride maxBalanceOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, pha.getLeavePlan(), accrualCategory.getAccrualCategory(), "MB", lb.getLeaveDate());
-									EmployeeOverride maxAnnualCarryOverOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, pha.getLeavePlan(), accrualCategory.getAccrualCategory(), "MAC", lb.getLeaveDate());
-									
-									if(ObjectUtils.isNotNull(maxBalanceOverride)) {
-										adjustedMaxBalance = new BigDecimal(maxBalanceOverride.getOverrideValue());
-                                    }
-									if(ObjectUtils.isNotNull(maxAnnualCarryOverOverride)) {
-										adjustedMaxAnnualCarryOver = new BigDecimal(maxAnnualCarryOverOverride.getOverrideValue());
-                                    }*/
-									//override values are not pro-rated.
-
-									//should extend a BalanceTransferBase class, or use an algorithm swapping pattern.
-									//allow institutions to extend/customize/implement their own max_bal_action_frequency types.
 									Calendar cal = pha.getLeaveCalObj();
 									if(cal == null)
 										throw new RuntimeException("Principal is without a leave calendar");
@@ -259,6 +246,15 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 										//otherwise its not transferable under year end frequency.
 									}
 									else {
+										if(StringUtils.equals(asOfLeaveDateRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)) {
+											if(leaveLeaveEntry != null) {
+												//DateTime leavePlanRollOver = TkServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(pha.getLeavePlan(), lb.getLeaveDate());
+												Interval leaveLeaveEntryInterval = new Interval(leaveLeaveEntry.getBeginPeriodDate().getTime(),leaveLeaveEntry.getEndPeriodDate().getTime());
+												if(!(leaveLeaveEntryInterval.contains(lb.getLeaveDate().getTime()) && lb.getLeaveDate().compareTo(entry.getBeginPeriodDate()) >= 0)) {
+													continue;
+												}
+											}
+										}
 										// on-demand and leave-approve action frequencies.
 										if(tally.compareTo(adjustedMaxBalance) > 0 ) {
 											if(newEligibilities.get(asOfLeaveDateRule.getMaxBalanceActionFrequency()).isEmpty()) {
@@ -309,6 +305,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 					}
 					accruedBalance.put(accrualCategory.getAccrualCategory(), tally);
 				}
+				System.out.println();
 			}
 		}
 		return newEligibilities;

@@ -43,6 +43,7 @@ import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
+import org.kuali.hr.lm.balancetransfer.validation.BalanceTransferValidationUtils;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -163,7 +164,9 @@ public class TimeDetailAction extends TimesheetAction {
 			    			BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(viewPrincipal, accrualCategory, lb.getLeaveDate());
 				        	
 				        	BalanceTransfer loseTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(viewPrincipal, lb.getAccrualCategoryRuleId(), accruedBalance, lb.getLeaveDate());
-				        	losses.add(loseTransfer);
+				        	boolean valid = BalanceTransferValidationUtils.validateTransfer(loseTransfer);
+				        	if(valid)
+				        		losses.add(loseTransfer);
 			        	}
 
         				if(calendarInterval.contains(lb.getLeaveDate().getTime())) {

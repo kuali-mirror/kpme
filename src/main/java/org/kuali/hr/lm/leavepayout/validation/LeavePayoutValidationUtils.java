@@ -57,7 +57,8 @@ public class LeavePayoutValidationUtils {
 							isValid &= validateEffectiveDate(effectiveDate);
 							isValid &= validateAgainstLeavePlan(pha,fromCat,toCat,effectiveDate);
 							isValid &= validateTransferFromAccrualCategory(fromCat,principalId,effectiveDate,acr);
-							isValid &= validateTransferToAccrualCategory(toCat,principalId,effectiveDate,acr);*/
+							isValid &= validateTransferToAccrualCategory(toCat,principalId,effectiveDate,acr);
+*/
 							isValid &= validatePayoutAmount(leavePayout.getPayoutAmount(),fromCat,toCat, principalId, effectiveDate, acr);
 						}
 						else {
@@ -102,9 +103,11 @@ public class LeavePayoutValidationUtils {
 			AccrualCategory fromCat, AccrualCategory toCat, String principalId,
 			Date effectiveDate, AccrualCategoryRule accrualRule) {
 
+		BigDecimal balance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(principalId, fromCat, effectiveDate);
 		//transfer amount must be less than the max transfer amount defined in the accrual category rule.
 		//it cannot be negative.
 		boolean isValid = true;
+		
 		BigDecimal maxPayoutAmount = null;
 		BigDecimal adjustedMaxPayoutAmount = null;
 		if(ObjectUtils.isNotNull(accrualRule.getMaxPayoutAmount())) {
@@ -131,8 +134,30 @@ public class LeavePayoutValidationUtils {
 			isValid &= false;
 			GlobalVariables.getMessageMap().putError("leavePayout.payoutAmount","leavePayout.payoutAmount.negative");
 		}
+		
+		if(balance.subtract(payoutAmount).compareTo(BigDecimal.ZERO) < 0 ) {
+			if(StringUtils.equals(fromCat.getEarnCodeObj().getAllowNegativeAccrualBalance(),"Y"))
+				isValid &= true;
+			else {
+				isValid &= false;
+				GlobalVariables.getMessageMap().putError("leavePayout.payoutAmount", "maxBalance.amount.exceedsBalance");
+			}
+		}	
 		return isValid;
 	}
 
+	private boolean validateMaxBalance() {
+		//This validation could assert that the payout amount, together with forfeiture
+		//brings the balance for the given accrual category back to, or under, the balance limit
+		//without exceeding the total accrued balance.
+		return true;
+	}
+	
+	private boolean validateMaxCarryOver() {
+		//This validation could assert that the payout amount, together with forfeiture
+		//brings the balance for the given accrual category back to, or under, the max carry over limit
+		//without exceeding the total accrued balance.
+		return true;
+	}
 	
 }

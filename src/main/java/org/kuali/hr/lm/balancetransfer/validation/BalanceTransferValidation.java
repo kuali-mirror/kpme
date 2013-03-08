@@ -130,7 +130,10 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 			if(ObjectUtils.isNotNull(maxTransferAmount)) {
 				EmployeeOverride eo = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, leavePlan, accrualCategory, TkConstants.EMPLOYEE_OVERRIDE_TYPE.get("MTA"), effectiveDate);
 				if(ObjectUtils.isNotNull(eo))
-					maxTransferAmount = new BigDecimal(eo.getOverrideValue());
+					if(ObjectUtils.isNull(eo.getOverrideValue()))
+						maxTransferAmount = new BigDecimal(Long.MAX_VALUE);
+					else
+						maxTransferAmount = new BigDecimal(eo.getOverrideValue());
 				else {
 					BigDecimal fteSum = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, effectiveDate);
 					maxTransferAmount = maxTransferAmount.multiply(fteSum);
@@ -241,12 +244,4 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 		}
 		return isValid; 
 	}
-	
-	@Override
-	protected boolean processCustomApproveDocumentBusinessRules(
-			MaintenanceDocument document) {
-/*		System.out.println("");*/
-		return super.processCustomApproveDocumentBusinessRules(document);
-	}
-
 }

@@ -17,7 +17,6 @@ package org.kuali.hr.lm.accrual.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
@@ -42,6 +41,7 @@ import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
@@ -205,16 +205,6 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 		//assertEquals(6, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
 		assertEquals(0, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
 		//assertEquals(6, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
-		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(LeaveBlock eligibleTransfer : maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer.getAccrualCategoryRuleId()));
-
-		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, decEntry);
-		for(AccrualCategoryRule aRule : rules) {
-			LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId());
-			assertNotNull("eligible accrual category has no balance limit",ObjectUtils.isNotNull(aRule.getMaxBalance()));
-			assertTrue("accrual category not eligible for transfer",row.getAccruedBalance().compareTo(aRule.getMaxBalance()) > 0);
-		}
 	}
 	
 	@Test
@@ -224,35 +214,6 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 		//assertEquals(6, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
 		assertEquals(8, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
 		//assertEquals(6, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
-		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(LeaveBlock eligibleTransfer : maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer.getAccrualCategoryRuleId()));
-
-		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(USER_ID, janEntry);
-		for(AccrualCategoryRule aRule : rules) {
-			LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId());
-			BigDecimal maxBalance = aRule.getMaxBalance();
-			EmployeeOverride mbOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(USER_ID,
-					"testLP",
-					row.getAccrualCategory(),
-					"MB",
-					janEntry.getBeginPeriodDate());
-			EmployeeOverride macOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(USER_ID,
-					"testLP",
-					row.getAccrualCategory(),
-					"MAC",
-					janEntry.getBeginPeriodDate());
-			if(ObjectUtils.isNotNull(mbOverride) && ObjectUtils.isNotNull(macOverride))
-				maxBalance = new BigDecimal(Math.min(mbOverride.getOverrideValue(), macOverride.getOverrideValue()));
-			else {
-				if(ObjectUtils.isNotNull(macOverride))
-					maxBalance = new BigDecimal(macOverride.getOverrideValue());
-				if(ObjectUtils.isNotNull(mbOverride))
-					maxBalance = new BigDecimal(mbOverride.getOverrideValue());
-			}
-			assertNotNull("eligible accrual category has no balance limit",ObjectUtils.isNotNull(maxBalance));
-			assertTrue("accrual category not eligible for transfer",row.getAccruedBalance().compareTo(maxBalance) > 0);
-		}
 	}
 	
 	/**
@@ -270,20 +231,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 
 		Map<String, Set<LeaveBlock>> maxBalanceViolations = eligibilityTestHelper(midDecTSDEntry, TS_USER_ID);
 		//Assert correct number of transfer eligible for frequency
-		assertEquals(6, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
-
-		//Assert that the accrual categories returned by BT service are in fact over their balance limit,
-		//according to their rules. - does not consider FTE.
-		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(LeaveBlock eligibleTransfer : maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer.getAccrualCategoryRuleId()));
-
-		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TS_USER_ID, midDecTSDEntry);
-		for(AccrualCategoryRule aRule : rules) {
-			LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId());
-			assertNotNull("eligible accrual category has no balance limit",ObjectUtils.isNotNull(aRule.getMaxBalance()));
-			assertTrue("accrual category not eligible for transfer",row.getAccruedBalance().compareTo(aRule.getMaxBalance()) > 0);
-		}
+		assertEquals(0, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
 	}
 	
 	@Test
@@ -296,35 +244,6 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 		Map<String, Set<LeaveBlock>> maxBalanceViolations = eligibilityTestHelper(midDecTSDEntry, TS_USER_ID);
 		//Assert correct number of transfer eligible for frequency
 		assertEquals(0, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
-		
-		/**
-		 * No eligible transfers to test balance limit.
-		 */
-/*		//Assert that the accrual categories returned by BT service are in fact over their balance limit,
-		//according to their rules.
-		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(LeaveBlock eligibleTransfer : maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer.getAccrualCategoryRuleId()));
-			
-		// Set should contain an accrual category whose rule's max balance is trumped by an employee override.
-		// Comparing accrued balance to a rule's defined max balance is insufficient for testing
-		// whether or not an accrual category is indeed over it's balance limit. Same can be said for FTE-proration.
-		// However, in this case, using an employee override will 
-		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TS_USER_ID, midDecTSDEntry);
-		for(AccrualCategoryRule aRule : rules) {
-			LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId());
-			BigDecimal maxBalance = aRule.getMaxBalance();
-			EmployeeOverride mbOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(TS_USER_ID,
-					"testLP",
-					row.getAccrualCategory(),
-					"MB",
-					janEntry.getBeginPeriodDate());
-			if(ObjectUtils.isNotNull(mbOverride))
-				maxBalance = new BigDecimal(mbOverride.getOverrideValue());
-			//Don't care about employee override existence, this is not the leave plan's roll-over period.
-			assertNotNull("eligible accrual category has no balance limit",maxBalance);
-			assertTrue("accrual category not eligible for transfer",row.getAccruedBalance().compareTo(maxBalance) > 0);
-		}*/
 	}
 	
 	@Test
@@ -337,19 +256,57 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 		Map<String, Set<LeaveBlock>> maxBalanceViolations = eligibilityTestHelper(midDecTSDEntry, TS_USER_ID);
 		//Assert correct number of transfer eligible for frequency
 		assertEquals(6, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
+	}
+	
+	@Test
+	public void testGetMaxBalanceViolationsLeaveApproveForTimesheetCaseThree() throws Exception {
+		//Timesheet includes the leave calendar end period
+		TkServiceLocator.getAccrualService().runAccrual(TS_USER_ID,TK_FROM,TK_TO,true,TS_USER_ID);
+		endDecTSD = TkServiceLocator.getTimesheetService().getTimesheetDocument(TSD_END_DEC_PERIOD_ID);
+		endDecTSDEntry = endDecTSD.getCalendarEntry();
 
-		//Assert that the accrual categories returned by BT service are in fact over their balance limit,
-		//according to their rules. - does not consider FTE.
-		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(LeaveBlock eligibleTransfer : maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer.getAccrualCategoryRuleId()));
+		Map<String, Set<LeaveBlock>> maxBalanceViolations = eligibilityTestHelper(endDecTSDEntry, TS_USER_ID);
+		//Assert correct base number of transfer eligible for frequency
+		assertEquals(6, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
 
-		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TS_USER_ID, midDecTSDEntry);
-		for(AccrualCategoryRule aRule : rules) {
-			LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId());
-			assertNotNull("eligible accrual category has no balance limit",ObjectUtils.isNotNull(aRule.getMaxBalance()));
-			assertTrue("accrual category not eligible for transfer",row.getAccruedBalance().compareTo(aRule.getMaxBalance()) > 0);
-		}
+		LeaveBlock usage = new LeaveBlock();
+		
+		usage.setAccrualCategory("la-xfer");
+		usage.setAccrualGenerated(false);
+		usage.setLeaveAmount(new BigDecimal(-10));
+		usage.setLeaveDate(TKUtils.formatDateString("12/28/2011"));
+		usage.setDocumentId(TSD_END_DEC_PERIOD_ID);
+		usage.setPrincipalId(TS_USER_ID);
+		usage.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+		usage.setEarnCode("EC1");
+		usage.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
+		usage.setBlockId(0L);
+		
+		KRADServiceLocator.getBusinessObjectService().save(usage);
+		
+		maxBalanceViolations = eligibilityTestHelper(endDecTSDEntry, TS_USER_ID);
+
+		//The above leave block should remove la-xfer from eligibility, reducing the number of eligibilities by 1.
+		assertEquals(5, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
+		
+		// adding an accrual block beyond the underlying leave calendar end date, but still within the
+		// bounds of the time period, should not re-mark this accrual category over max balance.
+		usage = new LeaveBlock();
+		
+		usage.setAccrualCategory("la-xfer");
+		usage.setAccrualGenerated(false);
+		usage.setLeaveAmount(new BigDecimal(10));
+		usage.setLeaveDate(TKUtils.formatDateString("01/01/2012"));
+		usage.setDocumentId(TSD_END_DEC_PERIOD_ID);
+		usage.setPrincipalId(TS_USER_ID);
+		usage.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+		usage.setEarnCode("EC1");
+		usage.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
+		usage.setBlockId(0L);
+		
+		KRADServiceLocator.getBusinessObjectService().save(usage);
+		
+		assertEquals(5, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
 	}
 	
 	@Test
@@ -362,19 +319,6 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 		Map<String, Set<LeaveBlock>> maxBalanceViolations = eligibilityTestHelper(endDecTSDEntry, TS_USER_ID);
 		//Assert correct number of transfer eligible for frequency
 		assertEquals(6, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
-		
-		//Assert that the accrual categories returned by BT service are in fact over their balance limit,
-		//according to their rules. - does not consider FTE.
-		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(LeaveBlock eligibleTransfer : maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer.getAccrualCategoryRuleId()));
-
-		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TS_USER_ID, endDecTSDEntry);
-		for(AccrualCategoryRule aRule : rules) {
-			LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId());
-			assertNotNull("eligible accrual category has no balance limit",ObjectUtils.isNotNull(aRule.getMaxBalance()));
-			assertTrue("accrual category not eligible for transfer",row.getAccruedBalance().compareTo(aRule.getMaxBalance()) > 0);
-		}
 	}
 	
 	@Test
@@ -387,30 +331,6 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 		Map<String, Set<LeaveBlock>> maxBalanceViolations = eligibilityTestHelper(endDecTSDEntry, TS_USER_ID);
 		//Assert correct number of transfer eligible for frequency
 		assertEquals(0, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
-		
-		//Assert that the accrual categories returned by BT service are in fact over their balance limit,
-		//according to their rules. - does not consider FTE.
-		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(LeaveBlock eligibleTransfer : maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer.getAccrualCategoryRuleId()));
-
-		// Set should contain an accrual category whose rule's max balance is trumped by an employee override.
-		// Comparing accrued balance to a rule's defined max balance is insufficient for testing
-		// whether or not an accrual category is indeed over it's balance limit. Same can be said for FTE-proration.
-		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TS_USER_ID, endDecTSDEntry);
-		for(AccrualCategoryRule aRule : rules) {
-			LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId());
-			BigDecimal maxBalance = aRule.getMaxBalance();
-			EmployeeOverride mbOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(TS_USER_ID,
-					"testLP",
-					row.getAccrualCategory(),
-					"MB",
-					janEntry.getBeginPeriodDate());
-			if(ObjectUtils.isNotNull(mbOverride))
-				maxBalance = new BigDecimal(mbOverride.getOverrideValue());
-			assertNotNull("eligible accrual category has no balance limit",maxBalance);
-			assertTrue("accrual category not eligible for transfer",row.getAccruedBalance().compareTo(maxBalance) > 0);
-		}
 	}
 	
 	@Test
@@ -424,19 +344,6 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 		Map<String, Set<LeaveBlock>> maxBalanceViolations = eligibilityTestHelper(endDecTSDEntry, TS_USER_ID);
 		//Assert correct number of transfer eligible for frequency
 		assertEquals(6, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
-		
-		//Assert that the accrual categories returned by BT service are in fact over their balance limit,
-		//according to their rules. - does not consider FTE.
-		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(LeaveBlock eligibleTransfer : maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND))
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer.getAccrualCategoryRuleId()));
-
-		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TS_USER_ID,endDecTSDEntry);
-		for(AccrualCategoryRule aRule : rules) {
-			LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId());
-			assertNotNull("eligible accrual category has no balance limit",ObjectUtils.isNotNull(aRule.getMaxBalance()));
-			assertTrue("accrual category not eligible for transfer",row.getAccruedBalance().compareTo(aRule.getMaxBalance()) > 0);
-		}
 	}
 	
 	@Test
@@ -450,41 +357,6 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 
 		//Assert correct number of transfer eligible for frequency
 		assertEquals(8, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
-		
-		//Assert that the accrual categories returned by BT service are in fact over their balance limit,
-		//according to their rules. - does not consider FTE.
-		List<AccrualCategoryRule> rules = new ArrayList<AccrualCategoryRule>();
-		for(LeaveBlock eligibleTransfer : maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
-			rules.add(TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(eligibleTransfer.getAccrualCategoryRuleId()));
-        }
-
-		LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TS_USER_ID,endJanTSDEntry);
-		for(AccrualCategoryRule aRule : rules) {
-			LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId());
-			BigDecimal maxBalance = aRule.getMaxBalance();
-			EmployeeOverride mbOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(TS_USER_ID,
-					"testLP",
-					row.getAccrualCategory(),
-					"MB",
-					janEntry.getBeginPeriodDate());
-			EmployeeOverride macOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(TS_USER_ID,
-					"testLP",
-					row.getAccrualCategory(),
-					"MAC",
-					janEntry.getBeginPeriodDate());
-			if(ObjectUtils.isNotNull(mbOverride) && ObjectUtils.isNotNull(macOverride)) {
-				maxBalance = new BigDecimal(Math.min(mbOverride.getOverrideValue(), macOverride.getOverrideValue()));
-            } else {
-				if(ObjectUtils.isNotNull(macOverride)) {
-					maxBalance = new BigDecimal(macOverride.getOverrideValue());
-                }
-				if(ObjectUtils.isNotNull(mbOverride)) {
-					maxBalance = new BigDecimal(mbOverride.getOverrideValue());
-                }
-			}
-			assertNotNull("eligible accrual category has no balance limit",ObjectUtils.isNotNull(maxBalance));
-			assertTrue("accrual category " + aRule.getLmAccrualCategoryId() + " not eligible for transfer",row.getAccruedBalance().compareTo(maxBalance) > 0);
-		}
 	}
 	
 	

@@ -22,7 +22,7 @@ delete from hr_job_t where hr_job_id >= 5000;
 delete from lm_leave_document_header_t where document_id >= 5000;
 delete from hr_earn_code_t where hr_earn_code_id >= 5000;
 delete from hr_calendar_entries_t where hr_calendar_entry_id >= 5000;
-delete from lm_leave_block_t where lm_leave_block_id >= 39430;
+delete from lm_leave_block_t where lm_leave_block_id >= 10000;
 delete from lm_employee_override_t where lm_employee_override_id >= 3000;
 delete from tk_document_header_t where document_id >= 5000;
 
@@ -136,8 +136,8 @@ insert into hr_calendar_entries_t (`hr_calendar_entry_id`,`hr_calendar_id`,`cale
 insert into hr_calendar_entries_t (`hr_calendar_entry_id`,`hr_calendar_id`,`calendar_name`,`begin_period_date`,`end_period_date`) values ('5002','3','BWS-LM','2013-01-01 00:00:00','2013-02-01 00:00:00');
 
 -- Timesheet test document headers
-insert into tk_document_header_t (`document_id`, `principal_id`, `pay_end_dt`, `document_status`, `pay_begin_dt`, `obj_id`, `ver_nbr`) values ('5003', 'testUser2', '2012-02-05 00:00:00', 'I', '2011-01-22 00:00:00', NULL, '1');
-insert into tk_document_header_t (`document_id`, `principal_id`, `pay_end_dt`, `document_status`, `pay_begin_dt`, `obj_id`, `ver_nbr`) values ('5002', 'testUser2', '2012-01-22 00:00:00', 'I', '2011-01-08 00:00:00', NULL, '1');
+insert into tk_document_header_t (`document_id`, `principal_id`, `pay_end_dt`, `document_status`, `pay_begin_dt`, `obj_id`, `ver_nbr`) values ('5003', 'testUser2', '2012-02-05 00:00:00', 'I', '2012-01-22 00:00:00', NULL, '1');
+insert into tk_document_header_t (`document_id`, `principal_id`, `pay_end_dt`, `document_status`, `pay_begin_dt`, `obj_id`, `ver_nbr`) values ('5002', 'testUser2', '2012-01-22 00:00:00', 'I', '2012-01-08 00:00:00', NULL, '1');
 insert into tk_document_header_t (`document_id`, `principal_id`, `pay_end_dt`, `document_status`, `pay_begin_dt`, `obj_id`, `ver_nbr`) values ('5000', 'testUser2', '2011-12-25 00:00:00', 'I', '2011-12-11 00:00:00', NULL, '1');
 insert into tk_document_header_t (`document_id`, `principal_id`, `pay_end_dt`, `document_status`, `pay_begin_dt`, `obj_id`, `ver_nbr`) values ('5001', 'testUser2', '2012-01-08 00:00:00', 'I', '2011-12-25 00:00:00', NULL, '1');
 

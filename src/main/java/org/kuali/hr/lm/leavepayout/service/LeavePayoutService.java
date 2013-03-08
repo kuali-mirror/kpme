@@ -66,20 +66,10 @@ public interface LeavePayoutService {
 	 * Helper Services
 	 */
 	
-	/**
-	 * Determines which accrual categories within the given leave calendar document, are TRANSFERABLE for the given action frequency.
-	 * Includes accrual categories for which ACTION_AT_MAX_BALANCE = LOSE.
-	 * 
-	 * @param document The LeaveCalendarDocument to use in gathering transfer eligible accrual categories.
-	 * @param actionFrequency One of LMConstants.MAX_BAL_ACTION_FREQ
-	 * @return A List of accrualCategoryRuleId's in {@param document}'s leave summary with MAX_BAL_ACTION_FREQUENCY = {@param actionFrequency} 
-	 * @throws Exception
-	 */
-	public Map<String, Set<LeaveBlock>> getNewEligiblePayouts(
-			CalendarEntries calendarEntry, String principalId) throws Exception;
 	public void submitToWorkflow(LeavePayout leavePayout) throws WorkflowException;
-	public List<LeavePayout> getLeavePayouts(String viewPrincipal,
-			Date beginPeriodDate, Date endPeriodDate);
+	
+	public List<LeavePayout> getLeavePayouts(String viewPrincipal, Date beginPeriodDate, Date endPeriodDate);
+	
 	public void saveOrUpdate(LeavePayout payout);
 
     

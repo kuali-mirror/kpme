@@ -23,12 +23,14 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
+import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.lm.leavepayout.LeavePayout;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
@@ -63,7 +65,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 	
 	//Employee Overrides???
 	/**
-	 * Transfer amount must be validated against several variables, including max transfer amount,
+	 * Transfer amount could be validated against several variables, including max transfer amount,
 	 * max carry over ( for the converted amount deposited into the "to" accrual category, max usage
 	 * ( if transfers count as usage ).
 	 * @param transferAmount
@@ -125,17 +127,36 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 		return true;
 	}
 	
-	/**
-	 * Is not called when saving a document, but is called on submit.
-	 * 
-	 * The branched logic in this method contains references to accrual category rule properties
-	 * that, when balance transfer is triggered through system interaction, would naturally have
-	 * been checked in the process of triggering the balance transfer. i.e. existence of accrual
-	 * category rule, maxBalFlag = Y, leave plan for principal id existence and accrual category
-	 * existence under that leave plan. The context in which the balance transfers are triggered
-	 * would themselves validate these checks.
-	 * 
-	 */
+	//transfer amount must be under max limit when submitted via max balance triggered action or by a work area approver.
+	private boolean isPayoutAmountUnderMaxLimit(String principalId, Date effectiveDate, String accrualCategory,
+				BigDecimal payoutAmount, AccrualCategoryRule accrualRule, String leavePlan) {
+	
+		if(ObjectUtils.isNotNull(accrualRule)) {
+
+			BigDecimal maxPayoutAmount = null;
+			if(ObjectUtils.isNotNull(accrualRule.getMaxTransferAmount())) {
+				maxPayoutAmount = new BigDecimal(accrualRule.getMaxTransferAmount());
+			}
+			if(ObjectUtils.isNotNull(maxPayoutAmount)) {
+				EmployeeOverride eo = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, leavePlan, accrualCategory, TkConstants.EMPLOYEE_OVERRIDE_TYPE.get("MPA"), effectiveDate);
+				if(ObjectUtils.isNotNull(eo))
+					if(ObjectUtils.isNull(eo.getOverrideValue()))
+						maxPayoutAmount = new BigDecimal(Long.MAX_VALUE);
+					else
+						maxPayoutAmount = new BigDecimal(eo.getOverrideValue());
+				else {
+					BigDecimal fteSum = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, effectiveDate);
+					maxPayoutAmount = maxPayoutAmount.multiply(fteSum);
+				}
+				if(payoutAmount.compareTo(maxPayoutAmount) > 0) {
+					GlobalVariables.getMessageMap().putError("document.newMaintainableObject.payoutAmount","leavePayout.exceeds.payoutLimit");
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+	
 	@Override
 	public boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean isValid = true;
@@ -184,6 +205,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 									isValid &= validateAgainstLeavePlan(pha,fromCat,effectiveDate);
 									isValid &= validateTransferFromAccrualCategory(fromCat,principalId,effectiveDate,acr);
 									isValid &= validatePayoutAmount(leavePayout.getPayoutAmount(),fromCat,payoutEarnCode, null, null);
+									isValid &= isPayoutAmountUnderMaxLimit(principalId, effectiveDate, fromAccrualCategory, leavePayout.getPayoutAmount(), acr, pha.getLeavePlan());
 								}
 								else {
 									//should never be the case if accrual category rules are validated correctly.
@@ -220,14 +242,7 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 				}
 			}
 		}
-		return isValid; 
-	}
-	
-	@Override
-	protected boolean processCustomApproveDocumentBusinessRules(
-			MaintenanceDocument document) {
-/*		System.out.println("");*/
-		return super.processCustomApproveDocumentBusinessRules(document);
+		return isValid;
 	}
 
 }
