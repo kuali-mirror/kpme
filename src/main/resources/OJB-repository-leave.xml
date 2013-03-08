@@ -61,24 +61,24 @@
     <!-- Accrual Category Rules -->
     <class-descriptor class="org.kuali.hr.lm.accrual.AccrualCategoryRule" table="LM_ACCRUAL_CATEGORY_RULES_T">
         <field-descriptor name="lmAccrualCategoryRuleId"                column="LM_ACCRUAL_CATEGORY_RULES_ID"   jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_ACCRUAL_CATEGORY_RULES_S" />
-        <field-descriptor name="serviceUnitOfTime"                      column="SERVICE_UNIT_OF_TIME"           jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="serviceUnitOfTime"                      column="SERVICE_UNIT_OF_TIME"           jdbc-type="VARCHAR"     length="15" />
         <field-descriptor name="start"                                  column="START_ACC"                      jdbc-type="BIGINT"      length="5" nullable="false" />
         <field-descriptor name="end"                                    column="END_ACC"                        jdbc-type="BIGINT"      length="5" nullable="false" />
         <field-descriptor name="accrualRate"                            column="ACCRUAL_RATE"                   jdbc-type="DECIMAL"     length="12" nullable="false" />
         <field-descriptor name="maxBalFlag"                             column="MAX_BAL_FLAG"                   jdbc-type="VARCHAR"     length="1" nullable="false" />
-        <field-descriptor name="maxBalance"                             column="MAX_BAL"                        jdbc-type="DECIMAL"     length="12" nullable="false" />
-        <field-descriptor name="maxBalanceActionFrequency"              column="MAX_BAL_ACTION_FREQUENCY"       jdbc-type="VARCHAR"     length="5" nullable="false" />
-        <field-descriptor name="actionAtMaxBalance"                     column="ACTION_AT_MAX_BAL"              jdbc-type="VARCHAR"     length="5" nullable="false" />
-        <field-descriptor name="maxBalanceTransferToAccrualCategory"    column="MAX_BAL_TRANS_ACC_CAT"          jdbc-type="VARCHAR"     length="15" nullable="false" />
-        <field-descriptor name="maxBalanceTransferConversionFactor"     column="MAX_BAL_TRANS_CONV_FACTOR"      jdbc-type="DECIMAL"     length="12" nullable="false" />
-        <field-descriptor name="maxTransferAmount"                      column="MAX_TRANS_AMOUNT"               jdbc-type="BIGINT"      length="20" nullable="false" />
-        <field-descriptor name="maxPayoutAmount"                        column="MAX_PAYOUT_AMOUNT"              jdbc-type="BIGINT"      length="20" nullable="false" />
-        <field-descriptor name="maxPayoutEarnCode"                      column="MAX_PAYOUT_EARN_CODE"           jdbc-type="VARCHAR"     length="15" nullable="false" />
-        <field-descriptor name="maxUsage"                               column="MAX_USAGE"                      jdbc-type="BIGINT"      length="20" nullable="false" />
-        <field-descriptor name="maxCarryOver"                           column="MAX_CARRY_OVER"                 jdbc-type="BIGINT"      length="20" nullable="false" />
-        <field-descriptor name="lmAccrualCategoryId"                    column="LM_ACCRUAL_CATEGORY_ID"         jdbc-type="VARCHAR"     length="60" nullable="false" />
-        <field-descriptor name="timestamp"                              column="TIMESTAMP"                      jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
-        <field-descriptor name="active"                                 column="ACTIVE"                         jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
+        <field-descriptor name="maxBalance"                             column="MAX_BAL"                        jdbc-type="DECIMAL"     length="12" />
+        <field-descriptor name="maxBalanceActionFrequency"              column="MAX_BAL_ACTION_FREQUENCY"       jdbc-type="VARCHAR"     length="5" />
+        <field-descriptor name="actionAtMaxBalance"                     column="ACTION_AT_MAX_BAL"              jdbc-type="VARCHAR"     length="5" />
+        <field-descriptor name="maxBalanceTransferToAccrualCategory"    column="MAX_BAL_TRANS_ACC_CAT"          jdbc-type="VARCHAR"     length="15" />
+        <field-descriptor name="maxBalanceTransferConversionFactor"     column="MAX_BAL_TRANS_CONV_FACTOR"      jdbc-type="DECIMAL"     length="12" />
+        <field-descriptor name="maxTransferAmount"                      column="MAX_TRANS_AMOUNT"               jdbc-type="BIGINT"      length="20" />
+        <field-descriptor name="maxPayoutAmount"                        column="MAX_PAYOUT_AMOUNT"              jdbc-type="BIGINT"      length="20" />
+        <field-descriptor name="maxPayoutEarnCode"                      column="MAX_PAYOUT_EARN_CODE"           jdbc-type="VARCHAR"     length="15" />
+        <field-descriptor name="maxUsage"                               column="MAX_USAGE"                      jdbc-type="BIGINT"      length="20" />
+        <field-descriptor name="maxCarryOver"                           column="MAX_CARRY_OVER"                 jdbc-type="BIGINT"      length="20" />
+        <field-descriptor name="lmAccrualCategoryId"                    column="LM_ACCRUAL_CATEGORY_ID"         jdbc-type="VARCHAR"     length="60" />
+        <field-descriptor name="timestamp"                              column="TIMESTAMP"                      jdbc-type="TIMESTAMP"   conversion="org.kuali.hr.time.util.TkTimestampConverter" />
+        <field-descriptor name="active"                                 column="ACTIVE"                         jdbc-type="VARCHAR"     length="1" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="objectId"                               column="OBJ_ID"                         jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"                          column="VER_NBR"                        jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
