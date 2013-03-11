@@ -131,8 +131,9 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 				}
 				
 				accruedBalance.put(accrualCategory.getAccrualCategory(), new BigDecimal(0));
-				if(leaveBlocks.isEmpty())
-				{/*check for max balance infractions on asOfDate for rule in effect at that time.*/}
+				if(leaveBlocks.isEmpty()) {
+				   /* TODO check for max balance infractions on asOfDate for rule in effect at that time.*/
+                }
 				for(LeaveBlock lb : leaveBlocks) {
 					if(StringUtils.equals(lb.getRequestStatus(),LMConstants.REQUEST_STATUS.DISAPPROVED) || StringUtils.equals(lb.getRequestStatus(),LMConstants.REQUEST_STATUS.DEFERRED))
 						continue;

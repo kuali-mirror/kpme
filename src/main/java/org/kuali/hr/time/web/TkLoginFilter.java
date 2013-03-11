@@ -35,7 +35,7 @@ public class TkLoginFilter implements Filter {
 
     private Filter dummyLoginFilter = new org.kuali.rice.kew.web.DummyLoginFilter();
     private static boolean testMode = false;
-    public static String TEST_ID = "admin";
+    public static final String TEST_ID = "admin";
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,

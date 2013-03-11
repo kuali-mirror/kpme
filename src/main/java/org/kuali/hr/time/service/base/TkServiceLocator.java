@@ -85,6 +85,7 @@ import org.kuali.hr.time.workarea.service.WorkAreaService;
 import org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderService;
 import org.kuali.hr.time.workschedule.service.WorkScheduleAssignmentService;
 import org.kuali.hr.time.workschedule.service.WorkScheduleService;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -96,7 +97,7 @@ import org.springmodules.orm.ojb.PersistenceBrokerTemplate;
 
 public class TkServiceLocator implements ApplicationContextAware {
 	public static String SPRING_BEANS = "classpath:SpringBeans.xml";
-	public static ApplicationContext CONTEXT;
+	private static ApplicationContext CONTEXT;
 	public static final String TK_PERMISSIONS_SERVICE = "permissionsService";
 	public static final String TK_CLOCK_LOG_SERVICE = "clockLogService";
 	public static final String TK_ASSIGNMENT_SERVICE = "assignmentService";
@@ -479,6 +480,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
 	    CONTEXT = arg0;
 	}
+
+    public static Object getBean(String beanName) {
+        return CONTEXT.getBean(beanName);
+    }
 	
 
     /**

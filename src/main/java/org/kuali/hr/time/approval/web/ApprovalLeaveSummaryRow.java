@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.time.approval.web;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,7 +38,7 @@ import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryRow> {
+public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryRow>, Serializable {
 	private String name;
 	private String principalId;
 	private String documentId;

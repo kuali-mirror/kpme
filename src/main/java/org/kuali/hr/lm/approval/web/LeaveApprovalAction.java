@@ -230,7 +230,6 @@ public class LeaveApprovalAction extends ApprovalAction{
 	public ActionForward loadApprovalTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 				throws Exception {
 		ActionForward fwd = mapping.findForward("basic");
-		TKUser user = TKContext.getUser();
         LeaveApprovalActionForm laaf = (LeaveApprovalActionForm) form;
         Date currentDate = null;
         CalendarEntries payCalendarEntries = null;

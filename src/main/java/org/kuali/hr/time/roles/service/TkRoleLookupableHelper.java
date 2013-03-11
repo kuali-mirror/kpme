@@ -104,8 +104,8 @@ public class TkRoleLookupableHelper extends HrEffectiveDateActiveLookupableHelpe
             mapDistinctPrincipalIdsToRoleGroups.put(roleGroup.getPrincipalId(), roleGroup);
         }
         List<TkRoleGroup> distinctRoleGroupPrincipalIds = new ArrayList<TkRoleGroup>();
-        for(String distinctPrincipalId : mapDistinctPrincipalIdsToRoleGroups.keySet()){
-        	distinctRoleGroupPrincipalIds.add(mapDistinctPrincipalIdsToRoleGroups.get(distinctPrincipalId));
+        for(TkRoleGroup roleGroup : mapDistinctPrincipalIdsToRoleGroups.values()){
+        	distinctRoleGroupPrincipalIds.add(roleGroup);
         }
         
 //		if(principalId!=""){

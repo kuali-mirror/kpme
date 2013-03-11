@@ -397,7 +397,7 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
 			   && StringUtils.isNotEmpty(lb.getScheduleTimeOffId()) 
 			   && lb.getLeaveAmount().compareTo(BigDecimal.ZERO) < 0) {
 		   SystemScheduledTimeOff ssto = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
-		   if(ssto != null && ssto.getUnusedTime().equals(LMConstants.UNUSED_TIME.BANK)) {
+		   if(ssto != null && StringUtils.equals(ssto.getUnusedTime(), LMConstants.UNUSED_TIME.BANK)) {
 			   Date currentDate = TKUtils.getTimelessDate(null);
 			   String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
 			   CalendarEntries ce = TkServiceLocator.getCalendarService()
@@ -418,7 +418,7 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
 			   && StringUtils.isNotEmpty(lb.getScheduleTimeOffId()) 
 			   && lb.getLeaveAmount().compareTo(BigDecimal.ZERO) < 0) {
 		   SystemScheduledTimeOff ssto = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
-		   if(ssto != null && ssto.getUnusedTime().equals(LMConstants.UNUSED_TIME.TRANSFER)) {
+		   if(ssto != null && StringUtils.equals(ssto.getUnusedTime(), LMConstants.UNUSED_TIME.TRANSFER)) {
 			   Date currentDate = TKUtils.getTimelessDate(null);
 			   String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
 			   CalendarEntries ce = TkServiceLocator.getCalendarService()
@@ -752,7 +752,7 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
                 StringUtils.equals(workArea.getOvertimeEditRole(), TkConstants.ROLE_TK_APPROVER_DELEGATE)) {
             return TKContext.getUser().getApproverWorkAreas().contains(workArea.getWorkArea());
         } else {
-            return TKContext.getUser().getDepartmentAdminAreas().contains(workArea.getDepartment());
+            return TKContext.getUser().getDepartmentAdminAreas().contains(workArea.getDepartment().getDept());
         }
     }
     

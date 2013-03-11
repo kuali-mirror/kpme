@@ -83,7 +83,6 @@ public class TimeDetailAction extends TimesheetAction {
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         super.checkTKAuthorization(form, methodToCall); // Checks for read access first.
-        TKUser user = TKContext.getUser();
         UserRoles roles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
         TimesheetDocument doc = TKContext.getCurrentTimesheetDocument();
 
@@ -146,10 +145,6 @@ public class TimeDetailAction extends TimesheetAction {
 
 	        Interval calendarInterval = new Interval(payCalendarEntry.getBeginPeriodDate().getTime(), payCalendarEntry.getEndPeriodDate().getTime());
 	        Map<String,Set<LeaveBlock>> maxBalInfractions = new HashMap<String,Set<LeaveBlock>>();
-	        
-	        Date effectiveDate = TKUtils.getCurrentDate();
-	        if(!calendarInterval.contains(TKUtils.getCurrentDate().getTime()))
-	        	effectiveDate = payCalendarEntry.getEndPeriodDate();
 	        
             if(ObjectUtils.isNotNull(principalCalendar)) {
     	        maxBalInfractions = TkServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(payCalendarEntry, viewPrincipal);
@@ -466,6 +461,7 @@ public class TimeDetailAction extends TimesheetAction {
             if (tb != null) {
 	            isClockLogCreated = tb.getClockLogCreated();
 	            if (StringUtils.isNotEmpty(tdaf.getOvertimePref())) {
+                    //TODO:  This doesn't do anything!!! these variables are never used.  Should they be?
 	                overtimeBeginTimestamp = tb.getBeginTimestamp();
 	                overtimeEndTimestamp = tb.getEndTimestamp();
 	            }
@@ -562,7 +558,6 @@ public class TimeDetailAction extends TimesheetAction {
 
 
     public ActionForward actualTimeInquiry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
         return mapping.findForward("ati");
     }
 

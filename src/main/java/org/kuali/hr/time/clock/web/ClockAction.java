@@ -65,7 +65,6 @@ public class ClockAction extends TimesheetAction {
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         super.checkTKAuthorization(form, methodToCall); // Checks for read access first.
 
-        TimesheetActionForm taForm = (TimesheetActionForm) form;
         UserRoles roles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
         TimesheetDocument doc = TKContext.getCurrentTimesheetDocument();
 
@@ -298,7 +297,6 @@ public class ClockAction extends TimesheetAction {
 
 		List<TimeBlock> newTbList = new ArrayList<TimeBlock>();
 		for(int i = 0; i < hrs.length; i++) {
-			TimeBlock tb = new TimeBlock();
 			BigDecimal hours = new BigDecimal(hrs[i]);
 			Timestamp beginTS = TKUtils.convertDateStringToTimestamp(beginDates[i], beginTimes[i]);
 			Timestamp endTS = TKUtils.convertDateStringToTimestamp(endDates[i], endTimes[i]);
@@ -307,7 +305,7 @@ public class ClockAction extends TimesheetAction {
 			
 			TimesheetDocument tsDoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocId);
 			
-			tb = TkServiceLocator.getTimeBlockService().createTimeBlock(tsDoc, beginTS, endTS, assignment, earnCode, hours,BigDecimal.ZERO, false, false, TKContext.getPrincipalId());
+			TimeBlock tb = TkServiceLocator.getTimeBlockService().createTimeBlock(tsDoc, beginTS, endTS, assignment, earnCode, hours,BigDecimal.ZERO, false, false, TKContext.getPrincipalId());
 			newTbList.add(tb);
 		}
 		TkServiceLocator.getTimeBlockService().resetTimeHourDetail(newTbList);

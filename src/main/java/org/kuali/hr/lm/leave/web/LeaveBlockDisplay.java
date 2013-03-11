@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.lm.leave.web;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -29,7 +30,7 @@ import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kew.api.KewApiConstants;
 
-public class LeaveBlockDisplay {
+public class LeaveBlockDisplay implements Serializable {
 	
 	private LeaveBlock leaveBlock;
 	private SortedMap<String, BigDecimal> accrualBalances = new TreeMap<String, BigDecimal>();

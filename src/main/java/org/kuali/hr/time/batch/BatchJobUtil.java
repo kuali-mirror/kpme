@@ -23,10 +23,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 public class BatchJobUtil {
 	
-	public static final DateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+	public static final DateTimeFormatter FORMAT = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
 	public static String getJobGroupName(Class<?> jobClass, Map<String, String> jobGroupDataMap) {
 		return jobClass.getSimpleName() + "-JobGroup-" + getDataMapString(jobGroupDataMap);
@@ -41,7 +44,7 @@ public class BatchJobUtil {
 	}
 	
 	public static String getTriggerName(Class<?> jobClass, Date jobDate) {
-		return jobClass.getSimpleName() + "-Trigger-" + "date=" + FORMAT.format(jobDate);
+		return jobClass.getSimpleName() + "-Trigger-" + "date=" + FORMAT.print(new DateTime(jobDate));
 	}
 	
 	private static String getDataMapString(Map<String, String> dataMap) {

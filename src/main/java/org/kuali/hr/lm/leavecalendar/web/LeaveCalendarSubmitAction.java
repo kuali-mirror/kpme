@@ -73,7 +73,6 @@ public class LeaveCalendarSubmitAction extends TkAction {
     public ActionForward approveLeaveCalendar(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	String documentId = request.getParameter("documentId");
     	String action = request.getParameter("action");
-        LeaveCalendarSubmitForm lcf = (LeaveCalendarSubmitForm)form;
         LeaveCalendarDocument document = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
 
         // Switched to grab the target (chain, resolution: target -> backdoor -> actual) user.

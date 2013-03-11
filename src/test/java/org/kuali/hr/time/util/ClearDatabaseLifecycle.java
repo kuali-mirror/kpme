@@ -110,8 +110,8 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
 
 	public void start() throws Exception {
 		if (new Boolean(ConfigContext.getCurrentContextConfig().getProperty("tk.use.clearDatabaseLifecycle"))) {
-			final StandardXAPoolDataSource dataSource = (StandardXAPoolDataSource) TkServiceLocator.CONTEXT.getBean("kpmeDataSource");
-			final PlatformTransactionManager transactionManager = (PlatformTransactionManager) TkServiceLocator.CONTEXT.getBean("transactionManager");
+			final StandardXAPoolDataSource dataSource = (StandardXAPoolDataSource) TkServiceLocator.getBean("kpmeDataSource");
+			final PlatformTransactionManager transactionManager = (PlatformTransactionManager) TkServiceLocator.getPlatformTransactionManager();
 			final String schemaName = dataSource.getUser().toUpperCase();
 			clearTables(transactionManager, dataSource, schemaName);
 			super.start();

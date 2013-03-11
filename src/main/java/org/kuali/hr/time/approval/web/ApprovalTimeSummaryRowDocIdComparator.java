@@ -15,9 +15,10 @@
  */
 package org.kuali.hr.time.approval.web;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class ApprovalTimeSummaryRowDocIdComparator implements Comparator<ApprovalTimeSummaryRow> {
+public class ApprovalTimeSummaryRowDocIdComparator implements Comparator<ApprovalTimeSummaryRow>, Serializable {
 
     int multiplier = 1;
 

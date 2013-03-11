@@ -15,13 +15,14 @@
  */
 package org.kuali.hr.lm.request.approval.web;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-public class LeaveRequestApprovalEmployeeRow implements Comparable<LeaveRequestApprovalEmployeeRow> {
+public class LeaveRequestApprovalEmployeeRow implements Comparable<LeaveRequestApprovalEmployeeRow>, Serializable {
 	
 	private String employeeName;
 	private String principalId;	

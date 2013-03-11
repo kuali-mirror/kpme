@@ -97,7 +97,7 @@ public class ClockLocationRuleLookupableHelper extends TkAuthorizedLookupableHel
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public class EffectiveDateTimestampCompare implements Comparator{
+	public static class EffectiveDateTimestampCompare implements Comparator{
 
 		@Override
 		public int compare(Object arg0, Object arg1) {

@@ -78,7 +78,6 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 			ApprovalLeaveSummaryRow aRow = new ApprovalLeaveSummaryRow();
             List<Note> notes = new ArrayList<Note>();
 //            List<String> warnings = new ArrayList<String>();
-            Map<String, Set<String>> allMessages = new HashMap<String, Set<String>>();
 			aRow.setName(aPerson.getPrincipalName());
 			aRow.setPrincipalId(aPerson.getPrincipalId());
 			
@@ -107,7 +106,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 			aRow.setEarnCodeLeaveHours(earnCodeLeaveHours);
             aRow.setNotes(notes);
 
-			allMessages = findWarnings(principalId, payCalendarEntries, leaveBlocks);
+            Map<String, Set<String>> allMessages = findWarnings(principalId, payCalendarEntries, leaveBlocks);
 			
 			Map<String,Set<String>> transactionalMessages = findTransactionsWithinPeriod(aDoc, payCalendarEntries);
 			
@@ -316,11 +315,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 	
 	@Override
 	public List<CalendarEntries> getAllLeavePayCalendarEntriesForApprover(String principalId, Date currentDate) {
-		TKUser tkUser = TKContext.getUser();
 		Set<String> principals = new HashSet<String>();
-		DateTime minDt = new DateTime(currentDate,
-				TKUtils.getSystemDateTimeZone());
-		minDt = minDt.minusDays(DAYS_WINDOW_DELTA);
 		Set<Long> approverWorkAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
 
 		// Get all of the principals within our window of time.

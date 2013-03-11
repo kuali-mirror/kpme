@@ -173,7 +173,6 @@ public class TimeApprovalAction extends ApprovalAction{
 	HttpServletRequest request, HttpServletResponse response)
 				throws Exception {
 		ActionForward fwd = mapping.findForward("basic");
-		TKUser user = TKContext.getUser();
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
         Date currentDate = null;
         CalendarEntries payCalendarEntries = null;
@@ -195,7 +194,6 @@ public class TimeApprovalAction extends ApprovalAction{
         // Set current pay calendar entries if present. Decide if the current date should be today or the end period date
         if (taaf.getHrPyCalendarEntriesId() != null) {
         	payCalendarEntries = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(taaf.getHrPyCalendarEntriesId());
-            currentDate = payCalendarEntries.getEndPeriodDate();
         } else {
             currentDate = TKUtils.getTimelessDate(null);
             currentPayCalendar = TkServiceLocator.getCalendarService().getCalendarByGroup(taaf.getSelectedPayCalendarGroup());

@@ -24,7 +24,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public abstract class HrBusinessObjectMaintainableImpl extends KualiMaintainableImpl {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(HrBusinessObjectMaintainableImpl.class);
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(HrBusinessObjectMaintainableImpl.class);
 	/**
 	 * 
 	 */

@@ -54,6 +54,7 @@
         <mysql.jdbc.artifactId>mysql-connector-java</mysql.jdbc.artifactId>
         <jaxb-impl.version>2.2.6</jaxb-impl.version>
         <jdbc.drivers.location>${env.M2_REPO}</jdbc.drivers.location>
+        <joda-time.version>2.0</joda-time.version>
         <mysql-connector-java.jar.location>${jdbc.drivers.location}/mysql/${mysql.jdbc.artifactId}/${mysql.jdbc.version}/${mysql.jdbc.artifactId}-${mysql.jdbc.version}.jar</mysql-connector-java.jar.location>
         <ojdbc14.jar.location>${jdbc.drivers.location}/com/oracle/${oracle.jdbc.artifactId}/${oracle.jdbc.version}/${oracle.jdbc.artifactId}-${oracle.jdbc.version}.jar</ojdbc14.jar.location>
     </properties>
@@ -160,7 +161,7 @@
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
-            <version>1.6.1</version>
+            <version>${joda-time.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>

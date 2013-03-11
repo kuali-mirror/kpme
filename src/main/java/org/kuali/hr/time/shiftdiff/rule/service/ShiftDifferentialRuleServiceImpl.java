@@ -191,14 +191,14 @@ public class ShiftDifferentialRuleServiceImpl implements ShiftDifferentialRuleSe
             // current day.
             //
             // There is room for refactoring here!
-			for (Long jobNumber: jobNumberToShifts.keySet()) {
-				List<ShiftDifferentialRule> shiftDifferentialRules = jobNumberToShifts.get(jobNumber);
+			for (Map.Entry<Long, List<ShiftDifferentialRule>> entry : jobNumberToShifts.entrySet()) {
+				List<ShiftDifferentialRule> shiftDifferentialRules = entry.getValue();
 				// Obtain and sort our previous and current time blocks.
 				List<TimeBlock> ruleTimeBlocksPrev = null;
-				List<TimeBlock> ruleTimeBlocksCurr = jobNumberToTimeBlocks.get(jobNumber);
+				List<TimeBlock> ruleTimeBlocksCurr = jobNumberToTimeBlocks.get(entry.getKey());
 				if (ruleTimeBlocksCurr != null && ruleTimeBlocksCurr.size() > 0) {
 					if (jobNumberToTimeBlocksPreviousDay != null)
-						ruleTimeBlocksPrev = jobNumberToTimeBlocksPreviousDay.get(jobNumber);
+						ruleTimeBlocksPrev = jobNumberToTimeBlocksPreviousDay.get(entry.getKey());
 					if (ruleTimeBlocksPrev != null && ruleTimeBlocksPrev.size() > 0)
 						this.sortTimeBlocksInverse(ruleTimeBlocksPrev);
 					this.sortTimeBlocksNatural(ruleTimeBlocksCurr);

@@ -58,8 +58,8 @@ public class SQLDataLifeCycle  extends BaseLifecycle {
     }
 
     public void start() throws Exception {
-        final StandardXAPoolDataSource dataSource = (StandardXAPoolDataSource) TkServiceLocator.CONTEXT.getBean("kpmeDataSource");
-        final PlatformTransactionManager transactionManager = (PlatformTransactionManager) TkServiceLocator.CONTEXT.getBean("transactionManager");
+        final StandardXAPoolDataSource dataSource = (StandardXAPoolDataSource) TkServiceLocator.getBean("kpmeDataSource");
+        final PlatformTransactionManager transactionManager = TkServiceLocator.getPlatformTransactionManager();
         final String schemaName = dataSource.getUser().toUpperCase();
         loadData(transactionManager, dataSource, schemaName);
         super.start();

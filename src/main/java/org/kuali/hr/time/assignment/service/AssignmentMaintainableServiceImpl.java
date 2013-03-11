@@ -111,10 +111,6 @@ public class AssignmentMaintainableServiceImpl extends HrBusinessObjectMaintaina
 	@Override
 	public void processAfterEdit(MaintenanceDocument document,
 			Map<String, String[]> parameters) {
-		Assignment aOld = (Assignment) document.getOldMaintainableObject()
-				.getBusinessObject();
-		Assignment aNew = (Assignment) document.getNewMaintainableObject()
-				.getBusinessObject();
 		super.processAfterEdit(document, parameters);
 	}
 

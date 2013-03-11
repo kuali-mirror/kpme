@@ -17,10 +17,7 @@ package org.kuali.hr.lm.leavepayout.web;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -49,8 +46,6 @@ import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-
-import edu.emory.mathcs.backport.java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -207,7 +202,7 @@ public class LeavePayoutAction extends TkAction {
 					LeaveCalendarDocument lcd = null;
 					String principalId = null;
 					CalendarEntries calendarEntry = null;
-					
+
 					if(isTimesheet) {
 						tsd = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
 						principalId = tsd.getPrincipalId();
@@ -272,15 +267,15 @@ public class LeavePayoutAction extends TkAction {
 		if(!eligiblePayouts.isEmpty()) {
 			
 			Collections.sort(eligiblePayouts, new Comparator() {
-				
-				@Override
-				public int compare(Object o1, Object o2) {
-					LeaveBlock l1 = (LeaveBlock) o1;
-					LeaveBlock l2 = (LeaveBlock) o2;
-					return l1.getLeaveDate().compareTo(l2.getLeaveDate());
-				}
-				
-			});
+
+                @Override
+                public int compare(Object o1, Object o2) {
+                    LeaveBlock l1 = (LeaveBlock) o1;
+                    LeaveBlock l2 = (LeaveBlock) o2;
+                    return l1.getLeaveDate().compareTo(l2.getLeaveDate());
+                }
+
+            });
 			
 			//This is the leave calendar document that triggered this balance transfer.
 
@@ -295,7 +290,7 @@ public class LeavePayoutAction extends TkAction {
 				AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualCategoryRuleId);
 				AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
 				BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(lcd.getPrincipalId(), accrualCategory, effectiveDate);
-
+			
 				LeavePayout leavePayout = TkServiceLocator.getLeavePayoutService().initializePayout(lcd.getPrincipalId(), accrualCategoryRuleId, accruedBalance, effectiveDate);
 				leavePayout.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
 	
@@ -312,7 +307,6 @@ public class LeavePayoutAction extends TkAction {
 					forfeitedLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
 					TkServiceLocator.getLeaveBlockService().updateLeaveBlock(forfeitedLeaveBlock, lcd.getPrincipalId());
 					
-					ActionRedirect redirect = new ActionRedirect();
 					if(ObjectUtils.isNotNull(leaveCalendarDocumentId)) {
 						if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||
 								StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(), LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {

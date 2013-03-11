@@ -96,7 +96,7 @@ public class LeaveCalendarValidationUtil {
 	    					for(EmployeeOverride eo : employeeOverrides) {
 	    						if(eo.getLeavePlan().equals(leavePlan) && eo.getAccrualCategory().equals(aRow.getAccrualCategory())) {
 	    							if(eo.getOverrideType().equals("MU") && eo.isActive()) {
-	    								if(eo.getOverrideValue()!=null && !eo.getOverrideValue().equals(""))
+	    								if(eo.getOverrideValue()!=null)
 	    									maxUsage = new BigDecimal(eo.getOverrideValue());
 	    								else // no limit flag
 	    									maxUsage = null;

@@ -133,10 +133,11 @@ public class AssignmentRule extends MaintenanceDocumentRuleBase {
 					earnCodePercent.put(account.getEarnCode(), percent);
 				}
 			}
-			Iterator<String> itr = earnCodePercent.keySet().iterator();
-			while (itr.hasNext()) {
-				String earnCode = itr.next();
-				if (earnCodePercent.get(earnCode) != 100) {
+			//Iterator<String> itr = earnCodePercent.keySet().iterator();
+            for (Map.Entry<String, Integer> entry : earnCodePercent.entrySet()) {
+			//while (itr.hasNext()) {
+				String earnCode = entry.getKey();
+				if (entry.getValue() != 100) {
 					if (invalidEarnCodes == null) {
 						invalidEarnCodes = new HashSet<String>();
 					}

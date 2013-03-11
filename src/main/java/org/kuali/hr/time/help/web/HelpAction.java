@@ -25,8 +25,6 @@ public class HelpAction extends TkAction {
 
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-        TKUser user = TKContext.getUser();
-        HelpActionForm helpActionForm = (HelpActionForm) form;
     }
 
 //    @Override

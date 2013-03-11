@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.time.approval.web;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +38,7 @@ import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-public class ApprovalTimeSummaryRow implements Comparable<ApprovalTimeSummaryRow> {
+public class ApprovalTimeSummaryRow implements Comparable<ApprovalTimeSummaryRow>, Serializable {
 	private String name;
 	private List<TimeBlock> lstTimeBlocks = new ArrayList<TimeBlock>();
     /** A Map (Assignment key) of Mapped totals (pay label mapping) */

@@ -17,6 +17,7 @@ package org.kuali.hr.time.roles;
 
 import java.sql.Date;
 
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.time.HrBusinessObject;
@@ -224,6 +225,11 @@ public class TkRole extends HrBusinessObject {
 	public void setLocationObj(Location locationObj) {
 		this.locationObj = locationObj;
 	}
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
     @Override
     public boolean equals(Object o) {

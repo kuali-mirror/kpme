@@ -38,12 +38,12 @@ public class EarnCodeInquirableImpl extends KualiInquirableImpl {
 			java.util.Date uDate = null;
 			try {
 				uDate = new SimpleDateFormat("MM/dd/yyyy").parse(fieldValues.get("effectiveDate").toString());
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Date effdt = new java.sql.Date(uDate.getTime());
-			ec = TkServiceLocator.getEarnCodeService().getEarnCode((String)fieldValues.get("earnCode"), effdt);
+
+                Date effdt = new java.sql.Date(uDate.getTime());
+                ec = TkServiceLocator.getEarnCodeService().getEarnCode((String)fieldValues.get("earnCode"), effdt);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 			
 		} else {
 			ec = (EarnCode) super.getBusinessObject(fieldValues);

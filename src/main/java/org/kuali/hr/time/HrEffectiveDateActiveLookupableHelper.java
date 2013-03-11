@@ -195,7 +195,7 @@ public abstract class HrEffectiveDateActiveLookupableHelper extends KualiLookupa
 
 		if (matchingResultsCount.intValue() <= searchResultsLimit.intValue()) {
 
-		matchingResultsCount = new Long(0);
+		matchingResultsCount = Long.valueOf(0);
 
 		}
 
@@ -203,7 +203,7 @@ public abstract class HrEffectiveDateActiveLookupableHelper extends KualiLookupa
 
 	}
 	@SuppressWarnings("rawtypes")
-	public class EffectiveDateTimestampCompare implements Comparator{
+	public static class EffectiveDateTimestampCompare implements Comparator{
 
 		@Override
 		public int compare(Object arg0, Object arg1) {

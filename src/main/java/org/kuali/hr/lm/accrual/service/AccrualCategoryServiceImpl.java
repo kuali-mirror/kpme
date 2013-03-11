@@ -19,15 +19,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
-import org.kuali.hr.lm.accrual.AccrualCategoryRule;
-import org.kuali.hr.lm.accrual.RateRangeAggregate;
 import org.kuali.hr.lm.accrual.dao.AccrualCategoryDao;
-import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
-import org.kuali.hr.time.calendar.Calendar;
-import org.kuali.hr.time.calendar.CalendarEntries;
-import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 
@@ -111,30 +105,7 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 			
 		}
 	}	
-	
-	private RateRangeAggregate getRateRangeAggregate(String principalId, Date asOfDate, String calendar){
-		Calendar leaveCal = TkServiceLocator.getCalendarService().getCalendarByGroup(calendar);
-		CalendarEntries leaveCalEntry = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(leaveCal.getHrCalendarId(),asOfDate);
-		
-		
-		return null;
-	}
-	
-	private AccrualCategoryRule getAccrualRuleForServiceDate(String serviceUnitOfTime, Date serviceDate, List<AccrualCategoryRule> accrualCatRules){
-		int months = 0;
-		
-		if(StringUtils.equals(serviceUnitOfTime, LMConstants.SERVICE_TIME_YEAR)){
-			
-		}
-		
-		
-		for(AccrualCategoryRule accrualCatRule : accrualCatRules){
-			//accrualCatRule.get
-		}
-		
-		return null;
-	}
-	
+
 	public List <AccrualCategory> getActiveAccrualCategoriesForLeavePlan(String leavePlan, Date asOfDate) {
     	return accrualCategoryDao.getActiveAccrualCategories(leavePlan, asOfDate);
     }

@@ -91,17 +91,20 @@ public class TimesheetSubmitAction extends TkAction {
             		Map<String,Set<LeaveBlock>> eligibilities = TkServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(document.getCalendarEntry(), document.getPrincipalId());
             		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(document.getPrincipalId(), document.getCalendarEntry().getEndPeriodDate());
 					Calendar cal = pha.getLeaveCalObj();
-					if(cal == null)
+					if(cal == null) {
 						throw new RuntimeException("Principal is without a leave calendar");
+                    }
 					List<CalendarEntries> leaveCalEntries = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesEndingBetweenBeginAndEndDate(cal.getHrCalendarId(), document.getCalendarEntry().getBeginPeriodDate(), document.getCalendarEntry().getEndPeriodDate());
 					CalendarEntries yearEndLeaveEntry = null;
 					CalendarEntries leaveLeaveEntry = null;
 					if(!leaveCalEntries.isEmpty()) {
 						for(CalendarEntries leaveEntry : leaveCalEntries) {
-							if(TkServiceLocator.getLeavePlanService().isLastCalendarPeriodOfLeavePlan(leaveEntry, pha.getLeavePlan(), document.getCalendarEntry().getEndPeriodDate()));
+							if(TkServiceLocator.getLeavePlanService().isLastCalendarPeriodOfLeavePlan(leaveEntry, pha.getLeavePlan(), document.getCalendarEntry().getEndPeriodDate())) {
 								yearEndLeaveEntry = leaveEntry;
-							if(leaveEntry.getEndPeriodDate().compareTo(document.getCalendarEntry().getEndPeriodDate()) <= 0)
+                            }
+							if(leaveEntry.getEndPeriodDate().compareTo(document.getCalendarEntry().getEndPeriodDate()) <= 0) {
 								leaveLeaveEntry = leaveEntry;
+                            }
 						}
 					}
             		ActionRedirect transferRedirect = new ActionRedirect();

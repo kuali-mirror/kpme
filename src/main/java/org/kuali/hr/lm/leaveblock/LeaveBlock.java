@@ -25,6 +25,7 @@ import javax.persistence.Transient;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
@@ -76,7 +77,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	private SystemScheduledTimeOff systemScheduledTimeOffObj;
 	private AccrualCategory accrualCategoryObj;
     private String leaveRequestDocumentId;
-
+    
     private Timestamp beginTimestamp;
     private Timestamp endTimestamp;
     
@@ -563,6 +564,23 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 
     public void setLeaveRequestDocumentId(String leaveRequestDocumentId) {
         this.leaveRequestDocumentId = leaveRequestDocumentId;
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder()
+                .append(this.principalId)
+                .append(this.jobNumber)
+                .append(this.workArea)
+                .append(this.task)
+                .append(this.earnCode)
+                .append(this.leaveDate)
+                .append(this.leaveAmount)
+                .append(this.accrualCategory)
+                .append(this.earnCode)
+                .append(this.description)
+                .append(this.leaveBlockType)
+                .toHashCode();
     }
 
     @Override

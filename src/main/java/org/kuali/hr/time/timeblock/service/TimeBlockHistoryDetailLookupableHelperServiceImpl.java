@@ -30,6 +30,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.Interval;
 import org.kuali.hr.job.Job;
+import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -84,10 +85,9 @@ public class TimeBlockHistoryDetailLookupableHelperServiceImpl extends KualiLook
         	}
         	filteredTimeBlockHistoryToDetailMap.putAll(timeBlockHistoryToDetailMap);
 
-        	Iterator<String> itr = timeBlockHistoryToDetailMap.keySet().iterator();
-        	while(itr.hasNext()){
-        		String timeHourDetailId = itr.next();
-        		List<TimeBlockHistoryDetail> tbhdList = timeBlockHistoryToDetailMap.get(timeHourDetailId);
+            for (Map.Entry<String, List<TimeBlockHistoryDetail>> entry : timeBlockHistoryToDetailMap.entrySet()) {
+        		String timeHourDetailId = entry.getKey();
+        		List<TimeBlockHistoryDetail> tbhdList = entry.getValue();
         		TimeBlockHistoryDetail tbhd = tbhdList.get(0);
         		TimeBlockHistory tbh = tbhd.getTimeBlockHistory();
         		

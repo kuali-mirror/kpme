@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.Map;
 
 public class TkCalendar extends CalendarParent {
-    private List<TkCalendarWeek> weeks = new ArrayList<TkCalendarWeek>();
     private CalendarEntries payCalEntry;
     private DateTime beginDateTime;
     private DateTime endDateTime;
@@ -189,15 +188,6 @@ public class TkCalendar extends CalendarParent {
         }
     }
 
-
-//    public List<TkCalendarWeek> getWeeks() {
-//        return weeks;
-//    }
-//
-//    public void setWeeks(List<TkCalendarWeek> weeks) {
-//        this.weeks = weeks;
-//    }
-
     public CalendarEntries getPayCalEntry() {
         return payCalEntry;
     }
@@ -296,6 +286,7 @@ public class TkCalendar extends CalendarParent {
 
             b.append(currStart.toString("d HH:mm"));
             b.append(" - ");
+            //TODO: should this be currEnd???
             b.append(currStart.toString("d HH:mm"));
         }
 

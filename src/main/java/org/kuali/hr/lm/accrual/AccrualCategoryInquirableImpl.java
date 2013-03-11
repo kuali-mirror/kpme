@@ -39,12 +39,12 @@ public class AccrualCategoryInquirableImpl extends TkInquirableImpl {
 			java.util.Date uDate = null;
 			try {
 				uDate = new SimpleDateFormat("MM/dd/yyyy").parse(fieldValues.get("effectiveDate").toString());
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Date effdt = new java.sql.Date(uDate.getTime());
-			ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory((String)fieldValues.get("accrualCategory"), effdt);
+
+			    Date effdt = new java.sql.Date(uDate.getTime());
+			    ac = TkServiceLocator.getAccrualCategoryService().getAccrualCategory((String)fieldValues.get("accrualCategory"), effdt);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 			
 		} else {
 			ac = (AccrualCategory) super.getBusinessObject(fieldValues);

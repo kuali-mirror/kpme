@@ -72,7 +72,7 @@ public class TimeDetailWSAction extends TimesheetAction {
     public ActionForward validateTimeEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimeDetailActionFormBase tdaf = (TimeDetailActionFormBase) form;
         JSONArray errorMsgList = new JSONArray();
-        List<String> errors = new ArrayList<String>();
+        List<String> errors;
         
     	EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(tdaf.getSelectedEarnCode(), tdaf.getTimesheetDocument().getAsOfDate());
     	if(ec != null 
@@ -93,7 +93,6 @@ public class TimeDetailWSAction extends TimesheetAction {
     	List<String> errorMsgList = new ArrayList<String>();
     	CalendarEntries payCalendarEntry = tdaf.getPayCalendarDates();
     	if(ObjectUtils.isNotNull(payCalendarEntry)) {
-    		String leaveStart = tdaf.getStartDate();
 			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), tdaf.getPayCalendarDates());
 			LeaveBlock lb = null;
 			if(StringUtils.isNotEmpty(tdaf.getLmLeaveBlockId())) {

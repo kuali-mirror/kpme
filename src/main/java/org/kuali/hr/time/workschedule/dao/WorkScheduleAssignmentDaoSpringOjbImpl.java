@@ -41,8 +41,6 @@ public class WorkScheduleAssignmentDaoSpringOjbImpl extends PlatformAwareDaoBase
         List<WorkScheduleAssignment> list = new ArrayList<WorkScheduleAssignment>();
 
         Criteria root = new Criteria();
-        Criteria effdt = new Criteria();
-        Criteria timestamp = new Criteria();
 
         root.addEqualTo("dept", dept);
         root.addEqualTo("workArea", workArea);

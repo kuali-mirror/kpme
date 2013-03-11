@@ -97,7 +97,7 @@ public class LeaveCodeValidation extends MaintenanceDocumentRuleBase {
 	boolean validateDefaultAmountOfTime(Long defaultAmountofTime) {
 		boolean valid = true;
 		if ( defaultAmountofTime != null ){
-			if (defaultAmountofTime.compareTo(new Long(24)) > 0  || defaultAmountofTime.compareTo(new Long(0)) < 0) {
+			if (defaultAmountofTime.compareTo(24L) > 0  || defaultAmountofTime.compareTo(0L) < 0) {
 				this.putFieldError("defaultAmountofTime", "error.leaveCode.hours", "Default Amount of Time '"
 						+ defaultAmountofTime + "'");
 				valid = false;

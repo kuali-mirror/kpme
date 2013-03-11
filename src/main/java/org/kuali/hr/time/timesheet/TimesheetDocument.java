@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.time.timesheet;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,7 +30,7 @@ import org.kuali.hr.time.timesummary.TimeSummary;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 
-public class TimesheetDocument implements CalendarDocumentContract {
+public class TimesheetDocument implements CalendarDocumentContract, Serializable {
 
 	public static final String TIMESHEET_DOCUMENT_TYPE = "TimesheetDocument";
 

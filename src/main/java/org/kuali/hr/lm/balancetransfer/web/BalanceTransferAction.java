@@ -17,12 +17,8 @@ package org.kuali.hr.lm.balancetransfer.web;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,8 +52,6 @@ import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
-
-import edu.emory.mathcs.backport.java.util.Collections;
 
 public class BalanceTransferAction extends TkAction {
 
@@ -108,8 +102,8 @@ public class BalanceTransferAction extends TkAction {
 			AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
 			
 			AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualRule.getLmAccrualCategoryId());
-			BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(balanceTransfer.getPrincipalId(), accrualCategory,balanceTransfer.getEffectiveDate());
-			
+			BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(balanceTransfer.getPrincipalId(), accrualCategory, balanceTransfer.getEffectiveDate());
+
 			BalanceTransfer defaultBT = TkServiceLocator.getBalanceTransferService().initializeTransfer(balanceTransfer.getPrincipalId(), accrualRuleId, accruedBalance, balanceTransfer.getEffectiveDate());
 			if(balanceTransfer.getTransferAmount().compareTo(defaultBT.getTransferAmount()) != 0) {
 				//employee changed the transfer amount, recalculate forfeiture.
@@ -213,17 +207,14 @@ public class BalanceTransferAction extends TkAction {
 					TimesheetDocument tsd = null;
 					LeaveCalendarDocument lcd = null;
 					String principalId = null;
-					CalendarEntries calendarEntry = null;
-					
+
 					if(isTimesheet) {
 						tsd = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
 						principalId = tsd.getPrincipalId();
-						calendarEntry = tsd.getCalendarEntry();
 					}
 					else {
 						lcd = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
 						principalId = lcd.getPrincipalId();
-						calendarEntry = lcd.getCalendarEntry();
 					}
 
 					AccrualCategoryRule accrualRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(accrualRuleId);
@@ -279,15 +270,15 @@ public class BalanceTransferAction extends TkAction {
 		if(!eligibleTransfers.isEmpty()) {
 			
 			Collections.sort(eligibleTransfers, new Comparator() {
-				
-				@Override
-				public int compare(Object o1, Object o2) {
-					LeaveBlock l1 = (LeaveBlock) o1;
-					LeaveBlock l2 = (LeaveBlock) o2;
-					return l1.getLeaveDate().compareTo(l2.getLeaveDate());
-				}
-				
-			});
+
+                @Override
+                public int compare(Object o1, Object o2) {
+                    LeaveBlock l1 = (LeaveBlock) o1;
+                    LeaveBlock l2 = (LeaveBlock) o2;
+                    return l1.getLeaveDate().compareTo(l2.getLeaveDate());
+                }
+
+            });
 			
 			//This is the leave calendar document that triggered this balance transfer.
 
@@ -311,39 +302,38 @@ public class BalanceTransferAction extends TkAction {
 				if(ObjectUtils.isNotNull(balanceTransfer)) {
 					if(StringUtils.equals(accrualRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
 	
-						//TkServiceLocator.getBalanceTransferService().submitToWorkflow(balanceTransfer);
-						balanceTransfer = TkServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
-						// May need to update to save the business object to KPME's tables for record keeping.
-						LeaveBlock forfeitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(balanceTransfer.getForfeitedLeaveBlockId());
-						KRADServiceLocator.getBusinessObjectService().save(balanceTransfer);
-						forfeitedLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
-						TkServiceLocator.getLeaveBlockService().updateLeaveBlock(forfeitedLeaveBlock, lcd.getPrincipalId());
-						
-						ActionRedirect redirect = new ActionRedirect();
-						if(ObjectUtils.isNotNull(leaveCalendarDocumentId)) {
-							if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||
-									StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(), LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
-								ActionForward loseForward = new ActionForward(mapping.findForward("leaveCalendarTransferSuccess"));
-								loseForward.setPath(loseForward.getPath()+"?documentId="+leaveCalendarDocumentId+"&action=R&methodToCall=approveLeaveCalendar");
-								return loseForward;
-							}
-							//on demand handled in separate action forward.
-						}
-	
+                        //TkServiceLocator.getBalanceTransferService().submitToWorkflow(balanceTransfer);
+                        balanceTransfer = TkServiceLocator.getBalanceTransferService().transfer(balanceTransfer);
+                        // May need to update to save the business object to KPME's tables for record keeping.
+                        LeaveBlock forfeitedLeaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(balanceTransfer.getForfeitedLeaveBlockId());
+                        KRADServiceLocator.getBusinessObjectService().save(balanceTransfer);
+                        forfeitedLeaveBlock.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+                        TkServiceLocator.getLeaveBlockService().updateLeaveBlock(forfeitedLeaveBlock, lcd.getPrincipalId());
+
+                        if(ObjectUtils.isNotNull(leaveCalendarDocumentId)) {
+                            if(StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE) ||
+                                    StringUtils.equals(accrualRule.getMaxBalanceActionFrequency(), LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+                                ActionForward loseForward = new ActionForward(mapping.findForward("leaveCalendarTransferSuccess"));
+                                loseForward.setPath(loseForward.getPath()+"?documentId="+leaveCalendarDocumentId+"&action=R&methodToCall=approveLeaveCalendar");
+                                return loseForward;
+                            }
+                                //on demand handled in separate action forward.
+                        }
+
 					} else {
 						btf.setLeaveCalendarDocumentId(leaveCalendarDocumentId);
 						btf.setBalanceTransfer(balanceTransfer);
 						btf.setTransferAmount(balanceTransfer.getTransferAmount());
 						return forward;
 					}
-			}
-			throw new RuntimeException("could not initialize balance transfer");
-		}
-		else
-			throw new RuntimeException("unable to fetch the accrual category that triggerred this transfer");
-		}
-		else
+			    }
+			    throw new RuntimeException("could not initialize balance transfer");
+		    } else {
+			    throw new RuntimeException("unable to fetch the accrual category that triggerred this transfer");
+            }
+		} else {
 			throw new RuntimeException("No infractions given");
+        }
 	}
 	
 	public ActionForward approveTimesheet(ActionMapping mapping, ActionForm form,
@@ -447,7 +437,7 @@ public class BalanceTransferAction extends TkAction {
 	private void buildBalanceTransferForLeaveBlock(BalanceTransferForm btf, String lbId) {
 		LeaveBlock lb = TkServiceLocator.getLeaveBlockService().getLeaveBlock(lbId);
 		// this leave block is a ssto usage block, need to use it fo find the accrualed leave block which has a positive amount
-		if(lb == null && StringUtils.isEmpty(lb.getScheduleTimeOffId())) {
+		if(lb == null || StringUtils.isEmpty(lb.getScheduleTimeOffId())) {
 			throw new RuntimeException("could not find the System Scheduled Time Off leave block that needs to be transferred!");	
 		}
 		SystemScheduledTimeOff ssto = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());

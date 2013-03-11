@@ -175,7 +175,7 @@ public class Assignment extends HrBusinessObject {
 
 	public Long getTask() {
 		if(task == null) {
-			return new Long(0);	// default task to 0 if task not provided
+			return Long.valueOf(0);	// default task to 0 if task not provided
 		}
 		return task;
 	}

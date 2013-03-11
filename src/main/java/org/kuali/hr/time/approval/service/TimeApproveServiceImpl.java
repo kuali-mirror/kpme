@@ -131,7 +131,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	@Override
 	public Map<String, CalendarEntries> getPayCalendarEntriesForApprover(
 			String principalId, Date currentDate, String dept) {
-		TKUser tkUser = TKContext.getUser();
 
 		Map<String, CalendarEntries> pceMap = new HashMap<String, CalendarEntries>();
 		Set<String> principals = new HashSet<String>();
@@ -187,7 +186,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			Date payEndDate) {
 		SortedSet<String> pcg = new TreeSet<String>();
 
-		TKUser tkUser = TKContext.getUser();
 		Set<Long> approverWorkAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
 		List<Assignment> assignments = new ArrayList<Assignment>();
 
@@ -513,10 +511,10 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			Map<String, Map<String, BigDecimal>> payHourTotals,
 			Map<String, List<BigDecimal>> assignmentToHours,
 			List<String> payCalendarLabels) {
-		for (String key : assignmentToHours.keySet()) {
+		for (Entry<String, List<BigDecimal>> entry : assignmentToHours.entrySet()) {
 			// for every Assignment
 			Map<String, BigDecimal> hoursToPayLabelMap = new LinkedHashMap<String, BigDecimal>();
-			List<BigDecimal> dayTotals = assignmentToHours.get(key);
+			List<BigDecimal> dayTotals = entry.getValue();
 			int dayCount = 0;
 			BigDecimal weekTotal = new BigDecimal(0.00);
 			BigDecimal periodTotal = new BigDecimal(0.00);
@@ -539,7 +537,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 					dayCount++;
 				}
 			}
-			payHourTotals.put(key, hoursToPayLabelMap);
+			payHourTotals.put(entry.getKey(), hoursToPayLabelMap);
 		}
 	}
 
@@ -658,7 +656,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 	public boolean doesApproverHavePrincipalsForCalendarGroup(Date asOfDate,
 			String calGroup) {
-		TKUser tkUser = TKContext.getUser();
 		Set<Long> approverWorkAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
 		for (Long workArea : approverWorkAreas) {
 			List<Assignment> assignments = TkServiceLocator
@@ -822,11 +819,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	
 	@Override
 	public List<CalendarEntries> getAllPayCalendarEntriesForApprover(String principalId, Date currentDate) {
-		TKUser tkUser = TKContext.getUser();
 		Set<String> principals = new HashSet<String>();
-		DateTime minDt = new DateTime(currentDate,
-				TKUtils.getSystemDateTimeZone());
-		minDt = minDt.minusDays(DAYS_WINDOW_DELTA);
 		Set<Long> approverWorkAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
 
 		// Get all of the principals within our window of time.

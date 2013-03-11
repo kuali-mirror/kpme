@@ -107,16 +107,12 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
     		
         	Map<String,Set<LeaveBlock>> eligibilities = TkServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry,principalId);
         	Set<LeaveBlock> onDemandTransfers = eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND);
-        	PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, calendarEntry.getEndPeriodDate());
 
         	Interval calendarEntryInterval = new Interval(calendarEntry.getBeginPeriodDate().getTime(),calendarEntry.getEndPeriodDate().getTime());
         	
         	//use the current date if on the current calendar? yes -> no warning given until accrual is reached. If accrual occurs on last day of period or last day of service interval
         	//change, no warning given to the employee of balance limits being exceeded except on or after that day.
-        	Date asOfDate = TKUtils.getCurrentDate();
-        	if(!calendarEntryInterval.contains(asOfDate.getTime()))
-        		asOfDate = calendarEntry.getEndPeriodDate();
-        	
+
         	if(!onDemandTransfers.isEmpty()) {
             	for(LeaveBlock lb : onDemandTransfers) {
             		Date leaveDate = lb.getLeaveDate();
@@ -179,8 +175,8 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 			for(FlsaDay flsaDay : flsaDays){
 				Map<String, List<TimeBlock>> earnCodeToTimeBlocks = flsaDay.getEarnCodeToTimeBlocks();
 				
-				for(String earnCode : earnCodeToTimeBlocks.keySet()){
-					for(TimeBlock timeBlock : earnCodeToTimeBlocks.get(earnCode)){
+				for(List<TimeBlock> timeBlocks : earnCodeToTimeBlocks.values()){
+					for(TimeBlock timeBlock : timeBlocks){
 						for(TimeHourDetail thd : timeBlock.getTimeHourDetails()){
 							if(StringUtils.equals(TkConstants.LUNCH_EARN_CODE, thd.getEarnCode())){
 								continue;

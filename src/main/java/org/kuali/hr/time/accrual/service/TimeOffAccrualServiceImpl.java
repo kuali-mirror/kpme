@@ -17,11 +17,7 @@ package org.kuali.hr.time.accrual.service;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -88,17 +84,17 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
 					}
 					DateTime jodaServiceDate = new DateTime(serviceDate);
 					
-					Long serviceUnits= new Long(0);
+					Long serviceUnits= 0L;
 					// for each accrualCategoryRule, compare start/end with the length of service, get corresponding rate and unit
 					for(AccrualCategoryRule accrualCategoryRule : accrualCategoryRules){
 						String serviceUnitOfTime = accrualCategoryRule.getServiceUnitOfTime();
 						
 						if ( serviceUnitOfTime.equals(LMConstants.SERVICE_TIME_YEAR)){
-							serviceUnits = new Long(currentDate.getYear() - jodaServiceDate.getYear()) + 1;
+							serviceUnits = Long.valueOf(currentDate.getYear() - jodaServiceDate.getYear()) + 1;
 						}
 						if ( serviceUnitOfTime.equals(LMConstants.SERVICE_TIME_MONTHS)){
-							serviceUnits = new Long(currentDate.getYear() - jodaServiceDate.getYear()) * 12 + 
-							new Long(currentDate.getMonthOfYear() - jodaServiceDate.getMonthOfYear()) ;
+							serviceUnits = Long.valueOf(currentDate.getYear() - jodaServiceDate.getYear()) * 12 +
+							Long.valueOf(currentDate.getMonthOfYear() - jodaServiceDate.getMonthOfYear()) ;
 						}
 						
 						if ( serviceUnits >= accrualCategoryRule.getStart() && serviceUnits < accrualCategoryRule.getEnd()){
@@ -132,10 +128,10 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
     	 String pId = "";
          if (timesheetDocument != null) {
              pId = timesheetDocument.getPrincipalId();
+             return validateAccrualHoursLimit(pId, timesheetDocument.getTimeBlocks(),  timesheetDocument.getAsOfDate());
          }
-         
-     	return validateAccrualHoursLimit(pId, timesheetDocument.getTimeBlocks(),  timesheetDocument.getAsOfDate());
-        
+
+     	 return Collections.emptyList();
     }
 	
 	public List<String> validateAccrualHoursLimit(String pId, List<TimeBlock> tbList, Date asOfDate) {
@@ -161,6 +157,7 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
              BigDecimal balanceHrs = (((BigDecimal)aMap.get(YEARLY_CARRYOVER_KEY)).add((BigDecimal)aMap.get(HOURS_ACCRUED_KEY)).subtract((BigDecimal)aMap.get(HOURS_TAKEN_KEY)).add((BigDecimal)aMap.get(HOURS_ADJUST_KEY)));
              
              if (totalForAccrCate.compareTo(balanceHrs) == 1) {
+
              	String msg = "Warning: Total hours entered (" + totalForAccrCate.toString() + ") for Accrual Category \"" + (String) aMap.get(ACCRUAL_CATEGORY_KEY) + "\" has exceeded balance (" + balanceHrs.toString() + "). Problem Time Blocks are:<br/>";
              	for(TimeBlock tb : warningTbs) {
              		msg += "Earn code: " + tb.getEarnCode()+ " Hours: " + tb.getHours().toString() + " on Date " + (tb.getBeginTimeDisplay() != null ? tb.getBeginTimeDisplay().toString(TkConstants.DT_BASIC_DATE_FORMAT) : "") + "<br/>";
@@ -173,20 +170,21 @@ public class TimeOffAccrualServiceImpl implements TimeOffAccrualService {
     }
 	public List<String> validateAccrualHoursLimitByEarnCode(TimesheetDocument timesheetDocument, String earnCode) {
 		 List<String> warningMessages = new ArrayList<String>();
-   	 String pId = "";
+   	     String pId = "";
         if (timesheetDocument != null) {
             pId = timesheetDocument.getPrincipalId();
         }
-        List<Map<String, Object>> calcList = this.getTimeOffAccrualsCalc(pId, timesheetDocument.getAsOfDate());
+        List<Map<String, Object>> calcList = timesheetDocument == null ? Collections.<Map<String, Object>>emptyList() :
+                this.getTimeOffAccrualsCalc(pId, timesheetDocument.getAsOfDate());
 
-        List<TimeBlock> tbList = timesheetDocument.getTimeBlocks();
+        List<TimeBlock> tbList = timesheetDocument == null ? Collections.<TimeBlock>emptyList() : timesheetDocument.getTimeBlocks();
         if (tbList.isEmpty()) {
             return warningMessages;
         }
         List<String> accruals = new ArrayList<String>();
         for (Map<String, Object> aMap : calcList) {
-   		accruals.add((String) aMap.get(ACCRUAL_CATEGORY_KEY));
-   	 }
+   		    accruals.add((String) aMap.get(ACCRUAL_CATEGORY_KEY));
+   	    }
         
         List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategories(timesheetDocument.getAsOfDate());
     

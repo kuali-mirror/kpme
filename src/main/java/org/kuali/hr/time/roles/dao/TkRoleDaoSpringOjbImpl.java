@@ -237,11 +237,7 @@ public class TkRoleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements T
         Criteria currentRecordCriteria = new Criteria();
         currentRecordCriteria.addEqualTo("positionNumber", positionNumber);
 
-        ImmutableList<String> fields = new ImmutableList.Builder<String>()
-                .add("positionNumber")
-                .build();
         currentRecordCriteria.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(TkRole.class, TKUtils.getCurrentDate(), EQUAL_TO_FIELDS, false));
-
 
         // Filter for ACTIVE = 'Y'
         Criteria activeFilter = new Criteria();
@@ -258,9 +254,6 @@ public class TkRoleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements T
         Criteria currentRecordCriteria = new Criteria();
         currentRecordCriteria.addEqualTo("positionNumber", positionNumber);
 
-        ImmutableList<String> fields = new ImmutableList.Builder<String>()
-                .add("positionNumber")
-                .build();
         currentRecordCriteria.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(TkRole.class, TKUtils.getCurrentDate(), EQUAL_TO_FIELDS, false));
 
         // Filter for ACTIVE = 'N'

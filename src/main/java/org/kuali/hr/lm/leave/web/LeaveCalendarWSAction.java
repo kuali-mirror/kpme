@@ -124,11 +124,11 @@ public class LeaveCalendarWSAction extends TkAction {
     public ActionForward getEarnCodeJson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         //TODO: copied from TimeDetailWSAction.  Need to reduce code duplication
         LeaveCalendarWSForm lcf = (LeaveCalendarWSForm) form;
-        CalendarEntries ce = new CalendarEntries();
+
 
         if(request.getParameter("selectedPayPeriod") != null) {
             lcf.setSelectedPayPeriod(request.getParameter("selectedPayPeriod"));
-            ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(request.getParameter("selectedPayPeriod"));
+            CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(request.getParameter("selectedPayPeriod"));
             lcf.setCalendarEntry(ce);
         }
         lcf.setPrincipalId(TKUser.getCurrentTargetPerson().getPrincipalId());

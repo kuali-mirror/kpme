@@ -15,10 +15,11 @@
  */
 package org.kuali.hr.lm.leaveSummary;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.SortedMap;
 
-public class LeaveSummaryRow {
+public class LeaveSummaryRow implements Serializable {
 	private String accrualCategory;
     //adding this to have a very simple means of getting the Accrual Category object
     private String accrualCategoryId;

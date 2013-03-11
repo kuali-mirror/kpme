@@ -132,23 +132,6 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 		this.dailyOvertimeRuleDao = dailyOvertimeRuleDao;
 	}
 
-	/**
-	 * Provides a key used to store and look up Daily Overtime Rules.
-	 * @param assignment
-	 * @return
-	 */
-	private String getIdentifyingKey(Assignment assignment) {
-		StringBuffer keybuf = new StringBuffer();
-		Job job = assignment.getJob();
-
-		keybuf.append(job.getLocation()).append('_');
-		keybuf.append(job.getHrPayType()).append('_');
-		keybuf.append(job.getDept()).append('_');
-		keybuf.append(assignment.getWorkArea());
-
-		return keybuf.toString();
-	}
-
 	private Assignment getIdentifyingKey(TimeBlock block, Date asOfDate, String principalId) {
 		List<Assignment> lstAssign = TkServiceLocator.getAssignmentService().getAssignments(principalId, asOfDate);
 
@@ -196,22 +179,22 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 			Map<DailyOvertimeRule,List<TimeBlock>> dailyOvtRuleToDayTotals = new HashMap<DailyOvertimeRule,List<TimeBlock>>();
 			for(TimeBlock timeBlock : dayTimeBlocks) {
 				Assignment assign = this.getIdentifyingKey(timeBlock, timesheetDocument.getAsOfDate(), timesheetDocument.getPrincipalId());
-				for(DailyOvertimeRule dr : mapDailyOvtRulesToAssignment.keySet()){
-					List<Assignment> lstAssign = mapDailyOvtRulesToAssignment.get(dr);
+				for(Map.Entry<DailyOvertimeRule, List<Assignment>> entry : mapDailyOvtRulesToAssignment.entrySet()){
+					List<Assignment> lstAssign = entry.getValue();
 
                     // for this kind of operation to work, equals() and hashCode() need to
                     // be over ridden for the object of comparison.
 					if(lstAssign.contains(assign)){
                         // comparison here will always work, because we're comparing
                         // against our existing instantiation of the object.
-						if(dailyOvtRuleToDayTotals.get(dr) != null){
-							List<TimeBlock> lstTimeBlock = dailyOvtRuleToDayTotals.get(dr);
+						if(dailyOvtRuleToDayTotals.get(entry.getKey()) != null){
+							List<TimeBlock> lstTimeBlock = dailyOvtRuleToDayTotals.get(entry.getKey());
 							lstTimeBlock.add(timeBlock);
-							dailyOvtRuleToDayTotals.put(dr, lstTimeBlock);
+							dailyOvtRuleToDayTotals.put(entry.getKey(), lstTimeBlock);
 						} else {
 							List<TimeBlock> lstTimeBlock = new ArrayList<TimeBlock>();
 							lstTimeBlock.add(timeBlock);
-							dailyOvtRuleToDayTotals.put(dr, lstTimeBlock);
+							dailyOvtRuleToDayTotals.put(entry.getKey(), lstTimeBlock);
 						}
 					}
 				}
