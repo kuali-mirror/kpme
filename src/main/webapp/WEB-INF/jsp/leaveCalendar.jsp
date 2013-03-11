@@ -108,10 +108,39 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr>
+                        <tr class="leaveAmountSection">
                             <td><label for="leave-amount" id="unitOfTime">* Leave Amount</label> : </label></td>
                             <td>
                                 <html:text property="leaveAmount" styleId="leaveAmount"/>
+                            </td>
+                        </tr>
+                        <tr class="clockInSection" style="display: none;">
+                            <td><span style="float:right;"><label for="startTimeHourMinute">In:</label></span></td>
+                            <td>
+                                <input name="startTimeHourMinute" id="startTimeHourMinute" type="text" size="10"/>
+
+                                    <%-- Time entry helper with the tooltip effect --%>
+                                <button style="width:20px; height:20px; vertical-align: text-top"
+                                        title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 15:30"
+                                        id="beginTimeHelp" tabindex="999" onclick="return false;">help
+                                </button>
+
+                                <input type="hidden" name="startTime" id="startTime"/>
+                            </td>
+                        </tr>
+                        <tr class="clockOutSection" style="display: none;">
+                            <td><span style="float:right;"><label for="endTimeHourMinute">Out:</label></span></td>
+                            <td>
+                                <input name="endTimeHourMinute" id="endTimeHourMinute" type="text" size="10"/>
+
+                                    <%-- Time entry helper with the tooltip effect --%>
+                                <button style="width:20px; height:20px; vertical-align: text-top;"
+                                        id="startTimeHelp"
+                                        title="Supported formats:<br/>9a, 9 am, 9 a.m.,  9:00a, 9:45a, 3p, 15:30"
+                                        tabindex="999" onclick="return false;">help
+                                </button>
+
+                                <input type="hidden" name="endTime" id="endTime"/>
                             </td>
                         </tr>
                         <tr>

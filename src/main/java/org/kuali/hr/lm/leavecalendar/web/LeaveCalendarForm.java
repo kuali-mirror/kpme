@@ -67,6 +67,8 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
 	private LeaveSummary leaveSummary;
     private boolean leavePlanningCalendar;
     private List<BalanceTransfer> forfeitures;
+    private String startTime;
+	private String endTime;
 	
     public boolean isCurrentLeavePeriod () {
     	return (TKUtils.getCurrentDate().compareTo(calendarEntry.getBeginPeriodDate()) >= 0 && TKUtils.getCurrentDate().compareTo(calendarEntry.getEndPeriodDate()) < 0);
@@ -315,4 +317,21 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
 	public void setForfeitures(List<BalanceTransfer> forfeitures) {
 		this.forfeitures = forfeitures;
 	}
+
+	public String getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+	
 }

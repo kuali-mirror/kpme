@@ -19,6 +19,9 @@
 	            ${leaveBlock.assignmentTitle}
 	        </div>
 	    </div>  
+	    <div>
+	    ${leaveBlock.timeRange}
+	    </div>
 	    ${leaveBlock.leaveBlockDetails} - ${leaveBlock.earnCode} (${leaveBlock.hours})
     </div>
 </c:forEach>

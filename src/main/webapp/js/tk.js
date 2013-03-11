@@ -77,7 +77,8 @@ var CONSTANTS = {
     },
     EARNCODE_UNIT: {
     	HOUR: "H",
-    	DAY: "D"
+    	DAY: "D",
+    	TIME: "T"
     },
     ACTIONS : {
         UPDATE_TIME_BLOCK : "updateTimeBlock",

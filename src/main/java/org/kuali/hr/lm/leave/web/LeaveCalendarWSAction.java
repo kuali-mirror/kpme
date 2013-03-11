@@ -141,10 +141,10 @@ public class LeaveCalendarWSAction extends TkAction {
             List<Assignment> assignments = lcf.getLeaveCalendarDocument().getAssignments();
             AssignmentDescriptionKey key = new AssignmentDescriptionKey(lcf.getSelectedAssignment());
             for (Assignment assignment : assignments) {
-                if (assignment.getJobNumber().compareTo(key.getJobNumber()) == 0 &&
+            	if (assignment.getJobNumber().compareTo(key.getJobNumber()) == 0 &&
                         assignment.getWorkArea().compareTo(key.getWorkArea()) == 0 &&
                         assignment.getTask().compareTo(key.getTask()) == 0) {
-                    List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForLeave(assignment, new java.sql.Date(TKUtils.convertDateStringToTimestamp(lcf.getStartDate()).getTime()), lcf.isLeavePlanningCalendar());
+                	List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForLeave(assignment, new java.sql.Date(TKUtils.convertDateStringToTimestamp(lcf.getStartDate()).getTime()), lcf.isLeavePlanningCalendar());
                     for (EarnCode earnCode : earnCodes) {
                         Map<String, Object> earnCodeMap = new HashMap<String, Object>();
                         earnCodeMap.put("assignment", assignment.getAssignmentKey());
@@ -190,6 +190,9 @@ public class LeaveCalendarWSAction extends TkAction {
     		LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), lcf.getCalendarEntry());
 		    lcf.setLeaveSummary(ls);
     	}
+    	
+    	errorMsgList.addAll(LeaveCalendarValidationUtil.validateParametersAccordingToSelectedEarnCodeRecordMethod(lcf));
+    	
     	errorMsgList.addAll(LeaveCalendarValidationUtil.validateAvailableLeaveBalance(lcf));
     	//KPME-1263
         errorMsgList.addAll(LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(lcf));

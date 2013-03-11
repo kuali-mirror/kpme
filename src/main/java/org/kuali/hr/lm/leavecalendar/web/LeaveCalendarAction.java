@@ -78,6 +78,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
+import java.sql.Timestamp;
 
 public class LeaveCalendarAction extends TkAction {
 
@@ -396,8 +397,21 @@ public class LeaveCalendarAction extends TkAction {
 		String targetPrincipalId = TKContext.getTargetPrincipalId();
 		CalendarEntries calendarEntry = lcf.getCalendarEntry();
 		String selectedAssignment = lcf.getSelectedAssignment();
-		DateTime beginDate = new DateTime(TKUtils.convertDateStringToTimestampNoTimezone(lcf.getStartDate()));
-		DateTime endDate = new DateTime(TKUtils.convertDateStringToTimestampNoTimezone(lcf.getEndDate()));
+		
+		DateTime beginDate = null;
+		DateTime endDate = null;
+		
+		/** KPME-2061 : if earchcode type is 'T' then change the date and time with timezone.
+		// Surgery point - Need to construct a Date/Time with Appropriate Timezone.
+		 * */
+		if(lcf.getStartTime() != null && lcf.getEndTime() != null) {
+			beginDate = new DateTime(TKUtils.convertDateStringToTimestampWithoutZone(lcf.getStartDate(), lcf.getStartTime()).getTime());
+			endDate   = new DateTime(TKUtils.convertDateStringToTimestampWithoutZone(lcf.getEndDate(), lcf.getEndTime()).getTime());
+		}  else {
+			beginDate = new DateTime(TKUtils.convertDateStringToTimestampNoTimezone(lcf.getStartDate()));
+			endDate = new DateTime(TKUtils.convertDateStringToTimestampNoTimezone(lcf.getEndDate()));
+		}
+	
 		String selectedEarnCode = lcf.getSelectedEarnCode();
 		BigDecimal hours = lcf.getLeaveAmount();
 		String desc = lcf.getDescription();
@@ -435,6 +449,7 @@ public class LeaveCalendarAction extends TkAction {
 		
 		return mapping.findForward("basic");
 	}
+
 
 	public ActionForward deleteLeaveBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
@@ -537,10 +552,28 @@ public class LeaveCalendarAction extends TkAction {
             if (!updatedLeaveBlock.getLeaveAmount().equals(lcf.getLeaveAmount())) {
                 updatedLeaveBlock.setLeaveAmount(lcf.getLeaveAmount());
             }
+            
+            DateTime beginDate = null;
+    		DateTime endDate = null;
+            
             EarnCode earnCode =  TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, updatedLeaveBlock.getLeaveDate()); // selectedEarnCode = hrEarnCodeId
+            if(earnCode != null && earnCode.getRecordMethod().equalsIgnoreCase(TkConstants.EARN_CODE_TIME)) {
+            	if(lcf.getStartTime() != null && lcf.getEndTime() != null) {
+        			beginDate = new DateTime(TKUtils.convertDateStringToTimestampWithoutZone(lcf.getStartDate(), lcf.getStartTime()).getTime());
+        			endDate   = new DateTime(TKUtils.convertDateStringToTimestampWithoutZone(lcf.getEndDate(), lcf.getEndTime()).getTime());
+        		}  else {
+        			beginDate = new DateTime(TKUtils.convertDateStringToTimestampNoTimezone(lcf.getStartDate()));
+        			endDate = new DateTime(TKUtils.convertDateStringToTimestampNoTimezone(lcf.getEndDate()));
+        		}
+            	updatedLeaveBlock.setBeginTimestamp(new Timestamp(beginDate.getMillis()));
+            	updatedLeaveBlock.setEndTimestamp(new Timestamp(endDate.getMillis()));
+            	updatedLeaveBlock.setLeaveAmount(TKUtils.getHoursBetween(beginDate.getMillis(), endDate.getMillis()));
+            }
+            
             if (!updatedLeaveBlock.getEarnCode().equals(earnCode.getEarnCode())) {
                 updatedLeaveBlock.setEarnCode(earnCode.getEarnCode());
             }
+            
             TkServiceLocator.getLeaveBlockService().updateLeaveBlock(updatedLeaveBlock, principalId);
             generateLeaveCalendarChangedNotification(principalId, targetPrincipalId, documentId, calendarEntry.getHrCalendarEntriesId());
             
@@ -555,7 +588,6 @@ public class LeaveCalendarAction extends TkAction {
         }
         return mapping.findForward("basic");
     }
-
 	protected void setupDocumentOnFormContext(LeaveCalendarForm leaveForm,
 			LeaveCalendarDocument lcd) {
 		CalendarEntries futureCalEntry = null;

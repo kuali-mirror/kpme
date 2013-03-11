@@ -77,6 +77,9 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	private AccrualCategory accrualCategoryObj;
     private String leaveRequestDocumentId;
 
+    private Timestamp beginTimestamp;
+    private Timestamp endTimestamp;
+    
 	@Transient
 	private boolean submit;
 	@Transient
@@ -624,5 +627,21 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		return transactionalDocId;
 	}
 
+	public Timestamp getBeginTimestamp() {
+		return beginTimestamp;
+	}
 
+	public void setBeginTimestamp(Timestamp beginTimestamp) {
+		this.beginTimestamp = beginTimestamp;
+	}
+
+	public Timestamp getEndTimestamp() {
+		return endTimestamp;
+	}
+
+	public void setEndTimestamp(Timestamp endTimestamp) {
+		this.endTimestamp = endTimestamp;
+	}
 }
+
+
