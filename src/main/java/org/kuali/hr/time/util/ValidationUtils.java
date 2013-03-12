@@ -25,7 +25,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
-import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.paygrade.PayGrade;
@@ -122,23 +121,6 @@ public class ValidationUtils {
 		return valid;
 	}
 	
-	public static boolean validateLeaveCode(String leaveCode, Date asOfDate) {
-		boolean valid = false;
-		
-		if (asOfDate != null) {
-			LeaveCode lc = TkServiceLocator.getLeaveCodeService().getLeaveCode(leaveCode, asOfDate);
-			valid = (lc != null);
-		} else {
-			Map<String, String> fieldValues = new HashMap<String, String>();
-			fieldValues.put("leaveCode", leaveCode);
-			int matches = KRADServiceLocator.getBusinessObjectService().countMatching(LeaveCode.class, fieldValues);
-			
-			valid = matches > 0;
-		}
-		
-		return valid;
-	}
-	
 	public static boolean validateLeavePlan(String leavePlan, Date asOfDate) {
 		boolean valid = false;
 		
@@ -153,33 +135,6 @@ public class ValidationUtils {
 		return valid;
 	}
 
-	public static boolean validateLeaveCode(String leaveCode, String principalId, Date asOfDate) {
-		boolean valid = false;
-		
-		if (asOfDate != null) {
-			List<LeaveCode> leaveCodes = TkServiceLocator.getLeaveCodeService().getLeaveCodes(principalId, asOfDate);
-			if(leaveCodes != null && !leaveCodes.isEmpty()) {
-				for(LeaveCode leaveCodeObj : leaveCodes) {
-					if(leaveCodeObj.getLeaveCode() != null) {
-						if(StringUtils.equals(leaveCodeObj.getLeaveCode().trim(), leaveCode.trim())){
-							valid = true;
-							break;
-						}
-					}
-				}
-			}
-//			valid = (leaveCodes != null);
-		} else {
-			Map<String, String> fieldValues = new HashMap<String, String>();
-			fieldValues.put("leaveCode", leaveCode);
-			int matches = KRADServiceLocator.getBusinessObjectService().countMatching(LeaveCode.class, fieldValues);
-			
-			valid = matches > 0;
-		}
-		
-		return valid;
-	}
-	
 	public static boolean validateEarnCodeOfAccrualCategory(String earnCode, String accrualCategory, Date asOfDate) {
 		boolean valid = false;
 		

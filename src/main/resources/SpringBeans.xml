@@ -242,7 +242,6 @@
 				<value>taskLookupable</value> 
 				<value>leavePlanLookupable</value> 
 				<value>systemScheduledTimeOffLookupable</value> 
-				<value>leaveCodeLookupable</value> 
 				<value>leaveDonationLookupable</value> 
 				<value>accrualCategoryLookupable</value> 
 				<value>leaveAdjustmentLookupable</value> 
@@ -337,8 +336,6 @@
     <bean id="balanceTransferDao" class="org.kuali.hr.lm.balancetransfer.dao.BalanceTransferDaoSpringOjbImpl" parent="platformAwareDao" />
 
     <bean id="leavePayoutDao" class="org.kuali.hr.lm.leavepayout.dao.LeavePayoutDaoSpringOjbImpl" parent="platformAwareDao" />
-
-    <bean id="leaveCodeDao" class="org.kuali.hr.lm.leavecode.dao.LeaveCodeDaoSpringOjbImpl" parent="platformAwareDao" />
 
     <bean id="leavePlanDao" class="org.kuali.hr.lm.leaveplan.dao.LeavePlanDaoSpringOjbImpl" parent="platformAwareDao" />
     
@@ -559,10 +556,6 @@
 
     <bean id="leavePayoutService" class="org.kuali.hr.lm.leavepayout.service.LeavePayoutServiceImpl">
         <property name="leavePayoutDao" ref="leavePayoutDao"/>
-    </bean>
-
-    <bean id="leaveCodeService" class="org.kuali.hr.lm.leavecode.service.LeaveCodeServiceImpl">
-        <property name="leaveCodeDao" ref="leaveCodeDao"/>
     </bean>
 
     <bean id="leavePlanService" class="org.kuali.hr.lm.leaveplan.service.LeavePlanServiceImpl">
@@ -873,11 +866,6 @@
         </property>
     </bean>
     
-    <bean id="leaveCodeLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
-        <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.lm.leavecode.service.LeaveCodeLookupableHelper"/>
-        </property>
-    </bean>
     <bean id="leaveDonationLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.hr.lm.leavedonation.service.LeaveDonationLookupableHelper"/>

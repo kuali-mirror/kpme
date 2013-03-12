@@ -45,7 +45,6 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
     private String startDate;
     private String endDate;
     private String selectedEarnCode;
-    private Map<String, String> leaveCodeList = new LinkedHashMap<String, String>();
     private BigDecimal leaveAmount;
     private String description;
     private String leaveBlockId;
@@ -252,14 +251,6 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Map<String, String> getLeaveCodeList() {
-        return leaveCodeList;
-    }
-
-    public void setLeaveCodeList(Map<String, String> leaveCodeList) {
-        this.leaveCodeList = leaveCodeList;
     }
 
     public String getLeaveBlockId() {

@@ -17,7 +17,6 @@ package org.kuali.hr.time.earncode.validation;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.accrual.AccrualCategory;
-import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;

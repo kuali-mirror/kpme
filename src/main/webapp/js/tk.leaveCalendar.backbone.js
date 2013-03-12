@@ -47,12 +47,6 @@ $(function () {
     var leaveBlockJson = jQuery.parseJSON($("#leaveBlockString").val());
     var leaveBlockCollection = new LeaveBlockCollection(leaveBlockJson);
 
-//    LeaveCode = Backbone.Model.extend({
-//    	 url : "LeaveCalendarWS.do?methodToCall=getLeaveCodeInfo"
-//    });
-//  
-//    var leaveCodeObj = new LeaveCode;
-    
     //EarnCode = Backbone.Model.extend({
    	// url : "LeaveCalendarWS.do?methodToCall=getEarnCodeInfo"
     //});
