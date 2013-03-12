@@ -127,10 +127,9 @@ public class TimesheetSubmitAction extends TkAction {
 		            				if(StringUtils.equals(aRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
 		            					//the final calendar period of the leave plan should end within this time sheet 
 		            					if(ObjectUtils.isNotNull(yearEndLeaveEntry)) {
-		            						//the max balance infractions must fall within the time period, but also before the final leave period's
-		            						//end date.
-			            					if(lb.getLeaveDate().before(yearEndLeaveEntry.getEndPeriodDate())
-			            							&& lb.getLeaveDate().compareTo(document.getCalendarEntry().getBeginPeriodDate()) >= 0) {
+		            						//only leave blocks belonging to the calendar entry being submitted may reach this point
+		            						//if the infraction occurs before the relative end date of the leave plan year, then action will be executed.
+			            					if(lb.getLeaveDate().before(yearEndLeaveEntry.getEndPeriodDate())) {
 						            			if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.PAYOUT)) {
 						            				eligiblePayouts.add(lb);
 						            			}
@@ -144,10 +143,10 @@ public class TimesheetSubmitAction extends TkAction {
 		            				if(StringUtils.equals(aRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)) {
 		            					//a leave period should end within the time period.
 		            					if(ObjectUtils.isNotNull(leaveLeaveEntry)) {
-		            						//the max balance infractions must fall within the time period, but also before the leave periods
-		            						//end date to be triggered.
-			            					if(lb.getLeaveDate().before(leaveLeaveEntry.getEndPeriodDate())
-			            							&& lb.getLeaveDate().compareTo(document.getCalendarEntry().getBeginPeriodDate()) >= 0) {
+		            						//only leave blocks belonging to the calendar entry being submitted may reach this point.
+		            						//if the infraction occurs before the end of the leave calendar entry, then action will be executed.
+			            					if(lb.getLeaveDate().before(leaveLeaveEntry.getEndPeriodDate())) {
+
 						            			if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.PAYOUT)) {
 						            				eligiblePayouts.add(lb);
 						            			}

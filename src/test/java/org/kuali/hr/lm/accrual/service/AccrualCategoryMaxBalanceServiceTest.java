@@ -203,8 +203,48 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 		//calendar entry is not the last calendar entry of the leave plan's calendar year.
 		Map<String, Set<LeaveBlock>> maxBalanceViolations = eligibilityTestHelper(decEntry, USER_ID);
 		//assertEquals(6, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
-		assertEquals(0, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
+		assertEquals(8, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
 		//assertEquals(6, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND).size());
+		
+		LeaveBlock usage = new LeaveBlock();
+		
+		usage.setAccrualCategory("ye-xfer");
+		usage.setAccrualGenerated(true);
+		usage.setLeaveAmount(new BigDecimal(-34));
+		usage.setLeaveDate(TKUtils.formatDateString("12/28/2012"));
+		usage.setDocumentId(DEC_ID);
+		usage.setPrincipalId(USER_ID);
+		usage.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+		usage.setEarnCode("EC2");
+		usage.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
+		usage.setBlockId(0L);
+		
+		KRADServiceLocator.getBusinessObjectService().save(usage);
+		
+		maxBalanceViolations = eligibilityTestHelper(decEntry, USER_ID);
+
+		//The above leave block should reduce balance of la-xfer under max limit, reducing the number of violations by 1.
+		assertEquals(7, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
+		
+		// adding an accrual block beyond the underlying leave calendar end date, but still within the
+		// bounds of the time period, should not re-mark this accrual category over max balance.
+/*		usage = new LeaveBlock();
+		
+		usage.setAccrualCategory("la-xfer");
+		usage.setAccrualGenerated(false);
+		usage.setLeaveAmount(new BigDecimal(10));
+		usage.setLeaveDate(TKUtils.formatDateString("01/01/2012"));
+		usage.setDocumentId(TSD_END_DEC_PERIOD_ID);
+		usage.setPrincipalId(TS_USER_ID);
+		usage.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
+		usage.setEarnCode("EC1");
+		usage.setLeaveBlockType(LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
+		usage.setBlockId(0L);
+		
+		KRADServiceLocator.getBusinessObjectService().save(usage);
+		
+		assertEquals(5, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());*/
+		
 	}
 	
 	@Test
@@ -231,7 +271,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 
 		Map<String, Set<LeaveBlock>> maxBalanceViolations = eligibilityTestHelper(midDecTSDEntry, TS_USER_ID);
 		//Assert correct number of transfer eligible for frequency
-		assertEquals(0, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
+		assertEquals(6, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
 	}
 	
 	@Test
@@ -243,7 +283,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 
 		Map<String, Set<LeaveBlock>> maxBalanceViolations = eligibilityTestHelper(midDecTSDEntry, TS_USER_ID);
 		//Assert correct number of transfer eligible for frequency
-		assertEquals(0, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
+		assertEquals(8, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
 	}
 	
 	@Test
@@ -287,11 +327,11 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 		maxBalanceViolations = eligibilityTestHelper(endDecTSDEntry, TS_USER_ID);
 
 		//The above leave block should remove la-xfer from eligibility, reducing the number of eligibilities by 1.
-		assertEquals(5, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
+		assertEquals(6, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
 		
 		// adding an accrual block beyond the underlying leave calendar end date, but still within the
 		// bounds of the time period, should not re-mark this accrual category over max balance.
-		usage = new LeaveBlock();
+/*		usage = new LeaveBlock();
 		
 		usage.setAccrualCategory("la-xfer");
 		usage.setAccrualGenerated(false);
@@ -306,7 +346,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 		
 		KRADServiceLocator.getBusinessObjectService().save(usage);
 		
-		assertEquals(5, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());
+		assertEquals(5, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE).size());*/
 	}
 	
 	@Test
@@ -330,7 +370,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 
 		Map<String, Set<LeaveBlock>> maxBalanceViolations = eligibilityTestHelper(endDecTSDEntry, TS_USER_ID);
 		//Assert correct number of transfer eligible for frequency
-		assertEquals(0, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
+		assertEquals(8, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
 	}
 	
 	@Test

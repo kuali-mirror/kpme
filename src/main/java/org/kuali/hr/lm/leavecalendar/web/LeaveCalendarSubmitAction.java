@@ -85,7 +85,6 @@ public class LeaveCalendarSubmitAction extends TkAction {
         		
         		ActionRedirect transferRedirect = new ActionRedirect();
         		ActionRedirect payoutRedirect = new ActionRedirect();
-        		//TKContext.getHttpServletRequest().setAttribute("eligibility", arg1)
 				
 				List<LeaveBlock> eligibleTransfers = new ArrayList<LeaveBlock>();
 				List<LeaveBlock> eligiblePayouts = new ArrayList<LeaveBlock>();

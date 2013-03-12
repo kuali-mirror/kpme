@@ -17,6 +17,7 @@ package org.kuali.hr.lm.accrual.service;
 
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -63,6 +64,25 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 
 		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
 		
+		Calendar cal = pha.getLeaveCalObj();
+		
+		if(cal == null)
+			return newEligibilities;
+		
+		List<CalendarEntries> leaveCalEntries = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesEndingBetweenBeginAndEndDate(cal.getHrCalendarId(), entry.getBeginPeriodDate(), entry.getEndPeriodDate());
+		CalendarEntries yearEndLeaveEntry = null;
+		CalendarEntries leaveLeaveEntry = null;
+		if(!leaveCalEntries.isEmpty()) {
+			for(CalendarEntries leaveEntry : leaveCalEntries) {
+				if(StringUtils.equals(cal.getCalendarName(), leaveEntry.getCalendarName())) {
+					if(TkServiceLocator.getLeavePlanService().isLastCalendarPeriodOfLeavePlan(leaveEntry, pha.getLeavePlan(), asOfDate))
+						yearEndLeaveEntry = leaveEntry;
+					if(leaveEntry.getEndPeriodDate().compareTo(entry.getEndPeriodDate()) <= 0)
+						leaveLeaveEntry = leaveEntry;
+				}
+			}
+		}
+		
 		List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(pha.getLeavePlan(), asOfDate);
 
 		if(!accrualCategories.isEmpty()) {
@@ -72,38 +92,33 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 			for(AccrualCategory accrualCategory : accrualCategories) {
 				List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, pha.getServiceDate(), DateUtils.addDays(asOfDate,1), accrualCategory.getAccrualCategory());
 
-				AccrualCategoryRule startRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, entry.getBeginPeriodDate(), pha.getServiceDate());
-				AccrualCategoryRule endRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, entry.getEndPeriodDate(), pha.getServiceDate());
-				if(ObjectUtils.isNotNull(startRule) && ObjectUtils.isNotNull(endRule)) {
-					//employee has crossed into a new service interval under pha as defined by the accrual category rule.
-					//if the employee is allowed to take action on an over-maxed accrual category under the previous rule
-					//i.e. on leave-approve or on year-end ( on-demand should lose the opportunity at the point the rule changes. )
-					//then create an allocative leave block on the last date of the service interval defined by start rule in order
-					//to determine eligibility under that rule.
-					//technically if the rule were to change during the period, and employees are only allowed to submit their calendars
-					//once the period has ended, or on the end of the period, then the date that the employee submits the calendar
-					//will have passed the end date of the previous service interval for the principal, hence the new rule.
-					//In this case, any leave blocks that are found to be in excess of accrual category's max bal rule during the previous
-					//interval would have to be "negated", or not considered eligible to begin with.
-					String startServiceUnits = startRule.getServiceUnitOfTime();
-					long startEnd = startRule.getEnd();
-					long startStart = startRule.getStart();
-					String endServiceUnits = endRule.getServiceUnitOfTime();
-					long endEnd = endRule.getEnd();
-					long endStart = endRule.getStart();
-					//find the date the employee crosses into the new accrual category rule service interval.
-					//assert date falls within the calendar period.
-					//allocate a leave block.
+/*	Un-comment to consider service interval end-point changes. i.e. when defining a new action frequency - "ON_SERVICE_MILESTONE"
+ * 
+ * 				List<AccrualCategoryRule> accrualRules = TkServiceLocator.getAccrualCategoryRuleService().getActiveAccrualCategoryRules(accrualCategory.getLmAccrualCategoryId());
+				for(AccrualCategoryRule rule : accrualRules) {
+					String serviceUnits = rule.getServiceUnitOfTime();
+					Date rollOverDate = null;
+					//TODO: Accrual Category Rules' start and end field allow only whole integer values. This should be reflected in storage.
+					if(StringUtils.equals(serviceUnits, "M")) {
+						rollOverDate = new java.sql.Date(DateUtils.addMonths(pha.getServiceDate(), (new BigDecimal(rule.getEnd()).intValue())).getTime());
+					}
+					else if(StringUtils.equals(serviceUnits, "Y")) {
+						rollOverDate = new java.sql.Date(DateUtils.addYears(pha.getServiceDate(), (new BigDecimal(rule.getEnd()).intValue())).getTime());
+					}
+					if(ObjectUtils.isNotNull(rollOverDate)) {
+						if(thisEntryInterval.contains(DateUtils.addDays(rollOverDate,-1).getTime())) {
+							//Add a max balance allocation leave block.
+							LeaveBlock allocation = new LeaveBlock();
+							allocation.setAccrualCategory(accrualCategory.getAccrualCategory());
+							allocation.setLeaveDate(new java.sql.Date(DateUtils.addDays(rollOverDate,-1).getTime()));
+							allocation.setLeaveAmount(BigDecimal.ZERO);
+							allocation.setPrincipalId(principalId);
+							leaveBlocks.add(allocation);
+						}
+					}
 				}
-				else
-					if(ObjectUtils.isNull(startRule)) {
-						//nothing to do here.
-					}
-					else {
-						//endRule was null.
-						//create an allocative leave block on the last date of the service interval defined by start rule.
-						//
-					}
+				*/
+
 				//Add a max balance allocation leave block.
 				LeaveBlock allocation = new LeaveBlock();
 				allocation.setAccrualCategory(accrualCategory.getAccrualCategory());
@@ -117,9 +132,41 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 				allocation.setPrincipalId(principalId);
 				leaveBlocks.add(allocation);
 				
+				if(ObjectUtils.isNotNull(yearEndLeaveEntry)) {
+					if(TKUtils.getCurrentDate().after(DateUtils.addDays(yearEndLeaveEntry.getEndPeriodDate(), -1))) {
+						//if entry belongs to a time calendar, check the balances at the end date for the leave period that ends
+						//within entry's interval.
+						//if entry belongs to a leave calendar, this empty block will simply duplicate and override
+						//the block created above.
+						allocation = new LeaveBlock();
+						allocation.setAccrualCategory(accrualCategory.getAccrualCategory());
+						allocation.setLeaveDate(new java.sql.Date(DateUtils.addDays(yearEndLeaveEntry.getEndPeriodDate(),-1).getTime()));
+						
+						allocation.setLeaveAmount(BigDecimal.ZERO);
+						allocation.setPrincipalId(principalId);
+						leaveBlocks.add(allocation);
+					}
+				}
+				
+				if(ObjectUtils.isNotNull(leaveLeaveEntry)) {
+					if(TKUtils.getCurrentDate().after(DateUtils.addDays(leaveLeaveEntry.getEndPeriodDate(), -1))) {
+						//if entry belongs to a time calendar, check the balances at the end date for the calendar year that ends
+						//within entry's interval.
+						//if entry belongs to a leave calendar, this empty block will simply duplicate and override
+						//the block created above.
+						allocation = new LeaveBlock();
+						allocation.setAccrualCategory(accrualCategory.getAccrualCategory());
+						allocation.setLeaveDate(new java.sql.Date(DateUtils.addDays(leaveLeaveEntry.getEndPeriodDate(),-1).getTime()));
+						
+						allocation.setLeaveAmount(BigDecimal.ZERO);
+						allocation.setPrincipalId(principalId);
+						leaveBlocks.add(allocation);
+					}
+				}
+				
 				if(!leaveBlocks.isEmpty()) {
 					Collections.sort(leaveBlocks, new Comparator() {
-	
+						
 						@Override
 						public int compare(Object o1, Object o2) {
 							LeaveBlock l1 = (LeaveBlock) o1;
@@ -131,9 +178,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 				}
 				
 				accruedBalance.put(accrualCategory.getAccrualCategory(), new BigDecimal(0));
-				if(leaveBlocks.isEmpty()) {
-				   /* TODO check for max balance infractions on asOfDate for rule in effect at that time.*/
-                }
+
 				for(LeaveBlock lb : leaveBlocks) {
 					if(StringUtils.equals(lb.getRequestStatus(),LMConstants.REQUEST_STATUS.DISAPPROVED) || StringUtils.equals(lb.getRequestStatus(),LMConstants.REQUEST_STATUS.DEFERRED))
 						continue;
@@ -173,89 +218,58 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 										}
 									}
 									
-									Calendar cal = pha.getLeaveCalObj();
-									if(cal == null)
-										throw new RuntimeException("Principal is without a leave calendar");
-									List<CalendarEntries> leaveCalEntries = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesEndingBetweenBeginAndEndDate(cal.getHrCalendarId(), entry.getBeginPeriodDate(), entry.getEndPeriodDate());
-									CalendarEntries yearEndLeaveEntry = null;
-									CalendarEntries leaveLeaveEntry = null;
-									if(!leaveCalEntries.isEmpty()) {
-										for(CalendarEntries leaveEntry : leaveCalEntries) {
-											if(TkServiceLocator.getLeavePlanService().isLastCalendarPeriodOfLeavePlan(leaveEntry, pha.getLeavePlan(), lb.getLeaveDate()))
-												yearEndLeaveEntry = leaveEntry;
-											if(leaveEntry.getEndPeriodDate().compareTo(entry.getEndPeriodDate()) <= 0)
-												leaveLeaveEntry = leaveEntry;
-										}
-									}
 									if(StringUtils.equals(asOfLeaveDateRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
 										//For year end transfer frequencies...
+										//AccrualCategoryRule rollOverRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, leavePlanRollOver.minusDays(1).toDate(), pha.getServiceDate());
+										if((tally.compareTo(adjustedMaxBalance) > 0 ||
+												(ObjectUtils.isNotNull(adjustedMaxAnnualCarryOver) &&
+												tally.compareTo(adjustedMaxAnnualCarryOver) > 0))){
+											//The leave amount of lb, when added to the accrued balance as of the leave date, exceeds the max balance
+											// ( or max annual carryover ), and the rule is still in effect as of the last day of the leave plan calendar year.
+											if(newEligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).isEmpty()) {
+												newEligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).add(lb);
+											} else {
+												Set<LeaveBlock> eligibleLeaveBlocks = newEligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END);
+												LeaveBlock tempLB = null;
+												for(LeaveBlock block : eligibleLeaveBlocks) {
+													AccrualCategoryRule blockRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
+													if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
+													//the above conditional flags lb as a separate infraction if the accrual category rule changed from block.leaveDate to lb.leaveDate
+													//if(StringUtils.equals(block.getAccrualCategory(),lb.getAccrualCategory())) {
+														//this conditional accepts an accrual category rule change from block.leaveDate to lb.leaveDate
+														tempLB = block;
+														break;
+													}
+												}
+												// could also use a "marker" leave block declared just outside the scope of this loop.
+												if(tempLB != null)
+													eligibleLeaveBlocks.remove(tempLB);
 
-										if(yearEndLeaveEntry != null) {
-											//DateTime leavePlanRollOver = TkServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(pha.getLeavePlan(), lb.getLeaveDate());
-											Interval yearEndLeaveEntryInterval = new Interval(yearEndLeaveEntry.getBeginPeriodDate().getTime(),yearEndLeaveEntry.getEndPeriodDate().getTime());
-											if(yearEndLeaveEntryInterval.contains(lb.getLeaveDate().getTime()) && lb.getLeaveDate().compareTo(entry.getBeginPeriodDate()) >= 0) {
-												
-												//AccrualCategoryRule rollOverRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, leavePlanRollOver.minusDays(1).toDate(), pha.getServiceDate());
-												if((tally.compareTo(adjustedMaxBalance) > 0 ||
-														(ObjectUtils.isNotNull(adjustedMaxAnnualCarryOver) &&
-														tally.compareTo(adjustedMaxAnnualCarryOver) > 0))){
-													//The leave amount of lb, when added to the accrued balance as of the leave date, exceeds the max balance
-													// ( or max annual carryover ), and the rule is still in effect as of the last day of the leave plan calendar year.
-													if(newEligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).isEmpty()) {
-														newEligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).add(lb);
-													} else {
-														Set<LeaveBlock> eligibleLeaveBlocks = newEligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END);
-														LeaveBlock tempLB = null;
-														for(LeaveBlock block : eligibleLeaveBlocks) {
-															//AccrualCategoryRule blockRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
-	//														if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
-															//the commented conditional flags lb as a separate infraction if the accrual category rule changed from block.leaveDate to lb.leaveDate
-															if(StringUtils.equals(block.getAccrualCategory(),lb.getAccrualCategory())) {
-																//this conditional accepts an accrual category rule change from block.leaveDate to lb.leaveDate
-																tempLB = block;
-																break;
-															}
-														}
-														// could also use a "marker" leave block declared just outside the scope of this loop.
-														if(tempLB != null)
-															eligibleLeaveBlocks.remove(tempLB);
-	
-														eligibleLeaveBlocks.add(lb);
-														newEligibilities.put(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END, eligibleLeaveBlocks);
-													}
+												eligibleLeaveBlocks.add(lb);
+												newEligibilities.put(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END, eligibleLeaveBlocks);
+											}
+										}
+										else if(!newEligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).isEmpty()) {
+											Set<LeaveBlock> eligibleLeaveBlocks = newEligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END);
+											LeaveBlock tempLB = null;
+											for(LeaveBlock block : eligibleLeaveBlocks) {
+												AccrualCategoryRule blockRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
+												if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
+												//the above conditional flags lb as a separate infraction if the accrual category rule changed from block.leaveDate to lb.leaveDate
+												//if(StringUtils.equals(block.getAccrualCategory(),lb.getAccrualCategory())) {
+													//this conditional accepts an accrual category rule change from block.leaveDate to lb.leaveDate
+													tempLB = block;
+													break;
 												}
-												else if(!newEligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).isEmpty()) {
-													Set<LeaveBlock> eligibleLeaveBlocks = newEligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END);
-													LeaveBlock tempLB = null;
-													for(LeaveBlock block : eligibleLeaveBlocks) {
-														//AccrualCategoryRule blockRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
-	//													if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
-														//the commented conditional flags lb as a separate infraction if the accrual category rule changed from block.leaveDate to lb.leaveDate
-														if(StringUtils.equals(block.getAccrualCategory(),lb.getAccrualCategory())) {
-															//this conditional accepts an accrual category rule change from block.leaveDate to lb.leaveDate
-															tempLB = block;
-															break;
-														}
-													}
-													if(tempLB != null) {
-														eligibleLeaveBlocks.remove(tempLB);
-														newEligibilities.put(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END, eligibleLeaveBlocks);
-													}
-												}
+											}
+											if(tempLB != null) {
+												eligibleLeaveBlocks.remove(tempLB);
+												newEligibilities.put(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END, eligibleLeaveBlocks);
 											}
 										}
 										//otherwise its not transferable under year end frequency.
 									}
 									else {
-										if(StringUtils.equals(asOfLeaveDateRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)) {
-											if(leaveLeaveEntry != null) {
-												//DateTime leavePlanRollOver = TkServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(pha.getLeavePlan(), lb.getLeaveDate());
-												Interval leaveLeaveEntryInterval = new Interval(leaveLeaveEntry.getBeginPeriodDate().getTime(),leaveLeaveEntry.getEndPeriodDate().getTime());
-												if(!(leaveLeaveEntryInterval.contains(lb.getLeaveDate().getTime()) && lb.getLeaveDate().compareTo(entry.getBeginPeriodDate()) >= 0)) {
-													continue;
-												}
-											}
-										}
 										// on-demand and leave-approve action frequencies.
 										if(tally.compareTo(adjustedMaxBalance) > 0 ) {
 											if(newEligibilities.get(asOfLeaveDateRule.getMaxBalanceActionFrequency()).isEmpty()) {
@@ -264,10 +278,10 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 												Set<LeaveBlock> eligibleLeaveBlocks = newEligibilities.get(asOfLeaveDateRule.getMaxBalanceActionFrequency());
 												LeaveBlock tempLB = null;
 												for(LeaveBlock block : eligibleLeaveBlocks) {
-													//AccrualCategoryRule blockRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
-//													if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
-													//the commented conditional flags lb as a separate infraction if the accrual category rule changed from block.leaveDate to lb.leaveDate
-													if(StringUtils.equals(block.getAccrualCategory(),lb.getAccrualCategory())) {
+													AccrualCategoryRule blockRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
+													if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
+													//the above conditional flags lb as a separate infraction if the accrual category rule changed from block.leaveDate to lb.leaveDate
+													//if(StringUtils.equals(block.getAccrualCategory(),lb.getAccrualCategory())) {
 														//this conditional accepts an accrual category rule change from block.leaveDate to lb.leaveDate
 														tempLB = block;
 														break;
@@ -285,10 +299,10 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 											Set<LeaveBlock> eligibleLeaveBlocks = newEligibilities.get(asOfLeaveDateRule.getMaxBalanceActionFrequency());
 											LeaveBlock tempLB = null;
 											for(LeaveBlock block : eligibleLeaveBlocks) {
-												//AccrualCategoryRule blockRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
-//												if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
-												//the commented conditional flags lb as a separate infraction if the accrual category rule changed from block.leaveDate to lb.leaveDate
-												if(StringUtils.equals(block.getAccrualCategory(),lb.getAccrualCategory())) {
+												AccrualCategoryRule blockRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
+												if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
+												//the above conditional flags lb as a separate infraction if the accrual category rule changed from block.leaveDate to lb.leaveDate
+												//if(StringUtils.equals(block.getAccrualCategory(),lb.getAccrualCategory())) {
 													//this conditional accepts an accrual category rule change from block.leaveDate to lb.leaveDate
 													tempLB = block;
 													break;
@@ -306,7 +320,6 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 					}
 					accruedBalance.put(accrualCategory.getAccrualCategory(), tally);
 				}
-				System.out.println();
 			}
 		}
 		return newEligibilities;
