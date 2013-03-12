@@ -16,6 +16,7 @@
 package org.kuali.hr.lm.leaveCalendar;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.kuali.hr.test.KPMETestCase;
@@ -30,6 +31,7 @@ import java.sql.Date;
 
 
 public class LeaveCalendarWebTestBase extends KPMETestCase {
+    private static final Logger LOG = Logger.getLogger(LeaveCalendarWebTestBase.class);
     public static final Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
     public static final String USER_PRINCIPAL_ID = "admin";
 
@@ -66,7 +68,7 @@ public class LeaveCalendarWebTestBase extends KPMETestCase {
         TestAutoLoginFilter.OVERRIDE_ID = "";
         Assert.assertNotNull(page);
         HtmlUnitUtil.createTempFile(page, "Login-"+principalId);
-        System.out.println(page.asText());
+        LOG.debug(page.asText());
         String pageAsText = page.asText();
         if (assertValid) {
             Assert.assertTrue("Login info not present.", pageAsText.contains("Employee Id:"));

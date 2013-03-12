@@ -17,6 +17,7 @@ package org.kuali.hr.lm.leaveadjustment;
 
 import junit.framework.Assert;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
@@ -28,7 +29,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class LeaveAdjustmentMaintTest extends KPMETestCase{
-	
+    private static final Logger LOG = Logger.getLogger(LeaveAdjustmentMaintTest.class);
 	private static final String PRINCIPAL_ID = "admin";
 	
 	private static final String EFFECTIVE_DATE_REQUIRED = "Effective Date (Effective Date) is a required field.";
@@ -69,7 +70,7 @@ public class LeaveAdjustmentMaintTest extends KPMETestCase{
 	public void testLookupPage() throws Exception {	 
 		HtmlPage leaveAdjustmentLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.LEAVE_ADJUSTMENT_MAINT_URL);
 		leaveAdjustmentLookup = HtmlUnitUtil.clickInputContainingText(leaveAdjustmentLookup, "search");
-		System.out.println(leaveAdjustmentLookup.asXml());
+		LOG.debug(leaveAdjustmentLookup.asXml());
 		Assert.assertTrue("Page contains test LeaveAdjustment", leaveAdjustmentLookup.asText().contains("AC1"));
 		Assert.assertFalse("Page should not contain edit action", leaveAdjustmentLookup.asText().contains("edit")); 
 	}

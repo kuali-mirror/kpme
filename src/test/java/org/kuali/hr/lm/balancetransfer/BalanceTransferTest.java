@@ -23,6 +23,7 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.junit.Test;
@@ -45,10 +46,11 @@ import org.kuali.hr.time.util.TkConstants;
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import sun.util.LocaleServiceProviderPool;
 
 
 public class BalanceTransferTest extends LeaveCalendarWebTestBase {
-	
+    private static final Logger LOG = Logger.getLogger(BalanceTransferTest.class);
     public static final String USER_PRINCIPAL_ID = "admin";
 	private Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 	private BalanceTransfer balanceTransfer;
@@ -158,7 +160,7 @@ public class BalanceTransferTest extends LeaveCalendarWebTestBase {
         lcsf.setAction(TkConstants.DOCUMENT_ACTIONS.ROUTE);
         lcsf.setDocumentId(tdaf.getDocumentId());
         for(LeaveSummaryRow lsRow : ls.getLeaveSummaryRows()) {
-        	System.out.println("Accrued balance : " + lsRow.getAccruedBalance());
+        	LOG.info("Accrued balance : " + lsRow.getAccruedBalance());
         }
         HtmlPage page = LeaveCalendarTestUtils.submitLeaveCalendar2(getLeaveCalendarUrl(tdocId), tdaf);
         //LeaveCalendarWSForm extends LeaveCalendarForm. In order to fully implement this test, a LeaveCalendarSubmitForm must be created
@@ -168,7 +170,7 @@ public class BalanceTransferTest extends LeaveCalendarWebTestBase {
 
         // Verify block present on rendered page.
         String pageAsText = page.asText();
-        System.out.print(pageAsText);
+        LOG.info(pageAsText);
 		
 		
 		//LeaveCalendarWSForm mockForm = LeaveCalendarTestUtils.buildLeaveCalendarForm(tdoc, assignment, earnCode, start, end, null, true);
@@ -230,7 +232,7 @@ public class BalanceTransferTest extends LeaveCalendarWebTestBase {
 	public void testLookupPage() throws Exception {	 
 		HtmlPage btLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.BALANCE_TRANSFER_MAINT_URL);
 		btLookup = HtmlUnitUtil.clickInputContainingText(btLookup, "search");
-		System.out.println(btLookup.asXml());
+		LOG.info(btLookup.asXml());
 		Assert.assertTrue("Page contains test Balance Transfer", btLookup.asText().contains("fromAC"));
 		Assert.assertFalse("Page should not contain edit action", btLookup.asText().contains("edit")); 
 		Assert.assertTrue("Page should contain view action", btLookup.asText().contains("view"));

@@ -161,13 +161,13 @@ public class ClearDatabaseLifecycle extends BaseLifecycle {
                                         deleteStatement = "DELETE FROM " + tableName +" WHERE "+ idName + " >= "+clearId;
                                     }
 
-                                    LOG.info("Clearing contents using statement ->" + deleteStatement + "<-");
+                                    LOG.debug("Clearing contents using statement ->" + deleteStatement + "<-");
                                     statement.addBatch(deleteStatement);
                                 }
                             }
 
                             for (final String constraint : reEnableConstraints) {
-                            	LOG.info("Enabling constraints using statement ->" + constraint + "<-");
+                            	LOG.debug("Enabling constraints using statement ->" + constraint + "<-");
                             	statement.addBatch(constraint);
                             }
                             statement.executeBatch();

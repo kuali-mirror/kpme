@@ -35,17 +35,11 @@ public class TKUtilsTest extends Assert {
 		Date endDate   = new Date((new DateTime(2010, 3, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		List<Interval> intervals = TKUtils.getWeekIntervals(beginDate, endDate);
 		assertEquals("Missing partial week", 9, intervals.size());
-		for (Interval interval : intervals) {
-			System.out.println(interval);
-		}
 
 		beginDate = new Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		endDate   = new Date((new DateTime(2010, 1, 3, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		intervals = TKUtils.getWeekIntervals(beginDate, endDate);
 		assertEquals("Missing partial week", 1, intervals.size());
-		for (Interval interval : intervals) {
-			System.out.println(interval);
-		}
 
 	}
 

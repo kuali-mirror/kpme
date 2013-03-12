@@ -21,6 +21,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
@@ -38,6 +39,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
 public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
+    private static final Logger LOG = Logger.getLogger(EarnCodeGroupMaintenanceTest.class);
     private static final java.sql.Date TEST_DATE = new java.sql.Date(Calendar.getInstance().getTimeInMillis());
     private static final String EARN_CODE = "RGN";
     private static String hrEarnGroupId;
@@ -145,7 +147,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
         element = newCodeAddedPage.getElementByName("methodToCall.route");
         HtmlPage finalPage = element.click();
 
-        System.out.println("Final Space is >>> "+finalPage.asText());
+        LOG.debug("Final Space is >>> " + finalPage.asText());
 //        HtmlUnitUtil.createTempFile(finalPage);
         Assert.assertTrue("Maintenance page is submitted successfully", finalPage.asText().contains("Document was successfully submitted."));
 
@@ -180,7 +182,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
         HtmlElement element = HtmlUnitUtil.getInputContainingText(page, "methodToCall.addLine.earnCodeGroups");
         HtmlPage page1 = element.click();
         //error for earn code not being effective by the effectiveDate of the earn group
-        System.out.println("Page1 click >>>>"+page1.asText());
+        LOG.debug("Page1 click >>>>"+page1.asText());
         
         Assert.assertTrue("Maintenance Page contains error messages", page1.asText().contains("The specified Earncode '" + EARN_CODE + "' does not exist."));
 

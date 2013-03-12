@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.time;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -203,7 +204,7 @@ public abstract class HrEffectiveDateActiveLookupableHelper extends KualiLookupa
 
 	}
 	@SuppressWarnings("rawtypes")
-	public static class EffectiveDateTimestampCompare implements Comparator{
+	public static class EffectiveDateTimestampCompare implements Comparator, Serializable {
 
 		@Override
 		public int compare(Object arg0, Object arg1) {

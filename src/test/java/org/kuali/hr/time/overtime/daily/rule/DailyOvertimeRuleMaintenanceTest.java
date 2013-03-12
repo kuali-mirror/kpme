@@ -19,6 +19,7 @@ package org.kuali.hr.time.overtime.daily.rule;
 import java.math.BigDecimal;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
@@ -31,7 +32,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class DailyOvertimeRuleMaintenanceTest extends KPMETestCase{
-		
+    private static final Logger LOG = Logger.getLogger(DailyOvertimeRuleMaintenanceTest.class);
 	private static final String TEST_CODE="BL";		
 	private static String TEST_CODE_INVALID_DEPT_ID ="INVALID";
 	private static Long TEST_CODE_INVALID_TASK_ID =-1L;
@@ -62,7 +63,7 @@ public class DailyOvertimeRuleMaintenanceTest extends KPMETestCase{
 		inputForDescription.setValueAttribute("Test_Description");
 		HtmlPage resultantPageAfterEdit = HtmlUnitUtil
 				.clickInputContainingText(maintPage, "submit");
-		System.out.println(resultantPageAfterEdit.asText());
+		LOG.debug(resultantPageAfterEdit.asText());
 		Assert.assertTrue("Maintenance Page contains test deptErrormessage",
 				resultantPageAfterEdit.asText().contains(
 						"The specified department '"

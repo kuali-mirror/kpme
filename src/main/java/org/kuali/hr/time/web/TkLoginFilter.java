@@ -66,7 +66,7 @@ public class TkLoginFilter implements Filter {
     }
 
     protected static void setTestMode() {
-        testMode = new Boolean(ConfigContext.getCurrentContextConfig().getProperty("test.mode"));
+        testMode = Boolean.valueOf(ConfigContext.getCurrentContextConfig().getProperty("test.mode"));
     }
 
     public static boolean getTestMode() {

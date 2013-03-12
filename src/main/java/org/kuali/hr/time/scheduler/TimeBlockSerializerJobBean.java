@@ -18,12 +18,13 @@ package org.kuali.hr.time.scheduler;
 
 import java.util.Calendar;
 
+import org.apache.log4j.Logger;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 public class TimeBlockSerializerJobBean extends QuartzJobBean{
-	
+    private static final Logger LOG = Logger.getLogger(TimeBlockSerializerJobBean.class);
 	private static TimeBlockSerializerService timeBlockSerializerService;
 	
 	
@@ -46,7 +47,7 @@ public class TimeBlockSerializerJobBean extends QuartzJobBean{
 		try {
 			//UnComment following 2 statements to apply the effect of Scheduled Job
 			
-			System.out.println("Executed at :"+Calendar.getInstance().getTime());
+			LOG.info("Executed at :" + Calendar.getInstance().getTime());
 			timeBlockSerializerService.serializeToCSV();
 			timeBlockSerializerService.serializeToXML();
 		} catch (Exception e) {

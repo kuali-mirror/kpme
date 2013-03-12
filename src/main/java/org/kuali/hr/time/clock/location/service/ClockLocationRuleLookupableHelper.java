@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.time.clock.location.service;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -98,7 +99,7 @@ public class ClockLocationRuleLookupableHelper extends TkAuthorizedLookupableHel
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public static class EffectiveDateTimestampCompare implements Comparator{
+	public static class EffectiveDateTimestampCompare implements Comparator, Serializable {
 
 		@Override
 		public int compare(Object arg0, Object arg1) {

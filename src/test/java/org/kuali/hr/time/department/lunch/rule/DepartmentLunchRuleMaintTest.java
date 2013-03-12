@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 package org.kuali.hr.time.department.lunch.rule;
+import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
@@ -24,8 +25,8 @@ import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class DepartmentLunchRuleMaintTest extends KPMETestCase {
-	
-	private static final String TEST_CODE = "admin";		
+    private static final Logger LOG = Logger.getLogger(DepartmentLunchRuleMaintTest.class);
+    private static final String TEST_CODE = "admin";
 	private static String TEST_CODE_DEPT_INVALID = "INVALID";
 	private static Long TEST_CODE_WORKAREA_INVALID = 9999L;
 	
@@ -58,7 +59,7 @@ public class DepartmentLunchRuleMaintTest extends KPMETestCase {
 		inputForDescription.setValueAttribute("Description");
 		HtmlPage resultantPageAfterEdit = HtmlUnitUtil
 				.clickInputContainingText(maintPage, "submit");
-		System.out.println(resultantPageAfterEdit.asText());
+		LOG.debug(resultantPageAfterEdit.asText());
 		Assert.assertTrue("Maintenance Page contains error message for dept",
 				resultantPageAfterEdit.asText().contains(
 						"The specified department '" + TEST_CODE_DEPT_INVALID

@@ -131,7 +131,6 @@ public class LeaveRequestAction extends TkAction {
 		LeaveRequestForm lf = (LeaveRequestForm) form;
 		for(LeaveBlock leaveBlock : lf.getPlannedLeaves()) {
 			// check if check box is checked
-			//System.out.println("Leave block submit is :: >>>>"+leaveBlock.getSubmit());
 			if(leaveBlock.getSubmit()) {
                 LeaveRequestDocument lrd = TkServiceLocator.getLeaveRequestDocumentService().createLeaveRequestDocument(leaveBlock.getLmLeaveBlockId());
                 TkServiceLocator.getLeaveRequestDocumentService().requestLeave(lrd.getDocumentNumber());

@@ -139,10 +139,6 @@ public class LeavePayoutForm extends KualiTransactionalDocumentFormBase {
 	
 	@Override
 	public void addRequiredNonEditableProperties() {
-		// TODO Auto-generated method stub
-		System.out.println("*******************************************");
-		System.out.println("* Adding required non editable properties *");
-		System.out.println("*******************************************");
 		super.addRequiredNonEditableProperties();
 	}
 

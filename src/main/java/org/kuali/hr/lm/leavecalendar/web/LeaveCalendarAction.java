@@ -400,8 +400,8 @@ public class LeaveCalendarAction extends TkAction {
 		/** -- Jignasha : if earchcode type is 'T' then change the date and time with timezone.
 		// Surgery point - Need to construct a Date/Time with Appropriate Timezone.
 		 * */
-		System.out.println("Start time is "+lcf.getStartTime());
-		System.out.println("Emnd time is "+lcf.getEndTime());
+		LOG.debug("Start time is "+lcf.getStartTime());
+		LOG.debug("Emnd time is "+lcf.getEndTime());
 		if(lcf.getStartTime() != null && lcf.getEndTime() != null) {
 			beginDate = new DateTime(TKUtils.convertDateStringToTimestampWithoutZone(lcf.getStartDate(), lcf.getStartTime()).getTime());
 			endDate   = new DateTime(TKUtils.convertDateStringToTimestampWithoutZone(lcf.getEndDate(), lcf.getEndTime()).getTime());
@@ -409,8 +409,8 @@ public class LeaveCalendarAction extends TkAction {
 			beginDate = new DateTime(TKUtils.convertDateStringToTimestampNoTimezone(lcf.getStartDate()));
 			endDate = new DateTime(TKUtils.convertDateStringToTimestampNoTimezone(lcf.getEndDate()));
 		}
-        System.out.println("Begin Date is>> "+beginDate);
-        System.out.println("End Date is>> "+endDate);
+        LOG.debug("Begin Date is>> "+beginDate);
+        LOG.debug("End Date is>> "+endDate);
 		
 		/** Old Code
  		DateTime beginDate = new DateTime(TKUtils.convertDateStringToTimestampNoTimezone(lcf.getStartDate()));
@@ -537,7 +537,6 @@ public class LeaveCalendarAction extends TkAction {
 	
 	// KPME-1447
 	public ActionForward updateLeaveBlock(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		System.out.println("Updating from ACtion called >>>> ");
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
 		LeaveCalendarDocument lcd = lcf.getLeaveCalendarDocument();
 		

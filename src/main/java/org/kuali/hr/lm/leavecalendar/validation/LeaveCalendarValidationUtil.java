@@ -96,10 +96,11 @@ public class LeaveCalendarValidationUtil {
 	    					for(EmployeeOverride eo : employeeOverrides) {
 	    						if(eo.getLeavePlan().equals(leavePlan) && eo.getAccrualCategory().equals(aRow.getAccrualCategory())) {
 	    							if(eo.getOverrideType().equals("MU") && eo.isActive()) {
-	    								if(eo.getOverrideValue()!=null)
+	    								if(eo.getOverrideValue()!=null) {
 	    									maxUsage = new BigDecimal(eo.getOverrideValue());
-	    								else // no limit flag
+                                        } else { // no limit flag
 	    									maxUsage = null;
+                                        }
 	    							}
 	    						}
 	    					}
@@ -151,11 +152,13 @@ public class LeaveCalendarValidationUtil {
         List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(principalId, fromDate, toDate, LMConstants.LEAVE_BLOCK_TYPE.BALANCE_TRANSFER);
         Set<String> workflowDocIds = new HashSet<String>();
         for(LeaveBlock lb : leaveBlocks) {
-        	if(lb.getTransactionalDocId() != null)
+        	if(lb.getTransactionalDocId() != null) {
         		workflowDocIds.add(lb.getTransactionalDocId());
-        	else
-        		if(lb.getDescription().contains("Forfeited balance transfer amount"))
+            } else {
+        		if(StringUtils.contains(lb.getDescription(), "Forfeited balance transfer amount")) {
         			allMessages.get("infoMessages").add("A max balance action that forfeited accrued leave occurred on this calendar");
+                }
+            }
         }
         for(String workflowDocId : workflowDocIds) {
             DocumentStatus status = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(workflowDocId);
@@ -166,8 +169,9 @@ public class LeaveCalendarValidationUtil {
             else if(StringUtils.equals(status.getCode(), TkConstants.ROUTE_STATUS.ENROUTE)) {
             	allMessages.get("actionMessages").add("A pending balance transfer exists on this calendar. It must be finalized before this calendar can be approved");
             }
-            else
+            else {
             	allMessages.get("warningMessages").add("A balance transfer document exists for this calendar with status neither final nor enroute");
+            }
         }
         
         leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithType(principalId, fromDate, toDate, LMConstants.LEAVE_BLOCK_TYPE.LEAVE_PAYOUT);

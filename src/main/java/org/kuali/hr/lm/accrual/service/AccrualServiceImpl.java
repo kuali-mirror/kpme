@@ -29,6 +29,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.hr.job.Job;
@@ -54,14 +55,14 @@ import org.kuali.hr.time.util.TkConstants;
 import edu.emory.mathcs.backport.java.util.Collections;
 
 public class AccrualServiceImpl implements AccrualService {
+    private static final Logger LOG = Logger.getLogger(AccrualServiceImpl.class);
 
 	@Override
 	public void runAccrual(String principalId) {
 		Date startDate = getStartAccrualDate(principalId);
 		Date endDate = getEndAccrualDate(principalId);
 
-		System.out.println("AccrualServiceImpl.runAccrual() STARTED with Principal: "+principalId);
-		
+		LOG.info("AccrualServiceImpl.runAccrual() STARTED with Principal: "+principalId);
 		runAccrual(principalId,startDate,endDate, true);
 		
 	}
@@ -79,7 +80,7 @@ public class AccrualServiceImpl implements AccrualService {
 		Map<String, BigDecimal> accumulatedAccrualCatToNegativeAccrualAmounts = new HashMap<String,BigDecimal>();
 		
 		if (startDate != null && endDate != null) {
-			System.out.println("AccrualServiceImpl.runAccrual() STARTED with Principal: "+principalId+" Start: "+startDate.toString()+" End: "+endDate.toString());
+            LOG.info("AccrualServiceImpl.runAccrual() STARTED with Principal: "+principalId+" Start: "+startDate.toString()+" End: "+endDate.toString());
 		}
 		if(startDate.after(endDate)) {
 			throw new RuntimeException("Start Date " + startDate.toString() + " should not be later than End Date " + endDate.toString());
