@@ -63,7 +63,7 @@ public class LeaveCalendarWSAction extends TkAction {
 
         // Here - viewPrincipal will be the principal of the user we intend to
         // view, be it target user, backdoor or otherwise.
-        String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
+        String viewPrincipal = TKUser.getCurrentTargetPersonId();
         CalendarEntries calendarEntry = null;
 
         LeaveCalendarDocument lcd = null;
@@ -131,7 +131,7 @@ public class LeaveCalendarWSAction extends TkAction {
             CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(request.getParameter("selectedPayPeriod"));
             lcf.setCalendarEntry(ce);
         }
-        lcf.setPrincipalId(TKUser.getCurrentTargetPerson().getPrincipalId());
+        lcf.setPrincipalId(TKUser.getCurrentTargetPersonId());
         boolean isPlanningCal = TkServiceLocator.getLeaveCalendarService().isLeavePlanningCalendar(lcf.getPrincipalId(), lcf.getCalendarEntry().getBeginPeriodDateTime(), lcf.getCalendarEntry().getEndPeriodDateTime());
         lcf.setLeavePlanningCalendar(isPlanningCal);
 

@@ -65,7 +65,7 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
                 mpDoc.getDocumentHeader().setDocumentDescription("Missed Punch: " + timesheetDocument.getPrincipalId());
             }
 
-            lastClock = TkServiceLocator.getClockLogService().getLastClockLog(TKUser.getCurrentTargetPerson().getPrincipalId());
+            lastClock = TkServiceLocator.getClockLogService().getLastClockLog(TKUser.getCurrentTargetPersonId());
             if (lastClock != null) {
                 MissedPunchDocument lastDoc = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(lastClock.getTkClockLogId());
                 if (lastDoc != null) {    // last action was a missed punch
@@ -78,8 +78,7 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
         }
         if (StringUtils.equals(request.getParameter("command"), "displayDocSearchView")
                 || StringUtils.equals(request.getParameter("command"), "displayActionListView")) {
-            Person p = KimApiServiceLocator.getPersonService().getPerson(mpDoc.getPrincipalId());
-            TKContext.getUser().setTargetPerson(p);
+            TKUser.setTargetPerson(mpDoc.getPrincipalId());
             mpForm.setDocId(mpDoc.getDocumentNumber());
         }
 //      mpForm.setAssignmentReadOnly(true);

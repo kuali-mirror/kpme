@@ -29,6 +29,7 @@ import org.kuali.hr.time.missedpunch.MissedPunchDocument;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
@@ -62,7 +63,7 @@ public class ClockLogLookupableHelper extends KualiLookupableHelperServiceImpl {
 				overrideUrls.add(actionUrl);
 			}
 		}
-		if (TKContext.getUser().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
+		if (TKUser.isSystemAdmin() || TKUser.isGlobalViewOnly()) {
 			clockLog = (ClockLog) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final String tkClockLogId = clockLog.getTkClockLogId();

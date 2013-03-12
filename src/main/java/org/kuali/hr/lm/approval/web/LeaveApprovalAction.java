@@ -126,8 +126,8 @@ public class LeaveApprovalAction extends ApprovalAction{
 		laaf.setSelectedWorkArea("");
     	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(laaf.getSelectedDept(), new java.sql.Date(laaf.getPayBeginDate().getTime()));
         for(WorkArea wa : workAreas){
-        	if (TKContext.getUser().getApproverWorkAreas().contains(wa.getWorkArea())
-        			|| TKContext.getUser().getReviewerWorkAreas().contains(wa.getWorkArea())) {
+        	if (TKUser.getApproverWorkAreas().contains(wa.getWorkArea())
+        			|| TKUser.getReviewerWorkAreas().contains(wa.getWorkArea())) {
         		laaf.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
         	}
         }

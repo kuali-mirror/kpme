@@ -238,17 +238,17 @@ public class TimeDetailAction extends TimesheetAction {
         }
         
         tdaf.setDocEditable("false");
-        if (TKContext.getUser().isSystemAdmin()) {
+        if (TKUser.isSystemAdmin()) {
             tdaf.setDocEditable("true");
         } else {
             boolean docFinal = TKContext.getCurrentTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL);
             if (!docFinal) {
             	if(StringUtils.equals(TKContext.getCurrentTimesheetDocument().getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
-	            		|| TKContext.getUser().isSystemAdmin() 
-	            		|| TKContext.getUser().isLocationAdmin() 
-	            		|| TKContext.getUser().isDepartmentAdmin() 
-	            		|| TKContext.getUser().isReviewer() 
-	            		|| TKContext.getUser().isApprover()) {
+	            		|| TKUser.isSystemAdmin()
+	            		|| TKUser.isLocationAdmin()
+	            		|| TKUser.isDepartmentAdmin()
+	            		|| TKUser.isReviewer()
+	            		|| TKUser.isApprover()) {
                     tdaf.setDocEditable("true");
                 }
             	
@@ -580,7 +580,7 @@ public class TimeDetailAction extends TimesheetAction {
     }
       
   public ActionForward gotoCurrentPayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-	  String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
+	  String viewPrincipal = TKUser.getCurrentTargetPersonId();
 	  Date currentDate = TKUtils.getTimelessDate(null);
       CalendarEntries pce = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal, currentDate);
       TimesheetDocument td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, pce);
@@ -606,7 +606,7 @@ public class TimeDetailAction extends TimesheetAction {
           CalendarEntries pce = TkServiceLocator.getCalendarEntriesService()
 		  	.getCalendarEntries(request.getParameter("selectedPP").toString());
 		  if(pce != null) {
-			  String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
+			  String viewPrincipal = TKUser.getCurrentTargetPersonId();
 			  TimesheetDocument td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, pce);
 			  setupDocumentOnFormContext((TimesheetActionForm)form, td);
 		  }

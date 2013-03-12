@@ -25,6 +25,7 @@ import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.syslunch.rule.SystemLunchRule;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -45,7 +46,7 @@ public class SystemLunchRuleLookupableHelper extends HrEffectiveDateActiveLookup
 		SystemLunchRule systemLunchRule = (SystemLunchRule) businessObject;
 		String tkSystemLunchRuleId = systemLunchRule.getTkSystemLunchRuleId();
 		
-		boolean systemAdmin = TKContext.getUser().isSystemAdmin();
+		boolean systemAdmin = TKUser.isSystemAdmin();
 
 		for (HtmlData defaultCustomActionUrl : defaultCustomActionUrls){
 			if (StringUtils.equals(defaultCustomActionUrl.getMethodToCall(), "edit")) {

@@ -18,6 +18,7 @@ package org.kuali.hr.time.workschedule.service;
 import java.util.List;
 
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.workschedule.WorkSchedule;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
@@ -35,7 +36,7 @@ public class WorkScheduleLookupableHelper extends
 			List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 				businessObject, pkNames);
-		if (TKContext.getUser().isSystemAdmin() || TKContext.getUser().isGlobalViewOnly()) {
+		if (TKUser.isSystemAdmin() || TKUser.isGlobalViewOnly()) {
 			WorkSchedule workSchedule = (WorkSchedule) businessObject;
 			final String className = this.getBusinessObjectClass().getName();
 			final Long hrWorkScheduleId = workSchedule.getHrWorkSchedule();

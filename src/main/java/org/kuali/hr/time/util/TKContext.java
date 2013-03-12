@@ -64,25 +64,12 @@ public class TKContext {
         TKContext.getStorageMap().put(TDOC_KEY, timesheetDocumentId);
     }
 
-	/**
-	 * TKUser has the internal concept of Backdoor User vs.Actual User.
-	 * @return
-	 */
-	public static TKUser getUser() {
-        //TODO, this method isn't needed if everything in TKUser is accessed in a static fashion...
-        return new TKUser();
-	}
-
-	//public static void setUser(TKUser user) {
-	//	GlobalVariables.getUserSession().addObject(USER_KEY, user);
-	//}
-
 	public static String getPrincipalId(){
 		return GlobalVariables.getUserSession().getPrincipalId();
 	}
 
     public static String getTargetPrincipalId() {
-        return TKUser.getCurrentTargetPerson().getPrincipalId();
+        return TKUser.getCurrentTargetPersonId();
     }
 
 	public static HttpServletRequest getHttpServletRequest() {

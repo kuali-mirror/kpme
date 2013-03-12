@@ -43,6 +43,7 @@ import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -168,7 +169,7 @@ public class LeaveCalendarSubmitAction extends TkAction {
             }
         }
 
-        TKContext.getUser().clearTargetUser();
+        TKUser.clearTargetUser();
         return new ActionRedirect(mapping.findForward("approverRedirect"));
 
     }

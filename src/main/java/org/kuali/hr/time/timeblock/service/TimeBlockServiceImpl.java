@@ -39,6 +39,7 @@ import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.timeblock.dao.TimeBlockDao;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
@@ -329,12 +330,12 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
     	if(userId != null) {
 
-			if(TKContext.getUser().isSystemAdmin()) {
+			if(TKUser.isSystemAdmin()) {
 				return true;
 			}
 
-			if(TKContext.getUser().isTimesheetApprover() && TKContext.getUser().getApproverWorkAreas().contains(tb.getWorkArea()) 
-					|| TKContext.getUser().isTimesheetReviewer() && TKContext.getUser().getReviewerWorkAreas().contains(tb.getWorkArea())) {
+			if(TKUser.isTimesheetApprover() && TKUser.getApproverWorkAreas().contains(tb.getWorkArea())
+					|| TKUser.isTimesheetReviewer() && TKUser.getReviewerWorkAreas().contains(tb.getWorkArea())) {
 				Job job = TkServiceLocator.getJobService().getJob(TKContext.getTargetPrincipalId(),tb.getJobNumber(), tb.getEndDate());
 				PayType payType = TkServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), tb.getEndDate());
 				if(StringUtils.equals(payType.getRegEarnCode(), tb.getEarnCode())){

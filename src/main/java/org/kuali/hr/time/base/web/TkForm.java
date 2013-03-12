@@ -37,10 +37,6 @@ public class TkForm extends KualiForm {
 		this.methodToCall = methodToCall;
 	}
 
-	public TKUser getUser() {
-		return TKContext.getUser();
-	}
-
 	public String getPrincipalId() {
 		return principalId;
 	}

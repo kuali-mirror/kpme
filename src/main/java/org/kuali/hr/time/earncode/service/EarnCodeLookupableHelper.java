@@ -25,6 +25,7 @@ import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -46,8 +47,8 @@ public class EarnCodeLookupableHelper extends HrEffectiveDateActiveLookupableHel
 		String hrEarnCodeId = earnCodeObj.getHrEarnCodeId();
 		String earnCode = earnCodeObj.getEarnCode();
 		
-		boolean systemAdmin = TKContext.getUser().isSystemAdmin();
-		boolean locationAdmin = TKContext.getUser().isLocationAdmin();
+		boolean systemAdmin = TKUser.isSystemAdmin();
+		boolean locationAdmin = TKUser.isLocationAdmin();
 
 		for (HtmlData defaultCustomActionUrl : defaultCustomActionUrls){
 			if (StringUtils.equals(defaultCustomActionUrl.getMethodToCall(), "edit")) {

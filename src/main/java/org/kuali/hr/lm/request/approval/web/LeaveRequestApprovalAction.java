@@ -76,7 +76,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
         }
         lraaForm.setPayCalendarGroups(calGroups);		
 		
-		List<String> depts = new ArrayList<String>(TKContext.getUser().getReportingApprovalDepartments().keySet());
+		List<String> depts = new ArrayList<String>(TKUser.getReportingApprovalDepartments().keySet());
 		Collections.sort(depts);
 	    lraaForm.setDepartments(depts);
 		
@@ -117,7 +117,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 	        	lraaForm.setSelectedPayCalendarGroup(calGroups.get(0));
 	        }
 	        // set departments
-			List<String> depts = new ArrayList<String>(TKContext.getUser().getReportingApprovalDepartments().keySet());
+			List<String> depts = new ArrayList<String>(TKUser.getReportingApprovalDepartments().keySet());
 			Collections.sort(depts);
 		    lraaForm.setDepartments(depts);
 		    if (StringUtils.isBlank(lraaForm.getSelectedDept())
@@ -126,8 +126,8 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 	        	lraaForm.getWorkAreaDescr().clear();
 	        	List<WorkArea> workAreaList = TkServiceLocator.getWorkAreaService().getWorkAreas(lraaForm.getSelectedDept(), currentDate);
 	            for(WorkArea wa : workAreaList){
-	            	if (TKContext.getUser().getApproverWorkAreas().contains(wa.getWorkArea())
-	            			|| TKContext.getUser().getReviewerWorkAreas().contains(wa.getWorkArea())) {
+	            	if (TKUser.getApproverWorkAreas().contains(wa.getWorkArea())
+	            			|| TKUser.getReviewerWorkAreas().contains(wa.getWorkArea())) {
 	            		lraaForm.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
 	            	}
 	            }
@@ -164,8 +164,8 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 		lraaForm.getWorkAreaDescr().clear();
     	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(lraaForm.getSelectedDept(), currentDate);
         for(WorkArea wa : workAreas){
-        	if (TKContext.getUser().getApproverWorkAreas().contains(wa.getWorkArea())
-        			|| TKContext.getUser().getReviewerWorkAreas().contains(wa.getWorkArea())) {
+        	if (TKUser.getApproverWorkAreas().contains(wa.getWorkArea())
+        			|| TKUser.getReviewerWorkAreas().contains(wa.getWorkArea())) {
         		lraaForm.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
         	}
         }
@@ -193,7 +193,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 	}
 	
 	private List<ActionItem> filterActionsWithSeletedParameters(String calGroup, String dept, List<String> workAreaList) {
-		String principalId = TKUser.getCurrentTargetPerson().getPrincipalId();
+		String principalId = TKUser.getCurrentTargetPersonId();
 		List<ActionItem> actionList = KewApiServiceLocator.getActionListService().getActionItemsForPrincipal(principalId);
 		List<ActionItem> resultsList = new ArrayList<ActionItem>();
 

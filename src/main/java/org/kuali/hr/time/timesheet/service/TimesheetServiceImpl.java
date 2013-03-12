@@ -97,8 +97,8 @@ public class TimesheetServiceImpl implements TimesheetService {
             	
             	wd.route("Batch job routing timesheet");
             } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
-                if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin() &&
-                        !TKContext.getUser().getCurrentTargetRoles().isApproverForTimesheet(timesheetDocument)) {
+                if (TKUser.getCurrentTargetRoles().isSystemAdmin() &&
+                        !TKUser.getCurrentTargetRoles().isApproverForTimesheet(timesheetDocument)) {
                     wd.superUserBlanketApprove("Superuser approving timesheet.");
                 } else {
                     wd.approve("Approving timesheet.");
@@ -111,8 +111,8 @@ public class TimesheetServiceImpl implements TimesheetService {
             	
             	wd.superUserBlanketApprove("Batch job approving timesheet.");
             } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
-                if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin()
-                        && !TKContext.getUser().getCurrentTargetRoles().isApproverForTimesheet(timesheetDocument)) {
+                if (TKUser.getCurrentTargetRoles().isSystemAdmin()
+                        && !TKUser.getCurrentTargetRoles().isApproverForTimesheet(timesheetDocument)) {
                     wd.superUserDisapprove("Superuser disapproving timesheet.");
                 } else {
                     wd.disapprove("Disapproving timesheet.");
@@ -263,7 +263,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     }
 
     public boolean isSynchronousUser() {
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKUser.getCurrentTargetPerson().getPrincipalId(), TKUtils.getCurrentDate());
+        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKUser.getCurrentTargetPersonId(), TKUtils.getCurrentDate());
         boolean isSynchronousUser = true;
         for (Assignment assignment : assignments) {
             isSynchronousUser &= assignment.isSynchronous();

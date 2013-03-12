@@ -93,7 +93,7 @@ public class TimesheetAction extends TkAction {
 
         // Here - viewPrincipal will be the principal of the user we intend to
         // view, be it target user, backdoor or otherwise.
-        String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
+        String viewPrincipal = TKUser.getCurrentTargetPersonId();
         Date currentDate = TKUtils.getTimelessDate(null);
 		CalendarEntries payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal, currentDate);
 
@@ -135,7 +135,7 @@ public class TimesheetAction extends TkAction {
         	TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(docId);
         	String timesheetPrincipalName = KimApiServiceLocator.getPersonService().getPerson(timesheetDocument.getPrincipalId()).getPrincipalName();
         	
-        	String principalId = TKUser.getCurrentTargetPerson().getPrincipalId();
+        	String principalId = TKUser.getCurrentTargetPersonId();
         	String principalName = KimApiServiceLocator.getPersonService().getPerson(principalId).getPrincipalName();
         	
         	StringBuilder builder = new StringBuilder();
@@ -164,7 +164,7 @@ public class TimesheetAction extends TkAction {
     }
 
     protected void setupDocumentOnFormContext(TimesheetActionForm taForm, TimesheetDocument td) throws Exception{
-    	String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
+    	String viewPrincipal = TKUser.getCurrentTargetPersonId();
     	TKContext.setCurrentTimesheetDocumentId(td.getDocumentId());
         TKContext.setCurrentTimesheetDocument(td);
 	    taForm.setTimesheetDocument(td);

@@ -104,7 +104,7 @@ public class ClockAction extends TimesheetAction {
             }
             caf.setAssignmentLunchMap(assignmentDeptLunchRuleMap);
         }
-        String principalId = TKUser.getCurrentTargetPerson().getPrincipalId();
+        String principalId = TKUser.getCurrentTargetPersonId();
         if (principalId != null) {
             caf.setPrincipalId(principalId);
         }
@@ -216,7 +216,7 @@ public class ClockAction extends TimesheetAction {
             caf.setErrorMessage("No assignment selected.");
             return mapping.findForward("basic");
         }
-        ClockLog previousClockLog = TkServiceLocator.getClockLogService().getLastClockLog(TKUser.getCurrentTargetPerson().getPrincipalId());
+        ClockLog previousClockLog = TkServiceLocator.getClockLogService().getLastClockLog(TKUser.getCurrentTargetPersonId());
         if(previousClockLog != null && StringUtils.equals(caf.getCurrentClockAction(), previousClockLog.getClockAction())){
         	caf.setErrorMessage("The operation is already performed.");
             return mapping.findForward("basic");
@@ -242,7 +242,7 @@ public class ClockAction extends TimesheetAction {
         
                
         ClockLog clockLog = TkServiceLocator.getClockLogService().processClockLog(new Timestamp(System.currentTimeMillis()), assignment, caf.getPayCalendarDates(), ip,
-                TKUtils.getCurrentDate(), caf.getTimesheetDocument(), caf.getCurrentClockAction(), TKUser.getCurrentTargetPerson().getPrincipalId());
+                TKUtils.getCurrentDate(), caf.getTimesheetDocument(), caf.getCurrentClockAction(), TKUser.getCurrentTargetPersonId());
 
         caf.setClockLog(clockLog);
 

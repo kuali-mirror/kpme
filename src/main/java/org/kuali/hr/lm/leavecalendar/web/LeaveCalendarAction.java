@@ -107,7 +107,7 @@ public class LeaveCalendarAction extends TkAction {
 		
 		// Here - viewPrincipal will be the principal of the user we intend to
 		// view, be it target user, backdoor or otherwise.
-		String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
+		String viewPrincipal = TKUser.getCurrentTargetPersonId();
 		CalendarEntries calendarEntry = null;
 
 		LeaveCalendarDocument lcd = null;
@@ -350,7 +350,7 @@ public class LeaveCalendarAction extends TkAction {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         // find all the calendar entries up to the planning months of this employee
         List<CalendarEntries> ceList = lcf.getCalendarEntry() == null ? new ArrayList<CalendarEntries>() : TkServiceLocator.getCalendarEntriesService()
-        	.getAllCalendarEntriesForCalendarIdUpToPlanningMonths(lcf.getCalendarEntry().getHrCalendarId(), TKUser.getCurrentTargetPerson().getPrincipalId());
+        	.getAllCalendarEntriesForCalendarIdUpToPlanningMonths(lcf.getCalendarEntry().getHrCalendarId(), TKUser.getCurrentTargetPersonId());
         
         if(lcf.getCalendarYears().isEmpty()) {
         	// get calendar year drop down list contents
@@ -597,7 +597,7 @@ public class LeaveCalendarAction extends TkAction {
 	protected void setupDocumentOnFormContext(LeaveCalendarForm leaveForm,
 			LeaveCalendarDocument lcd) {
 		CalendarEntries futureCalEntry = null;
-		String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
+		String viewPrincipal = TKUser.getCurrentTargetPersonId();
 		CalendarEntries calEntry = leaveForm.getCalendarEntry();
 
 		// some leave calendar may not have leaveCalendarDocument created based on the jobs status of this employee
@@ -687,27 +687,27 @@ public class LeaveCalendarAction extends TkAction {
     	leaveForm.setDocEditable(false);
     	if(lcd == null) {
     		// working on own calendar
-    		 if(TKUser.getCurrentTargetPerson().getPrincipalId().equals(GlobalVariables.getUserSession().getPrincipalId())) {
+    		 if(TKUser.getCurrentTargetPersonId().equals(GlobalVariables.getUserSession().getPrincipalId())) {
     			 leaveForm.setDocEditable(true); 
     		 } else {
-    			 if(TKContext.getUser().isSystemAdmin()
-                     || TKContext.getUser().isLocationAdmin()
-                     || TKContext.getUser().isReviewer()
-                     || TKContext.getUser().isApprover()) {
+    			 if(TKUser.isSystemAdmin()
+                     || TKUser.isLocationAdmin()
+                     || TKUser.isReviewer()
+                     || TKUser.isApprover()) {
     				 	leaveForm.setDocEditable(true);
     			 }
              }
     	} else {
-	        if (TKContext.getUser().isSystemAdmin() && !StringUtils.equals(lcd.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())) {
+	        if (TKUser.isSystemAdmin() && !StringUtils.equals(lcd.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())) {
 	            leaveForm.setDocEditable(true);
 	        } else {
 	            boolean docFinal = lcd.getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL);
 	            if (!docFinal) {
 	                if(StringUtils.equals(lcd.getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
-	                        || TKContext.getUser().isSystemAdmin()
-	                        || TKContext.getUser().isLocationAdmin()
-	                        || TKContext.getUser().isReviewer()
-	                        || TKContext.getUser().isApprover()) {
+	                        || TKUser.isSystemAdmin()
+	                        || TKUser.isLocationAdmin()
+	                        || TKUser.isReviewer()
+	                        || TKUser.isApprover()) {
 	                    leaveForm.setDocEditable(true);
 	                }
 	
@@ -726,7 +726,7 @@ public class LeaveCalendarAction extends TkAction {
 	
 	public ActionForward gotoCurrentPayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
-		String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
+		String viewPrincipal = TKUser.getCurrentTargetPersonId();
 		Date currentDate = TKUtils.getTimelessDate(null);
 		CalendarEntries calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, currentDate);
 		lcf.setCalendarEntry(calendarEntry);
@@ -769,7 +769,7 @@ public class LeaveCalendarAction extends TkAction {
 	        CalendarEntries ce = TkServiceLocator.getCalendarEntriesService()
 				.getCalendarEntries(request.getParameter("selectedPP").toString());
 			if(ce != null) {
-				String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
+				String viewPrincipal = TKUser.getCurrentTargetPersonId();
 				lcf.setCalEntryId(ce.getHrCalendarEntriesId());
 				LeaveCalendarDocument lcd = null;
 				// use jobs to find out if this leave calendar should have a document created or not
@@ -884,7 +884,7 @@ public class LeaveCalendarAction extends TkAction {
         	LeaveCalendarDocument leaveCalendarDocument = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(docId);
         	String timesheetPrincipalName = KimApiServiceLocator.getPersonService().getPerson(leaveCalendarDocument.getPrincipalId()).getPrincipalName();
         	
-        	String principalId = TKUser.getCurrentTargetPerson().getPrincipalId();
+        	String principalId = TKUser.getCurrentTargetPersonId();
         	String principalName = KimApiServiceLocator.getPersonService().getPerson(principalId).getPrincipalName();
         	
         	StringBuilder builder = new StringBuilder();

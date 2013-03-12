@@ -88,8 +88,9 @@ public class DepartmentLunchRuleTest extends KPMETestCase {
 											1234L, "edna", 1L, JAN_AS_OF_DATE);
 		Assert.assertTrue("dept lunch rule fetched ", deptLunchRule!=null);
 
-        Person testUser = KimApiServiceLocator.getPersonService().getPerson("edna");
-        TKUser.setTargetPerson(testUser);
+        String testUserId = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName("edna").getPrincipalId();
+        TKUser.setTargetPerson(testUserId);
+
 		TimesheetDocument doc = TkTestUtils.populateTimesheetDocument(JAN_AS_OF_DATE);
 
 		for(TimeBlock tb : doc.getTimeBlocks()){

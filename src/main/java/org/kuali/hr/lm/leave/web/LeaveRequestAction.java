@@ -46,7 +46,7 @@ public class LeaveRequestAction extends TkAction {
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = super.execute(mapping, form, request, response);
 		LeaveRequestForm leaveForm = (LeaveRequestForm) form;
-		String principalId = TKUser.getCurrentTargetPerson().getPrincipalId();
+		String principalId = TKUser.getCurrentTargetPersonId();
 		Date currentDate = TKUtils.getTimelessDate(null);
 
         Calendar currentCalendar = Calendar.getInstance();

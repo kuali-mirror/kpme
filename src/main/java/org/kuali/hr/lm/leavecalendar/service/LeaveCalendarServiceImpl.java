@@ -30,6 +30,7 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -318,8 +319,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
             	
             	wd.route("Batch job routing leave calendar");
             } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
-                if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin() &&
-                        !TKContext.getUser().getCurrentTargetRoles().isApproverForTimesheet(leaveCalendarDocument)) {
+                if (TKUser.getCurrentTargetRoles().isSystemAdmin() &&
+                        !TKUser.getCurrentTargetRoles().isApproverForTimesheet(leaveCalendarDocument)) {
                     wd.superUserBlanketApprove("Superuser approving timesheet.");
                 } else {
                     wd.approve("Approving timesheet.");
@@ -332,8 +333,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
             	
             	wd.superUserBlanketApprove("Batch job approving leave calendar");
             } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
-                if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin()
-                        && !TKContext.getUser().getCurrentTargetRoles().isApproverForTimesheet(leaveCalendarDocument)) {
+                if (TKUser.getCurrentTargetRoles().isSystemAdmin()
+                        && !TKUser.getCurrentTargetRoles().isApproverForTimesheet(leaveCalendarDocument)) {
                     wd.superUserDisapprove("Superuser disapproving timesheet.");
                 } else {
                     wd.disapprove("Disapproving timesheet.");

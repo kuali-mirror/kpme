@@ -57,8 +57,8 @@ public class LeaveBlockDisplayAction extends TkAction {
 		
 		LeaveBlockDisplayForm lbdf = (LeaveBlockDisplayForm) form;	
         
-		String principalId = TKUser.getCurrentTargetPerson().getPrincipalId();
-		if (TKUser.getCurrentTargetPerson() != null) {
+		String principalId = TKUser.getCurrentTargetPersonId();
+		if (TKUser.getCurrentTargetPersonId() != null) {
 			lbdf.setTargetName(TKUser.getCurrentTargetPerson().getName());
 		}
 

@@ -38,6 +38,7 @@ import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
@@ -146,7 +147,7 @@ public class PersonInfoAction extends TkAction {
 	}
 	
 	private void setupRolesOnForm(PersonInfoActionForm paForm){
-		UserRoles roles = TKContext.getUser().getCurrentTargetRoles();
+		UserRoles roles = TKUser.getCurrentTargetRoles();
 		for(Long waApprover : roles.getApproverWorkAreas()){
 			paForm.getApproverWorkAreas().add(waApprover);
 		}

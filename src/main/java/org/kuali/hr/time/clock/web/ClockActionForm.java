@@ -78,7 +78,7 @@ public class ClockActionForm extends TimesheetActionForm {
 	private String outputString;
 	
     public String getTargetUserTimezone() {
-        return TkServiceLocator.getTimezoneService().getUserTimezone(TKUser.getCurrentTargetPerson().getPrincipalId());
+        return TkServiceLocator.getTimezoneService().getUserTimezone(TKUser.getCurrentTargetPersonId());
     }
 
     public Date getLastClockTimeWithZone() {

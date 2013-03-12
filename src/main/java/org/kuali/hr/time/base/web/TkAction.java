@@ -61,7 +61,9 @@ public class TkAction extends KualiAction {
 	public ActionForward userLogout(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TKContext.clear();
 		request.getSession().invalidate();
-		return new ActionRedirect(mapping.findForward("basic"));
+        ActionRedirect redirect = new ActionRedirect();
+        redirect.setPath("portal.do");
+		return redirect;
 	}
 
 }
