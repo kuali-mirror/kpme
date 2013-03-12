@@ -270,15 +270,9 @@ public class CarryOverJob implements Job{
 	}
 
     private String getBatchUserPrincipalId() {
-        String principalId = null;
-
         String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
         Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(principalName);
-        if (principal != null) {
-            principalId = principal.getPrincipalId();
-        }
-
-        return principalId;
+        return principal == null ? null : principal.getPrincipalId();
     }
 
 }

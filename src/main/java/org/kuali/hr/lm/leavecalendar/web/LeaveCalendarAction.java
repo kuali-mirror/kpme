@@ -18,14 +18,12 @@ package org.kuali.hr.lm.leavecalendar.web;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -40,8 +38,6 @@ import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;
-import org.kuali.hr.lm.leavepayout.LeavePayout;
-import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.lm.util.LeaveBlockAggregate;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
@@ -63,7 +59,7 @@ import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -795,12 +791,12 @@ public class LeaveCalendarAction extends TkAction {
 	
 	private void generateLeaveCalendarChangedNotification(String principalId, String targetPrincipalId, String documentId, String hrCalendarEntryId) {
 		if (!StringUtils.equals(principalId, targetPrincipalId)) {
-			Person person = KimApiServiceLocator.getPersonService().getPerson(principalId);
-			if (person != null) {
+			EntityNamePrincipalName person = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
+			if (person != null && person.getDefaultName() != null) {
 				String subject = "Leave Calendar Modification Notice";
 				StringBuilder message = new StringBuilder();
 				message.append("Your Leave Calendar was changed by ");
-				message.append(person.getNameUnmasked());
+				message.append(person.getDefaultName().getCompositeNameUnmasked());
 				message.append(" on your behalf.");
 				message.append(SystemUtils.LINE_SEPARATOR);
 				message.append(getLeaveCalendarURL(documentId, hrCalendarEntryId));
@@ -811,14 +807,17 @@ public class LeaveCalendarAction extends TkAction {
 	}
 	
 	private void generateLeaveBlockDeletionNotification(List<String> approverIdList, String employeeId, String userId, String dateString, String hrString) {
-		Person employee = KimApiServiceLocator.getPersonService().getPerson(employeeId);
-		Person user = KimApiServiceLocator.getPersonService().getPerson(userId);
-		if (employee != null && user != null) {
+        EntityNamePrincipalName employee = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(employeeId);
+        EntityNamePrincipalName user = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(userId);
+		if (employee != null
+                && user != null
+                && employee.getDefaultName() != null
+                && user.getDefaultName() != null) {
 			String subject = "Leave Request Deletion Notice";
 			StringBuilder message = new StringBuilder();
-			message.append("An Approved leave request of " + hrString +" hours on Date " + dateString);
-			message.append(" for " + employee.getNameUnmasked() +" was deleted by ");
-			message.append(user.getNameUnmasked());
+			message.append("An Approved leave request of ").append(hrString).append(" hours on Date ").append(dateString);
+			message.append(" for ").append(employee.getDefaultName().getCompositeNameUnmasked()).append(" was deleted by ");
+			message.append(user.getDefaultName().getCompositeNameUnmasked());
 			for(String anId : approverIdList) {
 				TkServiceLocator.getKPMENotificationService().sendNotification(subject, message.toString(), anId);
 			}

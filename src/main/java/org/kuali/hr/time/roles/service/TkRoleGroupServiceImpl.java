@@ -24,7 +24,7 @@ import org.kuali.hr.time.roles.dao.TkRoleGroupDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import java.util.ArrayList;
@@ -93,14 +93,14 @@ public class TkRoleGroupServiceImpl implements TkRoleGroupService {
          * 3) search for all the roles / role groups
          */
         if (StringUtils.isNotBlank(principalId)) {
-            Person person = KimApiServiceLocator.getPersonService().getPerson(principalId);
+            Principal person = KimApiServiceLocator.getIdentityService().getPrincipal(principalId);
             if (person != null && isAuthorizedToEditUserRole(person.getPrincipalId())) {
                 principalIdToQuery = person.getPrincipalId();
             } else {
             	principalIdToQuery = principalId;
             }
         } else if (StringUtils.isNotBlank(principalName)) {
-            Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(principalName);
+            Principal person = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(principalName);
             if (person != null && isAuthorizedToEditUserRole(person.getPrincipalId())) {
                 principalIdToQuery = person.getPrincipalId();
             } else {

@@ -15,20 +15,6 @@
  */
 package org.kuali.hr.lm.request.approval.web;
 
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -50,8 +36,15 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionItem;
-import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class LeaveRequestApprovalAction  extends ApprovalAction {
 	
@@ -326,13 +319,13 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 		if(CollectionUtils.isEmpty(docList) || StringUtils.isEmpty(principalId)) {
 			return null;
 		}
-		Person principal = KimApiServiceLocator.getPersonService().getPerson(principalId);
-		if(principal == null) {
+        EntityNamePrincipalName entityNamePrincipalName = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
+		if(entityNamePrincipalName == null) {
 			return null;
 		}
 		LeaveRequestApprovalEmployeeRow empRow = new LeaveRequestApprovalEmployeeRow();
 		empRow.setPrincipalId(principalId);
-		empRow.setEmployeeName(principal.getName());
+		empRow.setEmployeeName(entityNamePrincipalName.getDefaultName() == null ? StringUtils.EMPTY : entityNamePrincipalName.getDefaultName().getCompositeName());
 		List<LeaveRequestApprovalRow> rowList = new ArrayList<LeaveRequestApprovalRow>();
 		for(LeaveRequestDocument lrd : docList) {
 			if(lrd == null) {

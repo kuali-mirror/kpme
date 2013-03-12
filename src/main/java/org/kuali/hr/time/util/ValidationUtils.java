@@ -15,12 +15,6 @@
  */
 package org.kuali.hr.time.util;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -42,9 +36,15 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A few methods to assist with various validation tasks.
@@ -343,7 +343,7 @@ public class ValidationUtils {
 	public static boolean validatePrincipalId(String principalId) {
 		boolean valid = false;
 		if (principalId != null) {
-			Person p = KimApiServiceLocator.getPersonService().getPerson(principalId);
+			Principal p = KimApiServiceLocator.getIdentityService().getPrincipal(principalId);
 		    valid = (p != null);
 		}
 		return valid;

@@ -15,9 +15,6 @@
  */
 package org.kuali.hr.time.batch;
 
-import java.sql.Date;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.accrual.service.AccrualService;
@@ -31,11 +28,14 @@ import org.kuali.hr.time.principal.service.PrincipalHRAttributesService;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+
+import java.sql.Date;
+import java.util.List;
 
 public class AccrualJob implements Job {
 
@@ -105,17 +105,11 @@ public class AccrualJob implements Job {
 	public static void setPrincipalHRAttributesService(PrincipalHRAttributesService principalHRAttributesService) {
 		PRINCIPAL_HR_ATTRIBUTES_SERVICE = principalHRAttributesService;
 	}
-	
+
     private String getBatchUserPrincipalId() {
-    	String principalId = null;
-    	
-    	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
-        Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(principalName);
-        if (person != null) {
-        	principalId = person.getPrincipalId();
-        }
-        
-        return principalId;
+        String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
+        Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(principalName);
+        return principal == null ? null : principal.getPrincipalId();
     }
 
 }

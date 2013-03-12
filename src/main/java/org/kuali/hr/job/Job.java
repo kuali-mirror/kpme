@@ -27,6 +27,8 @@ import org.kuali.hr.time.position.Position;
 import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 public class Job extends HrBusinessObject {
@@ -140,8 +142,10 @@ public class Job extends HrBusinessObject {
 
 	public String getPrincipalName() {
 		if(principalName == null && !this.getPrincipalId().isEmpty()) {
-			Person aPerson = KimApiServiceLocator.getPersonService().getPerson(getPrincipalId());
-			setPrincipalName(aPerson.getName());
+			EntityNamePrincipalName aPerson = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(getPrincipalId());
+			if (aPerson != null && aPerson.getDefaultName() != null) {
+                setPrincipalName(aPerson.getDefaultName().getCompositeName());
+            }
 		}
 		return principalName;
 	}
