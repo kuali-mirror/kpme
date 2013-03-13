@@ -1,10 +1,7 @@
 package org.kuali.hr.pm.positionreportsubcat;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.pm.institution.Institution;
 import org.kuali.hr.pm.positionreportcat.PositionReportCategory;
-import org.kuali.hr.pm.positionreporttype.PositionReportType;
-import org.kuali.hr.pm.service.base.PmServiceLocator;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.rice.location.impl.campus.CampusBo;
 

@@ -1,0 +1,263 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	
+	<bean id="PositionReportGroupSubCat" parent="PositionReportGroupSubCat-parentBean"/>
+ 	<bean id="PositionReportGroupSubCat-parentBean" abstract="true" parent="BusinessObjectEntry">
+	    <property name="dataObjectClass" value="org.kuali.hr.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory"/>
+	    <property name="attributes">
+	      <list>
+	        <ref bean="PositionReportGroupSubCat-pmPstnRptGrpSubCatId"/>
+	        <ref bean="PositionReportGroupSubCat-effectiveDate"/>
+	        <ref bean="PositionReportGroupSubCat-pstnRptGrpSubCat"/>
+	        <ref bean="PositionReportGroupSubCat-positionReportGroup"/>
+	        <ref bean="PositionReportGroupSubCat-positionReportSubCat"/>
+	        <ref bean="PositionReportGroupSubCat-description"/>
+	        <ref bean="PositionReportGroupSubCat-institution"/>
+	        <ref bean="PositionReportGroupSubCat-campus"/>
+	        <ref bean="PositionReportGroupSubCat-active"/>
+	      </list>
+	    </property>
+	    <property name="relationships">
+			<list>
+			<!--  
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="prscObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="positionReportSubCat"
+								p:targetName="positionReportSubCat" />
+						</list>
+					</property>
+				</bean>
+				
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="prgObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="positionReportGroup"
+								p:targetName="positionReportGroup" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="institutionObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="institution"
+								p:targetName="institutionCode" />
+						</list>
+					</property>
+				</bean>
+				-->
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="campusObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="campus"
+								p:targetName="code" />
+						</list>
+					</property>
+				</bean>	
+			</list>
+		</property>
+	    <property name="objectLabel" value="PositionReportGroupSubCat"/>
+  	</bean>
+
+<!-- Attribute Definitions -->  
+	 <bean id="PositionReportGroupSubCat-pmPstnRptGrpSubCatId" parent="PositionReportGroupSubCat-pmPstnRptGrpSubCatId-parentBean"/>
+	 <bean id="PositionReportGroupSubCat-pmPstnRptGrpSubCatId-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="required" value="false" />
+	    <property name="forceUppercase" value="false"/>
+	    <property name="shortLabel" value="id"/>
+	    <property name="controlField">
+	      <bean parent="Uif-TextControl" p:size="100"/>
+	    </property>
+	    <property name="name" value="pmPstnRptGrpSubCatId"/>
+	    <property name="label" value="Position Report Group Sub Category Id"/>
+	 </bean>   
+	 
+	<bean id="PositionReportGroupSubCat-effectiveDate" parent="PositionReportGroupSubCat-effectiveDate-parentBean" />
+	<bean id="PositionReportGroupSubCat-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="true" />
+		<property name="shortLabel" value="Effective Date" />
+		<property name="controlField">
+			<bean parent="Uif-DateControl" p:size="10" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
+
+	<bean id="PositionReportGroupSubCat-pstnRptGrpSubCat" parent="PositionReportGroupSubCat-pstnRptGrpSubCat-parentBean" />
+	<bean id="PositionReportGroupSubCat-pstnRptGrpSubCat-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="true" />
+		<property name="shortLabel" value="Group Sub Category" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="10" />
+		</property>
+		<property name="name" value="pstnRptGrpSubCat" />
+		<property name="label" value="Position Report Group Sub Category" />
+		<property name="description" value="positionReportGroupSubCategory" />
+	</bean>
+	
+
+	<bean id="PositionReportGroupSubCat-positionReportGroup" parent="PositionReportGroupSubCat-positionReportGroup-parentBean" />
+	<bean id="PositionReportGroupSubCat-positionReportGroup-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="true" />
+	    <property name="controlField">
+			<bean parent="Uif-TextControl" p:size="10" />
+		</property>
+		<property name="name" value="positionReportGroup" />
+		<property name="label" value="Position Report Group" />
+		<property name="description" value="positionReportGroup" />
+	</bean>
+		
+	<bean id="PositionReportGroupSubCat-positionReportSubCat" parent="PositionReportGroupSubCat-positionReportSubCat-parentBean" />
+	<bean id="PositionReportGroupSubCat-positionReportSubCat-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="true" />
+	    <property name="controlField">
+			<bean parent="Uif-TextControl" p:size="10" />
+		</property>
+		<property name="name" value="positionReportSubCat" />
+		<property name="label" value="Position Report Sub Category" />
+		<property name="description" value="positionReportSubCategory" />
+	</bean>
+	
+	<bean id="PositionReportGroupSubCat-description" parent="PositionReportGroupSubCat-description-parentBean" />
+	<bean id="PositionReportGroupSubCat-description-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="false" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="100" />
+		</property>
+		<property name="name" value="description" />
+		<property name="label" value="Description" />
+		<property name="description" value="description" />
+	</bean>
+	
+	<bean id="PositionReportGroupSubCat-institution" parent="PositionReportGroupSubCat-institution-parentBean" />
+	<bean id="PositionReportGroupSubCat-institution-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="true" />
+		<property name="shortLabel" value="Institution" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="10" />
+		</property>
+		<property name="name" value="institution" />
+		<property name="label" value="Institution" />
+	</bean>
+	
+	<bean id="PositionReportGroupSubCat-campus" parent="PositionReportGroupSubCat-campus-parentBean" />
+	<bean id="PositionReportGroupSubCat-campus-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="required" value="true" />
+		<property name="shortLabel" value="Campus" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="10" />
+		</property>
+		<property name="name" value="campus" />
+		<property name="label" value="Campus" />
+	</bean>
+	
+    <bean id="PositionReportGroupSubCat-active" parent="PositionReportGroupSubCat-active-parentBean"/>
+ 	<bean id="PositionReportGroupSubCat-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
+ 		<property name="required" value="true" />
+   		<property name="name" value="active"/>
+  	</bean>  
+
+<!--*************************************************************************** 
+							Views
+ ***************************************************************************-->  	
+  	
+  <!-- Position Reporting Group Sub Category Lookup View -->
+ 
+  <bean id="PositionReportGroupSubCat-LookupView" parent="Uif-LookupView">
+    <property name="title" value="PositionReportGroupSubCat Lookup" />
+    <property name="dataObjectClassName" value="org.kuali.hr.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory" />
+    <property name="criteriaFields">
+      <list>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="pstnRptGrpSubCat" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportGroup" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportSubCat" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="campus" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+        <bean parent="Uif-InputField" p:propertyName="pstnRptGrpSubCat" />
+        <bean parent="Uif-InputField" p:propertyName="positionReportGroup" />
+        <bean parent="Uif-InputField" p:propertyName="positionReportSubCat" />
+        <bean parent="Uif-InputField" p:propertyName="institution" />
+        <bean parent="Uif-InputField" p:propertyName="campus" />
+        <bean parent="Uif-InputField" p:propertyName="active"/>
+      </list>
+    </property>
+  </bean> 
+ 
+ <!-- Position Reporting Group Sub Category Inquiry View -->
+  <bean id="PositionReportGroupSubCat-InquiryView" parent="Uif-InquiryView">
+    <property name="title" value="Position Report Group Sub Category Inquiry"/>
+    <property name="dataObjectClassName" value="org.kuali.hr.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory"/>
+    <property name="singlePageView" value="true"/>
+    <property name="items">
+      <list>
+  			<bean parent="Uif-Disclosure-GridSection">
+		      <property name="layoutManager.numberOfColumns" value="2"/>
+		      <property name="items">
+	       	 	<list>
+		         	<bean parent="Uif-DataField" p:propertyName="effectiveDate" />
+			        <bean parent="Uif-DataField" p:propertyName="pstnRptGrpSubCat" />
+			        <bean parent="Uif-DataField" p:propertyName="description" />
+			        <bean parent="Uif-DataField" p:propertyName="positionReportGroup" />
+			        <bean parent="Uif-DataField" p:propertyName="positionReportSubCat" />
+			        <bean parent="Uif-DataField" p:propertyName="institution" />
+			        <bean parent="Uif-DataField" p:propertyName="campus" />
+			        <bean parent="Uif-DataField" p:propertyName="active"/>
+	        	</list>
+	     	 </property>
+	     	 <property name="title" value="PositionReportGroupSubCat Attributes"/>
+	   	   </bean>
+      </list>
+    </property>
+  </bean> 
+  
+<!--  Position Reporting Group Sub Category Maintenance View -->
+  <bean id="PositionReportGroupSubCat-MaintenanceView" parent="PositionReportGroupSubCat-MaintenanceView-parentBean"/>
+  <bean id="PositionReportGroupSubCat-MaintenanceView-parentBean" abstract="true" parent="Uif-MaintenanceView">
+    <property name="title" value="PositionReportGroupSubCat Maintenance"/>
+    <property name="dataObjectClassName" value="org.kuali.hr.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory"/>
+    <property name="items">
+      <list merge="true">
+        <bean parent="Uif-MaintenanceGridSection">
+          <property name="items">
+            <list>
+             	<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+		        <bean parent="Uif-InputField" p:propertyName="pstnRptGrpSubCat" />
+		        <bean parent="Uif-InputField" p:propertyName="description" />
+		        <bean parent="Uif-InputField" p:propertyName="positionReportGroup" />
+		        <bean parent="Uif-InputField" p:propertyName="positionReportSubCat" />
+		        <bean parent="Uif-InputField" p:propertyName="institution" />
+		        <bean parent="Uif-InputField" p:propertyName="campus" />
+		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true" />
+            </list>
+          </property>
+          <property name="title" value="PositionReportGroupSubCat"/>
+        </bean>
+      </list>
+    </property>
+  </bean> 
+</beans>

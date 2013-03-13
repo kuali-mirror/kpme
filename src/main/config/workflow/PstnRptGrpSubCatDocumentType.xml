@@ -1,0 +1,13 @@
+<data xmlns="ns:workflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="ns:workflow resource:WorkflowData">
+    <documentTypes xmlns="ns:workflow/DocumentType"
+                   xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+		<documentType>
+			<name>PstnRptGrpSubCatMaintenanceDocumentType</name>
+			<parent>RiceDocument</parent>
+			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+			<label>PositionReportGroupSubCatMaintenanceDocument</label>
+		</documentType>   
+     </documentTypes>
+</data>

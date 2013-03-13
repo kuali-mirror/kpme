@@ -7,6 +7,8 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.pm.institution.Institution;
 import org.kuali.hr.pm.positionreportcat.PositionReportCategory;
+import org.kuali.hr.pm.positionreportgroup.PositionReportGroup;
+import org.kuali.hr.pm.positionreportsubcat.PositionReportSubCategory;
 import org.kuali.hr.pm.positionreporttype.PositionReportType;
 import org.kuali.hr.pm.service.base.PmServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
@@ -117,6 +119,32 @@ public class PmValidationUtils {
 		if (StringUtils.isNotEmpty(positionReportCat) && asOfDate != null) {
 			List<PositionReportCategory> prcList = PmServiceLocator.getPositionReportCatService().getPositionReportCatList(positionReportCat, positionReportType, institution, campus, asOfDate);
 			return CollectionUtils.isNotEmpty(prcList);
+		}
+		return false;
+	}
+	
+	/**
+	 * Validate if there exists Position Report Sub Categories that match given pstnRptSubCat, institution, campus and exists before given date 
+	 * Wild card allowed
+	 * @param pstnRptSubCat
+	 * @param institution
+	 * @param campus
+	 * @param asOfDate
+	 * @return
+	 */
+	
+	public static boolean validatePositionReportSubCat(String pstnRptSubCat, String institution, String campus, Date asOfDate) {
+		if(asOfDate != null) {
+			List<PositionReportSubCategory> prscList = PmServiceLocator.getPositionReportSubCatService().getPositionReportSubCat(pstnRptSubCat, institution, campus, asOfDate);
+			return CollectionUtils.isNotEmpty(prscList);
+		}
+		return false;
+	}
+	
+	public static boolean validatePstnRptGrp(String PstnRptGrp, String institution, String campus, Date asOfDate) {
+		if(asOfDate != null) {
+			List<PositionReportGroup> prgList = PmServiceLocator.getPositionReportGroupService().getPositionReportGroupList(PstnRptGrp, institution, campus, asOfDate);
+			return CollectionUtils.isNotEmpty(prgList);
 		}
 		return false;
 	}
