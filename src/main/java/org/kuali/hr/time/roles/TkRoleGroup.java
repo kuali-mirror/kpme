@@ -32,22 +32,21 @@ public class TkRoleGroup extends PersistableBusinessObjectBase {
     public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "TkRoleGroup";
     private static final long serialVersionUID = 1L;
 
-    @Transient
+    private String principalId;
     private List<TkRole> roles = new ArrayList<TkRole>();
     @Transient
-    private List<TkRole> inactiveRoles = new ArrayList<TkRole>();
+    private transient List<TkRole> inactiveRoles = new ArrayList<TkRole>();
     @Transient
-    private List<TkRole> positionRoles = new ArrayList<TkRole>();
+    private transient List<TkRole> positionRoles = new ArrayList<TkRole>();
     @Transient
-    private List<TkRole> inactivePositionRoles = new ArrayList<TkRole>();
+    private transient List<TkRole> inactivePositionRoles = new ArrayList<TkRole>();
+
     @Transient
-    private String principalId;
-    @Transient
-    private Person person;
+    private transient Person person;
     
-    private WorkArea workAreaObj;
-    private Department departmentObj;
-    private TkRole tkRoleObj;
+    private transient WorkArea workAreaObj;
+    private transient Department departmentObj;
+    private transient TkRole tkRoleObj;
     
 	private String roleName;
 	private String principalName;

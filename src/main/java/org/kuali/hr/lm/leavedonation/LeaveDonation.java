@@ -25,11 +25,9 @@ import org.kuali.rice.kim.api.identity.Person;
 
 public class LeaveDonation extends HrBusinessObject {
     public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "LeaveDonation";
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private String lmLeaveDonationId;
+    private static final long serialVersionUID = 1L;
+
+    private String lmLeaveDonationId;
 	private String donatedAccrualCategory;
 	private String recipientsAccrualCategory;
 	private BigDecimal amountDonated = new BigDecimal("0.0");
@@ -40,11 +38,9 @@ public class LeaveDonation extends HrBusinessObject {
 	
 	private Boolean history;
 	
-	private AccrualCategory accrualCategoryObj;
-	
-	private Person personObj;
-
-	private EarnCode earnCodeObj;
+	private transient AccrualCategory accrualCategoryObj;
+	private transient Person personObj;
+	private transient EarnCode earnCodeObj;
 	
 	private String donatedEarnCode;
 	private String recipientsEarnCode;
@@ -163,8 +159,7 @@ public class LeaveDonation extends HrBusinessObject {
 
 	@Override
 	protected String getUniqueKey() {
-		String leaveCodeKey = getDonorsPrincipalID() +"_"+ getRecipientsPrincipalID() +"_"+ getDonatedAccrualCategory() +"_"+ getRecipientsAccrualCategory();
-		return leaveCodeKey;
+		return getDonorsPrincipalID() +"_"+ getRecipientsPrincipalID() +"_"+ getDonatedAccrualCategory() +"_"+ getRecipientsAccrualCategory();
 	}
 
 	@Override

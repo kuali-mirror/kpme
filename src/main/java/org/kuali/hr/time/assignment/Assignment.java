@@ -42,20 +42,20 @@ public class Assignment extends HrBusinessObject {
 	private String principalId;
 	private Long jobNumber;
 	private String hrJobId;
-	private Job job;
+	private transient Job job;
 	private Long workArea;
 	//private Long tkWorkAreaId;
 	private Long task;
 	private String dept;
-	private TimeCollectionRule timeCollectionRule;
-	private DeptLunchRule deptLunchRule;
-	private WorkArea workAreaObj;
+	private transient TimeCollectionRule timeCollectionRule;
+	private transient DeptLunchRule deptLunchRule;
+	private transient WorkArea workAreaObj;
 	private Boolean history;
     private String assignmentKey;
 
-	private Person principal;
+	private transient Person principal;
 
-	private Task taskObj;
+	private transient Task taskObj;
 
     private String calGroup;
 

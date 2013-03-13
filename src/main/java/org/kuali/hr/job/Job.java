@@ -58,13 +58,13 @@ public class Job extends HrBusinessObject {
 	private String hrPayTypeId;
 	private boolean eligibleForLeave;
 	
-	private Person principal;
-	private Department deptObj;
+	private transient Person principal;
+	private transient Department deptObj;
 	private PayType payTypeObj;
-	private Location locationObj;
-    private PayGrade payGradeObj;
-    private SalGroup salGroupObj;
-    private Position positionObj;
+	private transient Location locationObj;
+    private transient PayGrade payGradeObj;
+    private transient SalGroup salGroupObj;
+    private transient Position positionObj;
     
     private BigDecimal fte = new BigDecimal(0); //kpme1465, chen
     private String flsaStatus;

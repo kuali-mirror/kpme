@@ -43,10 +43,10 @@ public class LeavePayout extends HrBusinessObject {
 	private String description;
 	private BigDecimal payoutAmount = new BigDecimal("0.0");
     private BigDecimal forfeitedAmount = new BigDecimal("0.0");
-	private Person principal;
-	private AccrualCategory fromAccrualCategoryObj;
-	private EarnCode earnCodeObj;
-	private PrincipalHRAttributes principalHRAttrObj;
+	private transient Person principal;
+	private transient AccrualCategory fromAccrualCategoryObj;
+	private transient EarnCode earnCodeObj;
+	private transient PrincipalHRAttributes principalHRAttrObj;
     private String leaveCalendarDocumentId;
     private String accrualCategoryRule;
     private String forfeitedLeaveBlockId;
@@ -62,7 +62,10 @@ public class LeavePayout extends HrBusinessObject {
 		this.earnCode = earnCode;
 	}
 	public EarnCode getEarnCodeObj() {
-		return TkServiceLocator.getEarnCodeService().getEarnCode(earnCode, getEffectiveDate());
+		if (earnCodeObj == null) {
+            earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(this.earnCode, getEffectiveDate());
+        }
+        return earnCodeObj;
 	}
 	public void setEarnCodeObj(EarnCode earnCodeObj) {
 		this.earnCodeObj = earnCodeObj;
@@ -121,7 +124,10 @@ public class LeavePayout extends HrBusinessObject {
         this.forfeitedAmount = amount;
     }
 	public AccrualCategory getFromAccrualCategoryObj() {
-		return TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, getEffectiveDate());
+        if (fromAccrualCategoryObj == null) {
+            fromAccrualCategoryObj =  TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, getEffectiveDate());
+        }
+        return fromAccrualCategoryObj;
 	}
 	public void setFromAccrualCategoryObj(AccrualCategory accrualCategoryObj) {
 		this.fromAccrualCategoryObj = accrualCategoryObj;

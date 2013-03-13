@@ -51,7 +51,7 @@ public class ClockLocationRule extends TkRule implements DepartmentalRule {
 
 	private WorkArea workAreaObj;
 	private Job job;
-	private Person principal;
+	private transient Person principal;
 
 	public Long getWorkArea() {
 		return workArea;

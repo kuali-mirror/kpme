@@ -42,10 +42,10 @@ public class DeptLunchRule extends HrBusinessObject implements DepartmentalRule 
     private String hrDeptId;
     private String hrJobId;
 
-    WorkArea workAreaObj;
-    Department departmentObj;
-    private Job job;
-	private Person principal;
+    private transient WorkArea workAreaObj;
+    private transient Department departmentObj;
+    private transient Job job;
+	private transient Person principal;
 	
 	public Person getPrincipal() {
 		return principal;

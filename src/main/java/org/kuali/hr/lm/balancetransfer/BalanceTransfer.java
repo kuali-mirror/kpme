@@ -50,7 +50,7 @@ public class BalanceTransfer extends HrBusinessObject {
 	private String debitedLeaveBlockId;
 	private String sstoId;
 	
-	private Person principal;
+	private transient Person principal;
 	
 	public String getPrincipalId() {
 		return principalId;

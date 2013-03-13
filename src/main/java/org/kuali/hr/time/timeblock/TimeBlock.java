@@ -93,10 +93,10 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     private Boolean pushBackward = false;
 
     private TimesheetDocumentHeader timesheetDocumentHeader;
-    private Person user;
+    private transient Person user;
     
-    private List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
-    private List<TimeBlockHistory> timeBlockHistories = new ArrayList<TimeBlockHistory>();
+    private transient List<TimeHourDetail> timeHourDetails = new ArrayList<TimeHourDetail>();
+    private transient List<TimeBlockHistory> timeBlockHistories = new ArrayList<TimeBlockHistory>();
 
     public TimeBlock() {
     }

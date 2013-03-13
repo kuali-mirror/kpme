@@ -47,11 +47,11 @@ public class ClockLog extends PersistableBusinessObjectBase {
     
     private String missedPunchDocumentId;
 
-    private Job job;
-    private WorkArea workAreaObj;
-    private Task taskObj;
+    private transient Job job;
+    private transient WorkArea workAreaObj;
+    private transient Task taskObj;
 
-    private Person principal;
+    private transient Person principal;
 
 	public Job getJob() {
 		return job;
