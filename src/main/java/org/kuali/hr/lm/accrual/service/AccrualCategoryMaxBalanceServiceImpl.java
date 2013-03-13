@@ -24,9 +24,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.struts.action.ActionRedirect;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.hr.lm.LMConstants;
@@ -218,84 +220,10 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 										}
 									}
 									
-									if(StringUtils.equals(asOfLeaveDateRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
-										//For year end transfer frequencies...
-										//AccrualCategoryRule rollOverRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, leavePlanRollOver.minusDays(1).toDate(), pha.getServiceDate());
-										if((tally.compareTo(adjustedMaxBalance) > 0 ||
-												(ObjectUtils.isNotNull(adjustedMaxAnnualCarryOver) &&
-												tally.compareTo(adjustedMaxAnnualCarryOver) > 0))){
-											//The leave amount of lb, when added to the accrued balance as of the leave date, exceeds the max balance
-											// ( or max annual carryover ), and the rule is still in effect as of the last day of the leave plan calendar year.
-											if(newEligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).isEmpty()) {
-												newEligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).add(lb);
-											} else {
-												Set<LeaveBlock> eligibleLeaveBlocks = newEligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END);
-												LeaveBlock tempLB = null;
-												for(LeaveBlock block : eligibleLeaveBlocks) {
-													AccrualCategoryRule blockRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
-													if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
-													//the above conditional flags lb as a separate infraction if the accrual category rule changed from block.leaveDate to lb.leaveDate
-													//if(StringUtils.equals(block.getAccrualCategory(),lb.getAccrualCategory())) {
-														//this conditional accepts an accrual category rule change from block.leaveDate to lb.leaveDate
-														tempLB = block;
-														break;
-													}
-												}
-												// could also use a "marker" leave block declared just outside the scope of this loop.
-												if(tempLB != null)
-													eligibleLeaveBlocks.remove(tempLB);
-
-												eligibleLeaveBlocks.add(lb);
-												newEligibilities.put(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END, eligibleLeaveBlocks);
-											}
-										}
-										else if(!newEligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).isEmpty()) {
-											Set<LeaveBlock> eligibleLeaveBlocks = newEligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END);
-											LeaveBlock tempLB = null;
-											for(LeaveBlock block : eligibleLeaveBlocks) {
-												AccrualCategoryRule blockRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
-												if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
-												//the above conditional flags lb as a separate infraction if the accrual category rule changed from block.leaveDate to lb.leaveDate
-												//if(StringUtils.equals(block.getAccrualCategory(),lb.getAccrualCategory())) {
-													//this conditional accepts an accrual category rule change from block.leaveDate to lb.leaveDate
-													tempLB = block;
-													break;
-												}
-											}
-											if(tempLB != null) {
-												eligibleLeaveBlocks.remove(tempLB);
-												newEligibilities.put(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END, eligibleLeaveBlocks);
-											}
-										}
-										//otherwise its not transferable under year end frequency.
-									}
-									else {
-										// on-demand and leave-approve action frequencies.
-										if(tally.compareTo(adjustedMaxBalance) > 0 ) {
-											if(newEligibilities.get(asOfLeaveDateRule.getMaxBalanceActionFrequency()).isEmpty()) {
-												newEligibilities.get(asOfLeaveDateRule.getMaxBalanceActionFrequency()).add(lb);
-											} else {
-												Set<LeaveBlock> eligibleLeaveBlocks = newEligibilities.get(asOfLeaveDateRule.getMaxBalanceActionFrequency());
-												LeaveBlock tempLB = null;
-												for(LeaveBlock block : eligibleLeaveBlocks) {
-													AccrualCategoryRule blockRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
-													if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
-													//the above conditional flags lb as a separate infraction if the accrual category rule changed from block.leaveDate to lb.leaveDate
-													//if(StringUtils.equals(block.getAccrualCategory(),lb.getAccrualCategory())) {
-														//this conditional accepts an accrual category rule change from block.leaveDate to lb.leaveDate
-														tempLB = block;
-														break;
-													}
-												}
-												
-												if(tempLB != null)
-													eligibleLeaveBlocks.remove(tempLB);
-
-												eligibleLeaveBlocks.add(lb);
-												newEligibilities.put(asOfLeaveDateRule.getMaxBalanceActionFrequency(), eligibleLeaveBlocks);
-											}
-										}
-										else if(!newEligibilities.get(asOfLeaveDateRule.getMaxBalanceActionFrequency()).isEmpty()) {
+									if(tally.compareTo(adjustedMaxBalance) > 0 ) {
+										if(newEligibilities.get(asOfLeaveDateRule.getMaxBalanceActionFrequency()).isEmpty()) {
+											newEligibilities.get(asOfLeaveDateRule.getMaxBalanceActionFrequency()).add(lb);
+										} else {
 											Set<LeaveBlock> eligibleLeaveBlocks = newEligibilities.get(asOfLeaveDateRule.getMaxBalanceActionFrequency());
 											LeaveBlock tempLB = null;
 											for(LeaveBlock block : eligibleLeaveBlocks) {
@@ -308,10 +236,30 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 													break;
 												}
 											}
-											if(tempLB != null) {
+											
+											if(tempLB != null)
 												eligibleLeaveBlocks.remove(tempLB);
-												newEligibilities.put(asOfLeaveDateRule.getMaxBalanceActionFrequency(), eligibleLeaveBlocks);
+
+											eligibleLeaveBlocks.add(lb);
+											newEligibilities.put(asOfLeaveDateRule.getMaxBalanceActionFrequency(), eligibleLeaveBlocks);
+										}
+									}
+									else if(!newEligibilities.get(asOfLeaveDateRule.getMaxBalanceActionFrequency()).isEmpty()) {
+										Set<LeaveBlock> eligibleLeaveBlocks = newEligibilities.get(asOfLeaveDateRule.getMaxBalanceActionFrequency());
+										LeaveBlock tempLB = null;
+										for(LeaveBlock block : eligibleLeaveBlocks) {
+											AccrualCategoryRule blockRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(block.getAccrualCategoryRuleId());
+											if(StringUtils.equals(blockRule.getLmAccrualCategoryRuleId(),asOfLeaveDateRule.getLmAccrualCategoryRuleId())) {
+											//the above conditional flags lb as a separate infraction if the accrual category rule changed from block.leaveDate to lb.leaveDate
+											//if(StringUtils.equals(block.getAccrualCategory(),lb.getAccrualCategory())) {
+												//this conditional accepts an accrual category rule change from block.leaveDate to lb.leaveDate
+												tempLB = block;
+												break;
 											}
+										}
+										if(tempLB != null) {
+											eligibleLeaveBlocks.remove(tempLB);
+											newEligibilities.put(asOfLeaveDateRule.getMaxBalanceActionFrequency(), eligibleLeaveBlocks);
 										}
 									}
 								}

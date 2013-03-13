@@ -43,6 +43,7 @@ import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.base.web.TkAction;
+import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.LeaveCalendar;
 import org.kuali.hr.time.detail.web.ActionFormUtils;
@@ -250,14 +251,26 @@ public class LeaveCalendarAction extends TkAction {
     	        		AccrualCategory accrualCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveDate());
 			        	AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
 			        	if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
-			        		//may want to calculate summary for all rows, displayable or not, and determine displayability via tags.
-			    			AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
-			    			BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(viewPrincipal, accrualCategory, lb.getLeaveDate());
-				        	
-				        	BalanceTransfer loseTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(viewPrincipal, lb.getAccrualCategoryRuleId(), accruedBalance, lb.getLeaveDate());
-				        	boolean valid = BalanceTransferValidationUtils.validateTransfer(loseTransfer);
-				        	if(valid)
-				        		losses.add(loseTransfer);
+			        		DateTime aDate = null;
+			        		if(StringUtils.equals(aRule.getMaxBalanceActionFrequency(), LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+			        			aDate = TkServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(principalCalendar.getLeavePlan(), lb.getLeaveDate());
+			        		}
+			        		else {
+				        		Calendar cal = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(viewPrincipal, lb.getLeaveDate(), true);
+				        		CalendarEntries leaveEntry = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(cal.getHrCalendarId(), lb.getLeaveDate());
+				        		aDate = new DateTime(leaveEntry.getEndPeriodDate());
+			        		}
+			        		aDate = aDate.minusDays(1);
+			        		if(calendarInterval.contains(aDate.getMillis()) && aDate.toDate().compareTo(calendarEntry.getEndPeriodDate()) <= 0) {
+				        		//may want to calculate summary for all rows, displayable or not, and determine displayability via tags.
+				    			AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
+				    			BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(viewPrincipal, accrualCategory, lb.getLeaveDate());
+					        	
+					        	BalanceTransfer loseTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(viewPrincipal, lb.getAccrualCategoryRuleId(), accruedBalance, lb.getLeaveDate());
+					        	boolean valid = BalanceTransferValidationUtils.validateTransfer(loseTransfer);
+					        	if(valid)
+					        		losses.add(loseTransfer);
+			        		}
 			        	}
 			        	else if(StringUtils.equals(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND, aRule.getMaxBalanceActionFrequency())) {
 				        	if(calendarInterval.contains(lb.getLeaveDate().getTime())) {

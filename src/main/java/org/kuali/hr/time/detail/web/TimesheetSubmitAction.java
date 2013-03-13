@@ -33,6 +33,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
+import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
@@ -93,25 +94,9 @@ public class TimesheetSubmitAction extends TkAction {
             		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(document.getPrincipalId(), document.getCalendarEntry().getEndPeriodDate());
 					Calendar cal = pha.getLeaveCalObj();
 					if(cal == null) {
+						//non exempt leave eligible employee without a leave calendar?
 						throw new RuntimeException("Principal is without a leave calendar");
                     }
-					List<CalendarEntries> leaveCalEntries = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesEndingBetweenBeginAndEndDate(cal.getHrCalendarId(), document.getCalendarEntry().getBeginPeriodDate(), document.getCalendarEntry().getEndPeriodDate());
-					CalendarEntries yearEndLeaveEntry = null;
-					CalendarEntries leaveLeaveEntry = null;
-					if(!leaveCalEntries.isEmpty()) {
-						for(CalendarEntries leaveEntry : leaveCalEntries) {
-							if(TkServiceLocator.getLeavePlanService().isLastCalendarPeriodOfLeavePlan(leaveEntry, pha.getLeavePlan(), document.getCalendarEntry().getEndPeriodDate())) {
-								yearEndLeaveEntry = leaveEntry;
-                            }
-							if(leaveEntry.getEndPeriodDate().compareTo(document.getCalendarEntry().getEndPeriodDate()) <= 0) {
-								leaveLeaveEntry = leaveEntry;
-                            }
-						}
-					}
-            		ActionRedirect transferRedirect = new ActionRedirect();
-            		ActionRedirect payoutRedirect = new ActionRedirect();
-            		//TKContext.getHttpServletRequest().setAttribute("eligibility", arg1)
-    				
     				List<LeaveBlock> eligibleTransfers = new ArrayList<LeaveBlock>();
     				List<LeaveBlock> eligiblePayouts = new ArrayList<LeaveBlock>();
             		Interval interval = new Interval(document.getCalendarEntry().getBeginPeriodDate().getTime(), document.getCalendarEntry().getEndPeriodDate().getTime());
@@ -126,11 +111,12 @@ public class TimesheetSubmitAction extends TkAction {
 		            			if(ObjectUtils.isNotNull(aRule)
 		            					&& !StringUtils.equals(aRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND)) {
 		            				if(StringUtils.equals(aRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+		            					DateTime rollOverDate = TkServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(pha.getLeavePlan(), document.getCalendarEntry().getBeginPeriodDate());
 		            					//the final calendar period of the leave plan should end within this time sheet 
-		            					if(ObjectUtils.isNotNull(yearEndLeaveEntry)) {
+		            					if(interval.contains(rollOverDate.minusDays(1).getMillis())) {
 		            						//only leave blocks belonging to the calendar entry being submitted may reach this point
 		            						//if the infraction occurs before the relative end date of the leave plan year, then action will be executed.
-			            					if(lb.getLeaveDate().before(yearEndLeaveEntry.getEndPeriodDate())) {
+			            					if(lb.getLeaveDate().before(rollOverDate.toDate())) {
 						            			if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.PAYOUT)) {
 						            				eligiblePayouts.add(lb);
 						            			}
@@ -143,10 +129,11 @@ public class TimesheetSubmitAction extends TkAction {
 		            				}
 		            				if(StringUtils.equals(aRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)) {
 		            					//a leave period should end within the time period.
-		            					if(ObjectUtils.isNotNull(leaveLeaveEntry)) {
+		            					CalendarEntries leaveEntry = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(cal.getHrCalendarId(), lb.getLeaveDate());
+		            					if(ObjectUtils.isNotNull(leaveEntry)) {
 		            						//only leave blocks belonging to the calendar entry being submitted may reach this point.
 		            						//if the infraction occurs before the end of the leave calendar entry, then action will be executed.
-			            					if(lb.getLeaveDate().before(leaveLeaveEntry.getEndPeriodDate())) {
+			            					if(interval.contains(DateUtils.addDays(leaveEntry.getEndPeriodDate(),-1).getTime())) {
 
 						            			if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.PAYOUT)) {
 						            				eligiblePayouts.add(lb);
@@ -162,6 +149,8 @@ public class TimesheetSubmitAction extends TkAction {
 	            			}
 	            		}
 	        		}
+            		ActionRedirect transferRedirect = new ActionRedirect();
+            		ActionRedirect payoutRedirect = new ActionRedirect();
             		if(!eligibleTransfers.isEmpty()) {
                 		transferRedirect.setPath("/BalanceTransfer.do?"+request.getQueryString());
                 		request.getSession().setAttribute("eligibilities", eligibleTransfers);
@@ -173,8 +162,6 @@ public class TimesheetSubmitAction extends TkAction {
                 		return payoutRedirect;           			
             		}
             	}
-            	//TODO: check for max balance actions that could occur when no leave block is present on the calendar entry.
-            	//i.e. a change in service intervals where the new interval's rule lowers the balance limit.
                 TkServiceLocator.getTimesheetService().routeTimesheet(TKContext.getTargetPrincipalId(), document);
             }
         } else if (StringUtils.equals(tsaf.getAction(), TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
