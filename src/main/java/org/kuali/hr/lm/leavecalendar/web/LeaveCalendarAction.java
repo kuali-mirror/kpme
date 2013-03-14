@@ -354,6 +354,23 @@ public class LeaveCalendarAction extends TkAction {
 						}
 					}
 				}
+				
+				// KPME-1279 check for Absent Earn code to add warning.
+				List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForPrincipal(viewPrincipal, calendarEntry.getEndPeriodDate(), true);
+				if(earnCodes != null && !earnCodes.isEmpty()) {
+					for (EarnCode earnCodeObj : earnCodes) {
+						if(earnCodeObj != null) {
+							if("Y".equalsIgnoreCase(earnCodeObj.getAffectPay()) && "N".equalsIgnoreCase(earnCodeObj.getEligibleForAccrual())) {
+								String message = "Absent time cannot be used until other accrual balances are zero or below a specified accrual balance.";
+								if (!allMessages.get("warningMessages").contains(message)) {
+		                            allMessages.get("warningMessages").add(message);
+		                            break;
+								}
+							}
+						}
+					}
+				}
+				
 			}
         }
 
