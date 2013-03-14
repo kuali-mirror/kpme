@@ -156,7 +156,7 @@ public class LeaveCalendarWSAction extends TkAction {
                         if(earnCode.getAccrualCategory() != null) {
                         	acObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCode.getAccrualCategory(), TKUtils.getCurrentDate());
                         }
-                        String unitTime = (acObj!= null ? acObj.getUnitOfTime() : earnCode.getRecordMethod()) ;
+                        String unitTime = earnCode.getRecordMethod();
                         earnCodeMap.put("unitOfTime", unitTime);
                         earnCodeMap.put("defaultAmountofTime", earnCode.getDefaultAmountofTime());
                         earnCodeMap.put("fractionalTimeAllowed", earnCode.getFractionalTimeAllowed());
