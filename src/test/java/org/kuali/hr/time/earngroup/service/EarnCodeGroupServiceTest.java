@@ -38,7 +38,7 @@ public class EarnCodeGroupServiceTest extends KPMETestCase{
 	
 	@Test
 	public void testEarnGroupMaintenancePage() throws Exception{				
-		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.EARN_CODE_GROUP_MAINT_URL);
+		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.EARN_CODE_GROUP_MAINT_URL);
 		earnCodeLookUp = HtmlUnitUtil.clickInputContainingText(earnCodeLookUp, "search");
 		HtmlUnitUtil.createTempFile(earnCodeLookUp);
 		Assert.assertTrue("Page contains REG entry", earnCodeLookUp.asText().contains("REG"));	

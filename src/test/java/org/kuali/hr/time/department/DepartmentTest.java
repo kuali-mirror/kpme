@@ -27,7 +27,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 public class DepartmentTest extends KPMETestCase {
 	@Test
 	public void testDepartmentMaint() throws Exception {
-		HtmlPage deptLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.DEPT_MAINT_URL);
+		HtmlPage deptLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.DEPT_MAINT_URL);
 		deptLookup = HtmlUnitUtil.clickInputContainingText(deptLookup, "search");
 		Assert.assertTrue("Page contains test dept", deptLookup.asText().contains("TEST"));
 		HtmlUnitUtil.createTempFile(deptLookup);

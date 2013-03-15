@@ -18,6 +18,8 @@ package org.kuali.hr.time.roles.web;
 import java.sql.Date;
 import java.util.*;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.json.simple.JSONArray;
@@ -78,7 +80,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         verifyLogins(fredsDocument);
 
         // Verify Fred, and Add Timeblocks
-        HtmlPage page = loginAndGetTimeDetailsHtmlPage(userId, tdocId, true);
+        HtmlPage page = loginAndGetTimeDetailsHtmlPage(getWebClient(), userId, tdocId, true);
         Assert.assertTrue("Calendar not loaded.", page.asText().contains("March 2011"));
 
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
@@ -98,7 +100,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(fredsDocument, assignment, earnCode, start, end, null, false, null, true);
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
         Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
-        page = TimeDetailTestUtils.submitTimeDetails(getTimesheetDocumentUrl(tdocId), tdaf);
+        page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), getTimesheetDocumentUrl(tdocId), tdaf);
         Assert.assertNotNull(page);
 
         String dataText = page.getElementById("timeBlockString").getFirstChild().getNodeValue();
@@ -134,7 +136,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         // test valid users
         for (String uid : VALID_NON_ENTRY_USERS) {
             LOG.info("Testing visibility for " + uid);
-            HtmlPage page = loginAndGetTimeDetailsHtmlPage(uid, fredsDocument.getDocumentId(), true);
+            HtmlPage page = loginAndGetTimeDetailsHtmlPage(getWebClient(), uid, fredsDocument.getDocumentId(), true);
             Assert.assertTrue("Calendar not loaded.", page.asText().contains("March 2011"));
         }
     }
@@ -143,7 +145,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
     public void testInitiatedTimesheetIsNotVisible() throws Exception {
         for (String uid : INVALID_NON_ENTRY_USERS) {
             LOG.info("Testing visibility for " + uid);
-            HtmlPage page = loginAndGetTimeDetailsHtmlPage(uid, fredsDocument.getDocumentId(), false);
+            HtmlPage page = loginAndGetTimeDetailsHtmlPage(getWebClient(), uid, fredsDocument.getDocumentId(), false);
             //HtmlUnitUtil.createTempFile(page, "badlogin");
             Assert.assertTrue("Should not have access", page.asText().contains("You are not authorized to access this portion of the application."));
         }
@@ -152,7 +154,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
     public void testInitiatedTimesheetEditable(String userId) throws Exception {
         // admin, add one timeblock
         String tdocId = fredsDocument.getDocumentId();
-        HtmlPage page = loginAndGetTimeDetailsHtmlPage(userId, tdocId, true);
+        HtmlPage page = loginAndGetTimeDetailsHtmlPage(getWebClient(), userId, tdocId, true);
         //HtmlUnitUtil.createTempFile(page, "loggedin");
         Assert.assertTrue("Calendar not loaded.", page.asText().contains("March 2011"));
 
@@ -171,7 +173,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(fredsDocument, assignment, earnCode, start, end, null, false, null, true);
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
         Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
-        page = TimeDetailTestUtils.submitTimeDetails(getTimesheetDocumentUrl(tdocId), tdaf);
+        page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), getTimesheetDocumentUrl(tdocId), tdaf);
         Assert.assertNotNull(page);
         HtmlUnitUtil.createTempFile(page, "initiatetest");
 
@@ -199,7 +201,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
     public void testInitiatedTimesheetNotEditable(String userId) throws Exception {
         // admin, add one timeblock
         String tdocId = fredsDocument.getDocumentId();
-        HtmlPage page = loginAndGetTimeDetailsHtmlPage(userId, tdocId, true);
+        HtmlPage page = loginAndGetTimeDetailsHtmlPage(getWebClient(), userId, tdocId, true);
         //HtmlUnitUtil.createTempFile(page, "loggedin");
         Assert.assertTrue("Calendar not loaded.", page.asText().contains("March 2011"));
 
@@ -218,7 +220,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(fredsDocument, assignment, earnCode, start, end, null, false, null, true);
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
         Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
-        page = TimeDetailTestUtils.submitTimeDetails(userId, getTimesheetDocumentUrl(tdocId), tdaf);
+        page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), userId, getTimesheetDocumentUrl(tdocId), tdaf);
         Assert.assertNotNull(page);
         HtmlUnitUtil.createTempFile(page, "aftertdadd");
         Assert.assertTrue("Should not have access", page.asText().contains("You are not authorized to access this portion of the application."));
@@ -373,7 +375,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
     private void verifyLogins(TimesheetDocument tdoc) throws Exception {
         for (String userId : VALID_NON_ENTRY_USERS) {
             String tdocId = tdoc.getDocumentId();
-            HtmlPage page = loginAndGetTimeDetailsHtmlPage(userId, tdocId, true);
+            HtmlPage page = loginAndGetTimeDetailsHtmlPage(getWebClient(), userId, tdocId, true);
             Assert.assertTrue("Calendar not loaded.", page.asText().contains("March 2011"));
         }
     }

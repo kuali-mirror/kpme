@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.lm.util;
 
+import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.apache.log4j.Logger;
@@ -186,7 +187,7 @@ public class LeaveCalendarTestUtils {
      * @param tdaf
      * @return
      */
-    public static HtmlPage submitLeaveCalendar(String baseUrl, LeaveCalendarWSForm tdaf) {
+    public static HtmlPage submitLeaveCalendar(WebClient webClient, String baseUrl, LeaveCalendarWSForm tdaf) {
         // For now, until a more HtmlUnit based click method can be found
         // workable, we're building a url-encoded string to directly
         // post to the servlet.
@@ -195,7 +196,7 @@ public class LeaveCalendarTestUtils {
         HtmlPage page = null;
 
         try {
-            page = HtmlUnitUtil.gotoPageAndLogin(url);
+            page = HtmlUnitUtil.gotoPageAndLogin(webClient, url);
         } catch (Exception e) {
             LOG.error("Error while submitting form", e);
         }
@@ -209,7 +210,7 @@ public class LeaveCalendarTestUtils {
      * @param tdaf
      * @return
      */
-    public static HtmlPage submitLeaveCalendar2(String baseUrl, LeaveCalendarWSForm tdaf) {
+    public static HtmlPage submitLeaveCalendar2(WebClient webClient, String baseUrl, LeaveCalendarWSForm tdaf) {
         // For now, until a more HtmlUnit based click method can be found
         // workable, we're building a url-encoded string to directly
         // post to the servlet.
@@ -219,7 +220,7 @@ public class LeaveCalendarTestUtils {
         HtmlPage page = null;
 
         try {
-            page = HtmlUnitUtil.gotoPageAndLogin(url);
+            page = HtmlUnitUtil.gotoPageAndLogin(webClient, url);
         } catch (Exception e) {
             LOG.error("Error while submitting form", e);
         }

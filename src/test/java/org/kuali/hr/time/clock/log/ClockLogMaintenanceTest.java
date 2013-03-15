@@ -31,7 +31,7 @@ public class ClockLogMaintenanceTest extends KPMETestCase{
 	
 	@Test
 	public void testClockLogMaint() throws Exception {
-		HtmlPage clockLogLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.CLOCK_LOG_MAINT_URL);
+		HtmlPage clockLogLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.CLOCK_LOG_MAINT_URL);
 		clockLogLookUp = HtmlUnitUtil.clickInputContainingText(clockLogLookUp, "search");
 		Assert.assertTrue("Page contains test ClockLog", clockLogLookUp.asText().contains("TEST"));		
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(clockLogLookUp, "edit",clockLogId.toString());		
@@ -40,7 +40,7 @@ public class ClockLogMaintenanceTest extends KPMETestCase{
 	
 	@Test
 	public void testClockLogMaintForErrorMessages() throws Exception {
-		HtmlPage clockLogLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.CLOCK_LOG_MAINT_URL);
+		HtmlPage clockLogLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.CLOCK_LOG_MAINT_URL);
 		clockLogLookUp = HtmlUnitUtil.clickInputContainingText(clockLogLookUp, "search");
 		Assert.assertTrue("Page contains test ClockLog", clockLogLookUp.asText().contains("TEST"));		
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(clockLogLookUp, "edit",clockLogId.toString());		

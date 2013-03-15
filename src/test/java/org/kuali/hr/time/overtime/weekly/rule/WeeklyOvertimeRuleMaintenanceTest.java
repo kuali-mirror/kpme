@@ -38,14 +38,14 @@ public class WeeklyOvertimeRuleMaintenanceTest extends KPMETestCase {
 	
 	@Test
 	public void testWeeklyOvertimeRuleMaint() throws Exception {
-		HtmlPage weeklyOvertimeRuleLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.WEEKLY_OVERTIME_RULE_MAINT_URL);
+		HtmlPage weeklyOvertimeRuleLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.WEEKLY_OVERTIME_RULE_MAINT_URL);
 		weeklyOvertimeRuleLookUp = HtmlUnitUtil.clickInputContainingText(weeklyOvertimeRuleLookUp, "search");
 		Assert.assertTrue("Page contains test WeeklyOvertimeRule", weeklyOvertimeRuleLookUp.asText().contains(TEST_CODE));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(weeklyOvertimeRuleLookUp, "edit",weeklyOvertimeRuleId);
 		Assert.assertTrue("Maintenance Page contains test WeeklyOvertimeRule",maintPage.asText().contains(TEST_CODE));
 		
 		// test Convert from EarnCodeGroup has overtime earn codes error		
-		HtmlPage newMaintPage = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.WEEKLY_OVERTIME_RULE_MAINT_NEW_URL);
+		HtmlPage newMaintPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.WEEKLY_OVERTIME_RULE_MAINT_NEW_URL);
 		setFieldValue(newMaintPage, "document.documentHeader.documentDescription", "Test");
 		setFieldValue(newMaintPage, "document.newMaintainableObject.add.lstWeeklyOvertimeRules.effectiveDate", "01/01/2010");
 		setFieldValue(newMaintPage, "document.newMaintainableObject.add.lstWeeklyOvertimeRules.maxHoursEarnGroup", "REG");
@@ -54,7 +54,7 @@ public class WeeklyOvertimeRuleMaintenanceTest extends KPMETestCase {
 		setFieldValue(newMaintPage, "document.newMaintainableObject.add.lstWeeklyOvertimeRules.step", "1");
 		setFieldValue(newMaintPage, "document.newMaintainableObject.add.lstWeeklyOvertimeRules.maxHours", "8");
 //		HtmlPage finalPage = HtmlUnitUtil.clickInputContainingText(newMaintPage, "add");
-		HtmlElement element = newMaintPage.getElementById("methodToCall.addLine.lstWeeklyOvertimeRules.(!!org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule!!)");
+		HtmlElement element = (HtmlElement)newMaintPage.getElementById("methodToCall.addLine.lstWeeklyOvertimeRules.(!!org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRule!!)");
         HtmlPage finalPage = element.click();
 		Assert.assertTrue("Maintenance Page should contains EarnCodeGroup has overtime earn code error",
 				finalPage.asText().contains("Earn Group 'OVT' has overtime earn codes."));

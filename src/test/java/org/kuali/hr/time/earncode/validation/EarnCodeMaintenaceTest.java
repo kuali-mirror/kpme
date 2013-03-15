@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
+import com.gargoylesoftware.htmlunit.html.*;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
@@ -29,11 +30,6 @@ import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
-import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
 
 public class EarnCodeMaintenaceTest extends KPMETestCase {
 	private static final java.sql.Date TEST_DATE = new Date((new DateTime(2009, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
@@ -75,9 +71,9 @@ public class EarnCodeMaintenaceTest extends KPMETestCase {
 	 
 	@Test
 	public void testEditExistingEarnCode() throws Exception {
-		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.EARN_CODE_MAINT_URL);		
-		List<HtmlElement> lstElements = earnCodeLookUp.getElementsByIdAndOrName("history");
-		for(HtmlElement e : lstElements) {
+		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.EARN_CODE_MAINT_URL);
+		List<DomElement> lstElements = earnCodeLookUp.getElementsByIdAndOrName("history");
+		for(DomElement e : lstElements) {
 			HtmlRadioButtonInput radioButton = (HtmlRadioButtonInput) e;
 			if(e.getAttribute("title").equals("Show History - Yes")) {
 				radioButton.setChecked(true);	// set show history to yes

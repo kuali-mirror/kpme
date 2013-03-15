@@ -24,7 +24,7 @@ public class PositionReportGroupMaintTest extends KPMETestCase {
 	@Test
 	public void testRequiredFields() throws Exception {
 	  	String baseUrl = PmTestConstants.Urls.POSITION_REPORT_GROUP_MAINT_NEW_URL;
-	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");
@@ -53,7 +53,7 @@ public class PositionReportGroupMaintTest extends KPMETestCase {
 		Assert.assertTrue("There should NOT be Position Report Group with name " + prgString, CollectionUtils.isEmpty(prgList));
 		
 	  	String baseUrl = PmTestConstants.Urls.POSITION_REPORT_GROUP_MAINT_NEW_URL;
-	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");

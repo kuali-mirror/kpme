@@ -23,7 +23,7 @@ public class PositionReportTypeMaintTest extends KPMETestCase {
 	@Test
 	public void testRequiredFields() throws Exception {
 	  	String baseUrl = PmTestConstants.Urls.POSITION_REPORT_TYPE_MAINT_NEW_URL;
-	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");
@@ -52,7 +52,7 @@ public class PositionReportTypeMaintTest extends KPMETestCase {
 		Assert.assertTrue("There should NOT be Position Report Type with name " + prtString, prtList.isEmpty());
 		
 	  	String baseUrl = PmTestConstants.Urls.POSITION_REPORT_TYPE_MAINT_NEW_URL;
-	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");

@@ -17,6 +17,7 @@ package org.kuali.hr.time.missedpunch.validation;
 
 import java.util.List;
 
+import com.gargoylesoftware.htmlunit.html.*;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -27,11 +28,6 @@ import org.kuali.hr.time.test.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlOption;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlSelect;
-import com.gargoylesoftware.htmlunit.html.HtmlTableDataCell;
 import com.google.common.collect.Lists;
 
 public class MissedPunchDocumentTest extends KPMETestCase {
@@ -46,7 +42,8 @@ public class MissedPunchDocumentTest extends KPMETestCase {
 		super.tearDown();
 	}
 
-	public void setWebClient(WebClient webClient) {
+	public void updateWebClient() {
+        WebClient webClient = getWebClient();
 		webClient.setJavaScriptEnabled(true);
 		webClient.setThrowExceptionOnScriptError(true);
 		webClient.setAjaxController(new NicelyResynchronizingAjaxController());
@@ -57,19 +54,19 @@ public class MissedPunchDocumentTest extends KPMETestCase {
 	public void testMissedPunch() throws Exception {
 
 		String baseUrl = TkTestConstants.Urls.CLOCK_URL;
-		HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+		HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 		Assert.assertNotNull(page);
 		Assert.assertTrue("Clock Page contains Missed Punch Button", page.asText()
 				.contains("Missed Punch"));
-		this.setWebClient(page.getWebClient());
+		updateWebClient();
 
 		System.out.println("Page is : " + page.asText());
 
 		// getting Assignment options
 		HtmlSelect assOption = (HtmlSelect) page
 				.getElementByName("selectedAssignment");
-		Iterable<HtmlElement> it = assOption.getChildElements();
-		List<HtmlElement> assList = Lists.newLinkedList(it);
+		Iterable<DomElement> it = assOption.getChildElements();
+		List<DomElement> assList = Lists.newLinkedList(it);
 		
 		System.out.println("Second ele is : "+assList.get(2));
 
@@ -94,15 +91,15 @@ public class MissedPunchDocumentTest extends KPMETestCase {
 		
 		// redirect to missed punch page
 		HtmlPage mPunchPage = HtmlUnitUtil
-				.gotoPageAndLogin(HtmlUnitUtil.getBaseURL()
+				.gotoPageAndLogin(getWebClient(), HtmlUnitUtil.getBaseURL()
 						+ "/missedPunch.do?methodToCall=docHandler&command=initiate&docTypeName=MissedPunchDocumentType&tdocid="
 						+ docId);
 		Assert.assertNotNull(mPunchPage);
 		
 		// clock action and assignment are drop down lists that are not readonly
-		HtmlElement element = mPunchPage.getElementById("document.clockAction");
+		HtmlElement element = (HtmlElement)mPunchPage.getElementById("document.clockAction");
 		Assert.assertNotNull(element);
-		element = mPunchPage.getElementById("document.assignment");
+		element = (HtmlElement)mPunchPage.getElementById("document.assignment");
 		Assert.assertNotNull(element);
 
 		System.out.println("Page1 is : " + mPunchPage.asText());
@@ -175,14 +172,14 @@ public class MissedPunchDocumentTest extends KPMETestCase {
 				mPunchPage.asText().contains("Document was successfully submitted."));
 		
 		// open another missed punch doc for clock out
-		mPunchPage = HtmlUnitUtil.gotoPageAndLogin(HtmlUnitUtil.getBaseURL()
+		mPunchPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), HtmlUnitUtil.getBaseURL()
 				+ "/missedPunch.do?methodToCall=docHandler&command=initiate&docTypeName=MissedPunchDocumentType&tdocid="
 				+ docId);
 		Assert.assertNotNull(mPunchPage);
-		element = mPunchPage.getElementById("document.clockAction");
+		element = (HtmlElement)mPunchPage.getElementById("document.clockAction");
 		Assert.assertNotNull(element);
 		// element not found for assignment since it is a readonly field now
-		element = mPunchPage.getElementById("document.assignment");
+		element = (HtmlElement)mPunchPage.getElementById("document.assignment");
 		Assert.assertNull(element);
 		Assert.assertTrue("page text:does not contain: \n", 
 				mPunchPage.asText().contains("Assignment: 	 work area description : $0.00 Rcd 2 TEST-DEPT description 2"));

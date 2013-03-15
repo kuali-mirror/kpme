@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.List;
 
+import com.gargoylesoftware.htmlunit.WebClient;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
@@ -177,7 +178,7 @@ public class TimeDetailTestUtils {
      * @param tdaf
      * @return
      */
-    public static HtmlPage submitTimeDetails(String baseUrl, TimeDetailActionFormBase tdaf) {
+    public static HtmlPage submitTimeDetails(WebClient webClient, String baseUrl, TimeDetailActionFormBase tdaf) {
         // For now, until a more HtmlUnit based click method can be found
         // workable, we're building a url-encoded string to directly
         // post to the servlet.
@@ -186,7 +187,7 @@ public class TimeDetailTestUtils {
         HtmlPage page = null;
 
         try {
-            page = HtmlUnitUtil.gotoPageAndLogin(url);
+            page = HtmlUnitUtil.gotoPageAndLogin(webClient, url);
         } catch (Exception e) {
             LOG.error("Error while submitting form", e);
         }
@@ -200,7 +201,7 @@ public class TimeDetailTestUtils {
      * @param tdaf
      * @return
      */
-    public static HtmlPage submitTimeDetails(String principalId, String baseUrl, TimeDetailActionFormBase tdaf) {
+    public static HtmlPage submitTimeDetails(WebClient webClient, String principalId, String baseUrl, TimeDetailActionFormBase tdaf) {
         // For now, until a more HtmlUnit based click method can be found
         // workable, we're building a url-encoded string to directly
         // post to the servlet.
@@ -210,7 +211,7 @@ public class TimeDetailTestUtils {
 
         try {
             TestAutoLoginFilter.OVERRIDE_ID = principalId;
-            page = HtmlUnitUtil.gotoPageAndLogin(url);
+            page = HtmlUnitUtil.gotoPageAndLogin(webClient, url);
             TestAutoLoginFilter.OVERRIDE_ID = "";
         } catch (Exception e) {
             LOG.error("Error while submitting form", e);

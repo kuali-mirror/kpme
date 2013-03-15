@@ -42,7 +42,7 @@ public class DepartmentLunchRuleMaintTest extends KPMETestCase {
 	public void testDepartmentLunchRuleMaintForDeptErrorMessage()
 			throws Exception {
 		HtmlPage departmentLunchRuleLookUp = HtmlUnitUtil
-				.gotoPageAndLogin(TkTestConstants.Urls.DEPT_LUNCH_RULE_MAINT_URL);
+				.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.DEPT_LUNCH_RULE_MAINT_URL);
 		departmentLunchRuleLookUp = HtmlUnitUtil.clickInputContainingText(
 				departmentLunchRuleLookUp, "search");
 		Assert.assertTrue("Page contains test DepartmentLunchRule",
@@ -75,7 +75,7 @@ public class DepartmentLunchRuleMaintTest extends KPMETestCase {
 	public void testDepartmentLunchRuleMaintForWorkAreaErrorMessage()
 			throws Exception {
 		HtmlPage departmentLunchRuleLookUp = HtmlUnitUtil
-				.gotoPageAndLogin(TkTestConstants.Urls.DEPT_LUNCH_RULE_MAINT_URL);
+				.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.DEPT_LUNCH_RULE_MAINT_URL);
 		departmentLunchRuleLookUp = HtmlUnitUtil.clickInputContainingText(
 				departmentLunchRuleLookUp, "search");
 		Assert.assertTrue("Page contains test DepartmentLunchRule",
@@ -103,7 +103,7 @@ public class DepartmentLunchRuleMaintTest extends KPMETestCase {
 	@Test
 	public void testDepartmentLunchRuleMaintForMaxShiftHourErrorMessage() throws Exception {
 		HtmlPage departmentLunchRuleLookUp = HtmlUnitUtil
-				.gotoPageAndLogin(TkTestConstants.Urls.DEPT_LUNCH_RULE_MAINT_URL);
+				.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.DEPT_LUNCH_RULE_MAINT_URL);
 		departmentLunchRuleLookUp = HtmlUnitUtil.clickInputContainingText(
 				departmentLunchRuleLookUp, "search");
 		Assert.assertTrue("Page contains test DepartmentLunchRule",
@@ -123,7 +123,7 @@ public class DepartmentLunchRuleMaintTest extends KPMETestCase {
 	@Test
 	public void testDepartmentLunchRuleMaint() throws Exception {
 		HtmlPage departmentLunchRuleLookUp = HtmlUnitUtil
-				.gotoPageAndLogin(TkTestConstants.Urls.DEPT_LUNCH_RULE_MAINT_URL);
+				.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.DEPT_LUNCH_RULE_MAINT_URL);
 		departmentLunchRuleLookUp = HtmlUnitUtil.clickInputContainingText(
 				departmentLunchRuleLookUp, "search");
 		Assert.assertTrue("Page contains test DepartmentLunchRule",

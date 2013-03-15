@@ -35,7 +35,7 @@ public class LeaveCodeMaintTest extends KPMETestCase{
 	
 	@Test
 	public void testLookupPage() throws Exception {	 
-		HtmlPage lcLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.LEAVE_CODE_MAINT_URL);
+		HtmlPage lcLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.LEAVE_CODE_MAINT_URL);
 		lcLookup = HtmlUnitUtil.clickInputContainingText(lcLookup, "search");
 		Assert.assertTrue("Page contains test Leave Code", lcLookup.asText().contains("testLC"));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(lcLookup, "edit");
@@ -51,7 +51,7 @@ public class LeaveCodeMaintTest extends KPMETestCase{
 	@Test
 	public void testGetLeavePlanBasedOnAccrualCategory() throws Exception {
 	  	String baseUrl = TkTestConstants.Urls.LEAVE_CODE_MAINT_NEW_URL;
-	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");

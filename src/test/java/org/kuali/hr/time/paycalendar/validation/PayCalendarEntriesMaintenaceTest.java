@@ -41,7 +41,7 @@ public class PayCalendarEntriesMaintenaceTest extends KPMETestCase {
 	public void testSubmitPayCalendarEntriesMaint() throws Exception {
     	//String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.paycalendar.PayCalendarEntries&methodToCall=start";
 		String baseUrl = TkTestConstants.Urls.PAY_CALENDAR_ENTRIES_MAINT_NEW_URL;
-    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
     	Assert.assertNotNull(page);
 
 		HtmlTextInput text  = (HtmlTextInput) page.getHtmlElementById("document.documentHeader.documentDescription");

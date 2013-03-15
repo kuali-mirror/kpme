@@ -62,7 +62,7 @@ public class LeaveCalendarWebTestBase extends KPMETestCase {
         Assert.assertNotNull(person);
         Assert.assertEquals(person.getPrincipalId(), principalId);
         TestAutoLoginFilter.OVERRIDE_ID = principalId;
-        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getLeaveCalendarUrl(tdocId));
+        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), getLeaveCalendarUrl(tdocId));
         TestAutoLoginFilter.OVERRIDE_ID = "";
         Assert.assertNotNull(page);
         HtmlUnitUtil.createTempFile(page, "Login-"+principalId);
@@ -87,7 +87,7 @@ public class LeaveCalendarWebTestBase extends KPMETestCase {
         Assert.assertNotNull(person);
         Assert.assertEquals(person.getPrincipalId(), principalId);
         TestAutoLoginFilter.OVERRIDE_ID = principalId;
-        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getLeaveCalendarUrl(tdocId));
+        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), getLeaveCalendarUrl(tdocId));
         TestAutoLoginFilter.OVERRIDE_ID = "";
         Assert.assertNotNull(page);
 

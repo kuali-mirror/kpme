@@ -42,7 +42,7 @@ public class LeaveAdjustmentMaintTest extends KPMETestCase{
 	@Test
 	public void testRequiredFields() throws Exception {
 	  	String baseUrl = TkTestConstants.Urls.LEAVE_ADJUSTMENT_MAINT_NEW_URL;
-	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");
@@ -67,7 +67,7 @@ public class LeaveAdjustmentMaintTest extends KPMETestCase{
 	
 	@Test
 	public void testLookupPage() throws Exception {	 
-		HtmlPage leaveAdjustmentLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.LEAVE_ADJUSTMENT_MAINT_URL);
+		HtmlPage leaveAdjustmentLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.LEAVE_ADJUSTMENT_MAINT_URL);
 		leaveAdjustmentLookup = HtmlUnitUtil.clickInputContainingText(leaveAdjustmentLookup, "search");
 		System.out.println(leaveAdjustmentLookup.asXml());
 		Assert.assertTrue("Page contains test LeaveAdjustment", leaveAdjustmentLookup.asText().contains("AC1"));
@@ -77,7 +77,7 @@ public class LeaveAdjustmentMaintTest extends KPMETestCase{
 	@Test
 	public void testAddNew() throws Exception {
 	  	String baseUrl = TkTestConstants.Urls.LEAVE_ADJUSTMENT_MAINT_NEW_URL;
-	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");

@@ -42,28 +42,37 @@
     </modules>-->
 
     <properties>
+        <apache.cxf.version>2.7.0</apache.cxf.version>
         <build.version>NO VERSION</build.version>
         <docbook.src>${basedir}/src/site/docbook</docbook.src>
         <docbook.filtered>${project.build.directory}/docbook-filtered</docbook.filtered>
         <docbook.dest>${project.build.directory}/site/reference</docbook.dest>
-
-        <kuali.release.goals>pre-site deploy</kuali.release.goals>
-        <kuali.release.arguments>-DskipTests</kuali.release.arguments>
-
+        <displaytag.version>1.2</displaytag.version>
         <ehcache.version>2.5.0</ehcache.version>
-        <apache.cxf.version>2.7.0</apache.cxf.version>
-        <displaytag.version>1.1.1</displaytag.version>
-        <jetty.version>7.5.1.v20110908</jetty.version>
-        <rice.version>2.1.3</rice.version>
-        <jsp-api.version>2.1</jsp-api.version>
-        <oracle.jdbc.version>10.2.0.3.0</oracle.jdbc.version>
-        <oracle.jdbc.artifactId>ojdbc14</oracle.jdbc.artifactId>
-        <mysql.jdbc.version>5.1.23</mysql.jdbc.version>
-        <mysql.jdbc.artifactId>mysql-connector-java</mysql.jdbc.artifactId>
+        <fop.version>1.0</fop.version>
+        <gson.version>2.2.2</gson.version>
+        <htmlunit.version>2.12</htmlunit.version>
         <jaxb-impl.version>2.2.6</jaxb-impl.version>
         <jdbc.drivers.location>${env.M2_REPO}</jdbc.drivers.location>
+        <jetty.version>8.1.9.v20130131</jetty.version>
+        <joda-time.version>2.2</joda-time.version>
+        <jsp-api.version>2.1</jsp-api.version>
+        <json-simple.version>1.1.1</json-simple.version>
+        <junit.version>4.11</junit.version>
+        <kuali.release.goals>pre-site deploy</kuali.release.goals>
+        <kuali.release.arguments>-DskipTests</kuali.release.arguments>
+        <mysql.jdbc.version>5.1.23</mysql.jdbc.version>
+        <mysql.jdbc.artifactId>mysql-connector-java</mysql.jdbc.artifactId>
         <mysql-connector-java.jar.location>${jdbc.drivers.location}/mysql/${mysql.jdbc.artifactId}/${mysql.jdbc.version}/${mysql.jdbc.artifactId}-${mysql.jdbc.version}.jar</mysql-connector-java.jar.location>
+
         <ojdbc14.jar.location>${jdbc.drivers.location}/com/oracle/${oracle.jdbc.artifactId}/${oracle.jdbc.version}/${oracle.jdbc.artifactId}-${oracle.jdbc.version}.jar</ojdbc14.jar.location>
+        <oracle.jdbc.version>10.2.0.3.0</oracle.jdbc.version>
+        <oracle.jdbc.artifactId>ojdbc14</oracle.jdbc.artifactId>
+        <p6spy.version>1.3-patched</p6spy.version>
+        <rice.version>2.2.1</rice.version>
+        <selenium-java.version>2.31.0</selenium-java.version>
+        <slf4j.version>1.7.2</slf4j.version>
+        <xercesImpl.version>2.11.0</xercesImpl.version>
     </properties>
 
     <dependencies>
@@ -75,7 +84,7 @@
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>1.7.1</version>
+            <version>${gson.version}</version>
         </dependency>
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
@@ -85,7 +94,7 @@
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
-            <version>1.1</version>
+            <version>${json-simple.version}</version>
         </dependency>
         <dependency>
             <groupId>commons-digester</groupId>
@@ -156,8 +165,8 @@
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -168,18 +177,18 @@
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
-            <version>1.6.1</version>
+            <version>${joda-time.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.8.2</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>net.sourceforge.htmlunit</groupId>
             <artifactId>htmlunit</artifactId>
-            <version>2.10</version>
+            <version>${htmlunit.version}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>commons-codec</artifactId>
@@ -205,7 +214,7 @@
         <dependency>
             <groupId>org.apache.xmlgraphics</groupId>
             <artifactId>fop</artifactId>
-            <version>1.0</version>
+            <version>${fop.version}</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.web</groupId>
@@ -221,7 +230,7 @@
         <dependency>
             <groupId>org.kuali.commons</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <version>1.8.3-kuali</version>
+            <version>1.8.3-kuali-4</version>
             <exclusions>
                 <exclusion>
                     <artifactId>commons-logging</artifactId>
@@ -301,7 +310,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
+        <!--<dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-transports-http-jetty</artifactId>
             <version>${apache.cxf.version}</version>
@@ -316,16 +325,16 @@
                     <artifactId>jetty-security</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
+        </dependency> -->
+        <!--<dependency>
             <groupId>org.mortbay.jetty</groupId>
             <artifactId>jsp-2.1-glassfish</artifactId>
             <version>2.1.v20100127</version>
             <scope>test</scope>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
-            <artifactId>jetty-jsp-2.1</artifactId>
+            <artifactId>jetty-jsp</artifactId>
             <version>${jetty.version}</version>
             <scope>test</scope>
         </dependency>
@@ -350,12 +359,12 @@
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>2.24.1</version>
+            <version>${selenium-java.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <version>1.6.6</version>
+            <version>${slf4j.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -366,7 +375,7 @@
         <dependency>
             <groupId>xerces</groupId>
             <artifactId>xercesImpl</artifactId>
-            <version>2.9.1</version>
+            <version>${xercesImpl.version}</version>
         </dependency>
 
         <dependency>
@@ -378,7 +387,7 @@
         <dependency>
             <groupId>p6spy</groupId>
             <artifactId>p6spy</artifactId>
-            <version>1.3</version>
+            <version>${p6spy.version}</version>
         </dependency>
     </dependencies>
 
@@ -552,6 +561,12 @@
                     <webAppConfig>
                         <contextPath>/kpme-dev</contextPath>
                     </webAppConfig>
+                    <systemProperties>
+                        <systemProperty>
+                            <name>metadata-complete</name>
+                            <value>true</value>
+                        </systemProperty>
+                    </systemProperties>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -567,10 +582,10 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <forkMode>once</forkMode>
-                    <additionalClasspathElements>
+                    <!--<additionalClasspathElements>
                         <additionalClasspathElement>${mysql-connector-java.jar.location}</additionalClasspathElement>
                         <additionalClasspathElement>${ojdbc14.jar.location}</additionalClasspathElement>
-                    </additionalClasspathElements>
+                    </additionalClasspathElements> -->
                     <useManifestOnlyJar>false</useManifestOnlyJar>
                     <argLine>-Xms512m -Xmx2048m -XX:MaxPermSize=512m</argLine>
                     <useManifestOnlyJar>false</useManifestOnlyJar>

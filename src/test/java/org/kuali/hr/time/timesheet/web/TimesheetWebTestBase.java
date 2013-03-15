@@ -15,10 +15,8 @@
  */
 package org.kuali.hr.time.timesheet.web;
 
-import java.sql.Date;
-import java.util.List;
-import java.util.Map;
-
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.json.simple.JSONArray;
@@ -30,14 +28,15 @@ import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
-import org.kuali.hr.time.web.TkLoginFilter;
 import org.kuali.hr.util.filter.TestAutoLoginFilter;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.openqa.selenium.logging.NeedsLocalLogs;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import org.kuali.rice.krad.util.GlobalVariables;
+import java.net.URL;
+import java.sql.Date;
+import java.util.List;
+import java.util.Map;
 
 @Ignore
 public class TimesheetWebTestBase extends KPMETestCase {
@@ -70,13 +69,16 @@ public class TimesheetWebTestBase extends KPMETestCase {
      * Uses an ID hack to manipulate the current Test user Login.
      *
      */
-    public static synchronized HtmlPage loginAndGetTimeDetailsHtmlPage(String principalId, String tdocId, boolean assertValid) throws Exception {
+    public static synchronized HtmlPage loginAndGetTimeDetailsHtmlPage(WebClient webClient, String principalId, String tdocId, boolean assertValid) throws Exception {
 
         Person person = KimApiServiceLocator.getPersonService().getPerson(principalId);
         Assert.assertNotNull(person);
         Assert.assertEquals(person.getPrincipalId(), principalId);
         TestAutoLoginFilter.OVERRIDE_ID = principalId;
-        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getTimesheetDocumentUrl(tdocId));
+        // need to create new web client for new user
+        webClient.getPage(new URL(TkTestConstants.Urls.LOG_OUT_URL));
+        webClient.closeAllWindows();
+        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(webClient, getTimesheetDocumentUrl(tdocId));
         TestAutoLoginFilter.OVERRIDE_ID = "";
         Assert.assertNotNull(page);
         HtmlUnitUtil.createTempFile(page, "Login-"+principalId);

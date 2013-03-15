@@ -32,7 +32,7 @@ public class PositionTest extends KPMETestCase {
 	@Test
 	public void testPositionMaintWorkAreaSave() throws Exception {
 
-		HtmlPage positionLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.POSITION_MAINT_URL);
+		HtmlPage positionLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.POSITION_MAINT_URL);
 		HtmlPage resultPage = HtmlUnitUtil.clickInputContainingText(positionLookup, "search");
 		
 		//look up a work area
@@ -58,7 +58,7 @@ public class PositionTest extends KPMETestCase {
 	@Test
 	public void testPositionMaintWorkAreaInquiry() throws Exception {
 		
-		HtmlPage positionLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.POSITION_MAINT_URL);
+		HtmlPage positionLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.POSITION_MAINT_URL);
 		HtmlPage resultPage = HtmlUnitUtil.clickInputContainingText(positionLookup, "search");
 
 		//test the work area inquiry from the position page note that this returns the first work area in tk_work_area_t in all cases for now -- see KPME-1219

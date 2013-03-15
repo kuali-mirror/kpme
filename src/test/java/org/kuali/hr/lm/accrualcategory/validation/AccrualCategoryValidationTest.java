@@ -18,6 +18,7 @@ package org.kuali.hr.lm.accrualcategory.validation;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.gargoylesoftware.htmlunit.html.*;
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -27,17 +28,13 @@ import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-
 
 public class AccrualCategoryValidationTest extends KPMETestCase{
 	private static final String ACCRUAL_CATEGORY = "testAC";
 	private static final String ERROR_LEAVE_PLAN = "The specified leavePlan 'IU-SM-W' does not exist";
 	@Test
 	public void testValidateStartEndUnits() throws Exception {
-		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
+		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
 		accrualCategoryLookup = HtmlUnitUtil.clickInputContainingText(accrualCategoryLookup, "search");
 		Assert.assertTrue("Page contains test AccrualCategory", accrualCategoryLookup.asText().contains(ACCRUAL_CATEGORY));
 		HtmlUnitUtil.createTempFile(accrualCategoryLookup);
@@ -47,7 +44,7 @@ public class AccrualCategoryValidationTest extends KPMETestCase{
 	
 	@Test
 	public void testMinWorkPercentageField() throws Exception {
-		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
+		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
 		accrualCategoryLookup = HtmlUnitUtil.clickInputContainingText(accrualCategoryLookup, "search");
 		Assert.assertTrue("Page contains test AccrualCategory", accrualCategoryLookup.asText().contains(ACCRUAL_CATEGORY));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(accrualCategoryLookup, "edit", "lmAccrualCategoryId=3000");
@@ -60,7 +57,7 @@ public class AccrualCategoryValidationTest extends KPMETestCase{
 	public void testAccrualIntervalEarnField() throws Exception {
 		
 		// make sure page loads
-		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
+		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
 		accrualCategoryLookup = HtmlUnitUtil.clickInputContainingText(accrualCategoryLookup, "search");
 		Assert.assertTrue("Page contains test AccrualCategory", accrualCategoryLookup.asText().contains(ACCRUAL_CATEGORY));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(accrualCategoryLookup, "edit", "lmAccrualCategoryId=3000");
@@ -73,7 +70,7 @@ public class AccrualCategoryValidationTest extends KPMETestCase{
 	// KPME-1347 Kagata 
 	@Test
 	public void testDefaultLeaveCodeField() throws Exception {
-		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
+		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
 		accrualCategoryLookup = HtmlUnitUtil.clickInputContainingText(accrualCategoryLookup, "search");
 		Assert.assertTrue("Page contains test AccrualCategory", accrualCategoryLookup.asText().contains(ACCRUAL_CATEGORY));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(accrualCategoryLookup, "edit", "lmAccrualCategoryId=3000");
@@ -83,7 +80,7 @@ public class AccrualCategoryValidationTest extends KPMETestCase{
 	
 	@Test
 	public void testHasRules() throws Exception {
-		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
+		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
 		HtmlPage accrualCategoryCreate = HtmlUnitUtil.clickAnchorContainingText(accrualCategoryLookup, "AccrualCategory");
 		//HtmlUnitUtil.createTempFile(accrualCategoryCreate);
 		Assert.assertTrue("Page contains test AccrualCategory", accrualCategoryCreate.asText().contains("AccrualCategory Maintenance"));
@@ -91,7 +88,7 @@ public class AccrualCategoryValidationTest extends KPMETestCase{
 	}
 	@Test
 	public void testMaxBalFlag() throws Exception {
-		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
+		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
 		HtmlPage accrualCategoryCreate = HtmlUnitUtil.clickAnchorContainingText(accrualCategoryLookup, "AccrualCategory");
 		//HtmlUnitUtil.createTempFile(accrualCategoryCreate);
 		Assert.assertTrue("Page contains test AccrualCategory", accrualCategoryCreate.asText().contains("New Accrual Category Rule"));
@@ -140,7 +137,7 @@ public class AccrualCategoryValidationTest extends KPMETestCase{
 	
 	@Test
 	public void testValidationOfLeavePlan() throws Exception {
-		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
+		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
 		accrualCategoryLookup = HtmlUnitUtil.clickInputContainingText(accrualCategoryLookup, "search");
 		Assert.assertTrue("Page contains test Accrual Category", accrualCategoryLookup.asText().contains(ACCRUAL_CATEGORY));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(accrualCategoryLookup, "edit", "lmAccrualCategoryId=3000");
@@ -154,7 +151,7 @@ public class AccrualCategoryValidationTest extends KPMETestCase{
 
 		setFieldValue(maintPage, "document.newMaintainableObject.leavePlan", "IU-SM-W");
 	
-		maintPage = maintPage.getElementByName("methodToCall.route").click();
+		maintPage = ((HtmlElement)maintPage.getElementByName("methodToCall.route")).click();
 	    HtmlUnitUtil.createTempFile(maintPage);
 	    Assert.assertTrue("page text does not contain:\n" + ERROR_LEAVE_PLAN, maintPage.asText().contains(ERROR_LEAVE_PLAN));
 	}

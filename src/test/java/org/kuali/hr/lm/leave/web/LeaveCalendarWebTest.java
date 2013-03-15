@@ -56,7 +56,7 @@ public class LeaveCalendarWebTest extends KPMETestCase {
 	public void testLeaveCalendarPage() throws Exception {
 		// get the page and Login
 		HtmlPage leaveCalendarPage = HtmlUnitUtil
-				.gotoPageAndLogin(TkTestConstants.Urls.LEAVE_CALENDAR_URL+"?documentId=1000", true);
+				.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.LEAVE_CALENDAR_URL+"?documentId=1000", true);
 		Assert.assertNotNull("Leave Request page not found" ,leaveCalendarPage);
 
 		//this.setWebClient(leaveCalendarPage.getWebClient());

@@ -31,7 +31,7 @@ public class TimeOffAccrualTest extends KPMETestCase
 	
 	@Test
 	public void testTimeOffAccrualMaintenancePage() throws Exception{	
-		HtmlPage docHeaderLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.TIME_OFF_ACCRUAL_MAINT_URL);
+		HtmlPage docHeaderLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.TIME_OFF_ACCRUAL_MAINT_URL);
 		docHeaderLookUp = HtmlUnitUtil.clickInputContainingText(docHeaderLookUp, "search");
 		Assert.assertTrue("Page contains admin entry", docHeaderLookUp.asText().contains("admin"));		
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(docHeaderLookUp, "edit",timeOffAccrualId.toString());		

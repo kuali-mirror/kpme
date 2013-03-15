@@ -31,7 +31,7 @@ public class PayGradeValidationTest extends KPMETestCase{
 	@Test
 	public void testValidateSalGroup() throws Exception {
 		String baseUrl = TkTestConstants.Urls.PAY_GRADE_MAINT_NEW_URL;
-	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");

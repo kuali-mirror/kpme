@@ -47,7 +47,7 @@ public class WorkScheduleMaintTest extends KPMETestCase{
 	public void testworkScheduleMaintForDeptErrorMessage()
 			throws Exception {
 		HtmlPage workScheduleLookUp = HtmlUnitUtil
-				.gotoPageAndLogin(TkTestConstants.Urls.WORK_SCHEDULE_MAINT_URL);
+				.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.WORK_SCHEDULE_MAINT_URL);
 		workScheduleLookUp = HtmlUnitUtil.clickInputContainingText(
 				workScheduleLookUp, "search");
 		Assert.assertTrue("Page contains test workSchedule",
@@ -79,7 +79,7 @@ public class WorkScheduleMaintTest extends KPMETestCase{
 	public void testWorkScheduleMaintForWorkAreaErrorMessage()
 			throws Exception {
 		HtmlPage workScheduleLookUp = HtmlUnitUtil
-				.gotoPageAndLogin(TkTestConstants.Urls.WORK_SCHEDULE_MAINT_URL);
+				.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.WORK_SCHEDULE_MAINT_URL);
 		workScheduleLookUp = HtmlUnitUtil.clickInputContainingText(
 				workScheduleLookUp, "search");
 		Assert.assertTrue("Page contains test workSchedule",
@@ -104,7 +104,7 @@ public class WorkScheduleMaintTest extends KPMETestCase{
 	@Test
 	public void testWorkScheduleRuleMaint() throws Exception {
 		HtmlPage workScheduleLookUp = HtmlUnitUtil
-				.gotoPageAndLogin(TkTestConstants.Urls.WORK_SCHEDULE_MAINT_URL);
+				.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.WORK_SCHEDULE_MAINT_URL);
 		workScheduleLookUp = HtmlUnitUtil.clickInputContainingText(
 				workScheduleLookUp, "search");
 		Assert.assertTrue("Page contains test workSchedule",

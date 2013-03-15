@@ -33,7 +33,7 @@ public class WorkAreaMaintenanceTest extends KPMETestCase {
 	@Test
 	public void testWorkAreaMaintenanceScreen() throws Exception{
     	String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.hr.time.workarea.WorkArea&returnLocation=" + HtmlUnitUtil.getBaseURL() + "/portal.do&hideReturnLink=true&docFormKey=88888888";
-    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
     	setFieldValue(page,"workArea","30");
     	page = HtmlUnitUtil.clickInputContainingText(page, "search");
     	page = HtmlUnitUtil.clickAnchorContainingText(page, "edit");

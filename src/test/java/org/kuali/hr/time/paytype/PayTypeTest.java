@@ -29,7 +29,7 @@ public class PayTypeTest extends KPMETestCase {
 	
 	@Test
 	public void testPayTypeMaintenancePage() throws Exception{	
-		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.PAYTYPE_MAINT_URL);
+		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.PAYTYPE_MAINT_URL);
 		earnCodeLookUp = HtmlUnitUtil.clickInputContainingText(earnCodeLookUp, "search");
 		Assert.assertTrue("Page contains BW entry", earnCodeLookUp.asText().contains("BW"));		
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(earnCodeLookUp, "edit",payTypeId.toString());		

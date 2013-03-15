@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
+import com.gargoylesoftware.htmlunit.html.*;
 import junit.framework.Assert;
 
 import org.joda.time.DateTime;
@@ -33,16 +34,11 @@ import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-
 public class LeaveDonationMaintTest extends KPMETestCase{
 	
 	@Test
 	public void testLookupPage() throws Exception {	 
-		HtmlPage lcLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.LEAVE_DONATION_MAINT_URL);
+		HtmlPage lcLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.LEAVE_DONATION_MAINT_URL);
 		lcLookup = HtmlUnitUtil.clickInputContainingText(lcLookup, "search");
 		Assert.assertTrue("Page contains test Donated Account Category", lcLookup.asText().contains("dAC"));
 		Assert.assertFalse("Page should not contain edit action", lcLookup.asText().contains("edit"));
@@ -65,7 +61,7 @@ public class LeaveDonationMaintTest extends KPMETestCase{
 		Assert.assertTrue("There are leave block histories for princiapl id testuser2", historyList.isEmpty());
 		
 		String baseUrl = TkTestConstants.Urls.LEAVE_DONATION_MAINT_NEW_URL;
-	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");
@@ -122,7 +118,7 @@ public class LeaveDonationMaintTest extends KPMETestCase{
 	@Test
 	public void testValidation() throws Exception {
 	  	String baseUrl = TkTestConstants.Urls.LEAVE_DONATION_MAINT_NEW_URL;
-	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");
@@ -136,7 +132,7 @@ public class LeaveDonationMaintTest extends KPMETestCase{
 	  	page = element.click();
 	  	Assert.assertTrue("page text does not contain donated amount fraction error.", page.asText().contains("Earn Code 'EC' only allows 0 decimal point."));
 	  	setFieldValue(page, "document.newMaintainableObject.amountDonated", "2");
-	  	page = page.getElementByName("methodToCall.route").click();
+	  	page = ((HtmlElement)page.getElementByName("methodToCall.route")).click();
 	  	Assert.assertFalse("page text contains donated amount fraction error.", page.asText().contains("Earn Code 'EC' only allows 0 decimal point."));
 	  	
 	  	setFieldValue(page, "document.newMaintainableObject.recipientsEarnCode", "EC");	//fraction allowed is 99
@@ -145,7 +141,7 @@ public class LeaveDonationMaintTest extends KPMETestCase{
 	  	page = element.click();
 	  	Assert.assertTrue("page text does not contain received amount fraction error.", page.asText().contains("Earn Code 'EC' only allows 0 decimal point."));
 	  	setFieldValue(page, "document.newMaintainableObject.amountReceived", "3");
-	  	page = page.getElementByName("methodToCall.route").click();
+	  	page = ((HtmlElement)page.getElementByName("methodToCall.route")).click();
 	  	Assert.assertFalse("page text contains received amount fraction error.", page.asText().contains("Earn Code 'EC' only allows 0 decimal point."));
 	}
 	

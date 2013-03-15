@@ -31,7 +31,7 @@ public class TaskLookupTest extends KPMETestCase {
 	@Test
     public void testLookup() throws Exception{
     	String baseUrl = TkTestConstants.Urls.TASK_MAINT_URL;	
-    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
     	Assert.assertNotNull(page);
     	Assert.assertTrue("Could not find text 'Task Lookup' in page.", StringUtils.contains(page.asText(), "Task Lookup"));
     	Assert.assertTrue("Could not find text 'Task:' in page.", StringUtils.contains(page.asText(), "Task:"));

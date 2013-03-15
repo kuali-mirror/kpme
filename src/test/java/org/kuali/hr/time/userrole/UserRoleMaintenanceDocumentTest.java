@@ -36,7 +36,7 @@ public class UserRoleMaintenanceDocumentTest extends KPMETestCase {
 				+ HtmlUnitUtil.getBaseURL()
 				+ "/portal.do&hideReturnLink=true&docFormKey=88888888";
 
-		HtmlPage lookUpPage = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+		HtmlPage lookUpPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 		Assert.assertNotNull(lookUpPage);
 
 		lookUpPage = HtmlUnitUtil
@@ -115,7 +115,7 @@ public class UserRoleMaintenanceDocumentTest extends KPMETestCase {
 						"Document was successfully submitted."));
 
 		// again go to the url and do login
-		lookUpPage = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+		lookUpPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 		Assert.assertNotNull(lookUpPage);
 
 		lookUpPage = HtmlUnitUtil
@@ -147,7 +147,7 @@ public class UserRoleMaintenanceDocumentTest extends KPMETestCase {
 						"Document was successfully submitted"));
 
 		// again go through maintenance page and check if inactive roles tab contains the role Department Admin
-		lookUpPage = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+		lookUpPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 		Assert.assertNotNull(lookUpPage);
 
 		lookUpPage = HtmlUnitUtil

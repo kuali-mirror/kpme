@@ -18,6 +18,7 @@ package org.kuali.hr.time.timesheet.web;
 import java.sql.Date;
 import java.util.*;
 
+import com.gargoylesoftware.htmlunit.html.*;
 import org.joda.time.DateTime;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -37,9 +38,6 @@ import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.*;
 import org.kuali.hr.time.web.TkLoginFilter;
 
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.kuali.hr.util.filter.TestAutoLoginFilter;
 
 public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
@@ -82,7 +80,7 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
         Assert.assertNotNull("No PayCalendarDates", pcd);
         TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(USER_PRINCIPAL_ID, pcd);
         String tdocId = tdoc.getDocumentId();
-        HtmlPage page = loginAndGetTimeDetailsHtmlPage("admin", tdocId, true);
+        HtmlPage page = loginAndGetTimeDetailsHtmlPage(getWebClient(), "admin", tdocId, true);
 
         // 1. Obtain User Data
         Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(TKContext.getPrincipalId(), new AssignmentDescriptionKey("30_30_30"), JAN_AS_OF_DATE);
@@ -103,7 +101,7 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
         // Check for errors
         Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
 
-        page = TimeDetailTestUtils.submitTimeDetails(TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), tdaf);
+        page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), tdaf);
         Assert.assertNotNull(page);
         HtmlUnitUtil.createTempFile(page, "TimeBlockPresent");
 
@@ -144,27 +142,27 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
         //
         // Routing is initiated via javascript, we need to extract the routing
         // action from the button element to perform this action.
-        HtmlElement routeButton = page.getElementById("ts-route-button");
+        HtmlButtonInput routeButton = (HtmlButtonInput)page.getElementById("ts-route-button");
         String routeHref = TkTestUtils.getOnClickHref(routeButton);
         // The 'only' way to do the button click.
-        page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.BASE_URL + "/" + routeHref);
+        page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.BASE_URL + "/" + routeHref);
         //HtmlUnitUtil.createTempFile(page, "RouteClicked");
         pageAsText = page.asText();
         // Verify Route Status via UI
         Assert.assertTrue("Wrong Document Loaded.", pageAsText.contains(tdocId));
         Assert.assertTrue("Document not routed.", pageAsText.contains("Enroute"));
-        routeButton = page.getElementById("ts-route-button");
+        routeButton = (HtmlButtonInput)page.getElementById("ts-route-button");
         Assert.assertNull("Route button should not be present.", routeButton);
-        HtmlElement approveButton = page.getElementById("ts-approve-button");
+        HtmlButtonInput approveButton = (HtmlButtonInput)page.getElementById("ts-approve-button");
         Assert.assertNull("Approval button should not be present.", approveButton);
 
         //
         // Login as Approver, who is not 'admin'
-        page = TimesheetWebTestBase.loginAndGetTimeDetailsHtmlPage("eric", tdocId, true);
+        page = TimesheetWebTestBase.loginAndGetTimeDetailsHtmlPage(getWebClient(), "eric", tdocId, true);
         //HtmlUnitUtil.createTempFile(page, "2ndLogin");
         pageAsText = page.asText();
         Assert.assertTrue("Document not routed.", pageAsText.contains("Enroute"));
-        approveButton = page.getElementById("ts-approve-button");
+        approveButton = (HtmlButtonInput)page.getElementById("ts-approve-button");
         Assert.assertNotNull("No approval button present.", approveButton);
 
         // Click Approve
@@ -172,7 +170,7 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
         //
         routeHref = TkTestUtils.getOnClickHref(approveButton);
         TestAutoLoginFilter.OVERRIDE_ID = "eric";
-        page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.BASE_URL + "/" + routeHref);
+        page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.BASE_URL + "/" + routeHref);
         TestAutoLoginFilter.OVERRIDE_ID = "";
         //HtmlUnitUtil.createTempFile(page, "ApproveClicked");
         pageAsText = page.asText();
@@ -180,7 +178,7 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
         Assert.assertTrue("Login info not present.", pageAsText.contains("Employee Id:"));
         Assert.assertTrue("Login info not present.", pageAsText.contains("eric, eric"));
         Assert.assertTrue("Document not routed.", pageAsText.contains("Final"));
-        approveButton = page.getElementById("ts-approve-button");
+        approveButton = (HtmlButtonInput)page.getElementById("ts-approve-button");
         Assert.assertNull("Approval button should not be present.", approveButton);
     }
 

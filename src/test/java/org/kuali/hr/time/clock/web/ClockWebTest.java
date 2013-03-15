@@ -106,11 +106,11 @@ public class ClockWebTest extends KPMETestCase {
     @Ignore
     public void testDistributeTB() throws Exception {
         String baseUrl = TkTestConstants.Urls.CLOCK_URL;
-        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
         Assert.assertNotNull(page);
         Assert.assertTrue("Clock Page contains Distribute Button", page.asText().contains("Distribute Time Blocks"));
         this.createTB();
-        this.setWebClient(page.getWebClient());
+        updateWebClient();
         HtmlElement element = page.getElementByName("distributeTime");
         Assert.assertNotNull(element);
 //	  	HtmlPage testPage1 = element.click();
@@ -119,7 +119,7 @@ public class ClockWebTest extends KPMETestCase {
 
         // timeDistribute.jsp
         String distributeUrl = baseUrl + "?methodToCall=distributeTimeBlocks";
-        HtmlPage page1 = HtmlUnitUtil.gotoPageAndLogin(distributeUrl);
+        HtmlPage page1 = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), distributeUrl);
         Assert.assertTrue("Distribute Page contains Close button", page1.asText().contains("Close"));
         Assert.assertTrue("Distribute Page contains Close button", page1.asText().contains("Edit"));
 
@@ -133,7 +133,7 @@ public class ClockWebTest extends KPMETestCase {
 
         //editTimeBlock.jsp
         String editUrl = baseUrl + "?methodToCall=editTimeBlock&editTimeBlockId=" + tbId;
-        HtmlPage page3 = HtmlUnitUtil.gotoPageAndLogin(editUrl);
+        HtmlPage page3 = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), editUrl);
 
         // editTimeBlock.jsp
         Assert.assertTrue("Edit Time Blocks Page contains Cancel button", page3.asText().contains("Add"));
@@ -144,16 +144,17 @@ public class ClockWebTest extends KPMETestCase {
         Assert.assertNotNull(element);
         Assert.assertTrue("Onclick attribute of Add button contains", element.getAttribute("onclick").contains("javascript: addTimeBlockRow(this.form);"));
 
-        this.setWebClient(page3.getWebClient());
+        updateWebClient();
 
 //	  	HtmlPage page4 = element.click();
 //	  	assertTrue("Edit Time Blocks Page contains Cancel button", page4.asText().contains("Add"));
 
     }
 
-    public void setWebClient(WebClient webClient) {
-        webClient.setJavaScriptEnabled(true);
-        webClient.setThrowExceptionOnScriptError(false);
+    public void updateWebClient() {
+        WebClient webClient = getWebClient();
+        webClient.getOptions().setJavaScriptEnabled(true);
+        webClient.getOptions().setThrowExceptionOnScriptError(false);
         webClient.setAjaxController(new NicelyResynchronizingAjaxController());
         webClient.waitForBackgroundJavaScript(10000);
     }
@@ -266,7 +267,7 @@ public class ClockWebTest extends KPMETestCase {
         }
         String baseUrl = TkTestConstants.Urls.CLOCK_URL;
         String actionUrl = baseUrl + "?methodToCall=clockAction&selectedAssignment=30_30_30&currentClockAction=" + clockAction;
-        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(actionUrl);
+        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), actionUrl);
         Assert.assertNotNull("The login page shouldn't be null", page);
         Thread.sleep(3000);
         return page;

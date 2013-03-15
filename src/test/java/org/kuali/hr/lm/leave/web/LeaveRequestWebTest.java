@@ -43,19 +43,12 @@ public class LeaveRequestWebTest extends KPMETestCase {
 		super.tearDown();
 	}
 
-	public void setWebClient(WebClient webClient) {
-		webClient.setJavaScriptEnabled(true);
-		webClient.setThrowExceptionOnScriptError(true);
-		webClient.setAjaxController(new NicelyResynchronizingAjaxController());
-		webClient.waitForBackgroundJavaScript(10000);
-	}
-
 	@Test
     @Ignore
 	public void testLeaveRequestPage() throws Exception {
 		// get the page and Login
 		HtmlPage leaveRequestPage = HtmlUnitUtil
-				.gotoPageAndLogin(TkTestConstants.Urls.LEAVE_REQUEST_PAGE_URL);
+				.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.LEAVE_REQUEST_PAGE_URL);
 		Assert.assertNotNull("Leave Request page not found" + leaveRequestPage);
 
 		// Check planned requests

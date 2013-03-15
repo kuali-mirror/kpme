@@ -111,7 +111,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
 
     @Test
     public void testEditExistingEarnGroup() throws Exception {
-        HtmlPage earnGroupLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.EARN_CODE_GROUP_MAINT_URL);
+        HtmlPage earnGroupLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.EARN_CODE_GROUP_MAINT_URL);
         earnGroupLookUp = HtmlUnitUtil.clickInputContainingText(earnGroupLookUp, "search");
         Assert.assertTrue("Page contains test Earn Group", earnGroupLookUp.asText().contains("test"));
         HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(earnGroupLookUp, "edit", hrEarnGroupId.toString());
@@ -120,7 +120,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
         text.setValueAttribute("test1");
 
         // pull out earn group RGG to edit.
-        earnGroupLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.EARN_CODE_GROUP_MAINT_URL);
+        earnGroupLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.EARN_CODE_GROUP_MAINT_URL);
         earnGroupLookUp = HtmlUnitUtil.clickInputContainingText(earnGroupLookUp, "search");
         Assert.assertTrue("Page contains test Earn Group", earnGroupLookUp.asText().contains("test RGG"));
         HtmlPage testEditRGGPage = HtmlUnitUtil.clickAnchorContainingText(earnGroupLookUp, "edit", hrEarnGroupIdRGG.toString());
@@ -156,7 +156,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
     //tests EarnCodeGroupValidation
     public void testSubmitEarnGroupMaint() throws Exception {
         String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.earncodegroup.EarnCodeGroup&methodToCall=start";
-        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
         Assert.assertNotNull(page);
 
         HtmlTextInput text = (HtmlTextInput) page.getHtmlElementById("document.documentHeader.documentDescription");
@@ -225,7 +225,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
     @Test
     public void testSubmitEarnGroupWithNewerVersionMaint() throws Exception {
         String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/maintenance.do?businessObjectClassName=org.kuali.hr.time.earncodegroup.EarnCodeGroup&methodToCall=start";
-        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
         Assert.assertNotNull(page);
 
         //save a Earn code
@@ -242,7 +242,7 @@ public class EarnCodeGroupMaintenanceTest extends KPMETestCase {
         Assert.assertTrue("Maintenance page is submitted successfully", finalPage.asText().contains("Document was successfully submitted."));
 
         //try to save the same Earn code with older effective date
-        page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+        page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
         populateEarnGroup(page, "01/01/2010");
         text = (HtmlTextInput) page.getHtmlElementById("document.newMaintainableObject.add.earnCodeGroups.earnCode");
         text.setValueAttribute("RGH");

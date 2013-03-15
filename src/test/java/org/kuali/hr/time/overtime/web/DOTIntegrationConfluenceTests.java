@@ -126,9 +126,9 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
 
 
     public void deleteTimesheet(String tdocId) throws Exception {
-        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.PORTAL_URL);
+        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.PORTAL_URL);
         Assert.assertNotNull(page);
-        page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.DELETE_TIMESHEET_URL + "?deleteDocumentId="+tdocId);
+        page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.DELETE_TIMESHEET_URL + "?deleteDocumentId="+tdocId);
         HtmlUnitUtil.createTempFile(page, "Deleted");
     }
 
@@ -139,7 +139,7 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
 
         TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(USER_PRINCIPAL_ID, pcd);
         String tdocId = tdoc.getDocumentId();
-        HtmlPage page = loginAndGetTimeDetailsHtmlPage("admin", tdocId, true);
+        HtmlPage page = loginAndGetTimeDetailsHtmlPage(getWebClient(), "admin", tdocId, true);
         Assert.assertNotNull(page);
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
         Assert.assertNotNull(form);
@@ -159,7 +159,7 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
         TimeDetailActionFormBase tdaf = TimeDetailTestUtils.buildDetailActionForm(tdoc, assignment, earnCode, start, end, null, false, null, true);
         List<String> errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
         Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
-        page = TimeDetailTestUtils.submitTimeDetails(getTimesheetDocumentUrl(tdocId), tdaf);
+        page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), getTimesheetDocumentUrl(tdocId), tdaf);
         Assert.assertNotNull(page);
 
         start = new DateTime(2011, 3, 2, 13, 10, 0, 0, TKUtils.getSystemDateTimeZone());
@@ -167,7 +167,7 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
         tdaf = TimeDetailTestUtils.buildDetailActionForm(tdoc, assignment, earnCode, start, end, null, false, null, true);
         errors = TimeDetailTestUtils.setTimeBlockFormDetails(form, tdaf);
         Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
-        page = TimeDetailTestUtils.submitTimeDetails(getTimesheetDocumentUrl(tdocId), tdaf);
+        page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), getTimesheetDocumentUrl(tdocId), tdaf);
         HtmlUnitUtil.createTempFile(page, "Hours");
         Assert.assertNotNull(page);
 

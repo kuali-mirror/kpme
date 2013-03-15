@@ -54,7 +54,7 @@ public class TimeCollectionRuleMaintTest extends KPMETestCase {
 	@Test
 	public void testTimeCollectionRuleMaintForDeptErrorMessage() throws Exception {
 		HtmlPage timeCollectionRuleLookup = HtmlUnitUtil
-				.gotoPageAndLogin(TkTestConstants.Urls.TIME_COLLECTION_RULE_MAINT_URL);
+				.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.TIME_COLLECTION_RULE_MAINT_URL);
 		timeCollectionRuleLookup = HtmlUnitUtil.clickInputContainingText(
 				timeCollectionRuleLookup, "search");
 		HtmlUnitUtil.createTempFile(timeCollectionRuleLookup);
@@ -88,7 +88,7 @@ public class TimeCollectionRuleMaintTest extends KPMETestCase {
 	@Test
 	public void testTimeCollectionRuleMaintForWorkAreaErrorMessage() throws Exception {
 		HtmlPage timeCollectionRuleLookup = HtmlUnitUtil
-				.gotoPageAndLogin(TkTestConstants.Urls.TIME_COLLECTION_RULE_MAINT_URL);
+				.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.TIME_COLLECTION_RULE_MAINT_URL);
 		timeCollectionRuleLookup = HtmlUnitUtil.clickInputContainingText(
 				timeCollectionRuleLookup, "search");
 		Assert.assertTrue("Page contains test timeCollectionRule",
@@ -117,7 +117,7 @@ public class TimeCollectionRuleMaintTest extends KPMETestCase {
 	@Test
 	public void testTimeCollectionRuleMaint() throws Exception {
 		HtmlPage timeCollectionRuleLookup = HtmlUnitUtil
-				.gotoPageAndLogin(TkTestConstants.Urls.TIME_COLLECTION_RULE_MAINT_URL);
+				.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.TIME_COLLECTION_RULE_MAINT_URL);
 		timeCollectionRuleLookup = HtmlUnitUtil.clickInputContainingText(
 				timeCollectionRuleLookup, "search");
 		Assert.assertTrue("Page contains test timeCollectionRule",

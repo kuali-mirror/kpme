@@ -31,7 +31,7 @@ public class TimezoneTest extends KPMETestCase {
 
 	@Test
 	public void testClockInOutWithTimezone() throws Exception {
-		HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.CLOCK_URL,true);
+		HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.CLOCK_URL,true);
 		Assert.assertNotNull(page);
     	
     	Map<String, Object> criteria = new LinkedHashMap<String, Object>();

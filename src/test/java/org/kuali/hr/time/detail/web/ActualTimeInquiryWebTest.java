@@ -53,12 +53,12 @@ public class ActualTimeInquiryWebTest extends KPMETestCase {
     @Test
 	public void testActualTimeInquiry() throws Exception {
 		String baseUrl = TkTestConstants.Urls.TIME_DETAIL_URL;
-    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
     	Assert.assertNotNull(page);
     	Assert.assertTrue("Clock Page contains Actual Time Inquiry Button", page.asText().contains("Actual Time Inquiry"));
 	  	
 	  	String atiUrl = baseUrl + "?methodToCall=actualTimeInquiry";
-		HtmlPage testPage1 = HtmlUnitUtil.gotoPageAndLogin(atiUrl);
+		HtmlPage testPage1 = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), atiUrl);
 		Assert.assertNotNull(testPage1);
 		Assert.assertTrue("Actual Time Inquiry page contains close Button", testPage1.asText().contains("Close"));
 		Assert.assertTrue("Actual Time Inquiry page contains No value found message", testPage1.asText().contains("No values match this search."));
@@ -66,7 +66,7 @@ public class ActualTimeInquiryWebTest extends KPMETestCase {
     	this.createTB();
     	this.changeGracePeriodRule();
     	atiUrl = baseUrl + "?methodToCall=actualTimeInquiry&documentId=" + documentId;
-    	HtmlPage testPage2 = HtmlUnitUtil.gotoPageAndLogin(atiUrl);
+    	HtmlPage testPage2 = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), atiUrl);
     	Assert.assertTrue("Actual Time Inquiry page contains One item retrived message", testPage2.asText().contains("One item retrieved."));
 	}
 
