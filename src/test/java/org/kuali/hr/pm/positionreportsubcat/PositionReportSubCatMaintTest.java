@@ -17,7 +17,7 @@ public class PositionReportSubCatMaintTest extends KPMETestCase {
 	@Test
 	public void testRequiredFields() throws Exception {
 	  	String baseUrl = PmTestConstants.Urls.POSITION_REPORT_SUB_CAT_MAINT_NEW_URL;
-	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");
@@ -49,7 +49,7 @@ public class PositionReportSubCatMaintTest extends KPMETestCase {
 		Assert.assertTrue("There should NOT be Position Report Sub Category with name " + prscString, prsc == null);
 		
 	  	String baseUrl = PmTestConstants.Urls.POSITION_REPORT_SUB_CAT_MAINT_NEW_URL;
-	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");
