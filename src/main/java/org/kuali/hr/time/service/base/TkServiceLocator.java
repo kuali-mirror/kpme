@@ -39,8 +39,7 @@ import org.kuali.hr.lm.leaverequest.service.LeaveRequestDocumentService;
 import org.kuali.hr.lm.timeoff.service.SystemScheduledTimeOffService;
 import org.kuali.hr.lm.workflow.service.LeaveCalendarDocumentHeaderService;
 import org.kuali.hr.location.service.LocationService;
-import org.kuali.hr.paygrade.service.PayGradeService;
-import org.kuali.hr.time.accrual.service.TimeOffAccrualService;
+import org.kuali.hr.paygrade.service.PayGradeService; 
 import org.kuali.hr.time.approval.service.TimeApproveService;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
 import org.kuali.hr.time.assignment.service.AssignmentService;
@@ -313,10 +312,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 
 	public static TimezoneService getTimezoneService(){
 		return (TimezoneService) CONTEXT.getBean(TK_TIME_ZONE_SERVICE);
-	}
-
-	public static TimeOffAccrualService getTimeOffAccrualService(){
-		return (TimeOffAccrualService) CONTEXT.getBean(TK_TIME_OFF_ACCRUAL_SERVICE);
 	}
 
 	public static AccrualCategoryService getAccrualCategoryService() {

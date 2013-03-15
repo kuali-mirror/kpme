@@ -55,10 +55,10 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ActionFormUtils {
 
-    public static void validateHourLimit(TimeDetailActionFormBase tdaf) throws Exception {
-        List<String> warningMessages = TkServiceLocator.getTimeOffAccrualService().validateAccrualHoursLimit(tdaf.getTimesheetDocument());
-        addUniqueWarningsToForm(tdaf, warningMessages);
-    }
+   // public static void validateHourLimit(TimeDetailActionFormBase tdaf) throws Exception {
+   //     List<String> warningMessages = TkServiceLocator.getTimeOffAccrualService().validateAccrualHoursLimit(tdaf.getTimesheetDocument());
+   //      addUniqueWarningsToForm(tdaf, warningMessages);
+   // }
 
     public static void addWarningTextFromEarnGroup(TimeDetailActionFormBase tdaf) throws Exception {
         List<String> warningMessages = TkServiceLocator.getEarnCodeGroupService().warningTextFromEarnCodeGroupsOfDocument(tdaf.getTimesheetDocument());

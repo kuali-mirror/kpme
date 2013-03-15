@@ -22,7 +22,6 @@ import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.paygrade.PayGrade;
-import org.kuali.hr.time.accrual.TimeOffAccrual;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.department.Department;
@@ -444,24 +443,7 @@ public class ValidationUtils {
 	   return valid;
    }
    
-   public static boolean duplicateTimeOffAccrual (TimeOffAccrual timeOffAccrual) {
-	   boolean valid = false;
-	   int count = TkServiceLocator.getTimeOffAccrualService().getTimeOffAccrualCount
-               (timeOffAccrual.getAccrualCategory(), timeOffAccrual.getEffectiveDate(), timeOffAccrual.getPrincipalId(), null);
-	   if(count == 1) {
-    	   valid = true;
-    	   count = TkServiceLocator.getTimeOffAccrualService().getTimeOffAccrualCount
-                   (timeOffAccrual.getAccrualCategory(), timeOffAccrual.getEffectiveDate(), timeOffAccrual.getPrincipalId(), timeOffAccrual.getLmAccrualId());
-    	   if(count == 1) {
-    		   valid = false;
-    	   }
-       } else if(count > 1) {
-    	   valid = true;
-       }
-	   return valid;
-   }
-
-   /**
+    /**
     * Checks for date not more than one year in the future from accrualDAte
     * 
     */

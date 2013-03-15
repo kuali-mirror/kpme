@@ -228,8 +228,7 @@
 				<value>locationLookupable</value> 
 				<value>calendarEntriesLookupable</value> 
 				<value>payGradeLookupable</value> 
-				<value>principalHRAttributesLookupable</value> 
-				<value>timeOffAccrualLookupable</value>
+				<value>principalHRAttributesLookupable</value> 				
 				<value>tkRoleLookupable</value> 
 				<value>accountLookupable</value> 
 				<value>chartLookupable</value> 
@@ -311,8 +310,6 @@
     <bean id="principalHRAttributesDao" class="org.kuali.hr.time.principal.dao.PrincipalHRAttributesDaoImpl" parent="platformAwareDao" />
     
     <bean id="userPrefDao" class="org.kuali.hr.time.user.pref.dao.UserPreferenceDaoImpl" parent="platformAwareDao" />
-
-    <bean id="timeOffAccrualDao" class="org.kuali.hr.time.accrual.dao.TimeOffAccrualDaoSpringOjbImpl" parent="platformAwareDao" />
 
     <bean id="salGroupDao" class="org.kuali.hr.time.salgroup.dao.SalGroupDaoSpringOjbImpl" parent="platformAwareDao" />
 
@@ -614,9 +611,6 @@
         </property>
     </bean>
     
-    <bean id="timeOffAccrualService" class="org.kuali.hr.time.accrual.service.TimeOffAccrualServiceImpl">
-        <property name="timeOffAccrualDao" ref="timeOffAccrualDao"/>
-    </bean>
     <bean id="principalAccrualRanService" class="org.kuali.hr.lm.accrual.service.PrincipalAccrualRanServiceImpl">
         <property name="principalAccrualRanDao" ref="principalAccrualRanDao"/>
     </bean>
@@ -784,11 +778,6 @@
     <bean id="principalHRAttributesLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.hr.time.principal.service.PrincipalHRAttributesLookupableHelper"/>
-        </property>
-    </bean>
-    <bean id="timeOffAccrualLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
-        <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.time.accrual.service.TimeOffAccrualLookupableHelper"/>
         </property>
     </bean>
     <bean id="tkRoleLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">

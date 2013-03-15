@@ -298,7 +298,7 @@ public class TimeDetailAction extends TimesheetAction {
 
         }
         tdaf.setTimeSummary(ts);
-        ActionFormUtils.validateHourLimit(tdaf);
+      //  ActionFormUtils.validateHourLimit(tdaf);
         ActionFormUtils.addWarningTextFromEarnGroup(tdaf);
         ActionFormUtils.addUnapprovedIPWarningFromClockLog(tdaf);
 	}
@@ -415,7 +415,7 @@ public class TimeDetailAction extends TimesheetAction {
         	}
         }
         
-        ActionFormUtils.validateHourLimit(tdaf);
+       // ActionFormUtils.validateHourLimit(tdaf);
         ActionFormUtils.addWarningTextFromEarnGroup(tdaf);
 
         return mapping.findForward("basic");

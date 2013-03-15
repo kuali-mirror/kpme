@@ -39,7 +39,6 @@
         <form-bean name="TimeApprovalActionForm" type="org.kuali.hr.time.approval.web.TimeApprovalActionForm"/>
         <form-bean name="TimeApprovalWSActionForm" type="org.kuali.hr.time.approval.web.TimeApprovalWSActionForm"/>
         <form-bean name="PersonInfoActionForm" type="org.kuali.hr.time.base.web.PersonInfoActionForm"/>
-        <form-bean name="TimeOffAccrualActionForm" type="org.kuali.hr.time.accrual.web.TimeOffAccrualActionForm"/>
         <form-bean name="TimesheetActionForm" type="org.kuali.hr.time.timesheet.web.TimesheetActionForm"/>
         <form-bean name="TimesheetSubmitActionForm" type="org.kuali.hr.time.detail.web.TimesheetSubmitActionForm"/>
         <form-bean name="MissedPunchForm" type="org.kuali.hr.time.missedpunch.MissedPunchForm"/>
@@ -193,12 +192,6 @@
         <action path="/PersonInfo" name="PersonInfoActionForm" scope="request" input="/WEB-INF/jsp/personInfo.jsp"
                 type="org.kuali.hr.time.base.web.PersonInfoAction" parameter="methodToCall" validate="false">
             <forward name="basic" path="/WEB-INF/jsp/personInfo.jsp"/>
-        </action>
-
-        <action path="/TimeOffAccrual" name="TimeOffAccrualActionForm" scope="request"
-                input="/WEB-INF/jsp/timeOffAccrual.jsp" type="org.kuali.hr.time.accrual.web.TimeOffAccrualAction"
-                parameter="methodToCall" validate="false">
-            <forward name="basic" path="/WEB-INF/jsp/timeOffAccrual.jsp"/>
         </action>
 
         <action path="/missedPunch" name="MissedPunchForm" input="/WEB-INF/jsp/missedPunch.jsp"
