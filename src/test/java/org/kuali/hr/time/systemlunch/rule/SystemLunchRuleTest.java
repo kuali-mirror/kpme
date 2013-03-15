@@ -57,7 +57,7 @@ public class SystemLunchRuleTest extends KPMETestCase {
 		Assert.assertTrue("System lunch rule is pulled back", systemLunchRule!=null);
 
         String baseUrl = TkTestConstants.Urls.CLOCK_URL;
-    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl, false);
+    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl, false);
         Thread.sleep(3000);
 //    	HtmlPage page = HtmlUnitUtil.gotoPageAnBatchJobEntryTestdLogin(TkTestConstants.Urls.CLOCK_URL);
     	Assert.assertNotNull(page);

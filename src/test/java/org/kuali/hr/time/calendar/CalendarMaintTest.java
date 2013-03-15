@@ -16,16 +16,12 @@
 package org.kuali.hr.time.calendar;
 
 
+import com.gargoylesoftware.htmlunit.html.*;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
-
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class CalendarMaintTest extends KPMETestCase {
 
@@ -40,7 +36,7 @@ public class CalendarMaintTest extends KPMETestCase {
 	public void testDisplayCalendarTypeRadioOptions() throws Exception {
 		
 		//verify the lookup page doesn't contain the both radio button
-		HtmlPage calendarPage = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.CALENDAR_MAINT_URL);
+		HtmlPage calendarPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.CALENDAR_MAINT_URL);
 		HtmlPage resultPage = HtmlUnitUtil.clickInputContainingText(calendarPage, "search");
 		HtmlUnitUtil.createTempFile(resultPage);
 		Assert.assertTrue("Lookup page contains:\n" + "The both radio button is not present", resultPage.asText().contains("Both"));
@@ -55,7 +51,7 @@ public class CalendarMaintTest extends KPMETestCase {
 	@Test
 	public void testRequiredFields() throws Exception {
 	  	String baseUrl = TkTestConstants.Urls.CALENDAR_MAINT_NEW_URL;
-	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");
@@ -77,13 +73,13 @@ public class CalendarMaintTest extends KPMETestCase {
 	    setFieldValue(page, "document.newMaintainableObject.calendarDescriptions", "testDes");
 	    // when calendar type is leave, flsa day and time are NOT required
 	    setFieldValue(page, "document.newMaintainableObject.calendarTypesLeave", "on");
-	  	page = page.getElementByName("methodToCall.route").click();
+	  	page = ((HtmlElement)page.getElementByName("methodToCall.route")).click();
 	  	Assert.assertFalse("page text contains:\n" + FLSA_DAY_REQUIRED, page.asText().contains(FLSA_DAY_REQUIRED));
 	  	Assert.assertFalse("page text contains:\n" + FLSA_TIME_REQUIRED, page.asText().contains(FLSA_TIME_REQUIRED));
 	    
 	    // when calendar type is Pay, flsa day and time are required
 	    setFieldValue(page, "document.newMaintainableObject.calendarTypesPay", "on");
-	    page = page.getElementByName("methodToCall.route").click();
+	    page = ((HtmlElement)page.getElementByName("methodToCall.route")).click();
 	    Assert.assertTrue("page text does not contain:\n" + FLSA_DAY_REQUIRED, page.asText().contains(FLSA_DAY_REQUIRED));
 	    Assert.assertTrue("page text does not contain:\n" + FLSA_TIME_REQUIRED, page.asText().contains(FLSA_TIME_REQUIRED));
 	}

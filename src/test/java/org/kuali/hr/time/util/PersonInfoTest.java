@@ -28,7 +28,7 @@ public class PersonInfoTest extends KPMETestCase {
 	@Test
 	public void testPersonInfo() throws Exception{	
 		// pass the login filter
-		HtmlPage clockPage = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.PERSON_INFO_URL);
+		HtmlPage clockPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.PERSON_INFO_URL);
 		HtmlUnitUtil.createTempFile(clockPage);
 		Assert.assertTrue("Person Info Page renders with inappropriate data",clockPage.asText().contains("Principal Name"));
 		Assert.assertTrue("Person Info Page renders with inappropriate data",clockPage.asText().contains("Name"));

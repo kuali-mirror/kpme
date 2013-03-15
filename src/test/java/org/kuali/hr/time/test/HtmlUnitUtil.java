@@ -15,6 +15,11 @@
  */
 package org.kuali.hr.time.test;
 
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.*;
+import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.config.property.ConfigContext;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.StringReader;
@@ -23,21 +28,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-import org.kuali.hr.time.web.TkLoginFilter;
-import org.kuali.rice.core.api.config.property.ConfigContext;
-
-import com.gargoylesoftware.htmlunit.BrowserVersion;
-import com.gargoylesoftware.htmlunit.WebClient;
-import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import org.kuali.rice.krad.util.GlobalVariables;
-
 public class HtmlUnitUtil {
-
     private static final Logger LOG = Logger.getLogger(HtmlUnitUtil.class);
 
     /**
@@ -46,8 +37,8 @@ public class HtmlUnitUtil {
      * @return htmlpage without js enabled
      * @throws Exception
      */
-    public static HtmlPage gotoPageAndLogin(String url) throws Exception {
-    	return gotoPageAndLogin(url, false);
+    public static HtmlPage gotoPageAndLogin(WebClient webClient, String url) throws Exception {
+    	return gotoPageAndLogin(webClient, url, false);
     }
     
     /**
@@ -57,12 +48,11 @@ public class HtmlUnitUtil {
      * @return htmlpage with js enabled
      * @throws Exception
      */
-    public static HtmlPage gotoPageAndLogin(String url, boolean enableJavascript) throws Exception {
+    public static HtmlPage gotoPageAndLogin(WebClient webClient, String url, boolean enableJavascript) throws Exception {
     	LOG.debug("URL: " + url);
-    	final WebClient webClient = new WebClient(BrowserVersion.INTERNET_EXPLORER_7);
+
     	// this is required and needs to set to true, otherwise the values set by the onClick event won't be triggered, e.g. methodToCall
-    	webClient.setJavaScriptEnabled(enableJavascript);
-    	webClient.setTimeout(0);
+        webClient.setJavaScriptEnabled(enableJavascript);
     	return (HtmlPage) webClient.getPage(new URL(url));
     }
 

@@ -71,7 +71,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		tdocId = timeDoc.getDocumentId();
 
 		// login
-		HtmlPage page = loginAndGetTimeDetailsHtmlPage(USER_PRINCIPAL_ID,
+		HtmlPage page = loginAndGetTimeDetailsHtmlPage(getWebClient(), USER_PRINCIPAL_ID,
 				tdocId, true);
 		Assert.assertNotNull(page);
 
@@ -93,7 +93,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 
 	@Test
 	public void testAddTimeBlock() throws Exception {
-		HtmlPage page = loginAndGetTimeDetailsHtmlPage(USER_PRINCIPAL_ID, tdocId, true);
+		HtmlPage page = loginAndGetTimeDetailsHtmlPage(getWebClient(), USER_PRINCIPAL_ID, tdocId, true);
 
 		HtmlForm form = page.getFormByName("TimeDetailActionForm");
 		Assert.assertNotNull(form);
@@ -112,7 +112,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
 
 		// submit the details of Timeblock to be added.
-		page = TimeDetailTestUtils.submitTimeDetails(TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), addTB);
+		page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), addTB);
 		Assert.assertNotNull(page);
 
 		// get Timeblocks objects from Timeblock string
@@ -156,7 +156,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 
 	@Test
 	public void testEditTimeBlock() throws Exception {
-		HtmlPage page = loginAndGetTimeDetailsHtmlPage(USER_PRINCIPAL_ID, tdocId, true);
+		HtmlPage page = loginAndGetTimeDetailsHtmlPage(getWebClient(), USER_PRINCIPAL_ID, tdocId, true);
 
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, new AssignmentDescriptionKey("4_1234_1"), TIME_SHEET_DATE);
 		EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode("RGN", TIME_SHEET_DATE);
@@ -174,7 +174,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		// Check for errors
 		Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
 
-		page = TimeDetailTestUtils.submitTimeDetails(TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), addTB);
+		page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), addTB);
 		Assert.assertNotNull(page);
 
 		// chk if the page contains the created time block.
@@ -202,7 +202,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
 
 		// update it
-		page = TimeDetailTestUtils.submitTimeDetails(TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), updateTB);
+		page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), updateTB);
 		Assert.assertNotNull(page);
 
 		// chk the timesheet contains the changes done with the time block
@@ -213,7 +213,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 
 	@Test
 	public void testDeleteTimeBlock() throws Exception {
-		HtmlPage page = loginAndGetTimeDetailsHtmlPage(USER_PRINCIPAL_ID,tdocId, true);
+		HtmlPage page = loginAndGetTimeDetailsHtmlPage(getWebClient(), USER_PRINCIPAL_ID,tdocId, true);
 
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, new AssignmentDescriptionKey("4_1234_1"), TIME_SHEET_DATE);
 		EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode("RGN", TIME_SHEET_DATE);
@@ -231,7 +231,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		// Check for errors
 		Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
 
-		page = TimeDetailTestUtils.submitTimeDetails(TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), addTB);
+		page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), addTB);
 		Assert.assertNotNull(page);
 
 		// chk the page must contain the created time block
@@ -251,7 +251,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 		deleteTB.setMethodToCall("deleteTimeBlock");
 
 		// submitting the page
-		page = TimeDetailTestUtils.submitTimeDetails(TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), deleteTB);
+		page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), TimesheetWebTestBase.getTimesheetDocumentUrl(tdocId), deleteTB);
 		Assert.assertNotNull(page);
 
 		// chk the timesheet does not contain the time block
@@ -264,7 +264,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 	public void testValidateTimeBlock() throws Exception {
 
 		EarnCode earnCode = null;
-		HtmlPage page = loginAndGetTimeDetailsHtmlPage(USER_PRINCIPAL_ID,
+		HtmlPage page = loginAndGetTimeDetailsHtmlPage(getWebClient(), USER_PRINCIPAL_ID,
 				tdocId, true);
 
 		HtmlForm form = page.getFormByName("TimeDetailActionForm");

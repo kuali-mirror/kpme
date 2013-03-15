@@ -30,7 +30,7 @@ public class ClockLocationRuleLookupTest extends KPMETestCase {
     @Test
     public void testLookup() throws Exception{
     	String baseUrl = HtmlUnitUtil.getBaseURL() + "/kr/lookup.do?__login_user=admin&methodToCall=start&businessObjectClassName=org.kuali.hr.time.clock.location.ClockLocationRule&returnLocation=" + HtmlUnitUtil.getBaseURL() + "/portal.do&hideReturnLink=true&docFormKey=88888888";
-    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
     	Assert.assertNotNull(page);
     	Assert.assertTrue("Could not find text 'Clock Location Rule Lookup' in page.", StringUtils.contains(page.asText(), "Clock Location Rule Lookup"));
     	HtmlForm form = page.getFormByName("KualiForm");
@@ -43,7 +43,7 @@ public class ClockLocationRuleLookupTest extends KPMETestCase {
     	HtmlUnitUtil.createTempFile(page);
     	Assert.assertTrue("Expected one result.", StringUtils.contains(page.asText(), "One item retrieved"));
     	
-    	page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+    	page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
     	form = page.getFormByName("KualiForm");
     	Assert.assertNotNull("Search form was missing from page.", form);
     	HtmlUnitUtil.createTempFile(page);

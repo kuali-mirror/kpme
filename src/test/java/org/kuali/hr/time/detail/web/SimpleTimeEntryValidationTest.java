@@ -53,7 +53,7 @@ public class SimpleTimeEntryValidationTest extends KPMETestCase {
         // Load document 2 -- an initiated document 1/15 - 2/01 // 2011
         String tdocId = "2"; // The timesheet to open.
         String baseUrl = TkTestConstants.Urls.TIME_DETAIL_URL + "?documentId=" + tdocId;
-        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
         Assert.assertNotNull(page);
         String pageAsText = page.asText();
         
@@ -95,7 +95,7 @@ public class SimpleTimeEntryValidationTest extends KPMETestCase {
         // Load document 2 -- an initiated document 1/15 - 2/01 // 2011
         String tdocId = "2"; // The timesheet to open.
         String baseUrl = TkTestConstants.Urls.TIME_DETAIL_URL + "?documentId=" + tdocId;
-        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
         Assert.assertNotNull(page);
         //HtmlUnitUtil.createTempFile(page, "SimpleTimeEntry");
         String pageAsText = page.asText();
@@ -126,7 +126,7 @@ public class SimpleTimeEntryValidationTest extends KPMETestCase {
 
         // Submit the Form to the Page.
         // Note - This currently uses a less than desirable method to accomplish this...
-        page = TimeDetailTestUtils.submitTimeDetails(baseUrl, tdaf);
+        page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), baseUrl, tdaf);
         Assert.assertNotNull(page);
         //HtmlUnitUtil.createTempFile(page, "TimeBlockPresent");
 

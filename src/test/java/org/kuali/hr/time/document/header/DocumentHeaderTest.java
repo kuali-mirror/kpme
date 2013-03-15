@@ -56,7 +56,7 @@ public class DocumentHeaderTest extends KPMETestCase {
 	
 	@Test
 	public void testDocumentHeaderMaint() throws Exception {
-		HtmlPage docHeaderLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.DOC_HEADER_MAINT_URL);
+		HtmlPage docHeaderLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.DOC_HEADER_MAINT_URL);
 		docHeaderLookUp = HtmlUnitUtil.clickInputContainingText(docHeaderLookUp, "search");
 		Assert.assertTrue("Page contains admin entry", docHeaderLookUp.asText().contains("admin"));		
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(docHeaderLookUp, "edit",documentId.toString());		

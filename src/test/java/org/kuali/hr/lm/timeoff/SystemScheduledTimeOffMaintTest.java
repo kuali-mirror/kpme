@@ -47,7 +47,7 @@ public class SystemScheduledTimeOffMaintTest extends KPMETestCase{
 	@Test
 	public void testRequiredFields() throws Exception {
 	  	String baseUrl = TkTestConstants.Urls.TIME_OFF_MAINT_NEW_URL;
-	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");
@@ -75,7 +75,7 @@ public class SystemScheduledTimeOffMaintTest extends KPMETestCase{
 	
 	@Test
 	public void testLookupPage() throws Exception {	 
-		HtmlPage sstoLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.TIME_OFF_MAINT_URL);
+		HtmlPage sstoLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.TIME_OFF_MAINT_URL);
 		sstoLookup = HtmlUnitUtil.clickInputContainingText(sstoLookup, "search");
 		HtmlUnitUtil.createTempFile(sstoLookup);
 		Assert.assertTrue("Page contains test SystemScheduledTimeOff", sstoLookup.asText().contains("TLC"));
@@ -89,7 +89,7 @@ public class SystemScheduledTimeOffMaintTest extends KPMETestCase{
 	@Test
 	public void testErrorMessages() throws Exception {
 	  	String baseUrl = TkTestConstants.Urls.TIME_OFF_MAINT_NEW_URL;
-	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");
@@ -113,7 +113,7 @@ public class SystemScheduledTimeOffMaintTest extends KPMETestCase{
 	// test for jiar1363
 	public void testGetLeavePlanAccrualCategoryFromSelectedEarnCode() throws Exception {
 	  	String baseUrl = TkTestConstants.Urls.TIME_OFF_MAINT_NEW_URL;
-	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");
@@ -133,7 +133,7 @@ public class SystemScheduledTimeOffMaintTest extends KPMETestCase{
         setFieldValue(page, "document.newMaintainableObject.location", "CST");
         setFieldValue(page, "document.newMaintainableObject.accruedDate", validDateString);
 	    
-	    page = page.getElementByName("methodToCall.route").click();
+	    page = ((HtmlElement)page.getElementByName("methodToCall.route")).click();
 	    HtmlUnitUtil.createTempFile(page);
 	    Assert.assertTrue("page text contains:\n" + "testLP", page.asText().contains("testLP"));
 	    Assert.assertTrue("page text contains:\n" + "testAC", page.asText().contains("testAC"));
@@ -143,7 +143,7 @@ public class SystemScheduledTimeOffMaintTest extends KPMETestCase{
 	//test for jiar1363
 	public void testValidateLeaveCode() throws Exception {
 	  	String baseUrl = TkTestConstants.Urls.TIME_OFF_MAINT_NEW_URL;
-	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");
@@ -158,7 +158,7 @@ public class SystemScheduledTimeOffMaintTest extends KPMETestCase{
 	  	setFieldValue(page, "document.newMaintainableObject.effectiveDate", validDateString);
 	  	setFieldValue(page, "document.newMaintainableObject.earnCode", "testLCL"); 
 	    
-	    page = page.getElementByName("methodToCall.route").click();
+	    page = ((HtmlElement)page.getElementByName("methodToCall.route")).click();
 	    HtmlUnitUtil.createTempFile(page);
 	    Assert.assertTrue("page text does not contain:\n" + ERROR_LEAVE_CODE, page.asText().contains(ERROR_LEAVE_CODE));
 	}

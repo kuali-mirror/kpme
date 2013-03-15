@@ -31,7 +31,7 @@ public class PrincipalHRAttributeTest extends KPMETestCase {
 		//confirm maintenance page renders default data
 		//confirm non existent pay calendar throws error
 		//confirm non existenet holiday calendar throws error
-		HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.PRIN_HR_MAINT_URL);
+		HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.PRIN_HR_MAINT_URL);
     	page = HtmlUnitUtil.clickInputContainingText(page, "search");
     	HtmlUnitUtil.createTempFile(page);
     	page = HtmlUnitUtil.clickAnchorContainingText(page, "edit","hrPrincipalAttributeId=2004");

@@ -14,28 +14,20 @@
  * limitations under the License.
  */
 package org.kuali.hr.lm.balancetransfer;
-import static org.junit.Assert.*;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import junit.framework.Assert;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
-import org.joda.time.Interval;
 import org.junit.Test;
 import org.kuali.hr.lm.leave.web.LeaveCalendarWSForm;
 import org.kuali.hr.lm.leaveCalendar.LeaveCalendarWebTestBase;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
-import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecalendar.web.LeaveCalendarSubmitForm;
 import org.kuali.hr.lm.util.LeaveCalendarTestUtils;
-import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
@@ -43,10 +35,14 @@ import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
+import java.math.BigDecimal;
+import java.sql.Date;
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import sun.util.LocaleServiceProviderPool;
+
+import static org.junit.Assert.assertTrue;
 
 
 public class BalanceTransferTest extends LeaveCalendarWebTestBase {
@@ -162,7 +158,7 @@ public class BalanceTransferTest extends LeaveCalendarWebTestBase {
         for(LeaveSummaryRow lsRow : ls.getLeaveSummaryRows()) {
         	LOG.info("Accrued balance : " + lsRow.getAccruedBalance());
         }
-        HtmlPage page = LeaveCalendarTestUtils.submitLeaveCalendar2(getLeaveCalendarUrl(tdocId), tdaf);
+        HtmlPage page = LeaveCalendarTestUtils.submitLeaveCalendar2(getWebClient(), getLeaveCalendarUrl(tdocId), tdaf);
         //LeaveCalendarWSForm extends LeaveCalendarForm. In order to fully implement this test, a LeaveCalendarSubmitForm must be created
         //with an action of "DOCUMENT_ACTIONS.ROUTE".
         Assert.assertNotNull(page);
@@ -230,7 +226,7 @@ public class BalanceTransferTest extends LeaveCalendarWebTestBase {
 	 */
 	@Test
 	public void testLookupPage() throws Exception {	 
-		HtmlPage btLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.BALANCE_TRANSFER_MAINT_URL);
+		HtmlPage btLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.BALANCE_TRANSFER_MAINT_URL);
 		btLookup = HtmlUnitUtil.clickInputContainingText(btLookup, "search");
 		LOG.info(btLookup.asXml());
 		Assert.assertTrue("Page contains test Balance Transfer", btLookup.asText().contains("fromAC"));

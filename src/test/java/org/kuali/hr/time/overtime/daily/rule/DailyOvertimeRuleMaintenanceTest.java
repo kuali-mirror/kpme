@@ -42,7 +42,7 @@ public class DailyOvertimeRuleMaintenanceTest extends KPMETestCase{
 	@Test
 	public void testDailyOvertimeRuleMaint() throws Exception {
 		DailyOvertimeRule dor = new DailyOvertimeRule();
-		HtmlPage dailyOvertimeRuleLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.DAILY_OVERTIME_RULE_MAINT_URL);
+		HtmlPage dailyOvertimeRuleLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.DAILY_OVERTIME_RULE_MAINT_URL);
 		dailyOvertimeRuleLookUp = HtmlUnitUtil.clickInputContainingText(dailyOvertimeRuleLookUp, "search");
 		HtmlUnitUtil.createTempFile(dailyOvertimeRuleLookUp);
 		Assert.assertTrue("Page contains test DailyOvertimeRule", dailyOvertimeRuleLookUp.asText().contains(TEST_CODE.toString()));		
@@ -52,7 +52,7 @@ public class DailyOvertimeRuleMaintenanceTest extends KPMETestCase{
 	
 	@Test
 	public void testDailyOvertimeRuleMaintForErrorMessages() throws Exception {
-		HtmlPage dailyOvertimeRuleLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.DAILY_OVERTIME_RULE_MAINT_URL);
+		HtmlPage dailyOvertimeRuleLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.DAILY_OVERTIME_RULE_MAINT_URL);
 		dailyOvertimeRuleLookUp = HtmlUnitUtil.clickInputContainingText(dailyOvertimeRuleLookUp, "search");
 		Assert.assertTrue("Page contains test DailyOvertimeRule", dailyOvertimeRuleLookUp.asText().contains(TEST_CODE.toString()));		
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(dailyOvertimeRuleLookUp, "edit",dailyOvertimeRuleId.toString());		

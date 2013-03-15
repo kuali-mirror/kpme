@@ -118,7 +118,7 @@ public class EarnCodeServiceImplTest extends KPMETestCase {
 	@Test
 	public void testEarnCodeMaintenancePage() throws Exception{
 
-		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.EARN_CODE_MAINT_URL);
+		HtmlPage earnCodeLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.EARN_CODE_MAINT_URL);
 		earnCodeLookUp = HtmlUnitUtil.clickInputContainingText(earnCodeLookUp, "search");
 		Assert.assertTrue("Page contains SDR entry", earnCodeLookUp.asText().contains("SDR"));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(earnCodeLookUp, "edit","1");

@@ -41,7 +41,7 @@ public class ShiftDifferentialRuleMaintTest extends KPMETestCase{
 	
 	@Test
 	public void testShiftDifferentialRuleMaint() throws Exception {	 
-		HtmlPage shiftDifferentialRuleLookup = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.SHIFT_DIFFERENTIAL_RULE_MAINT_URL);
+		HtmlPage shiftDifferentialRuleLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.SHIFT_DIFFERENTIAL_RULE_MAINT_URL);
 		shiftDifferentialRuleLookup = HtmlUnitUtil.clickInputContainingText(shiftDifferentialRuleLookup, "search");
 		Assert.assertTrue("Page contains test ShiftDifferentialRule", shiftDifferentialRuleLookup.asText().contains(TEST_CODE.toString()));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(shiftDifferentialRuleLookup, "edit",shiftDifferentialRuleId.toString());
@@ -51,7 +51,7 @@ public class ShiftDifferentialRuleMaintTest extends KPMETestCase{
 	@Test
 	public void testRequiredFields() throws Exception {
 	  	String baseUrl = TkTestConstants.Urls.SHIFT_DIFFERENTIAL_RULE_MAINT_NEW_URL;
-	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 	  	Assert.assertNotNull(page);
 	 
 	  	HtmlForm form = page.getFormByName("KualiForm");

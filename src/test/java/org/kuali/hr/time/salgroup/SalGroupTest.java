@@ -27,7 +27,7 @@ public class SalGroupTest extends KPMETestCase {
 	
 	@Test
 	public void testSalGroupMaintenancePage() throws Exception{	
-    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.SAL_GROUP_MAINT_URL);
+    	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.SAL_GROUP_MAINT_URL);
     	page = HtmlUnitUtil.clickInputContainingText(page, "search");
     	HtmlUnitUtil.createTempFile(page);
     	page = HtmlUnitUtil.clickAnchorContainingText(page, "edit","hrSalGroupId=10");

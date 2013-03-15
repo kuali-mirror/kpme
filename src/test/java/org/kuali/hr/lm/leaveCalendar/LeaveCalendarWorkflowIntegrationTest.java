@@ -17,6 +17,7 @@ package org.kuali.hr.lm.leaveCalendar;
 
 import static org.junit.Assert.assertTrue;
 
+import com.gargoylesoftware.htmlunit.html.HtmlButtonInput;
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -95,7 +96,7 @@ public class LeaveCalendarWorkflowIntegrationTest extends LeaveCalendarWebTestBa
         // existing TK validation setup
         LeaveCalendarWSForm tdaf = LeaveCalendarTestUtils.buildLeaveCalendarForm(tdoc, assignment, earnCode, start, end, null, true);
         LeaveCalendarTestUtils.setTimeBlockFormDetails(form, tdaf);
-        page = LeaveCalendarTestUtils.submitLeaveCalendar(getLeaveCalendarUrl(tdocId), tdaf);
+        page = LeaveCalendarTestUtils.submitLeaveCalendar(getWebClient(), getLeaveCalendarUrl(tdocId), tdaf);
         Assert.assertNotNull(page);
         HtmlUnitUtil.createTempFile(page, "LeaveBlockPresent");
 
@@ -134,18 +135,18 @@ public class LeaveCalendarWorkflowIntegrationTest extends LeaveCalendarWebTestBa
         //
         // Routing is initiated via javascript, we need to extract the routing
         // action from the button element to perform this action.
-        HtmlElement routeButton = page.getElementById("ts-route-button");
+        HtmlButtonInput routeButton = (HtmlButtonInput)page.getElementById("ts-route-button");
         String routeHref = TkTestUtils.getOnClickHref(routeButton);
         // The 'only' way to do the button click.
-        page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.BASE_URL + "/" + routeHref);
+        page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.BASE_URL + "/" + routeHref);
         //HtmlUnitUtil.createTempFile(page, "RouteClicked");
         pageAsText = page.asText();
         // Verify Route Status via UI
         Assert.assertTrue("Wrong Document Loaded.", pageAsText.contains(tdocId));
         Assert.assertTrue("Document not routed.", pageAsText.contains("Enroute"));
-        routeButton = page.getElementById("ts-route-button");
+        routeButton = (HtmlButtonInput)page.getElementById("ts-route-button");
         Assert.assertNull("Route button should not be present.", routeButton);
-        HtmlElement approveButton = page.getElementById("ts-approve-button");
+        HtmlElement approveButton = (HtmlButtonInput)page.getElementById("ts-approve-button");
         Assert.assertNull("Approval button should not be present.", approveButton);
 
         //
@@ -154,7 +155,7 @@ public class LeaveCalendarWorkflowIntegrationTest extends LeaveCalendarWebTestBa
         //HtmlUnitUtil.createTempFile(page, "2ndLogin");
         pageAsText = page.asText();
         Assert.assertTrue("Document not routed.", pageAsText.contains("Enroute"));
-        approveButton = page.getElementById("ts-approve-button");
+        approveButton = (HtmlButtonInput)page.getElementById("ts-approve-button");
         Assert.assertNotNull("No approval button present.", approveButton);
 
         // Click Approve
@@ -162,7 +163,7 @@ public class LeaveCalendarWorkflowIntegrationTest extends LeaveCalendarWebTestBa
         //
         routeHref = TkTestUtils.getOnClickHref(approveButton);
         TestAutoLoginFilter.OVERRIDE_ID = "eric";
-        page = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.BASE_URL + "/" + routeHref);
+        page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.BASE_URL + "/" + routeHref);
         TestAutoLoginFilter.OVERRIDE_ID = "";
         //HtmlUnitUtil.createTempFile(page, "ApproveClicked");
         pageAsText = page.asText();
@@ -170,7 +171,7 @@ public class LeaveCalendarWorkflowIntegrationTest extends LeaveCalendarWebTestBa
         Assert.assertTrue("Login info not present.", pageAsText.contains("Employee Id:"));
         Assert.assertTrue("Login info not present.", pageAsText.contains("eric, eric"));
         Assert.assertTrue("Document not routed.", pageAsText.contains("Final"));
-        approveButton = page.getElementById("ts-approve-button");
+        approveButton = (HtmlElement)page.getElementById("ts-approve-button");
         Assert.assertNull("Approval button should not be present.", approveButton);
     }
     

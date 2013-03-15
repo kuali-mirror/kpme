@@ -62,7 +62,7 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
 
         TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(USER_PRINCIPAL_ID, pcd);
         String tdocId = tdoc.getDocumentId();
-        HtmlPage page = loginAndGetTimeDetailsHtmlPage("admin", tdocId,true);
+        HtmlPage page = loginAndGetTimeDetailsHtmlPage(getWebClient(), "admin", tdocId,true);
         Assert.assertNotNull(page);
         HtmlForm form = page.getFormByName("TimeDetailActionForm");
         Assert.assertNotNull(form);
@@ -85,7 +85,7 @@ public class DailyOvertimeWebIntegrationTest extends TimesheetWebTestBase {
         // Check for errors
         Assert.assertEquals("There should be no errors in this time detail submission", 0, errors.size());
 
-        page = TimeDetailTestUtils.submitTimeDetails(getTimesheetDocumentUrl(tdocId), tdaf);
+        page = TimeDetailTestUtils.submitTimeDetails(getWebClient(), getTimesheetDocumentUrl(tdocId), tdaf);
         Assert.assertNotNull(page);
         //HtmlUnitUtil.createTempFile(page, "TimeBlockPresent");
 

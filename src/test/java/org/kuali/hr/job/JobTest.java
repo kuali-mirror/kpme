@@ -104,7 +104,7 @@ public class JobTest extends KPMETestCase {
 
 	@Test
 	public void jobMaintenancePage() throws Exception{
-		HtmlPage lookupPage = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.JOB_MAINT_URL);
+		HtmlPage lookupPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.JOB_MAINT_URL);
 		lookupPage = HtmlUnitUtil.clickInputContainingText(lookupPage, "search");
 		HtmlUnitUtil.createTempFile(lookupPage);
 		Assert.assertTrue("Page contains admin entry", lookupPage.asText().contains("admin"));
@@ -138,7 +138,7 @@ public class JobTest extends KPMETestCase {
 
 	@Test
 	public void testMaintenancePageEdit() throws Exception {
-		HtmlPage lookupPage = HtmlUnitUtil.gotoPageAndLogin(TkTestConstants.Urls.JOB_MAINT_URL);
+		HtmlPage lookupPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.JOB_MAINT_URL);
 		lookupPage = HtmlUnitUtil.clickInputContainingText(lookupPage, "search");
 		HtmlPage editPage = HtmlUnitUtil.clickAnchorContainingText(lookupPage, "edit", jobId.toString());
 		//input bad dept, sal group, job location, pay type, pay grade

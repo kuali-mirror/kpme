@@ -44,7 +44,8 @@ public class LeaveBlockDisplayWebTest extends KPMETestCase {
 		super.tearDown();
 	}
 
-	public void setWebClient(WebClient webClient) {
+	public void updateWebClient() {
+        WebClient webClient = getWebClient();
 		webClient.setJavaScriptEnabled(true);
 		webClient.setThrowExceptionOnScriptError(true);
 		webClient.setAjaxController(new NicelyResynchronizingAjaxController());
@@ -56,10 +57,10 @@ public class LeaveBlockDisplayWebTest extends KPMETestCase {
 		// get the page and Login
 		Calendar currentCalendar = Calendar.getInstance();
 		HtmlPage leaveBlockDisplayPage = HtmlUnitUtil
-				.gotoPageAndLogin(TkTestConstants.Urls.LEAVE_BLOCK_DISPLAY_URL);
+				.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.LEAVE_BLOCK_DISPLAY_URL);
 		Assert.assertNotNull("Leave Request page not found" + leaveBlockDisplayPage);
 
-		this.setWebClient(leaveBlockDisplayPage.getWebClient());
+		updateWebClient();
 
 		// check page contains the current year
 		Assert.assertTrue("Page is not current year ",

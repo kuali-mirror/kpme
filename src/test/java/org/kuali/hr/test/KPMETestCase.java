@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.*;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.kuali.hr.time.test.HtmlUnitUtil;
@@ -42,18 +45,6 @@ import org.kuali.rice.test.lifecycles.KPMEXmlDataLoaderLifecycle;
 import org.springframework.cache.CacheManager;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-import com.gargoylesoftware.htmlunit.html.HtmlCheckBoxInput;
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlFileInput;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlHiddenInput;
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlRadioButtonInput;
-import com.gargoylesoftware.htmlunit.html.HtmlSelect;
-import com.gargoylesoftware.htmlunit.html.HtmlTextArea;
-import com.gargoylesoftware.htmlunit.html.HtmlTextInput;
-
 /**
  *  Default test base for a full KPME unit test.
  */
@@ -64,6 +55,7 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 	private static final String RELATIVE_WEBAPP_ROOT = "/src/main/webapp";
 	
 	private TransactionalLifecycle transactionalLifecycle;
+    private WebClient webClient;
 	
 	@Override
 	protected String getModuleName() {
@@ -94,6 +86,9 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 	    //lets try to create a user session
 	    GlobalVariables.setUserSession(new UserSession("admin"));
 	    TKContext.setHttpServletRequest(new MockHttpServletRequest());
+        setWebClient(new WebClient(BrowserVersion.FIREFOX_10));
+        getWebClient().setJavaScriptEnabled(true);
+        getWebClient().setTimeout(0);
 	}
 	
 	@Override
@@ -102,6 +97,7 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 	    // useful for difficult to reset test additions, not handled by
 	    // our ClearDatabaseLifecycle.
         TKUser.clearTargetUser();
+        getWebClient().closeAllWindows();
 	    new DatabaseCleanupDataLifecycle(this.getClass()).start();
 	    
 		final boolean needsSpring = true;
@@ -246,7 +242,7 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 	}
 
 	public void futureEffectiveDateValidation(String baseUrl) throws Exception {
-	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(baseUrl);
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
 	  	Assert.assertNotNull(page);
 	
 	  	HtmlForm form = page.getFormByName("KualiForm");
@@ -255,7 +251,7 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", "04/01/2011");
 	    HtmlInput  input  = HtmlUnitUtil.getInputContainingText(form, "methodToCall.route");
 	    Assert.assertNotNull("Could not locate submit button", input);
-	  	page = page.getElementByName("methodToCall.route").click();
+	  	page = ((HtmlButtonInput)page.getElementByName("methodToCall.route")).click();
 	  	Assert.assertTrue("page text does not contain:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
 	  	Calendar futureDate = Calendar.getInstance();
 	  	futureDate.add(java.util.Calendar.YEAR, 2);// 2 years in the future
@@ -263,14 +259,14 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 	  	
 	  	// use dates 2 years in the future
 	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", futureDateString);
-	  	page = page.getElementByName("methodToCall.route").click();
+	  	page = ((HtmlButtonInput)page.getElementByName("methodToCall.route")).click();
 	  	Assert.assertTrue("page text does not contain:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
 		Calendar validDate = Calendar.getInstance();
 	  	validDate.add(java.util.Calendar.MONTH, 5); // 5 month in the future
 	  	String validDateString = Integer.toString(validDate.get(Calendar.MONTH)) + '/' + Integer.toString(validDate.get(Calendar.DAY_OF_MONTH)) 
 	  		+ '/' + Integer.toString(validDate.get(Calendar.YEAR));
 	  	setFieldValue(page, "document.newMaintainableObject.effectiveDate", validDateString);
-	  	page = page.getElementByName("methodToCall.route").click();
+	  	page = ((HtmlElement)page.getElementByName("methodToCall.route")).click();
 	  	Assert.assertFalse("page text contains:\n" + TkTestConstants.EFFECTIVE_DATE_ERROR, page.asText().contains(TkTestConstants.EFFECTIVE_DATE_ERROR));
 	}
 
@@ -297,6 +293,14 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
             super.stop();
         }
 
+    }
+
+    public WebClient getWebClient() {
+        return this.webClient;
+    }
+
+    public void setWebClient(WebClient webClient) {
+        this.webClient = webClient;
     }
 
 }
