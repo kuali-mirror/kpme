@@ -82,8 +82,6 @@ import org.kuali.hr.time.user.pref.service.UserPreferenceService;
 import org.kuali.hr.time.warning.TkWarningService;
 import org.kuali.hr.time.workarea.service.WorkAreaService;
 import org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderService;
-import org.kuali.hr.time.workschedule.service.WorkScheduleAssignmentService;
-import org.kuali.hr.time.workschedule.service.WorkScheduleService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator;
 import org.springframework.beans.BeansException;
@@ -125,8 +123,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_DAILY_OVERTIME_RULE_SERVICE = "dailyOvertimeRuleService";
 	public static final String TK_WEEKLY_OVERTIME_RULE_SERVICE = "weeklyOvertimeRuleService";
 	public static final String TK_SHIFT_DIFFERENTIAL_RULE_SERVICE = "shiftDifferentialRuleService";
-	public static final String TK_WORK_SCHEDULE_SERVICE = "workScheduleService";
-    public static final String TK_WORK_SCHEDULE_ASSIGNMENT_SERVICE = "workScheduleAssignmentService";
 	public static final String TK_CLOCK_LOCATION_RULE_SERVICE = "clockLocationService";
 	public static final String TK_GRACE_PERIOD_SERVICE = "gracePeriodService";
 	public static final String TK_SYSTEM_LUNCH_RULE_SERVICE = "systemLunchRuleService";
@@ -191,14 +187,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static ShiftDifferentialRuleService getShiftDifferentialRuleService() {
 		return (ShiftDifferentialRuleService) CONTEXT.getBean(TK_SHIFT_DIFFERENTIAL_RULE_SERVICE);
 	}
-
-	public static WorkScheduleService getWorkScheduleService() {
-		return (WorkScheduleService) CONTEXT.getBean(TK_WORK_SCHEDULE_SERVICE);
-	}
-
-    public static WorkScheduleAssignmentService getWorkScheduleAssignmentService() {
-        return (WorkScheduleAssignmentService) CONTEXT.getBean(TK_WORK_SCHEDULE_ASSIGNMENT_SERVICE);
-    }
 
 	public static WeeklyOvertimeRuleService getWeeklyOvertimeRuleService() {
 		return (WeeklyOvertimeRuleService) CONTEXT.getBean(TK_WEEKLY_OVERTIME_RULE_SERVICE);
