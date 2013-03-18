@@ -22,8 +22,16 @@
     
     <changeSet id="1" author="jkakkad" context="kpme-client-bootstrap">
         <comment>KPME-2211: Remove all references to Leave Code</comment>
-        <dropTable tableName="LM_LEAVE_CODE_S" />
         <dropTable tableName="LM_LEAVE_CODE_T" />
+    </changeSet>
+    
+    <changeSet id="2-oracle" author="jkakkad" dbms="oracle" context="kpme-client-bootstrap">
+        <comment>KPME-2211: Remove all references to Leave Code</comment>
+        <dropSequence sequenceName="LM_LEAVE_CODE_S" />
+    </changeSet>
+    <changeSet id="2-mysql" author="jkakkad" dbms="mysql" context="kpme-client-bootstrap">
+        <comment>KPME-2211: Remove all references to Leave Code</comment>
+        <dropTable tableName="LM_LEAVE_CODE_S" />
     </changeSet>
     
 </databaseChangeLog>

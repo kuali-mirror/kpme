@@ -135,14 +135,10 @@
         <insert tableName="lm_accrual_category_s">
             <column name="id" value="10002" />
         </insert>
-<!--         <insert tableName="lm_accruals_s"> -->
-<!--             <column name="id" value="10331" /> -->
-<!--         </insert> -->
     </changeSet>
     
     <changeSet id="8" author="kbtaylor" context="kpme-client-testdrive">
         <loadData tableName="lm_accrual_category_t" file="src/test/config/db/testdrive/lm_accrual_category_t.csv" />
-<!--         <loadData tableName="lm_accruals_t" file="src/test/config/db/testdrive/lm_accruals_t.csv" /> -->
     </changeSet>
     
     <changeSet id="9" author="kbtaylor" context="kpme-client-testdrive" dbms="mysql">
