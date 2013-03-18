@@ -41,7 +41,7 @@ public class PositionMaintainableServiceImpl extends HrBusinessObjectMaintainabl
         //String nextUniqueNumber = TkServiceLocator.getPositionService().getNextUniquePositionNumber();
         //position.setPositionNumber(nextUniqueNumber);
 
-        position = KRADServiceLocator.getBusinessObjectService().save(position);
+        KRADServiceLocator.getBusinessObjectService().save(position);
         CacheUtils.flushCache(Position.CACHE_NAME);
     }
 }

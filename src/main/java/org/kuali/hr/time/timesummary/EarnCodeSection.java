@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.time.timesummary;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +24,7 @@ import java.util.Map;
 
 import org.kuali.hr.time.util.TkConstants;
 
-public class EarnCodeSection {
+public class EarnCodeSection implements Serializable {
 	private String earnCode;
 	private String description;
 	private Map<String, AssignmentRow> assignKeyToAssignmentRowMap = new HashMap<String, AssignmentRow>();

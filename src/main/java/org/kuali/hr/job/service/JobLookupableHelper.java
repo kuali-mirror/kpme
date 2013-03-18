@@ -25,6 +25,7 @@ import org.kuali.hr.job.Job;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -51,9 +52,9 @@ public class JobLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
         String location = job.getLocation();
         String department = job.getDept();
         
-        boolean systemAdmin = TKContext.getUser().isSystemAdmin();
-		boolean locationAdmin = TKContext.getUser().getLocationAdminAreas().contains(location);
-		boolean departmentAdmin = TKContext.getUser().getDepartmentAdminAreas().contains(department);
+        boolean systemAdmin = TKUser.isSystemAdmin();
+		boolean locationAdmin = TKUser.getLocationAdminAreas().contains(location);
+		boolean departmentAdmin = TKUser.getDepartmentAdminAreas().contains(department);
 		
 		for (HtmlData defaultCustomActionUrl : defaultCustomActionUrls){
 			if (StringUtils.equals(defaultCustomActionUrl.getMethodToCall(), "edit")) {

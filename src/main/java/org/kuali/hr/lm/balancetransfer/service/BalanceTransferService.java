@@ -89,9 +89,7 @@ public interface BalanceTransferService {
 	 * @return
 	 */
 	public BalanceTransfer transferSsto(BalanceTransfer balanceTransfer);
-	public List<BalanceTransfer> getBalanceTransfers(String viewPrincipal,
-			Date beginPeriodDate, Date endPeriodDate);
 	
-	Map<String, Set<LeaveBlock>> getNewEligibleTransfers(
-			CalendarEntries calendarEntry, String principalId) throws Exception;
+	public List<BalanceTransfer> getBalanceTransfers(String viewPrincipal, Date beginPeriodDate, Date endPeriodDate);
+
 }

@@ -32,6 +32,7 @@ import org.apache.struts.action.ActionRedirect;
 import org.joda.time.Interval;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
+import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
@@ -42,6 +43,7 @@ import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.document.DocumentStatus;
@@ -72,7 +74,6 @@ public class LeaveCalendarSubmitAction extends TkAction {
     public ActionForward approveLeaveCalendar(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	String documentId = request.getParameter("documentId");
     	String action = request.getParameter("action");
-        LeaveCalendarSubmitForm lcf = (LeaveCalendarSubmitForm)form;
         LeaveCalendarDocument document = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(documentId);
 
         // Switched to grab the target (chain, resolution: target -> backdoor -> actual) user.
@@ -80,118 +81,46 @@ public class LeaveCalendarSubmitAction extends TkAction {
         if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.ROUTE)) {
             if (DocumentStatus.INITIATED.getCode().equals(document.getDocumentHeader().getDocumentStatus())
                     || DocumentStatus.SAVED.getCode().equals(document.getDocumentHeader().getDocumentStatus())) {
-        		Map<String,Set<LeaveBlock>> eligibilities = TkServiceLocator.getBalanceTransferService().getNewEligibleTransfers(document.getCalendarEntry(), document.getPrincipalId());
-        		List<LeaveBlock> eligibleTransfers = new ArrayList<LeaveBlock>();
-        		eligibleTransfers.addAll(eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE));
-    			if(!eligibleTransfers.isEmpty()) {
-					Collections.sort(eligibleTransfers, new Comparator() {
-						
-						@Override
-						public int compare(Object o1, Object o2) {
-							LeaveBlock l1 = (LeaveBlock) o1;
-							LeaveBlock l2 = (LeaveBlock) o2;
-							return l1.getLeaveDate().compareTo(l2.getLeaveDate());
-						}
-						
-					});
-            		int categoryCounter = 0;
-    				StringBuilder sb = new StringBuilder();
-            		ActionRedirect redirect = new ActionRedirect();
-            		Interval interval = new Interval(document.getCalendarEntry().getBeginPeriodDate().getTime(), document.getCalendarEntry().getEndPeriodDate().getTime());
-            		for(LeaveBlock lb : eligibleTransfers) {
-            			//leave approve frequency max balance actions cannot happen without a leave block existing on the current
-            			//calendar that exceeds the balance limit.
-            			//the max balance action shall be handled within the calendar that contains the leave block!
-            			if(interval.contains(lb.getLeaveDate().getTime()))
-            				sb.append("&accrualCategory"+categoryCounter+"="+lb.getLmLeaveBlockId());
+            	
+        		Map<String,Set<LeaveBlock>> eligibilities = TkServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(document.getCalendarEntry(), document.getPrincipalId());
+        		
+        		ActionRedirect transferRedirect = new ActionRedirect();
+        		ActionRedirect payoutRedirect = new ActionRedirect();
+				
+				List<LeaveBlock> eligibleTransfers = new ArrayList<LeaveBlock>();
+				List<LeaveBlock> eligiblePayouts = new ArrayList<LeaveBlock>();
+        		Interval interval = new Interval(document.getCalendarEntry().getBeginPeriodDate().getTime(), document.getCalendarEntry().getEndPeriodDate().getTime());
+
+        		for(Entry<String,Set<LeaveBlock>> entry : eligibilities.entrySet()) {
+        			
+            		for(LeaveBlock lb : entry.getValue()) {
+            			if(interval.contains(lb.getLeaveDate().getTime())) {
+	            			//maxBalanceViolations should, if a violation exists, return a leave block with leave date either current date, or the end period date - 1 days.
+	        				AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
+	
+	            			if(ObjectUtils.isNotNull(aRule)
+	            					&& !StringUtils.equals(aRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND)) {
+		            			if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.PAYOUT)) {
+		            				eligiblePayouts.add(lb);
+		            			}
+		            			else if(StringUtils.equals(aRule.getActionAtMaxBalance(), LMConstants.ACTION_AT_MAX_BAL.TRANSFER)
+		            					|| StringUtils.equals(aRule.getActionAtMaxBalance(), LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
+		            				eligibleTransfers.add(lb);
+		            			}
+	            			}
+            			}
             		}
-            		if(!StringUtils.isEmpty(sb.toString())) {
-	            		redirect.setPath("/BalanceTransfer.do?"+request.getQueryString()+sb.toString());
-	            		return redirect;
-            		}
-    			}
-        		eligibleTransfers.clear();
-        		eligibleTransfers.addAll(eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END));
-    			if(!eligibleTransfers.isEmpty()) {
-					Collections.sort(eligibleTransfers, new Comparator() {
-						
-						@Override
-						public int compare(Object o1, Object o2) {
-							LeaveBlock l1 = (LeaveBlock) o1;
-							LeaveBlock l2 = (LeaveBlock) o2;
-							return l1.getLeaveDate().compareTo(l2.getLeaveDate());
-						}
-						
-					});
-            		int categoryCounter = 0;
-    				StringBuilder sb = new StringBuilder();
-            		ActionRedirect redirect = new ActionRedirect();
-            		for(LeaveBlock lb : eligibleTransfers) {
-            			//year end transfers are not dependent on whether or not the most recent leave block that exceeded the limit
-            			//is contained within the calendar interval.
-           				sb.append("&accrualCategory"+categoryCounter+"="+lb.getLmLeaveBlockId());
-            		}
-            		if(!StringUtils.isEmpty(sb.toString())) {
-	            		redirect.setPath("/BalanceTransfer.do?"+request.getQueryString()+sb.toString());
-	            		return redirect;
-            		}
-    			}
-        		eligibilities = TkServiceLocator.getLeavePayoutService().getNewEligiblePayouts(document.getCalendarEntry(),document.getPrincipalId());
-        		List<LeaveBlock> eligiblePayouts = new ArrayList<LeaveBlock>();
-        		eligiblePayouts.addAll(eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE));
-    			if(!eligiblePayouts.isEmpty()) {
-					Collections.sort(eligiblePayouts, new Comparator() {
-						
-						@Override
-						public int compare(Object o1, Object o2) {
-							LeaveBlock l1 = (LeaveBlock) o1;
-							LeaveBlock l2 = (LeaveBlock) o2;
-							return l1.getLeaveDate().compareTo(l2.getLeaveDate());
-						}
-						
-					});
-    				int categoryCounter = 0;
-            		StringBuilder sb = new StringBuilder();
-            		ActionRedirect redirect = new ActionRedirect();
-            		Interval interval = new Interval(document.getCalendarEntry().getBeginPeriodDate().getTime(), document.getCalendarEntry().getEndPeriodDate().getTime());
-            		for(LeaveBlock lb : eligiblePayouts) {
-            			//leave approve frequency max balance actions cannot happen without a leave block existing on the current
-            			//calendar that exceeds the balance limit.
-            			//the max balance action shall be handled within the calendar that contains the leave block!
-            			if(interval.contains(lb.getLeaveDate().getTime()))
-            				sb.append("&accrualCategory"+categoryCounter+"="+lb.getLmLeaveBlockId());
-            		}
-            		if(!StringUtils.isEmpty(sb.toString())) {
-	            		redirect.setPath("/LeavePayout.do?"+request.getQueryString()+sb.toString());
-	            		return redirect;
-            		}
-    			}
-    			eligiblePayouts.clear();
-        		eligiblePayouts.addAll(eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END));
-    			if(!eligiblePayouts.isEmpty()) {
-					Collections.sort(eligiblePayouts, new Comparator() {
-						
-						@Override
-						public int compare(Object o1, Object o2) {
-							LeaveBlock l1 = (LeaveBlock) o1;
-							LeaveBlock l2 = (LeaveBlock) o2;
-							return l1.getLeaveDate().compareTo(l2.getLeaveDate());
-						}
-						
-					});
-    				int categoryCounter = 0;
-            		StringBuilder sb = new StringBuilder();
-            		ActionRedirect redirect = new ActionRedirect();
-            		for(LeaveBlock lb : eligiblePayouts) {
-            			//year end transfers are not dependent on whether or not the most recent leave block that exceeded the limit
-            			//is contained within the calendar interval.
-            			sb.append("&accrualCategory"+categoryCounter+"="+lb.getLmLeaveBlockId());
-            		}
-            		if(!StringUtils.isEmpty(sb.toString())) {
-	            		redirect.setPath("/LeavePayout.do?"+request.getQueryString()+sb.toString());
-	            		return redirect;
-            		}
-    			}
+        		}
+        		if(!eligibleTransfers.isEmpty()) {
+            		transferRedirect.setPath("/BalanceTransfer.do?"+request.getQueryString());
+            		request.getSession().setAttribute("eligibilities", eligibleTransfers);
+            		return transferRedirect;
+        		}
+        		if(!eligiblePayouts.isEmpty()) {
+            		payoutRedirect.setPath("/LeavePayout.do?"+request.getQueryString());
+            		request.getSession().setAttribute("eligibilities", eligiblePayouts);
+            		return payoutRedirect;           			
+        		}
                 TkServiceLocator.getLeaveCalendarService().routeLeaveCalendar(TKContext.getTargetPrincipalId(), document);
             }
         } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
@@ -240,7 +169,7 @@ public class LeaveCalendarSubmitAction extends TkAction {
             }
         }
 
-        TKContext.getUser().clearTargetUser();
+        TKUser.clearTargetUser();
         return new ActionRedirect(mapping.findForward("approverRedirect"));
 
     }

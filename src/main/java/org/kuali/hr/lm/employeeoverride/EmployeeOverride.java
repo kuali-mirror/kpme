@@ -33,9 +33,9 @@ public class EmployeeOverride extends HrBusinessObject {
 	private String principalId;
 	private String accrualCategory;
 	private String leavePlan;
-	private Person principal;
-	private PrincipalHRAttributes principalHRAttrObj;
-	private AccrualCategory accrualCategoryObj;
+	private transient Person principal;
+	private transient PrincipalHRAttributes principalHRAttrObj;
+	private transient AccrualCategory accrualCategoryObj;
 	private String overrideType;
 	private Long overrideValue;
 	private String description;

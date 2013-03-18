@@ -25,6 +25,7 @@ import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.base.web.TkCommonCalendarForm;
 import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.calendar.LeaveCalendar;
+import org.kuali.hr.time.util.TKUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -44,7 +45,6 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
     private String startDate;
     private String endDate;
     private String selectedEarnCode;
-    private Map<String, String> leaveCodeList = new LinkedHashMap<String, String>();
     private BigDecimal leaveAmount;
     private String description;
     private String leaveBlockId;
@@ -66,7 +66,12 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
 	private LeaveSummary leaveSummary;
     private boolean leavePlanningCalendar;
     private List<BalanceTransfer> forfeitures;
-	
+	private String startTime;
+	private String endTime;
+    
+    public boolean isCurrentLeavePeriod () {
+    	return (TKUtils.getCurrentDate().compareTo(calendarEntry.getBeginPeriodDate()) >= 0 && TKUtils.getCurrentDate().compareTo(calendarEntry.getEndPeriodDate()) < 0);
+    }
 	public DateTime getCurrentPayCalStart() {
 		return currentPayCalStart;
 	}
@@ -248,14 +253,6 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
         this.description = description;
     }
 
-    public Map<String, String> getLeaveCodeList() {
-        return leaveCodeList;
-    }
-
-    public void setLeaveCodeList(Map<String, String> leaveCodeList) {
-        this.leaveCodeList = leaveCodeList;
-    }
-
     public String getLeaveBlockId() {
         return leaveBlockId;
     }
@@ -311,4 +308,21 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
 	public void setForfeitures(List<BalanceTransfer> forfeitures) {
 		this.forfeitures = forfeitures;
 	}
+
+	public String getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+	
 }

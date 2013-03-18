@@ -45,10 +45,10 @@ public class PrincipalHRAttributes extends HrBusinessObject {
 //	private String recordTime;
 //	private String recordLeave;
 	
-	private Calendar calendar;
-	private Calendar leaveCalObj;
-	private Person person;
-	private LeavePlan leavePlanObj;
+	private transient Calendar calendar;
+	private transient Calendar leaveCalObj;
+	private transient Person person;
+	private transient LeavePlan leavePlanObj;
 
 
 	public String getPrincipalId() {

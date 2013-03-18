@@ -34,7 +34,6 @@ public class LeaveRequestPostProcessor extends DefaultPostProcessor {
 	public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) throws Exception {		
 		ProcessDocReport pdr = new ProcessDocReport(true, "");
 		String documentId = statusChangeEvent.getDocumentId();
-        DocumentStatus status = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(documentId);
         LeaveRequestDocument document = TkServiceLocator.getLeaveRequestDocumentService().getLeaveRequestDocument(documentId);
 
 		//LeaveCalendarDocument document = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(documentId);
@@ -49,7 +48,6 @@ public class LeaveRequestPostProcessor extends DefaultPostProcessor {
 				if (!statusChangeEvent.getOldRouteStatus().equals(statusChangeEvent.getNewRouteStatus())) {
 	
 	                DocumentStatus newDocumentStatus = DocumentStatus.fromCode(statusChangeEvent.getNewRouteStatus());
-	                LeaveRequestActionValue lrAction = LeaveRequestActionValue.fromCode(document.getActionCode());
 	                if (DocumentStatus.ENROUTE.equals(newDocumentStatus)) {
 	                    lb.setRequestStatus(LMConstants.REQUEST_STATUS.REQUESTED);
 	                } else if (DocumentStatus.DISAPPROVED.equals(newDocumentStatus)) {

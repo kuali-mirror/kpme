@@ -29,7 +29,7 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * 
  */
 public class Account extends PersistableBusinessObjectBase implements Inactivatable {
-    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Account.class);
+    protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(Account.class);
 
     private String chartOfAccountsCode;
     private String accountNumber;

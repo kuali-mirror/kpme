@@ -15,17 +15,9 @@
  */
 package org.kuali.hr.time.approval.web;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
-import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
@@ -34,10 +26,14 @@ import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kew.doctype.SecuritySession;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
-public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryRow> {
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.*;
+
+public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryRow>, Serializable {
 	private String name;
 	private String principalId;
 	private String documentId;
@@ -111,7 +107,7 @@ public class ApprovalLeaveSummaryRow implements Comparable<ApprovalLeaveSummaryR
 
         link.append("methodToCall=changeTargetPerson");
         link.append("&documentId=").append(this.getDocumentId());
-        Person person = KimApiServiceLocator.getPersonService().getPerson(this.getPrincipalId());
+        Principal person = KimApiServiceLocator.getIdentityService().getPrincipal(this.getPrincipalId());
         link.append("&principalName=").append(person.getPrincipalName());
         
         return link.toString();

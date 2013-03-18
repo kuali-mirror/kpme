@@ -118,6 +118,7 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
         lifecycles.add(new ClearCacheLifecycle());
         return lifecycles;
     }
+
 	@Override
 	protected List<Lifecycle> getSuiteLifecycles() {
 		List<Lifecycle> lifecycles = super.getPerTestLifecycles();

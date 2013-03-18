@@ -15,18 +15,13 @@
  */
 package org.kuali.hr.time.department;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
@@ -34,6 +29,11 @@ import org.kuali.rice.kns.web.ui.Section;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
@@ -66,7 +66,7 @@ public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl
         	TkRole aRole = (TkRole)newCollectionLines.get(collectionName );
             if ( aRole != null ) {
             	if(!aRole.getPrincipalId().isEmpty()) {
-            		Person aPerson = KimApiServiceLocator.getPersonService().getPerson(aRole.getPrincipalId());
+            		Principal aPerson = KimApiServiceLocator.getIdentityService().getPrincipal(aRole.getPrincipalId());
             		if(aPerson == null) {
             			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"roles", 
                 				"dept.role.person.notExist",aRole.getPrincipalId());

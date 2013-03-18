@@ -57,7 +57,7 @@ public class ChangeTargetPersonAction extends TkAction {
 	                	|| roles.isTimesheetReviewerForPerson(targetPerson.getPrincipalId())
 	                	|| roles.isApproverForPerson(targetPerson.getPrincipalId())) {
 		                	
-	            	TKUser.setTargetPerson(KimApiServiceLocator.getPersonService().getPerson(targetPerson.getPrincipalId()));
+	            	TKUser.setTargetPerson(targetPerson.getPrincipalId());
 	
 		            if (StringUtils.isNotEmpty(changeTargetPersonForm.getReturnUrl())) {
 		            	GlobalVariables.getUserSession().addObject(TkConstants.TK_TARGET_USER_RETURN, changeTargetPersonForm.getReturnUrl());

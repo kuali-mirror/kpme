@@ -16,6 +16,9 @@
 package org.kuali.hr.time.detail.web;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.time.calendar.TkCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -29,7 +32,7 @@ import java.util.*;
 
 public class TimeDetailActionForm extends TimeDetailActionFormBase {
 
-    private static SimpleDateFormat SDF_NO_TZ = new SimpleDateFormat("EEE MMM d HH:mm:ss yyyy");
+    private static DateTimeFormatter SDF_NO_TZ = DateTimeFormat.forPattern("EEE MMM d HH:mm:ss yyyy");
 
     /**
      *
@@ -131,11 +134,16 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
     }
 
     public String getBeginPeriodDTNoTZ() {
-        return SDF_NO_TZ.format(this.getBeginPeriodDateTime());
+        return SDF_NO_TZ.print(new DateTime(this.getBeginPeriodDateTime()));
     }
 
     public String getEndPeriodDTNoTZ() {
-        return SDF_NO_TZ.format(this.getEndPeriodDateTime());
+        return SDF_NO_TZ.print(new DateTime(this.getEndPeriodDateTime()));
+    }
+    
+
+    public boolean isCurrentTimesheet() {
+    	return (TKUtils.getCurrentDate().compareTo(this.getBeginPeriodDateTime()) >= 0 && TKUtils.getCurrentDate().compareTo(this.getEndPeriodDateTime()) < 0 );
     }
 
 	public String getDocEditable() {

@@ -26,6 +26,7 @@ import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.roles.TkRoleGroup;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -49,9 +50,9 @@ public class TkRoleLookupableHelper extends HrEffectiveDateActiveLookupableHelpe
         }
         String department = tkRoleGroup.getDepartment();
         
-        boolean systemAdmin = TKContext.getUser().isSystemAdmin();
-		boolean locationAdmin = TKContext.getUser().getLocationAdminAreas().contains(location);
-		boolean departmentAdmin = TKContext.getUser().getDepartmentAdminAreas().contains(department);
+        boolean systemAdmin = TKUser.isSystemAdmin();
+		boolean locationAdmin = TKUser.getLocationAdminAreas().contains(location);
+		boolean departmentAdmin = TKUser.getDepartmentAdminAreas().contains(department);
 		
 		for (HtmlData defaultCustomActionUrl : defaultCustomActionUrls){
 			if (StringUtils.equals(defaultCustomActionUrl.getMethodToCall(), "edit")) {
@@ -104,8 +105,8 @@ public class TkRoleLookupableHelper extends HrEffectiveDateActiveLookupableHelpe
             mapDistinctPrincipalIdsToRoleGroups.put(roleGroup.getPrincipalId(), roleGroup);
         }
         List<TkRoleGroup> distinctRoleGroupPrincipalIds = new ArrayList<TkRoleGroup>();
-        for(String distinctPrincipalId : mapDistinctPrincipalIdsToRoleGroups.keySet()){
-        	distinctRoleGroupPrincipalIds.add(mapDistinctPrincipalIdsToRoleGroups.get(distinctPrincipalId));
+        for(TkRoleGroup roleGroup : mapDistinctPrincipalIdsToRoleGroups.values()){
+        	distinctRoleGroupPrincipalIds.add(roleGroup);
         }
         
 //		if(principalId!=""){

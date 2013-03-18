@@ -15,23 +15,14 @@
  */
 package org.kuali.hr.time.util;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
-import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.paygrade.PayGrade;
-import org.kuali.hr.pm.institution.Institution;
-import org.kuali.hr.time.accrual.TimeOffAccrual;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.department.Department;
@@ -45,11 +36,17 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.kfs.coa.businessobject.Chart;
-import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.services.LocationApiServiceLocator;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A few methods to assist with various validation tasks.
@@ -126,23 +123,6 @@ public class ValidationUtils {
 		return valid;
 	}
 	
-	public static boolean validateLeaveCode(String leaveCode, Date asOfDate) {
-		boolean valid = false;
-		
-		if (asOfDate != null) {
-			LeaveCode lc = TkServiceLocator.getLeaveCodeService().getLeaveCode(leaveCode, asOfDate);
-			valid = (lc != null);
-		} else {
-			Map<String, String> fieldValues = new HashMap<String, String>();
-			fieldValues.put("leaveCode", leaveCode);
-			int matches = KRADServiceLocator.getBusinessObjectService().countMatching(LeaveCode.class, fieldValues);
-			
-			valid = matches > 0;
-		}
-		
-		return valid;
-	}
-	
 	public static boolean validateLeavePlan(String leavePlan, Date asOfDate) {
 		boolean valid = false;
 		
@@ -157,33 +137,6 @@ public class ValidationUtils {
 		return valid;
 	}
 
-	public static boolean validateLeaveCode(String leaveCode, String principalId, Date asOfDate) {
-		boolean valid = false;
-		
-		if (asOfDate != null) {
-			List<LeaveCode> leaveCodes = TkServiceLocator.getLeaveCodeService().getLeaveCodes(principalId, asOfDate);
-			if(leaveCodes != null && !leaveCodes.isEmpty()) {
-				for(LeaveCode leaveCodeObj : leaveCodes) {
-					if(leaveCodeObj.getLeaveCode() != null) {
-						if(StringUtils.equals(leaveCodeObj.getLeaveCode().trim(), leaveCode.trim())){
-							valid = true;
-							break;
-						}
-					}
-				}
-			}
-//			valid = (leaveCodes != null);
-		} else {
-			Map<String, String> fieldValues = new HashMap<String, String>();
-			fieldValues.put("leaveCode", leaveCode);
-			int matches = KRADServiceLocator.getBusinessObjectService().countMatching(LeaveCode.class, fieldValues);
-			
-			valid = matches > 0;
-		}
-		
-		return valid;
-	}
-	
 	public static boolean validateEarnCodeOfAccrualCategory(String earnCode, String accrualCategory, Date asOfDate) {
 		boolean valid = false;
 		
@@ -392,7 +345,7 @@ public class ValidationUtils {
 	public static boolean validatePrincipalId(String principalId) {
 		boolean valid = false;
 		if (principalId != null) {
-			Person p = KimApiServiceLocator.getPersonService().getPerson(principalId);
+			Principal p = KimApiServiceLocator.getIdentityService().getPrincipal(principalId);
 		    valid = (p != null);
 		}
 		return valid;
@@ -493,24 +446,7 @@ public class ValidationUtils {
 	   return valid;
    }
    
-   public static boolean duplicateTimeOffAccrual (TimeOffAccrual timeOffAccrual) {
-	   boolean valid = false;
-	   int count = TkServiceLocator.getTimeOffAccrualService().getTimeOffAccrualCount
-               (timeOffAccrual.getAccrualCategory(), timeOffAccrual.getEffectiveDate(), timeOffAccrual.getPrincipalId(), null);
-	   if(count == 1) {
-    	   valid = true;
-    	   count = TkServiceLocator.getTimeOffAccrualService().getTimeOffAccrualCount
-                   (timeOffAccrual.getAccrualCategory(), timeOffAccrual.getEffectiveDate(), timeOffAccrual.getPrincipalId(), timeOffAccrual.getLmAccrualId());
-    	   if(count == 1) {
-    		   valid = false;
-    	   }
-       } else if(count > 1) {
-    	   valid = true;
-       }
-	   return valid;
-   }
-
-   /**
+    /**
     * Checks for date not more than one year in the future from accrualDAte
     * 
     */

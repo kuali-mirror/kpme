@@ -140,19 +140,6 @@ public class TkRoleServiceImpl implements TkRoleService {
         return this.tkRoleDao.findRoles(principalId, asOfDate, roleName, workArea, department, null);
     }
 
-    //TODO: this won't work at all.  We can't use TKUser here, as that just grabs stuff from the session
-    // we need a wrapper class for TKUser, though I'm not sure why we can't just return Person, or Entity...
-	public List<TKUser> getEmployeesForWorkArea(Long workArea, Date asOfDate){
-		List<TKUser> lstEmployees = new ArrayList<TKUser>();
-		List<Assignment> lstActiveAssignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, asOfDate);
-
-        for(Assignment assign: lstActiveAssignments){
-			TKUser tkUser = TKUser.getUser(assign.getPrincipal(), assign.getEffectiveDate());
-			lstEmployees.add(tkUser);
-		}
-		return lstEmployees;
-	}
-
     @Override
     public List<String> getResponsibleParties(Assignment a, String roleName, Date asOfDate) {
         List<String> users = new ArrayList<String>();

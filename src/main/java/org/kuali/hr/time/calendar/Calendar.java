@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.joda.time.DateTimeConstants;
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
@@ -169,6 +170,11 @@ public class Calendar extends PersistableBusinessObjectBase {
 		}
 		return flsaBeginDayConstant;
 	}
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
     @Override
     public boolean equals(Object o) {

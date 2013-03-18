@@ -15,28 +15,22 @@
  */
 package org.kuali.hr.lm.leavecalendar.service;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
-import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecalendar.dao.LeaveCalendarDao;
-import org.kuali.hr.lm.leavepayout.LeavePayout;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
-import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -45,9 +39,14 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.api.note.Note;
-import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
 
 public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 	
@@ -87,8 +86,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 
         LeaveCalendarDocumentHeader header = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, begin, end);
         if (header == null) {
-            Person person = KimApiServiceLocator.getPersonService().getPerson(principalId);
-            String principalName = person != null ? person.getName() : StringUtils.EMPTY;
+            EntityNamePrincipalName person = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
+            String principalName = person != null && person.getDefaultName() != null ? person.getDefaultName().getCompositeName() : StringUtils.EMPTY;
             String beginDateString = TKUtils.formatDate(new java.sql.Date(begin.getTime()));
             String endDateString = TKUtils.formatDate(new java.sql.Date(end.getTime()));
             String leaveCalendarDocumentTitle = LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TYPE + " - " + principalName + " (" + principalId + ") - " + beginDateString + "-" + endDateString;
@@ -182,15 +181,9 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     }
     
     private String getBatchUserPrincipalId() {
-    	String principalId = null;
-    	
     	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
-        Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(principalName);
-        if (person != null) {
-        	principalId = person.getPrincipalId();
-        }
-        
-        return principalId;
+        Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(principalName);
+        return principal == null ? null : principal.getPrincipalId();
     }
     
     private String getInitiateLeaveRequestAction() {
@@ -326,8 +319,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
             	
             	wd.route("Batch job routing leave calendar");
             } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
-                if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin() &&
-                        !TKContext.getUser().getCurrentTargetRoles().isApproverForTimesheet(leaveCalendarDocument)) {
+                if (TKUser.getCurrentTargetRoles().isSystemAdmin() &&
+                        !TKUser.getCurrentTargetRoles().isApproverForTimesheet(leaveCalendarDocument)) {
                     wd.superUserBlanketApprove("Superuser approving timesheet.");
                 } else {
                     wd.approve("Approving timesheet.");
@@ -340,8 +333,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
             	
             	wd.superUserBlanketApprove("Batch job approving leave calendar");
             } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
-                if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin()
-                        && !TKContext.getUser().getCurrentTargetRoles().isApproverForTimesheet(leaveCalendarDocument)) {
+                if (TKUser.getCurrentTargetRoles().isSystemAdmin()
+                        && !TKUser.getCurrentTargetRoles().isApproverForTimesheet(leaveCalendarDocument)) {
                     wd.superUserDisapprove("Superuser disapproving timesheet.");
                 } else {
                     wd.disapprove("Disapproving timesheet.");

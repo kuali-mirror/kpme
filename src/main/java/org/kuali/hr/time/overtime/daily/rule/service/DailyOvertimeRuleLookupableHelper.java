@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -44,7 +45,7 @@ public class DailyOvertimeRuleLookupableHelper extends HrEffectiveDateActiveLook
 		DailyOvertimeRule dailyOvertimeRule = (DailyOvertimeRule) businessObject;
 		String tkDailyOvertimeRuleId = dailyOvertimeRule.getTkDailyOvertimeRuleId();
 		
-		boolean systemAdmin = TKContext.getUser().isSystemAdmin();
+		boolean systemAdmin = TKUser.isSystemAdmin();
 
 		for (HtmlData defaultCustomActionUrl : defaultCustomActionUrls){
 			if (StringUtils.equals(defaultCustomActionUrl.getMethodToCall(), "edit")) {

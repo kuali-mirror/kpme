@@ -131,7 +131,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	@Override
 	public Map<String, CalendarEntries> getPayCalendarEntriesForApprover(
 			String principalId, Date currentDate, String dept) {
-		TKUser tkUser = TKContext.getUser();
 
 		Map<String, CalendarEntries> pceMap = new HashMap<String, CalendarEntries>();
 		Set<String> principals = new HashSet<String>();
@@ -187,7 +186,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			Date payEndDate) {
 		SortedSet<String> pcg = new TreeSet<String>();
 
-		TKUser tkUser = TKContext.getUser();
 		Set<Long> approverWorkAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
 		List<Assignment> assignments = new ArrayList<Assignment>();
 
@@ -267,8 +265,8 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			warnings.addAll(transactionalWarnings.get("infoMessages"));
 			warnings.addAll(transactionalWarnings.get("warningMessages"));
 			warnings.addAll(transactionalWarnings.get("actionMessages"));
-
-			Map<String, Set<String>> eligibleTransfers = findWarnings(tdh,payCalendarEntries);
+			
+			Map<String, Set<String>> eligibleTransfers = findWarnings(person.getPrincipalId(), payCalendarEntries);
 			warnings.addAll(eligibleTransfers.get("warningMessages"));
 			
 			Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(
@@ -365,55 +363,36 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		return lstPayCalendarLabels;
 	}
 
-	private Map<String, Set<String>> findWarnings(TimesheetDocumentHeader tdh, CalendarEntries calendarEntry) {
+	private Map<String, Set<String>> findWarnings(String principalId, CalendarEntries calendarEntry) {
 //      List<String> warnings = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
       Map<String, Set<String>> allMessages = new HashMap<String,Set<String>>();
       allMessages.put("warningMessages", new HashSet<String>());
-      //get LeaveSummary and check for warnings
-      if (tdh != null) {
-          Map<String, Set<LeaveBlock>> eligibilities;
-          try {
-      	 eligibilities = TkServiceLocator.getBalanceTransferService().getNewEligibleTransfers(calendarEntry, tdh.getPrincipalId());
-          } catch (Exception e) {
-          	eligibilities = null;
-          }           
-          if (eligibilities != null) {
-              for (Entry<String,Set<LeaveBlock>> entry : eligibilities.entrySet()) {
-            	  for(LeaveBlock lb : entry.getValue()) {
-            		  AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
-            		  if (rule != null) {
-            			  AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
-            			  if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.TRANSFER)) {
-            				  //Todo: add link to balance transfer
-            				  allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");   //warningMessages
-            			  } else if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
-            				  //Todo: compute and display amount of time lost.
-            				  allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");      //warningMessages
-            			  }
-            			  //will never contain PAYOUT action transfers.
-            		  }
-            	  }
-              }
-          }
-          Map<String, Set<LeaveBlock>> payoutEligible;
-          try {
-        	  payoutEligible = TkServiceLocator.getLeavePayoutService().getNewEligiblePayouts(calendarEntry, tdh.getPrincipalId());
-          } catch (Exception e) {
-        	  payoutEligible = null;  
-          }
-          if (payoutEligible != null) {
-              for (Entry<String,Set<LeaveBlock>> entry : payoutEligible.entrySet()) {
-            	  for(LeaveBlock lb : entry.getValue()) {
-            		  AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
-            		  if (rule != null) {
-            			  AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
-           				  allMessages.get("warningMessages").add("Accrual category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");
-            		  }
-            		  // should never contain LOSE or TRANSFER max balance actions.
-            	  }
-              }
+
+      Map<String, Set<LeaveBlock>> eligibilities;
+
+  	 eligibilities = TkServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry, principalId);
+
+      if (eligibilities != null) {
+          for (Entry<String,Set<LeaveBlock>> entry : eligibilities.entrySet()) {
+        	  for(LeaveBlock lb : entry.getValue()) {
+        		  AccrualCategoryRule rule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
+        		  if (rule != null) {
+        			  AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(rule.getLmAccrualCategoryId());
+        			  if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.TRANSFER)) {
+        				  //Todo: add link to balance transfer
+        				  allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");   //warningMessages
+        			  } else if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
+        				  //Todo: compute and display amount of time lost.
+        				  allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");      //warningMessages
+        			  } else if (rule.getActionAtMaxBalance().equals(LMConstants.ACTION_AT_MAX_BAL.PAYOUT)) {
+        				  //Todo: display payout details.
+        				  allMessages.get("warningMessages").add("Accrual Category '" + accrualCategory.getAccrualCategory() + "' is over max balance.");      //warningMessages            				  
+        			  }
+        		  }
+        	  }
           }
       }
+      
       return allMessages;
   }
 	
@@ -532,10 +511,10 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			Map<String, Map<String, BigDecimal>> payHourTotals,
 			Map<String, List<BigDecimal>> assignmentToHours,
 			List<String> payCalendarLabels) {
-		for (String key : assignmentToHours.keySet()) {
+		for (Entry<String, List<BigDecimal>> entry : assignmentToHours.entrySet()) {
 			// for every Assignment
 			Map<String, BigDecimal> hoursToPayLabelMap = new LinkedHashMap<String, BigDecimal>();
-			List<BigDecimal> dayTotals = assignmentToHours.get(key);
+			List<BigDecimal> dayTotals = entry.getValue();
 			int dayCount = 0;
 			BigDecimal weekTotal = new BigDecimal(0.00);
 			BigDecimal periodTotal = new BigDecimal(0.00);
@@ -558,7 +537,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 					dayCount++;
 				}
 			}
-			payHourTotals.put(key, hoursToPayLabelMap);
+			payHourTotals.put(entry.getKey(), hoursToPayLabelMap);
 		}
 	}
 
@@ -677,7 +656,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 	public boolean doesApproverHavePrincipalsForCalendarGroup(Date asOfDate,
 			String calGroup) {
-		TKUser tkUser = TKContext.getUser();
 		Set<Long> approverWorkAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
 		for (Long workArea : approverWorkAreas) {
 			List<Assignment> assignments = TkServiceLocator
@@ -841,11 +819,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	
 	@Override
 	public List<CalendarEntries> getAllPayCalendarEntriesForApprover(String principalId, Date currentDate) {
-		TKUser tkUser = TKContext.getUser();
 		Set<String> principals = new HashSet<String>();
-		DateTime minDt = new DateTime(currentDate,
-				TKUtils.getSystemDateTimeZone());
-		minDt = minDt.minusDays(DAYS_WINDOW_DELTA);
 		Set<Long> approverWorkAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
 
 		// Get all of the principals within our window of time.

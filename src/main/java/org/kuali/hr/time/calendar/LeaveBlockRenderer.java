@@ -17,9 +17,12 @@ package org.kuali.hr.time.calendar;
 
 import java.math.BigDecimal;
 
+import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 import static org.kuali.hr.time.service.base.TkServiceLocator.*;
@@ -118,4 +121,20 @@ public class LeaveBlockRenderer {
     	return leaveBlock.getDescription();
     }
 
+       
+    public String getTimeRange() {
+        StringBuilder b = new StringBuilder();
+
+        if(leaveBlock.getBeginTimestamp() != null && leaveBlock.getEndTimestamp() != null) {
+        	String earnCodeType = TkServiceLocator.getEarnCodeService().getEarnCodeType(leaveBlock.getEarnCode(), new java.sql.Date(leaveBlock.getBeginTimestamp().getTime()));
+        	if(StringUtils.equals(earnCodeType, TkConstants.EARN_CODE_TIME)) {
+	        	DateTime start = new DateTime(leaveBlock.getBeginTimestamp().getTime());
+	        	DateTime end = new DateTime(leaveBlock.getEndTimestamp().getTime());
+	            b.append(start.toString(TkConstants.DT_BASIC_TIME_FORMAT));
+	            b.append(" - ");
+	            b.append(end.toString(TkConstants.DT_BASIC_TIME_FORMAT));
+        	}
+        }
+        return b.toString();
+    }
 }

@@ -28,6 +28,7 @@ import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
@@ -198,7 +199,7 @@ public class AssignmentServiceImpl implements AssignmentService {
             //if the user is not the same as the timesheet and does not have approver access for the assignment
             //do not add to the display
             if (!StringUtils.equals(TKContext.getTargetPrincipalId(), TKContext.getPrincipalId())) {
-                if (!TKContext.getUser().isSystemAdmin() && !TKContext.getUser().getReportingWorkAreas().contains(assignment.getWorkArea())) {
+                if (!TKUser.isSystemAdmin() && !TKUser.getReportingWorkAreas().contains(assignment.getWorkArea())) {
                     continue;
                 }
             }

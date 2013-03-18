@@ -15,7 +15,9 @@
  */
 package org.kuali.hr.lm.request.approval.web;
 
-public class LeaveRequestApprovalRow implements Comparable<LeaveRequestApprovalRow> {
+import java.io.Serializable;
+
+public class LeaveRequestApprovalRow implements Comparable<LeaveRequestApprovalRow>, Serializable {
 
 	private String leaveRequestDocId;	
 	private String requestedDate;

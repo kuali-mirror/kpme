@@ -240,7 +240,7 @@ public class WorkAreaMaintenanceDocumentRule extends
 	}
 
 	public Long getTaskNumber(WorkArea workArea) {
-		Long task = new Long("0");
+		Long task;
 		
 		Task maxTaskInTable = TkServiceLocator.getTaskService().getMaxTask();
 		if(maxTaskInTable != null) {

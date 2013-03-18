@@ -13,21 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.hr.lm.leavecode.service;
+package org.kuali.hr.lm.accrual.service;
 
-import org.kuali.hr.time.HrBusinessObject;
-import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
+import java.util.Map;
+import java.util.Set;
 
-public class LeaveCodeMaintainableServiceImpl extends HrBusinessObjectMaintainableImpl {
+import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.time.calendar.CalendarEntries;
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public interface AccrualCategoryMaxBalanceService {
 
-	@Override
-	public HrBusinessObject getObjectById(String id) {
-		return TkServiceLocator.getLeaveCodeService().getLeaveCode(id);
-	}
+	public Map<String, Set<LeaveBlock>> getMaxBalanceViolations(CalendarEntries entry, String principalId);
+	
 }

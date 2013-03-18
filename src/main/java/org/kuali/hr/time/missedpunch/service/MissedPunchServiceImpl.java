@@ -15,11 +15,6 @@
  */
 package org.kuali.hr.time.missedpunch.service;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -38,11 +33,15 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
-import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MissedPunchServiceImpl implements MissedPunchService {
 	
@@ -254,15 +253,9 @@ public class MissedPunchServiceImpl implements MissedPunchService {
     }
     
     private String getBatchUserPrincipalId() {
-    	String principalId = null;
-    	
     	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
-        Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(principalName);
-        if (person != null) {
-        	principalId = person.getPrincipalId();
-        }
-        
-        return principalId;
+        Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(principalName);
+        return principal == null ? null : principal.getPrincipalId();
     }
     
     @Override

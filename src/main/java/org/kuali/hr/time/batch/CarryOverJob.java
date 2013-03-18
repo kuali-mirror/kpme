@@ -108,9 +108,9 @@ public class CarryOverJob implements Job{
                                         }
 
                                         // update existing first
-                                        for (String ac : existingCarryOver.keySet()) {
-                                            LeaveBlock carryOverBlock = existingCarryOver.get(ac);
-                                            LeaveSummaryRow lsr = leaveSummary.getLeaveSummaryRowForAccrualCtgy(ac);
+                                        for (Map.Entry<String, LeaveBlock> entry : existingCarryOver.entrySet()) {
+                                            LeaveBlock carryOverBlock = entry.getValue();
+                                            LeaveSummaryRow lsr = leaveSummary.getLeaveSummaryRowForAccrualCtgy(entry.getKey());
 
                                             //update values
                                             if(lsr.getAccruedBalance() != null)  {
@@ -270,15 +270,9 @@ public class CarryOverJob implements Job{
 	}
 
     private String getBatchUserPrincipalId() {
-        String principalId = null;
-
         String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
         Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(principalName);
-        if (principal != null) {
-            principalId = principal.getPrincipalId();
-        }
-
-        return principalId;
+        return principal == null ? null : principal.getPrincipalId();
     }
 
 }

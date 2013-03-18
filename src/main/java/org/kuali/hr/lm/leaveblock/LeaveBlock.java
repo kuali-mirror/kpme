@@ -25,6 +25,7 @@ import javax.persistence.Transient;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
@@ -46,6 +47,7 @@ import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.util.ObjectUtils;
 
 public class LeaveBlock extends PersistableBusinessObjectBase {
 
@@ -70,7 +72,10 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	
 	private List<LeaveBlockHistory> leaveBlockHistories = new ArrayList<LeaveBlockHistory>();
     private String leaveRequestDocumentId;
-
+    
+    private Timestamp beginTimestamp;
+    private Timestamp endTimestamp;
+    
 	@Transient
 	private boolean submit;
 	@Transient
@@ -96,7 +101,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		AccrualCategory category = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(accrualCategory, leaveDate);
 		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, leaveDate);
 		AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(category, leaveDate, pha.getServiceDate());
-		return aRule.getLmAccrualCategoryRuleId();
+		return ObjectUtils.isNull(aRule) ? null : aRule.getLmAccrualCategoryRuleId();
 	}
 	
 	public static class Builder {
@@ -504,6 +509,23 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
     }
 
     @Override
+    public int hashCode() {
+        return new HashCodeBuilder()
+                .append(this.principalId)
+                .append(this.jobNumber)
+                .append(this.workArea)
+                .append(this.task)
+                .append(this.earnCode)
+                .append(this.leaveDate)
+                .append(this.leaveAmount)
+                .append(this.accrualCategory)
+                .append(this.earnCode)
+                .append(this.description)
+                .append(this.leaveBlockType)
+                .toHashCode();
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
@@ -565,5 +587,21 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 		return transactionalDocId;
 	}
 
+	public Timestamp getBeginTimestamp() {
+		return beginTimestamp;
+	}
 
+	public void setBeginTimestamp(Timestamp beginTimestamp) {
+		this.beginTimestamp = beginTimestamp;
+	}
+
+	public Timestamp getEndTimestamp() {
+		return endTimestamp;
+	}
+
+	public void setEndTimestamp(Timestamp endTimestamp) {
+		this.endTimestamp = endTimestamp;
+	}
 }
+
+

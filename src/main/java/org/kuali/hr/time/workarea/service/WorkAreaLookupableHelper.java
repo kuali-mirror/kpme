@@ -26,6 +26,7 @@ import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
 import org.kuali.hr.time.authorization.TkAuthorizedLookupableHelperBase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
@@ -57,9 +58,9 @@ public class WorkAreaLookupableHelper extends TkAuthorizedLookupableHelperBase {
 		String location = TkServiceLocator.getDepartmentService().getDepartment(workArea.getDept(), TKUtils.getCurrentDate()).getLocation();
 		String department = workArea.getDept();
 		
-		boolean systemAdmin = TKContext.getUser().isSystemAdmin();
-		boolean locationAdmin = TKContext.getUser().getLocationAdminAreas().contains(location);
-		boolean departmentAdmin = TKContext.getUser().getDepartmentAdminAreas().contains(department);
+		boolean systemAdmin = TKUser.isSystemAdmin();
+		boolean locationAdmin = TKUser.getLocationAdminAreas().contains(location);
+		boolean departmentAdmin = TKUser.getDepartmentAdminAreas().contains(department);
 		
 		for (HtmlData defaultCustomActionUrl : defaultCustomActionUrls){
 			if (StringUtils.equals(defaultCustomActionUrl.getMethodToCall(), "edit")) {

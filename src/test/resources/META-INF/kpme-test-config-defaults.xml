@@ -26,6 +26,7 @@
 	
 	<param name="message.persistence">false</param>
 	<param name="message.delivery">synchronous</param>
+    <param name="session.timeout">150</param>
 	
 	<!--Test params-->
 	<param name="no.save.document.on.create">false</param>

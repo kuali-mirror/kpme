@@ -15,22 +15,13 @@
  */
 package org.kuali.hr.time.timesheet.service;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
-import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
-import org.kuali.hr.lm.leavepayout.LeavePayout;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
@@ -49,8 +40,16 @@ import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.api.note.Note;
-import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 public class TimesheetServiceImpl implements TimesheetService {
 
@@ -98,8 +97,8 @@ public class TimesheetServiceImpl implements TimesheetService {
             	
             	wd.route("Batch job routing timesheet");
             } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
-                if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin() &&
-                        !TKContext.getUser().getCurrentTargetRoles().isApproverForTimesheet(timesheetDocument)) {
+                if (TKUser.getCurrentTargetRoles().isSystemAdmin() &&
+                        !TKUser.getCurrentTargetRoles().isApproverForTimesheet(timesheetDocument)) {
                     wd.superUserBlanketApprove("Superuser approving timesheet.");
                 } else {
                     wd.approve("Approving timesheet.");
@@ -112,8 +111,8 @@ public class TimesheetServiceImpl implements TimesheetService {
             	
             	wd.superUserBlanketApprove("Batch job approving timesheet.");
             } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
-                if (TKContext.getUser().getCurrentTargetRoles().isSystemAdmin()
-                        && !TKContext.getUser().getCurrentTargetRoles().isApproverForTimesheet(timesheetDocument)) {
+                if (TKUser.getCurrentTargetRoles().isSystemAdmin()
+                        && !TKUser.getCurrentTargetRoles().isApproverForTimesheet(timesheetDocument)) {
                     wd.superUserDisapprove("Superuser disapproving timesheet.");
                 } else {
                     wd.disapprove("Disapproving timesheet.");
@@ -140,8 +139,8 @@ public class TimesheetServiceImpl implements TimesheetService {
                 //throw new RuntimeException("No active assignments for " + principalId + " for " + calendarDates.getEndPeriodDate());
             }
             
-            Person person = KimApiServiceLocator.getPersonService().getPerson(principalId);
-            String principalName = person != null ? person.getName() : StringUtils.EMPTY;
+            EntityNamePrincipalName person = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
+            String principalName = person != null && person.getDefaultName() != null ? person.getDefaultName().getCompositeName() : StringUtils.EMPTY;
             String endDateString = TKUtils.formatDate(new java.sql.Date(end.getTime()));
             String timesheetDocumentTitle = TimesheetDocument.TIMESHEET_DOCUMENT_TYPE + " - " + principalName + " (" + principalId + ") - " + endDateString;
             
@@ -223,15 +222,9 @@ public class TimesheetServiceImpl implements TimesheetService {
     }
     
     private String getBatchUserPrincipalId() {
-    	String principalId = null;
-    	
     	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
-        Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(principalName);
-        if (person != null) {
-        	principalId = person.getPrincipalId();
-        }
-        
-        return principalId;
+        Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(principalName);
+        return principal == null ? null : principal.getPrincipalId();
     }
 
     public List<TimeBlock> getPrevDocumentTimeBlocks(String principalId, Date payBeginDate) {
@@ -270,7 +263,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     }
 
     public boolean isSynchronousUser() {
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKUser.getCurrentTargetPerson().getPrincipalId(), TKUtils.getCurrentDate());
+        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKUser.getCurrentTargetPersonId(), TKUtils.getCurrentDate());
         boolean isSynchronousUser = true;
         for (Assignment assignment : assignments) {
             isSynchronousUser &= assignment.isSynchronous();

@@ -18,6 +18,7 @@ package org.kuali.hr.time.timesheet.web;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -40,7 +41,7 @@ import java.util.Map;
 
 @Ignore
 public class TimesheetWebTestBase extends KPMETestCase {
-
+    private static final Logger LOG = Logger.getLogger(TimesheetWebTestBase.class);
     public static final Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
     public static final String USER_PRINCIPAL_ID = "admin";
     public static String BASE_DETAIL_URL = ""; // moved to setUp() method -- initialization order for TkTestConstants problem.
@@ -82,7 +83,7 @@ public class TimesheetWebTestBase extends KPMETestCase {
         TestAutoLoginFilter.OVERRIDE_ID = "";
         Assert.assertNotNull(page);
         HtmlUnitUtil.createTempFile(page, "Login-"+principalId);
-        System.out.println(page.asText());
+        LOG.debug(page.asText());
         String pageAsText = page.asText();
         if (assertValid) {
         	Assert.assertTrue("Login info not present.", pageAsText.contains("Employee Id:"));

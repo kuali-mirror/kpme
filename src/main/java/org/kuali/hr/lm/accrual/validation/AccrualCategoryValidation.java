@@ -415,7 +415,7 @@ public class AccrualCategoryValidation extends MaintenanceDocumentRuleBase {
 						//KPME 1483 avoid NPEs since page required field validations are not present when add button is clicked
 						if (leaveAccrualCategoryRule.getStart() == null || leaveAccrualCategoryRule.getEnd() == null) {
 							this.putFieldError("error.accrualCategoryRule.startEndBlank", "error.required");
-							return valid = false; //break out before NPE
+							return false; //break out before NPE
 						}
 						valid = this.validateStartEndUnits(accrualCategory.getAccrualCategoryRules(), leaveAccrualCategoryRule);
 					}

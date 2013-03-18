@@ -15,12 +15,6 @@
  */
 package org.kuali.hr.time.admin.web;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
@@ -28,8 +22,13 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class CalculateLeaveAccrualsAction extends TkAction {
 	
@@ -39,7 +38,7 @@ public class CalculateLeaveAccrualsAction extends TkAction {
     	CalculateLeaveAccrualsForm calculateLeaveAccrualsForm = (CalculateLeaveAccrualsForm) form;
     	
     	DateFormat formater = new SimpleDateFormat("MM/dd/yyyy");
-    	Person principal = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(calculateLeaveAccrualsForm.getPrincipalName());
+    	Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(calculateLeaveAccrualsForm.getPrincipalName());
 		if (principal != null) {
     		if (StringUtils.isNotBlank(calculateLeaveAccrualsForm.getStartDate()) && StringUtils.isNotBlank(calculateLeaveAccrualsForm.getEndDate())) {
     			java.util.Date parsedStartDate = formater.parse(calculateLeaveAccrualsForm.getStartDate());

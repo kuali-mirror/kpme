@@ -15,13 +15,14 @@
  */
 package org.kuali.hr.time.timesummary;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.hr.time.util.TkConstants;
 
-public class AssignmentRow {
+public class AssignmentRow implements Serializable {
 	private String descr;
 	private List<BigDecimal> total = new ArrayList<BigDecimal>();
 	private String cssClass;

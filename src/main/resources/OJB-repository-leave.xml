@@ -110,34 +110,6 @@
         <field-descriptor name="status"					column="STATUS"							jdbc-type="VARCHAR"		length="1" />
     </class-descriptor>
 
-    <!-- Leave Code -->
-    <class-descriptor class="org.kuali.hr.lm.leavecode.LeaveCode" table="LM_LEAVE_CODE_T">
-        <field-descriptor name="lmLeaveCodeId"                column="LM_LEAVE_CODE_ID"           jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_LEAVE_CODE_S" />
-        <field-descriptor name="leavePlan"                    column="LEAVE_PLAN"                 jdbc-type="VARCHAR"     length="15" />
-        <field-descriptor name="eligibleForAccrual"           column="ELIGIBLE_FOR_ACC"           jdbc-type="VARCHAR"     length="5" nullable="false" />
-        <field-descriptor name="accrualCategory"              column="ACCRUAL_CAT"                jdbc-type="VARCHAR"     length="15" />
-        <field-descriptor name="earnCode"                     column="EARN_CODE"                  jdbc-type="VARCHAR"     length="15" />
-        <field-descriptor name="leaveCode"                    column="LEAVE_CODE"                 jdbc-type="VARCHAR"     length="15" nullable="false" />
-        <field-descriptor name="displayName"                  column="DISP_NAME"                  jdbc-type="VARCHAR"     length="20" />
-        <field-descriptor name="unitOfTime"                   column="UNIT_OF_TIME"               jdbc-type="VARCHAR"     length="5" nullable="false" />
-        <field-descriptor name="fractionalTimeAllowed"        column="FRACT_TIME_ALLOWD"          jdbc-type="VARCHAR"     length="5" nullable="false" />
-        <field-descriptor name="roundingOption"               column="ROUND_OPT"                  jdbc-type="VARCHAR"     length="5" nullable="false" />
-        <field-descriptor name="allowScheduledLeave"          column="ALLOW_SCHD_LEAVE"           jdbc-type="VARCHAR"     length="5" nullable="false" />
-        <field-descriptor name="fmla"                         column="FMLA"                       jdbc-type="VARCHAR"     length="5" nullable="false" />
-        <field-descriptor name="workmansComp"                 column="WORKMANS_COMP"              jdbc-type="VARCHAR"     length="5" nullable="false" />
-        <field-descriptor name="defaultAmountofTime"          column="DEF_TIME"                   jdbc-type="BIGINT"      length="2" />
-        <field-descriptor name="employee"                     column="EMPLOYEE"                   jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-        <field-descriptor name="approver"                     column="APPROVER"                   jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-        <field-descriptor name="departmentAdmin"              column="DEPT_ADMIN"                 jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-        <field-descriptor name="effectiveDate"                column="EFFDT"                      jdbc-type="DATE"        nullable="false" conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
-        <field-descriptor name="allowNegativeAccrualBalance"  column="ALLOW_NEGATIVE_ACC_BALANCE" jdbc-type="VARCHAR"     length="1" nullable="false" />
-        <field-descriptor name="timestamp"                    column="TIMESTAMP"                  jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
-        <field-descriptor name="active"                       column="ACTIVE"                     jdbc-type="VARCHAR"     length="1" nullable="false" conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
-        <field-descriptor name="affectPay"                    column="AFFECT_PAY"                 jdbc-type="VARCHAR"     length="5" nullable="false" />
-        <field-descriptor name="objectId"                     column="OBJ_ID"                     jdbc-type="VARCHAR"     index="true" />
-        <field-descriptor name="versionNumber"                column="VER_NBR"                    jdbc-type="BIGINT"      locking="true" />
-    </class-descriptor>
-
     <!-- System Scheduled Time Off -->
     <class-descriptor class="org.kuali.hr.lm.timeoff.SystemScheduledTimeOff" table="LM_SYS_SCHD_TIMEOFF_T">
         <field-descriptor name="lmSystemScheduledTimeOffId"   column="LM_SYS_SCHD_TIMEOFF_ID" jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="LM_SYS_SCHD_TIMEOFF_S" />
@@ -167,6 +139,10 @@
         <field-descriptor name="description"            column="DESCRIPTION"            jdbc-type="VARCHAR"     length="255" nullable="true" />
         <field-descriptor name="principalId"            column="PRINCIPAL_ID"           jdbc-type="VARCHAR"     length="40" nullable="false" />
         <field-descriptor name="earnCode"               column="EARN_CODE"              jdbc-type="VARCHAR"     length="15" nullable="false" />
+        
+        <field-descriptor name="beginTimestamp"         column="BEGIN_TS"           jdbc-type="TIMESTAMP"   nullable="true" primarykey="false" />
+        <field-descriptor name="endTimestamp"           column="END_TS"             jdbc-type="TIMESTAMP"   nullable="true" primarykey="false" />
+        
         <field-descriptor name="scheduleTimeOffId"      column="LM_SYS_SCHD_TIMEOFF_ID" jdbc-type="VARCHAR"     length="60" nullable="true" />
         <field-descriptor name="accrualCategory"        column="ACCRUAL_CATEGORY"       jdbc-type="VARCHAR"     length="15" nullable="true" />
         <field-descriptor name="leaveAmount"            column="LEAVE_AMOUNT"           jdbc-type="NUMERIC"     nullable="false" />
@@ -198,6 +174,8 @@
         <field-descriptor name="description"            column="DESCRIPTION"            jdbc-type="VARCHAR"     length="255" nullable="true" />
         <field-descriptor name="principalId"            column="PRINCIPAL_ID"           jdbc-type="VARCHAR"     length="40" nullable="false" />
         <field-descriptor name="earnCode"               column="EARN_CODE"              jdbc-type="VARCHAR"     length="15" nullable="false" />
+        <field-descriptor name="beginTimestamp"         column="BEGIN_TS"           jdbc-type="TIMESTAMP"   nullable="true" primarykey="false" />
+        <field-descriptor name="endTimestamp"           column="END_TS"             jdbc-type="TIMESTAMP"   nullable="true" primarykey="false" />
         <field-descriptor name="scheduleTimeOffId"      column="LM_SYS_SCHD_TIMEOFF_ID" jdbc-type="VARCHAR"     length="60" nullable="true" />
         <field-descriptor name="accrualCategory"        column="ACCRUAL_CATEGORY"       jdbc-type="VARCHAR"     length="15" nullable="true" />
         <field-descriptor name="leaveAmount"            column="LEAVE_AMOUNT"           jdbc-type="NUMERIC"     nullable="false" />

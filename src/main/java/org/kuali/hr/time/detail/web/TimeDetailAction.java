@@ -43,7 +43,9 @@ import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
+import org.kuali.hr.lm.balancetransfer.validation.BalanceTransferValidationUtils;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
+import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.hr.lm.util.LeaveBlockAggregate;
@@ -81,7 +83,6 @@ public class TimeDetailAction extends TimesheetAction {
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         super.checkTKAuthorization(form, methodToCall); // Checks for read access first.
-        TKUser user = TKContext.getUser();
         UserRoles roles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
         TimesheetDocument doc = TKContext.getCurrentTimesheetDocument();
 
@@ -137,71 +138,55 @@ public class TimeDetailAction extends TimesheetAction {
         //allMessages.putAll(LeaveCalendarValidationUtil.validatePendingTransactions(viewPrincipal, payCalendarEntry.getBeginPeriodDate(), payCalendarEntry.getEndPeriodDate()));
         
         // add warning messages based on max carry over balances for each accrual category for non-exempt leave users
-        String viewPrincipal = TKContext.getPrincipalId();
+        String viewPrincipal = TKContext.getTargetPrincipalId();
         List<BalanceTransfer> losses = new ArrayList<BalanceTransfer>();
         if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(viewPrincipal, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
-        	PrincipalHRAttributes principalCalendar = null;
-        	if(ObjectUtils.isNotNull(payCalendarEntry)) {
-	        	principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, payCalendarEntry.getEndPeriodDate());
-	        	Map<String,Set<LeaveBlock>> transfers = new HashMap<String,Set<LeaveBlock>>();
-	        	Map<String,Set<LeaveBlock>> payouts = new HashMap<String,Set<LeaveBlock>>();
-	        	Interval calendarInterval = new Interval(payCalendarEntry.getBeginPeriodDate().getTime(),payCalendarEntry.getEndPeriodDate().getTime());
+            PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, payCalendarEntry.getEndPeriodDate());
 
-	        	if(ObjectUtils.isNotNull(principalCalendar)) {
-	        		transfers = TkServiceLocator.getBalanceTransferService().getNewEligibleTransfers(payCalendarEntry,viewPrincipal);
-	        		payouts = TkServiceLocator.getLeavePayoutService().getNewEligiblePayouts(payCalendarEntry,viewPrincipal);
-	        	}
-	        	
-	        	for(Entry<String,Set<LeaveBlock>> entry : transfers.entrySet()) {
-	        		//contains max balance action = lose "transfers".
-	        		if(!entry.getValue().isEmpty()) {
-	        			for(LeaveBlock lb : entry.getValue()) {
-	        				AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
-	        				AccrualCategory aCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
-	        				String warningMessage = "You have exceeded the maximum balance limit for '" + aCat.getAccrualCategory() + "' as of " + lb.getLeaveDate() + ". " +
+	        Interval calendarInterval = new Interval(payCalendarEntry.getBeginPeriodDate().getTime(), payCalendarEntry.getEndPeriodDate().getTime());
+	        Map<String,Set<LeaveBlock>> maxBalInfractions = new HashMap<String,Set<LeaveBlock>>();
+	        
+            if(ObjectUtils.isNotNull(principalCalendar)) {
+    	        maxBalInfractions = TkServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(payCalendarEntry, viewPrincipal);
+    	        
+    	        for(Entry<String,Set<LeaveBlock>> entry : maxBalInfractions.entrySet()) {
+    	        	for(LeaveBlock lb : entry.getValue()) {
+        				if(calendarInterval.contains(lb.getLeaveDate().getTime())) {
+	    	        		AccrualCategory accrualCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(lb.getAccrualCategory(), lb.getLeaveDate());
+				        	AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
+				        	if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
+				        		DateTime aDate = null;
+				        		if(StringUtils.equals(aRule.getMaxBalanceActionFrequency(), LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
+				        			aDate = TkServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(principalCalendar.getLeavePlan(), lb.getLeaveDate());
+				        		}
+				        		else {
+					        		Calendar cal = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(viewPrincipal, lb.getLeaveDate(), true);
+					        		CalendarEntries leaveEntry = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(cal.getHrCalendarId(), lb.getLeaveDate());
+					        		aDate = new DateTime(leaveEntry.getEndPeriodDate());
+				        		}
+				        		aDate = aDate.minusDays(1);
+				        		if(calendarInterval.contains(aDate.getMillis()) && aDate.toDate().compareTo(payCalendarEntry.getEndPeriodDate()) <= 0) {
+					        		//may want to calculate summary for all rows, displayable or not, and determine displayability via tags.
+					    			AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
+					    			BigDecimal accruedBalance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(viewPrincipal, accrualCategory, lb.getLeaveDate());
+						        	
+						        	BalanceTransfer loseTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(viewPrincipal, lb.getAccrualCategoryRuleId(), accruedBalance, lb.getLeaveDate());
+						        	boolean valid = BalanceTransferValidationUtils.validateTransfer(loseTransfer);
+						        	if(valid)
+						        		losses.add(loseTransfer);
+				        		}
+				        	}
+	
+	
+	    		        	// accrual categories within the leave plan that are hidden from the leave summary WILL appear.
+	        				String message = "You have exceeded the maximum balance limit for '" + accrualCat.getAccrualCategory() + "' as of " + lb.getLeaveDate() + ". "+
 	                    			"Depending upon the accrual category rules, leave over this limit may be forfeited.";
-	        				if(!allMessages.get("warningMessages").contains(warningMessage))
-	        					allMessages.get("warningMessages").add(warningMessage);
-	        			}
-	        		}
-	        	}
-	        	for(Entry<String,Set<LeaveBlock>> entry : payouts.entrySet()) {
-	        		//contains only payouts.
-	        		if(!entry.getValue().isEmpty()) {
-	        			for(LeaveBlock lb : entry.getValue()) {
-	        				AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
-	        				AccrualCategory aCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(aRule.getLmAccrualCategoryId());
-	        				allMessages.get("warningMessages").add("You have exceeded the maximum balance limit for '" + aCat.getAccrualCategory() + "' as of " + lb.getLeaveDate() + ". " +
-	                    			"Depending upon the accrual category rules, leave over this limit may be forfeited.");
-	        			}
-	        		}
-	        	}
-		        for(LeaveBlock lb : transfers.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)) {
-		        	if(calendarInterval.contains(lb.getLeaveDate().getTime())) {
-			        	AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
-			        	if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
-				        	LeaveSummary asOfDateSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateForAccrualCategory(viewPrincipal,
-			        				new java.sql.Date(DateUtils.addDays(lb.getLeaveDate(),1).getTime()), lb.getAccrualCategory());
-				        	BigDecimal accruedBalance = asOfDateSummary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId()).getAccruedBalance();
-				        	
-				        	BalanceTransfer loseTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(viewPrincipal, lb.getAccrualCategoryRuleId(), accruedBalance, lb.getLeaveDate());
-				        	losses.add(loseTransfer);
-			        	}
-		        	}
-		        }
-		        for(LeaveBlock lb : transfers.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
-		        	if(calendarInterval.contains(lb.getLeaveDate().getTime())) {
-			        	AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
-			        	if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.LOSE)) {
-			        		LeaveSummary asOfDateSummary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDateForAccrualCategory(viewPrincipal,
-			        				new java.sql.Date(DateUtils.addDays(lb.getLeaveDate(),1).getTime()), lb.getAccrualCategory());
-				        	BigDecimal accruedBalance = asOfDateSummary.getLeaveSummaryRowForAccrualCategory(aRule.getLmAccrualCategoryId()).getAccruedBalance();
-				        	
-				        	BalanceTransfer loseTransfer = TkServiceLocator.getBalanceTransferService().initializeTransfer(viewPrincipal, lb.getAccrualCategoryRuleId(), accruedBalance, lb.getLeaveDate());
-				        	losses.add(loseTransfer);
-			        	}
-		        	}
-		        }
+	        				if(!allMessages.get("warningMessages").contains(message)) {
+	                            allMessages.get("warningMessages").add(message);
+	        				}
+        				}
+    	        	}
+    	        }
         	}
             tdaf.setForfeitures(losses);
             
@@ -266,17 +251,17 @@ public class TimeDetailAction extends TimesheetAction {
         }
         
         tdaf.setDocEditable("false");
-        if (TKContext.getUser().isSystemAdmin()) {
+        if (TKUser.isSystemAdmin()) {
             tdaf.setDocEditable("true");
         } else {
             boolean docFinal = TKContext.getCurrentTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL);
             if (!docFinal) {
             	if(StringUtils.equals(TKContext.getCurrentTimesheetDocument().getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
-	            		|| TKContext.getUser().isSystemAdmin() 
-	            		|| TKContext.getUser().isLocationAdmin() 
-	            		|| TKContext.getUser().isDepartmentAdmin() 
-	            		|| TKContext.getUser().isReviewer() 
-	            		|| TKContext.getUser().isApprover()) {
+	            		|| TKUser.isSystemAdmin()
+	            		|| TKUser.isLocationAdmin()
+	            		|| TKUser.isDepartmentAdmin()
+	            		|| TKUser.isReviewer()
+	            		|| TKUser.isApprover()) {
                     tdaf.setDocEditable("true");
                 }
             	
@@ -313,7 +298,7 @@ public class TimeDetailAction extends TimesheetAction {
 
         }
         tdaf.setTimeSummary(ts);
-        ActionFormUtils.validateHourLimit(tdaf);
+      //  ActionFormUtils.validateHourLimit(tdaf);
         ActionFormUtils.addWarningTextFromEarnGroup(tdaf);
         ActionFormUtils.addUnapprovedIPWarningFromClockLog(tdaf);
 	}
@@ -430,7 +415,7 @@ public class TimeDetailAction extends TimesheetAction {
         	}
         }
         
-        ActionFormUtils.validateHourLimit(tdaf);
+       // ActionFormUtils.validateHourLimit(tdaf);
         ActionFormUtils.addWarningTextFromEarnGroup(tdaf);
 
         return mapping.findForward("basic");
@@ -489,6 +474,7 @@ public class TimeDetailAction extends TimesheetAction {
             if (tb != null) {
 	            isClockLogCreated = tb.getClockLogCreated();
 	            if (StringUtils.isNotEmpty(tdaf.getOvertimePref())) {
+                    //TODO:  This doesn't do anything!!! these variables are never used.  Should they be?
 	                overtimeBeginTimestamp = tb.getBeginTimestamp();
 	                overtimeEndTimestamp = tb.getEndTimestamp();
 	            }
@@ -585,7 +571,6 @@ public class TimeDetailAction extends TimesheetAction {
 
 
     public ActionForward actualTimeInquiry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        TimeDetailActionForm tdaf = (TimeDetailActionForm) form;
         return mapping.findForward("ati");
     }
 
@@ -608,7 +593,7 @@ public class TimeDetailAction extends TimesheetAction {
     }
       
   public ActionForward gotoCurrentPayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-	  String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
+	  String viewPrincipal = TKUser.getCurrentTargetPersonId();
 	  Date currentDate = TKUtils.getTimelessDate(null);
       CalendarEntries pce = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal, currentDate);
       TimesheetDocument td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, pce);
@@ -634,7 +619,7 @@ public class TimeDetailAction extends TimesheetAction {
           CalendarEntries pce = TkServiceLocator.getCalendarEntriesService()
 		  	.getCalendarEntries(request.getParameter("selectedPP").toString());
 		  if(pce != null) {
-			  String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
+			  String viewPrincipal = TKUser.getCurrentTargetPersonId();
 			  TimesheetDocument td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, pce);
 			  setupDocumentOnFormContext((TimesheetActionForm)form, td);
 		  }

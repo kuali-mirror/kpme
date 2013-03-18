@@ -16,11 +16,6 @@
 package org.kuali.hr.lm.leaverequest.service;
 
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.job.Job;
@@ -36,18 +31,19 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.action.ActionTaken;
-import org.kuali.rice.kew.api.action.ActionType;
-import org.kuali.rice.kew.api.action.DocumentActionParameters;
-import org.kuali.rice.kew.api.action.ValidActions;
-import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
+import org.kuali.rice.kew.api.action.*;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.DocumentHeader;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentService {
     private static final Logger LOG = Logger.getLogger(LeaveRequestDocumentServiceImpl.class);
@@ -184,10 +180,10 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
             return null;
         }
         
-        Person person = KimApiServiceLocator.getPersonService().getPerson(principalId);
+        EntityNamePrincipalName person = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(principalId);
         LeaveBlock leaveBlock = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
 
-        String principalName = person != null ? person.getName() : StringUtils.EMPTY;
+        String principalName = person != null && person.getDefaultName() != null ? person.getDefaultName().getCompositeName() : StringUtils.EMPTY;
         String leaveRequestDateString = leaveBlock != null ? TKUtils.formatDate(leaveBlock.getLeaveDate()) : StringUtils.EMPTY;
         String leaveRequestDocumentTitle = principalName + " (" + principalId + ") - " + leaveRequestDateString;
         
@@ -259,10 +255,9 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
         String className = document.getClass().getSimpleName();
         sb.append("<documentContext><applicationContent><").append(className).append(">");
         sb.append("<DEPARTMENTS>");
-        for(String dept : deptToListOfWorkAreas.keySet()){
-            sb.append("<DEPARTMENT value=\""+dept+"\">");
-            List<Long> deptWorkAreas = deptToListOfWorkAreas.get(dept);
-            for(Long workArea : deptWorkAreas){
+        for(Map.Entry<String, List<Long>> dept : deptToListOfWorkAreas.entrySet()){
+            sb.append("<DEPARTMENT value=\""+dept.getKey()+"\">");
+            for(Long workArea : dept.getValue()){
                 sb.append("<WORKAREA value=\""+workArea+"\"/>");
             }
             sb.append("</DEPARTMENT>");

@@ -199,7 +199,7 @@ public class CalendarEntriesServiceImpl implements CalendarEntriesService {
     	if (futureCalEntries != null && !futureCalEntries.isEmpty()) {
     		futureCalEntry = futureCalEntries.get(futureCalEntries.size() - 1);
     	}
-    	Date cutOffTime = TKUtils.getTimelessDate(null);
+    	Date cutOffTime;
     	if(futureCalEntry != null) {
     		cutOffTime = futureCalEntry.getEndPeriodDateTime();
     	} else {

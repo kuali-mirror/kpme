@@ -18,6 +18,7 @@ package org.kuali.hr.time.authorization;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TkConstants;
 
 public class AuthorizationValidationUtils {
@@ -32,16 +33,16 @@ public class AuthorizationValidationUtils {
      */
     public static boolean canWildcardWorkArea(DepartmentalRule dr) {
         // Sysadmins and (Departmental OrgAdmins for their Department)
-        if (TKContext.getUser().isSystemAdmin())
+        if (TKUser.isSystemAdmin())
             return true;
 
         String dept = dr.getDept();
         if (StringUtils.equals(dept, TkConstants.WILDCARD_CHARACTER)) {
             // Only system administrators can wildcard the work area if the
             // department also has a wildcard.
-            return TKContext.getUser().isSystemAdmin();
+            return TKUser.isSystemAdmin();
         } else {
-            return TKContext.getUser().getDepartmentAdminAreas().contains(dept);
+            return TKUser.getDepartmentAdminAreas().contains(dept);
         }
     }
 
@@ -53,6 +54,6 @@ public class AuthorizationValidationUtils {
      * @return true if so, false otherwise.
      */
     public static boolean canWildcardDepartment(DepartmentalRule dr) {
-        return TKContext.getUser().isSystemAdmin();
+        return TKUser.isSystemAdmin();
     }
 }

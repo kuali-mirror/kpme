@@ -113,7 +113,8 @@ public class CalendarServiceImpl implements CalendarService {
 
             PrincipalHRAttributes principalCalendar = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, beginDate);
             if(principalCalendar == null){
-                throw new RuntimeException("No principal hr attribute setup for "+principalId);
+            	return null;
+                //throw new RuntimeException("No principal hr attribute setup for "+principalId);
             }
             if(!findLeaveCal) {
                 pcal = principalCalendar.getCalendar();

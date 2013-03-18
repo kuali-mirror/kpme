@@ -126,8 +126,8 @@ public class LeaveApprovalAction extends ApprovalAction{
 		laaf.setSelectedWorkArea("");
     	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(laaf.getSelectedDept(), new java.sql.Date(laaf.getPayBeginDate().getTime()));
         for(WorkArea wa : workAreas){
-        	if (TKContext.getUser().getApproverWorkAreas().contains(wa.getWorkArea())
-        			|| TKContext.getUser().getReviewerWorkAreas().contains(wa.getWorkArea())) {
+        	if (TKUser.getApproverWorkAreas().contains(wa.getWorkArea())
+        			|| TKUser.getReviewerWorkAreas().contains(wa.getWorkArea())) {
         		laaf.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
         	}
         }
@@ -230,7 +230,6 @@ public class LeaveApprovalAction extends ApprovalAction{
 	public ActionForward loadApprovalTab(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 				throws Exception {
 		ActionForward fwd = mapping.findForward("basic");
-		TKUser user = TKContext.getUser();
         LeaveApprovalActionForm laaf = (LeaveApprovalActionForm) form;
         Date currentDate = null;
         CalendarEntries payCalendarEntries = null;

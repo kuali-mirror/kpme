@@ -17,6 +17,7 @@ package org.kuali.hr.time.missedpunch.validation;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import com.gargoylesoftware.htmlunit.html.*;
 import org.junit.After;
 import org.junit.Assert;
@@ -31,6 +32,7 @@ import com.gargoylesoftware.htmlunit.WebClient;
 import com.google.common.collect.Lists;
 
 public class MissedPunchDocumentTest extends KPMETestCase {
+    private static final Logger LOG = Logger.getLogger(MissedPunchDocumentTest.class);
 
 	@Before
 	public void setUp() throws Exception {
@@ -60,7 +62,7 @@ public class MissedPunchDocumentTest extends KPMETestCase {
 				.contains("Missed Punch"));
 		updateWebClient();
 
-		System.out.println("Page is : " + page.asText());
+		LOG.debug("Page is : " + page.asText());
 
 		// getting Assignment options
 		HtmlSelect assOption = (HtmlSelect) page
@@ -68,7 +70,7 @@ public class MissedPunchDocumentTest extends KPMETestCase {
 		Iterable<DomElement> it = assOption.getChildElements();
 		List<DomElement> assList = Lists.newLinkedList(it);
 		
-		System.out.println("Second ele is : "+assList.get(2));
+		LOG.debug("Second ele is : "+assList.get(2));
 
 		// set Assignment value
 		HtmlOption ho = null;
@@ -77,14 +79,14 @@ public class MissedPunchDocumentTest extends KPMETestCase {
 		} else {
 			ho= (HtmlOption) assList.get(0);
 		}
-		System.out.println("ho is : " + ho.asText());
+		LOG.debug("ho is : " + ho.asText());
 		assOption.setSelectedAttribute(ho, true);
 
 				
 		// get tdocid 
 		HtmlTableDataCell htmlTable = (HtmlTableDataCell) page.getByXPath(
 				"//tbody//tr//td").get(9);
-		System.out.println("htmlTable.getTextContent();"
+		LOG.debug("htmlTable.getTextContent();"
 				+ htmlTable.getTextContent());
 
 		String docId = htmlTable.getTextContent();
@@ -102,7 +104,7 @@ public class MissedPunchDocumentTest extends KPMETestCase {
 		element = (HtmlElement)mPunchPage.getElementById("document.assignment");
 		Assert.assertNotNull(element);
 
-		System.out.println("Page1 is : " + mPunchPage.asText());
+        LOG.debug("Page1 is : " + mPunchPage.asText());
 
 		// set Invalid action time
 		setFieldValue(mPunchPage, "document.documentHeader.documentDescription",
@@ -116,7 +118,7 @@ public class MissedPunchDocumentTest extends KPMETestCase {
 				.getElementByName("methodToCall.route");
 		mPunchPage = elementSubmit.click();
 
-		System.out.println("After first click >>>>> page is : "
+        LOG.debug("After first click >>>>> page is : "
 				+ mPunchPage.asText());
 
 		Assert.assertTrue("page text:\n" + mPunchPage.asText() + "\n does not contain:\n",
@@ -134,7 +136,7 @@ public class MissedPunchDocumentTest extends KPMETestCase {
 				mPunchPage.asText().contains(
 						"Missed Punch Action Date cannot be a future date"));
 
-		System.out.println("After second click >>>>> page is : "
+        LOG.debug("After second click >>>>> page is : "
 				+ mPunchPage.asText());
 
 		// before last clock in time
@@ -146,7 +148,7 @@ public class MissedPunchDocumentTest extends KPMETestCase {
 		elementSubmit = mPunchPage.getElementByName("methodToCall.route");
 
 		mPunchPage = elementSubmit.click();
-		System.out.println("After third click >>>>> page is : "
+        LOG.debug("After third click >>>>> page is : "
 				+ mPunchPage.asText());
 
 		Assert.assertTrue(
@@ -165,7 +167,7 @@ public class MissedPunchDocumentTest extends KPMETestCase {
 		HtmlElement elementSubmit1 = mPunchPage.getElementByName("methodToCall.route");
 		mPunchPage = elementSubmit1.click();
 
-		System.out.println("After forth click >>>>> page is : "
+        LOG.debug("After forth click >>>>> page is : "
 				+ mPunchPage.asText());
 
 		Assert.assertTrue("page text:\n" + mPunchPage.asText() + "\n does not contain:\n",

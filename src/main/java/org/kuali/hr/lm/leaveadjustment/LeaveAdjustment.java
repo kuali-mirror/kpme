@@ -36,10 +36,10 @@ public class LeaveAdjustment extends HrBusinessObject {
 	private String earnCode;
 	private String description;
 	private BigDecimal adjustmentAmount = new BigDecimal("0.0");
-    private Person principal;
-	private AccrualCategory accrualCategoryObj;
-	private EarnCode earnCodeObj;
-	private PrincipalHRAttributes principalHRAttrObj;
+    private transient Person principal;
+	private transient AccrualCategory accrualCategoryObj;
+	private transient EarnCode earnCodeObj;
+	private transient PrincipalHRAttributes principalHRAttrObj;
 	
 	public String getEarnCode() {
 		return earnCode;

@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.time.clock.location.service;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -29,6 +30,7 @@ import org.kuali.hr.time.clock.location.ClockLocationRule;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -61,9 +63,9 @@ public class ClockLocationRuleLookupableHelper extends TkAuthorizedLookupableHel
 		String location = dept == null ? null : dept.getLocation();
         String department = clockLocationRule.getDept();
         
-		boolean systemAdmin = TKContext.getUser().isSystemAdmin();
-		boolean locationAdmin = TKContext.getUser().getLocationAdminAreas().contains(location);
-		boolean departmentAdmin = TKContext.getUser().getDepartmentAdminAreas().contains(department);
+		boolean systemAdmin = TKUser.isSystemAdmin();
+		boolean locationAdmin = TKUser.getLocationAdminAreas().contains(location);
+		boolean departmentAdmin = TKUser.getDepartmentAdminAreas().contains(department);
 		
 		for (HtmlData defaultCustomActionUrl : defaultCustomActionUrls){
 			if (StringUtils.equals(defaultCustomActionUrl.getMethodToCall(), "edit")) {
@@ -97,7 +99,7 @@ public class ClockLocationRuleLookupableHelper extends TkAuthorizedLookupableHel
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public class EffectiveDateTimestampCompare implements Comparator{
+	public static class EffectiveDateTimestampCompare implements Comparator, Serializable {
 
 		@Override
 		public int compare(Object arg0, Object arg1) {

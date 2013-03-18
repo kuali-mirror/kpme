@@ -138,8 +138,7 @@ public class TimeBlockLookupableHelperServiceImpl extends KualiLookupableHelperS
 					List<TimeHourDetail> timeHourDetails = tb.getTimeHourDetails();
 					for(TimeHourDetail thd : timeHourDetails) {
 					  if(!thd.getEarnCode().equalsIgnoreCase(tb.getEarnCode())) {
-						  TimeBlock timeBlock = new TimeBlock();
-						  timeBlock = tb.copy();
+						  TimeBlock timeBlock = tb.copy();
 						  timeBlock.setEarnCode(thd.getEarnCode());
 						  timeBlock.setHours(thd.getHours());
 						  timeBlock.setAmount(thd.getAmount());

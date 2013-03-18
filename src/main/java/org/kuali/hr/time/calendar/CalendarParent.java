@@ -18,10 +18,11 @@ package org.kuali.hr.time.calendar;
 import org.joda.time.DateTime;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class CalendarParent {
+public abstract class CalendarParent implements Serializable {
     private List<CalendarWeek> weeks = new ArrayList<CalendarWeek>();
     private CalendarEntries calendarEntry;
     private DateTime beginDateTime;

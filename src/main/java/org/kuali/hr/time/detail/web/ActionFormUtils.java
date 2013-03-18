@@ -55,10 +55,10 @@ import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ActionFormUtils {
 
-    public static void validateHourLimit(TimeDetailActionFormBase tdaf) throws Exception {
-        List<String> warningMessages = TkServiceLocator.getTimeOffAccrualService().validateAccrualHoursLimit(tdaf.getTimesheetDocument());
-        addUniqueWarningsToForm(tdaf, warningMessages);
-    }
+   // public static void validateHourLimit(TimeDetailActionFormBase tdaf) throws Exception {
+   //     List<String> warningMessages = TkServiceLocator.getTimeOffAccrualService().validateAccrualHoursLimit(tdaf.getTimesheetDocument());
+   //      addUniqueWarningsToForm(tdaf, warningMessages);
+   // }
 
     public static void addWarningTextFromEarnGroup(TimeDetailActionFormBase tdaf) throws Exception {
         List<String> warningMessages = TkServiceLocator.getEarnCodeGroupService().warningTextFromEarnCodeGroupsOfDocument(tdaf.getTimesheetDocument());
@@ -313,7 +313,7 @@ public class ActionFormUtils {
     // detect if the passed-in calendar entry is the current one
     public static boolean getOnCurrentPeriodFlag(CalendarEntries pce) {
     	Date currentDate = TKUtils.getTimelessDate(null);
-    	String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
+    	String viewPrincipal = TKUser.getCurrentTargetPersonId();
         CalendarEntries calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal,  currentDate);
 
         if(pce != null && calendarEntry != null && calendarEntry.equals(pce)) {

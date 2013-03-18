@@ -33,8 +33,8 @@ public class TimeBlockHistory extends TimeBlock {
 	private String actionHistory;
 	private String modifiedByPrincipalId;
 	private Timestamp timestampModified;
-	private Person principal;
-	private Person userPrincipal;
+	private transient Person principal;
+	private transient Person userPrincipal;
 	private List<TimeBlockHistoryDetail> timeBlockHistoryDetails = new ArrayList<TimeBlockHistoryDetail>();
 
 	public TimeBlockHistory() {

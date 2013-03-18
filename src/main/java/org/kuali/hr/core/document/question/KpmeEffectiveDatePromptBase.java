@@ -38,7 +38,6 @@ public abstract class KpmeEffectiveDatePromptBase extends PromptBeforeValidation
     protected boolean conditionallyAskQuestion(Document document) {
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument)document;
         PersistableBusinessObject bo = (PersistableBusinessObject)maintenanceDocument.getNewMaintainableObject().getDataObject();
-        Class clazz = bo.getClass();
         boolean askQuestion = futureEffectiveDateExists(bo);
         if (askQuestion) {
             String questionText = KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsString("warning.future.eff.date");

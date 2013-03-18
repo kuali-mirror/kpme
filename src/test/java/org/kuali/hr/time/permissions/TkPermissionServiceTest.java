@@ -35,8 +35,8 @@ public class TkPermissionServiceTest extends KPMETestCase {
 	public void setUp() throws Exception{
 		super.setUp();
 		// change taget person to a non-admin
-		Person testUser = KimApiServiceLocator.getPersonService().getPerson("eric");
-	    TKUser.setTargetPerson(testUser);
+        String testUserId = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName("eric").getPrincipalId();
+	    TKUser.setTargetPerson(testUserId);
 	    PrincipalHRAttributes phra = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes("2");
 	    phra.setLeaveCalendar("BWS-LM");
 	    phra.setLeaveCalObj(TkServiceLocator.getCalendarService().getCalendarByGroup("BWS-LM"));
@@ -46,8 +46,8 @@ public class TkPermissionServiceTest extends KPMETestCase {
 	@After
 	public void tearDown() throws Exception {
 		super.tearDown();
-		Person testUser = KimApiServiceLocator.getPersonService().getPerson("admin");
-	    TKUser.setTargetPerson(testUser);
+        String testUserId = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName("admin").getPrincipalId();
+        TKUser.setTargetPerson(testUserId);
 	    PrincipalHRAttributes phra = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalHRAttributes("2");
 	    phra.setLeaveCalendar(null);
 	    phra.setLeaveCalObj(null);

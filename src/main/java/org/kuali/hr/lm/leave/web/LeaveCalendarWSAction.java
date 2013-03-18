@@ -63,7 +63,7 @@ public class LeaveCalendarWSAction extends TkAction {
 
         // Here - viewPrincipal will be the principal of the user we intend to
         // view, be it target user, backdoor or otherwise.
-        String viewPrincipal = TKUser.getCurrentTargetPerson().getPrincipalId();
+        String viewPrincipal = TKUser.getCurrentTargetPersonId();
         CalendarEntries calendarEntry = null;
 
         LeaveCalendarDocument lcd = null;
@@ -124,14 +124,14 @@ public class LeaveCalendarWSAction extends TkAction {
     public ActionForward getEarnCodeJson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         //TODO: copied from TimeDetailWSAction.  Need to reduce code duplication
         LeaveCalendarWSForm lcf = (LeaveCalendarWSForm) form;
-        CalendarEntries ce = new CalendarEntries();
+
 
         if(request.getParameter("selectedPayPeriod") != null) {
             lcf.setSelectedPayPeriod(request.getParameter("selectedPayPeriod"));
-            ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(request.getParameter("selectedPayPeriod"));
+            CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(request.getParameter("selectedPayPeriod"));
             lcf.setCalendarEntry(ce);
         }
-        lcf.setPrincipalId(TKUser.getCurrentTargetPerson().getPrincipalId());
+        lcf.setPrincipalId(TKUser.getCurrentTargetPersonId());
         boolean isPlanningCal = TkServiceLocator.getLeaveCalendarService().isLeavePlanningCalendar(lcf.getPrincipalId(), lcf.getCalendarEntry().getBeginPeriodDateTime(), lcf.getCalendarEntry().getEndPeriodDateTime());
         lcf.setLeavePlanningCalendar(isPlanningCal);
 
@@ -141,10 +141,10 @@ public class LeaveCalendarWSAction extends TkAction {
             List<Assignment> assignments = lcf.getLeaveCalendarDocument().getAssignments();
             AssignmentDescriptionKey key = new AssignmentDescriptionKey(lcf.getSelectedAssignment());
             for (Assignment assignment : assignments) {
-                if (assignment.getJobNumber().compareTo(key.getJobNumber()) == 0 &&
+            	if (assignment.getJobNumber().compareTo(key.getJobNumber()) == 0 &&
                         assignment.getWorkArea().compareTo(key.getWorkArea()) == 0 &&
                         assignment.getTask().compareTo(key.getTask()) == 0) {
-                    List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForLeave(assignment, new java.sql.Date(TKUtils.convertDateStringToTimestamp(lcf.getStartDate()).getTime()), lcf.isLeavePlanningCalendar());
+                	List<EarnCode> earnCodes = TkServiceLocator.getEarnCodeService().getEarnCodesForLeave(assignment, new java.sql.Date(TKUtils.convertDateStringToTimestamp(lcf.getStartDate()).getTime()), lcf.isLeavePlanningCalendar());
                     for (EarnCode earnCode : earnCodes) {
                         Map<String, Object> earnCodeMap = new HashMap<String, Object>();
                         earnCodeMap.put("assignment", assignment.getAssignmentKey());
@@ -156,7 +156,7 @@ public class LeaveCalendarWSAction extends TkAction {
                         if(earnCode.getAccrualCategory() != null) {
                         	acObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCode.getAccrualCategory(), TKUtils.getCurrentDate());
                         }
-                        String unitTime = (acObj!= null ? acObj.getUnitOfTime() : earnCode.getRecordMethod()) ;
+                        String unitTime = earnCode.getRecordMethod();
                         earnCodeMap.put("unitOfTime", unitTime);
                         earnCodeMap.put("defaultAmountofTime", earnCode.getDefaultAmountofTime());
                         earnCodeMap.put("fractionalTimeAllowed", earnCode.getFractionalTimeAllowed());
@@ -190,6 +190,9 @@ public class LeaveCalendarWSAction extends TkAction {
     		LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), lcf.getCalendarEntry());
 		    lcf.setLeaveSummary(ls);
     	}
+    	
+    	errorMsgList.addAll(LeaveCalendarValidationUtil.validateParametersAccordingToSelectedEarnCodeRecordMethod(lcf));
+    	
     	errorMsgList.addAll(LeaveCalendarValidationUtil.validateAvailableLeaveBalance(lcf));
     	//KPME-1263
         errorMsgList.addAll(LeaveCalendarValidationUtil.validateLeaveAccrualRuleMaxUsage(lcf));

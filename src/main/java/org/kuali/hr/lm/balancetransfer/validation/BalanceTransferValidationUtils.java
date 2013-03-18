@@ -17,8 +17,6 @@ package org.kuali.hr.lm.balancetransfer.validation;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -28,7 +26,6 @@ import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -65,6 +62,7 @@ public class BalanceTransferValidationUtils {
 							isValid &= validateTransferToAccrualCategory(toCat,principalId,effectiveDate,acr);*/
 							isValid &= validateMaxCarryOver(balanceTransfer.getAmountTransferred(),toCat,principalId,effectiveDate,acr, pha);
 							isValid &= validateTransferAmount(balanceTransfer.getTransferAmount(),fromCat,toCat, principalId, effectiveDate, acr);
+							isValid &= validateForfeitedAmount(balanceTransfer.getForfeitedAmount());
 						}
 						else {
 							//should never be the case if accrual category rules are validated correctly.
@@ -104,6 +102,24 @@ public class BalanceTransferValidationUtils {
 
 	}
 
+	private static boolean validateForfeitedAmount(BigDecimal forfeitedAmount) {
+		return forfeitedAmount.compareTo(BigDecimal.ZERO) >= 0 ? true: false;
+	}
+
+	private boolean validateMaxBalance() {
+		//This validation could assert that the payout amount, together with forfeiture
+		//brings the balance for the given accrual category back to, or under, the balance limit
+		//without exceeding the total accrued balance.
+		return true;
+	}
+	
+	private boolean validateMaxCarryOver() {
+		//This validation could assert that the payout amount, together with forfeiture
+		//brings the balance for the given accrual category back to, or under, the max carry over limit
+		//without exceeding the total accrued balance.
+		return true;
+	}
+	
 	private static boolean validateMaxCarryOver(BigDecimal amountTransferred,
 			AccrualCategory toCat, String principalId, Date effectiveDate,
 			AccrualCategoryRule acr, PrincipalHRAttributes pha) {
@@ -124,6 +140,9 @@ public class BalanceTransferValidationUtils {
 		//transfer amount must be less than the max transfer amount defined in the accrual category rule.
 		//it cannot be negative.
 		boolean isValid = true;
+		
+		BigDecimal balance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(principalId, fromCat, effectiveDate);
+		
 		BigDecimal maxTransferAmount = null;
 		BigDecimal adjustedMaxTransferAmount = null;
 		if(ObjectUtils.isNotNull(accrualRule.getMaxTransferAmount())) {
@@ -133,11 +152,9 @@ public class BalanceTransferValidationUtils {
 		}
 		
 		//use override if one exists.
-		List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, effectiveDate);
-		for(EmployeeOverride override : overrides) {
-			if(override.getOverrideType().equals(TkConstants.EMPLOYEE_OVERRIDE_TYPE.get("MTA")))
-				adjustedMaxTransferAmount = new BigDecimal(override.getOverrideValue());
-		}
+		EmployeeOverride maxTransferAmountOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromCat.getLeavePlan(), fromCat.getAccrualCategory(), "MTA", effectiveDate);
+		if(ObjectUtils.isNotNull(maxTransferAmountOverride))
+			adjustedMaxTransferAmount = new BigDecimal(maxTransferAmountOverride.getOverrideValue());
 				
 		if(ObjectUtils.isNotNull(adjustedMaxTransferAmount)) {
 			if(transferAmount.compareTo(adjustedMaxTransferAmount) > 0) {
@@ -151,6 +168,16 @@ public class BalanceTransferValidationUtils {
 			isValid &= false;
 			GlobalVariables.getMessageMap().putError("balanceTransfer.transferAmount","balanceTransfer.transferAmount.negative");
 		}
+		
+		if(balance.subtract(transferAmount).compareTo(BigDecimal.ZERO) < 0 ) {
+			if(StringUtils.equals(fromCat.getEarnCodeObj().getAllowNegativeAccrualBalance(),"Y"))
+				isValid &= true;
+			else {
+				isValid &= false;
+				GlobalVariables.getMessageMap().putError("balanceTransfer.transferAmount", "maxBalance.amount.exceedsBalance");
+			}
+		}
+		
 		return isValid;
 	}
 	
@@ -198,6 +225,5 @@ public class BalanceTransferValidationUtils {
 		
 		return true;
 	}
-	
 
 }

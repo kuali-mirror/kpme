@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.lm.leaveSummary;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.json.simple.JSONValue;
 
-public class LeaveSummary {
+public class LeaveSummary implements Serializable {
 	private List<LeaveSummaryRow> leaveSummaryRows = new ArrayList<LeaveSummaryRow>();
 	private String ytdDatesString;
 	private String pendingDatesString;

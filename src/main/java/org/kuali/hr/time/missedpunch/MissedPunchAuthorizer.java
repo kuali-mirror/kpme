@@ -29,7 +29,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 public class MissedPunchAuthorizer extends TransactionalDocumentAuthorizerBase {
 
-	private Logger LOG = Logger.getLogger(MissedPunchAuthorizer.class);
+	private static final Logger LOG = Logger.getLogger(MissedPunchAuthorizer.class);
 	
 	@Override
 	public boolean canEditDocumentOverview(Document document, Person user) {

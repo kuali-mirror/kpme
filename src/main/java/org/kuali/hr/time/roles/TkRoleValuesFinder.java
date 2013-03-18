@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -50,19 +51,19 @@ public class TkRoleValuesFinder extends KeyValuesBase {
         }
         
 		if(kualiForm == null || kualiForm.getDocTypeName().equals("RoleGroupMaintenanceDocumentType")){
-			if(TKContext.getUser().isSystemAdmin()){
+			if(TKUser.isSystemAdmin()){
 				filteredLabels.add(new ConcreteKeyValue(TkConstants.ROLE_TK_SYS_ADMIN, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_SYS_ADMIN)));
 				filteredLabels.add(new ConcreteKeyValue(TkConstants.ROLE_TK_GLOBAL_VO, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_GLOBAL_VO)));
 			} 
 			
-			if(TKContext.getUser().isSystemAdmin() || TKContext.getUser().isLocationAdmin()){
+			if(TKUser.isSystemAdmin() || TKUser.isLocationAdmin()){
 				filteredLabels.add(new ConcreteKeyValue(TkConstants.ROLE_TK_LOCATION_ADMIN, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_LOCATION_ADMIN)));
 				filteredLabels.add(new ConcreteKeyValue(TkConstants.ROLE_TK_LOCATION_VO, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_LOCATION_VO)));
 			}
 		}
 
 		if(kualiForm == null || kualiForm.getDocTypeName().equals("DepartmentMaintenanceDocumentType")){
-			if(TKContext.getUser().isSystemAdmin() || TKContext.getUser().isLocationAdmin()){
+			if(TKUser.isSystemAdmin() || TKUser.isLocationAdmin()){
 				filteredLabels.add(new ConcreteKeyValue(TkConstants.ROLE_TK_DEPT_ADMIN, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_DEPT_ADMIN)));
 				filteredLabels.add(new ConcreteKeyValue(TkConstants.ROLE_TK_DEPT_VO, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_DEPT_VO)));
 				
@@ -72,7 +73,7 @@ public class TkRoleValuesFinder extends KeyValuesBase {
 		}
 		
 		if(kualiForm == null || kualiForm.getDocTypeName().equals("WorkAreaMaintenanceDocumentType")){
-			if(TKContext.getUser().isSystemAdmin() || TKContext.getUser().isLocationAdmin() || TKContext.getUser().isDepartmentAdmin()){
+			if(TKUser.isSystemAdmin() || TKUser.isLocationAdmin() || TKUser.isDepartmentAdmin()){
 				filteredLabels.add(new ConcreteKeyValue(TkConstants.ROLE_TK_APPROVER, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_APPROVER)));
 				filteredLabels.add(new ConcreteKeyValue(TkConstants.ROLE_TK_APPROVER_DELEGATE, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_APPROVER_DELEGATE)));
 				filteredLabels.add(new ConcreteKeyValue(TkConstants.ROLE_TK_REVIEWER, TkConstants.ALL_ROLES_MAP.get(TkConstants.ROLE_TK_REVIEWER)));

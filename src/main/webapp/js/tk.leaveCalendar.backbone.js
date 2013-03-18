@@ -47,12 +47,6 @@ $(function () {
     var leaveBlockJson = jQuery.parseJSON($("#leaveBlockString").val());
     var leaveBlockCollection = new LeaveBlockCollection(leaveBlockJson);
 
-//    LeaveCode = Backbone.Model.extend({
-//    	 url : "LeaveCalendarWS.do?methodToCall=getLeaveCodeInfo"
-//    });
-//  
-//    var leaveCodeObj = new LeaveCode;
-    
     //EarnCode = Backbone.Model.extend({
    	// url : "LeaveCalendarWS.do?methodToCall=getEarnCodeInfo"
     //});
@@ -102,6 +96,7 @@ $(function () {
             "keypress #selectedAssignment" : "changeAssignment",
             "click input[id^=lm-transfer-button]" : "showOnDemandBalanceTransferDialog",
             "click input[id^=lm-payout-button]" : "showOnDemandBalancePayoutDialog",
+            "blur #startTimeHourMinute, #endTimeHourMinute" : "formatTime",
             "click #ts-route-button" : "forfeitBalanceOnSubmit"
         },
 
@@ -286,8 +281,9 @@ $(function () {
             var dfd = $.Deferred();
             dfd.done(_(leaveBlock).fillInForm())
                .done(this.fetchEarnCode(_.getSelectedAssignmentValue()))
+               .done($("#selectedEarnCode option[value='" + leaveBlock.get("earnCode") + "']").attr("selected", "selected"))
                .done(this.showFieldByEarnCodeType())
-               .done($("#selectedEarnCode option[value='" + leaveBlock.get("earnCode") + "']").attr("selected", "selected"));
+               .done($("#leaveAmount").attr("value", leaveBlock.get("leaveAmount")));
         },
         
         deleteLeaveBlock : function (e) {
@@ -558,7 +554,7 @@ $(function () {
                 		isValid = isValid && (this.checkRangeValue(hours, 1, "Leave amount Days"));
                 	} else if (type == 'H') {
                 		isValid = isValid && (this.checkRangeValue(hours, 24, "Leave amount Hours"));
-                	}
+                	} 
                 	var fieldLength = 0;
                 	var fracLength = 0;
                 	// check fraction digit
@@ -584,6 +580,11 @@ $(function () {
                 		}
                 	}
                 }
+            } else if (_.contains(ids, "startTimeHourMinute") && _.contains(ids, "endTimeHourMinute")) {
+                     // the format has to be like "12:00 AM"
+                     isValid = isValid && this.checkLength($('#startTimeHourMinute'), "Time entry", 8, 8);
+                     isValid = isValid && this.checkLength($('#endTimeHourMinute'), "Time entry", 8, 8);
+                    
             }
             return isValid;
         },
@@ -644,14 +645,23 @@ $(function () {
         },
                 
         showFieldByEarnCodeType : function () {
+        	var fieldSections = [".clockInSection", ".clockOutSection", ".leaveAmountSection"];
   			if($("#selectedEarnCode option:selected").val() == '') {
   				return;
   			}
         	var earnCodeUnit = this.getEarnCodeUnit(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
-            if (earnCodeUnit == CONSTANTS.EARNCODE_UNIT.DAY) {
+        	if (earnCodeUnit == CONSTANTS.EARNCODE_UNIT.DAY) {
         		$('#unitOfTime').text('* Days');
+        		$(_.without(fieldSections, ".leaveAmountSection").join(",")).hide();
+                $(fieldSections[2]).show();
         	} else if (earnCodeUnit == CONSTANTS.EARNCODE_UNIT.HOUR) {
         		$('#unitOfTime').text('* Hours');
+        		$(_.without(fieldSections, ".leaveAmountSection").join(",")).hide();
+                $(fieldSections[2]).show();
+        	} else if (earnCodeUnit == CONSTANTS.EARNCODE_UNIT.TIME) {
+        		 $(_.without(fieldSections, ".clockInSection", ".clockOutSection").join(",")).hide();
+                 $(fieldSections[0] + "," + fieldSections[1]).show();
+                 $('#leaveAmount').val("");
         	}
             var defaultTime = this.getEarnCodeDefaultTime(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
             $('#leaveAmount').val(defaultTime);
@@ -695,6 +705,8 @@ $(function () {
                 var params = {};
                 params['startDate'] = $('#startDate').val();
                 params['endDate'] = $('#endDate').val();
+                params['startTime'] = $('#startTime').val();
+                params['endTime'] = $('#endTime').val();
                 params['leaveAmount'] = $('#leaveAmount').val();
                 params['selectedEarnCode'] = $('#selectedEarnCode option:selected').val();
                 params['spanningWeeks'] = $('#spanningWeeks').is(':checked') ? 'y' : 'n'; // KPME-1446
@@ -738,7 +750,7 @@ $(function () {
         
         checkLength : function (o, n, min, max) {
             if (o.val().length > max || o.val().length < min) {
-                this.displayErrorMessages(n + " field cannot be empty");
+                this.displayErrorMessages(n + " field cannot be empty", o);
                 return false;
             }
             return true;
@@ -899,6 +911,10 @@ $(function () {
         fillInForm : function (leaveBlock) {
             $('#startDate').val(leaveBlock.get("leaveDate"));
             $('#endDate').val(leaveBlock.get("leaveDate"));
+            $('#startTime').val(leaveBlock.get("startTime"));
+            $('#endTime').val(leaveBlock.get("endTime"));
+            $('#startTimeHourMinute').val(leaveBlock.get("startTimeHourMinute"));
+            $('#endTimeHourMinute').val(leaveBlock.get("endTimeHourMinute"));
             $('#leaveAmount').val(leaveBlock.get("leaveAmount"));
             $('#leaveBlockId').val(leaveBlock.get("lmLeaveBlockId"));
             $("#selectedAssignment option[value='" + leaveBlock.get("assignment") + "']").attr("selected", "selected");
@@ -907,6 +923,12 @@ $(function () {
             if (leaveBlock.get("editable") == false) {
                 $('#startDate').attr('disabled', 'disabled');
                 $('#endDate').attr('disabled', 'disabled');
+                $('#startTime').attr('disabled', 'disabled');
+                $('#endTime').attr('disabled', 'disabled');
+                $('#startTime').val(leaveBlock.get("startTime"));
+                $('#endTime').val(leaveBlock.get("endTime"));
+                $('#startTimeHourMinute').val(leaveBlock.get("startTimeHourMinute"));
+                $('#endTimeHourMinute').val(leaveBlock.get("endTimeHourMinute"));
                 $('#selectedAssignment').attr('disabled', 'disabled');
                 $('#selectedEarnCode').attr('disabled', 'disabled');
                 $('#leaveAmount').attr('disabled', 'disabled');

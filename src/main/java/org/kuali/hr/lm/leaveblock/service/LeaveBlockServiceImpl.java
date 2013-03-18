@@ -155,19 +155,42 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     @Override
     public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntries ce, String selectedEarnCode, 
     		BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks, String leaveBlockType, String principalId) {
+    	
+    	DateTimeZone timezone = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
         DateTime calBeginDateTime = beginDate;
     	DateTime calEndDateTime = endDate;
+    	
         if(ce != null) {
         	calBeginDateTime = ce.getBeginLocalDateTime().toDateTime();
         	calEndDateTime = ce.getEndLocalDateTime().toDateTime();
         } else {
             throw new RuntimeException("Calendar Entry parameter is null.");
         }
+        
         Interval calendarInterval = new Interval(calBeginDateTime, calEndDateTime);
        
         // To create the correct interval by the given begin and end dates,
         // we need to plus one day on the end date to include that date
-        List<Interval> leaveBlockIntervals = TKUtils.createDaySpan(beginDate.toDateMidnight().toDateTime(), endDate.plusDays(1).toDateMidnight().toDateTime(), TKUtils.getSystemDateTimeZone());
+
+        Calendar startCal = Calendar.getInstance();
+        startCal.setTimeInMillis(beginDate.getMillis());
+        startCal.set(Calendar.HOUR_OF_DAY, 0);
+        startCal.set(Calendar.MINUTE, 0);
+        startCal.set(Calendar.SECOND, 0);
+        startCal.set(Calendar.MILLISECOND, 0);
+        
+
+        Calendar endCal = Calendar.getInstance();
+        endCal.setTimeInMillis(endDate.getMillis());
+        endCal.add(Calendar.DATE, 1);
+        endCal.set(Calendar.HOUR_OF_DAY, 0);
+        endCal.set(Calendar.MINUTE, 0);
+        endCal.set(Calendar.SECOND, 0);
+        endCal.set(Calendar.MILLISECOND, 0);
+
+        List<Interval> leaveBlockIntervals = TKUtils.createDaySpan(new DateTime(startCal.getTimeInMillis()), new DateTime(endCal.getTimeInMillis()), TKUtils.getSystemDateTimeZone());
+//        List<Interval> leaveBlockIntervals = TKUtils.createDaySpan(beginDate.toDateMidnight().toDateTime(), endDate.plusDays(1).toDateMidnight().toDateTime(), TKUtils.getSystemDateTimeZone());
+
         // need to use beginDate and endDate of the calendar to find all leaveBlocks since LeaveCalendarDocument Id is not always available
         List<LeaveBlock> currentLeaveBlocks = getLeaveBlocks(principalId, calBeginDateTime.toDate(), calEndDateTime.toDate());
     
@@ -177,6 +200,9 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
         String docId = lcdh == null ? null : lcdh.getDocumentId();
         
         // TODO: need to integrate with the scheduled timeoff.
+        Timestamp beginTemp = new Timestamp(beginDate.getMillis());
+        Timestamp endTimestamp = new Timestamp(endDate.getMillis());
+    	Interval firstDay = null;
         for (Interval leaveBlockInt : leaveBlockIntervals) {
             if (calendarInterval.contains(leaveBlockInt)) {
             	// KPME-1446 if "Include weekends" check box is checked, don't add Sat and Sun to the leaveblock list
@@ -185,16 +211,12 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
             		
             		// do nothing
             	} else {
+            		
             		 // Currently, we store the accrual category value in the leave code table, but store accrual category id in the leaveBlock.
                     // That's why there is a two step server call to get the id. This might be changed in the future.
 
                     java.sql.Date sqlDate = new java.sql.Date(ce.getEndLocalDateTime().toDateTime().toDate().getTime());
-                    if ((leaveBlockType.equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR)
-                                || leaveBlockType.equals((LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR)))
-                            && BigDecimal.ZERO.compareTo(hours) < 0) {
-                        hours = hours.negate();
-                    }
-
+                    
                     CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(ce.getHrCalendarId(), TKUtils.getCurrentDate());
                     Date leaveBlockDate = new DateTime(leaveBlockInt.getStartMillis()).toDate();
                     
@@ -215,28 +237,102 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
                     }
                     
                     EarnCode earnCodeObj = TkServiceLocator.getEarnCodeService().getEarnCode(selectedEarnCode, sqlDate);
-	                LeaveBlock leaveBlock = new LeaveBlock.Builder(new DateTime(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours)
-	                        .description(description)
-	                        .principalIdModified(principalId)
-	                        .timestamp(TKUtils.getCurrentTimestamp())
-	                        .scheduleTimeOffId("0")
-	                        .accrualCategory(earnCodeObj.getAccrualCategory())
-	                        .workArea(selectedAssignment.getWorkArea())
-	                        .jobNumber(selectedAssignment.getJobNumber())
-	                        .task(selectedAssignment.getTask())
-                            .requestStatus(requestStatus)
-	                        .leaveBlockType(leaveBlockType)
-	                        .build();
-                    if (!currentLeaveBlocks.contains(leaveBlock)) {
-                        currentLeaveBlocks.add(leaveBlock);
+                    
+                    if(earnCodeObj != null && earnCodeObj.getRecordMethod().equals(LMConstants.RECORD_METHOD.TIME)) {
+	                    if (firstDay != null) {
+	                    	if(!leaveBlockInt.contains(endTimestamp.getTime())){
+	                    		beginTemp = new Timestamp(leaveBlockInt.getStartMillis());
+	                    	} else if((leaveBlockInt.getStartMillis() - endTimestamp.getTime()) != 0){
+	                    		
+	                            hours = TKUtils.getHoursBetween(leaveBlockInt.getStartMillis(), endTimestamp.getTime());
+	                    		if ((leaveBlockType.equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR)
+	                                    || leaveBlockType.equals((LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR)))
+	                                && BigDecimal.ZERO.compareTo(hours) < 0) {
+	                    			hours = hours.negate();
+	                    		}
+	                    		
+	                    		LeaveBlock leaveBlock = buildLeaveBlock(new DateTime(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), selectedAssignment, requestStatus, leaveBlockType, new Timestamp(leaveBlockInt.getStartMillis()), endTimestamp);
+	                            
+			                    if (!currentLeaveBlocks.contains(leaveBlock)) {
+			                        currentLeaveBlocks.add(leaveBlock);
+			                    }
+	                    		break;
+	                    	}            		
+	                    }
+	                    if (leaveBlockInt.contains(beginTemp.getTime())) {
+	                    	
+	                        firstDay = leaveBlockInt;
+
+	                        if (leaveBlockInt.contains(endTimestamp.getTime()) || (endTimestamp.getTime() == leaveBlockInt.getEnd().getMillis())) {
+
+	                        	hours = TKUtils.getHoursBetween(beginTemp.getTime(), endTimestamp.getTime());
+	                    		if ((leaveBlockType.equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR)
+	                                    || leaveBlockType.equals((LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR)))
+	                                && BigDecimal.ZERO.compareTo(hours) < 0) {
+	                    			hours = hours.negate();
+	                    		}
+	                    		
+	                    		LeaveBlock leaveBlock = buildLeaveBlock(new DateTime(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), selectedAssignment, requestStatus, leaveBlockType, beginTemp, endTimestamp);
+	                            
+			                    if (!currentLeaveBlocks.contains(leaveBlock)) {
+			                        currentLeaveBlocks.add(leaveBlock);
+			                    }
+
+	                            break;
+	                            
+	                        } else {
+	                            // create a leave block that wraps the 24 hr day
+	                        	hours = TKUtils.getHoursBetween(beginTemp.getTime(), firstDay.getEndMillis());
+	                    		if ((leaveBlockType.equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR)
+	                                    || leaveBlockType.equals((LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR)))
+	                                && BigDecimal.ZERO.compareTo(hours) < 0) {
+	                    			hours = hours.negate();
+	                    		}
+	                    		
+	                    		LeaveBlock leaveBlock = buildLeaveBlock(new DateTime(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), selectedAssignment, requestStatus, leaveBlockType, beginTemp, new Timestamp(firstDay.getEndMillis()));
+	                            
+			                    if (!currentLeaveBlocks.contains(leaveBlock)) {
+			                        currentLeaveBlocks.add(leaveBlock);
+			                    }
+
+	                        }
+	                    }
+                    } else {
+                    	
+		                LeaveBlock leaveBlock = buildLeaveBlock(new DateTime(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), 
+		                		selectedAssignment, requestStatus, leaveBlockType, null, null);
+	                    if (!currentLeaveBlocks.contains(leaveBlock)) {
+	                        currentLeaveBlocks.add(leaveBlock);
+	                    }
                     }
             	}
             }
         }
-
         saveLeaveBlocks(currentLeaveBlocks);
     }
     
+    
+    public LeaveBlock buildLeaveBlock(DateTime leaveDate, String docId, String principalId, String selectedEarnCode, 
+    		BigDecimal hours, String description, String accrualCategory, Assignment selectedAssignment, String requestStatus, String leaveBlockType, Timestamp beginTimeStamp, Timestamp endTimestamp) {
+    	
+    	LeaveBlock leaveBlock = new LeaveBlock.Builder(leaveDate, docId, principalId, selectedEarnCode, hours)
+        .description(description)
+        .principalIdModified(principalId)
+        .timestamp(TKUtils.getCurrentTimestamp())
+        .scheduleTimeOffId("0")
+        .accrualCategory(accrualCategory)
+        .workArea(selectedAssignment.getWorkArea())
+        .jobNumber(selectedAssignment.getJobNumber())
+        .task(selectedAssignment.getTask())
+        .requestStatus(requestStatus)
+        .leaveBlockType(leaveBlockType)
+        .build();
+    	
+    	leaveBlock.setBeginTimestamp(beginTimeStamp);
+        leaveBlock.setEndTimestamp(endTimestamp);
+    	
+    	return leaveBlock;
+    }
     // KPME-1447
     @Override
     public void updateLeaveBlock(LeaveBlock leaveBlock, String principalId) {
@@ -349,6 +445,8 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
   				   leaveBlocks.add(lb);
   			   }
   		   }
+  		   
+  		  
   	   	}
     	return leaveBlocks;
     }

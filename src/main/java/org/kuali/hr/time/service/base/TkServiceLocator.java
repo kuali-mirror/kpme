@@ -17,6 +17,7 @@ package org.kuali.hr.time.service.base;
 
 import org.kuali.hr.core.notification.service.KPMENotificationService;
 import org.kuali.hr.job.service.JobService;
+import org.kuali.hr.lm.accrual.service.AccrualCategoryMaxBalanceService;
 import org.kuali.hr.lm.accrual.service.AccrualCategoryMaxCarryOverService;
 import org.kuali.hr.lm.accrual.service.AccrualCategoryRuleService;
 import org.kuali.hr.lm.accrual.service.AccrualCategoryService;
@@ -31,7 +32,6 @@ import org.kuali.hr.lm.leaveadjustment.service.LeaveAdjustmentService;
 import org.kuali.hr.lm.leaveblock.service.LeaveBlockHistoryService;
 import org.kuali.hr.lm.leaveblock.service.LeaveBlockService;
 import org.kuali.hr.lm.leavecalendar.service.LeaveCalendarService;
-import org.kuali.hr.lm.leavecode.service.LeaveCodeService;
 import org.kuali.hr.lm.leavedonation.service.LeaveDonationService;
 import org.kuali.hr.lm.leavepayout.service.LeavePayoutService;
 import org.kuali.hr.lm.leaveplan.service.LeavePlanService;
@@ -39,8 +39,7 @@ import org.kuali.hr.lm.leaverequest.service.LeaveRequestDocumentService;
 import org.kuali.hr.lm.timeoff.service.SystemScheduledTimeOffService;
 import org.kuali.hr.lm.workflow.service.LeaveCalendarDocumentHeaderService;
 import org.kuali.hr.location.service.LocationService;
-import org.kuali.hr.paygrade.service.PayGradeService;
-import org.kuali.hr.time.accrual.service.TimeOffAccrualService;
+import org.kuali.hr.paygrade.service.PayGradeService; 
 import org.kuali.hr.time.approval.service.TimeApproveService;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
 import org.kuali.hr.time.assignment.service.AssignmentService;
@@ -82,8 +81,7 @@ import org.kuali.hr.time.user.pref.service.UserPreferenceService;
 import org.kuali.hr.time.warning.TkWarningService;
 import org.kuali.hr.time.workarea.service.WorkAreaService;
 import org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderService;
-import org.kuali.hr.time.workschedule.service.WorkScheduleAssignmentService;
-import org.kuali.hr.time.workschedule.service.WorkScheduleService;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -95,7 +93,7 @@ import org.springmodules.orm.ojb.PersistenceBrokerTemplate;
 
 public class TkServiceLocator implements ApplicationContextAware {
 	public static String SPRING_BEANS = "classpath:SpringBeans.xml";
-	public static ApplicationContext CONTEXT;
+	private static ApplicationContext CONTEXT;
 	public static final String TK_PERMISSIONS_SERVICE = "permissionsService";
 	public static final String TK_CLOCK_LOG_SERVICE = "clockLogService";
 	public static final String TK_ASSIGNMENT_SERVICE = "assignmentService";
@@ -124,8 +122,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_DAILY_OVERTIME_RULE_SERVICE = "dailyOvertimeRuleService";
 	public static final String TK_WEEKLY_OVERTIME_RULE_SERVICE = "weeklyOvertimeRuleService";
 	public static final String TK_SHIFT_DIFFERENTIAL_RULE_SERVICE = "shiftDifferentialRuleService";
-	public static final String TK_WORK_SCHEDULE_SERVICE = "workScheduleService";
-    public static final String TK_WORK_SCHEDULE_ASSIGNMENT_SERVICE = "workScheduleAssignmentService";
 	public static final String TK_CLOCK_LOCATION_RULE_SERVICE = "clockLocationService";
 	public static final String TK_GRACE_PERIOD_SERVICE = "gracePeriodService";
 	public static final String TK_SYSTEM_LUNCH_RULE_SERVICE = "systemLunchRuleService";
@@ -150,7 +146,6 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String TK_SEARCH_ATTR_SERVICE = "tkSearchableAttributeService";
     public static final String LM_ACCRUAL_SERVICE = "accrualService";
     public static final String LM_ACCRUAL_CATEGORY_SERVICE = "leaveAccrualCategoryService";
-    public static final String LM_LEAVE_CODE_SERVICE = "leaveCodeService";
     public static final String LM_LEAVE_PLAN_SERVICE = "leavePlanService";
     public static final String LM_LEAVE_DONATION_SERVICE = "leaveDonationService";
     public static final String LM_SYS_SCH_TIMEOFF_SERVICE = "systemScheduledTimeOffService";
@@ -165,6 +160,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String LM_LEAVE_SUMMARY_SERVICE = "leaveSummaryService";
 	public static final String LM_LEAVE_APPROVAL_SERVICE = "leaveApprovalService";
     public static final String LM_BALANCE_TRANSFER_SERVICE = "balanceTransferService";
+    public static final String LM_ACCRUAL_CATEGORY_MAX_BALANCE_SERVICE = "accrualCategoryMaxBalanceService";
     public static final String LM_LEAVE_REQUEST_DOC_SERVICE = "leaveRequestDocumentService";
 	public static final String LM_ACCRUAL_CATEGORY_MAX_CARRY_OVER_SERVICE = "accrualCategoryMaxCarryOverService";
     public static final String LM_LEAVE_PAYOUT_SERVICE = "leavePayoutService";
@@ -191,14 +187,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static ShiftDifferentialRuleService getShiftDifferentialRuleService() {
 		return (ShiftDifferentialRuleService) CONTEXT.getBean(TK_SHIFT_DIFFERENTIAL_RULE_SERVICE);
 	}
-
-	public static WorkScheduleService getWorkScheduleService() {
-		return (WorkScheduleService) CONTEXT.getBean(TK_WORK_SCHEDULE_SERVICE);
-	}
-
-    public static WorkScheduleAssignmentService getWorkScheduleAssignmentService() {
-        return (WorkScheduleAssignmentService) CONTEXT.getBean(TK_WORK_SCHEDULE_ASSIGNMENT_SERVICE);
-    }
 
 	public static WeeklyOvertimeRuleService getWeeklyOvertimeRuleService() {
 		return (WeeklyOvertimeRuleService) CONTEXT.getBean(TK_WEEKLY_OVERTIME_RULE_SERVICE);
@@ -324,10 +312,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 		return (TimezoneService) CONTEXT.getBean(TK_TIME_ZONE_SERVICE);
 	}
 
-	public static TimeOffAccrualService getTimeOffAccrualService(){
-		return (TimeOffAccrualService) CONTEXT.getBean(TK_TIME_OFF_ACCRUAL_SERVICE);
-	}
-
 	public static AccrualCategoryService getAccrualCategoryService() {
 	    return (AccrualCategoryService)CONTEXT.getBean(TK_ACCRUAL_CATEGORY_SERVICE);
 	}
@@ -385,10 +369,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 	
 	public static AccrualCategoryService getLeaveAccrualCategoryService(){
 		return (AccrualCategoryService)CONTEXT.getBean(LM_ACCRUAL_CATEGORY_SERVICE);
-	}
-	
-	public static LeaveCodeService getLeaveCodeService(){
-		return (LeaveCodeService)CONTEXT.getBean(LM_LEAVE_CODE_SERVICE);
 	}
 	
 	public static LeavePlanService getLeavePlanService(){
@@ -455,6 +435,9 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static BalanceTransferService getBalanceTransferService() {
     	return (BalanceTransferService) CONTEXT.getBean(LM_BALANCE_TRANSFER_SERVICE);
     }
+    public static AccrualCategoryMaxBalanceService getAccrualCategoryMaxBalanceService() {
+    	return (AccrualCategoryMaxBalanceService) CONTEXT.getBean(LM_ACCRUAL_CATEGORY_MAX_BALANCE_SERVICE);
+    }
     public static LeavePayoutService getLeavePayoutService() {
         return (LeavePayoutService) CONTEXT.getBean(LM_LEAVE_PAYOUT_SERVICE);
     }
@@ -471,6 +454,10 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
 	    CONTEXT = arg0;
 	}
+
+    public static Object getBean(String beanName) {
+        return CONTEXT.getBean(beanName);
+    }
 	
 
     /**

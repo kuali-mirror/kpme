@@ -51,10 +51,9 @@
             </table>
         </div>
     </html:form>
-	<%--<html:form action="/LeaveRequest.do" method="POST">--%>
-		<%--<html:hidden property="methodToCall" value="submitForApproval"--%>
-			<%--styleId="methodToCall" />--%>
-		<%--<br />--%>
+	<html:form action="/LeaveRequest.do" method="POST">
+		<html:hidden property="methodToCall" value="submitForApproval" styleId="methodToCall" />
+		<br />
 		<div class="leave-request">
 
 			<div id="leave-planned-request">
@@ -192,5 +191,5 @@
 			</div>
 		</div>
 		<br />
-	<%--</html:form>--%>
+	</html:form>
 </tk:tkHeader>

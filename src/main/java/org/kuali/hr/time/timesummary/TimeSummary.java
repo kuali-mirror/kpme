@@ -18,13 +18,14 @@ package org.kuali.hr.time.timesummary;
 import org.json.simple.JSONValue;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TimeSummary {
+public class TimeSummary implements Serializable {
 	private List<String> summaryHeader = new ArrayList<String>();
 	private List<EarnGroupSection> sections = new ArrayList<EarnGroupSection>();
 	private List<LeaveSummaryRow> maxedLeaveRows = new ArrayList<LeaveSummaryRow>();

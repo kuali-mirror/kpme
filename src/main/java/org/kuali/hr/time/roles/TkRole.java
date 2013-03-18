@@ -17,6 +17,7 @@ package org.kuali.hr.time.roles;
 
 import java.sql.Date;
 
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.time.HrBusinessObject;
@@ -50,11 +51,11 @@ public class TkRole extends HrBusinessObject {
      * These objects are used by Lookups to provide links on the maintenance
      * page. They are not necessarily going to be populated.
      */
-	private Person person;
-    private Department departmentObj;
-    private WorkArea workAreaObj;
-    private Chart chartObj;
-    private Position positionObj;
+	private transient Person person;
+    private transient Department departmentObj;
+    private transient WorkArea workAreaObj;
+    private transient Chart chartObj;
+    private transient Position positionObj;
     
     private Location locationObj;
 
@@ -224,6 +225,11 @@ public class TkRole extends HrBusinessObject {
 	public void setLocationObj(Location locationObj) {
 		this.locationObj = locationObj;
 	}
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
 
     @Override
     public boolean equals(Object o) {

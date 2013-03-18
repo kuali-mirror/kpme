@@ -35,7 +35,7 @@
 //			List pkNames) {
 //		List<HtmlData> customActionUrls = super.getCustomActionUrls(
 //				businessObject, pkNames);
-//		if (TKContext.getUser().getCurrentRoles().isSystemAdmin()) {
+//		if (TKUser.getCurrentRoles().isSystemAdmin()) {
 //			MissedPunch missedPunch = (MissedPunch) businessObject;
 //			final String className = this.getBusinessObjectClass().getName();
 //			final Long tkMissedPunchId = missedPunch.getTkMissedPunchId();

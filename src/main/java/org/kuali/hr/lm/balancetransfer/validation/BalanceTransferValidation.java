@@ -29,6 +29,7 @@ import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -97,7 +98,7 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 	private boolean validateTransferFromAccrualCategory(AccrualCategory accrualCategory, String principalId,
 			Date effectiveDate, AccrualCategoryRule acr) {
 		//accrualCategory has rules
-		PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, effectiveDate);
+		//PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, effectiveDate);
 		
 		return true;
 	}
@@ -130,7 +131,10 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 			if(ObjectUtils.isNotNull(maxTransferAmount)) {
 				EmployeeOverride eo = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, leavePlan, accrualCategory, TkConstants.EMPLOYEE_OVERRIDE_TYPE.get("MTA"), effectiveDate);
 				if(ObjectUtils.isNotNull(eo))
-					maxTransferAmount = new BigDecimal(eo.getOverrideValue());
+					if(ObjectUtils.isNull(eo.getOverrideValue()))
+						maxTransferAmount = new BigDecimal(Long.MAX_VALUE);
+					else
+						maxTransferAmount = new BigDecimal(eo.getOverrideValue());
 				else {
 					BigDecimal fteSum = TkServiceLocator.getJobService().getFteSumForAllActiveLeaveEligibleJobs(principalId, effectiveDate);
 					maxTransferAmount = maxTransferAmount.multiply(fteSum);
@@ -180,8 +184,8 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 				AccrualCategory toCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, effectiveDate);
 				PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId,effectiveDate);
 				
-				boolean isDeptAdmin = TKContext.getUser().isDepartmentAdmin();
-				boolean isSysAdmin = TKContext.getUser().isSystemAdmin();
+				boolean isDeptAdmin = TKUser.isDepartmentAdmin();
+				boolean isSysAdmin = TKUser.isSystemAdmin();
 				if(isDeptAdmin || isSysAdmin) {
 					isValid &= validateTransferAmount(balanceTransfer.getTransferAmount(),fromCat,toCat, principalId, effectiveDate);
 				}
@@ -241,12 +245,4 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 		}
 		return isValid; 
 	}
-	
-	@Override
-	protected boolean processCustomApproveDocumentBusinessRules(
-			MaintenanceDocument document) {
-/*		System.out.println("");*/
-		return super.processCustomApproveDocumentBusinessRules(document);
-	}
-
 }

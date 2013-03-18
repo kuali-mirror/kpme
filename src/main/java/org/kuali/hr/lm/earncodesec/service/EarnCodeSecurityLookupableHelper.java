@@ -20,6 +20,7 @@ import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -47,9 +48,9 @@ public class EarnCodeSecurityLookupableHelper extends HrEffectiveDateActiveLooku
 		String location = earnCodeSecurity.getLocation();
 		String department = earnCodeSecurity.getDept();
 		
-		boolean systemAdmin = TKContext.getUser().isSystemAdmin();
-		boolean locationAdmin = TKContext.getUser().getLocationAdminAreas().contains(location);
-		boolean departmentAdmin = TKContext.getUser().getDepartmentAdminAreas().contains(department);
+		boolean systemAdmin = TKUser.isSystemAdmin();
+		boolean locationAdmin = TKUser.getLocationAdminAreas().contains(location);
+		boolean departmentAdmin = TKUser.getDepartmentAdminAreas().contains(department);
 		
 		for (HtmlData defaultCustomActionUrl : defaultCustomActionUrls){
 			if (StringUtils.equals(defaultCustomActionUrl.getMethodToCall(), "edit")) {

@@ -39,12 +39,12 @@ public class LeavePlanInquirableImpl extends KualiInquirableImpl {
 			java.util.Date uDate = null;
 			try {
 				uDate = new SimpleDateFormat("MM/dd/yyyy").parse(fieldValues.get("effectiveDate").toString());
-			} catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			Date effdt = new java.sql.Date(uDate.getTime());
-			lp = TkServiceLocator.getLeavePlanService().getLeavePlan((String)fieldValues.get("leavePlan"), effdt);
+
+                Date effdt = new java.sql.Date(uDate.getTime());
+                lp = TkServiceLocator.getLeavePlanService().getLeavePlan((String)fieldValues.get("leavePlan"), effdt);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 			
 		} else {
 			lp = (LeavePlan) super.getBusinessObject(fieldValues);

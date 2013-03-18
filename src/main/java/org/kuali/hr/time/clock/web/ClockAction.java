@@ -65,7 +65,6 @@ public class ClockAction extends TimesheetAction {
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         super.checkTKAuthorization(form, methodToCall); // Checks for read access first.
 
-        TimesheetActionForm taForm = (TimesheetActionForm) form;
         UserRoles roles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
         TimesheetDocument doc = TKContext.getCurrentTimesheetDocument();
 
@@ -105,7 +104,7 @@ public class ClockAction extends TimesheetAction {
             }
             caf.setAssignmentLunchMap(assignmentDeptLunchRuleMap);
         }
-        String principalId = TKUser.getCurrentTargetPerson().getPrincipalId();
+        String principalId = TKUser.getCurrentTargetPersonId();
         if (principalId != null) {
             caf.setPrincipalId(principalId);
         }
@@ -217,7 +216,7 @@ public class ClockAction extends TimesheetAction {
             caf.setErrorMessage("No assignment selected.");
             return mapping.findForward("basic");
         }
-        ClockLog previousClockLog = TkServiceLocator.getClockLogService().getLastClockLog(TKUser.getCurrentTargetPerson().getPrincipalId());
+        ClockLog previousClockLog = TkServiceLocator.getClockLogService().getLastClockLog(TKUser.getCurrentTargetPersonId());
         if(previousClockLog != null && StringUtils.equals(caf.getCurrentClockAction(), previousClockLog.getClockAction())){
         	caf.setErrorMessage("The operation is already performed.");
             return mapping.findForward("basic");
@@ -243,7 +242,7 @@ public class ClockAction extends TimesheetAction {
         
                
         ClockLog clockLog = TkServiceLocator.getClockLogService().processClockLog(new Timestamp(System.currentTimeMillis()), assignment, caf.getPayCalendarDates(), ip,
-                TKUtils.getCurrentDate(), caf.getTimesheetDocument(), caf.getCurrentClockAction(), TKUser.getCurrentTargetPerson().getPrincipalId());
+                TKUtils.getCurrentDate(), caf.getTimesheetDocument(), caf.getCurrentClockAction(), TKUser.getCurrentTargetPersonId());
 
         caf.setClockLog(clockLog);
 
@@ -298,7 +297,6 @@ public class ClockAction extends TimesheetAction {
 
 		List<TimeBlock> newTbList = new ArrayList<TimeBlock>();
 		for(int i = 0; i < hrs.length; i++) {
-			TimeBlock tb = new TimeBlock();
 			BigDecimal hours = new BigDecimal(hrs[i]);
 			Timestamp beginTS = TKUtils.convertDateStringToTimestamp(beginDates[i], beginTimes[i]);
 			Timestamp endTS = TKUtils.convertDateStringToTimestamp(endDates[i], endTimes[i]);
@@ -307,7 +305,7 @@ public class ClockAction extends TimesheetAction {
 			
 			TimesheetDocument tsDoc = TkServiceLocator.getTimesheetService().getTimesheetDocument(timesheetDocId);
 			
-			tb = TkServiceLocator.getTimeBlockService().createTimeBlock(tsDoc, beginTS, endTS, assignment, earnCode, hours,BigDecimal.ZERO, false, false, TKContext.getPrincipalId());
+			TimeBlock tb = TkServiceLocator.getTimeBlockService().createTimeBlock(tsDoc, beginTS, endTS, assignment, earnCode, hours,BigDecimal.ZERO, false, false, TKContext.getPrincipalId());
 			newTbList.add(tb);
 		}
 		TkServiceLocator.getTimeBlockService().resetTimeHourDetail(newTbList);

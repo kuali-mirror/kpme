@@ -105,35 +105,34 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
     	
     	if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
     		
-        	Map<String,Set<LeaveBlock>> eligibilities = TkServiceLocator.getBalanceTransferService().getNewEligibleTransfers(calendarEntry,principalId);
-        	Map<String,Set<LeaveBlock>> payouts = TkServiceLocator.getLeavePayoutService().getNewEligiblePayouts(calendarEntry, principalId);
+        	Map<String,Set<LeaveBlock>> eligibilities = TkServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(calendarEntry,principalId);
         	Set<LeaveBlock> onDemandTransfers = eligibilities.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND);
-        	onDemandTransfers.addAll(payouts.get(LMConstants.MAX_BAL_ACTION_FREQ.ON_DEMAND));
-        	PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, TKUtils.getCurrentDate());
 
         	Interval calendarEntryInterval = new Interval(calendarEntry.getBeginPeriodDate().getTime(),calendarEntry.getEndPeriodDate().getTime());
         	
+        	//use the current date if on the current calendar? yes -> no warning given until accrual is reached. If accrual occurs on last day of period or last day of service interval
+        	//change, no warning given to the employee of balance limits being exceeded except on or after that day.
+
         	if(!onDemandTransfers.isEmpty()) {
             	for(LeaveBlock lb : onDemandTransfers) {
             		Date leaveDate = lb.getLeaveDate();
                 	LeaveSummary summary = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryAsOfDate(principalId, new java.sql.Date(DateUtils.addDays(leaveDate, 1).getTime()));
                 	LeaveSummaryRow row = summary.getLeaveSummaryRowForAccrualCtgy(lb.getAccrualCategory());
             		if(row != null) {
-            			AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(row.getAccrualCategoryId());
-                    	AccrualCategoryRule currentRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, TKUtils.getCurrentDate(), pha.getServiceDate());
-/*                    	if(StringUtils.equals(lb.getAccrualCategoryRuleId(),currentRule.getLmAccrualCategoryRuleId())
-                    			&& calendarEntryInterval.contains(leaveDate.getTime())) {*/
+            			//AccrualCategory accrualCategory = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(row.getAccrualCategoryId());
+                    	//AccrualCategoryRule currentRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRuleForDate(accrualCategory, asOfDate, pha.getServiceDate());
                     	if(calendarEntryInterval.contains(leaveDate.getTime())) {
                     		//do not allow the on-demand max balance action if the rule the action occurs under is no longer in effect,
                     		//or if the infraction did not occur within this interval. ( if it occurred during the previous interval, 
                     		//the employee will have the option to take action in that interval up to & including the end date of that interval. )
-	            			row.setInfractingLeaveBlockId(lb.getLmLeaveBlockId());
+	            			row.setInfractingLeaveBlockId(lb.getAccrualCategoryRuleId());
 	            			AccrualCategoryRule aRule = TkServiceLocator.getAccrualCategoryRuleService().getAccrualCategoryRule(lb.getAccrualCategoryRuleId());
 	            			
 	            			if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.TRANSFER))
 	            				row.setTransferable(true);
 	            			else if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.PAYOUT))
 	            				row.setPayoutable(true);
+	            			
 	            			maxedLeaveRows.add(row);
                     	}
             		}
@@ -176,8 +175,8 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 			for(FlsaDay flsaDay : flsaDays){
 				Map<String, List<TimeBlock>> earnCodeToTimeBlocks = flsaDay.getEarnCodeToTimeBlocks();
 				
-				for(String earnCode : earnCodeToTimeBlocks.keySet()){
-					for(TimeBlock timeBlock : earnCodeToTimeBlocks.get(earnCode)){
+				for(List<TimeBlock> timeBlocks : earnCodeToTimeBlocks.values()){
+					for(TimeBlock timeBlock : timeBlocks){
 						for(TimeHourDetail thd : timeBlock.getTimeHourDetails()){
 							if(StringUtils.equals(TkConstants.LUNCH_EARN_CODE, thd.getEarnCode())){
 								continue;

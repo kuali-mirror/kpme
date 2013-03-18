@@ -138,7 +138,7 @@ public class EarnCodeServiceImplTest extends KPMETestCase {
 		
 		HtmlPage resultantPageAfterEdit = HtmlUnitUtil
 				.clickInputContainingText(maintPage, "submit");
-		System.out.println(resultantPageAfterEdit.asText());
+		LOG.debug(resultantPageAfterEdit.asText());
 
 //		assertTrue("Error message for not selecting any record type",
 //				resultantPageAfterEdit.asText().contains("For this earn code you must specify Record Hours or Record Time or Record Amount"));

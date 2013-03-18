@@ -17,6 +17,7 @@ package org.kuali.hr.lm.leaveplan;
 
 import junit.framework.Assert;
 
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
@@ -27,7 +28,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class LeavePlanMaintTest extends KPMETestCase {
-
+    private static final Logger LOG = Logger.getLogger(LeavePlanMaintTest.class);
 	public static final String TEST_USER = "admin";
 	
 	
@@ -37,10 +38,10 @@ public class LeavePlanMaintTest extends KPMETestCase {
 		
 		//get the page with planning months
 		HtmlPage leavePlan = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.LEAVE_PLAN_MAINT_URL);
-		System.out.println("Leave plan text page is : "+leavePlan.asText());
+		LOG.debug("Leave plan text page is : " + leavePlan.asText());
 		HtmlPage resultPage = HtmlUnitUtil.clickInputContainingText(leavePlan, "search");
 		HtmlUnitUtil.createTempFile(resultPage);
-		System.out.println("Result page is : "+resultPage.asText());
+		LOG.debug("Result page is : "+resultPage.asText());
 		Assert.assertTrue("Maintenance page contains:\n" + "Testing Leave Plan Months", resultPage.asText().contains("Testing Leave Plan Months"));
 		
 		//submit a leave plan with planning months changed

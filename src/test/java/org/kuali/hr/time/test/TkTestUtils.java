@@ -70,8 +70,8 @@ public class TkTestUtils {
 
 	public static TimesheetDocument populateBlankTimesheetDocument(Date calDate) {
 		try {
-			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKUser.getCurrentTargetPerson().getPrincipalId(),
-							TkServiceLocator.getCalendarService().getCurrentCalendarDates(TKUser.getCurrentTargetPerson().getPrincipalId(),
+			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKUser.getCurrentTargetPersonId(),
+							TkServiceLocator.getCalendarService().getCurrentCalendarDates(TKUser.getCurrentTargetPersonId(),
                                     calDate));
 			for(TimeBlock timeBlock : timesheet.getTimeBlocks()){
 				TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlock);
@@ -85,16 +85,16 @@ public class TkTestUtils {
 
 	public static TimesheetDocument populateTimesheetDocument(Date calDate) {
 		try {
-			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKUser.getCurrentTargetPerson().getPrincipalId(),
-							TkServiceLocator.getCalendarService().getCurrentCalendarDates(TKUser.getCurrentTargetPerson().getPrincipalId(),
+			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKUser.getCurrentTargetPersonId(),
+							TkServiceLocator.getCalendarService().getCurrentCalendarDates(TKUser.getCurrentTargetPersonId(),
                                     calDate));
 			for(TimeBlock timeBlock : timesheet.getTimeBlocks()){
 				TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlock);
 			}
 
 			//refetch clean document
-			timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKUser.getCurrentTargetPerson().getPrincipalId(),
-					TkServiceLocator.getCalendarService().getCurrentCalendarDates(TKUser.getCurrentTargetPerson().getPrincipalId(),
+			timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKUser.getCurrentTargetPersonId(),
+					TkServiceLocator.getCalendarService().getCurrentCalendarDates(TKUser.getCurrentTargetPersonId(),
                             calDate));
 			List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
 			for(int i = 0;i<5;i++){

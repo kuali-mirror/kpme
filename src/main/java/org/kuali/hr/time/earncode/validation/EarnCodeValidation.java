@@ -17,7 +17,6 @@ package org.kuali.hr.time.earncode.validation;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.accrual.AccrualCategory;
-import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
@@ -45,7 +44,7 @@ public class EarnCodeValidation extends MaintenanceDocumentRuleBase{
 	boolean validateDefaultAmountOfTime(Long defaultAmountofTime) {
 		boolean valid = true;
 		if ( defaultAmountofTime != null ){
-			if (defaultAmountofTime.compareTo(new Long(24)) > 0  || defaultAmountofTime.compareTo(new Long(0)) < 0) {
+			if (defaultAmountofTime.compareTo(24L) > 0  || defaultAmountofTime.compareTo(0L) < 0) {
 				this.putFieldError("defaultAmountofTime", "error.leaveCode.hours", "Default Amount of Time '"
 						+ defaultAmountofTime + "'");
 				valid = false;

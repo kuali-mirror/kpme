@@ -34,7 +34,7 @@ public class EarnCodeSecurity extends HrBusinessObject {
 	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "EarnCodeSecurity";
     private static final String[] PRIVATE_CACHES_FOR_FLUSH = {EarnCodeSecurity.CACHE_NAME, EarnCode.CACHE_NAME};
     public static final List<String> CACHE_FLUSH = Collections.unmodifiableList(Arrays.asList(PRIVATE_CACHES_FOR_FLUSH));
-    
+
 	private String hrEarnCodeSecurityId;
 	private String dept;
 	private String hrSalGroup;

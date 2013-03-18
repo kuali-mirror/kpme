@@ -26,6 +26,7 @@ import org.apache.commons.exec.util.MapUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
 import org.kuali.hr.core.document.CalendarDocumentHeaderContract;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
@@ -354,7 +355,7 @@ public class BatchJobServiceImpl implements BatchJobService {
 
 	private void scheduleLeaveCarryOverJob(LeavePlan leavePlan, Date scheduleDate) throws SchedulerException {
         Map<String, String> jobGroupDataMap = new HashMap<String, String>();
-        jobGroupDataMap.put("date", BatchJobUtil.FORMAT.format(scheduleDate));
+        jobGroupDataMap.put("date", BatchJobUtil.FORMAT.print(new DateTime(scheduleDate)));
 		Map<String, String> jobDataMap = new HashMap<String, String>();
 		jobDataMap.put("leavePlan", leavePlan.getLeavePlan());
         scheduleJob(CarryOverJob.class, scheduleDate, jobGroupDataMap, jobDataMap);

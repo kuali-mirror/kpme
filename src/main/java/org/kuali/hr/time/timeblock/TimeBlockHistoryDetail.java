@@ -25,8 +25,8 @@ public class TimeBlockHistoryDetail extends TimeHourDetail{
 	
 	private TimeBlockHistory timeBlockHistory;
 	
-	private Person principal;
-	private Person userPrincipal;
+	private transient Person principal;
+	private transient Person userPrincipal;
 
 	public String getTkTimeBlockHistoryDetailId() {
 		return tkTimeBlockHistoryDetailId;

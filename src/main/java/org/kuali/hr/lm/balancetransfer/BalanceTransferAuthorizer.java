@@ -29,7 +29,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 public class BalanceTransferAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
-	private Logger LOG = Logger.getLogger(BalanceTransferAuthorizer.class);
+	private static final Logger LOG = Logger.getLogger(BalanceTransferAuthorizer.class);
 	
 	@Override
 	public boolean canEditDocumentOverview(Document document, Person user) {

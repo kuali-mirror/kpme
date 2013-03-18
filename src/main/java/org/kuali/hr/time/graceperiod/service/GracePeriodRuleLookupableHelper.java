@@ -25,6 +25,7 @@ import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.graceperiod.rule.GracePeriodRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
@@ -44,7 +45,7 @@ public class GracePeriodRuleLookupableHelper extends HrEffectiveDateActiveLookup
 		GracePeriodRule gracePeriodRule = (GracePeriodRule) businessObject;
 		String tkGracePeriodRuleId = gracePeriodRule.getTkGracePeriodRuleId();
 		
-		boolean systemAdmin = TKContext.getUser().isSystemAdmin();
+		boolean systemAdmin = TKUser.isSystemAdmin();
 
 		for (HtmlData defaultCustomActionUrl : defaultCustomActionUrls){
 			if (StringUtils.equals(defaultCustomActionUrl.getMethodToCall(), "edit")) {

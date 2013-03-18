@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.lm.leavecalendar;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -25,7 +26,7 @@ import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntries;
 
-public class LeaveCalendarDocument implements CalendarDocumentContract {
+public class LeaveCalendarDocument implements CalendarDocumentContract, Serializable {
 
 	public static final String LEAVE_CALENDAR_DOCUMENT_TYPE = "LeaveCalendarDocument";
 

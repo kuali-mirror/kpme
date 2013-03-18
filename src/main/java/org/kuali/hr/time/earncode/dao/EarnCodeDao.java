@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.earncode.dao;
 
-import org.kuali.hr.lm.leavecode.LeaveCode;
 import org.kuali.hr.time.earncode.EarnCode;
 
 import java.sql.Date;

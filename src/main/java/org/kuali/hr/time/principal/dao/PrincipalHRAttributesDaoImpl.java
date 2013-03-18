@@ -220,8 +220,6 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
 
         List<PrincipalHRAttributes> principals = new ArrayList<PrincipalHRAttributes>();
         Criteria root = new Criteria();
-        Criteria effdt = new Criteria();
-        Criteria timestamp = new Criteria();
 
         ImmutableList<String> fields = new ImmutableList.Builder<String>()
                 .add("leavePlan")
@@ -305,7 +303,6 @@ public class PrincipalHRAttributesDaoImpl extends PlatformAwareDaoBaseOjb implem
 
 		Criteria root = new Criteria();
 		Criteria effdt = new Criteria();
-		Criteria timestamp = new Criteria();
 
         effdt.addGreaterOrEqualThan("effectiveDate", asOfDate);
         ImmutableList<String> fields = new ImmutableList.Builder<String>()

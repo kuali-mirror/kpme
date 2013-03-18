@@ -18,6 +18,9 @@ package org.kuali.hr.time.rice.kns.web.format;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 
+import org.joda.time.LocalTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.kuali.rice.core.web.format.FormatException;
 import org.kuali.rice.core.web.format.Formatter;
 
@@ -25,12 +28,12 @@ public class SqlTimeFormatter extends Formatter {
 
 	private static final long serialVersionUID = -6187456990309386413L;
 	
-	private static final SimpleDateFormat sdFormat = new SimpleDateFormat("hh:mm aa");
+	private static final DateTimeFormatter sdFormat = DateTimeFormat.forPattern("hh:mm aa");
 
 	static {
 		registerFormatter(Time.class, SqlTimeFormatter.class);
 		
-		sdFormat.setLenient(false);
+		//sdFormat.setLenient(false);
 	}
 
 	/**
@@ -40,7 +43,7 @@ public class SqlTimeFormatter extends Formatter {
 		Object o = null;
 
 		try {
-			o = new Time(sdFormat.parse(source).getTime());
+            o = new Time(LocalTime.parse(source, sdFormat).getMillisOfDay());
 		} catch (Exception e) {
 			throw new FormatException("parsing", "error.invalidTime", source, e);
 		}
@@ -52,7 +55,7 @@ public class SqlTimeFormatter extends Formatter {
 	public Object format(Object source) {
 		if (source != null && source instanceof Time) {
 			Time time = (Time) source;
-			return sdFormat.format(time);
+			return sdFormat.print(new LocalTime(time));
 		}
 
 		return null;

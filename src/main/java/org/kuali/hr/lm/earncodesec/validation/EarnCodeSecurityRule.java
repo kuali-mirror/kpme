@@ -96,8 +96,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 		List<TimeBlock> latestEndTimestampTimeBlocks =  TkServiceLocator.getTimeBlockService().getLatestEndTimestamp();
 		
 		if ( !departmentEarnCode.isActive() && departmentEarnCode.getEffectiveDate().before(latestEndTimestampTimeBlocks.get(0).getEndDate()) ){
-			List<TimeBlock> activeTimeBlocks = new ArrayList<TimeBlock>();
-			activeTimeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks();
+			List<TimeBlock> activeTimeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks();
 			for(TimeBlock activeTimeBlock : activeTimeBlocks){
 				if ( departmentEarnCode.getEarnCode().equals(activeTimeBlock.getEarnCode())){
 					this.putFieldError("active", "deptEarncode.deptEarncode.inactivate", departmentEarnCode.getEarnCode());

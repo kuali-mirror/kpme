@@ -34,7 +34,7 @@ import org.kuali.rice.krad.util.ObjectUtils;
 
 public class LeavePayoutValidationUtils {
 
-	public static boolean validateTransfer(LeavePayout leavePayout) {
+	public static boolean validatePayout(LeavePayout leavePayout) {
 		boolean isValid = true;
 		String principalId = leavePayout.getPrincipalId();
 		Date effectiveDate = leavePayout.getEffectiveDate();
@@ -57,7 +57,8 @@ public class LeavePayoutValidationUtils {
 							isValid &= validateEffectiveDate(effectiveDate);
 							isValid &= validateAgainstLeavePlan(pha,fromCat,toCat,effectiveDate);
 							isValid &= validateTransferFromAccrualCategory(fromCat,principalId,effectiveDate,acr);
-							isValid &= validateTransferToAccrualCategory(toCat,principalId,effectiveDate,acr);*/
+							isValid &= validateTransferToAccrualCategory(toCat,principalId,effectiveDate,acr);
+*/
 							isValid &= validatePayoutAmount(leavePayout.getPayoutAmount(),fromCat,toCat, principalId, effectiveDate, acr);
 						}
 						else {
@@ -102,9 +103,11 @@ public class LeavePayoutValidationUtils {
 			AccrualCategory fromCat, AccrualCategory toCat, String principalId,
 			Date effectiveDate, AccrualCategoryRule accrualRule) {
 
+		BigDecimal balance = TkServiceLocator.getAccrualCategoryService().getAccruedBalanceForPrincipal(principalId, fromCat, effectiveDate);
 		//transfer amount must be less than the max transfer amount defined in the accrual category rule.
 		//it cannot be negative.
 		boolean isValid = true;
+		
 		BigDecimal maxPayoutAmount = null;
 		BigDecimal adjustedMaxPayoutAmount = null;
 		if(ObjectUtils.isNotNull(accrualRule.getMaxPayoutAmount())) {
@@ -114,11 +117,10 @@ public class LeavePayoutValidationUtils {
 		}
 		
 		//use override if one exists.
-		List<EmployeeOverride> overrides = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverrides(principalId, effectiveDate);
-		for(EmployeeOverride override : overrides) {
-			if(override.getOverrideType().equals(TkConstants.EMPLOYEE_OVERRIDE_TYPE.get("MPA")))
-				adjustedMaxPayoutAmount = new BigDecimal(override.getOverrideValue());
-		}
+		EmployeeOverride maxPayoutAmountOverride = TkServiceLocator.getEmployeeOverrideService().getEmployeeOverride(principalId, fromCat.getLeavePlan(), fromCat.getAccrualCategory(), "MPA", effectiveDate);
+		if(ObjectUtils.isNotNull(maxPayoutAmountOverride))
+			adjustedMaxPayoutAmount = new BigDecimal(maxPayoutAmountOverride.getOverrideValue());
+				
 				
 		if(ObjectUtils.isNotNull(adjustedMaxPayoutAmount)) {
 			if(payoutAmount.compareTo(adjustedMaxPayoutAmount) > 0) {
@@ -132,8 +134,30 @@ public class LeavePayoutValidationUtils {
 			isValid &= false;
 			GlobalVariables.getMessageMap().putError("leavePayout.payoutAmount","leavePayout.payoutAmount.negative");
 		}
+		
+		if(balance.subtract(payoutAmount).compareTo(BigDecimal.ZERO) < 0 ) {
+			if(StringUtils.equals(fromCat.getEarnCodeObj().getAllowNegativeAccrualBalance(),"Y"))
+				isValid &= true;
+			else {
+				isValid &= false;
+				GlobalVariables.getMessageMap().putError("leavePayout.payoutAmount", "maxBalance.amount.exceedsBalance");
+			}
+		}	
 		return isValid;
 	}
 
+	private boolean validateMaxBalance() {
+		//This validation could assert that the payout amount, together with forfeiture
+		//brings the balance for the given accrual category back to, or under, the balance limit
+		//without exceeding the total accrued balance.
+		return true;
+	}
+	
+	private boolean validateMaxCarryOver() {
+		//This validation could assert that the payout amount, together with forfeiture
+		//brings the balance for the given accrual category back to, or under, the max carry over limit
+		//without exceeding the total accrued balance.
+		return true;
+	}
 	
 }

@@ -43,15 +43,15 @@
                 	<tr>
           				<th>Accrual Category</th>
           				<th>Current Rate</th>
-          				<th>Accrual Earn Interval</th>
           				<th>Unit of Time</th>
+          				<th>Accrual Earn Interval</th>
           			</tr>
           			<c:forEach var="accrualCategory" items="${Form.accrualCategories}">
           				<tr>
           					<td>${accrualCategory.accrualCategory} - ${accrualCategory.descr}</td>
           					<td>${Form.accrualCategoryRates[accrualCategory.accrualCategory]}</td>
-          					<td>${accrualCategory.accrualEarnInterval}</td>
-          					<td>${accrualCategory.unitOfTime}</td>
+          					<td>${Form.unitOfTime[accrualCategory.accrualCategory]}</td>
+          					<td>${Form.accrualEarnIntervals[accrualCategory.accrualCategory]}</td>
           				</tr>
           			</c:forEach>
                 </table>

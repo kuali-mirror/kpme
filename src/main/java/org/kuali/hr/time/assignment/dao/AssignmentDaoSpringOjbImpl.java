@@ -349,9 +349,7 @@ public class AssignmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
     public List<Assignment> getAssignments(List<String> workAreaList, Date effdt, Date startDate, Date endDate) {
     	List<Assignment> results = new ArrayList<Assignment>();
 		 
-		Criteria activeRoot = new Criteria();	
-     	Criteria activEeffdtCrit = new Criteria();
-     	Criteria effdtCrit = new Criteria();
+		Criteria activeRoot = new Criteria();
      	Criteria inactiveRoot = new Criteria();
 
         ReportQueryByCriteria effdtSubQuery = OjbSubQueryUtil.getEffectiveDateSubQueryWithoutFilter(Assignment.class, ASSIGNMENT_EQUAL_TO_FIELD, false);

@@ -23,8 +23,9 @@ import org.kuali.hr.time.roles.TkRoleGroup;
 import org.kuali.hr.time.roles.dao.TkRoleGroupDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import java.util.ArrayList;
@@ -93,14 +94,14 @@ public class TkRoleGroupServiceImpl implements TkRoleGroupService {
          * 3) search for all the roles / role groups
          */
         if (StringUtils.isNotBlank(principalId)) {
-            Person person = KimApiServiceLocator.getPersonService().getPerson(principalId);
+            Principal person = KimApiServiceLocator.getIdentityService().getPrincipal(principalId);
             if (person != null && isAuthorizedToEditUserRole(person.getPrincipalId())) {
                 principalIdToQuery = person.getPrincipalId();
             } else {
             	principalIdToQuery = principalId;
             }
         } else if (StringUtils.isNotBlank(principalName)) {
-            Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(principalName);
+            Principal person = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(principalName);
             if (person != null && isAuthorizedToEditUserRole(person.getPrincipalId())) {
                 principalIdToQuery = person.getPrincipalId();
             } else {
@@ -149,12 +150,12 @@ public class TkRoleGroupServiceImpl implements TkRoleGroupService {
     private boolean isAuthorizedToEditUserRole(String principalId) {
         boolean isAuthorized = false;
         //System admin can do anything
-        if (TKContext.getUser().isSystemAdmin()) {
+        if (TKUser.isSystemAdmin()) {
             return true;
         }
 
         List<Job> lstJobs = TkServiceLocator.getJobService().getJobs(principalId, TKUtils.getCurrentDate());
-        Set<String> locationAdminAreas = TKContext.getUser().getLocationAdminAreas();
+        Set<String> locationAdminAreas = TKUser.getLocationAdminAreas();
         //Confirm if any job matches this users location admin roles
         for (String location : locationAdminAreas) {
             for (Job job : lstJobs) {
@@ -164,7 +165,7 @@ public class TkRoleGroupServiceImpl implements TkRoleGroupService {
             }
         }
 
-        Set<String> departmentAdminAreas = TKContext.getUser().getDepartmentAdminAreas();
+        Set<String> departmentAdminAreas = TKUser.getDepartmentAdminAreas();
         //Confirm if any job matches this users department admin roles
         for (String dept : departmentAdminAreas) {
             for (Job job : lstJobs) {

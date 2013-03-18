@@ -15,13 +15,14 @@
  */
 package org.kuali.hr.lm.request.approval.web;
 
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-
-public class LeaveRequestApprovalEmployeeRow implements Comparable<LeaveRequestApprovalEmployeeRow> {
+public class LeaveRequestApprovalEmployeeRow implements Comparable<LeaveRequestApprovalEmployeeRow>, Serializable {
 	
 	private String employeeName;
 	private String principalId;	
@@ -34,8 +35,8 @@ public class LeaveRequestApprovalEmployeeRow implements Comparable<LeaveRequestA
 	 public String getUserTargetURLParams() {
         StringBuffer link = new StringBuffer();
         link.append("methodToCall=changeTargetPerson");
-        Person person = KimApiServiceLocator.getPersonService().getPerson(this.getPrincipalId());
-        link.append("&principalName=").append(person.getPrincipalName());
+        Principal principal = KimApiServiceLocator.getIdentityService().getPrincipal(this.getPrincipalId());
+        link.append("&principalName=").append(principal.getPrincipalName());
         
         return link.toString();
     }

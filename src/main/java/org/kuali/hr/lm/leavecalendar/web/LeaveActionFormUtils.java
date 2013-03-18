@@ -53,7 +53,16 @@ public class LeaveActionFormUtils {
 
         for (LeaveBlock leaveBlock : leaveBlocks) {
             Map<String, Object> LeaveBlockMap = new LinkedHashMap<String, Object>();
-           
+            
+            if(leaveBlock.getBeginTimestamp() != null && leaveBlock.getEndTimestamp() != null) {
+	            DateTime start = new DateTime(leaveBlock.getBeginTimestamp().getTime());
+	        	DateTime end = new DateTime(leaveBlock.getEndTimestamp().getTime());
+	        	LeaveBlockMap.put("startTimeHourMinute", start.toString(TkConstants.DT_BASIC_TIME_FORMAT));
+	            LeaveBlockMap.put("endTimeHourMinute", end.toString(TkConstants.DT_BASIC_TIME_FORMAT));
+	            LeaveBlockMap.put("startTime", start.toString(TkConstants.DT_MILITARY_TIME_FORMAT));
+	            LeaveBlockMap.put("endTime", end.toString(TkConstants.DT_MILITARY_TIME_FORMAT));
+            }
+        		
             WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(leaveBlock.getWorkArea(), leaveBlock.getLeaveDate());
             String workAreaDesc = workArea == null ? "" : workArea.getDescription();
             // Roles
@@ -64,6 +73,7 @@ public class LeaveActionFormUtils {
             LeaveBlockMap.put("title", workAreaDesc);
             DateTime dtLeaveDate = new DateTime(leaveBlock.getLeaveDate());
             LeaveBlockMap.put("leaveDate", dtLeaveDate.toString(TkConstants.DT_BASIC_DATE_FORMAT));
+        		
             LeaveBlockMap.put("id", leaveBlock.getLmLeaveBlockId().toString());
             LeaveBlockMap.put("timezone", timezone);
             LeaveBlockMap.put("assignment", new AssignmentDescriptionKey(leaveBlock.getJobNumber(), leaveBlock.getWorkArea(), leaveBlock.getTask()).toAssignmentKeyString());

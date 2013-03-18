@@ -15,10 +15,6 @@
  */
 package org.kuali.hr.time.assignment.service;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.HrBusinessObject;
@@ -28,12 +24,15 @@ import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
 import org.kuali.kfs.coa.businessobject.Account;
-import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.service.KNSServiceLocator;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.service.KRADServiceLocator;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Override the Maintenance page behavior for Assignment object
@@ -52,10 +51,9 @@ public class AssignmentMaintainableServiceImpl extends HrBusinessObjectMaintaina
 			MaintenanceDocument maintenanceDocument, String methodToCall) {
 		if (fieldValues.containsKey("principalId")
 				&& StringUtils.isNotEmpty(fieldValues.get("principalId"))) {
-			Person p = KimApiServiceLocator.getPersonService().getPerson(
-					fieldValues.get("principalId"));
-			if (p != null) {
-				fieldValues.put("name", p.getName());
+            EntityNamePrincipalName name = KimApiServiceLocator.getIdentityService().getDefaultNamesForPrincipalId(fieldValues.get("principalId"));
+			if (name != null) {
+				fieldValues.put("name", name.getDefaultName().getCompositeName());
 			} else {
 				fieldValues.put("name", "");
 			}
@@ -111,10 +109,6 @@ public class AssignmentMaintainableServiceImpl extends HrBusinessObjectMaintaina
 	@Override
 	public void processAfterEdit(MaintenanceDocument document,
 			Map<String, String[]> parameters) {
-		Assignment aOld = (Assignment) document.getOldMaintainableObject()
-				.getBusinessObject();
-		Assignment aNew = (Assignment) document.getNewMaintainableObject()
-				.getBusinessObject();
 		super.processAfterEdit(document, parameters);
 	}
 

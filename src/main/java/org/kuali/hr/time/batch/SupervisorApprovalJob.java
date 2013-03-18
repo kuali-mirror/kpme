@@ -15,10 +15,6 @@
  */
 package org.kuali.hr.time.batch;
 
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
@@ -34,16 +30,13 @@ import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kew.actionitem.ActionItemActionListExtension;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.quartz.Job;
-import org.quartz.JobDataMap;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.SimpleTrigger;
-import org.quartz.Trigger;
+import org.quartz.*;
+
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
 public class SupervisorApprovalJob implements Job {
 	
@@ -89,15 +82,9 @@ public class SupervisorApprovalJob implements Job {
 	}
 	
     private String getBatchUserPrincipalId() {
-    	String principalId = null;
-    	
     	String principalName = ConfigContext.getCurrentContextConfig().getProperty(TkConstants.BATCH_USER_PRINCIPAL_NAME);
-        Person person = KimApiServiceLocator.getPersonService().getPersonByPrincipalName(principalName);
-        if (person != null) {
-        	principalId = person.getPrincipalId();
-        }
-        
-        return principalId;
+        Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(principalName);
+        return principal == null ? null : principal.getPrincipalId();
     }
 	
 	private boolean missedPunchDocumentsNotFinal(String documentId) {

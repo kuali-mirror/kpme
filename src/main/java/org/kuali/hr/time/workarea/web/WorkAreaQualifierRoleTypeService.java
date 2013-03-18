@@ -65,12 +65,12 @@ public class WorkAreaQualifierRoleTypeService extends RoleTypeServiceBase {
 			return false;
 		}
 		
-		for (String key : inputAttributes.keySet()) {
-			if (!storedAttributes.containsKey(key)) {
+		for (Map.Entry<String, String> entry : inputAttributes.entrySet()) {
+			if (!storedAttributes.containsKey(entry.getKey())) {
 				return false;
 			} else {
-				String storedValue = storedAttributes.get(key);
-				String qualifierValue = inputAttributes.get(key);
+				String storedValue = storedAttributes.get(entry.getKey());
+				String qualifierValue = entry.getValue();
 				
 				matches = StringUtils.equals(qualifierValue, storedValue);
 				if (!matches) {
