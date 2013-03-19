@@ -48,7 +48,7 @@ public class ActionFormUtilsTest extends KPMETestCase {
 		// earn code with an existing Accrual category
 		EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCodeById("5000");
 		String unitOfTime = ActionFormUtils.getUnitOfTimeForEarnCode(earnCode);
-		Assert.assertTrue("Unit of Time should be 'D', not " + unitOfTime, unitOfTime.equals("D"));
+		Assert.assertTrue("Unit of Time should be 'H', not " + unitOfTime, unitOfTime.equals("H"));
 		// earn code without an existing accrual category
 		earnCode = TkServiceLocator.getEarnCodeService().getEarnCodeById("5002");
 		unitOfTime = ActionFormUtils.getUnitOfTimeForEarnCode(earnCode);
