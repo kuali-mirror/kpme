@@ -394,7 +394,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		Map<String, LeaveCalendarDocumentHeader> principalDocumentHeader = new LinkedHashMap<String, LeaveCalendarDocumentHeader>();
 		for (TKPerson person : persons) {
 			String principalId = person.getPrincipalId();
-			LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, DateUtils.addMilliseconds(payEndDate, 1));
+			LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, payEndDate);
 			if(lcdh != null) {
 				principalDocumentHeader.put(principalId, lcdh);	
 			}

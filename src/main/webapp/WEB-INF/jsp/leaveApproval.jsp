@@ -55,7 +55,7 @@
 		</tbody>
      </table>
 
-    <tk:approvalSearch calType="leaveCalendar" searchId="searchTerm" />
+    <tk:approvalSearch calType="leaveCalendar" searchId="leaveSearchValue" />
 
     <lm:leaveApproval />
 
