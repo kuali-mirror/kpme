@@ -323,11 +323,12 @@ public class ActionFormUtils {
     }
      
     public static String getUnitOfTimeForEarnCode(EarnCode earnCode) {
-    	AccrualCategory acObj = null;
-    	if(earnCode.getAccrualCategory() != null) {
-    		acObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCode.getAccrualCategory(), TKUtils.getCurrentDate());
-    	}
-    	String unitTime = (acObj!= null ? acObj.getUnitOfTime() : earnCode.getRecordMethod()) ;
+//    	AccrualCategory acObj = null;
+//    	if(earnCode.getAccrualCategory() != null) {
+//    		acObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCode.getAccrualCategory(), TKUtils.getCurrentDate());
+//    	}
+//    	String unitTime = (acObj!= null ? acObj.getUnitOfTime() : earnCode.getRecordMethod()) ;
+    	String unitTime = earnCode.getRecordMethod() ;
     	return unitTime;
     }
     

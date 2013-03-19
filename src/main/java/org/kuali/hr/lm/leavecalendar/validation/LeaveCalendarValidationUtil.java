@@ -70,6 +70,9 @@ public class LeaveCalendarValidationUtil {
     	List<String> errors = new ArrayList<String>();
         String principalId = TKContext.getTargetPrincipalId();
     	long daysSpan = TKUtils.getDaysBetween(TKUtils.formatDateString(leaveStartDateString), TKUtils.formatDateString(leaveEndDateString));
+    	if(leaveAmount == null) {
+    		leaveAmount  = TKUtils.getHoursBetween(TKUtils.formatDateString(leaveStartDateString).getTime(), TKUtils.formatDateString(leaveEndDateString).getTime());
+    	}
     	if(ls != null && CollectionUtils.isNotEmpty(ls.getLeaveSummaryRows())) {
 	    	BigDecimal oldLeaveAmount = null;
 	    	boolean earnCodeChanged = false;
@@ -240,6 +243,9 @@ public class LeaveCalendarValidationUtil {
     	boolean earnCodeChanged = false;
     	BigDecimal oldAmount = null;
     	
+    	if(leaveAmount == null) {
+    		leaveAmount  = TKUtils.getHoursBetween(TKUtils.formatDateString(leaveStartDateString).getTime(), TKUtils.formatDateString(leaveEndDateString).getTime());
+    	}
 		if(updatedLeaveBlock != null) {
 			if(!updatedLeaveBlock.getEarnCode().equals(earnCode)) {
 				earnCodeChanged = true;
