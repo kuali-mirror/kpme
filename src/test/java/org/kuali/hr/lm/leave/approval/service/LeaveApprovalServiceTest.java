@@ -66,7 +66,7 @@ public class LeaveApprovalServiceTest extends KPMETestCase {
 		Assert.assertTrue("Map should have 14 entries, not " + aMap.size(), aMap.size() == 14);
 		Map<String, BigDecimal> dayMap = aMap.get(DATE_FORMAT.parse("03/05/2012"));
 		Assert.assertTrue("Map on day 03/05 should have 1 entries, not " + dayMap.size(), dayMap.size() == 1);
-		Assert.assertTrue("EC on day 03/05 should have 8 hours, not " + dayMap.get("EC6|P"), dayMap.get("EC6|P").equals(new BigDecimal(8)));
+		Assert.assertTrue("EC on day 03/05 should have 8 hours, not " + dayMap.get("EC6|P|AS"), dayMap.get("EC6|P|AS").equals(new BigDecimal(8)));
 	}
 	
 	@Test
