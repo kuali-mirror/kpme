@@ -153,6 +153,11 @@ public class LeaveCalendarAction extends TkAction {
 			boolean createFlag = TkServiceLocator.getLeaveCalendarService().shouldCreateLeaveDocument(viewPrincipal, calendarEntry);
 			if(createFlag) {
 				lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, calendarEntry);
+			} else {
+				LeaveCalendarDocumentHeader header = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(viewPrincipal, calendarEntry.getBeginPeriodDateTime(), calendarEntry.getEndPeriodDateTime());
+				if(header != null) {
+					lcd = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(header.getDocumentId());
+				}
 			}
 		}
 		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(viewPrincipal, calendarEntry);
