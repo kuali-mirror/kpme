@@ -303,7 +303,8 @@ public class LeaveCalendarAction extends TkAction {
         		        	// accrual categories within the leave plan that are hidden from the leave summary WILL appear.
 	        				String message = "You have exceeded the maximum balance limit for '" + accrualCat.getAccrualCategory() + "' as of " + lb.getLeaveDate() + ". "+
 	                    			"Depending upon the accrual category rules, leave over this limit may be forfeited.";
-	        				if(!allMessages.get("warningMessages").contains(message)) {
+                            //  leave blocks are sorted in getMaxBalanceViolations() method, so we just take the one with the earliest leave date for an accrual category.
+	        				if(!StringUtils.contains(allMessages.get("warningMessages").toString(),"You have exceeded the maximum balance limit for '"+accrualCat.getAccrualCategory())) {
 	                            allMessages.get("warningMessages").add(message);
 	        				}
         				}
