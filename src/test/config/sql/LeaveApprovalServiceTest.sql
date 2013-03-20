@@ -14,7 +14,7 @@
 -- limitations under the License.
 --
 
-delete from hr_calendar_entries_t where hr_calendar_entry_id = 5000;
+-- delete from hr_calendar_entries_t where hr_calendar_id = 2 and calendar_name = 'BWS-CAL' and begin_period_date = '2012-03-01 00:00:00' and end_period_date = '2012-03-15 00:00:00';
 delete from lm_leave_document_header_t where document_id >= 5000;
 delete from lm_leave_block_t where lm_leave_block_id >=5000;
 delete from lm_accrual_category_t where lm_accrual_category_id >= 5000;
@@ -22,7 +22,7 @@ delete from tk_assignment_t where tk_assignment_id >= 5000;
 delete from hr_job_t where hr_job_id >= 5000;
 delete from hr_principal_attributes_t where hr_principal_attribute_id >= 5000;
 
-insert into hr_calendar_entries_t (`hr_calendar_entry_id`,`hr_calendar_id`, `calendar_name`, `begin_period_date`, `end_period_date`) values ('5000', '2', 'BWS-CAL', '2012-03-01 00:00:00', '2012-03-15 00:00:00');
+-- insert into hr_calendar_entries_t (`hr_calendar_entry_id`,`hr_calendar_id`, `calendar_name`, `begin_period_date`, `end_period_date`) values ('5000', '2', 'BWS-CAL', '2012-03-01 00:00:00', '2012-03-15 00:00:00');
 
 /* Leave Calnedar Document */
 INSERT INTO lm_leave_document_header_t (`document_id`,`principal_id`,`begin_date`,`end_date`,`document_status`,`obj_id`,`ver_nbr`) values ('5000', 'admin', '2012-03-01 00:00:00','2012-03-15 00:00:00', 'F', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '1');

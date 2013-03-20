@@ -32,7 +32,7 @@ public class LeaveSummaryServiceImplTest extends KPMETestCase {
 	@Test
 	public void testGetLeaveSummary() throws Exception {
 		// selected calendar entry is 03/15/2012 - 04/01/2012
-		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("10001");
+		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("56");
 		
 		LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary("testUser", ce);
 		Assert.assertTrue("There ytd dates String should be 'March 1 - March 14 2012', not " + ls.getYtdDatesString(), ls.getYtdDatesString().equals("March 1 - March 14 2012"));
@@ -120,7 +120,7 @@ public class LeaveSummaryServiceImplTest extends KPMETestCase {
 	
 	@Test
 	public void testGetHeaderForSummary() throws Exception {
-		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("10001");
+		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("56");
 		List<Date> leaveSummaryDates = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		
 		Assert.assertTrue("The number of leave summary dates should be 17, not " + leaveSummaryDates.size(), leaveSummaryDates.size()== 17);

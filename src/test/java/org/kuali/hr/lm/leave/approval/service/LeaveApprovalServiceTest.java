@@ -40,7 +40,7 @@ public class LeaveApprovalServiceTest extends KPMETestCase {
 	
 	@Test
 	public void testGetLeaveApprovalSummaryRows() {
-		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("5000");
+		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("55");
 		List<Date> leaveSummaryDates = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		List<String> ids = new ArrayList<String>();
 		ids.add("admin");
@@ -56,7 +56,7 @@ public class LeaveApprovalServiceTest extends KPMETestCase {
 	
 	@Test
 	public void testGetEarnCodeLeaveHours() throws Exception {
-		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("5000");
+		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("55");
 		List<Date> leaveSummaryDates = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		
 		List<LeaveBlock> lbList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", ce.getBeginPeriodDateTime(), ce.getEndPeriodDateTime());
@@ -71,7 +71,7 @@ public class LeaveApprovalServiceTest extends KPMETestCase {
 	
 	@Test
 	public void testGetAccrualCategoryLeaveHours() throws Exception {
-		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("5000");
+		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("55");
 		List<Date> leaveSummaryDates = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		
 		List<LeaveBlock> lbList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", ce.getBeginPeriodDateTime(), ce.getEndPeriodDateTime());

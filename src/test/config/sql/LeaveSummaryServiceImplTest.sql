@@ -26,8 +26,8 @@ delete from lm_leave_block_t where principal_id like('testUser%');
 INSERT INTO lm_leave_document_header_t (`document_id`,`principal_id`,`begin_date`,`end_date`,`document_status`,`obj_id`,`ver_nbr`) values ('5000', 'testUser', '2012-03-01 00:00:00','2012-03-15 00:00:00', 'F', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E97', '1');
 INSERT INTO lm_leave_document_header_t (`document_id`,`principal_id`,`begin_date`,`end_date`,`document_status`,`obj_id`,`ver_nbr`) values ('5001', 'testUser', '2012-03-15 00:00:00','2012-04-01 00:00:00', 'I', '7EE387AB-26B0-B6A6-9C4C-5B5F687F0E96', '1');
 
-insert into hr_calendar_entries_t (`hr_calendar_entry_id`,`hr_calendar_id`, `calendar_name`, `begin_period_date`, `end_period_date`) values ('10000', '2', 'BWS-CAL', '2012-03-01 00:00:00', '2012-03-15 00:00:00');
-insert into hr_calendar_entries_t (`hr_calendar_entry_id`,`hr_calendar_id`, `calendar_name`, `begin_period_date`, `end_period_date`) values ('10001', '2', 'BWS-CAL', '2012-03-15 00:00:00','2012-04-01 00:00:00');
+-- insert into hr_calendar_entries_t (`hr_calendar_entry_id`,`hr_calendar_id`, `calendar_name`, `begin_period_date`, `end_period_date`) values ('10000', '2', 'BWS-CAL', '2012-03-01 00:00:00', '2012-03-15 00:00:00');
+-- insert into hr_calendar_entries_t (`hr_calendar_entry_id`,`hr_calendar_id`, `calendar_name`, `begin_period_date`, `end_period_date`) values ('10001', '2', 'BWS-CAL', '2012-03-15 00:00:00','2012-04-01 00:00:00');
 insert into hr_calendar_entries_t (`hr_calendar_entry_id`,`hr_calendar_id`, `calendar_name`, `begin_period_date`, `end_period_date`) values ('10002', '2', 'BWS-CAL', '2012-04-01 00:00:00', '2012-05-01 00:00:00');
 insert into hr_calendar_entries_t (`hr_calendar_entry_id`,`hr_calendar_id`, `calendar_name`, `begin_period_date`, `end_period_date`) values ('10003', '2', 'BWS-CAL', '2012-05-01 00:00:00', '2012-06-01 00:00:00');
 insert into hr_calendar_entries_t (`hr_calendar_entry_id`,`hr_calendar_id`, `calendar_name`, `begin_period_date`, `end_period_date`) values ('10004', '2', 'BWS-CAL', '2012-02-01 00:00:00', '2012-03-01 00:00:00');

@@ -43,7 +43,7 @@ public class LeaveBlockAggregateTest extends KPMETestCase {
 		Date beginDate = cal.getTime();
 		cal.add(Calendar.DATE,14);
 		Date endDate = cal.getTime();
-		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("50001");
+		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("55");
 		List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocks(TEST_USER, beginDate, endDate);
 		
 		// get leaveBlockAggaregate with leaveBlocks, calendarEntry and intervals

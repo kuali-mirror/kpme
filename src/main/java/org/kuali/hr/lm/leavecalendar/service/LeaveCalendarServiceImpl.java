@@ -371,11 +371,5 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         return false;
     }
 
-	@Override
-	public BigDecimal getCarryOverForCurrentCalendar(String principalId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }
 

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet id="1" author="jjhanso" context="kpme-client-bootstrap">
+        <comment>Adding indexes for performance enhancement</comment>
+
+        <createIndex indexName="HR_CALENDAR_IDX1" tableName="HR_CALENDAR_T" unique="true">
+            <column name="CALENDAR_NAME" />
+        </createIndex>
+
+        <createIndex indexName="HR_CALENDAR_ENTRIES_IDX1" tableName="HR_CALENDAR_ENTRIES_T" unique="true">
+            <column name="HR_CALENDAR_ID" />
+            <column name="END_PERIOD_DATE" />
+        </createIndex>
+
+        <createIndex indexName="HR_CALENDAR_ENTRIES_IDX2" tableName="HR_CALENDAR_ENTRIES_T" unique="false">
+            <column name="BEGIN_PERIOD_DATE" />
+            <column name="END_PERIOD_DATE" />
+        </createIndex>
+
+        <createIndex indexName="HR_DEPT_IDX1" tableName="HR_DEPT_T" unique="true">
+            <column name="DEPT" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+
+        <createIndex indexName="HR_DEPT_IDX2" tableName="HR_DEPT_T" unique="false">
+            <column name="CHART" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+
+        <createIndex indexName="HR_DEPT_IDX3" tableName="HR_DEPT_T" unique="false">
+            <column name="LOCATION" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+
+        <createIndex indexName="HR_EARN_CODE_GRP_IDX1" tableName="HR_EARN_CODE_GROUP_T" unique="true">
+            <column name="EARN_CODE_GROUP" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+
+        <createIndex indexName="HR_EARN_CODE_IDX1" tableName="HR_EARN_CODE_T" unique="true">
+            <column name="EARN_CODE" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+
+        <createIndex indexName="HR_EARN_CODE_SEC_IDX2" tableName="HR_EARN_CODE_SECURITY_T" unique="false">
+            <column name="EARN_CODE" />
+            <column name="DEPT" />
+            <column name="HR_SAL_GROUP" />
+            <column name="LOCATION" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+
+        <createIndex indexName="HR_EARN_CODE_IDX2" tableName="HR_EARN_CODE_T" unique="false">
+            <column name="ACCRUAL_CATEGORY" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+
+        <createIndex indexName="HR_JOB_IDX1" tableName="HR_JOB_T" unique="true">
+            <column name="PRINCIPAL_ID" />
+            <column name="JOB_NUMBER"/>
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+
+        <createIndex indexName="HR_JOB_IDX2" tableName="HR_JOB_T" unique="false">
+            <column name="POSITION_NBR" />
+            <column name="HR_PAYTYPE"/>
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+
+        <createIndex indexName="HR_LOCATION_IDX1" tableName="HR_LOCATION_T" unique="true">
+            <column name="LOCATION" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+
+        <createIndex indexName="HR_PAY_GRADE_IDX1" tableName="HR_PAY_GRADE_T" unique="true">
+            <column name="PAY_GRADE" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+
+        <createIndex indexName="HR_PAYTYPE_IDX1" tableName="HR_PAYTYPE_T" unique="true">
+            <column name="PAYTYPE" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+
+        <createIndex indexName="HR_POSITION_IDX1" tableName="HR_POSITION_T" unique="true">
+            <column name="POSITION_NBR" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+
+        <createIndex indexName="HR_PRIN_ATTR_IDX1" tableName="HR_PRINCIPAL_ATTRIBUTES_T" unique="true">
+            <column name="PRINCIPAL_ID" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+
+        <createIndex indexName="HR_SAL_GROUP_IDX1" tableName="HR_SAL_GROUP_T" unique="true">
+            <column name="HR_SAL_GROUP" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+
+        <createIndex indexName="LM_ACCRUAL_CAT_RULES_IDX1" tableName="LM_ACCRUAL_CATEGORY_RULES_T" unique="false">
+            <column name="LM_ACCRUAL_CATEGORY_ID"/>
+        </createIndex>
+
+        <createIndex indexName="LM_ACCRUAL_CATEGORY_IDX1" tableName="LM_ACCRUAL_CATEGORY_T" unique="true">
+            <column name="ACCRUAL_CATEGORY"/>
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+
+        <createIndex indexName="LM_ACCRUAL_CATEGORY_IDX2" tableName="LM_ACCRUAL_CATEGORY_T" unique="false">
+            <column name="LEAVE_PLAN"/>
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+
+        <createIndex indexName="LM_BALANCE_TRANSFER_IDX1" tableName="LM_BALANCE_TRANSFER_T" unique="false">
+            <column name="PRINCIPAL_ID"/>
+            <column name="EFFECTIVE_DATE" />
+        </createIndex>
+
+        <createIndex indexName="LM_EMPLOYEE_OVERRIDE_IDX1" tableName="LM_EMPLOYEE_OVERRIDE_T" unique="true">
+            <column name="PRINCIPAL_ID"/>
+            <column name="LEAVE_PLAN"/>
+            <column name="ACCRUAL_CAT"/>
+            <column name="OVERRIDE_TYPE"/>
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+
+        <createIndex indexName="LM_LEAVE_ADJ_IDX1" tableName="LM_LEAVE_ADJUSTMENT_T" unique="false">
+            <column name="PRINCIPAL_ID"/>
+            <column name="EFFDT" />
+            <column name="TIMESTAMP"/>
+        </createIndex>
+
+        <createIndex indexName="LM_LEAVE_BLOCK_HIST_IDX1" tableName="LM_LEAVE_BLOCK_HIST_T" unique="false">
+            <column name="LM_LEAVE_BLOCK_ID" />
+            <column name="PRINCIPAL_ID" />
+            <column name="EARN_CODE"/>
+            <column name="ACCRUAL_CATEGORY"/>
+            <column name="LEAVE_BLOCK_TYPE" />
+            <column name="REQUEST_STATUS"/>
+            <column name="LEAVE_DATE" />
+            <column name="BEGIN_TS" />
+            <column name="END_TS"/>
+        </createIndex>
+
+        <createIndex indexName="LM_LEAVE_BLOCK_IDX1" tableName="LM_LEAVE_BLOCK_T" unique="false">
+            <column name="PRINCIPAL_ID" />
+            <column name="EARN_CODE"/>
+            <column name="ACCRUAL_CATEGORY"/>
+            <column name="JOB_NUMBER"/>
+            <column name="WORK_AREA"/>
+            <column name="TASK"/>
+            <column name="LEAVE_BLOCK_TYPE" />
+            <column name="REQUEST_STATUS"/>
+            <column name="LEAVE_DATE" />
+            <column name="BEGIN_TS" />
+            <column name="END_TS"/>
+        </createIndex>
+
+        <createIndex indexName="LM_LEAVE_BLOCK_IDX2" tableName="LM_LEAVE_BLOCK_T" unique="false">
+            <column name="DOCUMENT_ID" />
+        </createIndex>
+
+        <createIndex indexName="LM_LEAVE_BLOCK_IDX3" tableName="LM_LEAVE_BLOCK_T" unique="false">
+            <column name="LEAVE_REQUEST_ID" />
+        </createIndex>
+
+        <createIndex indexName="LM_LEAVE_DOC_HDR_IDX1" tableName="LM_LEAVE_DOCUMENT_HEADER_T" unique="false">
+            <column name="PRINCIPAL_ID"/>
+            <column name="BEGIN_DATE" />
+            <column name="END_DATE"/>
+        </createIndex>
+
+        <createIndex indexName="LM_LEAVE_PAYOUT_IDX1" tableName="LM_LEAVE_PAYOUT_T" unique="false">
+            <column name="PRINCIPAL_ID"/>
+            <column name="EARN_CODE"/>
+            <column name="EFFECTIVE_DATE" />
+        </createIndex>
+
+        <createIndex indexName="LM_LEAVE_PLAN_IDX1" tableName="LM_LEAVE_PLAN_T" unique="true">
+            <column name="LEAVE_PLAN"/>
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+
+        <createIndex indexName="LM_LEAVE_REQ_DOC_IDX1" tableName="LM_LEAVE_REQ_DOC_T" unique="false">
+            <column name="LM_LEAVE_BLOCK_ID"/>
+        </createIndex>
+
+        <createIndex indexName="LM_SYS_SCHD_TIMEOFF_IDX1" tableName="LM_SYS_SCHD_TIMEOFF_T" unique="false">
+            <column name="LEAVE_PLAN"/>
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+
+    </changeSet>
+
+</databaseChangeLog>
