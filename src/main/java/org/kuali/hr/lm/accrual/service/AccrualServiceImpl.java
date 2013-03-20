@@ -750,7 +750,8 @@ public class AccrualServiceImpl implements AccrualService {
 	public PrincipalHRAttributes getPrincipalHrAttributesForDate(List<PrincipalHRAttributes> activeList, java.util.Date currentDate) {
 		List<PrincipalHRAttributes> phasForDay = new ArrayList<PrincipalHRAttributes>();
 		for(PrincipalHRAttributes pha : activeList) {
-			if(!pha.getEffectiveDate().after(currentDate) && !pha.getServiceDate().after(currentDate)) {
+			if(pha != null && pha.getEffectiveDate() != null && pha.getServiceDate() != null
+					&& !pha.getEffectiveDate().after(currentDate) && !pha.getServiceDate().after(currentDate)) {
     			phasForDay.add(pha);
     		}
 		}

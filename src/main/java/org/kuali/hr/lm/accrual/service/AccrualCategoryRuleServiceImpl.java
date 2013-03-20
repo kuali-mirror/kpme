@@ -40,6 +40,9 @@ public class AccrualCategoryRuleServiceImpl implements AccrualCategoryRuleServic
 	}
 	
     public AccrualCategoryRule getAccrualCategoryRuleForDate(AccrualCategory accrualCategory, Date currentDate, Date serviceDate) {
+    	if(serviceDate == null) {
+    		return null;
+    	}
     	List <AccrualCategoryRule> acrList = this.getActiveAccrualCategoryRules(accrualCategory.getLmAccrualCategoryId());
     	Calendar startCal = new GregorianCalendar();
     	Calendar endCal = new GregorianCalendar();
