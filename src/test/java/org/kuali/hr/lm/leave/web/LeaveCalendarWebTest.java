@@ -61,7 +61,6 @@ public class LeaveCalendarWebTest extends KPMETestCase {
 
 		//this.setWebClient(leaveCalendarPage.getWebClient());
 
-        DateTime dt = new DateTime();
 		Assert.assertTrue("Page does not have Current calendar ", leaveCalendarPage.asText().contains("March 2012"));
 
         // Check for next document
