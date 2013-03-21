@@ -224,7 +224,8 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		List<Map<String, Object>> acRows = new ArrayList<Map<String, Object>>();
 		
 		String principalId = lcdh.getPrincipalId();
-		CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(lcdh.getBeginDate(), lcdh.getEndDate());
+        CalendarEntries calendarEntry = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(lcdh.getDocumentId()).getCalendarEntry();
+		//CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(lcdh.getBeginDate(), lcdh.getEndDate());
 		if(calendarEntry != null) {
 			Date beginDate = calendarEntry.getBeginPeriodDate();
 			Date endDate = calendarEntry.getEndPeriodDate();
@@ -335,7 +336,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		}
 		Set<CalendarEntries> payPeriodSet = new HashSet<CalendarEntries>();
 		for(LeaveCalendarDocumentHeader lcdh : documentHeaders) {
-    		CalendarEntries pe = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(lcdh.getBeginDate(), lcdh.getEndDate());
+            CalendarEntries pe = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(lcdh.getDocumentId()).getCalendarEntry();
     		if(pe != null) {
     			payPeriodSet.add(pe);
     		}

@@ -175,10 +175,6 @@ public class CalendarEntriesServiceImpl implements CalendarEntriesService {
         return calendarEntries;
     }
 
-    public CalendarEntries getCalendarEntriesByBeginAndEndDate(Date beginPeriodDate, Date endPeriodDate) {
-        return calendarEntriesDao.getCalendarEntriesByBeginAndEndDate(beginPeriodDate, endPeriodDate);
-    }
-    
     public List<CalendarEntries> getCalendarEntriesEndingBetweenBeginAndEndDate(String hrCalendarId, Date beginDate, Date endDate) {
         return calendarEntriesDao.getCalendarEntriesEndingBetweenBeginAndEndDate(hrCalendarId, beginDate, endDate);
     }

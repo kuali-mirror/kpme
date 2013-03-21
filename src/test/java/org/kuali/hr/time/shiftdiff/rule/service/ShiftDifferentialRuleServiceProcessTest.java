@@ -153,8 +153,8 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 
 		// August
 		DateTime beginPeriodDate = new DateTime(2010, 8, 15, 0, 0, 0, 0, tz);
-		DateTime endPeriodDate = new DateTime(2010, 9, 1, 0, 0, 0, 0, tz);
-		CalendarEntries endOfAugust = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(beginPeriodDate.toLocalDate().toDateMidnight().toDate(), endPeriodDate.toLocalDate().toDateMidnight().toDate());
+        Date endPeriodDate = new Date(new DateTime(2010, 9, 1, 0, 0, 0, 0).getMillis());
+		CalendarEntries endOfAugust = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByIdAndPeriodEndDate("2", endPeriodDate);
 		DateTime start = new DateTime(2010, 8, 31, 21, 45, 0, 0, tz);
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfAugust);
@@ -236,9 +236,8 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 				dayArray);
 
 		// August
-		Date beginPeriodDate = new Date(new DateTime(2010, 8, 15, 0, 0, 0, 0).getMillis());
 		Date endPeriodDate = new Date(new DateTime(2010, 9, 1, 0, 0, 0, 0).getMillis());
-		CalendarEntries endOfAugust = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(beginPeriodDate, endPeriodDate);
+        CalendarEntries endOfAugust = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByIdAndPeriodEndDate("2", endPeriodDate);
 		DateTime start = new DateTime(2010, 8, 31, 22, 0, 0, 0, tz);
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfAugust);
