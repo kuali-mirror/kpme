@@ -119,7 +119,7 @@ public class AccrualCategoryMaxCarryOverServiceImpl implements AccrualCategoryMa
 	}
 	
 	private void calculateMaxCarryOverForLeavePlan(String documentId, String principalId, CalendarEntries calendarEntry, String leavePlan, Date asOfDate) {
-		List<AccrualCategory> accrualCategories = getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(leavePlan, new java.sql.Date(asOfDate.getTime()));
+		List<AccrualCategory> accrualCategories = getAccrualCategoryService().getActiveAccrualCategoriesForLeavePlan(leavePlan, new java.sql.Date(asOfDate.getTime()));
 		
 		for (AccrualCategory accrualCategory : accrualCategories) {
 			BigDecimal adjustmentAmount = getAccrualCategoryCarryOverAdjustment(accrualCategory.getAccrualCategory(), principalId, calendarEntry, asOfDate);
