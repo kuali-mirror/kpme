@@ -37,6 +37,7 @@ import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.bo.DocumentHeader;
+import org.kuali.rice.krad.exception.UnknownDocumentIdException;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -56,16 +57,22 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
             document = (LeaveRequestDocument)KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(documentId);
         } catch (WorkflowException e) {
             LOG.error("Document with documentId: " + documentId + " does not exist");
+        } catch (UnknownDocumentIdException e) {
+        	LOG.error("Document with documentId: " + documentId + " does not exist");
+            return document;
         }
         return document;
     }
-
+    
     @Override
     public List<LeaveRequestDocument> getLeaveRequestDocumentsByLeaveBlockId(String leaveBlockId) {
     	List<LeaveRequestDocument> docList = getLeaveRequestDocumentDao().getLeaveRequestDocumentsByLeaveBlockId(leaveBlockId);
     	List<LeaveRequestDocument> results = new ArrayList<LeaveRequestDocument>();
     	for(LeaveRequestDocument aDoc : docList) {
-    		results.add(this.getLeaveRequestDocument(aDoc.getDocumentNumber()));
+    		LeaveRequestDocument lrd = this.getLeaveRequestDocument(aDoc.getDocumentNumber());    		
+    		if(lrd != null){
+    			results.add(lrd);
+    		}
     	}
     	return results;
     }
