@@ -305,6 +305,7 @@ public class TimeDetailAction extends TimesheetAction {
 	}
 
 	private void populateCalendarAndPayPeriodLists(HttpServletRequest request, TimeDetailActionForm tdaf) {
+		String viewPrincipal = TKContext.getTargetPrincipalId();
 		List<TimesheetDocumentHeader> documentHeaders = (List<TimesheetDocumentHeader>) TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeadersForPrincipalId(TKContext.getTargetPrincipalId());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         if(tdaf.getCalendarYears().isEmpty()) {
@@ -336,7 +337,7 @@ public class TimeDetailAction extends TimesheetAction {
 	        		payPeriodList.add(pe);
 	        	}
 	        }
-	        tdaf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(payPeriodList));
+	        tdaf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(payPeriodList, viewPrincipal));
         }
         if(request.getParameter("selectedPP")!= null) {
         	tdaf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());

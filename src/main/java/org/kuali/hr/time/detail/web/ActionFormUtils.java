@@ -289,7 +289,7 @@ public class ActionFormUtils {
     	return JSONValue.toJSONString(leaveBlockList);
     }
     
-    public static Map<String, String> getPayPeriodsMap(List<CalendarEntries> payPeriods) {
+    public static Map<String, String> getPayPeriodsMap(List<CalendarEntries> payPeriods, String viewPrincipal) {
     	// use linked map to keep the order of the pay periods
     	Map<String, String> pMap = Collections.synchronizedMap(new LinkedHashMap<String, String>());
     	if (payPeriods == null || payPeriods.isEmpty()) {
@@ -300,11 +300,30 @@ public class ActionFormUtils {
     	Collections.reverse(payPeriods);  // newest on top
     	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         for (CalendarEntries pce : payPeriods) {
-        	if(pce != null && pce.getHrCalendarEntriesId()!= null && pce.getBeginPeriodDate() != null && pce.getEndPeriodDate() != null) {
-        		//pMap.put(pce.getHrCalendarEntriesId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format(pce.getEndPeriodDate()));
-                //getting one millisecond of the endperioddate to match the actual pay period. i.e. pay period end at the 11:59:59:59...PM of that day
-                pMap.put(pce.getHrCalendarEntriesId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format((DateUtils.addMilliseconds(pce.getEndPeriodDate(),-1))));
-        	}
+        	
+        	// Check if service date of user is after the Calendar entry
+            Date asOfDate = new Date(DateUtils.addDays(pce.getEndPeriodDate(),-1).getTime());
+    		PrincipalHRAttributes principalHRAttributes = null;
+    		
+    		if(viewPrincipal != null) {
+    			principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, asOfDate);
+    		} else {
+    			pMap.put(pce.getHrCalendarEntriesId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format((DateUtils.addMilliseconds(pce.getEndPeriodDate(),-1))));
+    		}
+    		
+    		if(principalHRAttributes != null && pce != null && pce.getHrCalendarEntriesId()!= null && pce.getBeginPeriodDate() != null && pce.getEndPeriodDate() != null ) {
+    			Date startCalDate = principalHRAttributes.getServiceDate();
+    			if(startCalDate != null) {
+    				if(!(pce.getBeginPeriodDate().compareTo(startCalDate) < 0)) {
+    	        		//pMap.put(pce.getHrCalendarEntriesId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format(pce.getEndPeriodDate()));
+    	                //getting one millisecond of the endperioddate to match the actual pay period. i.e. pay period end at the 11:59:59:59...PM of that day
+    	                pMap.put(pce.getHrCalendarEntriesId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format((DateUtils.addMilliseconds(pce.getEndPeriodDate(),-1))));
+            		} 
+            	} else {
+            		pMap.put(pce.getHrCalendarEntriesId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format((DateUtils.addMilliseconds(pce.getEndPeriodDate(),-1))));    			
+            	}
+    		} 
+    		
         }
         
     	return pMap;

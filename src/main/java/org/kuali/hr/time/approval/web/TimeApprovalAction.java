@@ -336,10 +336,10 @@ public class TimeApprovalAction extends ApprovalAction{
 			taaf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
 		} else {
 			taaf.setSelectedPayPeriod(taaf.getPayCalendarEntries().getHrCalendarEntriesId());
-			taaf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(pcListForYear));
+			taaf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(pcListForYear, null));
 		}
 		if(taaf.getPayPeriodsMap().isEmpty()) {
-		    taaf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(pcListForYear));
+		    taaf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(pcListForYear, null));
 		}
 	}
     

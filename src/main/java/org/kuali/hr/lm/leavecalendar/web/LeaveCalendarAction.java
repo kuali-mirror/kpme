@@ -18,6 +18,7 @@ package org.kuali.hr.lm.leavecalendar.web;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -365,7 +366,7 @@ public class LeaveCalendarAction extends TkAction {
 	}
 	
 	private void populateCalendarAndPayPeriodLists(HttpServletRequest request, LeaveCalendarForm lcf) {
-		
+		String viewPrincipal = TKUser.getCurrentTargetPersonId();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         // find all the calendar entries up to the planning months of this employee
         List<CalendarEntries> ceList = lcf.getCalendarEntry() == null ? new ArrayList<CalendarEntries>() : TkServiceLocator.getCalendarEntriesService()
@@ -391,10 +392,12 @@ public class LeaveCalendarAction extends TkAction {
                 && lcf.getCalendarEntry() != null) {
         	lcf.setSelectedCalendarYear(sdf.format(lcf.getCalendarEntry().getBeginPeriodDate()));
         }
+        
         if(lcf.getPayPeriodsMap().isEmpty()) {
-      	List<CalendarEntries> yearCEList = ActionFormUtils.getAllCalendarEntriesForYear(ceList, lcf.getSelectedCalendarYear());
-	        lcf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(yearCEList));
+        	List<CalendarEntries> yearCEList = ActionFormUtils.getAllCalendarEntriesForYear(ceList, lcf.getSelectedCalendarYear());
+	        lcf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(yearCEList, viewPrincipal));
         }
+        
         if(request.getParameter("selectedPP")!= null) {
         	lcf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
         }
@@ -617,6 +620,8 @@ public class LeaveCalendarAction extends TkAction {
 		CalendarEntries futureCalEntry = null;
 		String viewPrincipal = TKUser.getCurrentTargetPersonId();
 		CalendarEntries calEntry = leaveForm.getCalendarEntry();
+		
+		Date startCalDate = null;
 
 		// some leave calendar may not have leaveCalendarDocument created based on the jobs status of this employee
 		if(lcd != null) {
@@ -641,8 +646,23 @@ public class LeaveCalendarAction extends TkAction {
                             calEntry.getHrCalendarId(),
                             calEntry);
             if (calPreEntry != null) {
-                leaveForm.setPrevCalEntryId(calPreEntry
+            	
+            	// Check if service date of user is after the Calendar entry
+                Date asOfDate = new Date(DateUtils.addDays(calPreEntry.getEndPeriodDate(),-1).getTime());;
+        		PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, asOfDate);
+        		
+        		if(principalHRAttributes != null) {
+        			startCalDate = principalHRAttributes.getServiceDate();
+        			if(startCalDate != null) {
+        				if(!(calPreEntry.getBeginPeriodDate().compareTo(startCalDate) < 0)) {
+                     		leaveForm.setPrevCalEntryId(calPreEntry
+                                    .getHrCalendarEntriesId());
+                		} 
+                	} else {
+                		leaveForm.setPrevCalEntryId(calPreEntry
                         .getHrCalendarEntriesId());
+        			}
+        		}
             }
 
             int planningMonths = ActionFormUtils.getPlanningMonthsForEmployee(viewPrincipal);
