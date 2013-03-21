@@ -130,7 +130,8 @@ values ('KR1000', 1, uuid(), 'KR1000', 'guest', 'P', null, null, now())
 -- KULRICE-7369: Implement KRMS Reference Object Bindings feature
 --
 
-
+CREATE INDEX krms_attr_defn_tc3 ON krms_attr_defn_t(attr_defn_id ASC)
+;
 CREATE TABLE krms_ref_obj_krms_obj_s (
   id bigint(19) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (id)
@@ -174,8 +175,9 @@ CREATE  TABLE krms_nl_usage_t(
   ver_nbr DECIMAL(8,0) DEFAULT 0  NOT NULL,
   PRIMARY KEY (nl_usage_id),
   UNIQUE INDEX krms_nl_usage_tc1 (nm ASC, nmspc_cd ASC)
-) ENGINE = InnoDB
+) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 ;
+
 CREATE  TABLE  krms_nl_usage_attr_t (
   nl_usage_attr_id VARCHAR(40)  NOT NULL ,
   nl_usage_id VARCHAR(40)  NOT NULL ,
@@ -184,13 +186,14 @@ CREATE  TABLE  krms_nl_usage_attr_t (
   ver_nbr DECIMAL(8,0) DEFAULT 0  NOT NULL ,
   PRIMARY KEY (nl_usage_attr_id) ,
   UNIQUE INDEX krms_nl_usage_attr_tc1 (nl_usage_id ASC, attr_defn_id ASC),
+  INDEX krms_nl_usage_attr_tc2(attr_defn_id ASC),
   CONSTRAINT krms_nl_usage_attr_fk1
     FOREIGN KEY (nl_usage_id )
     REFERENCES krms_nl_usage_t (nl_usage_id ) ,
   CONSTRAINT krms_nl_usage_attr_fk2
     FOREIGN KEY (attr_defn_id )
     REFERENCES krms_attr_defn_t (attr_defn_id )
-) ENGINE = InnoDB
+) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 ;
 CREATE TABLE krms_nl_tmpl_t (
   nl_tmpl_id VARCHAR(40) NOT NULL,
@@ -203,7 +206,7 @@ CREATE TABLE krms_nl_tmpl_t (
   CONSTRAINT krms_typ_t FOREIGN KEY (typ_id) REFERENCES krms_typ_t (typ_id),
   PRIMARY KEY (nl_tmpl_id),
   UNIQUE INDEX krms_nl_tmpl_tc1 (lang_cd ASC, nl_usage_id ASC, typ_id ASC)
-) ENGINE = InnoDB
+) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 ;
 CREATE  TABLE krms_typ_reln_t (
   TYP_RELN_ID VARCHAR(40) NOT NULL ,
@@ -217,7 +220,7 @@ CREATE  TABLE krms_typ_reln_t (
   UNIQUE INDEX KRMS_TYP_RELN_TC1 (FROM_TYP_ID ASC, TO_TYP_ID ASC, RELN_TYP ASC) ,
   CONSTRAINT KRMS_TYP_RELN_FK1 FOREIGN KEY (FROM_TYP_ID ) REFERENCES krms_typ_t (TYP_ID ),
   CONSTRAINT KRMS_TYP_RELN_FK2 FOREIGN KEY (TO_TYP_ID ) REFERENCES krms_typ_t (TYP_ID )
-) ENGINE = InnoDB
+) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 ;
 CREATE  TABLE krms_ref_obj_krms_obj_t(
   ref_obj_krms_obj_id VARCHAR(40) NOT NULL,
@@ -231,12 +234,12 @@ CREATE  TABLE krms_ref_obj_krms_obj_t(
   ver_nbr DECIMAL(8,0) DEFAULT 0  NOT NULL,
   PRIMARY KEY (ref_obj_krms_obj_id),
   UNIQUE INDEX krms_ref_obj_krms_obj_tc1 (collection_nm ASC, krms_obj_id ASC, krms_dscr_typ ASC, ref_obj_id ASC, ref_dscr_typ ASC, nmspc_cd ASC)
-) ENGINE = InnoDB
+) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 ;
 CREATE  TABLE  krms_nl_tmpl_attr_t (
   nl_tmpl_attr_id VARCHAR(40)  NOT NULL ,
   nl_tmpl_id VARCHAR(40)  NOT NULL ,
-  attr_defn_id VARCHAR(40)  NOT NULL ,
+  attr_defn_id VARCHAR(255)  NOT NULL ,
   attr_val VARCHAR(400) NULL ,
   ver_nbr DECIMAL(8,0) DEFAULT 0  NOT NULL ,
   PRIMARY KEY (nl_tmpl_attr_id) ,
@@ -247,7 +250,7 @@ CREATE  TABLE  krms_nl_tmpl_attr_t (
   CONSTRAINT krms_nl_tmpl_attr_fk2
     FOREIGN KEY (attr_defn_id )
     REFERENCES krms_attr_defn_t (attr_defn_id )
-) ENGINE = InnoDB
+) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 ;
 
 
