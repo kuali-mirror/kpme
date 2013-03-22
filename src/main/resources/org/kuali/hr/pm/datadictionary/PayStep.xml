@@ -48,7 +48,7 @@
 		</property>
 		<property name="relationships">
 			<list>
-<!-- 				<bean parent="RelationshipDefinition">
+ 				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="salaryGroupObj" />
 					<property name="primitiveAttributes">
 						<list>
@@ -57,7 +57,7 @@
 						</list>
 					</property>
 				</bean>
-				<bean parent="RelationshipDefinition">
+<!--				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="payGradeObj" />
 					<property name="primitiveAttributes">
 						<list>

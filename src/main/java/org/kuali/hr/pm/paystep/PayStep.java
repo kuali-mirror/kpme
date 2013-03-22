@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.pm.institution.Institution;
 import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.rice.location.impl.campus.CampusBo;
 
 public class PayStep extends HrBusinessObject implements Comparable {
@@ -27,7 +28,7 @@ public class PayStep extends HrBusinessObject implements Comparable {
 	
 	private Institution institutionObj;
 	private CampusBo campusObj;
-	//private SalaryGroup SalaryGroupObj;
+	private SalGroup salaryGroupObj;
 	//private PayGrade PayGradeObj;
 
 	@Override
@@ -187,6 +188,14 @@ public class PayStep extends HrBusinessObject implements Comparable {
 
 	public void setCampusObj(CampusBo campusObj) {
 		this.campusObj = campusObj;
+	}
+
+	public SalGroup getSalaryGroupObj() {
+		return salaryGroupObj;
+	}
+
+	public void setSalaryGroupObj(SalGroup salaryGroupObj) {
+		this.salaryGroupObj = salaryGroupObj;
 	}
 
 }

@@ -27,9 +27,9 @@
         <field-descriptor name="timestamp"				column="TIMESTAMP"			jdbc-type="TIMESTAMP"	nullable="false"	conversion="org.kuali.hr.time.util.TkTimestampConverter" />
     </class-descriptor>
 
-	<class-descriptor class="org.kuali.hr.pm.paystep.PayStep" table="PM_PAY_STEP">
+	<class-descriptor class="org.kuali.hr.pm.paystep.PayStep" table="PM_PAY_STEP_T">
 		<field-descriptor name="pmPayStepId"    		column="PM_PAY_STEP_ID"			 jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PAY_STEP_S"  />
-        <field-descriptor name="payStep"    			column="PAYSTEP"				 jdbc-type="VARCHAR"     length="10"		nullable="false" />
+        <field-descriptor name="payStep"    			column="PAY_STEP"				 jdbc-type="VARCHAR"     length="10"		nullable="false" />
         <field-descriptor name="institution"    		column="INSTITUTION"			 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
         <field-descriptor name="campus"    				column="CAMPUS"					 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
         <field-descriptor name="salaryGroup"    		column="SALARY_GROUP"			 jdbc-type="VARCHAR"     length="10"		nullable="false" />
