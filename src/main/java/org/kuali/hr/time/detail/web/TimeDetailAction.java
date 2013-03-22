@@ -452,8 +452,17 @@ public class TimeDetailAction extends TimesheetAction {
     
     // add/update leave blocks 
 	private void changeLeaveBlocks(TimeDetailActionForm tdaf) {
-		DateTime beginDate = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getStartDate()));
-		DateTime endDate = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getEndDate()));
+		DateTime beginDate = null;
+		DateTime endDate = null;
+		
+		if(tdaf.getStartTime() != null && tdaf.getEndTime() != null) {
+			beginDate = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getStartDate(), tdaf.getStartTime()));
+			endDate = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getEndDate(), tdaf.getEndTime()));
+		} else {
+			beginDate = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getStartDate()));
+			endDate = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getEndDate()));
+		}
+		
 		String selectedEarnCode = tdaf.getSelectedEarnCode();
 		BigDecimal leaveAmount = tdaf.getLeaveAmount();
 		

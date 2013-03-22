@@ -290,7 +290,13 @@ public class LeaveCalendarValidationUtil {
 					}
 				}
 				//multiply by days in span in case the user has also edited the start/end dates.
-				BigDecimal desiredUsage = leaveAmount.multiply(new BigDecimal(daysSpan+1));
+				BigDecimal desiredUsage =null;
+				if(!TkConstants.EARN_CODE_TIME.equals(earnCodeObj.getRecordMethod())) {
+					desiredUsage = leaveAmount.multiply(new BigDecimal(daysSpan+1));
+				} else {
+					desiredUsage = leaveAmount.multiply(new BigDecimal(daysSpan));
+				}
+				
 				if(desiredUsage.compareTo(availableBalance) >  0 ) {
 					errors.add("Requested leave amount " + desiredUsage.toString() + " is greater than available leave balance " + availableBalance.toString());      //errorMessages
 				}
@@ -392,9 +398,11 @@ public class LeaveCalendarValidationUtil {
     }
     
     public static List<String> validateParametersAccordingToSelectedEarnCodeRecordMethod(LeaveCalendarWSForm lcf) {
+    	return validateParametersForLeaveEntry(lcf.getSelectedEarnCode(), lcf.getCalendarEntry(), lcf.getStartDate(), lcf.getEndDate(), lcf.getStartTime(), lcf.getEndTime(), lcf.getSelectedAssignment(), lcf.getLeaveCalendarDocument(), lcf.getLeaveBlockId());
+    }
+    
+    public static List<String> validateParametersForLeaveEntry(String selectedEarnCode, CalendarEntries leaveCalEntry, String startDateS, String endDateS, String startTimeS, String endTimeS, String selectedAssignment, LeaveCalendarDocument leaveCalendarDocument, String leaveBlockId) {
     	
-    	String selectedEarnCode = lcf.getSelectedEarnCode();
-    	CalendarEntries leaveCalEntry = lcf.getCalendarEntry();
     	java.sql.Date asOfDate = leaveCalEntry.getEndPeriodDate();
     	
     	List<String> errors = new ArrayList<String>();
@@ -403,12 +411,6 @@ public class LeaveCalendarValidationUtil {
 	    	
     		if(earnCode != null && earnCode.getRecordMethod().equalsIgnoreCase(TkConstants.EARN_CODE_TIME)) {
     			
-    			String startDateS = lcf.getStartDate();
-		    	String endDateS = lcf.getEndDate();
-		    	
-		    	String startTimeS = lcf.getStartTime();
-		    	String endTimeS =lcf.getEndTime();
-		    	
 		    	errors.addAll(LeaveCalendarValidationUtil.validateDates(startDateS, endDateS));
 		        errors.addAll(LeaveCalendarValidationUtil.validateTimes(startTimeS, endTimeS));
 		        if (errors.size() > 0) return errors;
@@ -418,7 +420,6 @@ public class LeaveCalendarValidationUtil {
 		       
 		        startTime = TKUtils.convertDateStringToTimestampWithoutZone(startDateS, startTimeS).getTime();
 		        endTime = TKUtils.convertDateStringToTimestampWithoutZone(endDateS, endTimeS).getTime();
-		       
 		
 		        errors.addAll(validateInterval(leaveCalEntry, startTime, endTime));
 		        if (errors.size() > 0) return errors;
@@ -438,8 +439,6 @@ public class LeaveCalendarValidationUtil {
 		        }
 		        if (errors.size() > 0) return errors;
 		        
-		        String selectedAssignment = lcf.getSelectedAssignment();
-		        
 		        //Check that assignment is valid for both days
 		        AssignmentDescriptionKey assignKey = TkServiceLocator.getAssignmentService().getAssignmentDescriptionKey(selectedAssignment);
 		        Assignment assign = TkServiceLocator.getAssignmentService().getAssignment(assignKey, new Date(startTime));
@@ -451,7 +450,7 @@ public class LeaveCalendarValidationUtil {
 		        
 //		        boolean isRegularEarnCode = StringUtils.equals(assign.getJob().getPayTypeObj().getRegEarnCode(),selectedEarnCode);
 		        boolean isRegularEarnCode = true;
-		        errors.addAll(validateOverlap(startTime, endTime, startDateS, endTimeS,startTemp, endTemp, lcf.getLeaveCalendarDocument(), lcf.getLeaveBlockId(), isRegularEarnCode, earnCode.getRecordMethod()));
+	        	errors.addAll(validateOverlap(startTime, endTime, startDateS, endTimeS,startTemp, endTemp, leaveCalEntry, leaveBlockId, isRegularEarnCode, earnCode.getRecordMethod()));
 		        if (errors.size() > 0) return errors;
     		}
 	    }
@@ -476,14 +475,21 @@ public class LeaveCalendarValidationUtil {
         return errors;
     }
     
-    public static List<String> validateOverlap(Long startTime, Long endTime, String startDateS, String endTimeS, DateTime startTemp, DateTime endTemp, LeaveCalendarDocument leaveCalendarDocument, String lmLeaveBlockId, boolean isRegularEarnCode, String earnCodeType) {
+    public static List<String> validateOverlap(Long startTime, Long endTime, String startDateS, String endTimeS, DateTime startTemp, DateTime endTemp, CalendarEntries calendarEntry, String lmLeaveBlockId, boolean isRegularEarnCode, String earnCodeType) {
         List<String> errors = new ArrayList<String>();
         Interval addedTimeblockInterval = new Interval(startTime, endTime);
         List<Interval> dayInt = new ArrayList<Interval>();
-
+        String viewPrincipal = TKUser.getCurrentTargetPersonId();
+        
         dayInt.add(addedTimeblockInterval);
-
-        for (LeaveBlock leaveBlock : leaveCalendarDocument.getLeaveBlocks()) {
+        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(viewPrincipal, calendarEntry);
+		List<String> assignmentKeys = new ArrayList<String>();
+        for(Assignment assign : assignments) {
+        	assignmentKeys.add(assign.getAssignmentKey());
+        }
+        
+        List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForLeaveCalendar(viewPrincipal, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate(), assignmentKeys);
+        for (LeaveBlock leaveBlock : leaveBlocks) {
         	 if (errors.size() == 0 && StringUtils.equals(earnCodeType, TkConstants.EARN_CODE_TIME) && leaveBlock.getBeginTimestamp() != null && leaveBlock.getEndTimestamp()!= null) {
                 Interval leaveBlockInterval = new Interval(leaveBlock.getBeginTimestamp().getTime(), leaveBlock.getEndTimestamp().getTime());
                 for (Interval intv : dayInt) {

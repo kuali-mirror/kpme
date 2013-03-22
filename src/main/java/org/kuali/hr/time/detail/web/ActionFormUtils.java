@@ -282,7 +282,19 @@ public class ActionFormUtils {
         	leaveBlockMap.put("leaveDate", leaveDate.toString(TkConstants.DT_BASIC_DATE_FORMAT));
         	leaveBlockMap.put("id", leaveBlock.getLmLeaveBlockId());
         	leaveBlockMap.put("canTransfer", TkServiceLocator.getPermissionsService().canTransferSSTOUsage(leaveBlock));
+        	leaveBlockMap.put("startDate", leaveDate.toString(TkConstants.DT_BASIC_DATE_FORMAT));
+        	leaveBlockMap.put("endDate", leaveDate.toString(TkConstants.DT_BASIC_DATE_FORMAT));
         	
+        	if(leaveBlock.getBeginTimestamp() != null && leaveBlock.getEndTimestamp() != null) {
+	            DateTime start = new DateTime(leaveBlock.getBeginTimestamp().getTime());
+	        	DateTime end = new DateTime(leaveBlock.getEndTimestamp().getTime());
+	        	leaveBlockMap.put("startTimeHourMinute", start.toString(TkConstants.DT_BASIC_TIME_FORMAT));
+	        	leaveBlockMap.put("endTimeHourMinute", end.toString(TkConstants.DT_BASIC_TIME_FORMAT));
+	        	leaveBlockMap.put("startTime", start.toString(TkConstants.DT_MILITARY_TIME_FORMAT));
+	        	leaveBlockMap.put("endTime", end.toString(TkConstants.DT_MILITARY_TIME_FORMAT));
+	        	leaveBlockMap.put("startDate", start.toString(TkConstants.DT_BASIC_DATE_FORMAT));
+	        	leaveBlockMap.put("endDate", end.toString(TkConstants.DT_BASIC_DATE_FORMAT));
+            }
         	
         	leaveBlockList.add(leaveBlockMap);
         }

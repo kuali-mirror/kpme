@@ -15,9 +15,16 @@
             <c:if test="${leaveBlock.deletable and day.dayEditable}">
 	            <img id="leaveBlockDelete_${leaveBlock.leaveBlockId}" src='images/delete.png' class="leaveBlock-delete"/>
             </c:if>
-            <div id="show_${leaveBlock.leaveBlockId}">
-	            ${leaveBlock.assignmentTitle}
-	        </div>
+            <c:choose>
+	            <c:when test="${day.dayEditable}">
+		            <div id="show_${leaveBlock.leaveBlockId}">
+			            ${leaveBlock.assignmentTitle}
+			        </div>
+		        </c:when>
+		         <c:otherwise>
+	                <div>${leaveBlock.assignmentTitle}</div>
+	             </c:otherwise>
+             </c:choose>
 	    </div>  
 	    <div>
 	    ${leaveBlock.timeRange}

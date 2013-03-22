@@ -120,6 +120,9 @@
 	
 	        <div id="leaveShow_${block.leaveBlockId}">${block.assignmentTitle}</div>
 	    </div>
+	    <div>
+	    ${block.timeRange}
+	    </div>
 	    ${block.earnCode} (${(-1) * block.hours})
     </div>
 </c:forEach>
