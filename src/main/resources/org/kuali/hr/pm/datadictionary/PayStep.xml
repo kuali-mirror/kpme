@@ -53,7 +53,7 @@
 					<property name="primitiveAttributes">
 						<list>
 							<bean parent="PrimitiveAttributeDefinition" p:sourceName="salaryGroup"
-								p:targetName="salaryGroup" />
+								p:targetName="hrSalGroup" />
 						</list>
 					</property>
 				</bean>
