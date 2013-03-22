@@ -17,8 +17,6 @@ package org.kuali.hr.lm.leaveSummary.service;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
-import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.joda.time.LocalDateTime;
@@ -32,7 +30,7 @@ import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveblock.service.LeaveBlockService;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -43,7 +41,6 @@ import org.kuali.rice.krad.util.ObjectUtils;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -60,7 +57,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
     }
 
     @Override
-    public LeaveSummary getLeaveSummary(String principalId, CalendarEntries calendarEntry) {
+    public LeaveSummary getLeaveSummary(String principalId, CalendarEntry calendarEntry) {
         return getLeaveSummary(principalId, calendarEntry.getBeginPeriodDate(), calendarEntry.getEndPeriodDate(), null, true);
     }
 
@@ -609,7 +606,7 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
 	}
 	
 	@Override
-	public List<Date> getLeaveSummaryDates(CalendarEntries calendarEntry) {
+	public List<Date> getLeaveSummaryDates(CalendarEntry calendarEntry) {
 		List<Date> leaveSummaryDates = new ArrayList<Date>();
 
 		DateTime start = calendarEntry.getBeginLocalDateTime().toDateTime();

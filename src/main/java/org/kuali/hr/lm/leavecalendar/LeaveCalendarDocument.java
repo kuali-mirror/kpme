@@ -24,7 +24,7 @@ import org.kuali.hr.core.document.calendar.CalendarDocumentContract;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 
 public class LeaveCalendarDocument implements CalendarDocumentContract, Serializable {
 
@@ -33,9 +33,9 @@ public class LeaveCalendarDocument implements CalendarDocumentContract, Serializ
 	LeaveCalendarDocumentHeader documentHeader;
 	List<LeaveBlock> leaveBlocks = new ArrayList<LeaveBlock>();
 	private List<Assignment> assignments = new LinkedList<Assignment>();
-	private CalendarEntries calendarEntry;
+	private CalendarEntry calendarEntry;
 
-	public LeaveCalendarDocument(CalendarEntries calendarEntry) {
+	public LeaveCalendarDocument(CalendarEntry calendarEntry) {
 		this.calendarEntry = calendarEntry;
 	}
 
@@ -63,11 +63,11 @@ public class LeaveCalendarDocument implements CalendarDocumentContract, Serializ
 	}
 
     @Override
-	public CalendarEntries getCalendarEntry() {
+	public CalendarEntry getCalendarEntry() {
 		return calendarEntry;
 	}
 
-	public void setCalendarEntry(CalendarEntries calendarEntry) {
+	public void setCalendarEntry(CalendarEntry calendarEntry) {
 		this.calendarEntry = calendarEntry;
 	}
 

@@ -18,11 +18,10 @@ package org.kuali.hr.time.rule;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
@@ -31,7 +30,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 public class TkRuleControllerServiceImpl implements TkRuleControllerService {
 
     // TODO : Filter actions to reduce computation for rule runs: Clock IN for example does not need to execute rule running.
-	public void applyRules(String action, List<TimeBlock> timeBlocks, CalendarEntries payEntry, TimesheetDocument timesheetDocument, String principalId){
+	public void applyRules(String action, List<TimeBlock> timeBlocks, CalendarEntry payEntry, TimesheetDocument timesheetDocument, String principalId){
 		//foreach action run the rules that apply
 		if(StringUtils.equals(action, TkConstants.ACTIONS.ADD_TIME_BLOCK) || StringUtils.equals(action, TkConstants.ACTIONS.CLOCK_OUT)){
 			TkTimeBlockAggregate timeBlockAggregate = new TkTimeBlockAggregate(timeBlocks, payEntry, payEntry.getCalendarObj(), true);

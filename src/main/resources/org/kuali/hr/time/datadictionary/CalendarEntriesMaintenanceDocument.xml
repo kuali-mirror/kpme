@@ -25,21 +25,21 @@
                            http://rice.kuali.org/dd
                            http://rice.kuali.org/dd/dd.xsd">
 
-  <bean id="CalendarEntriesMaintenanceDocument" parent="CalendarEntriesMaintenanceDocument-parentBean"/>
+  <bean id="CalendarEntryMaintenanceDocument" parent="CalendarEntryMaintenanceDocument-parentBean"/>
 
-  <bean id="CalendarEntriesMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry" 
-  		p:businessObjectClass="org.kuali.hr.time.calendar.CalendarEntries"
-  		p:businessRulesClass="org.kuali.hr.time.calendar.validation.CalendarEntriesRule"
+  <bean id="CalendarEntryMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
+  		p:businessObjectClass="org.kuali.hr.time.calendar.CalendarEntry"
+  		p:businessRulesClass="org.kuali.hr.time.calendar.validation.CalendarEntryRule"
    		p:maintainableClass="org.kuali.hr.time.calendar.CalendarEntryMaintainableImpl"
    		p:documentAuthorizerClass="org.kuali.hr.time.authorization.DepartmentAdminAuthorizer">
     <property name="maintainableSections">
       <list>
-        <ref bean="CalendarEntriesMaintenanceDocument-CalendarEntriesMaintenance"/>
+        <ref bean="CalendarEntryMaintenanceDocument-CalendarEntryMaintenance"/>
       </list>
     </property>
 	<property name="lockingKeys">
 			<list>
-				<value>hrCalendarEntriesId</value>
+				<value>hrCalendarEntryId</value>
 			</list>
 	</property>    
     <property name="documentTypeName" value="PayCalendarEntriesDocumentType"/>
@@ -47,8 +47,8 @@
 
   <!-- Maintenance Section Definitions -->
 
-  <bean id="CalendarEntriesMaintenanceDocument-CalendarEntriesMaintenance" parent="CalendarEntriesMaintenanceDocument-CalendarEntriesMaintenance-parentBean"/>
-  <bean id="CalendarEntriesMaintenanceDocument-CalendarEntriesMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+  <bean id="CalendarEntryMaintenanceDocument-CalendarEntryMaintenance" parent="CalendarEntryMaintenanceDocument-CalendarEntryMaintenance-parentBean"/>
+  <bean id="CalendarEntryMaintenanceDocument-CalendarEntryMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
     <property name="title" value="Calendar Dates Maintenance"/>
     <property name="maintainableItems">
       <list>

@@ -20,13 +20,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 
 public class RateRangeAggregate {
 	private List<RateRange> rateRanges = new ArrayList<RateRange>();
 	private RateRange currentRate;
 	private boolean rateRangeChanged;
-	private Map<String, List<CalendarEntries>> calEntryMap;
+	private Map<String, List<CalendarEntry>> calEntryMap;
 	
 	public RateRange getRate(Date date) {		
 		rateRangeChanged = false;
@@ -75,11 +75,11 @@ public class RateRangeAggregate {
 		return null;
 	}
 
-	public Map<String, List<CalendarEntries>> getCalEntryMap() {
+	public Map<String, List<CalendarEntry>> getCalEntryMap() {
 		return calEntryMap;
 	}
 
-	public void setCalEntryMap(Map<String, List<CalendarEntries>> calEntryMap) {
+	public void setCalEntryMap(Map<String, List<CalendarEntry>> calEntryMap) {
 		this.calEntryMap = calEntryMap;
 	}
 	

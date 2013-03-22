@@ -24,7 +24,7 @@ import java.util.Map;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 
 public interface LeaveBlockService {
     public LeaveBlock getLeaveBlock(String leaveBlockId);
@@ -45,7 +45,7 @@ public interface LeaveBlockService {
      */
     public void deleteLeaveBlock(String leaveBlockId, String principalId);
 
-    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntries ce, String selectedEarnCode, 
+    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntry ce, String selectedEarnCode,
     		BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks, String leaveBlockType, String principalId);
     
     public void updateLeaveBlock(LeaveBlock leaveBlock, String principalId);

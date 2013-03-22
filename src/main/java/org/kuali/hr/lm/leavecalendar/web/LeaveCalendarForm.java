@@ -23,13 +23,12 @@ import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.base.web.TkCommonCalendarForm;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.calendar.LeaveCalendar;
 import org.kuali.hr.time.util.TKUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -41,7 +40,7 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
     private String documentId;
     private LeaveCalendar leaveCalendar;
     private LeaveCalendarDocument leaveCalendarDocument;
-    CalendarEntries calendarEntry;
+    CalendarEntry calendarEntry;
     private String startDate;
     private String endDate;
     private String selectedEarnCode;
@@ -205,11 +204,11 @@ public class LeaveCalendarForm extends TkCommonCalendarForm {
         this.documentId = documentId;
     }
 
-    public CalendarEntries getCalendarEntry() {
+    public CalendarEntry getCalendarEntry() {
         return calendarEntry;
     }
 
-    public void setCalendarEntry(CalendarEntries calendarEntry) {
+    public void setCalendarEntry(CalendarEntry calendarEntry) {
         this.calendarEntry = calendarEntry;
     }
 

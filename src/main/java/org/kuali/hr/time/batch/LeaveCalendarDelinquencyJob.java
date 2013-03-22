@@ -25,8 +25,8 @@ import org.apache.commons.lang.time.DateUtils;
 import org.kuali.hr.core.notification.service.KPMENotificationService;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.lm.workflow.service.LeaveCalendarDocumentHeaderService;
-import org.kuali.hr.time.calendar.CalendarEntries;
-import org.kuali.hr.time.calendar.service.CalendarEntriesService;
+import org.kuali.hr.time.calendar.CalendarEntry;
+import org.kuali.hr.time.calendar.service.CalendarEntryService;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.principal.service.PrincipalHRAttributesService;
 import org.kuali.hr.time.util.TKUtils;
@@ -38,7 +38,7 @@ public class LeaveCalendarDelinquencyJob implements Job {
 	
 	private static int CALENDAR_ENTRIES_POLLING_WINDOW;
 
-	private static CalendarEntriesService CALENDAR_ENTRIES_SERVICE;
+	private static CalendarEntryService CALENDAR_ENTRY_SERVICE;
 	private static KPMENotificationService KPME_NOTIFICATION_SERVICE;
 	private static LeaveCalendarDocumentHeaderService LEAVE_CALENDAR_DOCUMENT_HEADER_SERVICE;
 	private static PrincipalHRAttributesService PRINCIPAL_HR_ATTRIBUTES_SERVICE;
@@ -48,14 +48,14 @@ public class LeaveCalendarDelinquencyJob implements Job {
 		Set<String> principalIds = new HashSet<String>();
 		
 		Date asOfDate = TKUtils.getCurrentDate();
-		List<CalendarEntries> calendarEntries = getCalendarEntriesService().getCurrentCalendarEntryNeedsScheduled(getCalendarEntriesPollingWindow(), asOfDate);
+		List<CalendarEntry> calendarEntries = getCalendarEntryService().getCurrentCalendarEntriesNeedsScheduled(getCalendarEntriesPollingWindow(), asOfDate);
 		
-		for (CalendarEntries calendarEntry : calendarEntries) {
+		for (CalendarEntry calendarEntry : calendarEntries) {
 			String hrCalendarId = calendarEntry.getHrCalendarId();
 			Date currentBeginDate = calendarEntry.getBeginPeriodDateTime();
 			
 			if (currentBeginDate.before(asOfDate) || DateUtils.isSameDay(currentBeginDate, asOfDate)) {
-				CalendarEntries previousCalendarEntry = getCalendarEntriesService().getPreviousCalendarEntriesByCalendarId(hrCalendarId, calendarEntry);
+				CalendarEntry previousCalendarEntry = getCalendarEntryService().getPreviousCalendarEntryByCalendarId(hrCalendarId, calendarEntry);
 				
 				if (previousCalendarEntry != null) {
 					String calendarName = previousCalendarEntry.getCalendarName();
@@ -97,12 +97,12 @@ public class LeaveCalendarDelinquencyJob implements Job {
 		CALENDAR_ENTRIES_POLLING_WINDOW = calendarEntriesPollingWindow;
 	}
 
-	public static CalendarEntriesService getCalendarEntriesService() {
-		return CALENDAR_ENTRIES_SERVICE;
+	public static CalendarEntryService getCalendarEntryService() {
+		return CALENDAR_ENTRY_SERVICE;
 	}
 
-	public static void setCalendarEntriesService(CalendarEntriesService calendarEntriesService) {
-		CALENDAR_ENTRIES_SERVICE = calendarEntriesService;
+	public static void setCalendarEntryService(CalendarEntryService calendarEntryService) {
+		CALENDAR_ENTRY_SERVICE = calendarEntryService;
 	}
 
 	public static KPMENotificationService getKpmeNotificationService() {

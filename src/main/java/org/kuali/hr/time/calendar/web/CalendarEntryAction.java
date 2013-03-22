@@ -22,9 +22,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.time.base.web.TkAction;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.calendar.CalendarEntryPeriodType;
-import org.kuali.hr.time.calendar.service.CalendarEntriesService;
+import org.kuali.hr.time.calendar.service.CalendarEntryService;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -48,19 +48,19 @@ public class CalendarEntryAction extends TkAction {
         CalendarEntryPeriodType periodType = ceaf.getCalendarEntryPeriodType() == null ?
                                                 CalendarEntryPeriodType.BI_WEEKLY :
                                                 CalendarEntryPeriodType.fromCode(ceaf.getCalendarEntryPeriodType());
-        CalendarEntriesService calendarEntriesService = TkServiceLocator.getCalendarEntriesService();
-		CalendarEntries calendarEntries = calendarEntriesService.getCalendarEntries(
-						ceaf.getHrPyCalendarEntryId().toString());
-		if (calendarEntries == null) {
+        CalendarEntryService calendarEntryService = TkServiceLocator.getCalendarEntryService();
+		CalendarEntry calendarEntry = calendarEntryService.getCalendarEntry(
+                ceaf.getHrPyCalendarEntryId().toString());
+		if (calendarEntry == null) {
 			GlobalVariables.getMessageMap().putError(
 					"document.hrPyCalendarEntryId",
 					"error.calendar.not.available");
 		} else {
 				for (int i = 0; i < ceaf.getNoOfPeriods(); i++) {
-					CalendarEntries nextCalendarEntries = calendarEntriesService.getNextCalendarEntriesByCalendarId(
-									calendarEntries.getHrCalendarId(), calendarEntries);
-					if (nextCalendarEntries == null) {
-                        calendarEntries = calendarEntriesService.createNextCalendarEntry(calendarEntries, periodType);
+					CalendarEntry nextCalendarEntry = calendarEntryService.getNextCalendarEntryByCalendarId(
+                            calendarEntry.getHrCalendarId(), calendarEntry);
+					if (nextCalendarEntry == null) {
+                        calendarEntry = calendarEntryService.createNextCalendarEntry(calendarEntry, periodType);
 					}
 				}
 				ceaf.setMessage("Calendar entry sucessfully created.");

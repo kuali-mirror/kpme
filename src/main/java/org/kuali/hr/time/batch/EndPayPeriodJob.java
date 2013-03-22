@@ -19,7 +19,7 @@ import org.apache.log4j.Logger;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.Calendar;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
@@ -46,10 +46,10 @@ public class EndPayPeriodJob implements Job {
 		if (batchUserPrincipalId != null) {
 			JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
 	
-			String hrCalendarEntriesId = jobDataMap.getString("hrCalendarEntriesId");
+			String hrCalendarEntryId = jobDataMap.getString("hrCalendarEntryId");
 			String tkClockLogId = jobDataMap.getString("tkClockLogId");
 			
-	        CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(hrCalendarEntriesId);
+	        CalendarEntry calendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
 	        Calendar calendar = TkServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
 	        calendarEntry.setCalendarObj(calendar);
 	        

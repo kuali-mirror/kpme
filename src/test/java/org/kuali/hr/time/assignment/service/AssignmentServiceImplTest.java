@@ -20,14 +20,13 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 
@@ -58,7 +57,7 @@ public class AssignmentServiceImplTest extends KPMETestCase {
 	}
 	@Test
 	public void testGetAssignmentsByCalEntryForLeaveCalendar() throws Exception {
-		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("5000");
+		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("5000");
 		List<Assignment> assignments = assignmentService.getAssignmentsByCalEntryForLeaveCalendar("testUser", ce);
 		Assert.assertNotNull("Null assignment list", assignments);
 		
@@ -71,7 +70,7 @@ public class AssignmentServiceImplTest extends KPMETestCase {
 	
 	@Test
 	public void testGetAssignmentsByCalEntryForTimeCalendar() throws Exception {
-		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("5000");
+		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("5000");
 		List<Assignment> assignments = assignmentService.getAssignmentsByCalEntryForTimeCalendar("testUser", ce);
 		Assert.assertNotNull("Null assignment list", assignments);
 		
@@ -84,12 +83,12 @@ public class AssignmentServiceImplTest extends KPMETestCase {
 	}
 	@Test
 	public void testGetAssignmentsByPayEntry() throws Exception {
-		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("5000");
+		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("5000");
 		List<Assignment> assignments = assignmentService.getAssignmentsByPayEntry("testUser", ce);
 		Assert.assertNotNull("Null assignment list", assignments);
 		Assert.assertTrue("Assignments size for Calendar Entry 5000 should be 3, not " + assignments.size(), assignments.size() == 3);
 		
-		ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("5001");
+		ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("5001");
 		assignments = assignmentService.getAssignmentsByPayEntry("testUser", ce);
 		Assert.assertNotNull("Null assignment list", assignments);
 		Assert.assertTrue("Assignments size for Calendar Entry 5000 should be 4, not " + assignments.size(), assignments.size() == 4);

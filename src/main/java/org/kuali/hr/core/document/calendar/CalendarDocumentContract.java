@@ -18,7 +18,7 @@ package org.kuali.hr.core.document.calendar;
 
 import org.kuali.hr.core.document.CalendarDocumentHeaderContract;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 
 import java.sql.Date;
 import java.util.List;
@@ -43,7 +43,7 @@ public interface CalendarDocumentContract {
      *
      * @return calendarEntry
      */
-    CalendarEntries getCalendarEntry();
+    CalendarEntry getCalendarEntry();
 
     /**
      * The the beginning date of the calendar entry for the document.

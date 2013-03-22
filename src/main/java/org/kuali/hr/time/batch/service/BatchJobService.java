@@ -18,34 +18,34 @@ package org.kuali.hr.time.batch.service;
 import java.util.Date;
 
 import org.kuali.hr.lm.leaveplan.LeavePlan;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.quartz.SchedulerException;
 
 public interface BatchJobService {
     
-    void scheduleInitiateJobs(CalendarEntries calendarEntry) throws SchedulerException;
+    void scheduleInitiateJobs(CalendarEntry calendarEntry) throws SchedulerException;
     
-    void scheduleInitiateJobs(CalendarEntries calendarEntry, Date scheduleDate) throws SchedulerException;
+    void scheduleInitiateJobs(CalendarEntry calendarEntry, Date scheduleDate) throws SchedulerException;
     
-    void scheduleEndReportingPeriodJobs(CalendarEntries calendarEntry) throws SchedulerException;
+    void scheduleEndReportingPeriodJobs(CalendarEntry calendarEntry) throws SchedulerException;
     
-    void scheduleEndReportingPeriodJobs(CalendarEntries calendarEntry, Date scheduleDate) throws SchedulerException;
+    void scheduleEndReportingPeriodJobs(CalendarEntry calendarEntry, Date scheduleDate) throws SchedulerException;
     
-    void scheduleEndPayPeriodJobs(CalendarEntries calendarEntry) throws SchedulerException;
+    void scheduleEndPayPeriodJobs(CalendarEntry calendarEntry) throws SchedulerException;
     
-    void scheduleEndPayPeriodJobs(CalendarEntries calendarEntry, Date scheduleDate) throws SchedulerException;
+    void scheduleEndPayPeriodJobs(CalendarEntry calendarEntry, Date scheduleDate) throws SchedulerException;
 
-    void scheduleEmployeeApprovalJobs(CalendarEntries calendarEntry) throws SchedulerException;
+    void scheduleEmployeeApprovalJobs(CalendarEntry calendarEntry) throws SchedulerException;
     
-    void scheduleEmployeeApprovalJobs(CalendarEntries calendarEntry, Date scheduleDate) throws SchedulerException;
+    void scheduleEmployeeApprovalJobs(CalendarEntry calendarEntry, Date scheduleDate) throws SchedulerException;
     
-    void scheduleMissedPunchApprovalJobs(CalendarEntries calendarEntry) throws SchedulerException;
+    void scheduleMissedPunchApprovalJobs(CalendarEntry calendarEntry) throws SchedulerException;
     
-    void scheduleMissedPunchApprovalJobs(CalendarEntries calendarEntry, Date scheduleDate) throws SchedulerException;
+    void scheduleMissedPunchApprovalJobs(CalendarEntry calendarEntry, Date scheduleDate) throws SchedulerException;
 
-    void scheduleSupervisorApprovalJobs(CalendarEntries calendarEntry) throws SchedulerException;
+    void scheduleSupervisorApprovalJobs(CalendarEntry calendarEntry) throws SchedulerException;
     
-    void scheduleSupervisorApprovalJobs(CalendarEntries calendarEntry, Date scheduleDate) throws SchedulerException;
+    void scheduleSupervisorApprovalJobs(CalendarEntry calendarEntry, Date scheduleDate) throws SchedulerException;
     
     void scheduleLeaveCarryOverJobs(LeavePlan leavePlan) throws SchedulerException;
     

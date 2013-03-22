@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.*;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -61,7 +61,7 @@ public class TimeDetailValidationUtil {
         }
         if (errors.size() > 0) return errors;
 
-        CalendarEntries payCalEntry = timesheetDocument.getCalendarEntry();
+        CalendarEntry payCalEntry = timesheetDocument.getCalendarEntry();
         java.sql.Date asOfDate = payCalEntry.getEndPeriodDate();
 
         errors.addAll(TimeDetailValidationUtil.validateDates(startDateS, endDateS));
@@ -278,7 +278,7 @@ public class TimeDetailValidationUtil {
         return errors;
     }
 
-    public static List<String> validateInterval(CalendarEntries payCalEntry, Long startTime, Long endTime) {
+    public static List<String> validateInterval(CalendarEntry payCalEntry, Long startTime, Long endTime) {
         List<String> errors = new ArrayList<String>();
         LocalDateTime pcb_ldt = payCalEntry.getBeginLocalDateTime();
         LocalDateTime pce_ldt = payCalEntry.getEndLocalDateTime();

@@ -24,7 +24,7 @@
 <html:hidden property="methodToCall" value=""/>
 <html:hidden styleId="rit" property="rowsInTotal" value="${fn:length(Form.leaveApprovalRows)}"/>
 <html:hidden styleId="pcid" property="hrPyCalendarId" value="${Form.hrPyCalendarId}"/>
-<html:hidden styleId="pceid" property="hrPyCalendarEntriesId" value="${Form.hrPyCalendarEntriesId}"/>
+<html:hidden styleId="pceid" property="hrPyCalendarEntryId" value="${Form.hrPyCalendarEntryId}"/>
 <html:hidden styleId="payBeginDateForSearch" property="payBeginDateForSearch" value="${Form.payBeginDateForSearch}"/>
 <html:hidden styleId="payEndDateForSearch" property="payEndDateForSearch" value="${Form.payEndDateForSearch}"/>
 <html:hidden property="prevPayCalendarId" value="${Form.prevPayCalendarId}"/>

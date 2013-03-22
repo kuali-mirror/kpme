@@ -15,19 +15,19 @@
  */
 package org.kuali.hr.time.calendar.validation;
 
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
-public class CalendarEntriesRule extends MaintenanceDocumentRuleBase {
+public class CalendarEntryRule extends MaintenanceDocumentRuleBase {
     @Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean valid = false;
 
-        CalendarEntries calendarEntries = (CalendarEntries) this.getNewBo();
+        CalendarEntry calendarEntry = (CalendarEntry) this.getNewBo();
 
-        valid = validateCalendarGroup(calendarEntries.getCalendarName());
+        valid = validateCalendarGroup(calendarEntry.getCalendarName());
         return valid;
     }
 

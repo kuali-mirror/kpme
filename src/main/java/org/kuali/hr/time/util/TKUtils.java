@@ -34,11 +34,10 @@ import org.joda.time.Days;
 import org.joda.time.Interval;
 import org.joda.time.Period;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.springframework.util.NumberUtils;
 
 public class TKUtils {
 
@@ -199,7 +198,7 @@ public class TKUtils {
      * @param timeZone
      * @return
      */
-    public static List<Interval> getDaySpanForCalendarEntry(CalendarEntries calendarEntry, DateTimeZone timeZone) {
+    public static List<Interval> getDaySpanForCalendarEntry(CalendarEntry calendarEntry, DateTimeZone timeZone) {
         DateTime beginDateTime = calendarEntry.getBeginLocalDateTime().toDateTime(timeZone);
         DateTime endDateTime = calendarEntry.getEndLocalDateTime().toDateTime(timeZone);
 
@@ -510,15 +509,15 @@ public class TKUtils {
         return dayIntervals;
     }
     
-    public static List<Interval> getDaySpanForCalendarEntry(CalendarEntries calendarEntry) {
+    public static List<Interval> getDaySpanForCalendarEntry(CalendarEntry calendarEntry) {
         return getDaySpanForCalendarEntry(calendarEntry, TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
     }
 
-    public static List<Interval> getFullWeekDaySpanForCalendarEntry(CalendarEntries calendarEntry) {
+    public static List<Interval> getFullWeekDaySpanForCalendarEntry(CalendarEntry calendarEntry) {
         return getFullWeekDaySpanForCalendarEntry(calendarEntry, TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
     }
     
-    public static List<Interval> getFullWeekDaySpanForCalendarEntry(CalendarEntries calendarEntry, DateTimeZone timeZone) {
+    public static List<Interval> getFullWeekDaySpanForCalendarEntry(CalendarEntry calendarEntry, DateTimeZone timeZone) {
         DateTime beginDateTime = calendarEntry.getBeginLocalDateTime().toDateTime(timeZone);
         DateTime endDateTime = calendarEntry.getEndLocalDateTime().toDateTime(timeZone);
 

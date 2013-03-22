@@ -44,7 +44,7 @@ import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.Calendar;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.calendar.LeaveCalendar;
 import org.kuali.hr.time.detail.web.ActionFormUtils;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -109,7 +109,7 @@ public class LeaveCalendarAction extends TkAction {
 		// Here - viewPrincipal will be the principal of the user we intend to
 		// view, be it target user, backdoor or otherwise.
 		String viewPrincipal = TKUser.getCurrentTargetPersonId();
-		CalendarEntries calendarEntry = null;
+		CalendarEntry calendarEntry = null;
 
 		LeaveCalendarDocument lcd = null;
 		LeaveCalendarDocumentHeader lcdh = null;
@@ -124,8 +124,8 @@ public class LeaveCalendarAction extends TkAction {
 			calendarEntry = lcd.getCalendarEntry();
 		} else if (StringUtils.isNotBlank(calendarEntryId)) {
 			// do further procedure
-			calendarEntry = TkServiceLocator.getCalendarEntriesService()
-					.getCalendarEntries(calendarEntryId);
+			calendarEntry = TkServiceLocator.getCalendarEntryService()
+					.getCalendarEntry(calendarEntryId);
 		} else {
 			// Default to whatever is active for "today".
 			Date currentDate = TKUtils.getTimelessDate(null);
@@ -134,7 +134,7 @@ public class LeaveCalendarAction extends TkAction {
 		}
 		lcf.setCalendarEntry(calendarEntry);
 		if(calendarEntry != null) {
-			lcf.setCalEntryId(calendarEntry.getHrCalendarEntriesId());
+			lcf.setCalEntryId(calendarEntry.getHrCalendarEntryId());
 		}
 		// check configuration setting for allowing accrual service to be ran from leave calendar
 		String runAccrualFlag = ConfigContext.getCurrentContextConfig().getProperty(LMConstants.RUN_ACCRUAL_FROM_CALENDAR);
@@ -257,7 +257,7 @@ public class LeaveCalendarAction extends TkAction {
 			        		}
 			        		else {
 				        		Calendar cal = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(viewPrincipal, lb.getLeaveDate(), true);
-				        		CalendarEntries leaveEntry = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(cal.getHrCalendarId(), lb.getLeaveDate());
+				        		CalendarEntry leaveEntry = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(cal.getHrCalendarId(), lb.getLeaveDate());
 				        		aDate = new DateTime(leaveEntry.getEndPeriodDate());
 			        		}
 			        		aDate = aDate.minusDays(1);
@@ -379,13 +379,13 @@ public class LeaveCalendarAction extends TkAction {
 		
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         // find all the calendar entries up to the planning months of this employee
-        List<CalendarEntries> ceList = lcf.getCalendarEntry() == null ? new ArrayList<CalendarEntries>() : TkServiceLocator.getCalendarEntriesService()
+        List<CalendarEntry> ceList = lcf.getCalendarEntry() == null ? new ArrayList<CalendarEntry>() : TkServiceLocator.getCalendarEntryService()
         	.getAllCalendarEntriesForCalendarIdUpToPlanningMonths(lcf.getCalendarEntry().getHrCalendarId(), TKUser.getCurrentTargetPersonId());
         
         if(lcf.getCalendarYears().isEmpty()) {
         	// get calendar year drop down list contents
 	        Set<String> yearSet = new HashSet<String>();
-	        for(CalendarEntries ce : ceList) {
+	        for(CalendarEntry ce : ceList) {
 	        	yearSet.add(sdf.format(ce.getBeginPeriodDate()));
 	        }
 	        List<String> yearList = new ArrayList<String>(yearSet);
@@ -403,7 +403,7 @@ public class LeaveCalendarAction extends TkAction {
         	lcf.setSelectedCalendarYear(sdf.format(lcf.getCalendarEntry().getBeginPeriodDate()));
         }
         if(lcf.getPayPeriodsMap().isEmpty()) {
-      	List<CalendarEntries> yearCEList = ActionFormUtils.getAllCalendarEntriesForYear(ceList, lcf.getSelectedCalendarYear());
+      	List<CalendarEntry> yearCEList = ActionFormUtils.getAllCalendarEntriesForYear(ceList, lcf.getSelectedCalendarYear());
 	        lcf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(yearCEList));
         }
         if(request.getParameter("selectedPP")!= null) {
@@ -411,7 +411,7 @@ public class LeaveCalendarAction extends TkAction {
         }
         if(StringUtils.isEmpty(lcf.getSelectedPayPeriod())
                 && lcf.getCalendarEntry() != null) {
-        	lcf.setSelectedPayPeriod(lcf.getCalendarEntry().getHrCalendarEntriesId());
+        	lcf.setSelectedPayPeriod(lcf.getCalendarEntry().getHrCalendarEntryId());
         }
 	}	
 
@@ -421,7 +421,7 @@ public class LeaveCalendarAction extends TkAction {
 		
 		String principalId = TKContext.getPrincipalId();
 		String targetPrincipalId = TKContext.getTargetPrincipalId();
-		CalendarEntries calendarEntry = lcf.getCalendarEntry();
+		CalendarEntry calendarEntry = lcf.getCalendarEntry();
 		String selectedAssignment = lcf.getSelectedAssignment();
 		
 		DateTime beginDate = null;
@@ -465,7 +465,7 @@ public class LeaveCalendarAction extends TkAction {
 		TkServiceLocator.getLeaveBlockService().addLeaveBlocks(beginDate, endDate, calendarEntry, selectedEarnCode, hours, desc, assignment, spanningWeeks, 
 				LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR, targetPrincipalId);
 
-		generateLeaveCalendarChangedNotification(principalId, targetPrincipalId, documentId, calendarEntry.getHrCalendarEntriesId());
+		generateLeaveCalendarChangedNotification(principalId, targetPrincipalId, documentId, calendarEntry.getHrCalendarEntryId());
 		
 		// after adding the leave block, set the fields of this form to null for future new leave blocks
 		lcf.setLeaveAmount(null);
@@ -492,7 +492,7 @@ public class LeaveCalendarAction extends TkAction {
 
 		String principalId = TKContext.getPrincipalId();
 		String targetPrincipalId = TKContext.getTargetPrincipalId();
-		CalendarEntries calendarEntry = lcf.getCalendarEntry();
+		CalendarEntry calendarEntry = lcf.getCalendarEntry();
 		String leaveBlockId = lcf.getLeaveBlockId();
 		
 		String documentId = lcd != null ? lcd.getDocumentId() : "";
@@ -529,7 +529,7 @@ public class LeaveCalendarAction extends TkAction {
         	}
 
         	TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId, principalId);
-		    generateLeaveCalendarChangedNotification(principalId, targetPrincipalId, documentId, calendarEntry.getHrCalendarEntriesId());
+		    generateLeaveCalendarChangedNotification(principalId, targetPrincipalId, documentId, calendarEntry.getHrCalendarEntryId());
 		    if(CollectionUtils.isNotEmpty(approverList)) {
 		    	this.generateLeaveBlockDeletionNotification(approverList, targetPrincipalId, principalId, TKUtils.formatDate(blockToDelete.getLeaveDate()), blockToDelete.getLeaveAmount().toString());
 		    }
@@ -572,7 +572,7 @@ public class LeaveCalendarAction extends TkAction {
 		
 		String principalId = TKContext.getPrincipalId();
 		String targetPrincipalId = TKContext.getTargetPrincipalId();
-		CalendarEntries calendarEntry = lcf.getCalendarEntry();
+		CalendarEntry calendarEntry = lcf.getCalendarEntry();
 		String selectedEarnCode = lcf.getSelectedEarnCode();
 		String leaveBlockId = lcf.getLeaveBlockId();
 		
@@ -610,7 +610,7 @@ public class LeaveCalendarAction extends TkAction {
             }
             
             TkServiceLocator.getLeaveBlockService().updateLeaveBlock(updatedLeaveBlock, principalId);
-            generateLeaveCalendarChangedNotification(principalId, targetPrincipalId, documentId, calendarEntry.getHrCalendarEntriesId());
+            generateLeaveCalendarChangedNotification(principalId, targetPrincipalId, documentId, calendarEntry.getHrCalendarEntryId());
             
             lcf.setLeaveAmount(null);
             lcf.setDescription(null);
@@ -625,9 +625,9 @@ public class LeaveCalendarAction extends TkAction {
     }
 	protected void setupDocumentOnFormContext(LeaveCalendarForm leaveForm,
 			LeaveCalendarDocument lcd) {
-		CalendarEntries futureCalEntry = null;
+		CalendarEntry futureCalEntry = null;
 		String viewPrincipal = TKUser.getCurrentTargetPersonId();
-		CalendarEntries calEntry = leaveForm.getCalendarEntry();
+		CalendarEntry calEntry = leaveForm.getCalendarEntry();
 
 		// some leave calendar may not have leaveCalendarDocument created based on the jobs status of this employee
 		if(lcd != null) {
@@ -646,20 +646,20 @@ public class LeaveCalendarAction extends TkAction {
 		
 		// fetch previous entry
         if (calEntry != null) {
-            CalendarEntries calPreEntry = TkServiceLocator
-                    .getCalendarEntriesService()
-                    .getPreviousCalendarEntriesByCalendarId(
+            CalendarEntry calPreEntry = TkServiceLocator
+                    .getCalendarEntryService()
+                    .getPreviousCalendarEntryByCalendarId(
                             calEntry.getHrCalendarId(),
                             calEntry);
             if (calPreEntry != null) {
                 leaveForm.setPrevCalEntryId(calPreEntry
-                        .getHrCalendarEntriesId());
+                        .getHrCalendarEntryId());
             }
 
             int planningMonths = ActionFormUtils.getPlanningMonthsForEmployee(viewPrincipal);
             if(planningMonths != 0) {
-                List<CalendarEntries> futureCalEntries = TkServiceLocator
-                        .getCalendarEntriesService()
+                List<CalendarEntry> futureCalEntries = TkServiceLocator
+                        .getCalendarEntryService()
                         .getFutureCalendarEntries(
                                 calEntry.getHrCalendarId(),
                                 TKUtils.getTimelessDate(null),
@@ -669,9 +669,9 @@ public class LeaveCalendarAction extends TkAction {
                     futureCalEntry = futureCalEntries.get(futureCalEntries
                             .size() - 1);
 
-                    CalendarEntries calNextEntry = TkServiceLocator
-                            .getCalendarEntriesService()
-                            .getNextCalendarEntriesByCalendarId(
+                    CalendarEntry calNextEntry = TkServiceLocator
+                            .getCalendarEntryService()
+                            .getNextCalendarEntryByCalendarId(
                                     calEntry.getHrCalendarId(),
                                     calEntry);
 
@@ -683,7 +683,7 @@ public class LeaveCalendarAction extends TkAction {
                                             futureCalEntry
                                                     .getBeginPeriodDateTime()) <= 0) {
                         leaveForm.setNextCalEntryId(calNextEntry
-                                .getHrCalendarEntriesId());
+                                .getHrCalendarEntryId());
                     }
                 }
             }
@@ -694,7 +694,7 @@ public class LeaveCalendarAction extends TkAction {
 			} else {
 				// retrieve current pay calendar date
 				Date currentDate = TKUtils.getTimelessDate(null);
-				CalendarEntries calendarEntry = TkServiceLocator.getCalendarService()
+				CalendarEntry calendarEntry = TkServiceLocator.getCalendarService()
 						.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, currentDate);
 				if(calendarEntry != null) {
 					leaveForm.setCurrentPayCalStart(calendarEntry.getBeginLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback()));
@@ -706,7 +706,7 @@ public class LeaveCalendarAction extends TkAction {
 		}
 		leaveForm.setCalendarEntry(calEntry);
 		if(calEntry != null) {
-			leaveForm.setCalEntryId(calEntry.getHrCalendarEntriesId());
+			leaveForm.setCalEntryId(calEntry.getHrCalendarEntryId());
 		}
 		leaveForm.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(calEntry));
 
@@ -757,10 +757,10 @@ public class LeaveCalendarAction extends TkAction {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
 		String viewPrincipal = TKUser.getCurrentTargetPersonId();
 		Date currentDate = TKUtils.getTimelessDate(null);
-		CalendarEntries calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, currentDate);
+		CalendarEntry calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, currentDate);
 		lcf.setCalendarEntry(calendarEntry);
 		if(calendarEntry != null) {
-			lcf.setCalEntryId(calendarEntry.getHrCalendarEntriesId());
+			lcf.setCalEntryId(calendarEntry.getHrCalendarEntryId());
 		}
 		lcf.setOnCurrentPeriod(ActionFormUtils.getOnCurrentPeriodFlag(calendarEntry));
 	
@@ -795,11 +795,11 @@ public class LeaveCalendarAction extends TkAction {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
 		if(request.getParameter("selectedPP") != null) {
 			lcf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
-	        CalendarEntries ce = TkServiceLocator.getCalendarEntriesService()
-				.getCalendarEntries(request.getParameter("selectedPP").toString());
+	        CalendarEntry ce = TkServiceLocator.getCalendarEntryService()
+				.getCalendarEntry(request.getParameter("selectedPP").toString());
 			if(ce != null) {
 				String viewPrincipal = TKUser.getCurrentTargetPersonId();
-				lcf.setCalEntryId(ce.getHrCalendarEntriesId());
+				lcf.setCalEntryId(ce.getHrCalendarEntryId());
 				LeaveCalendarDocument lcd = null;
 				// use jobs to find out if this leave calendar should have a document created or not
 				boolean createFlag = TkServiceLocator.getLeaveCalendarService().shouldCreateLeaveDocument(viewPrincipal, ce);

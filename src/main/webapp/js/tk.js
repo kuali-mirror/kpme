@@ -202,7 +202,7 @@ $(document).ready(function() {
     });
 
     $('#nav_prev_ac').click(function() {
-        this.form.hrPyCalendarEntriesId.value = prevPayCalendarId;
+        this.form.hrPyCalendarEntryId.value = prevPayCalendarId;
         this.form.methodToCall.value='loadApprovalTab';
         this.form.submit();
     });
@@ -215,7 +215,7 @@ $(document).ready(function() {
     });
 
     $('#nav_next_ac').click(function() {
-        this.form.hrPyCalendarEntriesId.value = nextPayCalendarId;
+        this.form.hrPyCalendarEntryId.value = nextPayCalendarId;
         this.form.methodToCall.value='loadApprovalTab';
         this.form.submit();
     });

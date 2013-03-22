@@ -33,7 +33,7 @@ import org.kuali.hr.time.approval.web.ApprovalTimeSummaryRow;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.Calendar;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
@@ -66,14 +66,14 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 	public static final int DAYS_WINDOW_DELTA = 31;
 
-	public Map<String, CalendarEntries> getPayCalendarEntriesForDept(
+	public Map<String, CalendarEntry> getPayCalendarEntriesForDept(
 			String dept, Date currentDate) {
 		DateTime minDt = new DateTime(currentDate,
 				TKUtils.getSystemDateTimeZone());
 		minDt = minDt.minusDays(DAYS_WINDOW_DELTA);
 		java.sql.Date windowDate = TKUtils.getTimelessDate(minDt.toDate());
 
-		Map<String, CalendarEntries> pceMap = new HashMap<String, CalendarEntries>();
+		Map<String, CalendarEntry> pceMap = new HashMap<String, CalendarEntry>();
 		Set<String> principals = new HashSet<String>();
 		List<WorkArea> workAreasForDept = TkServiceLocator.getWorkAreaService()
 				.getWorkAreas(dept, new java.sql.Date(currentDate.getTime()));
@@ -118,9 +118,9 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 		// Grab the pay calendar entries + groups
 		for (Calendar pc : payCals) {
-			CalendarEntries pce = TkServiceLocator
-					.getCalendarEntriesService()
-					.getCurrentCalendarEntriesByCalendarId(
+			CalendarEntry pce = TkServiceLocator
+					.getCalendarEntryService()
+					.getCurrentCalendarEntryByCalendarId(
                             pc.getHrCalendarId(), currentDate);
 			pceMap.put(pc.getCalendarName(), pce);
 		}
@@ -129,10 +129,10 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	}
 
 	@Override
-	public Map<String, CalendarEntries> getPayCalendarEntriesForApprover(
+	public Map<String, CalendarEntry> getPayCalendarEntriesForApprover(
 			String principalId, Date currentDate, String dept) {
 
-		Map<String, CalendarEntries> pceMap = new HashMap<String, CalendarEntries>();
+		Map<String, CalendarEntry> pceMap = new HashMap<String, CalendarEntry>();
 		Set<String> principals = new HashSet<String>();
 		DateTime minDt = new DateTime(currentDate,
 				TKUtils.getSystemDateTimeZone());
@@ -172,9 +172,9 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 		// Grab the pay calendar entries + groups
 		for (Calendar pc : payCals) {
-			CalendarEntries pce = TkServiceLocator
-					.getCalendarEntriesService()
-					.getCurrentCalendarEntriesByCalendarId(
+			CalendarEntry pce = TkServiceLocator
+					.getCalendarEntryService()
+					.getCurrentCalendarEntryByCalendarId(
                             pc.getHrCalendarId(), currentDate);
 			pceMap.put(pc.getCalendarName(), pce);
 		}
@@ -219,17 +219,17 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	public List<ApprovalTimeSummaryRow> getApprovalSummaryRows(
 			Date payBeginDate, Date payEndDate, String calGroup,
 			List<TKPerson> persons, List<String> payCalendarLabels,
-			CalendarEntries payCalendarEntries) {
+			CalendarEntry payCalendarEntry) {
 		List<ApprovalTimeSummaryRow> rows = new LinkedList<ApprovalTimeSummaryRow>();
 		Map<String, TimesheetDocumentHeader> principalDocumentHeader = getPrincipalDocumehtHeader(
 				persons, payBeginDate, payEndDate);
 
 		Calendar payCalendar = TkServiceLocator.getCalendarService()
-				.getCalendar(payCalendarEntries.getHrCalendarId());
+				.getCalendar(payCalendarEntry.getHrCalendarId());
 		DateTimeZone dateTimeZone = TkServiceLocator.getTimezoneService()
 				.getUserTimezoneWithFallback();
 		List<Interval> dayIntervals = TKUtils
-				.getDaySpanForCalendarEntry(payCalendarEntries);
+				.getDaySpanForCalendarEntry(payCalendarEntry);
 
 		for (TKPerson person : persons) {
 			TimesheetDocumentHeader tdh = new TimesheetDocumentHeader();
@@ -260,23 +260,23 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 			}
 			//TODO: Move to Warning Service!!!!!
-			Map<String, Set<String>> transactionalWarnings = LeaveCalendarValidationUtil.validatePendingTransactions(person.getPrincipalId(), payCalendarEntries.getBeginPeriodDate(), payCalendarEntries.getEndPeriodDate());
+			Map<String, Set<String>> transactionalWarnings = LeaveCalendarValidationUtil.validatePendingTransactions(person.getPrincipalId(), payCalendarEntry.getBeginPeriodDate(), payCalendarEntry.getEndPeriodDate());
 			
 			warnings.addAll(transactionalWarnings.get("infoMessages"));
 			warnings.addAll(transactionalWarnings.get("warningMessages"));
 			warnings.addAll(transactionalWarnings.get("actionMessages"));
 			
-			Map<String, Set<String>> eligibleTransfers = findWarnings(person.getPrincipalId(), payCalendarEntries);
+			Map<String, Set<String>> eligibleTransfers = findWarnings(person.getPrincipalId(), payCalendarEntry);
 			warnings.addAll(eligibleTransfers.get("warningMessages"));
 			
 			Map<String, BigDecimal> hoursToPayLabelMap = getHoursToPayDayMap(
 					person.getPrincipalId(), payEndDate, payCalendarLabels,
-					timeBlocks, null, payCalendarEntries, payCalendar,
+					timeBlocks, null, payCalendarEntry, payCalendar,
 					dateTimeZone, dayIntervals);
 			
 			Map<String, BigDecimal> hoursToFlsaPayLabelMap = getHoursToFlsaWeekMap(
 					person.getPrincipalId(), payEndDate, payCalendarLabels,
-					timeBlocks, null, payCalendarEntries, payCalendar,
+					timeBlocks, null, payCalendarEntry, payCalendar,
 					dateTimeZone, dayIntervals);
 
 			approvalSummaryRow.setName(person.getPrincipalName());
@@ -363,7 +363,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		return lstPayCalendarLabels;
 	}
 
-	private Map<String, Set<String>> findWarnings(String principalId, CalendarEntries calendarEntry) {
+	private Map<String, Set<String>> findWarnings(String principalId, CalendarEntry calendarEntry) {
 //      List<String> warnings = LeaveCalendarValidationUtil.getWarningMessagesForLeaveBlocks(leaveBlocks);
       Map<String, Set<String>> allMessages = new HashMap<String,Set<String>>();
       allMessages.put("warningMessages", new HashSet<String>());
@@ -559,13 +559,13 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	public Map<String, BigDecimal> getHoursToPayDayMap(String principalId,
 			Date payEndDate, List<String> payCalendarLabels,
 			List<TimeBlock> lstTimeBlocks, Long workArea,
-			CalendarEntries payCalendarEntries, Calendar payCalendar,
+			CalendarEntry payCalendarEntry, Calendar payCalendar,
 			DateTimeZone dateTimeZone, List<Interval> dayIntervals) {
 		Map<String, BigDecimal> hoursToPayLabelMap = new LinkedHashMap<String, BigDecimal>();
 		List<BigDecimal> dayTotals = new ArrayList<BigDecimal>();
 
 		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(
-				lstTimeBlocks, payCalendarEntries, payCalendar, true,
+				lstTimeBlocks, payCalendarEntry, payCalendar, true,
 				dayIntervals);
 		List<FlsaWeek> flsaWeeks = tkTimeBlockAggregate
 				.getFlsaWeeks(dateTimeZone);
@@ -622,12 +622,12 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	public Map<String, BigDecimal> getHoursToFlsaWeekMap(String principalId, 
 			Date payEndDate, List<String> payCalendarLabels, 
 			List<TimeBlock> lstTimeBlocks, Long workArea, 
-			CalendarEntries payCalendarEntries, Calendar payCalendar, 
+			CalendarEntry payCalendarEntry, Calendar payCalendar,
 			DateTimeZone dateTimeZone, List<Interval> dayIntervals) {
 		
 		Map<String, BigDecimal> hoursToFlsaWeekMap = new LinkedHashMap<String, BigDecimal>();
 
-		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(lstTimeBlocks, payCalendarEntries, payCalendar, true, dayIntervals);
+		TkTimeBlockAggregate tkTimeBlockAggregate = new TkTimeBlockAggregate(lstTimeBlocks, payCalendarEntry, payCalendar, true, dayIntervals);
 		List<List<FlsaWeek>> flsaWeeks = tkTimeBlockAggregate.getFlsaWeeks(dateTimeZone, principalId);
 		
 		int weekCount = 1;
@@ -818,7 +818,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	}
 	
 	@Override
-	public List<CalendarEntries> getAllPayCalendarEntriesForApprover(String principalId, Date currentDate) {
+	public List<CalendarEntry> getAllPayCalendarEntriesForApprover(String principalId, Date currentDate) {
 		Set<String> principals = new HashSet<String>();
 		Set<Long> approverWorkAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
 
@@ -837,14 +837,14 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		for(String pid : principals) {
 			documentHeaders.addAll(TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeadersForPrincipalId(pid));
 		}
-		Set<CalendarEntries> payPeriodSet = new HashSet<CalendarEntries>();
+		Set<CalendarEntry> payPeriodSet = new HashSet<CalendarEntry>();
 		for(TimesheetDocumentHeader tdh : documentHeaders) {
-    		CalendarEntries pe = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(tdh.getBeginDate(), tdh.getEndDate());
+    		CalendarEntry pe = TkServiceLocator.getCalendarEntryService().getCalendarEntryByBeginAndEndDate(tdh.getBeginDate(), tdh.getEndDate());
     		if(pe != null) {
     			payPeriodSet.add(pe);
     		}
         }
-		List<CalendarEntries> ppList = new ArrayList<CalendarEntries>(payPeriodSet);
+		List<CalendarEntry> ppList = new ArrayList<CalendarEntry>(payPeriodSet);
         
 		return ppList;
 	}

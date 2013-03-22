@@ -24,7 +24,7 @@ import java.util.Map;
 import org.kuali.hr.core.document.calendar.CalendarDocumentContract;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesummary.TimeSummary;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
@@ -38,7 +38,7 @@ public class TimesheetDocument implements CalendarDocumentContract, Serializable
 	private List<Assignment> assignments = new LinkedList<Assignment>();
 	private List<Job> jobs = new LinkedList<Job>();
 	private List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
-	private CalendarEntries calendarEntry = null; // Was a Hidden NPE, now more exposed // new PayCalendarEntries();
+	private CalendarEntry calendarEntry = null; // Was a Hidden NPE, now more exposed // new PayCalendarEntries();
 	private TimeSummary timeSummary = new TimeSummary();
 	private Map<Long, Job> jobNumberToJobMap = new HashMap<Long,Job>();
 
@@ -87,11 +87,11 @@ public class TimesheetDocument implements CalendarDocumentContract, Serializable
 	}
 
     @Override
-	public CalendarEntries getCalendarEntry() {
+	public CalendarEntry getCalendarEntry() {
 		return calendarEntry;
 	}
 
-	public void setCalendarEntry(CalendarEntries calendarEntry) {
+	public void setCalendarEntry(CalendarEntry calendarEntry) {
 		this.calendarEntry = calendarEntry;
 	}
 

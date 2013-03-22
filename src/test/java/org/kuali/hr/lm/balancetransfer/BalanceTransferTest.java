@@ -27,7 +27,7 @@ import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecalendar.web.LeaveCalendarSubmitForm;
 import org.kuali.hr.lm.util.LeaveCalendarTestUtils;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
@@ -135,8 +135,8 @@ public class BalanceTransferTest extends LeaveCalendarWebTestBase {
 		Date startDate = new Date((new DateTime(2012, 1, 1, 0, 0, 0, 1, TKUtils.getSystemDateTimeZone())).getMillis());
         Date asOfDate = new Date((new DateTime(2012, 11, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
         TkServiceLocator.getAccrualService().runAccrual(USER_PRINCIPAL_ID,startDate,asOfDate,false);
-        CalendarEntries pcd = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(USER_PRINCIPAL_ID, asOfDate);
-        Assert.assertNotNull("No CalendarEntries", pcd);
+        CalendarEntry pcd = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(USER_PRINCIPAL_ID, asOfDate);
+        Assert.assertNotNull("No CalendarEntry", pcd);
 
         //opens a leave calendar document and initiates a workflow document. Sets document status to Initiated.
         LeaveCalendarDocument tdoc = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(USER_PRINCIPAL_ID, pcd);

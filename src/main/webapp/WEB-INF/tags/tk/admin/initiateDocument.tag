@@ -35,10 +35,10 @@
                     <tr>
                         <td>Calendar Entries Id:</td>
                         <td>
-                            <html:text property="hrCalendarEntriesId" />
+                            <html:text property="hrCalendarEntryId" />
                         </td>
                         <td>
-                            <kul:lookup boClassName="org.kuali.hr.time.calendar.CalendarEntries" fieldConversions="hrCalendarEntriesId:hrCalendarEntriesId" />
+                            <kul:lookup boClassName="org.kuali.hr.time.calendar.CalendarEntry" fieldConversions="hrCalendarEntryId:hrCalendarEntryId" />
                         </td>
                     </tr>
                     <tr>

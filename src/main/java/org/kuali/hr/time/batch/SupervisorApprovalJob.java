@@ -21,7 +21,7 @@ import org.joda.time.DateTime;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.calendar.Calendar;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.missedpunch.MissedPunchDocument;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
@@ -48,10 +48,10 @@ public class SupervisorApprovalJob implements Job {
 		if (batchUserPrincipalId != null) {
 			JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
 	
-			String hrCalendarEntriesId = jobDataMap.getString("hrCalendarEntriesId");
+			String hrCalendarEntryId = jobDataMap.getString("hrCalendarEntryId");
 			String documentId = jobDataMap.getString("documentId");
 	
-			CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(hrCalendarEntriesId);
+			CalendarEntry calendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
 			Calendar calendar = TkServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
 					
 			if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {

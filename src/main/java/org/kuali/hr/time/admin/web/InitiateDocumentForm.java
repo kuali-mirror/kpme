@@ -22,7 +22,7 @@ public class InitiateDocumentForm extends TkForm {
 	private static final long serialVersionUID = -2480158541329523905L;
 	
 	private String principalId;
-	private String hrCalendarEntriesId;
+	private String hrCalendarEntryId;
 	
 	public String getPrincipalId() {
 		return principalId;
@@ -32,12 +32,12 @@ public class InitiateDocumentForm extends TkForm {
 		this.principalId = principalId;
 	}
 	
-    public String getHrCalendarEntriesId() {
-		return hrCalendarEntriesId;
+    public String getHrCalendarEntryId() {
+		return hrCalendarEntryId;
 	}
 
-	public void setHrCalendarEntriesId(String hrCalendarEntriesId) {
-		this.hrCalendarEntriesId = hrCalendarEntriesId;
+	public void setHrCalendarEntryId(String hrCalendarEntryId) {
+		this.hrCalendarEntryId = hrCalendarEntryId;
 	}
 	
 }

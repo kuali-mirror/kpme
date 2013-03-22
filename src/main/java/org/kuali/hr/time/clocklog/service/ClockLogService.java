@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
@@ -54,7 +54,7 @@ public interface ClockLogService {
 	 * @param calendarEntry
 	 * @return
 	 */
-	public ClockLog getLastClockLog(String principalId, String jobNumber, String workArea, String task, CalendarEntries calendarEntry);
+	public ClockLog getLastClockLog(String principalId, String jobNumber, String workArea, String task, CalendarEntry calendarEntry);
 
     /**
      * Build ClockLog based on criteria passed in
@@ -80,7 +80,7 @@ public interface ClockLogService {
 	 * @param principalId
 	 * @return
 	 */
-    ClockLog processClockLog(Timestamp clockTimestamp, Assignment assignment, CalendarEntries pe, String ip, java.sql.Date asOfDate, TimesheetDocument td, String clockAction, String principalId);
+    ClockLog processClockLog(Timestamp clockTimestamp, Assignment assignment, CalendarEntry pe, String ip, java.sql.Date asOfDate, TimesheetDocument td, String clockAction, String principalId);
     
     /**
      * Fetch clock log by id
@@ -91,7 +91,7 @@ public interface ClockLogService {
 
     ClockLog buildClockLog(Timestamp clockTimestamp, Timestamp originalTimestamp, Assignment assignment, TimesheetDocument timesheetDocument, String clockAction, String ip, String userPrincipalId);
 
-    ClockLog processClockLog(Timestamp clockTimeStamp, Assignment assignment, CalendarEntries pe, String ip, java.sql.Date asOfDate, TimesheetDocument td, String clockAction, String principalId, String userPrincipalId);
+    ClockLog processClockLog(Timestamp clockTimeStamp, Assignment assignment, CalendarEntry pe, String ip, java.sql.Date asOfDate, TimesheetDocument td, String clockAction, String principalId, String userPrincipalId);
     
     /**
      * Get warning messages for clock actions taken from unapproved IP address on given timesheet document

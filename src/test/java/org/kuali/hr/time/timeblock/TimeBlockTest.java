@@ -22,13 +22,12 @@ import java.util.Collections;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.calendar.Calendar;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
 
@@ -67,7 +66,7 @@ public class TimeBlockTest extends KPMETestCase {
 	
 	@Test
 	public void testTimeBlockBuilding() throws Exception {
-		CalendarEntries payCalendarEntry = new CalendarEntries();
+		CalendarEntry payCalendarEntry = new CalendarEntry();
 		java.util.Date beginDateTime = new java.util.Date((new DateTime(2010, 1, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		java.util.Date endDateTime = new java.util.Date((new DateTime(2010, 1, 15, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		payCalendarEntry.setBeginPeriodDateTime(beginDateTime);
@@ -151,7 +150,7 @@ public class TimeBlockTest extends KPMETestCase {
 		
 		Calendar payCalendar = new Calendar();
 		
-		CalendarEntries payCalendarEntry = new CalendarEntries();
+		CalendarEntry payCalendarEntry = new CalendarEntry();
 		java.util.Date beginDateTime = new java.util.Date(beginTime.getMillis());
 		java.util.Date endDateTime = new java.util.Date(endTime.getMillis());
 		payCalendarEntry.setBeginPeriodDateTime(beginDateTime);
@@ -184,7 +183,7 @@ public class TimeBlockTest extends KPMETestCase {
 		Assert.assertTrue(tbList.get(0) == tb2);
 		Assert.assertTrue(tbList.get(1) == tb1);
 	}
-	private List<TimeBlock> setupTimeBlocks(DateTime startTime, DateTime endTime, CalendarEntries payCalendarEntry){
+	private List<TimeBlock> setupTimeBlocks(DateTime startTime, DateTime endTime, CalendarEntry payCalendarEntry){
 		List<Interval> dayInterval = TKUtils.getDaySpanForCalendarEntry(payCalendarEntry);
 		Timestamp beginTimeStamp = new Timestamp((new DateTime(2010, 1, 1, 13, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
 		Timestamp endTimeStamp = new Timestamp((new DateTime(2010, 1, 2, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());

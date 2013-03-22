@@ -36,12 +36,10 @@ import org.joda.time.format.ISODateTimeFormat;
 import org.json.simple.JSONValue;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
-import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.earncode.EarnCode;
-import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -289,7 +287,7 @@ public class ActionFormUtils {
     	return JSONValue.toJSONString(leaveBlockList);
     }
     
-    public static Map<String, String> getPayPeriodsMap(List<CalendarEntries> payPeriods) {
+    public static Map<String, String> getPayPeriodsMap(List<CalendarEntry> payPeriods) {
     	// use linked map to keep the order of the pay periods
     	Map<String, String> pMap = Collections.synchronizedMap(new LinkedHashMap<String, String>());
     	if (payPeriods == null || payPeriods.isEmpty()) {
@@ -299,11 +297,11 @@ public class ActionFormUtils {
     	Collections.sort(payPeriods);  // sort the pay period list by getBeginPeriodDate
     	Collections.reverse(payPeriods);  // newest on top
     	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-        for (CalendarEntries pce : payPeriods) {
-        	if(pce != null && pce.getHrCalendarEntriesId()!= null && pce.getBeginPeriodDate() != null && pce.getEndPeriodDate() != null) {
-        		//pMap.put(pce.getHrCalendarEntriesId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format(pce.getEndPeriodDate()));
+        for (CalendarEntry pce : payPeriods) {
+        	if(pce != null && pce.getHrCalendarEntryId()!= null && pce.getBeginPeriodDate() != null && pce.getEndPeriodDate() != null) {
+        		//pMap.put(pce.getHrCalendarEntryId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format(pce.getEndPeriodDate()));
                 //getting one millisecond of the endperioddate to match the actual pay period. i.e. pay period end at the 11:59:59:59...PM of that day
-                pMap.put(pce.getHrCalendarEntriesId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format((DateUtils.addMilliseconds(pce.getEndPeriodDate(),-1))));
+                pMap.put(pce.getHrCalendarEntryId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format((DateUtils.addMilliseconds(pce.getEndPeriodDate(),-1))));
         	}
         }
         
@@ -311,10 +309,10 @@ public class ActionFormUtils {
     }
     
     // detect if the passed-in calendar entry is the current one
-    public static boolean getOnCurrentPeriodFlag(CalendarEntries pce) {
+    public static boolean getOnCurrentPeriodFlag(CalendarEntry pce) {
     	Date currentDate = TKUtils.getTimelessDate(null);
     	String viewPrincipal = TKUser.getCurrentTargetPersonId();
-        CalendarEntries calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal,  currentDate);
+        CalendarEntry calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal,  currentDate);
 
         if(pce != null && calendarEntry != null && calendarEntry.equals(pce)) {
     		return true;
@@ -348,11 +346,11 @@ public class ActionFormUtils {
 		return plannningMonths;
     }
     
-    public static List<CalendarEntries> getAllCalendarEntriesForYear(List<CalendarEntries> entries, String year) {
-    	List<CalendarEntries> results = new ArrayList<CalendarEntries>();
+    public static List<CalendarEntry> getAllCalendarEntriesForYear(List<CalendarEntry> entries, String year) {
+    	List<CalendarEntry> results = new ArrayList<CalendarEntry>();
     	DateFormat df = new SimpleDateFormat("yyyy");
     	 
-    	for(CalendarEntries ce : entries) {
+    	for(CalendarEntry ce : entries) {
     		if(df.format(ce.getBeginPeriodDate()).equals(year)) {
     			results.add(ce);
     		}

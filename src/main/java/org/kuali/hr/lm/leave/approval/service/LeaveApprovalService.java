@@ -23,12 +23,12 @@ import java.util.Map;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.approval.web.ApprovalLeaveSummaryRow;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.person.TKPerson;
 import org.kuali.rice.kew.api.note.Note;
 
 public interface LeaveApprovalService {
-	public List<ApprovalLeaveSummaryRow> getLeaveApprovalSummaryRows(List<TKPerson> persons, CalendarEntries payCalendarEntries, List<Date> leaveSummaryDates);
+	public List<ApprovalLeaveSummaryRow> getLeaveApprovalSummaryRows(List<TKPerson> persons, CalendarEntry payCalendarEntry, List<Date> leaveSummaryDates);
 	
 	public Map<Date, Map<String, BigDecimal>> getEarnCodeLeaveHours(List<LeaveBlock> leaveBlocks, List<Date> leaveSummaryDates);
 	
@@ -48,7 +48,7 @@ public interface LeaveApprovalService {
     /*
      * returns all calendar entries with LeaveCalendarDocument created and can be approved by given principalId
      */
-    public List<CalendarEntries> getAllLeavePayCalendarEntriesForApprover(String principalId, Date currentDate);
+    public List<CalendarEntry> getAllLeavePayCalendarEntriesForApprover(String principalId, Date currentDate);
 
     /*
      * remove the employees with no jobs that are eligible for leave fromt the given list of principal ids

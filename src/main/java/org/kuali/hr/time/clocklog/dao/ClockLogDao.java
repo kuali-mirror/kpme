@@ -17,7 +17,7 @@ package org.kuali.hr.time.clocklog.dao;
 
 import java.util.List;
 
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.clocklog.ClockLog;
 
 public interface ClockLogDao {
@@ -55,7 +55,7 @@ public interface ClockLogDao {
 	 * @param calendarEntry
 	 * @return
 	 */
-	public ClockLog getLastClockLog(String principalId, String jobNumber, String workArea, String task, CalendarEntries payCalendarEntry);
+	public ClockLog getLastClockLog(String principalId, String jobNumber, String workArea, String task, CalendarEntry payCalendarEntry);
 	
 	/**
 	 * Fetch clock log by id

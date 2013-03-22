@@ -25,7 +25,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
@@ -34,8 +34,6 @@ import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 import com.google.gson.Gson;
 
@@ -72,10 +70,10 @@ public class TkMobileServiceImpl implements TkMobileService {
 
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(new AssignmentDescriptionKey(assignmentKey), TKUtils.getCurrentDate());
         Date currentDate = TKUtils.getCurrentDate();
-        CalendarEntries calendarEntries = TkServiceLocator.getCalendarService().getCurrentCalendarDates(principalId,  currentDate);
+        CalendarEntry calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(principalId,  currentDate);
         TimesheetDocument td;
 		try {
-			td = TkServiceLocator.getTimesheetService().openTimesheetDocument(principalId, calendarEntries);
+			td = TkServiceLocator.getTimesheetService().openTimesheetDocument(principalId, calendarEntry);
 		} catch (WorkflowException e) {
 			throw new RuntimeException("Could not open timesheet");
 		}

@@ -27,9 +27,8 @@ import org.kuali.hr.lm.leavecalendar.dao.LeaveCalendarDao;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
@@ -61,7 +60,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 
         if (lcdh != null) {
             lcd = new LeaveCalendarDocument(lcdh);
-            CalendarEntries pce = TkServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(lcdh.getPrincipalId(), lcdh.getEndDate(), LMConstants.LEAVE_CALENDAR_TYPE);
+            CalendarEntry pce = TkServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(lcdh.getPrincipalId(), lcdh.getEndDate(), LMConstants.LEAVE_CALENDAR_TYPE);
             lcd.setCalendarEntry(pce);
         } else {
             throw new RuntimeException("Could not find LeaveCalendarDocumentHeader for DocumentID: " + documentId);
@@ -78,7 +77,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     }
 
     @Override
-    public LeaveCalendarDocument openLeaveCalendarDocument(String principalId, CalendarEntries calEntry) throws WorkflowException {
+    public LeaveCalendarDocument openLeaveCalendarDocument(String principalId, CalendarEntry calEntry) throws WorkflowException {
         LeaveCalendarDocument doc;
 
         Date begin = calEntry.getBeginPeriodDateTime();
@@ -102,7 +101,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     }
     
     //Should only create leave calendar document if active jobs were found with flsa elig = no and ben elg = yes
-    public boolean shouldCreateLeaveDocument(String principalId, CalendarEntries calEntry){
+    public boolean shouldCreateLeaveDocument(String principalId, CalendarEntry calEntry){
         if (StringUtils.isEmpty(principalId) || calEntry == null) {
             return false;
         }
@@ -117,7 +116,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
     	return CollectionUtils.isNotEmpty(results);
     }
     
-    protected LeaveCalendarDocument initiateWorkflowDocument(String principalId, Date payBeginDate, Date payEndDate, CalendarEntries calendarEntries, String documentType, String title) throws WorkflowException {
+    protected LeaveCalendarDocument initiateWorkflowDocument(String principalId, Date payBeginDate, Date payEndDate, CalendarEntry calendarEntry, String documentType, String title) throws WorkflowException {
         LeaveCalendarDocument leaveCalendarDocument = null;
         WorkflowDocument workflowDocument = null;
 
@@ -132,8 +131,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
         KRADServiceLocator.getBusinessObjectService().save(documentHeader);
         
         leaveCalendarDocument = new LeaveCalendarDocument(documentHeader);
-        leaveCalendarDocument.setCalendarEntry(calendarEntries);
-        loadLeaveCalendarDocumentData(leaveCalendarDocument, principalId, calendarEntries);
+        leaveCalendarDocument.setCalendarEntry(calendarEntry);
+        loadLeaveCalendarDocumentData(leaveCalendarDocument, principalId, calendarEntry);
         TkServiceLocator.getTkSearchableAttributeService().updateSearchableAttribute(leaveCalendarDocument, payEndDate);
         
         updateLeaveBlockDocumentIds(principalId, payBeginDate, payEndDate, workflowDocument.getDocumentId());
@@ -197,7 +196,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
      * @param principalId
      * @param calEntry
      */
-    protected void loadLeaveCalendarDocumentData(LeaveCalendarDocument ldoc, String principalId, CalendarEntries calEntry) {
+    protected void loadLeaveCalendarDocumentData(LeaveCalendarDocument ldoc, String principalId, CalendarEntry calEntry) {
         List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(ldoc.getDocumentId());
         ldoc.setLeaveBlocks(leaveBlocks);
         List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(principalId, calEntry);
@@ -214,7 +213,7 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 
 	@Override
 	public LeaveCalendarDocument getLeaveCalendarDocument(
-			String principalId, CalendarEntries calendarEntry) {
+			String principalId, CalendarEntry calendarEntry) {
 		LeaveCalendarDocument leaveCalendarDocument = new LeaveCalendarDocument(calendarEntry);
 		LeaveCalendarDocumentHeader lcdh = new LeaveCalendarDocumentHeader();
 		lcdh.setBeginDate(calendarEntry.getBeginPeriodDateTime());

@@ -18,7 +18,7 @@ package org.kuali.hr.time.timesheet.web;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.time.base.web.TkCommonCalendarForm;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +39,7 @@ public class TimesheetActionForm extends TkCommonCalendarForm {
 	private Map<Long,String> earnCodeDescriptions;
 	/** String (concat(job number, work_area, task)) -> Formatted Assignment Descriptions */
 	private Map<String,String>  assignmentDescriptions;
-	private CalendarEntries payCalendarDates;
+	private CalendarEntry payCalendarDates;
 	private String selectedAssignment;
 	private String selectedEarnCode;
 	private String transferAccrualCategory;
@@ -100,11 +100,11 @@ public class TimesheetActionForm extends TkCommonCalendarForm {
 		this.selectedEarnCode = selectedEarnCode;
 	}
 
-	public CalendarEntries getPayCalendarDates() {
+	public CalendarEntry getPayCalendarDates() {
 		return payCalendarDates;
 	}
 
-	public void setPayCalendarDates(CalendarEntries payCalendarDates) {
+	public void setPayCalendarDates(CalendarEntry payCalendarDates) {
 		this.payCalendarDates = payCalendarDates;
 	}
 

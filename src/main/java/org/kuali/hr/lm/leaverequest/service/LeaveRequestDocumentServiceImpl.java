@@ -24,7 +24,7 @@ import org.kuali.hr.lm.leaverequest.LeaveRequestActionValue;
 import org.kuali.hr.lm.leaverequest.dao.LeaveRequestDocumentDao;
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
@@ -225,7 +225,7 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
         List<Long> workAreas = new ArrayList<Long>();
         Map<String,List<Long>> deptToListOfWorkAreas = new HashMap<String,List<Long>>();
         List<String> salGroups = new ArrayList<String>();
-        CalendarEntries ce = getCalendarEntry(leaveBlock);
+        CalendarEntry ce = getCalendarEntry(leaveBlock);
         if (ce != null) {
             List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(leaveBlock.getPrincipalId(), ce);
 
@@ -273,8 +273,8 @@ public class LeaveRequestDocumentServiceImpl implements LeaveRequestDocumentServ
         return sb.toString();
     }
 
-    private CalendarEntries getCalendarEntry(LeaveBlock leaveBlock) {
-        return TkServiceLocator.getCalendarEntriesService().getCalendarEntries(leaveBlock.getCalendarId());
+    private CalendarEntry getCalendarEntry(LeaveBlock leaveBlock) {
+        return TkServiceLocator.getCalendarEntryService().getCalendarEntry(leaveBlock.getCalendarId());
     }
     
     public List<String> getApproverIdList(String documentId) {

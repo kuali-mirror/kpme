@@ -33,10 +33,9 @@ import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
 import org.kuali.hr.lm.leaveblock.dao.LeaveBlockDao;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
@@ -153,7 +152,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
     }
 
     @Override
-    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntries ce, String selectedEarnCode, 
+    public void addLeaveBlocks(DateTime beginDate, DateTime endDate, CalendarEntry ce, String selectedEarnCode,
     		BigDecimal hours, String description, Assignment selectedAssignment, String spanningWeeks, String leaveBlockType, String principalId) {
     	
     	DateTimeZone timezone = TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback();
@@ -217,7 +216,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 
                     java.sql.Date sqlDate = new java.sql.Date(ce.getEndLocalDateTime().toDateTime().toDate().getTime());
                     
-                    CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(ce.getHrCalendarId(), TKUtils.getCurrentDate());
+                    CalendarEntry calendarEntry = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(ce.getHrCalendarId(), TKUtils.getCurrentDate());
                     Date leaveBlockDate = new DateTime(leaveBlockInt.getStartMillis()).toDate();
                     
                     String requestStatus = LMConstants.REQUEST_STATUS.USAGE;

@@ -24,7 +24,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.Calendar;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.api.identity.principal.Principal;
@@ -35,20 +35,20 @@ public class InitiateDocumentAction extends TkAction {
     public ActionForward initiateDocument(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
     	InitiateDocumentForm initiateDocumentForm = (InitiateDocumentForm) form;
     	String principalId = initiateDocumentForm.getPrincipalId();
-    	String hrCalendarEntriesId = initiateDocumentForm.getHrCalendarEntriesId();
+    	String hrCalendarEntryId = initiateDocumentForm.getHrCalendarEntryId();
     	
-    	if (StringUtils.isNotBlank(principalId) && StringUtils.isNotBlank(hrCalendarEntriesId)) {
+    	if (StringUtils.isNotBlank(principalId) && StringUtils.isNotBlank(hrCalendarEntryId)) {
     		Principal principal = KimApiServiceLocator.getIdentityService().getPrincipal(principalId);
-    		CalendarEntries calendarEntries = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(hrCalendarEntriesId);
+    		CalendarEntry calendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
     		
-    		if (principal != null && calendarEntries != null) {
-    			Calendar calendar = TkServiceLocator.getCalendarService().getCalendar(calendarEntries.getHrCalendarId());
+    		if (principal != null && calendarEntry != null) {
+    			Calendar calendar = TkServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
     			
     			if (calendar != null) {
     				if (StringUtils.equals(calendar.getCalendarTypes(), TkConstants.CALENDAR_TYPE_PAY)) {
-    					TkServiceLocator.getTimesheetService().openTimesheetDocument(principalId, calendarEntries);
+    					TkServiceLocator.getTimesheetService().openTimesheetDocument(principalId, calendarEntry);
     				} else if (StringUtils.equals(calendar.getCalendarTypes(), TkConstants.CALENDAR_TYPE_LEAVE)) {
-    					TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(principalId, calendarEntries);
+    					TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(principalId, calendarEntry);
     				}
     			}
     		}

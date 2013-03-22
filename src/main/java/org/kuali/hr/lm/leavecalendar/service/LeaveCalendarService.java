@@ -19,13 +19,13 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.rice.kew.api.exception.WorkflowException;
 
 public interface LeaveCalendarService {
-    public LeaveCalendarDocument openLeaveCalendarDocument(String principalId, CalendarEntries calEntry) throws WorkflowException;
+    public LeaveCalendarDocument openLeaveCalendarDocument(String principalId, CalendarEntry calEntry) throws WorkflowException;
     public LeaveCalendarDocument getLeaveCalendarDocument(String documentId);
-    public LeaveCalendarDocument getLeaveCalendarDocument(String principalId, CalendarEntries calendarEntries);
+    public LeaveCalendarDocument getLeaveCalendarDocument(String principalId, CalendarEntry calendarEntry);
 
 
     boolean isReadyToApprove(LeaveCalendarDocument leaveCalendarDocument);
@@ -48,7 +48,7 @@ public interface LeaveCalendarService {
      * @param calEntry
      * @return boolean  
      */
-    public boolean shouldCreateLeaveDocument(String principalId, CalendarEntries calEntry);
+    public boolean shouldCreateLeaveDocument(String principalId, CalendarEntry calEntry);
 
     /**
      * Determine if Leave Calendar is planning or reporting calendar

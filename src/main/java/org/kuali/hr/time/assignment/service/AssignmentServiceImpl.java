@@ -24,7 +24,7 @@ import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
@@ -85,7 +85,7 @@ public class AssignmentServiceImpl implements AssignmentService {
         return assignmentDao.searchAssignments(fromEffdt, toEffdt, principalId, jobNumber, dept, workArea, active, showHistory);
     }
 
-    public List<Assignment> getAssignmentsByPayEntry(String principalId, CalendarEntries payCalendarEntry) {
+    public List<Assignment> getAssignmentsByPayEntry(String principalId, CalendarEntry payCalendarEntry) {
     	DateTime entryEndDate = payCalendarEntry.getEndLocalDateTime().toDateTime();
         if (entryEndDate.getHourOfDay() == 0) {
             entryEndDate = entryEndDate.minusDays(1);
@@ -122,7 +122,7 @@ public class AssignmentServiceImpl implements AssignmentService {
 
     }
     
-    public List<Assignment> getAssignmentsByCalEntryForTimeCalendar(String principalId, CalendarEntries payCalendarEntry){
+    public List<Assignment> getAssignmentsByCalEntryForTimeCalendar(String principalId, CalendarEntry payCalendarEntry){
         if (StringUtils.isEmpty(principalId)
                 || payCalendarEntry == null) {
             return Collections.emptyList();
@@ -132,7 +132,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     	return results;
     }
     
-    public List<Assignment> getAssignmentsByCalEntryForLeaveCalendar(String principalId, CalendarEntries payCalendarEntry){
+    public List<Assignment> getAssignmentsByCalEntryForLeaveCalendar(String principalId, CalendarEntry payCalendarEntry){
         if (StringUtils.isEmpty(principalId)
                 || payCalendarEntry == null) {
             return Collections.emptyList();

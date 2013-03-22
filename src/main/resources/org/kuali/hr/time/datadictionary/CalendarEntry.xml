@@ -19,46 +19,46 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p" xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 
-  <bean id="CalendarEntries" parent="CalendarEntries-parentBean"/>
-  <bean id="CalendarEntries-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.hr.time.calendar.CalendarEntries"/>
-    <property name="titleAttribute" value="hrCalendarEntriesId"/>
-    <property name="objectLabel" value="CalendarEntries"/>
+  <bean id="CalendarEntry" parent="CalendarEntry-parentBean"/>
+  <bean id="CalendarEntry-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.hr.time.calendar.CalendarEntry"/>
+    <property name="titleAttribute" value="hrCalendarEntryId"/>
+    <property name="objectLabel" value="CalendarEntry"/>
     <property name="lookupDefinition">
-      <ref bean="CalendarEntries-lookupDefinition"/>
+      <ref bean="CalendarEntry-lookupDefinition"/>
     </property>
      <property name="inquiryDefinition">
-		<ref bean="CalendarEntries-inquiryDefinition" />
+		<ref bean="CalendarEntry-inquiryDefinition" />
 	</property>
     <property name="attributes">
       <list>
-        <ref bean="CalendarEntries-hrCalendarEntriesId"/>
-        <ref bean="CalendarEntries-hrCalendarId"/>
-        <ref bean="CalendarEntries-calendarName"/>
+        <ref bean="CalendarEntry-hrCalendarEntryId"/>
+        <ref bean="CalendarEntry-hrCalendarId"/>
+        <ref bean="CalendarEntry-calendarName"/>
         
-        <ref bean="CalendarEntries-beginPeriodDateTime"/>
-		<ref bean="CalendarEntries-beginPeriodDate"/>
-		<ref bean="CalendarEntries-beginPeriodTime"/>
+        <ref bean="CalendarEntry-beginPeriodDateTime"/>
+		<ref bean="CalendarEntry-beginPeriodDate"/>
+		<ref bean="CalendarEntry-beginPeriodTime"/>
 		
-        <ref bean="CalendarEntries-endPeriodDateTime"/>
-		<ref bean="CalendarEntries-endPeriodDate"/>
-		<ref bean="CalendarEntries-endPeriodTime"/>        
+        <ref bean="CalendarEntry-endPeriodDateTime"/>
+		<ref bean="CalendarEntry-endPeriodDate"/>
+		<ref bean="CalendarEntry-endPeriodTime"/>
         
-        <ref bean="CalendarEntries-batchInitiateDateTime"/>
-        <ref bean="CalendarEntries-batchInitiateDate"/>
-        <ref bean="CalendarEntries-batchInitiateTime"/>
+        <ref bean="CalendarEntry-batchInitiateDateTime"/>
+        <ref bean="CalendarEntry-batchInitiateDate"/>
+        <ref bean="CalendarEntry-batchInitiateTime"/>
         
-        <ref bean="CalendarEntries-batchEndPayPeriodDateTime"/>
-        <ref bean="CalendarEntries-batchEndPayPeriodDate"/>
-        <ref bean="CalendarEntries-batchEndPayPeriodTime"/>
+        <ref bean="CalendarEntry-batchEndPayPeriodDateTime"/>
+        <ref bean="CalendarEntry-batchEndPayPeriodDate"/>
+        <ref bean="CalendarEntry-batchEndPayPeriodTime"/>
         
-        <ref bean="CalendarEntries-batchEmployeeApprovalDateTime"/>
-        <ref bean="CalendarEntries-batchEmployeeApprovalDate"/>
-        <ref bean="CalendarEntries-batchEmployeeApprovalTime"/>
+        <ref bean="CalendarEntry-batchEmployeeApprovalDateTime"/>
+        <ref bean="CalendarEntry-batchEmployeeApprovalDate"/>
+        <ref bean="CalendarEntry-batchEmployeeApprovalTime"/>
         
-        <ref bean="CalendarEntries-batchSupervisorApprovalDateTime"/>
-        <ref bean="CalendarEntries-batchSupervisorApprovalDate"/>
-        <ref bean="CalendarEntries-batchSupervisorApprovalTime"/>
+        <ref bean="CalendarEntry-batchSupervisorApprovalDateTime"/>
+        <ref bean="CalendarEntry-batchSupervisorApprovalDate"/>
+        <ref bean="CalendarEntry-batchSupervisorApprovalTime"/>
       </list>
     </property>   
     
@@ -79,8 +79,8 @@
 
   <!-- Attribute Definitions -->
   
-  <bean id="CalendarEntries-hrCalendarEntriesId" parent="CalendarEntries-hrCalendarEntriesId-parentBean"/>
-  <bean id="CalendarEntries-hrCalendarEntriesId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-hrCalendarEntryId" parent="CalendarEntry-hrCalendarEntryId-parentBean"/>
+  <bean id="CalendarEntry-hrCalendarEntryId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Calendar Entries Id"/>
     <property name="maxLength" value="60"/>
     <property name="validationPattern">
@@ -89,12 +89,12 @@
     <property name="control">
       <bean parent="TextControlDefinition" p:size="60"/>
     </property>
-    <property name="name" value="hrCalendarEntriesId"/>
+    <property name="name" value="hrCalendarEntryId"/>
     <property name="label" value="Calendar Entries Id"/>
   </bean>
   
-  <bean id="CalendarEntries-hrCalendarId" parent="CalendarEntries-hrCalendarId-parentBean"/>
-  <bean id="CalendarEntries-hrCalendarId-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-hrCalendarId" parent="CalendarEntry-hrCalendarId-parentBean"/>
+  <bean id="CalendarEntry-hrCalendarId-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Calendar Id"/>
     <property name="maxLength" value="60"/>
     <property name="validationPattern">
@@ -107,8 +107,8 @@
     <property name="label" value="Calendar Id"/>
   </bean>
   
-  <bean id="CalendarEntries-calendarName" parent="CalendarEntries-calendarName-parentBean" />
-  <bean id="CalendarEntries-calendarName-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-calendarName" parent="CalendarEntry-calendarName-parentBean" />
+  <bean id="CalendarEntry-calendarName-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Calendar Name"/>
 	<property name="forceUppercase" value="true" />
 	<property name="maxLength" value="30" />
@@ -121,8 +121,8 @@
   </bean>
   
     
-  <bean id="CalendarEntries-beginPeriodDateTime" parent="CalendarEntries-beginPeriodDateTime-parentBean"/>
-  <bean id="CalendarEntries-beginPeriodDateTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-beginPeriodDateTime" parent="CalendarEntry-beginPeriodDateTime-parentBean"/>
+  <bean id="CalendarEntry-beginPeriodDateTime-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Begin Pay Period Date Time"/>
     <property name="maxLength" value="30"/>
      <property name="validationPattern">
@@ -137,8 +137,8 @@
   </bean>
   
     
-  <bean id="CalendarEntries-beginPeriodDate" parent="CalendarEntries-beginPeriodDate-parentBean"/>
-  <bean id="CalendarEntries-beginPeriodDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-beginPeriodDate" parent="CalendarEntry-beginPeriodDate-parentBean"/>
+  <bean id="CalendarEntry-beginPeriodDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Begin Pay Period Date"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
@@ -152,8 +152,8 @@
     <property name="label" value="Begin Pay Period Date"/>
   </bean>  
 
-  <bean id="CalendarEntries-beginPeriodTime" parent="CalendarEntries-beginPeriodTime-parentBean"/>
-  <bean id="CalendarEntries-beginPeriodTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-beginPeriodTime" parent="CalendarEntry-beginPeriodTime-parentBean"/>
+  <bean id="CalendarEntry-beginPeriodTime-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Begin Pay Period Time"/>
     <property name="maxLength" value="10"/>
     <property name="control">
@@ -164,8 +164,8 @@
     <property name="label" value="Begin Pay Period Time (00:00 AM)"/>
   </bean>
 
-  <bean id="CalendarEntries-endPeriodDateTime" parent="CalendarEntries-endPeriodDateTime-parentBean"/>
-  <bean id="CalendarEntries-endPeriodDateTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-endPeriodDateTime" parent="CalendarEntry-endPeriodDateTime-parentBean"/>
+  <bean id="CalendarEntry-endPeriodDateTime-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="End Pay Period Date Time"/>
     <property name="maxLength" value="30"/>
     <property name="validationPattern">
@@ -179,8 +179,8 @@
     <property name="label" value="End Pay Period Date Time"/>
   </bean>
   
-  <bean id="CalendarEntries-endPeriodDate" parent="CalendarEntries-endPeriodDate-parentBean"/>
-  <bean id="CalendarEntries-endPeriodDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-endPeriodDate" parent="CalendarEntry-endPeriodDate-parentBean"/>
+  <bean id="CalendarEntry-endPeriodDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="End Pay Period Date"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
@@ -194,8 +194,8 @@
     <property name="label" value="End Pay Period Date"/>
   </bean>    
   
-  <bean id="CalendarEntries-endPeriodTime" parent="CalendarEntries-endPeriodTime-parentBean"/>
-  <bean id="CalendarEntries-endPeriodTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-endPeriodTime" parent="CalendarEntry-endPeriodTime-parentBean"/>
+  <bean id="CalendarEntry-endPeriodTime-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="End Pay Period Time"/>
     <property name="maxLength" value="10"/>
     <property name="control">
@@ -206,8 +206,8 @@
     <property name="label" value="End Pay Period Time (00:00 AM)"/>
   </bean>
   
-  <bean id="CalendarEntries-batchInitiateDateTime" parent="CalendarEntries-batchInitiateDateTime-parentBean"/>
-  <bean id="CalendarEntries-batchInitiateDateTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchInitiateDateTime" parent="CalendarEntry-batchInitiateDateTime-parentBean"/>
+  <bean id="CalendarEntry-batchInitiateDateTime-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Batch Initiate Date Time"/>
     <property name="maxLength" value="30"/>
     <property name="validationPattern">
@@ -221,8 +221,8 @@
     <property name="label" value="Batch Initiate Date Time"/>
   </bean>
     
-  <bean id="CalendarEntries-batchInitiateDate" parent="CalendarEntries-batchInitiateDate-parentBean"/>
-  <bean id="CalendarEntries-batchInitiateDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchInitiateDate" parent="CalendarEntry-batchInitiateDate-parentBean"/>
+  <bean id="CalendarEntry-batchInitiateDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Batch Initiate Date"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
@@ -236,8 +236,8 @@
     <property name="label" value="Batch Initiate Date"/>
   </bean>
 
-  <bean id="CalendarEntries-batchInitiateTime" parent="CalendarEntries-batchInitiateTime-parentBean"/>
-  <bean id="CalendarEntries-batchInitiateTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchInitiateTime" parent="CalendarEntry-batchInitiateTime-parentBean"/>
+  <bean id="CalendarEntry-batchInitiateTime-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Batch Initiate Time"/>
     <property name="maxLength" value="10"/>
     <property name="control">
@@ -248,8 +248,8 @@
     <property name="label" value="Batch Initiate Time (00:00 AM)"/>
   </bean>
 
-  <bean id="CalendarEntries-batchEndPayPeriodDateTime" parent="CalendarEntries-batchEndPayPeriodDateTime-parentBean"/>
-  <bean id="CalendarEntries-batchEndPayPeriodDateTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchEndPayPeriodDateTime" parent="CalendarEntry-batchEndPayPeriodDateTime-parentBean"/>
+  <bean id="CalendarEntry-batchEndPayPeriodDateTime-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Batch End Pay Period Date Time"/>
     <property name="maxLength" value="30"/>
     <property name="validationPattern">
@@ -263,8 +263,8 @@
     <property name="label" value="Batch End Pay Period Date Time"/>
   </bean>
 
-  <bean id="CalendarEntries-batchEndPayPeriodDate" parent="CalendarEntries-batchEndPayPeriodDate-parentBean"/>
-  <bean id="CalendarEntries-batchEndPayPeriodDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchEndPayPeriodDate" parent="CalendarEntry-batchEndPayPeriodDate-parentBean"/>
+  <bean id="CalendarEntry-batchEndPayPeriodDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Batch End Pay Period Date"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
@@ -278,8 +278,8 @@
     <property name="label" value="Batch End Pay Period Date"/>
   </bean>
 
-  <bean id="CalendarEntries-batchEndPayPeriodTime" parent="CalendarEntries-batchEndPayPeriodTime-parentBean"/>
-  <bean id="CalendarEntries-batchEndPayPeriodTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchEndPayPeriodTime" parent="CalendarEntry-batchEndPayPeriodTime-parentBean"/>
+  <bean id="CalendarEntry-batchEndPayPeriodTime-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Batch End Pay Period Time"/>
     <property name="maxLength" value="10"/>
     <property name="control">
@@ -290,8 +290,8 @@
     <property name="label" value="Batch End Pay Period Time (00:00 AM)"/>
   </bean>
 
-  <bean id="CalendarEntries-batchEmployeeApprovalDateTime" parent="CalendarEntries-batchEmployeeApprovalDateTime-parentBean"/>
-  <bean id="CalendarEntries-batchEmployeeApprovalDateTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchEmployeeApprovalDateTime" parent="CalendarEntry-batchEmployeeApprovalDateTime-parentBean"/>
+  <bean id="CalendarEntry-batchEmployeeApprovalDateTime-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Batch Employee Approval Date Time"/>
     <property name="maxLength" value="30"/>
     <property name="validationPattern">
@@ -305,8 +305,8 @@
     <property name="label" value="Batch Employee Approval Date Time"/>
   </bean>
 
-  <bean id="CalendarEntries-batchEmployeeApprovalDate" parent="CalendarEntries-batchEmployeeApprovalDate-parentBean"/>
-  <bean id="CalendarEntries-batchEmployeeApprovalDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchEmployeeApprovalDate" parent="CalendarEntry-batchEmployeeApprovalDate-parentBean"/>
+  <bean id="CalendarEntry-batchEmployeeApprovalDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Batch Employee Approval Date"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
@@ -320,8 +320,8 @@
     <property name="label" value="Batch Employee Approval Date"/>
   </bean>
 
-  <bean id="CalendarEntries-batchEmployeeApprovalTime" parent="CalendarEntries-batchEmployeeApprovalTime-parentBean"/>
-  <bean id="CalendarEntries-batchEmployeeApprovalTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchEmployeeApprovalTime" parent="CalendarEntry-batchEmployeeApprovalTime-parentBean"/>
+  <bean id="CalendarEntry-batchEmployeeApprovalTime-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Batch Employee Approval Time"/>
     <property name="maxLength" value="10"/>
     <property name="control">
@@ -332,8 +332,8 @@
     <property name="label" value="Batch Employee Approval Time (00:00 AM)"/>
   </bean>
 
-  <bean id="CalendarEntries-batchSupervisorApprovalDateTime" parent="CalendarEntries-batchSupervisorApprovalDateTime-parentBean"/>
-  <bean id="CalendarEntries-batchSupervisorApprovalDateTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchSupervisorApprovalDateTime" parent="CalendarEntry-batchSupervisorApprovalDateTime-parentBean"/>
+  <bean id="CalendarEntry-batchSupervisorApprovalDateTime-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Batch Supervisor Approval Date Time"/>
     <property name="maxLength" value="30"/>
     <property name="validationPattern">
@@ -347,8 +347,8 @@
     <property name="label" value="Batch Supervisor Approval Date Time"/>
   </bean>
 
-  <bean id="CalendarEntries-batchSupervisorApprovalDate" parent="CalendarEntries-batchSupervisorApprovalDate-parentBean"/>
-  <bean id="CalendarEntries-batchSupervisorApprovalDate-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchSupervisorApprovalDate" parent="CalendarEntry-batchSupervisorApprovalDate-parentBean"/>
+  <bean id="CalendarEntry-batchSupervisorApprovalDate-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Batch Supervisor Approval Date"/>
     <property name="maxLength" value="10"/>
     <property name="validationPattern">
@@ -362,8 +362,8 @@
     <property name="label" value="Batch Supervisor Approval Date"/>
   </bean>
 
-  <bean id="CalendarEntries-batchSupervisorApprovalTime" parent="CalendarEntries-batchSupervisorApprovalTime-parentBean"/>
-  <bean id="CalendarEntries-batchSupervisorApprovalTime-parentBean" abstract="true" parent="AttributeDefinition">
+  <bean id="CalendarEntry-batchSupervisorApprovalTime" parent="CalendarEntry-batchSupervisorApprovalTime-parentBean"/>
+  <bean id="CalendarEntry-batchSupervisorApprovalTime-parentBean" abstract="true" parent="AttributeDefinition">
     <property name="shortLabel" value="Batch Supervisor Approval Time"/>
     <property name="maxLength" value="10"/>
     <property name="control">
@@ -376,9 +376,9 @@
   
 
 
-  <bean id="CalendarEntries-lookupDefinition" parent="CalendarEntries-lookupDefinition-parentBean"/>
-  <bean id="CalendarEntries-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-    <property name="lookupableID" value="calendarEntriesLookupable"></property>
+  <bean id="CalendarEntry-lookupDefinition" parent="CalendarEntry-lookupDefinition-parentBean"/>
+  <bean id="CalendarEntry-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="lookupableID" value="calendarEntryLookupable"></property>
     <property name="lookupFields">
       <list>
         <bean parent="FieldDefinition" p:attributeName="calendarName"/>
@@ -399,8 +399,8 @@
   
    <!-- Inquiry Definition -->
   
-	<bean id="CalendarEntries-inquiryDefinition" parent="CalendarEntries-inquiryDefinition-parentBean" />
-	<bean id="CalendarEntries-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+	<bean id="CalendarEntry-inquiryDefinition" parent="CalendarEntry-inquiryDefinition-parentBean" />
+	<bean id="CalendarEntry-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
 		<property name="inquirySections">
 			<list>
 				<bean parent="InquirySectionDefinition">

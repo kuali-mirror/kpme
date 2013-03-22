@@ -26,11 +26,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
-import org.joda.time.DateTime;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
-import org.kuali.hr.time.calendar.CalendarEntries;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 

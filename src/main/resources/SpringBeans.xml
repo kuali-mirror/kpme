@@ -228,7 +228,7 @@
 				<value>assignmentLookupable</value> 
 				<value>clockLogLookupable</value>
 				<value>locationLookupable</value> 
-				<value>calendarEntriesLookupable</value> 
+				<value>calendarEntryLookupable</value>
 				<value>payGradeLookupable</value> 
 				<value>principalHRAttributesLookupable</value> 				
 				<value>tkRoleLookupable</value> 
@@ -284,7 +284,7 @@
 
     <bean id="calendarDao" class="org.kuali.hr.time.calendar.dao.CalendarDaoSpringOjbImpl" parent="platformAwareDao" />
 
-    <bean id="calendarEntriesDao" class="org.kuali.hr.time.calendar.dao.CalendarEntriesDaoSpringOjbImpl" parent="platformAwareDao" />
+    <bean id="calendarEntryDao" class="org.kuali.hr.time.calendar.dao.CalendarEntryDaoSpringOjbImpl" parent="platformAwareDao" />
 
     <bean id="timesheetDocumentHeaderDao" class="org.kuali.hr.time.workflow.dao.TimesheetDocumentHeaderDaoSpringOjbImpl" parent="platformAwareDao" />
 
@@ -477,8 +477,8 @@
         <property name="calendarDao" ref="calendarDao"/>
     </bean>
 
-    <bean id="calendarEntriesService" class="org.kuali.hr.time.calendar.service.CalendarEntriesServiceImpl">
-        <property name="calendarEntriesDao" ref="calendarEntriesDao"/>
+    <bean id="calendarEntryService" class="org.kuali.hr.time.calendar.service.CalendarEntryServiceImpl">
+        <property name="calendarEntryDao" ref="calendarEntryDao"/>
     </bean>
 
     <bean id="timesheetDocumentHeaderService"
@@ -810,9 +810,9 @@
             <bean class="org.kuali.hr.location.service.LocationLookupableHelper"/>
         </property>
     </bean>
-    <bean id="calendarEntriesLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
+    <bean id="calendarEntryLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.time.calendar.service.CalendarEntriesLookupableHelper"/>
+            <bean class="org.kuali.hr.time.calendar.service.CalendarEntryLookupableHelper"/>
         </property>
     </bean>
     <bean id="payGradeLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
@@ -1040,7 +1040,7 @@
     
     <bean id="leaveCalendarDelinquencyJob" class="org.kuali.hr.time.batch.LeaveCalendarDelinquencyJob" scope="singleton">
         <property name="calendarEntriesPollingWindow" value="${kpme.batch.calendarEntriesPollingWindow.days}" />
-        <property name="calendarEntriesService" ref="calendarEntriesService" />
+        <property name="calendarEntryService" ref="calendarEntryService" />
         <property name="kpmeNotificationService" ref="kpmeNotificationService" />
         <property name="leaveCalendarDocumentHeaderService" ref="leaveCalendarDocumentHeaderService" />
         <property name="principalHRAttributesService" ref="principalHRAttributesService" />

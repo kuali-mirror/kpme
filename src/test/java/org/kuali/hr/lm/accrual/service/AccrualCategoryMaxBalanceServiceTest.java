@@ -37,7 +37,7 @@ import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
@@ -53,9 +53,9 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 	private final String USER_ID = "testUser1";
 	
 	private LeaveCalendarDocument janLCD;
-	private CalendarEntries janEntry;
+	private CalendarEntry janEntry;
 	private LeaveCalendarDocument decLCD;
-	private CalendarEntries decEntry;
+	private CalendarEntry decEntry;
 	
 	private Date janStart;
 	private Date janEnd;
@@ -72,13 +72,13 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 	private final String TS_USER_ID = "testUser2";	
 	
 	private TimesheetDocument endJanTSD;
-	private CalendarEntries endJanTSDEntry;
+	private CalendarEntry endJanTSDEntry;
 	private TimesheetDocument midJanTSD;
-	private CalendarEntries midJanTSDEntry;
+	private CalendarEntry midJanTSDEntry;
 	private TimesheetDocument endDecTSD;
-	private CalendarEntries endDecTSDEntry;
+	private CalendarEntry endDecTSDEntry;
 	private TimesheetDocument midDecTSD;
-	private CalendarEntries midDecTSDEntry;
+	private CalendarEntry midDecTSDEntry;
 	
 	private Date midJanStart;
 	private Date midJanEnd;
@@ -401,7 +401,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 	
 	
 	private Map<String, Set<LeaveBlock>> eligibilityTestHelper(
-			CalendarEntries entry, String principalId) throws Exception {
+			CalendarEntry entry, String principalId) throws Exception {
 		return TkServiceLocator.getAccrualCategoryMaxBalanceService().getMaxBalanceViolations(entry, principalId);
 	}
 }

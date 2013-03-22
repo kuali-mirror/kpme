@@ -32,7 +32,7 @@ the id is used in approval.js--%>
                             <span class="ui-button-text">Previous</span>
                         </button>
                         <%--<input type="button" class="prev" value="Previous" name="Previous"--%>
-                               <%--onclick="this.form.hrPyCalendarEntriesId.value='${Form.prevPayCalendarId}'; this.form.methodToCall.value='loadApprovalTab'; this.form.submit();"/>--%>
+                               <%--onclick="this.form.hrPyCalendarEntryId.value='${Form.prevPayCalendarId}'; this.form.methodToCall.value='loadApprovalTab'; this.form.submit();"/>--%>
                     </c:if>
                     <span id="payBeginDate" style="font-size: 1.5em; vertical-align: middle;"><fmt:formatDate
                             value="${Form.payBeginDate}" pattern="MM/dd/yyyy"/></span> -
@@ -44,7 +44,7 @@ the id is used in approval.js--%>
                         </button>
 
                         <%--<input type="button" class="next" value="Next" name="Next"--%>
-                               <%--onclick="this.form.hrPyCalendarEntriesId.value='${Form.nextPayCalendarId}'; this.form.methodToCall.value='loadApprovalTab'; this.form.submit();"/>--%>
+                               <%--onclick="this.form.hrPyCalendarEntryId.value='${Form.nextPayCalendarId}'; this.form.methodToCall.value='loadApprovalTab'; this.form.submit();"/>--%>
                     </c:if>
                 </div>
             </td>

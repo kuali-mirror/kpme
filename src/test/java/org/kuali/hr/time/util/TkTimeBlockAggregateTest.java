@@ -25,7 +25,7 @@ import org.joda.time.DateTimeZone;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.calendar.Calendar;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.flsa.FlsaWeek;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.TkTestUtils;
@@ -40,7 +40,7 @@ public class TkTimeBlockAggregateTest extends KPMETestCase {
 		cal.setFlsaBeginDay("mo");
 		cal.setFlsaBeginTime(new Time((new DateTime(2012, 3, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()).getMillis())));
 
-		CalendarEntries pcd = new CalendarEntries();
+		CalendarEntry pcd = new CalendarEntry();
 		pcd.setBeginPeriodDateTime((new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()).toDate()));
 		pcd.setEndPeriodDateTime((new DateTime(2010, 1, 6, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()).toDate()));
 

@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -36,7 +36,7 @@ public class ApprovalForm extends TkCommonCalendarForm {
 
     private static final long serialVersionUID = -173408280988754540L;
 
-    private String hrPyCalendarEntriesId;
+    private String hrPyCalendarEntryId;
     private String hrPyCalendarId;
     private String name;
     private List<String> payCalendarGroups = new LinkedList<String>();
@@ -50,7 +50,7 @@ public class ApprovalForm extends TkCommonCalendarForm {
     private String roleName;
 
 	
-    private CalendarEntries payCalendarEntries;
+    private CalendarEntry payCalendarEntry;
     private Long workArea = null;
     private Set<Long> deptWorkareas = new HashSet<Long>();
     private String documentId;
@@ -100,12 +100,12 @@ public class ApprovalForm extends TkCommonCalendarForm {
         this.calNav = calNav;
     }
 
-    public String getHrPyCalendarEntriesId() {
-        return hrPyCalendarEntriesId;
+    public String getHrPyCalendarEntryId() {
+        return hrPyCalendarEntryId;
     }
 
-    public void setHrPyCalendarEntriesId(String hrPyCalendarEntriesId) {
-        this.hrPyCalendarEntriesId = hrPyCalendarEntriesId;
+    public void setHrPyCalendarEntryId(String hrPyCalendarEntryId) {
+        this.hrPyCalendarEntryId = hrPyCalendarEntryId;
     }
 
     public String getHrPyCalendarId() {
@@ -145,12 +145,12 @@ public class ApprovalForm extends TkCommonCalendarForm {
         return payEndDate;
     }
 
-    public CalendarEntries getPayCalendarEntries() {
-		return payCalendarEntries;
+    public CalendarEntry getPayCalendarEntry() {
+		return payCalendarEntry;
 	}
 
-	public void setPayCalendarEntries(CalendarEntries payCalendarEntries) {
-		this.payCalendarEntries = payCalendarEntries;
+	public void setPayCalendarEntry(CalendarEntry payCalendarEntry) {
+		this.payCalendarEntry = payCalendarEntry;
 	}
 
     public String getDocumentId() {

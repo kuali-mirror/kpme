@@ -29,7 +29,7 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDateTime;
 import org.joda.time.LocalTime;
 import org.kuali.hr.time.calendar.Calendar;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -38,7 +38,7 @@ import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 public class TkTimeBlockAggregate {
 	private List<List<TimeBlock>> dayTimeBlockList = new ArrayList<List<TimeBlock>>();
-	private CalendarEntries payCalendarEntry;
+	private CalendarEntry payCalendarEntry;
 	private Calendar payCalendar;
 
     /**
@@ -47,7 +47,7 @@ public class TkTimeBlockAggregate {
      * @param timeBlocks
      * @param payCalendarEntry
      */
-	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntries payCalendarEntry){
+	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntry payCalendarEntry){
 		this(timeBlocks, payCalendarEntry, TkServiceLocator.getCalendarService().getCalendar(payCalendarEntry.getHrCalendarId()));
 	}
 
@@ -58,7 +58,7 @@ public class TkTimeBlockAggregate {
      * @param payCalendarEntry
      * @param payCalendar
      */
-	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntries payCalendarEntry, Calendar payCalendar) {
+	public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntry payCalendarEntry, Calendar payCalendar) {
         this(timeBlocks, payCalendarEntry, payCalendar, false);
     }
 
@@ -70,7 +70,7 @@ public class TkTimeBlockAggregate {
      * @param payCalendar
      * @param useUserTimeZone
      */
-    public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntries payCalendarEntry, Calendar payCalendar, boolean useUserTimeZone) {
+    public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntry payCalendarEntry, Calendar payCalendar, boolean useUserTimeZone) {
 		this.payCalendarEntry = payCalendarEntry;
 		this.payCalendar = payCalendar;
 
@@ -106,7 +106,7 @@ public class TkTimeBlockAggregate {
 		}
 	}
 
-    public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntries payCalendarEntry, Calendar payCalendar, boolean useUserTimeZone, List<Interval> dayIntervals) {
+    public TkTimeBlockAggregate(List<TimeBlock> timeBlocks, CalendarEntry payCalendarEntry, Calendar payCalendar, boolean useUserTimeZone, List<Interval> dayIntervals) {
     	this.payCalendarEntry = payCalendarEntry;
 		this.payCalendar = payCalendar;
 		
@@ -247,7 +247,7 @@ public class TkTimeBlockAggregate {
 			FlsaWeek currentWeek = weekIterator.next();
 			
 			if (index == 0 && !currentWeek.isFirstWeekFull()) {
-				CalendarEntries previousCalendarEntry = TkServiceLocator.getCalendarEntriesService().getPreviousCalendarEntriesByCalendarId(payCalendar.getHrCalendarId(), payCalendarEntry);
+				CalendarEntry previousCalendarEntry = TkServiceLocator.getCalendarEntryService().getPreviousCalendarEntryByCalendarId(payCalendar.getHrCalendarId(), payCalendarEntry);
 				if (previousCalendarEntry != null) {
 					TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, previousCalendarEntry.getBeginPeriodDateTime(), previousCalendarEntry.getEndPeriodDateTime());
 					if (timesheetDocumentHeader != null) { 
@@ -266,7 +266,7 @@ public class TkTimeBlockAggregate {
 			flsaWeek.add(currentWeek);
 			
 			if (index == currentWeeks.size() - 1 && !currentWeek.isLastWeekFull()) {
-				CalendarEntries nextCalendarEntry = TkServiceLocator.getCalendarEntriesService().getNextCalendarEntriesByCalendarId(payCalendar.getHrCalendarId(), payCalendarEntry);
+				CalendarEntry nextCalendarEntry = TkServiceLocator.getCalendarEntryService().getNextCalendarEntryByCalendarId(payCalendar.getHrCalendarId(), payCalendarEntry);
 				if (nextCalendarEntry != null) {
 					TimesheetDocumentHeader timesheetDocumentHeader = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeader(principalId, nextCalendarEntry.getBeginPeriodDateTime(), nextCalendarEntry.getEndPeriodDateTime());
 					if (timesheetDocumentHeader != null) { 
@@ -307,11 +307,11 @@ public class TkTimeBlockAggregate {
 		return dayTimeBlockList;
 	}
 
-	public CalendarEntries getPayCalendarEntry() {
+	public CalendarEntry getPayCalendarEntry() {
 		return payCalendarEntry;
 	}
 
-	public void setPayCalendarEntry(CalendarEntries payCalendarEntry) {
+	public void setPayCalendarEntry(CalendarEntry payCalendarEntry) {
 		this.payCalendarEntry = payCalendarEntry;
 	}
 

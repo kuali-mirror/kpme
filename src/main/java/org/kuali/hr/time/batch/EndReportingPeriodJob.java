@@ -18,7 +18,7 @@ package org.kuali.hr.time.batch;
 import java.text.DateFormat;
 
 import org.joda.time.DateTime;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
@@ -30,10 +30,10 @@ public class EndReportingPeriodJob implements Job {
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
 		
-		String hrCalendarEntriesId = jobDataMap.getString("hrCalendarEntriesId");
+		String hrCalendarEntryId = jobDataMap.getString("hrCalendarEntryId");
 		String principalId = jobDataMap.getString("principalId");
 		
-		CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(hrCalendarEntriesId);
+		CalendarEntry calendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
 		DateTime endPeriodDateTime = new DateTime(calendarEntry.getEndPeriodDateTime());
 		
 		String subject = "End of Reporting Period Reminder";

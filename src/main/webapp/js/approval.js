@@ -57,7 +57,7 @@ $(document).ready(function () {
 //        var searchValue = $("#searchValue").val();
 //        var beginDate = $("#beginDate").html();
 //        var endDate = $("#endDate").html();
-//        var hrPyCalendarEntriesId = $("#pceid").val();
+//        var hrPyCalendarEntryId = $("#pceid").val();
 //        var selectedPayCalendarGroup = $("#selectedPayCalendarGroup").val();
 //
 //        $.ajax({
@@ -113,7 +113,7 @@ $(document).ready(function () {
             });
             //var payBeginDate = $('#payBeginDateForSearch').val();
             //var payEndDate = $('#payEndDateForSearch').val();
-            var hrPyCalendarEntriesId = $("#pceid").val();
+            var hrPyCalendarEntryId = $("#pceid").val();
             var selectedPayCalendarGroup = $("#selectedPayCalendarGroup").val();
 
             var urlString = 'TimeApprovalWS.do?methodToCall=searchApprovalRows&searchField=' + $('#searchField').val() 
@@ -161,7 +161,7 @@ $(document).ready(function () {
             $('#loading-value').ajaxStop(function () {
                 $(this).hide();
             });
-            var hrPyCalendarEntriesId = $("#pceid").val();
+            var hrPyCalendarEntryId = $("#pceid").val();
             var selectedPayCalendarGroup = $("#selectedPayCalendarGroup").val();
             
             var urlString = 'LeaveApprovalWS.do?methodToCall=searchApprovalRows&searchField=' + $('#searchField').val() 

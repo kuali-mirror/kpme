@@ -29,13 +29,13 @@ import java.util.List;
 import java.util.Map;
 
 public class TkCalendar extends CalendarParent {
-    private CalendarEntries payCalEntry;
+    private CalendarEntry payCalEntry;
     private DateTime beginDateTime;
     private DateTime endDateTime;
 
     public TkCalendar() {}
 
-    public TkCalendar(CalendarEntries calendarEntry) {
+    public TkCalendar(CalendarEntry calendarEntry) {
         super(calendarEntry);
     }
 
@@ -188,11 +188,11 @@ public class TkCalendar extends CalendarParent {
         }
     }
 
-    public CalendarEntries getPayCalEntry() {
+    public CalendarEntry getPayCalEntry() {
         return payCalEntry;
     }
 
-    public void setPayCalEntry(CalendarEntries payCalEntry) {
+    public void setPayCalEntry(CalendarEntry payCalEntry) {
         this.payCalEntry = payCalEntry;
         // Relative time, with time zone added.
         this.beginDateTime = payCalEntry.getBeginLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());

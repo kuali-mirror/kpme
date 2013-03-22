@@ -18,7 +18,7 @@ package org.kuali.hr.time.timesheet.service;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -31,7 +31,7 @@ public interface TimesheetService {
 	 * @param principalId
 	 * @return
 	 */
-	public TimesheetDocument openTimesheetDocument(String principalId, CalendarEntries payCalendarDates) throws WorkflowException;
+	public TimesheetDocument openTimesheetDocument(String principalId, CalendarEntry payCalendarDates) throws WorkflowException;
 	/**
 	 * Route the given timesheet
 	 * @param principalId

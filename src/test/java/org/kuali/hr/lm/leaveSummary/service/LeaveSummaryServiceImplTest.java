@@ -24,7 +24,7 @@ import org.junit.Test;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 
 public class LeaveSummaryServiceImplTest extends KPMETestCase {
@@ -32,7 +32,7 @@ public class LeaveSummaryServiceImplTest extends KPMETestCase {
 	@Test
 	public void testGetLeaveSummary() throws Exception {
 		// selected calendar entry is 03/15/2012 - 04/01/2012
-		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("10001");
+		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("10001");
 		
 		LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary("testUser", ce);
 		Assert.assertTrue("There ytd dates String should be 'March 1 - March 14 2012', not " + ls.getYtdDatesString(), ls.getYtdDatesString().equals("March 1 - March 14 2012"));
@@ -54,7 +54,7 @@ public class LeaveSummaryServiceImplTest extends KPMETestCase {
 		Assert.assertTrue("FMLA usage for Row should be '2', not " + aRow.getFmlaUsage(), aRow.getFmlaUsage().compareTo(new BigDecimal(2)) == 0);
 		
 		// selected calendar entry is 04/01/2012 - 04/30/2012
-		ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("10002");
+		ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("10002");
 		ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary("testUser", ce);
 		Assert.assertTrue("There ytd dates String should be 'March 1 - March 14 2012', not " + ls.getYtdDatesString(), ls.getYtdDatesString().equals("March 1 - March 14 2012"));
 		Assert.assertTrue("There pending dates String should be 'April 1 - April 30 2012', not " + ls.getPendingDatesString(), ls.getPendingDatesString().equals("April 1 - April 30 2012"));
@@ -75,7 +75,7 @@ public class LeaveSummaryServiceImplTest extends KPMETestCase {
 		Assert.assertTrue("FMLA usage for Row should be '2', not " + aRow.getFmlaUsage(), aRow.getFmlaUsage().compareTo(new BigDecimal(2)) == 0);
 		
 		// selected calendar entry is 05/01/2012 - 05/31/2012
-		ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("10003");
+		ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("10003");
 		ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary("testUser", ce);
 		Assert.assertTrue("There ytd dates String should be 'March 1 - March 14 2012', not " + ls.getYtdDatesString(), ls.getYtdDatesString().equals("March 1 - March 14 2012"));
 		Assert.assertTrue("There pending dates String should be 'May 1 - May 31 2012', not " + ls.getPendingDatesString(), ls.getPendingDatesString().equals("May 1 - May 31 2012"));
@@ -112,7 +112,7 @@ public class LeaveSummaryServiceImplTest extends KPMETestCase {
 		// selected calendar entry is 02/01/2012 - 03/01/2012
 		// principal HR attribute does not exist on 02/01/2012, it becomes active on 02/05/2012
 		// this is testing null principalHrAttributes with beginning date of Calendar entry
-		ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("10004");
+		ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("10004");
 		ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary("testUser", ce);
 		rows = ls.getLeaveSummaryRows();
 		Assert.assertTrue("There should be 1 leave summary rows for emplyee 'testUser', not " + rows.size(), rows.size()== 1);
@@ -120,7 +120,7 @@ public class LeaveSummaryServiceImplTest extends KPMETestCase {
 	
 	@Test
 	public void testGetHeaderForSummary() throws Exception {
-		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("10001");
+		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("10001");
 		List<Date> leaveSummaryDates = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		
 		Assert.assertTrue("The number of leave summary dates should be 17, not " + leaveSummaryDates.size(), leaveSummaryDates.size()== 17);

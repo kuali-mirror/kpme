@@ -30,7 +30,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.detail.web.TimeDetailActionFormBase;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -51,7 +51,7 @@ public class TimesheetIntegrationTest extends TimesheetWebTestBase {
 					.forID(TKUtils.getSystemTimeZone()))).getMillis());
 	public TimesheetDocument timeDoc;
 	public List<Assignment> assignmentsOfUser;
-	public CalendarEntries payCal;
+	public CalendarEntry payCal;
 	public String tdocId;
 
 	/**

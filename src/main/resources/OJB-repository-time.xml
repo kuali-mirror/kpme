@@ -519,8 +519,8 @@
     </class-descriptor>
     
     <!--  Calendar -->
-    <class-descriptor class="org.kuali.hr.time.calendar.CalendarEntries" table="HR_CALENDAR_ENTRIES_T">
-        <field-descriptor name="hrCalendarEntriesId"                column="HR_CALENDAR_ENTRY_ID"           jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="HR_CALENDAR_ENTRIES_S" />/>
+    <class-descriptor class="org.kuali.hr.time.calendar.CalendarEntry" table="HR_CALENDAR_ENTRIES_T">
+        <field-descriptor name="hrCalendarEntryId"                column="HR_CALENDAR_ENTRY_ID"           jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="HR_CALENDAR_ENTRIES_S" />/>
         <field-descriptor name="hrCalendarId"                       column="HR_CALENDAR_ID"                 jdbc-type="VARCHAR"     length="60" />
         <field-descriptor name="calendarName"                       column="CALENDAR_NAME"                  jdbc-type="VARCHAR"     length="30" nullable="true" primarykey="true" />
         <field-descriptor name="beginPeriodDateTime"                column="BEGIN_PERIOD_DATE"              jdbc-type="TIMESTAMP"   conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
@@ -539,7 +539,7 @@
         <field-descriptor name="flsaBeginTime"          column="FLSA_BEGIN_TIME"        jdbc-type="TIME" />
         <field-descriptor name="calendarTypes"          column="CALENDAR_TYPES"         jdbc-type="VARCHAR" length="9" />
         
-        <collection-descriptor name="calendarEntries" element-class-ref="org.kuali.hr.time.calendar.CalendarEntries" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <collection-descriptor name="calendarEntries" element-class-ref="org.kuali.hr.time.calendar.CalendarEntry" auto-retrieve="true" auto-update="object" auto-delete="object">
             <inverse-foreignkey field-ref="hrCalendarId" />
         </collection-descriptor>
     </class-descriptor>

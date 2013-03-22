@@ -24,11 +24,11 @@ import java.util.List;
 
 public abstract class CalendarParent implements Serializable {
     private List<CalendarWeek> weeks = new ArrayList<CalendarWeek>();
-    private CalendarEntries calendarEntry;
+    private CalendarEntry calendarEntry;
     private DateTime beginDateTime;
     private DateTime endDateTime;
 
-    public CalendarParent(CalendarEntries calendarEntry) {
+    public CalendarParent(CalendarEntry calendarEntry) {
         this.calendarEntry = calendarEntry;
         if (calendarEntry != null) {
             this.beginDateTime = calendarEntry.getBeginLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback());
@@ -56,11 +56,11 @@ public abstract class CalendarParent implements Serializable {
         this.endDateTime = endDateTime;
     }
 
-    public CalendarEntries getCalendarEntry() {
+    public CalendarEntry getCalendarEntry() {
         return calendarEntry;
     }
 
-    public void setCalendarEntry(CalendarEntries calendarEntry) {
+    public void setCalendarEntry(CalendarEntry calendarEntry) {
         this.calendarEntry = calendarEntry;
     }
 

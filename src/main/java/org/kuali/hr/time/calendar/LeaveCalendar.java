@@ -18,7 +18,6 @@ package org.kuali.hr.time.calendar;
 import java.sql.Date;
 import java.util.*;
 
-import edu.emory.mathcs.backport.java.util.Arrays;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
@@ -26,8 +25,6 @@ import org.joda.time.DateTimeConstants;
 import org.joda.time.LocalDate;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
@@ -39,7 +36,7 @@ public class LeaveCalendar extends CalendarParent {
 
     private Map<String, String> earnCodeList;
     
-    public LeaveCalendar(String principalId, CalendarEntries calendarEntry, List<String> assignmentKeys) {
+    public LeaveCalendar(String principalId, CalendarEntry calendarEntry, List<String> assignmentKeys) {
         super(calendarEntry);
 
         DateTime currentDisplayDateTime = getBeginDateTime();

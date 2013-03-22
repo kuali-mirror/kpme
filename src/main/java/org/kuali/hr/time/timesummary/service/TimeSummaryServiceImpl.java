@@ -24,7 +24,6 @@ import org.joda.time.Interval;
 import org.joda.time.LocalDateTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
-import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
@@ -33,12 +32,11 @@ import org.kuali.hr.lm.util.LeaveBlockAggregate;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.Calendar;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
-import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
@@ -100,7 +98,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 	}
 	
     private List<LeaveSummaryRow> getMaxedLeaveRows(
-			CalendarEntries calendarEntry, String principalId) throws Exception {
+			CalendarEntry calendarEntry, String principalId) throws Exception {
     	List<LeaveSummaryRow> maxedLeaveRows = new ArrayList<LeaveSummaryRow>();
     	
     	if (TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT, true)) {
@@ -276,7 +274,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 	 * @param payCalEntry
 	 * @return
 	 */
-	protected List<String> getSummaryHeader(CalendarEntries payCalEntry){
+	protected List<String> getSummaryHeader(CalendarEntry payCalEntry){
 		List<String> summaryHeader = new ArrayList<String>();
 		int dayCount = 0;
 		Date beginDateTime = payCalEntry.getBeginPeriodDateTime();
@@ -385,7 +383,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
      * for FLSA week boundaries in the pay period.
      */
     @Override
-    public List<String> getHeaderForSummary(CalendarEntries cal, List<Boolean> dayArrangements) {
+    public List<String> getHeaderForSummary(CalendarEntry cal, List<Boolean> dayArrangements) {
         List<String> header = new ArrayList<String>();
 
         // Maps directly to joda time day of week constants.
@@ -467,7 +465,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
      * @param calEntry Calendar entry we are using for lookup.
      * @return The PayCalendar that owns the provided entry.
      */
-    private Calendar getPayCalendarForEntry(CalendarEntries calEntry) {
+    private Calendar getPayCalendarForEntry(CalendarEntry calEntry) {
         Calendar cal = null;
 
         if (calEntry != null) {

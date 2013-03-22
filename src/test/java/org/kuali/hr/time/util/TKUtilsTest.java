@@ -25,7 +25,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 
 public class TKUtilsTest extends Assert {
 
@@ -62,7 +62,7 @@ public class TKUtilsTest extends Assert {
 
 	@Test
 	public void testGetFullWeekDaySpanForPayCalendarEntry() {
-		CalendarEntries payCalendarEntry = new CalendarEntries();
+		CalendarEntry payCalendarEntry = new CalendarEntry();
 		// begin date is a Monday
 		payCalendarEntry.setBeginPeriodDateTime(new Date((new DateTime(2011, 8, 8, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis()));
 		// end date is a Thursday

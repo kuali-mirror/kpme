@@ -15,12 +15,11 @@
  */
 package org.kuali.hr.time.calendar.service;
 
-import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
 import org.kuali.hr.time.calendar.Calendar;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.springframework.cache.annotation.Cacheable;
 
 public interface CalendarService {
@@ -41,7 +40,7 @@ public interface CalendarService {
 	public Calendar getCalendarByGroup(String calendarName);
 
 	/**
-     * Use this method to get CalendarEntries if you are passing in a "current date"
+     * Use this method to get CalendarEntry if you are passing in a "current date"
      * style of date, ie todays date. If you are in a logic situation where you would
      * pass EITHER todays date or a pay calendar date, pass the Pay period BEGIN date,
      * so that the retrieval logic will correctly place the date in the window.
@@ -50,10 +49,10 @@ public interface CalendarService {
 	 * @param currentDate
 	 * @return
 	 */
-	public CalendarEntries getCurrentCalendarDates(String principalId, Date currentDate);
+	public CalendarEntry getCurrentCalendarDates(String principalId, Date currentDate);
 
     /**
-     * Use this method to get CalendarEntries if you are passing in a date range
+     * Use this method to get CalendarEntry if you are passing in a date range
      *  ie being/end of a year.
      *
      * @param principalId
@@ -61,7 +60,7 @@ public interface CalendarService {
      * @param endDate
      * @return
      */
-    public CalendarEntries getCurrentCalendarDates(String principalId, Date beginDate, Date endDate);
+    public CalendarEntry getCurrentCalendarDates(String principalId, Date beginDate, Date endDate);
 
     /**
      * A method to use specifically when you have a Timesheet Documents Pay Period
@@ -72,7 +71,7 @@ public interface CalendarService {
      * @return
      */
     @Cacheable(value= Calendar.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'payEndDate=' + #p1 + '|' + 'calendarType=' + #p2")
-    public CalendarEntries getCalendarDatesByPayEndDate(String principalId, Date payEndDate, String calendarType);
+    public CalendarEntry getCalendarDatesByPayEndDate(String principalId, Date payEndDate, String calendarType);
 
 	/**
 	 * Returns the Pay CalendarEntry for previous pay calendar
@@ -81,7 +80,7 @@ public interface CalendarService {
 	 * @return
 	 */
     @Cacheable(value= Calendar.CACHE_NAME, key="'tkCalendarId=' + #p0 + '|' + 'beginDateCurrentCalendar=' + #p1")
-	public CalendarEntries getPreviousCalendarEntry(String tkCalendarId, Date beginDateCurrentCalendar);
+	public CalendarEntry getPreviousCalendarEntry(String tkCalendarId, Date beginDateCurrentCalendar);
 	
 	/**
 	 * Fetch a pay calendar with the given principalId and date, returns null if none found
@@ -108,7 +107,7 @@ public interface CalendarService {
      * @return
      */
     @Cacheable(value= Calendar.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'beginDate=' + #p1 + '|' + 'endDate=' + #p2")
-    public CalendarEntries getCurrentCalendarDatesForLeaveCalendar(String principalId, Date beginDate, Date endDate);
+    public CalendarEntry getCurrentCalendarDatesForLeaveCalendar(String principalId, Date beginDate, Date endDate);
 
 	/**
 	 * 
@@ -117,7 +116,7 @@ public interface CalendarService {
 	 * @return
 	 */
     @Cacheable(value= Calendar.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'currentDate=' + #p1")
-	public CalendarEntries getCurrentCalendarDatesForLeaveCalendar(String principalId, Date currentDate);
+	public CalendarEntry getCurrentCalendarDatesForLeaveCalendar(String principalId, Date currentDate);
 
     public List<Calendar> getCalendars(String calendarName, String calendarTypes, String flsaBeginDay, String flsaBeginTime);
 

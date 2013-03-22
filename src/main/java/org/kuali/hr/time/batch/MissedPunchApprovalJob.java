@@ -18,7 +18,7 @@ package org.kuali.hr.time.batch;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.missedpunch.MissedPunchDocument;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
@@ -32,9 +32,9 @@ public class MissedPunchApprovalJob implements Job {
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
 
-		String hrCalendarEntriesId = jobDataMap.getString("hrCalendarEntriesId");
+		String hrCalendarEntryId = jobDataMap.getString("hrCalendarEntryId");
 
-		CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(hrCalendarEntriesId);
+		CalendarEntry calendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
 
 		Date beginDate = calendarEntry.getBeginPeriodDateTime();
 		Date endDate = calendarEntry.getEndPeriodDateTime();

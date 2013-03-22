@@ -18,27 +18,19 @@ package org.kuali.hr.lm.leavepayout.service;
 import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.hr.lm.LMConstants;
-import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.leavepayout.LeavePayout;
-import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKUtils;
@@ -52,9 +44,9 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 	private final String USER_ID = "testUser1";
 	
 	private LeaveCalendarDocument janLCD;
-	private CalendarEntries janEntry;
+	private CalendarEntry janEntry;
 	private LeaveCalendarDocument decLCD;
-	private CalendarEntries decEntry;
+	private CalendarEntry decEntry;
 	
 	private Date janStart;
 	private Date janEnd;
@@ -71,13 +63,13 @@ public class LeavePayoutServiceTest extends KPMETestCase {
 	private final String TS_USER_ID = "testUser2";	
 	
 	private TimesheetDocument endJanTSD;
-	private CalendarEntries endJanTSDEntry;
+	private CalendarEntry endJanTSDEntry;
 	private TimesheetDocument midJanTSD;
-	private CalendarEntries midJanTSDEntry;
+	private CalendarEntry midJanTSDEntry;
 	private TimesheetDocument endDecTSD;
-	private CalendarEntries endDecTSDEntry;
+	private CalendarEntry endDecTSDEntry;
 	private TimesheetDocument midDecTSD;
-	private CalendarEntries midDecTSDEntry;
+	private CalendarEntry midDecTSDEntry;
 	
 	private Date midJanStart;
 	private Date midJanEnd;

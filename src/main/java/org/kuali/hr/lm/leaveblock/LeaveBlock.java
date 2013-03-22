@@ -31,12 +31,9 @@ import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
-import org.kuali.hr.lm.leaveplan.LeavePlan;
-import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
-import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.Calendar;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -434,9 +431,9 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 			//pcal = principalHRAttributes.getCalendar() != null ? principalHRAttributes.getCalendar() : principalHRAttributes.getLeaveCalObj() ;
 			pcal = principalHRAttributes.getLeaveCalObj() != null ? principalHRAttributes.getLeaveCalObj() : principalHRAttributes.getCalendar();
             if(pcal!= null) {
-				CalendarEntries calEntries = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntriesByCalendarId(pcal.getHrCalendarId(), this.leaveDate);
+				CalendarEntry calEntries = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(pcal.getHrCalendarId(), this.leaveDate);
 				if(calEntries != null) {
-					this.calendarId = calEntries.getHrCalendarEntriesId();
+					this.calendarId = calEntries.getHrCalendarEntryId();
 				}
 			}
 		}

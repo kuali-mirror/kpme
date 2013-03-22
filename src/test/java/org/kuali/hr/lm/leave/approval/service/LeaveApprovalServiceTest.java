@@ -30,7 +30,7 @@ import org.junit.Test;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.approval.web.ApprovalLeaveSummaryRow;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.person.TKPerson;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 
@@ -40,7 +40,7 @@ public class LeaveApprovalServiceTest extends KPMETestCase {
 	
 	@Test
 	public void testGetLeaveApprovalSummaryRows() {
-		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("5000");
+		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("5000");
 		List<Date> leaveSummaryDates = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		List<String> ids = new ArrayList<String>();
 		ids.add("admin");
@@ -56,7 +56,7 @@ public class LeaveApprovalServiceTest extends KPMETestCase {
 	
 	@Test
 	public void testGetEarnCodeLeaveHours() throws Exception {
-		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("5000");
+		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("5000");
 		List<Date> leaveSummaryDates = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		
 		List<LeaveBlock> lbList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", ce.getBeginPeriodDateTime(), ce.getEndPeriodDateTime());
@@ -71,7 +71,7 @@ public class LeaveApprovalServiceTest extends KPMETestCase {
 	
 	@Test
 	public void testGetAccrualCategoryLeaveHours() throws Exception {
-		CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries("5000");
+		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("5000");
 		List<Date> leaveSummaryDates = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		
 		List<LeaveBlock> lbList = TkServiceLocator.getLeaveBlockService().getLeaveBlocks("admin", ce.getBeginPeriodDateTime(), ce.getEndPeriodDateTime());

@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.calendar.Calendar;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TkConstants;
@@ -36,10 +36,10 @@ public class EmployeeApprovalJob implements Job {
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
 
-		String hrCalendarEntriesId = jobDataMap.getString("hrCalendarEntriesId");
+		String hrCalendarEntryId = jobDataMap.getString("hrCalendarEntryId");
 		String documentId = jobDataMap.getString("documentId");
 
-		CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(hrCalendarEntriesId);
+		CalendarEntry calendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry(hrCalendarEntryId);
 		Calendar calendar = TkServiceLocator.getCalendarService().getCalendar(calendarEntry.getHrCalendarId());
 		
 		if (StringUtils.equals(calendar.getCalendarTypes(), "Pay")) {

@@ -59,7 +59,7 @@ public class CalendarMaintainableImpl extends KualiMaintainableImpl {
 		Calendar calendar = (Calendar) this.getBusinessObject();
 		LOG.info("Saved pay calendar: " + calendar.getHrCalendarId());
         CacheUtils.flushCache(Calendar.CACHE_NAME);
-        CacheUtils.flushCache(CalendarEntries.CACHE_NAME);
+        CacheUtils.flushCache(CalendarEntry.CACHE_NAME);
 	}
 
 }

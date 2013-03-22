@@ -44,7 +44,7 @@ import org.kuali.hr.time.approval.service.TimeApproveService;
 import org.kuali.hr.time.assignment.dao.AssignmentDao;
 import org.kuali.hr.time.assignment.service.AssignmentService;
 import org.kuali.hr.time.batch.service.BatchJobService;
-import org.kuali.hr.time.calendar.service.CalendarEntriesService;
+import org.kuali.hr.time.calendar.service.CalendarEntryService;
 import org.kuali.hr.time.calendar.service.CalendarService;
 import org.kuali.hr.time.clock.location.service.ClockLocationRuleService;
 import org.kuali.hr.time.clocklog.service.ClockLogService;
@@ -81,7 +81,6 @@ import org.kuali.hr.time.user.pref.service.UserPreferenceService;
 import org.kuali.hr.time.warning.TkWarningService;
 import org.kuali.hr.time.workarea.service.WorkAreaService;
 import org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderService;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -104,7 +103,7 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_JOB_SERVICE = "jobService";
 	public static final String TK_PAY_TYPE_SERVICE = "payTypeService";
 	public static final String TK_PAY_CALENDAR_SERVICE = "calendarService";
-	public static final String TK_PAY_CALENDAR_ENTRIES_SERVICE = "calendarEntriesService";
+	public static final String TK_PAY_CALENDAR_ENTRY_SERVICE = "calendarEntryService";
 	public static final String TK_PERSISTENCE_BROKER_TEMPLATE = "tkPersistenceBrokerTemplate";
 	public static final String TK_CACHE_MANAGER_SERVICE = "cacheManager";
 	public static final String TK_WORK_AREA_SERVICE = "workAreaService";
@@ -419,8 +418,8 @@ public class TkServiceLocator implements ApplicationContextAware {
 		return (CalendarService)CONTEXT.getBean(TK_PAY_CALENDAR_SERVICE);
 	}
 	
-	public static CalendarEntriesService getCalendarEntriesService() {
-		return (CalendarEntriesService)CONTEXT.getBean(TK_PAY_CALENDAR_ENTRIES_SERVICE);
+	public static CalendarEntryService getCalendarEntryService() {
+		return (CalendarEntryService)CONTEXT.getBean(TK_PAY_CALENDAR_ENTRY_SERVICE);
 	}
 	
 	public static PrincipalAccrualRanService getPrincipalAccrualRanService() {

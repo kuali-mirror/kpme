@@ -22,7 +22,7 @@ import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.leavepayout.LeavePayout;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.roles.service.TkRoleService;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -157,7 +157,7 @@ public class LeavePayoutWorkflowAttribute extends AbstractRoleAttribute {
         return Collections.EMPTY_LIST;
     }
 
-    private CalendarEntries getCalendarEntry(LeaveBlock leaveBlock) {
-        return TkServiceLocator.getCalendarEntriesService().getCalendarEntries(leaveBlock.getCalendarId());
+    private CalendarEntry getCalendarEntry(LeaveBlock leaveBlock) {
+        return TkServiceLocator.getCalendarEntryService().getCalendarEntry(leaveBlock.getCalendarId());
     }
 }

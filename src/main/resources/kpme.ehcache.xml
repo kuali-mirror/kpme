@@ -28,7 +28,7 @@
     <cache name="KPME/AccrualCategory" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/Assignment" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/Calendar" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
-    <cache name="KPME/CalendarEntries" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
+    <cache name="KPME/CalendarEntry" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/CalendarLocationRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/ClockLocationRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>
     <cache name="KPME/DailyOvertimeRule" maxEntriesLocalHeap="10000" timeToLiveSeconds="900"/>

@@ -25,7 +25,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.hr.time.base.web.TkAction;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 
@@ -35,7 +35,7 @@ public class BatchJobAction extends TkAction {
         BatchJobActionForm bjaf = (BatchJobActionForm) form;
         String batchJobName = bjaf.getSelectedBatchJob();
 
-        CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(bjaf.getHrPyCalendarEntryId());
+        CalendarEntry calendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry(bjaf.getHrPyCalendarEntryId());
         Date scheduleDate = new Date();
         
         if (StringUtils.equals(batchJobName, TkConstants.BATCH_JOB_NAMES.INITIATE)) {

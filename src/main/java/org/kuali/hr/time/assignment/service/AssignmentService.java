@@ -18,7 +18,7 @@ package org.kuali.hr.time.assignment.service;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -111,21 +111,21 @@ public interface AssignmentService {
      * @param payCalendarEntry
      * @return
      */
-    public List<Assignment> getAssignmentsByPayEntry(String principalId, CalendarEntries payCalendarEntry);
+    public List<Assignment> getAssignmentsByPayEntry(String principalId, CalendarEntry payCalendarEntry);
     /**
      * Get assignments for Time Calendar by calendar entry
      * @param principalId
      * @param calendarEntry
      * @return
      */
-    public List<Assignment> getAssignmentsByCalEntryForTimeCalendar(String principalId, CalendarEntries calendarEntry);
+    public List<Assignment> getAssignmentsByCalEntryForTimeCalendar(String principalId, CalendarEntry calendarEntry);
     /**
      * Get assignments for Leave Calendar by calendar entry
      * @param principalId
      * @param calendarEntry
      * @return
      */
-    public List<Assignment> getAssignmentsByCalEntryForLeaveCalendar(String principalId, CalendarEntries calendarEntry);
+    public List<Assignment> getAssignmentsByCalEntryForLeaveCalendar(String principalId, CalendarEntry calendarEntry);
     
     /**
 	 * KPME-1129 Kagata

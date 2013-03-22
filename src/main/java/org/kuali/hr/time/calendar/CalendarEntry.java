@@ -46,13 +46,13 @@ import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
  * java.util.Date : getBeginPeriodDateTime()
  *
  */
-public class CalendarEntries extends PersistableBusinessObjectBase implements Comparable<CalendarEntries>{
+public class CalendarEntry extends PersistableBusinessObjectBase implements Comparable<CalendarEntry>{
 
 	private static final long serialVersionUID = -1977756526579659122L;
 
-	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "CalendarEntries";
+	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "CalendarEntry";
 
-    private String hrCalendarEntriesId;
+    private String hrCalendarEntryId;
     private String hrCalendarId;
     private String calendarName;
 
@@ -77,12 +77,12 @@ public class CalendarEntries extends PersistableBusinessObjectBase implements Co
         this.hrCalendarId = hrCalendarId;
     }
 
-    public String getHrCalendarEntriesId() {
-		return hrCalendarEntriesId;
+    public String getHrCalendarEntryId() {
+		return hrCalendarEntryId;
 	}
 
-	public void setHrCalendarEntriesId(String hrCalendarEntriesId) {
-		this.hrCalendarEntriesId = hrCalendarEntriesId;
+	public void setHrCalendarEntryId(String hrCalendarEntryId) {
+		this.hrCalendarEntryId = hrCalendarEntryId;
 	}
 
 	public String getCalendarName() {
@@ -371,7 +371,7 @@ public class CalendarEntries extends PersistableBusinessObjectBase implements Co
 		this.calendarObj = calendarObj;
 	}
 
-    public int compareTo(CalendarEntries pce) {
+    public int compareTo(CalendarEntry pce) {
         return this.getBeginPeriodDate().compareTo(pce.getBeginPeriodDate());
     }
 

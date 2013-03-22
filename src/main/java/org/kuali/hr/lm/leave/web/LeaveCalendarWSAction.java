@@ -29,7 +29,6 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.joda.time.DateTime;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -40,7 +39,7 @@ import org.kuali.hr.lm.leavecalendar.web.LeaveCalendarForm;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.base.web.TkAction;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.detail.web.ActionFormUtils;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -64,7 +63,7 @@ public class LeaveCalendarWSAction extends TkAction {
         // Here - viewPrincipal will be the principal of the user we intend to
         // view, be it target user, backdoor or otherwise.
         String viewPrincipal = TKUser.getCurrentTargetPersonId();
-        CalendarEntries calendarEntry = null;
+        CalendarEntry calendarEntry = null;
 
         LeaveCalendarDocument lcd = null;
         // By handling the prev/next in the execute method, we are saving one
@@ -77,8 +76,8 @@ public class LeaveCalendarWSAction extends TkAction {
             calendarEntry = lcd.getCalendarEntry();
         } else if (StringUtils.isNotBlank(calendarEntryId)) {
             // do further procedure
-            calendarEntry = TkServiceLocator.getCalendarEntriesService()
-                    .getCalendarEntries(calendarEntryId);
+            calendarEntry = TkServiceLocator.getCalendarEntryService()
+                    .getCalendarEntry(calendarEntryId);
             lcd = TkServiceLocator.getLeaveCalendarService()
                     .getLeaveCalendarDocument(viewPrincipal, calendarEntry);
         } else {
@@ -128,7 +127,7 @@ public class LeaveCalendarWSAction extends TkAction {
 
         if(request.getParameter("selectedPayPeriod") != null) {
             lcf.setSelectedPayPeriod(request.getParameter("selectedPayPeriod"));
-            CalendarEntries ce = TkServiceLocator.getCalendarEntriesService().getCalendarEntries(request.getParameter("selectedPayPeriod"));
+            CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry(request.getParameter("selectedPayPeriod"));
             lcf.setCalendarEntry(ce);
         }
         lcf.setPrincipalId(TKUser.getCurrentTargetPersonId());

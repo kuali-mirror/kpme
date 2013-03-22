@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.hr.time.batch.service.BatchJobService;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.quartz.JobExecutionContext;
@@ -36,10 +36,10 @@ public class CalendarEntrySchedulerJob extends QuartzJobBean {
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
 		Date asOfDate = TKUtils.getCurrentDate();
-        List<CalendarEntries> calendarEntries = TkServiceLocator.getCalendarEntriesService().getCurrentCalendarEntryNeedsScheduled(getCalendarEntriesPollingWindow(), asOfDate);
+        List<CalendarEntry> calendarEntries = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntriesNeedsScheduled(getCalendarEntriesPollingWindow(), asOfDate);
 
         try {
-	        for (CalendarEntries calendarEntry : calendarEntries) {
+	        for (CalendarEntry calendarEntry : calendarEntries) {
 	            if (calendarEntry.getEndPeriodDateTime() != null) {
 	            	getBatchJobService().scheduleEndReportingPeriodJobs(calendarEntry);
 	            }

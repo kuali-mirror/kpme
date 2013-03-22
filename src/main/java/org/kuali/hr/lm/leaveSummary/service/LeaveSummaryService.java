@@ -20,12 +20,12 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 
 public interface LeaveSummaryService {
-	public LeaveSummary getLeaveSummary(String principalId, CalendarEntries calendarEntry) throws Exception;
+	public LeaveSummary getLeaveSummary(String principalId, CalendarEntry calendarEntry) throws Exception;
 
-	public List<Date> getLeaveSummaryDates(CalendarEntries cal);
+	public List<Date> getLeaveSummaryDates(CalendarEntry cal);
 
     public LeaveSummary getLeaveSummaryAsOfDate(String principalId, java.sql.Date asOfDate);
 

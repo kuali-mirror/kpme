@@ -41,8 +41,8 @@ public class Calendar extends PersistableBusinessObjectBase {
 	private String calendarTypes;
 	private int flsaBeginDayConstant = -1;
 
-	private List<CalendarEntries> calendarEntries = new ArrayList<CalendarEntries>();
-
+//	private List<CalendarEntry> calendarEntries = new ArrayList<CalendarEntry>();
+    private List<CalendarEntry> calendarEntries = new ArrayList<CalendarEntry>();
 	public Calendar() {
 
 	}
@@ -83,13 +83,13 @@ public class Calendar extends PersistableBusinessObjectBase {
 
 
 
-	public List<CalendarEntries> getCalendarEntries() {
+	public List<CalendarEntry> getCalendarEntries() {
 		return calendarEntries;
 	}
 
 
 
-	public void setCalendarEntries(List<CalendarEntries> calendarEntries) {
+	public void setCalendarEntries(List<CalendarEntry> calendarEntries) {
 		this.calendarEntries = calendarEntries;
 	}
 

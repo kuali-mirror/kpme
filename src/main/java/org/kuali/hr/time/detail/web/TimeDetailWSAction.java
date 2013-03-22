@@ -37,14 +37,13 @@ import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.detail.validation.TimeDetailValidationUtil;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.web.struts.form.KualiMaintenanceForm;
 import org.kuali.rice.krad.util.ObjectUtils;
 
@@ -91,7 +90,7 @@ public class TimeDetailWSAction extends TimesheetAction {
 
     public List<String> validateLeaveEntry(TimeDetailActionFormBase tdaf) throws Exception {
     	List<String> errorMsgList = new ArrayList<String>();
-    	CalendarEntries payCalendarEntry = tdaf.getPayCalendarDates();
+    	CalendarEntry payCalendarEntry = tdaf.getPayCalendarDates();
     	if(ObjectUtils.isNotNull(payCalendarEntry)) {
 			LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary(TKContext.getTargetPrincipalId(), tdaf.getPayCalendarDates());
 			LeaveBlock lb = null;

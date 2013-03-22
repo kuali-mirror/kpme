@@ -23,7 +23,7 @@ import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.lm.leaveplan.dao.LeavePlanDao;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 
 public class LeavePlanServiceImpl implements LeavePlanService {
 
@@ -72,7 +72,7 @@ public class LeavePlanServiceImpl implements LeavePlanService {
     }
     
     @Override
-	public boolean isFirstCalendarPeriodOfLeavePlan(CalendarEntries calendarEntry, String leavePlan, Date asOfDate) {
+	public boolean isFirstCalendarPeriodOfLeavePlan(CalendarEntry calendarEntry, String leavePlan, Date asOfDate) {
 		boolean isFirstCalendarPeriodOfLeavePlan = false;
     	
     	LeavePlan leavePlanObj = getLeavePlan(leavePlan, asOfDate);
@@ -92,7 +92,7 @@ public class LeavePlanServiceImpl implements LeavePlanService {
 	}
     
     @Override
-	public boolean isLastCalendarPeriodOfLeavePlan(CalendarEntries calendarEntry, String leavePlan, Date asOfDate) {
+	public boolean isLastCalendarPeriodOfLeavePlan(CalendarEntry calendarEntry, String leavePlan, Date asOfDate) {
     	boolean isLastCalendarPeriodOfLeavePlan = false;
     	
     	LeavePlan leavePlanObj = getLeavePlan(leavePlan, asOfDate);

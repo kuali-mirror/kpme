@@ -32,7 +32,7 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
@@ -400,7 +400,7 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
 		   if(ssto != null && StringUtils.equals(ssto.getUnusedTime(), LMConstants.UNUSED_TIME.BANK)) {
 			   Date currentDate = TKUtils.getTimelessDate(null);
 			   String viewPrincipal = TKUser.getCurrentTargetPersonId();
-			   CalendarEntries ce = TkServiceLocator.getCalendarService()
+			   CalendarEntry ce = TkServiceLocator.getCalendarService()
 						.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, currentDate);
 			   if(ce != null) {
 				   if(!lb.getLeaveDate().before(ce.getBeginPeriodDate()) && !lb.getLeaveDate().after(ce.getEndPeriodDate())) {
@@ -421,7 +421,7 @@ public class TkPermissionsServiceImpl implements TkPermissionsService {
 		   if(ssto != null && StringUtils.equals(ssto.getUnusedTime(), LMConstants.UNUSED_TIME.TRANSFER)) {
 			   Date currentDate = TKUtils.getTimelessDate(null);
 			   String viewPrincipal = TKUser.getCurrentTargetPersonId();
-			   CalendarEntries ce = TkServiceLocator.getCalendarService()
+			   CalendarEntry ce = TkServiceLocator.getCalendarService()
 						.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, currentDate);
 			   if(ce != null) {
 				   if(!lb.getLeaveDate().before(ce.getBeginPeriodDate()) && !lb.getLeaveDate().after(ce.getEndPeriodDate())) {

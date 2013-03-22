@@ -25,16 +25,16 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 
-public class CalendarEntriesServiceImplTest extends KPMETestCase {
-	private CalendarEntriesService ceService;
+public class CalendarEntryServiceImplTest extends KPMETestCase {
+	private CalendarEntryService ceService;
 	@Before
 	public void setUp() throws Exception{
 		super.setUp();
-		ceService = TkServiceLocator.getCalendarEntriesService();
+		ceService = TkServiceLocator.getCalendarEntryService();
 	}
 
 	@After
@@ -44,26 +44,26 @@ public class CalendarEntriesServiceImplTest extends KPMETestCase {
 
 	@Test
 	public void testGetAllCalendarEntriesForCalendarId() {
-		List<CalendarEntries> ceList= ceService.getAllCalendarEntriesForCalendarId("2");
+		List<CalendarEntry> ceList= ceService.getAllCalendarEntriesForCalendarId("2");
 		Assert.assertTrue("Calendar entries not found for Calendar Id '2'", CollectionUtils.isNotEmpty(ceList));
 	}
 	@Test
 	public void testGetAllCalendarEntriesForCalendarIdAndYear() {
-		List<CalendarEntries> ceList= ceService.getAllCalendarEntriesForCalendarIdAndYear("2", "2012");
+		List<CalendarEntry> ceList= ceService.getAllCalendarEntriesForCalendarIdAndYear("2", "2012");
 		Assert.assertTrue("Calendar entries not found for Calendar Id '2' and year '2012'", CollectionUtils.isNotEmpty(ceList));
 		Assert.assertTrue("There should be 24 Calendar entries, not " + ceList.size(), ceList.size() == 24);
 	}
 	
 	@Test
 	public void testGetAllCalendarEntriesForCalendarIdUpToPlanningMonths() {
-		List<CalendarEntries> ceList= ceService.getAllCalendarEntriesForCalendarIdUpToPlanningMonths("2", "admin");
+		List<CalendarEntry> ceList= ceService.getAllCalendarEntriesForCalendarIdUpToPlanningMonths("2", "admin");
 		Assert.assertTrue("Calendar entries not found for Calendar Id '2' and principalId 'admin'", CollectionUtils.isNotEmpty(ceList));
 	}
 	
 	@Test
 	public void testGetAllCalendarEntriesForCalendarIdUpToCutOffTime() {
 		Date aDate = new Date((new DateTime(2012,10,31,0,0,0,0, TKUtils.getSystemDateTimeZone())).getMillis());
-		List<CalendarEntries> ceList= ceService.getAllCalendarEntriesForCalendarIdUpToCutOffTime("2", aDate);
+		List<CalendarEntry> ceList= ceService.getAllCalendarEntriesForCalendarIdUpToCutOffTime("2", aDate);
 		Assert.assertTrue("Calendar entries not found for Calendar Id '2' and date ", CollectionUtils.isNotEmpty(ceList));
 		Assert.assertTrue("There should be 67 Calendar entries, not " + ceList.size(), ceList.size() == 67);
 	}

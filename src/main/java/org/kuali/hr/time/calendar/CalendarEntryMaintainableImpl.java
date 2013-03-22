@@ -26,7 +26,7 @@ public class CalendarEntryMaintainableImpl extends KualiMaintainableImpl {
 
 	@Override
 	public PersistableBusinessObject getBusinessObject() {
-		CalendarEntries calendarEntry = (CalendarEntries) super.getBusinessObject();
+		CalendarEntry calendarEntry = (CalendarEntry) super.getBusinessObject();
 		
 		if (calendarEntry.getBeginPeriodDateTime() != null) {
 			calendarEntry.setBeginPeriodDate(new java.sql.Date(calendarEntry.getBeginPeriodDateTime().getTime()));
@@ -63,14 +63,14 @@ public class CalendarEntryMaintainableImpl extends KualiMaintainableImpl {
 
 	@Override
 	public void saveBusinessObject() {
-		CalendarEntries calendarEntry = (CalendarEntries) super.getBusinessObject();
+		CalendarEntry calendarEntry = (CalendarEntry) super.getBusinessObject();
 		
 		Calendar calendar = TkServiceLocator.getCalendarService().getCalendarByGroup(calendarEntry.getCalendarName());
 		calendarEntry.setHrCalendarId(calendar.getHrCalendarId());
 		
 		super.saveBusinessObject();
 		
-        CacheUtils.flushCache(CalendarEntries.CACHE_NAME);
+        CacheUtils.flushCache(CalendarEntry.CACHE_NAME);
 	}
 
 }

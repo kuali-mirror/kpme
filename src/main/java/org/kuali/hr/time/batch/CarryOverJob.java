@@ -18,7 +18,6 @@ package org.kuali.hr.time.batch;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -32,7 +31,7 @@ import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.lm.leaveplan.service.LeavePlanService;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.service.AssignmentService;
-import org.kuali.hr.time.calendar.service.CalendarEntriesService;
+import org.kuali.hr.time.calendar.service.CalendarEntryService;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.principal.service.PrincipalHRAttributesService;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -59,7 +58,7 @@ public class CarryOverJob implements Job{
 	private LeavePlanService leavePlanService;
 	private PrincipalHRAttributesService principalHRAttributesService;
 	private LeaveSummaryService leaveSummaryService;
-	private CalendarEntriesService calendarEntriesService;
+	private CalendarEntryService calendarEntryService;
 	private LeaveBlockService leaveBlockService;
 
 	@Override
@@ -197,15 +196,15 @@ public class CarryOverJob implements Job{
 		this.leaveSummaryService = leaveSummaryService;
 	}
 
-	private CalendarEntriesService getCalendarEntriesService() {
-        if (calendarEntriesService == null) {
-		    calendarEntriesService = TkServiceLocator.getCalendarEntriesService();
+	private CalendarEntryService getCalendarEntryService() {
+        if (calendarEntryService == null) {
+		    calendarEntryService = TkServiceLocator.getCalendarEntryService();
         }
-		return calendarEntriesService;
+		return calendarEntryService;
 	}
 
-	public void setCalendarEntriesService(CalendarEntriesService calendarEntriesService) {
-		this.calendarEntriesService = calendarEntriesService;
+	public void setCalendarEntryService(CalendarEntryService calendarEntryService) {
+		this.calendarEntryService = calendarEntryService;
 	}
 
 	private LeaveBlockService getLeaveBlockService() {

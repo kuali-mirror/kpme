@@ -17,7 +17,6 @@ package org.kuali.hr.lm.leavecalendar.validation;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateMidnight;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.DateTimeZone;
@@ -34,24 +33,20 @@ import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
-import org.kuali.hr.time.base.web.TkCommonCalendarForm;
-import org.kuali.hr.time.calendar.CalendarEntries;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.util.*;
 
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 public class LeaveCalendarValidationUtil {
     
@@ -312,7 +307,7 @@ public class LeaveCalendarValidationUtil {
 //    public static List<String> validateAvailableLeaveBalance(LeaveSummary ls, String earnCode, String leaveStartDateString, String leaveEndDateString,
 //    		BigDecimal leaveAmount, LeaveBlock updatedLeaveBlock) {
 //    	List<String> errors = new ArrayList<String>();
-//    	CalendarEntries calendarEntries = new CalendarEntries();
+//    	CalendarEntry calendarEntries = new CalendarEntry();
 //    	boolean earnCodeChanged = false;
 //    	BigDecimal oldAmount = null;
 //    	if(ls != null && CollectionUtils.isNotEmpty(ls.getLeaveSummaryRows())) {
@@ -388,7 +383,7 @@ public class LeaveCalendarValidationUtil {
     public static List<String> validateParametersAccordingToSelectedEarnCodeRecordMethod(LeaveCalendarWSForm lcf) {
     	
     	String selectedEarnCode = lcf.getSelectedEarnCode();
-    	CalendarEntries leaveCalEntry = lcf.getCalendarEntry();
+    	CalendarEntry leaveCalEntry = lcf.getCalendarEntry();
     	java.sql.Date asOfDate = leaveCalEntry.getEndPeriodDate();
     	
     	List<String> errors = new ArrayList<String>();
@@ -452,7 +447,7 @@ public class LeaveCalendarValidationUtil {
         return errors;
     }
     
-    public static List<String> validateInterval(CalendarEntries payCalEntry, Long startTime, Long endTime) {
+    public static List<String> validateInterval(CalendarEntry payCalEntry, Long startTime, Long endTime) {
         List<String> errors = new ArrayList<String>();
         LocalDateTime pcb_ldt = payCalEntry.getBeginLocalDateTime();
         LocalDateTime pce_ldt = payCalEntry.getEndLocalDateTime();
