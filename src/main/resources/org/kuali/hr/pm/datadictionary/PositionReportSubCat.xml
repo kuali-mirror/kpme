@@ -190,7 +190,7 @@
 	
 	<bean id="PositionReportSubCat-active" parent="PositionReportSubCat-active-parentBean" />
 	<bean id="PositionReportSubCat-active-parentBean" abstract="true"
-		parent="GenericAttributes-activeIndicator">
+		parent="AttributeReferenceDummy-activeIndicator">
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
 	</bean>
@@ -254,5 +254,33 @@
 		</property>
 		<property name="title" value="Position Report Sub Category Lookup" />
 	</bean>
+
+  <!-- KRAD Lookup View Definition -->
+  <bean id="PositionReportSubCat-LookupView" parent="Uif-LookupView">
+    <property name="title" value="PositionReportSubCat Lookup" />
+    <property name="dataObjectClassName" value="org.kuali.hr.pm.positionreportsubcat.PositionReportSubCategory" />
+    <property name="criteriaFields">
+      <list>				
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportSubCat" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportCat" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="campus" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+		<bean parent="Uif-InputField" p:propertyName="positionReportSubCat" />
+		<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+		<bean parent="Uif-InputField" p:propertyName="positionReportCat" />
+		<bean parent="Uif-InputField" p:propertyName="positionReportType" />
+		<bean parent="Uif-InputField" p:propertyName="institution" />
+		<bean parent="Uif-InputField" p:propertyName="campus" />
+		<bean parent="Uif-InputField" p:propertyName="active" />
+      </list>
+    </property>
+  </bean>
+	
 </beans>
 	

@@ -136,7 +136,7 @@
 		<property name="name" value="institution" />
 		<property name="label" value="Institution" />
 	</bean>
-	
+ 	
 	<bean id="PositionReportGroup-campus" parent="PositionReportGroup-campus-parentBean" />
 	<bean id="PositionReportGroup-campus-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="shortLabel" value="Campus" />
@@ -155,10 +155,10 @@
 	
 	<bean id="PositionReportGroup-active" parent="PositionReportGroup-active-parentBean" />
 	<bean id="PositionReportGroup-active-parentBean" abstract="true"
-		parent="GenericAttributes-activeIndicator">
+		parent="AttributeReferenceDummy-activeIndicator">
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
-	</bean>
+	</bean>	
 
 	<!-- Business Object Inquiry Definition -->
 	<bean id="PositionReportGroup-inquiryDefinition" parent="PositionReportGroup-inquiryDefinition-parentBean" />
@@ -214,5 +214,31 @@
 		</property>
 		<property name="title" value="Position Report Group Lookup" />
 	</bean>
+
+  <!-- KRAD Lookup View Definition -->
+
+  <bean id="PositionReportGroup-LookupView" parent="Uif-LookupView">
+    <property name="title" value="PositionReportGroup Lookup" />
+    <property name="dataObjectClassName" value="org.kuali.hr.pm.positionreportgroup.PositionReportGroup" />
+    <property name="criteriaFields">
+      <list>
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportGroup" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="campus" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="positionReportGroup" />
+		<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+		<bean parent="Uif-InputField" p:propertyName="institution" />
+		<bean parent="Uif-InputField" p:propertyName="campus" />
+		<bean parent="Uif-InputField" p:propertyName="active" />
+      </list>
+    </property>
+  </bean>
+
 </beans>
 	

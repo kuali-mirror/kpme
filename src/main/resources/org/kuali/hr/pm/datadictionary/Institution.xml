@@ -100,14 +100,9 @@
 	<!-- active -->
 	<bean id="Institution-active" parent="Institution-active-parentBean" />
 	<bean id="Institution-active-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Active" />
-		<property name="control">
-			<bean parent="CheckboxControlDefinition" />
-		</property>
+		parent="AttributeReferenceDummy-activeIndicator">
 		<property name="name" value="active" />
 		<property name="label" value="Active" />
-		<property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
 	</bean>
 	
 	<!--  Inquiry Definitions  -->
@@ -159,5 +154,27 @@
 		</property>
 		<property name="title" value="Institution Lookup" />
 	</bean>
+
+  <!-- KRAD Lookup View Definition -->
+ 
+  <bean id="Institution-LookupView" parent="Uif-LookupView">
+    <property name="title" value="Institution Lookup" />
+    <property name="dataObjectClassName" value="org.kuali.hr.pm.institution.Institution" />
+    <property name="criteriaFields">
+      <list>
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="institutionCode" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" />
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+		<bean parent="Uif-InputField" p:propertyName="institutionCode" />
+		<bean parent="Uif-InputField" p:propertyName="description" />
+		<bean parent="Uif-InputField" p:propertyName="active" />
+      </list>
+    </property>
+  </bean>
 
 </beans>

@@ -16,12 +16,8 @@ public class PositionReportGroupSubCategory extends HrBusinessObject {
 	String description;
 	String institution;
 	String campus;
-	
-	PositionReportGroup prgObj;
-	PositionReportSubCategory prscObj;
-	CampusBo campusObj;
-	Institution institutionObj;
-	
+
+	CampusBo campusObj;	
 	
 	@Override
 	public String getId() {
@@ -100,30 +96,6 @@ public class PositionReportGroupSubCategory extends HrBusinessObject {
 
 	public void setCampusObj(CampusBo campusObj) {
 		this.campusObj = campusObj;
-	}
-
-	public Institution getInstitutionObj() {
-		return institutionObj;
-	}
-
-	public void setInstitutionObj(Institution institutionObj) {
-		this.institutionObj = institutionObj;
-	}
-
-	public PositionReportGroup getPrgObj() {
-		return prgObj;
-	}
-
-	public void setPrgObj(PositionReportGroup prgObj) {
-		this.prgObj = prgObj;
-	}
-
-	public PositionReportSubCategory getPrscObj() {
-		return prscObj;
-	}
-
-	public void setPrscObj(PositionReportSubCategory prscObj) {
-		this.prscObj = prscObj;
 	}
 
 }
