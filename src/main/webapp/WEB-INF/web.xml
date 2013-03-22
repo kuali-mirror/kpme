@@ -16,9 +16,12 @@
     limitations under the License.
 
 -->
-<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/j2ee"
+<web-app version="3.0"
+
+    xmlns="http://java.sun.com/xml/ns/j2ee"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_5.xsd">
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_3_0.xsd"
+    metadata-complete="true">
 
     <context-param>
         <param-name>environment</param-name>

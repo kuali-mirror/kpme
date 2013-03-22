@@ -563,6 +563,7 @@
                     <webAppConfig>
                         <contextPath>/kpme-dev</contextPath>
                     </webAppConfig>
+                    <contextXml>${basedir}/src/main/webapp/WEB-INF/jetty-context.xml</contextXml>
                     <systemProperties>
                         <systemProperty>
                             <name>metadata-complete</name>
