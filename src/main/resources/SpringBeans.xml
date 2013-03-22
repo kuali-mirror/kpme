@@ -253,6 +253,7 @@
                 <value>positionReportGroupLookupable</value>
                 <value>positionReportCatLookupable</value>
                 <value>positionReportSubCatLookupable</value>
+                <value>payStepLookupable</value>
             </set>
         </property>
     </bean>
@@ -367,7 +368,9 @@
     <bean id="positionReportCatDao" class="org.kuali.hr.pm.positionreportcat.dao.PositionReportCatDaoObjImpl" parent="platformAwareDao" />
       
     <bean id="positionReportSubCatDao" class="org.kuali.hr.pm.positionreportsubcat.dao.PositionReportSubCatDaoObjImpl" parent="platformAwareDao" />
-      
+     
+    <bean id="payStepDao" class="org.kuali.hr.pm.paystep.dao.PayStepDaoOjbImpl" parent="platformAwareDao" />
+    
     <!-- Time Services for Business Logic -->
     <bean id="missedPunchService" class="org.kuali.hr.time.missedpunch.service.MissedPunchServiceImpl">
         <property name="missedPunchDao" ref="missedPunchDao"/>
@@ -671,6 +674,10 @@
         <property name="positionReportSubCatDao" ref="positionReportSubCatDao"/>
     </bean>
     
+    <bean id="payStepService" class="org.kuali.hr.pm.paystep.service.PayStepServiceImpl">
+        <property name="payStepDao" ref="payStepDao"/>
+    </bean>
+    
     <bean id="accrualCategoryMaxCarryOverService" class="org.kuali.hr.lm.accrual.service.AccrualCategoryMaxCarryOverServiceImpl">
         <property name="accrualCategoryService" ref="accrualCategoryService" />
 	    <property name="accrualCategoryRuleService" ref="accrualCategoryRuleService" />
@@ -686,11 +693,6 @@
             <!--<bean class="org.kuali.hr.time.TkLookupableHelper"/>-->
         <!--</property>-->
     <!--</bean>-->
-    <bean id="institutionLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
-    	<property name="lookupableHelperService">
-    		<bean class="org.kuali.hr.pm.institution.service.InstitutionLookupableHelper"/>
-    	</property>    
-    </bean>
     <bean id="balanceTransferLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
     	<property name="lookupableHelperService">
     		<bean class="org.kuali.hr.lm.balancetransfer.service.BalanceTransferLookupableHelper"/>
@@ -901,7 +903,11 @@
             <bean class="org.kuali.hr.lm.employeeoverride.service.EmployeeOverrideLookupableHelper"/>
         </property>
     </bean>
-
+    <bean id="institutionLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
+    	<property name="lookupableHelperService">
+    		<bean class="org.kuali.hr.pm.institution.service.InstitutionLookupableHelper"/>
+    	</property>    
+    </bean>
  	<bean id="positionReportTypeLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
     	<property name="lookupableHelperService">
     		<bean class="org.kuali.hr.pm.positionreporttype.service.PositionReportTypeLookupableHelper"/>
@@ -924,6 +930,12 @@
 	   	<property name="lookupableHelperService">
 	   		<bean class="org.kuali.hr.pm.positionreportsubcat.service.PositionReportSubCatLookupableHelper"/>
 	   	</property>    
+    </bean>
+
+    <bean id="payStepLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
+    	<property name="lookupableHelperService">
+    		<bean class="org.kuali.hr.pm.paystep.service.PayStepLookupableHelper"/>
+    	</property>    
     </bean>
     
     <bean id="rice.ksb.serviceBus" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">

@@ -1,6 +1,7 @@
 package org.kuali.hr.pm.service.base;
 
 import org.kuali.hr.pm.institution.service.InstitutionService;
+import org.kuali.hr.pm.paystep.service.PayStepService;
 import org.kuali.hr.pm.positionreportcat.service.PositionReportCatService;
 import org.kuali.hr.pm.positionreportgroup.service.PositionReportGroupService;
 import org.kuali.hr.pm.positionreportsubcat.service.PositionReportSubCatService;
@@ -13,6 +14,7 @@ import org.springframework.context.ApplicationContextAware;
 public class PmServiceLocator implements ApplicationContextAware {
 	public static String SPRING_BEANS = "classpath:SpringBeans.xml";
 	public static ApplicationContext CONTEXT;
+	public static final String PM_PAY_STEP_SERVICE = "payStepService";
 	public static final String PM_INSTITUTION_SERVICE = "institutionService";
     public static final String PM_POSITION_REPORT_TYPE_SERVICE = "positionReportTypeService";
     public static final String PM_POSITION_REPORT_GROUP_SERVICE = "positionReportGroupService";
@@ -43,6 +45,10 @@ public class PmServiceLocator implements ApplicationContextAware {
     public static PstnRptGrpSubCatService getPstnRptGrpSubCatService() {
     	return (PstnRptGrpSubCatService) CONTEXT.getBean(PM_PSTN_RPT_GRP_SUB_CAT_SERVICE);
     }
+    
+	public static PayStepService getPayStepService() {
+		return (PayStepService) CONTEXT.getBean(PM_PAY_STEP_SERVICE);
+	}
     
 	@Override
 	public void setApplicationContext(ApplicationContext arg0)

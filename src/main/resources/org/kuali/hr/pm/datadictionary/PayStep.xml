@@ -1,0 +1,333 @@
+<!--
+
+    Copyright 2004-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<bean id="PayStep" parent="PayStep-parentBean" />
+
+	<bean id="PayStep-parentBean" abstract="true" parent="BusinessObjectEntry">
+		<property name="businessObjectClass" value="org.kuali.hr.pm.paystep.PayStep" />
+		<property name="inquiryDefinition">
+			<ref bean="PayStep-inquiryDefinition" />
+		</property>
+		<property name="lookupDefinition">
+			<ref bean="PayStep-lookupDefinition" />
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="PayStep-pmPayStepId" />
+				<ref bean="PayStep-effectiveDate" />
+				<ref bean="PayStep-payStep" />
+				<ref bean="PayStep-institution" />
+				<ref bean="PayStep-campus" />
+				<ref bean="PayStep-salaryGroup" />
+				<ref bean="PayStep-payGrade" />
+				<ref bean="PayStep-stepNumber" />
+				<ref bean="PayStep-compRate" />
+				<ref bean="PayStep-serviceAmount" />
+				<ref bean="PayStep-serviceUnit" />
+				<ref bean="PayStep-active" />
+			</list>
+		</property>
+		<property name="relationships">
+			<list>
+<!-- 				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="salaryGroupObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="salaryGroup"
+								p:targetName="salaryGroup" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="payGradeObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="payGrade"
+								p:targetName="payGrade" />
+						</list>
+					</property>
+				</bean> -->
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="campusObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="campus"
+								p:targetName="code" />
+						</list>
+					</property>
+				</bean>
+				<bean parent="RelationshipDefinition">
+					<property name="objectAttributeName" value="institutionObj" />
+					<property name="primitiveAttributes">
+						<list>
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="institution"
+								p:targetName="institutionCode" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+		<property name="objectLabel" value="PayStep" />
+	</bean>
+
+	<!-- Attribute Definitions -->
+	<bean id="PayStep-pmPayStepId" parent="PayStep-pmPayStepId-parentBean" />
+	<bean id="PayStep-pmPayStepId-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="PayStep Id" />
+		<property name="maxLength" value="60" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="60" />
+		</property>
+		<property name="name" value="pmPayStepId" />
+		<property name="label" value="PayStep Id" />
+	</bean>
+
+	<bean id="PayStep-effectiveDate" parent="PayStep-effectiveDate-parentBean" />
+	<bean id="PayStep-effectiveDate-parentBean" abstract="true"
+		parent="AttributeDefinition">
+		<property name="shortLabel" value="Effective Date" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="DateValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+		</property>
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter" />
+		<property name="name" value="effectiveDate" />
+		<property name="label" value="Effective Date" />
+	</bean>
+
+	<bean id="PayStep-payStep" parent="PayStep-payStep-parentBean" />
+	<bean id="PayStep-payStep-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="10" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="15" />
+		</property>
+		<property name="name" value="payStep" />
+		<property name="label" value="Pay Step" />
+		<property name="description" value="Pay Step" />
+	</bean>
+	
+	<bean id="PayStep-salaryGroup" parent="PayStep-salaryGroup-parentBean" />
+	<bean id="PayStep-salaryGroup-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="10" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="15" />
+		</property>
+		<property name="name" value="salaryGroup" />
+		<property name="label" value="Salary Group" />
+		<property name="description" value="Salary Group" />
+	</bean>
+	
+	<bean id="PayStep-payGrade" parent="PayStep-payGrade-parentBean" />
+	<bean id="PayStep-payGrade-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="maxLength" value="10" />
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="15" />
+		</property>
+		<property name="name" value="payGrade" />
+		<property name="label" value="Pay Grade" />
+		<property name="description" value="Pay Grade" />
+	</bean>
+	
+	<bean id="PayStep-institution" parent="PayStep-institution-parentBean" />
+	<bean id="PayStep-institution-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Institution" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="15" />
+		</property>
+		<property name="name" value="institution" />
+		<property name="label" value="Institution" />
+	</bean>
+	
+	<bean id="PayStep-campus" parent="PayStep-campus-parentBean" />
+	<bean id="PayStep-campus-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Campus" />
+		<property name="maxLength" value="10" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="10" />
+		</property>
+		<property name="name" value="campus" />
+		<property name="label" value="Campus" />
+	</bean>
+	
+	<bean id="PayStep-stepNumber" parent="PayStep-stepNumber-parentBean" />
+	<bean id="PayStep-stepNumber-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Step Number" />
+		<property name="maxLength" value="5" />
+	   	<property name="validationPattern">
+				<bean parent="NumericValidationPattern" />
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="5" />
+		</property>
+		<property name="name" value="stepNumber" />
+		<property name="label" value="Step Number" />
+	</bean>
+	
+	<bean id="PayStep-compRate" parent="PayStep-compRate-parentBean" />
+	<bean id="PayStep-compRate-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Comp Rate" />
+		<property name="maxLength" value="6" />
+		<property name="validationPattern">
+			<bean parent="FixedPointValidationPattern"  p:precision="3" p:scale="2"  />				 
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="6" />
+		</property>
+		<property name="name" value="compRate" />
+		<property name="label" value="Compensation Rate" />
+	</bean>
+
+	<bean id="PayStep-serviceAmount" parent="PayStep-serviceAmount-parentBean" />
+	<bean id="PayStep-serviceAmount-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Service Amount" />
+		<property name="maxLength" value="15" />
+		<property name="validationPattern">
+			<bean parent="AnyCharacterValidationPattern">
+				<property name="allowWhitespace" value="false" />
+			</bean>
+		</property>
+		<property name="control">
+			<bean parent="TextControlDefinition" p:size="15" />
+		</property>
+		<property name="name" value="serviceAmount" />
+		<property name="label" value="Service Amount" />
+	</bean>	
+
+	<bean id="PayStep-serviceUnit" parent="PayStep-serviceUnit-parentBean" />
+	<bean id="PayStep-serviceUnit-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Service Unit" />
+		<property name="control">
+			<bean parent="RadioControlDefinition" p:valuesFinderClass="org.kuali.hr.lm.util.ServiceUnitOfTimeKeyValueFinder" />
+		</property>
+		<property name="name" value="serviceUnit" />
+		<property name="label" value="Service Unit" />
+	</bean>
+
+	<bean id="PayStep-active" parent="PayStep-active-parentBean" />
+	<bean id="PayStep-active-parentBean" abstract="true"
+		parent="AttributeReferenceDummy-activeIndicator">
+		<property name="name" value="active" />
+		<property name="label" value="Active" />
+	</bean>
+
+	<!-- Business Object Inquiry Definition -->
+	<bean id="PayStep-inquiryDefinition" parent="PayStep-inquiryDefinition-parentBean" />
+	<bean id="PayStep-inquiryDefinition-parentBean" abstract="true"
+		parent="InquiryDefinition">
+		<property name="inquirySections">
+			<list>
+				<bean parent="InquirySectionDefinition">
+					<property name="numberOfColumns" value="1" />
+					<property name="inquiryFields">
+						<list>
+							<bean parent="FieldDefinition" p:attributeName="pmPayStepId" />
+							<bean parent="FieldDefinition" p:attributeName="payStep" />
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="institution" />
+							<bean parent="FieldDefinition" p:attributeName="campus" />
+							<bean parent="FieldDefinition" p:attributeName="salaryGroup" />
+							<bean parent="FieldDefinition" p:attributeName="payGrade" />
+							<bean parent="FieldDefinition" p:attributeName="stepNumber" />
+							<bean parent="FieldDefinition" p:attributeName="compRate" />
+							<bean parent="FieldDefinition" p:attributeName="serviceAmount" />
+							<bean parent="FieldDefinition" p:attributeName="serviceUnit" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+						</list>
+					</property>
+					<property name="title" value="Pay Step" />
+				</bean>
+			</list>
+		</property>
+		<property name="translateCodes" value="false" />
+		<property name="title" value="Pay Step Inquiry" />
+	</bean>
+
+	<!-- Business Object Lookup Definition -->
+	<bean id="PayStep-lookupDefinition" parent="PayStep-lookupDefinition-parentBean" />
+	<bean id="PayStep-lookupDefinition-parentBean" abstract="true"
+		parent="LookupDefinition">
+		<property name="lookupableID" value="payStepLookupable" />
+		<property name="defaultSort">
+			<bean parent="SortDefinition">
+			</bean>
+		</property>
+		<property name="lookupFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="institution" />
+				<bean parent="FieldDefinition" p:attributeName="campus" />
+				<bean parent="FieldDefinition" p:attributeName="salaryGroup" />
+				<bean parent="FieldDefinition" p:attributeName="payGrade" />
+			</list>
+		</property>
+		<property name="resultFields">
+			<list>
+				<bean parent="FieldDefinition" p:attributeName="institution" />
+				<bean parent="FieldDefinition" p:attributeName="campus" />
+				<bean parent="FieldDefinition" p:attributeName="salaryGroup" />
+				<bean parent="FieldDefinition" p:attributeName="payGrade" />
+			</list>
+		</property>
+		<property name="title" value="Pay Step Lookup" />
+	</bean>
+	
+  <!-- KRAD Lookup View Definition -->
+  <bean id="PayStep-LookupView" parent="Uif-LookupView">
+    <property name="title" value="Pay Step Lookup" />
+    <property name="dataObjectClassName" value="org.kuali.hr.pm.paystep.PayStep" />
+    <property name="criteriaFields">
+      <list>
+		<bean parent="Uif-LookupCriteriaInputField" p:attributeName="institution" />
+		<bean parent="Uif-LookupCriteriaInputField" p:attributeName="campus" />
+		<bean parent="Uif-LookupCriteriaInputField" p:attributeName="salaryGroup" />
+		<bean parent="Uif-LookupCriteriaInputField" p:attributeName="payGrade" />
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+		<bean parent="Uif-InputField" p:attributeName="institution" />
+		<bean parent="Uif-InputField" p:attributeName="campus" />
+		<bean parent="Uif-InputField" p:attributeName="salaryGroup" />
+		<bean parent="Uif-InputField" p:attributeName="payGrade" />
+      </list>
+    </property>
+  </bean>
+</beans>
+	

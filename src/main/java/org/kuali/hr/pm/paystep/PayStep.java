@@ -1,16 +1,11 @@
 package org.kuali.hr.pm.paystep;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.pm.institution.Institution;
 import org.kuali.hr.time.HrBusinessObject;
-import org.kuali.rice.krad.bo.InactivatableFromToImpl;
-import org.kuali.rice.krad.bo.KualiCode;
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
-import org.kuali.rice.location.api.campus.Campus;
+import org.kuali.rice.location.impl.campus.CampusBo;
 
 public class PayStep extends HrBusinessObject implements Comparable {
 
@@ -19,7 +14,7 @@ public class PayStep extends HrBusinessObject implements Comparable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private String payStepId;
+	private String pmPayStepId;
 	private String payStep;
 	private String institution;
 	private String campus;
@@ -27,35 +22,31 @@ public class PayStep extends HrBusinessObject implements Comparable {
 	private String payGrade;
 	private int stepNumber;
 	private BigDecimal compRate;
-	private int serviceInterval;
+	private int serviceAmount;
 	private String serviceUnit;
 	
-	private Institution instutitionObj;
-	private Campus campusObj;
+	private Institution institutionObj;
+	private CampusBo campusObj;
 	//private SalaryGroup SalaryGroupObj;
 	//private PayGrade PayGradeObj;
 
 	@Override
 	public boolean isActive() {
-		// TODO Auto-generated method stub
 		return super.isActive();
 	}
 
 	@Override
 	public void setActive(boolean active) {
-		// TODO Auto-generated method stub
 		super.setActive(active);
 	}
 
 	@Override
 	public String getObjectId() {
-		// TODO Auto-generated method stub
 		return super.getObjectId();
 	}
 
 	@Override
 	public Long getVersionNumber() {
-		// TODO Auto-generated method stub
 		return super.getVersionNumber();
 	}
 
@@ -68,15 +59,15 @@ public class PayStep extends HrBusinessObject implements Comparable {
 
 				Integer otherServiceTime = 0;
 				if(StringUtils.equals(s.serviceUnit,LMConstants.SERVICE_TIME_YEAR))
-					otherServiceTime = s.getServiceInterval() * 12;
+					otherServiceTime = s.getServiceAmount() * 12;
 				else
-					otherServiceTime = s.getServiceInterval();
+					otherServiceTime = s.getServiceAmount();
 				
 				Integer thisServiceTime = 0;
 				if(StringUtils.equals(serviceUnit, LMConstants.SERVICE_TIME_YEAR))
-					thisServiceTime = serviceInterval * 12;
+					thisServiceTime = serviceAmount * 12;
 				else
-					thisServiceTime = serviceInterval;
+					thisServiceTime = serviceAmount;
 				
 				return otherServiceTime.compareTo(thisServiceTime);
 			}
@@ -143,12 +134,12 @@ public class PayStep extends HrBusinessObject implements Comparable {
 		this.compRate = compRate;
 	}
 
-	public int getServiceInterval() {
-		return serviceInterval;
+	public int getServiceAmount() {
+		return serviceAmount;
 	}
 
-	public void setServiceInterval(int serviceInterval) {
-		this.serviceInterval = serviceInterval;
+	public void setServiceAmount(int serviceInterval) {
+		this.serviceAmount = serviceInterval;
 	}
 
 	public String getServiceUnit() {
@@ -161,40 +152,40 @@ public class PayStep extends HrBusinessObject implements Comparable {
 
 	@Override
 	public String getId() {
-		return payStepId;
+		return pmPayStepId;
 	}
 
 	@Override
 	public void setId(String id) {
-		payStepId = id;
+		pmPayStepId = id;
 	}
 
 	@Override
 	protected String getUniqueKey() {
-		return getPayStepId();
+		return getPmPayStepId();
 	}
 
-	public String getPayStepId() {
-		return payStepId;
+	public String getPmPayStepId() {
+		return pmPayStepId;
 	}
 
-	public void setPayStepId(String payStepId) {
-		this.payStepId = payStepId;
+	public void setPmPayStepId(String pmPayStepId) {
+		this.pmPayStepId = pmPayStepId;
 	}
 
-	public Institution getInstutitionObj() {
-		return instutitionObj;
+	public Institution getInstitutionObj() {
+		return institutionObj;
 	}
 
-	public void setInstutitionObj(Institution instutitionObj) {
-		this.instutitionObj = instutitionObj;
+	public void setInstitutionObj(Institution institutionObj) {
+		this.institutionObj = institutionObj;
 	}
 
-	public Campus getCampusObj() {
+	public CampusBo getCampusObj() {
 		return campusObj;
 	}
 
-	public void setCampusObj(Campus campusObj) {
+	public void setCampusObj(CampusBo campusObj) {
 		this.campusObj = campusObj;
 	}
 
