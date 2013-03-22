@@ -23,7 +23,7 @@ import java.util.List;
 public interface CalendarEntryDao {
 
 	public void saveOrUpdate(CalendarEntry calendarEntry);
-	public CalendarEntry getCalendarEntry(String hrPyCalendarEntryId);
+	public CalendarEntry getCalendarEntry(String hrCalendarEntryId);
 
     public CalendarEntry getCalendarEntryByIdAndPeriodEndDate(String hrPyCalendarId, Date endPeriodDate);
 	public CalendarEntry getCurrentCalendarEntryByCalendarId(String hrPyCalendarId, Date currentDate);

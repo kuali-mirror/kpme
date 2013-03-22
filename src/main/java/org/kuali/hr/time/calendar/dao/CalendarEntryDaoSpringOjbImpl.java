@@ -39,9 +39,9 @@ public class CalendarEntryDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imple
         this.getPersistenceBrokerTemplate().store(calendarEntry);
     }
 
-    public CalendarEntry getCalendarEntry(String hrPyCalendarEntryId) {
+    public CalendarEntry getCalendarEntry(String hrCalendarEntryId) {
         Criteria currentRecordCriteria = new Criteria();
-        currentRecordCriteria.addEqualTo("hrPyCalendarEntryId", hrPyCalendarEntryId);
+        currentRecordCriteria.addEqualTo("hrCalendarEntryId", hrCalendarEntryId);
 
         return (CalendarEntry) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(CalendarEntry.class, currentRecordCriteria));
     }
