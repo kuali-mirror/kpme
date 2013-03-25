@@ -614,7 +614,7 @@ CREATE TABLE KR_QRTZ_PAUSED_TRIGGERS_GRPS
 # -----------------------------------------------------------------------
 CREATE TABLE KRNS_LOCK_S
 (
-	id BIGINT not null auto_increment, primary key (id) 
+	ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
 ) ENGINE MyISAM
 ;
 ALTER TABLE KRNS_LOCK_S auto_increment = 2000
@@ -625,7 +625,7 @@ ALTER TABLE KRNS_LOCK_S auto_increment = 2000
 # -----------------------------------------------------------------------
 CREATE TABLE KRNS_LOOKUP_RSLT_S
 (
-	id BIGINT not null auto_increment, primary key (id) 
+	ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
 ) ENGINE MyISAM
 ;
 ALTER TABLE KRNS_LOOKUP_RSLT_S auto_increment = 2000
@@ -636,7 +636,7 @@ ALTER TABLE KRNS_LOOKUP_RSLT_S auto_increment = 2000
 # -----------------------------------------------------------------------
 CREATE TABLE KRNS_MAINT_LOCK_S
 (
-	id BIGINT not null auto_increment, primary key (id) 
+	ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
 ) ENGINE MyISAM
 ;
 ALTER TABLE KRNS_MAINT_LOCK_S auto_increment = 2000
@@ -647,7 +647,7 @@ ALTER TABLE KRNS_MAINT_LOCK_S auto_increment = 2000
 # -----------------------------------------------------------------------
 CREATE TABLE KRNS_NTE_S
 (
-	id BIGINT not null auto_increment, primary key (id) 
+	ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
 ) ENGINE MyISAM
 ;
 ALTER TABLE KRNS_NTE_S auto_increment = 2020
@@ -658,7 +658,7 @@ ALTER TABLE KRNS_NTE_S auto_increment = 2020
 # -----------------------------------------------------------------------
 CREATE TABLE KRSB_BAM_PARM_S
 (
-	id BIGINT not null auto_increment, primary key (id) 
+	ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
 ) ENGINE MyISAM
 ;
 ALTER TABLE KRSB_BAM_PARM_S auto_increment = 2000
@@ -669,7 +669,7 @@ ALTER TABLE KRSB_BAM_PARM_S auto_increment = 2000
 # -----------------------------------------------------------------------
 CREATE TABLE KRSB_BAM_S
 (
-	id BIGINT not null auto_increment, primary key (id) 
+	ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
 ) ENGINE MyISAM
 ;
 ALTER TABLE KRSB_BAM_S auto_increment = 2000
@@ -680,7 +680,7 @@ ALTER TABLE KRSB_BAM_S auto_increment = 2000
 # -----------------------------------------------------------------------
 CREATE TABLE KRSB_MSG_QUE_S
 (
-	id BIGINT not null auto_increment, primary key (id) 
+	ID BIGINT NOT NULL AUTO_INCREMENT, PRIMARY KEY (ID) 
 ) ENGINE MyISAM
 ;
 ALTER TABLE KRSB_MSG_QUE_S auto_increment = 121

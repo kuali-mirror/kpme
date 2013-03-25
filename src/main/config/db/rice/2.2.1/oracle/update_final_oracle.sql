@@ -27,9 +27,9 @@
 -- KULRICE-7439: Assignment of "Add Message to Route Log" permission to the KR-SYS technical administrator is missing from bootstrap dataset
 --
 
-delete from krim_role_perm_t where
-role_id = (select role_id from krim_role_t where role_nm = 'Technical Administrator' and nmspc_cd = 'KR-SYS') AND
-perm_id = (select perm_id from krim_perm_t where nm = 'Add Message to Route Log' and nmspc_cd = 'KUALI')
+DELETE FROM KRIM_ROLE_PERM_T WHERE
+ROLE_ID = (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Technical Administrator' AND NMSPC_CD = 'KR-SYS') AND
+PERM_ID = (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Add Message to Route Log' AND NMSPC_CD = 'KUALI')
 /
 
 
@@ -46,33 +46,33 @@ perm_id = (select perm_id from krim_perm_t where nm = 'Add Message to Route Log'
 -- ----------------------------------------------------------------------
 -- krad_msg_t
 -- ----------------------------------------------------------------------
-CREATE TABLE krad_msg_t
+CREATE TABLE KRAD_MSG_T
 (
-	nmspc_cd VARCHAR2(20) NOT NULL,
-	cmpnt_cd VARCHAR2(100) NOT NULL,
-	msg_key VARCHAR2(100) NOT NULL,
-	loc VARCHAR2(80) NOT NULL,
-	obj_id VARCHAR2(36) NOT NULL,
-	ver_nbr DECIMAL(8) DEFAULT 1 NOT NULL,
-	msg_desc VARCHAR2(255),
-	txt VARCHAR2(4000)
+	NMSPC_CD VARCHAR2(20) NOT NULL,
+	CMPNT_CD VARCHAR2(100) NOT NULL,
+	MSG_KEY VARCHAR2(100) NOT NULL,
+	LOC VARCHAR2(80) NOT NULL,
+	OBJ_ID VARCHAR2(36) NOT NULL,
+	VER_NBR DECIMAL(8) DEFAULT 1 NOT NULL,
+	MSG_DESC VARCHAR2(255),
+	TXT VARCHAR2(4000)
 )
 /
 
-ALTER TABLE krad_msg_t
-    ADD CONSTRAINT krad_msg_tC1
-PRIMARY KEY (nmspc_cd,cmpnt_cd,msg_key,loc)
+ALTER TABLE KRAD_MSG_T
+    ADD CONSTRAINT KRAD_MSG_TC1
+PRIMARY KEY (NMSPC_CD,CMPNT_CD,MSG_KEY,LOC)
 /
 
-ALTER TABLE krad_msg_t
-    ADD CONSTRAINT krad_msg_tC2
-UNIQUE (obj_id)
+ALTER TABLE KRAD_MSG_T
+    ADD CONSTRAINT KRAD_MSG_TC2
+UNIQUE (OBJ_ID)
 /
 
 -- note!! the 'loc' field in rice is currently set to 255 chars, but that exceeds the max length for primary
 -- keys in mysql 5.1.  Depending on what the rice team does about this, we may need to run the following statement
 -- below
--- alter table krad_msg_t modify loc VARCHAR2(255)
+-- ALTER TABLE KRAD_MSG_T MODIFY LOC VARCHAR2(255)
 -- ;
 
 
@@ -102,24 +102,24 @@ INSERT INTO KRCR_PARM_T VALUES ('KR-NS', 'All', 'DEFAULT_LOCALE_CODE', sys_guid(
 --     KULRICE-8349 - guest user access
 --
 
-insert into krim_entity_t (ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)
-values ('KR1000', sys_guid(), 1, 'Y', sysdate)
+INSERT INTO KRIM_ENTITY_T (ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)
+VALUES ('KR1000', sys_guid(), 1, 'Y', sysdate)
 /
 
-insert into krim_entity_ent_typ_t (ENT_TYP_CD, ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)
-values ('PERSON', 'KR1000', sys_guid(), 1, 'Y', sysdate)
+INSERT INTO KRIM_ENTITY_ENT_TYP_T (ENT_TYP_CD, ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)
+VALUES ('PERSON', 'KR1000', sys_guid(), 1, 'Y', sysdate)
 /
 
-insert into krim_prncpl_t (PRNCPL_ID, OBJ_ID, VER_NBR, PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT)
-values ('guest', sys_guid(), 1, 'guest', 'KR1000', '', 'Y', sysdate)
+INSERT INTO KRIM_PRNCPL_T (PRNCPL_ID, OBJ_ID, VER_NBR, PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT)
+VALUES ('guest', sys_guid(), 1, 'guest', 'KR1000', '', 'Y', sysdate)
 /
 
-insert into krim_role_t (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT)
-values ('KR1000', sys_guid(), 1, 'GuestRole', 'KUALI', 'This role is used for no login guest users.', '1', 'Y', sysdate)
+INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT)
+VALUES ('KR1000', sys_guid(), 1, 'GuestRole', 'KUALI', 'This role is used for no login guest users.', '1', 'Y', sysdate)
 /
 
-insert into krim_role_mbr_t (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
-values ('KR1000', 1, sys_guid(), 'KR1000', 'guest', 'P', null, null, sysdate)
+INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
+VALUES ('KR1000', 1, sys_guid(), 'KR1000', 'guest', 'P', null, null, sysdate)
 /
 
 
@@ -139,60 +139,60 @@ values ('KR1000', 1, sys_guid(), 'KR1000', 'guest', 'P', null, null, sysdate)
 --
 
 
-create sequence krms_ref_obj_krms_obj_s increment by 1 start with 10000 nomaxvalue nocycle nocache order
+CREATE SEQUENCE KRMS_REF_OBJ_KRMS_OBJ_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
-create sequence krms_typ_reln_s increment by 1 start with 10000 nomaxvalue nocycle nocache order
+CREATE SEQUENCE KRMS_TYP_RELN_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
-create sequence krms_nl_usage_s increment by 1 start with 10000 nomaxvalue nocycle nocache order
+CREATE SEQUENCE KRMS_NL_USAGE_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
-create sequence krms_nl_tmpl_s increment by 1 start with 10000 nomaxvalue nocycle nocache order
+CREATE SEQUENCE KRMS_NL_TMPL_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
-create sequence krms_nl_tmpl_attr_s increment by 1 start with 10000 nomaxvalue nocycle nocache order
+CREATE SEQUENCE KRMS_NL_TMPL_ATTR_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
-create sequence krms_nl_usage_attr_s increment by 1 start with 10000 nomaxvalue nocycle nocache order
+CREATE SEQUENCE KRMS_NL_USAGE_ATTR_S INCREMENT BY 1 START WITH 10000 NOMAXVALUE NOCYCLE NOCACHE ORDER
 /
 
-CREATE  TABLE krms_nl_usage_t(
-  nl_usage_id VARCHAR2(40) NOT NULL ,
-  nm VARCHAR2(255) NOT NULL,
-  nmspc_cd VARCHAR2(40)  NOT NULL,
-  desc_txt VARCHAR2(255) NULL,
-  actv VARCHAR2(1) DEFAULT 'Y' NOT NULL,
-  ver_nbr NUMBER(8) DEFAULT 0 NOT NULL,
-  PRIMARY KEY (nl_usage_id),
-  CONSTRAINT krms_nl_usage_tc1 UNIQUE (nm, nmspc_cd)
+CREATE  TABLE KRMS_NL_USAGE_T(
+  NL_USAGE_ID VARCHAR2(40) NOT NULL ,
+  NM VARCHAR2(255) NOT NULL,
+  NMSPC_CD VARCHAR2(40)  NOT NULL,
+  DESC_TXT VARCHAR2(255) NULL,
+  ACTV VARCHAR2(1) DEFAULT 'Y' NOT NULL,
+  VER_NBR NUMBER(8) DEFAULT 0 NOT NULL,
+  PRIMARY KEY (NL_USAGE_ID),
+  CONSTRAINT KRMS_NL_USAGE_TC1 UNIQUE (NM, NMSPC_CD)
 )
 /
-CREATE  TABLE  krms_nl_usage_attr_t (
-  nl_usage_attr_id VARCHAR2(40)  NOT NULL ,
-  nl_usage_id VARCHAR2(40)  NOT NULL ,
-  attr_defn_id VARCHAR2(40)  NOT NULL ,
-  attr_val VARCHAR2(400) NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL ,
-  PRIMARY KEY (nl_usage_attr_id) ,
-  CONSTRAINT krms_nl_usage_attr_tc1 UNIQUE (nl_usage_id, attr_defn_id),
-  CONSTRAINT krms_nl_usage_attr_fk1
-    FOREIGN KEY (nl_usage_id )
-    REFERENCES krms_nl_usage_t (nl_usage_id ) ,
-  CONSTRAINT krms_nl_usage_attr_fk2
-    FOREIGN KEY (attr_defn_id )
-    REFERENCES krms_attr_defn_t (attr_defn_id )
+CREATE  TABLE  KRMS_NL_USAGE_ATTR_T (
+  NL_USAGE_ATTR_ID VARCHAR2(40)  NOT NULL ,
+  NL_USAGE_ID VARCHAR2(40)  NOT NULL ,
+  ATTR_DEFN_ID VARCHAR2(40)  NOT NULL ,
+  ATTR_VAL VARCHAR2(400) NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL ,
+  PRIMARY KEY (NL_USAGE_ATTR_ID) ,
+  CONSTRAINT KRMS_NL_USAGE_ATTR_TC1 UNIQUE (NL_USAGE_ID, ATTR_DEFN_ID),
+  CONSTRAINT KRMS_NL_USAGE_ATTR_FK1
+    FOREIGN KEY (NL_USAGE_ID )
+    REFERENCES KRMS_NL_USAGE_T (NL_USAGE_ID ) ,
+  CONSTRAINT KRMS_NL_USAGE_ATTR_FK2
+    FOREIGN KEY (ATTR_DEFN_ID )
+    REFERENCES KRMS_ATTR_DEFN_T (ATTR_DEFN_ID )
 )
 /
-CREATE TABLE krms_nl_tmpl_t (
-  nl_tmpl_id VARCHAR2(40) NOT NULL,
-  lang_cd VARCHAR2(2) NOT NULL,
-  nl_usage_id VARCHAR2(40) NOT NULL,
-  typ_id VARCHAR2(40) NOT NULL,
-  tmpl VARCHAR2(4000) NOT NULL,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL,
-  CONSTRAINT krms_nl_tmpl_fk1 FOREIGN KEY (nl_usage_id) REFERENCES krms_nl_usage_t (nl_usage_id),
-  CONSTRAINT krms_typ_t FOREIGN KEY (typ_id) REFERENCES krms_typ_t (typ_id),
-  PRIMARY KEY (nl_tmpl_id),
-  CONSTRAINT krms_nl_tmpl_tc1 UNIQUE (lang_cd, nl_usage_id, typ_id)
+CREATE TABLE KRMS_NL_TMPL_T (
+  NL_TMPL_ID VARCHAR2(40) NOT NULL,
+  LANG_CD VARCHAR2(2) NOT NULL,
+  NL_USAGE_ID VARCHAR2(40) NOT NULL,
+  TYP_ID VARCHAR2(40) NOT NULL,
+  TMPL VARCHAR2(4000) NOT NULL,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL,
+  CONSTRAINT KRMS_NL_TMPL_FK1 FOREIGN KEY (NL_USAGE_ID) REFERENCES KRMS_NL_USAGE_T (NL_USAGE_ID),
+  CONSTRAINT KRMS_TYP_T FOREIGN KEY (TYP_ID) REFERENCES KRMS_TYP_T (TYP_ID),
+  PRIMARY KEY (NL_TMPL_ID),
+  CONSTRAINT KRMS_NL_TMPL_TC1 UNIQUE (LANG_CD, NL_USAGE_ID, TYP_ID)
 )
 /
-CREATE  TABLE krms_typ_reln_t (
+CREATE  TABLE KRMS_TYP_RELN_T (
   TYP_RELN_ID VARCHAR2(40) NOT NULL ,
   FROM_TYP_ID VARCHAR2(40) NOT NULL ,
   TO_TYP_ID VARCHAR2(40) NOT NULL ,
@@ -202,38 +202,38 @@ CREATE  TABLE krms_typ_reln_t (
   ACTV VARCHAR2(1) DEFAULT 'Y' NOT NULL,
   PRIMARY KEY (TYP_RELN_ID) ,
   CONSTRAINT KRMS_TYP_RELN_TC1 UNIQUE (FROM_TYP_ID, TO_TYP_ID, RELN_TYP) ,
-  CONSTRAINT KRMS_TYP_RELN_FK1 FOREIGN KEY (FROM_TYP_ID ) REFERENCES krms_typ_t (TYP_ID ),
-  CONSTRAINT KRMS_TYP_RELN_FK2 FOREIGN KEY (TO_TYP_ID ) REFERENCES krms_typ_t (TYP_ID )
+  CONSTRAINT KRMS_TYP_RELN_FK1 FOREIGN KEY (FROM_TYP_ID ) REFERENCES KRMS_TYP_T (TYP_ID ),
+  CONSTRAINT KRMS_TYP_RELN_FK2 FOREIGN KEY (TO_TYP_ID ) REFERENCES KRMS_TYP_T (TYP_ID )
 )
 /
-CREATE  TABLE krms_ref_obj_krms_obj_t(
-  ref_obj_krms_obj_id VARCHAR2(40) NOT NULL,
-  collection_nm VARCHAR2(40) NULL,
-  krms_obj_id VARCHAR2(40) NOT NULL,
-  krms_dscr_typ VARCHAR2(40) NOT NULL,
-  ref_obj_id VARCHAR2(255) NOT NULL,
-  ref_dscr_typ VARCHAR2(255) NOT NULL,
-  nmspc_cd VARCHAR2(40)  NOT NULL,
-  actv VARCHAR2(1) DEFAULT 'Y'  NOT NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL,
-  PRIMARY KEY (ref_obj_krms_obj_id),
-  CONSTRAINT krms_ref_obj_krms_obj_tc1 UNIQUE (collection_nm, krms_obj_id, krms_dscr_typ, ref_obj_id, ref_dscr_typ, nmspc_cd)
+CREATE  TABLE KRMS_REF_OBJ_KRMS_OBJ_T(
+  REF_OBJ_KRMS_OBJ_ID VARCHAR2(40) NOT NULL,
+  COLLECTION_NM VARCHAR2(40) NULL,
+  KRMS_OBJ_ID VARCHAR2(40) NOT NULL,
+  KRMS_DSCR_TYP VARCHAR2(40) NOT NULL,
+  REF_OBJ_ID VARCHAR2(255) NOT NULL,
+  REF_DSCR_TYP VARCHAR2(255) NOT NULL,
+  NMSPC_CD VARCHAR2(40)  NOT NULL,
+  ACTV VARCHAR2(1) DEFAULT 'Y'  NOT NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL,
+  PRIMARY KEY (REF_OBJ_KRMS_OBJ_ID),
+  CONSTRAINT KRMS_REF_OBJ_KRMS_OBJ_TC1 UNIQUE (COLLECTION_NM, KRMS_OBJ_ID, KRMS_DSCR_TYP, REF_OBJ_ID, REF_DSCR_TYP, NMSPC_CD)
 )
 /
-CREATE  TABLE  krms_nl_tmpl_attr_t (
-  nl_tmpl_attr_id VARCHAR2(40)  NOT NULL ,
-  nl_tmpl_id VARCHAR2(40)  NOT NULL ,
-  attr_defn_id VARCHAR2(40)  NOT NULL ,
-  attr_val VARCHAR2(400) NULL ,
-  ver_nbr NUMBER(8) DEFAULT 0  NOT NULL ,
-  PRIMARY KEY (nl_tmpl_attr_id) ,
-  CONSTRAINT krms_nl_tmpl_attr_tc1 UNIQUE (nl_tmpl_id, attr_defn_id),
-  CONSTRAINT krms_nl_tmpl_attr_fk1
-    FOREIGN KEY (nl_tmpl_id )
-    REFERENCES krms_nl_tmpl_t (nl_tmpl_id ) ,
-  CONSTRAINT krms_nl_tmpl_attr_fk2
-    FOREIGN KEY (attr_defn_id )
-    REFERENCES krms_attr_defn_t (attr_defn_id )
+CREATE  TABLE  KRMS_NL_TMPL_ATTR_T (
+  NL_TMPL_ATTR_ID VARCHAR2(40)  NOT NULL ,
+  NL_TMPL_ID VARCHAR2(40)  NOT NULL ,
+  ATTR_DEFN_ID VARCHAR2(40)  NOT NULL ,
+  ATTR_VAL VARCHAR2(400) NULL ,
+  VER_NBR NUMBER(8) DEFAULT 0  NOT NULL ,
+  PRIMARY KEY (NL_TMPL_ATTR_ID) ,
+  CONSTRAINT KRMS_NL_TMPL_ATTR_TC1 UNIQUE (NL_TMPL_ID, ATTR_DEFN_ID),
+  CONSTRAINT KRMS_NL_TMPL_ATTR_FK1
+    FOREIGN KEY (NL_TMPL_ID )
+    REFERENCES KRMS_NL_TMPL_T (NL_TMPL_ID ) ,
+  CONSTRAINT KRMS_NL_TMPL_ATTR_FK2
+    FOREIGN KEY (ATTR_DEFN_ID )
+    REFERENCES KRMS_ATTR_DEFN_T (ATTR_DEFN_ID )
 )
 /
 

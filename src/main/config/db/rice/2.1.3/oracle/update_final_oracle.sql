@@ -56,7 +56,7 @@ VALUES('KR1003', SYS_GUID(), 1, 'KR-SYS', 'Backdoor Restriction', 'Backdoor Rest
 --    KULRICE-8415 - Large roles cannot be opened or edited in KIM
 --
 
-alter table KRIM_TYP_ATTR_T ADD constraint KRIM_TYP_ATTR_TC1 unique (SORT_CD, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ACTV_IND)
+ALTER TABLE KRIM_TYP_ATTR_T ADD CONSTRAINT KRIM_TYP_ATTR_TC1 UNIQUE (SORT_CD, KIM_TYP_ID, KIM_ATTR_DEFN_ID, ACTV_IND)
 /
 
 
@@ -146,9 +146,9 @@ ALTER TABLE KRNS_PESSIMISTIC_LOCK_T ADD SESN_ID VARCHAR2(40) DEFAULT '' NOT NULL
 -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 -- delete the assignment of the recall from routing permission for KULRICE-7687
-delete from krim_role_perm_t where
-  role_id = (select role_id from krim_role_t where nmspc_cd = 'KR-WKFLW' and role_nm = 'Initiator') and
-  perm_id = (select PERM_ID from krim_perm_t where nmspc_cd = 'KR-WKFLW' and nm = 'Recall Document')
+DELETE FROM KRIM_ROLE_PERM_T WHERE
+  ROLE_ID = (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KR-WKFLW' AND ROLE_NM = 'Initiator') AND
+  PERM_ID = (SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KR-WKFLW' AND NM = 'Recall Document')
 /
 
 
@@ -169,8 +169,8 @@ ALTER TABLE KREW_DOC_TYP_T ADD AUTHORIZER VARCHAR(255) DEFAULT NULL
 
 
 -- KULRICE-8177: CONTRIB: Identity Mgmt Section listed as "Undefined"
-update KREW_DOC_TYP_T set LBL = 'Identity Management Document' where
-  DOC_TYP_NM = 'IdentityManagementDocument' and LBL = 'Undefined'
+UPDATE KREW_DOC_TYP_T SET LBL = 'Identity Management Document' WHERE
+  DOC_TYP_NM = 'IdentityManagementDocument' AND LBL = 'Undefined'
 /
 
 

@@ -147,7 +147,7 @@ ALTER TABLE KRLC_CNTY_T
 --
 
 -- add category name (which is part of composite fk) to app doc stat
-alter table KREW_DOC_TYP_APP_DOC_STAT_T add column CAT_NM varchar(64)
+ALTER TABLE KREW_DOC_TYP_APP_DOC_STAT_T ADD COLUMN CAT_NM VARCHAR(64)
 ;
 
 -- add index for queries from category to status.  Using non-standard index name to follow table precedent.
@@ -155,18 +155,18 @@ CREATE INDEX KREW_DOC_TYP_APP_DOC_STAT_T2 on KREW_DOC_TYP_APP_DOC_STAT_T (DOC_TY
 ;
 
 -- add sequence number column for ordering to app doc stat
-alter table KREW_DOC_TYP_APP_DOC_STAT_T add column SEQ_NO DECIMAL(5,0)
+ALTER TABLE KREW_DOC_TYP_APP_DOC_STAT_T ADD COLUMN SEQ_NO DECIMAL(5,0)
 ;
 
 -- create category table
 CREATE TABLE KREW_DOC_TYP_APP_STAT_CAT_T  (
-    DOC_TYP_ID  varchar(40) NOT NULL,
-	CAT_NM      varchar(64) NOT NULL,
-    VER_NBR     decimal(8,0) DEFAULT '0',
-    OBJ_ID      varchar(36) NOT NULL,
+    DOC_TYP_ID  VARCHAR(40) NOT NULL,
+	CAT_NM      VARCHAR(64) NOT NULL,
+    VER_NBR     DECIMAL(8,0) DEFAULT '0',
+    OBJ_ID      VARCHAR(36) NOT NULL,
 
 	PRIMARY KEY(DOC_TYP_ID, CAT_NM),
-	CONSTRAINT KREW_DOC_TYP_APP_STAT_CAT_FK1 foreign key (DOC_TYP_ID) references KREW_DOC_TYP_T (DOC_TYP_ID)
+	CONSTRAINT KREW_DOC_TYP_APP_STAT_CAT_FK1 FOREIGN KEY (DOC_TYP_ID) REFERENCES KREW_DOC_TYP_T (DOC_TYP_ID)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin
 ;
 
@@ -177,8 +177,8 @@ ALTER TABLE KREW_DOC_TYP_APP_STAT_CAT_T
 ;
 
 -- add constraint to tie app doc stat and category together
-alter table KREW_DOC_TYP_APP_DOC_STAT_T add constraint KREW_DOC_TYP_APP_DOC_STAT_FK1
-foreign key KREW_DOC_TYP_APP_DOC_STAT_TI2 (DOC_TYP_ID, CAT_NM) references KREW_DOC_TYP_APP_STAT_CAT_T (DOC_TYP_ID, CAT_NM)
+ALTER TABLE KREW_DOC_TYP_APP_DOC_STAT_T ADD CONSTRAINT KREW_DOC_TYP_APP_DOC_STAT_FK1
+FOREIGN KEY KREW_DOC_TYP_APP_DOC_STAT_TI2 (DOC_TYP_ID, CAT_NM) REFERENCES KREW_DOC_TYP_APP_STAT_CAT_T (DOC_TYP_ID, CAT_NM)
 ;
 
 
@@ -259,6 +259,6 @@ ALTER TABLE KREW_RULE_EXT_VAL_T MODIFY RULE_EXT_ID VARCHAR(40) NOT NULL;
 -- KULRICE-7509: Rice KIM documents stay editable after submission
 --
 
-delete from krim_role_perm_t where role_id = (select role_id from krim_role_t where role_nm = 'Initiator or Reviewer' and nmspc_cd = 'KR-WKFLW') AND
-perm_id = (select perm_id from krim_perm_t where nm = 'Edit Kuali ENROUTE Document Route Status Code R' and nmspc_cd = 'KUALI')
+DELETE FROM KRIM_ROLE_PERM_T WHERE ROLE_ID = (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Initiator or Reviewer' AND NMSPC_CD = 'KR-WKFLW') AND
+PERM_ID = (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Edit Kuali ENROUTE Document Route Status Code R' AND NMSPC_CD = 'KUALI')
 ;

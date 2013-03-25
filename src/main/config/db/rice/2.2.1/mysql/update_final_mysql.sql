@@ -27,9 +27,9 @@
 -- KULRICE-7439: Assignment of "Add Message to Route Log" permission to the KR-SYS technical administrator is missing from bootstrap dataset
 --
 
-delete from krim_role_perm_t where
-role_id = (select role_id from krim_role_t where role_nm = 'Technical Administrator' and nmspc_cd = 'KR-SYS') AND
-perm_id = (select perm_id from krim_perm_t where nm = 'Add Message to Route Log' and nmspc_cd = 'KUALI')
+DELETE FROM KRIM_ROLE_PERM_T WHERE
+ROLE_ID = (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Technical Administrator' AND NMSPC_CD = 'KR-SYS') AND
+PERM_ID = (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Add Message to Route Log' AND NMSPC_CD = 'KUALI')
 ;
 
 
@@ -47,25 +47,25 @@ perm_id = (select perm_id from krim_perm_t where nm = 'Add Message to Route Log'
 -- ----------------------------------------------------------------------
 -- krad_msg_t
 -- ----------------------------------------------------------------------
-CREATE TABLE krad_msg_t
+CREATE TABLE KRAD_MSG_T
 (
-    nmspc_cd VARCHAR(20) NOT NULL,
-	cmpnt_cd VARCHAR(100) NOT NULL,
-	msg_key VARCHAR(100) NOT NULL,
-	loc VARCHAR(80) NOT NULL,
-    obj_id VARCHAR(36) NOT NULL,
-	ver_nbr DECIMAL(8) NOT NULL DEFAULT 1,
-	msg_desc VARCHAR(255),
-	txt VARCHAR(4000),
-	PRIMARY KEY (nmspc_cd,cmpnt_cd,msg_key,loc),
-	UNIQUE krad_msg_tc0(obj_id)
+    NMSPC_CD VARCHAR(20) NOT NULL,
+	CMPNT_CD VARCHAR(100) NOT NULL,
+	MSG_KEY VARCHAR(100) NOT NULL,
+	LOC VARCHAR(80) NOT NULL,
+    OBJ_ID VARCHAR(36) NOT NULL,
+	VER_NBR DECIMAL(8) NOT NULL DEFAULT 1,
+	MSG_DESC VARCHAR(255),
+	TXT VARCHAR(4000),
+	PRIMARY KEY (NMSPC_CD,CMPNT_CD,MSG_KEY,LOC),
+	UNIQUE KRAD_MSG_TC0(OBJ_ID)
 )
 ;
 
 -- note!! the 'loc' field in rice is currently set to 255 chars, but that exceeds the max length for primary
 -- keys in mysql 5.1.  Depending on what the rice team does about this, we may need to run the following statement
 -- below
--- alter table krad_msg_t modify loc VARCHAR(255)
+-- ALTER TABLE KRAD_MSG_T MODIFY LOC VARCHAR(255)
 -- ;
 
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -94,24 +94,24 @@ INSERT INTO KRCR_PARM_T VALUES ('KR-NS', 'All', 'DEFAULT_LOCALE_CODE', uuid(), 1
 --     KULRICE-8349 - guest user access
 --
 
-insert into krim_entity_t (ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)
-values ('KR1000', uuid(), 1, 'Y', now())
+INSERT INTO KRIM_ENTITY_T (ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)
+VALUES ('KR1000', uuid(), 1, 'Y', now())
 ;
 
-insert into krim_entity_ent_typ_t (ENT_TYP_CD, ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)
-values ('PERSON', 'KR1000', uuid(), 1, 'Y', now())
+INSERT INTO KRIM_ENTITY_ENT_TYP_T (ENT_TYP_CD, ENTITY_ID, OBJ_ID, VER_NBR, ACTV_IND, LAST_UPDT_DT)
+VALUES ('PERSON', 'KR1000', uuid(), 1, 'Y', now())
 ;
 
-insert into krim_prncpl_t (PRNCPL_ID, OBJ_ID, VER_NBR, PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT)
-values ('guest', uuid(), 1, 'guest', 'KR1000', '', 'Y', now())
+INSERT INTO KRIM_PRNCPL_T (PRNCPL_ID, OBJ_ID, VER_NBR, PRNCPL_NM, ENTITY_ID, PRNCPL_PSWD, ACTV_IND, LAST_UPDT_DT)
+VALUES ('guest', uuid(), 1, 'guest', 'KR1000', '', 'Y', now())
 ;
 
-insert into krim_role_t (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT)
-values ('KR1000', uuid(), 1, 'GuestRole', 'KUALI', 'This role is used for no login guest users.', '1', 'Y', now())
+INSERT INTO KRIM_ROLE_T (ROLE_ID, OBJ_ID, VER_NBR, ROLE_NM, NMSPC_CD, DESC_TXT, KIM_TYP_ID, ACTV_IND, LAST_UPDT_DT)
+VALUES ('KR1000', uuid(), 1, 'GuestRole', 'KUALI', 'This role is used for no login guest users.', '1', 'Y', now())
 ;
 
-insert into krim_role_mbr_t (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
-values ('KR1000', 1, uuid(), 'KR1000', 'guest', 'P', null, null, now())
+INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, VER_NBR, OBJ_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT)
+VALUES ('KR1000', 1, uuid(), 'KR1000', 'guest', 'P', null, null, now())
 ;
 
 
@@ -130,126 +130,126 @@ values ('KR1000', 1, uuid(), 'KR1000', 'guest', 'P', null, null, now())
 -- KULRICE-7369: Implement KRMS Reference Object Bindings feature
 --
 
-CREATE INDEX krms_attr_defn_tc3 ON krms_attr_defn_t(attr_defn_id ASC)
+CREATE INDEX KRMS_ATTR_DEFN_TC3 ON KRMS_ATTR_DEFN_T(ATTR_DEFN_ID ASC)
 ;
-CREATE TABLE krms_ref_obj_krms_obj_s (
-  id bigint(19) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (id)
+CREATE TABLE KRMS_REF_OBJ_KRMS_OBJ_S (
+  ID BIGINT(19) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (ID)
 ) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET=utf8 COLLATE=utf8_bin
 ;
-CREATE TABLE krms_typ_reln_s (
-  id bigint(19) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (id)
+CREATE TABLE KRMS_TYP_RELN_S (
+  ID BIGINT(19) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (ID)
 ) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET=utf8 COLLATE=utf8_bin
 ;
-CREATE TABLE krms_nl_usage_s (
-  id bigint(19) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (id)
+CREATE TABLE KRMS_NL_USAGE_S (
+  ID BIGINT(19) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (ID)
 ) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET=utf8 COLLATE=utf8_bin
 ;
-CREATE TABLE krms_nl_tmpl_s (
-  id bigint(19) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (id)
-) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET=utf8 COLLATE=utf8_bin
-;
-
-CREATE TABLE krms_nl_tmpl_attr_s (
-  id bigint(19) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (id)
+CREATE TABLE KRMS_NL_TMPL_S (
+  ID BIGINT(19) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (ID)
 ) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET=utf8 COLLATE=utf8_bin
 ;
 
-CREATE TABLE krms_nl_usage_attr_s (
-  id bigint(19) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (id)
+CREATE TABLE KRMS_NL_TMPL_ATTR_S (
+  ID BIGINT(19) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (ID)
+) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET=utf8 COLLATE=utf8_bin
+;
+
+CREATE TABLE KRMS_NL_USAGE_ATTR_S (
+  ID BIGINT(19) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (ID)
 ) ENGINE=MyISAM AUTO_INCREMENT=10000 DEFAULT CHARSET=utf8 COLLATE=utf8_bin
 ;
 
 
-CREATE  TABLE krms_nl_usage_t(
-  nl_usage_id VARCHAR(40) NOT NULL ,
-  nm VARCHAR(255) NOT NULL,
-  nmspc_cd VARCHAR(40)  NOT NULL,
-  desc_txt VARCHAR(255) NULL,
-  actv VARCHAR(1) DEFAULT 'Y'  NOT NULL ,
-  ver_nbr DECIMAL(8,0) DEFAULT 0  NOT NULL,
-  PRIMARY KEY (nl_usage_id),
-  UNIQUE INDEX krms_nl_usage_tc1 (nm ASC, nmspc_cd ASC)
+CREATE  TABLE KRMS_NL_USAGE_T(
+  NL_USAGE_ID VARCHAR(40) NOT NULL ,
+  NM VARCHAR(255) NOT NULL,
+  NMSPC_CD VARCHAR(40)  NOT NULL,
+  DESC_TXT VARCHAR(255) NULL,
+  ACTV VARCHAR(1) DEFAULT 'Y'  NOT NULL ,
+  VER_NBR DECIMAL(8,0) DEFAULT 0  NOT NULL,
+  PRIMARY KEY (NL_USAGE_ID),
+  UNIQUE INDEX KRMS_NL_USAGE_TC1 (NM ASC, NMSPC_CD ASC)
 ) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 ;
 
-CREATE  TABLE  krms_nl_usage_attr_t (
-  nl_usage_attr_id VARCHAR(40)  NOT NULL ,
-  nl_usage_id VARCHAR(40)  NOT NULL ,
-  attr_defn_id VARCHAR(40)  NOT NULL ,
-  attr_val VARCHAR(400) NULL ,
-  ver_nbr DECIMAL(8,0) DEFAULT 0  NOT NULL ,
-  PRIMARY KEY (nl_usage_attr_id) ,
-  UNIQUE INDEX krms_nl_usage_attr_tc1 (nl_usage_id ASC, attr_defn_id ASC),
-  INDEX krms_nl_usage_attr_tc2(attr_defn_id ASC),
-  CONSTRAINT krms_nl_usage_attr_fk1
-    FOREIGN KEY (nl_usage_id )
-    REFERENCES krms_nl_usage_t (nl_usage_id ) ,
-  CONSTRAINT krms_nl_usage_attr_fk2
-    FOREIGN KEY (attr_defn_id )
-    REFERENCES krms_attr_defn_t (attr_defn_id )
+CREATE  TABLE  KRMS_NL_USAGE_ATTR_T (
+  NL_USAGE_ATTR_ID VARCHAR(40)  NOT NULL ,
+  NL_USAGE_ID VARCHAR(40)  NOT NULL ,
+  ATTR_DEFN_ID VARCHAR(40)  NOT NULL ,
+  ATTR_VAL VARCHAR(400) NULL ,
+  VER_NBR DECIMAL(8,0) DEFAULT 0  NOT NULL ,
+  PRIMARY KEY (NL_USAGE_ATTR_ID) ,
+  UNIQUE INDEX KRMS_NL_USAGE_ATTR_TC1 (NL_USAGE_ID ASC, ATTR_DEFN_ID ASC),
+  INDEX KRMS_NL_USAGE_ATTR_TC2(ATTR_DEFN_ID ASC),
+  CONSTRAINT KRMS_NL_USAGE_ATTR_FK1
+    FOREIGN KEY (NL_USAGE_ID )
+    REFERENCES KRMS_NL_USAGE_T (NL_USAGE_ID ) ,
+  CONSTRAINT KRMS_NL_USAGE_ATTR_FK2
+    FOREIGN KEY (ATTR_DEFN_ID )
+    REFERENCES KRMS_ATTR_DEFN_T (ATTR_DEFN_ID )
 ) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 ;
-CREATE TABLE krms_nl_tmpl_t (
-  nl_tmpl_id VARCHAR(40) NOT NULL,
-  lang_cd VARCHAR(2) NOT NULL,
-  nl_usage_id VARCHAR(40) NOT NULL,
-  typ_id VARCHAR(40) NOT NULL,
-  tmpl VARCHAR(4000) NOT NULL,
-  ver_nbr DECIMAL(8,0) DEFAULT 0  NOT NULL,
-  CONSTRAINT krms_nl_tmpl_fk1 FOREIGN KEY (nl_usage_id) REFERENCES krms_nl_usage_t (nl_usage_id),
-  CONSTRAINT krms_typ_t FOREIGN KEY (typ_id) REFERENCES krms_typ_t (typ_id),
-  PRIMARY KEY (nl_tmpl_id),
-  UNIQUE INDEX krms_nl_tmpl_tc1 (lang_cd ASC, nl_usage_id ASC, typ_id ASC)
+CREATE TABLE KRMS_NL_TMPL_T (
+  NL_TMPL_ID VARCHAR(40) NOT NULL,
+  LANG_CD VARCHAR(2) NOT NULL,
+  NL_USAGE_ID VARCHAR(40) NOT NULL,
+  TYP_ID VARCHAR(40) NOT NULL,
+  TMPL VARCHAR(4000) NOT NULL,
+  VER_NBR DECIMAL(8,0) DEFAULT 0  NOT NULL,
+  CONSTRAINT KRMS_NL_TMPL_FK1 FOREIGN KEY (NL_USAGE_ID) REFERENCES KRMS_NL_USAGE_T (NL_USAGE_ID),
+  CONSTRAINT KRMS_TYP_T FOREIGN KEY (TYP_ID) REFERENCES KRMS_TYP_T (TYP_ID),
+  PRIMARY KEY (NL_TMPL_ID),
+  UNIQUE INDEX KRMS_NL_TMPL_TC1 (LANG_CD ASC, NL_USAGE_ID ASC, TYP_ID ASC)
 ) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 ;
-CREATE  TABLE krms_typ_reln_t (
+CREATE  TABLE KRMS_TYP_RELN_T (
   TYP_RELN_ID VARCHAR(40) NOT NULL ,
   FROM_TYP_ID VARCHAR(40) NOT NULL ,
   TO_TYP_ID VARCHAR(40) NOT NULL ,
   RELN_TYP VARCHAR(40) NOT NULL ,
-  SEQ_NO decimal(5,0) NOT NULL,
-  VER_NBR decimal(8,0) NOT NULL DEFAULT '0',
+  SEQ_NO DECIMAL(5,0) NOT NULL,
+  VER_NBR DECIMAL(8,0) NOT NULL DEFAULT '0',
   ACTV VARCHAR(1) NOT NULL DEFAULT 'Y',
   PRIMARY KEY (TYP_RELN_ID) ,
   UNIQUE INDEX KRMS_TYP_RELN_TC1 (FROM_TYP_ID ASC, TO_TYP_ID ASC, RELN_TYP ASC) ,
-  CONSTRAINT KRMS_TYP_RELN_FK1 FOREIGN KEY (FROM_TYP_ID ) REFERENCES krms_typ_t (TYP_ID ),
-  CONSTRAINT KRMS_TYP_RELN_FK2 FOREIGN KEY (TO_TYP_ID ) REFERENCES krms_typ_t (TYP_ID )
+  CONSTRAINT KRMS_TYP_RELN_FK1 FOREIGN KEY (FROM_TYP_ID ) REFERENCES KRMS_TYP_T (TYP_ID ),
+  CONSTRAINT KRMS_TYP_RELN_FK2 FOREIGN KEY (TO_TYP_ID ) REFERENCES KRMS_TYP_T (TYP_ID )
 ) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 ;
-CREATE  TABLE krms_ref_obj_krms_obj_t(
-  ref_obj_krms_obj_id VARCHAR(40) NOT NULL,
-  collection_nm VARCHAR(40) NULL,
-  krms_obj_id VARCHAR(40) NOT NULL,
-  krms_dscr_typ VARCHAR(40) NOT NULL,
-  ref_obj_id VARCHAR(255) NOT NULL,
-  ref_dscr_typ VARCHAR(255) NOT NULL,
-  nmspc_cd VARCHAR(40)  NOT NULL,
-  actv VARCHAR(1) DEFAULT 'Y'  NOT NULL ,
-  ver_nbr DECIMAL(8,0) DEFAULT 0  NOT NULL,
-  PRIMARY KEY (ref_obj_krms_obj_id),
-  UNIQUE INDEX krms_ref_obj_krms_obj_tc1 (collection_nm ASC, krms_obj_id ASC, krms_dscr_typ ASC, ref_obj_id ASC, ref_dscr_typ ASC, nmspc_cd ASC)
+CREATE  TABLE KRMS_REF_OBJ_KRMS_OBJ_T(
+  REF_OBJ_KRMS_OBJ_ID VARCHAR(40) NOT NULL,
+  COLLECTION_NM VARCHAR(40) NULL,
+  KRMS_OBJ_ID VARCHAR(40) NOT NULL,
+  KRMS_DSCR_TYP VARCHAR(40) NOT NULL,
+  REF_OBJ_ID VARCHAR(255) NOT NULL,
+  REF_DSCR_TYP VARCHAR(255) NOT NULL,
+  NMSPC_CD VARCHAR(40)  NOT NULL,
+  ACTV VARCHAR(1) DEFAULT 'Y'  NOT NULL ,
+  VER_NBR DECIMAL(8,0) DEFAULT 0  NOT NULL,
+  PRIMARY KEY (REF_OBJ_KRMS_OBJ_ID),
+  UNIQUE INDEX KRMS_REF_OBJ_KRMS_OBJ_TC1 (COLLECTION_NM ASC, KRMS_OBJ_ID ASC, KRMS_DSCR_TYP ASC, REF_OBJ_ID ASC, REF_DSCR_TYP ASC, NMSPC_CD ASC)
 ) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 ;
-CREATE  TABLE  krms_nl_tmpl_attr_t (
-  nl_tmpl_attr_id VARCHAR(40)  NOT NULL ,
-  nl_tmpl_id VARCHAR(40)  NOT NULL ,
-  attr_defn_id VARCHAR(255)  NOT NULL ,
-  attr_val VARCHAR(400) NULL ,
-  ver_nbr DECIMAL(8,0) DEFAULT 0  NOT NULL ,
-  PRIMARY KEY (nl_tmpl_attr_id) ,
-  UNIQUE INDEX krms_nl_tmpl_attr_tc1 (nl_tmpl_id ASC, attr_defn_id ASC),
-  CONSTRAINT krms_nl_tmpl_attr_fk1
-    FOREIGN KEY (nl_tmpl_id )
-    REFERENCES krms_nl_tmpl_t (nl_tmpl_id ) ,
-  CONSTRAINT krms_nl_tmpl_attr_fk2
-    FOREIGN KEY (attr_defn_id )
-    REFERENCES krms_attr_defn_t (attr_defn_id )
+CREATE  TABLE  KRMS_NL_TMPL_ATTR_T (
+  NL_TMPL_ATTR_ID VARCHAR(40)  NOT NULL ,
+  NL_TMPL_ID VARCHAR(40)  NOT NULL ,
+  ATTR_DEFN_ID VARCHAR(255)  NOT NULL ,
+  ATTR_VAL VARCHAR(400) NULL ,
+  VER_NBR DECIMAL(8,0) DEFAULT 0  NOT NULL ,
+  PRIMARY KEY (NL_TMPL_ATTR_ID) ,
+  UNIQUE INDEX KRMS_NL_TMPL_ATTR_TC1 (NL_TMPL_ID ASC, ATTR_DEFN_ID ASC),
+  CONSTRAINT KRMS_NL_TMPL_ATTR_FK1
+    FOREIGN KEY (NL_TMPL_ID )
+    REFERENCES KRMS_NL_TMPL_T (NL_TMPL_ID ) ,
+  CONSTRAINT KRMS_NL_TMPL_ATTR_FK2
+    FOREIGN KEY (ATTR_DEFN_ID )
+    REFERENCES KRMS_ATTR_DEFN_T (ATTR_DEFN_ID )
 ) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_bin
 ;
 

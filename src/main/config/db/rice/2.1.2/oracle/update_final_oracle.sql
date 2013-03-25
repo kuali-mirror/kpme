@@ -138,7 +138,7 @@ ALTER TABLE KRCR_PARM_T MODIFY (APPL_ID VARCHAR2(255))
 
 DECLARE temp NUMBER;
 BEGIN
-	SELECT COUNT(*) INTO temp FROM all_constraints WHERE constraint_name ='KRLC_CNTY_TR1';
+	SELECT COUNT(*) INTO temp FROM ALL_CONSTRAINTS WHERE CONSTRAINT_NAME ='KRLC_CNTY_TR1';
 	IF temp = 0 THEN EXECUTE IMMEDIATE
 		'ALTER TABLE KRLC_CNTY_T ADD CONSTRAINT KRLC_CNTY_TR1 FOREIGN KEY (STATE_CD,POSTAL_CNTRY_CD)
          REFERENCES KRLC_ST_T (POSTAL_STATE_CD, POSTAL_CNTRY_CD)';
@@ -159,26 +159,26 @@ END;
 --
 
 -- add category name (which is part of composite fk) to app doc stat
-alter table KREW_DOC_TYP_APP_DOC_STAT_T add CAT_NM varchar2(64)
+ALTER TABLE KREW_DOC_TYP_APP_DOC_STAT_T ADD CAT_NM VARCHAR2(64)
 /
 
 -- add index for queries from category to status.  Using non-standard index name to follow table precedent.
-CREATE INDEX KREW_DOC_TYP_APP_DOC_STAT_T2 on KREW_DOC_TYP_APP_DOC_STAT_T (DOC_TYP_ID, CAT_NM)
+CREATE INDEX KREW_DOC_TYP_APP_DOC_STAT_T2 ON KREW_DOC_TYP_APP_DOC_STAT_T (DOC_TYP_ID, CAT_NM)
 /
 
 -- add sequence number column for ordering to app doc stat
-alter table KREW_DOC_TYP_APP_DOC_STAT_T add SEQ_NO number(5)
+ALTER TABLE KREW_DOC_TYP_APP_DOC_STAT_T ADD SEQ_NO NUMBER(5)
 /
 
 -- create category table
 CREATE TABLE KREW_DOC_TYP_APP_STAT_CAT_T  (
-    DOC_TYP_ID   varchar2(40) NOT NULL,
-	CAT_NM	varchar2(64) NOT NULL,
-    VER_NBR number(8) DEFAULT '0',
-    OBJ_ID varchar2(36) NOT NULL,
+    DOC_TYP_ID   VARCHAR2(40) NOT NULL,
+	CAT_NM	VARCHAR2(64) NOT NULL,
+    VER_NBR NUMBER(8) DEFAULT '0',
+    OBJ_ID VARCHAR2(36) NOT NULL,
 
 	PRIMARY KEY(DOC_TYP_ID, CAT_NM),
-	CONSTRAINT KREW_DOC_TYP_APP_STAT_CAT_FK1 foreign key (DOC_TYP_ID) references KREW_DOC_TYP_T (DOC_TYP_ID)
+	CONSTRAINT KREW_DOC_TYP_APP_STAT_CAT_FK1 FOREIGN KEY (DOC_TYP_ID) REFERENCES KREW_DOC_TYP_T (DOC_TYP_ID)
 )
 /
 
@@ -189,8 +189,8 @@ ALTER TABLE KREW_DOC_TYP_APP_STAT_CAT_T
 /
 
 -- add constraint to tie app doc stat and category together
-alter table KREW_DOC_TYP_APP_DOC_STAT_T add constraint KREW_DOC_TYP_APP_DOC_STAT_FK1
-foreign key (DOC_TYP_ID, CAT_NM) references KREW_DOC_TYP_APP_STAT_CAT_T (DOC_TYP_ID, CAT_NM)
+ALTER TABLE KREW_DOC_TYP_APP_DOC_STAT_T ADD CONSTRAINT KREW_DOC_TYP_APP_DOC_STAT_FK1
+FOREIGN KEY (DOC_TYP_ID, CAT_NM) REFERENCES KREW_DOC_TYP_APP_STAT_CAT_T (DOC_TYP_ID, CAT_NM)
 /
 
 
@@ -204,6 +204,6 @@ foreign key (DOC_TYP_ID, CAT_NM) references KREW_DOC_TYP_APP_STAT_CAT_T (DOC_TYP
 -- KULRICE-7509: Rice KIM documents stay editable after submission
 --
 
-delete from krim_role_perm_t where role_id = (select role_id from krim_role_t where role_nm = 'Initiator or Reviewer' and nmspc_cd = 'KR-WKFLW') AND
-perm_id = (select perm_id from krim_perm_t where nm = 'Edit Kuali ENROUTE Document Route Status Code R' and nmspc_cd = 'KUALI')
+DELETE FROM KRIM_ROLE_PERM_T WHERE ROLE_ID = (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE ROLE_NM = 'Initiator or Reviewer' AND NMSPC_CD = 'KR-WKFLW') AND
+PERM_ID = (SELECT PERM_ID FROM KRIM_PERM_T WHERE NM = 'Edit Kuali ENROUTE Document Route Status Code R' AND NMSPC_CD = 'KUALI')
 /
