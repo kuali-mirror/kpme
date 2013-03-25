@@ -1,8 +1,10 @@
+
 package org.kuali.hr.pm.paystep;
 
 import java.math.BigDecimal;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.hr.lm.LMConstants;
+import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.pm.institution.Institution;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.salgroup.SalGroup;
@@ -29,7 +31,7 @@ public class PayStep extends HrBusinessObject implements Comparable {
 	private Institution institutionObj;
 	private CampusBo campusObj;
 	private SalGroup salaryGroupObj;
-	//private PayGrade PayGradeObj;
+	private PayGrade PayGradeObj;
 
 	@Override
 	public boolean isActive() {
@@ -196,6 +198,14 @@ public class PayStep extends HrBusinessObject implements Comparable {
 
 	public void setSalaryGroupObj(SalGroup salaryGroupObj) {
 		this.salaryGroupObj = salaryGroupObj;
+	}
+
+	public PayGrade getPayGradeObj() {
+		return PayGradeObj;
+	}
+
+	public void setPayGradeObj(PayGrade payGradeObj) {
+		PayGradeObj = payGradeObj;
 	}
 
 }

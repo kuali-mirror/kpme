@@ -5,12 +5,15 @@ import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.pm.institution.Institution;
 import org.kuali.hr.pm.positionreportcat.PositionReportCategory;
 import org.kuali.hr.pm.positionreportgroup.PositionReportGroup;
 import org.kuali.hr.pm.positionreportsubcat.PositionReportSubCategory;
 import org.kuali.hr.pm.positionreporttype.PositionReportType;
 import org.kuali.hr.pm.service.base.PmServiceLocator;
+import org.kuali.hr.time.salgroup.SalGroup;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.location.api.campus.Campus;
 import org.kuali.rice.location.api.services.LocationApiServiceLocator;
@@ -105,6 +108,14 @@ public class PmValidationUtils {
 		return false;
 	}
 	
+	public static boolean validatePayGradeWithSalaryGroup(String salaryGroup, String payGrade, Date asOfDate) {
+		if (asOfDate != null) {
+			PayGrade grade = TkServiceLocator.getPayGradeService().getPayGrade(payGrade, asOfDate);
+			if(grade != null && StringUtils.isNotBlank(grade.getSalGroup())) 
+				return StringUtils.equals(grade.getSalGroup(), salaryGroup);
+		}
+		return false;
+	}
 	/**
 	 * Validate if there exists Position Report Category that matches given postionReportCat, positionReportType , institution, campus and exists before given date 
 	 * Wild card allowed
@@ -146,6 +157,11 @@ public class PmValidationUtils {
 			List<PositionReportGroup> prgList = PmServiceLocator.getPositionReportGroupService().getPositionReportGroupList(PstnRptGrp, institution, campus, asOfDate);
 			return CollectionUtils.isNotEmpty(prgList);
 		}
+		return false;
+	}
+
+	public static boolean validatePayGrade(String payGrade) {
+		// TODO Auto-generated method stub
 		return false;
 	}
 	

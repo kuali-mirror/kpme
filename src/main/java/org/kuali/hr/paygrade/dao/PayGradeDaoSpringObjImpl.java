@@ -102,4 +102,28 @@ public class PayGradeDaoSpringObjImpl  extends PlatformAwareDaoBaseOjb implement
         return results;
     }
 
+	@Override
+	@SuppressWarnings("unchecked")
+	public List<PayGrade> getPayGradesForSalaryGroup(String salaryGroup,
+			Date asOfDate) {
+        List<PayGrade> results = new ArrayList<PayGrade>();
+
+		Criteria root = new Criteria();
+
+		root.addEqualTo("salGroup", salaryGroup);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PayGrade.class, new java.sql.Date(asOfDate.getTime()), EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PayGrade.class, EQUAL_TO_FIELDS, false));
+
+		Criteria activeFilter = new Criteria(); // Inner Join For Activity
+		activeFilter.addEqualTo("active", true);
+		root.addAndCriteria(activeFilter);
+
+		
+		Query query = QueryFactory.newQuery(PayGrade.class, root);
+		
+		results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
+		
+		return results;
+	}
+
 }

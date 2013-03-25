@@ -1,5 +1,7 @@
 package org.kuali.hr.pm.paystep.service;
 
+import java.util.List;
+
 import org.kuali.hr.pm.paystep.PayStep;
 import org.kuali.hr.pm.paystep.dao.PayStepDao;
 
@@ -18,6 +20,13 @@ public class PayStepServiceImpl implements PayStepService {
 
 	public void setPayStepDao(PayStepDao payStepDao) {
 		this.payStepDao = payStepDao;
+	}
+
+	@Override
+	public List<PayStep> getPaySteps(String payStep, String institution,
+			String campus, String salaryGroup, String payGrade, String active) {
+		// TODO Auto-generated method stub
+		return payStepDao.getPaySteps(payStep,institution,campus,salaryGroup,payGrade,active);
 	}
 
 }

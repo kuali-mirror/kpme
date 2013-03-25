@@ -46,4 +46,10 @@ public class PayGradeServiceImpl implements PayGradeService{
     public List<PayGrade> getPayGrades(String payGrade, String payGradeDescr, String active) {
         return payGradeDao.getPayGrades(payGrade, payGradeDescr, active);
     }
+
+	@Override
+	public List<PayGrade> getPayGradesForSalaryGroup(String salaryGroup,
+			Date asOfDate) {
+		return payGradeDao.getPayGradesForSalaryGroup(salaryGroup, asOfDate);
+	}
 }

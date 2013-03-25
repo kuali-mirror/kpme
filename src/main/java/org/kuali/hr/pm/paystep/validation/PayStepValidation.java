@@ -1,40 +1,90 @@
 package org.kuali.hr.pm.paystep.validation;
 
+import org.apache.commons.lang3.StringUtils;
+import org.kuali.hr.paygrade.PayGrade;
+import org.kuali.hr.pm.paystep.PayStep;
+import org.kuali.hr.pm.util.PmValidationUtils;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.rules.MaintenanceDocumentRule;
-import org.kuali.rice.krad.document.Document;
-import org.kuali.rice.krad.rules.rule.event.ApproveDocumentEvent;
+import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
-public class PayStepValidation implements MaintenanceDocumentRule {
-
-	@Override
-	public boolean processApproveDocument(ApproveDocumentEvent arg0) {
-		// TODO Auto-generated method stub
-		return true;
-	}
+@SuppressWarnings("deprecation")
+public class PayStepValidation extends MaintenanceDocumentRuleBase {
 
 	@Override
-	public boolean processRouteDocument(Document arg0) {
-		// TODO Auto-generated method stub
-		return true;
-	}
+	protected boolean processCustomRouteDocumentBusinessRules(
+			MaintenanceDocument document) {
+		LOG.debug("entering custom validation for pay step");
+		boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
 
-	@Override
-	public boolean processSaveDocument(Document arg0) {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public void setupBaseConvenienceObjects(MaintenanceDocument arg0) {
-		// TODO Auto-generated method stub
+		PayStep payStep = (PayStep) this.getNewBo();
 		
+		isValid &= validateInstitution(payStep);
+		isValid &= validateCampus(payStep);
+		isValid &= validateSalaryGroup(payStep);
+		isValid &= validatePayGrade(payStep);
+		isValid &= validatePayGradeInSalaryGroup(payStep);
+		
+		return isValid;
 	}
 
-	@Override
-	public void setupConvenienceObjects() {
-		// TODO Auto-generated method stub
-		
+	private boolean validatePayGrade(PayStep payStep) {
+		if (StringUtils.isNotEmpty(payStep.getPayGrade())
+				&& !PmValidationUtils.validatePayGrade(payStep.getPayGrade())) {
+			return true;
+		} else {
+			this.putFieldError("payGrade", "error.existence", "Pay Grade '"
+					+ payStep.getPayGrade() + "'");
+			return false;
+		}
+	}
+
+	private boolean validateSalaryGroup(PayStep payStep) {
+		if(StringUtils.isNotEmpty(payStep.getSalaryGroup())
+				&& ValidationUtils.validateSalGroup(payStep.getSalaryGroup(), payStep.getEffectiveDate())) {
+			return true;
+		} else {
+			this.putFieldError("salaryGroup", "error.existence", "Salary Group '"
+					+ payStep.getSalaryGroup() + "'");
+			return false;
+		}
+	}
+	
+	private boolean validatePayGradeInSalaryGroup(PayStep payStep) {
+		if(StringUtils.isNotEmpty(payStep.getSalaryGroup())
+				&& PmValidationUtils.validatePayGradeWithSalaryGroup(payStep.getSalaryGroup(),payStep.getPayGrade(),payStep.getEffectiveDate())) {
+			return true;
+		} else {
+			String[] params = new String[2];
+			params[0] = payStep.getPayGrade();
+			params[1] = payStep.getSalaryGroup();
+			
+			this.putFieldError("payGrade", "salaryGroup.contains.payGrade", params);
+			return false;
+		}
+	}
+
+	private boolean validateCampus(PayStep payStep) {
+		if (StringUtils.isNotEmpty(payStep.getCampus())
+				&& PmValidationUtils.validateCampus(payStep.getCampus())) {
+			return true;
+		} else {
+			this.putFieldError("campus", "error.existence", "Campus '"
+					+ payStep.getCampus() + "'");
+			return false;
+		}
+	}
+
+	private boolean validateInstitution(PayStep payStep) {
+		if (StringUtils.isNotEmpty(payStep.getInstitution())
+				&& PmValidationUtils.validateInstitution(payStep.getInstitution(), payStep.getEffectiveDate())) {
+			return true;
+		} else {
+			this.putFieldError("institution", "error.existence", "Instituion '"
+					+ payStep.getInstitution() + "'");
+			return false;
+		}
 	}
 
 

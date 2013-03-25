@@ -57,7 +57,7 @@
 						</list>
 					</property>
 				</bean>
-<!--				<bean parent="RelationshipDefinition">
+				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="payGradeObj" />
 					<property name="primitiveAttributes">
 						<list>
@@ -65,7 +65,7 @@
 								p:targetName="payGrade" />
 						</list>
 					</property>
-				</bean> -->
+				</bean>
 				<bean parent="RelationshipDefinition">
 					<property name="objectAttributeName" value="campusObj" />
 					<property name="primitiveAttributes">
@@ -291,18 +291,22 @@
 		</property>
 		<property name="lookupFields">
 			<list>
+		      	<bean parent="FieldDefinition" p:attributeName="payStep" />
 				<bean parent="FieldDefinition" p:attributeName="institution" />
 				<bean parent="FieldDefinition" p:attributeName="campus" />
 				<bean parent="FieldDefinition" p:attributeName="salaryGroup" />
 				<bean parent="FieldDefinition" p:attributeName="payGrade" />
+				<bean parent="FieldDefinition" p:attributeName="active" p:defaultValue="Y" />
 			</list>
 		</property>
 		<property name="resultFields">
 			<list>
+		      	<bean parent="FieldDefinition" p:attributeName="payStep" />
 				<bean parent="FieldDefinition" p:attributeName="institution" />
 				<bean parent="FieldDefinition" p:attributeName="campus" />
 				<bean parent="FieldDefinition" p:attributeName="salaryGroup" />
 				<bean parent="FieldDefinition" p:attributeName="payGrade" />
+				<bean parent="FieldDefinition" p:attributeName="effectiveDate"/>
 			</list>
 		</property>
 		<property name="title" value="Pay Step Lookup" />
@@ -314,6 +318,7 @@
     <property name="dataObjectClassName" value="org.kuali.hr.pm.paystep.PayStep" />
     <property name="criteriaFields">
       <list>
+      	<bean parent="Uif-LookupCriteriaInputField" p:attributeName="payStep" />
 		<bean parent="Uif-LookupCriteriaInputField" p:attributeName="institution" />
 		<bean parent="Uif-LookupCriteriaInputField" p:attributeName="campus" />
 		<bean parent="Uif-LookupCriteriaInputField" p:attributeName="salaryGroup" />
@@ -322,10 +327,12 @@
     </property>
     <property name="resultFields">
       <list>
+      	<bean parent="Uif-InputField" p:attributeName="payStep" />
 		<bean parent="Uif-InputField" p:attributeName="institution" />
 		<bean parent="Uif-InputField" p:attributeName="campus" />
 		<bean parent="Uif-InputField" p:attributeName="salaryGroup" />
 		<bean parent="Uif-InputField" p:attributeName="payGrade" />
+		<bean parent="Uif-InputField" p:attributeName="effectiveDate"/>
       </list>
     </property>
   </bean>

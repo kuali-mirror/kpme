@@ -37,6 +37,11 @@
         <ref bean="PayStepMaintenanceDocument-PayStepMaintenance"/>
       </list>
     </property>
+    <property name="lockingKeys">
+        <list>
+            <value>pmPayStepId</value>
+        </list>
+    </property>
     <property name="documentTypeName" value="PayStepMaintenanceDocumentType"/>
   </bean>
 
