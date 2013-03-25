@@ -379,8 +379,17 @@ public class LeaveCalendarValidationUtil {
     // KPME-2010
     public static List<String> validateSpanningWeeks(LeaveCalendarWSForm lcf) {
     	boolean spanningWeeks = lcf.getSpanningWeeks().equalsIgnoreCase("y");
-    	DateTime startTemp = new DateTime(TKUtils.convertDateStringToTimestamp(lcf.getStartDate()).getTime());
-        DateTime endTemp = new DateTime(TKUtils.convertDateStringToTimestamp(lcf.getEndDate()).getTime());
+        Date startDate = TKUtils.formatDateString(lcf.getStartDate());
+        EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(lcf.getSelectedEarnCode(), startDate);
+        DateTime startTemp, endTemp;
+
+        if (ec != null && !ec.getRecordMethod().equals(LMConstants.RECORD_METHOD.TIME)) {
+            startTemp = new DateTime(startDate);
+            endTemp = new DateTime(TKUtils.formatDateString(lcf.getEndDate()));
+        } else {
+    	    startTemp = new DateTime(TKUtils.convertDateStringToTimestamp(lcf.getStartDate()).getTime());
+            endTemp = new DateTime(TKUtils.convertDateStringToTimestamp(lcf.getEndDate()).getTime());
+        }
     	
         List<String> errors = new ArrayList<String>();
     	boolean valid = true;

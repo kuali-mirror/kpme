@@ -245,11 +245,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 	                    	} else if((leaveBlockInt.getStartMillis() - endTimestamp.getTime()) != 0){
 	                    		
 	                            hours = TKUtils.getHoursBetween(leaveBlockInt.getStartMillis(), endTimestamp.getTime());
-	                    		if ((leaveBlockType.equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR)
-	                                    || leaveBlockType.equals((LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR)))
-	                                && BigDecimal.ZERO.compareTo(hours) < 0) {
-	                    			hours = hours.negate();
-	                    		}
+                                hours = negateHoursIfNecessary(leaveBlockType, hours);
 	                    		
 	                    		LeaveBlock leaveBlock = buildLeaveBlock(new DateTime(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), selectedAssignment, requestStatus, leaveBlockType, new Timestamp(leaveBlockInt.getStartMillis()), endTimestamp);
 	                            
@@ -266,11 +262,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 	                        if (leaveBlockInt.contains(endTimestamp.getTime()) || (endTimestamp.getTime() == leaveBlockInt.getEnd().getMillis())) {
 
 	                        	hours = TKUtils.getHoursBetween(beginTemp.getTime(), endTimestamp.getTime());
-	                    		if ((leaveBlockType.equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR)
-	                                    || leaveBlockType.equals((LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR)))
-	                                && BigDecimal.ZERO.compareTo(hours) < 0) {
-	                    			hours = hours.negate();
-	                    		}
+                                hours = negateHoursIfNecessary(leaveBlockType, hours);
 	                    		
 	                    		LeaveBlock leaveBlock = buildLeaveBlock(new DateTime(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), selectedAssignment, requestStatus, leaveBlockType, beginTemp, endTimestamp);
 	                            
@@ -283,11 +275,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 	                        } else {
 	                            // create a leave block that wraps the 24 hr day
 	                        	hours = TKUtils.getHoursBetween(beginTemp.getTime(), firstDay.getEndMillis());
-	                    		if ((leaveBlockType.equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR)
-	                                    || leaveBlockType.equals((LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR)))
-	                                && BigDecimal.ZERO.compareTo(hours) < 0) {
-	                    			hours = hours.negate();
-	                    		}
+                                hours = negateHoursIfNecessary(leaveBlockType, hours);
 	                    		
 	                    		LeaveBlock leaveBlock = buildLeaveBlock(new DateTime(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), selectedAssignment, requestStatus, leaveBlockType, beginTemp, new Timestamp(firstDay.getEndMillis()));
 	                            
@@ -298,7 +286,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 	                        }
 	                    }
                     } else {
-                    	
+                        hours = negateHoursIfNecessary(leaveBlockType, hours);
 		                LeaveBlock leaveBlock = buildLeaveBlock(new DateTime(leaveBlockInt.getStartMillis()), docId, principalId, selectedEarnCode, hours, description, earnCodeObj.getAccrualCategory(), 
 		                		selectedAssignment, requestStatus, leaveBlockType, null, null);
 	                    if (!currentLeaveBlocks.contains(leaveBlock)) {
@@ -309,6 +297,15 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
             }
         }
         saveLeaveBlocks(currentLeaveBlocks);
+    }
+
+    private BigDecimal negateHoursIfNecessary(String leaveBlockType, BigDecimal hours) {
+        if ((leaveBlockType.equals(LMConstants.LEAVE_BLOCK_TYPE.LEAVE_CALENDAR)
+                || leaveBlockType.equals((LMConstants.LEAVE_BLOCK_TYPE.TIME_CALENDAR)))
+                && BigDecimal.ZERO.compareTo(hours) < 0) {
+            hours = hours.negate();
+        }
+        return hours;
     }
     
     

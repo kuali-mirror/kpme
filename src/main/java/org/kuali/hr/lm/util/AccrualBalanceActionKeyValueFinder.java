@@ -27,7 +27,7 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 public class AccrualBalanceActionKeyValueFinder extends KeyValuesBase {
 
 	@Override
-	public List getKeyValues() {
+	public List<KeyValue> getKeyValues() {
 		List<KeyValue> keyValues = new ArrayList<KeyValue>();
 		for (Map.Entry entry : LMConstants.ACCRUAL_BALANCE_ACTION_MAP.entrySet()) {
             keyValues.add(new ConcreteKeyValue((String) entry.getKey(), (String) entry.getValue()));

@@ -141,43 +141,28 @@ public class EarnCodeServiceImpl implements EarnCodeService {
                             //  the only action required is if the fmla user flag=no: exclude those codes with fmla=yes.
 
                             if ( (fmlaEligible || ec.getFmla().equals("N")) ) {
+                                //only want usage accrual balance actions
+                                if (StringUtils.equals(ec.getAccrualBalanceAction(), LMConstants.ACCRUAL_BALANCE_ACTION.USAGE)) {
                                 // go on, we are allowing these three combinations: YY, YN, NN
 
-                                //  apply the same logic as FMLA to the Worker Compensation flags.
-                                if ( (workersCompEligible || ec.getWorkmansComp().equals("N")) ) {
-                                    // go on, we are allowing these three combinations: YY, YN, NN.
+                                    //  apply the same logic as FMLA to the Worker Compensation flags.
+                                    if ( (workersCompEligible || ec.getWorkmansComp().equals("N")) ) {
+                                        // go on, we are allowing these three combinations: YY, YN, NN.
 
-                                    //  determine if the holiday earn code should be displayed.
-                                    if ( showEarnCodeIfHoliday(ec, dec) ) {
-                                        //  non-Holiday earn code will go on, Holiday earn code must meet some requirements in the method.
-
-                                        if ( StringUtils.equals(regularEarnCode.toString(), dec.getEarnCode()) ) {
-                                            //  do not add the reg earn code here. the reg earn code has already been processed prior to this decs loop.
-
-                                        } else {
-                                            //  add earn code if it is not the reg earn code.
-                                            earnCodes.add(ec);
+                                        //  determine if the holiday earn code should be displayed.
+                                        if ( showEarnCodeIfHoliday(ec, dec) ) {
+                                            //  non-Holiday earn code will go on, Holiday earn code must meet some requirements in the method.
+                                            if ( !StringUtils.equals(regularEarnCode.toString(), dec.getEarnCode()) ) {
+                                                //  add earn code if it is not the reg earn code.
+                                                earnCodes.add(ec);
+                                            }
                                         }
-                                    } else {
-                                        //  the showEarnCodeIfHoliday method determined that we should not add the Holiday earn code.
                                     }
-                                } else {
-                                    //  do not add this earn code. User WC flag=no and earn code WC flag=yes.
                                 }
-                            } else {
-                                //  do not add this earn code. User FMLA flag=no and earn code FMLA flag=yes.
                             }
-                        } else {
-                            //  do not add this earn code. accrual category does not allow.
                         }
-                    } else {
-                        //  skip null earn code
                     }
-                } else {
-                    //  do not add this earn code. the leave type does not allow.
                 }
-            } else {
-                // do not add this earn code. user and approver settings disallow.
             }
         }
 
@@ -247,39 +232,27 @@ public class EarnCodeServiceImpl implements EarnCodeService {
                                 if ( (workersCompEligible || ec.getWorkmansComp().equals("N")) ) {
                                     // go on, we are allowing these three combinations: YY, YN, NN.
 
-                                    //  now process the scheduled leave flag, but only for the Planning Calendar, not for the Reporting Calendar.
-                                    //  determine if the planning calendar is in effect.
-                                    if (isLeavePlanningCalendar) {
+                                    //accrual balance action needs to be usage
+                                    if (StringUtils.equals(ec.getAccrualBalanceAction(), LMConstants.ACCRUAL_BALANCE_ACTION.USAGE)) {
+                                        //  now process the scheduled leave flag, but only for the Planning Calendar, not for the Reporting Calendar.
+                                        //  determine if the planning calendar is in effect.
+                                        if (isLeavePlanningCalendar) {
 
-                                        //  if the allow_schd_leave flag=yes, add the earn code
-                                        if (ec.getAllowScheduledLeave().equals("Y")) {
-                                            earnCodes.add(ec);
+                                            //  if the allow_schd_leave flag=yes, add the earn code
+                                            if (ec.getAllowScheduledLeave().equals("Y")) {
+                                                    earnCodes.add(ec);
+                                            }
+
                                         } else {
-                                            //  do not add this earn code. Earn code allowed scheduled leave flag=no.
+                                            //  this is a reporting calendar, so ignore scheduled leave flag, and add this earn code.
+                                            earnCodes.add(ec);
                                         }
-
-                                    } else {
-                                        //  this is a reporting calendar, so ignore scheduled leave flag, and add this earn code.
-                                        earnCodes.add(ec);
                                     }
-
-                                } else {
-                                    //  do not add this earn code. User WC flag=no and earn code WC flag=yes.
                                 }
-                            } else {
-                                //  do not add this earn code. User FMLA flag=no and earn code FMLA flag=yes.
                             }
-                        } else {
-                            //  do not add this earn code. accrual category does not allow.
                         }
-                    } else {
-                        //  skip null earn code
                     }
-                } else {
-                    //  do not add this earn code. the leave type does not allow.
                 }
-            } else {
-                // do not add this earn code. user and approver settings disallow.
             }
         }   //  end of decs loop
 

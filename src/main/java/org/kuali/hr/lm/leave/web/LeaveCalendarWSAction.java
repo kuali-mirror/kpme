@@ -32,6 +32,7 @@ import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
+import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
@@ -152,12 +153,7 @@ public class LeaveCalendarWSAction extends TkAction {
                         earnCodeMap.put("desc", earnCode.getDescription());
                         earnCodeMap.put("type", earnCode.getEarnCodeType());
                         earnCodeMap.put("earnCodeId", earnCode.getHrEarnCodeId());
-                        AccrualCategory acObj = null;
-                        if(earnCode.getAccrualCategory() != null) {
-                        	acObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCode.getAccrualCategory(), TKUtils.getCurrentDate());
-                        }
-                        String unitTime = earnCode.getRecordMethod();
-                        earnCodeMap.put("unitOfTime", unitTime);
+                        earnCodeMap.put("unitOfTime", earnCode.getRecordMethod());
                         earnCodeMap.put("defaultAmountofTime", earnCode.getDefaultAmountofTime());
                         earnCodeMap.put("fractionalTimeAllowed", earnCode.getFractionalTimeAllowed());
                         earnCodeList.add(earnCodeMap);
