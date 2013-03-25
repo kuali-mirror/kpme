@@ -159,29 +159,24 @@
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="pstnRptGrpSubCat" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportGroup" >
-        	<property name="fieldLookup">
+        	<property name="quickfinder">
 	       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.pm.positionreportgroup.PositionReportGroup" 
 	        		 p:fieldConversions="positionReportGroup:positionReportGroup"/>
 	   		</property>
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="positionReportSubCat">
-       		<property name="fieldLookup">
+       		<property name="quickfinder">
 	       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.pm.positionreportsubcat.PositionReportSubCategory" 
 	        		 p:fieldConversions="positionReportSubCat:positionReportSubCat"/>
 	   		 </property>
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="institution">
-	         <property name="fieldLookup">
+	         <property name="quickfinder">
 	       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.pm.institution.Institution" 
 	        		 p:fieldConversions="institutionCode:institution"/>
 	   		 </property>
         </bean>
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="campus" >
-        	 <property name="fieldLookup">
-	       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.rice.location.impl.campus.CampusBo" 
-	        		 p:fieldConversions="code:campus"/>
-	   		 </property>
-        </bean>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="campus" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
       </list>
     </property>
@@ -239,19 +234,19 @@
 		        <bean parent="Uif-InputField" p:propertyName="pstnRptGrpSubCat" />
 		        <bean parent="Uif-InputField" p:propertyName="description" />
 		        <bean parent="Uif-InputField" p:propertyName="positionReportGroup">
-			        <property name="fieldLookup">
+			        <property name="quickfinder">
 			       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.pm.positionreportgroup.PositionReportGroup" 
 			        		 p:fieldConversions="positionReportGroup:positionReportGroup"/>
 		   		 	</property>
 		        </bean>
 		        <bean parent="Uif-InputField" p:propertyName="positionReportSubCat">
-			        <property name="fieldLookup">
+			        <property name="quickfinder">
 		       		<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.pm.positionreportsubcat.PositionReportSubCategory" 
 		        		 p:fieldConversions="positionReportSubCat:positionReportSubCat"/>
 		   		 </property>
 	       		</bean>
 		        <bean parent="Uif-InputField" p:propertyName="institution" >
-			        <property name="fieldLookup">
+			        <property name="quickfinder">
 		       			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.pm.institution.Institution" 
 		        			 p:fieldConversions="institution:institutionCode"/>
 		   			</property>
