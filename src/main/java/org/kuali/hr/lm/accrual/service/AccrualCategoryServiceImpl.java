@@ -125,6 +125,9 @@ public class AccrualCategoryServiceImpl implements AccrualCategoryService {
 			AccrualCategory accrualCategory, Date asOfDate) {
     	BigDecimal balance = new BigDecimal(0);
     	PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, asOfDate);
+    	if(pha == null)
+    		return BigDecimal.ZERO;
+    	
     	List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksWithAccrualCategory(principalId, pha.getServiceDate(), new java.sql.Date(asOfDate.getTime()), accrualCategory.getAccrualCategory());
     	for(LeaveBlock block : leaveBlocks) {
     		if(!(StringUtils.equals(block.getRequestStatus(),LMConstants.REQUEST_STATUS.DEFERRED)
