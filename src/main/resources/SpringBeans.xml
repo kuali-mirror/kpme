@@ -368,8 +368,12 @@
     <bean id="positionReportCatDao" class="org.kuali.hr.pm.positionreportcat.dao.PositionReportCatDaoObjImpl" parent="platformAwareDao" />
       
     <bean id="positionReportSubCatDao" class="org.kuali.hr.pm.positionreportsubcat.dao.PositionReportSubCatDaoObjImpl" parent="platformAwareDao" />
+    
+    <bean id="pstnRptGrpSubCatDao" class="org.kuali.hr.pm.pstnrptgrpsubcat.dao.PstnRptGrpSubCatDaoObjImpl" parent="platformAwareDao" />
      
     <bean id="payStepDao" class="org.kuali.hr.pm.paystep.dao.PayStepDaoOjbImpl" parent="platformAwareDao" />
+    
+     <bean id="salaryGroupDao" class="org.kuali.hr.pm.salarygroup.dao.SalaryGroupDaoObjImpl" parent="platformAwareDao" />
     
     <!-- Time Services for Business Logic -->
     <bean id="missedPunchService" class="org.kuali.hr.time.missedpunch.service.MissedPunchServiceImpl">
@@ -674,8 +678,16 @@
         <property name="positionReportSubCatDao" ref="positionReportSubCatDao"/>
     </bean>
     
+    <bean id="pstnRptGrpSubCatService" class="org.kuali.hr.pm.pstnrptgrpsubcat.service.PstnRptGrpSubCatServiceImpl">
+        <property name="pstnRptGrpSubCatDao" ref="pstnRptGrpSubCatDao"/>
+    </bean>
+    
     <bean id="payStepService" class="org.kuali.hr.pm.paystep.service.PayStepServiceImpl">
         <property name="payStepDao" ref="payStepDao"/>
+    </bean>
+    
+     <bean id="salaryGroupService" class="org.kuali.hr.pm.salarygroup.service.SalaryGroupServiceImpl">
+        <property name="salaryGroupDao" ref="salaryGroupDao"/>
     </bean>
     
     <bean id="accrualCategoryMaxCarryOverService" class="org.kuali.hr.lm.accrual.service.AccrualCategoryMaxCarryOverServiceImpl">

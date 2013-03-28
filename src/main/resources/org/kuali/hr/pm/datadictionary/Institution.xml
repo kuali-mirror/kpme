@@ -158,7 +158,7 @@
   <!-- KRAD Lookup View Definition -->
  
   <bean id="Institution-LookupView" parent="Uif-LookupView">
-    <property name="title" value="Institution Lookup" />
+    <property name="headerText" value="Institution Lookup" />
     <property name="dataObjectClassName" value="org.kuali.hr.pm.institution.Institution" />
     <property name="criteriaFields">
       <list>

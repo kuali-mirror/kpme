@@ -1,23 +1,20 @@
 package org.kuali.hr.pm.pstnrptgrpsubcat;
 
-import org.kuali.hr.pm.institution.Institution;
-import org.kuali.hr.pm.positionreportgroup.PositionReportGroup;
-import org.kuali.hr.pm.positionreportsubcat.PositionReportSubCategory;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.rice.location.impl.campus.CampusBo;
 
 public class PositionReportGroupSubCategory extends HrBusinessObject {
 	private static final long serialVersionUID = 1L;
 	
-	String pmPstnRptGrpSubCatId;
-	String pstnRptGrpSubCat;
-	String positionReportGroup;
-	String positionReportSubCat;
-	String description;
-	String institution;
-	String campus;
+	private String pmPstnRptGrpSubCatId;
+	private String pstnRptGrpSubCat;
+	private String positionReportGroup;
+	private String positionReportSubCat;
+	private String description;
+	private String institution;
+	private String campus;
 
-	CampusBo campusObj;	
+	private CampusBo campusObj;	
 	
 	@Override
 	public String getId() {

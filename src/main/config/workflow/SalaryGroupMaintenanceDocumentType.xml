@@ -4,10 +4,10 @@
     <documentTypes xmlns="ns:workflow/DocumentType"
                    xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
-			<name>PstnRptGrpSubCatMaintenanceDocumentType</name>
+			<name>SalaryGroupMaintenanceDocumentType</name>
 			<parent>RiceDocument</parent>
 			<docHandler>${kuali.docHandler.url.prefix}/kr-krad/maintenance.do?methodToCall=docHandler</docHandler>
-			<label>PositionReportGroupSubCatMaintenanceDocument</label>
+			<label>SalaryGroupMaintenanceDocument</label>
 		</documentType>   
      </documentTypes>
 </data>

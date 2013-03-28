@@ -241,7 +241,7 @@
 	
   <!-- KRAD Lookup View Definition -->
   <bean id="PositionReportCat-LookupView" parent="Uif-LookupView">
-    <property name="title" value="PositionReportCategory Lookup" />
+    <property name="headerText" value="PositionReportCategory Lookup" />
     <property name="dataObjectClassName" value="org.kuali.hr.pm.positionreportcat.PositionReportCategory" />
     <property name="criteriaFields">
       <list>

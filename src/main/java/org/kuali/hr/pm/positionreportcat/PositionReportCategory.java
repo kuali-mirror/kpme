@@ -8,17 +8,16 @@ import org.kuali.rice.location.impl.campus.CampusBo;
 public class PositionReportCategory extends HrBusinessObject {
 	private static final long serialVersionUID = 1L;
 	
-	String pmPositionReportCatId;
-	String positionReportCat;
-	String positionReportType;
-	String description;
-	String institution;
-	String campus;
+	private String pmPositionReportCatId;
+	private String positionReportCat;
+	private String positionReportType;
+	private String description;
+	private String institution;
+	private String campus;
 	
-	CampusBo campusObj;
-	Institution institutionObj;
-	PositionReportType prtObj;
-	
+	private CampusBo campusObj;
+	private Institution institutionObj;
+	private PositionReportType prtObj;	
 	
 	@Override
 	public String getId() {
