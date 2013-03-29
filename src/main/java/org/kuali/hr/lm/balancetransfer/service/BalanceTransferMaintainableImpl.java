@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.lm.balancetransfer.service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +66,6 @@ public class BalanceTransferMaintainableImpl extends
 
         DocumentStatus newDocumentStatus = documentHeader.getWorkflowDocument().getStatus();
         String routedByPrincipalId = documentHeader.getWorkflowDocument().getRoutedByPrincipalId();
-
         if (DocumentStatus.ENROUTE.equals(newDocumentStatus)
                 && CollectionUtils.isEmpty(balanceTransfer.getLeaveBlocks())) {
         	// this is a balance transfer on a system scheduled time off leave block
@@ -121,6 +121,24 @@ public class BalanceTransferMaintainableImpl extends
                     lb.setRequestStatus(LMConstants.REQUEST_STATUS.APPROVED);
                     TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, routedByPrincipalId);
                 }
+            }
+            List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDate(balanceTransfer.getPrincipalId(), balanceTransfer.getEffectiveDate());
+            LeaveBlock carryOverBlock = null;
+            for(LeaveBlock lb : leaveBlocks) {
+            	if(StringUtils.equals(lb.getAccrualCategory(),balanceTransfer.getFromAccrualCategory())
+            			&& StringUtils.equals(lb.getDescription(),"Max carry over adjustment")) {
+            		carryOverBlock = lb;
+            	}
+            }
+            if(carryOverBlock != null) {
+            	BigDecimal adjustment = new BigDecimal(0);
+            	if(balanceTransfer.getTransferAmount() != null)
+            		adjustment = adjustment.add(balanceTransfer.getTransferAmount().abs());
+            	if(balanceTransfer.getForfeitedAmount() != null)
+            		adjustment = adjustment.add(balanceTransfer.getForfeitedAmount().abs());
+            	BigDecimal adjustedLeaveAmount = carryOverBlock.getLeaveAmount().abs().subtract(adjustment);
+            	carryOverBlock.setLeaveAmount(adjustedLeaveAmount.negate());
+        		TkServiceLocator.getLeaveBlockService().updateLeaveBlock(carryOverBlock, routedByPrincipalId);
             }
         } else if (DocumentStatus.CANCELED.equals(newDocumentStatus)) {
             //When transfer document is canceled, set all leave block's request statuses to deferred
