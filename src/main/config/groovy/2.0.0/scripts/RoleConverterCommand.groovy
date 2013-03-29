@@ -80,9 +80,6 @@ class RoleConverterCommand extends RecordSelectPerform {
             case 'TK_REVIEWER':
                 actions << generateInsertKimWorkAreaRoleMember("KPME-HR", "Reviewer", quote(row['PRINCIPAL_ID']), quote(row['POSITION_NBR']), quote(row['EFFDT']), quote(row['EXPDT']), quote(row['TIMESTAMP']), row['ACTIVE'], quote(row['WORK_AREA']))
                 break
-            case 'TK_EMPLOYEE':
-                actions << generateInsertKimDefaultRoleMember("KPME-HR", "Employee", quote(row['PRINCIPAL_ID']), quote(row['EFFDT']), quote(row['EXPDT']), quote(row['TIMESTAMP']), row['ACTIVE'])
-    		    break
         }
 
 		actions
@@ -197,22 +194,6 @@ class RoleConverterCommand extends RecordSelectPerform {
             insertStatement += 'ERROR: Role member found without principalId and positionNumber'
         }
         
-        return insertStatement;
-    }
-    
-    def String generateInsertKimDefaultRoleMember(String namespaceCode, String roleName, String principalId, String effectiveDate, String expirationDate, String timestamp, String active) {
-        String insertStatement = "";
-        
-        if (active != 'Y') {
-            expirationDate = timestamp;
-        }
-        
-        if (dbType == 'mysql') {
-            insertStatement += "INSERT INTO KRIM_ROLE_MBR_ID_S VALUES (NULL);"
-            insertStatement += System.getProperty("line.separator")
-        }
-        insertStatement += "INSERT INTO KRIM_ROLE_MBR_T (ROLE_MBR_ID, ROLE_ID, MBR_ID, MBR_TYP_CD, ACTV_FRM_DT, ACTV_TO_DT, LAST_UPDT_DT, OBJ_ID, VER_NBR) VALUES (${generateNextInsert('KRIM_ROLE_MBR_ID_S')}, (SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = '${namespaceCode}' AND ROLE_NM = '${roleName}'), ${principalId}, 'P', ${effectiveDate}, ${expirationDate}, ${timestamp}, ${uniqueIds[dbType]}, '1');"
-    
         return insertStatement;
     }
     
