@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
-<c:set var="systemAdmin" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isSystemAdmin()%>' />
+<c:set var="systemAdmin" value='<%=org.kuali.hr.time.util.TKContext.isSystemAdmin()%>' />
 
 <c:if test="${systemAdmin}">
     <channel:portalChannelTop channelTitle="Run Carry Over Batch Job" />

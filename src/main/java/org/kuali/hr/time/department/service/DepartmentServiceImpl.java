@@ -15,67 +15,136 @@
  */
 package org.kuali.hr.time.department.service;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.joda.time.DateTime;
+import org.kuali.hr.core.role.KPMERole;
+import org.kuali.hr.core.role.department.DepartmentPrincipalRoleMemberBo;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.department.dao.DepartmentDao;
-import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TkConstants;
-
-import java.sql.Date;
-import java.util.List;
+import org.kuali.hr.time.util.TKUtils;
+import org.kuali.rice.kim.api.role.RoleMember;
+import org.kuali.rice.kim.impl.role.RoleMemberBo;
 
 public class DepartmentServiceImpl implements DepartmentService {
 
 	private DepartmentDao departmentDao;
-
-    @Override
-    public List<Department> getDepartments(String chart, Date asOfDate) {
-        List<Department> ds = departmentDao.getDepartments(chart, asOfDate);
-
-        for (Department d : ds) {
-            populateDepartmentRoles(d);
-        }
-
-        return ds;
-    }
-
-    @Override
-	public Department getDepartment(String department, Date asOfDate) {
-        Department d = departmentDao.getDepartment(department, asOfDate);
-        populateDepartmentRoles(d);
-
-		return d;
+	
+	public DepartmentDao getDepartmentDao() {
+		return departmentDao;
 	}
-
+	
 	public void setDepartmentDao(DepartmentDao departmentDao) {
 		this.departmentDao = departmentDao;
 	}
-
-    @Override
-    public void populateDepartmentRoles(Department department) {
-        if (department != null) {
-        	department.getRoles().addAll(TkServiceLocator.getTkRoleService().getDepartmentRoles(department.getDept()));
-        	department.getInactiveRoles().addAll(TkServiceLocator.getTkRoleService().getDepartmentInactiveRoles(department.getDept()));
-        }
-    }
-
+	
 	@Override
 	public Department getDepartment(String hrDeptId) {
-		return departmentDao.getDepartment(hrDeptId);
+		Department departmentObj = departmentDao.getDepartment(hrDeptId);
+		
+		if (departmentObj != null) {
+			populateDepartmentRoleMembers(departmentObj, departmentObj.getEffectiveDate());
+		}
+		
+		return departmentObj;
 	}
 	
-	@Override
-	public List<Department> getDepartmentByLocation(String location) {
-		return departmentDao.getDepartmentByLocation(location);
-	}
-	
+    @Override
+    public List<Department> getDepartments(String department, String location, String descr, String active) {
+    	List<Department> departmentObjs = departmentDao.getDepartments(department, location, descr, active);
+        
+        for (Department departmentObj : departmentObjs) {
+        	populateDepartmentRoleMembers(departmentObj, departmentObj.getEffectiveDate());
+        }
+        
+        return departmentObjs;
+    }
+    
 	@Override
 	public int getDepartmentCount(String department) {
 		return departmentDao.getDepartmentCount(department);
 	}
+	
+    @Override
+	public Department getDepartment(String department, Date asOfDate) {
+        Department departmentObj = departmentDao.getDepartment(department, asOfDate);
+        
+        if (departmentObj != null) {
+        	populateDepartmentRoleMembers(departmentObj, asOfDate);
+        }
+
+		return departmentObj;
+	}
 
     @Override
-    public List<Department> getDepartments(String department, String location, String descr, String active) {
-        return departmentDao.getDepartments(department, location, descr, active);
+    public List<Department> getDepartments(String location, Date asOfDate) {
+        List<Department> departmentObjs = departmentDao.getDepartments(location, asOfDate);
+
+        for (Department departmentObj : departmentObjs) {
+        	populateDepartmentRoleMembers(departmentObj, departmentObj.getEffectiveDate());
+        }
+
+        return departmentObjs;
     }
+
+    private void populateDepartmentRoleMembers(Department department, Date asOfDate) {
+    	Set<RoleMember> roleMembers = new HashSet<RoleMember>();
+    	
+    	roleMembers.addAll(TkServiceLocator.getTKRoleService().getRoleMembersInDepartment(KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), department.getDept(), new DateTime(asOfDate), false));
+    	roleMembers.addAll(TkServiceLocator.getTKRoleService().getRoleMembersInDepartment(KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department.getDept(), new DateTime(asOfDate), false));
+    	roleMembers.addAll(TkServiceLocator.getLMRoleService().getRoleMembersInDepartment(KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), department.getDept(), new DateTime(asOfDate), false));
+    	roleMembers.addAll(TkServiceLocator.getLMRoleService().getRoleMembersInDepartment(KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department.getDept(), new DateTime(asOfDate), false));
+
+    	for (RoleMember roleMember : roleMembers) {
+    		RoleMemberBo roleMemberBo = RoleMemberBo.from(roleMember);
+    		
+    		if (roleMemberBo.isActive()) {
+    			department.addRoleMember(DepartmentPrincipalRoleMemberBo.from(roleMemberBo));
+    		} else {
+    			department.addInactiveRoleMember(DepartmentPrincipalRoleMemberBo.from(roleMemberBo));
+    		}
+    	}
+    }
+    
+    @Override
+    public List<String> getViewOnlyDepartments(String principalId) {
+    	Set<String> departments = new HashSet<String>();
+    	
+    	departments.addAll(TkServiceLocator.getTKRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), new DateTime(), true));
+    	departments.addAll(TkServiceLocator.getLMRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), new DateTime(), true));
+    	
+    	List<String> locations = TkServiceLocator.getLocationService().getViewOnlyLocations(principalId);
+    	for (String location : locations) {
+    		List<Department> locationDepartments = getDepartments(location, TKUtils.getCurrentDate());
+    		for (Department locationDepartment : locationDepartments) {
+    			departments.add(locationDepartment.getDept());
+    		}
+    	}
+    	
+    	return new ArrayList<String>(departments);
+    }
+    
+    @Override
+    public List<String> getAdministratorDepartments(String principalId) {
+    	Set<String> departments = new HashSet<String>();
+    	
+    	departments.addAll(TkServiceLocator.getTKRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), new DateTime(), true));
+    	departments.addAll(TkServiceLocator.getLMRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), new DateTime(), true));
+    	
+    	List<String> locations = TkServiceLocator.getLocationService().getAdministratorLocations(principalId);
+    	for (String location : locations) {
+    		List<Department> locationDepartments = getDepartments(location, TKUtils.getCurrentDate());
+    		for (Department locationDepartment : locationDepartments) {
+    			departments.add(locationDepartment.getDept());
+    		}
+    	}
+    	
+    	return new ArrayList<String>(departments);
+    }
+
 }

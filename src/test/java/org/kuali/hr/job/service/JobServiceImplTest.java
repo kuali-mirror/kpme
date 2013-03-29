@@ -21,7 +21,6 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.job.Job;

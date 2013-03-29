@@ -38,14 +38,13 @@ import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
-import org.kuali.hr.lm.leaveSummary.service.LeaveSummaryServiceImpl;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kew.api.KewApiConstants;
 
@@ -56,13 +55,8 @@ public class LeaveBlockDisplayAction extends TkAction {
 		ActionForward forward = super.execute(mapping, form, request, response);
 		
 		LeaveBlockDisplayForm lbdf = (LeaveBlockDisplayForm) form;	
-        
-		String principalId = TKUser.getCurrentTargetPersonId();
-		if (TKUser.getCurrentTargetPersonId() != null) {
-			lbdf.setTargetName(TKUser.getCurrentTargetPerson().getName());
-		}
 
-		PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId, TKUtils.getCurrentDate());
+		PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate());
 		String leavePlan = (principalHRAttributes != null) ? principalHRAttributes.getLeavePlan() : null;
 
 		Calendar currentCalendar = Calendar.getInstance();
@@ -80,9 +74,9 @@ public class LeaveBlockDisplayAction extends TkAction {
 		Date endDate = TKUtils.getTimelessDate(currentCalendar.getTime());
 
 		lbdf.setAccrualCategories(getAccrualCategories(leavePlan));
-		lbdf.setLeaveEntries(getLeaveEntries(principalId, serviceDate, beginDate, endDate, lbdf.getAccrualCategories()));
+		lbdf.setLeaveEntries(getLeaveEntries(TKContext.getTargetPrincipalId(), serviceDate, beginDate, endDate, lbdf.getAccrualCategories()));
 
-		List<LeaveBlockHistory> correctedLeaveEntries = TkServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistoriesForLeaveDisplay(principalId, beginDate, endDate, Boolean.TRUE);
+		List<LeaveBlockHistory> correctedLeaveEntries = TkServiceLocator.getLeaveBlockHistoryService().getLeaveBlockHistoriesForLeaveDisplay(TKContext.getTargetPrincipalId(), beginDate, endDate, Boolean.TRUE);
 		if (correctedLeaveEntries != null) {
 			for (LeaveBlockHistory leaveBlockHistory : correctedLeaveEntries) {
 				if (leaveBlockHistory.getAction() != null && leaveBlockHistory.getAction().equalsIgnoreCase(LMConstants.ACTION.DELETE)) {
@@ -97,7 +91,7 @@ public class LeaveBlockDisplayAction extends TkAction {
 		}
 		lbdf.setCorrectedLeaveEntries(correctedLeaveEntries);
 		
-		List<LeaveBlockHistory> inActiveLeaveEntries = TkServiceLocator.getLeaveBlockHistoryService() .getLeaveBlockHistoriesForLeaveDisplay(principalId, beginDate, endDate, Boolean.FALSE);
+		List<LeaveBlockHistory> inActiveLeaveEntries = TkServiceLocator.getLeaveBlockHistoryService() .getLeaveBlockHistoriesForLeaveDisplay(TKContext.getTargetPrincipalId(), beginDate, endDate, Boolean.FALSE);
 		List<LeaveBlockHistory> leaveEntries = null;
 		if (inActiveLeaveEntries != null) {
 			leaveEntries = new ArrayList<LeaveBlockHistory>();

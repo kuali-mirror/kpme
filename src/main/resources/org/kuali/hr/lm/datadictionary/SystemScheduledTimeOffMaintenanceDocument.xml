@@ -31,7 +31,7 @@
 		p:businessObjectClass="org.kuali.hr.lm.timeoff.SystemScheduledTimeOff"
 		p:businessRulesClass="org.kuali.hr.lm.timeoff.validation.SystemScheduledTimeOffValidation"
 		p:maintainableClass="org.kuali.hr.lm.timeoff.service.SystemScheduledTimeOffMaintainableServiceImpl"
-		p:documentAuthorizerClass="org.kuali.hr.time.authorization.DepartmentAdminAuthorizer">
+		p:documentAuthorizerClass="org.kuali.hr.lm.timeoff.authorization.SystemScheduledTimeOffAuthorizer">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="SystemScheduledTimeOffMaintenanceDocument-SystemScheduledTimeOffMaintenance" />

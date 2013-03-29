@@ -15,14 +15,16 @@
  */
 package org.kuali.hr.time.workflow;
 
-import org.apache.log4j.Logger;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.joda.time.DateTime;
+import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.missedpunch.MissedPunchDocument;
-import org.kuali.hr.time.roles.TkRole;
-import org.kuali.hr.time.roles.service.TkRoleService;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.identity.Id;
 import org.kuali.rice.kew.api.identity.PrincipalId;
@@ -31,19 +33,12 @@ import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.routeheader.DocumentContent;
 import org.kuali.rice.kew.rule.AbstractRoleAttribute;
 import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
+import org.kuali.rice.kim.api.role.RoleMember;
 
-import java.util.*;
-
+@Deprecated
 public class TkWorkflowMissedPunchAttribute extends AbstractRoleAttribute {
 
-    private static final Logger LOG = Logger.getLogger(TkWorkflowMissedPunchAttribute.class);
-
-    // Root of the XPath expression needed to retrieve relevant data
-
-    public static final String XP_BO_ROOT = "/documentContent/applicationContent/org.kuali.rice.kns.workflow.KualiDocumentXmlMaterializer/document/newMaintainableObject/businessObject";
-    // Attributes on the MissedPunch object we require to determine route recipients.
-    public static final String XP_MD_A_ASSIGN = "/assignment/text()";
-    public static final String XP_MD_A_TDOCID = "/timesheetDocumentId/text()";
+	private static final long serialVersionUID = 8994254411764426802L;
 
 	@Override
 	public List<String> getQualifiedRoleNames(String roleName, DocumentContent documentContent) {
@@ -52,16 +47,12 @@ public class TkWorkflowMissedPunchAttribute extends AbstractRoleAttribute {
 		return roles;
 	}
 
-	/**
-	 * Role name is passed in in the routing rule.
-	 */
 	@Override
 	public ResolvedQualifiedRole resolveQualifiedRole(RouteContext routeContext, String roleName, String qualifiedRole) {
 		ResolvedQualifiedRole rqr = new ResolvedQualifiedRole();
 		List<Id> principals = new ArrayList<Id>();
 		Long routeHeaderId = new Long(routeContext.getDocument().getDocumentId());
 
-		TkRoleService roleService = TkServiceLocator.getTkRoleService();
         MissedPunchDocument missedPunch = TkServiceLocator.getMissedPunchService().getMissedPunchByRouteHeader(routeHeaderId.toString());
 
         String assign_string = missedPunch.getAssignment();
@@ -72,30 +63,16 @@ public class TkWorkflowMissedPunchAttribute extends AbstractRoleAttribute {
             if (tdoc != null) {
                 Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(tdoc, assign_string);
                 if (assignment != null) {
-                    List<String> users = roleService.getResponsibleParties(assignment, roleName, tdoc.getAsOfDate());
-                   
-                    // add approver delegates to users
-                    Long workAreaNumber = assignment.getWorkArea();
-                    List<TkRole> approvers = roleService.getWorkAreaRoles(workAreaNumber, roleName, TKUtils.getCurrentDate());
-                    List<TkRole> approverDelegates = roleService.getWorkAreaRoles(workAreaNumber, TkConstants.ROLE_TK_APPROVER_DELEGATE, TKUtils.getCurrentDate());
-                    Set<TkRole> roles = new HashSet<TkRole>();
-                    roles.addAll(approvers);
-                    roles.addAll(approverDelegates);
-                    for(TkRole aRole : roles) {
-                    	users.add(aRole.getPrincipalId());
-                    }
-                    
-                    if(users.isEmpty()){
-                    	throw new RuntimeException("No responsible people for work area" + assignment.getWorkArea());
-                    }
-                    for (String user : users) {
-                    	if(user != null) {
-	                        PrincipalId pid = new PrincipalId(user);
-	                        if (!principals.contains(pid)) {
-	                            principals.add(pid);
-	                        }
-                    	}
-                    }
+            		List<RoleMember> roleMembers = new ArrayList<RoleMember>();
+            		
+            		if (TkConstants.ROLE_TK_APPROVER.equals(roleName)) {
+            	        roleMembers.addAll(TkServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER.getRoleName(), assignment.getWorkArea(), new DateTime(), true));
+            	        roleMembers.addAll(TkServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), new DateTime(), true));
+            		}
+        	
+        	        for (RoleMember roleMember : roleMembers) {
+        	        	principals.add(new PrincipalId(roleMember.getMemberId()));
+        		    }
                 } else {
                     throw new RuntimeException("Could not obtain Assignment.");
                 }
@@ -106,16 +83,18 @@ public class TkWorkflowMissedPunchAttribute extends AbstractRoleAttribute {
             throw new RuntimeException("Could not obtain Timesheet Document ID or Assignment ID");
         }
 
-
-		if (principals.size() == 0)
+		if (principals.size() == 0) {
 			throw new RuntimeException("No principals to route to. Push to exception routing.");
-
+		}
+		
 		rqr.setRecipients(principals);
+		
 		return rqr;
 	}
 
 	@Override
 	public List<RoleName> getRoleNames() {
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
 	}
+	
 }

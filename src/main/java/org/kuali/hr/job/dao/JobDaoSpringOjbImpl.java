@@ -18,10 +18,11 @@ package org.kuali.hr.job.dao;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
-import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
@@ -32,6 +33,8 @@ import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+
+import com.google.common.collect.ImmutableList;
 
 /**
  * Represents an implementation of {@link JobDao}.
@@ -127,25 +130,6 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
         Query query = QueryFactory.newQuery(Job.class, root);
         Job job = (Job) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
         return job;
-    }
-
-    @SuppressWarnings("unchecked")
-    public List<Job> getActiveJobsForPosition(String positionNbr, Date asOfDate) {
-        Criteria root = new Criteria();
-        java.sql.Date effDate = null;
-        if (asOfDate != null) {
-            effDate = new java.sql.Date(asOfDate.getTime());
-        }
-        root.addEqualTo("positionNumber", positionNbr);
-        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, effDate, EQUAL_TO_FIELDS, false));
-        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, EQUAL_TO_FIELDS, false));
-
-        Criteria activeFilter = new Criteria(); // Inner Join For Activity
-        activeFilter.addEqualTo("active", true);
-        root.addAndCriteria(activeFilter);
-
-        Query query = QueryFactory.newQuery(Job.class, root);
-        return (List<Job>) this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 
     @SuppressWarnings("unchecked")
@@ -360,6 +344,34 @@ public class JobDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements JobD
 
         Query query = QueryFactory.newQuery(Job.class, root);
         return (Job) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+    }
+    
+
+    @SuppressWarnings("unchecked")
+    public List<String> getPrincipalIdsInPosition(String positionNumber, Date asOfDate) {
+        Set<String> principalIdsInPosition = new HashSet<String>();
+    	
+    	Criteria root = new Criteria();
+        java.sql.Date effDate = null;
+        if (asOfDate != null) {
+            effDate = new java.sql.Date(asOfDate.getTime());
+        }
+        root.addEqualTo("positionNumber", positionNumber);
+        root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(Job.class, effDate, EQUAL_TO_FIELDS, false));
+        root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(Job.class, EQUAL_TO_FIELDS, false));
+
+        Criteria activeFilter = new Criteria();
+        activeFilter.addEqualTo("active", true);
+        root.addAndCriteria(activeFilter);
+
+        Query query = QueryFactory.newQuery(Job.class, root);
+        Collection<Job> jobs = getPersistenceBrokerTemplate().getCollectionByQuery(query);
+        
+        for (Job job : jobs) {
+        	principalIdsInPosition.add(job.getPrincipalId());
+        }
+        
+        return new ArrayList<String>(principalIdsInPosition);
     }
     
 }

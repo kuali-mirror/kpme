@@ -35,7 +35,7 @@ import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.person.TKPerson;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -82,9 +82,9 @@ public class ApprovalAction extends TkAction{
 	
 	protected void checkTKAuthorization(ActionForm form, String methodToCall)
 			throws AuthorizationException {
-			    if (!TKUser.isTimesheetReviewer() && !TKUser.isAnyApproverActive() && !TKUser.isSystemAdmin()
-			    		&& !TKUser.isLocationAdmin() && !TKUser.isGlobalViewOnly() && !TKUser.isDeptViewOnly()
-			    		&& !TKUser.isDepartmentAdmin()) {
+			    if (!TKContext.isReviewer() && !TKContext.isSystemAdmin()
+			    		&& !TKContext.isLocationAdmin() && !TKContext.isGlobalViewOnly() && !TKContext.isDepartmentViewOnly()
+			    		&& !TKContext.isDepartmentAdmin()) {
 			        throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "ApprovalAction", "");
 			    }
 			}
@@ -124,7 +124,7 @@ public class ApprovalAction extends TkAction{
 		    taf.setNextPayCalendarId(null);
 		}	
 		if (StringUtils.isBlank(page)) {
-		    List<String> depts = new ArrayList<String>(TKUser.getReportingApprovalDepartments().keySet());
+		    List<String> depts = new ArrayList<String>(TKContext.getReportingApprovalDepartments().keySet());
 		    if ( depts.isEmpty() ) {
 		    	return;
 		    }
@@ -137,8 +137,8 @@ public class ApprovalAction extends TkAction{
 		    	
 		    	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(taf.getSelectedDept(), new java.sql.Date(taf.getPayBeginDate().getTime()));
 		        for(WorkArea wa : workAreas){
-		        	if (TKUser.getApproverWorkAreas().contains(wa.getWorkArea())
-		        			|| TKUser.getReviewerWorkAreas().contains(wa.getWorkArea())) {
+		        	if (TKContext.getApproverWorkAreas().contains(wa.getWorkArea())
+		        			|| TKContext.getReviewerWorkAreas().contains(wa.getWorkArea())) {
 		        		taf.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
 		        	}
 		        }

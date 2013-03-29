@@ -419,4 +419,9 @@ public class BalanceTransferServiceImpl implements BalanceTransferService {
 		// TODO Auto-generated method stub
 		balanceTransferDao.saveOrUpdate(balanceTransfer);
 	}
+	
+    public List<BalanceTransfer> getBalanceTransfers(String principalId, String fromAccrualCategory, String transferAmount, String toAccrualCategory, String amountTransferred, String forfeitedAmount, Date fromEffdt, Date toEffdt) {
+    	return balanceTransferDao.getBalanceTransfers(principalId, fromAccrualCategory, transferAmount, toAccrualCategory, amountTransferred, forfeitedAmount, fromEffdt, toEffdt);
+    }
+
 }

@@ -59,13 +59,6 @@ public interface JobDao {
 	 * @return
 	 */
 	public Job getPrimaryJob(String principalId, Date payPeriodEndDate);
-	/**
-	 * Fetch active jobs that are incumbents of the position
-	 * @param positionNbr
-	 * @param asOfDate
-	 * @return
-	 */
-	public List<Job> getActiveJobsForPosition(String positionNbr, Date asOfDate);
 	
 	/**
 	 * Fetch active jobs that are incumbents of the payType
@@ -109,4 +102,14 @@ public interface JobDao {
     public List<Job> getAllInActiveLeaveJobsInRange(String principalId, Date startDate, Date endDate);
     
     public Job getMaxTimestampJob(String principalId);
+    
+	/**
+	 * Returns all of the principal ids actively particpating in a job in the given position number
+	 * 
+	 * @param positionNumber
+	 * @param asOfDate
+	 * @return
+	 */
+	public List<String> getPrincipalIdsInPosition(String positionNumber, Date asOfDate);
+	
 }

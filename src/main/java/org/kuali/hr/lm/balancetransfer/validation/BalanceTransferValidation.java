@@ -17,7 +17,6 @@ package org.kuali.hr.lm.balancetransfer.validation;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -29,7 +28,6 @@ import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -184,8 +182,8 @@ public class BalanceTransferValidation extends MaintenanceDocumentRuleBase {
 				AccrualCategory toCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(toAccrualCategory, effectiveDate);
 				PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId,effectiveDate);
 				
-				boolean isDeptAdmin = TKUser.isDepartmentAdmin();
-				boolean isSysAdmin = TKUser.isSystemAdmin();
+				boolean isDeptAdmin = TKContext.isDepartmentAdmin();
+				boolean isSysAdmin = TKContext.isSystemAdmin();
 				if(isDeptAdmin || isSysAdmin) {
 					isValid &= validateTransferAmount(balanceTransfer.getTransferAmount(),fromCat,toCat, principalId, effectiveDate);
 				}

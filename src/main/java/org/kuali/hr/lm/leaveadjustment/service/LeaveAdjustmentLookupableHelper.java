@@ -15,33 +15,29 @@
  */
 package org.kuali.hr.lm.leaveadjustment.service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
+import org.kuali.hr.core.lookup.KPMELookupableHelper;
 import org.kuali.hr.lm.leaveadjustment.LeaveAdjustment;
-import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-public class LeaveAdjustmentLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
+@SuppressWarnings("deprecation")
+public class LeaveAdjustmentLookupableHelper extends KPMELookupableHelper {
 
 	private static final long serialVersionUID = 8673584702786497392L;
 
 	@Override
+	@SuppressWarnings("rawtypes")
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
-		
-		List<HtmlData> copyOfUrls = new ArrayList<HtmlData>();
-		copyOfUrls.addAll(customActionUrls);
-		for(HtmlData aData : copyOfUrls) {
-			if(aData.getMethodToCall().equals(KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL)) {
-				customActionUrls.remove(aData);
-			}
-		}
 		
 		LeaveAdjustment leaveAdjustment = (LeaveAdjustment) businessObject;
 		String lmLeaveAdjustmentId = leaveAdjustment.getLmLeaveAdjustmentId();
@@ -57,5 +53,17 @@ public class LeaveAdjustmentLookupableHelper extends HrEffectiveDateActiveLookup
 		
 		return customActionUrls;
 	}
+	
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+    	String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
+        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
+    	String principalId = fieldValues.get("principalId");
+        String accrualCategory = fieldValues.get("accrualCategory");
+        String earnCode = fieldValues.get("earnCode");
+        
+        return TkServiceLocator.getLeaveAdjustmentService().getLeaveAdjustments(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), 
+        		principalId, accrualCategory, earnCode);
+    }
 	
 }

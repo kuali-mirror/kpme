@@ -38,6 +38,7 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -472,11 +473,11 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 	}
 
     public boolean isEditable() {
-        return TkServiceLocator.getPermissionsService().canEditLeaveBlock(this);
+        return TkServiceLocator.getLMPermissionService().canEditLeaveBlock(TKContext.getPrincipalId(), this);
     }
 
     public boolean isDeletable() {
-        return TkServiceLocator.getPermissionsService().canDeleteLeaveBlock(this);
+        return TkServiceLocator.getLMPermissionService().canDeleteLeaveBlock(TKContext.getPrincipalId(), this);
     }
     
     public String getAssignmentKey() {

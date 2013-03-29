@@ -22,13 +22,19 @@
 
     <changeSet id="1" author="kbtaylor" context="kpme-server-test" dbms="mysql">
         <insert tableName="krim_entity_id_s">
-            <column name="id" value="10000" />
+            <column name="id" value="10013" />
         </insert>
         <insert tableName="krim_entity_nm_id_s">
-            <column name="id" value="10000" />
+            <column name="id" value="10013" />
         </insert>
-        <insert tableName="krim_prncpl_id_s">
-            <column name="id" value="10000" />
+        <insert tableName="krim_grp_mbr_id_s">
+            <column name="ID" value="10000" />
+        </insert>
+        <insert tableName="krim_role_mbr_id_s">
+            <column name="ID" value="10032" />
+        </insert>
+        <insert tableName="krim_attr_data_id_s">
+            <column name="ID" value="10017" />
         </insert>
     </changeSet>
     
@@ -37,6 +43,9 @@
         <loadData tableName="krim_entity_ent_typ_t" file="src/test/config/db/test/krim_entity_ent_typ_t.csv" />
         <loadData tableName="krim_entity_nm_t" file="src/test/config/db/test/krim_entity_nm_t.csv" />
         <loadData tableName="krim_prncpl_t" file="src/test/config/db/test/krim_prncpl_t.csv" />
+        <loadData tableName="krim_grp_mbr_t" file="src/test/config/db/test/krim_grp_mbr_t.csv" />
+        <loadData tableName="krim_role_mbr_t" file="src/test/config/db/test/krim_role_mbr_t.csv" />
+        <loadData tableName="krim_role_mbr_attr_data_t" file="src/test/config/db/test/krim_role_mbr_attr_data_t.csv" />
     </changeSet>
     
     <changeSet id="3" author="djunk" context="kpme-client-test">
@@ -82,9 +91,6 @@
         <insert tableName="hr_principal_attribute_s">
             <column name="id" value="2" />
         </insert>
-        <insert tableName="hr_roles_s">
-            <column name="id" value="23" />
-        </insert>
         <insert tableName="hr_sal_group_s">
             <column name="id" value="14" />
         </insert>
@@ -126,7 +132,6 @@
         <loadData tableName="hr_paytype_t" file="src/test/config/db/test/hr_paytype_t.csv" />
         <loadData tableName="hr_principal_attributes_t" file="src/test/config/db/test/hr_principal_attributes_t.csv" />
         <loadData tableName="hr_position_t" file="src/test/config/db/test/hr_position_t.csv" />
-        <loadData tableName="hr_roles_t" file="src/test/config/db/test/hr_roles_t.csv" />
         <loadData tableName="hr_sal_group_t" file="src/test/config/db/test/hr_sal_group_t.csv" />
         <loadData tableName="lm_accrual_category_t" file="src/test/config/db/test/lm_accrual_category_t.csv" />
         <loadData tableName="tk_assignment_t" file="src/test/config/db/test/tk_assignment_t.csv" />

@@ -15,17 +15,20 @@
  */
 package org.kuali.hr.time.overtime.daily.rule.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+
+import com.google.common.collect.ImmutableList;
 
 public class DailyOvertimeRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements DailyOvertimeRuleDao {
     private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
@@ -82,5 +85,57 @@ public class DailyOvertimeRuleDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb i
 		Query query = QueryFactory.newQuery(DailyOvertimeRule.class, crit);
 		return (DailyOvertimeRule)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
 	}
+	
+	@Override
+	public List<DailyOvertimeRule> getDailyOvertimeRules(String dept, String workArea, String location, Date fromEffdt, Date toEffdt, String active, String showHist) {
+        List<DailyOvertimeRule> results = new ArrayList<DailyOvertimeRule>();
+        
+        Criteria root = new Criteria();
+
+        if (StringUtils.isNotBlank(dept)) {
+            root.addLike("dept", dept);
+        }
+
+        if (StringUtils.isNotBlank(workArea)) {
+            root.addLike("workArea", workArea);
+        }
+        
+
+        if (StringUtils.isNotBlank(location)) {
+            root.addLike("location", location);
+        }
+        
+        Criteria effectiveDateFilter = new Criteria();
+        if (fromEffdt != null) {
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+        }
+        if (toEffdt != null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
+        }
+        if (fromEffdt == null && toEffdt == null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+        }
+        root.addAndCriteria(effectiveDateFilter);
+        
+        if (StringUtils.isNotBlank(active)) {
+        	Criteria activeFilter = new Criteria();
+            if (StringUtils.equals(active, "Y")) {
+                activeFilter.addEqualTo("active", true);
+            } else if (StringUtils.equals(active, "N")) {
+                activeFilter.addEqualTo("active", false);
+            }
+            root.addAndCriteria(activeFilter);
+        }
+
+        if (StringUtils.equals(showHist, "N")) {
+    		root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(DailyOvertimeRule.class, effectiveDateFilter, EQUAL_TO_FIELDS, false));
+    		root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(DailyOvertimeRule.class, EQUAL_TO_FIELDS, false));
+        }
+        
+        Query query = QueryFactory.newQuery(DailyOvertimeRule.class, root);
+        results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
+        
+        return results;
+    }
 
 }

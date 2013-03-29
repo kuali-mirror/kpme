@@ -16,35 +16,70 @@
 package org.kuali.hr.time.department;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.Transient;
+
 import org.kuali.hr.core.KPMEConstants;
+import org.kuali.hr.core.role.department.DepartmentPrincipalRoleMemberBo;
 import org.kuali.hr.location.Location;
 import org.kuali.hr.time.HrBusinessObject;
-import org.kuali.hr.time.roles.TkRole;
 import org.kuali.kfs.coa.businessobject.Chart;
 import org.kuali.kfs.coa.businessobject.Organization;
 
 public class Department extends HrBusinessObject {
 
-	private static final long serialVersionUID = -7856741688212725536L;
+	private static final long serialVersionUID = 5476378484272246487L;
 
 	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "Department";
 
     private String hrDeptId;
     private String dept;
     private String description;
+    private String location;
     private String chart;
     private String org;
-    private String location;
 
+    private Location locationObj;
     private Chart chartObj;
     private Organization orgObj;
-    private Location locationObj;
     
-    private List<TkRole> roles = new LinkedList<TkRole>();
-    private List<TkRole> inactiveRoles = new ArrayList<TkRole>();
+    @Transient
+    private List<DepartmentPrincipalRoleMemberBo> roleMembers = new ArrayList<DepartmentPrincipalRoleMemberBo>();
+    
+    @Transient
+    private List<DepartmentPrincipalRoleMemberBo> inactiveRoleMembers = new ArrayList<DepartmentPrincipalRoleMemberBo>();
+    
+	@Override
+	public String getUniqueKey() {
+		return getDept() + "_" + getOrg() + "_" + getChart();
+	}
+    
+	@Override
+	public String getId() {
+		return getHrDeptId();
+	}
+
+	@Override
+	public void setId(String id) {
+		setHrDeptId(id);
+	}
+	
+	public String getHrDeptId() {
+		return hrDeptId;
+	}
+
+	public void setHrDeptId(String hrDeptId) {
+		this.hrDeptId = hrDeptId;
+	}
+
+	public String getDept() {
+		return dept;
+	}
+
+	public void setDept(String dept) {
+		this.dept = dept;
+	}
 
     public String getDescription() {
         return description;
@@ -53,6 +88,14 @@ public class Department extends HrBusinessObject {
     public void setDescription(String description) {
         this.description = description;
     }
+    
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
 
     public String getChart() {
         return chart;
@@ -69,21 +112,13 @@ public class Department extends HrBusinessObject {
     public void setOrg(String org) {
         this.org = org;
     }
-
-	public String getHrDeptId() {
-		return hrDeptId;
+    
+	public Location getLocationObj() {
+		return locationObj;
 	}
 
-	public void setHrDeptId(String hrDeptId) {
-		this.hrDeptId = hrDeptId;
-	}
-
-	public String getDept() {
-		return dept;
-	}
-
-	public void setDept(String dept) {
-		this.dept = dept;
+	public void setLocationObj(Location locationObj) {
+		this.locationObj = locationObj;
 	}
 
 	public Chart getChartObj() {
@@ -102,52 +137,36 @@ public class Department extends HrBusinessObject {
 		this.orgObj = orgObj;
 	}
 
-	public List<TkRole> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<TkRole> roles) {
-		this.roles = roles;
+	public List<DepartmentPrincipalRoleMemberBo> getRoleMembers() {
+		return roleMembers;
 	}
 	
-	public List<TkRole> getInactiveRoles() {
-		return inactiveRoles;
+	public void addRoleMember(DepartmentPrincipalRoleMemberBo roleMemberBo) {
+		roleMembers.add(roleMemberBo);
+	}
+	
+	public void removeRoleMember(DepartmentPrincipalRoleMemberBo roleMemberBo) {
+		roleMembers.remove(roleMemberBo);
+	}
+	
+	public void setRoleMembers(List<DepartmentPrincipalRoleMemberBo> roleMembers) {
+		this.roleMembers = roleMembers;
 	}
 
-
-	public void setInactiveRoles(List<TkRole> inactiveRoles) {
-		this.inactiveRoles = inactiveRoles;
+	public List<DepartmentPrincipalRoleMemberBo> getInactiveRoleMembers() {
+		return inactiveRoleMembers;
+	}
+	
+	public void addInactiveRoleMember(DepartmentPrincipalRoleMemberBo inactiveRoleMemberBo) {
+		inactiveRoleMembers.add(inactiveRoleMemberBo);
+	}
+	
+	public void removeInactiveRoleMember(DepartmentPrincipalRoleMemberBo inactiveRoleMemberBo) {
+		inactiveRoleMembers.remove(inactiveRoleMemberBo);
 	}
 
-
-	@Override
-	public String getUniqueKey() {
-		return getDept() + "_" + getOrg() + "_" + getChart() + getRoles().size();
+	public void setInactiveRoleMembers(List<DepartmentPrincipalRoleMemberBo> inactiveRoleMembers) {
+		this.inactiveRoleMembers = inactiveRoleMembers;
 	}
-
-	@Override
-	public String getId() {
-		return getHrDeptId();
-	}
-
-	@Override
-	public void setId(String id) {
-		setHrDeptId(id);
-	}
-
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	public Location getLocationObj() {
-		return locationObj;
-	}
-
-	public void setLocationObj(Location locationObj) {
-		this.locationObj = locationObj;
-	}
+	
 }

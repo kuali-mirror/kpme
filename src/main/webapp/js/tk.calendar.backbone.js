@@ -524,12 +524,6 @@ $(function () {
                 isValid = false;
             }
 
-            // Can't add / edit / delete a timeblock if canAddTimeBlock is false
-            // This happens when the login user has a view only role, or a dept / location admin
-            if ($('#canAddTimeBlock').val() == "false") {
-                isValid = false;
-            }
-
             return isValid;
         },
         /**

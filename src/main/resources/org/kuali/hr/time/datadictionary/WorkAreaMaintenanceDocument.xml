@@ -17,23 +17,27 @@
 
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans         http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:p="http://www.springframework.org/schema/p"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+	                       http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean id="WorkAreaMaintenanceDocument" parent="WorkAreaMaintenanceDocument-parentBean" />
 	<bean id="WorkAreaMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
-		 p:businessObjectClass="org.kuali.hr.time.workarea.WorkArea"
-		p:businessRulesClass="org.kuali.hr.time.workarea.web.WorkAreaMaintenanceDocumentRule"
-        p:documentAuthorizerClass="org.kuali.hr.time.authorization.WorkAreaAuthorizer"
-		p:maintainableClass="org.kuali.hr.time.workarea.WorkAreaMaintainableImpl">
+		  p:businessObjectClass="org.kuali.hr.time.workarea.WorkArea"
+		  p:businessRulesClass="org.kuali.hr.time.workarea.web.WorkAreaMaintenanceDocumentRule"
+          p:documentAuthorizerClass="org.kuali.hr.time.workarea.authorization.WorkAreaAuthorizer"
+		  p:maintainableClass="org.kuali.hr.time.workarea.WorkAreaMaintainableImpl">
+		
 		<property name="documentTypeName" value="WorkAreaMaintenanceDocumentType" />
-
 		<property name="maintainableSections">
 			<list>
 				<ref bean="WorkAreaMaintenanceDocument-WorkAreaMaintenance" />
-				<ref bean="WorkAreaMaintenanceDocument-TaskMaintenance" />
-				<ref bean="WorkAreaMaintenanceDocument-RoleMaintenance" />
-				<ref bean="WorkAreaMaintenanceDocument-InactiveRoleMaintenance" />
+				<ref bean="WorkAreaMaintenanceDocument-WorkAreaTaskMaintenance" />
+				<ref bean="WorkAreaMaintenanceDocument-WorkAreaPrincipalRoleMemberMaintenance" />
+				<ref bean="WorkAreaMaintenanceDocument-WorkAreaInactivePrincipalRoleMemberMaintenance" />
+				<ref bean="WorkAreaMaintenanceDocument-WorkAreaPositionRoleMemberMaintenance" />
+                <ref bean="WorkAreaMaintenanceDocument-WorkAreaInactivePositionRoleMemberMaintenance" />
 			</list>
 		</property>
 		<property name="webScriptFiles">
@@ -46,45 +50,31 @@
 				<value>workArea</value>
 			</list>
 		</property>
-		<property name="promptBeforeValidationClass" value="org.kuali.hr.time.workflow.validation.WorkAreaEffectiveDatePrompt"/>
+		<property name="promptBeforeValidationClass" value="org.kuali.hr.time.workflow.validation.WorkAreaEffectiveDatePrompt" />
 	</bean>
 
-	<bean id="WorkAreaMaintenanceDocument-WorkAreaMaintenance"
-		parent="WorkAreaMaintenanceDocument-WorkAreaMaintenance-parentBean" />
-
-	<bean id="WorkAreaMaintenanceDocument-WorkAreaMaintenance-parentBean"
-		abstract="true" parent="MaintainableSectionDefinition">
+	<bean id="WorkAreaMaintenanceDocument-WorkAreaMaintenance" parent="WorkAreaMaintenanceDocument-WorkAreaMaintenance-parentBean" />
+	<bean id="WorkAreaMaintenanceDocument-WorkAreaMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="title" value="Work Area Maintenance" />
 		<property name="maintainableItems">
 			<list>
-				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"
-					p:required="true" p:webUILeaveFieldFunction="setDateValues"/>
-				<bean parent="MaintainableFieldDefinition" p:name="workArea"
-					p:unconditionallyReadOnly="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="description"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="overtimeEditRole"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="defaultOvertimeEarnCode"
-					p:required="false" />
-				<bean parent="MaintainableFieldDefinition" p:name="dept"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="adminDescr"
-					p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="active"
-					p:defaultValue="true" p:required="true" />
-				<bean parent="MaintainableFieldDefinition" p:name="ovtEarnCode"
-					p:defaultValue="Y"/>
+				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:webUILeaveFieldFunction="setDateValues" />
+				<bean parent="MaintainableFieldDefinition" p:name="workArea" p:unconditionallyReadOnly="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="overtimeEditRole" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="defaultOvertimeEarnCode" p:required="false" />
+				<bean parent="MaintainableFieldDefinition" p:name="ovtEarnCode" p:defaultValue="Y" />
+				<bean parent="MaintainableFieldDefinition" p:name="dept" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="adminDescr" p:required="true" />
+				<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true"  />
 			</list>
 		</property>
 	</bean>
 
-	<bean id="WorkAreaMaintenanceDocument-TaskMaintenance" parent="WorkAreaMaintenanceDocument-TaskMaintenance-parentBean" />
-
-	<bean id="WorkAreaMaintenanceDocument-TaskMaintenance-parentBean"
-		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="title" value="Tasks" />
+	<bean id="WorkAreaMaintenanceDocument-WorkAreaTaskMaintenance" parent="WorkAreaMaintenanceDocument-WorkAreaTaskMaintenance-parentBean" />
+	<bean id="WorkAreaMaintenanceDocument-WorkAreaTaskMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id" value="tasks" />
+		<property name="title" value="Tasks" />
 		<property name="defaultOpen" value="true" />
 		<property name="maintainableItems">
 			<list>
@@ -94,16 +84,11 @@
 					<property name="alwaysAllowCollectionDeletion" value="true" />
 					<property name="maintainableFields">
 						<list>
-							<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"
-								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="task"
-								p:unconditionallyReadOnly="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="description"
-								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="administrativeDescription"
-								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="active"
-								p:required="true" p:defaultValue="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="task" p:unconditionallyReadOnly="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="description" p:required="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="administrativeDescription" p:required="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />
 						</list>
 					</property>
 				</bean>
@@ -111,37 +96,25 @@
 		</property>
 	</bean>
 
-	<bean id="WorkAreaMaintenanceDocument-RoleMaintenance" parent="WorkAreaMaintenanceDocument-RoleMaintenance-parentBean" />
-
-	<bean id="WorkAreaMaintenanceDocument-RoleMaintenance-parentBean"
-		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="title" value="Roles" />
-		<property name="id" value="roles" />
+	<bean id="WorkAreaMaintenanceDocument-WorkAreaPrincipalRoleMemberMaintenance" parent="WorkAreaMaintenanceDocument-WorkAreaPrincipalRoleMemberMaintenance-parentBean" />
+	<bean id="WorkAreaMaintenanceDocument-WorkAreaPrincipalRoleMemberMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="principalRoleMembers" />
+		<property name="title" value="Work Area Principal Role Members" />
 		<property name="defaultOpen" value="true" />
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableCollectionDefinition">
-					<property name="name" value="roles" />
-					<property name="businessObjectClass" value="org.kuali.hr.time.roles.TkRole" />
+					<property name="name" value="principalRoleMembers" />
+					<property name="businessObjectClass" value="org.kuali.hr.core.role.workarea.WorkAreaPrincipalRoleMemberBo" />
 					<property name="alwaysAllowCollectionDeletion" value="false" />
 					<property name="maintainableFields">
 						<list>
-							<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"
-								p:required="true" />
-							<bean parent="MaintainableFieldDefinition" p:name="principalId"
-								p:required="false" />
-							<bean parent="MaintainableFieldDefinition" p:name="positionNumber"
-								p:required="false" />
-							<bean parent="MaintainableFieldDefinition" p:name="userName" />
-							<bean parent="MaintainableFieldDefinition" p:name="roleName"
-								p:required="true"
-								p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.TkApproverRoleFinder" />
-                            <!--<bean parent="MaintainableFieldDefinition" p:name="roleName"-->
-								<!--p:required="true"-->
-								<!--p:defaultValueFinderClass="org.kuali.hr.time.workarea.TkWorkAreaApproverRoleFinder" />-->
-							<bean parent="MaintainableFieldDefinition" p:name="expirationDate" p:required="false"/>
-							<bean parent="MaintainableFieldDefinition" p:name="active"
-								p:required="true" p:defaultValue="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="principalName" p:unconditionallyReadOnly="true" />
+                            <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:defaultValueFinderClass="org.kuali.hr.core.role.workarea.WorkAreaDefaultRoleMemberValueFinder" />
+							<bean parent="MaintainableFieldDefinition" p:name="expirationDate" p:required="false" />
+							<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />
 						</list>
 					</property>
 				</bean>
@@ -149,43 +122,82 @@
 		</property>
 	</bean>
 
-<!-- Inactive roles here -->
-	<bean id="WorkAreaMaintenanceDocument-InactiveRoleMaintenance" parent="WorkAreaMaintenanceDocument-InactiveRoleMaintenance-parentBean" />
-
-	<bean id="WorkAreaMaintenanceDocument-InactiveRoleMaintenance-parentBean"
-		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="title" value="Inactive Roles" />
-		<property name="id" value="inactiveRoles" />
+	<bean id="WorkAreaMaintenanceDocument-WorkAreaInactivePrincipalRoleMemberMaintenance" parent="WorkAreaMaintenanceDocument-WorkAreaInactivePrincipalRoleMemberMaintenance-parentBean" />
+	<bean id="WorkAreaMaintenanceDocument-WorkAreaInactivePrincipalRoleMemberMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+		<property name="id" value="inactivePrincipalRoleMembers" />
+		<property name="title" value="Inactive Principal Role Members" />
 		<property name="defaultOpen" value="false" />
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableCollectionDefinition">
-					<property name="name" value="inactiveRoles" />
-					<property name="businessObjectClass" value="org.kuali.hr.time.roles.TkRole" />
+					<property name="name" value="inactivePrincipalRoleMembers" />
+					<property name="businessObjectClass" value="org.kuali.hr.core.role.workarea.WorkAreaPrincipalRoleMemberBo" />
 					<property name="alwaysAllowCollectionDeletion" value="false" />
 					<property name="includeAddLine" value="false" />
 					<property name="maintainableFields">
 						<list>
-							<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"
-								p:required="true"
-								p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
-							<bean parent="MaintainableFieldDefinition" p:name="principalId"
-								p:required="false" />
-							<bean parent="MaintainableFieldDefinition" p:name="positionNumber"
-								p:required="false" />
-							<bean parent="MaintainableFieldDefinition" p:name="userName" />
-							<bean parent="MaintainableFieldDefinition" p:name="roleName"
-								p:required="true" p:unconditionallyReadOnly="true"
-								p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.TkApproverRoleFinder" />
-							<bean parent="MaintainableFieldDefinition" p:name="expirationDate" p:required="false"/>
-							<bean parent="MaintainableFieldDefinition" p:name="active"
-								p:required="true" p:defaultValue="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
+							<bean parent="MaintainableFieldDefinition" p:name="principalId" p:required="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="principalName" p:unconditionallyReadOnly="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:unconditionallyReadOnly="true" />
+							<bean parent="MaintainableFieldDefinition" p:name="expirationDate" p:required="false" />
+							<bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />
 						</list>
 					</property>
 				</bean>
 			</list>
 		</property>
 	</bean>
+	
+    <bean id="WorkAreaMaintenanceDocument-WorkAreaPositionRoleMemberMaintenance" parent="WorkAreaMaintenanceDocument-WorkAreaPositionRoleMemberMaintenance-parentBean" />
+    <bean id="WorkAreaMaintenanceDocument-WorkAreaPositionRoleMemberMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="positionRoleMembers" />
+        <property name="title" value="Work Area Position Role Members" />
+        <property name="defaultOpen" value="true" />
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableCollectionDefinition">
+                    <property name="name" value="positionRoleMembers" />
+                    <property name="businessObjectClass" value="org.kuali.hr.core.role.workarea.WorkAreaPositionRoleMemberBo" />
+                    <property name="alwaysAllowCollectionDeletion" value="false" />
+                    <property name="maintainableFields">
+                        <list>
+                            <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />
+                            <bean parent="MaintainableFieldDefinition" p:name="positionNumber" p:required="true" />
+                            <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:defaultValueFinderClass="org.kuali.hr.core.role.workarea.WorkAreaDefaultRoleMemberValueFinder" />
+                            <bean parent="MaintainableFieldDefinition" p:name="expirationDate" p:required="false" />
+                            <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 
+    <bean id="WorkAreaMaintenanceDocument-WorkAreaInactivePositionRoleMemberMaintenance" parent="WorkAreaMaintenanceDocument-WorkAreaInactivePositionRoleMemberMaintenance-parentBean" />
+    <bean id="WorkAreaMaintenanceDocument-WorkAreaInactivePositionRoleMemberMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
+        <property name="id" value="inactivePositionRoleMembers" />
+        <property name="title" value="Inactive Position Role Members" />
+        <property name="defaultOpen" value="false" />
+        <property name="maintainableItems">
+            <list>
+                <bean parent="MaintainableCollectionDefinition">
+                    <property name="name" value="inactivePositionRoleMembers" />
+                    <property name="businessObjectClass" value="org.kuali.hr.core.role.workarea.WorkAreaPositionRoleMemberBo" />
+                    <property name="alwaysAllowCollectionDeletion" value="false" />
+                    <property name="includeAddLine" value="false" />
+                    <property name="maintainableFields">
+                        <list>
+                            <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" p:defaultValueFinderClass="org.kuali.kfs.sys.businessobject.defaultvalue.CurrentDateMMDDYYYYFinder" />
+                            <bean parent="MaintainableFieldDefinition" p:name="positionNumber" p:required="true" />
+                            <bean parent="MaintainableFieldDefinition" p:name="roleName" p:required="true" p:unconditionallyReadOnly="true" />
+                            <bean parent="MaintainableFieldDefinition" p:name="expirationDate" p:required="false" />
+                            <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true" p:defaultValue="true" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 
 </beans>

@@ -30,7 +30,7 @@
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.paytype.PayType"
         p:businessRulesClass="org.kuali.hr.time.paytype.validation.PayTypeRule"
 		p:maintainableClass="org.kuali.hr.time.paytype.service.PayTypeMaintainableImpl"
-		p:documentAuthorizerClass="org.kuali.hr.time.authorization.LocationAdminAuthorizer">
+		p:documentAuthorizerClass="org.kuali.hr.time.paytype.authorization.PayTypeAuthorizer">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="PayTypeMaintenanceDocument-PayTypeMaintenance" />

@@ -28,21 +28,20 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.hr.job.Job;
+import org.joda.time.DateTime;
+import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
-import org.kuali.hr.time.roles.TkRole;
-import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
+import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 public class PersonInfoAction extends TkAction {
@@ -118,114 +117,84 @@ public class PersonInfoAction extends TkAction {
 		
 		setupRolesOnForm(personForm);
 
-		List<Assignment> lstAssign = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate());
-		Map<Long,List<Assignment>> jobNumberToListAssignments = new HashMap<Long,List<Assignment>>();
+		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate());
 		
-		Map<Long,List<TkRole>> workAreaToApprover = new HashMap<Long,List<TkRole>>();
+		Map<Long,List<Assignment>> jobNumberToListAssignments = new HashMap<Long,List<Assignment>>();
 		Map<Long,List<Person>> workAreaToApproverPerson = new HashMap<Long, List<Person>>();
         Map<String,List<Person>> deptToDeptAdminPerson = new HashMap<String,List<Person>>();
 		
-		Map<String,Person> principalIdToPerson = new HashMap<String,Person>();
-		for(Assignment assign : lstAssign){
-			List<Assignment> lstCurrJobAssign = jobNumberToListAssignments.get(assign.getJobNumber());
-			if(lstCurrJobAssign == null){
-				lstCurrJobAssign = new ArrayList<Assignment>();
+		for (Assignment assignment : assignments) {
+			List<Assignment> jobAssignments = jobNumberToListAssignments.get(assignment.getJobNumber());
+			if (jobAssignments == null) {
+				jobAssignments = new ArrayList<Assignment>();
 			}
-			lstCurrJobAssign.add(assign);
-			jobNumberToListAssignments.put(assign.getJobNumber(), lstCurrJobAssign);
-
-			this.assignWorkAreaToApprover(assign.getWorkArea(), workAreaToApprover, workAreaToApproverPerson);
-            deptToDeptAdminPerson = assignDeptToDeptAdmin(assign.getDept());
+			jobAssignments.add(assignment);
+			jobNumberToListAssignments.put(assignment.getJobNumber(), jobAssignments);
+			
+			List<Person> approvers = workAreaToApproverPerson.get(assignment.getWorkArea());
+			if (approvers == null) {
+				approvers = new ArrayList<Person>();
+			}
+			approvers.addAll(getApprovers(assignment.getWorkArea()));
+			workAreaToApproverPerson.put(assignment.getWorkArea(), approvers);
+			
+			List<Person> departmentAdmins = deptToDeptAdminPerson.get(assignment.getDept());
+			if (departmentAdmins == null) {
+				departmentAdmins = new ArrayList<Person>();
+			}
+			departmentAdmins.addAll(getDeptartmentAdmins(assignment.getDept()));
+            deptToDeptAdminPerson.put(assignment.getDept(), departmentAdmins);
 		}
 		
-		personForm.setWorkAreaToApprover(workAreaToApprover);
+		personForm.setJobNumberToListAssignments(jobNumberToListAssignments);
 		personForm.setWorkAreaToApproverPerson(workAreaToApproverPerson);
         personForm.setDeptToDeptAdminPerson(deptToDeptAdminPerson);
-		personForm.setJobNumberToListAssignments(jobNumberToListAssignments);
-		personForm.setPrincipalIdToPerson(principalIdToPerson);
+		
 		return actForw;
 	}
 	
-	private void setupRolesOnForm(PersonInfoActionForm paForm){
-		UserRoles roles = TKUser.getCurrentTargetRoles();
-		for(Long waApprover : roles.getApproverWorkAreas()){
-			paForm.getApproverWorkAreas().add(waApprover);
-		}
-		
-		for(Long waReviewer : roles.getReviewerWorkAreas()){
-			paForm.getReviewerWorkAreas().add(waReviewer);
-		}
-		
-		for(String deptAdmin : roles.getOrgAdminDepartments()){
-			paForm.getDeptAdminDepts().add(deptAdmin);
-		}
-		
-		for(String deptViewOnly : roles.getDepartmentViewOnlyDepartments()){
-			paForm.getDeptViewOnlyDepts().add(deptViewOnly);
-		}
-		
-		for(String location : roles.getOrgAdminCharts()){
-			paForm.getLocationAdminDepts().add(location);
-		}
-		
-		paForm.setGlobalViewOnlyRoles(roles.isGlobalViewOnly());
-		paForm.setSystemAdmin(roles.isSystemAdmin());
+	private void setupRolesOnForm(PersonInfoActionForm personInfoActionForm) {
+		String principalId = TKContext.getTargetPrincipalId();
+
+		personInfoActionForm.setApproverWorkAreas(TkServiceLocator.getWorkAreaService().getApproverAndApproverDelegateWorkAreas(principalId));
+		personInfoActionForm.setReviewerWorkAreas(TkServiceLocator.getWorkAreaService().getReviewerWorkAreas(principalId));
+		personInfoActionForm.setDeptViewOnlyDepts(TkServiceLocator.getDepartmentService().getViewOnlyDepartments(principalId));
+		personInfoActionForm.setDeptAdminDepts(TkServiceLocator.getDepartmentService().getAdministratorDepartments(principalId));
+		personInfoActionForm.setLocationAdminDepts(TkServiceLocator.getLocationService().getAdministratorLocations(principalId));
+		personInfoActionForm.setGlobalViewOnlyRoles(TkServiceLocator.getHRGroupService().isMemberOfSystemViewOnlyGroup(principalId, new DateTime()));
+		personInfoActionForm.setSystemAdmin(TkServiceLocator.getHRGroupService().isMemberOfSystemAdministratorGroup(principalId, new DateTime()));
 	}
 
-    private Map<String,List<Person>> assignDeptToDeptAdmin(String dept) {
-        List<TkRole> deptAdminRoles = TkServiceLocator.getTkRoleService().getDepartmentRoles(dept, TkConstants.ROLE_TK_DEPT_ADMIN, TKUtils.getCurrentDate());
-        List<Person> deptAdminPeople = new ArrayList<Person>();
-        Map<String,List<Person>> deptAdmins = new HashMap<String, List<Person>>();
-
-        for(TkRole role : deptAdminRoles) {
-        	if(role.getPositionNumber() != null){
-				List<Job> lstJobs = TkServiceLocator.getJobService().getActiveJobsForPosition(role.getPositionNumber(), TKUtils.getCurrentDate());
-				for(Job j : lstJobs){
-					Person person = KimApiServiceLocator.getPersonService().getPerson(j.getPrincipalId());
-					if(person !=null){
-						deptAdminPeople.add(person);
-					}
-				}
-			} else{
-				Person person = KimApiServiceLocator.getPersonService().getPerson(role.getPrincipalId());
-				if(person!=null){
-					deptAdminPeople.add(person);
-				}
+    private List<Person> getDeptartmentAdmins(String dept) {
+    	List<Person> departmentAdmins = new ArrayList<Person>();
+    	
+    	List<RoleMember> roleMembers = new ArrayList<RoleMember>();
+    	roleMembers.addAll(TkServiceLocator.getTKRoleService().getRoleMembersInDepartment(KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), dept, new DateTime(), true));
+    	roleMembers.addAll(TkServiceLocator.getLMRoleService().getRoleMembersInDepartment(KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), dept, new DateTime(), true));
+	        
+    	for (RoleMember roleMember : roleMembers) {
+    		Person person = KimApiServiceLocator.getPersonService().getPerson(roleMember.getMemberId());
+			if (person != null) {
+				departmentAdmins.add(person);
 			}
         }
-        deptAdmins.put(dept, deptAdminPeople);
-
-        return deptAdmins;
+    	
+        return departmentAdmins;
     }
 	
-	private void assignWorkAreaToApprover(Long workArea, Map<Long,List<TkRole>> workAreaToApprover, Map<Long,List<Person>> workAreaToApproverPerson ){
-		List<TkRole> lstApproverRoles = TkServiceLocator.getTkRoleService().getWorkAreaRoles(workArea, TkConstants.ROLE_TK_APPROVER,
-				TKUtils.getCurrentDate());
-		workAreaToApprover.put(workArea, lstApproverRoles);
-		for(TkRole role : lstApproverRoles){
-			if(role.getPositionNumber() != null){
-				List<Job> lstJobs = TkServiceLocator.getJobService().getActiveJobsForPosition(role.getPositionNumber(), TKUtils.getCurrentDate());
-				for(Job j : lstJobs){
-					Person approver = KimApiServiceLocator.getPersonService().getPerson(j.getPrincipalId());
-					if(approver!=null){
-					addApproverPersonForWorkArea(workArea, approver, workAreaToApproverPerson);
-					}
-				}
-			} else{
-				Person approver = KimApiServiceLocator.getPersonService().getPerson(role.getPrincipalId());
-				if(approver!=null){
-					addApproverPersonForWorkArea(workArea, approver, workAreaToApproverPerson);
-				}
+	private List<Person> getApprovers(Long workArea) {
+		List<Person> approvers = new ArrayList<Person>();
+		
+		List<RoleMember> roleMembers = TkServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER.getRoleName(), workArea, new DateTime(), true);
+		
+		for (RoleMember roleMember : roleMembers) {
+			Person person = KimApiServiceLocator.getPersonService().getPerson(roleMember.getMemberId());
+			if (person != null) {
+				approvers.add(person);
 			}
-		}
+        }
+		
+		return approvers;
 	}
-	
-	private void addApproverPersonForWorkArea(Long workArea, Person person, Map<Long,List<Person>> workAreaToApproverPerson){
-		List<Person> approvers = workAreaToApproverPerson.get(workArea);
-		if(approvers == null){
-			approvers = new ArrayList<Person>();
-		}
-		approvers.add(person);
-		workAreaToApproverPerson.put(workArea, approvers);
-	}
+
 }

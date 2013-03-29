@@ -15,6 +15,13 @@
  */
 package org.kuali.hr.time.timesheet.service;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -30,7 +37,6 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
@@ -43,17 +49,10 @@ import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TimesheetServiceImpl implements TimesheetService {
 
-    @SuppressWarnings("unused")
     private static final Logger LOG = Logger.getLogger(TimesheetServiceImpl.class);
 
     @Override
@@ -97,8 +96,8 @@ public class TimesheetServiceImpl implements TimesheetService {
             	
             	wd.route("Batch job routing timesheet");
             } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
-                if (TKUser.getCurrentTargetRoles().isSystemAdmin() &&
-                        !TKUser.getCurrentTargetRoles().isApproverForTimesheet(timesheetDocument)) {
+                if (TkServiceLocator.getTKPermissionService().canSuperUserAdministerTimesheet(GlobalVariables.getUserSession().getPrincipalId(), rhid) 
+                		&& !TkServiceLocator.getTKPermissionService().canApproveTimesheet(GlobalVariables.getUserSession().getPrincipalId(), rhid)) {
                     wd.superUserBlanketApprove("Superuser approving timesheet.");
                 } else {
                     wd.approve("Approving timesheet.");
@@ -111,8 +110,8 @@ public class TimesheetServiceImpl implements TimesheetService {
             	
             	wd.superUserBlanketApprove("Batch job approving timesheet.");
             } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
-                if (TKUser.getCurrentTargetRoles().isSystemAdmin()
-                        && !TKUser.getCurrentTargetRoles().isApproverForTimesheet(timesheetDocument)) {
+                if (TkServiceLocator.getTKPermissionService().canSuperUserAdministerTimesheet(GlobalVariables.getUserSession().getPrincipalId(), rhid) 
+                		&& !TkServiceLocator.getTKPermissionService().canApproveTimesheet(GlobalVariables.getUserSession().getPrincipalId(), rhid)) {
                     wd.superUserDisapprove("Superuser disapproving timesheet.");
                 } else {
                     wd.disapprove("Disapproving timesheet.");
@@ -263,7 +262,7 @@ public class TimesheetServiceImpl implements TimesheetService {
     }
 
     public boolean isSynchronousUser() {
-        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKUser.getCurrentTargetPersonId(), TKUtils.getCurrentDate());
+        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(TKContext.getTargetPrincipalId(), TKUtils.getCurrentDate());
         boolean isSynchronousUser = true;
         for (Assignment assignment : assignments) {
             isSynchronousUser &= assignment.isSynchronous();

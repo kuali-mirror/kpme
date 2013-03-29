@@ -29,7 +29,6 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -186,8 +185,8 @@ public class LeavePayoutValidation extends MaintenanceDocumentRuleBase {
 			AccrualCategory fromCat = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(fromAccrualCategory, effectiveDate);
 			PrincipalHRAttributes pha = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(principalId,effectiveDate);
 			
-			boolean isDeptAdmin = TKUser.isDepartmentAdmin();
-			boolean isSysAdmin = TKUser.isSystemAdmin();
+			boolean isDeptAdmin = TKContext.isDepartmentAdmin();
+			boolean isSysAdmin = TKContext.isSystemAdmin();
 			if(isDeptAdmin || isSysAdmin) {
 				isValid &= validatePayoutAmount(leavePayout.getPayoutAmount(),fromCat,payoutEarnCode, principalId, effectiveDate);
 			}

@@ -15,16 +15,22 @@
  */
 package org.kuali.hr.lm.leavepayout.service;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
-import org.kuali.hr.lm.leavepayout.LeavePayout;
 import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
+import org.kuali.hr.lm.leavepayout.LeavePayout;
 import org.kuali.hr.lm.leavepayout.dao.LeavePayoutDao;
-
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -36,12 +42,6 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class LeavePayoutServiceImpl implements LeavePayoutService {
 
@@ -361,5 +361,10 @@ public class LeavePayoutServiceImpl implements LeavePayoutService {
 	@Override
 	public void saveOrUpdate(LeavePayout payout) {
 		leavePayoutDao.saveOrUpdate(payout);
+	}
+
+	@Override
+	public List<LeavePayout> getLeavePayouts(String principalId, String fromAccrualCategory, String payoutAmount, String earnCode, String forfeitedAmount, Date fromEffdt, Date toEffdt) {
+		return leavePayoutDao.getLeavePayouts(principalId, fromAccrualCategory, payoutAmount, earnCode, forfeitedAmount, fromEffdt, toEffdt);
 	}
 }

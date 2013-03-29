@@ -24,4 +24,6 @@ public interface LeaveAdjustmentDao {
 	public List<LeaveAdjustment> getLeaveAdjustments(String principalId, Date asOfDate);
 	
 	public LeaveAdjustment getLeaveAdjustment(String lmLeaveAdjustmentId);
+
+	public List<LeaveAdjustment> getLeaveAdjustments(Date fromEffdt, Date toEffdt, String principalId, String accrualCategory, String earnCode);
 }

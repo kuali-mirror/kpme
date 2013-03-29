@@ -24,30 +24,28 @@ import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 
+@SuppressWarnings("deprecation")
 public class WorkAreaInquirableImpl extends KualiInquirableImpl {
 
 	private static final long serialVersionUID = -4002061046745019065L;
 
 	@Override
+	@SuppressWarnings("rawtypes")
 	public BusinessObject getBusinessObject(Map fieldValues) {
-        WorkArea workArea = null;
-        if (StringUtils.isNotBlank((String)fieldValues.get("tkWorkAreaId"))) {
-            workArea = TkServiceLocator.getWorkAreaService().getWorkArea((String)fieldValues.get("tkWorkAreaId"));
+        WorkArea workAreaObj = null;
+        
+        if (StringUtils.isNotBlank((String) fieldValues.get("tkWorkAreaId"))) {
+            workAreaObj = TkServiceLocator.getWorkAreaService().getWorkArea((String) fieldValues.get("tkWorkAreaId"));
         } else if (fieldValues.containsKey("workArea") && fieldValues.containsKey("effectiveDate")) {
-            String workAreaVal = (String)fieldValues.get("workArea");
-            Long wa = workAreaVal != null ? Long.parseLong(workAreaVal) : null;
-            workArea = TkServiceLocator.getWorkAreaService().getWorkArea(wa,
-                    new java.sql.Date(TKUtils.convertDateStringToTimestampNoTimezone((String)fieldValues.get("effectiveDate")).getTime()));
+            String workAreaVal = (String) fieldValues.get("workArea");
+            Long workArea = workAreaVal != null ? Long.valueOf(workAreaVal) : null;
+            workAreaObj = TkServiceLocator.getWorkAreaService().getWorkArea(workArea,
+                    new java.sql.Date(TKUtils.convertDateStringToTimestampNoTimezone((String) fieldValues.get("effectiveDate")).getTime()));
         } else {
-	    	 workArea = (WorkArea) super.getBusinessObject(fieldValues);
+	    	 workAreaObj = (WorkArea) super.getBusinessObject(fieldValues);
         }
 
-        if (workArea != null) {
-        	TkServiceLocator.getWorkAreaService().populateWorkAreaTasks(workArea);
-		    TkServiceLocator.getWorkAreaService().populateWorkAreaRoles(workArea);
-        }
-
-		return workArea;
+		return workAreaObj;
 	}
 	
 }

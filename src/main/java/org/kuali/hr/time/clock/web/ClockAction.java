@@ -41,15 +41,11 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
-import org.kuali.hr.time.roles.TkUserRoles;
-import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesheet.web.TimesheetAction;
-import org.kuali.hr.time.timesheet.web.TimesheetActionForm;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.exception.AuthorizationException;
@@ -65,8 +61,8 @@ public class ClockAction extends TimesheetAction {
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         super.checkTKAuthorization(form, methodToCall); // Checks for read access first.
 
-        UserRoles roles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
-        TimesheetDocument doc = TKContext.getCurrentTimesheetDocument();
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+    	String documentId = TKContext.getCurrentTimesheetDocumentId();
 
         // Check for write access to Timeblock.
         if (StringUtils.equals(methodToCall, "clockAction") ||
@@ -75,8 +71,8 @@ public class ClockAction extends TimesheetAction {
                 StringUtils.equals(methodToCall, "distributeTimeBlocks") ||
                 StringUtils.equals(methodToCall, "saveNewTimeBlocks") ||
                 StringUtils.equals(methodToCall, "deleteTimeBlock")) {
-            if (!roles.isDocumentWritable(doc)) {
-                throw new AuthorizationException(roles.getPrincipalId(), "ClockAction", "");
+            if (!TkServiceLocator.getTKPermissionService().canEditTimesheet(principalId, documentId)) {
+                throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "ClockAction", "");
             }
         }
     }
@@ -104,7 +100,7 @@ public class ClockAction extends TimesheetAction {
             }
             caf.setAssignmentLunchMap(assignmentDeptLunchRuleMap);
         }
-        String principalId = TKUser.getCurrentTargetPersonId();
+        String principalId = TKContext.getTargetPrincipalId();
         if (principalId != null) {
             caf.setPrincipalId(principalId);
         }
@@ -216,7 +212,7 @@ public class ClockAction extends TimesheetAction {
             caf.setErrorMessage("No assignment selected.");
             return mapping.findForward("basic");
         }
-        ClockLog previousClockLog = TkServiceLocator.getClockLogService().getLastClockLog(TKUser.getCurrentTargetPersonId());
+        ClockLog previousClockLog = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getTargetPrincipalId());
         if(previousClockLog != null && StringUtils.equals(caf.getCurrentClockAction(), previousClockLog.getClockAction())){
         	caf.setErrorMessage("The operation is already performed.");
             return mapping.findForward("basic");
@@ -242,7 +238,7 @@ public class ClockAction extends TimesheetAction {
         
                
         ClockLog clockLog = TkServiceLocator.getClockLogService().processClockLog(new Timestamp(System.currentTimeMillis()), assignment, caf.getPayCalendarDates(), ip,
-                TKUtils.getCurrentDate(), caf.getTimesheetDocument(), caf.getCurrentClockAction(), TKUser.getCurrentTargetPersonId());
+                TKUtils.getCurrentDate(), caf.getTimesheetDocument(), caf.getCurrentClockAction(), TKContext.getTargetPrincipalId());
 
         caf.setClockLog(clockLog);
 

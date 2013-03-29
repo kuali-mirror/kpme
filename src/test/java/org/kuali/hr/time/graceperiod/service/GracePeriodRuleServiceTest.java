@@ -20,7 +20,6 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;

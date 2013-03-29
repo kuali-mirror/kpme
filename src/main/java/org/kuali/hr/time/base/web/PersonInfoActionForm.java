@@ -24,7 +24,6 @@ import java.util.Map;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.roles.TkRole;
 import org.kuali.rice.kim.api.identity.Person;
 
 public class PersonInfoActionForm extends TkForm {
@@ -55,9 +54,6 @@ public class PersonInfoActionForm extends TkForm {
     private Boolean globalViewOnlyRoles = Boolean.FALSE;
     private List<String> deptViewOnlyDepts = new ArrayList<String>();
     
-    private Map<Long,List<TkRole>> workAreaToApprover = new HashMap<Long,List<TkRole>>();
-	private Map<String,List<TkRole>> deptToOrgAdmin = new HashMap<String,List<TkRole>>();
-	private Map<String,Person> principalIdToPerson = new HashMap<String,Person>();
 	private Map<Long,List<Person>> workAreaToApproverPerson = new HashMap<Long, List<Person>>();
     private Map<String,List<Person>> deptToDeptAdminPerson = new HashMap<String, List<Person>>();
 
@@ -85,30 +81,6 @@ public class PersonInfoActionForm extends TkForm {
 	public void setJobNumberToListAssignments(
 			Map<Long, List<Assignment>> jobNumberToListAssignments) {
 		this.jobNumberToListAssignments = jobNumberToListAssignments;
-	}
-
-	public Map<Long, List<TkRole>> getWorkAreaToApprover() {
-		return workAreaToApprover;
-	}
-
-	public void setWorkAreaToApprover(Map<Long, List<TkRole>> workAreaToApprover) {
-		this.workAreaToApprover = workAreaToApprover;
-	}
-
-	public Map<String, List<TkRole>> getDeptToOrgAdmin() {
-		return deptToOrgAdmin;
-	}
-
-	public void setDeptToOrgAdmin(Map<String, List<TkRole>> deptToOrgAdmin) {
-		this.deptToOrgAdmin = deptToOrgAdmin;
-	}
-
-	public Map<String, Person> getPrincipalIdToPerson() {
-		return principalIdToPerson;
-	}
-
-	public void setPrincipalIdToPerson(Map<String, Person> principalIdToPerson) {
-		this.principalIdToPerson = principalIdToPerson;
 	}
 
 	public Map<Long,List<Person>> getWorkAreaToApproverPerson() {

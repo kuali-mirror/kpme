@@ -44,7 +44,6 @@ import org.kuali.hr.time.detail.web.ActionFormUtils;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 
 public class LeaveCalendarWSAction extends TkAction {
@@ -62,7 +61,7 @@ public class LeaveCalendarWSAction extends TkAction {
 
         // Here - viewPrincipal will be the principal of the user we intend to
         // view, be it target user, backdoor or otherwise.
-        String viewPrincipal = TKUser.getCurrentTargetPersonId();
+        String viewPrincipal = TKContext.getTargetPrincipalId();
         CalendarEntry calendarEntry = null;
 
         LeaveCalendarDocument lcd = null;
@@ -130,7 +129,7 @@ public class LeaveCalendarWSAction extends TkAction {
             CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry(request.getParameter("selectedPayPeriod"));
             lcf.setCalendarEntry(ce);
         }
-        lcf.setPrincipalId(TKUser.getCurrentTargetPersonId());
+        lcf.setPrincipalId(TKContext.getTargetPrincipalId());
         boolean isPlanningCal = TkServiceLocator.getLeaveCalendarService().isLeavePlanningCalendar(lcf.getPrincipalId(), lcf.getCalendarEntry().getBeginPeriodDateTime(), lcf.getCalendarEntry().getEndPeriodDateTime());
         lcf.setLeavePlanningCalendar(isPlanningCal);
 

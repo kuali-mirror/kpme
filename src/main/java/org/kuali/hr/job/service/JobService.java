@@ -79,15 +79,6 @@ public interface JobService {
 	
 	/**
 	 * 
-	 * @param positionNbr
-	 * @param asOfDate
-	 * @return
-	 */
-    @Cacheable(value= Job.CACHE_NAME, key="'positionNbr=' + #p0 + '|' + 'asOfDate=' + #p1")
-	public List<Job> getActiveJobsForPosition(String positionNbr, Date asOfDate);
-	
-	/**
-	 * 
 	 * @param hrPayType
 	 * @param asOfDate
 	 * @return
@@ -161,5 +152,16 @@ public interface JobService {
      * Get the job entry with the max timestamp for given pricipalId
      */
     public Job getMaxTimestampJob(String principalId);
+    
+	
+	/**
+	 * Returns all of the principal ids actively particpating in a job in the given position number
+	 * 
+	 * @param positionNumber
+	 * @param asOfDate
+	 * @return
+	 */
+    @Cacheable(value= Job.CACHE_NAME, key="'positionNumber=' + #p0 + '|' + 'asOfDate=' + #p1")
+	public List<String> getPrincipalIdsInPosition(String positionNbr, Date asOfDate);
     
 }

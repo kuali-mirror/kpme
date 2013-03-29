@@ -16,7 +16,11 @@
 package org.kuali.hr.time.calendar;
 
 import java.sql.Date;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.time.DateUtils;
@@ -91,7 +95,7 @@ public class LeaveCalendar extends CalendarParent {
             	   leaveCalendarDay.setLeaveBlocks(lbs);
                }
                
-               if (TkServiceLocator.getPermissionsService().canViewLeaveTabsWithNEStatus()) {
+               if (TkServiceLocator.getLMPermissionService().canViewLeaveTabsWithNEStatus()) {
 	               TimesheetDocumentHeader tdh = TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeaderForDate(principalId, leaveDate);
 	               if (tdh != null) {
 	            	   if (DateUtils.isSameDay(leaveDate, tdh.getEndDate()) || leaveDate.after(tdh.getEndDate())) {

@@ -15,33 +15,30 @@
  */
 package org.kuali.hr.lm.leavedonation.service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
+import org.kuali.hr.core.lookup.KPMELookupableHelper;
 import org.kuali.hr.lm.leavedonation.LeaveDonation;
-import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-public class LeaveDonationLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
+@SuppressWarnings("deprecation")
+public class LeaveDonationLookupableHelper extends KPMELookupableHelper {
 
 	private static final long serialVersionUID = 4181583515349590532L;
 
 	@Override
+	@SuppressWarnings("rawtypes")
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
-		
-		List<HtmlData> copyOfUrls = new ArrayList<HtmlData>();
-		copyOfUrls.addAll(customActionUrls);
-		for(HtmlData aData : copyOfUrls) {
-			if(aData.getMethodToCall().equals(KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL)) {
-				customActionUrls.remove(aData);
-			}
-		}
+
 		LeaveDonation leaveDonation = (LeaveDonation) businessObject;
 		String lmLeaveDonationId = leaveDonation.getLmLeaveDonationId();
 		
@@ -56,5 +53,22 @@ public class LeaveDonationLookupableHelper extends HrEffectiveDateActiveLookupab
 		
 		return customActionUrls;
 	}
+	
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+    	String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
+        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
+    	String donorsPrincipalId = fieldValues.get("donorsPrincipalID");
+        String donatedAccrualCategory = fieldValues.get("donatedAccrualCategory");
+        String amountDonated = fieldValues.get("amountDonated");
+        String recipientsPrincipalId = fieldValues.get("recipientsPrincipalID");
+        String recipientsAccrualCategory = fieldValues.get("recipientsAccrualCategory");
+        String amountReceived = fieldValues.get("amountReceived");
+        String active = fieldValues.get("active");
+        String showHist = fieldValues.get("history");
+        
+        return TkServiceLocator.getLeaveDonationService().getLeaveDonations(TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), 
+        		donorsPrincipalId, donatedAccrualCategory, amountDonated, recipientsPrincipalId, recipientsAccrualCategory, amountReceived, active, showHist);
+    }
 
 }

@@ -1,15 +1,15 @@
 <%@ include file="/WEB-INF/jsp/TkTldHeader.jsp" %>
 
 <c:if test="${!empty UserSession.loggedInUserPrincipalName}">
-    <c:set var="systemAdmin" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isSystemAdmin()%>' />
-    <c:set var="locationAdmin" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isLocationAdmin()%>' />
-    <c:set var="departmentAdmin" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isDepartmentAdmin()%>' />
-    <c:set var="globalViewOnly" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isGlobalViewOnly()%>' />
-    <c:set var="targetSystemAdmin" value='<%=org.kuali.hr.time.util.TKUser.getCurrentTargetRoles().isSystemAdmin()%>' />
-    <c:set var="targetTimesheetApprover" value='<%=org.kuali.hr.time.util.TKUser.getCurrentTargetRoles().isTimesheetApprover()%>' />
-    <c:set var="targetTimesheetReviewer" value='<%=org.kuali.hr.time.util.TKUser.getCurrentTargetRoles().isTimesheetReviewer()%>' />   
-    <c:set var="targetActiveEmployee" value='<%=org.kuali.hr.time.util.TKUser.getCurrentTargetRoles().isActiveEmployee()%>' />
-    <c:set var="targetSynchronous" value='<%=org.kuali.hr.time.util.TKUser.getCurrentTargetRoles().isSynchronous()%>' />
+    <c:set var="systemAdmin" value='<%=org.kuali.hr.time.util.TKContext.isSystemAdmin()%>' />
+    <c:set var="locationAdmin" value='<%=org.kuali.hr.time.util.TKContext.isLocationAdmin()%>' />
+    <c:set var="departmentAdmin" value='<%=org.kuali.hr.time.util.TKContext.isDepartmentAdmin()%>' />
+    <c:set var="globalViewOnly" value='<%=org.kuali.hr.time.util.TKContext.isGlobalViewOnly()%>' />
+    <c:set var="targetSystemAdmin" value='<%=org.kuali.hr.time.util.TKContext.isTargetSystemAdmin()%>' />
+    <c:set var="targetTimesheetApprover" value='<%=org.kuali.hr.time.util.TKContext.isTargetAnyApprover()%>' />
+    <c:set var="targetTimesheetReviewer" value='<%=org.kuali.hr.time.util.TKContext.isTargetReviewer()%>' />   
+    <c:set var="targetActiveEmployee" value='<%=org.kuali.hr.time.util.TKContext.isTargetActiveEmployee()%>' />
+    <c:set var="targetSynchronous" value='<%=org.kuali.hr.time.util.TKContext.isTargetSynchronous()%>' />
 </c:if>
 
 <div id="tab-section">

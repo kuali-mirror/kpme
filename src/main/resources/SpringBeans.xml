@@ -59,7 +59,7 @@
     <!-- the distributed cache manager that calls into the CacheAdminService on the ksb -->
     <bean id="kpmeDistributedCacheManager" class="org.kuali.rice.core.impl.cache.DistributedCacheManagerDecorator">
         <property name="cacheManager" ref="kpmeLocalCacheManager" />
-        <property name="serviceName" value="{KPME}kpmeCacheAdminService" />
+        <property name="serviceName" value="{http://kpme.kuali.org/core/v2_0}kpmeCacheAdminService" />
     </bean>
 
     <bean id="kpmeCacheManagerRegistry" class="org.kuali.rice.core.impl.cache.CacheManagerRegistryImpl">
@@ -68,7 +68,7 @@
 
     <bean id="kpmeCacheAdminService.exporter" parent="kpme.serviceExporter">
         <property name="serviceDefinition">
-            <bean parent="kpme.service" p:service-ref="kpmeCacheAdminService" p:localServiceName="kpmeCacheAdminService"
+            <bean parent="kpme.soap.service" p:service-ref="kpmeCacheAdminService" p:localServiceName="kpmeCacheAdminService"
                   p:queue="false" />
         </property>
     </bean>
@@ -130,6 +130,22 @@
     
     <bean id="parameterService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
         <property name="serviceName" value="parameterService" />
+    </bean>
+    
+    <bean id="kimGroupService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kimGroupService" />
+    </bean>
+    
+    <bean id="kimPermissionService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kimPermissionService" />
+    </bean>
+    
+    <bean id="kimRoleService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kimRoleService" />
+    </bean>
+    
+    <bean id="kimTypeInfoService" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="kimTypeInfoService" />
     </bean>
     
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -231,7 +247,6 @@
 				<value>calendarEntryLookupable</value>
 				<value>payGradeLookupable</value> 
 				<value>principalHRAttributesLookupable</value> 				
-				<value>tkRoleLookupable</value> 
 				<value>accountLookupable</value> 
 				<value>chartLookupable</value> 
 				<value>objectCodeLookupable</value> 
@@ -268,10 +283,6 @@
     <bean id="assignmentDao" class="org.kuali.hr.time.assignment.dao.AssignmentDaoSpringOjbImpl" parent="platformAwareDao" />
 
     <bean id="workAreaDao" class="org.kuali.hr.time.workarea.dao.WorkAreaDaoSpringOjbImpl" parent="platformAwareDao" />
-
-    <bean id="tkRoleDao" class="org.kuali.hr.time.roles.dao.TkRoleDaoSpringOjbImpl" parent="platformAwareDao" />
-
-    <bean id="tkRoleGroupDao" class="org.kuali.hr.time.roles.dao.TkRoleGroupDaoSpringOjbImpl" parent="platformAwareDao" />
 
     <bean id="timeBlockDao" class="org.kuali.hr.time.timeblock.dao.TimeBlockDaoSpringOjbImpl" parent="platformAwareDao" />
 
@@ -399,9 +410,6 @@
     <bean id="clockLogService" class="org.kuali.hr.time.clocklog.service.ClockLogServiceImpl">
         <property name="clockLogDao" ref="clockLogDao"/>
     </bean>
-    
-     <bean id="permissionsService" class="org.kuali.hr.time.permissions.TkPermissionsServiceImpl">
-    </bean>
 
     <bean id="clockLocationService" class="org.kuali.hr.time.clock.location.service.ClockLocationRuleServiceImpl">
         <property name="clockLocationDao" ref="clockLocationDao"/>
@@ -470,14 +478,6 @@
 
     <bean id="payTypeService" class="org.kuali.hr.time.paytype.service.PayTypeServiceImpl">
         <property name="payTypeDao" ref="payTypeDao"/>
-    </bean>
-
-    <bean id="tkRoleService" class="org.kuali.hr.time.roles.service.TkRoleServiceImpl">
-        <property name="tkRoleDao" ref="tkRoleDao"/>
-    </bean>
-
-    <bean id="tkRoleGroupService" class="org.kuali.hr.time.roles.service.TkRoleGroupServiceImpl">
-        <property name="tkRoleGroupDao" ref="tkRoleGroupDao"/>
     </bean>
 
     <bean id="calendarService" class="org.kuali.hr.time.calendar.service.CalendarServiceImpl">
@@ -614,13 +614,8 @@
     <bean id="tkSearchableAttributeService" class="org.kuali.hr.time.docsearch.TkSearchableAttributeServiceImpl"/>
 
     <bean id="tkWarningService" class="org.kuali.hr.time.warning.TkWarningServiceImpl"/>
-
-    <bean id="workAreaQualifierRoleTypeService"
-          class="org.kuali.hr.time.workarea.web.WorkAreaQualifierRoleTypeService"/>
-
+          
     <bean id="timezoneService" class="org.kuali.hr.time.timezone.service.TimezoneServiceImpl"/>
-    
-    <bean id="tkUser" class="org.kuali.hr.time.util.TKUser"/>
 
     <bean id="timeApproveService" class="org.kuali.hr.time.approval.service.TimeApproveServiceImpl"/>
 
@@ -700,11 +695,99 @@
 	    <property name="principalHRAttributesService" ref="principalHRAttributesService" />
     </bean>
     
-    <!--<bean id="tkLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">-->
-        <!--<property name="lookupableHelperService">-->
-            <!--<bean class="org.kuali.hr.time.TkLookupableHelper"/>-->
-        <!--</property>-->
-    <!--</bean>-->
+    <bean id="hrGroupService" class="org.kuali.hr.core.group.service.HRGroupServiceImpl">
+        <property name="groupService" ref="kimGroupService" />
+    </bean>
+    
+    <bean id="hrPermissionService" class="org.kuali.hr.core.permission.service.HRPermissionServiceImpl">
+        <property name="permissionService" ref="kimPermissionService" />
+    </bean>
+    
+    <bean id="tkPermissionService" class="org.kuali.hr.time.permission.service.TKPermissionServiceImpl">
+        <property name="departmentService" ref="departmentService" />
+        <property name="permissionService" ref="kimPermissionService" />
+        <property name="roleService" ref="kimRoleService" />
+        <property name="timesheetService" ref="timesheetService" />
+    </bean>
+    
+    <bean id="lmPermissionService" class="org.kuali.hr.lm.permission.service.LMPermissionServiceImpl">
+        <property name="departmentService" ref="departmentService" />
+        <property name="permissionService" ref="kimPermissionService" />
+        <property name="roleService" ref="kimRoleService" />
+        <property name="leaveCalendarService" ref="leaveCalendarService" />
+        <property name="leaveRequestDocumentService" ref="leaveRequestDocumentService" />
+    </bean>
+    
+    <bean id="hrRoleService" class="org.kuali.hr.core.role.service.HRRoleServiceImpl">
+        <property name="groupService" ref="kimGroupService" />
+        <property name="kimTypeInfoService" ref="kimTypeInfoService" />
+        <property name="roleService" ref="kimRoleService" />
+    </bean>
+    
+    <bean id="tkRoleService" class="org.kuali.hr.time.role.service.TKRoleServiceImpl">
+        <property name="groupService" ref="kimGroupService" />
+        <property name="kimTypeInfoService" ref="kimTypeInfoService" />
+        <property name="roleService" ref="kimRoleService" />
+    </bean>
+    
+    <bean id="lmRoleService" class="org.kuali.hr.lm.role.service.LMRoleServiceImpl">
+        <property name="groupService" ref="kimGroupService" />
+        <property name="kimTypeInfoService" ref="kimTypeInfoService" />
+        <property name="roleService" ref="kimRoleService" />
+    </bean>
+     
+    <bean id="workAreaRoleTypeService" class="org.kuali.hr.time.workarea.service.WorkAreaRoleTypeServiceImpl" />
+    
+    <bean id="workAreaRoleTypeService.exporter" parent="kpme.callback.service"
+          p:callbackService-ref="workAreaRoleTypeService"
+          p:localServiceName="workAreaRoleTypeService"
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+          
+    <bean id="departmentRoleTypeService" class="org.kuali.hr.time.department.service.DepartmentRoleTypeServiceImpl" />
+    
+    <bean id="departmentRoleTypeService.exporter" parent="kpme.callback.service"
+          p:callbackService-ref="departmentRoleTypeService"
+          p:localServiceName="departmentRoleTypeService"
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+          
+    <bean id="locationRoleTypeService" class="org.kuali.hr.location.service.LocationRoleTypeServiceImpl" />
+    
+    <bean id="locationRoleTypeService.exporter" parent="kpme.callback.service"
+          p:callbackService-ref="locationRoleTypeService"
+          p:localServiceName="locationRoleTypeService"
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+    
+    <bean id="positionDerivedRoleTypeService" class="org.kuali.hr.time.position.service.PositionDerivedRoleTypeServiceImpl">
+        <property name="roleService" ref="kimRoleService" />
+        <property name="jobService" ref="jobService" />
+    </bean>
+    
+    <bean id="positionDerivedRoleTypeService.exporter" parent="kpme.callback.service"
+          p:callbackService-ref="positionDerivedRoleTypeService"
+          p:localServiceName="positionDerivedRoleTypeService"
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+          
+    <bean id="kpmeDefaultRoleTypeService" class="org.kuali.hr.core.role.KPMEDefaultRoleTypeServiceImpl" />
+    
+    <bean id="kpmeDefaultRoleTypeService.exporter" parent="kpme.callback.service"
+          p:callbackService-ref="kpmeDefaultRoleTypeService"
+          p:localServiceName="kpmeDefaultRoleTypeService"
+          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
+    
+    <bean id="kpmeDocumentStatusPermissionTypeService" class="org.kuali.hr.core.permission.service.KPMEDocumentStatusPermissionTypeServiceImpl" />
+
+    <bean id="kpmeDocumentStatusPermissionTypeService.exporter" parent="kpme.callback.service"
+          p:callbackService-ref="kpmeDocumentStatusPermissionTypeService"
+          p:localServiceName="kpmeDocumentStatusPermissionTypeService"
+          p:serviceInterface="org.kuali.rice.kim.framework.permission.PermissionTypeService" />
+          
+    <bean id="documentTypeAndMaintenanceActionService" class="org.kuali.hr.core.permission.service.DocumentTypeAndMaintenanceActionServiceImpl" />
+
+    <bean id="documentTypeAndMaintenanceActionService.exporter" parent="kpme.callback.service"
+          p:callbackService-ref="documentTypeAndMaintenanceActionService"
+          p:localServiceName="documentTypeAndMaintenanceActionService"
+          p:serviceInterface="org.kuali.rice.kim.framework.permission.PermissionTypeService" />
+
     <bean id="balanceTransferLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
     	<property name="lookupableHelperService">
     		<bean class="org.kuali.hr.lm.balancetransfer.service.BalanceTransferLookupableHelper"/>
@@ -839,11 +922,6 @@
             <bean class="org.kuali.hr.time.principal.service.PrincipalHRAttributesLookupableHelper"/>
         </property>
     </bean>
-    <bean id="tkRoleLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
-        <property name="lookupableHelperService">
-            <bean class="org.kuali.hr.time.roles.service.TkRoleLookupableHelper"/>
-        </property>
-    </bean>
     <bean id="accountLookupable" class="org.kuali.hr.lookup.KPMELookupableImpl" scope="singleton">
         <property name="lookupableHelperService">
             <bean class="org.kuali.kfs.coa.businessobject.service.AccountLookupableHelper"/>
@@ -956,9 +1034,13 @@
 
     <bean id="kpme.serviceExporter" abstract="true" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter"
           p:serviceBus-ref="rice.ksb.serviceBus" />
+          
+    <bean id="kpme.callback.service" class="org.kuali.rice.ksb.api.bus.support.CallbackServiceExporter" abstract="true">
+        <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/core/v2_0" />
+    </bean>
 
-    <bean id="kpme.service" class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition" abstract="true">
-        <property name="serviceNameSpaceURI" value="KPME" />
+    <bean id="kpme.soap.service" class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition" abstract="true">
+        <property name="serviceNameSpaceURI" value="http://kpme.kuali.org/core/v2_0" />
         <property name="jaxWsService" value="true" />
         <property name="priority" value="3" />
         <property name="retryAttempts" value="0" />

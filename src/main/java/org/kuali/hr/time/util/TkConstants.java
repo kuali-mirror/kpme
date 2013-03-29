@@ -27,7 +27,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 
-import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -126,13 +125,10 @@ public class TkConstants {
     public static final String ROLE_LV_DEPT_ADMIN = "LV_DEPT_ADMIN"; // KPME-1411
     public static final String ROLE_TK_SYS_ADMIN = "TK_SYS_ADMIN";
     public static final String ROLE_WORK_AREA_QUALIFIER_ID = "workArea";
-    public static final List<String> ROLE_ASSIGNMENT_FOR_WORK_AREA = new ArrayList<String>(2);
     public static final List<String> ROLE_ASSIGNMENT_FOR_USER_ROLES = new ArrayList<String>(6);
     public static final Map<String, String> ALL_ROLES_MAP = new HashMap<String, String>();
-    public static final List<String> ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT = new ArrayList<String>(3);
 
     static {
-        ROLE_ASSIGNMENT_FOR_WORK_AREA.add(TkConstants.ROLE_TK_APPROVER);
         ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_GLOBAL_VO);
         ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_DEPT_VO);
         ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_DEPT_ADMIN);
@@ -142,11 +138,6 @@ public class TkConstants {
         ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_LOCATION_ADMIN);
         ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_LOCATION_VO);
         ROLE_ASSIGNMENT_FOR_USER_ROLES.add(TkConstants.ROLE_TK_SYS_ADMIN);
-
-        ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_EMPLOYEE);
-        ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_APPROVER);
-        ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_APPROVER_DELEGATE);
-        ROLE_ASSIGNMENT_FOR_WORK_AREA_OT_EDIT.add(TkConstants.ROLE_TK_DEPT_ADMIN);
 
         ALL_ROLES_MAP.put(TkConstants.ROLE_TK_REVIEWER, "Reviewer"); // attach at 'work area' level, like approvers without departmental rules
         ALL_ROLES_MAP.put(TkConstants.ROLE_TK_GLOBAL_VO, "Global View Only"); // can see everything in the system, but not modify

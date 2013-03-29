@@ -32,14 +32,10 @@ import org.kuali.hr.time.clocklog.TkClockActionValuesFinder;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.web.struts.action.KualiTransactionalDocumentActionBase;
-import org.kuali.rice.kns.web.struts.form.KualiDocumentFormBase;
 import org.kuali.rice.krad.util.ObjectUtils;
 
 public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
@@ -65,7 +61,7 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
                 mpDoc.getDocumentHeader().setDocumentDescription("Missed Punch: " + timesheetDocument.getPrincipalId());
             }
 
-            lastClock = TkServiceLocator.getClockLogService().getLastClockLog(TKUser.getCurrentTargetPersonId());
+            lastClock = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getTargetPrincipalId());
             if (lastClock != null) {
                 MissedPunchDocument lastDoc = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(lastClock.getTkClockLogId());
                 if (lastDoc != null) {    // last action was a missed punch
@@ -78,7 +74,7 @@ public class MissedPunchAction extends KualiTransactionalDocumentActionBase {
         }
         if (StringUtils.equals(request.getParameter("command"), "displayDocSearchView")
                 || StringUtils.equals(request.getParameter("command"), "displayActionListView")) {
-            TKUser.setTargetPerson(mpDoc.getPrincipalId());
+            TKContext.setTargetPrincipalId(mpDoc.getPrincipalId());
             mpForm.setDocId(mpDoc.getDocumentNumber());
         }
 //      mpForm.setAssignmentReadOnly(true);

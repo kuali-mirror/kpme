@@ -25,8 +25,6 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.time.util.TKUtils;
-
 import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlButton;
@@ -46,8 +44,8 @@ public class LeaveBlockDisplayWebTest extends KPMETestCase {
 
 	public void updateWebClient() {
         WebClient webClient = getWebClient();
-		webClient.getOptions().setJavaScriptEnabled(true);
-		webClient.getOptions().setThrowExceptionOnScriptError(true);
+		webClient.setJavaScriptEnabled(true);
+		webClient.setThrowExceptionOnScriptError(true);
 		webClient.setAjaxController(new NicelyResynchronizingAjaxController());
 		webClient.waitForBackgroundJavaScript(10000);
 	}

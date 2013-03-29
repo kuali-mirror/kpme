@@ -46,7 +46,6 @@ import org.kuali.hr.time.person.TKPerson;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -122,8 +121,8 @@ public class TimeApprovalAction extends ApprovalAction{
 		taaf.getWorkAreaDescr().clear();
     	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(taaf.getSelectedDept(), new java.sql.Date(taaf.getPayBeginDate().getTime()));
         for(WorkArea wa : workAreas){
-        	if (TKUser.getApproverWorkAreas().contains(wa.getWorkArea())
-        			|| TKUser.getReviewerWorkAreas().contains(wa.getWorkArea())) {
+        	if (TKContext.getApproverWorkAreas().contains(wa.getWorkArea())
+        			|| TKContext.getReviewerWorkAreas().contains(wa.getWorkArea())) {
         		taaf.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
         	}
         }

@@ -35,4 +35,6 @@ public interface DailyOvertimeRuleDao {
 	public void saveOrUpdate(List<DailyOvertimeRule> dailyOvertimeRules);
 	
 	public DailyOvertimeRule getDailyOvertimeRule(String tkDailyOvertimeRuleId);
+	
+	public List<DailyOvertimeRule> getDailyOvertimeRules(String dept, String workArea, String location, Date fromEffdt, Date toEffdt, String active, String showHist);
 }

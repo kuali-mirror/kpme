@@ -422,7 +422,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         // We may have a very small final "week" on this pay period. For now
         // we will mark it as a week, and if someone doesn't like it, it can
         // be removed.
-        if (!header.get(header.size()-1).startsWith("Week")) {
+        if (!header.isEmpty() && !header.get(header.size() - 1).startsWith("Week")) {
             dayArrangements.add(false);
             header.add("Week " + week);
         }

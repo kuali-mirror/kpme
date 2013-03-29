@@ -44,13 +44,12 @@ import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.person.TKPerson;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.principal.dao.PrincipalHRAttributesDao;
-import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.note.Note;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 	public static final int DAYS_WINDOW_DELTA = 31;
@@ -309,7 +308,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 	@Override
 	public List<CalendarEntry> getAllLeavePayCalendarEntriesForApprover(String principalId, Date currentDate) {
 		Set<String> principals = new HashSet<String>();
-		Set<Long> approverWorkAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
+		List<Long> approverWorkAreas = TKContext.getApproverWorkAreas();
 
 		// Get all of the principals within our window of time.
 		for (Long waNum : approverWorkAreas) {

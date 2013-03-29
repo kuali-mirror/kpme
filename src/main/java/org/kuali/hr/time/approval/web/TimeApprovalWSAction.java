@@ -16,7 +16,12 @@
 package org.kuali.hr.time.approval.web;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,14 +33,13 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.hsqldb.lib.StringUtil;
 import org.json.simple.JSONValue;
-import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.base.web.ApprovalForm;
+import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.person.TKPerson;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.timesummary.TimeSummary;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 
 public class TimeApprovalWSAction extends TkAction {
@@ -58,8 +62,8 @@ public class TimeApprovalWSAction extends TkAction {
 	        
 	        List<String> workAreaList = new ArrayList<String>();
 	        if(StringUtil.isEmpty(taaf.getSelectedWorkArea())) {
-                Set<Long> workAreas = TkServiceLocator.getTkRoleService().getWorkAreasForApprover(TKContext.getPrincipalId(), TKUtils.getCurrentDate());
-	        	for(Long workArea : workAreas) {    //taaf.getWorkAreaDescr().keySet()
+	        	List<Long> workAreas = TKContext.getApproverWorkAreas();
+	        	for(Long workArea : workAreas) {
 	        		workAreaList.add(workArea.toString());
 	        	}
 	        } else {

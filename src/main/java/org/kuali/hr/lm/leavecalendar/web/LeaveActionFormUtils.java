@@ -15,23 +15,19 @@
  */
 package org.kuali.hr.lm.leavecalendar.web;
 
-import org.apache.commons.lang.StringUtils;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import org.joda.time.DateTime;
-import org.joda.time.format.ISODateTimeFormat;
 import org.json.simple.JSONValue;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
-import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.timeblock.TimeBlock;
-import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.rice.krad.util.GlobalVariables;
-
-import java.util.*;
 
 public class LeaveActionFormUtils {
 
@@ -66,7 +62,7 @@ public class LeaveActionFormUtils {
             WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(leaveBlock.getWorkArea(), leaveBlock.getLeaveDate());
             String workAreaDesc = workArea == null ? "" : workArea.getDescription();
             // Roles
-            Boolean isAnyApprover = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isAnyApproverActive();
+            Boolean isAnyApprover = TKContext.isAnyApprover();
             LeaveBlockMap.put("isApprover", isAnyApprover);
            
             LeaveBlockMap.put("documentId", leaveBlock.getDocumentId());
@@ -84,7 +80,7 @@ public class LeaveActionFormUtils {
             LeaveBlockMap.put("leaveBlockType", leaveBlock.getLeaveBlockType());
             LeaveBlockMap.put("editable", leaveBlock.isEditable());
             LeaveBlockMap.put("requestStatus", leaveBlock.getRequestStatus());
-            LeaveBlockMap.put("canTransfer", TkServiceLocator.getPermissionsService().canTransferSSTOUsage(leaveBlock));
+            LeaveBlockMap.put("canTransfer", TkServiceLocator.getLMPermissionService().canTransferSSTOUsage(leaveBlock));
             leaveBlockList.add(LeaveBlockMap);
         }
 

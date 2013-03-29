@@ -20,15 +20,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-
-import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
-import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
-import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class BalanceTransferDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
@@ -159,4 +157,53 @@ public class BalanceTransferDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
     public void saveOrUpdate(BalanceTransfer balanceTransfer) {
         this.getPersistenceBrokerTemplate().store(balanceTransfer);
     }
+    
+    @Override
+    public List<BalanceTransfer> getBalanceTransfers(String principalId, String fromAccrualCategory, String transferAmount, String toAccrualCategory, String amountTransferred, String forfeitedAmount, Date fromEffdt, Date toEffdt) {
+        List<BalanceTransfer> results = new ArrayList<BalanceTransfer>();
+    	
+    	Criteria root = new Criteria();
+
+        if (StringUtils.isNotBlank(principalId)) {
+            root.addLike("principalId", principalId);
+        }
+        
+        if (StringUtils.isNotBlank(fromAccrualCategory)) {
+            root.addLike("fromAccrualCategory", fromAccrualCategory);
+        }
+        
+        if (StringUtils.isNotBlank(transferAmount)) {
+        	root.addLike("transferAmount", transferAmount);
+        }
+        
+        if (StringUtils.isNotBlank(toAccrualCategory)) {
+        	root.addLike("toAccrualCategory", toAccrualCategory);
+        }
+        
+        if (StringUtils.isNotBlank(amountTransferred)) {
+        	root.addLike("amountTransferred", amountTransferred);
+        }
+        
+        if (StringUtils.isNotBlank(forfeitedAmount)) {
+        	root.addLike("forfeitedAmount", forfeitedAmount);
+        }
+        
+        Criteria effectiveDateFilter = new Criteria();
+        if (fromEffdt != null) {
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+        }
+        if (toEffdt != null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
+        }
+        if (fromEffdt == null && toEffdt == null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+        }
+        root.addAndCriteria(effectiveDateFilter);
+
+        Query query = QueryFactory.newQuery(BalanceTransfer.class, root);
+        results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
+
+        return results;
+    }
+
 }

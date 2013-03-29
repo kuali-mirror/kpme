@@ -15,9 +15,6 @@
  */
 package org.kuali.hr.time.clock.location.service;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -27,10 +24,7 @@ import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
 import org.kuali.hr.time.authorization.TkAuthorizedLookupableHelperBase;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
-import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -38,6 +32,7 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
+@SuppressWarnings("deprecation")
 public class ClockLocationRuleLookupableHelper extends TkAuthorizedLookupableHelperBase {
 
 	private static final long serialVersionUID = 7261054962204557586L;
@@ -50,33 +45,15 @@ public class ClockLocationRuleLookupableHelper extends TkAuthorizedLookupableHel
     public boolean shouldShowBusinessObject(BusinessObject bo) {
         return (bo instanceof DepartmentalRule) && DepartmentalRuleAuthorizer.hasAccessToRead((DepartmentalRule)bo);
     }
-
-    @Override
+    
+	@Override
+	@SuppressWarnings("rawtypes")
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-    	List<HtmlData> customActionUrls = new ArrayList<HtmlData>();
-		
-		List<HtmlData> defaultCustomActionUrls = super.getCustomActionUrls(businessObject, pkNames);
-		
+    	List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
+
 		ClockLocationRule clockLocationRule = (ClockLocationRule) businessObject;
 		String tkClockLocationRuleId = clockLocationRule.getTkClockLocationRuleId();
-        Department dept = TkServiceLocator.getDepartmentService().getDepartment(clockLocationRule.getDept(), TKUtils.getCurrentDate());
-		String location = dept == null ? null : dept.getLocation();
-        String department = clockLocationRule.getDept();
-        
-		boolean systemAdmin = TKUser.isSystemAdmin();
-		boolean locationAdmin = TKUser.getLocationAdminAreas().contains(location);
-		boolean departmentAdmin = TKUser.getDepartmentAdminAreas().contains(department);
-		
-		for (HtmlData defaultCustomActionUrl : defaultCustomActionUrls){
-			if (StringUtils.equals(defaultCustomActionUrl.getMethodToCall(), "edit")) {
-				if (systemAdmin || locationAdmin || departmentAdmin) {
-					customActionUrls.add(defaultCustomActionUrl);
-				}
-			} else {
-				customActionUrls.add(defaultCustomActionUrl);
-			}
-		}
-		
+
 		Properties params = new Properties();
 		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
 		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
@@ -96,22 +73,6 @@ public class ClockLocationRuleLookupableHelper extends TkAuthorizedLookupableHel
 			super.validateSearchParameterWildcardAndOperators(attributeName,
 					attributeValue);
 		}
-	}
-	
-	@SuppressWarnings("rawtypes")
-	public static class EffectiveDateTimestampCompare implements Comparator, Serializable {
-
-		@Override
-		public int compare(Object arg0, Object arg1) {
-			ClockLocationRule clockLocationRule = (ClockLocationRule)arg0;
-			ClockLocationRule clockLocationRule2 = (ClockLocationRule)arg1;
-			int result = clockLocationRule.getEffectiveDate().compareTo(clockLocationRule2.getEffectiveDate());
-			if(result==0){
-				return clockLocationRule.getTimestamp().compareTo(clockLocationRule2.getTimestamp());
-			}
-			return result;
-		}
-		
 	}
 
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {

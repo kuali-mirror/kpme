@@ -17,7 +17,6 @@ package org.kuali.hr.time.base.web;
 
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.kns.web.struts.form.KualiForm;
 
@@ -71,12 +70,12 @@ public class TkForm extends KualiForm {
     
     public boolean getLeaveEnabled() {
     	boolean canViewLeaveTab= false;
-        canViewLeaveTab = this.getViewLeaveTabsWithNEStatus() || TkServiceLocator.getPermissionsService().canViewLeaveTabsWithEStatus();
+        canViewLeaveTab = this.getViewLeaveTabsWithNEStatus() || TkServiceLocator.getLMPermissionService().canViewLeaveTabsWithEStatus();
         return canViewLeaveTab; 
     }
     
     public boolean getTimeEnabled() {
-    	return TkServiceLocator.getPermissionsService().canViewTimeTabs();
+    	return TkServiceLocator.getTKPermissionService().canViewTimeTabs();
     }
     
     public String getLeaveDocumentIdFromContext(){
@@ -84,6 +83,6 @@ public class TkForm extends KualiForm {
 	}
  
     public boolean getViewLeaveTabsWithNEStatus() {
-    	return TkServiceLocator.getPermissionsService().canViewLeaveTabsWithNEStatus();
+    	return TkServiceLocator.getLMPermissionService().canViewLeaveTabsWithNEStatus();
     }
 }

@@ -15,14 +15,24 @@
  */
 package org.kuali.hr.time.department;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
+import org.kuali.hr.core.role.KPMERoleMemberAttribute;
+import org.kuali.hr.core.role.department.DepartmentPrincipalRoleMemberBo;
 import org.kuali.hr.time.HrBusinessObject;
-import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kim.impl.role.RoleMemberBo;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Section;
@@ -30,132 +40,141 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+@SuppressWarnings("deprecation")
 public class DepartmentMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
 	private static final long serialVersionUID = -330523155799598560L;
-
-    @Override
-	protected void setNewCollectionLineDefaultValues(String arg0,
-			PersistableBusinessObject arg1) {
-    	if(arg1 instanceof TkRole){
-    		TkRole role = (TkRole)arg1;
-    		Department dept = (Department) this.getBusinessObject();
-    		role.setEffectiveDate(dept.getEffectiveDate());
-    	}
-		super.setNewCollectionLineDefaultValues(arg0, arg1);
-	}
-
+	
 	@Override
-    public void processAfterEdit( MaintenanceDocument document, Map<String,String[]> parameters ) {
-        Department dOld = (Department)document.getOldMaintainableObject().getBusinessObject();
-        Department dNew = (Department)document.getNewMaintainableObject().getBusinessObject();
+	public HrBusinessObject getObjectById(String id) {
+		return TkServiceLocator.getDepartmentService().getDepartment(id);
+	}
+	
+	@Override
+	@SuppressWarnings("rawtypes")
+	public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
+		List sections = super.getSections(document, oldMaintainable);
+		
+		for (Object obj : sections) {
+			Section sec = (Section) obj;
+			if (sec.getSectionId().equals("inactiveRoleMembers")) {
+            	sec.setHidden(!document.isOldBusinessObjectInDocument());
+            }
+		}
+		
+		return sections;
+	}
+	
+    @Override
+    public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> parameters) {
+        Department oldMaintainableObject = (Department) document.getOldMaintainableObject().getBusinessObject();
+        Department newMaintainableObject = (Department) document.getNewMaintainableObject().getBusinessObject();
+        
+        Department oldDepartment = TkServiceLocator.getDepartmentService().getDepartment(oldMaintainableObject.getDept(), oldMaintainableObject.getEffectiveDate());
 
-        TkServiceLocator.getDepartmentService().populateDepartmentRoles(dOld);
-        TkServiceLocator.getDepartmentService().populateDepartmentRoles(dNew);
+        oldMaintainableObject.setRoleMembers(oldDepartment.getRoleMembers());
+        oldMaintainableObject.setInactiveRoleMembers(oldDepartment.getInactiveRoleMembers());
+        
+        Department newDepartment = TkServiceLocator.getDepartmentService().getDepartment(newMaintainableObject.getDept(), newMaintainableObject.getEffectiveDate());
+
+        newMaintainableObject.setRoleMembers(newDepartment.getRoleMembers());
+        newMaintainableObject.setInactiveRoleMembers(newDepartment.getInactiveRoleMembers());
+        
         super.processAfterEdit(document, parameters);
     }
+
+    @Override
+	protected void setNewCollectionLineDefaultValues(String collectionName, PersistableBusinessObject addLine) {
+    	Department department = (Department) this.getBusinessObject();
+    	
+    	if (department.getEffectiveDate() != null) {
+	    	if (addLine instanceof RoleMemberBo) {
+	        	RoleMemberBo roleMember = (RoleMemberBo) addLine;
+	        	roleMember.setActiveFromDateValue(new Timestamp(department.getEffectiveDate().getTime()));
+	    	}
+    	}
+    	
+    	super.setNewCollectionLineDefaultValues(collectionName, addLine);
+	}
 	
 	@Override
     public void addNewLineToCollection(String collectionName) {
-        if (collectionName.equals("roles")) {
-        	TkRole aRole = (TkRole)newCollectionLines.get(collectionName );
-            if ( aRole != null ) {
-            	if(!aRole.getPrincipalId().isEmpty()) {
-            		Principal aPerson = KimApiServiceLocator.getIdentityService().getPrincipal(aRole.getPrincipalId());
-            		if(aPerson == null) {
-            			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"roles", 
-                				"dept.role.person.notExist",aRole.getPrincipalId());
+		if (collectionName.equals("roleMembers")) {
+			RoleMemberBo roleMember = (RoleMemberBo) newCollectionLines.get(collectionName);
+            if (roleMember != null) {
+            	if(!StringUtils.isEmpty(roleMember.getMemberId())) {
+            		Principal person = KimApiServiceLocator.getIdentityService().getPrincipal(roleMember.getMemberId());
+            		if (person == null) {
+            			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"roleMembers", 
+                				"dept.role.person.notExist",roleMember.getMemberId());
                 		return;
             		}
             	}
             }
         }
+		
         super.addNewLineToCollection(collectionName);
-	}
-	
-	@SuppressWarnings("rawtypes")
-	@Override
-	public List getSections(MaintenanceDocument document,
-			Maintainable oldMaintainable) {
-		List sections = super.getSections(document, oldMaintainable);
-		for (Object obj : sections) {
-			Section sec = (Section) obj;
-			if (document.isOldBusinessObjectInDocument()
-					&& sec.getSectionId().equals("inactiveRoles")) {
-				sec.setHidden(false);
-			} else if (!document.isOldBusinessObjectInDocument()
-					&& sec.getSectionId().equals("inactiveRoles")) {
-				sec.setHidden(true);
-			}
-		}
-		return sections;
-	}
-
-	@Override
-	public HrBusinessObject getObjectById(String id) {
-		return TkServiceLocator.getDepartmentService().getDepartment(id);
 	}
 
     @Override
 	public void customSaveLogic(HrBusinessObject hrObj) {
 		Department department = (Department) hrObj;
 		
-		List<TkRole> roles = new ArrayList<TkRole>();
-		roles.addAll(department.getRoles());
-		roles.addAll(department.getInactiveRoles());
-		roles.addAll(createInactiveRoles(department.getRoles()));
-
-		for (TkRole role : roles) {
-			role.setDepartmentObj(department);
-			role.setUserPrincipalId(TKContext.getPrincipalId());
-		}
-		department.setRoles(roles);
+		List<DepartmentPrincipalRoleMemberBo> newInactiveRoleMembers = createInactiveRoleMembers(department.getRoleMembers());
 		
-		TkServiceLocator.getTkRoleService().saveOrUpdate(roles);
+    	for (DepartmentPrincipalRoleMemberBo newInactiveRoleMember : newInactiveRoleMembers) {
+    		department.addInactiveRoleMember(newInactiveRoleMember);
+    	}
+    	
+    	for (DepartmentPrincipalRoleMemberBo roleMember : department.getRoleMembers()) {
+    		RoleMember.Builder builder = RoleMember.Builder.create(roleMember);
+    		builder.setAttributes(Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department.getDept()));
+    		
+    		if (StringUtils.isBlank(roleMember.getId())) {
+    			KimApiServiceLocator.getRoleService().createRoleMember(builder.build());
+    		} else {
+    			KimApiServiceLocator.getRoleService().updateRoleMember(builder.build());
+    		}
+    	}
+    	for (DepartmentPrincipalRoleMemberBo inactiveRoleMember : department.getInactiveRoleMembers()) {
+    		RoleMember.Builder builder = RoleMember.Builder.create(inactiveRoleMember);
+    		builder.setAttributes(Collections.singletonMap(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(),  department.getDept()));
+    		
+    		if (StringUtils.isBlank(inactiveRoleMember.getId())) {
+    			KimApiServiceLocator.getRoleService().createRoleMember(builder.build());
+    		} else {
+    			KimApiServiceLocator.getRoleService().updateRoleMember(builder.build());
+    		}
+    	}
 	}
     
-    private List<TkRole> createInactiveRoles(List<TkRole> activeRoles) {
-    	List<TkRole> inactiveRoles = new ArrayList<TkRole>();
+    private List<DepartmentPrincipalRoleMemberBo> createInactiveRoleMembers(List<DepartmentPrincipalRoleMemberBo> roleMembers) {
+    	List<DepartmentPrincipalRoleMemberBo> inactiveRoleMembers = new ArrayList<DepartmentPrincipalRoleMemberBo>();
     	
-        List<TkRole> oldRoles = new ArrayList<TkRole>();
-        List<TkRole> newRoles = new ArrayList<TkRole>();
-        
-        for (TkRole activeRole : activeRoles) {
-		  	if (!StringUtils.isEmpty(activeRole.getHrRolesId())) {
-		  		oldRoles.add(activeRole);
+        List<RoleMemberBo> oldRoleMembers = new ArrayList<RoleMemberBo>();
+        List<RoleMemberBo> newRoleMembers = new ArrayList<RoleMemberBo>();
+        for (RoleMemberBo roleMember : roleMembers) {
+		  	if (!StringUtils.isEmpty(roleMember.getId())) {
+		  		oldRoleMembers.add(roleMember);
 		  	} else {
-		  		newRoles.add(activeRole);
+		  		newRoleMembers.add(roleMember);
 		  	}
         }
         
-        for (TkRole newRole : newRoles) {
-        	for (TkRole oldRole : oldRoles) {
-        		if (StringUtils.equals(newRole.getRoleName(), oldRole.getRoleName()) 
-       	      	 && StringUtils.equals(newRole.getPrincipalId(), oldRole.getPrincipalId())) {
-        			TkRole newInactiveRole = new TkRole();
-        			newInactiveRole.setPrincipalId(oldRole.getPrincipalId());
-        			newInactiveRole.setRoleName(oldRole.getRoleName());
-        			newInactiveRole.setWorkArea(oldRole.getWorkArea());
-        			newInactiveRole.setDepartment(oldRole.getDepartment());
-        			newInactiveRole.setChart(oldRole.getChart());
-        			newInactiveRole.setHrDeptId(oldRole.getHrDeptId());
-        			newInactiveRole.setPositionNumber(oldRole.getPositionNumber());
-        			newInactiveRole.setExpirationDate(oldRole.getExpirationDate());
-        			newInactiveRole.setEffectiveDate(newRole.getEffectiveDate());
-        			newInactiveRole.setTimestamp(new Timestamp(System.currentTimeMillis()));
-			  		newInactiveRole.setUserPrincipalId(TKContext.getPrincipalId());
-        			newInactiveRole.setActive(false);
-        			
-        			inactiveRoles.add(newInactiveRole);
-        		}
+        for (RoleMemberBo newRoleMember : newRoleMembers) {
+        	for (RoleMemberBo oldRoleMember : oldRoleMembers) {
+        		Role newRole = KimApiServiceLocator.getRoleService().getRole(newRoleMember.getRoleId());
+        		Role oldRole = KimApiServiceLocator.getRoleService().getRole(newRoleMember.getRoleId());
+			  	
+        		if (StringUtils.equals(newRole.getName(), oldRole.getName()) && StringUtils.equals(newRoleMember.getMemberId(), oldRoleMember.getMemberId())) {
+    				DepartmentPrincipalRoleMemberBo.Builder builder = DepartmentPrincipalRoleMemberBo.Builder.create(oldRoleMember);
+    				builder.setActiveToDate(new DateTime());
+    				
+			  		inactiveRoleMembers.add(builder.build());
+			  	}
         	}
         }
         
-        return inactiveRoles;
+        return inactiveRoleMembers;
     }
 }

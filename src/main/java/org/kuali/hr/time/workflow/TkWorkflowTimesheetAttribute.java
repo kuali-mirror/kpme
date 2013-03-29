@@ -19,15 +19,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.cxf.common.util.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.hr.job.Job;
+import org.joda.time.DateTime;
+import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.roles.TkRole;
-import org.kuali.hr.time.roles.service.TkRoleService;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kew.api.identity.Id;
@@ -37,10 +34,14 @@ import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.routeheader.DocumentContent;
 import org.kuali.rice.kew.rule.AbstractRoleAttribute;
 import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
+import org.kuali.rice.kim.api.role.RoleMember;
 
+@Deprecated
 public class TkWorkflowTimesheetAttribute extends AbstractRoleAttribute {
 
-    private static final Logger LOG = Logger.getLogger(TkWorkflowTimesheetAttribute.class);
+	private static final long serialVersionUID = -1745965455586658502L;
+	
+	private static final Logger LOG = Logger.getLogger(TkWorkflowTimesheetAttribute.class);
 
 	@Override
 	public List<String> getQualifiedRoleNames(String roleName, DocumentContent documentContent) {
@@ -51,18 +52,16 @@ public class TkWorkflowTimesheetAttribute extends AbstractRoleAttribute {
 		if (timesheetDocument != null) {
 			List<Assignment> assignments = timesheetDocument.getAssignments();
 			for (Assignment assignment : assignments) {
-				String roleStr = roleName + "_" +assignment.getWorkArea();
-				if(!roles.contains(roleStr)){
+				String roleStr = roleName + "_" + assignment.getWorkArea();
+				if (!roles.contains(roleStr)) {
 					roles.add(roleStr);
 				}
 			}
 		}
+		
 		return roles;
 	}
 
-	/**
-	 * Role name is passed in in the routing rule.
-	 */
 	@Override
 	public ResolvedQualifiedRole resolveQualifiedRole(RouteContext routeContext, String roleName, String qualifiedRole) {
 		ResolvedQualifiedRole rqr = new ResolvedQualifiedRole();
@@ -84,39 +83,24 @@ public class TkWorkflowTimesheetAttribute extends AbstractRoleAttribute {
 
 		List<Id> principals = new ArrayList<Id>();
 		String routeHeaderId = routeContext.getDocument().getDocumentId();
-		TkRoleService roleService = TkServiceLocator.getTkRoleService();
 		TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(routeHeaderId.toString());
 		WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, timesheetDocument.getAsOfDate());
 
-        // KPME-1071
-        List<TkRole> approvers = roleService.getWorkAreaRoles(workAreaNumber, roleName, TKUtils.getCurrentDate());
-        List<TkRole> approverDelegates = roleService.getWorkAreaRoles(workAreaNumber, TkConstants.ROLE_TK_APPROVER_DELEGATE, TKUtils.getCurrentDate());
-		List<TkRole> roles = new ArrayList<TkRole>();
-        roles.addAll(approvers);
-        roles.addAll(approverDelegates);
-
-		for (TkRole role : roles) {
-			//Position routing
-			if(StringUtils.isEmpty(role.getPrincipalId())){
-				String positionNumber = role.getPositionNumber();
-				List<Job> lstJobsForPosition = TkServiceLocator.getJobService().getActiveJobsForPosition(positionNumber, timesheetDocument.getCalendarEntry().getEndPeriodDateTime());
-				for(Job job : lstJobsForPosition){
-					PrincipalId pid = new PrincipalId(job.getPrincipalId());
-					if (!principals.contains(pid)) {
-						principals.add(pid);
-					}
-				}
-			} else {
-				PrincipalId pid = new PrincipalId(role.getPrincipalId());
-					if (!principals.contains(pid)) {
-						principals.add(pid);
-					}
-			}
+		List<RoleMember> roleMembers = new ArrayList<RoleMember>();
+		
+		if (TkConstants.ROLE_TK_APPROVER.equals(roleName)) {
+	        roleMembers.addAll(TkServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER.getRoleName(), workAreaNumber, new DateTime(), true));
+	        roleMembers.addAll(TkServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER_DELEGATE.getRoleName(), workAreaNumber, new DateTime(), true));
 		}
+		
+        for (RoleMember roleMember : roleMembers) {
+        	principals.add(new PrincipalId(roleMember.getMemberId()));
+	    }
 
-		if (principals.size() == 0)
+		if (principals.size() == 0) {
 			throw new RuntimeException("No principals to route to. Push to exception routing.");
-
+		}
+		
 		rqr.setRecipients(principals);
 		rqr.setAnnotation("Dept: "+ workArea.getDept()+", Work Area: "+workArea.getWorkArea());
 
@@ -125,7 +109,7 @@ public class TkWorkflowTimesheetAttribute extends AbstractRoleAttribute {
 
 	@Override
 	public List<RoleName> getRoleNames() {
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
 	}
 
 }

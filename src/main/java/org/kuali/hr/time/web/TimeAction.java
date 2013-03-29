@@ -19,22 +19,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.base.web.TkForm;
-import org.kuali.hr.time.roles.TkUserRoles;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TimeAction extends TkAction {
-
-	private static final Logger LOG = Logger.getLogger(TimeAction.class);
 
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
@@ -45,13 +41,14 @@ public class TimeAction extends TkAction {
             // to check the document for validity, since the user may not
             // necessarily be a system administrator.
         } else {
-            if (!TKUser.isSystemAdmin()
-        			&& !TKUser.isLocationAdmin()
-        			&& !TKUser.isDepartmentAdmin()
-        			&& !TKUser.isGlobalViewOnly()
-        			&& !TKUser.isDeptViewOnly()
-        			&& (tkForm.getDocumentId() != null && !TKUser.isApproverForTimesheet(tkForm.getDocumentId()))
-        			&& (tkForm.getDocumentId() != null && !TKUser.isDocumentReadable(tkForm.getDocumentId())))  {
+        	String principalId = GlobalVariables.getUserSession().getPrincipalId();
+            if (!TKContext.isSystemAdmin()
+        			&& !TKContext.isLocationAdmin()
+        			&& !TKContext.isDepartmentAdmin()
+        			&& !TKContext.isGlobalViewOnly()
+        			&& !TKContext.isDepartmentViewOnly()
+        			&& (tkForm.getDocumentId() != null && !TkServiceLocator.getTKPermissionService().canApproveTimesheet(principalId, tkForm.getDocumentId()))
+        			&& (tkForm.getDocumentId() != null && !TkServiceLocator.getTKPermissionService().canViewTimesheet(principalId, tkForm.getDocumentId())))  {
                 throw new AuthorizationException("", "TimeAction", "");
             }
         }
@@ -62,29 +59,26 @@ public class TimeAction extends TkAction {
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-        boolean synch = TKUser.isSynchronous();
-        if (TKUser.getCurrentTargetPerson() != null) {
-            if (TKUser.isSystemAdmin()) {
-                return new ActionRedirect("/portal.do");
-            } else if (TKUser.isDepartmentAdmin()
-                    && !synch) {
-                return new ActionRedirect("/portal.do");
-            } else if (TKUser.isApprover()
-                    && !synch) {
-                return new ActionRedirect("/TimeApproval.do");
-            } else if (TKUser.isReviewer()
-                    && !synch) {
-                return new ActionRedirect("/TimeApproval.do");
-            } else if (TKUser.isActiveEmployee()
-                    && !synch) {
-                return new ActionRedirect("/TimeDetail.do");
-            } else if (synch) {
-                return new ActionRedirect("/Clock.do");
-            } else {
-                return new ActionRedirect("/PersonInfo.do");
-            }
+        boolean synch = TKContext.isSynchronous();
+        if (TKContext.isSystemAdmin()) {
+            return new ActionRedirect("/portal.do");
+        } else if (TKContext.isDepartmentAdmin()
+                && !synch) {
+            return new ActionRedirect("/portal.do");
+        } else if (TKContext.isAnyApprover()
+                && !synch) {
+            return new ActionRedirect("/TimeApproval.do");
+        } else if (TKContext.isReviewer()
+                && !synch) {
+            return new ActionRedirect("/TimeApproval.do");
+        } else if (TKContext.isActiveEmployee()
+                && !synch) {
+            return new ActionRedirect("/TimeDetail.do");
+        } else if (synch) {
+            return new ActionRedirect("/Clock.do");
+        } else {
+            return new ActionRedirect("/PersonInfo.do");
         }
-	return super.execute(mapping, form, request, response);
-}
+    }
     
 }

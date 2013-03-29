@@ -15,20 +15,21 @@
  */
 package org.kuali.hr.time.detail.web;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.time.calendar.TkCalendar;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesummary.TimeSummary;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
-
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 public class TimeDetailActionForm extends TimeDetailActionFormBase {
 
@@ -54,7 +55,6 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
     private List<String> overtimeEarnCodes = new ArrayList<String>();
     private String tkTimeHourDetailId;
     private String isLunchDeleted;
-    private boolean canAddTimeblock;
 
     public TkCalendar getTkCalendar() {
         return calendar;
@@ -179,10 +179,6 @@ public class TimeDetailActionForm extends TimeDetailActionFormBase {
 
     public void setLunchDeleted(String lunchDeleted) {
         isLunchDeleted = lunchDeleted;
-    }
-
-    public boolean isCanAddTimeblock() {
-        return TkServiceLocator.getPermissionsService().canAddTimeBlock();
     }
 
 	public String getWorkingOnItsOwn() {

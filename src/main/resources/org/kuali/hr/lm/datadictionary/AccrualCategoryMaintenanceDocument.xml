@@ -31,7 +31,7 @@
 		p:businessObjectClass="org.kuali.hr.lm.accrual.AccrualCategory"
 		p:businessRulesClass="org.kuali.hr.lm.accrual.validation.AccrualCategoryValidation"
 		p:maintainableClass="org.kuali.hr.lm.accrual.service.AccrualCategoryMaintainableServiceImpl"
-		p:documentAuthorizerClass="org.kuali.hr.time.authorization.LocationAdminAuthorizer">
+		p:documentAuthorizerClass="org.kuali.hr.lm.accrual.authorization.AccrualCategoryAuthorizer">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="AccrualCategoryMaintenanceDocument-AccrualCategoryMaintenance" />

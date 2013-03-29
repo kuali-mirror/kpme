@@ -18,19 +18,19 @@ package org.kuali.hr.time.workflow.web;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.kuali.hr.core.document.CalendarDocumentHeaderContract;
 import org.kuali.hr.core.document.calendar.CalendarDocumentContract;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
-import org.kuali.hr.time.roles.TkUserRoles;
-import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kew.doctype.SecuritySession;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
@@ -47,50 +47,71 @@ public class WorkflowTagSupport {
     }
 
     public boolean isDisplayingTimesheetRouteButton() {
-        TimesheetDocument doc = TKContext.getCurrentTimesheetDocument();
-        return isDisplayingRouteButton(doc);
+    	return isDisplayingRouteButton(TKContext.getCurrentTimesheetDocument());
     }
 
     public boolean isDisplayingLeaveRouteButton() {
-        LeaveCalendarDocument doc = TKContext.getCurrentLeaveCalendarDocument();
-        return isDisplayingRouteButton(doc);
+    	return isDisplayingRouteButton(TKContext.getCurrentLeaveCalendarDocument());
     }
     
     public boolean isDisplayingCurrentPeriodRouteButtonWithNoDelinquencies() {
     	LeaveCalendarDocument doc = TKContext.getCurrentLeaveCalendarDocument();
-    	if(TKUtils.getCurrentDate().after(DateUtils.addMilliseconds(doc.getCalendarEntry().getBeginPeriodDate(),1)) &&
+    	if (TKUtils.getCurrentDate().after(DateUtils.addMilliseconds(doc.getCalendarEntry().getBeginPeriodDate(),1)) &&
     			TKUtils.getCurrentDate().before(DateUtils.addMilliseconds(doc.getCalendarEntry().getEndPeriodDate(), -1))) {
-    		if(!isDelinquent(doc) && isDisplayingRouteButton(doc))
+    		if (!isDelinquent(doc) && isDisplayingRouteButton(doc)) {
     			return true;
-    		else
+    		} else {
     			return false;
-    	}
-    	else
+    		}
+    	} else {
     		return false;
+    	}
     }
     
     public boolean isDisplayingCurrentPeriodTimesheetRouteButtonWithNoDelinquencies() {
     	TimesheetDocument doc = TKContext.getCurrentTimesheetDocument();
-    	if(TKUtils.getCurrentDate().after(DateUtils.addMilliseconds(doc.getCalendarEntry().getBeginPeriodDate(),1)) &&
+    	if (TKUtils.getCurrentDate().after(DateUtils.addMilliseconds(doc.getCalendarEntry().getBeginPeriodDate(),1)) &&
     			TKUtils.getCurrentDate().before(DateUtils.addMilliseconds(doc.getCalendarEntry().getEndPeriodDate(), -1))) {
-    		if(isDisplayingRouteButton(doc))
+    		if (isDisplayingRouteButton(doc)) {
     			return true;
-    		else
+    		} else {
     			return false;
-    	}
-    	else
+    		}
+    	} else {
     		return false;
+    	}
     }
 
-    private boolean isDisplayingRouteButton(CalendarDocumentContract doc) {
-        TkUserRoles roles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
-        CalendarDocumentHeaderContract docHeader = doc.getDocumentHeader();
-        if(StringUtils.isNotBlank(docHeader.getDocumentStatus())
-            && (docHeader.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.SAVED)
-                || docHeader.getDocumentStatus().equals(TkConstants.ROUTE_STATUS.INITIATED))){
-            return roles.canSubmitTimesheet(doc);
-        }
-        return false;
+    private boolean isDisplayingRouteButton(TimesheetDocument timesheetDocument) {
+    	boolean isDisplayingRouteButton = false;
+    	
+    	if (timesheetDocument != null) {
+    		String principalId = GlobalVariables.getUserSession().getPrincipalId();
+    		String documentId = timesheetDocument.getDocumentHeader().getDocumentId();
+	        DocumentStatus documentStatus = DocumentStatus.fromCode(timesheetDocument.getDocumentHeader().getDocumentStatus());
+	        
+	        if (ObjectUtils.equals(documentStatus, DocumentStatus.INITIATED) || ObjectUtils.equals(documentStatus, DocumentStatus.SAVED)) {
+	        	isDisplayingRouteButton = TkServiceLocator.getTKPermissionService().canSubmitTimesheet(principalId, documentId);
+	        }
+    	}
+    	
+        return isDisplayingRouteButton;
+    }
+    
+    private boolean isDisplayingRouteButton(LeaveCalendarDocument leaveCalendarDocument) {
+    	boolean isDisplayingRouteButton = false;
+    	
+    	if (leaveCalendarDocument != null) {
+    		String principalId = GlobalVariables.getUserSession().getPrincipalId();
+    		String documentId = leaveCalendarDocument.getDocumentHeader().getDocumentId();
+	        DocumentStatus documentStatus = DocumentStatus.fromCode(leaveCalendarDocument.getDocumentHeader().getDocumentStatus());
+	        
+	        if (ObjectUtils.equals(documentStatus, DocumentStatus.INITIATED) || ObjectUtils.equals(documentStatus, DocumentStatus.SAVED)) {
+	        	isDisplayingRouteButton = TkServiceLocator.getLMPermissionService().canSubmitLeaveCalendar(principalId, documentId);
+	        }
+    	}
+    	
+        return isDisplayingRouteButton;
     }
 
     /**
@@ -98,8 +119,7 @@ public class WorkflowTagSupport {
      * @return true if the route button should render as enabled.
      */
     public boolean isRouteTimesheetButtonEnabled() {
-        TimesheetDocument doc = TKContext.getCurrentTimesheetDocument();
-        return isRouteButtonEnabled(doc);
+        return isRouteButtonEnabled(TKContext.getCurrentTimesheetDocument());
     }
 
     /**
@@ -110,7 +130,7 @@ public class WorkflowTagSupport {
         LeaveCalendarDocument doc = TKContext.getCurrentLeaveCalendarDocument();
         Date asOfDate = TKUtils.getTimelessDate(null);
         return isRouteButtonEnabled(doc) && !isDelinquent(doc) 
-        		&& (TkServiceLocator.getPermissionsService().canViewLeaveTabsWithEStatus() && asOfDate.compareTo(doc.getDocumentHeader().getEndDate()) > 0);
+        		&& (TkServiceLocator.getLMPermissionService().canViewLeaveTabsWithEStatus() && asOfDate.compareTo(doc.getDocumentHeader().getEndDate()) > 0);
     }
 
     private boolean isRouteButtonEnabled(CalendarDocumentContract doc) {
@@ -134,21 +154,47 @@ public class WorkflowTagSupport {
     }
     
     public boolean isDisplayingTimesheetApprovalButtons() {
-        TimesheetDocument doc = TKContext.getCurrentTimesheetDocument();
-        return isDisplayingApprovalButtons(doc);
+        return isDisplayingApprovalButtons(TKContext.getCurrentTimesheetDocument());
     }
 
     public boolean isDisplayingLeaveApprovalButtons() {
-        LeaveCalendarDocument doc = TKContext.getCurrentLeaveCalendarDocument();
-        return isDisplayingApprovalButtons(doc);
+        return isDisplayingApprovalButtons(TKContext.getCurrentLeaveCalendarDocument());
     }
 
-    private boolean isDisplayingApprovalButtons(CalendarDocumentContract doc) {
-        UserRoles roles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
-        boolean tookActionAlready = KEWServiceLocator.getActionTakenService().hasUserTakenAction(TKContext.getPrincipalId(), doc.getDocumentHeader().getDocumentId());
-        return !tookActionAlready
-                && roles.isApproverForTimesheet(doc)
-                && !StringUtils.equals(doc.getDocumentHeader().getDocumentStatus(), TkConstants.ROUTE_STATUS.FINAL);
+    private boolean isDisplayingApprovalButtons(TimesheetDocument timesheetDocument) {
+    	boolean isDisplayingApprovalButtons = false;
+    	
+    	if (timesheetDocument != null) {
+    		String principalId = GlobalVariables.getUserSession().getPrincipalId();
+    		String documentId = timesheetDocument.getDocumentHeader().getDocumentId();
+	        DocumentStatus documentStatus = DocumentStatus.fromCode(timesheetDocument.getDocumentHeader().getDocumentStatus());
+	        boolean tookActionAlready = KEWServiceLocator.getActionTakenService().hasUserTakenAction(principalId, documentId);
+	        
+	        if (!ObjectUtils.equals(documentStatus, DocumentStatus.FINAL) && !tookActionAlready) {
+	        	isDisplayingApprovalButtons = TkServiceLocator.getTKPermissionService().canApproveTimesheet(principalId, documentId)
+	        			|| TkServiceLocator.getTKPermissionService().canSuperUserAdministerTimesheet(principalId, documentId);
+	        }
+    	}
+    	
+        return isDisplayingApprovalButtons;    
+    }
+    
+    private boolean isDisplayingApprovalButtons(LeaveCalendarDocument leaveCalendarDocument) {
+    	boolean isDisplayingApprovalButtons = false;
+    	
+    	if (leaveCalendarDocument != null) {
+    		String principalId = GlobalVariables.getUserSession().getPrincipalId();
+    		String documentId = leaveCalendarDocument.getDocumentHeader().getDocumentId();
+	        DocumentStatus documentStatus = DocumentStatus.fromCode(leaveCalendarDocument.getDocumentHeader().getDocumentStatus());
+	        boolean tookActionAlready = KEWServiceLocator.getActionTakenService().hasUserTakenAction(principalId, documentId);
+	        
+	        if (!ObjectUtils.equals(documentStatus, DocumentStatus.FINAL) && !tookActionAlready) {
+	        	isDisplayingApprovalButtons = TkServiceLocator.getLMPermissionService().canApproveLeaveCalendar(principalId, documentId)
+	        			|| TkServiceLocator.getLMPermissionService().canSuperUserAdministerLeaveCalendar(principalId, documentId);
+	        }
+    	}
+    	
+        return isDisplayingApprovalButtons;
     }
 
     public boolean isApprovalTimesheetButtonsEnabled() {

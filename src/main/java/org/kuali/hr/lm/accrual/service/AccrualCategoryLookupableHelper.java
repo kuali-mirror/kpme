@@ -20,8 +20,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.core.lookup.KPMELookupableHelper;
 import org.kuali.hr.lm.accrual.AccrualCategory;
-import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -30,14 +30,13 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-/**
- * Used to override lookup functionality for the accrual category lookup
- */
-public class AccrualCategoryLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
+@SuppressWarnings("deprecation")
+public class AccrualCategoryLookupableHelper extends KPMELookupableHelper {
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 878982834891191463L;
 
-    @Override
+	@Override
+	@SuppressWarnings("rawtypes")
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
 

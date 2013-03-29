@@ -29,7 +29,7 @@
 	<bean id="SalGroupMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.salgroup.SalGroup"
 		p:maintainableClass="org.kuali.hr.time.salgroup.service.SalGroupMaintainableImpl"
-		p:documentAuthorizerClass="org.kuali.hr.time.authorization.LocationAdminAuthorizer">
+		p:documentAuthorizerClass="org.kuali.hr.time.salgroup.authorization.SalaryGroupAuthorizer">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="SalGroupMaintenanceDocument-SalGroupMaintenance" />

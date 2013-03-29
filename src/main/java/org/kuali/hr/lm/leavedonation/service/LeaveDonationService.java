@@ -15,6 +15,9 @@
  */
 package org.kuali.hr.lm.leavedonation.service;
 
+import java.sql.Date;
+import java.util.List;
+
 import org.kuali.hr.lm.leavedonation.LeaveDonation;
 import org.springframework.cache.annotation.Cacheable;
 
@@ -27,5 +30,7 @@ public interface LeaveDonationService {
      */
     @Cacheable(value= LeaveDonation.CACHE_NAME, key="'lmLeaveDonationId=' + #p0")
     public LeaveDonation getLeaveDonation(String lmLeaveDonationId);
+
+	public List<LeaveDonation> getLeaveDonations(Date fromEffdt, Date toEffdt, String donorsPrincipalId, String donatedAccrualCategory, String amountDonated, String recipientsPrincipalId, String recipientsAccrualCategory, String amountReceived, String active, String showHist);
 
 }

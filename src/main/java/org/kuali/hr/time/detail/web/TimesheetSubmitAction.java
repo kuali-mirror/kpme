@@ -40,12 +40,9 @@ import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
-import org.kuali.hr.time.roles.TkUserRoles;
-import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.exception.AuthorizationException;
@@ -57,18 +54,14 @@ public class TimesheetSubmitAction extends TkAction {
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
         TimesheetSubmitActionForm tsaf = (TimesheetSubmitActionForm)form;
+    	
+    	String principalId = GlobalVariables.getUserSession().getPrincipalId();
+    	String documentId = tsaf.getDocumentId();
 
-        String principal = TKContext.getPrincipalId();
-        UserRoles roles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
-
-        TimesheetDocument document = TkServiceLocator.getTimesheetService().getTimesheetDocument(tsaf.getDocumentId());
-        if (!roles.isDocumentWritable(document)) {
-            throw new AuthorizationException(principal, "TimesheetSubmitAction", "");
+        if (!TkServiceLocator.getTKPermissionService().canEditTimesheet(principalId, documentId)) {
+            throw new AuthorizationException(principalId, "TimesheetSubmitAction", "");
         }
     }
-
-
-
 
     public ActionForward approveTimesheet(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         TimesheetSubmitActionForm tsaf = (TimesheetSubmitActionForm)form;
@@ -201,7 +194,7 @@ public class TimesheetSubmitAction extends TkAction {
                 TkServiceLocator.getTimesheetService().disapproveTimesheet(TKContext.getPrincipalId(), document);
             }
         }
-        TKUser.clearTargetUser();
+        TKContext.clearTargetUser();
         return new ActionRedirect(mapping.findForward("approverRedirect"));
 
 

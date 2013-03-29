@@ -15,6 +15,7 @@
  */
 package org.kuali.hr.time.earncodegroup.service;
 
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 
@@ -71,4 +72,6 @@ public interface EarnCodeGroupService {
      * @return int
      */
     public int getNewerEarnCodeGroupCount(String earnGroup, Date effdt);
+    
+    List<EarnCode> getEarnCodeGroups(String earnCodeGroup, String descr, Date fromEffdt, Date toEffdt, String active, String showHist);
 }

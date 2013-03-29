@@ -28,8 +28,7 @@
 
 	<bean id="TaskMaintenanceDocument-parentBean" abstract="true"
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.task.Task"
-		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"
-		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
+		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="TaskMaintenanceDocument-TaskMaintenance" />

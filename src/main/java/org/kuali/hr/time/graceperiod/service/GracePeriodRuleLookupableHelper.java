@@ -15,47 +15,31 @@
  */
 package org.kuali.hr.time.graceperiod.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
+import org.kuali.hr.core.lookup.KPMELookupableHelper;
 import org.kuali.hr.time.graceperiod.rule.GracePeriodRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-public class GracePeriodRuleLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
+@SuppressWarnings("deprecation")
+public class GracePeriodRuleLookupableHelper extends KPMELookupableHelper {
 
 	private static final long serialVersionUID = -1656060180428314707L;
 
 	@Override
+	@SuppressWarnings("rawtypes")
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-		List<HtmlData> customActionUrls = new ArrayList<HtmlData>();
-		
-		List<HtmlData> defaultCustomActionUrls = super.getCustomActionUrls(businessObject, pkNames);
-		
+		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
+
 		GracePeriodRule gracePeriodRule = (GracePeriodRule) businessObject;
 		String tkGracePeriodRuleId = gracePeriodRule.getTkGracePeriodRuleId();
-		
-		boolean systemAdmin = TKUser.isSystemAdmin();
-
-		for (HtmlData defaultCustomActionUrl : defaultCustomActionUrls){
-			if (StringUtils.equals(defaultCustomActionUrl.getMethodToCall(), "edit")) {
-				if (systemAdmin) {
-					customActionUrls.add(defaultCustomActionUrl);
-				}
-			} else {
-				customActionUrls.add(defaultCustomActionUrl);
-			}
-		}
 		
 		Properties params = new Properties();
 		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
@@ -71,10 +55,10 @@ public class GracePeriodRuleLookupableHelper extends HrEffectiveDateActiveLookup
 
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues){
-
         String hourFactor = fieldValues.get("hourFactor");
         String active = fieldValues.get("active");
 
         return TkServiceLocator.getGracePeriodService().getGracePeriodRules(hourFactor,active);
     }
+    
 }

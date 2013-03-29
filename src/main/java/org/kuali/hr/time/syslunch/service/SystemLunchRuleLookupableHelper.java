@@ -15,17 +15,13 @@
  */
 package org.kuali.hr.time.syslunch.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
+import org.kuali.hr.core.lookup.KPMELookupableHelper;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.syslunch.rule.SystemLunchRule;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -33,30 +29,18 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-public class SystemLunchRuleLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
+@SuppressWarnings("deprecation")
+public class SystemLunchRuleLookupableHelper extends KPMELookupableHelper {
 
 	private static final long serialVersionUID = 6752606867867978501L;
 
 	@Override
+	@SuppressWarnings("rawtypes")
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-		List<HtmlData> customActionUrls = new ArrayList<HtmlData>();
-		
-		List<HtmlData> defaultCustomActionUrls = super.getCustomActionUrls(businessObject, pkNames);
-		
+		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
+
 		SystemLunchRule systemLunchRule = (SystemLunchRule) businessObject;
 		String tkSystemLunchRuleId = systemLunchRule.getTkSystemLunchRuleId();
-		
-		boolean systemAdmin = TKUser.isSystemAdmin();
-
-		for (HtmlData defaultCustomActionUrl : defaultCustomActionUrls){
-			if (StringUtils.equals(defaultCustomActionUrl.getMethodToCall(), "edit")) {
-				if (systemAdmin) {
-					customActionUrls.add(defaultCustomActionUrl);
-				}
-			} else {
-				customActionUrls.add(defaultCustomActionUrl);
-			}
-		}
 		
 		Properties params = new Properties();
 		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
@@ -80,4 +64,5 @@ public class SystemLunchRuleLookupableHelper extends HrEffectiveDateActiveLookup
         return TkServiceLocator.getSystemLunchRuleService().getSystemLunchRules(TKUtils.formatDateString(fromEffdt),
                 TKUtils.formatDateString(toEffdt), active, showHist);
     }
+    
 }

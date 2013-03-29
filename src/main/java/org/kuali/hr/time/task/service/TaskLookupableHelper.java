@@ -21,13 +21,11 @@ import java.util.Map;
 import org.kuali.hr.time.authorization.TkAuthorizedLookupableHelperBase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
-import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.kns.web.ui.Field;
 import org.kuali.rice.kns.web.ui.Row;
 import org.kuali.rice.krad.bo.BusinessObject;
 
+@SuppressWarnings("deprecation")
 public class TaskLookupableHelper extends TkAuthorizedLookupableHelperBase {
 
 	private static final long serialVersionUID = 7525044777337159013L;
@@ -41,28 +39,6 @@ public class TaskLookupableHelper extends TkAuthorizedLookupableHelperBase {
         String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
 
         return TkServiceLocator.getTaskService().getTasks(task, description, workArea, TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt));
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Override
-    public HtmlData getReturnUrl(BusinessObject businessObject,
-                                 LookupForm lookupForm, List returnKeys,
-                                 BusinessObjectRestrictions businessObjectRestrictions) {
-        if (lookupForm.getFieldConversions().containsKey("effectiveDate")) {
-            lookupForm.getFieldConversions().remove("effectiveDate");
-        }
-        if (returnKeys.contains("effectiveDate")) {
-            returnKeys.remove("effectiveDate");
-        }
-        if (lookupForm.getFieldConversions().containsKey("workArea")) {
-            lookupForm.getFieldConversions().remove("workArea");
-        }
-        if (returnKeys.contains("workArea")) {
-            returnKeys.remove("workArea");
-        }
-
-        return super.getReturnUrl(businessObject, lookupForm, returnKeys,
-                businessObjectRestrictions);
     }
 
     @Override

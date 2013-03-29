@@ -38,10 +38,7 @@ public class WeeklyOvertimeRuleMaintenanceTest extends KPMETestCase {
 	
 	@Test
 	public void testWeeklyOvertimeRuleMaint() throws Exception {
-		HtmlPage weeklyOvertimeRuleLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.WEEKLY_OVERTIME_RULE_MAINT_URL);
-		weeklyOvertimeRuleLookUp = HtmlUnitUtil.clickInputContainingText(weeklyOvertimeRuleLookUp, "search");
-		Assert.assertTrue("Page contains test WeeklyOvertimeRule", weeklyOvertimeRuleLookUp.asText().contains(TEST_CODE));
-		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(weeklyOvertimeRuleLookUp, "edit",weeklyOvertimeRuleId);
+		HtmlPage maintPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.WEEKLY_OVERTIME_RULE_MAINT_URL);
 		Assert.assertTrue("Maintenance Page contains test WeeklyOvertimeRule",maintPage.asText().contains(TEST_CODE));
 		
 		// test Convert from EarnCodeGroup has overtime earn codes error		

@@ -16,9 +16,11 @@
 package org.kuali.hr.time.timesheet.web;
 
 import java.sql.Date;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import com.gargoylesoftware.htmlunit.html.*;
 import org.joda.time.DateTime;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -35,9 +37,14 @@ import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.test.TkTestUtils;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.*;
-
+import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TimeDetailTestUtils;
 import org.kuali.hr.util.filter.TestAutoLoginFilter;
+
+import com.gargoylesoftware.htmlunit.html.HtmlButtonInput;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
 

@@ -26,8 +26,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,8 +52,6 @@ import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.calendar.TkCalendar;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
-import org.kuali.hr.time.roles.TkUserRoles;
-import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeBlockHistory;
@@ -65,7 +63,6 @@ import org.kuali.hr.time.timesummary.EarnCodeSection;
 import org.kuali.hr.time.timesummary.EarnGroupSection;
 import org.kuali.hr.time.timesummary.TimeSummary;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
@@ -79,14 +76,16 @@ public class TimeDetailAction extends TimesheetAction {
 
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-        super.checkTKAuthorization(form, methodToCall); // Checks for read access first.
-        UserRoles roles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
-        TimesheetDocument doc = TKContext.getCurrentTimesheetDocument();
+        super.checkTKAuthorization(form, methodToCall);
+        
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+    	String documentId = TKContext.getCurrentTimesheetDocumentId();
 
-        // Check for write access to Timeblock.
-        if (StringUtils.equals(methodToCall, "addTimeBlock") || StringUtils.equals(methodToCall, "deleteTimeBlock") || StringUtils.equals(methodToCall, "updateTimeBlock")) {
-            if (!roles.isDocumentWritable(doc)) {
-                throw new AuthorizationException(roles.getPrincipalId(), "TimeDetailAction", "");
+        if (StringUtils.equals(methodToCall, "addTimeBlock") 
+        		|| StringUtils.equals(methodToCall, "deleteTimeBlock") 
+        		|| StringUtils.equals(methodToCall, "updateTimeBlock")) {
+            if (!TkServiceLocator.getTKPermissionService().canEditTimesheet(principalId, documentId)) {
+                throw new AuthorizationException(principalId, "TimeDetailAction", "");
             }
         }
     }
@@ -248,17 +247,17 @@ public class TimeDetailAction extends TimesheetAction {
         }
         
         tdaf.setDocEditable("false");
-        if (TKUser.isSystemAdmin()) {
+        if (TKContext.isSystemAdmin()) {
             tdaf.setDocEditable("true");
         } else {
             boolean docFinal = TKContext.getCurrentTimesheetDocument().getDocumentHeader().getDocumentStatus().equals(TkConstants.ROUTE_STATUS.FINAL);
             if (!docFinal) {
             	if(StringUtils.equals(TKContext.getCurrentTimesheetDocument().getPrincipalId(), GlobalVariables.getUserSession().getPrincipalId())
-	            		|| TKUser.isSystemAdmin()
-	            		|| TKUser.isLocationAdmin()
-	            		|| TKUser.isDepartmentAdmin()
-	            		|| TKUser.isReviewer()
-	            		|| TKUser.isApprover()) {
+	            		|| TKContext.isSystemAdmin()
+	            		|| TKContext.isLocationAdmin()
+	            		|| TKContext.isDepartmentAdmin()
+	            		|| TKContext.isReviewer()
+	            		|| TKContext.isAnyApprover()) {
                     tdaf.setDocEditable("true");
                 }
             	
@@ -590,7 +589,7 @@ public class TimeDetailAction extends TimesheetAction {
     }
       
   public ActionForward gotoCurrentPayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-	  String viewPrincipal = TKUser.getCurrentTargetPersonId();
+	  String viewPrincipal = TKContext.getTargetPrincipalId();
 	  Date currentDate = TKUtils.getTimelessDate(null);
       CalendarEntry pce = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal, currentDate);
       TimesheetDocument td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, pce);
@@ -616,7 +615,7 @@ public class TimeDetailAction extends TimesheetAction {
           CalendarEntry pce = TkServiceLocator.getCalendarEntryService()
 		  	.getCalendarEntry(request.getParameter("selectedPP").toString());
 		  if(pce != null) {
-			  String viewPrincipal = TKUser.getCurrentTargetPersonId();
+			  String viewPrincipal = TKContext.getTargetPrincipalId();
 			  TimesheetDocument td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, pce);
 			  setupDocumentOnFormContext((TimesheetActionForm)form, td);
 		  }
@@ -630,7 +629,7 @@ public class TimeDetailAction extends TimesheetAction {
 	  String leaveBlockId = tdaf.getLmLeaveBlockId();
 
       LeaveBlock blockToDelete = TkServiceLocator.getLeaveBlockService().getLeaveBlock(leaveBlockId);
-      if (blockToDelete != null && TkServiceLocator.getPermissionsService().canDeleteLeaveBlock(blockToDelete)) {
+      if (blockToDelete != null && TkServiceLocator.getLMPermissionService().canDeleteLeaveBlock(TKContext.getPrincipalId(), blockToDelete)) {
 		    TkServiceLocator.getLeaveBlockService().deleteLeaveBlock(leaveBlockId, TKContext.getPrincipalId());
       }
       

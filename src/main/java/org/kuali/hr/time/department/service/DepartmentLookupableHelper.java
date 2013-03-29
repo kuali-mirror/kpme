@@ -15,53 +15,31 @@
  */
 package org.kuali.hr.time.department.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
+import org.kuali.hr.core.lookup.KPMELookupableHelper;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-public class DepartmentLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
+@SuppressWarnings("deprecation")
+public class DepartmentLookupableHelper extends KPMELookupableHelper {
 	
 	private static final long serialVersionUID = 566277764259830850L;
 
 	@Override
+	@SuppressWarnings("rawtypes")
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-		List<HtmlData> customActionUrls = new ArrayList<HtmlData>();
-		
-		List<HtmlData> defaultCustomActionUrls = super.getCustomActionUrls(businessObject, pkNames);
+		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
 		
 		Department departmentObj = (Department) businessObject;
 		String hrDeptId = departmentObj.getHrDeptId();
-        Department dept = TkServiceLocator.getDepartmentService().getDepartment(departmentObj.getDept(), TKUtils.getCurrentDate());
-		String location = dept == null ? null : dept.getLocation();
-		String department = departmentObj.getDept();
-		
-		boolean systemAdmin = TKUser.isSystemAdmin();
-		boolean locationAdmin = TKUser.getLocationAdminAreas().contains(location);
-		boolean departmentAdmin = TKUser.getDepartmentAdminAreas().contains(department);
-		
-		for (HtmlData defaultCustomActionUrl : defaultCustomActionUrls){
-			if (StringUtils.equals(defaultCustomActionUrl.getMethodToCall(), "edit")) {
-				if (systemAdmin || locationAdmin || departmentAdmin) {
-					customActionUrls.add(defaultCustomActionUrl);
-				}
-			} else {
-				customActionUrls.add(defaultCustomActionUrl);
-			}
-		}
 
 		Properties params = new Properties();
 		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
@@ -75,7 +53,6 @@ public class DepartmentLookupableHelper extends HrEffectiveDateActiveLookupableH
 		return customActionUrls;
 	}
 
-    @SuppressWarnings({"unchecked"})
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         String dept = fieldValues.get("dept");
@@ -83,8 +60,6 @@ public class DepartmentLookupableHelper extends HrEffectiveDateActiveLookupableH
         String descr = fieldValues.get("description");
         String active = fieldValues.get("active");
 
-        List<Department> departments = TkServiceLocator.getDepartmentService().getDepartments(dept, location, descr, active);
-
-        return departments;
+        return TkServiceLocator.getDepartmentService().getDepartments(dept, location, descr, active);
     }
 }

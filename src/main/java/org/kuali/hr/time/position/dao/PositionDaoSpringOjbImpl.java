@@ -24,7 +24,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.time.position.Position;
 import org.kuali.hr.time.util.TKUtils;
@@ -63,19 +62,13 @@ public class PositionDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements
 
 	@Override
     @SuppressWarnings("unchecked")
-    public List<Position> getPositions(String positionNum, String workArea, String description, Date fromEffdt, Date toEffdt, 
-    								   String active, String showHistory) {
-        
+    public List<Position> getPositions(String positionNum, String description, Date fromEffdt, Date toEffdt, String active, String showHistory) {
         List<Position> results = new ArrayList<Position>();
         
     	Criteria root = new Criteria();
 
         if (StringUtils.isNotBlank(positionNum)) {
             root.addLike("positionNumber", positionNum);
-        }
-        
-        if (StringUtils.isNotBlank(workArea)) {
-            root.addLike("workArea", workArea);
         }
 
         if (StringUtils.isNotBlank(description)) {

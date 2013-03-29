@@ -15,9 +15,11 @@
  */
 package org.kuali.hr.time.earncodegroup.dao;
 
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 
 import java.sql.Date;
+import java.util.List;
 
 public interface EarnCodeGroupDaoService {
 	public EarnCodeGroup getEarnCodeGroup(String earnCodeGroup, Date asOfDate);
@@ -26,4 +28,5 @@ public interface EarnCodeGroupDaoService {
 	public EarnCodeGroup getEarnCodeGroup(String hrEarnGroupId);
 	public int getEarnCodeGroupCount(String earnGroup);
 	public int getNewerEarnCodeGroupCount(String earnGroup, Date effdt);
+	public List<EarnCode> getEarnCodeGroups(String earnCodeGroup, String descr, Date fromEffdt, Date toEffdt, String active, String showHist);
 }

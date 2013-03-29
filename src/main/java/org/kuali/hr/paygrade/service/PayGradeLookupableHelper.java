@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.kuali.hr.core.lookup.KPMELookupableHelper;
 import org.kuali.hr.paygrade.PayGrade;
-import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -28,11 +28,13 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-public class PayGradeLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
+@SuppressWarnings("deprecation")
+public class PayGradeLookupableHelper extends KPMELookupableHelper {
 
 	private static final long serialVersionUID = 5424446452538063763L;
 
 	@Override
+	@SuppressWarnings("rawtypes")
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
 			
@@ -51,16 +53,13 @@ public class PayGradeLookupableHelper extends HrEffectiveDateActiveLookupableHel
 		return customActionUrls;
 	}
 
-    @SuppressWarnings({"unchecked"})
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
-
         String payGrade = fieldValues.get("payGrade");
         String descr = fieldValues.get("description");
         String active = fieldValues.get("active");
 
-        List<PayGrade> payGrades = TkServiceLocator.getPayGradeService().getPayGrades(payGrade, descr, active);
-
-        return payGrades;
+        return TkServiceLocator.getPayGradeService().getPayGrades(payGrade, descr, active);
     }
+    
 }

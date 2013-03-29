@@ -15,35 +15,12 @@
  */
 package org.kuali.hr.time.position.validation;
 
-import java.sql.Date;
-
 import org.kuali.hr.time.position.Position;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 public class PositionValidation extends MaintenanceDocumentRuleBase {
-
-	protected boolean validatePositionWorkarea(Position position) {
-		
-		boolean workAreaValidity = true;
-		
-		if (position.getWorkArea() != null) {
-			Long WANumbr = position.getWorkArea();
-			Date effDate = position.getEffectiveDate();
-
-			if (TkServiceLocator.getWorkAreaService().getWorkArea(WANumbr,
-					effDate) != null) {
-				return workAreaValidity;
-			} else {
-				this.putFieldError("workArea", "pos.workArea.invalid",
-						"work area '" + position.getWorkArea() + "'");
-				workAreaValidity = false;
-			}
-		}
-		return workAreaValidity;
-	}
 
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(
@@ -56,7 +33,6 @@ public class PositionValidation extends MaintenanceDocumentRuleBase {
 			Position position = (Position) pbo;
 			if (position != null) {
 				valid = true;
-				valid &= this.validatePositionWorkarea(position);
 			}
 		}
 		return valid;

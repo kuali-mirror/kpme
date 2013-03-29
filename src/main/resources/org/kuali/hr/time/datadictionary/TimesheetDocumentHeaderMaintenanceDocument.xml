@@ -30,7 +30,6 @@
 		parent="MaintenanceDocumentEntry" 
 		p:businessObjectClass="org.kuali.hr.time.workflow.TimesheetDocumentHeader"
 		p:maintainableClass="org.kuali.rice.kns.maintenance.KualiMaintainableImpl"
-		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer"
 		p:allowsNewOrCopy="false">
 		<property name="maintainableSections">
 			<list>

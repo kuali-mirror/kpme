@@ -15,6 +15,8 @@
  */
 package org.kuali.hr.time.admin.web;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,13 +26,15 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
+import org.joda.time.DateTime;
+import org.kuali.hr.job.Job;
+import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.base.web.TkAction;
-import org.kuali.hr.time.roles.TkUserRoles;
-import org.kuali.hr.time.roles.UserRoles;
+import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -48,16 +52,15 @@ public class ChangeTargetPersonAction extends TkAction {
         	Principal targetPerson = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(changeTargetPersonForm.getPrincipalName());
         	
 	        if (targetPerson != null) {
-	        	UserRoles roles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
-	            if (roles.isSystemAdmin()
-	                	|| roles.isGlobalViewOnly()
-	                	|| roles.isDepartmentAdminForPerson(targetPerson.getPrincipalId())
-	                	|| roles.isDeptViewOnlyForPerson(targetPerson.getPrincipalId())
-	                	|| roles.isLocationAdminForPerson(targetPerson.getPrincipalId())
-	                	|| roles.isTimesheetReviewerForPerson(targetPerson.getPrincipalId())
-	                	|| roles.isApproverForPerson(targetPerson.getPrincipalId())) {
+	            if (TkServiceLocator.getHRGroupService().isMemberOfSystemAdministratorGroup(GlobalVariables.getUserSession().getPrincipalId(), new DateTime())
+	                	|| TkServiceLocator.getHRGroupService().isMemberOfSystemViewOnlyGroup(GlobalVariables.getUserSession().getPrincipalId(), new DateTime())
+	                	|| isReviewerForPerson(targetPerson.getPrincipalId())
+	                	|| isApproverForPerson(targetPerson.getPrincipalId())
+	                	|| isDeptViewOnlyForPerson(targetPerson.getPrincipalId())
+	                	|| isDepartmentAdminForPerson(targetPerson.getPrincipalId())
+	                	|| isLocationAdminForPerson(targetPerson.getPrincipalId())) {
 		                	
-	            	TKUser.setTargetPerson(targetPerson.getPrincipalId());
+	            	TKContext.setTargetPrincipalId(targetPerson.getPrincipalId());
 	
 		            if (StringUtils.isNotEmpty(changeTargetPersonForm.getReturnUrl())) {
 		            	GlobalVariables.getUserSession().addObject(TkConstants.TK_TARGET_USER_RETURN, changeTargetPersonForm.getReturnUrl());
@@ -80,8 +83,73 @@ public class ChangeTargetPersonAction extends TkAction {
         return forward;
     }
     
+    private boolean isReviewerForPerson(String principalId) {
+    	List<Long> reviewerWorkAreas = TkServiceLocator.getWorkAreaService().getReviewerWorkAreas(GlobalVariables.getUserSession().getPrincipalId());
+        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getCurrentDate());
+
+        for (Assignment assignment : assignments) {
+            if (reviewerWorkAreas.contains(assignment.getWorkArea())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isApproverForPerson(String principalId) {
+    	List<Long> approverWorkAreas = TkServiceLocator.getWorkAreaService().getApproverAndApproverDelegateWorkAreas(GlobalVariables.getUserSession().getPrincipalId());
+        List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getCurrentDate());
+
+        for (Assignment assignment : assignments) {
+            if (approverWorkAreas.contains(assignment.getWorkArea())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isDeptViewOnlyForPerson(String principalId) {
+    	List<String> administratorDepartments = TkServiceLocator.getDepartmentService().getViewOnlyDepartments(GlobalVariables.getUserSession().getPrincipalId());
+        List<Job> jobs = TkServiceLocator.getJobService().getJobs(principalId, TKUtils.getCurrentDate());
+        
+        for (Job job : jobs) {
+            if (administratorDepartments.contains(job.getDept())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
+    private boolean isDepartmentAdminForPerson(String principalId) {
+    	List<String> administratorDepartments = TkServiceLocator.getDepartmentService().getAdministratorDepartments(GlobalVariables.getUserSession().getPrincipalId());
+        List<Job> jobs = TkServiceLocator.getJobService().getJobs(principalId, TKUtils.getCurrentDate());
+        
+        for (Job job : jobs) {
+            if (administratorDepartments.contains(job.getDept())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isLocationAdminForPerson(String principalId) {
+    	List<String> administratorLocations = TkServiceLocator.getLocationService().getAdministratorLocations(GlobalVariables.getUserSession().getPrincipalId());
+    	List<Job> jobs = TkServiceLocator.getJobService().getJobs(principalId, TKUtils.getCurrentDate());
+
+    	for (Job job : jobs) {
+    		Department department = TkServiceLocator.getDepartmentService().getDepartment(job.getDept(), TKUtils.getCurrentDate());
+    		if (administratorLocations.contains(department.getLocation())) {
+                return true;
+            }
+    	}
+
+        return false;
+    }
+    
     public ActionForward clearTargetPerson(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-    	TKUser.clearTargetUser();
+    	TKContext.clearTargetUser();
         
         String returnAction = "PersonInfo.do";
         if (StringUtils.isNotBlank((String) GlobalVariables.getUserSession().retrieveObject(TkConstants.TK_TARGET_USER_RETURN))) {

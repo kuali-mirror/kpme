@@ -28,17 +28,17 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
 import org.kuali.hr.time.department.Department;
-import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlockHistory;
 import org.kuali.hr.time.timeblock.TimeBlockHistoryDetail;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.krad.bo.BusinessObject;
 
@@ -133,35 +133,29 @@ public class TimeBlockHistoryDetailLookupableHelperServiceImpl extends KualiLook
 
     private void filterWithSecurity(List<TimeBlockHistoryDetail> objectList) {
     	Iterator<? extends BusinessObject> itr = objectList.iterator();
-    	List<TkRole> tkRoles = TkServiceLocator.getTkRoleService().getRoles(TKContext.getPrincipalId(), TKUtils.getCurrentDate());
-		while(itr.hasNext()){
-			TimeBlockHistoryDetail tbhd = (TimeBlockHistoryDetail)itr.next();
+    	
+		while (itr.hasNext()) {
+			TimeBlockHistoryDetail tbhd = (TimeBlockHistoryDetail) itr.next();
+
+			Long workArea = tbhd.getTimeBlockHistory().getWorkArea();
+			
 			Job job = TkServiceLocator.getJobService().getJob(tbhd.getTimeBlockHistory().getPrincipalId(), tbhd.getTimeBlockHistory().getJobNumber(), TKUtils.getCurrentDate(), false);
+			String department = job != null ? job.getDept() : null;
+			
+			Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, TKUtils.getCurrentDate());
+			String location = departmentObj != null ? departmentObj.getLocation() : null;
+			
 			boolean valid = false;
-			for (TkRole tkRole : tkRoles) {
-				if (StringUtils.equals(tkRole.getRoleName(),
-						TkConstants.ROLE_TK_SYS_ADMIN)
-						|| (StringUtils.equals(tkRole.getRoleName(), TkConstants.ROLE_TK_GLOBAL_VO))
-						|| (StringUtils.equals(tkRole.getRoleName(),
-								TkConstants.ROLE_TK_APPROVER) && tbhd.getTimeBlockHistory().getWorkArea().equals(tkRole.getWorkArea()))
-						|| (StringUtils.equals(tkRole.getRoleName(),
-								TkConstants.ROLE_TK_DEPT_ADMIN) && (job != null && (job.getDept().equals(tkRole.getDepartment()))))) {
-					valid = true;
-					break;
-				}
-				if(StringUtils.equals(tkRole.getRoleName(), TkConstants.ROLE_TK_LOCATION_ADMIN) && job != null && tkRole.getLocationObj()!=null){
-					List<Department> departments = TkServiceLocator.getDepartmentService().getDepartmentByLocation(tkRole.getLocationObj().getLocation());
-					for(Department department : departments){
-						if(StringUtils.equals(job.getDept(), department.getDept())){
-							valid = true;
-							break;
-						}
-					}
-					if(valid){
-						break;
-					}
-				}
+			if (TkServiceLocator.getHRGroupService().isMemberOfSystemAdministratorGroup(TKContext.getPrincipalId(), new DateTime())
+					|| TkServiceLocator.getHRGroupService().isMemberOfSystemViewOnlyGroup(TKContext.getPrincipalId(), new DateTime())
+					|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(TKContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), workArea, new DateTime())
+					|| TkServiceLocator.getTKRoleService().principalHasRoleInDepartment(TKContext.getPrincipalId(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+					|| TkServiceLocator.getLMRoleService().principalHasRoleInDepartment(TKContext.getPrincipalId(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+					|| TkServiceLocator.getTKRoleService().principalHasRoleInLocation(TKContext.getPrincipalId(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
+					|| TkServiceLocator.getLMRoleService().principalHasRoleInLocation(TKContext.getPrincipalId(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())) {	
+				valid = true;
 			}
+			
 			if (!valid) {
 				itr.remove();
 				continue;

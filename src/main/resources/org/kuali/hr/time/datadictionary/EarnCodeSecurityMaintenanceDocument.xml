@@ -30,7 +30,7 @@
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.lm.earncodesec.EarnCodeSecurity"
 		p:businessRulesClass="org.kuali.hr.lm.earncodesec.validation.EarnCodeSecurityRule"
 		p:maintainableClass="org.kuali.hr.lm.earncodesec.service.EarnCodeSecurityMaintainableImpl"
-		p:documentAuthorizerClass="org.kuali.hr.time.authorization.DepartmentAdminAuthorizer">
+		p:documentAuthorizerClass="org.kuali.hr.lm.earncodesec.authorization.EarnCodeSecurityAuthorizer">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="EarnCodeSecurityMaintenanceDocument-EarnCodeSecurityMaintenance" />

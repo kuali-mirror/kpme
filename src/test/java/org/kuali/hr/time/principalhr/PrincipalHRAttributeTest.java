@@ -18,12 +18,10 @@ package org.kuali.hr.time.principalhr;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 public class PrincipalHRAttributeTest extends KPMETestCase {
 	@Test

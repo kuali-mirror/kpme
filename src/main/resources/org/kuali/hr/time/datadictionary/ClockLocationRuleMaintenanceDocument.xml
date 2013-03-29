@@ -30,7 +30,7 @@
   <bean id="ClockLocationRuleMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
   		p:businessObjectClass="org.kuali.hr.time.clock.location.ClockLocationRule"
   		p:businessRulesClass="org.kuali.hr.time.clock.location.validation.ClockLocationRuleRule"
-        p:documentAuthorizerClass="org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer"
+        p:documentAuthorizerClass="org.kuali.hr.time.clock.location.authorization.ClockLocationRuleAuthorizer"
   		p:maintainableClass="org.kuali.hr.time.clock.location.service.ClockLocationMaintainableImpl">
     <property name="maintainableSections">
       <list>

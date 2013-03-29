@@ -15,63 +15,37 @@
  */
 package org.kuali.hr.job.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.core.lookup.KPMELookupableHelper;
 import org.kuali.hr.job.Job;
-import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-public class JobLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
+@SuppressWarnings("deprecation")
+public class JobLookupableHelper extends KPMELookupableHelper {
 
 	private static final long serialVersionUID = 3233495722838070429L;
 
 	@Override
+	@SuppressWarnings("rawtypes")
     public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-    	List<HtmlData> customActionUrls = new ArrayList<HtmlData>();
-		
-		List<HtmlData> defaultCustomActionUrls = super.getCustomActionUrls(businessObject, pkNames);
-        
+    	List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
+
 		Job job = (Job) businessObject;
         String hrJobId = job.getHrJobId();
-        String jobNumber = String.valueOf(job.getJobNumber());
-        String principalId = job.getPrincipalId();
-        String location = job.getLocation();
-        String department = job.getDept();
-        
-        boolean systemAdmin = TKUser.isSystemAdmin();
-		boolean locationAdmin = TKUser.getLocationAdminAreas().contains(location);
-		boolean departmentAdmin = TKUser.getDepartmentAdminAreas().contains(department);
-		
-		for (HtmlData defaultCustomActionUrl : defaultCustomActionUrls){
-			if (StringUtils.equals(defaultCustomActionUrl.getMethodToCall(), "edit")) {
-				if (systemAdmin || locationAdmin || departmentAdmin) {
-					customActionUrls.add(defaultCustomActionUrl);
-				}
-			} else {
-				customActionUrls.add(defaultCustomActionUrl);
-			}
-		}
 		
 		Properties params = new Properties();
 		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
 		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
 		params.put("hrJobId", hrJobId);
-		params.put("jobNumber", jobNumber);
-		params.put("principalId", principalId);
 		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
 		viewUrl.setDisplayText("view");
 		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
@@ -98,18 +72,4 @@ public class JobLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
         		TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt), active, showHist);
     }
 
-    @SuppressWarnings("rawtypes")
-    @Override
-    public HtmlData getReturnUrl(BusinessObject businessObject,
-                                 LookupForm lookupForm, List returnKeys,
-                                 BusinessObjectRestrictions businessObjectRestrictions) {
-        if (lookupForm.getFieldConversions().containsKey("effectiveDate")) {
-            lookupForm.getFieldConversions().remove("effectiveDate");
-        }
-        if (returnKeys.contains("effectiveDate")) {
-            returnKeys.remove("effectiveDate");
-        }
-        return super.getReturnUrl(businessObject, lookupForm, returnKeys,
-                businessObjectRestrictions);
-    }
 }

@@ -18,8 +18,6 @@ package org.kuali.hr.time.department.earncode;
 import java.sql.Date;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.junit.Assert;
@@ -29,7 +27,6 @@ import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
@@ -139,7 +136,7 @@ public class EarnCodeSecurityMaintenanceTest extends KPMETestCase{
 		deptEarnCode.setHrSalGroup(SAL_GROUP);
 		deptEarnCode.setEmployee(false);
 		deptEarnCode.setEffectiveDate(TEST_DATE_OLD);
-		deptEarnCode.setLocation("test");
+		deptEarnCode.setLocation("BL");
 		deptEarnCode.setEarnCodeType("T");
 		deptEarnCode = KRADServiceLocator.getBusinessObjectService().save(deptEarnCode);
 		hrDeptEarnCodeId = deptEarnCode.getHrEarnCodeSecurityId();

@@ -24,6 +24,7 @@ import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
+import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
@@ -43,16 +44,24 @@ public class SimpleTimeEntryValidationTest extends KPMETestCase {
 
     public static final String USER_PRINCIPAL_ID = "admin";
 	private Date JAN_AS_OF_DATE = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+	private String documentId;
+	
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
 
+        CalendarEntry calendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry("5000");
+        TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().openTimesheetDocument(USER_PRINCIPAL_ID, calendarEntry);
+        documentId = timesheetDocument.getDocumentId();
+    }
+    
     @Test
     /**
      * Example test to demonstrate adding time blocks to a time sheet using
      * HTMLUnit rather than JS calls.
      */
     public void testExample1ShouldBeValidationErrors() throws Exception {
-        // Load document 2 -- an initiated document 1/15 - 2/01 // 2011
-        String tdocId = "2"; // The timesheet to open.
-        String baseUrl = TkTestConstants.Urls.TIME_DETAIL_URL + "?documentId=" + tdocId;
+        String baseUrl = TkTestConstants.Urls.TIME_DETAIL_URL + "?documentId=" + documentId;
         HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
         Assert.assertNotNull(page);
         String pageAsText = page.asText();
@@ -67,7 +76,7 @@ public class SimpleTimeEntryValidationTest extends KPMETestCase {
         Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, new AssignmentDescriptionKey("30_30_30"), JAN_AS_OF_DATE);
 		EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode("RGN", JAN_AS_OF_DATE);
 
-        TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(tdocId);
+        TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
 
         // 2. Set Timeblock Start and End time
         // Note - in this case, we're setting time that is outside of the valid
@@ -92,9 +101,7 @@ public class SimpleTimeEntryValidationTest extends KPMETestCase {
      * HTMLUnit rather than JS calls.
      */
     public void testExample2AddValidTimeBlock() throws Exception {
-        // Load document 2 -- an initiated document 1/15 - 2/01 // 2011
-        String tdocId = "2"; // The timesheet to open.
-        String baseUrl = TkTestConstants.Urls.TIME_DETAIL_URL + "?documentId=" + tdocId;
+        String baseUrl = TkTestConstants.Urls.TIME_DETAIL_URL + "?documentId=" + documentId;
         HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
         Assert.assertNotNull(page);
         //HtmlUnitUtil.createTempFile(page, "SimpleTimeEntry");
@@ -109,7 +116,7 @@ public class SimpleTimeEntryValidationTest extends KPMETestCase {
         Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(USER_PRINCIPAL_ID, new AssignmentDescriptionKey("30_30_30"), JAN_AS_OF_DATE);
 		EarnCode earnCode = TkServiceLocator.getEarnCodeService().getEarnCode("RGN", JAN_AS_OF_DATE);
 
-        TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(tdocId);
+        TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(documentId);
 
         // 2. Set Timeblock Start and End time
         // 1/18/2011 - 8a to 10a

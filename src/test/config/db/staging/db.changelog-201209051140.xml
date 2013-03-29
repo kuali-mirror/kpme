@@ -99,9 +99,6 @@
         <insert tableName="HR_PRINCIPAL_ATTRIBUTE_S">
             <column name="ID" value="6" />
         </insert>
-        <insert tableName="HR_ROLES_S">
-            <column name="ID" value="12" />
-        </insert>
         <insert tableName="HR_SAL_GROUP_S">
             <column name="ID" value="3" />
         </insert>
@@ -150,9 +147,6 @@
         <loadData tableName="HR_PRINCIPAL_ATTRIBUTES_T" file="src/test/config/db/staging/db.changelog-201209051140/hr_principal_attributes_t.csv">
             <column name="EFFDT" header="EFFDT" type="DATE" />
             <column name="SERVICE_DATE" header="SERVICE_DATE" type="DATE" />
-        </loadData>
-        <loadData tableName="HR_ROLES_T" file="src/test/config/db/staging/db.changelog-201209051140/hr_roles_t.csv">
-            <column name="EFFDT" header="EFFDT" type="DATE" />
         </loadData>
         <loadData tableName="HR_SAL_GROUP_T" file="src/test/config/db/staging/db.changelog-201209051140/hr_sal_group_t.csv">
             <column name="EFFDT" header="EFFDT" type="DATE" />

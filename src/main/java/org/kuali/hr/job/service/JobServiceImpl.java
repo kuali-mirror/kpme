@@ -93,11 +93,6 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public List<Job> getActiveJobsForPosition(String positionNbr, Date asOfDate) {
-        return jobDao.getActiveJobsForPosition(positionNbr, asOfDate);
-    }
-
-    @Override
     public List<Job> getActiveJobsForPayType(String hrPayType, Date asOfDate) {
         return jobDao.getActiveJobsForPayType(hrPayType, asOfDate);
     }
@@ -190,6 +185,11 @@ public class JobServiceImpl implements JobService {
     @Override
     public Job getMaxTimestampJob(String principalId) {
     	return jobDao.getMaxTimestampJob(principalId);
+    }
+    
+    @Override
+    public List<String> getPrincipalIdsInPosition(String positionNumber, Date asOfDate) {
+        return jobDao.getPrincipalIdsInPosition(positionNumber, asOfDate);
     }
     
 }

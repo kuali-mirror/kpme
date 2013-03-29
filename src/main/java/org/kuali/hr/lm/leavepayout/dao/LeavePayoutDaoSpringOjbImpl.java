@@ -21,13 +21,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-
-import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leavepayout.LeavePayout;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 
@@ -140,6 +140,50 @@ public class LeavePayoutDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb impleme
 	@Override
 	public void saveOrUpdate(LeavePayout payout) {
 		this.getPersistenceBrokerTemplate().store(payout);
+	}
+
+	@Override
+	public List<LeavePayout> getLeavePayouts(String principalId, String fromAccrualCategory, String payoutAmount, String earnCode, String forfeitedAmount, Date fromEffdt, Date toEffdt) {
+        List<LeavePayout> results = new ArrayList<LeavePayout>();
+    	
+    	Criteria root = new Criteria();
+
+        if (StringUtils.isNotBlank(principalId)) {
+            root.addLike("principalId", principalId);
+        }
+        
+        if (StringUtils.isNotBlank(fromAccrualCategory)) {
+            root.addLike("fromAccrualCategory", fromAccrualCategory);
+        }
+        
+        if (StringUtils.isNotBlank(payoutAmount)) {
+        	root.addLike("payoutAmount", payoutAmount);
+        }
+        
+        if (StringUtils.isNotBlank(earnCode)) {
+        	root.addLike("earnCode", earnCode);
+        }
+        
+        if (StringUtils.isNotBlank(forfeitedAmount)) {
+        	root.addLike("forfeitedAmount", forfeitedAmount);
+        }
+        
+        Criteria effectiveDateFilter = new Criteria();
+        if (fromEffdt != null) {
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+        }
+        if (toEffdt != null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
+        }
+        if (fromEffdt == null && toEffdt == null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+        }
+        root.addAndCriteria(effectiveDateFilter);
+
+        Query query = QueryFactory.newQuery(LeavePayout.class, root);
+        results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
+
+        return results;
 	}
 
 }

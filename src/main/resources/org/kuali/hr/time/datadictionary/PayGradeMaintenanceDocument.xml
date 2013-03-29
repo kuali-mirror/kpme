@@ -31,7 +31,7 @@
   		p:businessObjectClass="org.kuali.hr.paygrade.PayGrade"
   		p:businessRulesClass="org.kuali.hr.paygrade.validation.PayGradeValidation"
   		p:maintainableClass="org.kuali.hr.paygrade.service.PayGradeMaintainableServiceImpl"
-  		p:documentAuthorizerClass="org.kuali.hr.time.authorization.LocationAdminAuthorizer">
+  		p:documentAuthorizerClass="org.kuali.hr.paygrade.authorization.PayGradeAuthorizer">
     <property name="maintainableSections">
       <list>
         <ref bean="PayGradeMaintenanceDocument-PayGradeMaintenance"/>

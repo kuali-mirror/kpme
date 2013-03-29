@@ -15,7 +15,10 @@
  */
 package org.kuali.hr.time.service.base;
 
+import org.kuali.hr.core.group.service.HRGroupService;
 import org.kuali.hr.core.notification.service.KPMENotificationService;
+import org.kuali.hr.core.permission.service.HRPermissionService;
+import org.kuali.hr.core.role.service.HRRoleService;
 import org.kuali.hr.job.service.JobService;
 import org.kuali.hr.lm.accrual.service.AccrualCategoryMaxBalanceService;
 import org.kuali.hr.lm.accrual.service.AccrualCategoryMaxCarryOverService;
@@ -36,6 +39,8 @@ import org.kuali.hr.lm.leavedonation.service.LeaveDonationService;
 import org.kuali.hr.lm.leavepayout.service.LeavePayoutService;
 import org.kuali.hr.lm.leaveplan.service.LeavePlanService;
 import org.kuali.hr.lm.leaverequest.service.LeaveRequestDocumentService;
+import org.kuali.hr.lm.permission.service.LMPermissionService;
+import org.kuali.hr.lm.role.service.LMRoleService;
 import org.kuali.hr.lm.timeoff.service.SystemScheduledTimeOffService;
 import org.kuali.hr.lm.workflow.service.LeaveCalendarDocumentHeaderService;
 import org.kuali.hr.location.service.LocationService;
@@ -58,12 +63,11 @@ import org.kuali.hr.time.missedpunch.service.MissedPunchService;
 import org.kuali.hr.time.overtime.daily.rule.service.DailyOvertimeRuleService;
 import org.kuali.hr.time.overtime.weekly.rule.service.WeeklyOvertimeRuleService;
 import org.kuali.hr.time.paytype.service.PayTypeService;
-import org.kuali.hr.time.permissions.TkPermissionsService;
+import org.kuali.hr.time.permission.service.TKPermissionService;
 import org.kuali.hr.time.person.service.PersonService;
 import org.kuali.hr.time.position.service.PositionService;
 import org.kuali.hr.time.principal.service.PrincipalHRAttributesService;
-import org.kuali.hr.time.roles.service.TkRoleGroupService;
-import org.kuali.hr.time.roles.service.TkRoleService;
+import org.kuali.hr.time.role.service.TKRoleService;
 import org.kuali.hr.time.rule.TkRuleControllerService;
 import org.kuali.hr.time.salgroup.service.SalGroupService;
 import org.kuali.hr.time.shiftdiff.rule.service.ShiftDifferentialRuleService;
@@ -93,7 +97,6 @@ import org.springmodules.orm.ojb.PersistenceBrokerTemplate;
 public class TkServiceLocator implements ApplicationContextAware {
 	public static String SPRING_BEANS = "classpath:SpringBeans.xml";
 	private static ApplicationContext CONTEXT;
-	public static final String TK_PERMISSIONS_SERVICE = "permissionsService";
 	public static final String TK_CLOCK_LOG_SERVICE = "clockLogService";
 	public static final String TK_ASSIGNMENT_SERVICE = "assignmentService";
 	public static final String TK_ASSIGNMENT_DAO     = "assignmentDao";
@@ -113,8 +116,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static final String TK_EARN_CODE_SECURITY = "earnCodeSecurityService";
 	public static final String TK_EARN_CODE = "earnCodeService";
 	public static final String TK_TIME_COLLECTION_RULE_SERVICE = "timeCollectionRuleService";
-	public static final String TK_ROLE_SERVICE = "tkRoleService";
-	public static final String TK_ROLE_GROUP_SERVICE = "tkRoleGroupService";
 	public static final String TK_TIME_SUMMARY_SERVICE = "timeSummaryService";
 	public static final String TK_TIME_EARN_CODE_GROUP_SERVICE = "earnCodeGroupService";
 	public static final String TK_TIME_HOUR_DETAIL_SERVICE= "timeHourDetailService";
@@ -165,7 +166,15 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static final String LM_LEAVE_PAYOUT_SERVICE = "leavePayoutService";
 	public static final String KPME_DISTRIBUTED_CACHE_MANAGER = "kpmeDistributedCacheManager";
     public static final String KPME_NOTIFICATION_SERVICE = "kpmeNotificationService";
+	
+    public static final String HR_GROUP_SERVICE = "hrGroupService";
+    public static final String HR_PERMISSION_SERVICE = "hrPermissionService";
+    public static final String HR_ROLE_SERVICE = "hrRoleService";
     
+    public static final String TK_PERMISSION_SERVICE = "tkPermissionService";
+    public static final String LM_PERMISSION_SERVICE = "lmPermissionService";
+    public static final String TK_ROLE_SERVICE = "tkRoleService";
+    public static final String LM_ROLE_SERVICE = "lmRoleService";
     
     public static MissedPunchService getMissedPunchService() {
         return (MissedPunchService) CONTEXT.getBean(TK_MISSED_PUNCH_SERVICE);
@@ -194,14 +203,6 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static DailyOvertimeRuleService getDailyOvertimeRuleService() {
 		return (DailyOvertimeRuleService) CONTEXT.getBean(TK_DAILY_OVERTIME_RULE_SERVICE);
 	}
-
-	public static TkRoleService getTkRoleService() {
-		return (TkRoleService) CONTEXT.getBean(TK_ROLE_SERVICE);
-	}
-
-	public static TkRoleGroupService getTkRoleGroupService() {
-		return (TkRoleGroupService) CONTEXT.getBean(TK_ROLE_GROUP_SERVICE);
-	}
 	
 	public static TimesheetDocumentHeaderService getTimesheetDocumentHeaderService() {
 		return (TimesheetDocumentHeaderService) CONTEXT.getBean(TK_TIMESHEET_DOCUMENT_HEADER_SERVICE);
@@ -218,14 +219,13 @@ public class TkServiceLocator implements ApplicationContextAware {
 	public static ClockLogService getClockLogService(){
 	    return (ClockLogService)CONTEXT.getBean(TK_CLOCK_LOG_SERVICE);
 	}
-	
-	public static TkPermissionsService getPermissionsService(){
-	    return (TkPermissionsService)CONTEXT.getBean(TK_PERMISSIONS_SERVICE);
-	}
 
     public static DistributedCacheManagerDecorator getDistributedCacheManager() {
         return (DistributedCacheManagerDecorator)CONTEXT.getBean(KPME_DISTRIBUTED_CACHE_MANAGER);
     }
+
+
+
 
 	public static AssignmentService getAssignmentService(){
 	    return (AssignmentService)CONTEXT.getBean(TK_ASSIGNMENT_SERVICE);
@@ -443,12 +443,37 @@ public class TkServiceLocator implements ApplicationContextAware {
     public static KPMENotificationService getKPMENotificationService() {
     	return (KPMENotificationService) CONTEXT.getBean(KPME_NOTIFICATION_SERVICE);
     }
+    
+    public static HRGroupService getHRGroupService() {
+    	return (HRGroupService) CONTEXT.getBean(HR_GROUP_SERVICE);
+    }
+    public static HRPermissionService getHRPermissionService() {
+    	return (HRPermissionService) CONTEXT.getBean(HR_PERMISSION_SERVICE);
+    }
+    public static HRRoleService getHRRoleService() {
+    	return (HRRoleService) CONTEXT.getBean(HR_ROLE_SERVICE);
+    }
+    
+    public static TKPermissionService getTKPermissionService() {
+    	return (TKPermissionService) CONTEXT.getBean(TK_PERMISSION_SERVICE);
+    }
+    public static LMPermissionService getLMPermissionService() {
+    	return (LMPermissionService) CONTEXT.getBean(LM_PERMISSION_SERVICE);
+    }
+    public static TKRoleService getTKRoleService() {
+    	return (TKRoleService) CONTEXT.getBean(TK_ROLE_SERVICE);
+    }
+    public static LMRoleService getLMRoleService() {
+    	return (LMRoleService) CONTEXT.getBean(LM_ROLE_SERVICE);
+    }
+    
     public static LeaveRequestDocumentService getLeaveRequestDocumentService() {
         return (LeaveRequestDocumentService) CONTEXT.getBean(LM_LEAVE_REQUEST_DOC_SERVICE);
     }
     public static AccrualCategoryMaxCarryOverService getAccrualCategoryMaxCarryOverService() {
     	return (AccrualCategoryMaxCarryOverService) CONTEXT.getBean(LM_ACCRUAL_CATEGORY_MAX_CARRY_OVER_SERVICE);
     }
+	
 	@Override
 	public void setApplicationContext(ApplicationContext arg0) throws BeansException {
 	    CONTEXT = arg0;

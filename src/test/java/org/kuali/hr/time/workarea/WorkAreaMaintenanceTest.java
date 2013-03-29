@@ -23,7 +23,6 @@ import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -46,7 +45,7 @@ public class WorkAreaMaintenanceTest extends KPMETestCase {
 		WorkArea workArea = new WorkArea();
 		workArea.setTkWorkAreaId("1111");
 		workArea.setWorkArea(4444L);
-		workArea.setOvertimeEditRole(TkConstants.ROLE_TK_EMPLOYEE);
+		workArea.setOvertimeEditRole("Employee");
 		workArea.setEffectiveDate(new Date(System.currentTimeMillis()));
 		KRADServiceLocator.getBusinessObjectService().save(workArea);
 	}

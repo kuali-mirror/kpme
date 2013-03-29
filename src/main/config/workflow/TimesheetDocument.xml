@@ -16,22 +16,26 @@
     limitations under the License.
 
 -->
-<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="ns:workflow resource:WorkflowData">
+<data xmlns="ns:workflow" 
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="ns:workflow resource:WorkflowData">
     <documentTypes xmlns="ns:workflow/DocumentType"
-        xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
+                   xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">
 		<documentType>
             <name>TimesheetDocument</name>
 			<parent>RiceDocument</parent>
-			<superUserWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</superUserWorkgroupName>
-			<blanketApproveWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</blanketApproveWorkgroupName>
-			<defaultExceptionWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</defaultExceptionWorkgroupName>
-			<description>TK Timesheet</description>
-			<label>TK Timesheet</label>
+			<superUserGroupName namespace="KPME-HR">System Administrator</superUserGroupName>
+			<blanketApproveGroupName namespace="KPME-HR">System Administrator</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KPME-HR">System Administrator</defaultExceptionGroupName>
+			<description>Timesheet Document</description>
+			<label>TimesheetDocument</label>
+            <docHandler>${kuali.docHandler.url.prefix}/Timesheet.do?methodToCall=docHandler</docHandler>
+            <postProcessorName>org.kuali.hr.time.workflow.postprocessor.TkPostProcessor</postProcessorName>
+            <active>true</active>
+            <routingVersion>1</routingVersion>
 			<attributes>
 				<attribute>
-					<name>TimesheetWorkareaSearchAttribute</name>
+					<name>TimesheetWorkAreaSearchAttribute</name>
 				</attribute>
 				<attribute>
 					<name>TimesheetDepartmentSearchAttribute</name>
@@ -43,10 +47,6 @@
 					<name>TimesheetPayCalEndSearchAttribute</name>
 				</attribute>
 			</attributes>
-			<postProcessorName>org.kuali.hr.time.workflow.postprocessor.TkPostProcessor</postProcessorName>
-			<docHandler>${kuali.docHandler.url.prefix}/Timesheet.do?methodToCall=docHandler</docHandler>
-			<active>true</active>
-			<routingVersion>1</routingVersion>
 			<routePaths>
 				<routePath>
 					<start name="adhoc" nextNode="Timesheet Attribute" />
@@ -55,15 +55,15 @@
 			</routePaths>
 			<routeNodes>
 				<start name="adhoc">
-					<exceptionWorkgroup>KPME-WKFLW:TK_SYSTEM_ADMIN</exceptionWorkgroup>
+					<exceptionGroupName namespace="KPME-HR">System Administrator</exceptionGroupName>
 					<activationType>S</activationType>
 					<mandatoryRoute>false</mandatoryRoute>
 					<finalApproval>false</finalApproval>
 				</start>
 				<requests name="Timesheet Attribute">
-					<exceptionWorkgroup>KPME-WKFLW:TK_SYSTEM_ADMIN</exceptionWorkgroup>
+					<exceptionGroupName namespace="KPME-HR">System Administrator</exceptionGroupName>
 					<activationType>S</activationType>
-					<ruleTemplate>TkWorkflowTimesheetTemplate</ruleTemplate>
+					<ruleTemplate>TimesheetRuleTemplate</ruleTemplate>
 					<mandatoryRoute>true</mandatoryRoute>
 					<finalApproval>true</finalApproval>
 				</requests>
@@ -82,12 +82,12 @@
 	</documentTypes>
     
     <ruleAttributes xmlns="ns:workflow/RuleAttribute" 
-        xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+                    xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
         <ruleAttribute>
-            <name>TimesheetWorkareaSearchAttribute</name>
+            <name>TimesheetWorkAreaSearchAttribute</name>
             <className>org.kuali.rice.kew.docsearch.xml.StandardGenericXMLSearchableAttribute</className>
-            <label>TimesheetWorkareaSearchAttribute</label>
-            <description>TimesheetWorkareaSearchAttribute</description>
+            <label>TimesheetWorkAreaSearchAttribute</label>
+            <description>TimesheetWorkAreaSearchAttribute</description>
             <type>SearchableXmlAttribute</type>
             <searchingConfig>
                 <fieldDef name="workarea" title="Work Area">
@@ -152,22 +152,23 @@
             </searchingConfig>
         </ruleAttribute>
         <ruleAttribute>
-            <name>TkWorkflowTimesheetAttribute</name>
-            <className>org.kuali.hr.time.workflow.TkWorkflowTimesheetAttribute</className>
-            <label>TkWorkflowTimesheetAttribute</label>
-            <description>TkWorkflowTimesheetAttribute</description>
+            <name>TimesheetRoleAttribute</name>
+            <className>org.kuali.hr.time.workflow.TimesheetRoleAttribute</className>
+            <label>TimesheetRoleAttribute</label>
+            <description>TimesheetRoleAttribute</description>
             <type>RuleAttribute</type>
+            <applicationId>KPME</applicationId>
         </ruleAttribute>
     </ruleAttributes>
     
     <ruleTemplates xmlns="ns:workflow/RuleTemplate" 
-        xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
+                   xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
         <ruleTemplate allowOverwrite="true">
-            <name>TkWorkflowTimesheetTemplate</name>
-            <description>TkWorkflowTimesheetTemplate</description>
+            <name>TimesheetRuleTemplate</name>
+            <description>TimesheetRuleTemplate</description>
             <attributes>
                 <attribute>
-                    <name>TkWorkflowTimesheetAttribute</name>
+                    <name>TimesheetRoleAttribute</name>
                     <required>false</required>
                 </attribute>
             </attributes>
@@ -175,19 +176,25 @@
     </ruleTemplates>
     
     <rules xmlns="ns:workflow/Rule" 
-        xsi:schemaLocation="ns:workflow/Rule resource:Rule">
+           xsi:schemaLocation="ns:workflow/Rule resource:Rule">
         <rule>
-            <name>TkWorkflowTimesheetRule</name>
+            <name>TimesheetRule</name>
             <documentType>TimesheetDocument</documentType>
-            <ruleTemplate>TkWorkflowTimesheetTemplate</ruleTemplate>
-            <description>TkWorkflowTimesheetRule</description>
+            <ruleTemplate>TimesheetRuleTemplate</ruleTemplate>
+            <description>TimesheetRule</description>
             <forceAction>true</forceAction>
             <responsibilities>
                 <responsibility>
-                    <role>org.kuali.hr.time.workflow.TkWorkflowTimesheetAttribute!TK_APPROVER</role>
+                    <role>org.kuali.hr.time.workflow.TimesheetRoleAttribute!Approver</role>
                     <approvePolicy>F</approvePolicy>
                     <actionRequested>A</actionRequested>
                     <priority>1</priority>
+                </responsibility>
+                <responsibility>
+                    <role>org.kuali.hr.time.workflow.TimesheetRoleAttribute!Approver Delegate</role>
+                    <approvePolicy>F</approvePolicy>
+                    <actionRequested>A</actionRequested>
+                    <priority>2</priority>
                 </responsibility>
             </responsibilities>
         </rule>

@@ -22,6 +22,22 @@ import java.sql.Date;
 import java.util.List;
 
 public interface LocationService {
+	
+	/**
+	 * Get location by unique id
+	 * @param hrLocationId
+	 * @return
+	 */
+    @Cacheable(value= Location.CACHE_NAME, key="'hrLocationId=' + #p0")
+	public Location getLocation(String hrLocationId);
+    
+	/**
+	 * Get location count by location
+	 * @param location
+	 * @return
+	 */
+	public int getLocationCount(String location);
+    
 	/**
 	 * Get location as of a particular date
 	 * @param location
@@ -30,19 +46,11 @@ public interface LocationService {
 	 */
     @Cacheable(value= Location.CACHE_NAME, key="'location=' + #p0 + '|' + 'asOfDate=' + #p1")
 	public Location getLocation(String location, Date asOfDate);
-	/**
-	 * Get location by unique id
-	 * @param hrLocationId
-	 * @return
-	 */
-    @Cacheable(value= Location.CACHE_NAME, key="'hrLocationId=' + #p0")
-	public Location getLocation(String hrLocationId);
-	/**
-	 * Get location count by location
-	 * @param location
-	 * @return
-	 */
-	public int getLocationCount(String location);
+	
+	List<String> getViewOnlyLocations(String principalId);
+	
+	List<String> getAdministratorLocations(String principalId);
 
     List<Location> searchLocations(String location, String locationDescr, String active, String showHistory);
+
 }

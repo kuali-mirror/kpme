@@ -16,46 +16,44 @@
 
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
-        http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="Department" parent="Department-parentBean" />
-
-  <bean id="Department-parentBean" abstract="true" parent="BusinessObjectEntry">
-    <property name="businessObjectClass" value="org.kuali.hr.time.department.Department" />
-    <property name="inquiryDefinition" >
-      <ref bean="Department-inquiryDefinition" />
-    </property>
-    <property name="lookupDefinition" >
-      <ref bean="Department-lookupDefinition" />
-    </property>
-    <property name="titleAttribute" value="name" />
-    <property name="attributes" >
-      <list>
-      	<ref bean="Department-hrDeptId" />
-        <ref bean="Department-dept" />
-        <ref bean="Department-description" />
-        <ref bean="Department-org" />
-        <ref bean="Department-chart" />
-        <ref bean="Department-location" />
-        <ref bean="Department-effectiveDate" />
-        <ref bean="Department-timestamp" />
-        <ref bean="Department-active" />
-       </list>
-    </property>
-    <property name="objectLabel" value="department"/>
-
-    <property name="relationships">
-			<list>
-
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="chartObj" />
+    <bean id="Department" parent="Department-parentBean" />
+    <bean id="Department-parentBean" abstract="true" parent="BusinessObjectEntry">
+        <property name="businessObjectClass" value="org.kuali.hr.time.department.Department" />
+        <property name="titleAttribute" value="dept" />
+        <property name="objectLabel" value="Department" />
+        <property name="attributes">
+            <list>
+		      	<ref bean="Department-hrDeptId" />
+		        <ref bean="Department-dept" />
+		        <ref bean="Department-description" />
+		        <ref bean="Department-location" />
+		        <ref bean="Department-chart" />
+		        <ref bean="Department-org" />
+		        <ref bean="Department-effectiveDate" />
+		        <ref bean="Department-active" />
+		        <ref bean="Department-timestamp" />
+            </list>
+        </property>
+        <property name="relationships">
+            <list>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="locationObj" />
+                    <property name="primitiveAttributes">
+                        <list>
+                            <bean parent="PrimitiveAttributeDefinition" p:sourceName="location" p:targetName="location" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="RelationshipDefinition">
+                    <property name="objectAttributeName" value="chartObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="chart"
-								p:targetName="chartOfAccountsCode" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="chart" p:targetName="chartOfAccountsCode" />
 						</list>
 					</property>
 				</bean>
@@ -64,38 +62,33 @@
 					<property name="objectAttributeName" value="orgObj" />
 					<property name="primitiveAttributes">
 						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="org"
-								p:targetName="organizationCode" />
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="chart"
-                                p:targetName="chartOfAccountsCode" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="org" p:targetName="organizationCode" />
+							<bean parent="PrimitiveAttributeDefinition" p:sourceName="chart" p:targetName="chartOfAccountsCode" />
 						</list>
 					</property>
 				</bean>
-				
-				<bean parent="RelationshipDefinition">
-					<property name="objectAttributeName" value="locationObj" />
-					<property name="primitiveAttributes">
-						<list>
-							<bean parent="PrimitiveAttributeDefinition" p:sourceName="location"
-								p:targetName="location" />
-						</list>
-					</property>
-				</bean>				
 			</list>
 		</property>
-	<property name="collections">
-      <list>
-        <bean parent="CollectionDefinition" p:name="roles" p:label="Roles" p:shortLabel="Roles" p:summary="Roles" p:description="Roles"/>
-        <bean parent="CollectionDefinition" p:name="inactiveRoles" p:label="Inactive Roles" p:shortLabel="Inactive Roles" p:summary="Inactive Roles" p:description="Inactive Roles" />
-      </list>
-    </property>
-  </bean>
+        <property name="collections">
+            <list>
+		        <bean parent="CollectionDefinition" p:name="roleMembers" p:label="Role Members" p:shortLabel="Role Members" p:summary="Role Members" p:description="Role Members" />
+		        <bean parent="CollectionDefinition" p:name="inactiveRoleMembers" p:label="Inactive Role Members" p:shortLabel="Inactive Role Members" p:summary="Inactive Role Members" p:description="Inactive Role Members" />
+            </list>
+        </property>
+        <property name="inquiryDefinition">
+            <ref bean="Department-inquiryDefinition" />
+        </property>
+        <property name="lookupDefinition">
+            <ref bean="Department-lookupDefinition" />
+        </property>
+    </bean>
 
-<!-- Attribute Definitions -->
+    <!-- Attribute Definitions -->
 
-  <bean id="Department-hrDeptId" parent="Department-hrDeptId-parentBean"/>
-
-  <bean id="Department-hrDeptId-parentBean" abstract="true" parent="AttributeDefinition">
+    <bean id="Department-hrDeptId" parent="Department-hrDeptId-parentBean" />
+    <bean id="Department-hrDeptId-parentBean" abstract="true" parent="AttributeDefinition">
+   		<property name="name" value="hrDeptId" />
+        <property name="label" value="Department Id" />
    		<property name="shortLabel" value="Department Id" />
 		<property name="maxLength" value="60" />
 		<property name="validationPattern">
@@ -106,216 +99,214 @@
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="60" />
 		</property>
-		<property name="name" value="hrDeptId" />
-		<property name="label" value="Department Id" />
-  </bean>
+    </bean>
 
-  <bean id="Department-dept" parent="Department-dept-parentBean"/>
+    <bean id="Department-dept" parent="Department-dept-parentBean" />
+    <bean id="Department-dept-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="dept" />
+        <property name="label" value="Department" />
+        <property name="shortLabel" value="Department" />
+	    <property name="forceUppercase" value="true" />
+	    <property name="maxLength" value="21" />
+	    <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+	    <property name="control">
+            <bean parent="TextControlDefinition" p:size="21" />
+	    </property>
+    </bean>
 
-  <bean id="Department-dept-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="forceUppercase" value="true" />
-    <property name="shortLabel" value="Department"/>
-    <property name="maxLength" value="21"/>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="21"/>
-    </property>
-    <property name="name" value="dept"/>
-    <property name="label" value="Department"/>
-  </bean>
-
-  <bean id="Department-description" parent="Department-description-parentBean" />
-  <bean id="Department-description-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="forceUppercase" value="false" />
-
-    <property name="maxLength" value="75" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="30" />
-    </property>
-
-    <property name="name" value="description" />
-    <property name="label" value="Description" />
-    <property name="description" value="Description" />
-  </bean>
+    <bean id="Department-description" parent="Department-description-parentBean" />
+    <bean id="Department-description-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="description" />
+        <property name="label" value="Description" />
+        <property name="shortLabel" value="Description" />
+	    <property name="forceUppercase" value="false" />
+	    <property name="maxLength" value="75" />
+	    <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="true" />
+            </bean>
+        </property>
+	    <property name="control">
+            <bean parent="TextControlDefinition" p:size="30" />
+	    </property>
+    </bean>
   
-  <bean id="Department-location" parent="Department-location-parentBean" />
-  <bean id="Department-location-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="forceUppercase" value="false" />
+    <bean id="Department-location" parent="Department-location-parentBean" />
+    <bean id="Department-location-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="location" />
+        <property name="label" value="Location" />
+        <property name="shortLabel" value="Location" />
+	    <property name="forceUppercase" value="false" />
+	    <property name="maxLength" value="20" />
+	    <property name="control">
+            <bean parent="TextControlDefinition" p:size="20" />
+	    </property>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="Department-chart" parent="Department-chart-parentBean" />
+    <bean id="Department-chart-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="chart" />
+        <property name="label" value="Chart" />
+        <property name="shortLabel" value="Chart" />
+        <property name="forceUppercase" value="true" />
+        <property name="maxLength" value="10" />
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10" />
+        </property>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+    </bean>
 
-    <property name="maxLength" value="20" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="20" />
-    </property>
+    <bean id="Department-org" parent="Department-org-parentBean" />
+    <bean id="Department-org-parentBean" abstract="true" parent="AttributeDefinition">
+	 	<property name="name" value="org" />
+        <property name="label" value="Organization" />
+        <property name="shortLabel" value="Organization" />
+	 	<property name="forceUppercase" value="true" />
+	    <property name="maxLength" value="10" />
+	    <property name="control">
+            <bean parent="TextControlDefinition" p:size="10" />
+	    </property>
+        <property name="validationPattern">
+            <bean parent="AnyCharacterValidationPattern">
+                <property name="allowWhitespace" value="false" />
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="Department-effectiveDate" parent="Department-effectiveDate-parentBean" />
+    <bean id="Department-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
+	    <property name="name" value="effectiveDate" />
+        <property name="label" value="Effective Date" />
+	    <property name="shortLabel" value="Effective Date" />
+	    <property name="maxLength" value="10" />
+	    <property name="validationPattern">
+	       <bean parent="DateValidationPattern" />
+	    </property>
+	    <property name="control">
+            <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
+	    </property>
+	    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlDateFormatter" />
+    </bean>
 
-    <property name="name" value="location" />
-    <property name="label" value="Location" />
-    <property name="description" value="Location" />
-  </bean>  
+    <bean id="Department-active" parent="Department-active-parentBean" />
+    <bean id="Department-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator">
+        <property name="name" value="active" />
+        <property name="label" value="Active" />
+    </bean>
 
-  <bean id="Department-org" parent="Department-org-parentBean" />
-  <bean id="Department-org-parentBean" abstract="true" parent="AttributeDefinition">
- 	<property name="forceUppercase" value="true" />
-
-    <property name="maxLength" value="10" />
-    <property name="control" >
-      <bean parent="TextControlDefinition" p:size="10" />
-    </property>
-
-    <property name="name" value="org" />
-    <property name="label" value="Org" />
-    <property name="description" value="Org" />
-
-  </bean>
-
-
-  <bean id="Department-chart" parent="Department-chart-parentBean" />
-  <bean id="Department-chart-parentBean" abstract="true" parent="AttributeDefinition">
-      <property name="forceUppercase" value="true" />
-	  <property name="maxLength" value="10" />
-      <property name="control" >
-      <bean parent="TextControlDefinition" p:size="10" />
-      </property>
-
-    <property name="name" value="chart" />
-    <property name="label" value="Chart" />
-    <property name="description" value="Chart" />
-  </bean>
-
-	<!-- timestamp -->
 	<bean id="Department-timestamp" parent="Department-timestamp-parentBean" />
-	<bean id="Department-timestamp-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="timestamp" />
+	<bean id="Department-timestamp-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="name" value="timestamp" />
+        <property name="label" value="Timestamp" />
+		<property name="shortLabel" value="Timestamp" />
 		<property name="maxLength" value="15" />
 		<property name="control">
 			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
 		</property>
-		<property name="formatterClass"
-			value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
-		<property name="name" value="timestamp" />
-		<property name="label" value="Time Stamp" />
+		<property name="formatterClass" value="org.kuali.rice.core.web.format.TimestampAMPMFormatter" />
 	</bean>
-	
-  <bean id="Department-effectiveDate" parent="Department-effectiveDate-parentBean"/>
-  <bean id="Department-effectiveDate-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Effective Date"/>
-    <property name="maxLength" value="10"/>
-    <property name="validationPattern">
-    <bean parent="DateValidationPattern"/>
-    </property>
-    <property name="control">
-      <bean parent="TextControlDefinition" p:size="10" p:datePicker="true" />
-    </property>
-    <property name="formatterClass" value="org.kuali.hr.time.rice.kns.web.format.SqlDateFormatter"/>
-    <property name="name" value="effectiveDate"/>
-    <property name="label" value="Effective Date"/>
-  </bean>
 
-    <bean id="Department-active" parent="Department-active-parentBean"/>
-  <bean id="Department-active-parentBean" abstract="true" parent="AttributeDefinition">
-    <property name="shortLabel" value="Active"/>
-    <property name="control">
-      <bean parent="CheckboxControlDefinition"/>
-    </property>
-    <property name="name" value="active"/>
-    <property name="label" value="Active"/>
-    <property name="formatterClass" value="org.kuali.rice.core.web.format.BooleanFormatter"/>
-  </bean>
+    <!-- Business Object Inquiry Definition -->
 
-
-<!-- Business Object Inquiry Definition -->
-
-
-  <bean id="Department-inquiryDefinition" parent="Department-inquiryDefinition-parentBean" />
-
-  <bean id="Department-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:inquirableClass="org.kuali.hr.time.department.DepartmentInquirableImpl">
-    <property name="inquirySections" >
-      <list>
-        <bean parent="InquirySectionDefinition">
-          <property name="numberOfColumns" value="1" />
-          <property name="inquiryFields" >
+    <bean id="Department-inquiryDefinition" parent="Department-inquiryDefinition-parentBean" />
+    <bean id="Department-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition" p:inquirableClass="org.kuali.hr.time.department.DepartmentInquirableImpl">
+        <property name="title" value="Department Inquiry" />
+        <property name="translateCodes" value="false" />
+        <property name="inquirySections">
             <list>
-              <bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-			  <bean parent="FieldDefinition" p:attributeName="dept" />
-	          <bean parent="FieldDefinition" p:attributeName="description" />
-	          <bean parent="FieldDefinition" p:attributeName="location" />
-	          <bean parent="FieldDefinition" p:attributeName="chart"/>
-	          <bean parent="FieldDefinition" p:attributeName="org"/>
-	          <bean parent="FieldDefinition" p:attributeName="active" />
+                <bean parent="InquirySectionDefinition" p:title="Department">
+                    <property name="numberOfColumns" value="1" />
+                    <property name="inquiryFields">
+                        <list>
+							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
+							<bean parent="FieldDefinition" p:attributeName="dept" />
+							<bean parent="FieldDefinition" p:attributeName="description" />
+							<bean parent="FieldDefinition" p:attributeName="location" />
+							<bean parent="FieldDefinition" p:attributeName="chart" />
+							<bean parent="FieldDefinition" p:attributeName="org" />
+							<bean parent="FieldDefinition" p:attributeName="active" />
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="InquirySectionDefinition" p:title="Role Members">
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="InquiryCollectionDefinition" p:attributeName="roleMembers" p:businessObjectClass="org.kuali.hr.core.role.department.DepartmentPrincipalRoleMemberBo">
+                                <property name="inquiryFields">
+                                    <list>
+										<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" />
+                                        <bean parent="FieldDefinition" p:attributeName="principalId" />
+                                        <bean parent="FieldDefinition" p:attributeName="principalName" />
+                                        <bean parent="FieldDefinition" p:attributeName="roleName" />
+                                        <bean parent="FieldDefinition" p:attributeName="expirationDate" p:noInquiry="true" />
+                                        <bean parent="FieldDefinition" p:attributeName="active" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="InquirySectionDefinition" p:title="Inactive Role Members">
+                    <property name="inquiryFields">
+                        <list>
+                            <bean parent="InquiryCollectionDefinition" p:attributeName="inactiveRoleMembers" p:businessObjectClass="org.kuali.hr.core.role.department.DepartmentPrincipalRoleMemberBo">
+                                <property name="inquiryFields">
+                                    <list>
+										<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" />
+                                        <bean parent="FieldDefinition" p:attributeName="principalId" />
+                                        <bean parent="FieldDefinition" p:attributeName="principalName" />
+                                        <bean parent="FieldDefinition" p:attributeName="roleName" />
+                                        <bean parent="FieldDefinition" p:attributeName="expirationDate" p:noInquiry="true" />
+                                        <bean parent="FieldDefinition" p:attributeName="active" />
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
             </list>
-          </property>
-          <property name="title" value="Department" />
-        </bean>
-      	<bean parent="InquirySectionDefinition" p:title="Roles">
-			<property name="inquiryFields">
-				<list>
-					<bean parent="InquiryCollectionDefinition" p:attributeName="roles"
-						p:businessObjectClass="org.kuali.hr.time.roles.TkRole">
-						<property name="inquiryFields">
-							<list>
-								<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-								<bean parent="FieldDefinition" p:attributeName="principalId" />
-								<bean parent="FieldDefinition" p:attributeName="userName" />
-								<bean parent="FieldDefinition" p:attributeName="roleName" />
-								<bean parent="FieldDefinition" p:attributeName="active" />
-							</list>
-						</property>
-					</bean>
-				</list>
-			</property>
-		</bean>
-		<bean parent="InquirySectionDefinition" p:title="Inactive Roles">
-			<property name="inquiryFields">
-				<list>
-					<bean parent="InquiryCollectionDefinition" p:attributeName="inactiveRoles"
-						p:businessObjectClass="org.kuali.hr.time.roles.TkRole">
-						<property name="inquiryFields">
-							<list>
-								<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
-								<bean parent="FieldDefinition" p:attributeName="principalId" />
-								<bean parent="FieldDefinition" p:attributeName="userName" />
-								<bean parent="FieldDefinition" p:attributeName="roleName" />
-								<bean parent="FieldDefinition" p:attributeName="active" />
-							</list>
-						</property>
-					</bean>
-				</list>
-			</property>
-		</bean>
-      </list>
-    </property>
-    <property name="translateCodes" value="false"/>
-    <!-- <property name="inquirableClass" value="edu.iu.hrms.hredoc.position.lookups.DepartmentInquirable" />-->
-    <property name="title" value="Department Inquiry" />
-  </bean>
+        </property>
+    </bean>
 
-<!-- Business Object Lookup Definition -->
+    <!-- Business Object Lookup Definition -->
 
-
-  <bean id="Department-lookupDefinition" parent="Department-lookupDefinition-parentBean" />
-
-  <bean id="Department-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
-  <property name="lookupableID" value="departmentLookupable" />
-    <property name="defaultSort" >
-      <bean parent="SortDefinition">
-      </bean>
-    </property>
-    <property name="lookupFields" >
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="dept" />
-        <bean parent="FieldDefinition" p:attributeName="location" />
-        <bean parent="FieldDefinition" p:attributeName="description" />
-        <bean parent="FieldDefinition" p:attributeName="active" />
-      </list>
-    </property>
-    <property name="resultFields" >
-      <list>
-        <bean parent="FieldDefinition" p:attributeName="dept" p:forceInquiry="true" />
-        <bean parent="FieldDefinition" p:attributeName="location" />
-        <bean parent="FieldDefinition" p:attributeName="description" />
-        <bean parent="FieldDefinition" p:attributeName="timestamp" />
-        <bean parent="FieldDefinition" p:attributeName="active" />
-      </list>
-    </property>
-    <property name="title" value="Department Lookup" />
-  </bean>
+    <bean id="Department-lookupDefinition" parent="Department-lookupDefinition-parentBean" />
+    <bean id="Department-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+        <property name="title" value="Department Lookup" />
+        <property name="lookupableID" value="departmentLookupable" />
+        <property name="defaultSort">
+            <bean parent="SortDefinition" />
+        </property>
+        <property name="lookupFields">
+            <list>
+		        <bean parent="FieldDefinition" p:attributeName="dept" />
+		        <bean parent="FieldDefinition" p:attributeName="location" />
+		        <bean parent="FieldDefinition" p:attributeName="description" />
+		        <bean parent="FieldDefinition" p:attributeName="active" />
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+		        <bean parent="FieldDefinition" p:attributeName="dept" p:forceInquiry="true" />
+		        <bean parent="FieldDefinition" p:attributeName="location" />
+		        <bean parent="FieldDefinition" p:attributeName="description" />
+		        <bean parent="FieldDefinition" p:attributeName="timestamp" />
+		        <bean parent="FieldDefinition" p:attributeName="active" />
+            </list>
+        </property>
+    </bean>
+    
 </beans>

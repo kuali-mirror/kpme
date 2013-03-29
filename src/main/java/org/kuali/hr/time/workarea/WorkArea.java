@@ -18,38 +18,122 @@ package org.kuali.hr.time.workarea;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Transient;
+
 import org.kuali.hr.core.KPMEConstants;
+import org.kuali.hr.core.role.workarea.WorkAreaPositionRoleMemberBo;
+import org.kuali.hr.core.role.workarea.WorkAreaPrincipalRoleMemberBo;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.earncode.EarnCode;
-import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.task.Task;
 
 public class WorkArea extends HrBusinessObject implements DepartmentalRule {
 
-	private static final long serialVersionUID = 307144025705246544L;
+	private static final long serialVersionUID = 2637145083387914260L;
 
 	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "WorkArea";
 
     private String tkWorkAreaId;
     private Long workArea;
     private String description;
+    private String overtimeEditRole;
+    private String defaultOvertimeEarnCode;
+    private Boolean ovtEarnCode;
     private String dept;
     private String adminDescr;
     private String userPrincipalId;
-    private String defaultOvertimeEarnCode;
-    private String overtimeEditRole;
-    private Boolean ovtEarnCode;
-    
 	private boolean history;
-
-    private List<TkRole> roles = new ArrayList<TkRole>();
-    private List<TkRole> inactiveRoles = new ArrayList<TkRole>();
+	
+    private EarnCode defaultOvertimeEarnCodeObj;
+    private Department department;
+    
+    @Transient
     private List<Task> tasks = new ArrayList<Task>();
 
-    private Department department;
-    private EarnCode defaultOvertimeEarnCodeObj;
+    @Transient
+    private List<WorkAreaPrincipalRoleMemberBo> principalRoleMembers = new ArrayList<WorkAreaPrincipalRoleMemberBo>();
+    
+    @Transient
+    private List<WorkAreaPrincipalRoleMemberBo> inactivePrincipalRoleMembers = new ArrayList<WorkAreaPrincipalRoleMemberBo>();
+    
+    @Transient
+    private List<WorkAreaPositionRoleMemberBo> positionRoleMembers = new ArrayList<WorkAreaPositionRoleMemberBo>();
+    
+    @Transient
+    private List<WorkAreaPositionRoleMemberBo> inactivePositionRoleMembers = new ArrayList<WorkAreaPositionRoleMemberBo>();
+    
+	@Override
+	public String getUniqueKey() {
+		return workArea != null ? workArea.toString() : "" + "_" + dept;
+	}
+    
+	@Override
+	public String getId() {
+		return getTkWorkAreaId();
+	}
+
+	@Override
+	public void setId(String id) {
+		setTkWorkAreaId(id);
+	}
+	
+	public String getTkWorkAreaId() {
+		return tkWorkAreaId;
+	}
+
+	public void setTkWorkAreaId(String tkWorkAreaId) {
+		this.tkWorkAreaId = tkWorkAreaId;
+	}
+	
+	public Long getWorkArea() {
+		return workArea;
+	}
+
+	public void setWorkArea(Long workArea) {
+		this.workArea = workArea;
+	}
+	
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    public String getOvertimeEditRole() {
+        return overtimeEditRole;
+    }
+
+    public void setOvertimeEditRole(String overtimeEditRole) {
+        this.overtimeEditRole = overtimeEditRole;
+    }
+    
+    public String getDefaultOvertimeEarnCode() {
+        return defaultOvertimeEarnCode;
+    }
+
+    public void setDefaultOvertimeEarnCode(String defaultOvertimeEarnCode) {
+        this.defaultOvertimeEarnCode = defaultOvertimeEarnCode;
+    }
+    
+	public Boolean getOvtEarnCode() {
+		return ovtEarnCode;
+	}
+
+	public void setOvtEarnCode(Boolean ovtEarnCode) {
+		this.ovtEarnCode = ovtEarnCode;
+	}
+	
+	public String getDept() {
+		return dept;
+	}
+
+	public void setDept(String dept) {
+		this.dept = dept;
+	}
 
     public String getAdminDescr() {
         return adminDescr;
@@ -66,78 +150,14 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
     public void setUserPrincipalId(String userPrincipalId) {
         this.userPrincipalId = userPrincipalId;
     }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-	public List<Task> getTasks() {
-	    return tasks;
+    
+	public boolean isHistory() {
+		return history;
 	}
 
-	public void setTasks(List<Task> tasks) {
-	    this.tasks = tasks;
+	public void setHistory(boolean history) {
+		this.history = history;
 	}
-
-	public String getTkWorkAreaId() {
-		return tkWorkAreaId;
-	}
-
-	public void setTkWorkAreaId(String tkWorkAreaId) {
-		this.tkWorkAreaId = tkWorkAreaId;
-	}
-
-	public Long getWorkArea() {
-		return workArea;
-	}
-
-	public void setWorkArea(Long workArea) {
-		this.workArea = workArea;
-	}
-
-	public String getDept() {
-		return dept;
-	}
-
-	public void setDept(String dept) {
-		this.dept = dept;
-	}
-
-	public List<TkRole> getInactiveRoles() {
-		return inactiveRoles;
-	}
-
-	public void setInactiveRoles(List<TkRole> inactiveRoles) {
-		this.inactiveRoles = inactiveRoles;
-	}
-
-	public List<TkRole> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<TkRole> roles) {
-		this.roles = roles;
-	}
-
-	public Department getDepartment() {
-		return department;
-	}
-
-	public void setDepartment(Department department) {
-		this.department = department;
-	}
-
-    public String getDefaultOvertimeEarnCode() {
-        return defaultOvertimeEarnCode;
-    }
-
-    public void setDefaultOvertimeEarnCode(String defaultOvertimeEarnCode) {
-        this.defaultOvertimeEarnCode = defaultOvertimeEarnCode;
-    }
 
     public EarnCode getDefaultOvertimeEarnCodeObj() {
         return defaultOvertimeEarnCodeObj;
@@ -146,44 +166,85 @@ public class WorkArea extends HrBusinessObject implements DepartmentalRule {
     public void setDefaultOvertimeEarnCodeObj(EarnCode defaultOvertimeEarnCodeObj) {
         this.defaultOvertimeEarnCodeObj = defaultOvertimeEarnCodeObj;
     }
-
-    public String getOvertimeEditRole() {
-        return overtimeEditRole;
-    }
-
-    public void setOvertimeEditRole(String overtimeEditRole) {
-        this.overtimeEditRole = overtimeEditRole;
-    }
-
-	public Boolean getOvtEarnCode() {
-		return ovtEarnCode;
-	}
-
-	public void setOvtEarnCode(Boolean ovtEarnCode) {
-		this.ovtEarnCode = ovtEarnCode;
-	}
-
-	@Override
-	public String getUniqueKey() {
-		return workArea != null ? workArea.toString() : "" +"_"+dept;
-	}
-
-	@Override
-	public String getId() {
-		return getTkWorkAreaId();
-	}
-
-	@Override
-	public void setId(String id) {
-		setTkWorkAreaId(id);
-	}
-
-	public boolean isHistory() {
-		return history;
-	}
-
-	public void setHistory(boolean history) {
-		this.history = history;
-	}
     
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+
+	public List<Task> getTasks() {
+	    return tasks;
+	}
+
+	public void setTasks(List<Task> tasks) {
+	    this.tasks = tasks;
+	}
+	
+	public List<WorkAreaPrincipalRoleMemberBo> getPrincipalRoleMembers() {
+		return principalRoleMembers;
+	}
+	
+	public void addPrincipalRoleMember(WorkAreaPrincipalRoleMemberBo principalRoleMember) {
+		principalRoleMembers.add(principalRoleMember);
+	}
+	
+	public void removePrincipalRoleMember(WorkAreaPrincipalRoleMemberBo principalRoleMember) {
+		principalRoleMembers.remove(principalRoleMember);
+	}
+	
+	public void setPrincipalRoleMembers(List<WorkAreaPrincipalRoleMemberBo> principalRoleMembers) {
+		this.principalRoleMembers = principalRoleMembers;
+	}
+
+	public List<WorkAreaPrincipalRoleMemberBo> getInactivePrincipalRoleMembers() {
+		return inactivePrincipalRoleMembers;
+	}
+	
+	public void addInactivePrincipalRoleMember(WorkAreaPrincipalRoleMemberBo inactivePrincipalRoleMember) {
+		inactivePrincipalRoleMembers.add(inactivePrincipalRoleMember);
+	}
+	
+	public void removeInactivePrincipalRoleMember(WorkAreaPrincipalRoleMemberBo inactivePrincipalRoleMember) {
+		inactivePrincipalRoleMembers.remove(inactivePrincipalRoleMember);
+	}
+
+	public void setInactivePrincipalRoleMembers(List<WorkAreaPrincipalRoleMemberBo> inactivePrincipalRoleMembers) {
+		this.inactivePrincipalRoleMembers = inactivePrincipalRoleMembers;
+	}
+
+	public List<WorkAreaPositionRoleMemberBo> getPositionRoleMembers() {
+		return positionRoleMembers;
+	}
+	
+	public void addPositionRoleMember(WorkAreaPositionRoleMemberBo positionRoleMember) {
+		positionRoleMembers.add(positionRoleMember);
+	}
+	
+	public void removePositionRoleMember(WorkAreaPositionRoleMemberBo positionRoleMember) {
+		positionRoleMembers.remove(positionRoleMember);
+	}
+
+	public void setPositionRoleMembers(List<WorkAreaPositionRoleMemberBo> positionRoleMembers) {
+		this.positionRoleMembers = positionRoleMembers;
+	}
+
+	public List<WorkAreaPositionRoleMemberBo> getInactivePositionRoleMembers() {
+		return inactivePositionRoleMembers;
+	}
+	
+	public void addInactivePositionRoleMember(WorkAreaPositionRoleMemberBo inactivePositionRoleMember) {
+		inactivePositionRoleMembers.add(inactivePositionRoleMember);
+	}
+	
+	public void removeInactivePositionRoleMember(WorkAreaPositionRoleMemberBo inactivePositionRoleMember) {
+		inactivePositionRoleMembers.remove(inactivePositionRoleMember);
+	}
+
+	public void setInactivePositionRoleMembers(List<WorkAreaPositionRoleMemberBo> inactivePositionRoleMembers) {
+		this.inactivePositionRoleMembers = inactivePositionRoleMembers;
+	}
+	
 }

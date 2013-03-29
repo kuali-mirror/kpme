@@ -15,6 +15,9 @@
  */
 package org.kuali.hr.lm.leavedonation.service;
 
+import java.sql.Date;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.kuali.hr.lm.leavedonation.LeaveDonation;
 import org.kuali.hr.lm.leavedonation.dao.LeaveDonationDao;
@@ -39,5 +42,11 @@ public class LeaveDonationServiceImpl implements LeaveDonationService {
     public LeaveDonation getLeaveDonation(String lmLeaveDonationId) {
         return getLeaveDonationDao().getLeaveDonation(lmLeaveDonationId);
     }
+
+
+	@Override
+	public List<LeaveDonation> getLeaveDonations(Date fromEffdt, Date toEffdt, String donorsPrincipalId, String donatedAccrualCategory, String amountDonated, String recipientsPrincipalId, String recipientsAccrualCategory, String amountReceived, String active, String showHist) {
+		return leaveDonationDao.getLeaveDonations(fromEffdt, toEffdt, donorsPrincipalId, donatedAccrualCategory, amountDonated, recipientsPrincipalId, recipientsAccrualCategory, amountReceived, active, showHist);
+	}
 
 }

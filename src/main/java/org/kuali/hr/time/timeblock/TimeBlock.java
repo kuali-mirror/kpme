@@ -31,6 +31,7 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kim.api.identity.Person;
@@ -572,19 +573,19 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
     }
 
 	public Boolean getDeleteable() {
-		return TkServiceLocator.getPermissionsService().canDeleteTimeBlock(this);
+		return TkServiceLocator.getTKPermissionService().canDeleteTimeBlock(TKContext.getPrincipalId(), this);
 	}
 
 	public Boolean getOvertimeEditable() {
-		return TkServiceLocator.getPermissionsService().canEditOvertimeEarnCode(this);
+		return TkServiceLocator.getTKPermissionService().canEditOvertimeEarnCode(this);
 	}
 	
 	public Boolean getRegEarnCodeEditable() {
-		return TkServiceLocator.getPermissionsService().canEditRegEarnCode(this);
+		return TkServiceLocator.getTKPermissionService().canEditRegEarnCode(this);
 	}
 
     public Boolean getTimeBlockEditable(){
-        return TkServiceLocator.getPermissionsService().canEditTimeBlock(this);
+        return TkServiceLocator.getTKPermissionService().canEditTimeBlock(TKContext.getPrincipalId(), this);
     }
 
     public boolean isLunchDeleted() {

@@ -34,6 +34,7 @@ import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.json.simple.JSONValue;
+import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
@@ -41,11 +42,10 @@ import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
-import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
-import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -167,17 +167,17 @@ public class ActionFormUtils {
             WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(timeBlock.getWorkArea(), new java.sql.Date(timeBlock.getEndTimestamp().getTime()));
             String workAreaDesc = workArea.getDescription();
 
-            // Roles
-            Boolean isAnyApprover = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isAnyApproverActive();
+            String principalId = GlobalVariables.getUserSession().getPrincipalId();
+            
+            boolean isAnyApprover = TkServiceLocator.getHRRoleService().principalHasRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime())
+					|| TkServiceLocator.getHRRoleService().principalHasRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime());
             timeBlockMap.put("isApprover", isAnyApprover);
             timeBlockMap.put("isSynchronousUser", timeBlock.getClockLogCreated());
 
-            // Permissions
-            timeBlockMap.put("canEditTb", TkServiceLocator.getPermissionsService().canEditTimeBlock(timeBlock));
-            timeBlockMap.put("canEditTBOvt", TkServiceLocator.getPermissionsService().canEditOvertimeEarnCode(timeBlock));
-            timeBlockMap.put("canAddTB", TkServiceLocator.getPermissionsService().canAddTimeBlock());
+            timeBlockMap.put("canEditTb", TkServiceLocator.getTKPermissionService().canEditTimeBlock(principalId, timeBlock));
+            timeBlockMap.put("canEditTBOvt", TkServiceLocator.getTKPermissionService().canEditOvertimeEarnCode(timeBlock));
 
-            if (TkServiceLocator.getPermissionsService().canEditTimeBlockAllFields(timeBlock)) {
+            if (TkServiceLocator.getTKPermissionService().canEditTimeBlockAllFields(principalId, timeBlock)) {
                 timeBlockMap.put("canEditTBAll", true);
                 timeBlockMap.put("canEditTBAssgOnly", false);
             } else {
@@ -279,7 +279,7 @@ public class ActionFormUtils {
         	DateTime leaveDate = new DateTime(leaveBlock.getLeaveDate());
         	leaveBlockMap.put("leaveDate", leaveDate.toString(TkConstants.DT_BASIC_DATE_FORMAT));
         	leaveBlockMap.put("id", leaveBlock.getLmLeaveBlockId());
-        	leaveBlockMap.put("canTransfer", TkServiceLocator.getPermissionsService().canTransferSSTOUsage(leaveBlock));
+        	leaveBlockMap.put("canTransfer", TkServiceLocator.getLMPermissionService().canTransferSSTOUsage(leaveBlock));
         	
         	
         	leaveBlockList.add(leaveBlockMap);
@@ -311,7 +311,7 @@ public class ActionFormUtils {
     // detect if the passed-in calendar entry is the current one
     public static boolean getOnCurrentPeriodFlag(CalendarEntry pce) {
     	Date currentDate = TKUtils.getTimelessDate(null);
-    	String viewPrincipal = TKUser.getCurrentTargetPersonId();
+    	String viewPrincipal = TKContext.getTargetPrincipalId();
         CalendarEntry calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal,  currentDate);
 
         if(pce != null && calendarEntry != null && calendarEntry.equals(pce)) {

@@ -20,24 +20,23 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.hr.time.roles.TkUserRoles;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kns.document.authorization.DocumentAuthorizer;
 import org.kuali.rice.kns.document.authorization.MaintenanceDocumentAuthorizer;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class SystemAdminAuthorizer implements MaintenanceDocumentAuthorizer, DocumentAuthorizer {
 	
 	public boolean isSystemAdmin(){
-		return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isSystemAdmin();
+		return TKContext.isSystemAdmin();
 	}
 	
 	public boolean isGlobalViewOnly(){
-		return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isGlobalViewOnly();
+		return TKContext.isGlobalViewOnly();
 	}
 
 	@Override

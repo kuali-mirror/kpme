@@ -26,10 +26,8 @@
 <body>
 	<c:if test="${!empty UserSession.loggedInUserPrincipalName}">
 		<c:set var="employeeName" value="${UserSession.person.name}" />
-		<c:set var="backdoorInUse"
-			value="${UserSession.backdoorInUse == 'true'}" />
-		<c:set var="targetInUse"
-			value='<%=org.kuali.hr.time.util.TKUser.isTargetInUse()%>' />
+		<c:set var="backdoorInUse" value="${UserSession.backdoorInUse == 'true'}" />
+		<c:set var="targetInUse" value='<%=org.kuali.hr.time.util.TKContext.isTargetInUse()%>' />
 	</c:if>
 
 	<c:if test="${backdoorInUse}">
@@ -39,13 +37,11 @@
 	</c:if>
 	<c:if test="${targetInUse}">
 		<c:set var="targetuser" value="targetuser" />
-		<c:set var="targetName"
-			value='<%=org.kuali.hr.time.util.TKUser
-						.getCurrentTargetPerson().getName()%>' />
+		<c:set var="targetName" value='<%=org.kuali.hr.time.util.TKContext.getTargetName()%>' />
 	</c:if>
 	
-	<c:set var="systemAdmin" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isSystemAdmin()%>' />
-    <c:set var="locationAdmin" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isLocationAdmin()%>' />
+	<c:set var="systemAdmin" value='<%=org.kuali.hr.time.util.TKContext.isSystemAdmin()%>' />
+    <c:set var="locationAdmin" value='<%=org.kuali.hr.time.util.TKContext.isLocationAdmin()%>' />
 
 
 	<input type="hidden" id="tabId" value="${tabId}" />

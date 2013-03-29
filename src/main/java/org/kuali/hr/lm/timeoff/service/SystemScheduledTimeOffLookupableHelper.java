@@ -15,17 +15,13 @@
  */
 package org.kuali.hr.lm.timeoff.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.core.lookup.KPMELookupableHelper;
 import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
-import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -33,32 +29,18 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-public class SystemScheduledTimeOffLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
+@SuppressWarnings("deprecation")
+public class SystemScheduledTimeOffLookupableHelper extends KPMELookupableHelper {
 
 	private static final long serialVersionUID = -1285064132683716221L;
 
 	@Override
+	@SuppressWarnings("rawtypes")
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-		List<HtmlData> customActionUrls = new ArrayList<HtmlData>();
-		
-		List<HtmlData> defaultCustomActionUrls = super.getCustomActionUrls(businessObject, pkNames);
+		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
 
 		SystemScheduledTimeOff systemScheduledTimeOff = (SystemScheduledTimeOff) businessObject;
 		String lmSystemScheduledTimeOffId = systemScheduledTimeOff.getLmSystemScheduledTimeOffId();
-		String location = systemScheduledTimeOff.getLocation();
-		
-		boolean systemAdmin = TKUser.isSystemAdmin();
-		boolean locationAdmin = TKUser.getLocationAdminAreas().contains(location);
-
-		for (HtmlData defaultCustomActionUrl : defaultCustomActionUrls){
-			if (StringUtils.equals(defaultCustomActionUrl.getMethodToCall(), "edit")) {
-				if (systemAdmin || locationAdmin) {
-					customActionUrls.add(defaultCustomActionUrl);
-				}
-			} else {
-				customActionUrls.add(defaultCustomActionUrl);
-			}
-		}
 		
 		Properties params = new Properties();
 		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());

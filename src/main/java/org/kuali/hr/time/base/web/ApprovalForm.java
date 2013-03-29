@@ -25,8 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.hr.time.calendar.CalendarEntry;
-import org.kuali.hr.time.roles.TkUserRoles;
-import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.hr.time.util.TKContext;
 
 public class ApprovalForm extends TkCommonCalendarForm {
 	public static final String ORDER_BY_PRINCIPAL = "principalName";
@@ -239,8 +238,8 @@ public class ApprovalForm extends TkCommonCalendarForm {
      *
      * @return A Set of Longs representing work areas.
      */
-    public Set<Long> getApproverWorkAreas() {
-        return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
+    public List<Long> getApproverWorkAreas() {
+        return TKContext.getApproverWorkAreas();
     }
 
     public Long getWorkArea() {

@@ -16,98 +16,105 @@
     limitations under the License.
 
 -->
-<data xmlns="ns:workflow"
+<data xmlns="ns:workflow" 
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="ns:workflow resource:WorkflowData">
     <documentTypes xmlns="ns:workflow/DocumentType"
                    xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">            
-    	<documentType>
+		<documentType>
             <name>BalanceTransferDocumentType</name>
-            <parent>RiceDocument</parent>
-			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-            <superUserWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</superUserWorkgroupName>
-            <blanketApproveWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</blanketApproveWorkgroupName>
-            <defaultExceptionWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</defaultExceptionWorkgroupName>
-            <description>Balance Transfer Maintenance Document</description>
+			<parent>RiceDocument</parent>
+			<superUserGroupName namespace="KPME-HR">System Administrator</superUserGroupName>
+			<blanketApproveGroupName namespace="KPME-HR">System Administrator</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KPME-HR">System Administrator</defaultExceptionGroupName>
+			<description>Balance Transfer Document</description>
+			<label>BalanceTransferDocument</label>
+            <docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
             <applicationId>KPME</applicationId>
-            <label>BalanceTransferDocument</label>
-			<active>true</active>
+            <active>true</active>
             <routingVersion>1</routingVersion>
-            <routePaths>
-                <routePath>
-                    <start name="adhoc" nextNode="BalanceTransfer Attribute" />
-                    <requests name="BalanceTransfer Attribute" />
-                </routePath>
-            </routePaths>
-            <routeNodes>
-                <start name="adhoc">
-                    <exceptionWorkgroup>KPME-WKFLW:TK_SYSTEM_ADMIN</exceptionWorkgroup>
-                    <activationType>S</activationType>
-                    <mandatoryRoute>false</mandatoryRoute>
-                    <finalApproval>false</finalApproval>
-                </start>
-                <requests name="BalanceTransfer Attribute">
-                    <exceptionWorkgroup>KPME-WKFLW:TK_SYSTEM_ADMIN</exceptionWorkgroup>
-                    <activationType>S</activationType>
-                    <ruleTemplate>BalanceTransferWorkflowTemplate</ruleTemplate>
-                    <mandatoryRoute>true</mandatoryRoute>
-                    <finalApproval>true</finalApproval>
-                </requests>
-            </routeNodes>
-            <policies>
-                <policy>
-                    <name>INITIATOR_MUST_CANCEL</name>
-                    <value>false</value>
-                </policy>
-                <policy>
-                    <name>INITIATOR_MUST_ROUTE</name>
-                    <value>false</value>
-                </policy>
-            </policies>
-        </documentType>
-    </documentTypes>
-    <ruleAttributes xmlns="ns:workflow/RuleAttribute"
-	                xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
-	<ruleAttribute>
-        <name>BalanceTransferWorkflowAttribute</name>
-        <className>org.kuali.hr.lm.workflow.BalanceTransferWorkflowAttribute</className>
-        <label>BalanceTransferWorkflowAttribute</label>
-        <description>BalanceTransferWorkflowAttribute</description>
-        <type>RuleAttribute</type>
-        <applicationId>KPME</applicationId>
-    </ruleAttribute>
+			<routePaths>
+				<routePath>
+					<start name="adhoc" nextNode="Balance Transfer Attribute" />
+					<requests name="Balance Transfer Attribute" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="adhoc">
+					<exceptionGroupName namespace="KPME-HR">System Administrator</exceptionGroupName>
+					<activationType>S</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</start>
+				<requests name="Balance Transfer Attribute">
+					<exceptionGroupName namespace="KPME-HR">System Administrator</exceptionGroupName>
+					<activationType>S</activationType>
+					<ruleTemplate>BalanceTransferRuleTemplate</ruleTemplate>
+					<mandatoryRoute>true</mandatoryRoute>
+					<finalApproval>true</finalApproval>
+				</requests>
+			</routeNodes>
+			<policies>
+				<policy>
+					<name>INITIATOR_MUST_CANCEL</name>
+					<value>false</value>
+				</policy>
+				<policy>
+					<name>INITIATOR_MUST_ROUTE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+		</documentType>
+	</documentTypes>
+    
+    <ruleAttributes xmlns="ns:workflow/RuleAttribute" 
+                    xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+        <ruleAttribute>
+            <name>BalanceTransferRoleAttribute</name>
+            <className>org.kuali.hr.lm.workflow.BalanceTransferRoleAttribute</className>
+            <label>BalanceTransferRoleAttribute</label>
+            <description>BalanceTransferRoleAttribute</description>
+            <type>RuleAttribute</type>
+            <applicationId>KPME</applicationId>
+        </ruleAttribute>
     </ruleAttributes>
-
-    <ruleTemplates xmlns="ns:workflow/RuleTemplate"
+    
+    <ruleTemplates xmlns="ns:workflow/RuleTemplate" 
                    xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
-    <ruleTemplate allowOverwrite="true">
-        <name>BalanceTransferWorkflowTemplate</name>
-        <description>BalanceTransferWorkflowTemplate</description>
-        <attributes>
-            <attribute>
-                <name>BalanceTransferWorkflowAttribute</name>
-                <required>false</required>
-            </attribute>
-        </attributes>
-    </ruleTemplate>
+        <ruleTemplate allowOverwrite="true">
+            <name>BalanceTransferRuleTemplate</name>
+            <description>BalanceTransferRuleTemplate</description>
+            <attributes>
+                <attribute>
+                    <name>BalanceTransferRoleAttribute</name>
+                    <required>false</required>
+                </attribute>
+            </attributes>
+        </ruleTemplate>
     </ruleTemplates>
-
-    <rules xmlns="ns:workflow/Rule"
+    
+    <rules xmlns="ns:workflow/Rule" 
            xsi:schemaLocation="ns:workflow/Rule resource:Rule">
-    <rule>
-        <name>BalanceTransferWorkflowRule</name>
-        <documentType>BalanceTransferDocumentType</documentType>
-        <ruleTemplate>BalanceTransferWorkflowTemplate</ruleTemplate>
-        <description>BalanceTransferWorkflowRule</description>
-        <forceAction>true</forceAction>
-        <responsibilities>
-            <responsibility>
-                <role>org.kuali.hr.lm.workflow.BalanceTransferWorkflowAttribute!TK_APPROVER</role>
-                <approvePolicy>F</approvePolicy>
-                <actionRequested>A</actionRequested>
-                <priority>1</priority>
-            </responsibility>
-        </responsibilities>
-    </rule>
+        <rule>
+            <name>BalanceTransferRule</name>
+            <documentType>BalanceTransferDocumentType</documentType>
+            <ruleTemplate>BalanceTransferRuleTemplate</ruleTemplate>
+            <description>BalanceTransferRule</description>
+        	<forceAction>true</forceAction>
+        	<responsibilities>
+                <responsibility>
+                    <role>org.kuali.hr.lm.workflow.BalanceTransferRoleAttribute!Approver</role>
+                    <approvePolicy>F</approvePolicy>
+                    <actionRequested>A</actionRequested>
+                    <priority>1</priority>
+            	</responsibility>
+                <responsibility>
+                    <role>org.kuali.hr.lm.workflow.BalanceTransferRoleAttribute!Approver Delegate</role>
+                    <approvePolicy>F</approvePolicy>
+                    <actionRequested>A</actionRequested>
+                    <priority>2</priority>
+                </responsibility>
+            </responsibilities>
+        </rule>
     </rules>
 </data>

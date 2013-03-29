@@ -16,58 +16,44 @@
 package org.kuali.hr.lm.leavecalendar.web;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.joda.time.Interval;
 import org.kuali.hr.lm.LMConstants;
-import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
-import org.kuali.hr.lm.leaveplan.LeavePlan;
-import org.kuali.hr.lm.workflow.service.LeaveCalendarDocumentHeaderService;
 import org.kuali.hr.time.base.web.TkAction;
-import org.kuali.hr.time.principal.PrincipalHRAttributes;
-import org.kuali.hr.time.roles.TkUserRoles;
-import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-import edu.emory.mathcs.backport.java.util.Collections;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 
 public class LeaveCalendarSubmitAction extends TkAction {
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-        LeaveCalendarSubmitForm lcf = (LeaveCalendarSubmitForm)form;
+        LeaveCalendarSubmitForm lcf = (LeaveCalendarSubmitForm) form;
 
-        String principal = TKContext.getPrincipalId();
-        UserRoles roles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
-
-        LeaveCalendarDocument document = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(lcf.getDocumentId());
-        if (!roles.isDocumentWritable(document)) {
-            throw new AuthorizationException(principal, "LeaveCalendarSubmitAction", "");
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        String documentId = lcf.getDocumentId();
+        
+        if (!TkServiceLocator.getLMPermissionService().canEditLeaveCalendar(principalId, documentId)) {
+            throw new AuthorizationException(principalId, "LeaveCalendarSubmitAction", "");
         }
     }
     
@@ -169,7 +155,7 @@ public class LeaveCalendarSubmitAction extends TkAction {
             }
         }
 
-        TKUser.clearTargetUser();
+        TKContext.clearTargetUser();
         return new ActionRedirect(mapping.findForward("approverRedirect"));
 
     }

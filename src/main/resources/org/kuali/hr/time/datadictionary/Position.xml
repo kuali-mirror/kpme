@@ -40,24 +40,8 @@
 				<ref bean="Position-history"/>
 				<ref bean="Position-active" />
 				<ref bean="Position-timestamp" />
-				<ref bean="Position-workArea" />
 			</list>
 		</property>	
-		
-	<property name="relationships">
-  		<list>
-  		    <bean parent="RelationshipDefinition">
-              <property name="objectAttributeName" value="workAreaObj"/>
-              <property name="primitiveAttributes">
-                <list>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="workArea" p:targetName="workArea"/>
-                  <bean parent="PrimitiveAttributeDefinition" p:sourceName="effectiveDate" p:targetName="effectiveDate" />
-                </list>
-              </property>
-            </bean>
-         </list>
-      </property> 
-		 
 	</bean>
 	
 
@@ -173,23 +157,6 @@
 		<property name="label" value="Show History" />
 	</bean>	
 	
-		<bean id="Position-workArea" parent="Position-workArea-parentBean" />
-	<bean id="Position-workArea-parentBean" abstract="true"
-		parent="AttributeDefinition">
-		<property name="shortLabel" value="Work Area" />
-		<property name="maxLength" value="10" />
-		<property name="validationPattern">
-			<bean parent="NumericValidationPattern">
-				
-			</bean>
-		</property>
-		<property name="control">
-			<bean parent="TextControlDefinition" p:size="10" />
-		</property>
-		<property name="name" value="workArea" />
-		<property name="label" value="Work Area" />
-	</bean>
-	
 		<!--  Inquiry Definitions  -->
   
   	<bean id="Position-inquiryDefinition" parent="Position-inquiryDefinition-parentBean" />
@@ -204,7 +171,6 @@
 							<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 							<bean parent="FieldDefinition" p:attributeName="positionNumber" />
 							<bean parent="FieldDefinition" p:attributeName="description" />
-							<bean parent="FieldDefinition" p:attributeName="workArea" />
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
@@ -226,7 +192,6 @@
 			<list>
 				<bean parent="FieldDefinition" p:attributeName="positionNumber" />
 				<bean parent="FieldDefinition" p:attributeName="description" />
-				<bean parent="FieldDefinition" p:attributeName="workArea" />
                 <bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noDirectInquiry="true" p:noLookup="true" />
                 <bean parent="FieldDefinition" p:attributeName="history" p:defaultValue="N"/>
 				<bean parent="FieldDefinition" p:attributeName="active"/>
@@ -238,7 +203,6 @@
 				<bean parent="FieldDefinition" p:attributeName="description" />
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true"/>
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />
-				<bean parent="FieldDefinition" p:attributeName="workArea" />
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>

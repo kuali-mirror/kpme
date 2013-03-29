@@ -15,16 +15,29 @@
  */
 package org.kuali.hr.time.workarea;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
+import org.kuali.hr.core.role.KPMERoleMemberAttribute;
+import org.kuali.hr.core.role.PositionRoleMemberBo;
+import org.kuali.hr.core.role.PrincipalRoleMemberBo;
+import org.kuali.hr.core.role.workarea.WorkAreaPositionRoleMemberBo;
+import org.kuali.hr.core.role.workarea.WorkAreaPrincipalRoleMemberBo;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.position.Position;
-import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.HrBusinessObjectMaintainableImpl;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kim.impl.role.RoleMemberBo;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.Maintainable;
 import org.kuali.rice.kns.web.ui.Section;
@@ -32,125 +45,127 @@ import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
+@SuppressWarnings("deprecation")
 public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
 
-    private static final long serialVersionUID = 6264585236631982347L;
+	private static final long serialVersionUID = -624127817308880466L;
 
-    @Override
-    protected void setNewCollectionLineDefaultValues(String arg0,
-                                                     PersistableBusinessObject arg1) {
-        WorkArea workArea = (WorkArea) this.getBusinessObject();
-        if (arg1 instanceof TkRole) {
-            TkRole role = (TkRole) arg1;
-            role.setEffectiveDate(workArea.getEffectiveDate());
-        } else if (arg1 instanceof Task) {
-            Task task = (Task) arg1;
-            task.setEffectiveDate(workArea.getEffectiveDate());
+	@Override
+    public HrBusinessObject getObjectById(String id) {
+        return TkServiceLocator.getWorkAreaService().getWorkArea(id);
+    }
+    
+	@Override
+	@SuppressWarnings("rawtypes")
+    public List getSections(MaintenanceDocument document, Maintainable oldMaintainable) {
+        List sections = super.getSections(document, oldMaintainable);
+        
+        for (Object obj : sections) {
+            Section sec = (Section) obj;
+            if (sec.getSectionId().equals("inactivePrincipalRoleMembers") || sec.getSectionId().equals("inactivePositionRoleMembers")) {
+            	sec.setHidden(!document.isOldBusinessObjectInDocument());
+            }
         }
-        super.setNewCollectionLineDefaultValues(arg0, arg1);
+        
+        return sections;
+    }
+    
+    @Override
+    public void processAfterNew(MaintenanceDocument document, Map<String, String[]> parameters) {
+        WorkArea workArea = (WorkArea) this.getBusinessObject();
+        
+        if (workArea.getWorkArea() == null) {
+            workArea.setWorkArea(TkServiceLocator.getWorkAreaService().getNextWorkAreaKey());
+        }
+        
+        super.processAfterNew(document, parameters);
+    }
+    
+    @Override
+    public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> parameters) {
+        WorkArea oldMaintainableObject = (WorkArea) document.getOldMaintainableObject().getBusinessObject();
+        WorkArea newMaintainableObject = (WorkArea) document.getNewMaintainableObject().getBusinessObject();
+        
+        WorkArea oldWorkArea = TkServiceLocator.getWorkAreaService().getWorkArea(oldMaintainableObject.getWorkArea(), oldMaintainableObject.getEffectiveDate());
+
+        oldMaintainableObject.setTasks(oldWorkArea.getTasks());
+        oldMaintainableObject.setPrincipalRoleMembers(oldWorkArea.getPrincipalRoleMembers());
+        oldMaintainableObject.setInactivePrincipalRoleMembers(oldWorkArea.getInactivePrincipalRoleMembers());
+        oldMaintainableObject.setPositionRoleMembers(oldWorkArea.getPositionRoleMembers());
+        oldMaintainableObject.setInactivePositionRoleMembers(oldWorkArea.getInactivePositionRoleMembers());
+        
+        WorkArea newWorkArea = TkServiceLocator.getWorkAreaService().getWorkArea(newMaintainableObject.getWorkArea(), newMaintainableObject.getEffectiveDate());
+
+        newMaintainableObject.setTasks(newWorkArea.getTasks());
+        newMaintainableObject.setPrincipalRoleMembers(newWorkArea.getPrincipalRoleMembers());
+        newMaintainableObject.setInactivePrincipalRoleMembers(newWorkArea.getInactivePrincipalRoleMembers());
+        newMaintainableObject.setPositionRoleMembers(newWorkArea.getPositionRoleMembers());
+        newMaintainableObject.setInactivePositionRoleMembers(newWorkArea.getInactivePositionRoleMembers());
+        
+        super.processAfterEdit(document, parameters);
     }
 
     @Override
-    public PersistableBusinessObject getNewCollectionLine(String collectionName) {
-        return super.getNewCollectionLine(collectionName);    //To change body of overridden methods use File | Settings | File Templates.
+    protected void setNewCollectionLineDefaultValues(String collectionName, PersistableBusinessObject addLine) {
+        WorkArea workArea = (WorkArea) getBusinessObject();
+        
+        if (workArea.getEffectiveDate() != null) {
+	        if (addLine instanceof Task) {
+	            Task task = (Task) addLine;
+	            task.setEffectiveDate(workArea.getEffectiveDate());
+	        } else if (addLine instanceof RoleMemberBo) {
+	        	RoleMemberBo roleMember = (RoleMemberBo) addLine;
+	        	roleMember.setActiveFromDateValue(new Timestamp(workArea.getEffectiveDate().getTime()));
+	        }
+        }
+        
+        super.setNewCollectionLineDefaultValues(collectionName, addLine);
     }
 
     @Override
     public void addNewLineToCollection(String collectionName) {
-		if (collectionName.equals("roles")) {
-        	TkRole aRole = (TkRole)newCollectionLines.get(collectionName );
-            if ( aRole != null ) {
-            	if(!StringUtils.isEmpty(aRole.getPrincipalId()) && !StringUtils.isEmpty(aRole.getPositionNumber())) {
-            		GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"roles", 
-            				"error.role.principalId.positonNumber", aRole.getPrincipalId());
-            		return;
-            	}
-            	if(aRole.getPrincipalId() != null && !aRole.getPrincipalId().isEmpty()) {
-            		Principal aPerson = KimApiServiceLocator.getIdentityService().getPrincipal(aRole.getPrincipalId());
-            		if(aPerson == null) {
-            			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"roles", 
-                				"error.role.person.notexist", aRole.getPrincipalId());
+    	WorkArea workArea = (WorkArea) getBusinessObject();
+    	
+		if (collectionName.equals("principalRoleMembers")) {
+			PrincipalRoleMemberBo roleMember = (PrincipalRoleMemberBo) newCollectionLines.get(collectionName);
+            if (roleMember != null) {
+            	if (!StringUtils.isEmpty(roleMember.getPrincipalId())) {
+            		Principal person = KimApiServiceLocator.getIdentityService().getPrincipal(roleMember.getPrincipalId());
+            		if (person == null) {
+            			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"principalRoleMembers", 
+                				"error.role.person.notexist", roleMember.getMemberId());
                 		return;
             		}
             	}
-            	if(aRole.getPositionNumber() != null && !aRole.getPositionNumber().isEmpty()) {
-            		Position aPositon = TkServiceLocator.getPositionService().getPosition(aRole.getPositionNumber(), aRole.getEffectiveDate());
-            		if(aPositon == null) {
-            			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"roles", 
-                				"error.role.position.notexist", aRole.getPositionNumber());
+            }
+        } else if (collectionName.equals("positionRoleMembers")) {
+        	PositionRoleMemberBo roleMember = (PositionRoleMemberBo) newCollectionLines.get(collectionName);
+            if (roleMember != null) {
+            	if (!StringUtils.isEmpty(roleMember.getPositionNumber())) {
+            		Position position = TkServiceLocator.getPositionService().getPosition(roleMember.getPositionNumber(), workArea.getEffectiveDate());
+            		if (position == null) {
+            			GlobalVariables.getMessageMap().putErrorWithoutFullErrorPath(KRADConstants.MAINTENANCE_NEW_MAINTAINABLE +"positionRoleMembers", 
+                				"error.role.positionNumber.notexist", roleMember.getPositionNumber());
                 		return;
             		}
             	}
             }
         }
+		
         super.addNewLineToCollection(collectionName);
-    }
-
-    @Override
-    public void processAfterEdit(MaintenanceDocument document,
-                                 Map<String, String[]> parameters) {
-        WorkArea waOld = (WorkArea) document.getOldMaintainableObject()
-                .getBusinessObject();
-        WorkArea waNew = (WorkArea) document.getNewMaintainableObject()
-                .getBusinessObject();
-
-        List<TkRole> positionRoles = TkServiceLocator.getTkRoleService().getPositionRolesForWorkArea(waOld.getWorkArea(), waOld.getEffectiveDate());
-        TkServiceLocator.getWorkAreaService().populateWorkAreaTasks(waOld);
-        TkServiceLocator.getWorkAreaService().populateWorkAreaRoles(waOld);
-        waOld.getRoles().addAll(positionRoles);
-
-        TkServiceLocator.getWorkAreaService().populateWorkAreaTasks(waNew);
-        TkServiceLocator.getWorkAreaService().populateWorkAreaRoles(waNew);
-        waNew.getRoles().addAll(positionRoles);
-        super.processAfterEdit(document, parameters);
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Override
-    public List getSections(MaintenanceDocument document,
-                            Maintainable oldMaintainable) {
-        List sections = super.getSections(document, oldMaintainable);
-        for (Object obj : sections) {
-            Section sec = (Section) obj;
-            if (document.isOldBusinessObjectInDocument()
-                    && sec.getSectionId().equals("inactiveRoles")) {
-                sec.setHidden(false);
-            } else if (!document.isOldBusinessObjectInDocument()
-                    && sec.getSectionId().equals("inactiveRoles")) {
-                sec.setHidden(true);
-            }
-        }
-        return sections;
-    }
-
-    @Override
-    public HrBusinessObject getObjectById(String id) {
-        return TkServiceLocator.getWorkAreaService().getWorkArea(id);
     }
 
     @Override
     public void customSaveLogic(HrBusinessObject hrObj) {
         WorkArea workArea = (WorkArea) hrObj;
         
-        List<TkRole> roles = new ArrayList<TkRole>();
-        roles.addAll(workArea.getRoles());
-        roles.addAll(workArea.getInactiveRoles());
-        roles.addAll(createInactiveRoles(workArea.getRoles()));
-        
-        for (TkRole role : roles) {
-            role.setWorkAreaObj(workArea);
-            role.setUserPrincipalId(TKContext.getPrincipalId());
-        }
-        workArea.setRoles(roles);
-        
-        TkServiceLocator.getTkRoleService().saveOrUpdate(roles);
-        
+        saveTasks(workArea);
+        saveRoleMembers(workArea);
+    }
+    
+    private void saveTasks(WorkArea workArea) {
         List<Task> tasks = workArea.getTasks();
+        
         for (Task task : tasks) {
             task.setTkTaskId(null);
             task.setTimestamp(new Timestamp(System.currentTimeMillis()));
@@ -160,55 +175,123 @@ public class WorkAreaMaintainableImpl extends HrBusinessObjectMaintainableImpl {
         TkServiceLocator.getTaskService().saveTasks(tasks);
     }
     
-    private List<TkRole> createInactiveRoles(List<TkRole> activeRoles) {
-    	List<TkRole> inactiveRoles = new ArrayList<TkRole>();
+    private void saveRoleMembers(WorkArea workArea) {
+    	List<WorkAreaPrincipalRoleMemberBo> newInactivePrincipalRoleMembers = createInactivePrincipalRoleMembers(workArea.getWorkArea(), workArea.getPrincipalRoleMembers());
+    	List<WorkAreaPositionRoleMemberBo> newInactivePositionRoleMembers = createInactivePositionRoleMembers(workArea.getWorkArea(), workArea.getPositionRoleMembers());
+        
+    	for (WorkAreaPrincipalRoleMemberBo newInactivePrincipalRoleMember : newInactivePrincipalRoleMembers) {
+    		workArea.addInactivePrincipalRoleMember(newInactivePrincipalRoleMember);
+    	}
+    	for (WorkAreaPositionRoleMemberBo newInactivePositionRoleMember : newInactivePositionRoleMembers) {
+    		workArea.addInactivePositionRoleMember(newInactivePositionRoleMember);
+    	}
     	
-        List<TkRole> oldRoles = new ArrayList<TkRole>();
-        List<TkRole> newRoles = new ArrayList<TkRole>();
-        for (TkRole activeRole : activeRoles) {
-		  	if (!StringUtils.isEmpty(activeRole.getHrRolesId())) {
-		  		oldRoles.add(activeRole);
+    	for (WorkAreaPrincipalRoleMemberBo principalRoleMember : workArea.getPrincipalRoleMembers()) {
+    		RoleMember.Builder builder = RoleMember.Builder.create(principalRoleMember);
+    		builder.setAttributes(Collections.singletonMap(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), String.valueOf(workArea.getWorkArea())));
+    		
+    		if (StringUtils.isBlank(principalRoleMember.getId())) {
+    			KimApiServiceLocator.getRoleService().createRoleMember(builder.build());
+    		} else {
+    			KimApiServiceLocator.getRoleService().updateRoleMember(builder.build());
+    		}
+    	}
+    	for (WorkAreaPrincipalRoleMemberBo inactivePrincipalRoleMember : workArea.getInactivePrincipalRoleMembers()) {
+    		RoleMember.Builder builder = RoleMember.Builder.create(inactivePrincipalRoleMember);
+    		builder.setAttributes(Collections.singletonMap(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), String.valueOf(workArea.getWorkArea())));
+    		
+    		if (StringUtils.isBlank(inactivePrincipalRoleMember.getId())) {
+    			KimApiServiceLocator.getRoleService().createRoleMember(builder.build());
+    		} else {
+    			KimApiServiceLocator.getRoleService().updateRoleMember(builder.build());
+    		}
+    	}
+    	for (WorkAreaPositionRoleMemberBo positionRoleMember : workArea.getPositionRoleMembers()) {
+    		RoleMember.Builder builder = RoleMember.Builder.create(positionRoleMember);
+    		builder.setAttributes(Collections.singletonMap(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), String.valueOf(workArea.getWorkArea())));
+    		
+    		if (StringUtils.isBlank(positionRoleMember.getId())) {
+    			KimApiServiceLocator.getRoleService().createRoleMember(builder.build());
+    		} else {
+    			KimApiServiceLocator.getRoleService().updateRoleMember(builder.build());
+    		}
+    	}
+    	for (WorkAreaPositionRoleMemberBo inactivePositionRoleMember : workArea.getInactivePositionRoleMembers()) {
+    		RoleMember.Builder builder = RoleMember.Builder.create(inactivePositionRoleMember);
+    		builder.setAttributes(Collections.singletonMap(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), String.valueOf(workArea.getWorkArea())));
+    		
+    		if (StringUtils.isBlank(inactivePositionRoleMember.getId())) {
+    			KimApiServiceLocator.getRoleService().createRoleMember(builder.build());
+    		} else {
+    			KimApiServiceLocator.getRoleService().updateRoleMember(builder.build());
+    		}
+    	}
+    }
+    
+    private List<WorkAreaPrincipalRoleMemberBo> createInactivePrincipalRoleMembers(Long workArea, List<WorkAreaPrincipalRoleMemberBo> principalRoleMembers) {
+    	List<WorkAreaPrincipalRoleMemberBo> inactivePrincipalRoleMembers = new ArrayList<WorkAreaPrincipalRoleMemberBo>();
+    	
+    	List<RoleMemberBo> inactiveRoleMembers = createInactiveRoleMembers(principalRoleMembers);
+    	
+    	for (RoleMemberBo inactiveRoleMember : inactiveRoleMembers) {
+    		WorkAreaPrincipalRoleMemberBo.Builder builder = WorkAreaPrincipalRoleMemberBo.Builder.create(
+    				inactiveRoleMember.getRoleId(), null, inactiveRoleMember.getMemberId(), inactiveRoleMember.getType(), 
+    				inactiveRoleMember.getActiveFromDate(), inactiveRoleMember.getActiveToDate(), inactiveRoleMember.getAttributes(), 
+    				inactiveRoleMember.getMemberName(), inactiveRoleMember.getMemberNamespaceCode());
+    		builder.setAttributes(Collections.singletonMap(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), String.valueOf(workArea)));
+    		
+    		inactivePrincipalRoleMembers.add(builder.build());
+    	}
+    	
+    	return inactivePrincipalRoleMembers;
+    }
+    
+    private List<WorkAreaPositionRoleMemberBo> createInactivePositionRoleMembers(Long workArea, List<WorkAreaPositionRoleMemberBo> positionRoleMembers) {
+    	List<WorkAreaPositionRoleMemberBo> inactivePositionRoleMembers = new ArrayList<WorkAreaPositionRoleMemberBo>();
+
+    	List<RoleMemberBo> inactiveRoleMembers = createInactiveRoleMembers(positionRoleMembers);
+    	
+    	for (RoleMemberBo inactiveRoleMember : inactiveRoleMembers) {
+    		WorkAreaPositionRoleMemberBo.Builder builder = WorkAreaPositionRoleMemberBo.Builder.create(
+    				inactiveRoleMember.getRoleId(), null, inactiveRoleMember.getMemberId(), inactiveRoleMember.getType(), 
+    				inactiveRoleMember.getActiveFromDate(), inactiveRoleMember.getActiveToDate(), inactiveRoleMember.getAttributes(), 
+    				inactiveRoleMember.getMemberName(), inactiveRoleMember.getMemberNamespaceCode());
+    		builder.setAttributes(Collections.singletonMap(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), String.valueOf(workArea)));
+
+    		inactivePositionRoleMembers.add(builder.build());
+    	}
+    	
+    	return inactivePositionRoleMembers;
+    }
+    
+    private List<RoleMemberBo> createInactiveRoleMembers(List<? extends RoleMemberBo> roleMembers) {
+    	List<RoleMemberBo> inactiveRoleMembers = new ArrayList<RoleMemberBo>();
+    	
+        List<RoleMemberBo> oldRoleMembers = new ArrayList<RoleMemberBo>();
+        List<RoleMemberBo> newRoleMembers = new ArrayList<RoleMemberBo>();
+        for (RoleMemberBo roleMember : roleMembers) {
+		  	if (!StringUtils.isEmpty(roleMember.getId())) {
+		  		oldRoleMembers.add(roleMember);
 		  	} else {
-		  		newRoles.add(activeRole);
+		  		newRoleMembers.add(roleMember);
 		  	}
         }
         
-        for (TkRole newRole : newRoles) {
-        	for (TkRole oldRole : oldRoles) {
-			  	if (StringUtils.equals(newRole.getRoleName(), oldRole.getRoleName()) 
-			  	 && StringUtils.equals(newRole.getPrincipalId(), oldRole.getPrincipalId()) 
-			  	 && StringUtils.equals(newRole.getPositionNumber(), oldRole.getPositionNumber())) {
+        for (RoleMemberBo newRoleMember : newRoleMembers) {
+        	for (RoleMemberBo oldRoleMember : oldRoleMembers) {
+        		Role newRole = KimApiServiceLocator.getRoleService().getRole(newRoleMember.getRoleId());
+        		Role oldRole = KimApiServiceLocator.getRoleService().getRole(newRoleMember.getRoleId());
 			  	
-			  		TkRole newInactiveRole = new TkRole();
-			  		newInactiveRole.setPrincipalId(oldRole.getPrincipalId());
-			  		newInactiveRole.setRoleName(oldRole.getRoleName());
-			  		newInactiveRole.setWorkArea(oldRole.getWorkArea());
-			  		newInactiveRole.setDepartment(oldRole.getDepartment());
-			  		newInactiveRole.setChart(oldRole.getChart());
-			  		newInactiveRole.setHrDeptId(oldRole.getHrDeptId());
-			  		newInactiveRole.setPositionNumber(oldRole.getPositionNumber());
-			  		newInactiveRole.setExpirationDate(oldRole.getExpirationDate());
-			  		newInactiveRole.setEffectiveDate(newRole.getEffectiveDate());
-			  		newInactiveRole.setTimestamp(new Timestamp(System.currentTimeMillis()));
-			  		newInactiveRole.setUserPrincipalId(TKContext.getPrincipalId());
-			  		newInactiveRole.setActive(false);
+        		if (StringUtils.equals(newRole.getName(), oldRole.getName()) && StringUtils.equals(newRoleMember.getMemberId(), oldRoleMember.getMemberId())) {
+        			RoleMember.Builder builder = RoleMember.Builder.create(oldRoleMember);
+    				builder.setActiveToDate(new DateTime());
   
-			  		inactiveRoles.add(newInactiveRole);
+			  		inactiveRoleMembers.add(RoleMemberBo.from(builder.build()));
 			  	}
         	}
         }
         
-        return inactiveRoles;
-    }
-
-    @Override
-    public void processAfterNew(MaintenanceDocument document,
-                                Map<String, String[]> parameters) {
-        WorkArea workArea = (WorkArea) this.getBusinessObject();
-        if (workArea.getWorkArea() == null) {
-            workArea.setWorkArea(TkServiceLocator.getWorkAreaService().getNextWorkAreaKey());
-        }
-        super.processAfterNew(document, parameters);
+        return inactiveRoleMembers;
     }
     
 }

@@ -31,7 +31,7 @@
   		p:businessObjectClass="org.kuali.hr.time.calendar.Calendar"
   		p:businessRulesClass="org.kuali.hr.time.calendar.validation.CalendarRule"
    		p:maintainableClass="org.kuali.hr.time.calendar.CalendarMaintainableImpl"
-   		p:documentAuthorizerClass="org.kuali.hr.time.authorization.LocationAdminAuthorizer">
+   		p:documentAuthorizerClass="org.kuali.hr.time.calendar.authorization.CalendarAuthorizer">
     <property name="maintainableSections">
       <list>
         <ref bean="CalendarMaintenanceDocument-CalendarMaintenance"/>

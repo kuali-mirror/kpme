@@ -25,7 +25,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.time.department.Department;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
@@ -123,20 +122,6 @@ public class DepartmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implemen
 		
 		Query query = QueryFactory.newQuery(Department.class, crit);
 		return (Department)this.getPersistenceBrokerTemplate().getObjectByQuery(query);
-	}
-	
-	@Override
-	public List<Department> getDepartmentByLocation(String location) {
-		Criteria crit = new Criteria();
-		crit.addEqualTo("location", location);
-		
-		Query query = QueryFactory.newQuery(Department.class, crit);
-
-        Collection c = this.getPersistenceBrokerTemplate().getCollectionByQuery(query);
-		List<Department> d = new ArrayList<Department>(c.size());
-        d.addAll(c);
-
-		return d;		
 	}
 	
 	@Override

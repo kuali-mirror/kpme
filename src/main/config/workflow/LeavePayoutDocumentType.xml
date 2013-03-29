@@ -21,93 +21,100 @@
       xsi:schemaLocation="ns:workflow resource:WorkflowData">
     <documentTypes xmlns="ns:workflow/DocumentType"
                    xsi:schemaLocation="ns:workflow/DocumentType resource:DocumentType">            
-    	<documentType>
+		<documentType>
             <name>LeavePayoutDocumentType</name>
-            <parent>RiceDocument</parent>
+			<parent>RiceDocument</parent>
+			<superUserGroupName namespace="KPME-HR">System Administrator</superUserGroupName>
+			<blanketApproveGroupName namespace="KPME-HR">System Administrator</blanketApproveGroupName>
+			<defaultExceptionGroupName namespace="KPME-HR">System Administrator</defaultExceptionGroupName>
+			<description>Leave Payout Document</description>
+			<label>LeavePayoutDocument</label>
             <docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-            <superUserWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</superUserWorkgroupName>
-            <blanketApproveWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</blanketApproveWorkgroupName>
-            <defaultExceptionWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</defaultExceptionWorkgroupName>
-            <label>LeavePayoutDocument</label>
-            <description>Leave Payout Maintenance Document</description>
-			<active>true</active>
+            <active>true</active>
             <applicationId>KPME</applicationId>
             <routingVersion>1</routingVersion>
-            <routePaths>
-                <routePath>
-                    <start name="adhoc" nextNode="LeavePayout Attribute" />
-                    <requests name="LeavePayout Attribute" />
-                </routePath>
-            </routePaths>
-            <routeNodes>
-                <start name="adhoc">
-                    <exceptionWorkgroup>KPME-WKFLW:TK_SYSTEM_ADMIN</exceptionWorkgroup>
-                    <activationType>S</activationType>
-                    <mandatoryRoute>false</mandatoryRoute>
-                    <finalApproval>false</finalApproval>
-                </start>
-                <requests name="LeavePayout Attribute">
-                    <exceptionWorkgroup>KPME-WKFLW:TK_SYSTEM_ADMIN</exceptionWorkgroup>
-                    <activationType>S</activationType>
-                    <ruleTemplate>LeavePayoutWorkflowTemplate</ruleTemplate>
-                    <mandatoryRoute>true</mandatoryRoute>
-                    <finalApproval>true</finalApproval>
-                </requests>
-            </routeNodes>
-            <policies>
-                <policy>
-                    <name>INITIATOR_MUST_CANCEL</name>
-                    <value>false</value>
-                </policy>
-                <policy>
-                    <name>INITIATOR_MUST_ROUTE</name>
-                    <value>false</value>
-                </policy>
-            </policies>
-        </documentType>
-    </documentTypes>
-    <ruleAttributes xmlns="ns:workflow/RuleAttribute"
-	                xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
-	<ruleAttribute>
-        <name>LeavePayoutWorkflowAttribute</name>
-        <className>org.kuali.hr.lm.workflow.LeavePayoutWorkflowAttribute</className>
-        <label>LeavePayoutWorkflowAttribute</label>
-        <description>LeavePayoutWorkflowAttribute</description>
-        <type>RuleAttribute</type>
-        <applicationId>KPME</applicationId>
-    </ruleAttribute>
+			<routePaths>
+				<routePath>
+					<start name="adhoc" nextNode="Leave Payout Attribute" />
+					<requests name="Leave Payout Attribute" />
+				</routePath>
+			</routePaths>
+			<routeNodes>
+				<start name="adhoc">
+					<exceptionGroupName namespace="KPME-HR">System Administrator</exceptionGroupName>
+					<activationType>S</activationType>
+					<mandatoryRoute>false</mandatoryRoute>
+					<finalApproval>false</finalApproval>
+				</start>
+				<requests name="Leave Payout Attribute">
+					<exceptionGroupName namespace="KPME-HR">System Administrator</exceptionGroupName>
+					<activationType>S</activationType>
+					<ruleTemplate>LeavePayoutRuleTemplate</ruleTemplate>
+					<mandatoryRoute>true</mandatoryRoute>
+					<finalApproval>true</finalApproval>
+				</requests>
+			</routeNodes>
+			<policies>
+				<policy>
+					<name>INITIATOR_MUST_CANCEL</name>
+					<value>false</value>
+				</policy>
+				<policy>
+					<name>INITIATOR_MUST_ROUTE</name>
+					<value>false</value>
+				</policy>
+			</policies>
+		</documentType>
+	</documentTypes>
+    
+    <ruleAttributes xmlns="ns:workflow/RuleAttribute" 
+                    xsi:schemaLocation="ns:workflow/RuleAttribute resource:RuleAttribute">
+        <ruleAttribute>
+            <name>LeavePayoutRoleAttribute</name>
+            <className>org.kuali.hr.lm.workflow.LeavePayoutRoleAttribute</className>
+            <label>LeavePayoutRoleAttribute</label>
+            <description>LeavePayoutRoleAttribute</description>
+            <type>RuleAttribute</type>
+            <applicationId>KPME</applicationId>
+        </ruleAttribute>
     </ruleAttributes>
-
-    <ruleTemplates xmlns="ns:workflow/RuleTemplate"
+    
+    <ruleTemplates xmlns="ns:workflow/RuleTemplate" 
                    xsi:schemaLocation="ns:workflow/RuleTemplate resource:RuleTemplate">
-    <ruleTemplate allowOverwrite="true">
-        <name>LeavePayoutWorkflowTemplate</name>
-        <description>LeavePayoutWorkflowTemplate</description>
-        <attributes>
-            <attribute>
-                <name>LeavePayoutWorkflowAttribute</name>
-                <required>false</required>
-            </attribute>
-        </attributes>
-    </ruleTemplate>
+        <ruleTemplate allowOverwrite="true">
+            <name>LeavePayoutRuleTemplate</name>
+            <description>LeavePayoutRuleTemplate</description>
+            <attributes>
+                <attribute>
+                    <name>LeavePayoutRoleAttribute</name>
+                    <required>false</required>
+                </attribute>
+            </attributes>
+        </ruleTemplate>
     </ruleTemplates>
-
-    <rules xmlns="ns:workflow/Rule"
+    
+    <rules xmlns="ns:workflow/Rule" 
            xsi:schemaLocation="ns:workflow/Rule resource:Rule">
-    <rule>
-        <name>LeavePayoutWorkflowRule</name>
-        <documentType>LeavePayoutDocumentType</documentType>
-        <ruleTemplate>LeavePayoutWorkflowTemplate</ruleTemplate>
-        <description>LeavePayoutWorkflowRule</description>
-        <forceAction>true</forceAction>
-        <responsibilities>
-            <responsibility>
-                <role>org.kuali.hr.lm.workflow.LeavePayoutWorkflowAttribute!TK_APPROVER</role>
-                <approvePolicy>F</approvePolicy>
-                <actionRequested>A</actionRequested>
-                <priority>1</priority>
-            </responsibility>
-        </responsibilities>
-    </rule>
+        <rule>
+            <name>LeavePayoutWorkflowRule</name>
+            <documentType>LeavePayoutDocumentType</documentType>
+            <ruleTemplate>LeavePayoutRuleTemplate</ruleTemplate>
+            <description>LeavePayoutWorkflowRule</description>
+        	<forceAction>true</forceAction>
+        	<responsibilities>
+                <responsibility>
+                    <role>org.kuali.hr.lm.workflow.LeavePayoutRoleAttribute!Approver</role>
+                    <approvePolicy>F</approvePolicy>
+                    <actionRequested>A</actionRequested>
+                    <priority>1</priority>
+            	</responsibility>
+                <responsibility>
+                    <role>org.kuali.hr.lm.workflow.LeavePayoutRoleAttribute!Approver Delegate</role>
+                    <approvePolicy>F</approvePolicy>
+                    <actionRequested>A</actionRequested>
+                    <priority>2</priority>
+                </responsibility>
+            </responsibilities>
+        </rule>
     </rules>
 </data>

@@ -354,4 +354,9 @@ public class DailyOvertimeRuleServiceImpl implements DailyOvertimeRuleService {
 	public DailyOvertimeRule getDailyOvertimeRule(String tkDailyOvertimeRuleId) {
 		return dailyOvertimeRuleDao.getDailyOvertimeRule(tkDailyOvertimeRuleId);
 	}
+	
+	@Override
+	public List<DailyOvertimeRule> getDailyOvertimeRules(String dept, String workArea, String location, Date fromEffdt, Date toEffdt, String active, String showHist) {
+		return dailyOvertimeRuleDao.getDailyOvertimeRules(dept, workArea, location, fromEffdt, toEffdt, active, showHist);
+	}
 }

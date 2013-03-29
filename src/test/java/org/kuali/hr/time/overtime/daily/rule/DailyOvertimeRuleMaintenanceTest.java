@@ -40,27 +40,23 @@ public class DailyOvertimeRuleMaintenanceTest extends KPMETestCase{
 	private static String dailyOvertimeRuleId = "5";
 	
 	@Test
-	public void testDailyOvertimeRuleMaint() throws Exception {
-		DailyOvertimeRule dor = new DailyOvertimeRule();
-		HtmlPage dailyOvertimeRuleLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.DAILY_OVERTIME_RULE_MAINT_URL);
-		dailyOvertimeRuleLookUp = HtmlUnitUtil.clickInputContainingText(dailyOvertimeRuleLookUp, "search");
-		HtmlUnitUtil.createTempFile(dailyOvertimeRuleLookUp);
-		Assert.assertTrue("Page contains test DailyOvertimeRule", dailyOvertimeRuleLookUp.asText().contains(TEST_CODE.toString()));		
-		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(dailyOvertimeRuleLookUp, "edit",dailyOvertimeRuleId.toString());		
-		Assert.assertTrue("Maintenance Page contains test DailyOvertimeRule",maintPage.asText().contains(TEST_CODE.toString()));		
-	}
-	
-	@Test
 	public void testDailyOvertimeRuleMaintForErrorMessages() throws Exception {
-		HtmlPage dailyOvertimeRuleLookUp = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.DAILY_OVERTIME_RULE_MAINT_URL);
-		dailyOvertimeRuleLookUp = HtmlUnitUtil.clickInputContainingText(dailyOvertimeRuleLookUp, "search");
-		Assert.assertTrue("Page contains test DailyOvertimeRule", dailyOvertimeRuleLookUp.asText().contains(TEST_CODE.toString()));		
-		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(dailyOvertimeRuleLookUp, "edit",dailyOvertimeRuleId.toString());		
-		Assert.assertTrue("Maintenance Page contains test DailyOvertimeRule",maintPage.asText().contains(TEST_CODE.toString()));
-		
+		HtmlPage maintPage = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.DAILY_OVERTIME_RULE_MAINT_NEW_URL);
+
 		HtmlInput inputForDescription = HtmlUnitUtil.getInputContainingText(
 				maintPage, "* Document Description");
 		inputForDescription.setValueAttribute("Test_Description");
+		
+		setFieldValue(maintPage, "document.newMaintainableObject.effectiveDate", "01/01/2010");
+		setFieldValue(maintPage, "document.newMaintainableObject.location", "BL");
+		setFieldValue(maintPage, "document.newMaintainableObject.paytype", "HR");
+		setFieldValue(maintPage, "document.newMaintainableObject.dept", TEST_CODE_INVALID_DEPT_ID);
+		setFieldValue(maintPage, "document.newMaintainableObject.workArea", TEST_CODE_INVALID_WORK_AREA_ID.toString());
+		setFieldValue(maintPage, "document.newMaintainableObject.maxGap", "1.0");
+		setFieldValue(maintPage, "document.newMaintainableObject.minHours", "2");
+		setFieldValue(maintPage, "document.newMaintainableObject.earnCode", "OVT");
+		setFieldValue(maintPage, "document.newMaintainableObject.fromEarnGroup", "RGN");
+		
 		HtmlPage resultantPageAfterEdit = HtmlUnitUtil
 				.clickInputContainingText(maintPage, "submit");
 		LOG.debug(resultantPageAfterEdit.asText());
@@ -78,31 +74,4 @@ public class DailyOvertimeRuleMaintenanceTest extends KPMETestCase{
 		
 	}
 
-	@Override
-	public void setUp() throws Exception {
-		// TODO Auto-generated method stub
-		super.setUp();
-		DailyOvertimeRule dor = new DailyOvertimeRule();
-		dor.setLocation("BL");
-		dor.setPaytype("HR");
-		dor.setEffectiveDate(TKUtils.getCurrentDate());
-		dor.setUserPrincipalId("admin");
-		dor.setDept(TEST_CODE_INVALID_DEPT_ID);
-		dor.setWorkArea(TEST_CODE_INVALID_WORK_AREA_ID);
-		dor.setMaxGap(new BigDecimal(1.0));
-		dor.setMinHours(new BigDecimal(2));
-		dor.setActive(true);
-		dor.setFromEarnGroup("RGN");
-		dor.setEarnCode("OVT");
-		
-		KRADServiceLocator.getBusinessObjectService().save(dor);
-		dailyOvertimeRuleId = dor.getTkDailyOvertimeRuleId();
-	}
-
-	@Override
-	public void tearDown() throws Exception {
-		KRADServiceLocator.getBusinessObjectService().deleteMatching(DailyOvertimeRule.class, new HashMap());
-		super.tearDown();
-	}
 }
-

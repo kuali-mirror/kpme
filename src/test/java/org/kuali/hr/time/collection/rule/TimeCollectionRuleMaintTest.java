@@ -38,10 +38,10 @@ public class TimeCollectionRuleMaintTest extends KPMETestCase {
 			.getInstance().getTimeInMillis());
 	private static final String TEST_CODE_DEPARTMENT_VALID = "_test";
 
-	private static String timeCollectionRuleIdWithInvalidDept;
+	private static String timeCollectionRuleId;
 	private static String timeCollectionRuleIdWithInvalidWorkArea;
 
-	private static String TEST_CODE_INVALID_DEPT_ID = "0";
+	private static String TEST_CODE_INVALID_DEPT = "INVALID_DEPT";
 	private static Long TEST_CODE_INVALID_WORKAREA = 2L;
 	private static String PAY_TYPE_ERROR = "The specified payType '%' does not exist.";
 
@@ -53,27 +53,23 @@ public class TimeCollectionRuleMaintTest extends KPMETestCase {
 	 */
 	@Test
 	public void testTimeCollectionRuleMaintForDeptErrorMessage() throws Exception {
-		HtmlPage timeCollectionRuleLookup = HtmlUnitUtil
-				.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.TIME_COLLECTION_RULE_MAINT_URL);
-		timeCollectionRuleLookup = HtmlUnitUtil.clickInputContainingText(
-				timeCollectionRuleLookup, "search");
-		HtmlUnitUtil.createTempFile(timeCollectionRuleLookup);
-		Assert.assertTrue("Page contains test timeCollectionRule",
-				timeCollectionRuleLookup.asText().contains(TEST_CODE));
-		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(
-				timeCollectionRuleLookup, "edit",
-				timeCollectionRuleIdWithInvalidDept);
-		HtmlUnitUtil.createTempFile(maintPage);
-		HtmlInput inputForDescription = HtmlUnitUtil.getInputContainingText(
-				maintPage, "* Document Description");
+		String baseUrl = TkTestConstants.Urls.TIME_COLLECTION_RULE_MAINT_NEW_URL;
+	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
+		HtmlInput inputForDescription = HtmlUnitUtil.getInputContainingText(page, "* Document Description");
 		inputForDescription.setValueAttribute("Description");
+		
+		setFieldValue(page, "document.newMaintainableObject.effectiveDate", "01/01/2010");
+		setFieldValue(page, "document.newMaintainableObject.dept", TEST_CODE_INVALID_DEPT);
+		setFieldValue(page, "document.newMaintainableObject.workArea", "30");
+		setFieldValue(page, "document.newMaintainableObject.payType", "BW");
+		setFieldValue(page, "document.newMaintainableObject.hrsDistributionF", "on");
 		HtmlPage resultantPageAfterEdit = HtmlUnitUtil
-				.clickInputContainingText(maintPage, "submit");
+				.clickInputContainingText(page, "submit");
 		HtmlUnitUtil.createTempFile(resultantPageAfterEdit);
 		Assert.assertTrue("Maintenance Page contains test timeCollectionRule",
 				resultantPageAfterEdit.asText().contains(
 						"The specified department '"
-								+ TEST_CODE_INVALID_DEPT_ID
+								+ TEST_CODE_INVALID_DEPT
 								+ "' does not exist."));
 		Assert.assertTrue("Maintenance Page contains test timeCollectionRule",
 				resultantPageAfterEdit.asText().contains("Clock User needs to be checked if Hr Distribution is checked."));
@@ -124,7 +120,7 @@ public class TimeCollectionRuleMaintTest extends KPMETestCase {
 				timeCollectionRuleLookup.asText().contains(TEST_CODE));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(
 				timeCollectionRuleLookup, "edit",
-				timeCollectionRuleIdWithInvalidDept);
+				timeCollectionRuleId);
 		Assert.assertTrue("Maintenance Page contains test timeCollectionRule",
 				maintPage.asText().contains(TEST_CODE));
 	}
@@ -137,36 +133,24 @@ public class TimeCollectionRuleMaintTest extends KPMETestCase {
 		department.setChart(TEST_CODE_DEPARTMENT_VALID);
 		department.setDescription(TEST_CODE_DEPARTMENT_VALID);
 		department.setOrg(TEST_CODE_DEPARTMENT_VALID);
-		department.setLocation("TST");
+		department.setLocation("BL");
+		department.setEffectiveDate(TEST_DATE);
         department.setActive(Boolean.TRUE);
 		department = KRADServiceLocator.getBusinessObjectService().save(department);
-		TimeCollectionRule timeCollectionRuleWIthInvalidDept = new TimeCollectionRule();
-		// setting deptId for which Department doesn't exist .
-		Random randomObj = new Random();
-		for (;;) {
-			long deptIdIndex = randomObj.nextInt();
-			int count = TkServiceLocator.getDepartmentService().getDepartmentCount(Long.toString(deptIdIndex));
-
-			if (count == 0) {
-				TEST_CODE_INVALID_DEPT_ID = Long.toString(deptIdIndex);
-				break;
-			}
-		}
-		timeCollectionRuleWIthInvalidDept.setDept(TEST_CODE_INVALID_DEPT_ID);
-		timeCollectionRuleWIthInvalidDept.setEffectiveDate(TEST_DATE);
-		timeCollectionRuleWIthInvalidDept.setHrsDistributionF(true);
-		timeCollectionRuleWIthInvalidDept.setTimestamp(new Timestamp(Calendar
-				.getInstance().getTimeInMillis()));
-		timeCollectionRuleWIthInvalidDept.setUserPrincipalId(TEST_CODE);
-        timeCollectionRuleWIthInvalidDept.setActive(true);
-		// timeCollectionRule.setWorkArea(TEST_ID_LONG);
-        timeCollectionRuleWIthInvalidDept = KRADServiceLocator.getBusinessObjectService().save(
-				timeCollectionRuleWIthInvalidDept);
-		timeCollectionRuleIdWithInvalidDept = timeCollectionRuleWIthInvalidDept
-				.getTkTimeCollectionRuleId();
+		
+		TimeCollectionRule timeCollectionRule = new TimeCollectionRule();
+		timeCollectionRule.setDept(TEST_CODE_DEPARTMENT_VALID);
+		timeCollectionRule.setEffectiveDate(TEST_DATE);
+		timeCollectionRule.setHrsDistributionF(true);
+		timeCollectionRule.setTimestamp(new Timestamp(Calendar.getInstance().getTimeInMillis()));
+		timeCollectionRule.setUserPrincipalId(TEST_CODE);
+        timeCollectionRule.setActive(true);
+        timeCollectionRule = KRADServiceLocator.getBusinessObjectService().save(timeCollectionRule);
+		timeCollectionRuleId = timeCollectionRule.getTkTimeCollectionRuleId();
 
 		TimeCollectionRule timeCollectionRuleWIthInvalidWorkArea = new TimeCollectionRule();
 		// setting workAreaId for which Workarea doesn't exist .
+		Random randomObj = new Random();
 		for (;;) {
 			long workAreaIndex = randomObj.nextInt();
 			int count = TkServiceLocator.getWorkAreaService().getWorkAreaCount(null, workAreaIndex);
@@ -197,7 +181,7 @@ public class TimeCollectionRuleMaintTest extends KPMETestCase {
 	public void tearDown() throws Exception {
 		// cleaning up
 		TimeCollectionRule timeCollectionRuleObj = KRADServiceLocator.getBusinessObjectService()
-                .findByPrimaryKey(TimeCollectionRule.class, Collections.singletonMap("tkTimeCollectionRuleId", timeCollectionRuleIdWithInvalidDept));
+                .findByPrimaryKey(TimeCollectionRule.class, Collections.singletonMap("tkTimeCollectionRuleId", timeCollectionRuleId));
         //Map<String, String> criteria = new (Collections()).singletonMap("dept")
         //Collection<TimeCollectionRule> rules = KRADServiceLocator.getBusinessObjectService().findMatching(TimeCollectionRule.class, )
 		KRADServiceLocator.getBusinessObjectService().delete(

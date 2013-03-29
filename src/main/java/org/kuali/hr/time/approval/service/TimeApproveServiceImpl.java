@@ -15,13 +15,31 @@
  */
 package org.kuali.hr.time.approval.service;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import java.math.BigDecimal;
+import java.sql.Types;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.log4j.Logger;
-import org.joda.time.*;
+import org.joda.time.DateMidnight;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Hours;
+import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.kuali.hr.lm.LMConstants;
@@ -39,25 +57,23 @@ import org.kuali.hr.time.flsa.FlsaDay;
 import org.kuali.hr.time.flsa.FlsaWeek;
 import org.kuali.hr.time.person.TKPerson;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
-import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.*;
+import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
+import org.kuali.hr.time.util.TkConstants;
+import org.kuali.hr.time.util.TkTimeBlockAggregate;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
-import java.math.BigDecimal;
-import java.sql.Types;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.Map.Entry;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 
 public class TimeApproveServiceImpl implements TimeApproveService {
 
@@ -138,7 +154,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 				TKUtils.getSystemDateTimeZone());
 		minDt = minDt.minusDays(DAYS_WINDOW_DELTA);
 		java.sql.Date windowDate = TKUtils.getTimelessDate(minDt.toDate());
-		Set<Long> approverWorkAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
+		List<Long> approverWorkAreas = TKContext.getApproverWorkAreas();
 
 		// Get all of the principals within our window of time.
 		for (Long waNum : approverWorkAreas) {
@@ -186,7 +202,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			Date payEndDate) {
 		SortedSet<String> pcg = new TreeSet<String>();
 
-		Set<Long> approverWorkAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
+		List<Long> approverWorkAreas = TKContext.getApproverWorkAreas();
 		List<Assignment> assignments = new ArrayList<Assignment>();
 
 		for (Long workArea : approverWorkAreas) {
@@ -656,7 +672,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 
 	public boolean doesApproverHavePrincipalsForCalendarGroup(Date asOfDate,
 			String calGroup) {
-		Set<Long> approverWorkAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
+		List<Long> approverWorkAreas = TKContext.getApproverWorkAreas();
 		for (Long workArea : approverWorkAreas) {
 			List<Assignment> assignments = TkServiceLocator
 					.getAssignmentService().getActiveAssignmentsForWorkArea(
@@ -820,7 +836,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	@Override
 	public List<CalendarEntry> getAllPayCalendarEntriesForApprover(String principalId, Date currentDate) {
 		Set<String> principals = new HashSet<String>();
-		Set<Long> approverWorkAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
+		List<Long> approverWorkAreas = TKContext.getApproverWorkAreas();
 
 		// Get all of the principals within our window of time.
 		for (Long waNum : approverWorkAreas) {

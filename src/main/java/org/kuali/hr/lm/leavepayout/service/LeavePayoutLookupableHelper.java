@@ -15,46 +15,37 @@
  */
 package org.kuali.hr.lm.leavepayout.service;
 
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
+import org.kuali.hr.core.lookup.KPMELookupableHelper;
 import org.kuali.hr.lm.leavepayout.LeavePayout;
-import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-public class LeavePayoutLookupableHelper extends
-        HrEffectiveDateActiveLookupableHelper {
+@SuppressWarnings("deprecation")
+public class LeavePayoutLookupableHelper extends KPMELookupableHelper {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -2654300078605742618L;
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
-                                              List pkNames) {
+	@Override
+	@SuppressWarnings("rawtypes")
+    public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
-		
-		List<HtmlData> copyOfUrls = new ArrayList<HtmlData>();
-		copyOfUrls.addAll(customActionUrls);
-		for(HtmlData aData : copyOfUrls) {
-			if(aData.getMethodToCall().equals(KRADConstants.MAINTENANCE_EDIT_METHOD_TO_CALL)) {
-				customActionUrls.remove(aData);
-			}
-		}
+
 		LeavePayout lp = (LeavePayout) businessObject;
-		String lpId = lp.getLmLeavePayoutId();
+		String lmLeavePayoutId = lp.getLmLeavePayoutId();
 		
 		Properties params = new Properties();
 		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
 		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
-		params.put("lmLeavePayoutId", lpId);
+		params.put("lmLeavePayoutId", lmLeavePayoutId);
 		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
 		viewUrl.setDisplayText("view");
 		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
@@ -64,10 +55,17 @@ public class LeavePayoutLookupableHelper extends
     }
 
     @Override
-    public List<? extends BusinessObject> getSearchResults(
-            Map<String, String> fieldValues) {
-        // TODO Auto-generated method stub
-        return super.getSearchResults(fieldValues);
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        String principalId = fieldValues.get("principalId");
+        String fromAccrualCategory = fieldValues.get("fromAccrualCategory");
+        String payoutAmount = fieldValues.get("payoutAmount");
+        String earnCode = fieldValues.get("earnCode");
+        String forfeitedAmount = fieldValues.get("forfeitedAmount");
+        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
+        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
+
+        return TkServiceLocator.getLeavePayoutService().getLeavePayouts(principalId, fromAccrualCategory, payoutAmount, earnCode, forfeitedAmount, 
+        		TKUtils.formatDateString(fromEffdt), TKUtils.formatDateString(toEffdt));
     }
 
 }

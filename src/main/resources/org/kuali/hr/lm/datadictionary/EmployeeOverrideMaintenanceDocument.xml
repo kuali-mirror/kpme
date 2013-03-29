@@ -31,7 +31,7 @@
 		p:businessObjectClass="org.kuali.hr.lm.employeeoverride.EmployeeOverride"
 		p:businessRulesClass="org.kuali.hr.lm.employeeoverride.validation.EmployeeOverrideRule"
 		p:maintainableClass="org.kuali.hr.lm.employeeoverride.service.EmployeeOverrideMaintainableServiceImpl"
-		p:documentAuthorizerClass="org.kuali.hr.time.authorization.LocationAdminAuthorizer">
+		p:documentAuthorizerClass="org.kuali.hr.lm.employeeoverride.authorization.EmployeeOverrideAuthorizer">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="EmployeeOverrideMaintenanceDocument-EmployeeOverrideMaintenance" />

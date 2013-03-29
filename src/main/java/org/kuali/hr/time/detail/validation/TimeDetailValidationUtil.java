@@ -15,8 +15,20 @@
  */
 package org.kuali.hr.time.detail.validation;
 
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.*;
+import org.joda.time.DateMidnight;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Hours;
+import org.joda.time.Interval;
+import org.joda.time.LocalDateTime;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.CalendarEntry;
@@ -26,15 +38,9 @@ import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-
-import java.math.BigDecimal;
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TimeDetailValidationUtil {
 
@@ -201,7 +207,7 @@ public class TimeDetailValidationUtil {
         List<Interval> dayInt = new ArrayList<Interval>();
 
         //if the user is clocked in, check if this time block overlaps with the clock action
-        ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(TKUser.getCurrentTargetPersonId());
+        ClockLog lastClockLog = TkServiceLocator.getClockLogService().getLastClockLog(TKContext.getTargetPrincipalId());
         if(lastClockLog != null &&
         		(lastClockLog.getClockAction().equals(TkConstants.CLOCK_IN) 
         				|| lastClockLog.getClockAction().equals(TkConstants.LUNCH_IN))) {

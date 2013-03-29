@@ -20,68 +20,52 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
+import org.kuali.hr.core.lookup.KPMELookupableHelper;
+import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.missedpunch.MissedPunchDocument;
-import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.hr.time.workflow.service.TimesheetDocumentHeaderService;
 import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 
-public class ClockLogLookupableHelper extends KualiLookupableHelperServiceImpl {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+@SuppressWarnings("deprecation")
+public class ClockLogLookupableHelper extends KPMELookupableHelper {
 
 	@Override
-	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
-			List pkNames) {
-		List<HtmlData> customActionUrls = super.getCustomActionUrls(
-				businessObject, pkNames);
-		List<HtmlData> overrideUrls = new ArrayList<HtmlData>();
+	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
+		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
 		
-		//Add missed punch to the clock log if it has one
 		ClockLog clockLog = (ClockLog)businessObject;
+		String tkClockLogId = clockLog.getTkClockLogId();
+		
 		MissedPunchDocument mpDoc = TkServiceLocator.getMissedPunchService().getMissedPunchByClockLogId(clockLog.getTkClockLogId());
-		if(mpDoc != null){
+		if (mpDoc != null) {
 			clockLog.setMissedPunchDocumentId(mpDoc.getDocumentNumber());
 		}
 		
-		for(HtmlData actionUrl : customActionUrls){
-			if(!StringUtils.equals(actionUrl.getMethodToCall(), "copy")){
-				overrideUrls.add(actionUrl);
-			}
-		}
-		if (TKUser.isSystemAdmin() || TKUser.isGlobalViewOnly()) {
-			clockLog = (ClockLog) businessObject;
-			final String className = this.getBusinessObjectClass().getName();
-			final String tkClockLogId = clockLog.getTkClockLogId();
-			HtmlData htmlData = new HtmlData() {
-
-				@Override
-				public String constructCompleteHtmlTag() {
-					return "<a target=\"_blank\" href=\"inquiry.do?businessObjectClassName="
-							+ className
-							+ "&methodToCall=start&tkClockLogId="
-							+ tkClockLogId + "\">view</a>";
-				}
-			};
-			overrideUrls.add(htmlData);
-		} else if (overrideUrls.size() != 0) {
-			overrideUrls.remove(0);
-		}
-		return overrideUrls;
+		Properties params = new Properties();
+		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
+		params.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.MAINTENANCE_NEW_METHOD_TO_CALL);
+		params.put("tkClockLogId", tkClockLogId);
+		AnchorHtmlData viewUrl = new AnchorHtmlData(UrlFactory.parameterizeUrl(KRADConstants.INQUIRY_ACTION, params), "view");
+		viewUrl.setDisplayText("view");
+		viewUrl.setTarget(AnchorHtmlData.TARGET_BLANK);
+		customActionUrls.add(viewUrl);
+		
+		return customActionUrls;
 	}
 
 	@Override
@@ -137,38 +121,22 @@ public class ClockLogLookupableHelper extends KualiLookupableHelperServiceImpl {
 					}
 				}
 				
-				List<TkRole> tkRoles = TkServiceLocator.getTkRoleService()
-						.getRoles(TKContext.getPrincipalId(),
-								TKUtils.getCurrentDate());
-				Job job = TkServiceLocator.getJobService().getJob(
-						cl.getUserPrincipalId(), cl.getJobNumber(),
-						TKUtils.getCurrentDate(), false);
+				Job job = TkServiceLocator.getJobService().getJob(cl.getPrincipalId(), cl.getJobNumber(), TKUtils.getCurrentDate(), false);
+				String department = job != null ? job.getDept() : null;
+				
+				Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, TKUtils.getCurrentDate());
+				String location = departmentObj != null ? departmentObj.getLocation() : null;
+				
 				boolean valid = false;
-				for (TkRole tkRole : tkRoles) {
-					if (StringUtils.equals(tkRole.getRoleName(),
-							TkConstants.ROLE_TK_SYS_ADMIN)
-							|| (StringUtils.equals(tkRole.getRoleName(),
-									TkConstants.ROLE_TK_APPROVER) && cl
-									.getWorkArea().equals(tkRole.getWorkArea()))
-							|| (StringUtils.equals(tkRole.getRoleName(),
-									TkConstants.ROLE_TK_DEPT_ADMIN) && (job != null && (job
-									.getDept().equals(tkRole.getDepartment()))))) {
+				if (TkServiceLocator.getHRGroupService().isMemberOfSystemAdministratorGroup(TKContext.getPrincipalId(), new DateTime())
+						|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(TKContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), cl.getWorkArea(), new DateTime())
+						|| TkServiceLocator.getTKRoleService().principalHasRoleInDepartment(TKContext.getPrincipalId(), KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+						|| TkServiceLocator.getLMRoleService().principalHasRoleInDepartment(TKContext.getPrincipalId(), KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+						|| TkServiceLocator.getTKRoleService().principalHasRoleInLocation(TKContext.getPrincipalId(), KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
+						|| TkServiceLocator.getLMRoleService().principalHasRoleInLocation(TKContext.getPrincipalId(), KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())) {
 						valid = true;
-						break;
-					}
-					if(StringUtils.equals(tkRole.getRoleName(), TkConstants.ROLE_TK_LOCATION_ADMIN) && job != null && tkRole.getLocationObj()!=null){
-						List<Department> departments = TkServiceLocator.getDepartmentService().getDepartmentByLocation(tkRole.getLocationObj().getLocation());
-						for(Department department : departments){
-							if(StringUtils.equals(job.getDept(), department.getDept())){
-								valid = true;
-								break;
-							}
-						}
-						if(valid){
-							break;
-						}
-					}
 				}
+				
 				if (!valid) {
 					itr.remove();
 					continue;

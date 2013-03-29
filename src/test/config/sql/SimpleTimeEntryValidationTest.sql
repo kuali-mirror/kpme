@@ -14,5 +14,5 @@
 -- limitations under the License.
 --
 
-delete from tk_document_header_t where document_id = '2';
-insert into tk_document_header_t values ('2', 'admin', '2011-02-01 00:00:00', 'I', '2011-01-15 00:00:00', NULL, '1');
+delete from hr_calendar_entries_t where hr_calendar_entry_id = '5000';
+insert into hr_calendar_entries_t (hr_calendar_entry_id,hr_calendar_id, calendar_name, begin_period_date, end_period_date) values ('5000', '2', 'BWS-CAL', '2011-01-15 00:00:00', '2011-01-31 00:00:00');

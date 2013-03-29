@@ -15,6 +15,14 @@
  */
 package org.kuali.hr.time.assignment.service;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -28,12 +36,8 @@ import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-
-import java.sql.Date;
-import java.util.*;
 
 public class AssignmentServiceImpl implements AssignmentService {
 
@@ -199,7 +203,7 @@ public class AssignmentServiceImpl implements AssignmentService {
             //if the user is not the same as the timesheet and does not have approver access for the assignment
             //do not add to the display
             if (!StringUtils.equals(TKContext.getTargetPrincipalId(), TKContext.getPrincipalId())) {
-                if (!TKUser.isSystemAdmin() && !TKUser.getReportingWorkAreas().contains(assignment.getWorkArea())) {
+                if (!TKContext.isSystemAdmin() && !TKContext.getReportingWorkAreas().contains(assignment.getWorkArea())) {
                     continue;
                 }
             }

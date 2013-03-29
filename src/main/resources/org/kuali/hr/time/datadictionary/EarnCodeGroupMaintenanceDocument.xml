@@ -31,7 +31,7 @@
 		p:businessObjectClass="org.kuali.hr.time.earncodegroup.EarnCodeGroup"
 		p:businessRulesClass="org.kuali.hr.time.earncodegroup.validation.EarnCodeGroupValidation"
 		p:maintainableClass="org.kuali.hr.time.earncodegroup.service.EarnCodeGroupMaintainableImpl"
-		p:documentAuthorizerClass="org.kuali.hr.time.authorization.LocationAdminAuthorizer">
+		p:documentAuthorizerClass="org.kuali.hr.time.earncodegroup.authorization.EarnCodeGroupAuthorizer">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="EarnCodeGroupMaintenanceDocument-EarnCodeGroupMaintenance" />

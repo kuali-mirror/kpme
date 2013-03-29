@@ -28,5 +28,5 @@ public interface PositionDao {
 
     //void saveOrUpdate(PositionNumber positionNumber);
 
-    public List<Position> getPositions(String positionNum, String workArea, String description, Date fromEffdt, Date toEffdt, String active, String showHistory);
+    public List<Position> getPositions(String positionNum, String description, Date fromEffdt, Date toEffdt, String active, String showHistory);
 }

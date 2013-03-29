@@ -17,17 +17,16 @@ package org.kuali.hr.time.authorization;
 
 import java.util.Map;
 
-import org.kuali.hr.time.roles.TkUserRoles;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 public class DepartmentAdminAuthorizer extends LocationAdminAuthorizer {
 	
 	public boolean isDepartmentAdmin(){
-		return TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isDepartmentAdmin();
+		return TKContext.isDepartmentAdmin();
 	}
 	
 	@Override

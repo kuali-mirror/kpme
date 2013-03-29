@@ -18,236 +18,229 @@ package org.kuali.hr.time.workarea.web;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.kuali.hr.core.role.KPMERole;
+import org.kuali.hr.core.role.KPMERoleMemberBo;
+import org.kuali.hr.core.role.PositionRoleMemberBo;
+import org.kuali.hr.core.role.PrincipalRoleMemberBo;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
-import org.kuali.hr.time.roles.TkRole;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.rice.kim.api.role.Role;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.util.GlobalVariables;
 
-public class WorkAreaMaintenanceDocumentRule extends
-		MaintenanceDocumentRuleBase {
+@SuppressWarnings("deprecation")
+public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase {
 
-	private static Logger LOG = Logger
-			.getLogger(WorkAreaMaintenanceDocumentRule.class);
+	@Override
+	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
+		boolean valid = true;
 
-	boolean validateDepartment(String dept, Date asOfDate) {
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
+		
+		if (pbo instanceof WorkArea) {
+			WorkArea workArea = (WorkArea) pbo;
+			
+			valid &= validateDefaultOvertimeEarnCode(workArea.getDefaultOvertimeEarnCode(), workArea.getEffectiveDate());
+			
+			valid &= validateDepartment(workArea.getDept(), workArea.getEffectiveDate());
+			
+			if (!DepartmentalRuleAuthorizer.hasAccessToWrite((DepartmentalRule)pbo)) {
+				String[] params = new String[] {GlobalVariables.getUserSession().getPrincipalName(), workArea.getDept()};
+				this.putFieldError("dept", "dept.user.unauthorized", params);
+				valid &= false;
+			}
+			
+			valid &= validateRoleMembers(workArea.getPrincipalRoleMembers(), workArea.getPositionRoleMembers(), workArea.getEffectiveDate(), "principalRoleMembers", "positionRoleMembers");
+			
+			valid &= validateActive(workArea);
+		}
+		
+		return valid;
+	}
+
+	@Override
+	public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
+		boolean valid = true;
+		
+		PersistableBusinessObject pboWorkArea = document.getDocumentBusinessObject();
+		PersistableBusinessObject pboTask = line;
+		
+		if (pboWorkArea instanceof WorkArea && pboTask instanceof Task) {
+			WorkArea workArea = (WorkArea) pboWorkArea;
+			Task task = (Task) pboTask;
+			
+			valid &= validateTask(task, workArea);
+			
+			if (valid) {
+				if (task.getTask() == null) {
+					Long maxTaskNumberInTable = this.getMaxTaskNumber(workArea);
+					Long maxTaskNumberOnPage = 0L;
+					if (!workArea.getTasks().isEmpty()) {
+						maxTaskNumberOnPage = workArea.getTasks().get(workArea.getTasks().size() - 1).getTask();
+					}
+					
+					if (maxTaskNumberOnPage.compareTo(maxTaskNumberInTable) >= 0) {
+						task.setTask(maxTaskNumberOnPage + 1);
+					} else {
+						task.setTask(maxTaskNumberInTable);
+					}
+					
+					task.setWorkArea(workArea.getWorkArea());
+				}
+			}
+		}
+		
+		return valid;
+	}
+	
+	protected boolean validateDefaultOvertimeEarnCode(String defaultOvertimeEarnCode, Date asOfDate) {
+		boolean valid = true;
+		
+		if (defaultOvertimeEarnCode != null) {
+			if (!ValidationUtils.validateEarnCode(defaultOvertimeEarnCode, asOfDate)) {
+				this.putFieldError("defaultOvertimeEarnCode", "error.existence", "earnCode '" + defaultOvertimeEarnCode + "'");
+				valid = false;
+			} else {
+				if (!ValidationUtils.validateEarnCode(defaultOvertimeEarnCode, true, asOfDate)) {
+					this.putFieldError("defaultOvertimeEarnCode", "earncode.ovt.required", defaultOvertimeEarnCode);
+					valid = false;
+				}
+			}
+		}
+		
+		return valid;
+	}
+	
+	protected boolean validateDepartment(String dept, Date asOfDate) {
 		boolean valid = ValidationUtils.validateDepartment(dept, asOfDate);
+		
 		if (!valid) {
 			this.putFieldError("dept", "dept.notfound");
 		}
-		return valid;
-	}
-
-	boolean validateRoles(List<TkRole> roles, Date effectiveDate) {
-		boolean valid = false;
 		
-		if (roles != null && roles.size() > 0) {
-			int pos = 0;
-			for (TkRole role : roles) {
-				valid |= role.isActive();
-				if(role.getRoleName().equalsIgnoreCase(TkConstants.ROLE_TK_APPROVER_DELEGATE)){
-					StringBuffer prefix = new StringBuffer("roles[");
-		            prefix.append(pos).append("].");
-					if (role.getExpirationDate() == null) {
-						this.putFieldError(prefix + "expirationDate",
-								"error.role.expiration.required");
-					} else if (role.getEffectiveDate().compareTo(role.getExpirationDate()) >= 0) {
-						this.putFieldError(prefix + "expirationDate",
-								"error.role.expiration");
-					} else if (TKUtils.getDaysBetween(role.getEffectiveDate(), role.getExpirationDate()) > 180) {
-		        		   this.putFieldError(prefix + "expirationDate",
-		     						"error.role.expiration.duration");
-		     				valid = false;
-		        	}
-				}
-				pos++;
-			}
-		}
-
-		if (!valid) {
-			this.putGlobalError("role.required");
-		}
-
 		return valid;
 	}
 
-	boolean validateTask(List<TkRole> roles) {
-		boolean valid = false;
+	boolean validateRoleMembers(List<? extends PrincipalRoleMemberBo> principalRoleMembers, List<? extends PositionRoleMemberBo> positionRoleMembers, Date effectiveDate, String principalPrefix, String positionPrefix) {
+		boolean valid = true;
+		
+		boolean activeRoleMember = false;
+		for (ListIterator<? extends KPMERoleMemberBo> iterator = principalRoleMembers.listIterator(); iterator.hasNext(); ) {
+			int index = iterator.nextIndex();
+			KPMERoleMemberBo roleMember = iterator.next();
+			
+			activeRoleMember |= roleMember.isActive();
 
-		if (roles != null && roles.size() > 0) {
-			for (TkRole role : roles) {
-				valid |= role.isActive()
-						&& StringUtils.equals(role.getRoleName(),
-								TkConstants.ROLE_TK_APPROVER);
-			}
+			valid &= validateRoleMember(roleMember, effectiveDate, principalPrefix, index);
+		}
+		for (ListIterator<? extends KPMERoleMemberBo> iterator = positionRoleMembers.listIterator(); iterator.hasNext(); ) {
+			int index = iterator.nextIndex();
+			KPMERoleMemberBo roleMember = iterator.next();
+			
+			activeRoleMember |= roleMember.isActive();
+
+			valid &= validateRoleMember(roleMember, effectiveDate, positionPrefix, index);
 		}
 
-		if (!valid) {
+		if (!activeRoleMember) {
 			this.putGlobalError("role.required");
+			valid = false;
 		}
 
 		return valid;
 	}
 	
-	boolean validateTask(Task task, Long workArea) {
+	boolean validateRoleMember(KPMERoleMemberBo roleMember, Date effectiveDate, String prefix, int index) {
 		boolean valid = true;
-        //Task numbers are assigned by the system and the validation below is not needed.
-//		for (Task t : tasks) {
-//			if (t.getTask().equals(task.getTask()) ) {   //task.getTask() is always null at this point?
-//				this.putGlobalError("error.duplicate.entry", "task '" + task.getTask() + "'");
-//				valid = false;
-//			}
-//		}
-        //validate the effective date set for the task. it should be equal to or after the effdt set for the workarea
-        if (task.getEffectiveDate().compareTo(TkServiceLocator.getWorkAreaService().getWorkArea(workArea,TKUtils.getCurrentDate()).getEffectiveDate()) < 0) {
-            this.putGlobalError("task.workarea.invalid.effdt", "effective date '" + task.getEffectiveDate().toString() +"'");
+		
+		Role role = KimApiServiceLocator.getRoleService().getRole(roleMember.getRoleId());
+		
+		if (StringUtils.equals(role.getName(), KPMERole.APPROVER_DELEGATE.getRoleName())) {
+			String propertyNamePrefix = prefix + "[" + index + "].";
+
+			if (roleMember.getExpirationDate() == null) {
+				this.putFieldError(propertyNamePrefix + "expirationDate", "error.role.expiration.required");
+				valid = false;
+			} else if (effectiveDate.compareTo(roleMember.getExpirationDate()) >= 0
+					|| roleMember.getEffectiveDate().compareTo(roleMember.getExpirationDate()) >= 0) {
+				this.putFieldError(propertyNamePrefix + "expirationDate", "error.role.expiration");
+				valid = false;
+			} else if (TKUtils.getDaysBetween(roleMember.getEffectiveDate(), roleMember.getExpirationDate()) > 180) {
+				this.putFieldError(propertyNamePrefix + "expirationDate", "error.role.expiration.duration");
+				valid = false;
+        	}
+		}
+		
+		return valid;
+	}
+	
+	boolean validateActive(WorkArea workArea) {
+		boolean valid = true;
+		
+		if(!workArea.isActive()){
+			List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea.getWorkArea(), workArea.getEffectiveDate());
+			for(Assignment assignment: assignments){
+				if(assignment.getWorkArea().equals(workArea.getWorkArea())){
+					this.putGlobalError("workarea.active.required");
+					valid = false;
+					break;
+				}
+			}
+		} else{
+			List<Long> inactiveTasks = new ArrayList<Long>();
+			for (Task task : workArea.getTasks()) {
+				if(!task.isActive()){
+					inactiveTasks.add(task.getTask());
+				}
+			}
+			
+			if(!inactiveTasks.isEmpty()){
+				List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea.getWorkArea(), workArea.getEffectiveDate());
+				for(Assignment assignment : assignments){
+					for(Long inactiveTask : inactiveTasks){
+						if(inactiveTask.equals(assignment.getTask())){
+							this.putGlobalError("task.active.required", inactiveTask.toString());
+							valid = false;
+						}
+					}
+				}
+			}
+			
+		}
+		
+		return valid;
+	}
+	
+	boolean validateTask(Task task, WorkArea workArea) {
+		boolean valid = true;
+
+		if (task.getEffectiveDate().compareTo(workArea.getEffectiveDate()) < 0) {
+            this.putGlobalError("task.workarea.invalid.effdt", "effective date '" + task.getEffectiveDate().toString() + "'");
             valid = false;
         }
-		return valid;
-	}
-	
-	boolean validateDefaultOTEarnCode(String earnCode, Date asOfDate) {
-		// defaultOvertimeEarnCode is a nullable field. 
-		if (earnCode != null
-				&& !ValidationUtils.validateEarnCode(earnCode, asOfDate)) {
-			this.putFieldError("defaultOvertimeEarnCode", "error.existence", "earnCode '"
-					+ earnCode + "'");
-			return false;
-		} else {
-			if (earnCode != null
-					&& !ValidationUtils.validateEarnCode(earnCode, true, asOfDate)) {
-				this.putFieldError("defaultOvertimeEarnCode", "earncode.ovt.required",
-						earnCode);
-				return false;
-			}
-			return true;
-		}
-	}
-
-	@Override
-	protected boolean processCustomRouteDocumentBusinessRules(
-			MaintenanceDocument document) {
-		boolean valid = false;
-
-		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
-		if (pbo instanceof WorkArea) {
-			WorkArea wa = (WorkArea) pbo;
-			valid = validateDepartment(wa.getDept(), wa.getEffectiveDate());
-			if(!DepartmentalRuleAuthorizer.hasAccessToWrite((DepartmentalRule)pbo)) {
-				String[] params = new String[]{GlobalVariables.getUserSession().getPrincipalName(), wa.getDept()};
-				this.putFieldError("dept", "dept.user.unauthorized", params);
-			}
-			valid &= validateRoles(wa.getRoles(), wa.getEffectiveDate());
-			// defaultOvertimeEarnCode is a nullable field. 
-			if ( wa.getDefaultOvertimeEarnCode() != null ){
-				valid &= validateDefaultOTEarnCode(wa.getDefaultOvertimeEarnCode(),
-						wa.getEffectiveDate());
-			}
-			
-			if(!wa.isActive()){
-				List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(wa.getWorkArea(), wa.getEffectiveDate());
-				for(Assignment assignment: assignments){
-					if(assignment.getWorkArea().equals(wa.getWorkArea())){
-						this.putGlobalError("workarea.active.required");
-						valid = false;
-						break;
-					}
-				}
-			}else{
-				List<Long> inactiveTasks = new ArrayList<Long>();
-				for (Task task : wa.getTasks()) {
-					if(!task.isActive()){
-						inactiveTasks.add(task.getTask());
-					}
-				}
-				
-				if(!inactiveTasks.isEmpty()){
-					List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(wa.getWorkArea(), wa.getEffectiveDate());
-					for(Assignment assignment : assignments){
-						for(Long inactiveTask : inactiveTasks){
-							if(inactiveTask.equals(assignment.getTask())){
-								this.putGlobalError("task.active.required", inactiveTask.toString());
-								valid = false;
-							}
-						}
-					}
-				}
-				
-			}
-		}
-
-		return valid;
-	}
-
-	@Override
-	public boolean processCustomAddCollectionLineBusinessRules(
-			MaintenanceDocument document, String collectionName,
-			PersistableBusinessObject line) {
-		boolean valid = false;
-		LOG.debug("entering custom validation for Task");
-		PersistableBusinessObject pboWorkArea = document.getDocumentBusinessObject();
-		PersistableBusinessObject pbo = line;
-		if (pbo instanceof Task && pboWorkArea instanceof WorkArea) {
-			WorkArea wa = (WorkArea) pboWorkArea;
-			
-			Task task = (Task) pbo;
-			
-			if (task != null && wa.getTasks() != null) {
-				valid = true;
-				valid &= this.validateTask(task, wa.getWorkArea());
-				// KPME-870
-				if ( valid ){
-					if (task.getTask() == null){
-						Long maxTaskNumberInTable = this.getTaskNumber(wa);
-						Long maxTaskNumberOnPage = 0L;
-						if(wa.getTasks().size() > 0){
-							maxTaskNumberOnPage = wa.getTasks().get((wa.getTasks().size()) -1 ).getTask();
-						}
-						
-						if ( maxTaskNumberOnPage.compareTo(maxTaskNumberInTable) >= 0){
-							task.setTask(maxTaskNumberOnPage + 1);
-						} else {
-							task.setTask(maxTaskNumberInTable);
-						}
-						task.setWorkArea(wa.getWorkArea());
-					}
-				}
-			}
-		} else if ((pbo instanceof TkRole && pboWorkArea instanceof WorkArea)) {
-			TkRole tkRole = (TkRole)pbo;
-			valid = true;
-			if(StringUtils.isEmpty(tkRole.getPrincipalId())) {
-				if (tkRole.getPositionNumber() == null || StringUtils.isEmpty(tkRole.getPositionNumber().toString())){
-					this.putGlobalError("principal.position.required");
-				}
-			}
-		}
 		
 		return valid;
 	}
 
-	public Long getTaskNumber(WorkArea workArea) {
-		Long task;
+	private Long getMaxTaskNumber(WorkArea workArea) {
+		Long task = new Long("100");
 		
-		Task maxTaskInTable = TkServiceLocator.getTaskService().getMaxTask();
-		if(maxTaskInTable != null) {
-			// get the max of task number of the collection
-			task = maxTaskInTable.getTask() +1;
-		} else {
-			task = new Long("100");
+		Task maxTask = TkServiceLocator.getTaskService().getMaxTask();
+		
+		if (maxTask != null) {
+			task = maxTask.getTask() + 1;
 		}
 		
 		return task;

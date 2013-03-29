@@ -24,14 +24,14 @@ INSERT INTO hr_location_t(hr_location_id, location, description, effdt, timestam
 delete from hr_principal_attributes_t where principal_id = '111';
 delete from lm_sys_schd_timeoff_t where LM_SYS_SCHD_TIMEOFF_ID >= '3000';
 
-insert into lm_sys_schd_timeoff_t values ('3000', 'testLP',     'testAC',  'EC',  '2012-01-01', NULL, 'testLocation','testSSTO', '3', null,   null, null, 'testH', '2012-03-01', uuid(), '1', 'Y', now());
-insert into lm_sys_schd_timeoff_t values ('3001', 'InactiveLP', 'testAC',  'EC',  '2012-01-01', NULL, 'testLocation','testSSTO', '3', null,   null, null, 'testH', '2012-03-01', uuid(), '1', 'N', now());
+insert into lm_sys_schd_timeoff_t values ('3000', 'testLP',     'testAC',  'EC',  '2012-01-01', NULL, 'BL','testSSTO', '3', null,   null, null, 'testH', '2012-03-01', uuid(), '1', 'Y', now());
+insert into lm_sys_schd_timeoff_t values ('3001', 'InactiveLP', 'testAC',  'EC',  '2012-01-01', NULL, 'BL','testSSTO', '3', null,   null, null, 'testH', '2012-03-01', uuid(), '1', 'N', now());
 INSERT INTO lm_sys_schd_timeoff_t VALUES ('3002','TEST','TEST-AC','TLC','2013-01-02',NULL,'BL','Test New Years Day',8,'NUTA',1.50,'TEST-LC','N','2012-02-08','8751782B-193F-0201-99E5-375FA84D7B78',2,'N','2012-02-08 21:45:20');
 INSERT INTO lm_sys_schd_timeoff_t VALUES ('3007','TEST','TEST-AC','IND','2014-01-02',NULL,'BL','Test New Years Day',8,'NUTA',1.50,'TEST-LC','N','2012-02-08','64359087-1F4C-3490-E0E8-9513DC9BEDC1',3,'N','2012-02-08 21:47:16');
 INSERT INTO lm_sys_schd_timeoff_t VALUES ('3008','TEST','TEST-AC','TEST-LC','2014-01-02',NULL,'BL','Test New Years Day',8,'NUTA',1.50,'TEST-LC','N','2012-02-08','615EA427-1BC0-60DB-E85E-66CD03923BA9',3,'Y','2012-02-08 21:47:17');
 INSERT INTO lm_sys_schd_timeoff_t VALUES ('3003','TEST','TEST-AC','TEST-LC','2014-01-02',NULL,'BL','Test New Years Day',8,'NUTA',1.50,'TEST-LC','N','2012-02-09','162120C5-ADEC-239E-9249-BB727CCFA362',4,'N','2012-02-08 21:58:37');
 INSERT INTO lm_sys_schd_timeoff_t VALUES ('3004','TEST','TEST-AC','TEST-LC','2014-01-02',NULL,'BL','Test New Years Day',8,'NUTA',1.50,'TEST-LC','N','2012-02-09','F4C4F1C2-62B7-4FB0-4B2D-B447E1F42D44',4,'N','2012-02-08 21:58:38');
-INSERT INTO lm_sys_schd_timeoff_t VALUES ('3005','test','testAC','TLC','2012-02-24',NULL,'CST','test1363',3,NULL,NULL,NULL,'N','2012-02-24','A928B2CB-EB49-7ED8-9E88-813E857D2B79',1,'Y','2012-02-22 15:41:25');
+INSERT INTO lm_sys_schd_timeoff_t VALUES ('3005','test','testAC','TLC','2012-02-24',NULL,'BL','test1363',3,NULL,NULL,NULL,'N','2012-02-24','A928B2CB-EB49-7ED8-9E88-813E857D2B79',1,'Y','2012-02-22 15:41:25');
 
 
 

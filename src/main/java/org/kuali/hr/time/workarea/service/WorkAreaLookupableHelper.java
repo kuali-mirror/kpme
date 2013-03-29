@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.workarea.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -25,52 +24,30 @@ import org.kuali.hr.time.authorization.DepartmentalRule;
 import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
 import org.kuali.hr.time.authorization.TkAuthorizedLookupableHelperBase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
-import org.kuali.rice.kns.document.authorization.BusinessObjectRestrictions;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
-import org.kuali.rice.kns.web.struts.form.LookupForm;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
+@SuppressWarnings("deprecation")
 public class WorkAreaLookupableHelper extends TkAuthorizedLookupableHelperBase {
 
-    /**
-     * Implemented method to reduce the set of Business Objects that are shown
-     * to the user based on their current roles.
-     */
+	private static final long serialVersionUID = -817820785437555183L;
+
     public boolean shouldShowBusinessObject(BusinessObject bo) {
         return (bo instanceof DepartmentalRule) && DepartmentalRuleAuthorizer.hasAccessToRead((DepartmentalRule)bo);
     }
-
+    
 	@Override
+	@SuppressWarnings("rawtypes")
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-		List<HtmlData> customActionUrls = new ArrayList<HtmlData>();
-		
-		List<HtmlData> defaultCustomActionUrls = super.getCustomActionUrls(businessObject, pkNames);
-		
+		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
+
 		WorkArea workArea = (WorkArea) businessObject;
 		String tkWorkAreaId = workArea.getTkWorkAreaId();
-		String location = TkServiceLocator.getDepartmentService().getDepartment(workArea.getDept(), TKUtils.getCurrentDate()).getLocation();
-		String department = workArea.getDept();
-		
-		boolean systemAdmin = TKUser.isSystemAdmin();
-		boolean locationAdmin = TKUser.getLocationAdminAreas().contains(location);
-		boolean departmentAdmin = TKUser.getDepartmentAdminAreas().contains(department);
-		
-		for (HtmlData defaultCustomActionUrl : defaultCustomActionUrls){
-			if (StringUtils.equals(defaultCustomActionUrl.getMethodToCall(), "edit")) {
-				if (systemAdmin || locationAdmin || departmentAdmin) {
-					customActionUrls.add(defaultCustomActionUrl);
-				}
-			} else {
-				customActionUrls.add(defaultCustomActionUrl);
-			}
-		}
 		
 		Properties params = new Properties();
 		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
@@ -83,36 +60,7 @@ public class WorkAreaLookupableHelper extends TkAuthorizedLookupableHelperBase {
 		
 		return customActionUrls;
 	}
-
-	@Override
-	public HtmlData getReturnUrl(BusinessObject businessObject,
-			LookupForm lookupForm, List returnKeys,
-			BusinessObjectRestrictions businessObjectRestrictions) {
-		if (lookupForm.getFieldConversions().containsKey("effectiveDate")) {
-			lookupForm.getFieldConversions().remove("effectiveDate");
-		}
-		if (returnKeys.contains("effectiveDate")) {
-			returnKeys.remove("effectiveDate");
-		}
-		if (lookupForm.getFieldConversions().containsKey("dept")) {
-			lookupForm.getFieldConversions().remove("dept");
-		}
-		if (returnKeys.contains("dept")) {
-			returnKeys.remove("dept");
-		}
-		
-		if(lookupForm.getFieldConversions().containsKey("tkWorkAreaId")){
-			lookupForm.getFieldConversions().remove("tkWorkAreaId");
-		}
-		if(returnKeys.contains("tkWorkAreaId")){
-			returnKeys.remove("tkWorkAreaId");
-		}
-		return super.getReturnUrl(businessObject, lookupForm, returnKeys,
-				businessObjectRestrictions);
-	}
 	
-
-
 	@Override
 	protected void validateSearchParameterWildcardAndOperators(
 			String attributeName, String attributeValue) {

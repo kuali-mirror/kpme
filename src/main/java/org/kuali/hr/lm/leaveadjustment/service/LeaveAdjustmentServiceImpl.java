@@ -17,6 +17,7 @@ package org.kuali.hr.lm.leaveadjustment.service;
 
 import java.sql.Date;
 import java.util.List;
+
 import org.kuali.hr.lm.leaveadjustment.LeaveAdjustment;
 import org.kuali.hr.lm.leaveadjustment.dao.LeaveAdjustmentDao;
 
@@ -40,6 +41,11 @@ public class LeaveAdjustmentServiceImpl implements LeaveAdjustmentService {
 
 	public void setLeaveAdjustmentDao(LeaveAdjustmentDao leaveAdjustmentDao) {
 		this.leaveAdjustmentDao = leaveAdjustmentDao;
+	}
+
+	@Override
+	public List<LeaveAdjustment> getLeaveAdjustments(Date fromEffdt, Date toEffdt, String principalId, String accrualCategory, String earnCode) {
+		return leaveAdjustmentDao.getLeaveAdjustments(fromEffdt, toEffdt, principalId, accrualCategory, earnCode);
 	}
 
 }

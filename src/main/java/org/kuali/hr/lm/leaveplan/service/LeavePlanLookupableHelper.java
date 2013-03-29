@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.kuali.hr.core.lookup.KPMELookupableHelper;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
-import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
@@ -29,11 +29,13 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-public class LeavePlanLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
+@SuppressWarnings("deprecation")
+public class LeavePlanLookupableHelper extends KPMELookupableHelper {
 
 	private static final long serialVersionUID = 3382815973444543931L;
 
 	@Override
+	@SuppressWarnings("rawtypes")
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
 			
@@ -66,4 +68,5 @@ public class LeavePlanLookupableHelper extends HrEffectiveDateActiveLookupableHe
         return TkServiceLocator.getLeavePlanService().getLeavePlans(leavePlan, calendarYearStart, descr, planningMonths, TKUtils.formatDateString(fromEffdt),
                 TKUtils.formatDateString(toEffdt), active, showHistory);
     }
+    
 }

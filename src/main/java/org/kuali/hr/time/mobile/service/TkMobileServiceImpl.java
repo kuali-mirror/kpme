@@ -30,7 +30,6 @@ import org.kuali.hr.time.clocklog.ClockLog;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -66,7 +65,7 @@ public class TkMobileServiceImpl implements TkMobileService {
 
         // Set person on the context
         // This is primary for getting the assignment, since we get the assignment by using the target principal id on the context
-        TKUser.setTargetPerson(principalId);
+        TKContext.setTargetPrincipalId(principalId);
 
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(new AssignmentDescriptionKey(assignmentKey), TKUtils.getCurrentDate());
         Date currentDate = TKUtils.getCurrentDate();

@@ -24,7 +24,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.missedpunch.MissedPunchDocument;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -65,7 +64,7 @@ public class TkClockActionValuesFinder extends KeyValuesBase {
         		}
         	}
         } else {
-            String targetPerson = TKUser.getCurrentTargetPersonId();
+            String targetPerson = TKContext.getTargetPrincipalId();
             ClockLog lastClock = TkServiceLocator.getClockLogService().getLastClockLog(targetPerson);
             Set<String> validEntries = lastClock != null ?
                     TkConstants.CLOCK_ACTION_TRANSITION_MAP.get(lastClock.getClockAction()) :

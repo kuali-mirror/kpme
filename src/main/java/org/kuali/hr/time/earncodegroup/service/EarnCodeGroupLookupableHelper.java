@@ -16,21 +16,26 @@
 package org.kuali.hr.time.earncodegroup.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
-import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
+import org.kuali.hr.core.lookup.KPMELookupableHelper;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-public class EarnCodeGroupLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
+@SuppressWarnings("deprecation")
+public class EarnCodeGroupLookupableHelper extends KPMELookupableHelper {
 
 	private static final long serialVersionUID = 4154366560525047293L;
 
 	@Override
+	@SuppressWarnings("rawtypes")
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
 
@@ -48,5 +53,18 @@ public class EarnCodeGroupLookupableHelper extends HrEffectiveDateActiveLookupab
 		
 		return customActionUrls;
 	}
+	
+    @Override
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+        String earnCodeGroup = fieldValues.get("earnCodeGroup");
+        String descr = fieldValues.get("descr");
+        String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
+        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
+        String active = fieldValues.get("active");
+        String showHist = fieldValues.get("history");
+
+        return TkServiceLocator.getEarnCodeGroupService().getEarnCodeGroups(earnCodeGroup, descr, TKUtils.formatDateString(fromEffdt),
+                TKUtils.formatDateString(toEffdt), active, showHist);
+    }
 	
 }

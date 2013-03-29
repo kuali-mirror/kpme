@@ -29,12 +29,9 @@ import org.apache.struts.action.ActionRedirect;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.detail.web.ActionFormUtils;
-import org.kuali.hr.time.roles.TkUserRoles;
-import org.kuali.hr.time.roles.UserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
@@ -48,11 +45,11 @@ public class TimesheetAction extends TkAction {
 
     @Override
     protected void checkTKAuthorization(ActionForm form, String methodToCall) throws AuthorizationException {
-        UserRoles roles = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId());
-        TimesheetDocument doc = TKContext.getCurrentTimesheetDocument();
-
-        if (!roles.isDocumentReadable(doc)) {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "TimesheetAction: docid: " + (doc == null ? "" : doc.getDocumentId()), "");
+    	String principalId = GlobalVariables.getUserSession().getPrincipalId();
+    	String documentId = TKContext.getCurrentTimesheetDocumentId();
+    	
+        if (!TkServiceLocator.getTKPermissionService().canViewTimesheet(principalId, documentId)) {
+            throw new AuthorizationException(principalId, "TimesheetAction: docid: " + documentId, "");
         }
     }
 
@@ -70,7 +67,7 @@ public class TimesheetAction extends TkAction {
 
         // Here - viewPrincipal will be the principal of the user we intend to
         // view, be it target user, backdoor or otherwise.
-        String viewPrincipal = TKUser.getCurrentTargetPersonId();
+        String viewPrincipal = TKContext.getTargetPrincipalId();
         Date currentDate = TKUtils.getTimelessDate(null);
 		CalendarEntry payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal, currentDate);
 
@@ -112,7 +109,7 @@ public class TimesheetAction extends TkAction {
         	TimesheetDocument timesheetDocument = TkServiceLocator.getTimesheetService().getTimesheetDocument(docId);
         	String timesheetPrincipalName = KimApiServiceLocator.getPersonService().getPerson(timesheetDocument.getPrincipalId()).getPrincipalName();
         	
-        	String principalId = TKUser.getCurrentTargetPersonId();
+        	String principalId = TKContext.getTargetPrincipalId();
         	String principalName = KimApiServiceLocator.getPersonService().getPerson(principalId).getPrincipalName();
         	
         	StringBuilder builder = new StringBuilder();
@@ -141,7 +138,7 @@ public class TimesheetAction extends TkAction {
     }
 
     protected void setupDocumentOnFormContext(TimesheetActionForm taForm, TimesheetDocument td) throws Exception{
-    	String viewPrincipal = TKUser.getCurrentTargetPersonId();
+    	String viewPrincipal = TKContext.getTargetPrincipalId();
     	TKContext.setCurrentTimesheetDocumentId(td.getDocumentId());
         TKContext.setCurrentTimesheetDocument(td);
 	    taForm.setTimesheetDocument(td);

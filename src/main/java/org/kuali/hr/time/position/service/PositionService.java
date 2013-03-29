@@ -27,6 +27,6 @@ public interface PositionService {
 
     @Cacheable(value= Position.CACHE_NAME, key="'hrPositionNbr=' + #p0  + '|' + 'effectiveDate=' + #p1")
     public Position getPosition(String hrPositionNbr, Date effectiveDate);
-
-    List<Position> getPositions(String positionNum, String workArea, String descr, Date fromEffdt, Date toEffdt, String active, String showHist);
+    
+    List<Position> getPositions(String positionNum, String descr, Date fromEffdt, Date toEffdt, String active, String showHist);
 }

@@ -15,7 +15,13 @@
  */
 package org.kuali.hr.location;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Transient;
+
 import org.kuali.hr.core.KPMEConstants;
+import org.kuali.hr.core.role.location.LocationPrincipalRoleMemberBo;
 import org.kuali.hr.time.HrBusinessObject;
 
 public class Location extends HrBusinessObject {
@@ -30,6 +36,27 @@ public class Location extends HrBusinessObject {
 	private String description;
 	private String userPrincipalId;
 	private String history;
+	
+    @Transient
+    private List<LocationPrincipalRoleMemberBo> roleMembers = new ArrayList<LocationPrincipalRoleMemberBo>();
+    
+    @Transient
+    private List<LocationPrincipalRoleMemberBo> inactiveRoleMembers = new ArrayList<LocationPrincipalRoleMemberBo>();
+
+	@Override
+	public String getUniqueKey() {
+		return location;
+	}
+	
+	@Override
+	public String getId() {
+		return getHrLocationId();
+	}
+
+	@Override
+	public void setId(String id) {
+		setHrLocationId(id);
+	}
 
 	public String getHrLocationId() {
 		return hrLocationId;
@@ -71,11 +98,6 @@ public class Location extends HrBusinessObject {
 		this.userPrincipalId = userPrincipalId;
 	}
 
-	@Override
-	public String getUniqueKey() {
-		return location;
-	}
-
 	public String getHistory() {
 		return history;
 	}
@@ -84,14 +106,36 @@ public class Location extends HrBusinessObject {
 		this.history = history;
 	}
 	
-	@Override
-	public String getId() {
-		return getHrLocationId();
+	public List<LocationPrincipalRoleMemberBo> getRoleMembers() {
+		return roleMembers;
+	}
+	
+	public void addRoleMember(LocationPrincipalRoleMemberBo roleMemberBo) {
+		roleMembers.add(roleMemberBo);
+	}
+	
+	public void removeRoleMember(LocationPrincipalRoleMemberBo roleMemberBo) {
+		roleMembers.remove(roleMemberBo);
 	}
 
-	@Override
-	public void setId(String id) {
-		setHrLocationId(id);
+	public void setRoleMembers(List<LocationPrincipalRoleMemberBo> roleMembers) {
+		this.roleMembers = roleMembers;
+	}
+
+	public List<LocationPrincipalRoleMemberBo> getInactiveRoleMembers() {
+		return inactiveRoleMembers;
+	}
+	
+	public void addInactiveRoleMember(LocationPrincipalRoleMemberBo inactiveRoleMemberBo) {
+		inactiveRoleMembers.add(inactiveRoleMemberBo);
+	}
+	
+	public void removeInactiveRoleMember(LocationPrincipalRoleMemberBo inactiveRoleMemberBo) {
+		inactiveRoleMembers.remove(inactiveRoleMemberBo);
+	}
+
+	public void setInactiveRoleMembers(List<LocationPrincipalRoleMemberBo> inactiveRoleMembers) {
+		this.inactiveRoleMembers = inactiveRoleMembers;
 	}
 
 }

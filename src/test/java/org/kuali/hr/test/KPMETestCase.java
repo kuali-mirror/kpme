@@ -86,9 +86,9 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 	    //lets try to create a user session
 	    GlobalVariables.setUserSession(new UserSession("admin"));
 	    TKContext.setHttpServletRequest(new MockHttpServletRequest());
-        setWebClient(new WebClient(BrowserVersion.FIREFOX_17));
-        getWebClient().getOptions().setJavaScriptEnabled(true);
-        getWebClient().getOptions().setTimeout(0);
+        setWebClient(new WebClient(BrowserVersion.FIREFOX_10));
+        getWebClient().setJavaScriptEnabled(true);
+        getWebClient().setTimeout(0);
 	}
 	
 	@Override
@@ -96,7 +96,7 @@ public abstract class KPMETestCase extends RiceInternalSuiteDataTestCase {
 	    // runs custom SQL at the end of each test.
 	    // useful for difficult to reset test additions, not handled by
 	    // our ClearDatabaseLifecycle.
-        TKUser.clearTargetUser();
+        TKContext.clearTargetUser();
         getWebClient().closeAllWindows();
 	    new DatabaseCleanupDataLifecycle(this.getClass()).start();
 	    

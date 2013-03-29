@@ -36,17 +36,6 @@ public class ShiftDifferentialRuleMaintTest extends KPMETestCase{
 		
 	private static final BigDecimal TEST_NO=new BigDecimal(2);
 	private static String shiftDifferentialRuleId;
-
-	
-	
-	@Test
-	public void testShiftDifferentialRuleMaint() throws Exception {	 
-		HtmlPage shiftDifferentialRuleLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.SHIFT_DIFFERENTIAL_RULE_MAINT_URL);
-		shiftDifferentialRuleLookup = HtmlUnitUtil.clickInputContainingText(shiftDifferentialRuleLookup, "search");
-		Assert.assertTrue("Page contains test ShiftDifferentialRule", shiftDifferentialRuleLookup.asText().contains(TEST_CODE.toString()));
-		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(shiftDifferentialRuleLookup, "edit",shiftDifferentialRuleId.toString());
-		Assert.assertTrue("Maintenance Page contains test ShiftDifferentialRule",maintPage.asText().contains(TEST_CODE));	 
-	}
 	
 	@Test
 	public void testRequiredFields() throws Exception {

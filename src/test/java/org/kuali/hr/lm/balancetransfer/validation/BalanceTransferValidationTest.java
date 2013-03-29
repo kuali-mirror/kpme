@@ -24,8 +24,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.test.KPMETestCase;
-import org.kuali.hr.time.clock.location.ClockLocationRule;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 

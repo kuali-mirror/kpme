@@ -17,11 +17,10 @@ package org.kuali.hr.time.position;
 
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.time.HrBusinessObject;
-import org.kuali.hr.time.workarea.WorkArea;
 
 public class Position extends HrBusinessObject {
 
-	private static final long serialVersionUID = 7608620912959269845L;
+	private static final long serialVersionUID = -3258249005786874634L;
 
 	public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "Position";
 	
@@ -29,8 +28,21 @@ public class Position extends HrBusinessObject {
 	private String positionNumber;
 	private String description;
 	private String history;
-	private Long workArea;
-	private WorkArea workAreaObj;
+	
+	@Override
+	public String getId() {
+		return getHrPositionId();
+	}
+
+	@Override
+	public void setId(String id) {
+		setHrPositionId(id);
+	}
+	
+	@Override
+	public String getUniqueKey() {
+		return positionNumber;
+	}
 
 	public String getHrPositionId() {
 		return hrPositionId;
@@ -56,44 +68,12 @@ public class Position extends HrBusinessObject {
 		this.description = description;
 	}
 
-	@Override
-	public String getUniqueKey() {
-		return positionNumber + "";
-	}
-
 	public String getHistory() {
 		return history;
 	}
 
 	public void setHistory(String history) {
 		this.history = history;
-	}
-
-	@Override
-	public String getId() {
-		return getHrPositionId();
-	}
-
-	@Override
-	public void setId(String id) {
-		setHrPositionId(id);
-	}
-
-	
-	public WorkArea getWorkAreaObj() {
-		return workAreaObj;
-	}
-
-	public void setWorkAreaObj(WorkArea workAreaObj) {
-		this.workAreaObj = workAreaObj;
-	}
-
-	public Long getWorkArea() {
-		return workArea;
-	}
-
-	public void setWorkArea(Long workArea) {
-		this.workArea = workArea;
 	}
 	
 }

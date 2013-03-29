@@ -30,7 +30,7 @@
 		parent="MaintenanceDocumentEntry" p:businessObjectClass="org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRuleGroup"
 		p:maintainableClass="org.kuali.hr.time.overtime.weekly.rule.service.WeeklyOvertimeRuleGroupMaintainableImpl"
 		p:businessRulesClass="org.kuali.hr.time.overtime.weekly.rule.WeeklyOvertimeRuleValidation"
-		p:documentAuthorizerClass="org.kuali.hr.time.authorization.SystemAdminAuthorizer">
+		p:documentAuthorizerClass="org.kuali.hr.core.authorization.KPMEMaintenanceDocumentAuthorizerBase">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="WeeklyOvertimeRuleGroupMaintenanceDocument-WeeklyOvertimeRuleGroupMaintenance" />

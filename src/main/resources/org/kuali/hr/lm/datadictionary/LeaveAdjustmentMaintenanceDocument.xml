@@ -31,7 +31,7 @@
 		p:businessObjectClass="org.kuali.hr.lm.leaveadjustment.LeaveAdjustment"
 		p:businessRulesClass="org.kuali.hr.lm.leaveadjustment.validation.LeaveAdjustmentValidation"
 		p:maintainableClass="org.kuali.hr.lm.leaveadjustment.service.LeaveAdjustmentMaintainableServiceImpl"
-		p:documentAuthorizerClass="org.kuali.hr.time.authorization.DepartmentAdminAuthorizer">
+		p:documentAuthorizerClass="org.kuali.hr.lm.leaveadjustment.authorization.LeaveAdjustmentAuthorizer">
 		<property name="maintainableSections">
 			<list>
 				<ref bean="LeaveAdjustmentMaintenanceDocument-LeaveAdjustmentMaintenance" />

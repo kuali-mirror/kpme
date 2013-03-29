@@ -21,12 +21,15 @@ import java.util.Collection;
 import java.util.List;
 
 import edu.emory.mathcs.backport.java.util.Collections;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
+import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveadjustment.LeaveAdjustment;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 
 public class LeaveAdjustmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb implements LeaveAdjustmentDao{
@@ -61,6 +64,42 @@ public class LeaveAdjustmentDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb imp
         crit.addEqualTo("lmLeaveAdjustmentId", lmLeaveAdjustmentId);
         Query query = QueryFactory.newQuery(LeaveAdjustment.class, crit);
         return (LeaveAdjustment) this.getPersistenceBrokerTemplate().getObjectByQuery(query);
+	}
+
+	@Override
+	public List<LeaveAdjustment> getLeaveAdjustments(Date fromEffdt, Date toEffdt, String principalId, String accrualCategory, String earnCode) {
+        List<LeaveAdjustment> results = new ArrayList<LeaveAdjustment>();
+    	
+    	Criteria root = new Criteria();
+    	
+        Criteria effectiveDateFilter = new Criteria();
+        if (fromEffdt != null) {
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+        }
+        if (toEffdt != null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
+        }
+        if (fromEffdt == null && toEffdt == null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+        }
+        root.addAndCriteria(effectiveDateFilter);
+        
+        if (StringUtils.isNotBlank(principalId)) {
+            root.addLike("principalId", principalId);
+        }
+
+        if (StringUtils.isNotBlank(accrualCategory)) {
+            root.addLike("accrualCategory", accrualCategory);
+        }
+
+        if (StringUtils.isNotBlank(earnCode)) {
+        	root.addLike("earnCode", earnCode);
+        }
+
+        Query query = QueryFactory.newQuery(LeaveAdjustment.class, root);
+        results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
+
+        return results;
 	}
 
 }

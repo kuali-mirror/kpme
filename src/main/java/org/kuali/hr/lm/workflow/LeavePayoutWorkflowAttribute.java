@@ -15,18 +15,16 @@
  */
 package org.kuali.hr.lm.workflow;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import org.apache.cxf.common.util.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.hr.job.Job;
+import org.joda.time.DateTime;
+import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.lm.leavepayout.LeavePayout;
-import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.assignment.Assignment;
-import org.kuali.hr.time.calendar.CalendarEntry;
-import org.kuali.hr.time.roles.TkRole;
-import org.kuali.hr.time.roles.service.TkRoleService;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kew.api.exception.WorkflowException;
@@ -37,16 +35,16 @@ import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.routeheader.DocumentContent;
 import org.kuali.rice.kew.rule.AbstractRoleAttribute;
 import org.kuali.rice.kew.rule.ResolvedQualifiedRole;
+import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.util.ObjectUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
+@Deprecated
 public class LeavePayoutWorkflowAttribute extends AbstractRoleAttribute {
-    private static final Logger LOG = Logger.getLogger(LeavePayoutWorkflowAttribute.class);
+
+	private static final long serialVersionUID = 540529528227045564L;
+	
+	private static final Logger LOG = Logger.getLogger(LeavePayoutWorkflowAttribute.class);
 
     @Override
     public List<String> getQualifiedRoleNames(String roleName, DocumentContent documentContent) {
@@ -56,29 +54,26 @@ public class LeavePayoutWorkflowAttribute extends AbstractRoleAttribute {
 		try {
 			document = (MaintenanceDocument) KRADServiceLocatorWeb.getDocumentService().getByDocumentHeaderId(documentNumber);
 		} catch (WorkflowException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		LeavePayout leavePayout = null;
-		if(document != null
-                && document.getNewMaintainableObject() != null)
+		if (document != null && document.getNewMaintainableObject() != null) {
 			leavePayout = (LeavePayout) document.getNewMaintainableObject().getDataObject();
-
+		}
+		
         if (leavePayout != null) {
             List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(leavePayout.getPrincipalId(), leavePayout.getEffectiveDate());
-            	for(Assignment assignment : assignments) {
-                String roleStr = roleName+"_"+assignment.getWorkArea();
-            		if(!roles.contains(roleStr))
-            			roles.add(roleStr);
+            for (Assignment assignment : assignments) {
+                String roleStr = roleName + "_" + assignment.getWorkArea();
+                if (!roles.contains(roleStr)) {
+                	roles.add(roleStr);
             	}
-
-	                }
+            }
+        }
+        
         return roles;
     }
 
-    /**
-     * Role name is passed in in the routing rule.
-     */
     @Override
     public ResolvedQualifiedRole resolveQualifiedRole(RouteContext routeContext, String roleName, String qualifiedRole) {
         ResolvedQualifiedRole rqr = new ResolvedQualifiedRole();
@@ -107,57 +102,42 @@ public class LeavePayoutWorkflowAttribute extends AbstractRoleAttribute {
 			LOG.error("unable to retrieve the Maintenance Document with route header id: " + routeHeaderId);
 			e.printStackTrace();
 		}
-        TkRoleService roleService = TkServiceLocator.getTkRoleService();
+		
         LeavePayout leavePayout = null;
-        if(ObjectUtils.isNotNull(document))
+        if (document != null && document.getNewMaintainableObject() != null) {
         	leavePayout = (LeavePayout) document.getNewMaintainableObject().getDataObject();
-        if(ObjectUtils.isNotNull(leavePayout)) {
+        }
+        
+        if (leavePayout != null) {
 	        WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(workAreaNumber, leavePayout.getEffectiveDate());
 	
-	        // KPME-1071
-	        List<TkRole> approvers = roleService.getWorkAreaRoles(workAreaNumber, roleName, TKUtils.getCurrentDate());
-	        List<TkRole> approverDelegates = roleService.getWorkAreaRoles(workAreaNumber, TkConstants.ROLE_TK_APPROVER_DELEGATE, TKUtils.getCurrentDate());
-	        List<TkRole> roles = new ArrayList<TkRole>();
-	        roles.addAll(approvers);
-	        roles.addAll(approverDelegates);
-	
-	        for (TkRole role : roles) {
-	            //Position routing
-	            if(StringUtils.isEmpty(role.getPrincipalId())){
-	                String positionNumber = role.getPositionNumber();
-	                List<Job> lstJobsForPosition = TkServiceLocator.getJobService().getActiveJobsForPosition(positionNumber, leavePayout.getEffectiveDate());
-	                for(Job job : lstJobsForPosition){
-	                    PrincipalId pid = new PrincipalId(job.getPrincipalId());
-	                    if (!principals.contains(pid)) {
-	                        principals.add(pid);
-	                    }
-	                }
-	            } else {
-	                PrincipalId pid = new PrincipalId(role.getPrincipalId());
-	                if (!principals.contains(pid)) {
-	                    principals.add(pid);
-	                }
-	            }
-	        }
+	        List<RoleMember> roleMembers = new ArrayList<RoleMember>();
+	        
+	        if (TkConstants.ROLE_TK_APPROVER.equals(roleName)) {
+		        roleMembers.addAll(TkServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER.getRoleName(), workAreaNumber, new DateTime(), true));
+		        roleMembers.addAll(TkServiceLocator.getHRRoleService().getRoleMembersInWorkArea(KPMERole.APPROVER_DELEGATE.getRoleName(), workAreaNumber, new DateTime(), true));
+			}
+			
+	        for (RoleMember roleMember : roleMembers) {
+	        	principals.add(new PrincipalId(roleMember.getMemberId()));
+		    }
 	
 	        if (principals.size() == 0)  {
 	            throw new RuntimeException("No principals to route to. Push to exception routing.");
             }
+	        
 	        rqr.setRecipients(principals);
 	        rqr.setAnnotation("Dept: "+ workArea.getDept()+", Work Area: "+workArea.getWorkArea());
+	        
 	        return rqr;
-        }
-        else {
+        } else {
         	throw new RuntimeException("no business object could be retreived");
         }
     }
 
     @Override
     public List<RoleName> getRoleNames() {
-        return Collections.EMPTY_LIST;
+        return Collections.emptyList();
     }
 
-    private CalendarEntry getCalendarEntry(LeaveBlock leaveBlock) {
-        return TkServiceLocator.getCalendarEntryService().getCalendarEntry(leaveBlock.getCalendarId());
-    }
 }

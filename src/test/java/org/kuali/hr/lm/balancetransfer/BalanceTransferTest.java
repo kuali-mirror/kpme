@@ -15,8 +15,13 @@
  */
 package org.kuali.hr.lm.balancetransfer;
 
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import static org.junit.Assert.assertTrue;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+
 import junit.framework.Assert;
+
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -34,10 +39,7 @@ import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 
-import java.math.BigDecimal;
-import java.sql.Date;
-
-import static org.junit.Assert.assertTrue;
+import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 
 public class BalanceTransferTest extends LeaveCalendarWebTestBase {

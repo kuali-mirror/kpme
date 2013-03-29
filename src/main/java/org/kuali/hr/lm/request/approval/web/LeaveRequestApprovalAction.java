@@ -15,6 +15,19 @@
  */
 package org.kuali.hr.lm.request.approval.web;
 
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
@@ -23,28 +36,22 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.hsqldb.lib.StringUtil;
+import org.joda.time.DateTime;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
+import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.base.web.ApprovalAction;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionItem;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 public class LeaveRequestApprovalAction  extends ApprovalAction {
 	
@@ -60,7 +67,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
 		
 		Date currentDate = TKUtils.getCurrentDate();
-		Set<Long> workAreas = TkServiceLocator.getTkRoleService().getWorkAreasForApprover(TKContext.getPrincipalId(), currentDate);
+		List<Long> workAreas = TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(TKContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(currentDate), true);
 		List<String> principalIds = new ArrayList<String>();
         for (Long workArea : workAreas) {
             List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, currentDate);
@@ -76,7 +83,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
         }
         lraaForm.setPayCalendarGroups(calGroups);		
 		
-		List<String> depts = new ArrayList<String>(TKUser.getReportingApprovalDepartments().keySet());
+		List<String> depts = new ArrayList<String>(TKContext.getReportingApprovalDepartments().keySet());
 		Collections.sort(depts);
 	    lraaForm.setDepartments(depts);
 		
@@ -98,8 +105,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
         if(StringUtils.isEmpty(lraaForm.getSelectedDept())) {
         	resetState(form, request);
         
-	        Set<Long> workAreas = TkServiceLocator.getTkRoleService().getWorkAreasForApprover(TKContext.getPrincipalId(), currentDate);
-	        List<String> principalIds = new ArrayList<String>();
+        	List<Long> workAreas = TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(TKContext.getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(currentDate), true);	        List<String> principalIds = new ArrayList<String>();
 	        for (Long workArea : workAreas) {
 	            List<Assignment> assignments = TkServiceLocator.getAssignmentService().getActiveAssignmentsForWorkArea(workArea, currentDate);
 	            for (Assignment a : assignments) {
@@ -117,7 +123,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 	        	lraaForm.setSelectedPayCalendarGroup(calGroups.get(0));
 	        }
 	        // set departments
-			List<String> depts = new ArrayList<String>(TKUser.getReportingApprovalDepartments().keySet());
+			List<String> depts = new ArrayList<String>(TKContext.getReportingApprovalDepartments().keySet());
 			Collections.sort(depts);
 		    lraaForm.setDepartments(depts);
 		    if (StringUtils.isBlank(lraaForm.getSelectedDept())
@@ -126,8 +132,8 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 	        	lraaForm.getWorkAreaDescr().clear();
 	        	List<WorkArea> workAreaList = TkServiceLocator.getWorkAreaService().getWorkAreas(lraaForm.getSelectedDept(), currentDate);
 	            for(WorkArea wa : workAreaList){
-	            	if (TKUser.getApproverWorkAreas().contains(wa.getWorkArea())
-	            			|| TKUser.getReviewerWorkAreas().contains(wa.getWorkArea())) {
+	            	if (TKContext.getApproverWorkAreas().contains(wa.getWorkArea())
+	            			|| TKContext.getReviewerWorkAreas().contains(wa.getWorkArea())) {
 	            		lraaForm.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
 	            	}
 	            }
@@ -164,8 +170,8 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 		lraaForm.getWorkAreaDescr().clear();
     	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(lraaForm.getSelectedDept(), currentDate);
         for(WorkArea wa : workAreas){
-        	if (TKUser.getApproverWorkAreas().contains(wa.getWorkArea())
-        			|| TKUser.getReviewerWorkAreas().contains(wa.getWorkArea())) {
+        	if (TKContext.getApproverWorkAreas().contains(wa.getWorkArea())
+        			|| TKContext.getReviewerWorkAreas().contains(wa.getWorkArea())) {
         		lraaForm.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
         	}
         }
@@ -193,7 +199,7 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 	}
 	
 	private List<ActionItem> filterActionsWithSeletedParameters(String calGroup, String dept, List<String> workAreaList) {
-		String principalId = TKUser.getCurrentTargetPersonId();
+		String principalId = TKContext.getTargetPrincipalId();
 		List<ActionItem> actionList = KewApiServiceLocator.getActionListService().getActionItemsForPrincipal(principalId);
 		List<ActionItem> resultsList = new ArrayList<ActionItem>();
 

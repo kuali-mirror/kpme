@@ -25,7 +25,6 @@ import org.kuali.hr.lm.accrual.PrincipalAccrualRan;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
 
 public class PrincipalAccrualRanServiceTest extends KPMETestCase {
 	

@@ -22,6 +22,24 @@ import java.sql.Date;
 import java.util.List;
 
 public interface DepartmentService {
+	
+    /**
+     * Fetch department by id
+     * @param hrDeptId
+     * @return
+     */
+    @Cacheable(value= Department.CACHE_NAME, key="'hrDeptId=' + #p0")
+    Department getDepartment(String hrDeptId);
+    
+    List<Department> getDepartments(String department, String location, String descr, String active);
+    
+    /**
+	 * get count of department with given department
+	 * @param department
+	 * @return int
+	 */
+	int getDepartmentCount(String department);
+	
 	/**
 	 * Get Department as of a particular date passed in
 	 * @param department
@@ -29,49 +47,21 @@ public interface DepartmentService {
 	 * @return
 	 */
     @Cacheable(value= Department.CACHE_NAME, key="'department=' + #p0 + '|' + 'asOfDate=' + #p1")
-	public Department getDepartment(String department, Date asOfDate);
+	Department getDepartment(String department, Date asOfDate);
 
     /**
      * Fetches a list of Department objects as of the specified date all of which
-     * belong to the indicated chart.
+     * belong to the indicated location.
      *
-     * @param chart The search criteria
+     * @param location The search criteria
      * @param asOfDate Effective date
      * @return A List<Department> object.
      */
     @Cacheable(value= Department.CACHE_NAME, key="'chart=' + #p0 + '|' + 'asOfDate=' + #p1")
-    public List<Department> getDepartments(String chart, Date asOfDate);
-
-    /**
-     * A helper method to populate the roles for the given department. This
-     * method will be called automatically when calls to getDepartment() are
-     * made. Functionality is exposed here to allow the Kuali Lookup / Maint
-     * pages to completely populate Department objects.
-     *
-     * @param department The department for which we need roles populated.
-     */
-    public void populateDepartmentRoles(Department department);
+    List<Department> getDepartments(String location, Date asOfDate);
     
-    /**
-     * Fetch department by id
-     * @param hrDeptId
-     * @return
-     */
-    @Cacheable(value= Department.CACHE_NAME, key="'hrDeptId=' + #p0")
-    public Department getDepartment(String hrDeptId);
-    /**
-     * Fetch department by location
-     * @param location
-     * @return
-     */
-    @Cacheable(value= Department.CACHE_NAME, key="'location=' + #p0")
-    public List<Department> getDepartmentByLocation(String location);
-    /**
-	 * get count of department with given department
-	 * @param department
-	 * @return int
-	 */
-	public int getDepartmentCount(String department);
+	List<String> getViewOnlyDepartments(String principalId);
+	
+	List<String> getAdministratorDepartments(String principalId);
 
-    List<Department> getDepartments(String department, String location, String descr, String active);
 }

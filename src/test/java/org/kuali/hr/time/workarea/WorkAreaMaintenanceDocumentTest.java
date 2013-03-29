@@ -18,7 +18,6 @@ package org.kuali.hr.time.workarea;
 import java.sql.Date;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,7 +27,6 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 import com.gargoylesoftware.htmlunit.html.HtmlElement;
@@ -52,7 +50,7 @@ public class WorkAreaMaintenanceDocumentTest extends KPMETestCase {
 		department.setChart(TEST_CODE_DEPARTMENT_VALID);
 		department.setDescription(TEST_CODE_DEPARTMENT_VALID);
 		department.setOrg(TEST_CODE_DEPARTMENT_VALID);
-		department.setLocation("TST");
+		department.setLocation("BL");
 		department.setEffectiveDate(TEST_DATE);
 		department.setActive(true);
 		KRADServiceLocator.getBusinessObjectService().save(department);
@@ -78,26 +76,17 @@ public class WorkAreaMaintenanceDocumentTest extends KPMETestCase {
         setFieldValue(page, "document.newMaintainableObject.description", "test");
         setFieldValue(page, "document.newMaintainableObject.dept", TEST_CODE_DEPARTMENT_VALID);
         setFieldValue(page, "document.newMaintainableObject.adminDescr", "TEST");
-        setFieldValue(page, "document.newMaintainableObject.overtimeEditRole", "TK_APPROVER");
+        setFieldValue(page, "document.newMaintainableObject.overtimeEditRole", "Approver");
         
         HtmlElement element = page.getElementByName("methodToCall.route");
         HtmlPage nextPage = element.click();
         Assert.assertTrue("page does not contain:\n" + ERROR_MESSAGE, nextPage.asText().contains(ERROR_MESSAGE));
         
-        setFieldValue(page, "document.newMaintainableObject.add.roles.effectiveDate", "04/01/2011");
-        setFieldValue(page, "document.newMaintainableObject.add.roles.principalId", "admin");
-        setFieldValue(page, "document.newMaintainableObject.add.roles.positionNumber", "123");
-        setFieldValue(page, "document.newMaintainableObject.add.roles.active", "on");
+        setFieldValue(page, "document.newMaintainableObject.add.principalRoleMembers.effectiveDate", "04/01/2011");
+        setFieldValue(page, "document.newMaintainableObject.add.principalRoleMembers.principalId", "admin");
 
-        element = HtmlUnitUtil.getInputContainingText(page,"methodToCall.addLine.roles");
+        element = HtmlUnitUtil.getInputContainingText(page,"methodToCall.addLine.principalRoleMembers");
         nextPage = element.click();
-        Assert.assertTrue("page does not contain:\n" + ERROR_ROLE_MESSAGE, nextPage.asText().contains(ERROR_ROLE_MESSAGE));
-        
-        setFieldValue(nextPage, "document.newMaintainableObject.add.roles.positionNumber", "");
-        element = HtmlUnitUtil.getInputContainingText(nextPage,"methodToCall.addLine.roles");
-        nextPage = element.click();
-        Assert.assertFalse("page contains:\n" + ERROR_MESSAGE, nextPage.asText().contains(ERROR_MESSAGE));
-        Assert.assertFalse("page contains:\n" + ERROR_ROLE_MESSAGE, nextPage.asText().contains(ERROR_ROLE_MESSAGE));
             	
     	form = nextPage.getFormByName("KualiForm");
     	Assert.assertNotNull("Search form was missing from page.", form);
@@ -122,7 +111,7 @@ public class WorkAreaMaintenanceDocumentTest extends KPMETestCase {
 		
 		// when open the new work area, role should be show up
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(searchPage, "edit", workAreaId);
-		HtmlElement e = maintPage.getHtmlElementById("document.oldMaintainableObject.roles[0].effectiveDate.div");
+		HtmlElement e = maintPage.getHtmlElementById("document.oldMaintainableObject.principalRoleMembers[0].effectiveDate.div");
 		Assert.assertNotNull("Maintenance Page does not contain role ", e);
     }
     

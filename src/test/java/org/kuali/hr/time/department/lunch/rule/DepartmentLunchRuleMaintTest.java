@@ -31,7 +31,7 @@ public class DepartmentLunchRuleMaintTest extends KPMETestCase {
 	private static Long TEST_CODE_WORKAREA_INVALID = 9999L;
 	
 	private static Long deptLunchRuleIdWithInvalidDept = 1L;	
-	private static Long deptLunchRuleIdWithInvalidWorkArea = 3L;
+	private static Long deptLunchRuleIdWithInvalidWorkArea = 2L;
 
 	/**
 	 * Test to check whether it is showing error message for Department on maintenance screen
@@ -51,8 +51,10 @@ public class DepartmentLunchRuleMaintTest extends KPMETestCase {
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(
 				departmentLunchRuleLookUp, "edit",
 				deptLunchRuleIdWithInvalidDept.toString());
+		HtmlUnitUtil.createTempFile(maintPage);
+		
 		HtmlInput inputForDept = HtmlUnitUtil.getInputContainingText(maintPage,
-				TEST_CODE_DEPT_INVALID);
+				"newMaintainableObject.dept");
 		inputForDept.setValueAttribute(TEST_CODE_DEPT_INVALID);
 		HtmlInput inputForDescription = HtmlUnitUtil.getInputContainingText(
 				maintPage, "* Document Description");

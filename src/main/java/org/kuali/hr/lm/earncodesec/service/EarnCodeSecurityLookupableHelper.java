@@ -15,12 +15,13 @@
  */
 package org.kuali.hr.lm.earncodesec.service;
 
-import org.apache.commons.lang.StringUtils;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import org.kuali.hr.core.lookup.KPMELookupableHelper;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
-import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
@@ -28,39 +29,18 @@ import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
-public class EarnCodeSecurityLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
+@SuppressWarnings("deprecation")
+public class EarnCodeSecurityLookupableHelper extends KPMELookupableHelper {
 
 	private static final long serialVersionUID = 696878785547265569L;
 
 	@Override
+	@SuppressWarnings("rawtypes")
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-		List<HtmlData> customActionUrls = new ArrayList<HtmlData>();
-		
-		List<HtmlData> defaultCustomActionUrls = super.getCustomActionUrls(businessObject, pkNames);
-		
+		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
+
 		EarnCodeSecurity earnCodeSecurity = (EarnCodeSecurity) businessObject;
 		String hrEarnCodeSecurityId = earnCodeSecurity.getHrEarnCodeSecurityId();
-		String location = earnCodeSecurity.getLocation();
-		String department = earnCodeSecurity.getDept();
-		
-		boolean systemAdmin = TKUser.isSystemAdmin();
-		boolean locationAdmin = TKUser.getLocationAdminAreas().contains(location);
-		boolean departmentAdmin = TKUser.getDepartmentAdminAreas().contains(department);
-		
-		for (HtmlData defaultCustomActionUrl : defaultCustomActionUrls){
-			if (StringUtils.equals(defaultCustomActionUrl.getMethodToCall(), "edit")) {
-				if (systemAdmin || locationAdmin || departmentAdmin) {
-					customActionUrls.add(defaultCustomActionUrl);
-				}
-			} else {
-				customActionUrls.add(defaultCustomActionUrl);
-			}
-		}
 		
 		Properties params = new Properties();
 		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());

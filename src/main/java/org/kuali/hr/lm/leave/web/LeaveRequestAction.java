@@ -15,7 +15,16 @@
  */
 package org.kuali.hr.lm.leave.web;
 
-import edu.emory.mathcs.backport.java.util.Collections;
+import java.sql.Date;
+import java.util.Calendar;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -28,16 +37,13 @@ import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.sql.Date;
-import java.util.*;
+import edu.emory.mathcs.backport.java.util.Collections;
 
 public class LeaveRequestAction extends TkAction {
     LeaveRequestDocumentService leaveRequestDocumentService;
@@ -46,7 +52,7 @@ public class LeaveRequestAction extends TkAction {
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = super.execute(mapping, form, request, response);
 		LeaveRequestForm leaveForm = (LeaveRequestForm) form;
-		String principalId = TKUser.getCurrentTargetPersonId();
+		String principalId = TKContext.getTargetPrincipalId();
 		Date currentDate = TKUtils.getTimelessDate(null);
 
         Calendar currentCalendar = Calendar.getInstance();

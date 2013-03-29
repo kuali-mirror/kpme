@@ -16,8 +16,10 @@
 package org.kuali.hr.time.earncodegroup.dao;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.google.common.collect.ImmutableList;
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
@@ -26,7 +28,10 @@ import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroupDefinition;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
+
+import com.google.common.collect.ImmutableList;
 
 public class EarnCodeGroupDaoServiceImpl extends PlatformAwareDaoBaseOjb implements EarnCodeGroupDaoService {
     private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
@@ -126,4 +131,51 @@ public class EarnCodeGroupDaoServiceImpl extends PlatformAwareDaoBaseOjb impleme
 		Query query = QueryFactory.newQuery(EarnCodeGroup.class, crit);
        	return this.getPersistenceBrokerTemplate().getCount(query);
 	}
+	
+	public List<EarnCode> getEarnCodeGroups(String earnCodeGroup, String descr, Date fromEffdt, Date toEffdt, String active, String showHist) {
+        List<EarnCode> results = new ArrayList<EarnCode>();
+        
+        Criteria root = new Criteria();
+        
+        if (StringUtils.isNotBlank(earnCodeGroup)) {
+            root.addLike("earnCodeGroup", earnCodeGroup);
+        }
+        
+        if (StringUtils.isNotBlank(descr)) {
+            root.addLike("description", descr);
+        }
+        
+        Criteria effectiveDateFilter = new Criteria();
+        if (fromEffdt != null) {
+            effectiveDateFilter.addGreaterOrEqualThan("effectiveDate", fromEffdt);
+        }
+        if (toEffdt != null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", toEffdt);
+        }
+        if (fromEffdt == null && toEffdt == null) {
+            effectiveDateFilter.addLessOrEqualThan("effectiveDate", TKUtils.getCurrentDate());
+        }
+        root.addAndCriteria(effectiveDateFilter);
+        
+        if (StringUtils.isNotBlank(active)) {
+        	Criteria activeFilter = new Criteria();
+            if (StringUtils.equals(active, "Y")) {
+                activeFilter.addEqualTo("active", true);
+            } else if (StringUtils.equals(active, "N")) {
+                activeFilter.addEqualTo("active", false);
+            }
+            root.addAndCriteria(activeFilter);
+        }
+
+        if (StringUtils.equals(showHist, "N")) {
+            root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(EarnCodeGroup.class, effectiveDateFilter, EQUAL_TO_FIELDS, false));
+            root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(EarnCodeGroup.class, EQUAL_TO_FIELDS, false));
+        }
+        
+        Query query = QueryFactory.newQuery(EarnCodeGroup.class, root);
+        results.addAll(getPersistenceBrokerTemplate().getCollectionByQuery(query));
+        
+        return results;
+	}
+	
 }

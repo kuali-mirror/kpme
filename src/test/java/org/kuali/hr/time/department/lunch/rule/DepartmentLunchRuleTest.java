@@ -31,11 +31,8 @@ import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeHourDetail;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class DepartmentLunchRuleTest extends KPMETestCase {
@@ -88,9 +85,7 @@ public class DepartmentLunchRuleTest extends KPMETestCase {
 											1234L, "edna", 1L, JAN_AS_OF_DATE);
 		Assert.assertTrue("dept lunch rule fetched ", deptLunchRule!=null);
 
-        String testUserId = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName("edna").getPrincipalId();
-        TKUser.setTargetPerson(testUserId);
-
+        TKContext.setTargetPrincipalId("edna");
 		TimesheetDocument doc = TkTestUtils.populateTimesheetDocument(JAN_AS_OF_DATE);
 
 		for(TimeBlock tb : doc.getTimeBlocks()){

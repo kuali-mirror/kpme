@@ -15,47 +15,33 @@
  */
 package org.kuali.hr.time.overtime.daily.rule.service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
+import org.kuali.hr.core.lookup.KPMELookupableHelper;
 import org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule;
-import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-public class DailyOvertimeRuleLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
+@SuppressWarnings("deprecation")
+public class DailyOvertimeRuleLookupableHelper extends KPMELookupableHelper {
 
 	private static final long serialVersionUID = 2720495398967391250L;
 
-
-	@SuppressWarnings("rawtypes")
 	@Override
+	@SuppressWarnings("rawtypes")
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
-		List<HtmlData> customActionUrls = new ArrayList<HtmlData>();
-		
-		List<HtmlData> defaultCustomActionUrls = super.getCustomActionUrls(businessObject, pkNames);
-		
+		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
+
 		DailyOvertimeRule dailyOvertimeRule = (DailyOvertimeRule) businessObject;
 		String tkDailyOvertimeRuleId = dailyOvertimeRule.getTkDailyOvertimeRuleId();
-		
-		boolean systemAdmin = TKUser.isSystemAdmin();
-
-		for (HtmlData defaultCustomActionUrl : defaultCustomActionUrls){
-			if (StringUtils.equals(defaultCustomActionUrl.getMethodToCall(), "edit")) {
-				if (systemAdmin) {
-					customActionUrls.add(defaultCustomActionUrl);
-				}
-			} else {
-				customActionUrls.add(defaultCustomActionUrl);
-			}
-		}
 		
 		Properties params = new Properties();
 		params.put(KRADConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, getBusinessObjectClass().getName());
@@ -78,4 +64,18 @@ public class DailyOvertimeRuleLookupableHelper extends HrEffectiveDateActiveLook
 					attributeValue);
 		}
 	}
+
+    public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
+    	String dept = fieldValues.get("dept");
+    	String workArea = fieldValues.get("workArea");
+    	String location = fieldValues.get("location");
+    	String fromEffdt = TKUtils.getFromDateString(fieldValues.get("effectiveDate"));
+        String toEffdt = TKUtils.getToDateString(fieldValues.get("effectiveDate"));
+        String active = fieldValues.get("active");
+        String showHist = fieldValues.get("history");
+
+        return TkServiceLocator.getDailyOvertimeRuleService().getDailyOvertimeRules(dept, workArea, location, TKUtils.formatDateString(fromEffdt), 
+        		TKUtils.formatDateString(toEffdt), active, showHist);
+    }
+    
 }

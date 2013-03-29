@@ -23,7 +23,6 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.job.Job;
@@ -36,10 +35,8 @@ import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncode.dao.EarnCodeDao;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
-import org.kuali.hr.time.roles.TkUserRoles;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
@@ -289,12 +286,12 @@ public class EarnCodeServiceImpl implements EarnCodeService {
     private boolean addEarnCodeBasedOnEmployeeApproverSettings(EarnCodeSecurity security, Assignment a, Date asOfDate) {
         boolean addEarnCode = false;
         if (security.isEmployee() &&
-                (StringUtils.equals(TKUser.getCurrentTargetPerson().getEmployeeId(), GlobalVariables.getUserSession().getPerson().getEmployeeId()))) {
+                (StringUtils.equals(TKContext.getTargetPrincipalId(), GlobalVariables.getUserSession().getPrincipalId()))) {
             addEarnCode = true;
         }
         // Check approver flag
         if (!addEarnCode && security.isApprover()) {
-            Set<Long> workAreas = TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).getApproverWorkAreas();
+            List<Long> workAreas = TKContext.getApproverWorkAreas();
             for (Long wa : workAreas) {
                 WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(wa, asOfDate);
                 if (workArea!= null && a.getWorkArea().compareTo(workArea.getWorkArea())==0) {
@@ -308,7 +305,7 @@ public class EarnCodeServiceImpl implements EarnCodeService {
 
     private boolean showEarnCodeIfHoliday(EarnCode earnCode, EarnCodeSecurity security) {
         if (earnCode.getEarnCode().equals(TkConstants.HOLIDAY_EARN_CODE)) {
-            if (security.isApprover() || TkUserRoles.getUserRoles(GlobalVariables.getUserSession().getPrincipalId()).isSystemAdmin()) {
+            if (security.isApprover() || TKContext.isSystemAdmin()) {
                 return true;
             } else {
                 return false;

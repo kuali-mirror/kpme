@@ -15,6 +15,10 @@
  */
 package org.kuali.hr.lm.leavecalendar.service;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -29,7 +33,6 @@ import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUser;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -42,10 +45,7 @@ import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class LeaveCalendarServiceImpl implements LeaveCalendarService {
 	
@@ -318,8 +318,8 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
             	
             	wd.route("Batch job routing leave calendar");
             } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.APPROVE)) {
-                if (TKUser.getCurrentTargetRoles().isSystemAdmin() &&
-                        !TKUser.getCurrentTargetRoles().isApproverForTimesheet(leaveCalendarDocument)) {
+                if (TkServiceLocator.getLMPermissionService().canSuperUserAdministerLeaveCalendar(GlobalVariables.getUserSession().getPrincipalId(), rhid) 
+                		&& !TkServiceLocator.getLMPermissionService().canApproveLeaveCalendar(GlobalVariables.getUserSession().getPrincipalId(), rhid)) {
                     wd.superUserBlanketApprove("Superuser approving timesheet.");
                 } else {
                     wd.approve("Approving timesheet.");
@@ -332,9 +332,9 @@ public class LeaveCalendarServiceImpl implements LeaveCalendarService {
             	
             	wd.superUserBlanketApprove("Batch job approving leave calendar");
             } else if (StringUtils.equals(action, TkConstants.DOCUMENT_ACTIONS.DISAPPROVE)) {
-                if (TKUser.getCurrentTargetRoles().isSystemAdmin()
-                        && !TKUser.getCurrentTargetRoles().isApproverForTimesheet(leaveCalendarDocument)) {
-                    wd.superUserDisapprove("Superuser disapproving timesheet.");
+                if (TkServiceLocator.getLMPermissionService().canSuperUserAdministerLeaveCalendar(GlobalVariables.getUserSession().getPrincipalId(), rhid) 
+                		&& !TkServiceLocator.getLMPermissionService().canApproveLeaveCalendar(GlobalVariables.getUserSession().getPrincipalId(), rhid)) {
+                    wd.superUserDisapprove("Superuser disapproving leave calendar.");
                 } else {
                     wd.disapprove("Disapproving timesheet.");
                 }

@@ -15,6 +15,9 @@
  */
 package org.kuali.hr.lm.leavedonation.dao;
 
+import java.sql.Date;
+import java.util.List;
+
 import org.kuali.hr.lm.leavedonation.LeaveDonation;
 
 public interface LeaveDonationDao {
@@ -25,5 +28,7 @@ public interface LeaveDonationDao {
 	 * @return LeaveDonation
 	 */
 	public LeaveDonation getLeaveDonation(String lmLeaveDonationId);
+
+	public List<LeaveDonation> getLeaveDonations(Date fromEffdt, Date toEffdt, String donorsPrincipalId, String donatedAccrualCategory, String amountDonated, String recipientsPrincipalId, String recipientsAccrualCategory, String amountReceived, String active, String showHist);
 	
 }

@@ -30,5 +30,6 @@ public interface LeavePayoutDao {
 	public List<LeavePayout> getLeavePayouts(String viewPrincipal,
 			Date beginPeriodDate, Date endPeriodDate);
 	public void saveOrUpdate(LeavePayout payout);
+	public List<LeavePayout> getLeavePayouts(String principalId, String fromAccrualCategory, String payoutAmount, String earnCode, String forfeitedAmount, Date fromEffdt, Date toEffdt);
 
 }

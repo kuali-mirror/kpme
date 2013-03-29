@@ -18,9 +18,9 @@
 <%@ attribute name="selectedTab" required="true"%>
 
 <c:if test="${!empty UserSession.loggedInUserPrincipalName}">
-    <c:set var="systemAdmin" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isSystemAdmin()%>' />
-    <c:set var="globalViewOnly" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isGlobalViewOnly()%>' />
-    <c:set var="locationAdmin" value='<%=org.kuali.hr.time.roles.TkUserRoles.getUserRoles(org.kuali.rice.krad.util.GlobalVariables.getUserSession().getPrincipalId()).isLocationAdmin()%>' />
+    <c:set var="systemAdmin" value='<%=org.kuali.hr.time.util.TKContext.isSystemAdmin()%>' />
+    <c:set var="globalViewOnly" value='<%=org.kuali.hr.time.util.TKContext.isGlobalViewOnly()%>' />
+    <c:set var="locationAdmin" value='<%=org.kuali.hr.time.util.TKContext.isLocationAdmin()%>' />
 </c:if>
 <div id="tabs" class="tabposition">
 	<ul>

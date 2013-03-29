@@ -25,14 +25,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.core.lookup.KPMELookupableHelper;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.rice.kns.lookup.HtmlData;
-import org.kuali.rice.kns.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.rice.kns.lookup.LookupUtils;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.lookup.CollectionIncomplete;
 
-public abstract class HrEffectiveDateActiveLookupableHelper extends KualiLookupableHelperServiceImpl{
+public abstract class HrEffectiveDateActiveLookupableHelper extends KPMELookupableHelper {
 
 	/**
 	 * 
@@ -227,21 +226,5 @@ public abstract class HrEffectiveDateActiveLookupableHelper extends KualiLookupa
 		}
 		
 	}
-	@Override
-	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject,
-			@SuppressWarnings("rawtypes") List pkNames) {
-		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
-		List<HtmlData> overrideUrls = new ArrayList<HtmlData>();
-		for(HtmlData actionUrl : customActionUrls){
-			if(!StringUtils.equals(actionUrl.getMethodToCall(), "copy")){
-				overrideUrls.add(actionUrl);
-			}
-
-		}
-		return overrideUrls;
-	}
 	
-	
-	
- 
 }

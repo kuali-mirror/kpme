@@ -16,6 +16,7 @@
 package org.kuali.hr.time.earncodegroup.service;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.time.earncode.EarnCode;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.earncodegroup.EarnCodeGroupDefinition;
 import org.kuali.hr.time.earncodegroup.dao.EarnCodeGroupDaoService;
@@ -97,5 +98,10 @@ public class EarnCodeGroupServiceImpl implements EarnCodeGroupService {
     @Override
     public int getNewerEarnCodeGroupCount(String earnCodeGroup, Date effdt) {
     	return earnCodeGroupDao.getNewerEarnCodeGroupCount(earnCodeGroup, effdt);
+    }
+    
+    @Override
+    public List<EarnCode> getEarnCodeGroups(String earnCodeGroup, String descr, Date fromEffdt, Date toEffdt, String active, String showHist) {
+    	return earnCodeGroupDao.getEarnCodeGroups(earnCodeGroup, descr, fromEffdt, toEffdt, active, showHist);
     }
 }
