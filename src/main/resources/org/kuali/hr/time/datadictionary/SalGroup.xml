@@ -200,7 +200,6 @@
 	
     <bean id="SalaryGroup-active" parent="SalaryGroup-active-parentBean"/>
  	<bean id="SalaryGroup-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
- 		<property name="required" value="true" />
    		<property name="name" value="active"/>
   	</bean>  
 

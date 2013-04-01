@@ -6,7 +6,8 @@
 		<documentType>
 			<name>PstnRptGrpSubCatMaintenanceDocumentType</name>
 			<parent>RiceDocument</parent>
-			<docHandler>${kuali.docHandler.url.prefix}/kr-krad/maintenance.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/kr-krad/maintenance.do?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.hr.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory
+			</docHandler>
 			<label>PositionReportGroupSubCatMaintenanceDocument</label>
 		</documentType>   
      </documentTypes>

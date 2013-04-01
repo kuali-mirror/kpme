@@ -139,7 +139,6 @@
 	
     <bean id="PositionReportGroupSubCat-active" parent="PositionReportGroupSubCat-active-parentBean"/>
  	<bean id="PositionReportGroupSubCat-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
- 		<property name="required" value="true" />
    		<property name="name" value="active"/>
   	</bean>  
 
