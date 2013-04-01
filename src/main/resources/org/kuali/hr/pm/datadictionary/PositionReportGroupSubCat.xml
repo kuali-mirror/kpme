@@ -150,7 +150,7 @@
   <!-- Position Reporting Group Sub Category Lookup View -->
  
   <bean id="PositionReportGroupSubCat-LookupView" parent="Uif-LookupView">
-    <property name="headerText" value="PositionReportGroupSubCategory Lookup" />
+    <property name="headerText" value="Position Report Group Sub Category Lookup" />
     <property name="dataObjectClassName" value="org.kuali.hr.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory" />
     <property name="criteriaFields">
       <list>

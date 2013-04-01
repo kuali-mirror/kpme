@@ -4,21 +4,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.kuali.hr.core.lookup.KPMELookupableHelper;
 import org.kuali.hr.pm.paystep.PayStep;
 import org.kuali.hr.pm.service.base.PmServiceLocator;
-import org.kuali.hr.time.HrEffectiveDateActiveLookupableHelper;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.lookup.HtmlData;
 import org.kuali.rice.kns.lookup.HtmlData.AnchorHtmlData;
 import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 
-public class PayStepLookupableHelper extends HrEffectiveDateActiveLookupableHelper {
+@SuppressWarnings("deprecation")
+public class PayStepLookupableHelper extends KPMELookupableHelper {
 
 	private static final long serialVersionUID = 7597508514001732034L;
 
 	@Override
+	@SuppressWarnings("rawtypes")
 	public List<HtmlData> getCustomActionUrls(BusinessObject businessObject, List pkNames) {
 		List<HtmlData> customActionUrls = super.getCustomActionUrls(businessObject, pkNames);
 			
@@ -37,7 +38,6 @@ public class PayStepLookupableHelper extends HrEffectiveDateActiveLookupableHelp
 		return customActionUrls;
 	}
 
-    @SuppressWarnings({"unchecked"})
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
 
