@@ -17,16 +17,16 @@ package org.kuali.hr.paygrade.validation;
 
 import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.time.util.ValidationUtils;
-import org.kuali.rice.kns.document.MaintenanceDocument;
-import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
+import org.kuali.rice.krad.rules.MaintenanceDocumentRuleBase;
 
 public class PayGradeValidation extends MaintenanceDocumentRuleBase {
 	@Override
 	protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 		boolean valid = true;
-		LOG.debug("entering custom validation for Job");
-		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewBo();
+		LOG.debug("entering custom validation for Pay Grade");
+		PersistableBusinessObject pbo = (PersistableBusinessObject) this.getNewDataObject();
 		if (pbo != null && pbo instanceof PayGrade) {
 			PayGrade aPayGrade = (PayGrade) pbo;
 			valid &= this.validateSalGroup(aPayGrade);

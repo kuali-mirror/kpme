@@ -336,53 +336,53 @@ public class TkConstants {
 
     public static final Map<String, String> SERVICE_UNIT_OF_TIME = new LinkedHashMap<String, String>(3);
 
-        static {
-        	SERVICE_UNIT_OF_TIME.put("Y", "Years");
-        	SERVICE_UNIT_OF_TIME.put("M", "Months");
-        	//SERVICE_UNIT_OF_TIME.put("H", "Hours");
-        }
+    static {
+        SERVICE_UNIT_OF_TIME.put("Y", "Years");
+        SERVICE_UNIT_OF_TIME.put("M", "Months");
+        //SERVICE_UNIT_OF_TIME.put("H", "Hours");
+    }
 
-        public static final Map<String, String> UNIT_OF_TIME = new LinkedHashMap<String, String>(2);
+    public static final Map<String, String> UNIT_OF_TIME = new LinkedHashMap<String, String>(2);
 
-        static {
-        	UNIT_OF_TIME.put("D", "Days");
-        	UNIT_OF_TIME.put("H", "Hours");
-        }
-        
-        public static final Map<String, String> MAX_BAL_FLAG = new LinkedHashMap<String, String>(2);
+    static {
+        UNIT_OF_TIME.put("D", "Days");
+        UNIT_OF_TIME.put("H", "Hours");
+    }
 
-        static {
-        	MAX_BAL_FLAG.put("Y", "Yes");
-        	MAX_BAL_FLAG.put("N", "No");
-        }
-        
-        public static final Map<String, String> MAX_BALANCE_ACTION_FREQUENCY = new LinkedHashMap<String, String>(3);
+    public static final Map<String, String> MAX_BAL_FLAG = new LinkedHashMap<String, String>(2);
 
-        static {
-        	MAX_BALANCE_ACTION_FREQUENCY.put("LA", "Leave Approve");
-        	MAX_BALANCE_ACTION_FREQUENCY.put("YE", "Year End");
-        	MAX_BALANCE_ACTION_FREQUENCY.put("OD", "On Demand");
-        	//MAX_BALANCE_ACTION_FREQUENCY.put("NA", "Not Applicable");
-        }
+    static {
+        MAX_BAL_FLAG.put("Y", "Yes");
+        MAX_BAL_FLAG.put("N", "No");
+    }
 
-        public static final Map<String, String> ACTION_AT_MAX_BALANCE = new LinkedHashMap<String, String>(3);
+    public static final Map<String, String> MAX_BALANCE_ACTION_FREQUENCY = new LinkedHashMap<String, String>(3);
 
-        static {
-        	ACTION_AT_MAX_BALANCE.put("T", "Transfer");
-        	ACTION_AT_MAX_BALANCE.put("P", "Payout");
-        	ACTION_AT_MAX_BALANCE.put("L", "Lose");
-        	//ACTION_AT_MAX_BALANCE.put("NA", "Not Applicable");
-        }
+    static {
+        MAX_BALANCE_ACTION_FREQUENCY.put("LA", "Leave Approve");
+        MAX_BALANCE_ACTION_FREQUENCY.put("YE", "Year End");
+        MAX_BALANCE_ACTION_FREQUENCY.put("OD", "On Demand");
+        //MAX_BALANCE_ACTION_FREQUENCY.put("NA", "Not Applicable");
+    }
 
-        public static final Map<String, String> EMPLOYEE_OVERRIDE_TYPE = new LinkedHashMap<String, String>(5);
+    public static final Map<String, String> ACTION_AT_MAX_BALANCE = new LinkedHashMap<String, String>(3);
 
-        static {
-        	EMPLOYEE_OVERRIDE_TYPE.put("MB", "Max Balance");
-        	EMPLOYEE_OVERRIDE_TYPE.put("MTA", "Max Transfer Amount");
-        	EMPLOYEE_OVERRIDE_TYPE.put("MPA", "Max Payout Amount");
-        	EMPLOYEE_OVERRIDE_TYPE.put("MU", "Max Usage");
-        	EMPLOYEE_OVERRIDE_TYPE.put("MAC", "Max Annual Carryover");
-        }
+    static {
+        ACTION_AT_MAX_BALANCE.put("T", "Transfer");
+        ACTION_AT_MAX_BALANCE.put("P", "Payout");
+        ACTION_AT_MAX_BALANCE.put("L", "Lose");
+        //ACTION_AT_MAX_BALANCE.put("NA", "Not Applicable");
+    }
+
+    public static final Map<String, String> EMPLOYEE_OVERRIDE_TYPE = new LinkedHashMap<String, String>(5);
+
+    static {
+        EMPLOYEE_OVERRIDE_TYPE.put("MB", "Max Balance");
+        EMPLOYEE_OVERRIDE_TYPE.put("MTA", "Max Transfer Amount");
+        EMPLOYEE_OVERRIDE_TYPE.put("MPA", "Max Payout Amount");
+        EMPLOYEE_OVERRIDE_TYPE.put("MU", "Max Usage");
+        EMPLOYEE_OVERRIDE_TYPE.put("MAC", "Max Annual Carryover");
+    }
 
     public static final String DAILY_OVT_CODE = "DOT";
     

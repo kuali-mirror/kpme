@@ -21,46 +21,18 @@
        xmlns:p="http://www.springframework.org/schema/p"
        xmlns:dd="http://rice.kuali.org/dd"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                            http://rice.kuali.org/dd
                            http://rice.kuali.org/dd/dd.xsd">
 
   <bean id="PayGradeMaintenanceDocument" parent="PayGradeMaintenanceDocument-parentBean"/>
 
-  <bean id="PayGradeMaintenanceDocument-parentBean" abstract="true" parent="MaintenanceDocumentEntry"
-  		p:businessObjectClass="org.kuali.hr.paygrade.PayGrade"
+  <bean id="PayGradeMaintenanceDocument-parentBean" abstract="true" parent="uifMaintenanceDocumentEntry"
+  		p:dataObjectClass="org.kuali.hr.paygrade.PayGrade"
   		p:businessRulesClass="org.kuali.hr.paygrade.validation.PayGradeValidation"
   		p:maintainableClass="org.kuali.hr.paygrade.service.PayGradeMaintainableServiceImpl"
-  		p:documentAuthorizerClass="org.kuali.hr.paygrade.authorization.PayGradeAuthorizer">
-    <property name="maintainableSections">
-      <list>
-        <ref bean="PayGradeMaintenanceDocument-PayGradeMaintenance"/>
-      </list>
-    </property>
-    <property name="lockingKeys">
-        <list>
-            <value>hrPayGradeId</value>
-        </list>
-    </property>
-    <property name="documentTypeName" value="PayGradeMaintenanceDocumentType"/>
-    <property name="promptBeforeValidationClass" value="org.kuali.hr.paygrade.validation.PayGradeEffectiveDatePrompt"/>
+  		p:documentAuthorizerClass="org.kuali.hr.time.authorization.LocationAdminAuthorizer"
+        p:documentTypeName="PayGradeMaintenanceDocumentType">
+    <!--<property name="promptBeforeValidationClass" value="org.kuali.hr.paygrade.validation.PayGradeEffectiveDatePrompt"/>-->
   </bean>
-
-  <!-- Maintenance Section Definitions -->
-
-  <bean id="PayGradeMaintenanceDocument-PayGradeMaintenance" parent="PayGradeMaintenanceDocument-PayGradeMaintenance-parentBean"/>
-
-  <bean id="PayGradeMaintenanceDocument-PayGradeMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="title" value="Pay Grade Maintenance"/>
-    <property name="maintainableItems">
-      <list>
-        <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true"/>
-      	<bean parent="MaintainableFieldDefinition" p:name="payGrade" p:required="true"/>
-      	<bean parent="MaintainableFieldDefinition" p:name="salGroup" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="description" p:required="true"/>
-        <bean parent="MaintainableFieldDefinition" p:name="active" p:required="true"/>
-      </list>
-    </property>
-  </bean>
-
 </beans>

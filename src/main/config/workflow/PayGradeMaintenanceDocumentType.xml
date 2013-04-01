@@ -16,7 +16,7 @@
     limitations under the License.
 
 -->
-<data xmlns="ns:workflow" xmlns:fo="http://www.w3.org/1999/XSL/Format"
+<data xmlns="ns:workflow"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="ns:workflow resource:WorkflowData">
 	<documentTypes xmlns="ns:workflow/DocumentType"
@@ -24,7 +24,7 @@
     	<documentType>
     		<name>PayGradeMaintenanceDocumentType</name>
     		<parent>RiceDocument</parent>
-    		<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
+    		<docHandler>${kuali.docHandler.url.prefix}/kr-krad/maintenance.do?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.hr.paygrade.PayGrade</docHandler>
     		<label>PayGradeMaintenanceDocument</label>
     	</documentType>
 	</documentTypes>

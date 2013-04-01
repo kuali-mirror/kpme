@@ -16,8 +16,12 @@
 package org.kuali.hr.paygrade;
 
 import org.kuali.hr.core.KPMEConstants;
+import org.kuali.hr.pm.institution.Institution;
 import org.kuali.hr.time.HrBusinessObject;
 import org.kuali.hr.time.salgroup.SalGroup;
+import org.kuali.rice.location.impl.campus.CampusBo;
+
+import java.math.BigDecimal;
 
 public class PayGrade extends HrBusinessObject {
 
@@ -30,9 +34,29 @@ public class PayGrade extends HrBusinessObject {
 	private String description;
 	private String userPrincipalId;
 	private String salGroup;
-	private SalGroup salGroupObj;
+    private String institution;
+    private String campus;
+    private String rateType;
+    private BigDecimal minRate;
+    private BigDecimal maxRate;
+    private BigDecimal midPointRate;
+    private BigDecimal maxHiringRate;
 
-	public String getHrPayGradeId() {
+	private SalGroup salGroupObj;
+    private Institution institutionObj;
+    private CampusBo campusObj;
+
+    @Override
+    public boolean isActive() {
+        return super.isActive();
+    }
+
+    @Override
+    public void setActive(boolean active) {
+        super.setActive(active);
+    }
+
+    public String getHrPayGradeId() {
 		return hrPayGradeId;
 	}
 
@@ -94,5 +118,77 @@ public class PayGrade extends HrBusinessObject {
 	public void setSalGroupObj(SalGroup salGroupObj) {
 		this.salGroupObj = salGroupObj;
 	}
+
+    public String getInstitution() {
+        return institution;
+    }
+
+    public void setInstitution(String institution) {
+        this.institution = institution;
+    }
+
+    public String getCampus() {
+        return campus;
+    }
+
+    public void setCampus(String campus) {
+        this.campus = campus;
+    }
+
+    public String getRateType() {
+        return rateType;
+    }
+
+    public void setRateType(String rateType) {
+        this.rateType = rateType;
+    }
+
+    public BigDecimal getMinRate() {
+        return minRate;
+    }
+
+    public void setMinRate(BigDecimal minRate) {
+        this.minRate = minRate;
+    }
+
+    public BigDecimal getMaxRate() {
+        return maxRate;
+    }
+
+    public void setMaxRate(BigDecimal maxRate) {
+        this.maxRate = maxRate;
+    }
+
+    public BigDecimal getMidPointRate() {
+        return midPointRate;
+    }
+
+    public void setMidPointRate(BigDecimal midPointRate) {
+        this.midPointRate = midPointRate;
+    }
+
+    public BigDecimal getMaxHiringRate() {
+        return maxHiringRate;
+    }
+
+    public void setMaxHiringRate(BigDecimal maxHiringRate) {
+        this.maxHiringRate = maxHiringRate;
+    }
+
+    public Institution getInstitutionObj() {
+        return institutionObj;
+    }
+
+    public void setInstitutionObj(Institution institutionObj) {
+        this.institutionObj = institutionObj;
+    }
+
+    public CampusBo getCampusObj() {
+        return campusObj;
+    }
+
+    public void setCampusObj(CampusBo campusObj) {
+        this.campusObj = campusObj;
+    }
 
 }
