@@ -6,6 +6,7 @@ import org.kuali.hr.pm.positionreportcat.service.PositionReportCatService;
 import org.kuali.hr.pm.positionreportgroup.service.PositionReportGroupService;
 import org.kuali.hr.pm.positionreportsubcat.service.PositionReportSubCatService;
 import org.kuali.hr.pm.positionreporttype.service.PositionReportTypeService;
+import org.kuali.hr.pm.positiontype.service.PositionTypeService;
 import org.kuali.hr.pm.pstnrptgrpsubcat.service.PstnRptGrpSubCatService;
 import org.kuali.hr.pm.salarygroup.service.SalaryGroupService;
 import org.springframework.beans.BeansException;
@@ -23,6 +24,7 @@ public class PmServiceLocator implements ApplicationContextAware {
     public static final String PM_POSITION_REPORT_SUB_CAT_SERVICE = "positionReportSubCatService";
     public static final String PM_PSTN_RPT_GRP_SUB_CAT_SERVICE = "pstnRptGrpSubCatService";
     public static final String PM_SALARY_GROUP_SERVICE = "salaryGroupService";
+    public static final String PM_POSITION_TYPE_SERVICE = "positionTypeService";
     
     public static InstitutionService getInstitutionService() {
     	return (InstitutionService) CONTEXT.getBean(PM_INSTITUTION_SERVICE);
@@ -55,7 +57,13 @@ public class PmServiceLocator implements ApplicationContextAware {
 	public static SalaryGroupService getSalaryGroupService() {
     	return (SalaryGroupService) CONTEXT.getBean(PM_SALARY_GROUP_SERVICE);
     }
-    
+	
+	public static PositionTypeService getPositionTypeService() {
+		return (PositionTypeService) CONTEXT.getBean(PM_POSITION_TYPE_SERVICE);
+	}
+	
+	
+	
 	@Override
 	public void setApplicationContext(ApplicationContext arg0)
 			throws BeansException {
