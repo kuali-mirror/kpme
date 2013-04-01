@@ -15,8 +15,11 @@
  */
 package org.kuali.hr.time.salgroup;
 
+import java.math.BigDecimal;
+
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.time.HrBusinessObject;
+import org.kuali.rice.location.impl.campus.CampusBo;
 
 public class SalGroup extends HrBusinessObject {
 
@@ -28,6 +31,17 @@ public class SalGroup extends HrBusinessObject {
 	private String hrSalGroup;
 	private String descr;
 	private boolean history;
+
+	// fields added to position management
+	private String institution;
+	private String campus;
+	private BigDecimal percentTime;
+	private Integer payMonths;
+	private Integer workMonths;
+	private String benefitsEligible;
+	private String leaveEligible;	
+
+	private CampusBo campusObj;
 
 	public boolean isHistory() {
 		return history;
@@ -63,7 +77,7 @@ public class SalGroup extends HrBusinessObject {
 
 	@Override
 	public String getUniqueKey() {
-		return hrSalGroup;
+		return getHrSalGroup() + "_" + getInstitution() + "_" + getCampus();
 	}
 
 	@Override
@@ -74,6 +88,70 @@ public class SalGroup extends HrBusinessObject {
 	@Override
 	public void setId(String id) {
 		setHrSalGroupId(id);
+	}
+
+	public String getInstitution() {
+		return institution;
+	}
+
+	public void setInstitution(String institution) {
+		this.institution = institution;
+	}
+
+	public String getCampus() {
+		return campus;
+	}
+
+	public void setCampus(String campus) {
+		this.campus = campus;
+	}
+
+	public BigDecimal getPercentTime() {
+		return percentTime;
+	}
+
+	public void setPercentTime(BigDecimal percentTime) {
+		this.percentTime = percentTime;
+	}
+
+	public Integer getPayMonths() {
+		return payMonths;
+	}
+
+	public void setPayMonths(Integer payMonths) {
+		this.payMonths = payMonths;
+	}
+
+	public Integer getWorkMonths() {
+		return workMonths;
+	}
+
+	public void setWorkMonths(Integer workMonths) {
+		this.workMonths = workMonths;
+	}
+
+	public String getBenefitsEligible() {
+		return benefitsEligible;
+	}
+
+	public void setBenefitsEligible(String benefitsEligible) {
+		this.benefitsEligible = benefitsEligible;
+	}
+
+	public String getLeaveEligible() {
+		return leaveEligible;
+	}
+
+	public void setLeaveEligible(String leaveEligible) {
+		this.leaveEligible = leaveEligible;
+	}
+
+	public CampusBo getCampusObj() {
+		return campusObj;
+	}
+
+	public void setCampusObj(CampusBo campusObj) {
+		this.campusObj = campusObj;
 	}
 
 }

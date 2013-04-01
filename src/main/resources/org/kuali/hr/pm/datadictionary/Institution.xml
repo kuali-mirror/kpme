@@ -43,7 +43,6 @@
 		</property>
 	</bean>
 
-	
 	<!-- effectiveDate -->
 	<bean id="Institution-effectiveDate" parent="Institution-effectiveDate-parentBean" />
 	<bean id="Institution-effectiveDate-parentBean" abstract="true"
@@ -53,6 +52,13 @@
 		<property name="validationPattern">
 			<bean parent="DateValidationPattern" />
 		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="12">
+			 <property name="datePicker">
+	          <bean parent="Uif-DatePicker"/>
+	        </property>
+			</bean>
+		</property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
 		</property>
@@ -60,7 +66,7 @@
 		<property name="name" value="effectiveDate" />
 		<property name="label" value="Effective Date" />
 	</bean>
-
+	
 	<!-- institution -->
 	<bean id="Institution-institutionCode" parent="Institution-institutionCode-parentBean" />
 	<bean id="Institution-institutionCode-parentBean" abstract="true"

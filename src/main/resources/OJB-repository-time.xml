@@ -331,8 +331,16 @@
         <field-descriptor name="active"         column="ACTIVE"             jdbc-type="VARCHAR"     length="1" nullable="false"    conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion" />
         <field-descriptor name="objectId"       column="OBJ_ID"             jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"  column="VER_NBR"            jdbc-type="BIGINT"      locking="true" />
+        <!--  new fields added to position management -->
+        <field-descriptor name="institution"    		column="INSTITUTION"			 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
+        <field-descriptor name="campus"    				column="CAMPUS"					 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
+        <field-descriptor name="percentTime"      		column="PRCT_TM"         		 jdbc-type="DECIMAL"     length="10" 		nullable="true" />
+        <field-descriptor name="payMonths"      		column="PY_MNTHS"         		 jdbc-type="INTEGER"     nullable="true" />
+        <field-descriptor name="workMonths"      		column="WRK_MNTHS"         		 jdbc-type="INTEGER"     nullable="true" />
+        <field-descriptor name="benefitsEligible"        column="BNFT_ELIG"           	 jdbc-type="VARCHAR"     length="1" 		nullable="false" />
+        <field-descriptor name="leaveEligible"          column="LV_ELIG"           		 jdbc-type="VARCHAR"     length="1" 		nullable="false" />
     </class-descriptor>
-
+    
     <class-descriptor class="org.kuali.hr.time.paytype.PayType" table="HR_PAYTYPE_T">
         <field-descriptor name="hrPayTypeId"    column="HR_PAYTYPE_ID"  jdbc-type="VARCHAR"     length="60" primarykey="true" autoincrement="true" sequence-name="HR_PAYTYPE_S" />
         <field-descriptor name="payType"        column="PAYTYPE"        jdbc-type="VARCHAR"     length="5" nullable="false" primarykey="true" />

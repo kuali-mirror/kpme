@@ -119,25 +119,7 @@
         <field-descriptor name="objectId"               column="OBJ_ID"                	 jdbc-type="VARCHAR"     index="true" />
         <field-descriptor name="versionNumber"          column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" />
   </class-descriptor>
-  
-   <!-- Salary Group -->
-    <class-descriptor class="org.kuali.hr.pm.salarygroup.SalaryGroup" table="PM_SALARY_GROUP_T">
-    	<field-descriptor name="pmSalaryGroupId" 	column="PM_SALARY_GROUP_ID"  	 jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_SALARY_GROUP_S" />
-        <field-descriptor name="salaryGroup"     	column="SAL_GRP"			 jdbc-type="VARCHAR"     length="10" 		nullable="false" />
-        <field-descriptor name="description"  			column="DESCRIPTION"     		 jdbc-type="VARCHAR"     length="100"  		nullable="true" />
-        <field-descriptor name="institution"    		column="INSTITUTION"			 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
-        <field-descriptor name="campus"    				column="CAMPUS"					 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
-        <field-descriptor name="percentTime"      		column="PRCT_TM"         		 jdbc-type="DECIMAL"     length="10" 		nullable="true" />
-        <field-descriptor name="payMonths"      		column="PY_MNTHS"         		 jdbc-type="INTEGER"     nullable="true" />
-        <field-descriptor name="workMonths"      		column="WRK_MNTHS"         		 jdbc-type="INTEGER"     nullable="true" />
-        <field-descriptor name="benefitsEligible"        column="BNFT_ELIG"           	 jdbc-type="VARCHAR"     length="1" 		nullable="false" />
-        <field-descriptor name="leaveEligible"          column="LV_ELIG"           		 jdbc-type="VARCHAR"     length="1" 		nullable="false" />
-        <field-descriptor name="active"              	column="ACTIVE"           		 jdbc-type="VARCHAR"     length="1" 		nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
-        <field-descriptor name="effectiveDate"      	column="EFFDT"    		 		 jdbc-type="DATE"        nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
-        <field-descriptor name="timestamp"              column="TIMESTAMP"             	 jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
-        <field-descriptor name="objectId"               column="OBJ_ID"                	 jdbc-type="VARCHAR"     index="true" />
-        <field-descriptor name="versionNumber"          column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" />
-  </class-descriptor>
+ 
   
   
   <!-- Position Type-->

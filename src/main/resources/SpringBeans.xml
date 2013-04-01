@@ -384,11 +384,9 @@
     <bean id="pstnRptGrpSubCatDao" class="org.kuali.hr.pm.pstnrptgrpsubcat.dao.PstnRptGrpSubCatDaoObjImpl" parent="platformAwareDao" />
      
     <bean id="payStepDao" class="org.kuali.hr.pm.paystep.dao.PayStepDaoOjbImpl" parent="platformAwareDao" />
-    
-    <bean id="salaryGroupDao" class="org.kuali.hr.pm.salarygroup.dao.SalaryGroupDaoObjImpl" parent="platformAwareDao" />
-   
+
     <bean id="positionTypeDao" class="org.kuali.hr.pm.positiontype.dao.PositionTypeDaoObjImpl" parent="platformAwareDao" />
-    
+
     <!-- Time Services for Business Logic -->
     <bean id="missedPunchService" class="org.kuali.hr.time.missedpunch.service.MissedPunchServiceImpl">
         <property name="missedPunchDao" ref="missedPunchDao"/>
@@ -683,11 +681,7 @@
     <bean id="payStepService" class="org.kuali.hr.pm.paystep.service.PayStepServiceImpl">
         <property name="payStepDao" ref="payStepDao"/>
     </bean>
-    
-    <bean id="salaryGroupService" class="org.kuali.hr.pm.salarygroup.service.SalaryGroupServiceImpl">
-        <property name="salaryGroupDao" ref="salaryGroupDao"/>
-    </bean>
-    
+
     <bean id="positionTypeService" class="org.kuali.hr.pm.positiontype.service.PositionTypeServiceImpl">
         <property name="positionTypeDao" ref="positionTypeDao"/>
     </bean>
