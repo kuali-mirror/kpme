@@ -24,8 +24,9 @@
 		<documentType>
 			<name>SalaryGroupMaintenanceDocumentType</name>
 			<parent>RiceDocument</parent>
-			<docHandler>${kuali.docHandler.url.prefix}/kr-krad/maintenance.do?methodToCall=docHandler</docHandler>
+			<docHandler>${kuali.docHandler.url.prefix}/kr-krad/maintenance?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.hr.time.salgroup.SalGroup
+	      	</docHandler>
 			<label>SalaryGroupMaintenanceDocument</label>
-		</documentType>   
+		</documentType> 
      </documentTypes>
 </data>
