@@ -18,6 +18,7 @@ package org.kuali.hr.time.timesummary.service;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.Interval;
@@ -25,6 +26,7 @@ import org.joda.time.LocalDateTime;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
+import org.kuali.hr.lm.accrual.service.AccrualServiceImpl;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leaveSummary.LeaveSummaryRow;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
@@ -56,7 +58,8 @@ import java.util.*;
 
 public class TimeSummaryServiceImpl implements TimeSummaryService {
 	private static final String OTHER_EARN_GROUP = "Other";
-
+	private static final Logger LOG = Logger.getLogger(TimeSummaryServiceImpl.class);
+	
     @Override
 	public TimeSummary getTimeSummary(TimesheetDocument timesheetDocument) {
 		TimeSummary timeSummary = new TimeSummary();
@@ -80,7 +83,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
         LeaveBlockAggregate leaveBlockAggregate = new LeaveBlockAggregate(leaveBlocks, timesheetDocument.getCalendarEntry());
         tkTimeBlockAggregate = combineTimeAndLeaveAggregates(tkTimeBlockAggregate, leaveBlockAggregate);
 
-		timeSummary.setWorkedHours(getWorkedHours(tkTimeBlockAggregate, leaveBlockAggregate));
+		timeSummary.setWorkedHours(getWorkedHours(tkTimeBlockAggregate));
 
         List<EarnGroupSection> earnGroupSections = getEarnGroupSections(tkTimeBlockAggregate, timeSummary.getSummaryHeader().size()+1, 
         			dayArrangements, timesheetDocument.getAsOfDate(), timesheetDocument.getDocEndDate());
@@ -91,7 +94,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 			timeSummary.setMaxedLeaveRows(maxedLeaveRows);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error("error retreiving maxed leave rows", e);
 		}
 
 		return timeSummary;
@@ -131,7 +134,13 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
 	            			else if(StringUtils.equals(aRule.getActionAtMaxBalance(),LMConstants.ACTION_AT_MAX_BAL.PAYOUT))
 	            				row.setPayoutable(true);
 	            			
-	            			maxedLeaveRows.add(row);
+	            			boolean exists = false;
+	            			for(LeaveSummaryRow maxedRow : maxedLeaveRows) {
+	            				if(StringUtils.equals(maxedRow.getAccrualCategoryId(),row.getAccrualCategoryId()))
+	            					exists = true;
+	            			}
+	            			if(!exists)
+            					maxedLeaveRows.add(row);
                     	}
             		}
             	}
@@ -351,7 +360,7 @@ public class TimeSummaryServiceImpl implements TimeSummaryService {
      * @return A list of BigDecimals containing the number of hours worked.
      * This list will line up with the header.
      */
-    private List<BigDecimal> getWorkedHours(TkTimeBlockAggregate aggregate, LeaveBlockAggregate lbAggregate) {
+    private List<BigDecimal> getWorkedHours(TkTimeBlockAggregate aggregate) {
         List<BigDecimal> hours = new ArrayList<BigDecimal>();
         BigDecimal periodTotal = TkConstants.BIG_DECIMAL_SCALED_ZERO;
         for (FlsaWeek week : aggregate.getFlsaWeeks(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback())) {

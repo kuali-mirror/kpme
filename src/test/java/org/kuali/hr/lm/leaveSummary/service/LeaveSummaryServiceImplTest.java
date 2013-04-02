@@ -32,7 +32,7 @@ public class LeaveSummaryServiceImplTest extends KPMETestCase {
 	@Test
 	public void testGetLeaveSummary() throws Exception {
 		// selected calendar entry is 03/15/2012 - 04/01/2012
-		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("10001");
+		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("56");
 		
 		LeaveSummary ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary("testUser", ce);
 		Assert.assertTrue("There ytd dates String should be 'March 1 - March 14 2012', not " + ls.getYtdDatesString(), ls.getYtdDatesString().equals("March 1 - March 14 2012"));
@@ -54,19 +54,19 @@ public class LeaveSummaryServiceImplTest extends KPMETestCase {
 		Assert.assertTrue("FMLA usage for Row should be '2', not " + aRow.getFmlaUsage(), aRow.getFmlaUsage().compareTo(new BigDecimal(2)) == 0);
 		
 		// selected calendar entry is 04/01/2012 - 04/30/2012
-		ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("10002");
+		ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("58");
 		ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary("testUser", ce);
 		Assert.assertTrue("There ytd dates String should be 'March 1 - March 14 2012', not " + ls.getYtdDatesString(), ls.getYtdDatesString().equals("March 1 - March 14 2012"));
-		Assert.assertTrue("There pending dates String should be 'April 1 - April 30 2012', not " + ls.getPendingDatesString(), ls.getPendingDatesString().equals("April 1 - April 30 2012"));
+		Assert.assertTrue("There pending dates String should be 'April 15 - April 30 2012', not " + ls.getPendingDatesString(), ls.getPendingDatesString().equals("April 15 - April 30 2012"));
 		
 		rows = ls.getLeaveSummaryRows();
 		Assert.assertTrue("There should be 1 leave summary rows for emplyee 'testUser', not " + rows.size(), rows.size()== 1);
 		aRow = rows.get(0);
 		Assert.assertTrue("Accrual cateogry for Row should be 'testAC', not " + aRow.getAccrualCategory(), aRow.getAccrualCategory().equals("testAC"));
 		Assert.assertTrue("Carry over for Row should be '0', not " + aRow.getCarryOver(), aRow.getCarryOver().compareTo(BigDecimal.ZERO)==0);
-		Assert.assertTrue("YTD accrualed balance for Row should be '5', not " + aRow.getYtdAccruedBalance(), aRow.getYtdAccruedBalance().compareTo(new BigDecimal(5))==0);
+		Assert.assertTrue("YTD accrual balance for Row should be '15', not " + aRow.getYtdAccruedBalance(), aRow.getYtdAccruedBalance().compareTo(new BigDecimal(15))==0);
 		Assert.assertTrue("YTD approved usage for Row should be '2', not " + aRow.getYtdApprovedUsage(), aRow.getYtdApprovedUsage().compareTo(new BigDecimal(2))==0);
-		Assert.assertTrue("Leave Balance for Row should be '3', not " + aRow.getLeaveBalance(), aRow.getLeaveBalance().compareTo(new BigDecimal(3))==0);
+		Assert.assertTrue("Leave Balance for Row should be '3', not " + aRow.getLeaveBalance(), aRow.getLeaveBalance().compareTo(new BigDecimal(13))==0);
 		Assert.assertTrue("Pending Leave Accrual for Row should be '0', not " + aRow.getPendingLeaveAccrual(), aRow.getPendingLeaveAccrual().compareTo(BigDecimal.ZERO)==0);
 		Assert.assertTrue("Pending Leave requests for Row should be '0', not " + aRow.getPendingLeaveRequests(), aRow.getPendingLeaveRequests().compareTo(new BigDecimal(0))==0);
 		//Assert.assertTrue("Pending Leave Balance for Row should be '13', not " + aRow.getPendingLeaveBalance(), aRow.getPendingLeaveBalance().equals(new BigDecimal(13)));
@@ -75,13 +75,13 @@ public class LeaveSummaryServiceImplTest extends KPMETestCase {
 		Assert.assertTrue("FMLA usage for Row should be '2', not " + aRow.getFmlaUsage(), aRow.getFmlaUsage().compareTo(new BigDecimal(2)) == 0);
 		
 		// selected calendar entry is 05/01/2012 - 05/31/2012
-		ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("10003");
+		ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("59");
 		ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary("testUser", ce);
 		Assert.assertTrue("There ytd dates String should be 'March 1 - March 14 2012', not " + ls.getYtdDatesString(), ls.getYtdDatesString().equals("March 1 - March 14 2012"));
-		Assert.assertTrue("There pending dates String should be 'May 1 - May 31 2012', not " + ls.getPendingDatesString(), ls.getPendingDatesString().equals("May 1 - May 31 2012"));
+		Assert.assertTrue("There pending dates String should be 'May 1 - May 14 2012', not " + ls.getPendingDatesString(), ls.getPendingDatesString().equals("May 1 - May 14 2012"));
 		
 		rows = ls.getLeaveSummaryRows();
-		Assert.assertTrue("There should be 2 leave summary rows for emplyee 'testUser', not " + rows.size(), rows.size()== 2);
+		Assert.assertTrue("There should be 2 leave summary rows for employee 'testUser', not " + rows.size(), rows.size()== 2);
 		for(LeaveSummaryRow lsRow : rows ) {
 			if(lsRow.getAccrualCategory().equals("testAC")) {
 				Assert.assertTrue("Carry over for Row should be '0', not " + lsRow.getCarryOver(), lsRow.getCarryOver().compareTo(BigDecimal.ZERO) == 0);
@@ -109,10 +109,10 @@ public class LeaveSummaryServiceImplTest extends KPMETestCase {
 				Assert.fail("Accrual category for Row should either be 'testAC' or 'testAC1', not " + lsRow.getAccrualCategory());
 			}
 		}
-		// selected calendar entry is 02/01/2012 - 03/01/2012
+		// selected calendar entry is 02/1/2012 - 02/15/2012
 		// principal HR attribute does not exist on 02/01/2012, it becomes active on 02/05/2012
 		// this is testing null principalHrAttributes with beginning date of Calendar entry
-		ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("10004");
+		ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("53");
 		ls = TkServiceLocator.getLeaveSummaryService().getLeaveSummary("testUser", ce);
 		rows = ls.getLeaveSummaryRows();
 		Assert.assertTrue("There should be 1 leave summary rows for emplyee 'testUser', not " + rows.size(), rows.size()== 1);
@@ -120,7 +120,7 @@ public class LeaveSummaryServiceImplTest extends KPMETestCase {
 	
 	@Test
 	public void testGetHeaderForSummary() throws Exception {
-		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("10001");
+		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("56");
 		List<Date> leaveSummaryDates = TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(ce);
 		
 		Assert.assertTrue("The number of leave summary dates should be 17, not " + leaveSummaryDates.size(), leaveSummaryDates.size()== 17);

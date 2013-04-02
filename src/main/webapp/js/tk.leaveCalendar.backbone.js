@@ -702,6 +702,7 @@ $(function () {
             if (isValid) {
            
                 var docId = $('#documentId').val();
+                var calId = $('#calEntryId').val();
                 var params = {};
                 params['startDate'] = $('#startDate').val();
                 params['endDate'] = $('#endDate').val();
@@ -711,11 +712,12 @@ $(function () {
                 params['selectedEarnCode'] = $('#selectedEarnCode option:selected').val();
                 params['spanningWeeks'] = $('#spanningWeeks').is(':checked') ? 'y' : 'n'; // KPME-1446
                 params['leaveBlockId'] = $('#leaveBlockId').val();
+                params['calEntryId'] = $('#calEntryId').val();
 
                 // validate leaveblocks
                 $.ajax({
                     async : false,
-                    url : "LeaveCalendarWS.do?methodToCall=validateLeaveEntry&documentId=" + docId,
+                    url : "LeaveCalendarWS.do?methodToCall=validateLeaveEntry&documentId=" + docId + "&calEntryId=" + calId,
                     data : params,
                     cache : false,
                     type : "post",

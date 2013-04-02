@@ -528,8 +528,10 @@ public class LeaveSummaryServiceImpl implements LeaveSummaryService {
                             if(!(StringUtils.equals(LMConstants.REQUEST_STATUS.DISAPPROVED, aLeaveBlock.getRequestStatus()) ||
                             		StringUtils.equals(LMConstants.REQUEST_STATUS.DEFERRED, aLeaveBlock.getRequestStatus()))) {
                                 if (aLeaveBlock.getLeaveDate().getTime() > priorYearCutOff.getTime()) {
-                                    approvedUsage = approvedUsage.add(currentLeaveAmount);
                                     EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(aLeaveBlock.getEarnCode(), aLeaveBlock.getLeaveDate());
+                                    if (ec != null && StringUtils.equals(ec.getAccrualBalanceAction(), LMConstants.ACCRUAL_BALANCE_ACTION.USAGE)){
+                                        approvedUsage = approvedUsage.add(currentLeaveAmount);
+                                    }
                                     if(ec != null && ec.getFmla().equals("Y")) {
                                         fmlaUsage = fmlaUsage.add(aLeaveBlock.getLeaveAmount());
                                     }

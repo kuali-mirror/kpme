@@ -108,10 +108,16 @@ public class LMConstants {
 	
 	 public static final Map<String, String> ACCRUAL_BALANCE_ACTION_MAP = new LinkedHashMap<String, String>(2);
 	 static {
-		 ACCRUAL_BALANCE_ACTION_MAP.put("N", "None");
-		 ACCRUAL_BALANCE_ACTION_MAP.put("U", "Usage");
-		 ACCRUAL_BALANCE_ACTION_MAP.put("A", "Adjustment");
+		 ACCRUAL_BALANCE_ACTION_MAP.put(ACCRUAL_BALANCE_ACTION.NONE, "None");
+		 ACCRUAL_BALANCE_ACTION_MAP.put(ACCRUAL_BALANCE_ACTION.USAGE, "Usage");
+		 ACCRUAL_BALANCE_ACTION_MAP.put(ACCRUAL_BALANCE_ACTION.ADJUSTMENT, "Adjustment");
 	 }
+
+     public static final class ACCRUAL_BALANCE_ACTION {
+        public static final String NONE = "N";
+        public static final String USAGE = "U";
+        public static final String ADJUSTMENT = "A";
+    }
 	 
 	 
 	 public static final String LEAVE_CALENDAR_TYPE = "leaveCalendar";

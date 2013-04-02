@@ -768,10 +768,15 @@ $(function () {
             		$('#unitOfTime').text('* Leave Days');
             	} else if (checkFlag == CONSTANTS.EARNCODE_UNIT.HOUR) {
             		$('#unitOfTime').text('* Leave Hours');
-            	}
+            	} else if (earnCodeUnit == CONSTANTS.EARNCODE_UNIT.TIME) {
+					$(
+							_.without(fieldSections, ".clockInSection",
+									".clockOutSection").join(",")).hide();
+					$(fieldSections[0] + "," + fieldSections[1]).show();
+					$('#leaveAmount').val("");
+				}
                 var defaultTime = this.getEarnCodeDefaultTime(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
                 $('#leaveAmount').val(defaultTime);
-
             }
             else {
                 // There might be a better way doing this, but we can revisit this later.
@@ -908,7 +913,13 @@ $(function () {
            var leavePlan = this.getEarnCodeLeavePlan(EarnCodes.toJSON(), $("#selectedEarnCode option:selected").val());
            if (typeof leavePlan != 'undefined' && leavePlan != '' && leavePlan != null && leavePlan != 'undefined') {
                 var leaveAmount = $('#leaveAmount');
-                isValid = isValid && (this.checkEmptyField(leaveAmount, "Leave Amount") && this.checkMinLength(leaveAmount, "Leave Amount", 1) && this.checkRegexp(leaveAmount, '/0/', 'Leave Amount cannot be zero'));
+                if(_.contains(ids, "leaveAmount")) {
+                	isValid = isValid && (this.checkEmptyField(leaveAmount, "Leave Amount") && this.checkMinLength(leaveAmount, "Leave Amount", 1) && this.checkRegexp(leaveAmount, '/0/', 'Leave Amount cannot be zero'));
+                } else if (_.contains(ids, "startTimeHourMinute") && _.contains(ids, "endTimeHourMinute")) {
+                    // the format has to be like "12:00 AM"
+                    isValid = isValid && this.checkLength($('#startTimeHourMinute'), "Leave entry", 8, 8);
+                    isValid = isValid && this.checkLength($('#endTimeHourMinute'), "Leave entry", 8, 8);
+                }
                 // check fraction allowed by the Earn Code
 	            if(isValid) {
 	            	var fraction = this.getEarnCodeFractionalAllowedTime(EarnCodes.toJSON(), $('#selectedEarnCode option:selected').val());
@@ -1165,6 +1176,12 @@ $(function () {
             $("#selectedEarnCode option[value='" + leaveBlock.get("earnCode") + "']").attr("selected", "selected");
             $('#lmLeaveBlockId').val(leaveBlock.get("lmLeaveBlockId"));
             $('#leaveAmount').val(leaveBlock.get("leaveAmount"));
+            $('#startDate').val(leaveBlock.get("startDate"));
+            $('#startTime').val(leaveBlock.get("startTime"));
+            $('#startTimeHourMinute').val(leaveBlock.get("startTimeHourMinute"));
+            $('#endDate').val(leaveBlock.get("endDate"));
+            $('#endTime').val(leaveBlock.get("endTime"));
+            $('#endTimeHourMinute').val(leaveBlock.get("endTimeHourMinute"));
         },
         
         /**

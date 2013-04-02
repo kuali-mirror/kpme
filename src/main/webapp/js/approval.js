@@ -103,7 +103,7 @@ $(document).ready(function () {
     /*
      * for search on TimeApproval page
      */
-    $('#searchTerm').autocomplete({
+    $('#searchValue').autocomplete({
         source:function (request, response) {
             $('#loading-value').ajaxStart(function () {
                 $(this).show();
@@ -153,7 +153,7 @@ $(document).ready(function () {
     /*
      * for search on LeaveApproval page
      */
-    $('#searchTerm').autocomplete({
+    $('#leaveSearchValue').autocomplete({
         source:function (request, response) {
             $('#loading-value').ajaxStart(function () {
                 $(this).show();

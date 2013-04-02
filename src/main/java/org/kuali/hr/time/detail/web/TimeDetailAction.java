@@ -177,7 +177,8 @@ public class TimeDetailAction extends TimesheetAction {
 	    		        	// accrual categories within the leave plan that are hidden from the leave summary WILL appear.
 	        				String message = "You have exceeded the maximum balance limit for '" + accrualCat.getAccrualCategory() + "' as of " + lb.getLeaveDate() + ". "+
 	                    			"Depending upon the accrual category rules, leave over this limit may be forfeited.";
-	        				if(!allMessages.get("warningMessages").contains(message)) {
+                            //  leave blocks are sorted in getMaxBalanceViolations() method, so we just take the one with the earliest leave date for an accrual category.
+                            if(!StringUtils.contains(allMessages.get("warningMessages").toString(),"You have exceeded the maximum balance limit for '"+accrualCat.getAccrualCategory())) {
 	                            allMessages.get("warningMessages").add(message);
 	        				}
         				}
@@ -300,6 +301,7 @@ public class TimeDetailAction extends TimesheetAction {
 	}
 
 	private void populateCalendarAndPayPeriodLists(HttpServletRequest request, TimeDetailActionForm tdaf) {
+		String viewPrincipal = TKContext.getTargetPrincipalId();
 		List<TimesheetDocumentHeader> documentHeaders = (List<TimesheetDocumentHeader>) TkServiceLocator.getTimesheetDocumentHeaderService().getDocumentHeadersForPrincipalId(TKContext.getTargetPrincipalId());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         if(tdaf.getCalendarYears().isEmpty()) {
@@ -326,11 +328,12 @@ public class TimeDetailAction extends TimesheetAction {
 	        List<CalendarEntry> payPeriodList = new ArrayList<CalendarEntry>();
 	        for(TimesheetDocumentHeader tdh : documentHeaders) {
 	        	if(sdf.format(tdh.getBeginDate()).equals(tdaf.getSelectedCalendarYear())) {
-                    CalendarEntry pe = TkServiceLocator.getCalendarEntryService().getCalendarEntryByBeginAndEndDate(tdh.getBeginDate(), tdh.getEndDate());
+                    CalendarEntry pe = TkServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(tdh.getPrincipalId(), tdh.getEndDate(), TkConstants.PAY_CALENDAR_TYPE);
+                    //CalendarEntries pe = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(tdh.getBeginDate(), tdh.getEndDate());
 	        		payPeriodList.add(pe);
 	        	}
 	        }
-	        tdaf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(payPeriodList));
+	        tdaf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(payPeriodList, viewPrincipal));
         }
         if(request.getParameter("selectedPP")!= null) {
         	tdaf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
@@ -445,8 +448,17 @@ public class TimeDetailAction extends TimesheetAction {
     
     // add/update leave blocks 
 	private void changeLeaveBlocks(TimeDetailActionForm tdaf) {
-		DateTime beginDate = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getStartDate()));
-		DateTime endDate = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getEndDate()));
+		DateTime beginDate = null;
+		DateTime endDate = null;
+		
+		if(tdaf.getStartTime() != null && tdaf.getEndTime() != null) {
+			beginDate = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getStartDate(), tdaf.getStartTime()));
+			endDate = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getEndDate(), tdaf.getEndTime()));
+		} else {
+			beginDate = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getStartDate()));
+			endDate = new DateTime(TKUtils.convertDateStringToTimestamp(tdaf.getEndDate()));
+		}
+		
 		String selectedEarnCode = tdaf.getSelectedEarnCode();
 		BigDecimal leaveAmount = tdaf.getLeaveAmount();
 		

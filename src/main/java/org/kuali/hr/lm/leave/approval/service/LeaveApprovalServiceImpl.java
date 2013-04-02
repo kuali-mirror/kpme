@@ -183,8 +183,8 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 				Map<String, BigDecimal> leaveHours = earnCodeLeaveHours.get(leaveDate.toDate());
 
 				BigDecimal amount = lb.getLeaveAmount();
-                String key = lb.getEarnCode() + "|" + lb.getRequestStatus();
-				if (leaveHours.get(lb.getEarnCode()) != null) {
+                String key = lb.getEarnCode() + "|" + lb.getRequestStatus() + "|" + lb.getLeaveBlockType();
+				if (leaveHours.get(key) != null) {
 					amount = leaveHours.get(key).add(lb.getLeaveAmount());
 				}
 				
@@ -216,7 +216,8 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		List<Map<String, Object>> acRows = new ArrayList<Map<String, Object>>();
 		
 		String principalId = lcdh.getPrincipalId();
-		CalendarEntry calendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntryByBeginAndEndDate(lcdh.getBeginDate(), lcdh.getEndDate());
+        CalendarEntry calendarEntry = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(lcdh.getDocumentId()).getCalendarEntry();
+		//CalendarEntries calendarEntry = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(lcdh.getBeginDate(), lcdh.getEndDate());
 		if(calendarEntry != null) {
 			Date beginDate = calendarEntry.getBeginPeriodDate();
 			Date endDate = calendarEntry.getEndPeriodDate();
@@ -327,7 +328,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		}
 		Set<CalendarEntry> payPeriodSet = new HashSet<CalendarEntry>();
 		for(LeaveCalendarDocumentHeader lcdh : documentHeaders) {
-    		CalendarEntry pe = TkServiceLocator.getCalendarEntryService().getCalendarEntryByBeginAndEndDate(lcdh.getBeginDate(), lcdh.getEndDate());
+            CalendarEntry pe = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(lcdh.getDocumentId()).getCalendarEntry();
     		if(pe != null) {
     			payPeriodSet.add(pe);
     		}
@@ -386,7 +387,7 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 		Map<String, LeaveCalendarDocumentHeader> principalDocumentHeader = new LinkedHashMap<String, LeaveCalendarDocumentHeader>();
 		for (TKPerson person : persons) {
 			String principalId = person.getPrincipalId();
-			LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, DateUtils.addMilliseconds(payEndDate, 1));
+			LeaveCalendarDocumentHeader lcdh = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(principalId, payBeginDate, payEndDate);
 			if(lcdh != null) {
 				principalDocumentHeader.put(principalId, lcdh);	
 			}

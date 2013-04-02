@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -59,8 +60,9 @@ public class TimeApprovalWSAction extends TkAction {
         		&& StringUtils.isNotEmpty(taaf.getPayEndDateForSearch()) ) {
 	        Date beginDate = new SimpleDateFormat("MM/dd/yyyy").parse(taaf.getPayBeginDateForSearch());
 	        Date endDate = new SimpleDateFormat("MM/dd/yyyy").parse(taaf.getPayEndDateForSearch());
-	        
-	        List<String> workAreaList = new ArrayList<String>();
+            //the endDate we get here is coming from approval.js and is extracted from html. we need to add a day to cover the last day in the pay period.
+            endDate = DateUtils.addDays(endDate,1);
+            List<String> workAreaList = new ArrayList<String>();
 	        if(StringUtil.isEmpty(taaf.getSelectedWorkArea())) {
 	        	List<Long> workAreas = TKContext.getApproverWorkAreas();
 	        	for(Long workArea : workAreas) {
@@ -87,11 +89,12 @@ public class TimeApprovalWSAction extends TkAction {
 	        } else if (StringUtils.equals(taaf.getSearchField(), ApprovalForm.ORDER_BY_DOCID)) {
 	            Map<String, TimesheetDocumentHeader> principalDocumentHeaders =
 	                    TkServiceLocator.getTimeApproveService().getPrincipalDocumehtHeader(persons, beginDate, endDate);
-	
+
 	            for (Map.Entry<String,TimesheetDocumentHeader> entry : principalDocumentHeaders.entrySet()) {
 	                if (StringUtils.contains(entry.getValue().getDocumentId(), taaf.getSearchTerm())) {
 	                    Map<String, String> labelValue = new HashMap<String, String>();
-	                    labelValue.put("id", entry.getValue().getDocumentId() + " (" + entry.getValue().getPrincipalId() + ")");
+//                        labelValue.put("id", entry.getValue().getDocumentId() + " (" + entry.getValue().getPrincipalId() + ")");
+                        labelValue.put("id", entry.getValue().getDocumentId());
 	                    labelValue.put("result", entry.getValue().getPrincipalId());
 	                    results.add(labelValue);
 	                }

@@ -14,7 +14,6 @@
 -- limitations under the License.
 --
 
-delete from hr_calendar_entries_t where hr_calendar_entry_id in ('10000', '10001', '10002', '10003', '10004', '10005', '10006');
 delete from lm_leave_plan_t where LM_LEAVE_PLAN_ID >= '1000';
 delete from lm_accrual_category_t where lm_accrual_category_id = '3000';
 update hr_principal_attributes_t set leave_plan = NULL where principal_id = 'admin';

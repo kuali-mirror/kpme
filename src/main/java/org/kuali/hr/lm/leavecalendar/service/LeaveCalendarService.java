@@ -62,6 +62,4 @@ public interface LeaveCalendarService {
     void approveLeaveCalendar(String principalId, LeaveCalendarDocument leaveCalendarDocument, String action);
 
     void routeLeaveCalendar(String principalId, LeaveCalendarDocument leaveCalendarDocument, String action);
-    
-    public BigDecimal getCarryOverForCurrentCalendar(String principalId);
 }

@@ -371,10 +371,10 @@ public class LeaveApprovalAction extends ApprovalAction{
 			laaf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
 		} else {
 			laaf.setSelectedPayPeriod(laaf.getPayCalendarEntry().getHrCalendarEntryId());
-			laaf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(pcListForYear));
+			laaf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(pcListForYear, null));
 		}
 		if(laaf.getPayPeriodsMap().isEmpty()) {
-		    laaf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(pcListForYear));
+		    laaf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(pcListForYear, null));
 		}
 	}
 

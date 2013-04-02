@@ -100,7 +100,8 @@ public class WeeklyOvertimeRuleServiceTest extends KPMETestCase {
 		DateTime start = new DateTime(2010, 3, 29, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		Date beginPeriodDate = new Date(new DateTime(2010, 3, 15, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()).getMillis());
 		Date endPeriodDate = new Date(new DateTime(2010, 4, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()).getMillis());
-		CalendarEntry endOfMarch = TkServiceLocator.getCalendarEntryService().getCalendarEntryByBeginAndEndDate(beginPeriodDate, endPeriodDate);
+        Date calEntryEndDate = new Date(new DateTime(2010, 4, 1, 0, 0, 0).getMillis());
+		CalendarEntry endOfMarch = TkServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate("2", endPeriodDate);
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfMarch);
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment("admin", new AssignmentDescriptionKey("30_30_30"), beginPeriodDate);
 		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "RGN", start, 3, BigDecimal.TEN, BigDecimal.ZERO);
@@ -149,7 +150,7 @@ public class WeeklyOvertimeRuleServiceTest extends KPMETestCase {
 		DateTime start = new DateTime(2010, 6, 27, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		Date beginPeriodDate = new Date(new DateTime(2010, 6, 15, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()).getMillis());
 		Date endPeriodDate = new Date(new DateTime(2010, 7, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()).getMillis());
-		CalendarEntry endOfJune = TkServiceLocator.getCalendarEntryService().getCalendarEntryByBeginAndEndDate(beginPeriodDate, endPeriodDate);
+        CalendarEntry endOfJune = TkServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate("2", endPeriodDate);
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfJune);
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment("admin", new AssignmentDescriptionKey("30_30_30"), beginPeriodDate);
 		timeBlocks = TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "RGN", start, 4, new BigDecimal(11), BigDecimal.ZERO);
@@ -229,7 +230,7 @@ public class WeeklyOvertimeRuleServiceTest extends KPMETestCase {
 		DateTime start = new DateTime(2010, 6, 27, 5, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		Date beginPeriodDate = new Date(new DateTime(2010, 6, 15, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()).getMillis());
 		Date endPeriodDate = new Date(new DateTime(2010, 7, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone()).getMillis());
-		CalendarEntry endOfJune = TkServiceLocator.getCalendarEntryService().getCalendarEntryByBeginAndEndDate(beginPeriodDate, endPeriodDate);
+        CalendarEntry endOfJune = TkServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate("2", endPeriodDate);
 		TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", endOfJune);
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment("admin", new AssignmentDescriptionKey("30_30_30"), beginPeriodDate);		
 		timeBlocks.addAll(TkTestUtils.createUniformActualTimeBlocks(tdoc, assignment, "ABC", start, 1, new BigDecimal(11), BigDecimal.ZERO));

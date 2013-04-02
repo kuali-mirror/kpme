@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -62,8 +63,9 @@ public class LeaveApprovalWSAction extends TkAction {
 	        		&& StringUtils.isNotEmpty(laaf.getPayEndDateForSearch()) ) {
 		        Date beginDate = new SimpleDateFormat("MM/dd/yyyy").parse(laaf.getPayBeginDateForSearch());
 		        Date endDate = new SimpleDateFormat("MM/dd/yyyy").parse(laaf.getPayEndDateForSearch());
-		        
-		        List<String> workAreaList = new ArrayList<String>();
+                //the endDate we get here is coming from approval.js and is extracted from html. we need to add a day to cover the last day in the pay period.
+                endDate = DateUtils.addDays(endDate,1);
+                List<String> workAreaList = new ArrayList<String>();
 		        if(StringUtil.isEmpty(laaf.getSelectedWorkArea())) {
 		        	List<Long> workAreas = TKContext.getApproverWorkAreas();
 		        	for(Long workArea : workAreas) {
@@ -94,7 +96,9 @@ public class LeaveApprovalWSAction extends TkAction {
 		            for (Map.Entry<String,LeaveCalendarDocumentHeader> entry : principalDocumentHeaders.entrySet()) {
 		                if (StringUtils.contains(entry.getValue().getDocumentId(), laaf.getSearchTerm())) {
 		                    Map<String, String> labelValue = new HashMap<String, String>();
-		                    labelValue.put("id", entry.getValue().getDocumentId() + " (" + entry.getValue().getPrincipalId() + ")");
+//                            labelValue.put("id", entry.getValue().getDocumentId() + " (" + entry.getValue().getPrincipalId() + ")");
+                            //removing principalId to make select/submit the result from dropdown work
+                            labelValue.put("id", entry.getValue().getDocumentId());
 		                    labelValue.put("result", entry.getValue().getPrincipalId());
 		                    results.add(labelValue);
 		                }

@@ -855,7 +855,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		}
 		Set<CalendarEntry> payPeriodSet = new HashSet<CalendarEntry>();
 		for(TimesheetDocumentHeader tdh : documentHeaders) {
-    		CalendarEntry pe = TkServiceLocator.getCalendarEntryService().getCalendarEntryByBeginAndEndDate(tdh.getBeginDate(), tdh.getEndDate());
+            CalendarEntry pe = TkServiceLocator.getTimesheetService().getTimesheetDocument(tdh.getDocumentId()).getCalendarEntry();
     		if(pe != null) {
     			payPeriodSet.add(pe);
     		}

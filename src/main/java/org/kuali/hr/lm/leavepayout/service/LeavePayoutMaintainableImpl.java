@@ -15,7 +15,11 @@
  */
 package org.kuali.hr.lm.leavepayout.service;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leavepayout.LeavePayout;
@@ -99,6 +103,27 @@ public class LeavePayoutMaintainableImpl extends
                     TkServiceLocator.getLeaveBlockService().updateLeaveBlock(lb, routedByPrincipalId);
                 }
             }
+            
+            List<LeaveBlock> leaveBlocks = TkServiceLocator.getLeaveBlockService().getLeaveBlocksForDocumentId(documentId);
+            LeaveBlock carryOverBlock = null;
+            for(LeaveBlock lb : leaveBlocks) {
+            	if(StringUtils.equals(lb.getAccrualCategory(),payout.getFromAccrualCategory())
+            			&& StringUtils.equals(lb.getDescription(),"Max carry over adjustment")
+            			&& lb.getAccrualGenerated()) {
+            		carryOverBlock = lb;
+            	}
+            }
+            if(carryOverBlock != null) {
+            	BigDecimal adjustment = new BigDecimal(0);
+            	if(payout.getPayoutAmount() != null)
+            		adjustment = adjustment.add(payout.getPayoutAmount().abs());
+            	if(payout.getForfeitedAmount() != null)
+            		adjustment = adjustment.add(payout.getForfeitedAmount().abs());
+            	BigDecimal adjustedLeaveAmount = carryOverBlock.getLeaveAmount().abs().subtract(adjustment);
+            	carryOverBlock.setLeaveAmount(adjustedLeaveAmount.negate());
+        		TkServiceLocator.getLeaveBlockService().updateLeaveBlock(carryOverBlock, routedByPrincipalId);
+            }
+            
         } else if (DocumentStatus.CANCELED.equals(newDocumentStatus)) {
             //When payout document is canceled, set all leave block's request statuses to deferred
             for(LeaveBlock lb : payout.getLeaveBlocks()) {

@@ -2,7 +2,6 @@
 
 <%@ attribute name="calType" required="true" type="java.lang.String" %>
 <%-- for time approval, set searchId to searchValue, for leave Approval, set searchId to leaveSearchValue
- UPDATE: searchId for both leave and time is set to searchTerm now.
 the id is used in approval.js--%>
 <%@ attribute name="searchId" required="true" type="java.lang.String" %>
 

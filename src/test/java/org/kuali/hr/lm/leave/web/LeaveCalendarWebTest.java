@@ -38,14 +38,14 @@ public class LeaveCalendarWebTest extends KPMETestCase {
 	public void setUp() throws Exception {
 		super.setUp();
 		
-		CalendarEntry firstCalendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry("10000");
+		CalendarEntry firstCalendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry("202");
         LeaveCalendarDocument firstLeaveCalendarDocument = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument("admin", firstCalendarEntry);
         documentId = firstLeaveCalendarDocument.getDocumentId();
         
-        CalendarEntry secondCalendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry("10001");
+        CalendarEntry secondCalendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry("203");
         TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument("admin", secondCalendarEntry);
         
-        CalendarEntry thirdCalendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry("10002");
+        CalendarEntry thirdCalendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry("204");
         TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument("admin", thirdCalendarEntry);
 	}
 
@@ -63,7 +63,6 @@ public class LeaveCalendarWebTest extends KPMETestCase {
 
 		//this.setWebClient(leaveCalendarPage.getWebClient());
 
-        DateTime dt = new DateTime();
 		Assert.assertTrue("Page does not have Current calendar ", leaveCalendarPage.asText().contains("March 2012"));
 
         // Check for next document

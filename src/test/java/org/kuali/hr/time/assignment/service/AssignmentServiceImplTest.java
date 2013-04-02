@@ -57,7 +57,7 @@ public class AssignmentServiceImplTest extends KPMETestCase {
 	}
 	@Test
 	public void testGetAssignmentsByCalEntryForLeaveCalendar() throws Exception {
-		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("5000");
+		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 		List<Assignment> assignments = assignmentService.getAssignmentsByCalEntryForLeaveCalendar("testUser", ce);
 		Assert.assertNotNull("Null assignment list", assignments);
 		
@@ -70,7 +70,7 @@ public class AssignmentServiceImplTest extends KPMETestCase {
 	
 	@Test
 	public void testGetAssignmentsByCalEntryForTimeCalendar() throws Exception {
-		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("5000");
+		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 		List<Assignment> assignments = assignmentService.getAssignmentsByCalEntryForTimeCalendar("testUser", ce);
 		Assert.assertNotNull("Null assignment list", assignments);
 		
@@ -83,7 +83,7 @@ public class AssignmentServiceImplTest extends KPMETestCase {
 	}
 	@Test
 	public void testGetAssignmentsByPayEntry() throws Exception {
-		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("5000");
+		CalendarEntry ce = TkServiceLocator.getCalendarEntryService().getCalendarEntry("55");
 		List<Assignment> assignments = assignmentService.getAssignmentsByPayEntry("testUser", ce);
 		Assert.assertNotNull("Null assignment list", assignments);
 		Assert.assertTrue("Assignments size for Calendar Entry 5000 should be 3, not " + assignments.size(), assignments.size() == 3);

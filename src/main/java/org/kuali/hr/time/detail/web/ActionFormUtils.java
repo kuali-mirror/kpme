@@ -280,14 +280,26 @@ public class ActionFormUtils {
         	leaveBlockMap.put("leaveDate", leaveDate.toString(TkConstants.DT_BASIC_DATE_FORMAT));
         	leaveBlockMap.put("id", leaveBlock.getLmLeaveBlockId());
         	leaveBlockMap.put("canTransfer", TkServiceLocator.getLMPermissionService().canTransferSSTOUsage(leaveBlock));
+        	leaveBlockMap.put("startDate", leaveDate.toString(TkConstants.DT_BASIC_DATE_FORMAT));
+        	leaveBlockMap.put("endDate", leaveDate.toString(TkConstants.DT_BASIC_DATE_FORMAT));
         	
+        	if(leaveBlock.getBeginTimestamp() != null && leaveBlock.getEndTimestamp() != null) {
+	            DateTime start = new DateTime(leaveBlock.getBeginTimestamp().getTime());
+	        	DateTime end = new DateTime(leaveBlock.getEndTimestamp().getTime());
+	        	leaveBlockMap.put("startTimeHourMinute", start.toString(TkConstants.DT_BASIC_TIME_FORMAT));
+	        	leaveBlockMap.put("endTimeHourMinute", end.toString(TkConstants.DT_BASIC_TIME_FORMAT));
+	        	leaveBlockMap.put("startTime", start.toString(TkConstants.DT_MILITARY_TIME_FORMAT));
+	        	leaveBlockMap.put("endTime", end.toString(TkConstants.DT_MILITARY_TIME_FORMAT));
+	        	leaveBlockMap.put("startDate", start.toString(TkConstants.DT_BASIC_DATE_FORMAT));
+	        	leaveBlockMap.put("endDate", end.toString(TkConstants.DT_BASIC_DATE_FORMAT));
+            }
         	
         	leaveBlockList.add(leaveBlockMap);
         }
     	return JSONValue.toJSONString(leaveBlockList);
     }
     
-    public static Map<String, String> getPayPeriodsMap(List<CalendarEntry> payPeriods) {
+    public static Map<String, String> getPayPeriodsMap(List<CalendarEntry> payPeriods, String viewPrincipal) {
     	// use linked map to keep the order of the pay periods
     	Map<String, String> pMap = Collections.synchronizedMap(new LinkedHashMap<String, String>());
     	if (payPeriods == null || payPeriods.isEmpty()) {
@@ -298,11 +310,29 @@ public class ActionFormUtils {
     	Collections.reverse(payPeriods);  // newest on top
     	SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
         for (CalendarEntry pce : payPeriods) {
-        	if(pce != null && pce.getHrCalendarEntryId()!= null && pce.getBeginPeriodDate() != null && pce.getEndPeriodDate() != null) {
-        		//pMap.put(pce.getHrCalendarEntryId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format(pce.getEndPeriodDate()));
-                //getting one millisecond of the endperioddate to match the actual pay period. i.e. pay period end at the 11:59:59:59...PM of that day
-                pMap.put(pce.getHrCalendarEntryId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format((DateUtils.addMilliseconds(pce.getEndPeriodDate(),-1))));
-        	}
+        	// Check if service date of user is after the Calendar entry
+            Date asOfDate = new Date(DateUtils.addDays(pce.getEndPeriodDate(),-1).getTime());
+    		PrincipalHRAttributes principalHRAttributes = null;
+    		
+    		if(viewPrincipal != null) {
+    			principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, asOfDate);
+    		} else {
+    			pMap.put(pce.getHrCalendarEntryId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format((DateUtils.addMilliseconds(pce.getEndPeriodDate(),-1))));
+    		}
+    		
+    		if(principalHRAttributes != null && pce != null && pce.getHrCalendarEntryId()!= null && pce.getBeginPeriodDate() != null && pce.getEndPeriodDate() != null ) {
+    			Date startCalDate = principalHRAttributes.getServiceDate();
+    			if(startCalDate != null) {
+    				if(!(pce.getBeginPeriodDate().compareTo(startCalDate) < 0)) {
+    	        		//pMap.put(pce.getHrCalendarEntriesId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format(pce.getEndPeriodDate()));
+    	                //getting one millisecond of the endperioddate to match the actual pay period. i.e. pay period end at the 11:59:59:59...PM of that day
+    	                pMap.put(pce.getHrCalendarEntryId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format((DateUtils.addMilliseconds(pce.getEndPeriodDate(),-1))));
+            		} 
+            	} else {
+            		pMap.put(pce.getHrCalendarEntryId(), sdf.format(pce.getBeginPeriodDate()) + " - " + sdf.format((DateUtils.addMilliseconds(pce.getEndPeriodDate(),-1))));    			
+            	}
+    		} 
+    		
         }
         
     	return pMap;
@@ -321,11 +351,12 @@ public class ActionFormUtils {
     }
      
     public static String getUnitOfTimeForEarnCode(EarnCode earnCode) {
-    	AccrualCategory acObj = null;
-    	if(earnCode.getAccrualCategory() != null) {
-    		acObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCode.getAccrualCategory(), TKUtils.getCurrentDate());
-    	}
-    	String unitTime = (acObj!= null ? acObj.getUnitOfTime() : earnCode.getRecordMethod()) ;
+//    	AccrualCategory acObj = null;
+//    	if(earnCode.getAccrualCategory() != null) {
+//    		acObj = TkServiceLocator.getAccrualCategoryService().getAccrualCategory(earnCode.getAccrualCategory(), TKUtils.getCurrentDate());
+//    	}
+//    	String unitTime = (acObj!= null ? acObj.getUnitOfTime() : earnCode.getRecordMethod()) ;
+    	String unitTime = earnCode.getRecordMethod() ;
     	return unitTime;
     }
     

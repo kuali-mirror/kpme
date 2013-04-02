@@ -153,19 +153,28 @@ public class LeaveRequestAction extends TkAction {
         }
 
         for (LeaveBlock leaveBlock : form.getPendingLeaves()) {
-            docs.put(leaveBlock.getLmLeaveBlockId(), getLeaveRequestDocumentService().getLeaveRequestDocument(leaveBlock.getLeaveRequestDocumentId()));
+        	if(leaveBlock.getLeaveRequestDocumentId() != null && !leaveBlock.getLeaveRequestDocumentId().isEmpty()){
+        		docs.put(leaveBlock.getLmLeaveBlockId(), getLeaveRequestDocumentService().getLeaveRequestDocument(leaveBlock.getLeaveRequestDocumentId()));	
+        	}
         }
-        for (LeaveBlock leaveBlock : form.getApprovedLeaves()) {
+        for (LeaveBlock leaveBlock : form.getApprovedLeaves()) {        	
+        	if(leaveBlock.getLeaveRequestDocumentId() != null && !leaveBlock.getLeaveRequestDocumentId().isEmpty()){
             docs.put(leaveBlock.getLmLeaveBlockId(), getLeaveRequestDocumentService().getLeaveRequestDocument(leaveBlock.getLeaveRequestDocumentId()));
+        	}
         }
         for (LeaveBlockHistory lbh : form.getDisapprovedLeaves()) {
         	List<LeaveRequestDocument> docList = getLeaveRequestDocumentService().getLeaveRequestDocumentsByLeaveBlockId(lbh.getLmLeaveBlockId());
         	for(LeaveRequestDocument lrd : docList) {
-        		DocumentStatus status = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(lrd.getDocumentNumber());
-				if(status != null && DocumentStatus.DISAPPROVED.getCode().equals(status.getCode())) {
-					 docs.put(lbh.getLmLeaveBlockId(), getLeaveRequestDocumentService().getLeaveRequestDocument(lrd.getDocumentNumber()));
-					 break;
-				}
+        		if(lrd.getDocumentNumber() != null && !lrd.getDocumentNumber().isEmpty()){
+	        		DocumentStatus status = KewApiServiceLocator.getWorkflowDocumentService().getDocumentStatus(lrd.getDocumentNumber());
+					if(status != null && DocumentStatus.DISAPPROVED.getCode().equals(status.getCode())) {
+	    				//KPME-2214
+						//*getLeaveRequestDocumentService().getLeaveRequestDocument(lrd.getDocumentNumber())* is same as lrd within docList fethced . No need to retrieve again
+	    				//docs.put(lbh.getLmLeaveBlockId(), getLeaveRequestDocumentService().getLeaveRequestDocument(lrd.getDocumentNumber()));						 
+						docs.put(lbh.getLmLeaveBlockId(), lrd);
+						break;
+					}			 
+        		}
         	}
            
         }

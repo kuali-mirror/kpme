@@ -18,6 +18,7 @@ package org.kuali.hr.lm.leavecalendar.web;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.SystemUtils;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
@@ -150,6 +151,11 @@ public class LeaveCalendarAction extends TkAction {
 			boolean createFlag = TkServiceLocator.getLeaveCalendarService().shouldCreateLeaveDocument(viewPrincipal, calendarEntry);
 			if(createFlag) {
 				lcd = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(viewPrincipal, calendarEntry);
+			} else {
+				LeaveCalendarDocumentHeader header = TkServiceLocator.getLeaveCalendarDocumentHeaderService().getDocumentHeader(viewPrincipal, calendarEntry.getBeginPeriodDateTime(), calendarEntry.getEndPeriodDateTime());
+				if(header != null) {
+					lcd = TkServiceLocator.getLeaveCalendarService().getLeaveCalendarDocument(header.getDocumentId());
+				}
 			}
 		}
 		List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignmentsByCalEntryForLeaveCalendar(viewPrincipal, calendarEntry);
@@ -295,7 +301,8 @@ public class LeaveCalendarAction extends TkAction {
         		        	// accrual categories within the leave plan that are hidden from the leave summary WILL appear.
 	        				String message = "You have exceeded the maximum balance limit for '" + accrualCat.getAccrualCategory() + "' as of " + lb.getLeaveDate() + ". "+
 	                    			"Depending upon the accrual category rules, leave over this limit may be forfeited.";
-	        				if(!allMessages.get("warningMessages").contains(message)) {
+                            //  leave blocks are sorted in getMaxBalanceViolations() method, so we just take the one with the earliest leave date for an accrual category.
+	        				if(!StringUtils.contains(allMessages.get("warningMessages").toString(),"You have exceeded the maximum balance limit for '"+accrualCat.getAccrualCategory())) {
 	                            allMessages.get("warningMessages").add(message);
 	        				}
         				}
@@ -373,7 +380,7 @@ public class LeaveCalendarAction extends TkAction {
 	}
 	
 	private void populateCalendarAndPayPeriodLists(HttpServletRequest request, LeaveCalendarForm lcf) {
-		
+		String viewPrincipal = TKContext.getTargetPrincipalId();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
         // find all the calendar entries up to the planning months of this employee
         List<CalendarEntry> ceList = lcf.getCalendarEntry() == null ? new ArrayList<CalendarEntry>() : TkServiceLocator.getCalendarEntryService()
@@ -399,10 +406,12 @@ public class LeaveCalendarAction extends TkAction {
                 && lcf.getCalendarEntry() != null) {
         	lcf.setSelectedCalendarYear(sdf.format(lcf.getCalendarEntry().getBeginPeriodDate()));
         }
+        
         if(lcf.getPayPeriodsMap().isEmpty()) {
-      	List<CalendarEntry> yearCEList = ActionFormUtils.getAllCalendarEntriesForYear(ceList, lcf.getSelectedCalendarYear());
-	        lcf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(yearCEList));
+      		List<CalendarEntry> yearCEList = ActionFormUtils.getAllCalendarEntriesForYear(ceList, lcf.getSelectedCalendarYear());
+	        lcf.setPayPeriodsMap(ActionFormUtils.getPayPeriodsMap(yearCEList, viewPrincipal));
         }
+        
         if(request.getParameter("selectedPP")!= null) {
         	lcf.setSelectedPayPeriod(request.getParameter("selectedPP").toString());
         }
@@ -625,6 +634,8 @@ public class LeaveCalendarAction extends TkAction {
 		CalendarEntry futureCalEntry = null;
 		String viewPrincipal = TKContext.getTargetPrincipalId();
 		CalendarEntry calEntry = leaveForm.getCalendarEntry();
+		
+		Date startCalDate = null;
 
 		// some leave calendar may not have leaveCalendarDocument created based on the jobs status of this employee
 		if(lcd != null) {
@@ -649,8 +660,23 @@ public class LeaveCalendarAction extends TkAction {
                             calEntry.getHrCalendarId(),
                             calEntry);
             if (calPreEntry != null) {
-                leaveForm.setPrevCalEntryId(calPreEntry
+            	
+            	// Check if service date of user is after the Calendar entry
+                Date asOfDate = new Date(DateUtils.addDays(calPreEntry.getEndPeriodDate(),-1).getTime());;
+        		PrincipalHRAttributes principalHRAttributes = TkServiceLocator.getPrincipalHRAttributeService().getPrincipalCalendar(viewPrincipal, asOfDate);
+        		
+        		if(principalHRAttributes != null) {
+        			startCalDate = principalHRAttributes.getServiceDate();
+        			if(startCalDate != null) {
+        				if(!(calPreEntry.getBeginPeriodDate().compareTo(startCalDate) < 0)) {
+                     		leaveForm.setPrevCalEntryId(calPreEntry
+                                    .getHrCalendarEntryId());
+                		} 
+                	} else {
+                		leaveForm.setPrevCalEntryId(calPreEntry
                         .getHrCalendarEntryId());
+        			}
+        		}
             }
 
             int planningMonths = ActionFormUtils.getPlanningMonthsForEmployee(viewPrincipal);
