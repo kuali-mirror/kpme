@@ -31,7 +31,6 @@
   		p:dataObjectClass="org.kuali.hr.paygrade.PayGrade"
   		p:businessRulesClass="org.kuali.hr.paygrade.validation.PayGradeValidation"
   		p:maintainableClass="org.kuali.hr.paygrade.service.PayGradeMaintainableServiceImpl"
-  		p:documentAuthorizerClass="org.kuali.hr.time.authorization.LocationAdminAuthorizer"
         p:documentTypeName="PayGradeMaintenanceDocumentType">
     <!--<property name="promptBeforeValidationClass" value="org.kuali.hr.paygrade.validation.PayGradeEffectiveDatePrompt"/>-->
   </bean>

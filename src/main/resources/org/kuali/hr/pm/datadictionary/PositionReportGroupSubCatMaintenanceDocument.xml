@@ -12,7 +12,6 @@
     <property name="dataObjectClass" value="org.kuali.hr.pm.pstnrptgrpsubcat.PositionReportGroupSubCategory"/>
     <property name="maintainableClass" value="org.kuali.hr.pm.pstnrptgrpsubcat.service.PstnRptGrpSubCatMaintainableImpl"/>  
     <property name="documentTypeName" value="PstnRptGrpSubCatMaintenanceDocumentType"/>
-    <property name="documentAuthorizerClass" value="org.kuali.hr.time.authorization.DepartmentAdminAuthorizer"/>
     <property name="businessRulesClass" value="org.kuali.hr.pm.pstnrptgrpsubcat.validation.PstnRptGrpSubCatValidation"/>
   </bean>
 </beans>

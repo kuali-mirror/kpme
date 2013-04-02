@@ -20,8 +20,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.time.authorization.AuthorizationValidationUtils;
 import org.kuali.hr.time.authorization.DepartmentalRule;
-import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
 import org.kuali.hr.time.authorization.TkAuthorizedLookupableHelperBase;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
@@ -38,7 +38,7 @@ public class WorkAreaLookupableHelper extends TkAuthorizedLookupableHelperBase {
 	private static final long serialVersionUID = -817820785437555183L;
 
     public boolean shouldShowBusinessObject(BusinessObject bo) {
-        return (bo instanceof DepartmentalRule) && DepartmentalRuleAuthorizer.hasAccessToRead((DepartmentalRule)bo);
+        return (bo instanceof DepartmentalRule) && AuthorizationValidationUtils.hasAccessToRead((DepartmentalRule)bo);
     }
     
 	@Override

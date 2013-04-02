@@ -26,8 +26,8 @@ import org.kuali.hr.core.role.KPMERoleMemberBo;
 import org.kuali.hr.core.role.PositionRoleMemberBo;
 import org.kuali.hr.core.role.PrincipalRoleMemberBo;
 import org.kuali.hr.time.assignment.Assignment;
+import org.kuali.hr.time.authorization.AuthorizationValidationUtils;
 import org.kuali.hr.time.authorization.DepartmentalRule;
-import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.util.TKUtils;
@@ -56,7 +56,7 @@ public class WorkAreaMaintenanceDocumentRule extends MaintenanceDocumentRuleBase
 			
 			valid &= validateDepartment(workArea.getDept(), workArea.getEffectiveDate());
 			
-			if (!DepartmentalRuleAuthorizer.hasAccessToWrite((DepartmentalRule)pbo)) {
+			if (!AuthorizationValidationUtils.hasAccessToWrite((DepartmentalRule)pbo)) {
 				String[] params = new String[] {GlobalVariables.getUserSession().getPrincipalName(), workArea.getDept()};
 				this.putFieldError("dept", "dept.user.unauthorized", params);
 				valid &= false;

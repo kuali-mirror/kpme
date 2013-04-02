@@ -20,8 +20,8 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.hr.time.authorization.AuthorizationValidationUtils;
 import org.kuali.hr.time.authorization.DepartmentalRule;
-import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
 import org.kuali.hr.time.authorization.TkAuthorizedLookupableHelperBase;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -42,7 +42,7 @@ public class TimeCollectionRuleLookupableHelper extends TkAuthorizedLookupableHe
      * to the user based on their current roles.
      */
     public boolean shouldShowBusinessObject(BusinessObject bo) {
-        return (bo instanceof DepartmentalRule) && DepartmentalRuleAuthorizer.hasAccessToRead((DepartmentalRule)bo);
+        return (bo instanceof DepartmentalRule) && AuthorizationValidationUtils.hasAccessToRead((DepartmentalRule)bo);
     }
     
 	@Override

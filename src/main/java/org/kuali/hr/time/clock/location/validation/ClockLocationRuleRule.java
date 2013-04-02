@@ -21,7 +21,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.hr.time.authorization.AuthorizationValidationUtils;
 import org.kuali.hr.time.authorization.DepartmentalRule;
-import org.kuali.hr.time.authorization.DepartmentalRuleAuthorizer;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
 import org.kuali.hr.time.clock.location.ClockLocationRuleIpAddress;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -95,7 +94,7 @@ public class ClockLocationRuleRule extends MaintenanceDocumentRuleBase {
         if (!StringUtils.isEmpty(clr.getDept())) {
     		if (!ValidationUtils.validateDepartment(clr.getDept(), clr.getEffectiveDate())) {
 			    this.putFieldError("dept", "error.existence", "department '" + clr.getDept() + "'");
-            } else if (!DepartmentalRuleAuthorizer.hasAccessToWrite(clr)) {
+            } else if (!AuthorizationValidationUtils.hasAccessToWrite(clr)) {
                 this.putFieldError("dept", "error.department.permissions", clr.getDept());
             } else {
                 ret = true;

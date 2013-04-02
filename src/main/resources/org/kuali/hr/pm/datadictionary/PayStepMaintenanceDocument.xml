@@ -30,7 +30,6 @@
   		<property name="dataObjectClass" value="org.kuali.hr.pm.paystep.PayStep"/>
   		<property name="businessRulesClass" value="org.kuali.hr.pm.paystep.validation.PayStepValidation"/>
   		<property name="maintainableClass" value="org.kuali.hr.pm.paystep.service.PayStepMaintainableImpl"/>
-  		<property name="documentAuthorizerClass" value="org.kuali.hr.time.authorization.DepartmentAdminAuthorizer"/>
   		<property name="documentTypeName" value="PayStepMaintenanceDocumentType"/>
 	    <property name="lockingKeys">
 	        <list>

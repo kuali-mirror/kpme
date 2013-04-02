@@ -12,7 +12,6 @@
     <property name="dataObjectClass" value="org.kuali.hr.pm.positiontype.PositionType"/>
     <property name="maintainableClass" value="org.kuali.hr.pm.positiontype.service.PositionTypeMaintainableImpl"/>  
     <property name="documentTypeName" value="PositionTypeMaintenanceDocumentType"/>
-    <property name="documentAuthorizerClass" value="org.kuali.hr.time.authorization.DepartmentAdminAuthorizer"/>
     <property name="businessRulesClass" value="org.kuali.hr.pm.positiontype.validation.PositionTypeValidation"/>
   </bean>
 </beans>
