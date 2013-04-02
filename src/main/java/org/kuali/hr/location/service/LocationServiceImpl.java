@@ -80,9 +80,9 @@ public class LocationServiceImpl implements LocationService {
     		RoleMemberBo roleMemberBo = RoleMemberBo.from(roleMember);
     		
     		if (roleMemberBo.isActive()) {
-    			location.addRoleMember(LocationPrincipalRoleMemberBo.from(roleMemberBo));
+    			location.addRoleMember(LocationPrincipalRoleMemberBo.from(roleMemberBo, roleMember.getAttributes()));
     		} else {
-    			location.addInactiveRoleMember(LocationPrincipalRoleMemberBo.from(roleMemberBo));
+    			location.addInactiveRoleMember(LocationPrincipalRoleMemberBo.from(roleMemberBo, roleMember.getAttributes()));
     		}
     	}
     }

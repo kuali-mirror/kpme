@@ -19,13 +19,22 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
-        
+
     <changeSet id="1" author="kbtaylor" context="kpme-server-bootstrap">
         <comment>Adding Rice KIM Role Permissions bootstrap data</comment>
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0002" />
+            <column name="ROLE_PERM_ID" value="KPME0001" />
             <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Started Timesheet')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Super User Administer Timesheet')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0002" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Super User Administer Leave Calendar')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
@@ -33,62 +42,8 @@
         
         <insert tableName="KRIM_ROLE_PERM_T">
             <column name="ROLE_PERM_ID" value="KPME0003" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Enroute Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0004" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Final Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0005" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Edit Started Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0006" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Edit Enroute Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0007" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Edit Final Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0008" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Submit Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0009" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Super User Administer Timesheet')" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Super User Administer Leave Request')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
@@ -99,153 +54,36 @@
             <replace replace="SYS_GUID()" with="UUID()" />
         </modifySql>
     </changeSet>
-    
+
     <changeSet id="2" author="kbtaylor" context="kpme-server-bootstrap">
         <comment>Adding Rice KIM Role Permissions bootstrap data</comment>
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0010" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Started Leave Calendar')" />
+            <column name="ROLE_PERM_ID" value="KPME0004" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time System View Only')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Timesheet')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0011" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Enroute Leave Calendar')" />
+            <column name="ROLE_PERM_ID" value="KPME0005" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System View Only')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Leave Calendar')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0012" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Final Leave Calendar')" />
+            <column name="ROLE_PERM_ID" value="KPME0006" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System View Only')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Leave Request')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
         
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0013" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Started Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0014" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Enroute Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0015" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Final Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0016" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Submit Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0017" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Super User Administer Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0018" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Started Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0019" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Enroute Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0020" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Final Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0021" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Started Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0022" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Enroute Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0023" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Final Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0024" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Submit Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0025" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Super User Administer Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-
         <modifySql dbms="mysql">
             <replace replace="SYSDATE" with="NOW()" />
             <replace replace="SYS_GUID()" with="UUID()" />
@@ -255,27 +93,27 @@
     <changeSet id="3" author="kbtaylor" context="kpme-server-bootstrap">
         <comment>Adding Rice KIM Role Permissions bootstrap data</comment>
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0026" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time System View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Started Timesheet')" />
+            <column name="ROLE_PERM_ID" value="KPME0007" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Location Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Super User Administer Timesheet')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0008" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Super User Administer Leave Calendar')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0027" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time System View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Enroute Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0028" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time System View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Final Timesheet')" />
+            <column name="ROLE_PERM_ID" value="KPME0009" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Super User Administer Leave Request')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
@@ -290,54 +128,27 @@
     <changeSet id="4" author="kbtaylor" context="kpme-server-bootstrap">
         <comment>Adding Rice KIM Role Permissions bootstrap data</comment>
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0029" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Started Leave Calendar')" />
+            <column name="ROLE_PERM_ID" value="KPME0010" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Location View Only')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Timesheet')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0030" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Enroute Leave Calendar')" />
+            <column name="ROLE_PERM_ID" value="KPME0011" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location View Only')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Leave Calendar')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0031" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Final Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0032" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Started Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0033" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Enroute Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0034" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave System View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Final Leave Request')" />
+            <column name="ROLE_PERM_ID" value="KPME0012" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location View Only')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Leave Request')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
@@ -352,72 +163,27 @@
     <changeSet id="5" author="kbtaylor" context="kpme-server-bootstrap">
         <comment>Adding Rice KIM Role Permissions bootstrap data</comment>
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0035" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Started Timesheet')" />
+            <column name="ROLE_PERM_ID" value="KPME0013" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Department Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Timesheet')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0014" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Department Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Leave Calendar')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0036" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Enroute Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0037" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Final Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0038" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Edit Started Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0039" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Edit Enroute Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0040" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Edit Final Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0041" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Submit Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0042" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Super User Administer Timesheet')" />
+            <column name="ROLE_PERM_ID" value="KPME0015" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Department Administrator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Leave Request')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
@@ -432,144 +198,27 @@
     <changeSet id="6" author="kbtaylor" context="kpme-server-bootstrap">
         <comment>Adding Rice KIM Role Permissions bootstrap data</comment>
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0043" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Started Leave Calendar')" />
+            <column name="ROLE_PERM_ID" value="KPME0016" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Department View Only')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Timesheet')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0017" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Department View Only')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Leave Calendar')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0044" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Enroute Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0045" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Final Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0046" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Started Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0047" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Enroute Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0048" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Final Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0049" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Submit Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0050" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Super User Administer Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0051" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Started Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0052" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Enroute Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0053" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Final Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0054" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Started Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0055" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Enroute Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0056" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Final Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0057" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Submit Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0058" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Super User Administer Leave Request')" />
+            <column name="ROLE_PERM_ID" value="KPME0018" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Department View Only')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Leave Request')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
@@ -584,27 +233,117 @@
     <changeSet id="7" author="kbtaylor" context="kpme-server-bootstrap">
         <comment>Adding Rice KIM Role Permissions bootstrap data</comment>
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0059" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Location View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Started Timesheet')" />
+            <column name="ROLE_PERM_ID" value="KPME0019" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Timesheet')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0060" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Location View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Enroute Timesheet')" />
+            <column name="ROLE_PERM_ID" value="KPME0020" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Edit Saved Timesheet')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0061" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Location View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Final Timesheet')" />
+            <column name="ROLE_PERM_ID" value="KPME0021" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Edit Enroute Timesheet')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0022" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Submit Timesheet')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0023" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Leave Calendar')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0024" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Saved Leave Calendar')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0025" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Enroute Leave Calendar')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0026" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Submit Leave Calendar')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0027" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Leave Request')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0028" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Saved Leave Request')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0029" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Enroute Leave Request')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0030" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Final Leave Request')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0031" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Submit Leave Request')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
@@ -619,54 +358,117 @@
     <changeSet id="8" author="kbtaylor" context="kpme-server-bootstrap">
         <comment>Adding Rice KIM Role Permissions bootstrap data</comment>
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0062" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Started Leave Calendar')" />
+            <column name="ROLE_PERM_ID" value="KPME0032" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Timesheet')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0063" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Enroute Leave Calendar')" />
+            <column name="ROLE_PERM_ID" value="KPME0033" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Edit Saved Timesheet')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0064" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Final Leave Calendar')" />
+            <column name="ROLE_PERM_ID" value="KPME0034" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Edit Enroute Timesheet')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0065" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Started Leave Request')" />
+            <column name="ROLE_PERM_ID" value="KPME0035" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Submit Timesheet')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0036" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Leave Calendar')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0066" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Enroute Leave Request')" />
+            <column name="ROLE_PERM_ID" value="KPME0037" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Saved Leave Calendar')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0067" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Location View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Final Leave Request')" />
+            <column name="ROLE_PERM_ID" value="KPME0038" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Enroute Leave Calendar')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0039" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Submit Leave Calendar')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0040" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Leave Request')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0041" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Saved Leave Request')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0042" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Enroute Leave Request')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0043" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Final Leave Request')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0044" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Submit Leave Request')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
@@ -681,27 +483,81 @@
     <changeSet id="9" author="kbtaylor" context="kpme-server-bootstrap">
         <comment>Adding Rice KIM Role Permissions bootstrap data</comment>
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0068" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Department Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Started Timesheet')" />
+            <column name="ROLE_PERM_ID" value="KPME0045" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Reviewer')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Timesheet')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0069" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Department Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Enroute Timesheet')" />
+            <column name="ROLE_PERM_ID" value="KPME0046" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Reviewer')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Edit Saved Timesheet')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0070" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Department Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Final Timesheet')" />
+            <column name="ROLE_PERM_ID" value="KPME0047" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Reviewer')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Edit Enroute Timesheet')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0048" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Reviewer')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Leave Calendar')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0049" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Reviewer')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Saved Leave Calendar')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0050" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Reviewer')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Enroute Leave Calendar')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0051" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Reviewer')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Leave Request')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0052" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Reviewer')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Saved Leave Request')" />
+            <column name="ACTV_IND" value="Y" />
+            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
+            <column name="VER_NBR" value="1" />
+        </insert>
+        
+        <insert tableName="KRIM_ROLE_PERM_T">
+            <column name="ROLE_PERM_ID" value="KPME0053" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Reviewer')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Enroute Leave Request')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
@@ -716,203 +572,26 @@
     <changeSet id="10" author="kbtaylor" context="kpme-server-bootstrap">
         <comment>Adding Rice KIM Role Permissions bootstrap data</comment>
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0071" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Department Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Started Leave Calendar')" />
+            <column name="ROLE_PERM_ID" value="KPME0054" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KR-WKFLW' AND ROLE_NM = 'Initiator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Timesheet')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0072" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Department Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Enroute Leave Calendar')" />
+            <column name="ROLE_PERM_ID" value="KPME0055" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KR-WKFLW' AND ROLE_NM = 'Initiator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Edit Saved Timesheet')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0073" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Department Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Final Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0074" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Department Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Started Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0075" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Department Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Enroute Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0076" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Department Administrator')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Final Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <modifySql dbms="mysql">
-            <replace replace="SYSDATE" with="NOW()" />
-            <replace replace="SYS_GUID()" with="UUID()" />
-        </modifySql>
-    </changeSet>
-    
-    <changeSet id="11" author="kbtaylor" context="kpme-server-bootstrap">
-        <comment>Adding Rice KIM Role Permissions bootstrap data</comment>
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0077" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Department View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Started Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0078" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Department View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Enroute Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0079" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-TK' AND ROLE_NM = 'Time Department View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Final Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <modifySql dbms="mysql">
-            <replace replace="SYSDATE" with="NOW()" />
-            <replace replace="SYS_GUID()" with="UUID()" />
-        </modifySql>
-    </changeSet>
-    
-    <changeSet id="12" author="kbtaylor" context="kpme-server-bootstrap">
-        <comment>Adding Rice KIM Role Permissions bootstrap data</comment>
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0080" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Department View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Started Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0081" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Department View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Enroute Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0082" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Department View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Final Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0083" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Department View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Started Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0084" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Department View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Enroute Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0085" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-LM' AND ROLE_NM = 'Leave Department View Only')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Final Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <modifySql dbms="mysql">
-            <replace replace="SYSDATE" with="NOW()" />
-            <replace replace="SYS_GUID()" with="UUID()" />
-        </modifySql>
-    </changeSet>
-    
-    <changeSet id="13" author="kbtaylor" context="kpme-server-bootstrap">
-        <comment>Adding Rice KIM Role Permissions bootstrap data</comment>
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0086" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Started Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0087" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Enroute Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0088" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Final Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0089" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Edit Started Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0090" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
+            <column name="ROLE_PERM_ID" value="KPME0056" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KR-WKFLW' AND ROLE_NM = 'Initiator')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Edit Enroute Timesheet')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
@@ -920,8 +599,8 @@
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0091" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
+            <column name="ROLE_PERM_ID" value="KPME0057" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KR-WKFLW' AND ROLE_NM = 'Initiator')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Submit Timesheet')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
@@ -929,44 +608,26 @@
         </insert>
 
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0092" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Started Leave Calendar')" />
+            <column name="ROLE_PERM_ID" value="KPME0058" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KR-WKFLW' AND ROLE_NM = 'Initiator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Leave Calendar')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0093" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Enroute Leave Calendar')" />
+            <column name="ROLE_PERM_ID" value="KPME0059" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KR-WKFLW' AND ROLE_NM = 'Initiator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Saved Leave Calendar')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0094" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Final Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0095" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Started Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0096" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
+            <column name="ROLE_PERM_ID" value="KPME0060" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KR-WKFLW' AND ROLE_NM = 'Initiator')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Enroute Leave Calendar')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
@@ -974,8 +635,8 @@
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0097" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
+            <column name="ROLE_PERM_ID" value="KPME0061" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KR-WKFLW' AND ROLE_NM = 'Initiator')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Submit Leave Calendar')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
@@ -983,44 +644,26 @@
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0098" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Started Leave Request')" />
+            <column name="ROLE_PERM_ID" value="KPME0062" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KR-WKFLW' AND ROLE_NM = 'Initiator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Leave Request')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0099" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Enroute Leave Request')" />
+            <column name="ROLE_PERM_ID" value="KPME0063" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KR-WKFLW' AND ROLE_NM = 'Initiator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Saved Leave Request')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0100" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Final Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0101" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Started Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0102" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
+            <column name="ROLE_PERM_ID" value="KPME0064" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KR-WKFLW' AND ROLE_NM = 'Initiator')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Enroute Leave Request')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
@@ -1028,8 +671,8 @@
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0103" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
+            <column name="ROLE_PERM_ID" value="KPME0065" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KR-WKFLW' AND ROLE_NM = 'Initiator')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Final Leave Request')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
@@ -1037,331 +680,18 @@
         </insert>
         
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0104" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver')" />
+            <column name="ROLE_PERM_ID" value="KPME0066" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KR-WKFLW' AND ROLE_NM = 'Initiator')" />
             <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Submit Leave Request')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
         
-        <modifySql dbms="mysql">
-            <replace replace="SYSDATE" with="NOW()" />
-            <replace replace="SYS_GUID()" with="UUID()" />
-        </modifySql>
-    </changeSet>
-    
-    <changeSet id="14" author="kbtaylor" context="kpme-server-bootstrap">
-        <comment>Adding Rice KIM Role Permissions bootstrap data</comment>
         <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0105" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Started Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0106" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Enroute Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0107" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Final Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0108" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Edit Started Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0109" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Edit Enroute Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0110" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Submit Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0111" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Started Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0112" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Enroute Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0113" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Final Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0114" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Started Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0115" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Enroute Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0116" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Submit Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0117" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Started Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0118" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Enroute Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0119" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Final Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0120" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Started Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0121" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Enroute Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0122" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Final Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0123" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Approver Delegate')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Submit Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <modifySql dbms="mysql">
-            <replace replace="SYSDATE" with="NOW()" />
-            <replace replace="SYS_GUID()" with="UUID()" />
-        </modifySql>
-    </changeSet>
-    
-    <changeSet id="15" author="kbtaylor" context="kpme-server-bootstrap">
-        <comment>Adding Rice KIM Role Permissions bootstrap data</comment>
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0124" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Reviewer')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Started Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0125" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Reviewer')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Enroute Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0126" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Reviewer')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'View Final Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0127" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Reviewer')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Edit Started Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0128" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Reviewer')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-TK' AND NM = 'Edit Enroute Timesheet')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0129" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Reviewer')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Started Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0130" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Reviewer')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Enroute Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0131" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Reviewer')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Final Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0132" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Reviewer')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Started Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0133" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Reviewer')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Enroute Leave Calendar')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0134" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Reviewer')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Started Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0135" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Reviewer')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Enroute Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0136" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Reviewer')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'View Final Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0137" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Reviewer')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Started Leave Request')" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
-        
-        <insert tableName="KRIM_ROLE_PERM_T">
-            <column name="ROLE_PERM_ID" value="KPME0138" />
-            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KPME-HR' AND ROLE_NM = 'Reviewer')" />
-            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Edit Enroute Leave Request')" />
+            <column name="ROLE_PERM_ID" value="KPME0067" />
+            <column name="ROLE_ID" valueComputed="(SELECT ROLE_ID FROM KRIM_ROLE_T WHERE NMSPC_CD = 'KR-WKFLW' AND ROLE_NM = 'Initiator')" />
+            <column name="PERM_ID" valueComputed="(SELECT PERM_ID FROM KRIM_PERM_T WHERE NMSPC_CD = 'KPME-LM' AND NM = 'Recall Leave Request')" />
             <column name="ACTV_IND" value="Y" />
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />

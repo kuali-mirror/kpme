@@ -82,7 +82,7 @@ public class ApprovalAction extends TkAction{
 	
 	protected void checkTKAuthorization(ActionForm form, String methodToCall)
 			throws AuthorizationException {
-			    if (!TKContext.isReviewer() && !TKContext.isSystemAdmin()
+			    if (!TKContext.isReviewer() && !TKContext.isAnyApprover() && !TKContext.isSystemAdmin()
 			    		&& !TKContext.isLocationAdmin() && !TKContext.isGlobalViewOnly() && !TKContext.isDepartmentViewOnly()
 			    		&& !TKContext.isDepartmentAdmin()) {
 			        throw new AuthorizationException(GlobalVariables.getUserSession().getPrincipalId(), "ApprovalAction", "");

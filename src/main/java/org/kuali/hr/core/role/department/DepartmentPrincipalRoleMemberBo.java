@@ -22,7 +22,7 @@ public class DepartmentPrincipalRoleMemberBo extends PrincipalRoleMemberBo {
 
 	private static final long serialVersionUID = 6571029461890035997L;
 
-	public static DepartmentPrincipalRoleMemberBo from(RoleMemberBo roleMemberBo) {
+	public static DepartmentPrincipalRoleMemberBo from(RoleMemberBo roleMemberBo, Map<String, String> attributes) {
         if (roleMemberBo == null) { 
         	return null;
         }
@@ -33,6 +33,8 @@ public class DepartmentPrincipalRoleMemberBo extends PrincipalRoleMemberBo {
         b.setActiveToDate(roleMemberBo.getActiveToDate());
         b.setObjectId(roleMemberBo.getObjectId());
         b.setVersionNumber(roleMemberBo.getVersionNumber());
+        
+        b.setAttributes(attributes);
         
         return b.build();
     }

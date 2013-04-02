@@ -22,7 +22,7 @@ public class LocationPrincipalRoleMemberBo extends PrincipalRoleMemberBo {
 
 	private static final long serialVersionUID = -7015816117671681162L;
 
-	public static LocationPrincipalRoleMemberBo from(RoleMemberBo roleMemberBo) {
+	public static LocationPrincipalRoleMemberBo from(RoleMemberBo roleMemberBo, Map<String, String> attributes) {
         if (roleMemberBo == null) { 
         	return null;
         }
@@ -33,6 +33,8 @@ public class LocationPrincipalRoleMemberBo extends PrincipalRoleMemberBo {
         b.setActiveToDate(roleMemberBo.getActiveToDate());
         b.setObjectId(roleMemberBo.getObjectId());
         b.setVersionNumber(roleMemberBo.getVersionNumber());
+        
+        b.setAttributes(attributes);
         
         return b.build();
     }

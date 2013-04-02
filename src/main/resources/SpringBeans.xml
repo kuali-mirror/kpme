@@ -707,14 +707,12 @@
     <bean id="tkPermissionService" class="org.kuali.hr.time.permission.service.TKPermissionServiceImpl">
         <property name="departmentService" ref="departmentService" />
         <property name="permissionService" ref="kimPermissionService" />
-        <property name="roleService" ref="kimRoleService" />
         <property name="timesheetService" ref="timesheetService" />
     </bean>
     
     <bean id="lmPermissionService" class="org.kuali.hr.lm.permission.service.LMPermissionServiceImpl">
         <property name="departmentService" ref="departmentService" />
         <property name="permissionService" ref="kimPermissionService" />
-        <property name="roleService" ref="kimRoleService" />
         <property name="leaveCalendarService" ref="leaveCalendarService" />
         <property name="leaveRequestDocumentService" ref="leaveRequestDocumentService" />
     </bean>
@@ -767,21 +765,7 @@
           p:callbackService-ref="positionDerivedRoleTypeService"
           p:localServiceName="positionDerivedRoleTypeService"
           p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
-          
-    <bean id="kpmeDefaultRoleTypeService" class="org.kuali.hr.core.role.KPMEDefaultRoleTypeServiceImpl" />
-    
-    <bean id="kpmeDefaultRoleTypeService.exporter" parent="kpme.callback.service"
-          p:callbackService-ref="kpmeDefaultRoleTypeService"
-          p:localServiceName="kpmeDefaultRoleTypeService"
-          p:serviceInterface="org.kuali.rice.kim.framework.role.RoleTypeService" />
-    
-    <bean id="kpmeDocumentStatusPermissionTypeService" class="org.kuali.hr.core.permission.service.KPMEDocumentStatusPermissionTypeServiceImpl" />
 
-    <bean id="kpmeDocumentStatusPermissionTypeService.exporter" parent="kpme.callback.service"
-          p:callbackService-ref="kpmeDocumentStatusPermissionTypeService"
-          p:localServiceName="kpmeDocumentStatusPermissionTypeService"
-          p:serviceInterface="org.kuali.rice.kim.framework.permission.PermissionTypeService" />
-          
     <bean id="documentTypeAndMaintenanceActionService" class="org.kuali.hr.core.permission.service.DocumentTypeAndMaintenanceActionServiceImpl" />
 
     <bean id="documentTypeAndMaintenanceActionService.exporter" parent="kpme.callback.service"

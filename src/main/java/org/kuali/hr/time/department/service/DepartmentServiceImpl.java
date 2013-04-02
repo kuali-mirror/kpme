@@ -104,9 +104,9 @@ public class DepartmentServiceImpl implements DepartmentService {
     		RoleMemberBo roleMemberBo = RoleMemberBo.from(roleMember);
     		
     		if (roleMemberBo.isActive()) {
-    			department.addRoleMember(DepartmentPrincipalRoleMemberBo.from(roleMemberBo));
+    			department.addRoleMember(DepartmentPrincipalRoleMemberBo.from(roleMemberBo, roleMember.getAttributes()));
     		} else {
-    			department.addInactiveRoleMember(DepartmentPrincipalRoleMemberBo.from(roleMemberBo));
+    			department.addInactiveRoleMember(DepartmentPrincipalRoleMemberBo.from(roleMemberBo, roleMember.getAttributes()));
     		}
     	}
     }

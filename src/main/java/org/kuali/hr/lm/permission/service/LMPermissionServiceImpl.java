@@ -2,7 +2,6 @@ package org.kuali.hr.lm.permission.service;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,10 +9,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.KPMENamespace;
-import org.kuali.hr.core.permission.KPMEDocumentStatus;
-import org.kuali.hr.core.permission.KPMEPermissionTemplate;
 import org.kuali.hr.core.permission.service.KPMEPermissionServiceBase;
-import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
@@ -35,26 +31,14 @@ import org.kuali.rice.kew.api.action.ValidActions;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.PermissionService;
-import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class LMPermissionServiceImpl extends KPMEPermissionServiceBase implements LMPermissionService {
 	
 	private DepartmentService departmentService;
 	private PermissionService permissionService;
-	private RoleService roleService;
 	private LeaveCalendarService leaveCalendarService;
 	private LeaveRequestDocumentService leaveRequestDocumentService;
-	
-	@Override
-	public boolean isSystemUser(String principalId) {
-		Map<String, String> qualification = new HashMap<String, String>();
-		
-		List<String> roleIds = new ArrayList<String>();
-		roleIds.add(getRoleService().getRoleIdByNamespaceCodeAndName(KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_SYSTEM_VIEW_ONLY.getRoleName()));
-		roleIds.add(getRoleService().getRoleIdByNamespaceCodeAndName(KPMENamespace.KPME_LM.getNamespaceCode(), KPMERole.LEAVE_SYSTEM_ADMINISTRATOR.getRoleName()));
-
-		return getRoleService().principalHasRole(principalId, roleIds, qualification);
-	}
 	
 	@Override
 	public boolean isAuthorized(String principalId, String permissionName) {
@@ -70,61 +54,20 @@ public class LMPermissionServiceImpl extends KPMEPermissionServiceBase implement
 	
     @Override
     public boolean canViewLeaveCalendar(String principalId, String documentId) {
-    	return canOwnerViewLeaveCalendar(principalId, documentId) 
-    			|| isAuthorizedByTemplate(principalId, KPMEPermissionTemplate.VIEW_KPME_DOCUMENT.getPermissionTemplateName(), documentId);
-    }
-    
-    private boolean canOwnerViewLeaveCalendar(String principalId, String documentId) {
-    	boolean canOwnerViewLeaveCalendar = false;
-    	
-    	LeaveCalendarDocument leaveCalendarDocument = getLeaveCalendarService().getLeaveCalendarDocument(documentId);
-    	
-    	if (leaveCalendarDocument != null) {
-    		canOwnerViewLeaveCalendar = StringUtils.equals(principalId, leaveCalendarDocument.getPrincipalId());
-    	}
-    	
-    	return canOwnerViewLeaveCalendar;
+    	return canSuperUserAdministerLeaveCalendar(principalId, documentId) 
+    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, documentId);
     }
     
     @Override
     public boolean canEditLeaveCalendar(String principalId, String documentId) {
-    	return canOwnerEditLeaveCalendar(principalId, documentId) 
-    			|| isAuthorizedByTemplate(principalId, KPMEPermissionTemplate.EDIT_KPME_DOCUMENT.getPermissionTemplateName(), documentId);
-    }
-    
-    private boolean canOwnerEditLeaveCalendar(String principalId, String documentId) {
-    	boolean canOwnerEditLeaveCalendar = false;
-    	
-    	LeaveCalendarDocument leaveCalendarDocument = getLeaveCalendarService().getLeaveCalendarDocument(documentId);
-    	
-    	if (leaveCalendarDocument != null) {
-    		DocumentStatus documentStatus = DocumentStatus.fromCode(leaveCalendarDocument.getDocumentHeader().getDocumentStatus());
-        	KPMEDocumentStatus kpmeDocumentStatus = KPMEDocumentStatus.getKPMEDocumentStatus(documentStatus);
-
-        	if (!KPMEDocumentStatus.FINAL.equals(kpmeDocumentStatus)) {
-        		canOwnerEditLeaveCalendar = StringUtils.equals(principalId, leaveCalendarDocument.getPrincipalId());
-        	}
-        }
-    	
-    	return canOwnerEditLeaveCalendar;
+    	return canSuperUserAdministerLeaveCalendar(principalId, documentId) 
+    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, documentId);
     }
     
     @Override
     public boolean canSubmitLeaveCalendar(String principalId, String documentId) {
-        return canOwnerSubmitLeaveCalendar(principalId, documentId) 
-        		|| isAuthorizedByTemplate(principalId, KimConstants.PermissionTemplateNames.ROUTE_DOCUMENT, documentId);
-    }
-    
-    private boolean canOwnerSubmitLeaveCalendar(String principalId, String documentId) {
-    	boolean canOwnerSubmitLeaveCalendar = false;
-    	
-    	LeaveCalendarDocument leaveCalendarDocument = getLeaveCalendarService().getLeaveCalendarDocument(documentId);
-    	
-    	if (leaveCalendarDocument != null) {
-    		canOwnerSubmitLeaveCalendar = StringUtils.equals(principalId, leaveCalendarDocument.getPrincipalId());
-    	}
-    	
-    	return canOwnerSubmitLeaveCalendar;
+        return canSuperUserAdministerLeaveCalendar(principalId, documentId) 
+        		|| isAuthorizedByTemplate(principalId, KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE, KimConstants.PermissionTemplateNames.ROUTE_DOCUMENT, documentId);
     }
     
     @Override
@@ -142,61 +85,25 @@ public class LMPermissionServiceImpl extends KPMEPermissionServiceBase implement
     
     @Override
     public boolean canSuperUserAdministerLeaveCalendar(String principalId, String documentId) {
-        return isAuthorizedByTemplate(principalId, "Administer Routing for Document", documentId);
+        return isAuthorizedByTemplate(principalId, KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE, "Administer Routing for Document", documentId);
     }
     
     @Override
     public boolean canViewLeaveRequest(String principalId, String documentId) {
-    	return canOwnerViewLeaveRequest(principalId, documentId) 
-    			|| isAuthorizedByTemplate(principalId, KPMEPermissionTemplate.VIEW_KPME_DOCUMENT.getPermissionTemplateName(), documentId);
-    }
-    
-    private boolean canOwnerViewLeaveRequest(String principalId, String documentId) {
-    	boolean canOwnerViewLeaveRequest = false;
-    	
-    	LeaveRequestDocument leaveRequestDocument = getLeaveRequestDocumentService().getLeaveRequestDocument(documentId);
-    	
-    	if (leaveRequestDocument != null) {
-    		canOwnerViewLeaveRequest = StringUtils.equals(principalId, leaveRequestDocument.getDocumentHeader().getWorkflowDocument().getPrincipalId());
-    	}
-    	
-    	return canOwnerViewLeaveRequest;
+    	return canSuperUserAdministerLeaveRequest(principalId, documentId) 
+    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, documentId);
     }
     
     @Override
     public boolean canEditLeaveRequest(String principalId, String documentId) {
-    	return canOwnerEditLeaveRequest(principalId, documentId) 
-    			|| isAuthorizedByTemplate(principalId, KPMEPermissionTemplate.EDIT_KPME_DOCUMENT.getPermissionTemplateName(), documentId);
-    }
-    
-    private boolean canOwnerEditLeaveRequest(String principalId, String documentId) {
-    	boolean canOwnerEditLeaveRequest = false;
-    	
-    	LeaveRequestDocument leaveRequestDocument = getLeaveRequestDocumentService().getLeaveRequestDocument(documentId);
-    	
-    	if (leaveRequestDocument != null) {
-    		canOwnerEditLeaveRequest = StringUtils.equals(principalId, leaveRequestDocument.getDocumentHeader().getWorkflowDocument().getPrincipalId());
-        }
-    	
-    	return canOwnerEditLeaveRequest;
+    	return canSuperUserAdministerLeaveRequest(principalId, documentId) 
+    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, documentId);
     }
     
     @Override
     public boolean canSubmitLeaveRequest(String principalId, String documentId) {
-        return canOwnerSubmitLeaveRequest(principalId, documentId) 
-        		|| isAuthorizedByTemplate(principalId, KimConstants.PermissionTemplateNames.ROUTE_DOCUMENT, documentId);
-    }
-    
-    private boolean canOwnerSubmitLeaveRequest(String principalId, String documentId) {
-    	boolean canOwnerSubmitLeaveRequest = false;
-    	
-    	LeaveRequestDocument leaveRequestDocument = getLeaveRequestDocumentService().getLeaveRequestDocument(documentId);
-    	
-    	if (leaveRequestDocument != null) {
-    		canOwnerSubmitLeaveRequest = StringUtils.equals(principalId, leaveRequestDocument.getDocumentHeader().getWorkflowDocument().getPrincipalId());
-    	}
-    	
-    	return canOwnerSubmitLeaveRequest;
+        return canSuperUserAdministerLeaveRequest(principalId, documentId) 
+        		|| isAuthorizedByTemplate(principalId, KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE, KimConstants.PermissionTemplateNames.ROUTE_DOCUMENT, documentId);
     }
     
     @Override
@@ -214,10 +121,10 @@ public class LMPermissionServiceImpl extends KPMEPermissionServiceBase implement
     
     @Override
     public boolean canSuperUserAdministerLeaveRequest(String principalId, String documentId) {
-        return isAuthorizedByTemplate(principalId, "Administer Routing for Document", documentId);
+        return isAuthorizedByTemplate(principalId, KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE, "Administer Routing for Document", documentId);
     }
     
-    private boolean isAuthorizedByTemplate(String principalId, String permissionTemplateName, String documentId) {
+    private boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, String documentId) {
     	boolean isAuthorizedByTemplate = false;
     	
     	LeaveCalendarDocument leaveCalendarDocument = getLeaveCalendarService().getLeaveCalendarDocument(documentId);
@@ -225,48 +132,26 @@ public class LMPermissionServiceImpl extends KPMEPermissionServiceBase implement
     	if (leaveCalendarDocument != null) {
     		String documentType = LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TYPE;
         	DocumentStatus documentStatus = DocumentStatus.fromCode(leaveCalendarDocument.getDocumentHeader().getDocumentStatus());
-        	String ownerPrincipalId = leaveCalendarDocument.getPrincipalId();
-        	List<Assignment> assignments = leaveCalendarDocument.getAssignments();
+    		List<Assignment> assignments = leaveCalendarDocument.getAssignments();
         	
-        	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, permissionTemplateName, documentType, documentStatus, ownerPrincipalId, assignments);
+        	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentType, documentId, documentStatus, assignments);
     	}
     	
     	return isAuthorizedByTemplate;
     }
     
     @Override
-	public boolean isAuthorizedByTemplate(String principalId, String permissionTemplateName, Map<String, String> permissionDetails) {
+	public boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, Map<String, String> permissionDetails) {
 		Map<String, String> qualification = new HashMap<String, String>();
 		
-		return isAuthorizedByTemplate(principalId, permissionTemplateName, permissionDetails, qualification);
+		return isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, permissionDetails, qualification);
 	}
 	
     @Override
-	public boolean isAuthorizedByTemplate(String principalId, String permissionTemplateName, Map<String, String> permissionDetails, Map<String, String> qualification) {
-		return getPermissionService().isAuthorizedByTemplate(principalId, KPMENamespace.KPME_WKFLW.getNamespaceCode(), permissionTemplateName, permissionDetails, qualification);
+	public boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, Map<String, String> permissionDetails, Map<String, String> qualification) {
+		return getPermissionService().isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, permissionDetails, qualification);
 	}
-    
-    @Override
-	public boolean isAuthorizedByTemplateInWorkArea(String principalId, String permissionTemplateName, Long workArea, DocumentStatus documentStatus) {
-    	String documentTypeName = LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TYPE;
 
-    	return isAuthorizedByTemplateInWorkArea(principalId, permissionTemplateName, workArea, documentTypeName, documentStatus);
-    }
-    
-    @Override
-	public boolean isAuthorizedByTemplateInDepartment(String principalId, String permissionTemplateName, String department, DocumentStatus documentStatus) {
-    	String documentTypeName = LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TYPE;
-
-    	return isAuthorizedByTemplateInDepartment(principalId, permissionTemplateName, department, documentTypeName, documentStatus);
-    }
-    
-    @Override
-	public boolean isAuthorizedByTemplateInLocation(String principalId, String permissionTemplateName, String location, DocumentStatus documentStatus) {
-    	String documentTypeName = LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TYPE;
-    	
-    	return isAuthorizedByTemplateInLocation(principalId, permissionTemplateName, location, documentTypeName, documentStatus);
-    }
-    
     @Override
     public boolean canEditLeaveBlock(String principalId, LeaveBlock leaveBlock) {
         if (principalId != null) {
@@ -459,14 +344,6 @@ public class LMPermissionServiceImpl extends KPMEPermissionServiceBase implement
 
 	public void setPermissionService(PermissionService permissionService) {
 		this.permissionService = permissionService;
-	}
-	
-	public RoleService getRoleService() {
-		return roleService;
-	}
-	
-	public void setRoleService(RoleService roleService) {
-		this.roleService = roleService;
 	}
 
 	public LeaveCalendarService getLeaveCalendarService() {

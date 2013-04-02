@@ -21,7 +21,7 @@ public class WorkAreaPrincipalRoleMemberBo extends PrincipalRoleMemberBo {
 
 	private static final long serialVersionUID = -3728256698747084703L;
 
-	public static WorkAreaPrincipalRoleMemberBo from(RoleMemberBo roleMemberBo) {
+	public static WorkAreaPrincipalRoleMemberBo from(RoleMemberBo roleMemberBo, Map<String, String> attributes) {
         if (roleMemberBo == null) { 
         	return null;
         }
@@ -32,6 +32,8 @@ public class WorkAreaPrincipalRoleMemberBo extends PrincipalRoleMemberBo {
         b.setActiveToDate(roleMemberBo.getActiveToDate());
         b.setObjectId(roleMemberBo.getObjectId());
         b.setVersionNumber(roleMemberBo.getVersionNumber());
+        
+        b.setAttributes(attributes);
         
         return b.build();
     }

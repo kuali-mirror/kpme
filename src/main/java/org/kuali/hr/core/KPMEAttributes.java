@@ -9,7 +9,7 @@ public class KPMEAttributes extends TransientBusinessObjectBase {
 	private String workArea;
 	private String department;
 	private String location;
-	private String kpmeDocumentStatus;
+	private String position;
 	
 	public String getWorkArea() {
 		return workArea;
@@ -35,12 +35,12 @@ public class KPMEAttributes extends TransientBusinessObjectBase {
 		this.location = location;
 	}
 
-	public String getKpmeDocumentStatus() {
-		return kpmeDocumentStatus;
+	public String getPosition() {
+		return position;
 	}
 
-	public void setKpmeDocumentStatus(String kpmeDocumentStatus) {
-		this.kpmeDocumentStatus = kpmeDocumentStatus;
+	public void setPosition(String position) {
+		this.position = position;
 	}
 
 }

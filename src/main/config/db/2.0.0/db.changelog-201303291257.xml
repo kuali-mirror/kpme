@@ -180,16 +180,6 @@
             <column name="OBJ_ID" valueComputed="SYS_GUID()" />
             <column name="VER_NBR" value="1" />
         </insert>
-        
-        <insert tableName="KRIM_TYP_T">
-            <column name="KIM_TYP_ID" value="KPME0005" />
-            <column name="NMSPC_CD" value="KPME-WKFLW" />
-            <column name="NM" value="KPME Default" />
-            <column name="SRVC_NM" value="{http://kpme.kuali.org/core/v2_0}kpmeDefaultRoleTypeService" />
-            <column name="ACTV_IND" value="Y" />
-            <column name="OBJ_ID" valueComputed="SYS_GUID()" />
-            <column name="VER_NBR" value="1" />
-        </insert>
             
         <modifySql dbms="mysql">
             <replace replace="SYSDATE" with="NOW()" />
@@ -256,7 +246,7 @@
         
         <insert tableName="KRIM_ROLE_T">
             <column name="ROLE_ID" value="KPME0001" />
-            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'KPME Default')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default')" />
             <column name="NMSPC_CD" value="KPME-TK" />
             <column name="ROLE_NM" value="Time System Administrator" />
             <column name="DESC_TXT" value="The system administrator role for the Timesheet system" />
@@ -268,7 +258,7 @@
         
         <insert tableName="KRIM_ROLE_T">
             <column name="ROLE_ID" value="KPME0002" />
-            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'KPME Default')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default')" />
             <column name="NMSPC_CD" value="KPME-LM" />
             <column name="ROLE_NM" value="Leave System Administrator" />
             <column name="DESC_TXT" value="The system administrator role for the Leave Management system" />
@@ -280,7 +270,7 @@
         
         <insert tableName="KRIM_ROLE_T">
             <column name="ROLE_ID" value="KPME0003" />
-            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'KPME Default')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default')" />
             <column name="NMSPC_CD" value="KPME-TK" />
             <column name="ROLE_NM" value="Time System View Only" />
             <column name="DESC_TXT" value="The system view only role for the Timesheet system" />
@@ -292,7 +282,7 @@
         
         <insert tableName="KRIM_ROLE_T">
             <column name="ROLE_ID" value="KPME0004" />
-            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KPME-WKFLW' AND NM = 'KPME Default')" />
+            <column name="KIM_TYP_ID" valueComputed="(SELECT KIM_TYP_ID FROM KRIM_TYP_T WHERE NMSPC_CD = 'KUALI' AND NM = 'Default')" />
             <column name="NMSPC_CD" value="KPME-LM" />
             <column name="ROLE_NM" value="Leave System View Only" />
             <column name="DESC_TXT" value="The system view only role for the Leave Management system" />
@@ -500,12 +490,25 @@
         </modifySql>
     </changeSet>
     
-    <changeSet id="7" author="kbtaylor" context="kpme-client-bootstrap">
+    <changeSet id="7" author="kbtaylor" context="kpme-server-bootstrap">
+        <comment>Role and Permission Cleanup</comment>
+        <delete tableName="KRIM_ROLE_PERM_T">
+            <where>ROLE_PERM_ID = 'KPME0001'</where>
+        </delete>
+        <delete tableName="KRIM_PERM_ATTR_DATA_T">
+            <where>ATTR_DATA_ID = 'KPME0001'</where>
+        </delete>
+        <delete tableName="KRIM_PERM_T">
+            <where>PERM_ID = 'KPME0001'</where>
+        </delete>
+    </changeSet>
+    
+    <changeSet id="8" author="kbtaylor" context="kpme-client-bootstrap">
         <comment>Removing unused table</comment>
         <dropTable tableName="HR_ROLES_GROUP_T" />
     </changeSet>
     
-    <changeSet id="8" author="kbtaylor" context="kpme-client-bootstrap">
+    <changeSet id="9" author="kbtaylor" context="kpme-client-bootstrap">
         <comment>Dropping inconsistently used WORK_AREA from HR_POSITION_T</comment>
         <dropColumn tableName="HR_POSITION_T" columnName="WORK_AREA" />
     </changeSet>

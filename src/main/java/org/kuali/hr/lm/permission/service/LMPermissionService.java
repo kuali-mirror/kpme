@@ -3,7 +3,6 @@ package org.kuali.hr.lm.permission.service;
 import java.util.Map;
 
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
-import org.kuali.rice.kew.api.document.DocumentStatus;
 
 public interface LMPermissionService {
 
@@ -37,16 +36,16 @@ public interface LMPermissionService {
 
 	boolean canSuperUserAdministerLeaveRequest(String principalId, String documentId);
 
-    boolean isAuthorizedByTemplate(String principalId, String permissionTemplateName, Map<String, String> permissionDetails);
+    boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, Map<String, String> permissionDetails);
 	
-    boolean isAuthorizedByTemplate(String principalId, String permissionTemplateName, Map<String, String> permissionDetails, Map<String, String> qualification);
-    
-    boolean isAuthorizedByTemplateInWorkArea(String principalId, String permissionTemplateName, Long workArea, DocumentStatus documentStatus);
-    
-    boolean isAuthorizedByTemplateInDepartment(String principalId, String permissionTemplateName, String department, DocumentStatus documentStatus);
-    
-    boolean isAuthorizedByTemplateInLocation(String principalId, String permissionTemplateName, String location, DocumentStatus documentStatus);
+    boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, Map<String, String> permissionDetails, Map<String, String> qualification);
 
+	boolean isAuthorizedByTemplateInWorkArea(String principalId, String namespaceCode, String permissionTemplateName, Long workArea);
+
+	boolean isAuthorizedByTemplateInDepartment(String principalId, String namespaceCode, String permissionTemplateName, String department);
+
+	boolean isAuthorizedByTemplateInLocation(String principalId, String namespaceCode, String permissionTemplateName, String location);
+	
 	boolean canEditLeaveBlock(String principalId, LeaveBlock leaveBlock);
 
 	boolean canDeleteLeaveBlock(String principalId, LeaveBlock leaveBlock);

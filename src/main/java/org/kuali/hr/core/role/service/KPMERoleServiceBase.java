@@ -166,7 +166,7 @@ public abstract class KPMERoleServiceBase {
 				}
 			} else {
 				List<RoleMembership> derivedRoleMembers = roleTypeService.getRoleMembersFromDerivedRole(role.getNamespaceCode(), role.getName(), qualification);
-				                    
+				
 				for (RoleMembership derivedRoleMember : derivedRoleMembers) {
 					RoleMember roleMember = RoleMember.Builder.create(derivedRoleMember.getRoleId(), derivedRoleMember.getId(), derivedRoleMember.getMemberId(), 
 							derivedRoleMember.getType(), null, null, derivedRoleMember.getQualifier(), role.getName(), role.getNamespaceCode()).build();
@@ -256,36 +256,11 @@ public abstract class KPMERoleServiceBase {
 		List<Map<String, String>> roleQualifiers = new ArrayList<Map<String, String>>();
 
 		if (role != null) {
-			RoleTypeService roleTypeService = getRoleTypeService(role);
-
-			if (roleTypeService == null || !roleTypeService.isDerivedRoleType()) {
-				List<RoleMember> principalIdRoleMembers = getPrincipalIdRoleMembers(principalId, role, asOfDate, getActiveOnly);
-				
-		        for (RoleMember principalIdRoleMember : principalIdRoleMembers) {
-		            if (MemberType.PRINCIPAL.equals(principalIdRoleMember.getType()) || MemberType.GROUP.equals(principalIdRoleMember.getType())) {
-		            	roleQualifiers.add(principalIdRoleMember.getAttributes());
-		            } else if (MemberType.ROLE.equals(principalIdRoleMember.getType())) {
-		            	Role nestedRole = getRoleService().getRole(principalIdRoleMember.getMemberId());
-		                
-		            	roleQualifiers.addAll(getRoleQualifiers(principalId, nestedRole, asOfDate, getActiveOnly));
-		            }
-		        }
-			} else {
-				Map<String, String> qualification = new HashMap<String, String>();
-	        	List<RoleMembership> derivedRoleMembers = roleTypeService.getRoleMembersFromDerivedRole(role.getNamespaceCode(), role.getName(), qualification);
-	            
-				for (RoleMembership derivedRoleMember : derivedRoleMembers) {
-					if (MemberType.PRINCIPAL.equals(derivedRoleMember.getType())) {
-						if (StringUtils.equals(derivedRoleMember.getMemberId(), principalId)) {
-							roleQualifiers.add(derivedRoleMember.getQualifier());
-						}
-					} else if (MemberType.GROUP.equals(derivedRoleMember.getType())) {
-						if (getGroupService().isMemberOfGroup(principalId, derivedRoleMember.getMemberId())) {
-							roleQualifiers.add(derivedRoleMember.getQualifier());
-						}
-					}
-				}
-			}
+			List<RoleMember> principalIdRoleMembers = getPrincipalIdRoleMembers(principalId, role, asOfDate, getActiveOnly);
+			
+	        for (RoleMember principalIdRoleMember : principalIdRoleMembers) {
+	        	roleQualifiers.add(principalIdRoleMember.getAttributes());
+	        }
 		}
         
         return roleQualifiers;

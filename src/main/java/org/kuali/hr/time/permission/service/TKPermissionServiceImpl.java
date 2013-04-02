@@ -1,15 +1,12 @@
 package org.kuali.hr.time.permission.service;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.core.KPMENamespace;
-import org.kuali.hr.core.permission.KPMEDocumentStatus;
-import org.kuali.hr.core.permission.KPMEPermissionTemplate;
 import org.kuali.hr.core.permission.service.KPMEPermissionServiceBase;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.job.Job;
@@ -35,25 +32,13 @@ import org.kuali.rice.kew.api.action.ValidActions;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.PermissionService;
-import org.kuali.rice.kim.api.role.RoleService;
+import org.kuali.rice.krad.util.KRADConstants;
 
 public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implements TKPermissionService {
 	
 	private DepartmentService departmentService;
 	private PermissionService permissionService;
-	private RoleService roleService;
 	private TimesheetService timesheetService;
-	
-	@Override
-	public boolean isSystemUser(String principalId) {
-		Map<String, String> qualification = new HashMap<String, String>();
-		
-		List<String> roleIds = new ArrayList<String>();
-		roleIds.add(getRoleService().getRoleIdByNamespaceCodeAndName(KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_SYSTEM_VIEW_ONLY.getRoleName()));
-		roleIds.add(getRoleService().getRoleIdByNamespaceCodeAndName(KPMENamespace.KPME_TK.getNamespaceCode(), KPMERole.TIME_SYSTEM_ADMINISTRATOR.getRoleName()));
-
-		return getRoleService().principalHasRole(principalId, roleIds, qualification);
-	}
 	
 	@Override
 	public boolean isAuthorized(String principalId, String permissionName) {
@@ -69,61 +54,20 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
 	
     @Override
     public boolean canViewTimesheet(String principalId, String documentId) {
-    	return canOwnerViewTimesheet(principalId, documentId) 
-    			|| isAuthorizedByTemplate(principalId, KPMEPermissionTemplate.VIEW_KPME_DOCUMENT.getPermissionTemplateName(), documentId);
-    }
-    
-    private boolean canOwnerViewTimesheet(String principalId, String documentId) {
-    	boolean canOwnerViewTimesheet = false;
-    	
-    	TimesheetDocument timesheetDocument = getTimesheetService().getTimesheetDocument(documentId);
-    	
-    	if (timesheetDocument != null) {
-        	canOwnerViewTimesheet = StringUtils.equals(principalId, timesheetDocument.getPrincipalId());
-    	}
-    	
-    	return canOwnerViewTimesheet;
+    	return canSuperUserAdministerTimesheet(principalId, documentId)
+    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, documentId);
     }
     
     @Override
     public boolean canEditTimesheet(String principalId, String documentId) {
-        return canOwnerEditTimesheet(principalId, documentId) 
-        		|| isAuthorizedByTemplate(principalId, KPMEPermissionTemplate.EDIT_KPME_DOCUMENT.getPermissionTemplateName(), documentId);
-    }
-    
-    private boolean canOwnerEditTimesheet(String principalId, String documentId) {
-    	boolean canOwnerEditTimesheet = false;
-    	
-    	TimesheetDocument timesheetDocument = getTimesheetService().getTimesheetDocument(documentId);
-    	
-    	if (timesheetDocument != null) {
-        	DocumentStatus documentStatus = DocumentStatus.fromCode(timesheetDocument.getDocumentHeader().getDocumentStatus());
-        	KPMEDocumentStatus kpmeDocumentStatus = KPMEDocumentStatus.getKPMEDocumentStatus(documentStatus);
-
-        	if (!KPMEDocumentStatus.FINAL.equals(kpmeDocumentStatus)) {
-        		canOwnerEditTimesheet = StringUtils.equals(principalId, timesheetDocument.getPrincipalId());
-        	}
-    	}
-    	
-    	return canOwnerEditTimesheet;
+        return canSuperUserAdministerTimesheet(principalId, documentId)
+        		|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, documentId);
     }
     
     @Override
     public boolean canSubmitTimesheet(String principalId, String documentId) {
-        return canOwnerSubmitTimesheet(principalId, documentId) 
-        		|| isAuthorizedByTemplate(principalId, KimConstants.PermissionTemplateNames.ROUTE_DOCUMENT, documentId);
-    }
-    
-    private boolean canOwnerSubmitTimesheet(String principalId, String documentId) {
-    	boolean canOwnerSubmitTimesheet = false;
-    	
-    	TimesheetDocument timesheetDocument = getTimesheetService().getTimesheetDocument(documentId);
-    	
-    	if (timesheetDocument != null) {
-    		canOwnerSubmitTimesheet = StringUtils.equals(principalId, timesheetDocument.getPrincipalId());
-    	}
-    	
-    	return canOwnerSubmitTimesheet;
+        return canSuperUserAdministerTimesheet(principalId, documentId)
+        		|| isAuthorizedByTemplate(principalId, KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE, KimConstants.PermissionTemplateNames.ROUTE_DOCUMENT, documentId);
     }
     
     @Override
@@ -141,10 +85,10 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
     
     @Override
     public boolean canSuperUserAdministerTimesheet(String principalId, String documentId) {
-        return isAuthorizedByTemplate(principalId, "Administer Routing for Document", documentId);
+        return isAuthorizedByTemplate(principalId, KRADConstants.KUALI_RICE_WORKFLOW_NAMESPACE, "Administer Routing for Document", documentId);
     }
     
-    private boolean isAuthorizedByTemplate(String principalId, String permissionTemplateName, String documentId) {
+    private boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, String documentId) {
     	boolean isAuthorizedByTemplate = false;
     	
     	TimesheetDocument timesheetDocument = getTimesheetService().getTimesheetDocument(documentId);
@@ -152,47 +96,25 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
     	if (timesheetDocument != null) {
     		String documentTypeName = TimesheetDocument.TIMESHEET_DOCUMENT_TYPE;
         	DocumentStatus documentStatus = DocumentStatus.fromCode(timesheetDocument.getDocumentHeader().getDocumentStatus());
-        	String ownerPrincipalId = timesheetDocument.getPrincipalId();
-        	List<Assignment> assignments = timesheetDocument.getAssignments();
+    		List<Assignment> assignments = timesheetDocument.getAssignments();
         	
-        	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, permissionTemplateName, documentTypeName, documentStatus, ownerPrincipalId, assignments);
+        	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, documentId, documentStatus, assignments);
     	}
     	
     	return isAuthorizedByTemplate;
     }
     
     @Override
-	public boolean isAuthorizedByTemplate(String principalId, String permissionTemplateName, Map<String, String> permissionDetails) {
+	public boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, Map<String, String> permissionDetails) {
 		Map<String, String> qualification = new HashMap<String, String>();
 		
-		return isAuthorizedByTemplate(principalId, permissionTemplateName, permissionDetails, qualification);
+		return isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, permissionDetails, qualification);
 	}
 	
     @Override
-	public boolean isAuthorizedByTemplate(String principalId, String permissionTemplateName, Map<String, String> permissionDetails, Map<String, String> qualification) {
-		return getPermissionService().isAuthorizedByTemplate(principalId, KPMENamespace.KPME_WKFLW.getNamespaceCode(), permissionTemplateName, permissionDetails, qualification);
+	public boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, Map<String, String> permissionDetails, Map<String, String> qualification) {
+		return getPermissionService().isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, permissionDetails, qualification);
 	}
-    
-    @Override
-	public boolean isAuthorizedByTemplateInWorkArea(String principalId, String permissionTemplateName, Long workArea, DocumentStatus documentStatus) {
-    	String documentTypeName = TimesheetDocument.TIMESHEET_DOCUMENT_TYPE;
-
-    	return isAuthorizedByTemplateInWorkArea(principalId, permissionTemplateName, workArea, documentTypeName, documentStatus);
-    }
-    
-    @Override
-	public boolean isAuthorizedByTemplateInDepartment(String principalId, String permissionTemplateName, String department, DocumentStatus documentStatus) {
-    	String documentTypeName = TimesheetDocument.TIMESHEET_DOCUMENT_TYPE;
-
-    	return isAuthorizedByTemplateInDepartment(principalId, permissionTemplateName, department, documentTypeName, documentStatus);
-    }
-    
-    @Override
-	public boolean isAuthorizedByTemplateInLocation(String principalId, String permissionTemplateName, String location, DocumentStatus documentStatus) {
-    	String documentTypeName = TimesheetDocument.TIMESHEET_DOCUMENT_TYPE;
-    	
-    	return isAuthorizedByTemplateInLocation(principalId, permissionTemplateName, location, documentTypeName, documentStatus);
-    }
 
     @Override
     public boolean canEditTimeBlock(String principalId, TimeBlock timeBlock) {
@@ -538,14 +460,6 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
 
 	public void setPermissionService(PermissionService permissionService) {
 		this.permissionService = permissionService;
-	}
-	
-	public RoleService getRoleService() {
-		return roleService;
-	}
-	
-	public void setRoleService(RoleService roleService) {
-		this.roleService = roleService;
 	}
 
 	public TimesheetService getTimesheetService() {
