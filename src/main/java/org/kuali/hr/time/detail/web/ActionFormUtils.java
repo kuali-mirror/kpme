@@ -35,7 +35,6 @@ import org.joda.time.DateTime;
 import org.joda.time.format.ISODateTimeFormat;
 import org.json.simple.JSONValue;
 import org.kuali.hr.core.role.KPMERole;
-import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveplan.LeavePlan;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;

@@ -17,7 +17,6 @@ package org.kuali.hr.time.principal.validation;
 
 
 import org.kuali.hr.core.document.question.KpmeEffectiveDatePromptBase;
-import org.kuali.hr.time.position.Position;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;

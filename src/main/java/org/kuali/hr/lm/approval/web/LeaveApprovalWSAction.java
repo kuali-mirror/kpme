@@ -19,9 +19,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,13 +34,15 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.hsqldb.lib.StringUtil;
+import org.joda.time.DateTime;
 import org.json.simple.JSONValue;
+import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.time.base.web.ApprovalForm;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.person.TKPerson;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKContext;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class LeaveApprovalWSAction extends TkAction {
 
@@ -66,8 +70,13 @@ public class LeaveApprovalWSAction extends TkAction {
                 //the endDate we get here is coming from approval.js and is extracted from html. we need to add a day to cover the last day in the pay period.
                 endDate = DateUtils.addDays(endDate,1);
                 List<String> workAreaList = new ArrayList<String>();
-		        if(StringUtil.isEmpty(laaf.getSelectedWorkArea())) {
-		        	List<Long> workAreas = TKContext.getApproverWorkAreas();
+		        if (StringUtil.isEmpty(laaf.getSelectedWorkArea())) {
+		        	String principalId = GlobalVariables.getUserSession().getPrincipalId();
+		        	
+		        	Set<Long> workAreas = new HashSet<Long>();
+		        	workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+		            workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+
 		        	for(Long workArea : workAreas) {
 		        		workAreaList.add(workArea.toString());
 		        	}

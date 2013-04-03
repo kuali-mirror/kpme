@@ -28,8 +28,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.joda.time.DateTime;
+import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
@@ -45,7 +45,6 @@ import org.kuali.hr.time.person.TKPerson;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.principal.dao.PrincipalHRAttributesDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
@@ -309,10 +308,13 @@ public class LeaveApprovalServiceImpl implements LeaveApprovalService{
 	@Override
 	public List<CalendarEntry> getAllLeavePayCalendarEntriesForApprover(String principalId, Date currentDate) {
 		Set<String> principals = new HashSet<String>();
-		List<Long> approverWorkAreas = TKContext.getApproverWorkAreas();
+
+    	Set<Long> workAreas = new HashSet<Long>();
+    	workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+        workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
 
 		// Get all of the principals within our window of time.
-		for (Long waNum : approverWorkAreas) {
+		for (Long waNum : workAreas) {
 			List<Assignment> assignments = TkServiceLocator
 					.getAssignmentService().getActiveAssignmentsForWorkArea(waNum, TKUtils.getTimelessDate(currentDate));
 

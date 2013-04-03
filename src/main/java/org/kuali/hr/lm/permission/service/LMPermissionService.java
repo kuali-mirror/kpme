@@ -3,6 +3,7 @@ package org.kuali.hr.lm.permission.service;
 import java.util.Map;
 
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
+import org.kuali.hr.time.assignment.Assignment;
 
 public interface LMPermissionService {
 
@@ -17,8 +18,12 @@ public interface LMPermissionService {
 	boolean isAuthorizedInLocation(String principalId, String permissionName, String location);
 	
 	boolean canViewLeaveCalendar(String principalId, String documentId);
+	
+	boolean canViewLeaveCalendarAssignment(String principalId, String documentId, Assignment assignment);
 
 	boolean canEditLeaveCalendar(String principalId, String documentId);
+	
+	boolean canEditLeaveCalendarAssignment(String principalId, String documentId, Assignment assignment);
 
 	boolean canSubmitLeaveCalendar(String principalId, String documentId);
 	

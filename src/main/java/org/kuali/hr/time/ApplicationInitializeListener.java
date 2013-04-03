@@ -19,7 +19,6 @@ import javax.servlet.ServletContextEvent;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.web.format.DateFormatter;
 import org.kuali.rice.core.web.format.Formatter;

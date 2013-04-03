@@ -15,13 +15,10 @@
  */
 package org.kuali.hr.time.util;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,11 +29,8 @@ import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
-
-import com.google.common.collect.Multimap;
 
 public class TKContext {
 
@@ -195,54 +189,6 @@ public class TKContext {
     	
         return isSynchronous;
     }
-    
-	public static Multimap<String, Long> getReportingApprovalDepartments() {
-		String principalId = GlobalVariables.getUserSession().getPrincipalId();
-        Set<Long> workAreas = new HashSet<Long>();
-        workAreas.addAll(TkServiceLocator.getWorkAreaService().getApproverAndApproverDelegateWorkAreas(principalId));
-        workAreas.addAll(TkServiceLocator.getWorkAreaService().getReviewerWorkAreas(principalId));
-        // see the comment in the getDeptWorkAreasByWorkAreas() for the explanation of Multimap
-        Multimap<String, Long> reportingApprovalDepartments = TkServiceLocator.getTimeApproveService().getDeptWorkAreasByWorkAreas(workAreas);
-		
-		return reportingApprovalDepartments;
-	}
-	
-	public static Set<Long> getReportingWorkAreas() {
-		String principalId = GlobalVariables.getUserSession().getPrincipalId();
-
-		Set<Long> reportingWorkAreas = new HashSet<Long>();
-		
-		reportingWorkAreas.addAll(TkServiceLocator.getWorkAreaService().getApproverAndApproverDelegateWorkAreas(principalId));
-		reportingWorkAreas.addAll(TkServiceLocator.getWorkAreaService().getReviewerWorkAreas(principalId));
-		
-		List<String> departments = new ArrayList<String>();
-		departments.addAll(TkServiceLocator.getDepartmentService().getViewOnlyDepartments(principalId));
-		departments.addAll(TkServiceLocator.getDepartmentService().getAdministratorDepartments(principalId));
-		for(String department : departments) {
-			List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(department, TKUtils.getCurrentDate());
-			for (WorkArea workArea : workAreas) {
-				reportingWorkAreas.add(workArea.getWorkArea());
-			}
-		}
-		
-		return reportingWorkAreas;
-	}
-	
-	public static List<Long> getReviewerWorkAreas() {
-		return TkServiceLocator.getWorkAreaService().getReviewerWorkAreas(GlobalVariables.getUserSession().getPrincipalId());
-	}
-	
-	public static List<Long> getApproverWorkAreas() {
-		return TkServiceLocator.getWorkAreaService().getApproverAndApproverDelegateWorkAreas(GlobalVariables.getUserSession().getPrincipalId());
-	}
-	
-	public static List<String> getDepartmentAdminAreas() {
-		return TkServiceLocator.getDepartmentService().getAdministratorDepartments(GlobalVariables.getUserSession().getPrincipalId());
-	}
-	
-	public static List<String> getLocationAdminAreas() {
-		return TkServiceLocator.getLocationService().getAdministratorLocations(GlobalVariables.getUserSession().getPrincipalId());
-	}
 
     public static TimesheetDocument getCurrentTimesheetDocument() {
         return (TimesheetDocument)TKContext.getStorageMap().get(TDOC_OBJ_KEY);

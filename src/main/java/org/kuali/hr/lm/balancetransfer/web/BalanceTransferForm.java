@@ -28,7 +28,6 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.kns.util.ActionFormUtilMap;
 import org.kuali.rice.kns.util.WebUtils;
 import org.kuali.rice.kns.web.struts.form.KualiTransactionalDocumentFormBase;
-import org.kuali.rice.krad.util.ObjectUtils;
 
 public class BalanceTransferForm extends KualiTransactionalDocumentFormBase {
 

@@ -17,7 +17,6 @@ package org.kuali.hr.time.overtime.daily.rule.validation;
 
 
 import org.kuali.hr.core.document.question.KpmeEffectiveDatePromptBase;
-import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.overtime.daily.rule.DailyOvertimeRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;

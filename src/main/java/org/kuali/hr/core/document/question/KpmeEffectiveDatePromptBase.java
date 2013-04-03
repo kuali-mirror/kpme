@@ -15,17 +15,11 @@
  */
 package org.kuali.hr.core.document.question;
 
-import org.apache.commons.lang.time.DateUtils;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.rules.PromptBeforeValidationBase;
-import org.kuali.rice.krad.bo.BusinessObject;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 public abstract class KpmeEffectiveDatePromptBase extends PromptBeforeValidationBase {
     @Override

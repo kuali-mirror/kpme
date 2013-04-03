@@ -32,8 +32,6 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.util.filter.TestAutoLoginFilter;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.openqa.selenium.logging.NeedsLocalLogs;
-
 import java.net.URL;
 import java.sql.Date;
 import java.util.List;

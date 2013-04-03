@@ -32,7 +32,6 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.job.Job;
-import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlockHistory;

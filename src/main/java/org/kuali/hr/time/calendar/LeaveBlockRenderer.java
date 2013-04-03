@@ -25,8 +25,6 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.util.ObjectUtils;
 
-import static org.kuali.hr.time.service.base.TkServiceLocator.*;
-
 public class LeaveBlockRenderer {
     private LeaveBlock leaveBlock;
     private String assignmentClass;

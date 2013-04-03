@@ -24,6 +24,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,6 +54,7 @@ import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionItem;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class LeaveRequestApprovalAction  extends ApprovalAction {
 	
@@ -83,9 +86,12 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
         }
         lraaForm.setPayCalendarGroups(calGroups);		
 		
-		List<String> depts = new ArrayList<String>(TKContext.getReportingApprovalDepartments().keySet());
-		Collections.sort(depts);
-	    lraaForm.setDepartments(depts);
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+		Set<String> departments = new TreeSet<String>();
+		departments.addAll(TkServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.REVIEWER.getRoleName(), new DateTime(), true));
+		departments.addAll(TkServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+		departments.addAll(TkServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+	    lraaForm.setDepartments(new ArrayList<String>(departments));
 		
 		// build employee rows to display on the page
 	    List<ActionItem> items = filterActionsWithSeletedParameters(lraaForm.getSelectedPayCalendarGroup(),
@@ -122,19 +128,28 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 	                && CollectionUtils.isNotEmpty(calGroups)) {
 	        	lraaForm.setSelectedPayCalendarGroup(calGroups.get(0));
 	        }
-	        // set departments
-			List<String> depts = new ArrayList<String>(TKContext.getReportingApprovalDepartments().keySet());
-			Collections.sort(depts);
-		    lraaForm.setDepartments(depts);
+	        
+	        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+			Set<String> departments = new TreeSet<String>();
+			departments.addAll(TkServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.REVIEWER.getRoleName(), new DateTime(), true));
+			departments.addAll(TkServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+			departments.addAll(TkServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+		    lraaForm.setDepartments(new ArrayList<String>(departments));
+
 		    if (StringUtils.isBlank(lraaForm.getSelectedDept())
 	                && lraaForm.getDepartments().size() == 1) {
 	        	lraaForm.setSelectedDept(lraaForm.getDepartments().get(0));
 	        	lraaForm.getWorkAreaDescr().clear();
-	        	List<WorkArea> workAreaList = TkServiceLocator.getWorkAreaService().getWorkAreas(lraaForm.getSelectedDept(), currentDate);
-	            for(WorkArea wa : workAreaList){
-	            	if (TKContext.getApproverWorkAreas().contains(wa.getWorkArea())
-	            			|| TKContext.getReviewerWorkAreas().contains(wa.getWorkArea())) {
-	            		lraaForm.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
+	        	
+	        	List<WorkArea> workAreaObjs = TkServiceLocator.getWorkAreaService().getWorkAreas(lraaForm.getSelectedDept(), currentDate);
+	            for (WorkArea workAreaObj : workAreaObjs) {
+	            	Long workArea = workAreaObj.getWorkArea();
+	            	String description = workAreaObj.getDescription();
+	            	
+	            	if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), workArea, new DateTime())
+	            			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
+	            			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime())) {
+	            		lraaForm.getWorkAreaDescr().put(workArea, description + "(" + workArea + ")");
 	            	}
 	            }
 	        }		    
@@ -164,17 +179,21 @@ public class LeaveRequestApprovalAction  extends ApprovalAction {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 		LeaveRequestApprovalActionForm lraaForm = (LeaveRequestApprovalActionForm) form;
-		
-		Date currentDate = TKUtils.getCurrentDate();
-		
 		lraaForm.getWorkAreaDescr().clear();
-    	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(lraaForm.getSelectedDept(), currentDate);
-        for(WorkArea wa : workAreas){
-        	if (TKContext.getApproverWorkAreas().contains(wa.getWorkArea())
-        			|| TKContext.getReviewerWorkAreas().contains(wa.getWorkArea())) {
-        		lraaForm.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
+		
+		String principalId = GlobalVariables.getUserSession().getPrincipalId();
+    	List<WorkArea> workAreaObjs = TkServiceLocator.getWorkAreaService().getWorkAreas(lraaForm.getSelectedDept(), TKUtils.getCurrentDate());
+        for (WorkArea workAreaObj : workAreaObjs) {
+        	Long workArea = workAreaObj.getWorkArea();
+        	String description = workAreaObj.getDescription();
+        	
+        	if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), workArea, new DateTime())
+        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
+        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime())) {
+        		lraaForm.getWorkAreaDescr().put(workArea, description + "(" + workArea + ")");
         	}
         }
+        
     	// filter actions with selected calendarGroup, Dept and workarea
     	List<ActionItem> items = filterActionsWithSeletedParameters(lraaForm.getSelectedPayCalendarGroup(),
     				lraaForm.getSelectedDept(), this.getWorkAreaList(lraaForm));

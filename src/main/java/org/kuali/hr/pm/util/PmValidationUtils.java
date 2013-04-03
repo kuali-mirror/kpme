@@ -12,7 +12,6 @@ import org.kuali.hr.pm.positionreportgroup.PositionReportGroup;
 import org.kuali.hr.pm.positionreportsubcat.PositionReportSubCategory;
 import org.kuali.hr.pm.positionreporttype.PositionReportType;
 import org.kuali.hr.pm.service.base.PmServiceLocator;
-import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.location.api.campus.Campus;

@@ -36,6 +36,8 @@ import org.apache.struts.action.ActionMapping;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
 import org.hsqldb.lib.StringUtil;
+import org.joda.time.DateTime;
+import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.base.web.ApprovalAction;
 import org.kuali.hr.time.base.web.ApprovalForm;
@@ -50,6 +52,7 @@ import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TimeApprovalAction extends ApprovalAction{
 	
@@ -113,17 +116,22 @@ public class TimeApprovalAction extends ApprovalAction{
 		TimeApprovalActionForm taaf = (TimeApprovalActionForm)form;
 		taaf.setSearchField(null);
 		taaf.setSearchTerm(null);
-
+		taaf.getWorkAreaDescr().clear();
+		
         CalendarEntry payCalendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry(taaf.getHrPyCalendarEntryId());
         taaf.setPayCalendarEntry(payCalendarEntry);
         taaf.setPayCalendarLabels(TkServiceLocator.getTimeSummaryService().getHeaderForSummary(payCalendarEntry, new ArrayList<Boolean>()));
 
-		taaf.getWorkAreaDescr().clear();
-    	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(taaf.getSelectedDept(), new java.sql.Date(taaf.getPayBeginDate().getTime()));
-        for(WorkArea wa : workAreas){
-        	if (TKContext.getApproverWorkAreas().contains(wa.getWorkArea())
-        			|| TKContext.getReviewerWorkAreas().contains(wa.getWorkArea())) {
-        		taaf.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
+		String principalId = GlobalVariables.getUserSession().getPrincipalId();
+    	List<WorkArea> workAreaObjs = TkServiceLocator.getWorkAreaService().getWorkAreas(taaf.getSelectedDept(), new java.sql.Date(taaf.getPayBeginDate().getTime()));
+        for (WorkArea workAreaObj : workAreaObjs) {
+        	Long workArea = workAreaObj.getWorkArea();
+        	String description = workAreaObj.getDescription();
+        	
+        	if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), workArea, new DateTime())
+        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
+        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime())) {
+        		taaf.getWorkAreaDescr().put(workArea, description + "(" + workArea + ")");
         	}
         }
 

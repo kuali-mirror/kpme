@@ -35,9 +35,9 @@ import org.kuali.hr.time.assignment.dao.AssignmentDao;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class AssignmentServiceImpl implements AssignmentService {
 
@@ -188,33 +188,23 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
-    public Map<String, String> getAssignmentDescriptions(TimesheetDocument td, boolean clockOnlyAssignments) {
-        if (td == null) {
-            //throw new RuntimeException("timesheet document is null.");
-            return Collections.emptyMap();
-        }
-        List<Assignment> assignments = td.getAssignments();
-//		if(assignments.size() < 1) {
-//			throw new RuntimeException("No assignment on the timesheet document.");
-//		}
-
+    public Map<String, String> getAssignmentDescriptions(TimesheetDocument timesheetDocument, boolean clockOnlyAssignments) {
         Map<String, String> assignmentDescriptions = new LinkedHashMap<String, String>();
-        for (Assignment assignment : assignments) {
-            //if the user is not the same as the timesheet and does not have approver access for the assignment
-            //do not add to the display
-            if (!StringUtils.equals(TKContext.getTargetPrincipalId(), TKContext.getPrincipalId())) {
-                if (!TKContext.isSystemAdmin() && !TKContext.getReportingWorkAreas().contains(assignment.getWorkArea())) {
-                    continue;
-                }
-            }
+    	
+    	if (timesheetDocument != null) {
+    		List<Assignment> assignments = timesheetDocument.getAssignments();
 
-            //only add to the assignment list if they are synchronous assignments
-            //or clock only assignments is false
-            if (!clockOnlyAssignments || assignment.isSynchronous()) {
-                assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
+            for (Assignment assignment : assignments) {
+            	String principalId = GlobalVariables.getUserSession().getPrincipalId();
+
+            	if (TkServiceLocator.getTKPermissionService().canViewTimesheetAssignment(principalId, timesheetDocument.getDocumentId(), assignment)) {
+	                if (!clockOnlyAssignments || assignment.isSynchronous()) {
+	                    assignmentDescriptions.putAll(TKUtils.formatAssignmentDescription(assignment));
+	                }
+            	}
             }
         }
-
+        
         return assignmentDescriptions;
     }
 

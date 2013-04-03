@@ -24,11 +24,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kns.web.struts.action.KualiAction;
-import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.exception.AuthorizationException;
-import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TkAction extends KualiAction {
 

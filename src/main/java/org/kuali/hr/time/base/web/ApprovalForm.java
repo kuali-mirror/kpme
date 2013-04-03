@@ -24,8 +24,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.DateTime;
+import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.time.calendar.CalendarEntry;
-import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.service.base.TkServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class ApprovalForm extends TkCommonCalendarForm {
 	public static final String ORDER_BY_PRINCIPAL = "principalName";
@@ -232,14 +235,14 @@ public class ApprovalForm extends TkCommonCalendarForm {
         this.rowsInTotal = rowsInTotal;
     }
 
-    /**
-     * Provides a set of WorkArea numbers that the current approver has
-     * dominion over.
-     *
-     * @return A Set of Longs representing work areas.
-     */
     public List<Long> getApproverWorkAreas() {
-        return TKContext.getApproverWorkAreas();
+    	String principalId = GlobalVariables.getUserSession().getPrincipalId();
+    	
+    	Set<Long> workAreas = new HashSet<Long>();
+    	workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+        workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+
+        return new ArrayList<Long>(workAreas);
     }
 
     public Long getWorkArea() {

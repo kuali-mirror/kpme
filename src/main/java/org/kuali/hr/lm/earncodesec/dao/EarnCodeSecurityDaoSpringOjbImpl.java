@@ -29,7 +29,6 @@ import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.time.util.TKUtils;

@@ -31,8 +31,6 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
-import org.kuali.hr.lm.LMConstants;
-import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
 import org.kuali.hr.lm.leavecalendar.LeaveCalendarDocument;
 import org.kuali.hr.lm.leavecalendar.validation.LeaveCalendarValidationUtil;

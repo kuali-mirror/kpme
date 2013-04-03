@@ -8,10 +8,15 @@ import org.kuali.hr.core.role.KPMERoleMemberAttribute;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.department.service.DepartmentService;
+import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.hr.time.workarea.service.WorkAreaService;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kim.api.KimConstants;
 
 public abstract class KPMEPermissionServiceBase {
+	
+	private DepartmentService departmentService;
+	private WorkAreaService workAreaService;
 	
 	public abstract boolean isAuthorized(String principalId, String permissionName, Map<String, String> qualification);
 		
@@ -69,20 +74,32 @@ public abstract class KPMEPermissionServiceBase {
     	boolean isAuthorized = false;
     	
     	for (Assignment assignment : assignments) {
-        	Department departmentObj = getDepartmentService().getDepartment(assignment.getDept(), assignment.getEffectiveDate());
-        	
-        	Long workArea = assignment.getWorkArea();
-        	String department = assignment.getDept();
-        	String location = departmentObj != null ? departmentObj.getLocation() : null;
-        	
-            if (isAuthorizedByTemplateInWorkArea(principalId, namespaceCode, permissionTemplateName, workArea, documentType, documentId, documentStatus)
-                	|| isAuthorizedByTemplateInDepartment(principalId, namespaceCode, permissionTemplateName, department, documentType, documentId, documentStatus)
-                	|| isAuthorizedByTemplateInLocation(principalId, namespaceCode, permissionTemplateName, location, documentType, documentId, documentStatus)) {
+            if (isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentType, documentId, documentStatus, assignment)) {
             	isAuthorized = true;
             	break;
             }
         }
 
+        return isAuthorized;
+    }
+    
+    protected boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, String documentType, String documentId, DocumentStatus documentStatus, Assignment assignment) {
+    	boolean isAuthorized = false;
+    	
+		Long workArea = assignment.getWorkArea();
+    	WorkArea workAreaObj = getWorkAreaService().getWorkArea(workArea, assignment.getEffectiveDate());
+		
+		String department = workAreaObj != null ? workAreaObj.getDept() : null;
+    	Department departmentObj = getDepartmentService().getDepartment(department, assignment.getEffectiveDate());
+    	
+    	String location = departmentObj != null ? departmentObj.getLocation() : null;
+    	
+        if (isAuthorizedByTemplateInWorkArea(principalId, namespaceCode, permissionTemplateName, workArea, documentType, documentId, documentStatus)
+            	|| isAuthorizedByTemplateInDepartment(principalId, namespaceCode, permissionTemplateName, department, documentType, documentId, documentStatus)
+            	|| isAuthorizedByTemplateInLocation(principalId, namespaceCode, permissionTemplateName, location, documentType, documentId, documentStatus)) {
+        	isAuthorized = true;
+        }
+        
         return isAuthorized;
     }
     
@@ -123,6 +140,20 @@ public abstract class KPMEPermissionServiceBase {
     	return isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, permissionDetails, qualification);
     }
     
-	public abstract DepartmentService getDepartmentService();
+    public DepartmentService getDepartmentService() {
+    	return departmentService;
+    }
+    
+    public void setDepartmentService(DepartmentService departmentService) {
+    	this.departmentService = departmentService;
+    }
+    
+    public WorkAreaService getWorkAreaService() {
+    	return workAreaService;
+    }
+    
+    public void setWorkAreaService(WorkAreaService workAreaService) {
+    	this.workAreaService = workAreaService;
+    }
 
 }

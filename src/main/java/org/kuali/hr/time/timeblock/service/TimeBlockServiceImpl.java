@@ -27,6 +27,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
+import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.time.assignment.Assignment;
@@ -322,7 +323,7 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 
 	@Override
 	// figure out if the user has permission to edit/delete the time block
-	public Boolean isTimeBlockEditable(TimeBlock tb) {
+	public Boolean isTimeBlockEditable(TimeBlock timeBlock) {
 		String userId = GlobalVariables.getUserSession().getPrincipalId();
 
     	if(userId != null) {
@@ -331,32 +332,34 @@ public class TimeBlockServiceImpl implements TimeBlockService {
 				return true;
 			}
 
-			if(TKContext.isAnyApprover() && TKContext.getApproverWorkAreas().contains(tb.getWorkArea())
-					|| TKContext.isReviewer() && TKContext.getReviewerWorkAreas().contains(tb.getWorkArea())) {
-				Job job = TkServiceLocator.getJobService().getJob(TKContext.getTargetPrincipalId(),tb.getJobNumber(), tb.getEndDate());
-				PayType payType = TkServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), tb.getEndDate());
-				if(StringUtils.equals(payType.getRegEarnCode(), tb.getEarnCode())){
+        	if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(userId, KPMERole.REVIEWER.getRoleName(), timeBlock.getWorkArea(), new DateTime())
+        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(userId, KPMERole.APPROVER_DELEGATE.getRoleName(), timeBlock.getWorkArea(), new DateTime())
+        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(userId, KPMERole.APPROVER.getRoleName(), timeBlock.getWorkArea(), new DateTime())) {
+
+				Job job = TkServiceLocator.getJobService().getJob(TKContext.getTargetPrincipalId(),timeBlock.getJobNumber(), timeBlock.getEndDate());
+				PayType payType = TkServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), timeBlock.getEndDate());
+				if(StringUtils.equals(payType.getRegEarnCode(), timeBlock.getEarnCode())){
 					return true;
 				}
 
-				List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), tb.getEndDate());
+				List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), timeBlock.getEndDate());
 				for(EarnCodeSecurity dec : deptEarnCodes){
-					if(dec.isApprover() && StringUtils.equals(dec.getEarnCode(), tb.getEarnCode())){
+					if(dec.isApprover() && StringUtils.equals(dec.getEarnCode(), timeBlock.getEarnCode())){
 						return true;
 					}
 				}
 			}
 
 			if(userId.equals(TKContext.getTargetPrincipalId())) {
-				Job job = TkServiceLocator.getJobService().getJob(TKContext.getTargetPrincipalId(),tb.getJobNumber(), tb.getEndDate());
-				PayType payType = TkServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), tb.getEndDate());
-				if(StringUtils.equals(payType.getRegEarnCode(), tb.getEarnCode())){
+				Job job = TkServiceLocator.getJobService().getJob(TKContext.getTargetPrincipalId(),timeBlock.getJobNumber(), timeBlock.getEndDate());
+				PayType payType = TkServiceLocator.getPayTypeService().getPayType(job.getHrPayType(), timeBlock.getEndDate());
+				if(StringUtils.equals(payType.getRegEarnCode(), timeBlock.getEarnCode())){
 					return true;
 				}
 
-				List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), tb.getEndDate());
+				List<EarnCodeSecurity> deptEarnCodes = TkServiceLocator.getEarnCodeSecurityService().getEarnCodeSecurities(job.getDept(), job.getHrSalGroup(), job.getLocation(), timeBlock.getEndDate());
 				for(EarnCodeSecurity dec : deptEarnCodes){
-					if(dec.isEmployee() && StringUtils.equals(dec.getEarnCode(), tb.getEarnCode())){
+					if(dec.isEmployee() && StringUtils.equals(dec.getEarnCode(), timeBlock.getEarnCode())){
 						return true;
 					}
 				}

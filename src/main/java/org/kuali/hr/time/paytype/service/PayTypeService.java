@@ -16,7 +16,6 @@
 package org.kuali.hr.time.paytype.service;
 
 import org.kuali.hr.time.paytype.PayType;
-import org.kuali.hr.time.util.TKUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 

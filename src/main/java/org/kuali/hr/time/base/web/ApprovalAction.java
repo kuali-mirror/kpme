@@ -18,8 +18,9 @@ package org.kuali.hr.time.base.web;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +32,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
+import org.joda.time.DateTime;
+import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.person.TKPerson;
@@ -124,22 +127,26 @@ public class ApprovalAction extends TkAction{
 		    taf.setNextPayCalendarId(null);
 		}	
 		if (StringUtils.isBlank(page)) {
-		    List<String> depts = new ArrayList<String>(TKContext.getReportingApprovalDepartments().keySet());
-		    if ( depts.isEmpty() ) {
-		    	return;
-		    }
-		    Collections.sort(depts);
-		    taf.setDepartments(depts);
+	        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+			Set<String> departments = new TreeSet<String>();
+			departments.addAll(TkServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.REVIEWER.getRoleName(), new DateTime(), true));
+			departments.addAll(TkServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+			departments.addAll(TkServiceLocator.getHRRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+		    taf.setDepartments(new ArrayList<String>(departments));
 		    
 		    if (taf.getDepartments().size() == 1 || taf.getSelectedDept() != null) {
 		    	if (StringUtils.isEmpty(taf.getSelectedDept()))
 		    		taf.setSelectedDept(taf.getDepartments().get(0));
-		    	
-		    	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(taf.getSelectedDept(), new java.sql.Date(taf.getPayBeginDate().getTime()));
-		        for(WorkArea wa : workAreas){
-		        	if (TKContext.getApproverWorkAreas().contains(wa.getWorkArea())
-		        			|| TKContext.getReviewerWorkAreas().contains(wa.getWorkArea())) {
-		        		taf.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
+		        
+		    	List<WorkArea> workAreaObjs = TkServiceLocator.getWorkAreaService().getWorkAreas(taf.getSelectedDept(), new java.sql.Date(taf.getPayBeginDate().getTime()));
+		        for (WorkArea workAreaObj : workAreaObjs) {
+		        	Long workArea = workAreaObj.getWorkArea();
+		        	String description = workAreaObj.getDescription();
+		        	
+		        	if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), workArea, new DateTime())
+		        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
+		        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime())) {
+		        		taf.getWorkAreaDescr().put(workArea, description + "(" + workArea + ")");
 		        	}
 		        }
 		    }

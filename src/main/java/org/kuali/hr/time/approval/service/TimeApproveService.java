@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.SortedSet;
 
 import org.joda.time.DateTimeZone;
@@ -34,8 +33,6 @@ import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.springframework.cache.annotation.Cacheable;
-
-import com.google.common.collect.Multimap;
 
 
 public interface TimeApproveService {
@@ -112,22 +109,6 @@ public interface TimeApproveService {
      */
     Map<String, TimesheetDocumentHeader> getPrincipalDocumehtHeader(List<TKPerson> person, Date payBeginDate, Date payEndDate);
 
-    /**
-     * Method to create a map of the depts and their associated work areas based on the given approver work areas.
-     *
-     * @param approverWorkAres
-     * @return A Dept and Work Areas mapping.
-     */
-    Multimap<String, Long> getDeptWorkAreasByWorkAreas(Set<Long> approverWorkAres);
-
-    /**
-     * Method to create a map of the depts and their associated work areas based on the given depts.
-     *
-     * @param userDepts
-     * @return A Dept and Work Areas mapping.
-     */
-    Multimap<String, Long> getDeptWorkAreasByDepts(Set<String> userDepts);
-    
     public DocumentRouteHeaderValue getRouteHeader(String documentId);
     
     /**

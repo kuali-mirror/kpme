@@ -19,7 +19,6 @@ import org.kuali.hr.lm.timeoff.SystemScheduledTimeOff;
 import org.kuali.hr.lm.workflow.LeaveRequestDocument;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntry;
-import org.kuali.hr.time.department.service.DepartmentService;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
@@ -35,7 +34,6 @@ import org.kuali.rice.krad.util.KRADConstants;
 
 public class LMPermissionServiceImpl extends KPMEPermissionServiceBase implements LMPermissionService {
 	
-	private DepartmentService departmentService;
 	private PermissionService permissionService;
 	private LeaveCalendarService leaveCalendarService;
 	private LeaveRequestDocumentService leaveRequestDocumentService;
@@ -59,9 +57,21 @@ public class LMPermissionServiceImpl extends KPMEPermissionServiceBase implement
     }
     
     @Override
+    public boolean canViewLeaveCalendarAssignment(String principalId, String documentId, Assignment assignment) {
+    	return canSuperUserAdministerLeaveCalendar(principalId, documentId)
+    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, documentId, assignment);
+    }
+    
+    @Override
     public boolean canEditLeaveCalendar(String principalId, String documentId) {
     	return canSuperUserAdministerLeaveCalendar(principalId, documentId) 
     			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, documentId);
+    }
+    
+    @Override
+    public boolean canEditLeaveCalendarAssignment(String principalId, String documentId, Assignment assignment) {
+    	return canSuperUserAdministerLeaveCalendar(principalId, documentId)
+    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, documentId, assignment);
     }
     
     @Override
@@ -130,11 +140,26 @@ public class LMPermissionServiceImpl extends KPMEPermissionServiceBase implement
     	LeaveCalendarDocument leaveCalendarDocument = getLeaveCalendarService().getLeaveCalendarDocument(documentId);
     	
     	if (leaveCalendarDocument != null) {
-    		String documentType = LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TYPE;
+    		String documentTypeName = LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TYPE;
         	DocumentStatus documentStatus = DocumentStatus.fromCode(leaveCalendarDocument.getDocumentHeader().getDocumentStatus());
     		List<Assignment> assignments = leaveCalendarDocument.getAssignments();
         	
-        	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentType, documentId, documentStatus, assignments);
+        	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, documentId, documentStatus, assignments);
+    	}
+    	
+    	return isAuthorizedByTemplate;
+    }
+    
+    private boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, String documentId, Assignment assignment) {
+    	boolean isAuthorizedByTemplate = false;
+    	
+    	LeaveCalendarDocument leaveCalendarDocument = getLeaveCalendarService().getLeaveCalendarDocument(documentId);
+    	
+    	if (leaveCalendarDocument != null) {
+    		String documentTypeName = LeaveCalendarDocument.LEAVE_CALENDAR_DOCUMENT_TYPE;
+        	DocumentStatus documentStatus = DocumentStatus.fromCode(leaveCalendarDocument.getDocumentHeader().getDocumentStatus());
+        	
+        	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, documentId, documentStatus, assignment);
     	}
     	
     	return isAuthorizedByTemplate;
@@ -329,14 +354,6 @@ public class LMPermissionServiceImpl extends KPMEPermissionServiceBase implement
     	canViewLeaveTabs = activeAss && leaveCalNPlanDefined && timeCalDefined;
     	return canViewLeaveTabs;
     }
-
-	public DepartmentService getDepartmentService() {
-		return departmentService;
-	}
-
-	public void setDepartmentService(DepartmentService departmentService) {
-		this.departmentService = departmentService;
-	}
 
 	public PermissionService getPermissionService() {
 		return permissionService;

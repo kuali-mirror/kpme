@@ -16,7 +16,6 @@
 package org.kuali.hr.time.approval.service;
 
 import java.math.BigDecimal;
-import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,6 +41,7 @@ import org.joda.time.Hours;
 import org.joda.time.Interval;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
@@ -60,7 +60,6 @@ import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.TkTimeBlockAggregate;
@@ -70,10 +69,7 @@ import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.note.Note;
 import org.kuali.rice.kew.routeheader.DocumentRouteHeaderValue;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.springframework.jdbc.support.rowset.SqlRowSet;
-
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class TimeApproveServiceImpl implements TimeApproveService {
 
@@ -154,10 +150,13 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 				TKUtils.getSystemDateTimeZone());
 		minDt = minDt.minusDays(DAYS_WINDOW_DELTA);
 		java.sql.Date windowDate = TKUtils.getTimelessDate(minDt.toDate());
-		List<Long> approverWorkAreas = TKContext.getApproverWorkAreas();
+		
+    	Set<Long> workAreas = new HashSet<Long>();
+    	workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+        workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
 
 		// Get all of the principals within our window of time.
-		for (Long waNum : approverWorkAreas) {
+		for (Long waNum : workAreas) {
 			List<Assignment> assignments = TkServiceLocator
 					.getAssignmentService().getActiveAssignmentsForWorkArea(
 							waNum, TKUtils.getTimelessDate(currentDate));
@@ -202,10 +201,13 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			Date payEndDate) {
 		SortedSet<String> pcg = new TreeSet<String>();
 
-		List<Long> approverWorkAreas = TKContext.getApproverWorkAreas();
+    	Set<Long> workAreas = new HashSet<Long>();
+    	workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(GlobalVariables.getUserSession().getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+        workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(GlobalVariables.getUserSession().getPrincipalId(), KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+
 		List<Assignment> assignments = new ArrayList<Assignment>();
 
-		for (Long workArea : approverWorkAreas) {
+		for (Long workArea : workAreas) {
 			if (workArea != null) {
 				assignments.addAll(TkServiceLocator.getAssignmentService()
 						.getActiveAssignmentsForWorkArea(workArea,
@@ -670,10 +672,12 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		return hoursToFlsaWeekMap;
 	}
 
-	public boolean doesApproverHavePrincipalsForCalendarGroup(Date asOfDate,
-			String calGroup) {
-		List<Long> approverWorkAreas = TKContext.getApproverWorkAreas();
-		for (Long workArea : approverWorkAreas) {
+	public boolean doesApproverHavePrincipalsForCalendarGroup(Date asOfDate, String calGroup) {
+    	Set<Long> workAreas = new HashSet<Long>();
+    	workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(GlobalVariables.getUserSession().getPrincipalId(), KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+        workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(GlobalVariables.getUserSession().getPrincipalId(), KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+
+		for (Long workArea : workAreas) {
 			List<Assignment> assignments = TkServiceLocator
 					.getAssignmentService().getActiveAssignmentsForWorkArea(
 							workArea, new java.sql.Date(asOfDate.getTime()));
@@ -761,74 +765,6 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 		return principalDocumentHeader;
 	}
 
-	@Override
-	public Multimap<String, Long> getDeptWorkAreasByWorkAreas(
-			Set<Long> approverWorkAreas) {
-		Multimap<String, Long> deptWorkAreas = HashMultimap.create();
-
-		if (approverWorkAreas.size() > 0) {
-			// prepare the OR statement for query
-			StringBuilder workAreas = new StringBuilder();
-			for (Long workarea : approverWorkAreas) {
-				if(workarea != null) {
-					workAreas.append("work_area = " + workarea + " or ");
-				}
-			}
-			String workAreasForQuery = workAreas.substring(0,
-					workAreas.length() - 3);
-			String sql = "SELECT DISTINCT work_area, dept FROM tk_work_area_t "
-					+ "WHERE " + workAreasForQuery + " AND effdt <= ?";
-
-			/**
-			 * Multimap is an interface from Google's java common library -
-			 * Guava. HashMultimap allows us to create a map with duplicate keys
-			 * which will then generate a data structure, i.e. [key] => [value1,
-			 * value2, value3...]
-			 * 
-			 * It save a good lines of code to do the same thing through the
-			 * java map, e.g. Map<String, List<String>> map = new
-			 * Hashmap<String, List<String>>();
-			 * 
-			 * See the java doc for more information:
-			 * http://google-collections.googlecode
-			 * .com/svn/trunk/javadoc/com/google/common/collect/Multimap.html
-			 */
-			SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(
-					sql, new Object[] { TKUtils.getCurrentDate() },
-					new int[] { Types.DATE });
-			while (rs.next()) {
-				deptWorkAreas
-						.put(rs.getString("dept"), rs.getLong("work_area"));
-			}
-		}
-		return deptWorkAreas;
-	}
-
-	@Override
-	public Multimap<String, Long> getDeptWorkAreasByDepts(Set<String> userDepts) {
-		Multimap<String, Long> deptWorkAreas = HashMultimap.create();
-
-		if (userDepts.size() > 0) {
-			// prepare the OR statement for query
-			StringBuilder depts = new StringBuilder();
-			for (String dept : userDepts) {
-				depts.append("dept = '" + dept + "' or ");
-			}
-			String deptsForQuery = depts.substring(0, depts.length() - 4);
-			String sql = "SELECT DISTINCT work_area, dept FROM tk_work_area_t "
-					+ "WHERE " + deptsForQuery + " AND effdt <= ?";
-
-			SqlRowSet rs = TkServiceLocator.getTkJdbcTemplate().queryForRowSet(
-					sql, new Object[] { TKUtils.getCurrentDate() },
-					new int[] { Types.DATE });
-			while (rs.next()) {
-				deptWorkAreas
-						.put(rs.getString("dept"), rs.getLong("work_area"));
-			}
-		}
-		return deptWorkAreas;
-	}
-
 	public DocumentRouteHeaderValue getRouteHeader(String documentId) {
 		return KEWServiceLocator.getRouteHeaderService().getRouteHeader(documentId);
 	}
@@ -836,10 +772,13 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 	@Override
 	public List<CalendarEntry> getAllPayCalendarEntriesForApprover(String principalId, Date currentDate) {
 		Set<String> principals = new HashSet<String>();
-		List<Long> approverWorkAreas = TKContext.getApproverWorkAreas();
+		
+    	Set<Long> workAreas = new HashSet<Long>();
+    	workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+        workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
 
 		// Get all of the principals within our window of time.
-		for (Long waNum : approverWorkAreas) {
+		for (Long waNum : workAreas) {
 			List<Assignment> assignments = TkServiceLocator
 					.getAssignmentService().getActiveAssignmentsForWorkArea(waNum, TKUtils.getTimelessDate(currentDate));
 

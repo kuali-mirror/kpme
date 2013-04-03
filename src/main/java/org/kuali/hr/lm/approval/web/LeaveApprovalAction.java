@@ -54,6 +54,7 @@ import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class LeaveApprovalAction extends ApprovalAction{
 	
@@ -118,18 +119,23 @@ public class LeaveApprovalAction extends ApprovalAction{
 		LeaveApprovalActionForm laaf = (LeaveApprovalActionForm)form;
 		laaf.setSearchField(null);
 		laaf.setSearchTerm(null);
-
+		laaf.getWorkAreaDescr().clear();
+		laaf.setSelectedWorkArea("");
+		
         CalendarEntry payCalendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry(laaf.getHrPyCalendarEntryId());
         laaf.setPayCalendarEntry(payCalendarEntry);
         laaf.setLeaveCalendarDates(TkServiceLocator.getLeaveSummaryService().getLeaveSummaryDates(payCalendarEntry));
 
-		laaf.getWorkAreaDescr().clear();
-		laaf.setSelectedWorkArea("");
-    	List<WorkArea> workAreas = TkServiceLocator.getWorkAreaService().getWorkAreas(laaf.getSelectedDept(), new java.sql.Date(laaf.getPayBeginDate().getTime()));
-        for(WorkArea wa : workAreas){
-        	if (TKContext.getApproverWorkAreas().contains(wa.getWorkArea())
-        			|| TKContext.getReviewerWorkAreas().contains(wa.getWorkArea())) {
-        		laaf.getWorkAreaDescr().put(wa.getWorkArea(),wa.getDescription()+"("+wa.getWorkArea()+")");
+		String principalId = GlobalVariables.getUserSession().getPrincipalId();
+    	List<WorkArea> workAreaObjs = TkServiceLocator.getWorkAreaService().getWorkAreas(laaf.getSelectedDept(), new java.sql.Date(laaf.getPayBeginDate().getTime()));
+        for (WorkArea workAreaObj : workAreaObjs) {
+        	Long workArea = workAreaObj.getWorkArea();
+        	String description = workAreaObj.getDescription();
+        	
+        	if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), workArea, new DateTime())
+        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
+        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime())) {
+        		laaf.getWorkAreaDescr().put(workArea, description + "(" + workArea + ")");
         	}
         }
 	

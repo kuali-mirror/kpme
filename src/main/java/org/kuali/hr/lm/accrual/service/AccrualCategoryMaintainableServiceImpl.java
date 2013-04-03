@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.lm.accrual.service;
 
-import org.kuali.hr.core.cache.CacheUtils;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
 import org.kuali.hr.time.HrBusinessObject;

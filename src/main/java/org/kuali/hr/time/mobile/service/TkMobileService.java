@@ -17,7 +17,6 @@ package org.kuali.hr.time.mobile.service;
 
 import org.kuali.rice.core.api.util.jaxb.MultiValuedStringMapAdapter;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

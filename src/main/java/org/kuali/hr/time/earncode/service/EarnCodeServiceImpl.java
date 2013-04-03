@@ -19,12 +19,16 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
+import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -264,7 +268,12 @@ public class EarnCodeServiceImpl implements EarnCodeService {
         }
         // Check approver flag
         if (!addEarnCode && security.isApprover()) {
-            List<Long> workAreas = TKContext.getApproverWorkAreas();
+        	String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        	
+        	Set<Long> workAreas = new HashSet<Long>();
+        	workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
+            workAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+
             for (Long wa : workAreas) {
                 WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(wa, asOfDate);
                 if (workArea!= null && a.getWorkArea().compareTo(workArea.getWorkArea())==0) {

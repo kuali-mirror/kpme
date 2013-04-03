@@ -18,9 +18,7 @@ package org.kuali.hr.time.missedpunch;
 import java.sql.Time;
 import java.sql.Timestamp;
 
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.rice.krad.document.TransactionalDocumentBase;
-import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 
 public class MissedPunchDocument extends TransactionalDocumentBase {
 

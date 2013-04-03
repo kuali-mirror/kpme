@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.kuali.hr.core.KPMENamespace;
 import org.kuali.hr.core.permission.service.KPMEPermissionServiceBase;
 import org.kuali.hr.core.role.KPMERole;
@@ -14,7 +15,6 @@ import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.collection.rule.TimeCollectionRule;
-import org.kuali.hr.time.department.service.DepartmentService;
 import org.kuali.hr.time.paytype.PayType;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
@@ -32,11 +32,11 @@ import org.kuali.rice.kew.api.action.ValidActions;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 
 public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implements TKPermissionService {
 	
-	private DepartmentService departmentService;
 	private PermissionService permissionService;
 	private TimesheetService timesheetService;
 	
@@ -59,9 +59,21 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
     }
     
     @Override
+    public boolean canViewTimesheetAssignment(String principalId, String documentId, Assignment assignment) {
+    	return canSuperUserAdministerTimesheet(principalId, documentId)
+    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, documentId, assignment);
+    }
+    
+    @Override
     public boolean canEditTimesheet(String principalId, String documentId) {
         return canSuperUserAdministerTimesheet(principalId, documentId)
         		|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, documentId);
+    }
+    
+    @Override
+    public boolean canEditTimesheetAssignment(String principalId, String documentId, Assignment assignment) {
+    	return canSuperUserAdministerTimesheet(principalId, documentId)
+    			|| isAuthorizedByTemplate(principalId, KRADConstants.KNS_NAMESPACE, KimConstants.PermissionTemplateNames.EDIT_DOCUMENT, documentId, assignment);
     }
     
     @Override
@@ -104,6 +116,21 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
     	return isAuthorizedByTemplate;
     }
     
+    private boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, String documentId, Assignment assignment) {
+    	boolean isAuthorizedByTemplate = false;
+    	
+    	TimesheetDocument timesheetDocument = getTimesheetService().getTimesheetDocument(documentId);
+    	
+    	if (timesheetDocument != null) {
+    		String documentTypeName = TimesheetDocument.TIMESHEET_DOCUMENT_TYPE;
+        	DocumentStatus documentStatus = DocumentStatus.fromCode(timesheetDocument.getDocumentHeader().getDocumentStatus());
+        	
+        	isAuthorizedByTemplate = isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, documentTypeName, documentId, documentStatus, assignment);
+    	}
+    	
+    	return isAuthorizedByTemplate;
+    }
+    
     @Override
 	public boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, Map<String, String> permissionDetails) {
 		Map<String, String> qualification = new HashMap<String, String>();
@@ -130,11 +157,10 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
             PayType payType = TkServiceLocator.getPayTypeService().getPayType(
                     job.getHrPayType(), timeBlock.getEndDate());
             
-            if (TKContext.isAnyApprover()
-                    && TKContext.getApproverWorkAreas().contains(timeBlock.getWorkArea())
-                    || TKContext.isReviewer()
-                    && TKContext.getReviewerWorkAreas().contains(timeBlock.getWorkArea())) {
-
+        	if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), timeBlock.getWorkArea(), new DateTime())
+        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), timeBlock.getWorkArea(), new DateTime())
+        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), timeBlock.getWorkArea(), new DateTime())) {
+        		
                 if (StringUtils.equals(payType.getRegEarnCode(),
                 		timeBlock.getEarnCode())) {
                     return true;
@@ -209,11 +235,10 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
             PayType payType = TkServiceLocator.getPayTypeService().getPayType(
                     job.getHrPayType(), timeBlock.getEndDate());
 
-            if (TKContext.isAnyApprover()
-                    && TKContext.getApproverWorkAreas().contains(timeBlock.getWorkArea())
-                    || TKContext.isReviewer()
-                    && TKContext.getReviewerWorkAreas().contains(timeBlock.getWorkArea())) {
-
+        	if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), timeBlock.getWorkArea(), new DateTime())
+        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), timeBlock.getWorkArea(), new DateTime())
+        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), timeBlock.getWorkArea(), new DateTime())) {
+        		
                 if (StringUtils.equals(payType.getRegEarnCode(), timeBlock.getEarnCode())) {
                     TimeCollectionRule tcr = TkServiceLocator.getTimeCollectionRuleService().getTimeCollectionRule(job.getDept(),timeBlock.getWorkArea(),timeBlock.getBeginDate());
                     
@@ -276,10 +301,9 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
             PayType payType = TkServiceLocator.getPayTypeService().getPayType(
                     job.getHrPayType(), timeBlock.getEndDate());
 
-            if (TKContext.isAnyApprover()
-                    && TKContext.getApproverWorkAreas().contains(timeBlock.getWorkArea())
-                    || TKContext.isReviewer()
-                    && TKContext.getReviewerWorkAreas().contains(timeBlock.getWorkArea())) {
+        	if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), timeBlock.getWorkArea(), new DateTime())
+        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), timeBlock.getWorkArea(), new DateTime())
+        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), timeBlock.getWorkArea(), new DateTime())) {
 
                 if (StringUtils.equals(payType.getRegEarnCode(),
                 		timeBlock.getEarnCode())) {
@@ -333,12 +357,16 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
                             job.getDept(), job.getHrSalGroup(),
                             job.getLocation(), timeBlock.getEndDate());
             for (EarnCodeSecurity dec : deptEarnCodes) {
-                if (dec.isEmployee()
-                        && StringUtils.equals(dec.getEarnCode(),
-                        		timeBlock.getEarnCode())
-                        && hasManagerialRolesOnWorkArea(timeBlock)) {
-                    return true;
-                }
+            	if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), timeBlock.getWorkArea(), new DateTime())
+            			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), timeBlock.getWorkArea(), new DateTime())
+            			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), timeBlock.getWorkArea(), new DateTime())) {
+	                
+            		if (dec.isEmployee()
+	                        && StringUtils.equals(dec.getEarnCode(),
+	                        		timeBlock.getEarnCode())) {
+	                    return true;
+	                }
+            	}
             }
 
         }
@@ -346,22 +374,19 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
         return false;
     }
     
-
-    public boolean hasManagerialRolesOnWorkArea(TimeBlock tb) {
-        return TKContext.getApproverWorkAreas().contains(tb.getWorkArea())
-               || TKContext.getReviewerWorkAreas().contains(tb.getWorkArea());
-    }
-    
     @Override
     public boolean canEditOvertimeEarnCode(TimeBlock tb) {
-        WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(tb.getWorkArea(), new java.sql.Date(tb.getEndTimestamp().getTime()));
-        if (StringUtils.equals(workArea.getOvertimeEditRole(), "Employee")) {
+        String principalId = GlobalVariables.getUserSession().getPrincipalId();
+    	WorkArea workArea = TkServiceLocator.getWorkAreaService().getWorkArea(tb.getWorkArea(), new java.sql.Date(tb.getEndTimestamp().getTime()));
+        
+    	if (StringUtils.equals(workArea.getOvertimeEditRole(), "Employee")) {
             return true;
         } else if (StringUtils.equals(workArea.getOvertimeEditRole(), KPMERole.APPROVER.getRoleName()) ||
                 StringUtils.equals(workArea.getOvertimeEditRole(), KPMERole.APPROVER_DELEGATE.getRoleName())) {
-            return TKContext.getApproverWorkAreas().contains(workArea.getWorkArea());
+            return TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), tb.getWorkArea(), new DateTime())
+            		|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), tb.getWorkArea(), new DateTime());
         } else {
-            return TKContext.getDepartmentAdminAreas().contains(workArea.getDepartment());
+            return TkServiceLocator.getDepartmentService().getAdministratorDepartments(principalId).contains(workArea.getDepartment());
         }
     }
     
@@ -445,14 +470,6 @@ public class TKPermissionServiceImpl extends KPMEPermissionServiceBase implement
     	}
     	return calDefined;
     }
-
-	public DepartmentService getDepartmentService() {
-		return departmentService;
-	}
-
-	public void setDepartmentService(DepartmentService departmentService) {
-		this.departmentService = departmentService;
-	}
 
 	public PermissionService getPermissionService() {
 		return permissionService;

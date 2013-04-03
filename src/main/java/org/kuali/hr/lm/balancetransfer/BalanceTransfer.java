@@ -16,7 +16,6 @@
 package org.kuali.hr.lm.balancetransfer;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 

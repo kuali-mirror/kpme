@@ -17,8 +17,12 @@ package org.kuali.hr.time.authorization;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.joda.time.DateTime;
+import org.kuali.hr.core.role.KPMERole;
+import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TkConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class AuthorizationValidationUtils {
 	
@@ -43,7 +47,7 @@ public class AuthorizationValidationUtils {
             // department also has a wildcard.
             return TKContext.isSystemAdmin();
         } else {
-            return TKContext.getDepartmentAdminAreas().contains(dept);
+            return TkServiceLocator.getDepartmentService().getAdministratorDepartments(GlobalVariables.getUserSession().getPrincipalId()).contains(dept);
         }
     }
 
@@ -63,14 +67,14 @@ public class AuthorizationValidationUtils {
         if (TKContext.isSystemAdmin())
             return true;
 
-        if (dr != null && TKContext.getDepartmentAdminAreas().size() > 0) {
+        if (dr != null) {
             String dept = dr.getDept();
             if (StringUtils.equals(dept, TkConstants.WILDCARD_CHARACTER)) {
                 // Must be system administrator
                 ret = false;
             } else {
                 // Must have parent Department
-                ret = TKContext.getDepartmentAdminAreas().contains(dr.getDept());
+                ret = TkServiceLocator.getDepartmentService().getAdministratorDepartments(GlobalVariables.getUserSession().getPrincipalId()).contains(dr.getDept());
             }
         }
 
@@ -100,22 +104,24 @@ public class AuthorizationValidationUtils {
             //
             // * Not permitted.
 
-
-            if (StringUtils.equals(dr.getDept(), TkConstants.WILDCARD_CHARACTER) &&
-                    dr.getWorkArea().equals(TkConstants.WILDCARD_LONG)) {
+        	String principalId = GlobalVariables.getUserSession().getPrincipalId();
+        	Long workArea = dr.getWorkArea();
+        	String department = dr.getDept();
+        	
+            if (TkConstants.WILDCARD_CHARACTER.equals(department) && TkConstants.WILDCARD_LONG.equals(workArea)) {
                 // case 1
-                ret = TKContext.getApproverWorkAreas().size() > 0 || TKContext.getLocationAdminAreas().size() > 0 ||
-                		TKContext.getDepartmentAdminAreas().size() > 0;
-            } else if (StringUtils.equals(dr.getDept(), TkConstants.WILDCARD_CHARACTER)) {
+                ret = TKContext.isAnyApprover() || TKContext.isDepartmentAdmin() || TKContext.isLocationAdmin();
+            } else if (TkConstants.WILDCARD_CHARACTER.equals(department)) {
                 // case 2 *
                 // Should not encounter this case.
                 LOG.error("Invalid case encountered while scanning business objects: Wildcard Department & Defined workArea.");
-            } else if (dr.getWorkArea().equals(TkConstants.WILDCARD_LONG)) {
+            } else if (TkConstants.WILDCARD_LONG.equals(workArea)) {
                 // case 3
-                ret = TKContext.getDepartmentAdminAreas().contains(dr.getDept());
+                ret = TkServiceLocator.getDepartmentService().getAdministratorDepartments(principalId).contains(department);
             } else {
-                ret = TKContext.getApproverWorkAreas().contains(dr.getWorkArea()) ||
-                		TKContext.getDepartmentAdminAreas().contains(dr.getDept());
+                ret = TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
+                		|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime())
+                		|| TkServiceLocator.getDepartmentService().getAdministratorDepartments(principalId).contains(department);
             }
         }
 

@@ -17,14 +17,12 @@ package org.kuali.hr.core.util;
 
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.MapUtils;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Map;
 
 public class OjbSubQueryUtil {
 

@@ -2,6 +2,7 @@ package org.kuali.hr.time.permission.service;
 
 import java.util.Map;
 
+import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.timeblock.TimeBlock;
 
 public interface TKPermissionService {
@@ -17,8 +18,12 @@ public interface TKPermissionService {
 	boolean isAuthorizedInLocation(String principalId, String permissionName, String location);
 
 	boolean canViewTimesheet(String principalId, String documentId);
+	
+	boolean canViewTimesheetAssignment(String principalId, String documentId, Assignment assignment);
 
 	boolean canEditTimesheet(String principalId, String documentId);
+	
+	boolean canEditTimesheetAssignment(String principalId, String documentId, Assignment assignment);
 
 	boolean canSubmitTimesheet(String principalId, String documentId);
 	

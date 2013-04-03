@@ -17,8 +17,6 @@ package org.kuali.hr.lm.leavepayout.validation;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.List;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -27,7 +25,6 @@ import org.kuali.hr.lm.leavepayout.LeavePayout;
 import org.kuali.hr.lm.employeeoverride.EmployeeOverride;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;

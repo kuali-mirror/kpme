@@ -16,8 +16,6 @@
 package org.kuali.hr.time.rice.kns.web.format;
 
 import java.sql.Time;
-import java.text.SimpleDateFormat;
-
 import org.joda.time.LocalTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;

@@ -19,7 +19,6 @@ import org.kuali.hr.time.user.pref.UserPreferences;
 import org.kuali.hr.time.user.pref.dao.UserPreferenceDao;
 import org.kuali.hr.time.util.TKContext;
 import org.kuali.hr.time.util.TKUtils;
-import org.kuali.hr.time.util.TkConstants;
 
 public class UserPreferenceServiceImpl implements UserPreferenceService {
 	private UserPreferenceDao userPrefDao;

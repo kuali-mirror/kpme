@@ -15,13 +15,11 @@
  */
 package org.kuali.hr.lm.accrual.service;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
-import org.kuali.hr.time.earncode.EarnCode;
 
 public interface AccrualCategoryRuleService {
 	

@@ -24,6 +24,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.hr.core.role.KPMERoleMemberAttribute;
+import org.kuali.hr.time.department.Department;
+import org.kuali.hr.time.department.service.DepartmentService;
+import org.kuali.hr.time.workarea.WorkArea;
+import org.kuali.hr.time.workarea.service.WorkAreaService;
 import org.kuali.rice.core.api.criteria.LookupCustomizer;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -47,9 +51,11 @@ public abstract class KPMERoleServiceBase {
 	
     private static final Logger LOG = Logger.getLogger(KPMERoleServiceBase.class);
     
+    private DepartmentService departmentService;
     private GroupService groupService;
 	private KimTypeInfoService kimTypeInfoService;
 	private RoleService roleService;
+	private WorkAreaService workAreaService;
 	
 	public abstract String getRoleIdByName(String roleName);
 	
@@ -231,6 +237,16 @@ public abstract class KPMERoleServiceBase {
 			}
 		}
 		
+		List<Long> workAreas = getWorkAreasForPrincipalInRole(principalId, roleName, asOfDate, getActiveOnly);
+		
+		for (Long workArea : workAreas) {
+			WorkArea workAreaObj = getWorkAreaService().getWorkArea(workArea, new java.sql.Date(asOfDate.toDate().getTime()));
+			
+			if (workAreaObj != null) {
+				departments.add(workAreaObj.getDept());
+			}
+		}
+		
 		return new ArrayList<String>(departments);
 	}
 	
@@ -246,6 +262,16 @@ public abstract class KPMERoleServiceBase {
 			
 			if (location != null) {
 				locations.add(location);
+			}
+		}
+		
+		List<String> departments = getDepartmentsForPrincipalInRole(principalId, roleName, asOfDate, getActiveOnly);
+		
+		for (String department : departments) {
+			Department departmentObj = getDepartmentService().getDepartment(department, new java.sql.Date(asOfDate.toDate().getTime()));
+			
+			if (departmentObj != null) {
+				locations.add(departmentObj.getLocation());
 			}
 		}
 		
@@ -324,6 +350,14 @@ public abstract class KPMERoleServiceBase {
         
         return roleTypeService;
     }
+    
+    public DepartmentService getDepartmentService() {
+    	return departmentService;
+    }
+    
+    public void setDepartmentService(DepartmentService departmentService) {
+    	this.departmentService = departmentService;
+    }
 
 	public GroupService getGroupService() {
 		return groupService;
@@ -348,5 +382,13 @@ public abstract class KPMERoleServiceBase {
 	public void setRoleService(RoleService roleService) {
 		this.roleService = roleService;
 	}
+	
+    public WorkAreaService getWorkAreaService() {
+    	return workAreaService;
+    }
+    
+    public void setWorkAreaService(WorkAreaService workAreaService) {
+    	this.workAreaService = workAreaService;
+    }
 
 }

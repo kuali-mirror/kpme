@@ -16,18 +16,12 @@
 package org.kuali.hr.time.overtime.daily.rule;
 
 
-import java.math.BigDecimal;
-import java.util.HashMap;
-
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
-import org.kuali.hr.time.util.TKUtils;
-import org.kuali.rice.krad.service.KRADServiceLocator;
-
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 

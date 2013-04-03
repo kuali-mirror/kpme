@@ -8,7 +8,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.pm.paystep.PayStep;
-import org.kuali.hr.pm.positionreportcat.PositionReportCategory;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
 

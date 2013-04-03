@@ -27,6 +27,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.joda.time.DateTime;
+import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.job.Job;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.base.web.TkAction;
@@ -84,11 +85,10 @@ public class ChangeTargetPersonAction extends TkAction {
     }
     
     private boolean isReviewerForPerson(String principalId) {
-    	List<Long> reviewerWorkAreas = TkServiceLocator.getWorkAreaService().getReviewerWorkAreas(GlobalVariables.getUserSession().getPrincipalId());
         List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getCurrentDate());
 
         for (Assignment assignment : assignments) {
-            if (reviewerWorkAreas.contains(assignment.getWorkArea())) {
+            if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.REVIEWER.getRoleName(), assignment.getWorkArea(), new DateTime())) {
                 return true;
             }
         }
@@ -96,11 +96,11 @@ public class ChangeTargetPersonAction extends TkAction {
     }
 
     private boolean isApproverForPerson(String principalId) {
-    	List<Long> approverWorkAreas = TkServiceLocator.getWorkAreaService().getApproverAndApproverDelegateWorkAreas(GlobalVariables.getUserSession().getPrincipalId());
         List<Assignment> assignments = TkServiceLocator.getAssignmentService().getAssignments(principalId, TKUtils.getCurrentDate());
 
         for (Assignment assignment : assignments) {
-            if (approverWorkAreas.contains(assignment.getWorkArea())) {
+        	if (TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), assignment.getWorkArea(), new DateTime())
+        			|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), assignment.getWorkArea(), new DateTime())) {
                 return true;
             }
         }

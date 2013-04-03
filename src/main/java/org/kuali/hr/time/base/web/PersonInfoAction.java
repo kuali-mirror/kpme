@@ -18,8 +18,10 @@ package org.kuali.hr.time.base.web;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -155,9 +157,13 @@ public class PersonInfoAction extends TkAction {
 	
 	private void setupRolesOnForm(PersonInfoActionForm personInfoActionForm) {
 		String principalId = TKContext.getTargetPrincipalId();
+		
+		Set<Long> allApproverWorkAreas = new HashSet<Long>();
+		allApproverWorkAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true));
+		allApproverWorkAreas.addAll(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true));
 
-		personInfoActionForm.setApproverWorkAreas(TkServiceLocator.getWorkAreaService().getApproverAndApproverDelegateWorkAreas(principalId));
-		personInfoActionForm.setReviewerWorkAreas(TkServiceLocator.getWorkAreaService().getReviewerWorkAreas(principalId));
+		personInfoActionForm.setApproverWorkAreas(new ArrayList<Long>(allApproverWorkAreas));
+		personInfoActionForm.setReviewerWorkAreas(TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.REVIEWER.getRoleName(), new DateTime(), true));
 		personInfoActionForm.setDeptViewOnlyDepts(TkServiceLocator.getDepartmentService().getViewOnlyDepartments(principalId));
 		personInfoActionForm.setDeptAdminDepts(TkServiceLocator.getDepartmentService().getAdministratorDepartments(principalId));
 		personInfoActionForm.setLocationAdminDepts(TkServiceLocator.getLocationService().getAdministratorLocations(principalId));

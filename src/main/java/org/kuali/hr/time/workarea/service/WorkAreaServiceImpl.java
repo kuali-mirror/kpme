@@ -16,7 +16,6 @@
 package org.kuali.hr.time.workarea.service;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -130,31 +129,6 @@ public class WorkAreaServiceImpl implements WorkAreaService {
         		}
     		}
     	}
-    }
-    
-    @Override
-    public List<Long> getReviewerWorkAreas(String principalId) {
-    	return TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.REVIEWER.getRoleName(), new DateTime(), true);
-    }
-    
-    @Override
-    public List<Long> getApproverWorkAreas(String principalId) {
-    	return TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER.getRoleName(), new DateTime(), true);
-    }
-    
-    @Override
-    public List<Long> getApproverDelegateWorkAreas(String principalId) {
-    	return TkServiceLocator.getHRRoleService().getWorkAreasForPrincipalInRole(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), new DateTime(), true);
-    }
-    
-    @Override
-    public List<Long> getApproverAndApproverDelegateWorkAreas(String principalId) {
-    	Set<Long> workAreas = new HashSet<Long>();
-    	
-    	workAreas.addAll(getApproverWorkAreas(principalId));
-    	workAreas.addAll(getApproverDelegateWorkAreas(principalId));
-    	
-    	return new ArrayList<Long>(workAreas);
     }
     
 	@Override

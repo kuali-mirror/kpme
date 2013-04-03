@@ -25,7 +25,6 @@ import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 

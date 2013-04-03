@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.lm.earncodesec.validation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -82,7 +81,7 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 	}
 	
 	boolean validateDepartmentCurrentUser(EarnCodeSecurity departmentEarnCode) {
-		if (!TKContext.isSystemAdmin() && !TKContext.getDepartmentAdminAreas().contains(departmentEarnCode.getDept())) {
+		if (!TKContext.isSystemAdmin() && !TkServiceLocator.getDepartmentService().getAdministratorDepartments(GlobalVariables.getUserSession().getPrincipalId()).contains(departmentEarnCode.getDept())) {
 			this.putFieldError("dept", "error.department.permissions", departmentEarnCode.getDept());
 			return false;
 		} else {

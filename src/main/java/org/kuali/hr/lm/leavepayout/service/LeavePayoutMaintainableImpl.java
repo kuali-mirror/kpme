@@ -21,7 +21,6 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.kuali.hr.lm.LMConstants;
-import org.kuali.hr.lm.balancetransfer.BalanceTransfer;
 import org.kuali.hr.lm.leavepayout.LeavePayout;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.HrBusinessObject;

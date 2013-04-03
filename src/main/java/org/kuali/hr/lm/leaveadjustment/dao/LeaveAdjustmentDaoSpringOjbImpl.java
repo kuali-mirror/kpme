@@ -27,7 +27,6 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.hr.core.util.OjbSubQueryUtil;
-import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.leaveadjustment.LeaveAdjustment;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;

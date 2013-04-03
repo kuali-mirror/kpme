@@ -708,6 +708,7 @@
         <property name="departmentService" ref="departmentService" />
         <property name="permissionService" ref="kimPermissionService" />
         <property name="timesheetService" ref="timesheetService" />
+        <property name="workAreaService" ref="workAreaService" />
     </bean>
     
     <bean id="lmPermissionService" class="org.kuali.hr.lm.permission.service.LMPermissionServiceImpl">
@@ -715,24 +716,31 @@
         <property name="permissionService" ref="kimPermissionService" />
         <property name="leaveCalendarService" ref="leaveCalendarService" />
         <property name="leaveRequestDocumentService" ref="leaveRequestDocumentService" />
+        <property name="workAreaService" ref="workAreaService" />
     </bean>
     
     <bean id="hrRoleService" class="org.kuali.hr.core.role.service.HRRoleServiceImpl">
+        <property name="departmentService" ref="departmentService" />
         <property name="groupService" ref="kimGroupService" />
         <property name="kimTypeInfoService" ref="kimTypeInfoService" />
         <property name="roleService" ref="kimRoleService" />
+        <property name="workAreaService" ref="workAreaService" />
     </bean>
     
     <bean id="tkRoleService" class="org.kuali.hr.time.role.service.TKRoleServiceImpl">
+        <property name="departmentService" ref="departmentService" />
         <property name="groupService" ref="kimGroupService" />
         <property name="kimTypeInfoService" ref="kimTypeInfoService" />
         <property name="roleService" ref="kimRoleService" />
+        <property name="workAreaService" ref="workAreaService" />
     </bean>
     
     <bean id="lmRoleService" class="org.kuali.hr.lm.role.service.LMRoleServiceImpl">
+        <property name="departmentService" ref="departmentService" />
         <property name="groupService" ref="kimGroupService" />
         <property name="kimTypeInfoService" ref="kimTypeInfoService" />
         <property name="roleService" ref="kimRoleService" />
+        <property name="workAreaService" ref="workAreaService" />
     </bean>
      
     <bean id="workAreaRoleTypeService" class="org.kuali.hr.time.workarea.service.WorkAreaRoleTypeServiceImpl" />

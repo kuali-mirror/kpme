@@ -17,7 +17,6 @@ package org.kuali.hr.paygrade.validation;
 
 
 import org.kuali.hr.core.document.question.KpmeEffectiveDatePromptBase;
-import org.kuali.hr.location.Location;
 import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;

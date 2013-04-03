@@ -18,10 +18,8 @@ package org.kuali.hr.time.clock.location.validation;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.kuali.hr.core.document.question.KpmeEffectiveDatePromptBase;
-import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.time.clock.location.ClockLocationRule;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;
 
 import java.util.List;

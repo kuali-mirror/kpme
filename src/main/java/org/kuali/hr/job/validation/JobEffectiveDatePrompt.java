@@ -18,7 +18,6 @@ package org.kuali.hr.job.validation;
 
 import org.kuali.hr.core.document.question.KpmeEffectiveDatePromptBase;
 import org.kuali.hr.job.Job;
-import org.kuali.hr.time.earncodegroup.EarnCodeGroup;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.krad.bo.PersistableBusinessObject;

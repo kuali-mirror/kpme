@@ -3,7 +3,6 @@ package org.kuali.hr.pm.positiontype.service;
 import java.sql.Date;
 import java.util.List;
 
-import org.kuali.hr.pm.positionreportgroup.PositionReportGroup;
 import org.kuali.hr.pm.positiontype.PositionType;
 
 public interface PositionTypeService {

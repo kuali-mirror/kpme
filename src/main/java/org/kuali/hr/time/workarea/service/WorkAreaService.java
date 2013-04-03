@@ -58,15 +58,7 @@ public interface WorkAreaService {
      */
     @Cacheable(value= WorkArea.CACHE_NAME, key="'department=' + #p0 + '|' + 'asOfDate=' + #p1")
     List<WorkArea> getWorkAreas(String department, Date asOfDate);
-    
-	List<Long> getReviewerWorkAreas(String principalId);
-	
-	List<Long> getApproverWorkAreas(String principalId);
 
-	List<Long> getApproverDelegateWorkAreas(String principalId);
-	
-	List<Long> getApproverAndApproverDelegateWorkAreas(String principalId);
-	
     /**
      * Save or Update given work area
      * @param workArea

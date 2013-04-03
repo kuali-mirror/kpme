@@ -1,10 +1,8 @@
 package org.kuali.hr.pm.paystep.validation;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kuali.hr.paygrade.PayGrade;
 import org.kuali.hr.pm.paystep.PayStep;
 import org.kuali.hr.pm.util.PmValidationUtils;
-import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;

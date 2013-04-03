@@ -22,7 +22,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.hr.time.task.Task;
 import org.kuali.hr.time.task.dao.TaskDao;
 import org.kuali.hr.time.util.TkConstants;
-import org.kuali.hr.time.workarea.WorkArea;
 
 public class TaskServiceImpl implements TaskService {
 

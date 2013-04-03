@@ -15,13 +15,9 @@
  */
 package org.kuali.hr.lm.leaveplan;
 
-import java.util.Date;
 import java.sql.Time;
 
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalTime;
 import org.kuali.hr.core.KPMEConstants;
 import org.kuali.hr.time.HrBusinessObject;
 

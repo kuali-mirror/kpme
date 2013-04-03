@@ -28,7 +28,6 @@ import org.kuali.hr.time.salgroup.SalGroup;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
-import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 
 public class Job extends HrBusinessObject {
