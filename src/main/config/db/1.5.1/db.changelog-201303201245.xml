@@ -230,5 +230,25 @@
         </createIndex>
 
     </changeSet>
+    
+    <changeSet id="2" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>Correcting indicies</comment>
+        
+        <dropIndex tableName="HR_DEPT_T" indexName="HR_DEPT_IDX1" />
+        <createIndex indexName="HR_DEPT_IDX1" tableName="HR_DEPT_T" unique="true">
+            <column name="DEPT" />
+            <column name="LOCATION" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+        
+        <dropIndex tableName="HR_PAY_GRADE_T" indexName="HR_PAY_GRADE_IDX1" />
+        <createIndex indexName="HR_PAY_GRADE_IDX1" tableName="HR_PAY_GRADE_T" unique="true">
+            <column name="PAY_GRADE" />
+            <column name="SAL_GROUP" />
+            <column name="EFFDT" />
+            <column name="TIMESTAMP" />
+        </createIndex>
+    </changeSet>
 
 </databaseChangeLog>
