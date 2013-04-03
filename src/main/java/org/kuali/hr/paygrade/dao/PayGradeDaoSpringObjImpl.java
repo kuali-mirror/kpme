@@ -32,13 +32,15 @@ import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb
 public class PayGradeDaoSpringObjImpl  extends PlatformAwareDaoBaseOjb implements PayGradeDao {
     private static final ImmutableList<String> EQUAL_TO_FIELDS = new ImmutableList.Builder<String>()
             .add("payGrade")
+            .add("salGroup")
             .build();
 
 	@Override
-	public PayGrade getPayGrade(String payGrade, Date asOfDate) {
+	public PayGrade getPayGrade(String payGrade, String salGroup, Date asOfDate) {
 		Criteria root = new Criteria();
 
 		root.addEqualTo("payGrade", payGrade);
+		root.addEqualTo("salGroup", salGroup);
         root.addEqualTo("effectiveDate", OjbSubQueryUtil.getEffectiveDateSubQuery(PayGrade.class, new java.sql.Date(asOfDate.getTime()), EQUAL_TO_FIELDS, false));
         root.addEqualTo("timestamp", OjbSubQueryUtil.getTimestampSubQuery(PayGrade.class, EQUAL_TO_FIELDS, false));
 

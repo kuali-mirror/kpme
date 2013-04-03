@@ -27,7 +27,7 @@ public interface PayGradeDao {
 	 * @param asOfDate
 	 * @return
 	 */
-	public PayGrade getPayGrade(String payGrade,Date asOfDate);
+	public PayGrade getPayGrade(String payGrade, String salGroup, Date asOfDate);
 	/**
 	 * Get paygrade by unique id
 	 * @param hrPayGradeId

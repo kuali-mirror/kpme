@@ -27,7 +27,7 @@ public class PayGradeEffectiveDatePrompt extends KpmeEffectiveDatePromptBase {
     @Override
     protected boolean futureEffectiveDateExists(PersistableBusinessObject pbo) {
         PayGrade payGrade = (PayGrade)pbo;
-        PayGrade lastPayGrade = TkServiceLocator.getPayGradeService().getPayGrade(payGrade.getPayGrade(), TKUtils.END_OF_TIME);
+        PayGrade lastPayGrade = TkServiceLocator.getPayGradeService().getPayGrade(payGrade.getPayGrade(), payGrade.getSalGroup(), TKUtils.END_OF_TIME);
         return lastPayGrade != null && TKUtils.getTimelessDate(lastPayGrade.getEffectiveDate()).after(TKUtils.getTimelessDate(payGrade.getEffectiveDate()));
     }
 }

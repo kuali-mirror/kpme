@@ -227,11 +227,11 @@ public class ValidationUtils {
 	}
 
 
-	public static boolean validatePayGrade(String payGrade, Date asOfDate) {
+	public static boolean validatePayGrade(String payGrade, String salGroup, Date asOfDate) {
 		boolean valid = false;
 
 		if (asOfDate != null) {
-			PayGrade pg = TkServiceLocator.getPayGradeService().getPayGrade(payGrade, asOfDate);
+			PayGrade pg = TkServiceLocator.getPayGradeService().getPayGrade(payGrade, salGroup, asOfDate);
 			valid = (pg != null);
 		} else {
 			int count = TkServiceLocator.getPayGradeService().getPayGradeCount(payGrade);
