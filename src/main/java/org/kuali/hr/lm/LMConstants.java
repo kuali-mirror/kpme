@@ -133,7 +133,7 @@ public class LMConstants {
 		 public static final String CARRY_OVER = "CO";
 	 }
 
-	 public static final Map<String, String> LEAVE_BLOCK_TYPE_MAP = new HashMap<String, String>(4);
+	 public static final Map<String, String> LEAVE_BLOCK_TYPE_MAP = new HashMap<String, String>(6);
 	 static {
 	    	LEAVE_BLOCK_TYPE_MAP.put(LEAVE_BLOCK_TYPE.ACCRUAL_SERVICE, "Accrual Service");
 	    	LEAVE_BLOCK_TYPE_MAP.put(LEAVE_BLOCK_TYPE.BALANCE_TRANSFER, "Balance Transfer");
