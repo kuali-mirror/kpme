@@ -234,7 +234,12 @@
     <property name="resultFields">
       <list>
         <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
-        <bean parent="Uif-InputField" p:propertyName="hrSalGroup" />
+        <bean parent="Uif-InputField" p:propertyName="hrSalGroup">
+         	<property name="inquiry">
+	       		 <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.hr.time.salgroup.SalGroup" 
+	        	 p:inquiryParameters="hrSalGroupId:hrSalGroupId"/>
+    		</property>
+        </bean>
         <bean parent="Uif-InputField" p:propertyName="institution" />
         <bean parent="Uif-InputField" p:propertyName="campus" />
         <bean parent="Uif-InputField" p:propertyName="percentTime" />
