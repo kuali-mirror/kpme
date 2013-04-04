@@ -15,27 +15,46 @@
  */
 package org.kuali.hr.paygrade.validation;
 
+import com.gargoylesoftware.htmlunit.ElementNotFoundException;
+import com.gargoylesoftware.htmlunit.html.*;
 import junit.framework.Assert;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.kuali.hr.test.KPMETestCase;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 
-import com.gargoylesoftware.htmlunit.html.HtmlElement;
-import com.gargoylesoftware.htmlunit.html.HtmlForm;
-import com.gargoylesoftware.htmlunit.html.HtmlInput;
-import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import java.util.List;
 
 public class PayGradeValidationTest extends KPMETestCase{
 	@Test
 	public void testValidateSalGroup() throws Exception {
-		String baseUrl = TkTestConstants.Urls.PAY_GRADE_MAINT_NEW_URL;
-	  	HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), baseUrl);
-	  	Assert.assertNotNull(page);
-	 
-	  	HtmlForm form = page.getFormByName("KualiForm");
-	  	Assert.assertNotNull("Search form was missing from page.", form);
+        String baseUrl = TkTestConstants.Urls.PAY_GRADE_MAINT_NEW_URL;
+        HtmlPage page = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.BASE_URL, true);
+        page = HtmlUnitUtil.clickAnchorContainingText(page,"maintenance");
+        HtmlUnitUtil.createTempFile(page);
+        page = HtmlUnitUtil.clickAnchorContainingText(page,"Pay Grade");
+        HtmlUnitUtil.createTempFile(page);
+        List<HtmlAnchor> anchors = page.getAnchors();
+        page = HtmlUnitUtil.clickAnchorContainingText(page,"Create");
+        HtmlUnitUtil.createTempFile(page);
+        page.initialize();
+        Assert.assertNotNull(page);
+        List<FrameWindow> frames = page.getFrames();
+        for (FrameWindow frame : frames) {
+            if (StringUtils.equals(frame.getName(), "iframeportlet")) {
+               page = frame.getEnclosingPage();
+            }
+        }
+        HtmlForm form = (HtmlForm) page.getElementById("kualiForm");
+//        List<HtmlForm> forms = page.getDocumentElement().getElementsByAttribute("form", "id", "kualiForm");
+//            if (forms.size() == 0) {
+//                throw new ElementNotFoundException("form", "id", "kualiForm");
+//                } else {
+//                form = forms.get(0);
+//            }
+        Assert.assertNotNull("Search form was missing from page.", form);
 	  	
 	  	setFieldValue(page, "document.documentHeader.documentDescription", "Pay Grade - test");
 	    setFieldValue(page, "document.newMaintainableObject.effectiveDate", "04/01/2012");
