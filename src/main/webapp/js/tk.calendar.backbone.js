@@ -611,7 +611,7 @@ $(function () {
 		                }
 	           		});
             	} else {
-               		window.location = "TimeDetail.do?methodToCall=deleteLeaveBlock&lmLeaveBlockId=" + key.id;
+               		window.location = "TimeDetail.do?methodToCall=deleteLeaveBlock&documentId=" + $("#documentId").val()+"&lmLeaveBlockId=" + key.id;
                 }
             }
         },
