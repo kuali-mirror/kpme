@@ -16,7 +16,6 @@
 package org.kuali.hr.time.department.service;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,7 +26,6 @@ import org.kuali.hr.core.role.department.DepartmentPrincipalRoleMemberBo;
 import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.department.dao.DepartmentDao;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.impl.role.RoleMemberBo;
 
@@ -109,42 +107,6 @@ public class DepartmentServiceImpl implements DepartmentService {
     			department.addInactiveRoleMember(DepartmentPrincipalRoleMemberBo.from(roleMemberBo, roleMember.getAttributes()));
     		}
     	}
-    }
-    
-    @Override
-    public List<String> getViewOnlyDepartments(String principalId) {
-    	Set<String> departments = new HashSet<String>();
-    	
-    	departments.addAll(TkServiceLocator.getTKRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), new DateTime(), true));
-    	departments.addAll(TkServiceLocator.getLMRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), new DateTime(), true));
-    	
-    	List<String> locations = TkServiceLocator.getLocationService().getViewOnlyLocations(principalId);
-    	for (String location : locations) {
-    		List<Department> locationDepartments = getDepartments(location, TKUtils.getCurrentDate());
-    		for (Department locationDepartment : locationDepartments) {
-    			departments.add(locationDepartment.getDept());
-    		}
-    	}
-    	
-    	return new ArrayList<String>(departments);
-    }
-    
-    @Override
-    public List<String> getAdministratorDepartments(String principalId) {
-    	Set<String> departments = new HashSet<String>();
-    	
-    	departments.addAll(TkServiceLocator.getTKRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), new DateTime(), true));
-    	departments.addAll(TkServiceLocator.getLMRoleService().getDepartmentsForPrincipalInRole(principalId, KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), new DateTime(), true));
-    	
-    	List<String> locations = TkServiceLocator.getLocationService().getAdministratorLocations(principalId);
-    	for (String location : locations) {
-    		List<Department> locationDepartments = getDepartments(location, TKUtils.getCurrentDate());
-    		for (Department locationDepartment : locationDepartments) {
-    			departments.add(locationDepartment.getDept());
-    		}
-    	}
-    	
-    	return new ArrayList<String>(departments);
     }
 
 }

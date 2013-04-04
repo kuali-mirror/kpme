@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.kuali.hr.core.KPMENamespace;
 import org.kuali.hr.core.permission.service.KPMEPermissionServiceBase;
 import org.kuali.hr.lm.LMConstants;
@@ -39,14 +40,14 @@ public class LMPermissionServiceImpl extends KPMEPermissionServiceBase implement
 	private LeaveRequestDocumentService leaveRequestDocumentService;
 	
 	@Override
-	public boolean isAuthorized(String principalId, String permissionName) {
+	public boolean isAuthorized(String principalId, String permissionName, DateTime asOfDate) {
 		Map<String, String> qualification = new HashMap<String, String>();
 		
 		return getPermissionService().isAuthorized(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), permissionName, qualification);
 	}
 	
 	@Override
-	public boolean isAuthorized(String principalId, String permissionName, Map<String, String> qualification) {
+	public boolean isAuthorized(String principalId, String permissionName, Map<String, String> qualification, DateTime asOfDate) {
 		return getPermissionService().isAuthorized(principalId, KPMENamespace.KPME_LM.getNamespaceCode(), permissionName, qualification);
 	}
 	
@@ -166,14 +167,14 @@ public class LMPermissionServiceImpl extends KPMEPermissionServiceBase implement
     }
     
     @Override
-	public boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, Map<String, String> permissionDetails) {
+	public boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, Map<String, String> permissionDetails, DateTime asOfDate) {
 		Map<String, String> qualification = new HashMap<String, String>();
 		
-		return isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, permissionDetails, qualification);
+		return isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, permissionDetails, qualification, asOfDate);
 	}
 	
     @Override
-	public boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, Map<String, String> permissionDetails, Map<String, String> qualification) {
+	public boolean isAuthorizedByTemplate(String principalId, String namespaceCode, String permissionTemplateName, Map<String, String> permissionDetails, Map<String, String> qualification, DateTime asOfDate) {
 		return getPermissionService().isAuthorizedByTemplate(principalId, namespaceCode, permissionTemplateName, permissionDetails, qualification);
 	}
 

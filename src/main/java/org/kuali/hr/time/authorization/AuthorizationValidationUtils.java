@@ -15,12 +15,13 @@
  */
 package org.kuali.hr.time.authorization;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.kuali.hr.core.role.KPMERole;
+import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 
@@ -36,19 +37,28 @@ public class AuthorizationValidationUtils {
      *
      * @return true if you can wildcard the WorkArea, false otherwise.
      */
-    public static boolean canWildcardWorkArea(DepartmentalRule dr) {
-        // Sysadmins and (Departmental OrgAdmins for their Department)
-        if (TKContext.isSystemAdmin())
-            return true;
-
-        String dept = dr.getDept();
-        if (StringUtils.equals(dept, TkConstants.WILDCARD_CHARACTER)) {
-            // Only system administrators can wildcard the work area if the
-            // department also has a wildcard.
-            return TKContext.isSystemAdmin();
-        } else {
-            return TkServiceLocator.getDepartmentService().getAdministratorDepartments(GlobalVariables.getUserSession().getPrincipalId()).contains(dept);
-        }
+    public static boolean canWildcardWorkArea(DepartmentalRule departmentalRule) {
+    	boolean canWildcardWorkArea = false;
+    	
+    	if (TKContext.isSystemAdmin()) {
+        	return true;
+    	}
+    	
+    	if (departmentalRule != null) {
+	    	String principalId = GlobalVariables.getUserSession().getPrincipalId();
+	    	String department = departmentalRule.getDept();
+	    	Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, TKUtils.getCurrentDate());
+			String location = departmentObj != null ? departmentObj.getLocation() : null;
+	    	
+	        if (!TkConstants.WILDCARD_CHARACTER.equals(department)) {
+	        	canWildcardWorkArea = TkServiceLocator.getTKRoleService().principalHasRoleInDepartment(principalId, KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+	        			|| TkServiceLocator.getLMRoleService().principalHasRoleInDepartment(principalId, KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+	        			|| TkServiceLocator.getTKRoleService().principalHasRoleInLocation(principalId, KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
+	        			|| TkServiceLocator.getLMRoleService().principalHasRoleInLocation(principalId, KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime());
+	        }
+    	}
+        
+        return canWildcardWorkArea;
     }
 
     /**
@@ -58,27 +68,32 @@ public class AuthorizationValidationUtils {
      *
      * @return true if so, false otherwise.
      */
-    public static boolean canWildcardDepartment(DepartmentalRule dr) {
+    public static boolean canWildcardDepartment(DepartmentalRule departmentalRule) {
         return TKContext.isSystemAdmin();
     }
     
-    public static boolean hasAccessToWrite(DepartmentalRule dr) {
-        boolean ret = false;
-        if (TKContext.isSystemAdmin())
-            return true;
-
-        if (dr != null) {
-            String dept = dr.getDept();
-            if (StringUtils.equals(dept, TkConstants.WILDCARD_CHARACTER)) {
-                // Must be system administrator
-                ret = false;
-            } else {
-                // Must have parent Department
-                ret = TkServiceLocator.getDepartmentService().getAdministratorDepartments(GlobalVariables.getUserSession().getPrincipalId()).contains(dr.getDept());
-            }
+    public static boolean hasAccessToWrite(DepartmentalRule departmentalRule) {
+        boolean hasAccessToWrite = false;
+        
+        if (TKContext.isSystemAdmin()) {
+        	return true;
+    	}
+        
+        if (departmentalRule != null) {
+	    	String principalId = GlobalVariables.getUserSession().getPrincipalId();
+	    	String department = departmentalRule.getDept();
+	    	Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, TKUtils.getCurrentDate());
+			String location = departmentObj != null ? departmentObj.getLocation() : null;
+	        
+	        if (!TkConstants.WILDCARD_CHARACTER.equals(department)) {
+	        	hasAccessToWrite = TkServiceLocator.getTKRoleService().principalHasRoleInDepartment(principalId, KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+	        			|| TkServiceLocator.getLMRoleService().principalHasRoleInDepartment(principalId, KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+	        			|| TkServiceLocator.getTKRoleService().principalHasRoleInLocation(principalId, KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
+	        			|| TkServiceLocator.getLMRoleService().principalHasRoleInLocation(principalId, KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime());
+	        }
         }
 
-        return ret;
+        return hasAccessToWrite;
     }
 
     /**
@@ -89,12 +104,13 @@ public class AuthorizationValidationUtils {
      *
      * @return true if readable by current context user, false otherwise.
      */
-    public static boolean hasAccessToRead(DepartmentalRule dr) {
-        boolean ret = false;
+    public static boolean hasAccessToRead(DepartmentalRule departmentalRule) {
+        boolean hasAccessToRead = false;
+        
         if (TKContext.isSystemAdmin() || TKContext.isGlobalViewOnly())
             return true;
 
-        if (dr != null) {
+        if (departmentalRule != null) {
             //    dept     | workArea   | meaning
             //    ---------|------------|
             // 1: %        ,  -1        , any dept/work area valid roles
@@ -105,26 +121,34 @@ public class AuthorizationValidationUtils {
             // * Not permitted.
 
         	String principalId = GlobalVariables.getUserSession().getPrincipalId();
-        	Long workArea = dr.getWorkArea();
-        	String department = dr.getDept();
-        	
+        	Long workArea = departmentalRule.getWorkArea();
+        	String department = departmentalRule.getDept();
+        	Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, TKUtils.getCurrentDate());
+    		String location = departmentObj != null ? departmentObj.getLocation() : null;
+            
             if (TkConstants.WILDCARD_CHARACTER.equals(department) && TkConstants.WILDCARD_LONG.equals(workArea)) {
                 // case 1
-                ret = TKContext.isAnyApprover() || TKContext.isDepartmentAdmin() || TKContext.isLocationAdmin();
+            	hasAccessToRead = TKContext.isAnyApprover() || TKContext.isDepartmentAdmin() || TKContext.isLocationAdmin();
             } else if (TkConstants.WILDCARD_CHARACTER.equals(department)) {
                 // case 2 *
                 // Should not encounter this case.
                 LOG.error("Invalid case encountered while scanning business objects: Wildcard Department & Defined workArea.");
             } else if (TkConstants.WILDCARD_LONG.equals(workArea)) {
                 // case 3
-                ret = TkServiceLocator.getDepartmentService().getAdministratorDepartments(principalId).contains(department);
+            	hasAccessToRead = TkServiceLocator.getTKRoleService().principalHasRoleInDepartment(principalId, KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+            			|| TkServiceLocator.getLMRoleService().principalHasRoleInDepartment(principalId, KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+            			|| TkServiceLocator.getTKRoleService().principalHasRoleInLocation(principalId, KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
+            			|| TkServiceLocator.getLMRoleService().principalHasRoleInLocation(principalId, KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime());
             } else {
-                ret = TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
+            	hasAccessToRead = TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER_DELEGATE.getRoleName(), workArea, new DateTime())
                 		|| TkServiceLocator.getHRRoleService().principalHasRoleInWorkArea(principalId, KPMERole.APPROVER.getRoleName(), workArea, new DateTime())
-                		|| TkServiceLocator.getDepartmentService().getAdministratorDepartments(principalId).contains(department);
+                		|| TkServiceLocator.getTKRoleService().principalHasRoleInDepartment(principalId, KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+            			|| TkServiceLocator.getLMRoleService().principalHasRoleInDepartment(principalId, KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+            			|| TkServiceLocator.getTKRoleService().principalHasRoleInLocation(principalId, KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
+            			|| TkServiceLocator.getLMRoleService().principalHasRoleInLocation(principalId, KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime());
             }
         }
 
-        return ret;
+        return hasAccessToRead;
     }
 }

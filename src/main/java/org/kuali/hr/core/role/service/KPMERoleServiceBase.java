@@ -57,16 +57,49 @@ public abstract class KPMERoleServiceBase {
 	private RoleService roleService;
 	private WorkAreaService workAreaService;
 	
+	/**
+	 * Gets the id for the role {@code roleName}.
+	 * 
+	 * @param roleName The name of the role
+	 * 
+	 * @return the id for the role {@code roleName}.
+	 */
 	public abstract String getRoleIdByName(String roleName);
 	
+	/**
+	 * Gets the role specified by {@code roleName}.
+	 * 
+	 * @param roleName The name of the role
+	 * 
+	 * @return the role specified by {@code roleName}.
+	 */
 	public abstract Role getRoleByName(String roleName);
 
+	/**
+	 * Checks whether the given {@code principalId} has the role {@code roleName}.
+	 * 
+	 * @param principalId The person to check the role for
+	 * @param roleName The name of the role
+	 * @param asOfDate The effective date of the role
+	 * 
+	 * @return true if {@code principalId} has the role {@code roleName}, false otherwise.
+	 */
 	public boolean principalHasRole(String principalId, String roleName, DateTime asOfDate) {
 		Map<String, String> qualification = new HashMap<String, String>();
 		
 		return principalHasRole(principalId, roleName, qualification, asOfDate);
 	}
 	
+	/**
+	 * Checks whether the given {@code principalId} has the role {@code roleName} depending on the given role qualifications.
+	 * 
+	 * @param principalId The person to check the role for
+	 * @param roleName The name of the role
+	 * @param qualification The map of role qualifiers for the person
+	 * @param asOfDate The effective date of the role
+	 * 
+	 * @return true if {@code principalId} has the role {@code roleName}, false otherwise.
+	 */
 	public boolean principalHasRole(String principalId, String roleName, Map<String, String> qualification, DateTime asOfDate) {
 		boolean principalHasRole = false;
 		
@@ -104,6 +137,16 @@ public abstract class KPMERoleServiceBase {
 		return principalHasRole;
 	}
 
+	/**
+	 * Checks whether the given {@code principalId} has the role {@code roleName} depending on the given work area.
+	 * 
+	 * @param principalId The person to check the role for
+	 * @param roleName The name of the role
+	 * @param workArea The work area qualifier
+	 * @param asOfDate The effective date of the role
+	 * 
+	 * @return true if {@code principalId} has the role {@code roleName} for the given work area, false otherwise.
+	 */
 	public boolean principalHasRoleInWorkArea(String principalId, String roleName, Long workArea, DateTime asOfDate) {
 		Map<String, String> qualification = new HashMap<String, String>();
 		qualification.put(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), String.valueOf(workArea));
@@ -111,6 +154,16 @@ public abstract class KPMERoleServiceBase {
 		return principalHasRole(principalId, roleName, qualification, asOfDate);
 	}
 
+	/**
+	 * Checks whether the given {@code principalId} has the role {@code roleName} depending on the given department.
+	 * 
+	 * @param principalId The person to check the role for
+	 * @param roleName The name of the role
+	 * @param department The department qualifier
+	 * @param asOfDate The effective date of the role
+	 * 
+	 * @return true if {@code principalId} has the role {@code roleName} for the given department, false otherwise.
+	 */
 	public boolean principalHasRoleInDepartment(String principalId, String roleName, String department, DateTime asOfDate) {
 		Map<String, String> qualification = new HashMap<String, String>();
 		qualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
@@ -118,6 +171,16 @@ public abstract class KPMERoleServiceBase {
 		return principalHasRole(principalId, roleName, qualification, asOfDate);
 	}
 
+	/**
+	 * Checks whether the given {@code principalId} has the role {@code roleName} depending on the given location.
+	 * 
+	 * @param principalId The person to check the role for
+	 * @param roleName The name of the role
+	 * @param location The location qualifier
+	 * @param asOfDate The effective date of the role
+	 * 
+	 * @return true if {@code principalId} has the role {@code roleName} for the given location, false otherwise.
+	 */
 	public boolean principalHasRoleInLocation(String principalId, String roleName, String location, DateTime asOfDate) {
 		Map<String, String> qualification = new HashMap<String, String>();
 		qualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
@@ -125,18 +188,47 @@ public abstract class KPMERoleServiceBase {
 		return principalHasRole(principalId, roleName, qualification, asOfDate);
 	}
 	
+	/**
+	 * Gets the members of the role {@code roleName}.
+	 * 
+	 * @param roleName The name of the role
+	 * @param asOfDate The effective date of the role
+	 * @param getActiveOnly Whether or not to get only active role members
+	 * 
+	 * @return the list of role members in the role {@code roleName}.
+	 */
 	public List<RoleMember> getRoleMembers(String roleName, DateTime asOfDate, boolean getActiveOnly) {
 		Map<String, String> qualification = new HashMap<String, String>();
 		
 		return getRoleMembers(roleName, qualification, asOfDate, getActiveOnly);
 	}
 	
+	/**
+	 * Gets the members of the role {@code roleName} for the given role qualifiers.
+	 * 
+	 * @param roleName The name of the role
+	 * @param qualification The map of role qualifiers
+	 * @param asOfDate The effective date of the role
+	 * @param getActiveOnly Whether or not to get only active role members
+	 * 
+	 * @return the list of role members in the role {@code roleName}.
+	 */
 	public List<RoleMember> getRoleMembers(String roleName, Map<String, String> qualification, DateTime asOfDate, boolean getActiveOnly) {
 		Role role = getRoleByName(roleName);
 		
 		return getRoleMembers(role, qualification, asOfDate, getActiveOnly);
 	}
 	
+	/**
+	 * Helper method to recursively search for role members.
+	 * 
+	 * @param role The role
+	 * @param qualification The map of role qualifiers
+	 * @param asOfDate The effective date of the role
+	 * @param getActiveOnly Whether or not to get only active role members
+	 * 
+	 * @return the list of role members in {@code role}.
+	 */
 	private List<RoleMember> getRoleMembers(Role role, Map<String, String> qualification, DateTime asOfDate, boolean getActiveOnly) {
 		List<RoleMember> roleMembers = new ArrayList<RoleMember>();
 		
@@ -185,6 +277,16 @@ public abstract class KPMERoleServiceBase {
 		return roleMembers;
 	}
 	
+	/**
+	 * Gets the members of the role {@code roleName} for the given work area.
+	 * 
+	 * @param roleName The name of the role
+	 * @param workArea The work area qualifier
+	 * @param asOfDate The effective date of the role
+	 * @param getActiveOnly Whether or not to get only active role members
+	 * 
+	 * @return the list of role members in the role {@code roleName} for the given work area.
+	 */
 	public List<RoleMember> getRoleMembersInWorkArea(String roleName, Long workArea, DateTime asOfDate, boolean getActiveOnly) {
 		Map<String, String> qualification = new HashMap<String, String>();
 		qualification.put(KPMERoleMemberAttribute.WORK_AREA.getRoleMemberAttributeName(), String.valueOf(workArea));
@@ -192,6 +294,16 @@ public abstract class KPMERoleServiceBase {
 		return getRoleMembers(roleName, qualification, asOfDate, getActiveOnly);
 	}
 
+	/**
+	 * Gets the members of the role {@code roleName} for the given department.
+	 * 
+	 * @param roleName The name of the role
+	 * @param department The department qualifier
+	 * @param asOfDate The effective date of the role
+	 * @param getActiveOnly Whether or not to get only active role members
+	 * 
+	 * @return the list of role members in the role {@code roleName} for the given department.
+	 */
 	public List<RoleMember> getRoleMembersInDepartment(String roleName, String department, DateTime asOfDate, boolean getActiveOnly) {
 		Map<String, String> qualification = new HashMap<String, String>();
 		qualification.put(KPMERoleMemberAttribute.DEPARTMENT.getRoleMemberAttributeName(), department);
@@ -199,6 +311,16 @@ public abstract class KPMERoleServiceBase {
 		return getRoleMembers(roleName, qualification, asOfDate, getActiveOnly);
 	}
 
+	/**
+	 * Gets the members of the role {@code roleName} for the given location.
+	 * 
+	 * @param roleName The name of the role
+	 * @param location The location qualifier
+	 * @param asOfDate The effective date of the role
+	 * @param getActiveOnly Whether or not to get only active role members
+	 * 
+	 * @return the list of role members in the role {@code roleName} for the given location.
+	 */
 	public List<RoleMember> getRoleMembersInLocation(String roleName, String location, DateTime asOfDate, boolean getActiveOnly) {
 		Map<String, String> qualification = new HashMap<String, String>();
 		qualification.put(KPMERoleMemberAttribute.LOCATION.getRoleMemberAttributeName(), location);
@@ -206,6 +328,16 @@ public abstract class KPMERoleServiceBase {
 		return getRoleMembers(roleName, qualification, asOfDate, getActiveOnly);
 	}
 	
+	/**
+	 * Gets the work areas for the given {@code principalId} in the role {@code roleName}.
+	 * 
+	 * @param principalId The person to check the role for
+	 * @param roleName The name of the role
+	 * @param asOfDate The effective date of the role
+	 * @param getActiveOnly Whether or not to get only active role members
+	 * 
+	 * @return the list of work areas for the given {@code principalId} in the role {@code roleName}.
+	 */
 	public List<Long> getWorkAreasForPrincipalInRole(String principalId, String roleName, DateTime asOfDate, boolean getActiveOnly) {
 		Set<Long> workAreas = new HashSet<Long>();
 		
@@ -220,9 +352,29 @@ public abstract class KPMERoleServiceBase {
 			}
 		}
 		
+		List<String> departments = getDepartmentsForPrincipalInRole(principalId, roleName, asOfDate, getActiveOnly);
+		
+		for (String department : departments) {
+			List<WorkArea> workAreaObjs = getWorkAreaService().getWorkAreas(department, new java.sql.Date(asOfDate.toDate().getTime()));
+			
+			for (WorkArea workAreaObj : workAreaObjs) {
+				workAreas.add(workAreaObj.getWorkArea());
+			}
+		}
+		
 		return new ArrayList<Long>(workAreas);
 	}
 	
+	/**
+	 * Gets the departments for the given {@code principalId} in the role {@code roleName}.
+	 * 
+	 * @param principalId The person to check the role for
+	 * @param roleName The name of the role
+	 * @param asOfDate The effective date of the role
+	 * @param getActiveOnly Whether or not to get only active role members
+	 * 
+	 * @return the list of departments for the given {@code principalId} in the role {@code roleName}.
+	 */
 	public List<String> getDepartmentsForPrincipalInRole(String principalId, String roleName, DateTime asOfDate, boolean getActiveOnly) {
 		Set<String> departments = new HashSet<String>();
 		
@@ -237,19 +389,29 @@ public abstract class KPMERoleServiceBase {
 			}
 		}
 		
-		List<Long> workAreas = getWorkAreasForPrincipalInRole(principalId, roleName, asOfDate, getActiveOnly);
+		List<String> locations = getLocationsForPrincipalInRole(principalId, roleName, asOfDate, getActiveOnly);
 		
-		for (Long workArea : workAreas) {
-			WorkArea workAreaObj = getWorkAreaService().getWorkArea(workArea, new java.sql.Date(asOfDate.toDate().getTime()));
+		for (String location : locations) {
+			List<Department> departmentObjs = getDepartmentService().getDepartments(location, new java.sql.Date(asOfDate.toDate().getTime()));
 			
-			if (workAreaObj != null) {
-				departments.add(workAreaObj.getDept());
+			for (Department departmentObj : departmentObjs) {
+				departments.add(departmentObj.getDept());
 			}
 		}
 		
 		return new ArrayList<String>(departments);
 	}
 	
+	/**
+	 * Gets the locations for the given {@code principalId} in the role {@code roleName}.
+	 * 
+	 * @param principalId The person to check the role for
+	 * @param roleName The name of the role
+	 * @param asOfDate The effective date of the role
+	 * @param getActiveOnly Whether or not to get only active role members
+	 * 
+	 * @return the list of locations for the given {@code principalId} in the role {@code roleName}.
+	 */
 	public List<String> getLocationsForPrincipalInRole(String principalId, String roleName, DateTime asOfDate, boolean getActiveOnly) {
 		Set<String> locations = new HashSet<String>();
 		
@@ -265,19 +427,19 @@ public abstract class KPMERoleServiceBase {
 			}
 		}
 		
-		List<String> departments = getDepartmentsForPrincipalInRole(principalId, roleName, asOfDate, getActiveOnly);
-		
-		for (String department : departments) {
-			Department departmentObj = getDepartmentService().getDepartment(department, new java.sql.Date(asOfDate.toDate().getTime()));
-			
-			if (departmentObj != null) {
-				locations.add(departmentObj.getLocation());
-			}
-		}
-		
 		return new ArrayList<String>(locations);
 	}
 	
+	/**
+	 * Helper method to gather up all qualifiers for the given {@code principalId} in {@code role}.
+	 *
+	 * @param principalId The person get the role qualifiers for
+	 * @param role The role
+	 * @param asOfDate The effective date of the role
+	 * @param getActiveOnly Whether or not to consider only active role members
+	 * 
+	 * @return the map of qualifiers for the given {@code principalId} in {@code role}.
+	 */
 	private List<Map<String, String>> getRoleQualifiers(String principalId, Role role, DateTime asOfDate, boolean getActiveOnly) {
 		List<Map<String, String>> roleQualifiers = new ArrayList<Map<String, String>>();
 
@@ -292,6 +454,16 @@ public abstract class KPMERoleServiceBase {
         return roleQualifiers;
 	}
 	
+	/**
+	 * Helper method to get the role member objects.
+	 * 
+	 * @param principalId The person to get the role for
+	 * @param role The role
+	 * @param asOfDate The effective date of the role
+	 * @param getActiveOnly Whether or not to consider only active role members
+	 * 
+	 * @return the list of role member objects
+	 */
 	private List<RoleMember> getPrincipalIdRoleMembers(String principalId, Role role, DateTime asOfDate, boolean getActiveOnly) {
 		List<String> groupIds = getGroupService().getGroupIdsByPrincipalId(principalId);
 		
@@ -324,12 +496,13 @@ public abstract class KPMERoleServiceBase {
 		return getRoleService().findRoleMembers(QueryByCriteria.Builder.fromPredicates(predicates.toArray(new Predicate[] {}))).getResults();
 	}
 	
-	protected String getDerivedRoleServiceName(String kimTypeId) {
-		KimType kimType = getKimTypeInfoService().getKimType(kimTypeId);
-		
-		return kimType != null ? kimType.getServiceName() : null;
-	}
-	
+	/**
+	 * Gets the derived role service for {@code role}.
+	 * 
+	 * @param role the role
+	 * 
+	 * @return the derived role service name for {@code role}.
+	 */
     protected RoleTypeService getRoleTypeService(Role role) {
     	RoleTypeService roleTypeService = null;
     	
@@ -350,6 +523,19 @@ public abstract class KPMERoleServiceBase {
         
         return roleTypeService;
     }
+
+	/**
+	 * Gets the derived role service name for {@code kimTypeId}.
+	 * 
+	 * @param kimTypeId the KIM type id
+	 * 
+	 * @return the derived role service name for {@code kimTypeId}.
+	 */
+	protected String getDerivedRoleServiceName(String kimTypeId) {
+		KimType kimType = getKimTypeInfoService().getKimType(kimTypeId);
+		
+		return kimType != null ? kimType.getServiceName() : null;
+	}
     
     public DepartmentService getDepartmentService() {
     	return departmentService;

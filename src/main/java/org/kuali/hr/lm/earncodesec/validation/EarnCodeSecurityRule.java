@@ -18,10 +18,14 @@ package org.kuali.hr.lm.earncodesec.validation;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
+import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.lm.earncodesec.EarnCodeSecurity;
+import org.kuali.hr.time.department.Department;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.util.TKContext;
+import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.util.ValidationUtils;
 import org.kuali.rice.kns.document.MaintenanceDocument;
@@ -81,12 +85,23 @@ public class EarnCodeSecurityRule extends MaintenanceDocumentRuleBase {
 	}
 	
 	boolean validateDepartmentCurrentUser(EarnCodeSecurity departmentEarnCode) {
-		if (!TKContext.isSystemAdmin() && !TkServiceLocator.getDepartmentService().getAdministratorDepartments(GlobalVariables.getUserSession().getPrincipalId()).contains(departmentEarnCode.getDept())) {
-			this.putFieldError("dept", "error.department.permissions", departmentEarnCode.getDept());
-			return false;
-		} else {
-			return true;
+		boolean isValid = true;
+		
+		String principalId = GlobalVariables.getUserSession().getPrincipalId();
+		String department = departmentEarnCode.getDept();
+		Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, TKUtils.getCurrentDate());
+		String location = departmentObj != null ? departmentObj.getLocation() : null;
+		
+		if (!TKContext.isSystemAdmin() 
+				&& !TkServiceLocator.getTKRoleService().principalHasRoleInDepartment(principalId, KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+    			&& !TkServiceLocator.getLMRoleService().principalHasRoleInDepartment(principalId, KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+    			&& !TkServiceLocator.getTKRoleService().principalHasRoleInLocation(principalId, KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
+    			&& !TkServiceLocator.getLMRoleService().principalHasRoleInLocation(principalId, KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())) {
+			this.putFieldError("dept", "error.department.permissions", department);
+			isValid = false;
 		}
+		
+		return isValid;
 	}
 	
 	boolean isEarnCodeUsedByActiveTimeBlocks(EarnCodeSecurity departmentEarnCode){

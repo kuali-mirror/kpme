@@ -59,9 +59,5 @@ public interface DepartmentService {
      */
     @Cacheable(value= Department.CACHE_NAME, key="'chart=' + #p0 + '|' + 'asOfDate=' + #p1")
     List<Department> getDepartments(String location, Date asOfDate);
-    
-	List<String> getViewOnlyDepartments(String principalId);
-	
-	List<String> getAdministratorDepartments(String principalId);
 
 }

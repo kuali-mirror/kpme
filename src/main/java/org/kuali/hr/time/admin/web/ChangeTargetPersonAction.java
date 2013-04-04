@@ -57,9 +57,8 @@ public class ChangeTargetPersonAction extends TkAction {
 	                	|| TkServiceLocator.getHRGroupService().isMemberOfSystemViewOnlyGroup(GlobalVariables.getUserSession().getPrincipalId(), new DateTime())
 	                	|| isReviewerForPerson(targetPerson.getPrincipalId())
 	                	|| isApproverForPerson(targetPerson.getPrincipalId())
-	                	|| isDeptViewOnlyForPerson(targetPerson.getPrincipalId())
-	                	|| isDepartmentAdminForPerson(targetPerson.getPrincipalId())
-	                	|| isLocationAdminForPerson(targetPerson.getPrincipalId())) {
+	                	|| isViewOnlyForPerson(targetPerson.getPrincipalId())
+	                	|| isAdministratorForPerson(targetPerson.getPrincipalId())) {
 		                	
 	            	TKContext.setTargetPrincipalId(targetPerson.getPrincipalId());
 	
@@ -108,12 +107,19 @@ public class ChangeTargetPersonAction extends TkAction {
         return false;
     }
 
-    private boolean isDeptViewOnlyForPerson(String principalId) {
-    	List<String> administratorDepartments = TkServiceLocator.getDepartmentService().getViewOnlyDepartments(GlobalVariables.getUserSession().getPrincipalId());
+    private boolean isViewOnlyForPerson(String principalId) {
         List<Job> jobs = TkServiceLocator.getJobService().getJobs(principalId, TKUtils.getCurrentDate());
         
         for (Job job : jobs) {
-            if (administratorDepartments.contains(job.getDept())) {
+        	String department = job != null ? job.getDept() : null;
+			
+			Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, TKUtils.getCurrentDate());
+			String location = departmentObj != null ? departmentObj.getLocation() : null;
+
+            if (TkServiceLocator.getTKRoleService().principalHasRoleInDepartment(principalId, KPMERole.TIME_DEPARTMENT_VIEW_ONLY.getRoleName(), department, new DateTime())
+            		|| TkServiceLocator.getLMRoleService().principalHasRoleInDepartment(principalId, KPMERole.LEAVE_DEPARTMENT_VIEW_ONLY.getRoleName(), department, new DateTime())
+            		|| TkServiceLocator.getTKRoleService().principalHasRoleInLocation(principalId, KPMERole.TIME_LOCATION_VIEW_ONLY.getRoleName(), location, new DateTime())
+            		|| TkServiceLocator.getLMRoleService().principalHasRoleInLocation(principalId, KPMERole.LEAVE_LOCATION_VIEW_ONLY.getRoleName(), location, new DateTime())) {
                 return true;
             }
         }
@@ -121,29 +127,22 @@ public class ChangeTargetPersonAction extends TkAction {
         return false;
     }
     
-    private boolean isDepartmentAdminForPerson(String principalId) {
-    	List<String> administratorDepartments = TkServiceLocator.getDepartmentService().getAdministratorDepartments(GlobalVariables.getUserSession().getPrincipalId());
+    private boolean isAdministratorForPerson(String principalId) {
         List<Job> jobs = TkServiceLocator.getJobService().getJobs(principalId, TKUtils.getCurrentDate());
         
         for (Job job : jobs) {
-            if (administratorDepartments.contains(job.getDept())) {
+			String department = job != null ? job.getDept() : null;
+			
+			Department departmentObj = TkServiceLocator.getDepartmentService().getDepartment(department, TKUtils.getCurrentDate());
+			String location = departmentObj != null ? departmentObj.getLocation() : null;
+			
+        	if (TkServiceLocator.getTKRoleService().principalHasRoleInDepartment(principalId, KPMERole.TIME_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+        			|| TkServiceLocator.getLMRoleService().principalHasRoleInDepartment(principalId, KPMERole.LEAVE_DEPARTMENT_ADMINISTRATOR.getRoleName(), department, new DateTime())
+        			|| TkServiceLocator.getTKRoleService().principalHasRoleInLocation(principalId, KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())
+        			|| TkServiceLocator.getLMRoleService().principalHasRoleInLocation(principalId, KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), location, new DateTime())) {
                 return true;
             }
         }
-
-        return false;
-    }
-
-    private boolean isLocationAdminForPerson(String principalId) {
-    	List<String> administratorLocations = TkServiceLocator.getLocationService().getAdministratorLocations(GlobalVariables.getUserSession().getPrincipalId());
-    	List<Job> jobs = TkServiceLocator.getJobService().getJobs(principalId, TKUtils.getCurrentDate());
-
-    	for (Job job : jobs) {
-    		Department department = TkServiceLocator.getDepartmentService().getDepartment(job.getDept(), TKUtils.getCurrentDate());
-    		if (administratorLocations.contains(department.getLocation())) {
-                return true;
-            }
-    	}
 
         return false;
     }

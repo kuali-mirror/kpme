@@ -46,10 +46,6 @@ public interface LocationService {
 	 */
     @Cacheable(value= Location.CACHE_NAME, key="'location=' + #p0 + '|' + 'asOfDate=' + #p1")
 	public Location getLocation(String location, Date asOfDate);
-	
-	List<String> getViewOnlyLocations(String principalId);
-	
-	List<String> getAdministratorLocations(String principalId);
 
     List<Location> searchLocations(String location, String locationDescr, String active, String showHistory);
 

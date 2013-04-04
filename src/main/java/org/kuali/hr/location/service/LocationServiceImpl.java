@@ -16,7 +16,6 @@
 package org.kuali.hr.location.service;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -85,26 +84,6 @@ public class LocationServiceImpl implements LocationService {
     			location.addInactiveRoleMember(LocationPrincipalRoleMemberBo.from(roleMemberBo, roleMember.getAttributes()));
     		}
     	}
-    }
-	
-    @Override
-    public List<String> getViewOnlyLocations(String principalId) {
-    	Set<String> locations = new HashSet<String>();
-    	
-    	locations.addAll(TkServiceLocator.getTKRoleService().getLocationsForPrincipalInRole(principalId, KPMERole.TIME_LOCATION_VIEW_ONLY.getRoleName(), new DateTime(), true));
-    	locations.addAll(TkServiceLocator.getLMRoleService().getLocationsForPrincipalInRole(principalId, KPMERole.LEAVE_LOCATION_VIEW_ONLY.getRoleName(), new DateTime(), true));
-    	
-    	return new ArrayList<String>(locations);
-    }
-    
-    @Override
-    public List<String> getAdministratorLocations(String principalId) {
-    	Set<String> locations = new HashSet<String>();
-    	
-    	locations.addAll(TkServiceLocator.getTKRoleService().getLocationsForPrincipalInRole(principalId, KPMERole.TIME_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime(), true));
-    	locations.addAll(TkServiceLocator.getLMRoleService().getLocationsForPrincipalInRole(principalId, KPMERole.LEAVE_LOCATION_ADMINISTRATOR.getRoleName(), new DateTime(), true));
-    	
-    	return new ArrayList<String>(locations);
     }
 
     @Override
