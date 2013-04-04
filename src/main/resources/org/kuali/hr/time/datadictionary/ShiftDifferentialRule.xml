@@ -173,7 +173,7 @@
 	<bean id="ShiftDifferentialRule-hrSalGroup" parent="ShiftDifferentialRule-hrSalGroup-parentBean" />
 	<bean id="ShiftDifferentialRule-hrSalGroup-parentBean" abstract="true"
 		parent="AttributeDefinition">
-		<property name="shortLabel" value="Sal. Group" />
+		<property name="shortLabel" value="Salary Group" />
 		<property name="maxLength" value="10" />
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
@@ -184,7 +184,7 @@
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
 		<property name="name" value="hrSalGroup" />
-		<property name="label" value="Sal. Group" />
+		<property name="label" value="Salary Group" />
 	</bean>
 
 	<!-- payGrade -->
@@ -316,7 +316,7 @@
 			<bean parent="CheckboxControlDefinition" />
 		</property>
 		<property name="name" value="sunday" />
-		<property name="label" value="sunday" />
+		<property name="label" value="Sunday" />
 	</bean>
 	<!-- monday -->
 	<bean id="ShiftDifferentialRule-monday" parent="ShiftDifferentialRule-monday-parentBean" />
@@ -327,7 +327,7 @@
 			<bean parent="CheckboxControlDefinition" />
 		</property>
 		<property name="name" value="monday" />
-		<property name="label" value="monday" />
+		<property name="label" value="Monday" />
 	</bean>
 	<!-- tuesday -->
 	<bean id="ShiftDifferentialRule-tuesday" parent="ShiftDifferentialRule-tuesday-parentBean" />
@@ -338,7 +338,7 @@
 			<bean parent="CheckboxControlDefinition" />
 		</property>
 		<property name="name" value="tuesday" />
-		<property name="label" value="tuesday" />
+		<property name="label" value="Tuesday" />
 	</bean>
 	<!-- wednesday -->
 	<bean id="ShiftDifferentialRule-wednesday" parent="ShiftDifferentialRule-wednesday-parentBean" />
@@ -349,7 +349,7 @@
 			<bean parent="CheckboxControlDefinition" />
 		</property>
 		<property name="name" value="wednesday" />
-		<property name="label" value="wednesday" />
+		<property name="label" value="Wednesday" />
 	</bean>
 	<!-- thursday -->
 	<bean id="ShiftDifferentialRule-thursday" parent="ShiftDifferentialRule-thursday-parentBean" />
@@ -360,7 +360,7 @@
 			<bean parent="CheckboxControlDefinition" />
 		</property>
 		<property name="name" value="thursday" />
-		<property name="label" value="thursday" />
+		<property name="label" value="Thursday" />
 	</bean>
 	<!-- friday -->
 	<bean id="ShiftDifferentialRule-friday" parent="ShiftDifferentialRule-friday-parentBean" />
@@ -371,7 +371,7 @@
 			<bean parent="CheckboxControlDefinition" />
 		</property>
 		<property name="name" value="friday" />
-		<property name="label" value="friday" />
+		<property name="label" value="Friday" />
 	</bean>
 	<!-- saturday -->
 	<bean id="ShiftDifferentialRule-saturday" parent="ShiftDifferentialRule-saturday-parentBean" />
@@ -382,7 +382,7 @@
 			<bean parent="CheckboxControlDefinition" />
 		</property>
 		<property name="name" value="saturday" />
-		<property name="label" value="saturday" />
+		<property name="label" value="Saturday" />
 	</bean>
 
 	<!-- maxGap  -->
@@ -415,7 +415,7 @@
 			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
 		</property>
 		<property name="name" value="userPrincipalId" />
-		<property name="label" value="UserPrincipal Id" />
+		<property name="label" value="User Principal Id" />
 	</bean>
 
 	<!-- timestamp -->
@@ -523,12 +523,12 @@
 							<bean parent="FieldDefinition" p:attributeName="pyCalendarGroup" />
 						</list>
 					</property>
-					<property name="title" value="ShiftDifferentialRule" />
+					<property name="title" value="Shift Differential Rule" />
 				</bean>
 			</list>
 		</property>
 		<property name="translateCodes" value="false"/>
-		<property name="title" value="ShiftDifferentialRule Inquiry" />
+		<property name="title" value="Shift Differential Rule Inquiry" />
 	</bean>
 
 	<!--  Look up Definitions  -->
@@ -565,7 +565,7 @@
 				<bean parent="FieldDefinition" p:attributeName="active"/>
 			</list>
 		</property>
-		<property name="title" value="ShiftDifferential Lookup" />
+		<property name="title" value="Shift Differential Lookup" />
 	</bean>
 
 </beans>

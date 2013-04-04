@@ -28,7 +28,7 @@
             <superUserWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</superUserWorkgroupName>
             <blanketApproveWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</blanketApproveWorkgroupName>
             <defaultExceptionWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</defaultExceptionWorkgroupName>
-            <label>LeavePayoutDocument</label>
+            <label>Leave Payout Document</label>
             <description>Leave Payout Maintenance Document</description>
 			<active>true</active>
             <applicationId>KPME</applicationId>

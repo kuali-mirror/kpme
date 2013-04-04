@@ -351,7 +351,7 @@
 							<bean parent="FieldDefinition" p:attributeName="active" />
 						</list>
 					</property>
-					<property name="title" value="AccrualCategory" />
+					<property name="title" value="Accrual Category" />
 				</bean>
 				<bean parent="InquirySectionDefinition" p:title="Rules">
 					<property name="inquiryFields">
@@ -385,7 +385,7 @@
 			</list>
 		</property>
 		<property name="translateCodes" value="false"/>
-		<property name="title" value="AccrualCategory Inquiry" />
+		<property name="title" value="Accrual Category Inquiry" />
 	</bean>
 
 	<!--  Look up Definitions  -->
@@ -421,7 +421,7 @@
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" p:noInquiry="true" p:noLookup="true"/>
 			</list>
 		</property>
-		<property name="title" value="AccrualCategory Lookup" />
+		<property name="title" value="Accrual Category Lookup" />
 	</bean>
 
 </beans>

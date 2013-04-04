@@ -36,7 +36,7 @@ public class AccrualCategoryValidationTest extends KPMETestCase{
 	public void testValidateStartEndUnits() throws Exception {
 		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
 		accrualCategoryLookup = HtmlUnitUtil.clickInputContainingText(accrualCategoryLookup, "search");
-		Assert.assertTrue("Page contains test AccrualCategory", accrualCategoryLookup.asText().contains(ACCRUAL_CATEGORY));
+		Assert.assertTrue("Page contains '" + ACCRUAL_CATEGORY +"'", accrualCategoryLookup.asText().contains(ACCRUAL_CATEGORY));
 		HtmlUnitUtil.createTempFile(accrualCategoryLookup);
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(accrualCategoryLookup, "edit", "lmAccrualCategoryId=3000");
 		Assert.assertTrue("Maintenance Page contains test AccrualCategory",maintPage.asText().contains(ACCRUAL_CATEGORY));
@@ -46,10 +46,10 @@ public class AccrualCategoryValidationTest extends KPMETestCase{
 	public void testMinWorkPercentageField() throws Exception {
 		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
 		accrualCategoryLookup = HtmlUnitUtil.clickInputContainingText(accrualCategoryLookup, "search");
-		Assert.assertTrue("Page contains test AccrualCategory", accrualCategoryLookup.asText().contains(ACCRUAL_CATEGORY));
+		Assert.assertTrue("Page contains '" + ACCRUAL_CATEGORY +"'", accrualCategoryLookup.asText().contains(ACCRUAL_CATEGORY));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(accrualCategoryLookup, "edit", "lmAccrualCategoryId=3000");
 		HtmlUnitUtil.createTempFile(maintPage);
-		Assert.assertTrue("Maintenance Page contains test AccrualCategory",maintPage.asText().contains("Min Percent Worked to Earn Accrual"));
+		Assert.assertTrue("Maintenance Page contains 'Min Percent Worked to Earn Accrual'",maintPage.asText().contains("Min Percent Worked to Earn Accrual"));
 	}
 	
 	// KPME-1347 Kagata
@@ -59,12 +59,12 @@ public class AccrualCategoryValidationTest extends KPMETestCase{
 		// make sure page loads
 		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
 		accrualCategoryLookup = HtmlUnitUtil.clickInputContainingText(accrualCategoryLookup, "search");
-		Assert.assertTrue("Page contains test AccrualCategory", accrualCategoryLookup.asText().contains(ACCRUAL_CATEGORY));
+		Assert.assertTrue("Page contains test Accrual Category", accrualCategoryLookup.asText().contains(ACCRUAL_CATEGORY));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(accrualCategoryLookup, "edit", "lmAccrualCategoryId=3000");
 		//HtmlUnitUtil.createTempFile(maintPage);
 		// Bi-weekly was removed from the list and replaced by pay calendar
-		Assert.assertFalse("Maintenance Page contains test AccrualCategory",maintPage.asText().contains("Bi-Weekly"));
-		Assert.assertTrue("Maintenance Page contains test AccrualCategory",maintPage.asText().contains("Pay Calendar"));
+		Assert.assertFalse("Maintenance Page contains 'Bi-Weekly'",maintPage.asText().contains("Bi-Weekly"));
+		Assert.assertTrue("Maintenance Page contains 'Pay Calendar'",maintPage.asText().contains("Pay Calendar"));
 	}
 	
 	// KPME-1347 Kagata 
@@ -72,10 +72,10 @@ public class AccrualCategoryValidationTest extends KPMETestCase{
 	public void testDefaultLeaveCodeField() throws Exception {
 		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
 		accrualCategoryLookup = HtmlUnitUtil.clickInputContainingText(accrualCategoryLookup, "search");
-		Assert.assertTrue("Page contains test AccrualCategory", accrualCategoryLookup.asText().contains(ACCRUAL_CATEGORY));
+		Assert.assertTrue("Page contains '" + ACCRUAL_CATEGORY +"'", accrualCategoryLookup.asText().contains(ACCRUAL_CATEGORY));
 		HtmlPage maintPage = HtmlUnitUtil.clickAnchorContainingText(accrualCategoryLookup, "edit", "lmAccrualCategoryId=3000");
 		//HtmlUnitUtil.createTempFile(maintPage);
-		Assert.assertTrue("Maintenance Page contains test AccrualCategory",maintPage.asText().contains("Default Earn Code"));
+		Assert.assertTrue("Maintenance Page contains 'Default Earn Code'",maintPage.asText().contains("Default Earn Code"));
 	}
 	
 	@Test
@@ -83,16 +83,16 @@ public class AccrualCategoryValidationTest extends KPMETestCase{
 		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
 		HtmlPage accrualCategoryCreate = HtmlUnitUtil.clickAnchorContainingText(accrualCategoryLookup, "AccrualCategory");
 		//HtmlUnitUtil.createTempFile(accrualCategoryCreate);
-		Assert.assertTrue("Page contains test AccrualCategory", accrualCategoryCreate.asText().contains("AccrualCategory Maintenance"));
-		Assert.assertTrue("Maintenance Page contains test AccrualCategory", accrualCategoryCreate.asText().contains("Category Has Rules"));
+		Assert.assertTrue("Page contains 'Accrual Category Maintenance'", accrualCategoryCreate.asText().contains("Accrual Category Maintenance"));
+		Assert.assertTrue("Maintenance Page contains 'Category Has Rules'", accrualCategoryCreate.asText().contains("Category Has Rules"));
 	}
 	@Test
 	public void testMaxBalFlag() throws Exception {
 		HtmlPage accrualCategoryLookup = HtmlUnitUtil.gotoPageAndLogin(getWebClient(), TkTestConstants.Urls.ACCRUAL_CATEGORY_MAINT_URL);
 		HtmlPage accrualCategoryCreate = HtmlUnitUtil.clickAnchorContainingText(accrualCategoryLookup, "AccrualCategory");
 		//HtmlUnitUtil.createTempFile(accrualCategoryCreate);
-		Assert.assertTrue("Page contains test AccrualCategory", accrualCategoryCreate.asText().contains("New Accrual Category Rule"));
-		Assert.assertTrue("Maintenance Page contains test AccrualCategory", accrualCategoryCreate.asText().contains("Max Bal Flag"));
+		Assert.assertTrue("Page contains 'New Accrual Category Rule'", accrualCategoryCreate.asText().contains("New Accrual Category Rule"));
+		Assert.assertTrue("Maintenance Page contains 'Max Bal Flag'", accrualCategoryCreate.asText().contains("Max Bal Flag"));
 	}
 	//@Test
 	/*public void testValidateStartEndUnitsForErrorMessages() throws Exception {		

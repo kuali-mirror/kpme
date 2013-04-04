@@ -25,7 +25,7 @@
             <name>LeaveDonationDocument</name>
             <parent>RiceDocument</parent>
             <docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-            <label>LeaveDonationDocument</label>
+            <label>Leave Donation Document</label>
         </documentType>
      </documentTypes>
 </data>

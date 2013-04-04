@@ -25,7 +25,7 @@
             <name>LeavePlanDocumentType</name>
             <parent>RiceDocument</parent>
             <docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-            <label>LeavePlanDocument</label>
+            <label>Leave Plan Document</label>
         </documentType>
      </documentTypes>
 </data>

@@ -30,7 +30,7 @@
             <defaultExceptionWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</defaultExceptionWorkgroupName>
             <description>Balance Transfer Maintenance Document</description>
             <applicationId>KPME</applicationId>
-            <label>BalanceTransferDocument</label>
+            <label>Balance Transfer Document</label>
 			<active>true</active>
             <routingVersion>1</routingVersion>
             <routePaths>

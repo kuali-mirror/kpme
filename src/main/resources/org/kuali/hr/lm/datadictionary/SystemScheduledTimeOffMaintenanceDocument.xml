@@ -52,7 +52,7 @@
 
 	<bean id="SystemScheduledTimeOffMaintenanceDocument-SystemScheduledTimeOffMaintenance-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="title" value="SystemScheduledTimeOff Maintenance" />
+		<property name="title" value="System Scheduled Time Off Maintenance" />
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"

@@ -51,7 +51,7 @@
   <bean id="TimeCollectionRuleMaintenanceDocument-TimeCollectionRuleMaintenance" parent="TimeCollectionRuleMaintenanceDocument-TimeCollectionRuleMaintenance-parentBean"/>
 
   <bean id="TimeCollectionRuleMaintenanceDocument-TimeCollectionRuleMaintenance-parentBean" abstract="true" parent="MaintainableSectionDefinition">
-    <property name="title" value="TimeCollection Rule Maintenance"/>
+    <property name="title" value="Time Collection Rule Maintenance"/>
     <property name="maintainableItems">
       <list>
         <bean parent="MaintainableFieldDefinition" p:required="true" p:name="effectiveDate" />

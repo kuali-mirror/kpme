@@ -135,6 +135,6 @@
         <bean parent="FieldDefinition" p:attributeName="endDate" />
       </list>
     </property>
-    <property name="title" value="TimesheetDocumentHeader Lookup" />
+    <property name="title" value="Timesheet Document Header Lookup" />
   </bean>
 </beans>

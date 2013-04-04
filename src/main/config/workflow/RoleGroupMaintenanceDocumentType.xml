@@ -25,7 +25,7 @@
             <name>RoleGroupMaintenanceDocumentType</name>
             <parent>RiceDocument</parent>
             <docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-            <label>RoleGroupMaintenanceDocument</label>
+            <label>Role Group Document</label>
     	</documentType>
 	</documentTypes>
 </data>

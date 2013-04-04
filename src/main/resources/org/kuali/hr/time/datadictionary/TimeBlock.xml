@@ -333,7 +333,7 @@
         	  <bean parent="FieldDefinition" p:attributeName="timestamp" />
             </list>
           </property>
-          <property name="title" value="TimeBlock" />
+          <property name="title" value="Time Block" />
           
         </bean>
         
@@ -360,7 +360,7 @@
         
       </list>
     </property>
-    <property name="title" value="TimeBlock Inquiry" />
+    <property name="title" value="Time Block Inquiry" />
     <property name="translateCodes" value="false"/>
   </bean>
 
@@ -399,6 +399,6 @@
         <bean parent="FieldDefinition" p:attributeName="endTimestamp" />
       </list>
     </property>
-    <property name="title" value="TimeBlock Lookup" />
+    <property name="title" value="Time Block Lookup" />
   </bean>
 </beans>

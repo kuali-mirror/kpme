@@ -198,7 +198,7 @@
 			<bean parent="HiddenControlDefinition" />
 		</property>
 		<property name="name" value="ovtEarnCode" />
-		<property name="label" value="ovtEarnCode" />
+		<property name="label" value="Overtime Earn Code" />
 	</bean>
 	<!--  Inquiry Definitions  -->
   
@@ -220,12 +220,12 @@
 							<bean parent="FieldDefinition" p:attributeName="ovtEarnCode" />
 						</list>
 					</property>
-					<property name="title" value="PayType" />
+					<property name="title" value="Pay Type" />
 				</bean>
 			</list>
 		</property>
 		<property name="translateCodes" value="false"/>
-		<property name="title" value="PayType Inquiry" />
+		<property name="title" value="Pay Type Inquiry" />
 	</bean>
 
 	<!-- Look up Definitions  -->

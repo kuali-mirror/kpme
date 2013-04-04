@@ -328,12 +328,12 @@
 						</list>
 					</property>
 					
-					<property name="title" value="DeptLunchRule" />
+					<property name="title" value="Deptartment Lunch Rule" />
 				</bean>
 			</list>
 		</property>
 		<property name="translateCodes" value="false"/>
-		<property name="title" value="DeptLunchRule Inquiry" />
+		<property name="title" value="Department Lunch Rule Inquiry" />
 	</bean>
 
 	<!-- Look up Definitions  -->

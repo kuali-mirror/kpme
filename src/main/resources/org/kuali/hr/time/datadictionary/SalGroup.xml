@@ -58,7 +58,7 @@
 			<bean parent="TextControlDefinition" p:size="60" />
 		</property>
 		<property name="name" value="hrSalGroupId" />
-		<property name="label" value="Sal Group Id" />
+		<property name="label" value="Salary Group Id" />
 	</bean>
 
 	<bean id="SalGroup-hrSalGroup" parent="SalGroup-hrSalGroup-parentBean" />
@@ -75,7 +75,7 @@
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
 		<property name="name" value="hrSalGroup" />
-		<property name="label" value="Sal Group" />
+		<property name="label" value="Salary Group" />
 	</bean>
 
 	<bean id="SalGroup-effectiveDate" parent="SalGroup-effectiveDate-parentBean" />
@@ -165,12 +165,12 @@
 	              <bean parent="FieldDefinition" p:attributeName="active" />
 	            </list>
 	          </property>
-	          <property name="title" value="Sal Group" />
+	          <property name="title" value="Salary Group" />
 	        </bean>
 	      </list>
 	    </property>
 	    <property name="translateCodes" value="false"/>
-	    <property name="title" value="Sal Group Inquiry" />
+	    <property name="title" value="Salary Group Inquiry" />
   	</bean>
 	
 	
@@ -197,7 +197,7 @@
 				<bean parent="FieldDefinition" p:attributeName="timestamp" />
 			</list>
 		</property>
-		<property name="title" value="Sal Group Lookup" />
+		<property name="title" value="Salary Group Lookup" />
 	</bean>
 
 </beans>

@@ -26,7 +26,7 @@
 			<name>ClockLocationRuleDocumentType</name>
 			<parent>RiceDocument</parent>
 			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-			<label>ClockLocationRuleDocument</label>
+			<label>Clock Location Rule Document</label>
 		</documentType>
 	</documentTypes>
 </data>

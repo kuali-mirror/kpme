@@ -186,7 +186,7 @@
 							<bean parent="FieldDefinition" p:attributeName="userName" />
 						</list>
 					</property>
-					<property name="title" value="RoleGroup" />
+					<property name="title" value="Role Group" />
 				</bean>
 				<bean parent="InquirySectionDefinition" p:title="Person Roles">
 					<property name="inquiryFields">
@@ -268,7 +268,7 @@
 				</bean>
 			</list>
 		</property>
-		<property name="title" value="RoleGroup Inquiry" />
+		<property name="title" value="Role Group Inquiry" />
 	</bean>
 
 	<!--  Look up Definitions  -->

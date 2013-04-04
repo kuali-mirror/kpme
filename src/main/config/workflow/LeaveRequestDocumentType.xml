@@ -28,7 +28,7 @@
             <blanketApproveWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</blanketApproveWorkgroupName>
             <defaultExceptionWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</defaultExceptionWorkgroupName>
             <description>Leave Request Document</description>
-            <label>LeaveRequestDocument</label>
+            <label>Leave Request Document</label>
             <applicationId>KPME</applicationId>
             <attributes>
                 <attribute>

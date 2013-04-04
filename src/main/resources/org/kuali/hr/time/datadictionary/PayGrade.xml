@@ -75,7 +75,7 @@
 			<bean parent="TextControlDefinition" p:size="60" />
 		</property>
 		<property name="name" value="hrPayGradeId" />
-		<property name="label" value="PayGrade Id" />
+		<property name="label" value="Pay Grade Id" />
 	</bean>
 
 	<bean id="PayGrade-payGrade" parent="PayGrade-payGrade-parentBean" />
@@ -92,7 +92,7 @@
 			<bean parent="TextControlDefinition" p:size="20" />
 		</property>
 		<property name="name" value="payGrade" />
-		<property name="label" value="PayGrade" />
+		<property name="label" value="Pay Grade" />
 	</bean>
 
 	<bean id="PayGrade-salGroup" parent="PayGrade-salGroup-parentBean" />
@@ -214,7 +214,7 @@
 			</list>
 		</property>
 		<property name="translateCodes" value="false"/>
-		<property name="title" value="PayGrade Inquiry" />
+		<property name="title" value="Pay Grade Inquiry" />
 	</bean>
 
 	<!-- Look up Definitions  -->
@@ -239,7 +239,7 @@
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
-		<property name="title" value="PayGrade Lookup" />
+		<property name="title" value="Pay Grade Lookup" />
 	</bean>
 </beans>
 

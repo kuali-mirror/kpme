@@ -304,7 +304,7 @@
 			<bean parent="HiddenControlDefinition" />
 		</property>
 		<property name="name" value="assignmentAccounts" />
-		<property name="label" value="assignmentAccounts" />
+		<property name="label" value="Assignment Accounts" />
 	</bean>
 	
 
@@ -330,7 +330,7 @@
 					</property>
 					<property name="title" value="Assignment" />
 				</bean>
-				<bean parent="InquirySectionDefinition" p:title="AssignmentAccounts">
+				<bean parent="InquirySectionDefinition" p:title="Assignment Accounts">
 					<property name="inquiryFields">
 						<list>
 							<bean parent="InquiryCollectionDefinition" p:attributeName="assignmentAccounts"

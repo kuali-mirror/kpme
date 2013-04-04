@@ -50,7 +50,7 @@
 
 	<bean id="SalGroupMaintenanceDocument-SalGroupMaintenance-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="title" value="Sal Group Maintenance" />
+		<property name="title" value="Salary Group Maintenance" />
 		<property name="maintainableItems">
 			<list>
 			    <bean parent="MaintainableFieldDefinition" p:name="effectiveDate" p:required="true" />

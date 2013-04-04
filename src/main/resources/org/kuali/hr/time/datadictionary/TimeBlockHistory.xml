@@ -103,7 +103,7 @@
     <!-- Attribute Definitions -->
     <bean id="TimeBlockHistory-tkTimeBlockId" parent="TimeBlockHistory-tkTimeBlockId-parentBean"/>
     <bean id="TimeBlockHistory-tkTimeBlockId-parentBean" abstract="true" parent="AttributeDefinition">
-        <property name="shortLabel" value="TimeBlockHistory Id"/>
+        <property name="shortLabel" value="Time Block History Id"/>
         <property name="maxLength" value="60"/>
 		<property name="validationPattern">
 			<bean parent="AnyCharacterValidationPattern">
@@ -114,7 +114,7 @@
 			<bean parent="TextControlDefinition" p:size="60" />
 		</property>
         <property name="name" value="tkTimeBlockId"/>
-        <property name="label" value="TimeBlockHistory Id"/>
+        <property name="label" value="Time Block History Id"/>
     </bean>
 
     <bean id="TimeBlockHistory-documentId" parent="TimeBlockHistory-documentId-parentBean"/>
@@ -378,12 +378,12 @@
                             <bean parent="FieldDefinition" p:attributeName="timestamp"/>
                         </list>
                     </property>
-                    <property name="title" value="TimeBlockHistory"/>
+                    <property name="title" value="Time Block History"/>
 
                 </bean>
             </list>
         </property>
-        <property name="title" value="TimeBlockHistory Inquiry"/>
+        <property name="title" value="Time Block History Inquiry"/>
         <property name="translateCodes" value="false"/>
     </bean>
 
@@ -432,6 +432,6 @@
                  <bean parent="FieldDefinition" p:attributeName="timestamp"/>
             </list>
         </property>
-        <property name="title" value="TimeBlockHistory Lookup"/>
+        <property name="title" value="Time Block History Lookup"/>
     </bean>
 </beans>

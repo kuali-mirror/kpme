@@ -250,7 +250,7 @@
 			</list>
 		</property>
 		<property name="translateCodes" value="false"/>
-		<property name="title" value="LeavePayout Inquiry" />
+		<property name="title" value="Leave Payout Inquiry" />
 	</bean>
 
 	<!--  Look up Definitions  -->
@@ -280,7 +280,7 @@
 				<bean parent="FieldDefinition" p:attributeName="forfeitedAmount" />
 			</list>
 		</property>
-		<property name="title" value="LeavePayout Lookup" />
+		<property name="title" value="Leave Payout Lookup" />
 	</bean>
 
 </beans>

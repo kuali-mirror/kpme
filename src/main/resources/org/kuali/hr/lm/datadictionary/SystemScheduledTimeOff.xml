@@ -406,7 +406,7 @@
 			</list>
 		</property>
 		<property name="translateCodes" value="false"/>
-		<property name="title" value="SystemScheduledTimeOff Inquiry" />
+		<property name="title" value="System Scheduled Time Off Inquiry" />
 	</bean>
 
 	<!--  Look up Definitions  -->
@@ -441,7 +441,7 @@
 				<bean parent="FieldDefinition" p:attributeName="effectiveDate" />
 			</list>
 		</property>
-		<property name="title" value="SystemScheduledTimeOff Lookup" />
+		<property name="title" value="System Scheduled Time Off Lookup" />
 	</bean>
 
 </beans>

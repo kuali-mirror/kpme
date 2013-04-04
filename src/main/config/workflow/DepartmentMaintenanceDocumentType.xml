@@ -25,7 +25,7 @@
 			<name>DepartmentMaintenanceDocumentType</name>
 			<parent>RiceDocument</parent>
 			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-			<label>DepartmentMaintenanceDocument</label>
+			<label>Department Document</label>
 		</documentType>
 	</documentTypes>
 </data>

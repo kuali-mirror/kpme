@@ -54,7 +54,7 @@
 
 	<bean id="AccrualCategoryMaintenanceDocument-AccrualCategoryMaintenance-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
-		<property name="title" value="AccrualCategory Maintenance" />
+		<property name="title" value="Accrual Category Maintenance" />
 		<property name="maintainableItems">
 			<list>
 				<bean parent="MaintainableFieldDefinition" p:name="effectiveDate"
@@ -93,7 +93,7 @@
 		id="AccrualCategoryMaintenanceDocument-AccrualCategoryRuleMaintenance-parentBean"
 		abstract="true" parent="MaintainableSectionDefinition">
 		<property name="id" value="accrualCategoryRules" />
-		<property name="title" value="AccrualCategory Rules" />
+		<property name="title" value="Accrual Category Rules" />
 		<property name="defaultOpen" value="true" />
 		<property name="maintainableItems">
 			<list>

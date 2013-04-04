@@ -64,7 +64,7 @@ public class PositionTest extends KPMETestCase {
 		//test the work area inquiry from the position page note that this returns the first work area in tk_work_area_t in all cases for now -- see KPME-1219
 		HtmlPage workAreaInquiryPage = HtmlUnitUtil.clickAnchorContainingText(resultPage, "workarea", "1000");
 		HtmlUnitUtil.createTempFile(workAreaInquiryPage);
-		Assert.assertTrue("Inquiry page text contains:\n" + "WorkArea Inquiry", workAreaInquiryPage.asText().contains("WorkArea Inquiry"));
+		Assert.assertTrue("Inquiry page text contains:\n" + "Work Area Inquiry", workAreaInquiryPage.asText().contains("Work Area Inquiry"));
 		//first work area in tk-test -- see comment above for this test
 		Assert.assertTrue("Inquiry page text contains:\n" + "First work area in tk-test", workAreaInquiryPage.asText().contains("1000"));
 		

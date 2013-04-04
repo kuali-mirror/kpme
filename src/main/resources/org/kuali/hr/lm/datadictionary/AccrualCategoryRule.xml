@@ -203,7 +203,7 @@
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
 		<property name="name" value="maxBalanceTransferToAccrualCategory" />
-		<property name="label" value="Max Balance Transfer to AccrualCategory" />
+		<property name="label" value="Max Balance Transfer to Accrual Category" />
 	</bean>
 
 	<bean id="AccrualCategoryRule-maxBalanceTransferConversionFactor" parent="AccrualCategoryRule-maxBalanceTransferConversionFactor-parentBean" />
@@ -221,7 +221,7 @@
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
 		<property name="name" value="maxBalanceTransferConversionFactor" />
-		<property name="label" value="Max Balance Transfer ConversionFactor" />
+		<property name="label" value="Max Balance Transfer Conversion Factor" />
 	</bean>
 
 	<bean id="AccrualCategoryRule-maxTransferAmount" parent="AccrualCategoryRule-maxTransferAmount-parentBean" />
@@ -303,7 +303,7 @@
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
 		<property name="name" value="maxCarryOver" />
-		<property name="label" value="Max CarryOver" />
+		<property name="label" value="Max Carry Over" />
 	</bean>
 
 	<bean id="AccrualCategoryRule-active" parent="AccrualCategoryRule-active-parentBean" />
@@ -341,7 +341,7 @@
 				<bean parent="FieldDefinition" p:attributeName="maxBalance" />
 			</list>
 		</property>
-		<property name="title" value="AccrualCategoryRule Lookup" />
+		<property name="title" value="Accrual Category Rule Lookup" />
 	</bean>
 
 </beans>

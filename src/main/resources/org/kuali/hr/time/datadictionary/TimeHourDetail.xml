@@ -50,7 +50,7 @@
 			<bean parent="TextControlDefinition" p:size="60" />
 		</property>
     <property name="name" value="tkTimeHourDetailId"/>
-    <property name="label" value="TimeHourDetail Id"/>
+    <property name="label" value="Time Hour Detail Id"/>
   </bean>
   
   <bean id="TimeHourDetail-earnCode" parent="TimeHourDetail-earnCode-parentBean"/>

@@ -25,7 +25,7 @@
 			<name>TimeCollectionRuleDocumentType</name>
 			<parent>RiceDocument</parent>
 			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-			<label>TimeCollectionRuleDocument</label>
+			<label>Time Collection Rule Document</label>
 		</documentType>
 	</documentTypes>
 </data>

@@ -29,7 +29,7 @@
             <defaultExceptionWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</defaultExceptionWorkgroupName>
             <description>Leave Calendar Document</description>
             <!--<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>-->
-            <label>LeaveCalendarDocument</label>
+            <label>Leave Calendar</label>
             <attributes>
                 <attribute>
                     <name>LeaveCalendarWorkareaSearchAttribute</name>

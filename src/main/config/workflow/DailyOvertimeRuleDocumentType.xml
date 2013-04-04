@@ -25,7 +25,7 @@
 			<name>DailyOvertimeRuleDocumentType</name>
 			<parent>RiceDocument</parent>
 			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-			<label>DailyOvertimeRuleDocument</label>
+			<label>Daily Overtime Rule Document</label>
 		</documentType>
 	</documentTypes>
 </data>

@@ -28,7 +28,7 @@
 			<blanketApproveWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</blanketApproveWorkgroupName>
 			<defaultExceptionWorkgroupName>KPME-WKFLW:TK_SYSTEM_ADMIN</defaultExceptionWorkgroupName>
 			<description>TK Timesheet</description>
-			<label>TK Timesheet</label>
+			<label>TK Timesheet Document</label>
 			<attributes>
 				<attribute>
 					<name>TimesheetWorkareaSearchAttribute</name>

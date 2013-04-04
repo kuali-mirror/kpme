@@ -25,7 +25,7 @@
 			<name>PayCalendarEntriesDocumentType</name>
 			<parent>RiceDocument</parent>
 			<docHandler>${kuali.docHandler.url.prefix}/kr/maintenance.do?methodToCall=docHandler</docHandler>
-			<label>PayCalendarEntryDocument</label>
+			<label>Pay Calendar Entry Document</label>
 		</documentType>
 	</documentTypes>
 </data>

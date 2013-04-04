@@ -100,7 +100,7 @@
 			<bean parent="TextControlDefinition" p:size="60" />
 		</property>
 		<property name="name" value="tkWorkAreaId" />
-		<property name="label" value="WorkArea Id" />
+		<property name="label" value="Work Area Id" />
 	</bean>
 
 	<bean id="WorkArea-workArea" parent="WorkArea-workArea-parentBean" />
@@ -264,7 +264,7 @@
 			<bean parent="HiddenControlDefinition" />
 		</property>
 		<property name="name" value="ovtEarnCode" />
-		<property name="label" value="ovtEarnCode" />
+		<property name="label" value="Overtime Earn Code" />
 	</bean>
 
 	<!-- Business Object Inquiry Definition -->
@@ -289,7 +289,7 @@
 							<bean parent="FieldDefinition" p:attributeName="ovtEarnCode" />
 						</list>
 					</property>
-					<property name="title" value="WorkArea" />
+					<property name="title" value="Work Area" />
 				</bean>
 				<bean parent="InquirySectionDefinition" p:title="Tasks">
 					<property name="inquiryFields">
@@ -350,7 +350,7 @@
 			</list>
 		</property>
 		<property name="translateCodes" value="false" />
-		<property name="title" value="WorkArea Inquiry" />
+		<property name="title" value="Work Area Inquiry" />
 	</bean>
 
 	<!-- Business Object Lookup Definition -->
@@ -383,6 +383,6 @@
 				<bean parent="FieldDefinition" p:attributeName="active" />
 			</list>
 		</property>
-		<property name="title" value="WorkArea Lookup" />
+		<property name="title" value="Work Area Lookup" />
 	</bean>
 </beans>

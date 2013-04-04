@@ -101,7 +101,7 @@
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
 		<property name="name" value="maxHoursEarnGroup" />
-		<property name="label" value="Max Hour EarnGroup" />
+		<property name="label" value="Max Hour Earn Group" />
 	</bean>
 	<bean id="WeeklyOvertimeRule-convertFromEarnGroup" parent="WeeklyOvertimeRule-convertFromEarnGroup-parentBean" />
 	<bean id="WeeklyOvertimeRule-convertFromEarnGroup-parentBean"
@@ -117,7 +117,7 @@
 			<bean parent="TextControlDefinition" p:size="10" />
 		</property>
 		<property name="name" value="convertFromEarnGroup" />
-		<property name="label" value="Convert from EarnGroup" />
+		<property name="label" value="Convert from Earn Group" />
 	</bean>
 	<bean id="WeeklyOvertimeRule-convertToEarnCode" parent="WeeklyOvertimeRule-convertToEarnCode-parentBean" />
 	<bean id="WeeklyOvertimeRule-convertToEarnCode-parentBean"
@@ -133,7 +133,7 @@
 			<bean parent="TextControlDefinition" p:size="15" />
 		</property>
 		<property name="name" value="convertToEarnCode" />
-		<property name="label" value="Convert to EarnCode" />
+		<property name="label" value="Convert to Earn Code" />
 	</bean>
 
 	<bean id="WeeklyOvertimeRule-effectiveDate" parent="WeeklyOvertimeRule-effectiveDate-parentBean" />
@@ -197,7 +197,7 @@
 			<bean parent="LookupReadonlyControlDefinition" p:size="15" />
 		</property>
 		<property name="name" value="userPrincipalId" />
-		<property name="label" value="UserPrincipal Id" />
+		<property name="label" value="User Principal Id" />
 	</bean>
 	
 	<bean id="WeeklyOvertimeRule-timestamp" parent="WeeklyOvertimeRule-timestamp-parentBean" />
@@ -234,7 +234,7 @@
 			<bean parent="HiddenControlDefinition" />
 		</property>
 		<property name="name" value="ovtEarnCode" />
-		<property name="label" value="ovtEarnCode" />
+		<property name="label" value="Overtime Earn Code" />
 	</bean>
 	
 	<!--  Inquiry Definitions  -->
@@ -258,7 +258,7 @@
 				<bean parent="FieldDefinition" p:attributeName="maxHours" />				
 			</list>
 		</property>
-		<property name="title" value="Weekly OverTime Rule Lookup" />
+		<property name="title" value="Weekly Overtime Rule Lookup" />
 	</bean>
 
 	<bean id="WeeklyOvertimeRule-inquiryDefinition" parent="WeeklyOvertimeRule-inquiryDefinition-parentBean" />
@@ -277,11 +277,11 @@
 							<bean parent="FieldDefinition" p:attributeName="maxHours" />
 						</list>
 					</property>
-					<property name="title" value="Weekly OverTime Rule Inquiry" />
+					<property name="title" value="Weekly Overtime Rule Inquiry" />
 				</bean>
 			</list>
 		</property>
 		<property name="translateCodes" value="false"/>
-		<property name="title" value="Weekly OverTime Rule Inquiry" />
+		<property name="title" value="Weekly Overtime Rule Inquiry" />
 	</bean>
 </beans>
