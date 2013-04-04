@@ -158,12 +158,13 @@
     <bean id="PayGrade-minRate" parent="PayGrade-minRate-parentBean" />
     <bean id="PayGrade-minRate-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="shortLabel" value="Min Rate" />
-        <property name="maxLength" value="6" />
-        <property name="validationPattern">
-            <bean parent="FixedPointValidationPattern"  p:precision="5" p:scale="2"  />
+        <property name="maxLength" value="11" />
+        <property name="constraintText" value="Maximum of 2 decimal points"/>
+        <property name="validCharactersConstraint">
+            <bean parent="FixedPointPatternConstraint" p:allowNegative="false"  p:precision="8" p:scale="2"  />
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="8" />
+            <bean parent="Uif-TextControl" p:size="11" />
         </property>
         <property name="name" value="minRate" />
         <property name="label" value="Minimum Rate" />
@@ -172,12 +173,13 @@
     <bean id="PayGrade-maxRate" parent="PayGrade-maxRate-parentBean" />
     <bean id="PayGrade-maxRate-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="shortLabel" value="Max Rate" />
-        <property name="maxLength" value="6" />
-        <property name="validationPattern">
-            <bean parent="FixedPointValidationPattern"  p:precision="5" p:scale="2"  />
+        <property name="maxLength" value="11" />
+        <property name="constraintText" value="Maximum of 2 decimal points"/>
+        <property name="validCharactersConstraint">
+            <bean parent="FixedPointPatternConstraint"  p:allowNegative="false" p:precision="8" p:scale="2"  />
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="8" />
+            <bean parent="Uif-TextControl" p:size="11" />
         </property>
         <property name="name" value="maxRate" />
         <property name="label" value="Maximum Rate" />
@@ -186,12 +188,13 @@
     <bean id="PayGrade-midPointRate" parent="PayGrade-midPointRate-parentBean" />
     <bean id="PayGrade-midPointRate-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="shortLabel" value="Mid Point Rate" />
-        <property name="maxLength" value="6" />
-        <property name="validationPattern">
-            <bean parent="FixedPointValidationPattern"  p:precision="5" p:scale="2"  />
+        <property name="maxLength" value="11" />
+        <property name="constraintText" value="Maximum of 2 decimal points"/>
+        <property name="validCharactersConstraint">
+            <bean parent="FixedPointPatternConstraint"  p:allowNegative="false" p:precision="8" p:scale="2"  />
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="8" />
+            <bean parent="Uif-TextControl" p:size="11" />
         </property>
         <property name="name" value="midPointRate" />
         <property name="label" value="Mid Point Rate" />
@@ -200,12 +203,13 @@
     <bean id="PayGrade-maxHiringRate" parent="PayGrade-maxHiringRate-parentBean" />
     <bean id="PayGrade-maxHiringRate-parentBean" abstract="true" parent="AttributeDefinition">
         <property name="shortLabel" value="Maximum Hiring Rate" />
-        <property name="maxLength" value="6" />
-        <property name="validationPattern">
-            <bean parent="FixedPointValidationPattern"  p:precision="3" p:scale="2"  />
+        <property name="maxLength" value="11" />
+        <property name="constraintText" value="Maximum of 2 decimal points"/>
+        <property name="validCharactersConstraint">
+            <bean parent="FixedPointPatternConstraint"  p:allowNegative="false" p:precision="8" p:scale="2" />
         </property>
         <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="8" />
+            <bean parent="Uif-TextControl" p:size="11" />
         </property>
         <property name="name" value="maxHiringRate" />
         <property name="label" value="Maximum Hiring Rate" />
@@ -326,16 +330,21 @@
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="payGrade" />
-                <bean parent="Uif-DataField" p:propertyName="salGroup"/>
-                <bean parent="Uif-DataField" p:propertyName="description" />
-                <bean parent="Uif-DataField" p:propertyName="minRate" />
-                <bean parent="Uif-DataField" p:propertyName="midPointRate" />
-                <bean parent="Uif-DataField" p:propertyName="maxRate" />
-                <bean parent="Uif-DataField" p:propertyName="rateType" />
-                <bean parent="Uif-DataField" p:propertyName="timestamp" />
-                <bean parent="Uif-DataField" p:propertyName="effectiveDate"/>
-                <bean parent="Uif-DataField" p:propertyName="active"/>
+                <bean parent="Uif-InputField" p:propertyName="payGrade">
+                    <property name="inquiry">
+                        <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.hr.paygrade.PayGrade"
+                              p:inquiryParameters="hrPayGradeId:hrPayGradeId"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="salGroup"/>
+                <bean parent="Uif-InputField" p:propertyName="description" />
+                <bean parent="Uif-InputField" p:propertyName="minRate" />
+                <bean parent="Uif-InputField" p:propertyName="midPointRate" />
+                <bean parent="Uif-InputField" p:propertyName="maxRate" />
+                <bean parent="Uif-InputField" p:propertyName="rateType" />
+                <bean parent="Uif-InputField" p:propertyName="timestamp" />
+                <bean parent="Uif-InputField" p:propertyName="effectiveDate"/>
+                <bean parent="Uif-InputField" p:propertyName="active"/>
             </list>
         </property>
     </bean>
@@ -344,20 +353,21 @@
   	<bean id="PayGrade-InquiryView" parent="Uif-InquiryView" >
           <property name="headerText" value="Pay Grade Inquiry" />
           <property name="dataObjectClassName" value="org.kuali.hr.paygrade.PayGrade"/>
-          <!--<property name="singlePageView" value="true"/>-->
+          <property name="singlePageView" value="true"/>
           <property name="items">
               <list>
                   <bean id="PayGrade-InquiryView-General" parent="Uif-Disclosure-GridSection">
-                      <!--<property name="layoutManager.numberOfColumns" value="2"/>-->
+                      <property name="layoutManager.numberOfColumns" value="2"/>
                       <property name="items">
                           <list>
-                              <bean parent="Uif-DataField" p:propertyName="payGrade"/>
                               <bean parent="Uif-DataField" p:propertyName="effectiveDate"/>
+                              <bean parent="Uif-DataField" p:propertyName="payGrade"/>
                               <bean parent="Uif-DataField" p:propertyName="description"/>
                               <bean parent="Uif-DataField" p:propertyName="salGroup"/>
                               <bean parent="Uif-DataField" p:propertyName="minRate" />
                               <bean parent="Uif-DataField" p:propertyName="midPointRate" />
                               <bean parent="Uif-DataField" p:propertyName="maxRate" />
+                              <bean parent="Uif-DataField" p:propertyName="maxHiringRate" />
                               <bean parent="Uif-DataField" p:propertyName="rateType" />
                               <bean parent="Uif-DataField" p:propertyName="active"/>
                           </list>
