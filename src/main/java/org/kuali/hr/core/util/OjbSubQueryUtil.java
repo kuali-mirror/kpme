@@ -30,6 +30,10 @@ public class OjbSubQueryUtil {
         //create base effective date filter
         Criteria effDateFilter = new Criteria();
         effDateFilter.addLessOrEqualThan("effectiveDate", asOfDate);
+        Criteria orNull = new Criteria();
+        orNull.addIsNull("effectiveDate");
+        effDateFilter.addOrCriteria(orNull);
+        
         return OjbSubQueryUtil.getEffectiveDateSubQueryWithFilter(clazz, effDateFilter, equalToField, checkActive);
     }
 

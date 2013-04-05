@@ -1,0 +1,45 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    
+    <changeSet id="1" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>KPME-1968: Renaming columns for consistency</comment>
+        <renameColumn tableName="LM_BALANCE_TRANSFER_T" oldColumnName="EFFECTIVE_DATE" newColumnName="EFFDT" columnDataType="DATE NOT NULL" />
+        <renameColumn tableName="LM_LEAVE_PAYOUT_T" oldColumnName="EFFECTIVE_DATE" newColumnName="EFFDT" columnDataType="DATE NOT NULL" />
+    </changeSet>
+    
+    <changeSet id="2" author="kbtaylor" context="kpme-client-bootstrap">
+        <comment>KPME-1968: Change all date only columns to DATE</comment>
+        <dropNotNullConstraint tableName="HR_EARN_CODE_GROUP_T" columnName="EFFDT" columnDataType="DATE" />
+        <dropNotNullConstraint tableName="HR_JOB_T" columnName="EFFDT" columnDataType="DATE" />
+        <dropNotNullConstraint tableName="HR_LOCATION_T" columnName="EFFDT" columnDataType="DATE" />
+        <dropNotNullConstraint tableName="HR_PAY_GRADE_T" columnName="EFFDT" columnDataType="DATE" />
+        <dropNotNullConstraint tableName="HR_PAYTYPE_T" columnName="EFFDT" columnDataType="DATE" />
+        <dropNotNullConstraint tableName="HR_POSITION_T" columnName="EFFDT" columnDataType="DATE" />
+        <dropNotNullConstraint tableName="HR_PRINCIPAL_ATTRIBUTES_T" columnName="EFFDT" columnDataType="DATE" />
+        <dropNotNullConstraint tableName="HR_SAL_GROUP_T" columnName="EFFDT" columnDataType="DATE" />
+        
+        <dropNotNullConstraint tableName="LM_ACCRUAL_CATEGORY_T" columnName="EFFDT" columnDataType="DATE" />
+        <dropNotNullConstraint tableName="LM_BALANCE_TRANSFER_T" columnName="EFFDT" columnDataType="DATE" />
+        <dropNotNullConstraint tableName="LM_LEAVE_DONATION_T" columnName="EFFDT" columnDataType="DATE" />
+        <dropNotNullConstraint tableName="LM_LEAVE_PAYOUT_T" columnName="EFFDT" columnDataType="DATE" />
+        <dropNotNullConstraint tableName="LM_LEAVE_PLAN_T" columnName="EFFDT" columnDataType="DATE" />
+        <dropNotNullConstraint tableName="LM_SYS_SCHD_TIMEOFF_T" columnName="EFFDT" columnDataType="DATE" />
+        
+        <dropNotNullConstraint tableName="PM_INSTITUTION_T" columnName="EFFDT" columnDataType="DATE" />
+        <dropNotNullConstraint tableName="PM_PAY_STEP_T" columnName="EFFDT" columnDataType="DATE" />
+        <dropNotNullConstraint tableName="PM_PSTN_RPT_CAT_T" columnName="EFFDT" columnDataType="DATE" />
+        <dropNotNullConstraint tableName="PM_PSTN_RPT_GRP_SUB_CAT_T" columnName="EFFDT" columnDataType="DATE" />
+        <dropNotNullConstraint tableName="PM_PSTN_RPT_GRP_T" columnName="EFFDT" columnDataType="DATE" />
+        <dropNotNullConstraint tableName="PM_PSTN_RPT_SUB_CAT_T" columnName="EFFDT" columnDataType="DATE" />
+        <dropNotNullConstraint tableName="PM_PSTN_RPT_TYP_T" columnName="EFFDT" columnDataType="DATE" />
+        <dropNotNullConstraint tableName="PM_PSTN_TYP_T" columnName="EFFDT" columnDataType="DATE" />
+        
+        <dropNotNullConstraint tableName="TK_ASSIGNMENT_T" columnName="EFFDT" columnDataType="DATE" />
+        <dropNotNullConstraint tableName="TK_DEPT_LUNCH_RL_T" columnName="EFFDT" columnDataType="DATE" />
+        <dropNotNullConstraint tableName="TK_SYSTEM_LUNCH_RL_T" columnName="EFFDT" columnDataType="DATE" />
+        <dropNotNullConstraint tableName="TK_TASK_T" columnName="EFFDT" columnDataType="DATE" />
+        <dropNotNullConstraint tableName="TK_WORK_AREA_T" columnName="EFFDT" columnDataType="DATE" />
+    </changeSet>
+    
+</databaseChangeLog>
