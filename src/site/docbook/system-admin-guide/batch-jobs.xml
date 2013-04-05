@@ -2,4 +2,319 @@
 <chapter xml:id="batch-jobs" xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns="http://docbook.org/ns/docbook" version="5.0">
     <title>Batch Jobs</title>
+    <para>
+        One of KPME's more advanced features is the ability to run calculations in the background at certain times, known as batch jobs.  These batch jobs
+        can run at any time of the day, allowing large calculations to run during the middle of the night when the system does not have much load.  In KPME's
+        case, theses batch jobs include creating timesheets and leave calendars, automatically submitting and approving these documents, and performing
+        large accrual and carry over calculations.
+    </para>
+    <section>
+        <title>Basic Setup</title>
+        <para>
+            The KPME batch system uses Quartz (<link xlink:href="http://quartz-scheduler.org">http://quartz-scheduler.org</link>) to schedule jobs.  Quartz 
+            allows scheduling of both periodic and on-demand jobs, as well as providing clustering and load balancing features.  The purpose of this guide is 
+            to just cover the basics of the KPME jobs; it is expected that administrators will consult the Quartz documentation to implement more advanced
+            Quartz features.
+        </para>
+        <para>
+            There is no additional setup to get batch jobs to run automatically.  In the basic setup, a polling program starts up five minutes after 
+            application starts to determine whether it needs to schedule any batch jobs.  It will keep doing this every five minutes until the application
+            terminates.  The batch jobs are, however, highly configurable and can be overridden in <emphasis role="bold">kpme-config.xml</emphasis>.  The
+            default setup in <emphasis role="bold">kpme-config-defaults.xml</emphasis> is as follows:
+        </para>
+        <table frame="none">
+            <title>Batch Job Configuration Parameters</title>
+            <tgroup cols="3">
+                <colspec colname="c1" colnum="1" colwidth="3.50*"/>
+                <colspec colname="c2" colnum="2" colwidth="2.00*"/>
+                <colspec colname="c3" colnum="3" colwidth="1.00*"/>
+                <thead>
+                    <row>
+                        <entry>Parameter</entry>
+                        <entry>Description</entry>
+                        <entry>Default Value</entry>
+                    </row>
+                </thead>
+                <tbody>
+                    <row>
+                        <entry>kpme.org.quartz.threadPool.threadCount</entry>
+                        <entry>The number of threads allocated to run simultaneous jobs.</entry>
+                        <entry>5</entry>
+                    </row>
+                    <row>
+                        <entry>kpme.batch.user.principalName</entry>
+                        <entry>The KIM principal name of the batch job user.</entry>
+                        <entry>admin</entry>
+                    </row>
+                    <row>
+                        <entry>kpme.batch.startDelay.milliseconds</entry>
+                        <entry>The start delay (in milliseconds) before batch job startup.</entry>
+                        <entry>300000</entry>
+                    </row>
+                    <row>
+                        <entry>kpme.batch.repeatInterval.milliseconds</entry>
+                        <entry>The interval (in milliseconds) between polling for new jobs to schedule.</entry>
+                        <entry>300000</entry>
+                    </row>
+                    <row>
+                        <entry>kpme.batch.calendarEntriesPollingWindow.days</entry>
+                        <entry>The number of days to poll both before and after the current date to detect whether jobs based on calendar entries need to be scheduled.</entry>
+                        <entry>30</entry>
+                    </row>
+                    <row>
+                        <entry>kpme.batch.leavePlanPollingWindow.days</entry>
+                        <entry>The number of days to poll both before and after the current date to detect whether jobs based on leave plans need to be scheduled.</entry>
+                        <entry>30</entry>
+                    </row>
+                    <row>
+                        <entry>kpme.batch.accrual.cronExpression</entry>
+                        <entry>The cron expression on when to run the Accrual Service.</entry>
+                        <entry>0 0 1 1 * ? 2099</entry>
+                    </row>
+                    <row>
+                        <entry>kpme.batch.leaveCalendarDelinquency.cronExpression</entry>
+                        <entry>The cron expression on when to send out notifications that a Leave Calendar is delinquent.</entry>
+                        <entry>0 0 1 1 * ? 2099</entry>
+                    </row>
+                    <row>
+                        <entry>kpme.batch.serializer.cronExpression</entry>
+                        <entry>The cron expression on when to serialize Time Blocks to CSV and XML.</entry>
+                        <entry>0 0 1 1 * ? 2099</entry>
+                    </row>
+                </tbody>
+            </tgroup>
+        </table>
+        <note>
+            <para>
+                The Quartz cron expressions are slightly different from normal cron expressions in that they add a seconds and an optional year field.  For more
+                information, see the <link xlink:href="http://quartz-scheduler.org/documentation/quartz-1.x/tutorials/TutorialLesson06">Quartz Cron Tutorial</link>.
+            </para>
+        </note>
+        <para>
+            The next section of this guide will cover exactly what types of jobs these parameters control.
+        </para>
+    </section>
+    <section>
+        <title>Available Batch Jobs</title>
+        <para>
+            KPME currently has several batch jobs available to run.  Some of them are controlled by objects in the system (like Calendar Entry or Leave Plan), 
+            while others are controlled by cron expressions.  This section will cover those in greater detail.
+        </para>
+        <section>
+            <title>Calendar Entry Jobs</title>
+            <para>
+                Many of the jobs in KPME are based on the Calendar Entry object.  This object not only controls when user calendars begin and end but also when
+                batch jobs are to be run in relation to that calendar entry in the form of dates and times.  These fields can be left blank for any calendar
+                entry, causing the batch job to not run for that calendar entry.  The four available dates are as follows:
+            </para>
+            <table frame="none">
+	            <title>Calendar Entry Job Dates and Times</title>
+	            <tgroup cols="2">
+	                <colspec colname="c1" colnum="1" colwidth="1.50*"/>
+	                <colspec colname="c2" colnum="2" colwidth="2.00*"/>
+	                <thead>
+	                    <row>
+	                        <entry>Batch Job Date/Time Entry</entry>
+	                        <entry>Description</entry>
+	                    </row>
+	                </thead>
+	                <tbody>
+	                    <row>
+	                        <entry>Batch Initiate Date/Time</entry>
+	                        <entry>The date and time when to initialize timesheets or leave calendars associated with this calendar entry.</entry>
+	                    </row>
+	                    <row>
+	                        <entry>Batch End Pay Period Date/Time</entry>
+	                        <entry>The date and time when to close timesheet clock logs associated with this calendar entry.</entry>
+	                    </row>
+	                    <row>
+	                        <entry>Batch Employee Approval Date/Time</entry>
+	                        <entry>The date and time when to approve missed punch documents and submit timesheets or leave calendars associated with this calendar entry.</entry>
+	                    </row>
+	                    <row>
+	                        <entry>Batch Supervisor Approval Date/Time</entry>
+	                        <entry>The date and time when to approve timesheets or leave calendars associated with this calendar entry.</entry>
+	                    </row>
+	                </tbody>
+	            </tgroup>
+            </table>
+            <para>
+                There are six jobs associated with Calendar Entries:
+            </para>
+            <itemizedlist>
+	            <listitem>
+	                <para>Initiate Job</para>
+	                <para>
+	                   Initiates timesheets or leave calendars for the dates associated with this calendar entry.  This job is typically run a few days before 
+	                   the start date of this calendar entry so these documents are ready to go when the new period starts.
+	                </para>
+	            </listitem>
+                <listitem>
+                    <para>End Reporting Period Job</para>
+                    <para>
+                        Sends a notification to all users who use leave calendars that they should submit their leave calendars so they can be reviewed by
+                        their supervisor.  This is automatically sent at the end date of this calendar entry and it is the only one not configurable.
+                    </para>
+                </listitem>
+	            <listitem>
+                    <para>End Pay Period Job</para>
+                    <para>
+                        Closes all clock logs belonging to any timesheets associated with this calendar entry.  The clock logs are closed at the end of the pay
+                        period and then reopened immediately after (in the next calendar entry) so that clock log times are only calculated for this calendar 
+                        entry.  This job is typically run right after the end date of this calendar entry.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Missed Punch Approval Job</para>
+                    <para>
+                        Approves all of the missed punch documents attached to any timesheets associated with this calendar entry.  This job is typically run 
+                        right after the end date of this calendar entry.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Employee Approval Job</para>
+                    <para>
+                        Submits any timesheets or leave calendars associated with this calendar entry to the supervisors.  This job is typically run a couple 
+                        days after the end date of this calendar entry.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Supervisor Approval Job</para>
+                    <para>
+                        Approves any timesheets or leave calendars associated with this calendar entry if they have been sent to the supervisors for approval.  
+                        If there are any non-approved missed punch documents belonging to these timesheets or if any of these timesheets or leave calendars are 
+                        not in a state to be approved, then the job is rescheduled until these are done.  This job is typically run a couple days after the 
+                        Employee Approval Job.
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </section>
+        <section>
+            <title>Leave Plan Jobs</title>
+            <para>
+                The Carry Over job is based on the Leave Plan object.  This object not only controls when user leave plans begin but also when the Carry Over
+                job is to be run in relation to that leave plan in the form of dates and times.  These fields can be left blank for any leave plan, causing the 
+                batch job to not run for that leave plan.  The fields that control when the Carry Over job is run are called Batch Prior Year Carry Over Start
+                Date/Time.
+            </para>
+            <para>
+                The Carry Over job adds leave blocks for any previous leave plan years that hold the accrued leave amounts from year to year so that the 
+                Accrual Service does not have to go back to a user's beginning service date to calculate accrued leave.
+            </para>
+        </section>
+        <section>
+            <title>Cron Expression Jobs</title>
+            <para>
+                Some jobs are scheduled to run via cron expressions.  These cron expressions are powerful in that they can be set to run and repeat to run at
+                any interval and at any time.  The most common settings are to run nightly or monthly but many combinations are possible.  These cron jobs can
+                also be "turned off" by setting them to "0 0 1 1 * ? 2099", which is the first day of the first month in the year 2099.  By default, all of 
+                these jobs are turned off since there is no way of knowing reasonable values for when an institution may want to run these.
+            </para>
+            <para>    
+                There are three jobs controlled by cron expressions:
+            </para>
+            <itemizedlist>
+                <listitem>
+                    <para>Time Block Serializer Job</para>
+                    <para>
+                       Serializes all available timeblocks to both CSV and XML.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Accrual Job</para>
+                    <para>
+                        Runs the Accrual Service, which calculates leave amounts and adds needed leave blocks on to leave calendars.
+                    </para>
+                </listitem>
+                <listitem>
+                    <para>Leave Calendar Delinquency Job</para>
+                    <para>
+                        Sends out a notification to all users who have leave calendars that have not been submitted for some time and are now considered 
+                        delinquent.
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </section>
+    </section>
+    <section>
+        <title>Quartz Implementation</title>
+        <para>
+            Job scheduling information is stored in the KPME database under the <emphasis role="bold">QRTZ_*</emphasis> tables that were provided by the Quartz 
+            install.  By default, every single job ever run or scheduled to be run is stored in the database.  In Quartz, there are two concepts necessary to 
+            understand in order to understand how the KPME Quartz system is set up:
+        </para>
+        <itemizedlist>
+            <listitem>
+                <para>Jobs</para>
+                <para>
+                    Jobs store the necessary information to run a process.  Each Job is assigned to a Job Group, which provides additional information on how
+                    the job is grouped in the system.
+                </para>
+            </listitem>
+            <listitem>
+                <para>Triggers</para>
+                <para>
+                   Triggers are what actually schedule Jobs.  They store information that allows Quartz to calculate whether a particular job has been run 
+                   already or not.  Each Trigger is assigned to a Trigger Group, very similar as to how Jobs are assigned to Job Groups.
+                </para>
+            </listitem>
+        </itemizedlist>
+        <para>
+            The most important table in the KPME database to view when trying to understand Quartz is <emphasis role="bold">QRTZ_TRIGGERS</emphasis>.  Among 
+            others, it contains four fields for the Trigger Name, the Trigger Group, the Job Name, and the Job Group, that administrators can view to see what
+            jobs have already run and what jobs are scheduled to run.
+        </para>
+        <section>
+	        <title>KPME Quartz Job and Trigger Example</title>
+	        <para>
+	            To understand how these four fields are populated, consider the example where the system is about to schedule an Initiate Job.  The poller for the 
+	            Initiate Job determines that there is a person with id "user" who needs to have a timesheet initiated for the calendar entry with id "10000" 
+	            starting on January 1, 2010 at midnight GMT.  The four fields are populated as follows:
+	        </para>
+	        <itemizedlist>
+	            <listitem>
+	                <para>Job Name: <emphasis>InitiateJob-Job-principalId=user</emphasis></para>
+	                <para>
+	                    The Job Name only includes the <emphasis role="bold">principalId</emphasis> since that is who the Initiate Job is being run for.
+	                </para>
+	            </listitem>
+	            <listitem>
+	                <para>Job Group: <emphasis>InitiateJob-JobGroup-hrCalendarEntriesId=10000</emphasis></para>
+	                <para>
+	                   The Job Group name only includes the <emphasis role="bold">hrCalendarEntriesId</emphasis> since that is the calendar entry that is currently
+	                   being processed.  Several Jobs for multiple principals can be associated with this calendar entry Job Group.
+	                </para>
+	            </listitem>
+	            <listitem>
+	                <para>Trigger Name: <emphasis>InitiateJob-Trigger-date=2010-01-01T00:00:00.000-0000</emphasis></para>
+	                <para>
+	                    The Trigger Name only includes the <emphasis role="bold">date</emphasis> since that is what determines when it is run.
+	                </para>
+	            </listitem>
+	            <listitem>
+	                <para>Trigger Group: <emphasis>InitiateJob-TriggerGroup-principalId=user&amp;hrCalendarEntriesId=10000</emphasis></para>
+	                <para>
+	                   The Trigger Group includes both the <emphasis role="bold">hrCalendarEntriesId</emphasis> and the <emphasis role="bold">principalId</emphasis>
+	                   to make sure that when the system polls the entries again, it does not schedule this particular Job again.
+	                </para>
+	            </listitem>
+	        </itemizedlist>
+	        <para>
+	            This means that the timesheet is initiated for user only once for calendar entry 10000 on January 1, 2010.  Other users associated with calendar 
+	            entry 10000 will be scheduled for a different Job but in the same Job Group.  Since only one Trigger can be associated per one Job and the 
+	            combination of Trigger Name and Trigger Group must be unique in the system, then each of these other users have the same Trigger Name but a
+	            different Trigger Group with both the <emphasis role="bold">hrCalendarEntriesId</emphasis> and the <emphasis role="bold">principalId</emphasis> 
+	            to meet this Quartz requirement.  All four of these fields can hold up to 200 characters, so there is little chance that even long <emphasis role="bold">principalId</emphasis>s
+	            will cause inserts to fail.
+	        </para>
+	    </section>
+	    <section>
+            <title>Spring Configuration</title>
+            <para>
+                Quartz's main setup is in <emphasis role="bold">SpringBeans.xml</emphasis> under "kpmeScheduler".  This is where KPME sets all of its Quartz 
+                defaults and plugins.  Implementers may wish to override this to provide different defaults, especially in the section "quartzProperties".
+                More information can be found in the Quartz documentation.
+            </para>
+	    </section>
+    </section>
 </chapter>
