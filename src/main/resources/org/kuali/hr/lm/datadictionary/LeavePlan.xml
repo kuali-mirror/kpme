@@ -136,6 +136,13 @@
 		<property name="validationPattern">
 			<bean parent="DateValidationPattern" />
 		</property>
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="12">
+			 <property name="datePicker">
+	          <bean parent="Uif-DatePicker"/>
+	        </property>
+			</bean>
+		</property>
 		<property name="control">
 			<bean parent="TextControlDefinition" p:size="12" p:datePicker="true" />
 		</property>
@@ -302,5 +309,33 @@
 		</property>
 		<property name="title" value="Leave Plan Lookup" />
 	</bean>
+	
+<!-- KRAD Lookup View Definition -->
+ 
+  <bean id="LeavePlan-LookupView" parent="Uif-LookupView">
+    <property name="headerText" value="LeavePlan Lookup" />
+    <property name="dataObjectClassName" value="org.kuali.hr.lm.leaveplan.LeavePlan" />
+    <property name="criteriaFields">
+      <list>
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="leavePlan" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="calendarYearStart" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="planningMonths" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="effectiveDate" />
+		<bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y" />
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+		<bean parent="Uif-InputField" p:propertyName="leavePlan" />
+		<bean parent="Uif-InputField" p:propertyName="calendarYearStart" />
+		<bean parent="Uif-InputField" p:propertyName="descr" />
+		<bean parent="Uif-InputField" p:propertyName="planningMonths" />
+		<bean parent="Uif-InputField" p:propertyName="effectiveDate" />
+		<bean parent="Uif-InputField" p:propertyName="timestamp" />
+		<bean parent="Uif-InputField" p:propertyName="active" />
+      </list>
+    </property>
+  </bean>
 
 </beans>

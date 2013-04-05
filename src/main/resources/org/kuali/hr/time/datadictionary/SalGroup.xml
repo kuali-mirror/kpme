@@ -34,10 +34,10 @@
 	        <ref bean="SalaryGroup-institution"/>
 	        <ref bean="SalaryGroup-campus"/>
 	        <ref bean="SalaryGroup-percentTime"/>
-	        <ref bean="SalaryGroup-payMonths"/>
 	        <ref bean="SalaryGroup-workMonths"/>
 	        <ref bean="SalaryGroup-benefitsEligible"/>
 	        <ref bean="SalaryGroup-leaveEligible"/>
+	        <ref bean="SalaryGroup-leavePlan"/>
 	        <ref bean="SalaryGroup-active"/>
 		 </list>
 	    </property>
@@ -144,16 +144,6 @@
 		<property name="label" value="Percent Time" />
 	</bean>
 	
-	<bean id="SalaryGroup-payMonths" parent="SalaryGroup-payMonths-parentBean" />
-	<bean id="SalaryGroup-payMonths-parentBean" abstract="true" parent="AttributeDefinition">
-		<property name="required" value="false" />
-		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
-		</property>
-		<property name="name" value="payMonths" />
-		<property name="label" value="Pay Months" />
-	</bean>
-	
 	<bean id="SalaryGroup-workMonths" parent="SalaryGroup-workMonths-parentBean" />
 	<bean id="SalaryGroup-workMonths-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="false" />
@@ -198,6 +188,17 @@
  		<property name="label" value="Leave Eligible" />
   	</bean>
 	
+	<bean id="SalaryGroup-leavePlan" parent="SalaryGroup-leavePlan-parentBean" />
+	<bean id="SalaryGroup-leavePlan-parentBean" abstract="true" parent="AttributeDefinition">
+		<property name="shortLabel" value="Leave Plan" />
+		<property name="required" value="false" />
+		<property name="controlField">
+			<bean parent="Uif-TextControl" p:size="15" />
+		</property>
+		<property name="name" value="leavePlan" />
+		<property name="label" value="Leave Plan" />
+	</bean>
+	
     <bean id="SalaryGroup-active" parent="SalaryGroup-active-parentBean"/>
  	<bean id="SalaryGroup-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
    		<property name="name" value="active"/>
@@ -224,10 +225,15 @@
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="campus" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="percentTime" />
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="payMonths" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="workMonths" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="benefitsEligible" />
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="leaveEligible" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="leavePlan">
+        	<property name="quickfinder">
+       			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.lm.leaveplan.LeavePlan" 
+        			 p:fieldConversions="leavePlan:leavePlan"/>
+   		 	</property>
+        </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
       </list>
     </property>
@@ -243,10 +249,10 @@
         <bean parent="Uif-InputField" p:propertyName="institution" />
         <bean parent="Uif-InputField" p:propertyName="campus" />
         <bean parent="Uif-InputField" p:propertyName="percentTime" />
-        <bean parent="Uif-InputField" p:propertyName="payMonths" />
         <bean parent="Uif-InputField" p:propertyName="workMonths" />
         <bean parent="Uif-InputField" p:propertyName="benefitsEligible" />
         <bean parent="Uif-InputField" p:propertyName="leaveEligible" />
+        <bean parent="Uif-InputField" p:propertyName="leavePlan" />
         <bean parent="Uif-InputField" p:propertyName="active"/>
       </list>
     </property>
@@ -269,10 +275,10 @@
 			        <bean parent="Uif-DataField" p:propertyName="institution" />
 			        <bean parent="Uif-DataField" p:propertyName="campus" />
 			        <bean parent="Uif-DataField" p:propertyName="percentTime" />
-			        <bean parent="Uif-DataField" p:propertyName="payMonths" />
 			        <bean parent="Uif-DataField" p:propertyName="workMonths" />
 			        <bean parent="Uif-DataField" p:propertyName="benefitsEligible" />
 			        <bean parent="Uif-DataField" p:propertyName="leaveEligible" />
+			        <bean parent="Uif-DataField" p:propertyName="leavePlan" />
 			        <bean parent="Uif-DataField" p:propertyName="active"/>
 	        	</list>
 	     	 </property>
@@ -302,15 +308,41 @@
 		   			</property>
 		        </bean>
 		        <bean parent="Uif-InputField" p:propertyName="campus" />
-		        <bean parent="Uif-InputField" p:propertyName="percentTime" p:exclusiveMin="0" p:inclusiveMax="100">
+		        <bean parent="Uif-InputField" p:propertyName="percentTime" p:exclusiveMin="0" p:inclusiveMax="100"
+		        	 p:constraintText="Must be a number between 0 and 100.">
 		        	<property name="validCharactersConstraint">
 			        	<bean parent="FixedPointPatternConstraint" p:allowNegative="false" p:precision="5" p:scale="2" />
 					</property>
 				</bean>
-		        <bean parent="Uif-InputField" p:propertyName="payMonths" p:dataType="INTEGER" p:exclusiveMin="0" p:inclusiveMax="12"/>
-		        <bean parent="Uif-InputField" p:propertyName="workMonths" p:dataType="INTEGER" p:exclusiveMin="0" p:inclusiveMax="12"/>
+		        <bean parent="Uif-InputField" p:propertyName="workMonths" p:dataType="INTEGER" p:exclusiveMin="0" p:inclusiveMax="12"
+		        	 p:constraintText="Must be a whole number between 0 and 12."/>
 		        <bean parent="Uif-InputField" p:propertyName="benefitsEligible" />
 		        <bean parent="Uif-InputField" p:propertyName="leaveEligible" />
+		        <bean parent="Uif-InputField" p:propertyName="leavePlan"  p:constraintText="Required if Leave Eligible is Yes.">
+					<property name="caseConstraint">
+				        <bean parent="CaseConstraint">
+				        	<property name="propertyName" value="leaveEligible" />
+							<property name="whenConstraint">
+					  			<list>
+						          <bean parent="WhenConstraint">
+						              <property name="values">
+						                  <list>
+						                      <value>Y</value>
+						                  </list>
+						              </property>
+						              <property name="constraint">
+						                  <bean parent="RequiredConstraint" />
+						              </property>
+						          </bean>
+					         	 </list>
+					         </property>
+				         </bean>
+			        </property>
+			        <property name="quickfinder">
+		       			<bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.hr.lm.leaveplan.LeavePlan" 
+		        			 p:fieldConversions="leavePlan:leavePlan"/>
+		   		 	</property>
+		        </bean>
 		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
             </list>
           </property>

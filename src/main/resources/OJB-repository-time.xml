@@ -335,10 +335,10 @@
         <field-descriptor name="institution"    		column="INSTITUTION"			 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
         <field-descriptor name="campus"    				column="CAMPUS"					 jdbc-type="VARCHAR"     length="15" 		nullable="false" />
         <field-descriptor name="percentTime"      		column="PRCT_TM"         		 jdbc-type="DECIMAL"     length="10" 		nullable="true" />
-        <field-descriptor name="payMonths"      		column="PY_MNTHS"         		 jdbc-type="INTEGER"     nullable="true" />
         <field-descriptor name="workMonths"      		column="WRK_MNTHS"         		 jdbc-type="INTEGER"     nullable="true" />
         <field-descriptor name="benefitsEligible"        column="BNFT_ELIG"           	 jdbc-type="VARCHAR"     length="1" 		nullable="false" />
         <field-descriptor name="leaveEligible"          column="LV_ELIG"           		 jdbc-type="VARCHAR"     length="1" 		nullable="false" />
+        <field-descriptor name="leavePlan"    			column="LV_PLN"			 		jdbc-type="VARCHAR"     length="15" 		nullable="true" />
     </class-descriptor>
     
     <class-descriptor class="org.kuali.hr.time.paytype.PayType" table="HR_PAYTYPE_T">
