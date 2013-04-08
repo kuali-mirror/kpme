@@ -387,6 +387,8 @@
 
     <bean id="positionTypeDao" class="org.kuali.hr.pm.positiontype.dao.PositionTypeDaoObjImpl" parent="platformAwareDao" />
 
+ 	<bean id="positionFlagDao" class="org.kuali.hr.pm.positionflag.dao.PositionFlagDaoObjImpl" parent="platformAwareDao" />
+ 	
     <!-- Time Services for Business Logic -->
     <bean id="missedPunchService" class="org.kuali.hr.time.missedpunch.service.MissedPunchServiceImpl">
         <property name="missedPunchDao" ref="missedPunchDao"/>
@@ -684,6 +686,10 @@
 
     <bean id="positionTypeService" class="org.kuali.hr.pm.positiontype.service.PositionTypeServiceImpl">
         <property name="positionTypeDao" ref="positionTypeDao"/>
+    </bean>
+    
+     <bean id="positionFlagService" class="org.kuali.hr.pm.positionflag.service.PositionFlagServiceImpl">
+        <property name="positionFlagDao" ref="positionFlagDao"/>
     </bean>
     
     <bean id="accrualCategoryMaxCarryOverService" class="org.kuali.hr.lm.accrual.service.AccrualCategoryMaxCarryOverServiceImpl">

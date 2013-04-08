@@ -2,6 +2,7 @@ package org.kuali.hr.pm.service.base;
 
 import org.kuali.hr.pm.institution.service.InstitutionService;
 import org.kuali.hr.pm.paystep.service.PayStepService;
+import org.kuali.hr.pm.positionflag.service.PositionFlagService;
 import org.kuali.hr.pm.positionreportcat.service.PositionReportCatService;
 import org.kuali.hr.pm.positionreportgroup.service.PositionReportGroupService;
 import org.kuali.hr.pm.positionreportsubcat.service.PositionReportSubCatService;
@@ -23,6 +24,7 @@ public class PmServiceLocator implements ApplicationContextAware {
     public static final String PM_POSITION_REPORT_SUB_CAT_SERVICE = "positionReportSubCatService";
     public static final String PM_PSTN_RPT_GRP_SUB_CAT_SERVICE = "pstnRptGrpSubCatService";
     public static final String PM_POSITION_TYPE_SERVICE = "positionTypeService";
+    public static final String PM_POSITION_FLAG_SERVICE = "positionFlagService";
     
     public static InstitutionService getInstitutionService() {
     	return (InstitutionService) CONTEXT.getBean(PM_INSTITUTION_SERVICE);
@@ -54,6 +56,10 @@ public class PmServiceLocator implements ApplicationContextAware {
 
 	public static PositionTypeService getPositionTypeService() {
 		return (PositionTypeService) CONTEXT.getBean(PM_POSITION_TYPE_SERVICE);
+	}
+	
+	public static PositionFlagService getPositionFlagService() {
+		return (PositionFlagService) CONTEXT.getBean(PM_POSITION_FLAG_SERVICE);
 	}
 	
 	@Override
