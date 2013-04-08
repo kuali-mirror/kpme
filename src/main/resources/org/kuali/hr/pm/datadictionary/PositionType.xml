@@ -15,7 +15,6 @@
 	        <ref bean="PositionType-description"/>
 	        <ref bean="PositionType-institution"/>
 	        <ref bean="PositionType-campus"/>
-	        <ref bean="PositionType-academicFlag"/>
 	        <ref bean="PositionType-active"/>
 	      </list>
 	    </property>
@@ -121,11 +120,6 @@
 		<property name="label" value="Campus" />
 	</bean>
 	
-	<bean id="PositionType-academicFlag" parent="PositionType-academicFlag-parentBean"/>
- 	<bean id="PositionType-academicFlag-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Academic Flag ?">
- 		<property name="name" value="academicFlag"/>
-  	</bean>  
-  	
     <bean id="PositionType-active" parent="PositionType-active-parentBean"/>
  	<bean id="PositionType-active-parentBean" abstract="true" parent="AttributeReferenceDummy-activeIndicator"  p:label="Active?">
  		<property name="required" value="true" />
@@ -152,17 +146,20 @@
 	   		 </property>
         </bean>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="campus" />
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="academicFlag"/>        
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="active" p:defaultValue="Y"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
         <bean parent="Uif-InputField" p:propertyName="effectiveDate" />
-        <bean parent="Uif-InputField" p:propertyName="positionType" />
+        <bean parent="Uif-InputField" p:propertyName="positionType" >
+        	<property name="inquiry">
+	       		<bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.hr.pm.positiontype.PositionType" 
+	        	p:inquiryParameters="pmPositionTypeId:pmPositionTypeId"/>
+    		</property>
+        </bean>
         <bean parent="Uif-InputField" p:propertyName="institution" />
         <bean parent="Uif-InputField" p:propertyName="campus" />
-        <bean parent="Uif-InputField" p:propertyName="academicFlag"/>
         <bean parent="Uif-InputField" p:propertyName="active"/>
       </list>
     </property>
@@ -184,7 +181,6 @@
 			        <bean parent="Uif-DataField" p:propertyName="description" />
 			        <bean parent="Uif-DataField" p:propertyName="institution" />
 			        <bean parent="Uif-DataField" p:propertyName="campus" />
-			        <bean parent="Uif-DataField" p:propertyName="academicFlag"/>
 			        <bean parent="Uif-DataField" p:propertyName="active"/>
 	        	</list>
 	     	 </property>
@@ -214,7 +210,6 @@
 		   			</property>
 		        </bean>
 		        <bean parent="Uif-InputField" p:propertyName="campus" />
-		        <bean parent="Uif-InputField" p:propertyName="academicFlag"/>
 		        <bean parent="Uif-InputField" p:propertyName="active" p:defaultValue="true"/>
             </list>
           </property>

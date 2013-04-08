@@ -12,7 +12,6 @@ public class PositionType extends HrBusinessObject {
 	private String description;
 	private String institution;
 	private String campus;
-	private boolean academicFlag;	
 	
 	private CampusBo campusObj;
 	private Institution institutionObj;
@@ -46,14 +45,6 @@ public class PositionType extends HrBusinessObject {
 
 	public void setPositionType(String PositionType) {
 		this.positionType = PositionType;
-	}
-
-	public boolean getAcademicFlag() {
-		return academicFlag;
-	}
-
-	public void setAcademicFlag(boolean academicFlag) {
-		this.academicFlag = academicFlag;
 	}
 
 	public String getDescription() {
