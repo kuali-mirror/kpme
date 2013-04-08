@@ -26,6 +26,8 @@ import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.test.HtmlUnitUtil;
 import org.kuali.hr.time.test.TkTestConstants;
 
+import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController;
+import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlButton;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
@@ -52,6 +54,11 @@ public class LeaveCalendarWebTest extends KPMETestCase {
 	public void tearDown() throws Exception {
 		super.tearDown();
 	}
+	
+	public void setWebClient(WebClient webClient) {
+		webClient.setAjaxController(new NicelyResynchronizingAjaxController());
+		webClient.waitForBackgroundJavaScript(10000);
+	}
 
 	@Test
 	public void testLeaveCalendarPage() throws Exception {
@@ -71,6 +78,10 @@ public class LeaveCalendarWebTest extends KPMETestCase {
         //TODO: click not working.  Not even getting to the 'execute' method in LeaveCalendarAction
         HtmlPage page = nextButton.click();
         Assert.assertNotNull(page);
+        
+        synchronized (page) {
+            page.wait(5000);
+        }
 
 		// Check for previous document
 		HtmlButton prevButton = (HtmlButton) page
