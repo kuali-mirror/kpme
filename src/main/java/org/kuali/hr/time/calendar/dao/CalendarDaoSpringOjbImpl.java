@@ -19,7 +19,6 @@ import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -27,6 +26,7 @@ import org.apache.log4j.Logger;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryFactory;
+import org.joda.time.DateTime;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.rice.core.framework.persistence.ojb.dao.PlatformAwareDaoBaseOjb;
@@ -63,10 +63,10 @@ public class CalendarDaoSpringOjbImpl extends PlatformAwareDaoBaseOjb  implement
 		return (Calendar) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Calendar.class, currentRecordCriteria));
 	}
 	
-	public CalendarEntry getPreviousCalendarEntry(String tkCalendarId, Date beginDateCurrentCalendar){
+	public CalendarEntry getPreviousCalendarEntry(String tkCalendarId, DateTime beginDateCurrentCalendar){
         Criteria payEndDateCriteria = new Criteria();
         payEndDateCriteria.addEqualTo("hr_py_calendar_id", tkCalendarId);
-        payEndDateCriteria.addLessOrEqualThan("end_period_date", beginDateCurrentCalendar);
+        payEndDateCriteria.addLessOrEqualThan("end_period_date", beginDateCurrentCalendar.toDate());
         
         return (CalendarEntry) this.getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(CalendarEntry.class,payEndDateCriteria));
         

@@ -32,6 +32,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.joda.time.format.ISODateTimeFormat;
 import org.json.simple.JSONValue;
 import org.kuali.hr.core.role.KPMERole;
@@ -339,9 +340,8 @@ public class ActionFormUtils {
     
     // detect if the passed-in calendar entry is the current one
     public static boolean getOnCurrentPeriodFlag(CalendarEntry pce) {
-    	Date currentDate = TKUtils.getTimelessDate(null);
     	String viewPrincipal = TKContext.getTargetPrincipalId();
-        CalendarEntry calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal,  currentDate);
+        CalendarEntry calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
 
         if(pce != null && calendarEntry != null && calendarEntry.equals(pce)) {
     		return true;

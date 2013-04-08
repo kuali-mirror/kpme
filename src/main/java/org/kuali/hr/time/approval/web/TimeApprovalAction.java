@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.approval.web;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,6 +36,7 @@ import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
 import org.hsqldb.lib.StringUtil;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.base.web.ApprovalAction;
@@ -181,7 +181,7 @@ public class TimeApprovalAction extends ApprovalAction{
 				throws Exception {
 		ActionForward fwd = mapping.findForward("basic");
         TimeApprovalActionForm taaf = (TimeApprovalActionForm) form;
-        Date currentDate = null;
+        DateTime currentDate = null;
         CalendarEntry payCalendarEntry = null;
         Calendar currentPayCalendar = null;
         String page = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));
@@ -202,7 +202,7 @@ public class TimeApprovalAction extends ApprovalAction{
         if (taaf.getHrPyCalendarEntryId() != null) {
         	payCalendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntry(taaf.getHrPyCalendarEntryId());
         } else {
-            currentDate = TKUtils.getTimelessDate(null);
+            currentDate = new LocalDate().toDateTimeAtStartOfDay();
             currentPayCalendar = TkServiceLocator.getCalendarService().getCalendarByGroup(taaf.getSelectedPayCalendarGroup());
             payCalendarEntry = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(currentPayCalendar.getHrCalendarId(), currentDate);
         }

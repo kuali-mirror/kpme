@@ -241,7 +241,7 @@ public class TimesheetServiceImpl implements TimesheetService {
 
         if (tdh != null) {
             timesheetDocument = new TimesheetDocument(tdh);
-            CalendarEntry pce = TkServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(tdh.getPrincipalId(), tdh.getEndDate(), TkConstants.PAY_CALENDAR_TYPE);
+            CalendarEntry pce = TkServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(tdh.getPrincipalId(), new DateTime(tdh.getEndDate()), TkConstants.PAY_CALENDAR_TYPE);
             loadTimesheetDocumentData(timesheetDocument, tdh.getPrincipalId(), pce);
 
             timesheetDocument.setCalendarEntry(pce);

@@ -115,7 +115,7 @@ public class TimesheetSubmitAction extends TkAction {
 		            				}
 		            				if(StringUtils.equals(aRule.getMaxBalanceActionFrequency(),LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)) {
 		            					//a leave period should end within the time period.
-		            					CalendarEntry leaveEntry = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(cal.getHrCalendarId(), lb.getLeaveDate());
+		            					CalendarEntry leaveEntry = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(cal.getHrCalendarId(), new DateTime(lb.getLeaveDate()));
 		            					if(ObjectUtils.isNotNull(leaveEntry)) {
 		            						//only leave blocks belonging to the calendar entry being submitted may reach this point.
 		            						//if the infraction occurs before the end of the leave calendar entry, then action will be executed.

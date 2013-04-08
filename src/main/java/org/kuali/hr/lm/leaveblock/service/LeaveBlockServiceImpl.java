@@ -27,6 +27,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
@@ -216,7 +217,7 @@ public class LeaveBlockServiceImpl implements LeaveBlockService {
 
                     java.sql.Date sqlDate = new java.sql.Date(ce.getEndLocalDateTime().toDateTime().toDate().getTime());
                     
-                    CalendarEntry calendarEntry = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(ce.getHrCalendarId(), TKUtils.getCurrentDate());
+                    CalendarEntry calendarEntry = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(ce.getHrCalendarId(), new LocalDate().toDateTimeAtStartOfDay());
                     Date leaveBlockDate = new DateTime(leaveBlockInt.getStartMillis()).toDate();
                     
                     String requestStatus = LMConstants.REQUEST_STATUS.USAGE;

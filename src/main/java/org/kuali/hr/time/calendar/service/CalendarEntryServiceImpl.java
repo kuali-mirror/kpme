@@ -20,12 +20,12 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.calendar.CalendarEntryPeriodType;
 import org.kuali.hr.time.calendar.dao.CalendarEntryDao;
 import org.kuali.hr.time.detail.web.ActionFormUtils;
-import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 
 public class CalendarEntryServiceImpl implements CalendarEntryService {
@@ -42,19 +42,19 @@ public class CalendarEntryServiceImpl implements CalendarEntryService {
     }
 
     @Override
-    public CalendarEntry getCalendarEntryByIdAndPeriodEndDate(String hrCalendarId, Date endPeriodDate) {
+    public CalendarEntry getCalendarEntryByIdAndPeriodEndDate(String hrCalendarId, DateTime endPeriodDate) {
         return calendarEntryDao.getCalendarEntryByIdAndPeriodEndDate(hrCalendarId, endPeriodDate);
     }
 
     @Override
     public CalendarEntry getCalendarEntryByCalendarIdAndDateRange(
-            String hrCalendarId, Date beginDate, Date endDate) {
+            String hrCalendarId, DateTime beginDate, DateTime endDate) {
         return calendarEntryDao.getCalendarEntryByCalendarIdAndDateRange(hrCalendarId, beginDate, endDate);
     }
 
     @Override
     public CalendarEntry getCurrentCalendarEntryByCalendarId(
-            String hrCalendarId, Date currentDate) {
+            String hrCalendarId, DateTime currentDate) {
         return calendarEntryDao.getCurrentCalendarEntryByCalendarId(hrCalendarId, currentDate);
     }
 
@@ -68,7 +68,8 @@ public class CalendarEntryServiceImpl implements CalendarEntryService {
         return calendarEntryDao.getNextCalendarEntryByCalendarId(hrCalendarId, pce);
     }
 
-    public List<CalendarEntry> getCurrentCalendarEntriesNeedsScheduled(int thresholdDays, Date asOfDate) {
+    @Override
+    public List<CalendarEntry> getCurrentCalendarEntriesNeedsScheduled(int thresholdDays, DateTime asOfDate) {
         return calendarEntryDao.getCurrentCalendarEntryNeedsScheduled(thresholdDays, asOfDate);
     }
 
@@ -169,32 +170,35 @@ public class CalendarEntryServiceImpl implements CalendarEntryService {
         return temp.getTime() ;
     }
 
-    public List<CalendarEntry> getFutureCalendarEntries(String hrCalendarId, Date currentDate, int numberOfEntries) {
-        List<CalendarEntry> calendarEntries = null;
-        calendarEntries = calendarEntryDao.getFutureCalendarEntries(hrCalendarId, currentDate, numberOfEntries);
-        return calendarEntries;
+    @Override
+    public List<CalendarEntry> getFutureCalendarEntries(String hrCalendarId, DateTime currentDate, int numberOfEntries) {
+        return calendarEntryDao.getFutureCalendarEntries(hrCalendarId, currentDate, numberOfEntries);
     }
 
-    public CalendarEntry getCalendarEntryByBeginAndEndDate(Date beginPeriodDate, Date endPeriodDate) {
+    @Override
+    public CalendarEntry getCalendarEntryByBeginAndEndDate(DateTime beginPeriodDate, DateTime endPeriodDate) {
         return calendarEntryDao.getCalendarEntryByBeginAndEndDate(beginPeriodDate, endPeriodDate);
     }
     
-    public List<CalendarEntry> getCalendarEntriesEndingBetweenBeginAndEndDate(String hrCalendarId, Date beginDate, Date endDate) {
+    @Override
+    public List<CalendarEntry> getCalendarEntriesEndingBetweenBeginAndEndDate(String hrCalendarId, DateTime beginDate, DateTime endDate) {
         return calendarEntryDao.getCalendarEntriesEndingBetweenBeginAndEndDate(hrCalendarId, beginDate, endDate);
     }
     
+    @Override
     public List<CalendarEntry> getAllCalendarEntriesForCalendarId(String hrCalendarId) {
     	return calendarEntryDao.getAllCalendarEntriesForCalendarId(hrCalendarId);
     }
     
+    @Override
     public List<CalendarEntry> getAllCalendarEntriesForCalendarIdAndYear(String hrCalendarId, String year) {
     	return calendarEntryDao.getAllCalendarEntriesForCalendarIdAndYear(hrCalendarId, year);
     }
     
+    @Override
     public List<CalendarEntry> getAllCalendarEntriesForCalendarIdUpToPlanningMonths(String hrCalendarId, String principalId) {
     	int planningMonths = ActionFormUtils.getPlanningMonthsForEmployee(principalId);
-    	List<CalendarEntry> futureCalEntries = TkServiceLocator.getCalendarEntryService().getFutureCalendarEntries(
-    			hrCalendarId,TKUtils.getTimelessDate(null),planningMonths);
+    	List<CalendarEntry> futureCalEntries = getFutureCalendarEntries(hrCalendarId, new LocalDate().toDateTimeAtStartOfDay(), planningMonths);
     	CalendarEntry futureCalEntry = null;
     	if (futureCalEntries != null && !futureCalEntries.isEmpty()) {
     		futureCalEntry = futureCalEntries.get(futureCalEntries.size() - 1);
@@ -203,13 +207,14 @@ public class CalendarEntryServiceImpl implements CalendarEntryService {
     	if(futureCalEntry != null) {
     		cutOffTime = futureCalEntry.getEndPeriodDateTime();
     	} else {
-	    	CalendarEntry currentCE = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(hrCalendarId, TKUtils.getCurrentDate());
+	    	CalendarEntry currentCE = getCurrentCalendarEntryByCalendarId(hrCalendarId, new LocalDate().toDateTimeAtStartOfDay());
 	    	cutOffTime = currentCE.getEndPeriodDateTime();    	
     	}
-    	return TkServiceLocator.getCalendarEntryService().getAllCalendarEntriesForCalendarIdUpToCutOffTime(hrCalendarId, cutOffTime);
+    	return getAllCalendarEntriesForCalendarIdUpToCutOffTime(hrCalendarId, new DateTime(cutOffTime));
     }
     
-    public List<CalendarEntry> getAllCalendarEntriesForCalendarIdUpToCutOffTime(String hrCalendarId, Date cutOffTime) {
+    @Override
+    public List<CalendarEntry> getAllCalendarEntriesForCalendarIdUpToCutOffTime(String hrCalendarId, DateTime cutOffTime) {
     	return calendarEntryDao.getAllCalendarEntriesForCalendarIdUpToCutOffTime(hrCalendarId, cutOffTime);
     }
 }

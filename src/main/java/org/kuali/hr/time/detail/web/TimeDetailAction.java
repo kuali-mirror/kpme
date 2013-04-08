@@ -16,7 +16,6 @@
 package org.kuali.hr.time.detail.web;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,6 +37,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
 import org.kuali.hr.lm.accrual.AccrualCategoryRule;
@@ -156,8 +156,8 @@ public class TimeDetailAction extends TimesheetAction {
 				        			aDate = TkServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(principalCalendar.getLeavePlan(), lb.getLeaveDate());
 				        		}
 				        		else {
-					        		Calendar cal = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(viewPrincipal, lb.getLeaveDate(), true);
-					        		CalendarEntry leaveEntry = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(cal.getHrCalendarId(), lb.getLeaveDate());
+					        		Calendar cal = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(viewPrincipal, new LocalDate(lb.getLeaveDate()), true);
+					        		CalendarEntry leaveEntry = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(cal.getHrCalendarId(), new DateTime(lb.getLeaveDate()));
 					        		aDate = new DateTime(leaveEntry.getEndPeriodDate());
 				        		}
 				        		aDate = aDate.minusDays(1);
@@ -188,10 +188,10 @@ public class TimeDetailAction extends TimesheetAction {
             tdaf.setForfeitures(losses);
             
         	if (principalCalendar != null) {
-	        	Calendar calendar = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(viewPrincipal, tdaf.getEndPeriodDateTime(), true);
+	        	Calendar calendar = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(viewPrincipal, new LocalDate(tdaf.getEndPeriodDateTime()), true);
 					
 				if (calendar != null) {
-					List<CalendarEntry> leaveCalendarEntries = TkServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate(calendar.getHrCalendarId(), tdaf.getBeginPeriodDateTime(), tdaf.getEndPeriodDateTime());
+					List<CalendarEntry> leaveCalendarEntries = TkServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate(calendar.getHrCalendarId(), new DateTime(tdaf.getBeginPeriodDateTime()), new DateTime(tdaf.getEndPeriodDateTime()));
 					
 					List<AccrualCategory> accrualCategories = TkServiceLocator.getAccrualCategoryService().getActiveLeaveAccrualCategoriesForLeavePlan(principalCalendar.getLeavePlan(), new java.sql.Date(tdaf.getEndPeriodDateTime().getTime()));
 					for (AccrualCategory accrualCategory : accrualCategories) {
@@ -328,7 +328,7 @@ public class TimeDetailAction extends TimesheetAction {
 	        List<CalendarEntry> payPeriodList = new ArrayList<CalendarEntry>();
 	        for(TimesheetDocumentHeader tdh : documentHeaders) {
 	        	if(sdf.format(tdh.getBeginDate()).equals(tdaf.getSelectedCalendarYear())) {
-                    CalendarEntry pe = TkServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(tdh.getPrincipalId(), tdh.getEndDate(), TkConstants.PAY_CALENDAR_TYPE);
+                    CalendarEntry pe = TkServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(tdh.getPrincipalId(), new DateTime(tdh.getEndDate()), TkConstants.PAY_CALENDAR_TYPE);
                     //CalendarEntries pe = TkServiceLocator.getCalendarEntriesService().getCalendarEntriesByBeginAndEndDate(tdh.getBeginDate(), tdh.getEndDate());
 	        		payPeriodList.add(pe);
 	        	}
@@ -602,8 +602,7 @@ public class TimeDetailAction extends TimesheetAction {
       
   public ActionForward gotoCurrentPayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 	  String viewPrincipal = TKContext.getTargetPrincipalId();
-	  Date currentDate = TKUtils.getTimelessDate(null);
-      CalendarEntry pce = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal, currentDate);
+      CalendarEntry pce = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
       TimesheetDocument td = TkServiceLocator.getTimesheetService().openTimesheetDocument(viewPrincipal, pce);
       setupDocumentOnFormContext((TimesheetActionForm)form, td);
 	  return mapping.findForward("basic");
@@ -649,7 +648,7 @@ public class TimeDetailAction extends TimesheetAction {
       EarnCode ec = TkServiceLocator.getEarnCodeService().getEarnCode(blockToDelete.getEarnCode(), blockToDelete.getLeaveDate());
       if(ec != null && ec.getEligibleForAccrual().equals("N")) {
     	  CalendarEntry ce = TkServiceLocator.getCalendarService()
-					.getCurrentCalendarDatesForLeaveCalendar(blockToDelete.getPrincipalId(), blockToDelete.getLeaveDate());
+					.getCurrentCalendarDatesForLeaveCalendar(blockToDelete.getPrincipalId(), new DateTime(blockToDelete.getLeaveDate()));
     	  if(ce != null) {
     		  TkServiceLocator.getLeaveAccrualService().runAccrual(blockToDelete.getPrincipalId(), ce.getBeginPeriodDate(), ce.getEndPeriodDate(), false);
     	  }

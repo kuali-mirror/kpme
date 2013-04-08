@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.paygrade.validation;
 
-import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.gargoylesoftware.htmlunit.html.*;
 import junit.framework.Assert;
 

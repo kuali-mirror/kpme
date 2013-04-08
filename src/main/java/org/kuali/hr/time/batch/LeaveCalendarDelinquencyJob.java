@@ -22,6 +22,8 @@ import java.util.Set;
 
 import org.apache.commons.lang.SystemUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.notification.service.KPMENotificationService;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
 import org.kuali.hr.lm.workflow.service.LeaveCalendarDocumentHeaderService;
@@ -29,7 +31,6 @@ import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.calendar.service.CalendarEntryService;
 import org.kuali.hr.time.principal.PrincipalHRAttributes;
 import org.kuali.hr.time.principal.service.PrincipalHRAttributesService;
-import org.kuali.hr.time.util.TKUtils;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -47,14 +48,14 @@ public class LeaveCalendarDelinquencyJob implements Job {
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		Set<String> principalIds = new HashSet<String>();
 		
-		Date asOfDate = TKUtils.getCurrentDate();
+		DateTime asOfDate = new LocalDate().toDateTimeAtStartOfDay();
 		List<CalendarEntry> calendarEntries = getCalendarEntryService().getCurrentCalendarEntriesNeedsScheduled(getCalendarEntriesPollingWindow(), asOfDate);
 		
 		for (CalendarEntry calendarEntry : calendarEntries) {
 			String hrCalendarId = calendarEntry.getHrCalendarId();
 			Date currentBeginDate = calendarEntry.getBeginPeriodDateTime();
 			
-			if (currentBeginDate.before(asOfDate) || DateUtils.isSameDay(currentBeginDate, asOfDate)) {
+			if (currentBeginDate.before(asOfDate.toDate()) || DateUtils.isSameDay(currentBeginDate, asOfDate.toDate())) {
 				CalendarEntry previousCalendarEntry = getCalendarEntryService().getPreviousCalendarEntryByCalendarId(hrCalendarId, calendarEntry);
 				
 				if (previousCalendarEntry != null) {

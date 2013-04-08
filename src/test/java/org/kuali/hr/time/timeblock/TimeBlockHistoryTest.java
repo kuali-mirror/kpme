@@ -16,7 +16,6 @@
 package org.kuali.hr.time.timeblock;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ import org.kuali.hr.time.util.TkConstants;
 
 public class TimeBlockHistoryTest extends KPMETestCase {
 
-    private static Date DEFAULT_EFFDT = new Date((new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+    private static DateTime DEFAULT_EFFDT =new DateTime(2010, 1, 1, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
     Timestamp beginTimestamp = new Timestamp(new DateTime(2010, 1, 1, 8, 0, 0, 0, TKUtils.getSystemDateTimeZone()).getMillis());
     Timestamp endTimestamp = new Timestamp(new DateTime(2010, 1, 1, 16, 0, 0, 0, TKUtils.getSystemDateTimeZone()).getMillis());
 

@@ -15,8 +15,6 @@
  */
 package org.kuali.hr.time.timesheet.web;
 
-import java.sql.Date;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -26,13 +24,13 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.base.web.TkAction;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.detail.web.ActionFormUtils;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -68,8 +66,7 @@ public class TimesheetAction extends TkAction {
         // Here - viewPrincipal will be the principal of the user we intend to
         // view, be it target user, backdoor or otherwise.
         String viewPrincipal = TKContext.getTargetPrincipalId();
-        Date currentDate = TKUtils.getTimelessDate(null);
-		CalendarEntry payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal, currentDate);
+		CalendarEntry payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
 
         // By handling the prev/next in the execute method, we are saving one
         // fetch/construction of a TimesheetDocument. If it were broken out into

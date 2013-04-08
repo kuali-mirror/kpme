@@ -29,6 +29,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.joda.time.DateTime;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.leaveblock.LeaveBlockHistory;
@@ -70,13 +71,13 @@ public class LeaveRequestAction extends TkAction {
         java.util.Date endDate = TKUtils.getTimelessDate(currentCalendar.getTime());
 
 //        CalendarEntry calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(principalId, currentDate);
-        CalendarEntry calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(principalId, beginDate, endDate);
+        CalendarEntry calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(principalId, new DateTime(beginDate), new DateTime(endDate));
 
         //  If the current pay period ends before the current leave calendar ends, then we need to include any planned leave blocks that occur
         //  in this window between the current pay end and the beginning of the leave planning calendar (the next future leave period).
         //  The most common scenario occurs when a non-monthly pay period ends before the current leave calendar ends.
 
-        CalendarEntry payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(principalId, beginDate, endDate);
+        CalendarEntry payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(principalId, new DateTime(beginDate), new DateTime(endDate));
         Boolean checkLeaveEligible = true;
         Boolean nonExemptLeaveEligible = TkServiceLocator.getLeaveApprovalService().isActiveAssignmentFoundOnJobFlsaStatus(principalId, TkConstants.FLSA_STATUS_NON_EXEMPT,checkLeaveEligible);
         if(nonExemptLeaveEligible && calendarEntry != null && payCalendarEntry != null) {

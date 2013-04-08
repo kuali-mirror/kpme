@@ -15,13 +15,13 @@
  */
 package org.kuali.hr.time.batch;
 
-import java.util.Date;
 import java.util.List;
 
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.batch.service.BatchJobService;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.service.base.TkServiceLocator;
-import org.kuali.hr.time.util.TKUtils;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.quartz.SchedulerException;
@@ -35,7 +35,7 @@ public class CalendarEntrySchedulerJob extends QuartzJobBean {
 
 	@Override
 	protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-		Date asOfDate = TKUtils.getCurrentDate();
+		DateTime asOfDate = new LocalDate().toDateTimeAtStartOfDay();
         List<CalendarEntry> calendarEntries = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntriesNeedsScheduled(getCalendarEntriesPollingWindow(), asOfDate);
 
         try {

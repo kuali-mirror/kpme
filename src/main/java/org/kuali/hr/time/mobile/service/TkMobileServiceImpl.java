@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.mobile.service;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.LocalDate;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.assignment.AssignmentDescriptionKey;
 import org.kuali.hr.time.calendar.CalendarEntry;
@@ -68,8 +68,7 @@ public class TkMobileServiceImpl implements TkMobileService {
         TKContext.setTargetPrincipalId(principalId);
 
 		Assignment assignment = TkServiceLocator.getAssignmentService().getAssignment(new AssignmentDescriptionKey(assignmentKey), TKUtils.getCurrentDate());
-        Date currentDate = TKUtils.getCurrentDate();
-        CalendarEntry calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(principalId,  currentDate);
+        CalendarEntry calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates(principalId, new LocalDate().toDateTimeAtStartOfDay());
         TimesheetDocument td;
 		try {
 			td = TkServiceLocator.getTimesheetService().openTimesheetDocument(principalId, calendarEntry);

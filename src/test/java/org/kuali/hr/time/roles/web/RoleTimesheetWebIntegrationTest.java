@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.roles.web;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +58,7 @@ public class RoleTimesheetWebIntegrationTest extends TimesheetWebTestBase {
         add("testuser1"); add("testuser2"); add("testuser3"); add("testuser4"); }};
 
     private TimesheetDocument fredsDocument = null;
-    Date asOfDate = new Date((new DateTime(2011, 3, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+    DateTime asOfDate = new DateTime(2011, 3, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 
     @Override
     /**

@@ -133,7 +133,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			CalendarEntry pce = TkServiceLocator
 					.getCalendarEntryService()
 					.getCurrentCalendarEntryByCalendarId(
-                            pc.getHrCalendarId(), currentDate);
+                            pc.getHrCalendarId(), new DateTime(currentDate));
 			pceMap.put(pc.getCalendarName(), pce);
 		}
 
@@ -190,7 +190,7 @@ public class TimeApproveServiceImpl implements TimeApproveService {
 			CalendarEntry pce = TkServiceLocator
 					.getCalendarEntryService()
 					.getCurrentCalendarEntryByCalendarId(
-                            pc.getHrCalendarId(), currentDate);
+                            pc.getHrCalendarId(), new DateTime(currentDate));
 			pceMap.put(pc.getCalendarName(), pce);
 		}
 

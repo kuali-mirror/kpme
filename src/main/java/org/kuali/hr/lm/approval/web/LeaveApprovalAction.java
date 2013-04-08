@@ -286,7 +286,7 @@ public class LeaveApprovalAction extends ApprovalAction{
         } else {
             currentPayCalendar = TkServiceLocator.getCalendarService().getCalendarByGroup(laaf.getSelectedPayCalendarGroup());
             if (currentPayCalendar != null) {
-                payCalendarEntry = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(currentPayCalendar.getHrCalendarId(), currentDate);
+                payCalendarEntry = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(currentPayCalendar.getHrCalendarId(), new DateTime(currentDate));
             }
         }
         laaf.setPayCalendarEntry(payCalendarEntry);

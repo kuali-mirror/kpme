@@ -70,7 +70,7 @@ public class LeaveCalendarWorkflowIntegrationTest extends LeaveCalendarWebTestBa
      * - verify submit for routing button gone
      */
     public void testLeaveCalendarSubmissionIntegration() throws Exception {
-        Date asOfDate = new Date((new DateTime(2011, 3, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+        DateTime asOfDate = new DateTime(2011, 3, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
         CalendarEntry pcd = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(USER_PRINCIPAL_ID, asOfDate);
         Assert.assertNotNull("No CalendarEntry", pcd);
         LeaveCalendarDocument tdoc = TkServiceLocator.getLeaveCalendarService().openLeaveCalendarDocument(USER_PRINCIPAL_ID, pcd);

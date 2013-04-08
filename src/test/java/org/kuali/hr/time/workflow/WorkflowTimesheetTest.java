@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.workflow;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -42,9 +41,9 @@ public class WorkflowTimesheetTest extends KPMETestCase {
 		TimesheetService timesheetService = TkServiceLocator.getTimesheetService();
 		Assert.assertNotNull("timesheet service null", timesheetService);
 
-		Date asOfDate = new Date((new DateTime(2010, 8, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+		DateTime asOfDate = new DateTime(2010, 8, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 
-		List<Job> jobs = TkServiceLocator.getJobService().getJobs(GlobalVariables.getUserSession().getPrincipalId(), asOfDate);
+		List<Job> jobs = TkServiceLocator.getJobService().getJobs(GlobalVariables.getUserSession().getPrincipalId(), asOfDate.toDate());
 		Assert.assertNotNull("No jobs", jobs);
 		Assert.assertTrue("Should only be two Jobs.", jobs.size() == 2);
 		CalendarEntry pcd = TkServiceLocator.getCalendarService().getCurrentCalendarDates(GlobalVariables.getUserSession().getPrincipalId(), asOfDate);

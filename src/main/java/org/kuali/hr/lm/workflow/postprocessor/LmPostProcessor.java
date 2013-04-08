@@ -19,6 +19,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.lm.workflow.LeaveCalendarDocumentHeader;
@@ -65,10 +67,10 @@ public class LmPostProcessor extends DefaultPostProcessor {
 		if (DocumentStatus.ENROUTE.equals(newDocumentStatus)) {
 			//create pending carry over leave blocks.
 			
-			Calendar calendar = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, endDate, true);
+			Calendar calendar = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(principalId, new LocalDate(endDate), true);
 			
 			if (calendar != null) {
-				CalendarEntry calendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate(calendar.getHrCalendarId(), endDate);
+				CalendarEntry calendarEntry = TkServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate(calendar.getHrCalendarId(), new DateTime(endDate));
 				
 				TkServiceLocator.getAccrualCategoryMaxCarryOverService().calculateMaxCarryOver(documentId, principalId, calendarEntry, endDate);
 			}

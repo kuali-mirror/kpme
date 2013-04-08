@@ -15,12 +15,12 @@
  */
 package org.kuali.hr.time.calendar.service;
 
+import java.util.List;
+
+import org.joda.time.DateTime;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.calendar.CalendarEntryPeriodType;
 import org.springframework.cache.annotation.Cacheable;
-
-import java.util.Date;
-import java.util.List;
 
 public interface CalendarEntryService {
 
@@ -41,7 +41,7 @@ public interface CalendarEntryService {
      * @return the current CalendarEntry effective by the asOfDate.
      */
     @Cacheable(value= CalendarEntry.CACHE_NAME, key="'hrCalendarId=' + #p0 + '|' + 'asOfDate=' + #p1")
-	public CalendarEntry getCurrentCalendarEntryByCalendarId(String hrCalendarId, Date asOfDate);
+	public CalendarEntry getCurrentCalendarEntryByCalendarId(String hrCalendarId, DateTime asOfDate);
 
     /**
      * Method to obtain the CalendarEntry object based in a date range
@@ -51,10 +51,10 @@ public interface CalendarEntryService {
      * @return the current CalendarEntry effective by the asOfDate.
      */
     @Cacheable(value= CalendarEntry.CACHE_NAME, key="'hrCalendarId=' + #p0 + '|' + 'beginDate=' + #p1 + '|' + 'endDate=' + #p2")
-    public CalendarEntry getCalendarEntryByCalendarIdAndDateRange(String hrCalendarId, Date beginDate, Date endDate);
+    public CalendarEntry getCalendarEntryByCalendarIdAndDateRange(String hrCalendarId, DateTime beginDate, DateTime endDate);
 
     @Cacheable(value= CalendarEntry.CACHE_NAME, key="'hrCalendarId=' + #p0 + '|' + 'endPeriodDate=' + #p1")
-    public CalendarEntry getCalendarEntryByIdAndPeriodEndDate(String hrCalendarId, Date endPeriodDate);
+    public CalendarEntry getCalendarEntryByIdAndPeriodEndDate(String hrCalendarId, DateTime endPeriodDate);
 
     public CalendarEntry getPreviousCalendarEntryByCalendarId(String hrCalendarId, CalendarEntry pce);
     public CalendarEntry getNextCalendarEntryByCalendarId(String hrCalendarId, CalendarEntry pce);
@@ -67,15 +67,15 @@ public interface CalendarEntryService {
      * @return A list of CalendarEntry.
      */
     @Cacheable(value= CalendarEntry.CACHE_NAME, key="'thresholdDays=' + #p0 + '|' + 'endPeriodDate=' + #p1")
-	public List<CalendarEntry> getCurrentCalendarEntriesNeedsScheduled(int thresholdDays, Date asOfDate);
+	public List<CalendarEntry> getCurrentCalendarEntriesNeedsScheduled(int thresholdDays, DateTime asOfDate);
 	
 	public CalendarEntry createNextCalendarEntry(CalendarEntry calendarEntry, CalendarEntryPeriodType type);
 	
-	public List<CalendarEntry> getFutureCalendarEntries(String hrCalendarId, Date currentDate, int numberOfEntries);
+	public List<CalendarEntry> getFutureCalendarEntries(String hrCalendarId, DateTime currentDate, int numberOfEntries);
 
-    public CalendarEntry getCalendarEntryByBeginAndEndDate(Date beginPeriodDate, Date endPeriodDate);
+    public CalendarEntry getCalendarEntryByBeginAndEndDate(DateTime beginPeriodDate, DateTime endPeriodDate);
 
-    public List<CalendarEntry> getCalendarEntriesEndingBetweenBeginAndEndDate(String hrCalendarId, Date beginDate, Date endDate);
+    public List<CalendarEntry> getCalendarEntriesEndingBetweenBeginAndEndDate(String hrCalendarId, DateTime beginDate, DateTime endDate);
 
     @Cacheable(value= CalendarEntry.CACHE_NAME, key="'hrCalendarId=' + #p0")
     public List<CalendarEntry> getAllCalendarEntriesForCalendarId(String hrCalendarId);
@@ -84,6 +84,6 @@ public interface CalendarEntryService {
     
     public List<CalendarEntry> getAllCalendarEntriesForCalendarIdUpToPlanningMonths(String hrCalendarId, String principalId);
     
-    public List<CalendarEntry> getAllCalendarEntriesForCalendarIdUpToCutOffTime(String hrCalendarId, Date cutOffTime);
+    public List<CalendarEntry> getAllCalendarEntriesForCalendarIdUpToCutOffTime(String hrCalendarId, DateTime cutOffTime);
 
 }

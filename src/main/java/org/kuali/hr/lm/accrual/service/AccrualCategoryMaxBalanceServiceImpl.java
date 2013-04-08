@@ -28,6 +28,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.kuali.hr.lm.LMConstants;
 import org.kuali.hr.lm.accrual.AccrualCategory;
@@ -73,7 +74,7 @@ public class AccrualCategoryMaxBalanceServiceImpl implements AccrualCategoryMaxB
 		if(cal == null)
 			return eligibilities;
 		
-		List<CalendarEntry> leaveCalEntries = TkServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate(cal.getHrCalendarId(), entry.getBeginPeriodDate(), entry.getEndPeriodDate());
+		List<CalendarEntry> leaveCalEntries = TkServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate(cal.getHrCalendarId(), new DateTime(entry.getBeginPeriodDateTime()), new DateTime(entry.getEndPeriodDateTime()));
 		CalendarEntry yearEndLeaveEntry = null;
 		CalendarEntry leaveLeaveEntry = null;
 		if(!leaveCalEntries.isEmpty()) {

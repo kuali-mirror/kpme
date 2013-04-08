@@ -65,7 +65,7 @@ public class TkTestUtils {
 
 	private static final Logger LOG = Logger.getLogger(TkTestUtils.class);
 
-	public static TimesheetDocument populateBlankTimesheetDocument(Date calDate) {
+	public static TimesheetDocument populateBlankTimesheetDocument(DateTime calDate) {
 		try {
 			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getTargetPrincipalId(),
 							TkServiceLocator.getCalendarService().getCurrentCalendarDates(TKContext.getTargetPrincipalId(),
@@ -84,7 +84,7 @@ public class TkTestUtils {
 		try {
 			TimesheetDocument timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getTargetPrincipalId(),
 							TkServiceLocator.getCalendarService().getCurrentCalendarDates(TKContext.getTargetPrincipalId(),
-                                    calDate));
+									new DateTime(calDate)));
 			for(TimeBlock timeBlock : timesheet.getTimeBlocks()){
 				TkServiceLocator.getTimeBlockService().deleteTimeBlock(timeBlock);
 			}
@@ -92,7 +92,7 @@ public class TkTestUtils {
 			//refetch clean document
 			timesheet = TkServiceLocator.getTimesheetService().openTimesheetDocument(TKContext.getTargetPrincipalId(),
 					TkServiceLocator.getCalendarService().getCurrentCalendarDates(TKContext.getTargetPrincipalId(),
-                            calDate));
+							new DateTime(calDate)));
 			List<TimeBlock> timeBlocks = new LinkedList<TimeBlock>();
 			for(int i = 0;i<5;i++){
 				TimeBlock timeBlock = createTimeBlock(timesheet, i+1, 10);

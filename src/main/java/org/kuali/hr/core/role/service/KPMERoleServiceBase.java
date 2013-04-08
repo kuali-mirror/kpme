@@ -107,7 +107,7 @@ public abstract class KPMERoleServiceBase {
 		
 		List<Predicate> predicates = new ArrayList<Predicate>();
 		predicates.add(equal(KimConstants.PrimaryKeyConstants.SUB_ROLE_ID, roleId));
-		predicates.add(or(isNull("activeFromDateValue"), lessThanOrEqual("activeFromDateValue", asOfDate)));
+		predicates.add(or(isNull("activeFromDateValue"), lessThanOrEqual("activeFromDateValue", asOfDate.toDate())));
 		predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", new Date())));
 		
 		LookupCustomizer.Builder<RoleMemberBo> builder = LookupCustomizer.Builder.create();
@@ -239,7 +239,7 @@ public abstract class KPMERoleServiceBase {
 				List<Predicate> predicates = new ArrayList<Predicate>();
 				predicates.add(equal(KimConstants.PrimaryKeyConstants.SUB_ROLE_ID, role.getId()));
 				if (getActiveOnly) {
-					predicates.add(or(isNull("activeFromDateValue"), lessThanOrEqual("activeFromDateValue", asOfDate)));
+					predicates.add(or(isNull("activeFromDateValue"), lessThanOrEqual("activeFromDateValue", asOfDate.toDate())));
 					predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", new Date())));
 				}
 				
@@ -489,7 +489,7 @@ public abstract class KPMERoleServiceBase {
 		predicates.add(or(principalPredicate, rolePredicate, groupPredicate));
 		
 		if (getActiveOnly) {
-			predicates.add(or(isNull("activeFromDateValue"), lessThanOrEqual("activeFromDateValue", asOfDate)));
+			predicates.add(or(isNull("activeFromDateValue"), lessThanOrEqual("activeFromDateValue", asOfDate.toDate())));
 			predicates.add(or(isNull("activeToDateValue"), greaterThan("activeToDateValue", new Date())));
 		}
 		

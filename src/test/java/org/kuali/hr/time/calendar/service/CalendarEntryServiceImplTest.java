@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.calendar.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -62,7 +61,7 @@ public class CalendarEntryServiceImplTest extends KPMETestCase {
 	
 	@Test
 	public void testGetAllCalendarEntriesForCalendarIdUpToCutOffTime() {
-		Date aDate = new Date((new DateTime(2012,10,31,0,0,0,0, TKUtils.getSystemDateTimeZone())).getMillis());
+		DateTime aDate = new DateTime(2012,10,31,0,0,0,0, TKUtils.getSystemDateTimeZone());
 		List<CalendarEntry> ceList= ceService.getAllCalendarEntriesForCalendarIdUpToCutOffTime("2", aDate);
 		Assert.assertTrue("Calendar entries not found for Calendar Id '2' and date ", CollectionUtils.isNotEmpty(ceList));
 		Assert.assertTrue("There should be 67 Calendar entries, not " + ceList.size(), ceList.size() == 67);

@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.lm.leave.web;
 
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,6 +28,7 @@ import org.apache.log4j.Logger;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.joda.time.LocalDate;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.kuali.hr.lm.leaveSummary.LeaveSummary;
@@ -80,9 +80,8 @@ public class LeaveCalendarWSAction extends TkAction {
                     .getLeaveCalendarDocument(viewPrincipal, calendarEntry);
         } else {
             // Default to whatever is active for "today".
-            Date currentDate = TKUtils.getTimelessDate(null);
             calendarEntry = TkServiceLocator.getCalendarService()
-                    .getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, currentDate);
+                    .getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
             lcd = TkServiceLocator.getLeaveCalendarService()
                     .openLeaveCalendarDocument(viewPrincipal, calendarEntry);
         }

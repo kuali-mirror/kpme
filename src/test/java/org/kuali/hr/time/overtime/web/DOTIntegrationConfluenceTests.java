@@ -16,7 +16,6 @@
 package org.kuali.hr.time.overtime.web;
 
 import java.math.BigDecimal;
-import java.sql.Date;
 import java.util.*;
 
 import org.joda.time.DateTime;
@@ -133,7 +132,7 @@ public class DOTIntegrationConfluenceTests extends TimesheetWebTestBase {
     }
 
     public String KPME788_789(ArrayList<Map<String, Object>> tb1ThdItems, HashMap<String, Object> tb1Items, ArrayList<Map<String, Object>> tb2ThdItems, HashMap<String, Object> tb2Items) throws Exception {
-        Date asOfDate = new Date((new DateTime(2011, 3, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+        DateTime asOfDate = new DateTime(2011, 3, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
         CalendarEntry pcd = TkServiceLocator.getCalendarService().getCurrentCalendarDates(USER_PRINCIPAL_ID, asOfDate);
         Assert.assertNotNull("No PayCalendarDates", pcd);
 

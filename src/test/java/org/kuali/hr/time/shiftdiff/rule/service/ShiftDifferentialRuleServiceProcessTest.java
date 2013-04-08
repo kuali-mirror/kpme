@@ -153,7 +153,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 
 		// August
 		DateTime beginPeriodDate = new DateTime(2010, 8, 15, 0, 0, 0, 0, tz);
-        Date endPeriodDate = new Date(new DateTime(2010, 9, 1, 0, 0, 0, 0).getMillis());
+        DateTime endPeriodDate = new DateTime(2010, 9, 1, 0, 0, 0, 0);
 		CalendarEntry endOfAugust = TkServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate("2", endPeriodDate);
 		DateTime start = new DateTime(2010, 8, 31, 21, 45, 0, 0, tz);
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
@@ -170,7 +170,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 		// September
 
 		start = new DateTime(2010, 9, 1, 0, 0, 0, 0, tz);
-		CalendarEntry payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates("admin", start.toLocalDate().toDateMidnight().toDate());
+		CalendarEntry payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates("admin", start.toLocalDate().toDateTimeAtStartOfDay());
 		tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", payCalendarEntry);
 		blocks = new ArrayList<TimeBlock>();
 		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start, 1, new BigDecimal("5"), "RGN", jobNumber, workArea));
@@ -236,7 +236,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 				dayArray);
 
 		// August
-		Date endPeriodDate = new Date(new DateTime(2010, 9, 1, 0, 0, 0, 0).getMillis());
+		DateTime endPeriodDate = new DateTime(2010, 9, 1, 0, 0, 0, 0);
         CalendarEntry endOfAugust = TkServiceLocator.getCalendarEntryService().getCalendarEntryByIdAndPeriodEndDate("2", endPeriodDate);
 		DateTime start = new DateTime(2010, 8, 31, 22, 0, 0, 0, tz);
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
@@ -255,8 +255,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 
 		// September
 		start = new DateTime(2010, 9, 1, 0, 0, 0, 0, tz);
-        java.util.Date septStartDate = new LocalDate(new DateTime(2010,9,1,0,0,0,0)).toDateMidnight().toDate();
-		CalendarEntry payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates("admin", septStartDate);
+		CalendarEntry payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates("admin", start.toLocalDate().toDateTimeAtStartOfDay());
 		tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument("admin", payCalendarEntry);
 		blocks = new ArrayList<TimeBlock>();
 		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start, 1, new BigDecimal("5"), "RGN", jobNumber, workArea));
@@ -302,7 +301,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 		// Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours total each.
 		DateTime start = new DateTime(2010, 3, 29, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
-		CalendarEntry payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates("admin", new Date(start.getMillis()));
+		CalendarEntry payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates("admin", start);
 		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start, 2, new BigDecimal("4"), "RGN", jobNumber, workArea));
 		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusHours(4).plusMinutes(15), 2, new BigDecimal("2"), "RGN", jobNumber, workArea));
 		blocks.addAll(TkTestUtils.createUniformTimeBlocks(new DateTime(2010, 3, 29, 12, 58, 0, 0, TKUtils.getSystemDateTimeZone()), 2, new BigDecimal(1), "RGN", jobNumber, workArea));
@@ -312,7 +311,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 		TkTestUtils.verifyAggregateHourSums("Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("RGN", new BigDecimal(14));}},aggregate,2);
 
 		// Run Rule
-		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(new Date(start.getMillis()));
+		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start);
 		tdoc.setTimeBlocks(blocks);
 		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 
@@ -351,7 +350,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 		// Create Time Blocks (2 days, 2 blocks on each day, 15 minute gap between blocks, 4 hours total each.
 		DateTime start = new DateTime(2010, 3, 29, 14, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
-		CalendarEntry payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates("admin", new Date(start.getMillis()));
+		CalendarEntry payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates("admin", start);
 		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start, 2, new BigDecimal("4"), "REG", jobNumber, workArea));
 		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start.plusHours(4).plusMinutes(15), 2, new BigDecimal("2"), "REG", jobNumber, workArea));
 		TkTimeBlockAggregate aggregate = new TkTimeBlockAggregate(blocks, payCalendarEntry);
@@ -360,7 +359,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 		TkTestUtils.verifyAggregateHourSums("Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("REG", new BigDecimal(12));}},aggregate,2);
 
 		// Run Rule
-		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(new Date(start.getMillis()));
+		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start);
 		tdoc.setTimeBlocks(blocks);
 		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 
@@ -470,7 +469,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 		DateTime start = new DateTime(2010, 3, 29, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
         DateTime holtime = new DateTime(2010, 3, 30, 0, 0, 0, 0, TKUtils.getSystemDateTimeZone());
 		List<TimeBlock> blocks = new ArrayList<TimeBlock>();
-		CalendarEntry payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates("admin", new Date(start.getMillis()));
+		CalendarEntry payCalendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDates("admin", start);
 		blocks.addAll(TkTestUtils.createUniformTimeBlocks(start,   1, new BigDecimal("4"), "REG", jobNumber, workArea));
         blocks.addAll(TkTestUtils.createUniformTimeBlocks(holtime, 1, new BigDecimal("4"), "HOL", jobNumber, workArea));
 
@@ -480,7 +479,7 @@ public class ShiftDifferentialRuleServiceProcessTest extends KPMETestCase {
 		TkTestUtils.verifyAggregateHourSums("Pre-Check", new HashMap<String,BigDecimal>() {{put("PRM", BigDecimal.ZERO);put("REG", new BigDecimal(4));put("HOL", new BigDecimal(4));}},aggregate,2);
 
 		// Run Rule
-		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(new Date(start.getMillis()));
+		TimesheetDocument tdoc = TkTestUtils.populateBlankTimesheetDocument(start);
 		tdoc.setTimeBlocks(blocks);
 		TkServiceLocator.getShiftDifferentialRuleService().processShiftDifferentialRules(tdoc, aggregate);
 

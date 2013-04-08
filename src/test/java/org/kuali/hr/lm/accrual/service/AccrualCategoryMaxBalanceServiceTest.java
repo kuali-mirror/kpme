@@ -276,7 +276,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 		//Assert correct number of transfer eligible for frequency
 		List<LeaveBlock> eligibleLeaveApproveActions = new ArrayList<LeaveBlock>();
 		Interval interval = new Interval(midDecTSDEntry.getBeginPeriodDate().getTime(),midDecTSDEntry.getEndPeriodDate().getTime());
-		List<CalendarEntry> entries = TkServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate("3", interval.getStart().toDate(), interval.getEnd().toDate());
+		List<CalendarEntry> entries = TkServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate("3", interval.getStart(), interval.getEnd());
 		assertEquals("There should be one leave entry ending within this timesheet", 1, entries.size());
 		Interval leaveInterval = new Interval(midDecTSDEntry.getBeginPeriodDate().getTime(),entries.get(0).getEndPeriodDate().getTime());
 		for(LeaveBlock violation : maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.LEAVE_APPROVE)) {
@@ -300,7 +300,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 		assertEquals(8, maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END).size());
 		List<LeaveBlock> eligibleYearEndActions = new ArrayList<LeaveBlock>();
 		Interval interval = new Interval(midDecTSDEntry.getBeginPeriodDate().getTime(),midDecTSDEntry.getEndPeriodDate().getTime());
-		List<CalendarEntry> entries = TkServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate("3", interval.getStart().toDate(), interval.getEnd().toDate());
+		List<CalendarEntry> entries = TkServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate("3", interval.getStart(), interval.getEnd());
 		assertEquals("There should be one leave entry ending within this timesheet", 1, entries.size());
 		Interval leaveInterval = new Interval(midDecTSDEntry.getBeginPeriodDate().getTime(),entries.get(0).getEndPeriodDate().getTime());
 		for(LeaveBlock violation : maxBalanceViolations.get(LMConstants.MAX_BAL_ACTION_FREQ.YEAR_END)) {
@@ -337,7 +337,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 		//Assert correct base number of transfer eligible for frequency
 		List<LeaveBlock> eligibleLeaveApproveActions = new ArrayList<LeaveBlock>();
 		Interval interval = new Interval(endDecTSDEntry.getBeginPeriodDate().getTime(),endDecTSDEntry.getEndPeriodDate().getTime());
-		List<CalendarEntry> entries = TkServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate("3", interval.getStart().toDate(), interval.getEnd().toDate());
+		List<CalendarEntry> entries = TkServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate("3", interval.getStart(), interval.getEnd());
 		assertTrue("There should only be one leave period that ends within any given time calendar", entries.size() == 1);
 		CalendarEntry leaveEntry = entries.get(0);
 		Interval leaveInterval = new Interval(endDecTSDEntry.getBeginPeriodDate().getTime(),leaveEntry.getEndPeriodDate().getTime());
@@ -420,7 +420,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 
 		List<LeaveBlock> eligibleTransfers = new ArrayList<LeaveBlock>();
 		Interval interval = new Interval(endDecTSDEntry.getBeginPeriodDate().getTime(),endDecTSDEntry.getEndPeriodDate().getTime());
-		List<CalendarEntry> entries = TkServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate("3", interval.getStart().toDate(), interval.getEnd().toDate());
+		List<CalendarEntry> entries = TkServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate("3", interval.getStart(), interval.getEnd());
 		assertTrue("There should only be one leave period that ends within any given time calendar", entries.size() == 1);
 		CalendarEntry leaveEntry = entries.get(0);
 		Interval leaveInterval = new Interval(endDecTSDEntry.getBeginPeriodDate().getTime(),leaveEntry.getEndPeriodDate().getTime());
@@ -446,7 +446,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 		
 		List<LeaveBlock> eligibleTransfers = new ArrayList<LeaveBlock>();
 		Interval interval = new Interval(endDecTSDEntry.getBeginPeriodDate().getTime(),endDecTSDEntry.getEndPeriodDate().getTime());
-		List<CalendarEntry> entries = TkServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate("3", interval.getStart().toDate(), interval.getEnd().toDate());
+		List<CalendarEntry> entries = TkServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate("3", interval.getStart(), interval.getEnd());
 		assertTrue("There should only be one leave period that ends within any given time calendar", entries.size() == 1);
 		CalendarEntry leaveEntry = entries.get(0);
 		Interval leaveInterval = new Interval(endDecTSDEntry.getBeginPeriodDate().getTime(),leaveEntry.getEndPeriodDate().getTime());
@@ -473,7 +473,7 @@ public class AccrualCategoryMaxBalanceServiceTest extends KPMETestCase {
 		//Assert correct number of transfer eligible for frequency
 		List<LeaveBlock> eligibleTransfers = new ArrayList<LeaveBlock>();
 		Interval interval = new Interval(endJanTSDEntry.getBeginPeriodDate().getTime(),endJanTSDEntry.getEndPeriodDate().getTime());
-		List<CalendarEntry> entries = TkServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate("3", interval.getStart().toDate(), interval.getEnd().toDate());
+		List<CalendarEntry> entries = TkServiceLocator.getCalendarEntryService().getCalendarEntriesEndingBetweenBeginAndEndDate("3", interval.getStart(), interval.getEnd());
 		assertTrue("There should only be one leave period that ends within any given time calendar", entries.size() == 1);
 		CalendarEntry leaveEntry = entries.get(0);
 		Interval leaveInterval = new Interval(endJanTSDEntry.getBeginPeriodDate().getTime(),leaveEntry.getEndPeriodDate().getTime());

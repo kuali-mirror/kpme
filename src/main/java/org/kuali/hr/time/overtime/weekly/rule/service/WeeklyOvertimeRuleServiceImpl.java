@@ -28,6 +28,7 @@ import java.util.Set;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.earncode.EarnCode;
@@ -105,7 +106,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 				if (timesheetDocumentHeader != null) { 
 					List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(timesheetDocumentHeader.getDocumentId());
 					if (CollectionUtils.isNotEmpty(timeBlocks)) {
-						CalendarEntry calendarEntry = TkServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(principalId, timesheetDocumentHeader.getEndDate(), TkConstants.PAY_CALENDAR_TYPE);
+						CalendarEntry calendarEntry = TkServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(principalId, new DateTime(timesheetDocumentHeader.getEndDate()), TkConstants.PAY_CALENDAR_TYPE);
 						TkTimeBlockAggregate previousAggregate = new TkTimeBlockAggregate(timeBlocks, calendarEntry, calendarEntry.getCalendarObj(), true);
 						List<FlsaWeek> previousWeek = previousAggregate.getFlsaWeeks(zone);
 						if (CollectionUtils.isNotEmpty(previousWeek)) {
@@ -122,7 +123,7 @@ public class WeeklyOvertimeRuleServiceImpl implements WeeklyOvertimeRuleService 
 				if (timesheetDocumentHeader != null) { 
 					List<TimeBlock> timeBlocks = TkServiceLocator.getTimeBlockService().getTimeBlocks(timesheetDocumentHeader.getDocumentId());
 					if (CollectionUtils.isNotEmpty(timeBlocks)) {
-						CalendarEntry calendarEntry = TkServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(principalId, timesheetDocumentHeader.getEndDate(), TkConstants.PAY_CALENDAR_TYPE);
+						CalendarEntry calendarEntry = TkServiceLocator.getCalendarService().getCalendarDatesByPayEndDate(principalId, new DateTime(timesheetDocumentHeader.getEndDate()), TkConstants.PAY_CALENDAR_TYPE);
 						TkTimeBlockAggregate nextAggregate = new TkTimeBlockAggregate(timeBlocks, calendarEntry, calendarEntry.getCalendarObj(), true);
 						List<FlsaWeek> nextWeek = nextAggregate.getFlsaWeeks(zone);
 						if (CollectionUtils.isNotEmpty(nextWeek)) {

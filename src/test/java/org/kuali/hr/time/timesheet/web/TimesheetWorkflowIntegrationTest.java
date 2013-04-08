@@ -81,7 +81,7 @@ public class TimesheetWorkflowIntegrationTest extends TimesheetWebTestBase {
      * - verify submit for routing button gone
      */
     public void testTimesheetSubmissionIntegration() throws Exception {
-        Date asOfDate = new Date((new DateTime(2011, 3, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone())).getMillis());
+        DateTime asOfDate = new DateTime(2011, 3, 1, 12, 0, 0, 0, TKUtils.getSystemDateTimeZone());
         CalendarEntry pcd = TkServiceLocator.getCalendarService().getCurrentCalendarDates(USER_PRINCIPAL_ID, asOfDate);
         Assert.assertNotNull("No PayCalendarDates", pcd);
         TimesheetDocument tdoc = TkServiceLocator.getTimesheetService().openTimesheetDocument(USER_PRINCIPAL_ID, pcd);

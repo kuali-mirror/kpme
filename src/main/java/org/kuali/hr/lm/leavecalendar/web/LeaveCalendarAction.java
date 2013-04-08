@@ -26,6 +26,7 @@ import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionRedirect;
 import org.joda.time.DateTime;
 import org.joda.time.Interval;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -126,9 +127,8 @@ public class LeaveCalendarAction extends TkAction {
 					.getCalendarEntry(calendarEntryId);
 		} else {
 			// Default to whatever is active for "today".
-			Date currentDate = TKUtils.getTimelessDate(null);
 			calendarEntry = TkServiceLocator.getCalendarService()
-					.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, currentDate);
+					.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
 		}
 		lcf.setCalendarEntry(calendarEntry);
 		if(calendarEntry != null) {
@@ -259,8 +259,8 @@ public class LeaveCalendarAction extends TkAction {
 			        			aDate = TkServiceLocator.getLeavePlanService().getRolloverDayOfLeavePlan(principalCalendar.getLeavePlan(), lb.getLeaveDate());
 			        		}
 			        		else {
-				        		Calendar cal = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(viewPrincipal, lb.getLeaveDate(), true);
-				        		CalendarEntry leaveEntry = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(cal.getHrCalendarId(), lb.getLeaveDate());
+				        		Calendar cal = TkServiceLocator.getCalendarService().getCalendarByPrincipalIdAndDate(viewPrincipal, new LocalDate(lb.getLeaveDate()), true);
+				        		CalendarEntry leaveEntry = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(cal.getHrCalendarId(), new DateTime(lb.getLeaveDate()));
 				        		aDate = new DateTime(leaveEntry.getEndPeriodDate());
 			        		}
 			        		aDate = aDate.minusDays(1);
@@ -685,7 +685,7 @@ public class LeaveCalendarAction extends TkAction {
                         .getCalendarEntryService()
                         .getFutureCalendarEntries(
                                 calEntry.getHrCalendarId(),
-                                TKUtils.getTimelessDate(null),
+                                new LocalDate().toDateTimeAtStartOfDay(),
                                 planningMonths);
 
                 if (futureCalEntries != null && !futureCalEntries.isEmpty()) {
@@ -716,9 +716,8 @@ public class LeaveCalendarAction extends TkAction {
                 setDocEditable(leaveForm, lcd);
 			} else {
 				// retrieve current pay calendar date
-				Date currentDate = TKUtils.getTimelessDate(null);
 				CalendarEntry calendarEntry = TkServiceLocator.getCalendarService()
-						.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, currentDate);
+						.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
 				if(calendarEntry != null) {
 					leaveForm.setCurrentPayCalStart(calendarEntry.getBeginLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback()));
 					leaveForm.setCurrentPayCalEnd(calendarEntry.getEndLocalDateTime().toDateTime(TkServiceLocator.getTimezoneService().getUserTimezoneWithFallback()));
@@ -779,8 +778,7 @@ public class LeaveCalendarAction extends TkAction {
 	public ActionForward gotoCurrentPayPeriod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		LeaveCalendarForm lcf = (LeaveCalendarForm) form;
 		String viewPrincipal = TKContext.getTargetPrincipalId();
-		Date currentDate = TKUtils.getTimelessDate(null);
-		CalendarEntry calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, currentDate);
+		CalendarEntry calendarEntry = TkServiceLocator.getCalendarService().getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
 		lcf.setCalendarEntry(calendarEntry);
 		if(calendarEntry != null) {
 			lcf.setCalEntryId(calendarEntry.getHrCalendarEntryId());

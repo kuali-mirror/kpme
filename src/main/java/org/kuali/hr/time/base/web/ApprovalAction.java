@@ -15,7 +15,6 @@
  */
 package org.kuali.hr.time.base.web;
 
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,13 +32,13 @@ import org.apache.struts.action.ActionMapping;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.role.KPMERole;
 import org.kuali.hr.time.calendar.Calendar;
 import org.kuali.hr.time.calendar.CalendarEntry;
 import org.kuali.hr.time.person.TKPerson;
 import org.kuali.hr.time.service.base.TkServiceLocator;
 import org.kuali.hr.time.util.TKContext;
-import org.kuali.hr.time.util.TKUtils;
 import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workarea.WorkArea;
 import org.kuali.rice.krad.exception.AuthorizationException;
@@ -158,7 +157,7 @@ public class ApprovalAction extends TkAction{
     	
     	String page = request.getParameter((new ParamEncoder(TkConstants.APPROVAL_TABLE_ID).encodeParameterName(TableTagParameters.PARAMETER_PAGE)));         
     	ApprovalForm taf = (ApprovalForm) form;
-    	Date currentDate = TKUtils.getTimelessDate(null);
+    	DateTime currentDate = new LocalDate().toDateTimeAtStartOfDay();
         Calendar currentPayCalendar = TkServiceLocator.getCalendarService().getCalendarByGroup(taf.getSelectedPayCalendarGroup());
         CalendarEntry payCalendarEntry = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(currentPayCalendar.getHrCalendarId(), currentDate);
         taf.setPayCalendarEntry(payCalendarEntry);

@@ -432,7 +432,7 @@ public class LeaveBlock extends PersistableBusinessObjectBase {
 			//pcal = principalHRAttributes.getCalendar() != null ? principalHRAttributes.getCalendar() : principalHRAttributes.getLeaveCalObj() ;
 			pcal = principalHRAttributes.getLeaveCalObj() != null ? principalHRAttributes.getLeaveCalObj() : principalHRAttributes.getCalendar();
             if(pcal!= null) {
-				CalendarEntry calEntries = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(pcal.getHrCalendarId(), this.leaveDate);
+				CalendarEntry calEntries = TkServiceLocator.getCalendarEntryService().getCurrentCalendarEntryByCalendarId(pcal.getHrCalendarId(), new DateTime(this.leaveDate));
 				if(calEntries != null) {
 					this.calendarId = calEntries.getHrCalendarEntryId();
 				}

@@ -9,6 +9,7 @@ import java.util.Map;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.kuali.hr.core.KPMENamespace;
 import org.kuali.hr.core.permission.service.KPMEPermissionServiceBase;
 import org.kuali.hr.lm.LMConstants;
@@ -255,10 +256,9 @@ public class LMPermissionServiceImpl extends KPMEPermissionServiceBase implement
 			   && lb.getLeaveAmount().compareTo(BigDecimal.ZERO) < 0) {
 		   SystemScheduledTimeOff ssto = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
 		   if(ssto != null && StringUtils.equals(ssto.getUnusedTime(), LMConstants.UNUSED_TIME.BANK)) {
-			   Date currentDate = TKUtils.getTimelessDate(null);
 			   String viewPrincipal = TKContext.getTargetPrincipalId();
 			   CalendarEntry ce = TkServiceLocator.getCalendarService()
-						.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, currentDate);
+						.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
 			   if(ce != null) {
 				   if(!lb.getLeaveDate().before(ce.getBeginPeriodDate()) && !lb.getLeaveDate().after(ce.getEndPeriodDate())) {
 					   return true;
@@ -277,10 +277,9 @@ public class LMPermissionServiceImpl extends KPMEPermissionServiceBase implement
 			   && lb.getLeaveAmount().compareTo(BigDecimal.ZERO) < 0) {
 		   SystemScheduledTimeOff ssto = TkServiceLocator.getSysSchTimeOffService().getSystemScheduledTimeOff(lb.getScheduleTimeOffId());
 		   if(ssto != null && ssto.getUnusedTime().equals(LMConstants.UNUSED_TIME.TRANSFER)) {
-			   Date currentDate = TKUtils.getTimelessDate(null);
 			   String viewPrincipal = TKContext.getTargetPrincipalId();
 			   CalendarEntry ce = TkServiceLocator.getCalendarService()
-						.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, currentDate);
+						.getCurrentCalendarDatesForLeaveCalendar(viewPrincipal, new LocalDate().toDateTimeAtStartOfDay());
 			   if(ce != null) {
 				   if(!lb.getLeaveDate().before(ce.getBeginPeriodDate()) && !lb.getLeaveDate().after(ce.getEndPeriodDate())) {
 					   return true;
