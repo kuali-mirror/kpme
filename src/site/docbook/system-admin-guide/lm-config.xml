@@ -2,4 +2,577 @@
 <chapter xml:id="lm-config" xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns="http://docbook.org/ns/docbook" version="5.0">
     <title>Leave Management Configuration</title>
+
+	<para>This section describes leave management configuration</para> 
+	<section>
+		<title>Leave Plan Configuration</title>
+		<table frame="none">
+		<title>Field Summary</title>
+		<tgroup cols="3">
+			<colspec colname="c1" colnum="1" colwidth="2.50*" />
+			<colspec colname="c2" colnum="2" colwidth="3.50*" />
+			<colspec colname="c3" colnum="3" colwidth="1.50*" />
+			<thead>
+				<row>
+					<entry>Parameter</entry>
+					<entry>Description</entry>
+					<entry>Default Value</entry>
+				</row>
+			</thead>
+			<tbody>
+				<row>
+					<entry>Leave Plan</entry>
+					<entry></entry>
+					<entry></entry>
+				</row>
+				<row>
+					<entry>Description</entry>
+					<entry></entry>
+					<entry></entry>
+				</row>
+				<row>
+					<entry>Planning Months</entry>
+					<entry></entry>
+					<entry></entry>
+				</row>
+				<row>
+					<entry>Calendar Year Start</entry>
+					<entry></entry>
+					<entry></entry>
+				</row>
+				<row>
+					<entry>Batch Prior Year Carry Over Start</entry>
+					<entry></entry>
+					<entry></entry>
+				</row>
+				<row>
+					<entry>Batch Prior Year Carry Over Start Time</entry>
+					<entry></entry>
+					<entry></entry>
+				</row>
+				<row>
+					<entry>Active</entry>
+					<entry></entry>
+					<entry>True</entry>
+				</row>
+			</tbody>
+		</tgroup>
+		</table>
+	</section>
+	<section>
+		<title>Accrual Category Configuration</title>
+		<para>This section details the configuration of basic accrual
+			categories.</para>
+		<table frame="none">
+			<title>Field Summary</title>
+			<tgroup cols="3">
+				<colspec colname="c1" colnum="1" colwidth="2.50*" />
+				<colspec colname="c2" colnum="2" colwidth="3.50*" />
+				<colspec colname="c3" colnum="3" colwidth="1.50*" />
+				<thead>
+					<row>
+						<entry>Parameter</entry>
+						<entry>Description</entry>
+						<entry>Default Value</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Effective Date</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Leave Plan</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Accrual Category</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Description</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Default Earn Code</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Accrual Earn Interval</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Proration</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Min Percent Worked to Earn Accrual</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Unit of Time</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Donation</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Show On Grid</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Category Has Rules</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Active</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+	</section>
+	<section>
+		<title>Accrual Category Rule Configuration</title>
+		<para>This section describes the configurations necessary to implement common rules within an accrual category. To follow along with this section, the reader must complete Basic Setup, as well as configurations for Leave Plan and Accrual Category.
+		One accrual category rule can be used to define up to five properties for an accrual category; an accrual rate, a maximum balance limit, an action to be executed once that limit has been exceeded, a maximum carryover limit and maximum usage limit.
+		An accrual category may be configured with multiple rules, with each rule covering a non-overlapping service interval.
+		</para>
+		<table frame="none">
+			<title>Field Summary</title>
+			<tgroup cols="3">
+				<colspec colname="c1" colnum="1" colwidth="2.50*" />
+				<colspec colname="c2" colnum="2" colwidth="3.50*" />
+				<colspec colname="c3" colnum="3" colwidth="1.50*" />
+				<thead>
+					<row>
+						<entry>Parameter</entry>
+						<entry>Description</entry>
+						<entry>Default Value</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Service Unit of Time</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Start</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>End</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Accrual Rate</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Max Balance Flag</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Max Balance</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Max Balance Action Frequency</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Action at Max Balance</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Max Balance Transfer to Accrual Category</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Max Balance Transfer Conversion Factor</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Max Transfer Amount</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Max Payout Amount</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Max Payout Earn Code</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Max Usage</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Max Carry Over</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Active</entry>
+						<entry></entry>
+						<entry></entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+		<section>
+			<title>Basic Accrual Category Rule Configuration</title>
+			<para>To configure an accrual category rule, either an existing accrual category will need to be edited, or a new accrual category will need to be defined. For this example we define a simple rule that will enable accruals without a limit on the maximum balance for the accrual category.</para>
+			<orderedlist>
+				<listitem>
+					<para>If defining a rule on an existing accrual category:</para>
+					<orderedlist numeration="loweralpha">
+						<listitem>
+							<para>In the Leave Maintenance area of the Maintenance tab, select “Accrual Category”.</para>
+							<para>Image leave maintenance</para>
+						</listitem>
+						<listitem>
+							<para>In the resulting Accrual Category Lookup View, search for the accrual category either by filtering results through one of the fields or by simply clicking “search”.</para>
+							<para>Image accrual category lookup w/ search highlight</para>
+						</listitem>
+						<listitem>
+							<para>Next, locate the row containing the accrual category created in the previous section and click the “edit” action for the accrual category.</para>
+							<para></para>
+						</listitem>
+					</orderedlist>
+				</listitem>
+				<listitem>
+					<para>Otherwise, in step 1a, click “create new”</para>
+					<para>Image create new</para>
+				</listitem>
+				<listitem>
+					<para>In the Accrual Category Document Overview, enter a description of the changes to be made.</para>
+					<para></para>
+				</listitem>
+				<listitem>
+					<para>If working with an existing accrual category, at this point it is advisable to check the field values on the Accrual Category for proper definitions. Depending on the rule being defined, certain values may need to change on the accrual category in order for the rule to be properly picked up by the application. If working with a new accrual category, review the previous chapter, Accrual Category Configuration.</para>
+					<para></para>
+				</listitem>
+				<listitem>
+					<para>Once the Accrual Category has been configured properly for accruals, move to the Accrual Category Rules Tab and select a value for the Service Unit of Time field.</para>
+					<para>Image – caption this accrual category rule’s service interval will be in units of months.</para>
+				</listitem>
+				<listitem>
+					<para>Enter Start and End values</para>
+					<para>Image – caption the rule defined in this image will become effective once an employee reaches x months of service, and will continue to be effective up to y months of service.</para>
+				</listitem>
+				<listitem>
+					<para>Define the accrual rate</para>
+					<para></para>
+				</listitem>
+				<listitem>
+					<para>Select “No” for Max Bal Flag</para>
+					<para></para>
+				</listitem>
+				<listitem>
+					<para>Ensure that the Active box is checked.</para>
+					<para>Image submitted accrual category w/rule. Caption this rule defines an accrual category with no balance limit that will accrue leave with the given rate.</para>
+				</listitem>
+			</orderedlist>
+			<para>To accommodate variable accrual rates, balance limits and usage limits, based on service milestones that are typically found in real-world applications, rules can be “stacked” on top of one another. The following image shows an accrual category with multiple rules defined.</para>
+			<para>Image example accrual category with multiple rules. Caption this image shows an accrual category with three accrual category rules. The first rule is in effect from an employee’s service date up to their third month of service. The second rule begins with their third month of service and is effective until they’ve accumulated 12 months of service, at which time the third rule becomes effective and remains in effect well beyond the expected service by the employee</para>
+			<para>To define multiple rules on a single accrual category, each rule must have start and end values that do not overlap any other defined rule.</para>
+		</section>
+		<section>
+			<title>Maximum Balance Limit Rule Configuration</title>
+			<para>This section provides a basic walk through for configuring maximum balance. The chapter, Max Balance Transactions, gives a detailed examination of the workflow for the transactions triggered by these rules.
+		The configurations for basic Accrual Category Rules, such as the one given in the previous example, are assumed to be completed before proceeding with the following examples.</para>
+		<para>To define a maximum balance limit:</para>
+			<orderedlist>
+				<listitem>
+					<para>Ensure that the Service Unit of Time, Start and End and Accrual Rate are properly defined, as well as the appropriate fields within the Accrual Category Maintenance tab. Review Accrual Category Configuration if necessary.</para>
+				</listitem>
+				<listitem>
+					<para>Change (or select) “Yes” for Max Bal Flag</para>
+				</listitem>
+				<listitem>
+					<para>Enter a value for Max Balance. This value will be used for all principals within the selected Leave Plan, but can also be overridden through the use of KPME’s Employee Overrides.</para>
+				</listitem>
+				<listitem>
+					<para>Select the frequency with which the max balance action should occur via Max Balance Action Frequency</para>
+					<para></para>
+					<itemizedlist>
+						<listitem>
+							<para>If On-Demand is the selected Max Balance Action Frequency:</para>
+							<para>Employees will be allowed to initiate the transaction at-will so long as the rule in effect is on-demand, and that balance limit has been exceeded.</para>
+						</listitem>
+						<listitem>
+							<para>If Leave-Approve is the selected Max Balance Action Frequency:</para>
+							<para>Employees will be re-directed to the transaction form upon submission of their calendar for approval.</para>
+						</listitem>
+						<listitem>
+							<para>If Year-End is the selected Max Balance Action Frequency:</para>
+							<para>Employees will be re-directed to the transaction form upon submission of the calendar containing the final day in the leave plan’s calendar year.</para>
+						</listitem>
+					</itemizedlist>
+				</listitem>
+				<listitem>
+					<para>Select the Action at Max Balance:</para>
+					<itemizedlist>
+						<listitem>
+							<para>If LOSE is the selected Action at Max Balance, no other field values are needed. The document may be submitted and/or approved.</para>
+						</listitem>
+						<listitem>
+							<para>If TRANSFER is the selected Action at Max Balance:</para>
+							<orderedlist numeration="lowerroman">
+								<listitem>
+									<para>Enter the Max Balance Transfer to Accrual Category by either typing in, or locating via the quick find icon, the accrual category that leave will be transferred to.</para>
+								</listitem>
+								<listitem>
+									<para>Enter the Max Balance Transfer Conversion Factor. The transfer amount will be multiplied by this value prior to being moved to the credited accrual category.</para>
+								</listitem>
+								<listitem>
+									<para>Optionally enter the Max Transfer Amount. If no value is given, there will be no limit to the amount that can be transferred.</para>
+								</listitem>
+							</orderedlist>
+						</listitem>
+						<listitem>
+							<para>If PAYOUT is the selected Action at Max Balance:</para>
+							<orderedlist numeration="lowerroman">
+								<listitem>
+									<para>Enter the Max Payout Amount. If no value is given for this field, there will be no limit to the amount of leave that can be moved to the Max Payout Earn Code.</para>
+								</listitem>
+								<listitem>
+									<para>Enter the Max Payout Earn Code by either typing it in, or using the quick find icon to locate the code.</para>
+								</listitem>
+							</orderedlist>
+						</listitem>
+					</itemizedlist>
+				</listitem>	
+				<listitem>
+					<para>Ensure that the Active box is checked</para>
+				</listitem>
+			</orderedlist>
+		</section>
+		<section>
+			<title>Maximum Carryover Limit Configuration</title>
+			<para>Aside from the basic carryover rule, there are two situations where a carryover rule is defined in conjunction with another rule that is given special attention. These situations follow basic carryover configuration, under Conjunctive Rules.</para>
+			<section>
+				<title>Basic Carryover Configuration</title>
+				<para>To define a basic carryover limit, simply enter a value into the Max Annual Carry Over field, relative to the selected Unit of Time for the accrual category.</para>
+				<para>image</para>
+			</section>
+			<para>With a maximum carry over limit defined, the balance for an accrual category will automatically be adjusted when submitting a calendar containing the last day of the calendar year. This day is derived from the leave plan defined on the accrual category to which this rule is attached.
+			This adjustment is achieved by placing a leave block in an amount of the adjustment on the employee’s calendar.</para>
+			<para>image</para>
+			<section>
+				<title>Conjunctive Rules</title>
+				<para>When combined with a maximum balance rule, a maximum carry over limit may vary its behavior based on the frequency of the balance transaction:</para>
+				<itemizedlist>
+					<listitem>
+						<para>When defined with a Leave-Approve Action</para>
+						<para>The adjustment amounts for both carryover and leave-approve actions are calculated relative to the same ending balance; the balance as of the last day of the leave plan’s calendar year. Up to four adjustment leave blocks are created with status requested, a maximum of three coming from the balance transaction and the fourth coming from the carryover adjustment.
+						If the max balance action is approved, the requested leave block containing the adjustment amount for carryover is re-calculated to reflect the resulting balance. If the max balance action is disapproved, the requested adjustment amount for carryover needs no correction.
+						</para>
+					</listitem>
+					<listitem>
+						<para>When defined with a Year-End Action</para>
+						<para>Any amount in excess of the carryover limit and up to the maximum balance limit will be included in the year-end balance transaction. As much of this amount as possible is included in the transaction amount with the remainder moved to forfeiture.</para>
+					</listitem>				
+				</itemizedlist>
+			</section>
+		</section>	
+		<section>
+			<title>Maximum Usage Limit Configuration</title>
+			<para>To define a usage limit, simply enter a value into the “Max Usage” field, relative to the selected Unit of Time for the accrual category.</para>
+			<para>image</para>
+			<para>With a maximum usage limit defined, an employee will not be allowed to add leave blocks to their calendar if the amount in the leave block, when added to the YTD usage as of the requested leave date, exceeds this limit.</para>
+			<para>image</para>
+		</section>
+	</section>
+	<section>
+		<title>System Scheduled Time Off</title>
+		<para>KPME Leave Management supports the designation of specific dates with time off that are associated with an earn code via System Scheduled Time Off.</para>
+			<table frame="none">
+			<title>Field Summary</title>
+			<tgroup cols="3">
+				<colspec colname="c1" colnum="1" colwidth="2.50*" />
+				<colspec colname="c2" colnum="2" colwidth="3.50*" />
+				<colspec colname="c3" colnum="3" colwidth="1.50*" />
+				<thead>
+					<row>
+						<entry>Parameter</entry>
+						<entry>Description</entry>
+						<entry>Default Value</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>Effective Date</entry>
+						<entry>Date the scheduled time off record will go into effect.</entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Earn Code</entry>
+						<entry>Earn Code associated with scheduled time off.</entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Accrual Category</entry>
+						<entry>Accrual Category associated with scheduled time off.</entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Leave Plan</entry>
+						<entry>Leave Plan associated with scheduled time off.</entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Accrued Date</entry>
+						<entry>Date the holiday is available to use.</entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>System Scheduled Time Off Date</entry>
+						<entry>Date of the scheduled time off that is put on the calendar.</entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Location</entry>
+						<entry>System Scheduled Time Off can be defined by Location. If the wild card (%) value is given, this system scheduled time off will be available for all locations defined in the system.</entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Description</entry>
+						<entry>Text field used to describe the scheduled time off.</entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Amount of Time</entry>
+						<entry>The amount of leave time taken for the scheduled time off.</entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Unused Time</entry>
+						<entry>Indicates how time can be banked/accrued if the Amount of Time for this Scheduled Time Off Date is not used.</entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Transfer to Earn Code</entry>
+						<entry>If “Transfer” is selected for Unused Time, the Earn Code to transfer the unused time to needs to be indicated.</entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Transfer Conversion Factor</entry>
+						<entry>If “Transfer” is selected for Unused Time, the unused Amount of Time can be transferred at the indicated conversion rate (i.e. Comp Time).</entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Premium Holiday</entry>
+						<entry>Used to indicate the Scheduled Time Off Date allows employees to get higher rate of pay for working it.</entry>
+						<entry></entry>
+					</row>
+					<row>
+						<entry>Active</entry>
+						<entry>Status of the scheduled time off.</entry>
+						<entry></entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+	</section>
+	<section>
+		<title>Max Balance Transactions</title>
+		<para>KPME Leave Management makes available three pre-defined transactions and three frequencies with which transactions can occur. With the exception of the On-Demand frequency, these transactions are triggered automatically by KPME Leave Management, with respect to the frequency set within the accrual category’s rules. 
+	When the balance of an accrual category has been found to be in excess of the maximum limit defined within its rules, a warning will appear on exempt employees’ leave calendars, non-exempt leave eligible employees’ time calendars, and will also appear on the employee’s approval row within the time and leave approval tabs.
+		</para>
+		<section>
+			<title>Transaction Frequencies</title>
+			<para>KPME Leave Management uses the values defined on accrual category rules to automatically determine when specific transactions should occur.</para>
+			<section>
+				<title>On-Demand</title>
+				<para>Transactions that occur with this frequency will automatically present a button that the user may click to initiate the transaction. This button is made available and active when either:</para>
+				<itemizedlist>
+					<listitem>
+						<para>the employee’s service as of the current date brings them under a rule with an On-Demand frequency and the existing balance when this rule takes effect is over the limit defined by the rule, or</para>
+					</listitem>
+					<listitem>
+						<para>An accrual has occurred in an amount that exceeds the balance limit under the given rule.</para>
+					</listitem>
+				</itemizedlist>
+				<para>Figure 1 On-Demand balance transaction</para>
+				<para>The button remains available until the employee executes the transaction, a rule change occurs under the accrual category or the balance for the accrual category is brought below the maximum defined limit via usage, adjustments, donation or other means. If no such action occurs before the end of the period or a rule change, the button becomes disabled.</para>
+			</section>
+			<section>
+				<title>Year-End</title>
+				<para>Yet to be formatted</para>
+			</section>
+		</section>
+	<para>To execute an on-demand balance transaction:
+	1.	Click the enabled button to be presented with a max balance action form. The form will look similar to this:
+	  
+	Figure 2 The pre-filled values represent the minimum amount needed to bring the balance back to its limit, with a maximized transaction amount which minimizes loss. If there is forfeiture, the transfer amount cannot be increased.
+	2.	Review the values in the form, and adjust the transaction amount if desired. If the transaction amount is changed, the other values will be updated after the form is submitted. If there is an error in transaction amount field, you will be prompted to fix it. 
+	Figure 3. Since there was forfeiture in the original form, the maximum transfer amount (10) had already been achieved. Forfeiture can only be reduced through usage, donation, or other means.
+	Leave-Approve
+	Transactions with this frequency occur when an employee submits a calendar. If the accrued balance as of the last day of a leave period is found to be in excess of its maximum limits and this day is within the calendar being submitted, the employee will be prompted to submit the transaction prior to the calendar being routed for approval.
+	Year-End
+	Year-end frequency transactions are identical to leave-approve transactions, however, are triggered only if
+	1.	The accrued balance is found to be in excess of the max balance limit as defined by the rule in effect as of the last day of the final leave period in the leave plan’s calendar year and
+	2.	This day is within the calendar being submitted for approval.
+	In such a case, employees will be prompted to submit the transaction in a similar fashion to leave-approve transactions.
+	Note: For non-exempt leave eligible employees, time calendars may overlap two leave periods. In this instance leave-approve and year-end transactions will be triggered if, as of the last day of the chronologically earlier leave period, the accrued balance is found to be in excess of the limit defined by the underlying rule in effect on that date. If the calendar does not include the last day of the leave period, a warning will continue to display, but no transaction will be triggered upon submission.
+	Transaction Types
+	The three transactions available by default in KPME Leave Management are Transfer, Payout and Lose. Each transaction type has differences, some subtle, in their look and feel and in their execution.  Transfer and Payout are very similar to each other in most regard, whereas the Lose action is noticeably different. Here we examine each transaction type, including submission walkthroughs and comparisons.
+	Lose
+	This transaction forfeits unused leave and may occur with leave-approve or year-end frequencies. 
+	If the balance of an accrual category is over its limit as of the last day of the leave period, when the employee clicks the “Submit for Approval” button, they will be presented with a simple dialog to confirm forfeiture of leave in excess of this limit. 
+	To confirm the loss, click “Forfeit”. Otherwise, click cancel to return to the calendar. Once the loss is confirmed, a single approved usage leave block will be created on the calendar in an amount equal to the forfeited amount, and the calendar will immediately resume submission for approval.
+	Lose actions do no require approval by department admins.
+	Transfer
+	This transaction moves leave from one accrual category to another at a pre-determined rate. Transfer may occur with any of the three provided frequencies. As with the Lose transaction, a Transfer action is triggered upon calendar submission when the balance for an accrual category is found to be in excess as of the last day of the leave period.
+	 
+	Instead of a dialog, the Employee is redirected to a page containing solely the transfer form. This form is identical to the form presented with On-Demand frequencies, but is not contained within a dialog box.
+	Once this form is submitted and correctly validated, up to three leave blocks are created on the calendar belonging to the document id listed on the form. Each block is created with a “requested” status, one for the transfer amount, amount transferred (adjusted for any conversion factor) and, if there exists, forfeiture. The calendar then resumes normal submission, and the Employee is redirected back to the submitted calendar.
+	All Transfer actions require approval by department admins
+	Payout
+	This transaction moves leave from an accrual category into an earn code that can be used by payroll to add to salary or wages. Payout may occur with any of the three provided frequencies. As with Transfer and Lose actions, a Payout action can be triggered upon submission of a calendar, and follows the same basic flow. All Payout actions require approval by department admins.
+	</para>
+		<section>
+			<title>Balance Transfer Approval</title>
+			<para>
+			Balance Transaction Approval
+	Balance transaction approval section.
+	Where does one find Transfer / Payout documents?
+	What happens when transfer payout documents are approved??
+	If there is a max carry over leave block on a calendar that has a leave approve max balance action that was approved, what happens to the max carry over leave block?
+	What happens when the transaction is disapproved?
+	Etc etc…
+			</para>
+		</section>
+	</section>
 </chapter>
