@@ -138,7 +138,20 @@
 	<bean id="SalaryGroup-percentTime-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="false" />
 		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
+			<bean parent="Uif-SpinnerControl">
+				<property name="spinner">
+					<bean parent="Uif-Spinner">
+						<property name="templateOptions">
+							<map merge="true">
+								<entry key="start" value="0.01"/>
+								<entry key="step" value="0.01"/>
+								<entry key="max" value="100"/>
+								<entry key="numberFormat" value="n"/>
+							</map>
+						</property>
+					</bean>
+				</property>
+			</bean>
 		</property>
 		<property name="name" value="percentTime" />
 		<property name="label" value="Percent Time" />
@@ -148,7 +161,20 @@
 	<bean id="SalaryGroup-workMonths-parentBean" abstract="true" parent="AttributeDefinition">
 		<property name="required" value="false" />
 		<property name="controlField">
-			<bean parent="Uif-TextControl" p:size="10" />
+			<bean parent="Uif-SpinnerControl">
+				<property name="spinner">
+					<bean parent="Uif-Spinner">
+						<property name="templateOptions">
+							<map merge="true">
+								<entry key="start" value="1"/>
+								<entry key="step" value="1"/>
+								<entry key="max" value="12"/>
+								<entry key="numberFormat" value="D"/>
+							</map>
+						</property>
+					</bean>
+				</property>
+			</bean>
 		</property>
 		<property name="name" value="workMonths" />
 		<property name="label" value="Work Months" />
