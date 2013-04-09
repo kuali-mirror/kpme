@@ -25,7 +25,6 @@ import org.joda.time.DateTime;
 import org.kuali.hr.lm.leaveblock.LeaveBlock;
 import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.calendar.CalendarEntry;
-import org.springframework.cache.annotation.Cacheable;
 
 public interface LeaveBlockService {
     public LeaveBlock getLeaveBlock(String leaveBlockId);
@@ -58,7 +57,6 @@ public interface LeaveBlockService {
      * @param currentDate currentDate to get the records for the future date, pass null when not required
      * @return List of LeaveBlocks
      */
-    @Cacheable(value= LeaveBlock.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'leaveBlocktype=' + #p1 + '|' + 'requestStatus=' + #p2 + '|' + 'currentDate=' + #p3")
     public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, Date currentDate);
 
     /**
@@ -70,7 +68,6 @@ public interface LeaveBlockService {
      * @param endDate
      * @return List of LeaveBlocks
      */
-    @Cacheable(value= LeaveBlock.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'leaveBlocktype=' + #p1 + '|' + 'requestStatus=' + #p2 + '|' + 'endDate=' + #p3")
     public List<LeaveBlock> getLeaveBlocks(String principalId, String leaveBlockType, String requestStatus, Date beginDate, Date endDate);
 
     /**
@@ -79,7 +76,6 @@ public interface LeaveBlockService {
      * @param leaveDate
      * @return List of LeaveBlocks
      */
-    @Cacheable(value= LeaveBlock.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'leaveDate=' + #p1")
     public List<LeaveBlock> getLeaveBlocksForDate(String principalId, Date leaveDate);
     /**
      * Get the list of not-accrual-generated leave blocks from the given leaveDate for the principalId
@@ -87,7 +83,6 @@ public interface LeaveBlockService {
      * @param leaveDate
      * @return List of LeaveBlocks
      */
-    @Cacheable(value= LeaveBlock.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'leaveDate=' + #p1")
     public List<LeaveBlock> getNotAccrualGeneratedLeaveBlocksForDate(String principalId, Date leaveDate);
     /**
      * Get list of leave blocks to display on time sheet with given dates and principal id
@@ -99,8 +94,7 @@ public interface LeaveBlockService {
      * @param assignmentKeys
      * @return List of leave blocks
      */
-    @Cacheable(value= LeaveBlock.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'beginDate=' + #p1 + '|' + 'endDate=' + #p2 + '|' + 'assignmentKeys=' + #p3")
-    public List<LeaveBlock> getLeaveBlocksForTimeCalendar(String principalId, Date beginDate, Date endDate, List<String> assignmentKeys);
+    public List<LeaveBlock> getLeaveBlocksForTimeCalendar(String principalId, Date beginDate, Date endDate, List<String> assignmentKeys); 
     /**
      * Get list of leave blocks to display on leave calendar with given dates and principal id
      * the leave blocks created from time calendar should have assignments in the list of assignment keys
@@ -109,9 +103,8 @@ public interface LeaveBlockService {
      * @param endDate
      * @param assignmentKeys
      * @return List of leave blocks
-     */
-    @Cacheable(value= LeaveBlock.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'beginDate=' + #p1 + '|' + 'endDate=' + #p2 + '|' + 'assignmentKeys=' + #p3")
-    public List<LeaveBlock> getLeaveBlocksForLeaveCalendar(String principalId, Date beginDate, Date endDate, List<String> assignmentKeys);
+     */    
+    public List<LeaveBlock> getLeaveBlocksForLeaveCalendar(String principalId, Date beginDate, Date endDate, List<String> assignmentKeys); 
    
     /**
      * Filter list of leave blocks with given list of assignmentKeys for Time Calendar
@@ -140,7 +133,6 @@ public interface LeaveBlockService {
      * @param endDate
      * @return List of leave blocks
      */
-    @Cacheable(value= LeaveBlock.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'beginDate=' + #p1 + '|' + 'endDate=' + #p2")
     public List<LeaveBlock> getAccrualGeneratedLeaveBlocks(String principalId, Date beginDate, Date endDate);
     
     /**
@@ -150,7 +142,6 @@ public interface LeaveBlockService {
      * @param accruledDate
      * @return
      */
-    @Cacheable(value= LeaveBlock.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'sstoId=' + #p1 + '|' + 'accruleDate=' + #p2")
     public List<LeaveBlock> getSSTOLeaveBlocks(String principalId, String sstoId, Date accruledDate);
     
     /**
@@ -159,6 +150,5 @@ public interface LeaveBlockService {
      * @param lastRanTime
      * @return
      */
-    @Cacheable(value= LeaveBlock.CACHE_NAME, key="'principalId=' + #p0 + '|' + 'lastRanTime=' + #p1")
     public List<LeaveBlock> getABELeaveBlocksSinceTime(String principalId, Timestamp lastRanTime);
 }

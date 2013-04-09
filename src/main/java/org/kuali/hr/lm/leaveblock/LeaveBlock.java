@@ -46,15 +46,12 @@ import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentStatus;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.rice.krad.util.ObjectUtils;
-import org.kuali.hr.core.KPMEConstants;
-
 
 public class LeaveBlock extends PersistableBusinessObjectBase {
 
 	private static final long serialVersionUID = -8240826812581295376L;
-    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "LeaveBlock";
-
-    private String lmLeaveBlockId;
+	
+	private String lmLeaveBlockId;
 	private Date leaveDate;
 	private String description;
 	private String principalId;

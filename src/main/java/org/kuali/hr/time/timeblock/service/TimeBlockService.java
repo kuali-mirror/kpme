@@ -19,7 +19,6 @@ import org.kuali.hr.time.assignment.Assignment;
 import org.kuali.hr.time.timeblock.TimeBlock;
 import org.kuali.hr.time.timeblock.TimeBlockHistory;
 import org.kuali.hr.time.timesheet.TimesheetDocument;
-import org.springframework.cache.annotation.Cacheable;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -32,7 +31,6 @@ public interface TimeBlockService {
 	 * @param timeBlockId
 	 * @return
 	 */
-    @Cacheable(value=TimeBlock.CACHE_NAME, key="'timeBlockId=' + #p0")
 	public TimeBlock getTimeBlock(String timeBlockId);
 
 	/**
@@ -79,14 +77,12 @@ public interface TimeBlockService {
 	 * @param documentId
 	 * @return
 	 */
-    @Cacheable(value= TimeBlock.CACHE_NAME, key="'documentId=' + #p0")
-	public List<TimeBlock> getTimeBlocks(String documentId);
+	public List<TimeBlock> getTimeBlocks(String documentId);	
 	/**
 	 * Get the List of TimeBlock of a given Assignment
 	 * @param assign
 	 * @return List<TimeBlock>
 	 */
-    @Cacheable(value= TimeBlock.CACHE_NAME, key="'assign=' + #p0")
 	 public List<TimeBlock> getTimeBlocksForAssignment(Assignment assign);
 	/**
 	 * Build a List of TimeBlocks over a span of multiple days
@@ -131,25 +127,22 @@ public interface TimeBlockService {
 	 * @param tkClockLogId
 	 * @return List<TimeBlock>	 * 
 	 */
-    @Cacheable(value= TimeBlock.CACHE_NAME, key="'tkClockLogId=' + #p0")
 	public List<TimeBlock> getTimeBlocksForClockLogEndId(String tkClockLogId);
 	/*
 	 * Get all the time blocks with the given Clock Log id as the clockLogBeginId
 	 * @param tkClockLogId
 	 * @return List<TimeBlock>	 * 
 	 */
-    @Cacheable(value= TimeBlock.CACHE_NAME, key="'tkClockLogId=' + #p0")
 	public List<TimeBlock> getTimeBlocksForClockLogBeginId(String tkClockLogId);
 	
 	public List<TimeBlock> getTimeBlocks();
 	public List<TimeBlock> getLatestEndTimestamp();
 
     /**
-     * Get overnight timeblocks by the clock log end id
-     * @param clockLogEndId
+     * Get overnight timeblocks by the clock log begin id
+     * @param clockLogBeginId
      * @return
      */
-    @Cacheable(value= TimeBlock.CACHE_NAME, key="'clockLogEndId=' + #p0")
     public List<TimeBlock> getOvernightTimeBlocks(String clockLogEndId);
 
 	public void updateTimeBlock(TimeBlock tb);
@@ -163,6 +156,5 @@ public interface TimeBlockService {
 	 * @param effDate
 	 * @return List<TimeBlock>	 * 
 	 */
-    @Cacheable(value= TimeBlock.CACHE_NAME, key="'earnCode=' + #p0 + '|' + 'effDate=' + #p1")
     public List<TimeBlock> getTimeBlocksWithEarnCode(String earnCode, Date effDate);
 }

@@ -36,8 +36,6 @@ import org.kuali.hr.time.util.TkConstants;
 import org.kuali.hr.time.workflow.TimesheetDocumentHeader;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
-import org.kuali.hr.core.KPMEConstants;
-
 
 public class TimeBlock extends PersistableBusinessObjectBase implements Comparable {
 
@@ -45,7 +43,6 @@ public class TimeBlock extends PersistableBusinessObjectBase implements Comparab
      *
      */
     private static final long serialVersionUID = -4164042707879641855L;
-    public static final String CACHE_NAME = KPMEConstants.APPLICATION_NAMESPACE_CODE + "/" + "TimeBlock";
 
     private String tkTimeBlockId;
     private String documentId;
