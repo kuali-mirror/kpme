@@ -29,6 +29,15 @@
 		<title>Leave Plan Configuration</title>
 		<mediaobject>
 			<imageobject>
+				<imagedata fileref="../images/lm/newleaveplandoc.jpg" format="JPG" scale="50"/>
+			</imageobject>
+			<textobject>
+				<phrase>Leave Plan Maintenance Document</phrase>
+			</textobject>
+			<caption>The Leave Plan Maintenance Document</caption>
+		</mediaobject>
+		<mediaobject>
+			<imageobject>
 				<imagedata fileref="../images/req-leave-plan.jpg" format="JPG" scale="50"/>
 			</imageobject>
 			<textobject>
@@ -42,15 +51,6 @@
 				KPME Leave Management module's Leave Plan enables system administrators to configure rules for earn code eligibility and accrual categories
 				across salary groups and/or locations.
 			</para>
-			<mediaobject>
-				<imageobject>
-					<imagedata fileref="../images/lm/newleaveplandoc.jpg" format="JPG" scale="50"/>
-				</imageobject>
-				<textobject>
-					<phrase>Leave Plan Maintenance Document</phrase>
-				</textobject>
-				<caption>The Leave Plan Maintenance Document</caption>
-			</mediaobject>
 			<para>
 				To configure a basic leave plan:
 			</para>
@@ -232,7 +232,7 @@
 					<para>In the Leave Maintenance section of the maintenance tab , click on "Accrual Category" </para>
 					<mediaobject>
 						<imageobject>
-							<imagedata fileref="../images/accrualcategorylink.jpg" format="JPG"/>
+							<imagedata fileref="../images/accrualcategorylink.jpg" format="JPG" scale="50"/>
 						</imageobject>
 						<textobject>
 							<phrase>Accrual Category Maintenance link</phrase>
@@ -276,7 +276,7 @@
 							<para>This will open the accrual category for editing.</para>
 							<mediaobject>
 								<imageobject>
-									<imagedata fileref="../images/lm/exampleaccrualcatedit.jpg" format="JPG" scale="40"/>
+									<imagedata fileref="../images/lm/exampleaccrualcatedit.jpg" format="JPG" scale="35"/>
 								</imageobject>
 								<textobject>
 									<phrase>Accrual Category Maintenance Document Edit</phrase>
@@ -357,7 +357,7 @@
 							<phrase>This image shows the rule has been added to the document, however, it must still be submitted.</phrase>
 						</caption>
 					</mediaobject>
-					<para>In the above image, the yellow astrisk on the Accrual Category Maintenance tab indicates that a field on the accrual category has changed as well.
+					<para>In the above image, the yellow asterisk on the Accrual Category Maintenance tab indicates that a field on the accrual category has changed as well.
 						In this case, "Has Rules" has been switched to "Yes", and the accrual category's earn interval has been updated to reflect a monthly accrual.</para>	
 					<mediaobject>
 						<imageobject>
@@ -367,7 +367,7 @@
 							<phrase>Changes to the existing accrual category</phrase>
 						</textobject>
 						<caption>
-							<phrase>Hiding the Accrual Category Rules tab, and collapsing the Accrual Category Maintenance tab, show two fields on the accrual category were changed to match the Accrual Category Rule form requirements.</phrase>
+							<phrase>Hiding the Accrual Category Rules tab, and collapsing the Accrual Category Maintenance tab, show two fields on the accrual category that needed to be changed to match the Accrual Category Rule form requirements.</phrase>
 						</caption>
 					</mediaobject>									
 				</listitem>
@@ -425,8 +425,17 @@
 								<textobject>
 									<phrase>Max Balance Lose Rule</phrase>
 								</textobject>
-								<caption>The rule in this image will Forfeit all leave over the maximum limit, when the employee submits a calendar containing the last
-										day of the final leave period in the leave plan's calendar.</caption>
+								<caption>The rule in this image will Forfeit all leave over the maximum limit</caption>
+							</mediaobject>
+							<para>Result:</para>
+							<mediaobject>
+								<imageobject>
+									<imagedata fileref="../images/lm/forfeituredialog.jpg" format="JPG" scale="50"/>
+								</imageobject>
+								<textobject>
+									<phrase>Forfeiture prompt resulting from the configuration of a Lose rule</phrase>
+								</textobject>
+								<caption>A Lose rule will prompt the user to confirm forfeiture when submitting their calendar.</caption>
 							</mediaobject>
 						</listitem>
 						<listitem>
@@ -451,6 +460,16 @@
 								</textobject>
 								<caption>The rule in this image will grant employees a TRANSFER ON-DEMAND to accrual category ISU-PS-SCK at a conversion rate of 50%</caption>
 							</mediaobject>
+							<para>Result:</para>
+							<mediaobject>
+								<imageobject>
+									<imagedata fileref="../images/lm/transferform.jpg" format="JPG" scale="50"/>
+								</imageobject>
+								<textobject>
+									<phrase>Balance Transfer Form</phrase>
+								</textobject>
+								<caption>Balance Transfer Form</caption>
+							</mediaobject>
 						</listitem>
 						<listitem>
 							<para>If PAYOUT is the selected Action at Max Balance:</para>
@@ -470,6 +489,16 @@
 									<phrase>Max Balance Payout Rule</phrase>
 								</textobject>
 								<caption>The rule in this image will trigger a PAYOUT to earn code PAYOUT-EC with frequency Leave Approve</caption>
+							</mediaobject>
+							<para>Result:</para>
+							<mediaobject>
+								<imageobject>
+									<imagedata fileref="../images/lm/payoutform.jpg" format="JPG" scale="50"/>
+								</imageobject>
+								<textobject>
+									<phrase>Balance Payout Form</phrase>
+								</textobject>
+								<caption>Balance Payout Form</caption>
 							</mediaobject>
 						</listitem>
 					</itemizedlist>
@@ -509,19 +538,130 @@
 			</section>
 			<para>With a maximum carry over limit defined, the balance for an accrual category will automatically be adjusted when submitting a calendar containing the last day of the calendar year. This day is derived from the leave plan defined on the accrual category to which this rule is attached.
 			This adjustment is achieved by placing a leave block in an amount of the adjustment on the employee’s calendar.</para>
-			<para>image</para>
 			<section>
 				<title>Conjunctive Rules</title>
 				<para>When combined with a maximum balance rule, a maximum carry over limit may vary its behavior based on the frequency of the balance transaction:</para>
 				<itemizedlist>
 					<listitem>
-						<para>When defined with a Leave-Approve Action</para>
-						<para>The adjustment amounts for both carryover and leave-approve actions are calculated relative to the same ending balance; the balance as of the last day of the leave plan’s calendar year. Up to four adjustment leave blocks are created with status requested, a maximum of three coming from the balance transaction and the fourth coming from the carryover adjustment.</para>
-						<para>If the max balance action is approved, the requested leave block containing the adjustment amount for carryover is re-calculated to reflect the resulting balance. If the max balance action is disapproved, the requested adjustment amount for carryover needs no correction.</para>
+						<para>When defined with a Leave-Approve Action, the adjustment amounts for both carryover and leave-approve actions are calculated relative to the same ending balance;
+							the balance as of the last day of the leave plan’s calendar year. Up to four adjustment leave blocks are created with status requested, a maximum of three coming from 
+							the balance transaction and the fourth coming from the carryover adjustment.</para>
+						<para>If the max balance action is approved, the requested leave block containing the adjustment amount for carryover is re-calculated to reflect the resulting balance. 
+						If the max balance action is disapproved, the requested adjustment amount for carryover needs no correction.</para>
+						<para>Example:</para>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="../images/lm/conjunctiveruledef.jpg" format="JPG" scale="50"/>
+							</imageobject>
+							<textobject>
+								<phrase>Max Carry Over / Leave Approve Max Balance Action rule</phrase>
+							</textobject>
+							<caption>Example of a Max Carry Over rule defined with a Leave Approve Max Balance rule.<note>MAX-CO is the accrual category on this rule, with earn code MAX-EC. MAX-BAL-TFR displays earn code MAXBAL-TRF on leave calendars.</note></caption>
+						</mediaobject>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="../images/lm/conjunctiverule1.jpg" format="JPG" scale="42"/>
+							</imageobject>
+							<textobject>
+								<phrase>Balances as of the final day of the leave plan's calendar year.</phrase>
+							</textobject>
+							<caption>Note the accrued balance for MAX-CO. These are the balances as of the last day of the leave plan's year.</caption>
+						</mediaobject>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="../images/lm/conjunctiverulecarryoverblock.jpg" format="JPG" scale="42"/>
+							</imageobject>
+							<textobject>
+								<phrase>Carry over leave block created during calendar submission</phrase>
+							</textobject>
+							<caption>The amount of the carry over leave block created upon calendar submission is relative to an accrued balance of 32</caption>
+						</mediaobject>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="../images/lm/conjunctiveruletransferblock.jpg" format="JPG" scale="42"/>
+							</imageobject>
+							<textobject>
+								<phrase>Transfer leave block created during calendar submission</phrase>
+							</textobject>
+							<caption>The amount of the transfer leave block created upon calendar submission is also relative to an accrued balance of 32</caption>
+						</mediaobject>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="../images/lm/conjunctiveruletransferdoc.jpg" format="JPG" scale="50"/>
+							</imageobject>
+							<textobject>
+								<phrase>Approved Transfer Doc</phrase>
+							</textobject>
+							<caption>The Balance Transfer Document is approved</caption>
+						</mediaobject>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="../images/lm/conjunctiveruletransferblockapproved.jpg" format="JPG" scale="42"/>
+							</imageobject>
+							<textobject>
+								<phrase>Transfer block is approved</phrase>
+							</textobject>
+							<caption>The status of the leave block created through the Balance Transfer document changes to approved.</caption>
+						</mediaobject>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="../images/lm/conjunctiverulecarryoverblockadjust.jpg" format="JPG" scale="42"/>
+							</imageobject>
+							<textobject>
+								<phrase>Carry over block is adjusted with the resulting balance.</phrase>
+							</textobject>
+							<caption>The amount of the leave block created via the carry over rule adjusts to the new balance.</caption>
+						</mediaobject>
 					</listitem>
 					<listitem>
-						<para>When defined with a Year-End Action</para>
-						<para>Any amount in excess of the carryover limit and up to the maximum balance limit will be included in the year-end balance transaction. As much of this amount as possible is included in the transaction amount with the remainder moved to forfeiture.</para>
+						<para>When defined with a Year-End Action, any amount in excess of the carryover limit and up to the maximum balance limit will be included in the year-end balance transaction. 
+						</para>
+						<para>Example:</para>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="../images/lm/yeconjunctiveruledef" format="JPG" scale="50"/>
+							</imageobject>
+							<textobject>
+								<phrase>A Year End conjunctive rule definition</phrase>
+							</textobject>
+							<caption>This rule defines a carry over trigger as well as a year end max balance action.<note>MAXB is the accrual category of this rule, with earn code MAXB-A. MAX-BAL-TFR displays earn code MAXBAL-TRF on leave calendars.</note></caption>
+						</mediaobject>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="../images/lm/conjunctiverule1.jpg" format="JPG" scale="42"/>
+							</imageobject>
+							<textobject>
+								<phrase>The balances for the accrual category</phrase>
+							</textobject>
+							<caption>Note the accrued balance for MAXB</caption>
+						</mediaobject>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="../images/lm/yeconjunctiveruletransferblock" format="JPG" scale="42"/>
+							</imageobject>
+							<textobject>
+								<phrase>The requested leave blocks created from the conjunctive rule.</phrase>
+							</textobject>
+							<caption>The requested amount in the leave blocks created for the balance transfer include the carry over adjustment</caption>
+						</mediaobject>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="../images/lm/yeconjunctiverulexfdocapproved.jpg" format="JPG" scale="50"/>
+							</imageobject>
+							<textobject>
+								<phrase>Year end transfer document approved</phrase>
+							</textobject>
+							<caption>The Transfer doc for the Year-End action is approved.</caption>
+						</mediaobject>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="../images/lm/yeconjunctiverulexferblockapproved.jpg" format="JPG" scale="42"/>
+							</imageobject>
+							<textobject>
+								<phrase>Corresponding leave blocks move to approved status.</phrase>
+							</textobject>
+							<caption>Both leave blocks move to approved status</caption>
+						</mediaobject>
 					</listitem>				
 				</itemizedlist>
 			</section>
@@ -534,99 +674,115 @@
 		<section>
 			<title>Multiple Accrual Category Rules</title>
 			<para>KPME Leave Managment allows accrual categories to be configured with multiple rules, each rule covering a non-overlapping service interval.</para>
-			<para>To define multiple rules on a single accrual category, each rule must have START and END values that do not overlap any other defined rule. There must also be no gaps between the end of one rule and the beginning of another.</para>
+			<para>To define multiple rules on a single accrual category, each rule must have START and END values that do not overlap any other defined rule. There must also be no gaps between the end of one rule and the start of another.</para>
+			<para>Example:</para>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/lm/multipleruledaccrualcat.jpg" format="JPG" scale="55"/>
+				</imageobject>
+				<textobject>
+					<phrase>An accrual category with three rules defined.</phrase>
+				</textobject>
+				<caption>This accrual category has three rules defined.</caption>
+			</mediaobject>
+			<para>The first rule defines a LOSE action with frequency leave approve if the balance exceeds 6 hours. It is in effect from the date of hire of an employee up to the end of their second month of service.</para>
+			<para>The second rule defines a TRANSFER action with frequency LEAVE APPROVE if the balance exceeds 10 hours. It is in effect starting with the third month of service up to the end of the fourth month of service</para>
+			<para>The third rule defines a TRANSFER action with frequency ON-DEMAND if the balance exceeds 14 hours. It is in effect starting with the employee's fifth month of service, extending through the remainder of service.</para>
 		</section>
 	</section>
 	<section>
 		<title>System Scheduled Time Off</title>
 		<para>KPME Leave Management supports the designation of specific dates with time off that are associated with an earn code via System Scheduled Time Off.</para>
-			<table frame="none">
-			<title>Field Summary</title>
-			<tgroup cols="3">
-				<colspec colname="c1" colnum="1" colwidth="1.50*" />
-				<colspec colname="c2" colnum="2" colwidth="4.50*" />
-				<colspec colname="c3" colnum="3" colwidth="1.50*" />
-				<thead>
-					<row>
-						<entry>Parameter</entry>
-						<entry>Description</entry>
-						<entry>Default Value</entry>
-					</row>
-				</thead>
-				<tbody>
-					<row>
-						<entry>Effective Date</entry>
-						<entry>Date the scheduled time off record will go into effect.</entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Earn Code</entry>
-						<entry>Earn Code associated with scheduled time off.</entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Accrual Category</entry>
-						<entry>Accrual Category associated with scheduled time off.</entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Leave Plan</entry>
-						<entry>Leave Plan associated with scheduled time off.</entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Accrued Date</entry>
-						<entry>Date the holiday is available to use.</entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>System Scheduled Time Off Date</entry>
-						<entry>Date of the scheduled time off that is put on the calendar.</entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Location</entry>
-						<entry>System Scheduled Time Off can be defined by Location. If the wild card (%) value is given, this system scheduled time off will be available for all locations defined in the system.</entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Description</entry>
-						<entry>Text field used to describe the scheduled time off.</entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Amount of Time</entry>
-						<entry>The amount of leave time taken for the scheduled time off.</entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Unused Time</entry>
-						<entry>Indicates how time can be banked/accrued if the Amount of Time for this Scheduled Time Off Date is not used.</entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Transfer to Earn Code</entry>
-						<entry>If “Transfer” is selected for Unused Time, the Earn Code to transfer the unused time to needs to be indicated.</entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Transfer Conversion Factor</entry>
-						<entry>If “Transfer” is selected for Unused Time, the unused Amount of Time can be transferred at the indicated conversion rate (i.e. Comp Time).</entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Premium Holiday</entry>
-						<entry>Used to indicate the Scheduled Time Off Date allows employees to get higher rate of pay for working it.</entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Active</entry>
-						<entry>Status of the scheduled time off.</entry>
-						<entry></entry>
-					</row>
-				</tbody>
-			</tgroup>
-		</table>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="../images/lm/newsstodoc.jpg" format="JPG" scale="50"/>
+			</imageobject>
+			<textobject>
+				<phrase>System Scheduled Time Off Maintenance Document</phrase>
+			</textobject>
+			<caption>
+				<phrase>The System Scheduled Time Off Maintenance Document.</phrase>
+			</caption>
+		</mediaobject>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="../images/req-ssto.jpg" format="JPG" scale="50"/>
+			</imageobject>
+			<textobject>
+				<phrase>System Scheduled Time Off Field Summary</phrase>
+			</textobject>
+			<caption>Field Summary for <link xlink:href="https://wiki.kuali.org/display/KPME/System+Scheduled+Time+Off">System Scheduled Time Off</link></caption>
+		</mediaobject>
+		<section>
+			<title>Configuration</title>
+			<para>This example will move through configuring a system scheduled time off.</para>
+			<orderedlist>
+				<listitem>
+					<para>Navigate to the System Scheduled Time Off Lookup via the link provided in the Leave Managment section of the Maintenance Tab.</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/sstolink.jpg" format="JPG" scale="50"/>
+						</imageobject>
+						<textobject>
+							<phrase>The Create New Button</phrase>
+						</textobject>
+					</mediaobject>
+				</listitem>
+				<listitem>
+					<para>Within the System Scheduled Time Off Lookup View, click 
+					<inlinemediaobject>
+							<imageobject>
+								<imagedata fileref="../images/createnewbutton.jpg" format="JPG" scale="50"/>
+							</imageobject>
+							<textobject>
+								<phrase>create new</phrase>
+							</textobject>
+						</inlinemediaobject>, located:
+					</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/sstocreatenew.jpg" format="JPG" scale="50" />
+						</imageobject>
+						<textobject>
+							<phrase>The Create New Button</phrase>
+						</textobject>
+					</mediaobject>
+				</listitem>
+				<listitem>
+					<para>Within the Document Overview tab of the System Scheduled Time Off Maintenance Document, enter the required description.</para>
+				</listitem>
+				<listitem>
+					<para>Select an effective date from the current date up to one year in the future.</para>
+				</listitem>
+				<listitem>
+					<para>Enter or use the quick finder to return an earn code for the Earn Code field.</para>
+				</listitem>
+				<listitem>
+					<para>Select the Accrued Date.</para>
+				</listitem>
+				<listitem>
+					<para>Enter the Location or use the quick finder to return a location.</para>
+				</listitem>
+				<listitem>
+					<para>Enter a description.</para>
+				</listitem>
+				<listitem>
+					<para>Enter the Amount of Time that can be taken for the scheduled time off.</para>
+				</listitem>
+				<listitem>
+					<para>Select "Bank" for Unused Time.</para>
+				</listitem>
+				<listitem>
+					<para>Select whether the Holiday is Premium</para>
+				</listitem>
+				<listitem>
+					<para>Ensure that the "Active" box is checked</para>
+				</listitem>
+				<listitem>
+					<para>Finally, Submit the document.</para>
+				</listitem>
+			</orderedlist>
+		</section>
 	</section>
 	<section>
 		<title>Max Balance Transactions</title>
@@ -647,19 +803,71 @@
 						<para>An accrual has occurred in an amount that exceeds the balance limit under the given rule.</para>
 					</listitem>
 				</itemizedlist>
-				<para>Figure 1 On-Demand balance transaction</para>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="../images/lm/ondemandtransferbutton.jpg" format="JPG" scale="45"/>
+					</imageobject>
+					<textobject>
+						<phrase>On-Demand Max Balance Action Button Location</phrase>
+					</textobject>
+					<caption>A max balance transaction rule with frequency On-Demand triggers a button when the action can be taken.</caption>
+				</mediaobject>
 				<para>The button remains available until the employee executes the transaction, a rule change occurs under the accrual category or the balance for the accrual category is brought below the maximum defined limit via usage, adjustments, donation or other means. If no such action occurs before the end of the period or a rule change, the button becomes disabled.</para>
 				<para>To execute an on-demand balance transaction, employee's must:</para>
 				<orderedlist>
 					<listitem>
 						<para>Click the enabled button to be presented with a max balance action form. The form will look similar to this:</para>
-						<para>Figure 2 The pre-filled values represent the minimum amount needed to bring the balance back to its limit, with a maximized transaction amount which minimizes loss. If there is forfeiture, the transfer amount cannot be increased.</para>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="../images/lm/ondemandtransferprompt.jpg" format="JPG" scale="40"/>
+							</imageobject>
+							<textobject>
+								<phrase>On-Demand Max Balance Action Dialog</phrase>
+							</textobject>
+							<caption>The pre-filled values represent the minimum amount needed to bring the balance back to its limit, with a maximized transaction amount which minimizes loss. If there is forfeiture, the transfer amount cannot be increased.</caption>
+						</mediaobject>
+						<para></para>
 					</listitem>
 					<listitem>
 						<para>Review the values in the form, and adjust the transaction amount if desired. If the transaction amount is changed, the other values will be updated after the form is submitted. If there is an error in the transaction amount field, they will be prompted to fix it. </para>
-						<para>Figure 3. Since there was forfeiture in the original form, the maximum transfer amount (10) had already been achieved. Forfeiture can only be reduced through usage, donation, or other means.</para>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="../images/lm/ondemandtransferprompterror.jpg" format="JPG" scale="40"/>
+							</imageobject>
+							<textobject>
+								<phrase>On-Demand Max Balance Action Form Error</phrase>
+							</textobject>
+							<caption>A negative amount was entered into the transfer amount field, preventing the form from being submitted.</caption>
+						</mediaobject>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="../images/lm/ondemandtransfererrorcorrected.jpg" format="JPG" scale="40"/>
+							</imageobject>
+							<textobject>
+								<phrase>Corrected On-Demand Transfer Prompt Error</phrase>
+							</textobject>
+							<caption>The negative sign has been removed. <note>Notice the values in the forfeited amount and amount transferred fields.</note></caption>
+						</mediaobject>						
 					</listitem>
 				</orderedlist>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="../images/lm/ondemandtransferblocks.jpg" format="JPG" scale="80"/>
+					</imageobject>
+					<textobject>
+						<phrase>Resulting leave blocks created by this transaction</phrase>
+					</textobject>
+					<caption>The resulting leave blocks created from the transaction. The forfeited amount and amount transferred fields have been updated relative to the transfer amount entered.</caption>
+				</mediaobject>
+				<para>Also note the resulting warning message on the employee's leave calendar.</para>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="../images/lm/ondemandtransferpendingdoc.jpg" format="JPG" scale="47"/>
+					</imageobject>
+					<textobject>
+						<phrase>Pending transfer document warning</phrase>
+					</textobject>
+				</mediaobject>
 			</section>
 			<section>
 				<title>Year-End</title>
@@ -712,6 +920,70 @@
 			<para>With the exception of the Lose action, all balance transactions must go through the approval process. When a max balance action is taken by an employee,
 				KPME automatically routes the document to the employee's approver. At that time, the document will become available in the approvers action list, as well as in document search. 
 			</para>
+			<para>To take system administrative action on a transaction document:</para>
+			<note>Department admins can locate pending balance transaction documents in their action list.</note>
+			<orderedlist>
+				<listitem>
+					<para>Open the Document lookup view by clicking 
+					<inlinemediaobject>
+						<imageobject>
+							<imagedata fileref="../images/docsearchbutton.jpg" format="JPG" scale="50"/>
+						</imageobject>
+						<textobject>
+							<phrase>Doc Search button</phrase>
+						</textobject>
+					</inlinemediaobject>, located: </para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/docsearch.jpg" format="JPG" scale="50"/>
+						</imageobject>
+					</mediaobject>
+				</listitem>
+				<listitem>
+					<para>Perform a search, filtering results by one of the provided fields if necessary.</para>
+				</listitem>
+				<listitem>
+					<para>Locate the document, and click on the link provided by the document id</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/balancedoclookup.jpg" format="JPG" scale="47"/>
+						</imageobject>
+						<textobject>
+							<phrase>Locating the max balance document</phrase>
+						</textobject>
+					</mediaobject>
+				</listitem>
+				<listitem>
+					<para>Enter an annotative remark in the field provided, then select the action to take.</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/balancedocaction.jpg" format="JPG" scale="47"/>
+						</imageobject>
+						<textobject>
+							<phrase>Taking adminstrative action on a Max Balance Transaction Maintenance Document</phrase>
+						</textobject>
+					</mediaobject>
+				</listitem>
+			</orderedlist>
+			<para></para>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/lm/balanceactionapproved.jpg" format="JPG" scale="47"/>
+				</imageobject>
+				<textobject>
+					<phrase>A Max Balance Action Document after approval</phrase>
+				</textobject>
+				<caption>This document was approved by the system administrator</caption>
+			</mediaobject>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/lm/balanceactionresultingcalendar.jpg" format="JPG" scale="47"/>
+				</imageobject>
+				<textobject>
+					<phrase>Resulting calendar</phrase>
+				</textobject>
+				<caption>The warning message on the calendar has changed to a simple notification/reminder, and the requested leave blocks change to "Approved" status.<note>The forfeiture and amount transfered amounts have been adjusted with respect to the transfer amount.</note></caption>
+			</mediaobject>
 		</section>
 	</section>
 </chapter>
