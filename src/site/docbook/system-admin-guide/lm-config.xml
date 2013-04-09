@@ -3,66 +3,153 @@
     xmlns="http://docbook.org/ns/docbook" version="5.0">
     <title>Leave Management Configuration</title>
 
-	<para>This chapter describes leave management configuration</para> 
+	<para>This chapter discusses the configuration of key leave management business objects. The order in which the sections are presented are
+		important in that they generally build on each other. That is, to configure an accrual category, a leave plan should already be configured.
+		While it is possible to configure a leave plan at the time of accrual category configuration, such a configuration would lead to documentation hopping
+		if the reader is not already well acquainted with leave plan configuration requirements. Thus it is recommended to read this chapter in the order presented.
+	</para>
+	<para>
+		The reader should also be familiar with the concepts discussed in the chapter "Basic Setup" in order to test the configurations presented in this chapter.
+	</para>
+	<section>
+		<title>Leave Management Navigation</title>
+		<para>
+			KPME Leave Management module introduces a new navigation section within the maintenance tab, as well as new entries to existing navigation groups.
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/leavemaintsection.jpg" format="JPG" scale="50"/>
+				</imageobject>
+				<textobject>
+					<phrase>Leave Maintenance Section</phrase>
+				</textobject>
+			</mediaobject>
+		</para>
+	</section>
 	<section>
 		<title>Leave Plan Configuration</title>
-		<table frame="none">
-		<title>Field Summary</title>
-		<tgroup cols="3">
-			<colspec colname="c1" colnum="1" colwidth="2.50*" />
-			<colspec colname="c2" colnum="2" colwidth="3.50*" />
-			<colspec colname="c3" colnum="3" colwidth="1.50*" />
-			<thead>
-				<row>
-					<entry>Parameter</entry>
-					<entry>Description</entry>
-					<entry>Default Value</entry>
-				</row>
-			</thead>
-			<tbody>
-				<row>
-					<entry>Leave Plan</entry>
-					<entry></entry>
-					<entry></entry>
-				</row>
-				<row>
-					<entry>Description</entry>
-					<entry></entry>
-					<entry></entry>
-				</row>
-				<row>
-					<entry>Planning Months</entry>
-					<entry></entry>
-					<entry></entry>
-				</row>
-				<row>
-					<entry>Calendar Year Start</entry>
-					<entry></entry>
-					<entry></entry>
-				</row>
-				<row>
-					<entry>Batch Prior Year Carry Over Start</entry>
-					<entry></entry>
-					<entry></entry>
-				</row>
-				<row>
-					<entry>Batch Prior Year Carry Over Start Time</entry>
-					<entry></entry>
-					<entry></entry>
-				</row>
-				<row>
-					<entry>Active</entry>
-					<entry></entry>
-					<entry>True</entry>
-				</row>
-			</tbody>
-		</tgroup>
-		</table>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="../images/req-leave-plan.jpg" format="JPG" scale="50"/>
+			</imageobject>
+			<textobject>
+				<phrase>Leave Plan Field Summary</phrase>
+			</textobject>
+			<caption>Field Summary for <link xlink:href="https://wiki.kuali.org/display/KPME/Leave+Plan">Leave Plan</link></caption>
+		</mediaobject>
+		<section>
+			<title>Basic Leave Plan Configuration</title>
+			<para>
+				KPME Leave Management module's Leave Plan enables system administrators to configure rules for earn code eligibility and accrual categories
+				across salary groups and/or locations.
+			</para>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="../images/lm/newleaveplandoc.jpg" format="JPG" scale="50"/>
+				</imageobject>
+				<textobject>
+					<phrase>Leave Plan Maintenance Document</phrase>
+				</textobject>
+				<caption>The Leave Plan Maintenance Document</caption>
+			</mediaobject>
+			<para>
+				To configure a basic leave plan:
+			</para>
+			<orderedlist>
+				<listitem>
+					<para>Navigate to the Leave Plan Lookup view via the Maintenance tab.</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/leaveplanlink.jpg" format="JPG" scale="50"/>
+						</imageobject>
+						<textobject>
+							<phrase>Leave Plan Link Location</phrase>
+						</textobject>
+					</mediaobject>
+				</listitem>
+				<listitem>
+					<para>Within the Leave Plan Lookup view, click
+						<inlinemediaobject>
+							<imageobject>
+								<imagedata fileref="../images/createnewbutton.jpg" format="JPG" scale="50"/>
+							</imageobject>
+							<textobject>
+								<phrase>create new</phrase>
+							</textobject>
+						</inlinemediaobject>.
+					</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/leaveplancreatenew.jpg" format="JPG" scale="50"/>
+						</imageobject>
+						<textobject>
+							<phrase>Create new Leave Plan</phrase>
+						</textobject>
+					</mediaobject>
+				</listitem>
+				<listitem>
+					<para>In the document overview tab, enter a description.</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/leaveplandesc.jpg" format="JPG" scale="50"/>
+						</imageobject>
+						<textobject>
+							<phrase>Leave Plan Document Overview Tab</phrase>
+						</textobject>
+					</mediaobject>
+				</listitem>
+				<listitem>
+					<para>Select the date the leave plan is to go into effect.</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/leaveplaneffdtselect.jpg" format="JPG" scale="50"/>
+						</imageobject>
+						<textobject>
+							<phrase>Leave Plan Effective Date Selector</phrase>
+						</textobject>
+					</mediaobject>
+				</listitem>
+				<listitem>
+					<para>Enter a text identifier, and an optional description to help identify the leave plan.</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/leaveplanboid.jpg" format="JPG" scale="50"/>
+						</imageobject>
+						<textobject>
+							<phrase>Leave Plan Business Object identifier and Description</phrase>
+						</textobject>
+					</mediaobject>
+				</listitem>
+				<listitem>
+					<para>Enter the number of planning months.</para>
+				</listitem>
+				<listitem>
+					<para>Enter a value for Calendar Year Start to signify the Month and Day that the leave plan calendar begins.</para>
+				</listitem>
+				<listitem>
+					<para>Ensure that the box labeled "Active" is selected</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/leaveplancomplete.jpg" format="JPG" scale="50"/>
+						</imageobject>
+						<textobject>
+							<phrase>The completed leave plan maintenance document</phrase>
+						</textobject>
+						<caption></caption>
+					</mediaobject>
+				</listitem>
+				<listitem>
+					<para>Take the desired route action</para>
+				</listitem>
+			</orderedlist>
+		</section>
+		<para>
+			The above example leaves out the fields for carry over batch jobs. The Leave Plan Field Summary image at the start of this section
+			should be referenced for a description of what these fields do. More information about the batch carry over job can be found by reading
+			the chapter "Batch Jobs".
+		</para>
 	</section>
 	<section>
 		<title>Accrual Category Configuration</title>
-		<para>This section details the configuration of basic accrual
-			categories.</para>
 		<mediaobject>
 			<imageobject>
 				<imagedata fileref="../images/lm/accrualcatmaintcompact.jpg" format="JPG" scale="50"/>
@@ -71,96 +158,24 @@
 				<phrase>Accrual Category Maintenance Document</phrase>
 			</textobject>
 			<caption>
-				<phrase>Accrual Category Document. This picture shows the Accrual Category Maintenance tab in its collapsed state.</phrase>
+				<phrase>The Accrual Category Maintenance Document.</phrase>
 			</caption>
 		</mediaobject>
-		<table frame="none">
-			<title>Field Summary</title>
-			<tgroup cols="3">
-				<colspec colname="c1" colnum="1" colwidth="2.50*" />
-				<colspec colname="c2" colnum="2" colwidth="3.50*" />
-				<colspec colname="c3" colnum="3" colwidth="1.50*" />
-				<thead>
-					<row>
-						<entry>Parameter</entry>
-						<entry>Description</entry>
-						<entry>Default Value</entry>
-					</row>
-				</thead>
-				<tbody>
-					<row>
-						<entry>Effective Date</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Leave Plan</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Accrual Category</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Description</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Default Earn Code</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Accrual Earn Interval</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Proration</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Min Percent Worked to Earn Accrual</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Unit of Time</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Donation</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Show On Grid</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Category Has Rules</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Active</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-				</tbody>
-			</tgroup>
-		</table>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="../images/req-accrual-category.jpg" format="JPG" scale="50"/>
+			</imageobject>
+			<textobject>
+				<phrase>Accrual Category Field Summary</phrase>
+			</textobject>
+			<caption>Field Summary for <link xlink:href="https://wiki.kuali.org/display/KPME/Accrual+Category+v2">Accrual Category</link></caption>
+		</mediaobject>
 	</section>
 	<section>
 		<title>Accrual Category Rule Configuration</title>
 		<para>This section describes the configurations necessary to implement common rules for an accrual category. To follow along with this section, 
-			  the reader should complete the chapter for Leave Management Basic Setup, as well Leave Plan and Accrual Category configuration sections in this chapter.
+			  the reader should complete the sections for Leave Plan and Accrual Category configuration, or the objects should already be defined in the
+			  application.
 		</para>
 		<mediaobject>
 			<imageobject>
@@ -170,107 +185,19 @@
 				<phrase>Accrual Category Rule Tab</phrase>
 			</textobject>
 			<caption>
-				<phrase>Accrual Category Document. This picture shows the Accrual Category Maintenance tab in its hidden state.</phrase>
+				<phrase>Accrual Category Maintenance Document. This image shows the Accrual Category Maintenance tab in its hidden state, with the Accrual Category Rules tab expanded.</phrase>
 			</caption>
 		</mediaobject>
-		<table frame="none">
-			<title>Field Summary</title>
-			<tgroup cols="3">
-				<colspec colname="c1" colnum="1" colwidth="2.50*" />
-				<colspec colname="c2" colnum="2" colwidth="3.50*" />
-				<colspec colname="c3" colnum="3" colwidth="1.50*" />
-				<thead>
-					<row>
-						<entry>Parameter</entry>
-						<entry>Description</entry>
-						<entry>Default Value</entry>
-					</row>
-				</thead>
-				<tbody>
-					<row>
-						<entry>Service Unit of Time</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Start</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>End</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Accrual Rate</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Max Balance Flag</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Max Balance</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Max Balance Action Frequency</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Action at Max Balance</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Max Balance Transfer to Accrual Category</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Max Balance Transfer Conversion Factor</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Max Transfer Amount</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Max Payout Amount</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Max Payout Earn Code</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Max Usage</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Max Carry Over</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-					<row>
-						<entry>Active</entry>
-						<entry></entry>
-						<entry></entry>
-					</row>
-				</tbody>
-			</tgroup>
-		</table>
-		<para>One accrual category rule can be used to define up to five properties for an accrual category;</para>
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="../images/req-accrual-cat-rule.jpg" format="JPG" scale="50"/>
+			</imageobject>
+			<textobject>
+				<phrase>Accrual Category Rule Field Summary</phrase>
+			</textobject>
+			<caption>Field Summary for <link xlink:href="https://wiki.kuali.org/display/KPME/Accrual+Category+v2">Accrual Category Rule</link></caption>
+		</mediaobject>
+		<para>One accrual category rule can be used to define up to four properties for an accrual category;</para>
 		<itemizedlist>
 			<listitem>
 				<para>Accrual rates</para>
@@ -285,6 +212,7 @@
 				<para>Usage limits</para>
 			</listitem>
 		</itemizedlist>
+		<para></para>
 		<section>
 			<title>Accrual Rate Configuration</title>
 			<para>For this example we define a simple rule that will enable accruals without a limit on the maximum balance for the accrual category.</para>
@@ -321,7 +249,7 @@
 						<textobject>
 							<phrase>create new</phrase>
 						</textobject>
-					</inlinemediaobject> and skip to step two.</para>
+					</inlinemediaobject> and skip to step three.</para>
 					<para>If using an existing Accrual Cateogry:</para>
 					<orderedlist numeration="loweralpha">
 						<listitem>
@@ -386,7 +314,7 @@
 							<phrase>Accrual Rules tab</phrase>
 						</textobject>
 						<caption>
-							<phrase>The Accrual Rules tab within the Accrual Category Maintenance Document.<note>The Accrual Category Tab is hidden</note></phrase>
+							<phrase>The Accrual Rules tab within the Accrual Category Maintenance Document.<note>The Accrual Category Tab is hidden in this image</note></phrase>
 						</caption>
 					</mediaobject>
 				</listitem>
@@ -449,13 +377,21 @@
 			<title>Maximum Balance Limit Configuration</title>
 			<para>This section provides a basic walk through for configuring maximum balance. The section, Max Balance Transactions, gives a detailed examination of the workflow for the transactions triggered by these rules.</para>
 			<note>The configurations for basic Accrual Category Rules, such as the one given in the previous example, are assumed to be completed before proceeding with the following examples.</note>
-			<para>To define a maximum balance limit:</para>
+			<para>To define a maximum balance limit, in the Accrual Category Rules tab:</para>
 			<orderedlist>
 				<listitem>
 					<para>Ensure that the Service Unit of Time, Start and End and Accrual Rate are properly defined, as well as the appropriate fields within the Accrual Category Maintenance tab. Review Accrual Category Configuration if necessary.</para>
 				</listitem>
 				<listitem>
 					<para>Select “Yes” for Max Bal Flag</para>
+					<mediaobject>
+						<imageobject>
+							<imagedata fileref="../images/lm/accrualrulemaxbalflag.jpg" format="JPG" scale="50"/>
+						</imageobject>
+						<textobject>
+							<phrase>Max Bal Flag field highlight</phrase>
+						</textobject>
+					</mediaobject>
 				</listitem>
 				<listitem>
 					<para>Enter a value for Max Balance. This value will be used for all principals within the selected Leave Plan, but can also be overridden through the use of KPME’s Employee Overrides.</para>
@@ -482,6 +418,16 @@
 					<itemizedlist>
 						<listitem>
 							<para>If LOSE is the selected Action at Max Balance, no other field values are needed. The document may be submitted and/or approved.</para>
+							<mediaobject>
+								<imageobject>
+									<imagedata fileref="../images/lm/accrualrulelose.jpg" format="JPG" scale="50"/>
+								</imageobject>
+								<textobject>
+									<phrase>Max Balance Lose Rule</phrase>
+								</textobject>
+								<caption>The rule in this image will Forfeit all leave over the maximum limit, when the employee submits a calendar containing the last
+										day of the final leave period in the leave plan's calendar.</caption>
+							</mediaobject>
 						</listitem>
 						<listitem>
 							<para>If TRANSFER is the selected Action at Max Balance:</para>
@@ -496,6 +442,15 @@
 									<para>Optionally enter the Max Transfer Amount. If no value is given, there will be no limit to the amount that can be transferred.</para>
 								</listitem>
 							</orderedlist>
+							<mediaobject>
+								<imageobject>
+									<imagedata fileref="../images/lm/accrualruletransfer.jpg" format="JPG" scale="50"/>
+								</imageobject>
+								<textobject>
+									<phrase>Max Balance Transfer Rule</phrase>
+								</textobject>
+								<caption>The rule in this image will grant employees a TRANSFER ON-DEMAND to accrual category ISU-PS-SCK at a conversion rate of 50%</caption>
+							</mediaobject>
 						</listitem>
 						<listitem>
 							<para>If PAYOUT is the selected Action at Max Balance:</para>
@@ -507,6 +462,15 @@
 									<para>Enter the Max Payout Earn Code by either typing it in, or using the quick find icon to locate the code.</para>
 								</listitem>
 							</orderedlist>
+							<mediaobject>
+								<imageobject>
+									<imagedata fileref="../images/lm/accrualrulepayout.jpg" format="JPG" scale="50"/>
+								</imageobject>
+								<textobject>
+									<phrase>Max Balance Payout Rule</phrase>
+								</textobject>
+								<caption>The rule in this image will trigger a PAYOUT to earn code PAYOUT-EC with frequency Leave Approve</caption>
+							</mediaobject>
 						</listitem>
 					</itemizedlist>
 				</listitem>	
@@ -514,7 +478,25 @@
 					<para>Ensure that the Active box is checked</para>
 				</listitem>
 				<listitem>
-					<para>Click the "add" button located below "Active" check box.</para>
+					<para>Save the changes.</para>
+					<itemizedlist>
+						<listitem>
+							<para>If editing an existing accrual category rule, use an action provided for the accrual category maintenance document.</para>
+						</listitem>
+						<listitem>
+							<para>If creating a new accrual category rule, first click the "add" button located below "Active" check box, then use
+								an action provided for the accrual category maintenance document.</para>
+						</listitem>
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="../images/maintrouteactions.jpg" format="JPG" scale="50"/>
+							</imageobject>
+							<textobject>
+								<phrase>Accrual Category Maintenance Document actions</phrase>
+							</textobject>
+							<caption>Available actions for Accrual Category Maintenance Document</caption>
+						</mediaobject>
+					</itemizedlist>
 				</listitem>
 			</orderedlist>
 		</section>
@@ -524,7 +506,6 @@
 			<section>
 				<title>Basic Carryover Configuration</title>
 				<para>To define a basic carryover limit, simply enter a value into the Max Annual Carry Over field, relative to the selected Unit of Time for the accrual category.</para>
-				<para>image</para>
 			</section>
 			<para>With a maximum carry over limit defined, the balance for an accrual category will automatically be adjusted when submitting a calendar containing the last day of the calendar year. This day is derived from the leave plan defined on the accrual category to which this rule is attached.
 			This adjustment is achieved by placing a leave block in an amount of the adjustment on the employee’s calendar.</para>
@@ -562,8 +543,8 @@
 			<table frame="none">
 			<title>Field Summary</title>
 			<tgroup cols="3">
-				<colspec colname="c1" colnum="1" colwidth="2.50*" />
-				<colspec colname="c2" colnum="2" colwidth="3.50*" />
+				<colspec colname="c1" colnum="1" colwidth="1.50*" />
+				<colspec colname="c2" colnum="2" colwidth="4.50*" />
 				<colspec colname="c3" colnum="3" colwidth="1.50*" />
 				<thead>
 					<row>
