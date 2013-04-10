@@ -148,4 +148,19 @@
         <field-descriptor name="versionNumber"          column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" />
     </class-descriptor>
     
+     <!-- Position Qualifier Type -->
+    <class-descriptor class="org.kuali.hr.pm.pstnqlfrtype.PstnQlfrType" table="PM_PSTN_QLFR_TYP_T">
+        <field-descriptor name="pmPstnQlfrTypeId" 		column="PM_PSTN_FLG_ID" 		 jdbc-type="VARCHAR"     length="60" 		primarykey="true" autoincrement="true" sequence-name="PM_PSTN_FLG_S" />
+        <field-descriptor name="code"     				column="CODE"					 jdbc-type="VARCHAR"     length="20" 		nullable="false" />
+        <field-descriptor name="type"  					column="TYPE"     				 jdbc-type="VARCHAR"     length="20"  		nullable="false" />
+        <field-descriptor name="desc"  					column="DESC"     				 jdbc-type="VARCHAR"     length="100"  		nullable="true" />
+        <field-descriptor name="value"  				column="VALUE"     				 jdbc-type="VARCHAR"     length="20"  		nullable="false" />
+        <field-descriptor name="selecValues"  			column="SELECT_VALUES"     		 jdbc-type="VARCHAR"     length="100"  		nullable="true" />
+        <field-descriptor name="active"              	column="ACTIVE"           		 jdbc-type="VARCHAR"     length="1" 		nullable="false"  conversion="org.kuali.rice.core.framework.persistence.ojb.conversion.OjbCharBooleanConversion"/>
+        <field-descriptor name="effectiveDate"      	column="EFFDT"    		 		 jdbc-type="DATE"        nullable="false"	conversion="org.apache.ojb.broker.accesslayer.conversions.JavaDate2SqlTimestampFieldConversion" />
+        <field-descriptor name="timestamp"              column="TIMESTAMP"             	 jdbc-type="TIMESTAMP"   nullable="false" conversion="org.kuali.hr.time.util.TkTimestampConverter" />
+        <field-descriptor name="objectId"               column="OBJ_ID"                	 jdbc-type="VARCHAR"     index="true" />
+        <field-descriptor name="versionNumber"          column="VER_NBR"               	 jdbc-type="BIGINT"      locking="true" />
+    </class-descriptor>
+    
 </descriptor-repository>
